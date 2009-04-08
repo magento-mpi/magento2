@@ -1,0 +1,608 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Logging
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<logging>
+  <actions>
+    <catalog_product_edit>
+      <event>products</event>
+      <action>view</action>
+    </catalog_product_edit>
+
+    <catalog_product_save>
+      <event>products</event>
+      <action>save</action>
+      <model>Mage_Catalog_Model_Product</model>
+    </catalog_product_save>
+
+    <catalog_product_delete>
+      <event>products</event>
+      <action>delete</action>
+    </catalog_product_delete>
+
+    <catalog_category_edit>
+      <event>categories</event>
+      <action>view</action>
+      <skip-on-empty-id>1</skip-on-empty-id>
+    </catalog_category_edit>
+
+    <catalog_category_save>
+      <event>categories</event>
+      <action>save</action>
+      <model>Mage_Catalog_Model_Category</model>
+      <force-skip>1</force-skip>
+    </catalog_category_save>
+
+    <catalog_category_move>
+      <event>categories</event>
+      <action>move</action>
+      <handler>categorymovehandler</handler>
+    </catalog_category_move>
+
+    <catalog_category_delete>
+      <event>categories</event>
+      <action>delete</action>
+    </catalog_category_delete>
+
+
+    <catalog_event_edit>
+      <event>catalogevents</event>
+      <action>view</action>
+    </catalog_event_edit>
+
+    <catalog_event_save>
+      <event>catalogevents</event>
+      <action>save</action>
+      <model>Enterprise_CatalogEvent_Model_Event</model>
+    </catalog_event_save>
+
+    <catalog_event_delete>
+      <event>catalogevents</event>
+      <action>delete</action>
+    </catalog_event_delete>
+
+    <promo_catalog_edit>
+      <event>promocatalog</event>
+      <action>view</action>
+    </promo_catalog_edit>
+
+    <promo_catalog_save>
+      <event>promocatalog</event>
+      <action>save</action>
+      <model>Mage_CatalogRule_Model_Rule</model>
+    </promo_catalog_save>
+
+    <promo_catalog_delete>
+      <event>promocatalog</event>
+      <action>delete</action>
+    </promo_catalog_delete>
+
+    <promo_quote_edit>
+       <event>promoquote</event>
+      <action>view</action>
+    </promo_quote_edit>
+
+    <promo_quote_save>
+      <event>promoquote</event>
+      <action>save</action>
+      <model>Mage_SalesRule_Model_Rule</model>
+    </promo_quote_save>
+
+    <promo_quote_delete>
+      <event>promoquote</event>
+      <action>delete</action>
+    </promo_quote_delete>
+
+    <customer_edit>
+      <event>customers</event>
+      <action>view</action>
+    </customer_edit>
+
+    <customer_save>
+      <event>customers</event>
+      <action>save</action>
+      <model>Mage_Customer_Model_Customer</model>
+    </customer_save>
+
+    <customer_delete>
+      <event>customers</event>
+      <action>delete</action>
+    </customer_delete>
+
+    <customer_group_edit>
+      <event>customergroups</event>
+      <action>view</action>
+    </customer_group_edit>
+
+    <customer_group_save>
+      <event>customergroups</event>
+      <action>save</action>
+      <model>Mage_Customer_Model_Group</model>
+    </customer_group_save>
+
+    <customer_group_delete>
+      <event>customergroups</event>
+      <action>delete</action>
+    </customer_group_delete>
+
+    <customer_group_delete>
+      <event>customergroups</event>
+      <action>delete</action>
+    </customer_group_delete>
+
+    <customerbalance_form>
+      <event>customerbalance</event>
+      <action>view</action>
+    </customerbalance_form>
+
+    <customerbalance_save>
+      <event>customerbalance</event>
+      <action>save</action>
+      <model>Mage_Customer_Model_Customer</model>
+      <skip-on-back>customerbalance_form,customer_edit</skip-on-back>
+    </customerbalance_save>
+
+    <invitation_view>
+      <event>invitations</event>
+      <action>view</action>
+    </invitation_view>
+    
+    <invitation_save>
+      <event>invitations</event>
+      <action>save</action>
+      <model>Enterprise_Invitation_Model_Invitation</model>
+      <after-save-handler>invitationaftersave</after-save-handler>
+    </invitation_save>
+
+    <invitation_cancel>
+      <event>invitations</event>
+      <action>cancel</action>
+      <handler>cancelinvitation</handler>
+      <skip-action>invitation_view</skip-action>
+    </invitation_cancel>
+
+    <cms_page_edit>
+      <event>cmspages</event>
+      <action>view</action>
+      <id>page_id</id>
+    </cms_page_edit>
+
+    <cms_page_save>
+      <event>cmspages</event>
+      <action>save</action>
+      <model>Mage_Cms_Model_Page</model>
+      <id>page_id</id>
+    </cms_page_save>
+
+    <cms_page_delete>
+      <event>cmspages</event>
+      <action>delete</action>
+      <id>page_id</id>
+    </cms_page_delete>
+
+    <cms_block_edit>
+      <event>cmsblocks</event>
+      <action>view</action>
+      <id>block_id</id>
+    </cms_block_edit>
+
+    <cms_block_save>
+      <event>cmsblocks</event>
+      <action>save</action>
+      <model>Mage_Cms_Model_Block</model>
+      <id>block_id</id>
+    </cms_block_save>
+
+    <cmsblocks_delete>
+      <event>cmsblocks</event>
+      <action>delete</action>
+      <id>block_id</id>
+    </cmsblocks_delete>
+
+    <cmspolls_edit>
+      <event>cmspolls</event>
+      <action>view</action>
+    </cmspolls_edit>
+
+    <cmspolls_save>
+      <event>cmspolls</event>
+      <action>save</action>
+      <model>Mage_Cms_Model_Poll</model>
+    </cmspolls_save>
+
+    <cmspolls_delete>
+      <event>cmspolls</event>
+      <action>delete</action>
+    </cmspolls_delete>
+
+    <report_sales_sales> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_sales_sales>
+
+
+    <report_sales_tax> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_sales_tax>
+
+    <report_sales_shipping> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_sales_shipping>
+
+    <report_sales_invoiced> 
+      <event>reports</event> 
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_sales_invoiced>
+
+    <report_sales_refunded> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_sales_refunded>
+
+    <report_sales_coupons>
+      <event>reports</event> 
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_sales_coupons>
+
+    <report_shopcard_product> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_shopcard_product>
+
+    <report_shopcard_abadoned> 
+      <event>reports</event>
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_shopcard_abadoned>
+
+    <report_product_ordered>
+      <event>reports</event> 
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_product_ordered>
+
+    <report_product_viewed> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_product_viewed>
+
+    <report_product_lowstock> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_product_lowstock>
+
+    <report_product_downloads> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_product_downloads>
+
+    <report_customer_accouts> 
+      <event>reports</event>
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_customer_accouts>
+
+    <report_customer_orders>
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_customer_orders>
+
+    <report_customer_totals> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_customer_totals>
+
+    <report_review_customer>
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_review_customer>
+
+    <report_review_product> 
+      <event>reports</event> 
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_review_product>
+
+    <report_tag_customer>
+      <event>reports</event> 
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_tag_customer>
+
+    <report_tag_product>
+      <event>reports</event>
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_tag_product>
+
+    <report_tag_popular>
+      <event>reports</event>
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_tag_popular>
+
+    <report_search> 
+      <event>reports</event>
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_search>
+
+    <report_invitation_index>
+      <event>reports</event>
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_invitation_index>
+
+    <report_invitation_customer> 
+      <event>reports</event>
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_invitation_customer>
+    
+    <report_invitation_order>
+      <event>reports</event>
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_invitation_order>
+
+
+    <report_invitation_order>
+      <event>reports</event>
+      <action>view</action> 
+      <handler>getreport</handler>
+    </report_invitation_order>
+
+
+    <manage_giftcardaccount_edit>
+      <event>giftaccount</event>
+      <action>view</action>
+    </manage_giftcardaccount_edit>
+
+    <manage_giftcardaccount_save>
+      <event>giftaccount</event>
+      <action>save</action>
+      <model>Enterprise_GiftCardAccount_Model_Giftcardaccount</model>
+    </manage_giftcardaccount_save>
+
+    <manage_giftcardaccount_delete>
+      <event>giftaccount</event>
+      <action>delete</action>
+    </manage_giftcardaccount_delete>
+
+    <system_account_index>
+      <event>systemaccount</event>
+      <action>view</action>
+      <handler>viewmyaccount</handler>
+    </system_account_index>
+
+    <system_account_save>
+      <event>systemaccount</event>
+      <action>save</action>
+      <handler>savemyaccount</handler>
+    </system_account_save>
+
+    <system_config_edit> 
+      <event>systemconfiguration</event>
+      <action>view</action>
+      <id>section</id>
+      <default>general</default>
+    </system_config_edit>
+
+    <system_config_save>
+      <event>systemconfiguration</event>
+      <action>save</action>
+      <id>section</id>
+      <use-request>1</use-request>
+      <force-skip>1</force-skip>
+      <skip-on-back>system_config_edit</skip-on-back>
+    </system_config_save>
+
+    <api_user_edit>
+      <event>api</event>
+      <action>view</action>
+      <id>user_id</id>
+    </api_user_edit>
+    
+    <api_user_save>
+      <event>api</event>
+      <action>save</action>
+      <model>Mage_Api_Model_User</model>
+      <id>user_id</id>
+      <force-skip>1</force-skip>
+    </api_user_save>
+
+    <api_user_delete>
+      <event>api</event>
+      <action>delete</action>
+      <id>user_id</id>
+    </api_user_delete>
+
+    <api_role_editrole>
+      <event>api</event>
+      <action>view</action>
+      <id>rid</id>
+    </api_role_editrole>
+    
+    <api_role_saverole>
+      <event>api</event>
+      <action>save</action>
+      <model>Mage_Api_Model_Roles</model>
+      <id>rid</id>
+      <force-skip>1</force-skip>
+      <skip-on-back>api_role_editrole</skip-on-back>
+    </api_role_saverole>
+
+    <api_role_delete>
+      <event>api</event>
+      <action>delete</action>
+      <id>rid</id>
+    </api_role_delete>
+
+    <permissions_user_edit>
+      <event>permissions</event>
+      <action>view</action>
+      <id>user_id</id>
+    </permissions_user_edit>
+    
+    <permissions_user_save>
+      <event>permissions</event>
+      <action>save</action>
+      <model>Mage_Admin_Model_User</model>
+      <id>user_id</id>
+      <force-skip>1</force-skip>
+    </permissions_user_save>
+
+    <permissions_user_delete>
+      <event>permissions</event>
+      <action>delete</action>
+      <id>user_id</id>
+    </permissions_user_delete>
+
+    <permissions_role_editrole>
+      <event>permissions</event>
+      <action>view</action>
+      <id>rid</id>
+    </permissions_role_editrole>
+    
+    <permissions_role_saverole>
+      <event>permissions</event>
+      <action>save</action>
+      <model>Mage_Admin_Model_Roles</model>
+      <id>rid</id>
+      <force-skip>1</force-skip>
+      <skip-on-back>permissions_role_editrole</skip-on-back>
+    </permissions_role_saverole>
+
+    <permissions_role_delete>
+      <event>permissions</event>
+      <action>delete</action>
+      <id>rid</id>
+    </permissions_role_delete>
+
+    <sales_order_view>
+      <event>orders</event>
+      <action>view</action>
+      <id>order_id</id>
+    </sales_order_view>
+
+    <sales_order_create_save>
+      <event>orders</event>
+      <action>save</action>
+      <model>Mage_Sales_Model_Order</model>
+    </sales_order_create_save>
+
+    <sales_order_invoice_view>
+      <event>invoices</event>
+      <action>view</action>
+      <id>invoice_id</id>
+    </sales_order_invoice_view>
+
+    <sales_order_invoice_save>
+      <event>invoices</event>
+      <action>save</action>
+      <model>Mage_Sales_Model_Order_Invoice</model>
+      <force-skip>1</force-skip>
+      <skip-on-back>sales_order_view</skip-on-back>
+    </sales_order_invoice_save>
+
+    <sales_creditmemo_view>
+      <event>creditmemos</event>
+      <action>view</action>
+      <id>creditmemo_id</id>
+    </sales_creditmemo_view>
+
+
+    <sales_order_creditmemo_save>
+      <event>creditmemos</event>
+      <action>save</action>
+      <model>Mage_Sales_Model_Order_Creditmemo</model>
+      <force-skip>1</force-skip>
+      <skip-on-back>sales_order_view</skip-on-back>
+    </sales_order_creditmemo_save>
+
+    <sales_shipment_view>
+      <event>shipments</event>
+      <action>view</action>
+      <id>shipment_id</id>
+    </sales_shipment_view>
+
+
+    <sales_order_shipment_save>
+      <event>shipments</event>
+      <action>save</action>
+      <model>Mage_Sales_Model_Order_Shipment</model>
+      <force-skip>1</force-skip>
+      <skip-on-back>sales_order_view</skip-on-back>
+    </sales_order_shipment_save>
+  </actions>
+
+  <labels>
+    <list>
+      <products>Products lala</products>
+      <categories>Categories</categories>
+      <adminlogin>Admin Login</adminlogin>
+      <cmspages>Cms pages</cmspages>
+      <cmsblocks>Cms Blocks</cmsblocks>
+      <cmspolls>Cms Polls</cmspolls>
+      <customers>Customers</customers>
+      <customerbalance>Customer Balacne</customerbalance>
+      <reports>Report</reports>
+      <giftaccount>Gift Account</giftaccount>
+      <systemconfiguration>System configuration</systemconfiguration>
+      <customergroups>Customer Groups</customergroups>
+      <catalogevents>Catalog Events</catalogevents>
+      <promocatalog>Promo catalog</promocatalog>
+      <promoquote>Promo Quote</promoquote>
+      <systemaccount>My Account</systemaccount>
+      <invitations>Invitations</invitations>
+      <newslettertemplate>1</newslettertemplate>
+      <newsletterqueue>1</newsletterqueue>
+      <newslettersubscriber>1</newslettersubscriber>
+      <newsletterproblem>1</newsletterproblem>
+      <orders>Orders</orders>
+      <invoices>Invoices</invoices>
+      <shipments>Shipments</shipments>
+      <creditmemos>Creditmemos</creditmemos>
+      <api>Api</api>
+      <permissions>Permissions</permissions>
+    </list>
+  </labels>
+</logging>

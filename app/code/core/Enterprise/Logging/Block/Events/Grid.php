@@ -120,7 +120,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         ));
 
         $this->addColumn('info', array(
-            'header'    => 'Info',
+            'header'    => 'Item_id',
             'index'     => 'info',
             'type'      => 'text',
             'sortable'  => false,

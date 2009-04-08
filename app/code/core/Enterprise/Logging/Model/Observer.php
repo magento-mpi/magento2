@@ -55,7 +55,8 @@ class Enterprise_Logging_Model_Observer
         } else {
             return;
         }
-        if(!in_array($action, $this->_getActionsToLog())) {
+
+        if(! Mage::getModel('enterprise_logging/event')->isActive($action)) {
             return;
         }
 
@@ -90,8 +91,29 @@ class Enterprise_Logging_Model_Observer
         if(!is_array($actions))
             $actions = array($actions);
         foreach($actions as $action) {
-            if($this->getInfo($action, 1, $model)) {
-                Mage::register('saved_model_'.$action, $model);
+            $conf = Mage::getSingleton('enterprise_logging/event')->getConfig($action);
+            if (isset($conf['after-save-handler'])) {
+                $this->$conf['after-save-handler']($model, $conf);
+            } else {
+                if($conf && isset($conf['model']) && ($class = $conf['model']) && @is_a($model, $class)) {
+                    Mage::register('saved_model_'.$action, $model);
+                } 
+            }
+        }
+    }
+
+    public function invitationAfterSave($model, $conf) {
+        if ($model instanceof Enterprise_Invitation_Model_Invitation) {
+            if ($obj = Mage::registry('saved_model_invitation_save')) {
+                $ids = $obj->getId();
+                $ids .= ", ".$model->getId();
+                $obj->setId($ids);
+                Mage::unregister('saved_model_invitation_save');
+                Mage::register('saved_model_invitation_save', $obj);
+            } else {
+                $ids = Mage::getModel('enterprise_invitation/invitation');
+                $ids->setId($model->getId());
+                Mage::register('saved_model_invitation_save', $ids);
             }
         }
     }
@@ -100,6 +122,7 @@ class Enterprise_Logging_Model_Observer
         if($actions = Mage::registry('enterprise_logged_actions')) {
             if(!is_array($actions)) 
                 $actions = array($actions);
+            
             $ip = $_SERVER['REMOTE_ADDR'];
             $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
 
@@ -125,7 +148,7 @@ class Enterprise_Logging_Model_Observer
         if($action == 'customer_save') {
             $request = Mage::app()->getRequest();
             $data = $request->getParam('customerbalance');
-            if(isset($data['delta']) && $data['delta'] != '') {
+            if(isset($data['amount_delta']) && $data['amount_delta'] != '') {
                 $actions = Mage::registry('enterprise_logged_actions');
                 if(!is_array($actions))
                     $actions = array($actions);
@@ -137,18 +160,18 @@ class Enterprise_Logging_Model_Observer
     }
 
 
-    public function getViewActionInfo($action, $success) {
-        $actions = $this->_getActionsToLog('long');
-        $code = $actions[$action];
-        $data = explode('/', $code);
-        $code = $data[0];
-        $act = $data[1];
-        $id = isset($data[2])? $data[2] : 'id';
-        
+    public function getViewActionInfo($config, $success) {
+        $code = $config['event'];
+        $act = $config['action'];
+        $id = isset($config['id'])? $config['id'] : 'id';
         $id = Mage::app()->getRequest()->getParam($id);
+        if (!$id && isset($config['default']))
+            $id = $config['default'];
 
-        if($id === false)
+        if($id === false || $id === null) {
             return false;
+        }
+
         return array(
             'event_code' => $code,
             'event_action' => $act,
@@ -156,13 +179,11 @@ class Enterprise_Logging_Model_Observer
         );
     }
 
-    public function getDeleteActionInfo($action, $success) {
-        $actions = $this->_getActionsToLog('long');
-        $code = $actions[$action];
-        $data = explode('/', $code);
-        $code = $data[0];
-        $act = $data[1];
-        $id = isset($data[2])? $data[2] : 'id';
+    public function getDeleteActionInfo($config, $success) {
+        $code = $config['event'];
+        $act = $config['action'];
+        $id = isset($config['id'])? $config['id'] : 'id';
+
         $id = Mage::app()->getRequest()->getParam($id);
         return array(
             'event_code' => $code,
@@ -171,29 +192,34 @@ class Enterprise_Logging_Model_Observer
         );
     }
 
-    public function getSaveActionInfo($action, $success, $model = null) {
-        $actions = $this->_getActionsToLog('long');
-        $code = $actions[$action];
-        $data = explode('/', $code);
-        $code = $data[0];
-        $act = $data[1];
-        $class = $data[2];
-        $id = isset($data[3]) ? $data[3] : 'id';
 
-        if($model != null) {
-            $r = @is_a($model, $class);
-            return $r;
-        }
+    public function getSaveActionInfo($config, $success) {
+        $code = $config['event'];
+        $act = $config['action'];
+        $id = isset($config['id'])? $config['id'] : 'id';
+        $class = isset($config['model']) ? $config['model'] : '';
+
+        $action = $config['base_action'];
+        
+
         $request = Mage::app()->getRequest();
-        $model = Mage::registry('saved_model_'.$action);
-        if($model == null || !(@is_a($model, $class))) {
-            $id = Mage::app()->getRequest()->getParam('id');
-            $success = 0;
-        } else
-            $id = $model->getId();
 
-        if ($success && $request->getParam('back')) {
-            Mage::getSingleton('admin/session')->setSkipLoggingAction('catalog_product_edit');
+        $model = Mage::registry('saved_model_'.$action);
+
+        if($model == null || !(@is_a($model, $class)) || (isset($config['use-request']) && $config['use-request'])) {
+            $id = Mage::app()->getRequest()->getParam($id);
+            if (!isset($config['use-request']) || !$config['use-request'])
+                $success = 0;
+        } else {
+            $id = $model->getId();
+        }
+
+        if( ($id === false) && isset($config['skip-on-empty-id']) && $config['skip-on-empty-id'])
+            return false;
+
+        if ($success && ($request->getParam('back') || $request->getParam('_continue') || isset($config['force-skip']))) {
+            $action_to_skip = (isset($config['skip-on-back']) ? $config['skip-on-back'] : preg_replace('%save$%', 'edit', $action));
+            Mage::getSingleton('admin/session')->setSkipLoggingAction($action_to_skip);
         }
         return array(
             'event_code' => $code,
@@ -201,10 +227,71 @@ class Enterprise_Logging_Model_Observer
             'event_message' => $id,
             'event_status' => $success
         );
-        break;
+
     }
 
-    public function getInfo($action, $success, $model = null) {
+    public function getReport($config) {
+        return array(
+            'event_code' => 'reports',
+            'event_action' => 'view',
+            'event_message' => substr($config['base_action'], 7) 
+        );
+    }
+
+    public function getInfo($action, $success) {
+        $config = Mage::getSingleton('enterprise_logging/event')->getConfig($action);
+
+        if (isset($config['handler'])) {
+            return $this->$config['handler']($config, $success);
+        }
+        if (in_array($config['action'], array('view', 'save', 'delete'))) {
+            $method = sprintf("get%sactioninfo", $config['action']);
+            return $this->$method($config, $success);
+        }
+    }
+
+    public function viewMyAccount($config, $success) {
+        $code = $config['event'];
+        $act = $config['action'];
+
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => '-',
+            'event_status' => $success
+        );
+    }
+
+    public function saveMyAccount($config, $success) {
+        $code = $config['event'];
+        $act = $config['action'];
+        if($success)
+            Mage::getSingleton('admin/session')->setSkipLoggingAction('system_account_index');
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => '-',
+            'event_status' => $success
+        );
+    }
+
+
+    public function cancelInvitation($config, $success) {
+        $code = $config['event'];
+        $act = $config['action'];
+        $id = isset($config['id'])? $config['id'] : 'id';
+
+        $id = Mage::app()->getRequest()->getParam($id);
+        Mage::getSingleton('admin/session')->setSkipLoggingAction($config['skip-action']);
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => $id,
+        );
+    }
+
+
+    public function _getInfo($action, $success, $model = null) {
         $request = Mage::app()->getRequest();
         switch($action) {
         case 'catalog_product_edit':
@@ -335,7 +422,7 @@ class Enterprise_Logging_Model_Observer
                 'customerbalance_form' => 'customerbalance/view',
                 'customerbalance_save' => 'customerbalance/save/Mage_Customer_Model_Customer',
                 'customer_group_edit' => 'customer_group_edit/view',
-                'customer_group_save' => 'customer_group_save/save/Mage_Customer_Model_Group',
+                'customer_group_save' => 'Customer Groups/save/Mage_Customer_Model_Group',
                 'customer_group_delete' => 'customer_group_delete/delete',
                 'cms_page_edit' => 'cmspages/view/page_id',
                 'cms_page_save' => 'cmspages/save/Mage_Cms_Model_Page',
@@ -384,6 +471,20 @@ class Enterprise_Logging_Model_Observer
                 'sales_order_shipment_save' => 'shipments/save/Mage_Sales_Model_Order_Shipment',
                 'sales_creditmemo_view' => 'creditmemos/view/creditmemo_id',
                 'sales_order_creditmemo_save' => 'creditmemos/save/Mage_Sales_Model_Order_Creditmemo',
+                'system_account_index' => 'myaccount/view',
+                'system_account_save' => 'myaccount/save/Mage_Admin_Model_User',
+                'permission_user_edit' => 'permissions/view',
+                'permission_user_save' => 'permissions/save/Mage_Admin_Model_User',
+                'permission_user_delete' => 'permissoins/delete',
+                'permission_role_edit' => 'permissions/view',
+                'permission_role_save' => 'permissions/save/Mage_Admin_Model_Roles',
+                'permissoin_role_delete' => 'permissions/delete',
+                'api_user_edit' => 'apis/view',
+                'api_user_save' => 'apis/save/Mage_Api_Model_User',
+                'api_user_delete' => 'permissoins/delete',
+                'api_role_edit' => 'apis/view',
+                'api_role_save' => 'apis/save/Mage_Api_Model_Roles',
+                'api_role_delete' => 'apis/delete',
 
             );
             Mage::register('enterprise_actions_to_log', $actions);

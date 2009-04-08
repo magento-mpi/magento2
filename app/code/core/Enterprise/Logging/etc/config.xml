@@ -903,12 +903,14 @@
           <adminlogin>1</adminlogin>
           <cmspages>1</cmspages>
           <cmsblocks>1</cmsblocks>
+          <cmspolls>1</cmspolls>
           <customers>1</customers>
           <customerbalance>1</customerbalance>
           <reports>1</reports>
           <giftaccount>1</giftaccount>
           <systemconfiguration>1</systemconfiguration>
           <customergroups>1</customergroups>
+          <customerbalance>1</customerbalance>
           <catalogevents>1</catalogevents>
           <promocatalog>1</promocatalog>
           <promoquote>1</promoquote>
@@ -922,6 +924,8 @@
           <invoices>1</invoices>
           <shipments>1</shipments>
           <creditmemos>1</creditmemos>
+          <api>1</api>
+          <permissions>1</permissions>
         </logsenabled>
       </admin>
       <system>

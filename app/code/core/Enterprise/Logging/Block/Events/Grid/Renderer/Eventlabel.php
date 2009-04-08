@@ -38,13 +38,7 @@ class Enterprise_Logging_Block_Events_Grid_Renderer_Eventlabel extends Mage_Admi
     {
         $code = $row->getData($this->getColumn()->getIndex());
         $node = Mage::getConfig()->getNode('adminhtml/enterprise/logging/events');
-        $label = $code;
-        foreach($node->children() as $child) {
-            if($code == $child->getName()) {
-                $label = $child->label;
-            }
-        }
-
-    	return $label;
+        $labels = unserialize(Mage::app()->getCache()->load('actions_to_log_labels'));
+        return $labels[$code];
     }
 }

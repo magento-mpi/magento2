@@ -42,16 +42,58 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Filter for active flag
+     * Filter if we need to log this action
+     *
+     * @param string action - fullActionName with removed 'adminhtml_' prefix
      */
-    public function isActive($code)
+    public function isActive($action)
     {
+        if( !($conf = Mage::app()->getCache()->load('actions_to_log')) || 1) {
+            $config = Mage::getConfig();
+            $modules = $config->getNode('modules')->children();
+
+            // check if local modules are disabled                                                                                                               
+            $disableLocalModules = (string)$config->getNode('global/disable_local_modules');
+            $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
+
+            $configFile = $config->getModuleDir('etc', 'Enterprise_Logging').DS.'logging.xml';
+
+            $logConfig = Mage::getModel('core/config_base');
+            $logConfig->loadFile($configFile);
+
+            $node = $logConfig->getNode('actions');
+            $conf = $node->asArray();
+            Mage::app()->getCache()->save(serialize($conf), 'actions_to_log');
+            
+            $labelslist = $logConfig->getNode('labels')->asArray();
+            
+            Mage::app()->getCache()->save(serialize($labelslist['list']), 'actions_to_log_labels');
+        } else
+            $conf = unserialize($conf);
+        
+        $current = isset($conf[$action]) ? $conf[$action] : false;
+        if (!$current)
+            return false;
+
+        $code = $current['event'];
+
         /**
          * Note that /default/logging/enabled/products - is an indicator if the products should be logged
          * but /enterprise/logging/event/products - is a node where event info stored.
          */
         $node = Mage::getConfig()->getNode('default/admin/logsenabled/' . $code);
         return ( (string)$node == '1' ? true : false);
+    }
+
+    /**
+     * Return, previously stored in cache config
+     */ 
+    public function getConfig($action) {
+        $fullconfig = unserialize(Mage::app()->getCache()->load('actions_to_log'));
+        if (!isset($fullconfig[$action]))
+            return null;
+        $fullconfig[$action]['base_action'] = $action;
+        return $fullconfig[$action];
     }
 
     /**
