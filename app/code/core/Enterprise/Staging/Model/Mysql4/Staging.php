@@ -55,20 +55,6 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
             $object->setMasterPasswordHash($object->hashPassword($password));
         }
 
-        $value = (string) $this->formatDate($object->getApplyDate());
-        if ($value) {
-            $object->setApplyDate($value);
-        } else {
-        	$object->setApplyDate('0000-00-00 00:00:00');
-        }
-
-        $value = (string) $this->formatDate($object->getRollbackDate());
-        if ($value) {
-        	$object->setRollbackDate($value);
-        } else {
-        	$object->setRollbackDate('0000-00-00 00:00:00');
-        }
-
         $object->setUpdatedAt($this->formatDate(time()));
         if (!$object->getId()) {
             $object->setCreatedAt($object->getUpdatedAt());

@@ -83,6 +83,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getIsPureSave()) {
+
             $this->saveItems($object);
 
             $this->saveSlaveWebsite($object);
@@ -213,7 +214,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
      */
     public function saveSystemConfig($object)
     {
-        if ($object->getEventCode() == 'create') {
+
+        if ($object->getStaging()->getEventCode() == 'create') {
             $unsecureBaseUrl = $object->getBaseUrl();
             $secureBaseUrl   = $object->getBaseSecureUrl();
             if ($this->_entryPoint && $this->_entryPoint->isAutomatic()) {
@@ -236,6 +238,11 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             $config->setScopeId($object->getSlaveWebsiteId());
             $config->setValue($secureBaseUrl);
             $config->save();
+            
+            $this->updateAttribute($object, 'base_url' , $unsecureBaseUrl);
+            $object->setData('base_url' , $unsecureBaseUrl);
+            $this->updateAttribute($object, 'base_secure_url' , $secureBaseUrl);
+            $object->setData('base_secure_url' , $secureBaseUrl);
         }
 
         return $this;
