@@ -105,12 +105,18 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
             $fileInfo = $fileInfo[$file];
 
         } catch (Exception $e) {
-            $this->setIsValid(false);
-            Mage::throwException(
-                Mage::helper('catalog')->__("The file you uploaded is larger than %s Megabytes allowed by server",
-                    $this->_getUploadMaxFilesize()
-                )
-            );
+            // when file exceeds the upload_max_filesize, $_FILES is empty
+            if (isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > $this->_getUploadMaxFilesize()) {
+                $this->setIsValid(false);
+                Mage::throwException(
+                    Mage::helper('catalog')->__("The file you uploaded is larger than %s Megabytes allowed by server",
+                        $this->_bytesToMbytes($this->_getUploadMaxFilesize())
+                    )
+                );
+            } else {
+                $this->setUserValue(null);
+                return $this;
+            }
         }
 
         /**
@@ -139,6 +145,9 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 $upload->addValidator('ExcludeExtension', false, $_forbidden);
             }
         }
+
+        // Maximum filesize
+        $upload->addValidator('FilesSize', false, array('max' => $this->_getUploadMaxFilesize()));
 
         /**
          * Upload process
@@ -213,6 +222,11 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                         $option->getTitle(),
                         $option->getImageSizeX(),
                         $option->getImageSizeY()
+                    );
+                } elseif ($errorCode == Zend_Validate_File_FilesSize::TOO_BIG) {
+                    $errors[] = Mage::helper('catalog')->__("The file '%s' you uploaded is larger than %s Megabytes allowed by server",
+                        $fileInfo['name'],
+                        $this->_bytesToMbytes($this->_getUploadMaxFilesize())
                     );
                 }
             }
@@ -520,38 +534,46 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
     }
 
     /**
-     * Max upload filesize
+     * Max upload filesize in bytes
      *
-     * @return int Maximum allowed file size in Mbytes
+     * @return int
      */
     protected function _getUploadMaxFilesize()
     {
-        return min($this->_getMbytesIniValue('upload_max_filesize'), $this->_getMbytesIniValue('post_max_size'));
+        return min($this->_getBytesIniValue('upload_max_filesize'), $this->_getBytesIniValue('post_max_size'));
     }
 
     /**
-     * Return php.ini setting value in Mbytes
+     * Return php.ini setting value in bytes
      *
      * @param string $ini_key php.ini Var name
      * @return int Setting value
      */
-    protected function _getMbytesIniValue($ini_key)
+    protected function _getBytesIniValue($ini_key)
     {
-        $_Mbytes = @ini_get($ini_key);
+        $_bytes = @ini_get($ini_key);
 
         // kilobytes
-        if (stristr($_Mbytes, 'k')) {
-            $_Mbytes = round(intval($_Mbytes) / 1024);
+        if (stristr($_bytes, 'k')) {
+            $_bytes = intval($_bytes) * 1024;
         // megabytes
-        } elseif (stristr($_Mbytes, 'm')) {
-            $_Mbytes = intval($_Mbytes);
+        } elseif (stristr($_bytes, 'm')) {
+            $_bytes = intval($_bytes) * 1024 * 1024;
         // gigabytes
-        } elseif (stristr($_Mbytes, 'g')) {
-            $_Mbytes = round(intval($_Mbytes) * 1024);
-        // bytes
-        } else {
-            $_Mbytes = round(intval($_Mbytes) / (1024 * 1024));
+        } elseif (stristr($_bytes, 'g')) {
+            $_bytes = intval($_bytes) * 1024 * 1024 * 1024;
         }
-        return $_Mbytes;
+        return (int)$_bytes;
+    }
+
+    /**
+     * Simple converrt bytes to Megabytes
+     *
+     * @param int $bytes
+     * @return int
+     */
+    protected function _bytesToMbytes($bytes)
+    {
+        return round($bytes / (1024 * 1024));
     }
 }
