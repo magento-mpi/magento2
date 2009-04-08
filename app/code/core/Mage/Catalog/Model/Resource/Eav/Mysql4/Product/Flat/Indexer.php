@@ -340,6 +340,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
                     'type'   => 'primary',
                     'fields' => array('entity_id', 'child_id')
                 );
+                $this->_indexes['IDX_CHILD'] = array(
+                    'type'   => 'index',
+                    'fields' => array('child_id')
+                );
                 $this->_indexes['IDX_IS_CHILD'] = array(
                     'type'   => 'index',
                     'fields' => array('entity_id', 'is_child')
