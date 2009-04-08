@@ -157,7 +157,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
                 $this->_getReadAdapter()->quoteInto('used_for_sort_by=?', 1),
                 $this->_getReadAdapter()->quoteInto('attribute_code IN(?)', $this->_systemAttributes)
             );
-            if ($this->getFlatHelper()->isAddFiltrableAttributes()) {
+            if ($this->getFlatHelper()->isAddFilterableAttributes()) {
                 $whereCond[] = $this->_getReadAdapter()->quoteInto('is_filterable>?', 0);
             }
 
@@ -305,7 +305,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
             foreach ($this->getAttributes() as $attribute) {
                 /* @var $attribute Mage_Eav_Model_Entity_Attribute */
                 $columns = $attribute
-                    ->setFlatAddFiltrableAttributes($this->getFlatHelper()->isAddFiltrableAttributes())
+                    ->setFlatAddFilterableAttributes($this->getFlatHelper()->isAddFilterableAttributes())
                     ->setFlatAddChildData($this->getFlatHelper()->isAddChildData())
                     ->getFlatColumns();
                 if (is_null($columns)) {
@@ -367,7 +367,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
             foreach ($this->getAttributes() as $attribute) {
                 /* @var $attribute Mage_Eav_Model_Entity_Attribute */
                 $indexes = $attribute
-                    ->setFlatAddFiltrableAttributes($this->getFlatHelper()->isAddFiltrableAttributes())
+                    ->setFlatAddFilterableAttributes($this->getFlatHelper()->isAddFilterableAttributes())
                     ->setFlatAddChildData($this->getFlatHelper()->isAddChildData())
                     ->getFlatIndexes();
                 if (is_null($indexes)) {

@@ -570,7 +570,7 @@ abstract class Mage_Eav_Model_Entity_Attribute_Abstract extends Mage_Core_Model_
     public function getFlatIndexes()
     {
         $condition = $this->getUsedForSortBy();
-        if ($this->getFlatAddFiltrableAttributes()) {
+        if ($this->getFlatAddFilterableAttributes()) {
             $condition = $condition || $this->getIsFilterable();
         }
 
