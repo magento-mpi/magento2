@@ -34,6 +34,18 @@ class Enterprise_Staging_Model_Entry
      * @var Mage_Core_Model_Website
      */
     protected $_website;
+    /**
+     * @var string
+     */
+    protected $_baseFolderName;
+
+    /**
+     * Get entry point name from system config
+     */
+    public function __construct()
+    {
+        $this->_baseFolderName = Mage::getStoreConfig('general/content_staging/entry_points_folder_name');
+    }
 
     /**
      * Check whether entry points should be created automatically
@@ -49,10 +61,14 @@ class Enterprise_Staging_Model_Entry
      * Get base folder for entry points
      *
      * @return string
+     * @throws Mage_Core_Exception
      */
     public function getBaseFolder()
     {
-        return BP . DS . 'staging';
+        if (empty($this->_baseFolderName)) {
+            Mage::throwException(Mage::helper('enterprise_staging')->__('There is wrong value in configuration for entry points folder name.'));
+        }
+        return BP . DS . $this->_baseFolderName;
     }
 
     /**
@@ -107,7 +123,8 @@ class Enterprise_Staging_Model_Entry
     public function getBaseUrl($secure = false)
     {
         $this->_ensureWebsite();
-        return Mage::getStoreConfig('web/' . ($secure ? '' : 'un') . 'secure/base_url', 0) . 'staging/' . $this->_website->getCode() . '/';
+        $this->getBaseFolder();
+        return Mage::getStoreConfig('web/' . ($secure ? '' : 'un') . 'secure/base_url', 0) . $this->_baseFolderName . '/' . $this->_website->getCode() . '/';
     }
 
     /**

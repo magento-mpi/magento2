@@ -34,25 +34,24 @@
                     <fields>
                         <lockout_failures translate="label comment">
                             <sort_order>100</sort_order>
-                            <label>Login failures to lockout account</label>
-                            <comment>Set zero to disable lockout feature</comment>
+                            <label>Maximum Login Failures to Lockout Account</label>
+                            <comment>If empty, the lockout feature will be disabled</comment>
                             <show_in_default>1</show_in_default>
                         </lockout_failures>
-                        <lockout_threshold translate="label comment">
+                        <lockout_threshold translate="label">
                             <sort_order>110</sort_order>
-                            <label>Lockout account for</label>
-                            <comment>Minutes.</comment>
+                            <label>Lockout Time, minutes</label>
                             <show_in_default>1</show_in_default>
                         </lockout_threshold>
                         <password_lifetime translate="label comment">
                             <sort_order>120</sort_order>
-                            <label>Password expires after</label>
-                            <comment>Days. Admin will be forced to change password.&lt;br/&gt;Set zero to disable this feature.</comment>
+                            <label>Password Lifetime, days</label>
+                            <comment>If empty, this feature will be disabled.</comment>
                             <show_in_default>1</show_in_default>
                         </password_lifetime>
                         <password_is_forced translate="label">
                             <sort_order>130</sort_order>
-                            <label>Password change</label>
+                            <label>Password Change</label>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_pci/system_config_source_password</source_model>
                             <show_in_default>1</show_in_default>

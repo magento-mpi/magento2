@@ -30,7 +30,7 @@
         <general>
             <groups>
                 <content_staging translate="label">
-                    <label>Content Staging</label>
+                    <label>Website Staging Restrictions</label>
                     <sort_order>80</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
@@ -38,16 +38,22 @@
                     <fields>
                         <create_entry_point translate="label comment">
                             <sort_order>0</sort_order>
-                            <label>Automatically create entry points for staging websites</label>
-                            <comment>Automatic entry point is built basing on staging website code</comment>
+                            <label>Ceate Entry Points for Staging Websites automatically</label>
+                            <comment>Entry Point will be built basing on Staging Website Code</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <show_in_default>1</show_in_default>
                         </create_entry_point>
+                        <entry_points_folder_name translate="label comment">
+                            <sort_order>5</sort_order>
+                            <label>Folder Name for Entry Points</label>
+                            <comment>All automatically created Entry Points will reside in this Folder. The Folder should be writeable.</comment>
+                            <show_in_default>1</show_in_default>
+                        </entry_points_folder_name>
                         <block_frontend translate="label comment">
                             <sort_order>10</sort_order>
-                            <label>Block frontend while applying Staging Merge or Rollback</label>
-                            <comment>The "503 Service Unavailable" HTTP response code will be returned.</comment>
+                            <label>Close Website during Merge or Rollback</label>
+                            <comment>If yes, the "503 Service Unavailable" HTTP Response Code will be returned.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_staging/system_config_source_down</source_model>
                             <backend_model>enterprise_websiterestriction/system_config_backend_active</backend_model>
@@ -55,7 +61,7 @@
                         </block_frontend>
                         <block_frontend_stub translate="label">
                             <sort_order>20</sort_order>
-                            <label>Landing page for blocked frontend</label>
+                            <label>Landing Page</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_cms_page</source_model>
                             <show_in_default>1</show_in_default>

@@ -30,7 +30,7 @@
     <!-- add websites multiselect to admin roles edit page -->
     <adminhtml_crypt_key_index>
         <reference name="content">
-            <block type="enterprise_pci/adminhtml_crypt_key_edit" name="pci.crypt.key.edit" as="crypt_key_edit" template="enterprise/pci/crypt/key.phtml">
+            <block type="enterprise_pci/adminhtml_crypt_key_edit" name="pci.crypt.key.edit" as="crypt_key_edit" template="widget/form/container.phtml">
                 <block type="enterprise_pci/adminhtml_crypt_key_form" name="pci.crypt.key.form" as="form"/>
             </block>
         </reference>

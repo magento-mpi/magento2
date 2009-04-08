@@ -93,11 +93,11 @@ class Enterprise_Pci_Model_Observer
         if ($latestPassword = Mage::getResourceSingleton('enterprise_pci/admin_user')->getLatestPassword($user->getId())) {
             if (isset($latestPassword['expires']) && ((int)$latestPassword['expires'] < time())) {
                 if ($this->isPasswordChangeForced()) {
-                    $message = Mage::helper('enterprise_pci')->__('Your password is expired, you must change it now.');
+                    $message = Mage::helper('enterprise_pci')->__('Your password has expired, you must change it now.');
                 }
                 else {
                     $myAccountUrl = Mage::getUrl('adminhtml/system_account/');
-                    $message = Mage::helper('enterprise_pci')->__('Your password is expired, please <a href="%s">change it</a>.', $myAccountUrl);
+                    $message = Mage::helper('enterprise_pci')->__('Your password has expired, please <a href="%s">change it</a>.', $myAccountUrl);
                 }
                 Mage::getSingleton('adminhtml/session')->addNotice($message);
                 if ($message = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()) {

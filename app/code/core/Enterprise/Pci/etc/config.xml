@@ -141,7 +141,7 @@
             <system>
                 <children>
                     <crypt_key translate="title" module="enterprise_pci">
-                        <title>Encryption Key</title>
+                        <title>Manage Encryption Key</title>
                         <sort_order>75</sort_order>
                         <action>adminhtml/crypt_key</action>
                         <depends><module>Enterprise_Pci</module></depends>
@@ -164,7 +164,7 @@
                         <system>
                             <children>
                                 <crypt_key translate="title" module="enterprise_pci">
-                                    <title>Encryption key</title>
+                                    <title>Manage Encryption Key</title>
                                     <sort_order>30</sort_order>
                                 </crypt_key>
                                 <acl>

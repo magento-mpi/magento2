@@ -183,11 +183,11 @@
                                     <code>create</code>
                                     <label>Staging Website Create</label>
                                     <status>
-                                        <new translate="label">Staging Website Created</new>                                    
+                                        <new translate="label">Staging Website Created</new>
                                         <processing translate="label">Staging Website creating in progress</processing>
                                         <complete translate="label">Staging Website create successfuly complete</complete>
                                         <holded translate="label">Staging Website create scheduled</holded>
-                                    </status>                                        
+                                    </status>
                                     <model>enterprise_staging/staging_state_website_create</model>
                                     <after>
                                         <save_event>
@@ -213,7 +213,7 @@
                                         <processing translate="label">Backup in progress</processing>
                                         <complete translate="label">Backup successfuly complete</complete>
                                         <holded translate="label">Backup scheduled</holded>
-                                    </status>                                        
+                                    </status>
                                     <model>enterprise_staging/staging_state_website_backup</model>
                                     <before>
                                         <save_event>
@@ -251,7 +251,7 @@
                                         <processing translate="label">Merge in progress</processing>
                                         <complete translate="label">Merge successfuly complete</complete>
                                         <holded translate="label">Merge scheduled</holded>
-                                    </status>    
+                                    </status>
                                     <model>enterprise_staging/staging_state_website_merge</model>
                                     <before>
                                         <save_event>
@@ -284,7 +284,7 @@
                                         <processing translate="label">Rollback in progress</processing>
                                         <complete translate="label">Rollback successfuly complete</complete>
                                         <holded translate="label">Rolback scheduled</holded>
-                                    </status>    
+                                    </status>
                                     <model>enterprise_staging/staging_state_website_rollback</model>
                                     <before>
                                         <save_event>
@@ -314,7 +314,7 @@
                             <processing translate="label"><label>In progress</label></processing>
                             <complete translate="label"><label>successfuly finished</label></complete>
                             <holded translate="label"><label>successfuly scheduled</label></holded>
-                        </scenaries_status> 
+                        </scenaries_status>
                     </website>
                 </type>
 
@@ -712,6 +712,7 @@
     <default>
         <general>
             <content_staging>
+                <entry_points_folder_name>staging</entry_points_folder_name>
                 <block_frontend>0</block_frontend>
                 <block_frontend_stub>no-route</block_frontend_stub>
             </content_staging>

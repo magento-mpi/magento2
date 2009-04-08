@@ -38,21 +38,22 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Mage_Adminhtml_Block
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
-        $fieldset = $form->addFieldset('main_fieldset', array('legend' => Mage::helper('enterprise_pci')->__('New encryption key')));
+        $fieldset = $form->addFieldset('main_fieldset', array('legend' => Mage::helper('enterprise_pci')->__('New Encryption Key')));
+        $fieldset->addField('enc_key_note', 'note', array(
+            'text' => Mage::helper('enterprise_pci')->__('The encryption key is used to encrypt passwords and other sensitive data.')
+        ));
         $fieldset->addField('generate_random', 'checkbox', array(
             'name'    => 'generate_random',
             'label'   => Mage::helper('enterprise_pci')->__('Auto-generate a key'),
             'value'   => 1,
-            'onclick' => "$('crypt_key').disabled = this.checked;",
+            'onclick' => "var cryptKey = $('crypt_key'); cryptKey.disabled = this.checked; if (cryptKey.disabled) {cryptKey.parentNode.parentNode.hide();} else {cryptKey.parentNode.parentNode.show();}",
+            'note'    => Mage::helper('enterprise_pci')->__('The generated key will be displayed after changing.'),
         ));
         $fieldset->addField('crypt_key', 'text', array(
             'name'      => 'crypt_key',
-            'label'     => Mage::helper('enterprise_pci')->__('Or enter your own key'),
+            'label'     => Mage::helper('enterprise_pci')->__('New Key'),
             'style'     => 'width:32em;',
             'maxlength' => 32,
-            'after_element_html' => '<p>'
-                . Mage::helper('enterprise_pci')->__('Magento uses this key to encrypt passwords, credit cards and more. System can auto-generate an encryption key for you and will display it on the next page.')
-                . '</p>',
         ));
         $form->setUseContainer(true);
         if ($data = $this->getFormData()) {
