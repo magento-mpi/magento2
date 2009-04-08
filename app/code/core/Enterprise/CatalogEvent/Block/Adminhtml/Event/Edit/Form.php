@@ -148,7 +148,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
 
         $fieldset->addField('display_state_array', 'checkboxes',
             array(
-                'label' => Mage::helper('enterprise_catalogevent')->__('Display Ticker On'),
+                'label' => Mage::helper('enterprise_catalogevent')->__('Display Countdown Ticker On'),
                 'name' => 'display_state[]',
                 'values' => array(
                     Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => Mage::helper('enterprise_catalogevent')->__('Category Page'),

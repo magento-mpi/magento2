@@ -84,7 +84,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('date_start', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Start On'),
+            'header' => Mage::helper('enterprise_catalogevent')->__('Starts On'),
             'index' => 'date_start',
             'type' => 'datetime',
             'filter_time' => true,
@@ -92,7 +92,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('date_end', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('End On'),
+            'header' => Mage::helper('enterprise_catalogevent')->__('Ends On'),
             'index' => 'date_end',
             'type' => 'datetime',
             'filter_time' => true,
@@ -112,7 +112,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
         ));
 
         $this->addColumn('display_state', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Display Ticker On'),
+            'header' => Mage::helper('enterprise_catalogevent')->__('Display Countdown Ticker On'),
             'index' => 'display_state',
             'type' => 'options',
             'renderer' => 'enterprise_catalogevent/adminhtml_event_grid_column_renderer_bitmask',

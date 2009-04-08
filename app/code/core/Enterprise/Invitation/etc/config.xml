@@ -130,7 +130,7 @@
             <customer>
                 <children>
                     <enterprise_invitation translate="title" module="enterprise_invitation">
-                           <title>Invitations</title>
+                           <title>Manage Invitations</title>
                            <action>adminhtml/invitation</action>
                            <resource>customer/enterprise_invitation</resource>
                            <sort_order>30</sort_order>

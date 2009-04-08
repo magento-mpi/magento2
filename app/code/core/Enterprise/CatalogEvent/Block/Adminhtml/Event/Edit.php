@@ -115,7 +115,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
             return Mage::helper('enterprise_catalogevent')->__('Edit Catalog Event');
         }
         else {
-            return Mage::helper('enterprise_catalogevent')->__('New Catalog Event');
+            return Mage::helper('enterprise_catalogevent')->__('Add Catalog Event');
         }
     }
 

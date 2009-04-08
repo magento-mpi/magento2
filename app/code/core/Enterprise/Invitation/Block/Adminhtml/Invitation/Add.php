@@ -56,12 +56,14 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtm
                     return true;
                 }
 
+                v = v.strip();
+
                 var valid_regexp = /^[a-z0-9\\._-]{1,30}@([a-z0-9_-]{1,30}\\.){1,5}[a-z]{2,4}$/i;
-                var split_regexp = /[;|\\s|,]/g;
+                var split_regexp = /[\\n\\r]+/g;
                 RegExp.multiline = true;
                 var emails = v.split(split_regexp);
 
-                for (var i=0; i < emails.length; i++) {
+                for (var i=0, l = emails.length; i < l; i++) {
                     if(!valid_regexp.test(emails[i].strip())) {
                         return false;
                     }
@@ -76,7 +78,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add extends Mage_Adminhtm
 
     public function getHeaderText()
     {
-        return Mage::helper('enterprise_invitation')->__('Create Invitation(s)');
+        return Mage::helper('enterprise_invitation')->__('New Invitations');
     }
 
 }

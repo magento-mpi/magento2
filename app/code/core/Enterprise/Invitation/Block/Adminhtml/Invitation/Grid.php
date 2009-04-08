@@ -53,6 +53,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         $this->addColumn('enterprise_invitation_id', array(
             'header'=> Mage::helper('enterprise_invitation')->__('ID'),
             'width' => '80px',
+            'align' => 'right',
             'type'  => 'text',
             'index' => 'invitation_id'
         ));
@@ -64,20 +65,18 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->addColumn('date', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Send At'),
+            'header' => Mage::helper('enterprise_invitation')->__('Sent'),
             'index' => 'date',
             'type' => 'datetime',
             'gmtoffset' => true,
-            'default'   =>  ' ---- ',
             'width' => '150px'
         ));
 
         $this->addColumn('signup_date', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Signed Up At'),
+            'header' => Mage::helper('enterprise_invitation')->__('Registered'),
             'index' => 'signup_date',
             'type' => 'datetime',
             'gmtoffset' => true,
-            'default'   =>  ' ---- ',
             'width' => '150px'
         ));
 
@@ -92,8 +91,8 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         $this->addColumn('customer_id', array(
             'header' => Mage::helper('enterprise_invitation')->__('Inviter ID'),
             'index' => 'customer_id',
-            'default'   =>  ' ---- ',
-            'width' => '140px'
+            'align' => 'right',
+            'width' => '80px'
         ));
 
         $groups = Mage::getModel('customer/group')->getCollection()
@@ -112,8 +111,8 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         $this->addColumn('referral_id', array(
             'header' => Mage::helper('enterprise_invitation')->__('Invitee ID'),
             'index' => 'referral_id',
-            'default'   =>  ' ---- ',
-            'width' => '140px'
+            'align' => 'right',
+            'width' => '80px'
         ));
 
         $this->addColumn('actions', array(

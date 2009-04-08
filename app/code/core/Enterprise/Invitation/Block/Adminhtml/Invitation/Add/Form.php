@@ -58,11 +58,11 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
         );
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend' => $this->helper('enterprise_invitation')->__('Invitation Information')
+            'legend' => $this->helper('enterprise_invitation')->__('Invitations Information')
         ));
 
         $fieldset->addField('email', 'textarea', array(
-            'label' => $this->helper('enterprise_invitation')->__('Enter Each Email on New Line'),
+            'label' => $this->helper('enterprise_invitation')->__('Enter each Email on New Line'),
             'required' => true,
             'class' => 'validate-emails',
             'name' => 'email'
