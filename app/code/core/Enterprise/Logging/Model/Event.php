@@ -48,7 +48,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      */
     public function isActive($action)
     {
-        if( !($conf = Mage::app()->getCache()->load('actions_to_log')) || 1) {
+        if( !($conf = Mage::app()->getCache()->load('actions_to_log'))) {
             $config = Mage::getConfig();
             $modules = $config->getNode('modules')->children();
 
