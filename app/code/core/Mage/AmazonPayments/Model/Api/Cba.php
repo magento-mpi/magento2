@@ -757,7 +757,7 @@ XML;
                 }
 
                 $_xmlCallbackOrderItem = $_xmlCallbackOrderItems->addChild('CallbackOrderItem');
-                $_xmlCallbackOrderItem->addChild('SKU/' . $_quoteItem->getId(), $_itemSku);
+                $_xmlCallbackOrderItem->addChild('SKU', $_itemSku . '/' . $_quoteItem->getId());
                 $_xmlCallbackOrderItem->addChild('TaxTableId', 'tax_'.$_quoteItem->getTaxClassId());
 
 
