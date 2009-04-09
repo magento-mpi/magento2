@@ -161,7 +161,7 @@ class Enterprise_Staging_Model_Observer
     public function automates()
     {
         try {
-            $currentDate = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $currentDate = Mage::getModel('core/date')->gmtDate();
 
             $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection');
 

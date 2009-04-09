@@ -223,8 +223,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
         //echo $destInsertSql.'<br /><br /><br /><br />';
-        $connection->query($destInsertSql);
 
+        $connection->query($destInsertSql);
         self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
 
         return $this;
@@ -608,7 +608,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         $updateField = end($fields);
 
-        $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$updateField}=VALUES({$updateField})";
+        $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s)";
 
         //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
         $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable);
@@ -644,7 +644,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         $field = end($fields);
 
-        $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$field}=VALUES({$field})";
+        $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s)";
 
         //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
         $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable);        
@@ -770,9 +770,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             $_fields = $fields;
             foreach ($_fields as $id => $field) {
                 if ($field == 'website_id') {
-                    //$_fields[$id] = $slaveWebsiteIds[0]; // - no need to redeclare field, just copy it!
+                    $primaryField = $field;
                     $_websiteFieldNameSql = " `{$srcTable}`.{$field} IN (" . implode(", ", $masterWebsiteIds). ")";
                 } elseif ($field == 'scope_id') {
+                    $primaryField = $field;                    
                     $_websiteFieldNameSql = "`{$srcTable}`.scope = 'website' AND `{$srcTable}`.{$field} IN (" . implode(", ", $masterWebsiteIds). ")";
                 } elseif ($field == 'website_ids') {
                     $whereFields = array();
@@ -852,9 +853,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                 $_storeFieldNameSql = 'store_id';
                 $_fields = $fields;
+                
                 foreach ($fields as $id => $field) {
                     if ($field == 'store_id') {
+                        $primaryField = $field;
                     } elseif ($field == 'scope_id') {
+                        $primaryField = $field;
                         $_storeFieldNameSql = "scope = 'stores' AND `{$srcTable}`.{$field}";
                     }
                 }                

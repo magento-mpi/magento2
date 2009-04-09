@@ -162,7 +162,7 @@ class Enterprise_Staging_Model_Mysql4_Config extends Varien_Object
             return false;
         }
 
-        if (is_null($tableName)) {
+        if (empty($tableName)) {
             return true;
         } else {
             $tables = (array) $stagingItem->entities;

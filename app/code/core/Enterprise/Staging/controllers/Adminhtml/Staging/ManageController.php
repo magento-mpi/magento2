@@ -597,12 +597,14 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 //scheduling merge
                 if ($isMergeLater && !empty($mergeSchedulingDate)) {
                     $staging->setIsMergeLater('true');
-                    $date = date("Y-m-d H:i:s", strtotime($mergeSchedulingDate));
-
+                    
                     //convert to internal time
-                    $date = Mage::app()->getLocale()->date($date, Varien_Date::DATETIME_INTERNAL_FORMAT)->toString("YYYY-MM-dd HH:mm:ss");
-
+                    $date = $currentDate = Mage::getModel('core/date')->gmtDate(null, $mergeSchedulingDate);
                     $staging->setMergeSchedulingDate($date);
+                    
+                    $originDate = Mage::app()->getHelper('core')->formatDate($date, 'medium', true);
+                    $staging->setMergeSchedulingOriginDate($originDate);
+                    
                 } else {
 
                     if (!empty($mapData['backup'])) {
@@ -835,9 +837,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $this->_getSession()->addSuccess($this->__('Master website successfully restored.'));
 
             $stagingId = $staging->getId();
-
+            
             Mage::dispatchEvent('on_enterprise_staging_rollback', array('staging' => $staging));
-
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $redirectBack = true;

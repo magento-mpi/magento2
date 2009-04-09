@@ -741,7 +741,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
             return false;
         }
 
-        if (is_null($table)) {
+        if (empty($table)) {
             return true;
         } else {
             $tables = (array) $stagingItem->entities;

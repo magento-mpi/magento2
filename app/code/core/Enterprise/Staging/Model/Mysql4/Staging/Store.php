@@ -219,7 +219,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store extends Mage_Core_Model_Mysq
             return $this;
         }
 
-        $now = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+        $now = Mage::getModel('core/date')->gmtDate();
 
         $object->setData('slave_store_id', $store->getId());
         $object->setData('slave_store_code', $store->getCode());

@@ -131,7 +131,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Store_Group extends Mage_Core_Mode
         if ($group->getIgnoreSyncStagingGroup()) {
             return $this;
         }
-        $now = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+        $now = Mage::getModel('core/date')->gmtDate();
 
         $object->setData('slave_group_id',      $group->getId());
 

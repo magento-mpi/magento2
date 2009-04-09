@@ -54,11 +54,11 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback extends Mage_Core_Model_M
         }
 
         if (!$object->getId() && !$object->getCreatedAt()) {
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = Mage::getModel('core/date')->gmtDate();
             $object->setCreatedAt($value);
         }
         if ($object->getId()) {
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = Mage::getModel('core/date')->gmtDate();
             $object->setUpdatedAt($value);
         }
 

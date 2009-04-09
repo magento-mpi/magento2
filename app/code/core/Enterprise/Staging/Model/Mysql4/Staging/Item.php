@@ -61,7 +61,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item extends Mage_Core_Model_Mysql
         }
 
         if (!$object->getId()) {
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = Mage::getModel('core/date')->gmtDate();
             $object->setCreatedAt($value);
 
             $datasetItem = $object->getDatasetItemInstance();
@@ -69,7 +69,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item extends Mage_Core_Model_Mysql
                 $object->addData($datasetItem->getData());
             }
         } else {
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = Mage::getModel('core/date')->gmtDate();
             $object->setUpdatedAt($value);
         }
 

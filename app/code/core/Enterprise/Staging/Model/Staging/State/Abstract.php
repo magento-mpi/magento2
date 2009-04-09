@@ -140,10 +140,9 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         } catch (Exception $e) {
             $this->getAdapter()->rollbackTransaction('enterprise_staging');
 
-            $message = $this->getEventStateStatuses()->processing;
+            $message = (string) $this->getEventStateStatuses()->processing;
             
-            $message = Mage::helper('enterprise_staging')
-                ->__($message);
+            $message = Mage::helper('enterprise_staging')->__($message);
             
             $this->endEventState($staging, $message, $e, true);
 

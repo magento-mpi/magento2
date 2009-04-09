@@ -188,13 +188,14 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
             $statusesLabel = $state->getEventStateStatuses();
             $comment = "";
             $scheduleDate = $staging->getMergeSchedulingDate();
+            $scheduleOriginDate = $staging->getMergeSchedulingOriginDate();
             
             if (!empty($statusesLabel)) {
                 $comment = $statusesLabel->$status;
             }
             
-            if (!empty($scheduleDate)) {
-                $comment .= " " . $scheduleDate;
+            if (!empty($scheduleOriginDate)) {
+                $comment .= " " . $scheduleOriginDate;
             }
             
             $this->setStagingId($staging->getId())
@@ -214,5 +215,6 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
             $state->setEventId($this->getId());
         }        
         return $this;
-    } 
+    }
+
 }

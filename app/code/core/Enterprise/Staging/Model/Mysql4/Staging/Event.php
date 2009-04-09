@@ -48,10 +48,10 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
 
         if (!$object->getId()) {
             $object->setIsNew(true);
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = Mage::getModel('core/date')->gmtDate();
             $object->setCreatedAt($value);
         } else {
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = Mage::getModel('core/date')->gmtDate();
             $object->setUpdatedAt($value);
         }
 

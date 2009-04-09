@@ -62,10 +62,10 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         }
 
         if (!$object->getId()) {
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = Mage::getModel('core/date')->gmtDate();
             $object->setCreatedAt($value);
         } else {
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = Mage::getModel('core/date')->gmtDate();
             $object->setUpdatedAt($value);
         }
 
@@ -369,7 +369,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             return $this;
         }
 
-        $now = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+        $now = Mage::getModel('core/date')->gmtDate();
 
         $object->setData('slave_website_id', $website->getId());
         $object->setData('slave_website_code', $website->getCode());

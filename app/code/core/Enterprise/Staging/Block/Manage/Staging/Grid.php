@@ -39,6 +39,12 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
 
+        $this->setColumnRenderers(
+            array(
+                'action' => 'enterprise_staging/manage_staging_renderer_action'
+            ));
+
+
         //$this->setTemplate('enterprise/staging/manage/grid.phtml');
     }
 
@@ -52,6 +58,12 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         foreach($collection AS $datasetItem) {
             $collection->getItemById($datasetItem->getId())
                 ->setData("lastEvent", $datasetItem->getEventsCollection()->getFirstItem()->getComment());
+            foreach ($datasetItem->getWebsitesCollection() as $website) {
+                $baseUrl = $website->getBaseUrl();
+            }
+            $collection->getItemById($datasetItem->getId())
+                ->setData("base_url", $baseUrl);
+            
         }
         
         $this->setCollection($collection);
@@ -69,6 +81,17 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             'type'      => 'text',
         ));
 
+        $this->addColumn('base_url', array(
+            'width'     => '250px',
+            'header'    => 'Url',
+            'index'     => 'base_url',
+            'title'     => 'base_url',
+            'length'    => '40',
+            'type'      => 'action',
+            'filter'    => false,
+            'sortable'  => false,
+        ));
+        
         $this->addColumn('lastEvent', array(
             'width'     => '250px',        
             'header'    => 'Latest Event',
@@ -79,14 +102,14 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         ));
         
         $this->addColumn('created_at', array(
-            'width'     => '150px',
+            'width'     => '100px',
             'header'    => 'Created At',
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('updated_at', array(
-            'width'     => '150px',        
+            'width'     => '100px',        
             'header'    => 'Updated At',
             'index'     => 'updated_at',
             'type'      => 'datetime',

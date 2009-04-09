@@ -110,6 +110,7 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
      */
     public function authenticate($login, $password)
     {
+
         $this->load($login, 'master_login');
         if ($this->getConfirmation() && $this->isConfirmationRequired()) {
             throw new Exception(Mage::helper('enterprise_staging')->__('This account is not confirmed.'), self::EXCEPTION_LOGIN_NOT_CONFIRMED);
@@ -163,9 +164,11 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
      */
     public function validatePassword($password)
     {
+
         if (!($hash = $this->getMasterPasswordHash())) {
             return false;
         }
+
         return Mage::helper('core')->validateHash($password, $hash);
     }
 

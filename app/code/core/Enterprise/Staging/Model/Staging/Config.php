@@ -459,7 +459,7 @@ class Enterprise_Staging_Model_Staging_Config
     	}
     
     	$stagingTablePrefix = self::getTablePrefix();
- 
+
     	if (empty($stagingTablePrefix)){
     	    return $tableName;	
     	}
@@ -474,8 +474,11 @@ class Enterprise_Staging_Model_Staging_Config
             $tableName = $stagingTablePrefix . $tableName;
             
             $stagingAdapter->createTable($tableName, $model, $modelEntity, $tableDescription);
+
+    	} else {
+    	    $tableName = (string) Mage::getConfig()->getTablePrefix() . $tableName;
     	}
-    
+
     	return $tableName;
     	
     }

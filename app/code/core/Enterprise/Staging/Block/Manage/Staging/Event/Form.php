@@ -84,14 +84,14 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
             'label'     => $this->helper->__('Created At'),
             'title'     => $this->helper->__('Created At'),
             'name'      => 'created_at',
-            'value'     => $this->getEvent()->getCreatedAt()
+            'value'     => $this->formatDate($this->getEvent()->getCreatedAt(), 'medium' , true)
         ));
         
         $fieldset->addField('updated_at', 'label', array(
             'label'     => $this->helper->__('Updated At'),
             'title'     => $this->helper->__('Updated At'),
             'name'      => 'updated_at',
-            'value'     => $this->getEvent()->getUpdatedAt()
+            'value'     => $this->formatDate($this->getEvent()->getUpdatedAt(), 'medium', true)
         ));
                 
 
@@ -107,7 +107,7 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
             'label'     => $this->helper->__('Schedule Date'),
             'title'     => $this->helper->__('Schedule Date'),
             'name'      => 'merge_schedule_date',
-            'value'     => $this->getEvent()->getMergeScheduleDate()
+            'value'     => $this->formatDate($this->getEvent()->getMergeScheduleDate(), 'medium', true)
         ));
         
         $form->setFieldNameSuffix($this->getFieldNameSuffix());
@@ -142,4 +142,22 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
         }
         return $this->getData('staging_event');
     }
+    
+    /**
+     * Retrieve formating date
+     *
+     * @param   string $date
+     * @param   string $format
+     * @param   bool $showTime
+     * @return  string
+     */
+    public function formatDate($date=null, $format='short', $showTime=false)
+    {
+        if (is_string($date) && !(strpos($date, "0000")===0)) {
+            $date = Mage::app()->getLocale()->date($date, Varien_Date::DATETIME_INTERNAL_FORMAT);
+        }
+
+        return parent::formatDate($date, $format, $showTime);
+    }
+    
 }

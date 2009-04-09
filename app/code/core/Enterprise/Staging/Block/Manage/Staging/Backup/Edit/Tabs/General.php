@@ -74,7 +74,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
         $fieldset->addField('backupCreateAt', 'label', array(
             'label'     => $this->helper->__('Created Date'),
             'title'     => $this->helper->__('Created Date'),
-            'value'     => $this->getBackup()->getCreatedAt()
+            'value'     => $this->formatDate($this->getBackup()->getCreatedAt(), 'medium', true)
         ));
         
         $fieldset->addField('tablePrefix', 'label', array(

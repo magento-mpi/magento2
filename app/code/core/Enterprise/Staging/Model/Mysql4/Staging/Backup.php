@@ -47,11 +47,11 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
         }
 
         if (!$object->getId() && !$object->getCreatedAt()) {
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = $this->formatDate(time());
             $object->setCreatedAt($value);
         }
         if ($object->getId()) {
-            $value = Mage::app()->getLocale()->date()->toString("YYYY-MM-dd HH:mm:ss");
+            $value = $this->formatDate(time());
             $object->setUpdatedAt($value);
         }
 
