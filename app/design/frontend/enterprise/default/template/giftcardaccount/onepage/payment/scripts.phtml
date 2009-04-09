@@ -1,0 +1,7 @@
+<?php if ($this->isFullyPaidAfterApplication()): ?>
+    $('checkout-payment-method-load').hide();
+
+    Payment.prototype.validate = function() {
+        return true;
+    };
+<?php endif; ?>

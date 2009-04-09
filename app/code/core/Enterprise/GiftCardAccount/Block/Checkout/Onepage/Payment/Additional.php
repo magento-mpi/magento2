@@ -35,4 +35,13 @@ class Enterprise_GiftCardAccount_Block_Checkout_Onepage_Payment_Additional exten
     {
         return $this->_getQuote()->getBaseGiftCardsAmountUsed();
     }
+
+    public function isFullyPaidAfterApplication()
+    {
+        if ($this->_getQuote()->getBaseGrandTotal() > 0 || $this->_getQuote()->getCustomerBalanceAmountUsed() > 0) {
+            return false;
+        }
+
+        return true;
+    }
 }

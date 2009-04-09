@@ -60,4 +60,10 @@
             <block type="enterprise_giftcardaccount/account_redeem" name="redeem" template="giftcardaccount/account/redeem.phtml" after="balance" />
         </reference>
     </enterprise_customerbalance_info_index>
+
+    <checkout_onepage_paymentmethod>
+        <reference name="checkout.onepage.payment.methods.scripts">
+            <block type="enterprise_giftcardaccount/checkout_onepage_payment_additional" template="giftcardaccount/onepage/payment/scripts.phtml" name="giftcardaccount_scripts" />
+        </reference>
+    </checkout_onepage_paymentmethod>
 </layout>

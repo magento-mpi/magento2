@@ -33,7 +33,7 @@
         <label for="use_customer_balance"><strong><?php echo Mage::helper('enterprise_customerbalance')->__('Use Store Credit (%s available)', $balance); ?></strong></label>
     </div>
     <script language="javascript">
-    var isFullyPaidAfterApplication = <?php echo ($this->isFullyPaidAfterApplication() ? 'true' : 'false'); ?>;
+    var isFullyPaidAfterCustomerBalanceApplication = <?php echo ($this->isFullyPaidAfterApplication() ? 'true' : 'false'); ?>;
 
     Payment.prototype.init = function () {
         var elements = Form.getElements(this.form);
@@ -53,7 +53,7 @@
     };
 
     Payment.prototype.validate = function() {
-        if ($('use_customer_balance') && $('use_customer_balance').checked && isFullyPaidAfterApplication) {
+        if ($('use_customer_balance') && $('use_customer_balance').checked && isFullyPaidAfterCustomerBalanceApplication) {
             return true;
         }
         var methods = document.getElementsByName('payment[method]');
@@ -71,7 +71,7 @@
     };
 
     Payment.prototype.switchCustomerBalanceCheckbox = function() {
-        if (isFullyPaidAfterApplication) {
+        if (isFullyPaidAfterCustomerBalanceApplication) {
             var elements = Form.getElements(this.form);
             for (var i=0; i<elements.length; i++) {
                 if ($('use_customer_balance').checked) {
