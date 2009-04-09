@@ -84,13 +84,13 @@ class Mage_Catalog_Helper_Product_Flat extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Is add filtrable attributes to Flat table
+     * Is add filterable attributes to Flat table
      *
      * @return int
      */
     public function isAddFilterableAttributes()
     {
-        return intval(Mage::getConfig()->getNode(self::XML_NODE_ADD_FILTRABLE_ATTRIBUTES));
+        return intval(Mage::getConfig()->getNode(self::XML_NODE_ADD_FILTERABLE_ATTRIBUTES));
     }
 
     /**
