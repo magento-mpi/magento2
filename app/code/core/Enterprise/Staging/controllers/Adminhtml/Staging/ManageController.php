@@ -202,7 +202,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $entryPoint = Mage::getSingleton('enterprise_staging/entry');
             if ($entryPoint->isAutomatic()) {
                 try {
-                    $this->_getSession()->addNotice($this->__('Entry point to this website will be created automatically.'));
+                    $this->_getSession()->addNotice($this->__('Base URL for this website will be created automatically.'));
                     $entryPoint->canEntryPointBeCreated();
                 }
                 catch (Mage_Core_Exception $e) {
@@ -522,7 +522,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
 
     /**
-     * Staging delete action 
+     * Staging delete action
      */
     public function deleteAction()
     {
@@ -792,7 +792,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
     /**
      * Rollback view action
-     * 
+     *
      */
     public function rollbackAction()
     {
@@ -807,7 +807,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
     /**
      * Process rollback Action
-     * 
+     *
      */
     public function rollbackPostAction()
     {

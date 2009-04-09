@@ -263,15 +263,6 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_category_tree_init_inactive_category_ids>
-            <catalog_category_collection_load_after>
-                <observers>
-                    <enterprise_catalogpermissions>
-                        <type>singleton</type>
-                        <class>enterprise_catalogpermissions/observer</class>
-                        <method>applyCategoryPermissionOnLoadCollection</method>
-                    </enterprise_catalogpermissions>
-                </observers>
-            </catalog_category_collection_load_after>
             <catalog_product_collection_set_visibility_after>
                 <observers>
                     <enterprise_catalogpermissions>

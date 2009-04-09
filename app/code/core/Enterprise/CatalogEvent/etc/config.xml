@@ -196,12 +196,11 @@
             </modules>
         </translate>
     </frontend>
-    
+
 	<admin>
         <routers>
             <adminhtml>
                 <args>
-                    <frontName>admin</frontName>
                     <modules>
                         <enterprise_catalogevent before="Mage_Adminhtml">Enterprise_CatalogEvent_Adminhtml</enterprise_catalogevent>
                     </modules>
@@ -209,7 +208,7 @@
             </adminhtml>
         </routers>
     </admin>
-    <adminhtml>   
+    <adminhtml>
         <layout>
             <updates>
                 <enterprise_catalogevent>
@@ -229,7 +228,7 @@
                    </enterprise_catelogevent>
                </children>
             </catalog>
-        </menu>    
+        </menu>
         <translate>
             <modules>
                 <Enterprise_CatalogEvent>
