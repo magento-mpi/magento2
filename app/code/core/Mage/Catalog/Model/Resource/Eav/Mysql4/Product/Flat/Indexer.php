@@ -691,12 +691,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
     {
         if ($attribute->getBackend()->getType() == 'static') {
             $select = $this->_getWriteAdapter()->select()
-                ->from(array('main_table' => $this->getTable('catalog/product')), $attribute->getAttributeCode());
+                ->join(
+                    array('main_table' => $this->getTable('catalog/product')),
+                    'main_table.entity_id=e.entity_id ',
+                    array($attribute->getAttributeCode() => 'main_table.' . $attribute->getAttributeCode())
+                );
+            if ($this->getFlatHelper()->isAddChildData()) {
+                $select->where("e.is_child=?", 0);
+            }
             if (!is_null($productIds)) {
                 $select->where('main_table.entity_id IN(?)', $productIds);
             }
             $sql = $select->crossUpdateFromSelect(array('e' => $this->getFlatTableName($store)));
-            $this->_getWriteAdapter()->query($sql);
+                $this->_getWriteAdapter()->query($sql);
         }
         else {
             $select = $attribute->getFlatUpdateSelect($store);

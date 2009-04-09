@@ -234,12 +234,12 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
             return array();
         }
 
-        $arr = $this->getData('products_position');
-        if (is_null($arr)) {
-            $arr = $this->getResource()->getProductsPosition($this);
-            $this->setData('products_position', $arr);
+        $array = $this->getData('products_position');
+        if (is_null($array)) {
+            $array = $this->getResource()->getProductsPosition($this);
+            $this->setData('products_position', $array);
         }
-        return $arr;
+        return $array;
     }
 
     /**

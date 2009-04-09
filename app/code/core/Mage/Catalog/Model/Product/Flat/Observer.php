@@ -285,4 +285,20 @@ class Mage_Catalog_Model_Product_Flat_Observer
         }
         return $this;
     }
+
+    /**
+     * Update category ids in flat
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Catalog_Model_Product_Flat_Observer
+     */
+    public function catalogCategoryChangeProducts(Varien_Event_Observer $observer)
+    {
+        if (!$this->_getHelper()->isBuilt()) {
+            return $this;
+        }
+        $this->_getIndexer()->updateAttribute('category_ids');
+
+        return $this;
+    }
 }

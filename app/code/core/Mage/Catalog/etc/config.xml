@@ -346,6 +346,15 @@
                     </catalog_product_flat>
                 </observers>
             </catalog_entity_attribute_save_after>
+            <catalog_category_change_products>
+                <observers>
+                    <catalog_product_flat>
+                        <type>singleton</type>
+                        <class>catalog/product_flat_observer</class>
+                        <method>catalogCategoryChangeProducts</method>
+                    </catalog_product_flat>
+                </observers>
+            </catalog_category_change_products>
             <log_log_clean_after>
                 <observers>
                     <catalog_product_compare_item>
