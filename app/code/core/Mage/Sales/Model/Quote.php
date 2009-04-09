@@ -932,7 +932,7 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get all quote totals
+     * Get all quote totals (sorted by priority)
      *
      * @return array
      */
@@ -947,7 +947,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 $totals[$code] = $total;
             }
         }
-        return $totals;
+
+        $sortedTotals = array();
+        foreach ($this->getBillingAddress()->getTotalModels() as $total) {
+            /* @var $total Mage_Sales_Model_Quote_Address_Total_Abstract */
+            if (isset($totals[$total->getCode()])) {
+                $sortedTotals[$total->getCode()] = $totals[$total->getCode()];
+            }
+        }
+        return $sortedTotals;
     }
 
     public function addMessage($message, $index='error')
