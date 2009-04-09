@@ -35,7 +35,7 @@ class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_T
      */
     public function canShow()
     {
-        return Mage::getStoreConfigFlag('customer/enterprise_customerbalance_email/show_history');
+        return Mage::getStoreConfigFlag('customer/enterprise_customerbalance/show_history');
     }
 
     /**

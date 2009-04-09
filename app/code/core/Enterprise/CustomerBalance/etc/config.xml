@@ -83,7 +83,7 @@
         <template>
             <email>
                <customer_enterprise_customerbalance_email_template translate="label" module="enterprise_customerbalance">
-                   <label>Balance Update</label>
+                   <label>Store Credit Update</label>
                    <file>enterprise/customerbalance_update.html</file>
                    <type>html</type>
                </customer_enterprise_customerbalance_email_template>
@@ -209,11 +209,11 @@
     </adminhtml>
     <default>
         <customer>
-            <enterprise_customerbalance_email>
-                <template>customer_enterprise_customerbalance_email_template</template>
-                <identity>general</identity>
+            <enterprise_customerbalance>
+                <email_template>customer_enterprise_customerbalance_email_template</email_template>
+                <email_identity>general</email_identity>
                 <show_history>1</show_history>
-            </enterprise_customerbalance_email>
+            </enterprise_customerbalance>
         </customer>
         <sales>
             <totals_sort>
