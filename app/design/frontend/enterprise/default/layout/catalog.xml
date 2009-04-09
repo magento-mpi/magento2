@@ -83,7 +83,7 @@ Category default layout
             <block type="catalog/navigation" name="catalog.leftnav" before="-" template="catalog/navigation/left.phtml"/>
         </reference>
         <reference name="breadcrumbs.container">
-            <block type="catalog/category_view" name="category.title" after="-" template="catalog/category/title.phtml"/>
+            <block type="catalog/category_view" name="category.title" after="breadcrumbs" template="catalog/category/title.phtml"/>
         </reference>
         <reference name="content">
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
@@ -115,7 +115,7 @@ Category layered navigation layout
             <block type="catalog/layer_view" name="catalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
         </reference>
         <reference name="breadcrumbs.container">
-            <block type="catalog/category_view" name="category.title" after="-" template="catalog/category/title.phtml"/>
+            <block type="catalog/category_view" name="category.title" after="breadcrumbs" template="catalog/category/title.phtml"/>
         </reference>
         <reference name="content">
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">

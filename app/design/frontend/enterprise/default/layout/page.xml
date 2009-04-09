@@ -73,7 +73,7 @@ Default layout, loads most of the pages
 
             
             <block type="core/text_list" name="breadcrumbs.container" as="breadcrumbsContainer" >
-                <block type="page/html_breadcrumbs" before="-" name="breadcrumbs"/>
+                <block type="page/html_breadcrumbs" name="breadcrumbs"/>
             </block>
 
             <block type="core/text_list" name="left" as="left"/>
