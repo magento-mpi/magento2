@@ -77,7 +77,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_Order_Grid
         $this->addColumn('purchased_rate', array(
             'header'    =>Mage::helper('enterprise_invitation')->__('Conversion Rate'),
             'index'     =>'purchased_rate',
-            'renderer'  => 'invitation/adminhtml_grid_column_renderer_percent',
+            'renderer'  => 'enterprise_invitation/adminhtml_grid_column_renderer_percent',
             'type'      =>'string',
             'width'     =>'100'
         ));
