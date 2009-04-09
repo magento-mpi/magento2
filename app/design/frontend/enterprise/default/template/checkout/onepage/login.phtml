@@ -34,25 +34,22 @@
             <ul class="form-list">
                 <li>
                     <label for="login-email"><?php echo $this->__('Email Address') ?></label>
-                    <div class="input-box">
+                    <span class="input-box">
                         <input type="text" class="input-text required-entry validate-email" id="login-email" name="login[username]" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" />
-                    </div>
+                    </span>
                 </li>
                 <li>
                     <label for="login-password"><?php echo $this->__('Password') ?></label>
-                    <div class="input-box">
+                    <span class="input-box">
                         <input type="password" class="input-text required-entry" id="login-password" name="login[password]" />
-                    </div>
-                </li>
-                <li class="buttons-set">
-                    <span class="label">&nbsp;</span>
-                    <div class="input-box">
-                        <button type="submit" class="button" onclick="loginForm.submit()"><span><?php echo $this->__('Login') ?></span></button>
-                        <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a>
-                    </div>
+                    </span>
                 </li>
             </ul>
         </fieldset>
+        <div class="buttons-set form-buttons btn-only">
+            <button type="submit" class="button" onclick="loginForm.submit()"><span><?php echo $this->__('Login') ?></span></button>
+            <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a>
+        </div>        
         </form>
     </div>
     <div class="col-2">

@@ -28,7 +28,7 @@
     <h2><?php echo $this->__('Your order has been received') ?></h2>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<h3><?php echo $this->__('Thank you for your purchase!') ?></h3>
+<p><strong><?php echo $this->__('Thank you for your purchase!') ?></strong></p>
 <?php if ($this->canPrint()) :?>
     <p><?php echo $this->__('Your order # is: <a href="%s">%s</a>', $this->getViewOrderUrl(), $this->getOrderId()) ?>.</p>
 <?php  else :?>

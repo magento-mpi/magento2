@@ -116,7 +116,9 @@
                 </dd>
             <?php endif;?>
             </dl>
-            <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
+            <?php if ($_description || $_additional || $this->getChildHtml('productTagList')): ?>
+                <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
+            <?php endif; ?>
             <?php if ($this->canEmailToFriend()): ?>
                 <p class="emailto-link"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
             <?php endif; ?>            

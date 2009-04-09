@@ -24,6 +24,7 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<div class="order-details">
 <?php if ($this->helper('giftmessage/message')->getIsMessagesAvailable('items', $this->getOrder())): ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -54,7 +55,7 @@ function giftMessageToogle(giftMessageIdentifier)
 </script>
 <?php endif; ?>
 <?php  $_order = $this->getOrder() ?>
-<h3><?php echo $this->__('Items Ordered') ?>
+<h3 class="table-caption"><?php echo $this->__('Items Ordered') ?>
     <?php if ($_order->getTracksCollection()->count()) : ?>
         <span class="separator">|</span> <a href="#" onclick="popWin('<?php echo $this->helper('shipping')->getTrackingPopUpUrlByOrderId($_order->getId()) ?>','trackorder','top=50,left=50,width=800,height=600,resizable=yes,scrollbars=yes'); return false;" title="<?php echo $this->__('Track your order') ?>"><?php echo $this->__('Track your order') ?></a>
     <?php endif; ?>
@@ -63,24 +64,29 @@ function giftMessageToogle(giftMessageIdentifier)
 <?php echo $this->getChildHtml('order_items') ?>
 
 <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $_order) && $_order->getGiftMessageId()): ?>
-    <h3><?php echo $this->__('Gift Message for this Order') ?></h3>
+<div class="order-additional gift-message">
+    <h3 class="sub-title"><?php echo $this->__('Gift Message for this Order') ?></h3>
     <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order); ?>
-    <dl class="gift-message">
-        <dt><strong><?php echo $this->__('From') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></dt>
-        <dt><strong><?php echo $this->__('To') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></dt>
+    <dl>
+        <dt><strong><?php echo $this->__('From') ?>:</strong> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></dt>
+        <dt><strong><?php echo $this->__('To') ?>:</strong> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></dt>
         <dd><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></dd>
     </dl>
+</div>
 <?php endif; ?>
 <?php $_history = $this->getOrder()->getVisibleStatusHistory() ?>
 <?php if (count($_history)): ?>
-    <h3><?php echo $this->__('About Your Order') ?></h3>
+<div class="order-additional order-comments">
+    <h3 class="sub-title"><?php echo $this->__('About Your Order') ?></h3>
     <dl>
         <?php foreach ($_history as $_historyItem): ?>
             <dt><?php echo $this->formatDate($_historyItem->getCreatedAtStoreDate(), 'medium', true) ?></dt>
             <dd><?php echo $_historyItem->getComment() ?></dd>
         <?php endforeach; ?>
     </dl>
+</div>
 <?php endif; ?>
 <div class="buttons-set">
     <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Orders') ?></a></p>
+</div>
 </div>

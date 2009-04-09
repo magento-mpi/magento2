@@ -47,17 +47,17 @@ NOTE: Regarding styles - if we leave it this way, we'll move it to boxes.css
 ?>
 <label for="<?php echo $this->getFieldId('day')?>"<?php if ($this->isRequired()) echo ' class="required"' ?>><?php if ($this->isRequired()) echo '<em">*</em>' ?><?php echo $this->__('Date of Birth') ?></label>
 <div class="input-box customer-dob">
-    <span class="input-box dob-day">
+    <span class="dob-day">
         <input type="text" id="<?php echo $this->getFieldId('day')?>" name="<?php echo $this->getFieldName('day')?>" value="<?php echo $this->getDay() ?>" title="<?php echo $this->__('Day') ?>" class="input-text validate-custom" <?php echo $this->getFieldParams() ?> />
         <label for="<?php echo $this->getFieldId('day')?>"><?php echo $this->__('DD') ?></label>
     </span>
 
-    <span class="input-box dob-month">
+    <span class="dob-month">
         <input type="text" id="<?php echo $this->getFieldId('month')?>" name="<?php echo $this->getFieldName('month')?>" value="<?php echo $this->getMonth() ?>" title="<?php echo $this->__('Month') ?>" class="input-text validate-custom" <?php echo $this->getFieldParams() ?> />
         <label for="<?php echo $this->getFieldId('month')?>"><?php echo $this->__('MM') ?></label>
     </span>
 
-    <span class="input-box dob-year">
+    <span class="dob-year">
         <input type="text" id="<?php echo $this->getFieldId('year')?>" name="<?php echo $this->getFieldName('year')?>" value="<?php echo $this->getYear() ?>" title="<?php echo $this->__('Year') ?>" class="input-text validate-custom" <?php echo $this->getFieldParams() ?> />
         <label for="<?php echo $this->getFieldId('year')?>"><?php echo $this->__('YYYY') ?></label>
     </span>

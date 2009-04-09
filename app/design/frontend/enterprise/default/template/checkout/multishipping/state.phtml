@@ -31,8 +31,10 @@
  * @see Mage_Checkout_Block_Multishipping_State
  */
 ?>
-<ul class="checkout-progress">
+<ul class="checkout-progress" id="checkout-progress-state">
 <?php foreach ($this->getSteps() as $_step): ?>
     <li<?php if($_step->getIsActive()): ?> class="active"<?php endif; ?>><span><?php echo $_step->getLabel() ?></span></li>
 <?php endforeach; ?>
 </ul>
+<script type="text/javascript">decorateGeneric($$('#checkout-progress-state li'), ['first','last']);</script>
+

@@ -22,8 +22,11 @@
  */
  
 /* IE 6 only */
+
+.col-main .page-title { _position:relative; _z-index:1; }
 .switch ul .current { _padding-right:4em;}
 .main { _height:350px; }
+.opc .step { _height:300px; }
 .validation-advice { _height:13px; _display:inline; }
 .cart .cart-collaterals { _height:413px; }
 .opc li.section { vertical-align:top; }
@@ -38,6 +41,7 @@
 #nav li li a { margin-bottom:0!important; }
 
 /* Doubled Margin Fixes */
+.product-view,
 .product-view .product-img-box .more-views li,
 .product-view .tags .form-add-tags .input-box,
 .form-list .customer-dob .input-box,
@@ -51,6 +55,7 @@
 #nav li.over ul.shown-sub { left:0px; }
 #nav li.over li ul.shown-sub { left:100px; }
 /********** < Navigation styles */
+
 
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
@@ -67,8 +72,9 @@ button.btn-cart span { background-position:100% 0; }
 .multiple-checkout .buttons-set .button span,
 .opc button.button span { background-position:100% 0; } */
 
-.header-panel .form-search,
-.footer-panel { padding-top:3px; }
+#invitation-send-link { margin-right:7px; }
+.product-view .add-review .form-list .review-summary-table { width:50px; }
+.product-view .add-review .form-list .review-summary-table .rating-box .rating { height:0px; padding-top:13px; overflow:hidden; }
 
 /* jQzoom */
 .preload { width:100px; height:55px; }
@@ -84,6 +90,9 @@ button.btn-cart span { background-position:100% 0; }
 .data-table { border-collapse:collapse; }
 
 /* Clears and hasLayout fixes */
+.category-title,
+.order-info,
+.sidebar .block,
 .giftcard-send-form,
 .product-options dd .input-box,
 .options-container-small .product-options,
@@ -155,6 +164,7 @@ button.btn-cart span { background-position:100% 0; }
 .cart-tax-total,
 .block-related,
 .new-product-spotlight .more-new { zoom:1; }
+
 
 /* Hover Fix */
 iframe.hover-fix { position:absolute; left:-1px; top:-1px; z-index:-1; background:transparent; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0); }

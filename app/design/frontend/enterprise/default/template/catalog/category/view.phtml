@@ -41,6 +41,7 @@
     }
 ?>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<div class="category-view">
 <?php if($this->isContentMode()): ?>
     <?php /*<div class="category-title">
     <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
@@ -91,3 +92,4 @@
     <?php endif; ?>
     <?php echo $this->getProductListHtml() ?>
 <?php endif; ?>
+</div>

@@ -24,6 +24,7 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<div class="order-details">
 <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $this->getOrder())): ?>
 <script type="text/javascript">
 //<![CDATA[
@@ -58,4 +59,5 @@ function giftMessageToogle(giftMessageIdentifier)
     <?php echo $this->getChildHtml('creditmemo_items') ?>
 <div class="buttons-set">
     <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Orders') ?></a></p>
+</div>
 </div>

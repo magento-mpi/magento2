@@ -24,29 +24,42 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-
+<div class="giftcard-status">
+    <div class="page-title">
+        <h2><?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Card status'); ?></h2>
+    </div>
 <?php if ($_card = $this->getCard()): ?>
     <?php if ($_card->getId()): ?>
-        <h1><?php echo Mage::helper('enterprise_giftcardaccount')->__("Gift Card '%s'.", $_card->getCode()); ?></h1>
-        <?php echo Mage::helper('enterprise_giftcardaccount')->__('Current Balance'); ?>:
-        <b><?php echo Mage::helper('core')->currency($_card->getBalance()); ?></b>
-        <br />
+        <h3><?php echo Mage::helper('enterprise_giftcardaccount')->__("Gift Card '%s'.", $_card->getCode()); ?></h3>
+        <p><?php echo Mage::helper('enterprise_giftcardaccount')->__('Current Balance'); ?>: 
+        <strong><?php echo Mage::helper('core')->currency($_card->getBalance()); ?></strong></p>
 
         <?php if ($_card->getDateExpires()): ?>
-            <?php echo Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'); ?>:
-            <b><?php echo $this->formatDate($_card->getDateExpires(), 'short'); ?></b>
-            <br />
+            <p><?php echo Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'); ?>:
+            <strong><?php echo $this->formatDate($_card->getDateExpires(), 'short'); ?></strong></p>
         <?php endif; ?>
     <?php else: ?>
-        <?php echo Mage::helper('enterprise_giftcardaccount')->__('Specified Gift Card was not found.'); ?>
+        <p><?php echo Mage::helper('enterprise_giftcardaccount')->__('Specified Gift Card was not found.'); ?></p>
     <?php endif; ?>
+    <div class="buttons-set">
+         <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo Mage::helper('enterprise_giftcardaccount')->__('Back') ?></a></p>
+    </div>    
 <?php else: ?>
     <form method="post" id="codeForm">
-        <?php echo Mage::helper('enterprise_giftcardaccount')->__('Enter Gift Card code'); ?>:
-        <input type="text" class="input-text required-entry" name="code"><br />
-        <input type="button" value="<?php echo Mage::helper('enterprise_giftcardaccount')->__('Check'); ?>" onclick="cForm.submit()">
+        <fieldset>
+            <ul class="form-list">
+                <li>
+                    <label for="code"><?php echo Mage::helper('enterprise_giftcardaccount')->__('Enter Gift Card code'); ?></label>
+                    <span class="input-box"><input type="text" class="input-text required-entry" name="code" id="code" /></span>
+                </li>
+            </ul>
+        </fieldset>
+        <div class="buttons-set form-buttons btn-only">
+             <button class="button" type="button" onclick="cForm.submit()"><span><?php echo Mage::helper('enterprise_giftcardaccount')->__('Check'); ?></span></button>
+        </div>
     </form>
     <script>
     var cForm = new VarienForm('codeForm');
     </script>
 <?php endif; ?>
+</div>

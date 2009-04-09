@@ -249,7 +249,7 @@
             <action method="addItemRender">
                 <type>giftcard</type>
                 <block>enterprise_giftcard/sales_order_item_renderer</block>
-                <template>sales/order/invoice/items/renderer.phtml</template>
+                <template>sales/order/invoice/items/renderer/default.phtml</template>
             </action>
         </reference>
     </sales_order_invoice>

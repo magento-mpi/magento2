@@ -82,8 +82,10 @@ Category default layout
         <reference name="left">
             <block type="catalog/navigation" name="catalog.leftnav" before="-" template="catalog/navigation/left.phtml"/>
         </reference>
+        <reference name="breadcrumbs.container">
+            <block type="catalog/category_view" name="category.title" after="-" template="catalog/category/title.phtml"/>
+        </reference>
         <reference name="content">
-            <block type="catalog/category_view" name="category.title" before="-" template="catalog/category/title.phtml"/>
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
                 <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
                     <block type="catalog/product_list_toolbar" name="product_list_toolbar" template="catalog/product/list/toolbar.phtml">
@@ -112,8 +114,10 @@ Category layered navigation layout
         <reference name="left">
             <block type="catalog/layer_view" name="catalog.leftnav" before="-" template="catalog/layer/view.phtml"/>
         </reference>
+        <reference name="breadcrumbs.container">
+            <block type="catalog/category_view" name="category.title" after="-" template="catalog/category/title.phtml"/>
+        </reference>
         <reference name="content">
-            <block type="catalog/category_view" name="category.title" before="-" template="catalog/category/title.phtml"/>
             <block type="catalog/category_view" name="category.products" template="catalog/category/view.phtml">
                 <block type="catalog/product_list" name="product_list" template="catalog/product/list.phtml">
                     <!-- <action method="addReviewSummaryTemplate"><type>default</type><template>review/helper/su.phtml</template></action> -->
@@ -182,7 +186,7 @@ Product view
         </reference>
         <reference name="head">
             <action method="addJs"><script>varien/product.js</script></action>
-            <action method="addItem"><type>skin_js</type><name>js/lightbox.js</name></action>
+            <!-- <action method="addItem"><type>skin_js</type><name>js/lightbox.js</name></action> -->
             <action method="addItem"><type>skin_js</type><name>js/jqzoom/jquery-1.3.1.min.js</name></action>
             <action method="addItem"><type>skin_js</type><name>js/jqzoom/jquery.jqzoom1.0.1.js</name></action>
             <action method="addItem"><type>js_css</type><name>calendar/calendar-win2k-1.css</name><params/><!--<if/><condition>can_load_calendar_js</condition>--></action>

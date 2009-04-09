@@ -116,7 +116,6 @@
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>        
     </div>
-
 </div>
 <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 <fieldset class="no-display">
@@ -124,11 +123,11 @@
     <input type="hidden" name="related_product" id="related-products-field" value="" />
 </fieldset>
 <?php if ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container1') ):?>
-    <div id="options-container">
+    <div id="options-container" style="display:none;">
         <div><?php echo $this->getChildChildHtml('container1', '', true, true) ?></div>
     </div>
 <?php elseif ($_product->isSaleable() && $this->hasOptions() && $this->getChildChildHtml('container2') ):?>
-    <div id="options-container">
+    <div id="options-container" style="display:none;">
         <div><?php echo $this->getChildChildHtml('container2', '', true, true) ?></div>
     </div>
 <?php endif;?>

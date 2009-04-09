@@ -104,8 +104,9 @@ Enterprise.Bundle = {
          this.options = $('options-container');
          
          if (this.options) {
-             this.options.hide();
-             this.options.addClassName('bundleProduct');
+            this.options.style.display = 'block';     
+            this.options.hide();
+            this.options.addClassName('bundleProduct');
          }
          this.title = $('customizeTitle');
          this.summary = $('bundleSummary').hide();
