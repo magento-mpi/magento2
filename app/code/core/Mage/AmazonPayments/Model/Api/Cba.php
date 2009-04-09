@@ -704,14 +704,13 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
         if (strlen(trim($xmlResponse)) > 0) {
             $xml = simplexml_load_string($xmlResponse, 'Varien_Simplexml_Element');
             $itemsXml = $xml->descend("Cart/Items");
-            foreach ($itemsXml as $_item) {
-                $_itemArr = $_item->asArray();
+            foreach ($itemsXml->Item as $_item) {
                 $sku = '';
-                $compositeSku = explode('/', $_itemArr['Item']['SKU']);
+                $compositeSku = explode('/', (string)$_item->SKU);
                 if (isset($compositeSku[0])) {
                     $sku = $compositeSku[0];
                 }
-                $items[$_itemArr['Item']['SKU']] = $sku;
+                $items[(string)$_item->SKU] = $sku;
             }
         } else {
             return false;
