@@ -66,7 +66,7 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                 // break intentionally omitted
             case self::ACTION_UPDATED:
                 break;
-            case self::ACION_USED:
+            case self::ACTION_USED:
                 $this->_checkBalanceModelOrder($balance);
                 $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('Order #%s', $balance->getOrder()->getIncrementId()));
                 break;

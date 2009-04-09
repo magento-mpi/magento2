@@ -35,8 +35,8 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit extends Mage_
 
         parent::__construct();
 
-        $this->_updateButton('save', 'label', Mage::helper('enterprise_giftcardaccount')->__('Save Gift Card Account'));
-        $this->_updateButton('delete', 'label', Mage::helper('enterprise_giftcardaccount')->__('Delete Gift Card Account'));
+        $this->_updateButton('save', 'label', Mage::helper('enterprise_giftcardaccount')->__('Save'));
+        $this->_updateButton('delete', 'label', Mage::helper('enterprise_giftcardaccount')->__('Delete'));
 
     }
 
@@ -48,7 +48,7 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit extends Mage_
     public function getHeaderText()
     {
         if (Mage::registry('current_giftcardaccount')->getId()) {
-            return $this->htmlEscape(Mage::registry('current_giftcardaccount')->getCode());
+            return Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account: %s', $this->htmlEscape(Mage::registry('current_giftcardaccount')->getCode()));
         }
         else {
             return Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account');

@@ -40,7 +40,7 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
 
         Mage::getSingleton('adminhtml/session')->$function(
             Mage::helper('enterprise_giftcardaccount')->__(
-                'Code pool is %.2f%% used (%d free of %d total). <a href="%s">Generate new</a>.',
+                'Code Pool used: <b>%.2f%%</b> (free <b>%d</b> of <b>%d</b> total). Generate new code pool <a href="%s">here</a>.',
                 $usage->getPercent(),
                 $usage->getFree(),
                 $usage->getTotal(),

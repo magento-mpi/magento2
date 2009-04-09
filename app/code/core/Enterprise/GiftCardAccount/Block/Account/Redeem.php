@@ -35,4 +35,16 @@ class Enterprise_GiftCardAccount_Block_Account_Redeem extends Mage_Core_Block_Te
     {
         return true;
     }
+
+    /**
+     * Retreive gift card code from url, empty if none
+     * 
+     * @return string
+     */
+    public function getCurrentGiftcard()
+    {
+        $code = $this->getRequest()->getParam('giftcard', '');
+        
+        return $this->htmlEscape($code);
+    }
 }

@@ -111,11 +111,12 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
         // set email_template
         $emailTemplate = 0;
         if ($product->getUseConfigEmailTemplate()) {
-            $emailTemplate = Mage::getStoreConfigFlag(Enterprise_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE, $orderItem->getStore());
+            $emailTemplate = Mage::getStoreConfig(Enterprise_GiftCard_Model_Giftcard::XML_PATH_EMAIL_TEMPLATE, $orderItem->getStore());
         } else {
             $emailTemplate = $product->getEmailTemplate();
         }
         $productOptions['giftcard_email_template'] = $emailTemplate;
+        $productOptions['giftcard_type'] = $product->getGiftcardType();
 
         $orderItem->setProductOptions($productOptions);
 
@@ -174,10 +175,54 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                     }
 
                     $codes = (isset($options['giftcard_created_codes']) ? $options['giftcard_created_codes'] : array());
+                    $goodCodes = 0;
                     for ($i = 0; $i < $qty; $i++) {
-                        $code = new Varien_Object();
-                        Mage::dispatchEvent('enterprise_giftcardaccount_create', array('request'=>$data, 'code'=>$code));
-                        $codes[] = $code->getCode();
+                        try {
+                            $code = new Varien_Object();
+                            Mage::dispatchEvent('enterprise_giftcardaccount_create', array('request'=>$data, 'code'=>$code));
+                            $codes[] = $code->getCode();
+                            $goodCodes++;
+                        } catch (Mage_Core_Exception $e) {
+                            $codes[] = null;
+                        }
+                    }
+                    if ($goodCodes && $item->getProductOptionByCode('giftcard_recipient_email')) {
+                        $sender = $item->getProductOptionByCode('giftcard_sender_name');
+                        if ($senderEmail = $item->getProductOptionByCode('giftcard_sender_email')) {
+                            $sender = "$sender <$senderEmail>";
+                        }
+                        $codeList = array();
+                        $i=0;
+                        foreach ($codes as $code) {
+                            if ($code !== null) {
+                                $i++;
+                                $redeemLabel = Mage::helper('enterprise_giftcard')->__('Redeem');
+                                $redeemUrl = Mage::getUrl('enterprise_customerbalance/info/', array('giftcard'=>$code));
+                                $codeList[] = sprintf('#%d <strong>%s</strong> <a href="%s">%s</a>', $i, $code, $redeemUrl, $redeemLabel);
+                            }
+                        }
+                        $codeList = implode('<br />', $codeList);
+                        $templateData = array(
+                            'name'                   => htmlspecialchars($item->getProductOptionByCode('giftcard_recipient_name')),
+                            'email'                  => htmlspecialchars($item->getProductOptionByCode('giftcard_recipient_email')),
+                            'sender_name_with_email' => htmlspecialchars($sender),
+                            'gift_message'           => nl2br(htmlspecialchars($item->getProductOptionByCode('giftcard_message'))),
+                            'giftcards'              => $codeList,
+                        );
+
+                        $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $item->getOrder()->getStoreId()));
+                        $email->sendTransactional(
+//                            Mage::getStoreConfig('giftcard/general/template', $item->getOrder()->getStoreId()),
+                            $item->getProductOptionByCode('giftcard_email_template'),
+                            Mage::getStoreConfig('giftcard/general/identity', $item->getOrder()->getStoreId()),
+                            $item->getProductOptionByCode('giftcard_recipient_email'),
+                            $item->getProductOptionByCode('giftcard_recipient_name'),
+                            $templateData
+                        );
+
+                        if ($email->getSentSuccess()) {
+                            $options['email_sent'] = 1;
+                        }
                     }
                     $options['giftcard_created_codes'] = $codes;
                     $item->setProductOptions($options);

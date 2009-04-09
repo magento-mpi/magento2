@@ -48,4 +48,7 @@
     <?php endif; ?>
 <?php endforeach; ?>
 </dl>
-<script type="text/javascript">payment.init();</script>
+<script type="text/javascript">
+<?php echo $this->getChildChildHtml('scripts'); ?>
+payment.init();
+</script>

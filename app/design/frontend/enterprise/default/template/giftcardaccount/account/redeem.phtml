@@ -29,7 +29,7 @@
     <form id="giftcard-form" action="<?php echo $this->getUrl('enterprise_giftcardaccount/redeem') ?>" method="post">
         <fieldset>
             <p><?php echo $this->__('<a href="%s">Check Gift Card status</a> and balance.', Mage::getUrl('enterprise_giftcardaccount/cart/check')); ?></p>
-            <input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="" />
+            <input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="<?php echo $this->getCurrentGiftcard(); ?>" />
             <br />
             <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo $this->__('Redeem Gift Card') ?>"><span><?php echo $this->__('Redeem Gift Card') ?></span></button>
         </fieldset>

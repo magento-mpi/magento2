@@ -77,7 +77,7 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         $this->_ensureCustomer();
 
         // make sure appropriate website was set. Admin website is disallowed
-        if ((!$this->hasWebsiteId()) && $this->shouldCustomerHaveOneBalance()) {
+        if ((!$this->hasWebsiteId()) && $this->shouldCustomerHaveOneBalance($this->getCustomer())) {
             $this->setWebsiteId($this->getCustomer()->getWebsiteId());
         }
         if (0 == $this->getWebsiteId()) {

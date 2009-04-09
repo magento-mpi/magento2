@@ -51,10 +51,10 @@
                 <?php echo $this->getActionLabel($event->getAction()); ?>
             </td>
             <td>
-                <?php echo Mage::helper('core')->currency($event->getDelta()); ?>
+                <?php echo Mage::helper('core')->currency($event->getBalanceDelta()); ?>
             </td>
             <td>
-                <?php echo Mage::helper('core')->currency($event->getBalance()); ?>
+                <?php echo Mage::helper('core')->currency($event->getBalanceAmount()); ?>
             </td>
             <td>
                 <?php echo Mage::helper('core')->formatDate($event->getDate(), 'short', true); ?>

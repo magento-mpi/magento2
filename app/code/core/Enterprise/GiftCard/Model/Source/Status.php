@@ -31,7 +31,7 @@ class Enterprise_GiftCard_Model_Source_Status extends Mage_Core_Model_Abstract
         return array(
             array(
                 'value' => Mage_Sales_Model_Order_Item::STATUS_PENDING,
-                'label' => Mage::helper('enterprise_giftcard')->__('Pending')
+                'label' => Mage::helper('enterprise_giftcard')->__('Ordered')
             ),
             array(
                 'value' => Mage_Sales_Model_Order_Item::STATUS_INVOICED,

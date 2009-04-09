@@ -46,4 +46,16 @@
             </block>
         </reference>
     </enterprise_customerbalance_info_index>
+
+    <checkout_onepage_index>
+        <reference name="checkout.onepage.payment.methods_additional">
+            <block type="enterprise_customerbalance/checkout_onepage_payment_additional" template="customerbalance/checkout/onepage/payment/additional.phtml" name="customerbalance" />
+        </reference>
+    </checkout_onepage_index>
+
+    <checkout_onepage_paymentmethod>
+        <reference name="checkout.onepage.payment.methods.scripts">
+            <block type="enterprise_customerbalance/checkout_onepage_payment_additional" template="customerbalance/checkout/onepage/payment/scripts.phtml" name="customerbalance_scripts" />
+        </reference>
+    </checkout_onepage_paymentmethod>
 </layout>

@@ -53,7 +53,7 @@ class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_T
         $collection = Mage::getModel('enterprise_customerbalance/balance_history')
                 ->getCollection()
                 ->addFieldToFilter('customer_id', $customerId)
-                ->setOrder('date');
+                ->setOrder('updated_at');
 
         return $collection;
     }

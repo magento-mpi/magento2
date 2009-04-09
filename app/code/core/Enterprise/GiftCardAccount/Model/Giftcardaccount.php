@@ -373,12 +373,12 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Invalid customer ID supplied.'));
             }
 
-            $customerBalanceModel = Mage::getModel('enterprise_customerbalance/balance')
-                ->loadByCustomerWebsite($customerId, Mage::app()->getWebsite()->getId());
-
-            $customerBalanceModel
-                ->setDelta($this->getBalance())
-                ->updateBalance();
+            $balance = Mage::getModel('enterprise_customerbalance/balance')
+                ->setCustomerId($customerId)
+                ->setWebsiteId(Mage::app()->getWebsite()->getId())
+                ->setAmountDelta($this->getBalance())
+                ->setNotifyByEmail(false)
+                ->save();
 
             $this->setBalance(0)->save();
         }

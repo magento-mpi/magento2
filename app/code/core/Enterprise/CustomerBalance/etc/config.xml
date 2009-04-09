@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerBalance>
-             <version>0.0.5</version>
+             <version>0.0.7</version>
         </Enterprise_CustomerBalance>
     </modules>
     <global>
@@ -36,7 +36,7 @@
             <enterprise_customerbalance_setup>
                 <setup>
                     <module>Enterprise_CustomerBalance</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <class>Enterprise_CustomerBalance_Model_Mysql4_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>
@@ -89,6 +89,39 @@
                </customer_enterprise_customerbalance_email_template>
             </email>
         </template>
+        <sales>
+            <quote>
+                <totals>
+                    <customerbalance>
+                        <class>enterprise_customerbalance/total_quote_customerbalance</class>
+                        <after>subtotal,shipping,tax,discount</after>
+                        <before>grand_total</before>
+                    </customerbalance>
+                </totals>
+            </quote>
+
+            <order_invoice>
+                <totals>
+                    <customerbalance>
+                        <class>enterprise_customerbalance/total_invoice_customerbalance</class>
+                    </customerbalance>
+                </totals>
+            </order_invoice>
+
+            <order_creditmemo>
+                <totals>
+                    <customerbalance>
+                        <class>enterprise_customerbalance/total_creditmemo_customerbalance</class>
+                    </customerbalance>
+                </totals>
+            </order_creditmemo>
+        </sales>
+        <fieldsets>
+            <sales_convert_quote_address>
+                <base_customer_balance_amount><to_order>*</to_order></base_customer_balance_amount>
+                <customer_balance_amount><to_order>*</to_order></customer_balance_amount>
+            </sales_convert_quote_address>
+        </fieldsets>
         <events>
             <adminhtml_customer_save_after>
                 <observers>
@@ -98,6 +131,23 @@
                     </enterprise_customerbalance>
                 </observers>
             </adminhtml_customer_save_after>
+            <sales_quote_payment_import_data_before>
+                <observers>
+                    <enterprise_customerbalance>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>paymentDataImport</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </sales_quote_payment_import_data_before>
+            <sales_order_place_after>
+                <observers>
+                    <enterprise_customerbalance_sales_order_place_after>
+                        <type>singleton</type>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>processOrderPlace</method>
+                    </enterprise_customerbalance_sales_order_place_after>
+                </observers>
+            </sales_order_place_after>
         </events>
     </global>
     <frontend>
@@ -165,5 +215,10 @@
                 <show_history>1</show_history>
             </enterprise_customerbalance_email>
         </customer>
+        <sales>
+            <totals_sort>
+                <customerbalance>95</customerbalance>
+            </totals_sort>
+        </sales>
     </default>
 </config>

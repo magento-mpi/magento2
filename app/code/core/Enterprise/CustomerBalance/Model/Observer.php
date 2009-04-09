@@ -53,4 +53,57 @@ class Enterprise_CustomerBalance_Model_Observer
             }
         }
     }
+
+    /**
+     * Check for customer balance use switch & update payment info
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CustomerBalance_Model_Observer
+     */
+    public function paymentDataImport(Varien_Event_Observer $observer)
+    {
+        $input = $observer->getEvent()->getInput();
+        $payment = $observer->getEvent()->getPayment();
+        $quote = $payment->getQuote();
+
+        if (!$quote->getCustomerId()) {
+            return;
+        }
+
+        $balance = Mage::getModel('enterprise_customerbalance/balance')
+            ->setCustomerId($quote->getCustomerId())
+            ->setWebsiteId($quote->getWebsiteId())
+            ->loadByCustomer()
+            ->getAmount();
+
+        $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
+
+        $quote->setUseCustomerBalance($input->getUseCustomerBalance());
+        if ($input->getUseCustomerBalance() && $balance >= $total) {
+            $input->setMethod('free');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Check if customer balance was used in quote and reduce balance if so
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CustomerBalance_Model_Observer
+     */
+    public function processOrderPlace(Varien_Event_Observer $observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+        if ($order->getBaseCustomerBalanceAmount() > 0) {
+            $balance = Mage::getModel('enterprise_customerbalance/balance')
+                ->setCustomerId($order->getCustomerId())
+                ->setWebsiteId($order->getWebsiteId())
+                ->setAmountDelta(-$order->getBaseCustomerBalanceAmount())
+                ->setHistoryAction(Enterprise_CustomerBalance_Model_Balance_History::ACTION_USED)
+                ->setOrder($order)
+                ->save();
+        }
+        return $this;
+    }
 }

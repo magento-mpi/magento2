@@ -48,12 +48,32 @@ class Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard exten
     protected function _getGiftcardOptions()
     {
         $result = array();
+        if ($type = $this->getItem()->getProductOptionByCode('giftcard_type')) {
+            switch ($type) {
+                case Enterprise_GiftCard_Model_Giftcard::TYPE_VIRTUAL:
+                    $type = Mage::helper('enterprise_giftcard')->__('Virtual');
+                    break;
+                case Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL:
+                    $type = Mage::helper('enterprise_giftcard')->__('Physical');
+                    break;
+                case Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED:
+                    $type = Mage::helper('enterprise_giftcard')->__('Combined');
+                    break;
+            }
+
+            $result[] = array(
+                'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Type'),
+                'value'=>$type,
+            );
+        }
+
+
         if ($value = $this->_prepareCustomOption('giftcard_sender_name')) {
             if ($email = $this->_prepareCustomOption('giftcard_sender_email')) {
                 $value = "{$value} &lt;{$email}&gt;";
             }
             $result[] = array(
-                'label'=>Mage::helper('enterprise_giftcard')->__('Sender'),
+                'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Sender'),
                 'value'=>$value,
             );
         }
@@ -62,20 +82,20 @@ class Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard exten
                 $value = "{$value} &lt;{$email}&gt;";
             }
             $result[] = array(
-                'label'=>Mage::helper('enterprise_giftcard')->__('Recipient'),
+                'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Recipient'),
                 'value'=>$value,
             );
         }
         if ($value = $this->_prepareCustomOption('giftcard_message')) {
             $result[] = array(
-                'label'=>Mage::helper('enterprise_giftcard')->__('Message'),
+                'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Message'),
                 'value'=>$value,
             );
         }
 
         if ($value = $this->_prepareCustomOption('giftcard_lifetime')) {
             $result[] = array(
-                'label'=>Mage::helper('enterprise_giftcard')->__('Lifetime'),
+                'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Lifetime'),
                 'value'=>sprintf('%s days', $value),
             );
         }
@@ -84,17 +104,39 @@ class Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard exten
         $no = Mage::helper('enterprise_giftcard')->__('No');
         if ($value = $this->_prepareCustomOption('giftcard_is_redeemable')) {
             $result[] = array(
-                'label'=>Mage::helper('enterprise_giftcard')->__('Redeemable'),
+                'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Is Redeemable'),
                 'value'=>($value ? $yes : $no),
             );
         }
 
+        $createdCodes = 0;
+        $totalCodes = $this->getItem()->getQtyOrdered();
         if ($codes = $this->getItem()->getProductOptionByCode('giftcard_created_codes')) {
-            $result[] = array(
-                'label'=>Mage::helper('enterprise_giftcard')->__('Codes'),
-                'value'=>implode('<br />', $codes),
-            );
+            $createdCodes = count($codes);
         }
+
+        if (is_array($codes)) {
+            foreach ($codes as &$code) {
+                if ($code === null) {
+                    $code = Mage::helper('enterprise_giftcard')->__('Unable to create');
+                }
+            }
+        } else {
+            $codes = array();
+        }
+
+        for ($i = $createdCodes; $i < $totalCodes; $i++) {
+            $codes[] = Mage::helper('enterprise_giftcard')->__('N/A');
+        }
+
+        $result[] = array(
+            'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Accounts'),
+            'value'=>implode('<br />', $codes),
+            'custom_view'=>true,
+        );
+
+
+
         return $result;
     }
 

@@ -53,14 +53,14 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit_Tab_Info exte
         if ($model->getId()){
             $fieldset->addField('code', 'label', array(
                 'name'      => 'code',
-                'label'     => Mage::helper('enterprise_giftcardaccount')->__('Code'),
-                'title'     => Mage::helper('enterprise_giftcardaccount')->__('Code'),
+                'label'     => Mage::helper('enterprise_giftcardaccount')->__('Gift Card Code'),
+                'title'     => Mage::helper('enterprise_giftcardaccount')->__('Gift Card Code'),
             ));
 
             $fieldset->addField('state', 'label', array(
                 'name'      => 'state',
-                'label'     => Mage::helper('enterprise_giftcardaccount')->__('State'),
-                'title'     => Mage::helper('enterprise_giftcardaccount')->__('State'),
+                'label'     => Mage::helper('enterprise_giftcardaccount')->__('Status'),
+                'title'     => Mage::helper('enterprise_giftcardaccount')->__('Status'),
                 'value'     => $model->getStateText(),
             ));
         }

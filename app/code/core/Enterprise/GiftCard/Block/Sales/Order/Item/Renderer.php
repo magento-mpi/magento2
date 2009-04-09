@@ -53,7 +53,7 @@ class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Mage_Sales_Blo
                 $value = "{$value} &lt;{$email}&gt;";
             }
             $result[] = array(
-                'label'=>Mage::helper('enterprise_giftcard')->__('Sender'),
+                'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Sender'),
                 'value'=>$value,
             );
         }
@@ -62,13 +62,13 @@ class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Mage_Sales_Blo
                 $value = "{$value} &lt;{$email}&gt;";
             }
             $result[] = array(
-                'label'=>Mage::helper('enterprise_giftcard')->__('Recipient'),
+                'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Recipient'),
                 'value'=>$value,
             );
         }
         if ($value = $this->_prepareCustomOption('giftcard_message')) {
             $result[] = array(
-                'label'=>Mage::helper('enterprise_giftcard')->__('Message'),
+                'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Message'),
                 'value'=>$value,
             );
         }

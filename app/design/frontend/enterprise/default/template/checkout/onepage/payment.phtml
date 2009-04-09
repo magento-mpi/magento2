@@ -31,6 +31,7 @@
 </script>
 <form action="" id="co-payment-form">
     <fieldset>
+        <?php echo $this->getChildChildHtml('methods_additional') ?>
         <?php echo $this->getChildHtml('methods') ?>
     </fieldset>
 </form>

@@ -102,7 +102,7 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Grid extends Mage_
 
         $this->addColumn('status',
             array(
-                'header'    => Mage::helper('enterprise_giftcardaccount')->__('Is Active'),
+                'header'    => Mage::helper('enterprise_giftcardaccount')->__('Active'),
                 'width'     => '50px',
                 'align'     => 'center',
                 'index'     => 'website_id',
@@ -117,7 +117,7 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Grid extends Mage_
 
         $this->addColumn('state',
             array(
-                'header'    => Mage::helper('enterprise_giftcardaccount')->__('State'),
+                'header'    => Mage::helper('enterprise_giftcardaccount')->__('Status'),
                 'width'     => '100px',
                 'align'     => 'center',
                 'index'     => 'state',
@@ -133,6 +133,16 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Grid extends Mage_
                 'index'         => 'balance',
         ));
 
+        $this->addColumn('action', array(
+            'header'    => Mage::helper('enterprise_giftcardaccount')->__('Action'),
+            'align'     => 'center',
+            'width'     => '10px',
+            'format'    => '<a href="'.$this->getUrl('*/*/edit/id/$giftcardaccount_id').'">'.Mage::helper('enterprise_giftcardaccount')->__('Edit').'</a>',
+            'filter'    => false,
+            'sortable'  => false,
+            'is_system' => true
+        ));
+
 
         return parent::_prepareColumns();
     }
@@ -142,10 +152,10 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Grid extends Mage_
         return $this->getUrl('*/*/grid', array('_current'=>true));
     }
 
-    public function getRowUrl($row)
-    {
-        return $this->getUrl('*/*/edit', array(
-            'id'=>$row->getId())
-        );
-    }
+//    public function getRowUrl($row)
+//    {
+//        return $this->getUrl('*/*/edit', array(
+//            'id'=>$row->getId())
+//        );
+//    }
 }

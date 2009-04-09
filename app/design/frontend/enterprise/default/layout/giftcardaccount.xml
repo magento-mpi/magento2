@@ -51,7 +51,7 @@
 
     <checkout_onepage_index>
         <reference name="checkout.onepage.payment.additional">
-            <block type="core/template" template="giftcardaccount/onepage/payment/additional.phtml" name="giftcardaccount" />
+            <block type="enterprise_giftcardaccount/checkout_onepage_payment_additional" template="giftcardaccount/onepage/payment/additional.phtml" name="giftcardaccount" />
         </reference>
     </checkout_onepage_index>
 
