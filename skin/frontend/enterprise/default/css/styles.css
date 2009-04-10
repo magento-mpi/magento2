@@ -616,6 +616,8 @@ dd.even { background:#f6f6f6; }*/
 .sidebar .block .actions a { float:right; }
 .sidebar .block .actions button.button { float:left; }
 
+.sidebar .block li a.btn-remove { float:right; width:13px; height:0px; padding-top:12px; margin-top:3px; overflow:hidden; background:url(../images/btn_remove.gif) no-repeat 0 0; }
+
 .col-main .block { background:#fff; }
 .col-main .block .block-title  { background:#e7e7e7 url(../images/bkg_block-title.gif) repeat-x 0 0; border:1px solid #e1e1e1; padding:5px 20px 5px; margin:0 -1px; }
 .col-main .block .block-title h2,
@@ -653,15 +655,19 @@ dd.even { background:#f6f6f6; }*/
 .block-currency select { width:100%; border:1px solid #888; }
 
 /* Block: Layered Navigation */
-.block-layered-nav h3 { color:#222; text-transform:uppercase; }
-.block-layered-nav dt { margin:2px 0 0; font-weight:bold; color:#222; }
-.block-layered-nav dd { margin:0 0 8px; color:#444; }
-.block-layered-nav dd li { margin:2px 0; }
-.block-layered-nav dd a { color:#555; }
-.block-layered-nav .currently { padding:11px 13px 6px; }
-.block-layered-nav .currently li { margin:2px 0; color:#444; }
-.block-layered-nav .currently .label { font-weight:bold; color:#222; }
-.block-layered-nav .actions { text-align:right; }
+.sidebar .block-layered-nav  { background:none; }
+.sidebar .block-layered-nav .block-title  { padding:26px 17px 12px; /* border-bottom:1px solid #d1d1d1; */ }
+.sidebar .block-layered-nav .block-title h2 { font-size:18px; color:#111; }
+.sidebar .block-layered-nav h3 { display:none; }
+.sidebar .block-layered-nav dt { margin:2px 0 0; font-weight:bold; font-size:12px; color:#222; }
+.sidebar .block-layered-nav dd { margin:0 0 13px; color:#666; }
+.sidebar .block-layered-nav dd li { margin:2px 0; }
+.sidebar .block-layered-nav dd a { color:#222; text-decoration:none; }
+.sidebar .block-layered-nav dd a:hover { text-decoration:underline; }
+.sidebar .block-layered-nav .currently { border:1px solid #d1d1d1; border-width:1px 0; padding:10px 10px 10px 17px; margin-bottom:-1px; background:#f4f4f4 url(../images/bkg_currently.gif) repeat-x 0 -20px; }
+.sidebar .block-layered-nav .currently li { padding:5px 0; color:#444; }
+.sidebar .block-layered-nav .currently .label { font-weight:bold; color:#d33911; font-size:12px; }
+.sidebar .block-layered-nav .actions { text-align:right; padding-right:7px; display:none; }
 
 
 /* Mini Shopping Cart */
@@ -752,7 +758,7 @@ dd.even { background:#f6f6f6; }*/
 /* Block: List */
 /*.block-list .block-content { padding:5px 0 5px; }*/
 .block-list .block-content ol { margin:-5px -13px; }
-.block-list li.item { padding:5px 13px; }
+.block-list li.item { padding:5px 10px 5px 13px; }
 .block-list .actions { padding:5px 0 0; }
 
 /* Block: Poll */
@@ -796,13 +802,13 @@ dd.even { background:#f6f6f6; }*/
 .category-description { padding:20px; }
 
 .sidebar .category-title { margin:0; }
-.category-image { display:block; margin:0 auto; }
+.category-image { display:block; margin:0 auto 1px; }
 
-.category-products { padding:20px 0 0; }
+.category-products { padding:25px 0 0; }
 .category-products .price-box { font-size:12px; }
 
 /* View Type: Grid */
-.products-grid { padding:0 0 0 20px; margin:0 0 35px 0; position:relative; z-index:1; }
+.products-grid { padding:0 0 0 20px; margin:0 0 40px 0; position:relative; z-index:1; }
 .products-grid li.item { float:left; width:164px; margin-right:20px; overflow:hidden; }
 .products-grid li.last { margin-right:0; }
 .products-grid .actions { bottom:0; }
@@ -812,10 +818,10 @@ dd.even { background:#f6f6f6; }*/
 .products-grid .rating-links { display:block; padding:2px 0 0; clear:both; }
 .products-grid .price-box { margin:5px 0 10px; clear:both; }
 /* Different Layout Rewrites */
-.col1-layout .products-grid li.item { width:290px; }
+/* .col1-layout .products-grid li.item { width:290px; }
 .col2-left-layout .products-grid li.item,
 .col2-right-layout .products-grid li.item { width:233px; }
-
+ */
 /* View Type: List */
 .category-products-list { /* padding:20px 0 20px 0; */ }
 .products-list li.item { margin:0 0 20px 0; padding:0 20px 20px 20px; background:url(../images/bkg_dots.gif) repeat-x 0 100%; }

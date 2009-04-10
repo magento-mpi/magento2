@@ -90,6 +90,8 @@ button.btn-cart span { background-position:100% 0; }
 .data-table { border-collapse:collapse; }
 
 /* Clears and hasLayout fixes */
+.block-list li.item,
+.currently li,
 .category-title,
 .order-info,
 .sidebar .block,

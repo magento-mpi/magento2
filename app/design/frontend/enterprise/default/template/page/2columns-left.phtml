@@ -29,6 +29,11 @@
  * Template for Mage_Page_Block_Html
  */
 ?>
+<?php if($_productsGridHere = $this->getLayout()->getBlock('product_list')):
+        $_prodsPerRow=4; 
+        $_productsGridHere->setData('gridconfig', $_prodsPerRow); 
+      endif; 
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->getLang() ?>" lang="<?php echo $this->getLang() ?>">
 <head>
@@ -39,7 +44,7 @@
     <div class="page">
         <?php echo $this->getChildHtml('header') ?>
         <?php echo $this->getChildHtml('breadcrumbsContainer') ?>
-        <div class="main col2-left-layout">
+        <div class="main col2-left-layout">        
             <div class="col-left sidebar"><?php echo $this->getChildHtml('left') ?></div>
             <div class="col-main">
                 <?php echo $this->getChildHtml('global_messages') ?>

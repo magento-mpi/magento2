@@ -24,6 +24,8 @@
 /************************************************/
 /******************** Clears ********************/
 /************************************************/
+.block-list li.item:after,
+.currently li:after,
 .order-info:after,
 .top-cart .actions:after,
 .header .quick-access:after,
