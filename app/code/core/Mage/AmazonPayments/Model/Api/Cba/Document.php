@@ -219,159 +219,6 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             'doc' => $this->_createAttachment($_document)
         );
 
-
-        /**
-         * WE ARE NOT USING THIS FEED
-         */
-/*
-        $_document = '<?xml version="1.0" encoding="UTF-8"?>
-        <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
-        <Header>
-            <DocumentVersion>1.01</DocumentVersion>
-            <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
-        </Header>
-        <MessageType>OrderAcknowledgement</MessageType>';
-//        foreach ($order->getAllVisibleItems() as $item) {
-            $_document .= '<Message>
-                <MessageID>1</MessageID>
-                <OrderAcknowledgement>
-                    <AmazonOrderID>104-8041877-0097021</AmazonOrderID>
-                    <MerchantOrderID>1234567890</MerchantOrderID>
-                    <StatusCode>Success</StatusCode>
-                    <Item>
-                        <AmazonOrderItemCode>18852724239922</AmazonOrderItemCode>
-                        <MerchantOrderItemID>12345678901</MerchantOrderItemID>
-                    </Item>
-                </OrderAcknowledgement>
-            </Message>';
-//        }
-        $_document .= '</AmazonEnvelope>';
-        $params = array(
-            'merchant' => $this->getMerchantInfo(),
-            'messageType' => self::MESSAGE_TYPE_ACKNOWLEDGEMENT,
-            'doc' => $this->_createAttachment($_document)
-        );*/
-
-        /**
-         * EOF WE ARE NOT USING THIS FEED
-         */
-
-        /**
-         * SEND SHIPPING INFORMATION
-         */
-/*
-        $fulfillmentDate = gmdate('Y-m-d\TH:i:s');
-        $_document = '<?xml version="1.0" encoding="UTF-8"?>
-<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
-<Header>
-    <DocumentVersion>1.01</DocumentVersion>
-    <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
-</Header>
-<MessageType>OrderFulfillment</MessageType>
-    <Message>
-        <MessageID>1</MessageID>
-        <OrderFulfillment>
-            <AmazonOrderID>105-5075149-6736251</AmazonOrderID>
-            <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
-            <FulfillmentData>
-                <CarrierCode>UPS</CarrierCode>
-                <ShippingMethod>Ground</ShippingMethod>
-                <ShipperTrackingNumber>1234567890</ShipperTrackingNumber>
-            </FulfillmentData>
-            <Item>
-                <AmazonOrderItemCode>29698223757722</AmazonOrderItemCode>
-                <Quantity>1</Quantity>
-            </Item>
-        </OrderFulfillment>
-    </Message>
-</AmazonEnvelope>';
-        $params = array(
-            'merchant' => $this->getMerchantInfo(),
-            'messageType' => self::MESSAGE_TYPE_FULFILLMENT,
-            'doc' => $this->_createAttachment($_document)
-        );
-*/
-        /**
-         * EOF SEND SHIPPING INFORMATION
-         */
-
-
-        /**
-         * CANCELLATION
-         */
-/*
-        $_document = '<?xml version="1.0" encoding="UTF-8"?>
-        <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
-        <Header>
-            <DocumentVersion>1.01</DocumentVersion>
-            <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
-        </Header>
-        <MessageType>OrderAcknowledgement</MessageType>';
-            $_document .= '<Message>
-                <MessageID>1</MessageID>
-                <OperationType>Update</OperationType>
-                <OrderAcknowledgement>
-                    <AmazonOrderID>104-8041877-0097021</AmazonOrderID>
-                    <MerchantOrderID>1234567890</MerchantOrderID>
-                    <StatusCode>Failure</StatusCode>
-                </OrderAcknowledgement>
-            </Message>';
-        $_document .= '</AmazonEnvelope>';
-        $params = array(
-            'merchant' => $this->getMerchantInfo(),
-            'messageType' => self::MESSAGE_TYPE_ACKNOWLEDGEMENT,
-            'doc' => $this->_createAttachment($_document)
-        );*/
-
-        /**
-         * EOF CANCELLATION
-         */
-
-        /**
-         * REFUND
-         */
-/*
-        $_document = '<?xml version="1.0" encoding="UTF-8"?>
-<AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
-<Header>
-    <DocumentVersion>1.01</DocumentVersion>
-    <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
-</Header>
-<MessageType>OrderAdjustment</MessageType>';
-
-        $_document .= '<Message>
-                            <MessageID>1</MessageID>
-                            <OrderAdjustment>
-                                <AmazonOrderID>105-5075149-6736251</AmazonOrderID>
-                                <AdjustedItem>
-                                    <AmazonOrderItemCode>29698223757722</AmazonOrderItemCode>
-                                    <AdjustmentReason>GeneralAdjustment</AdjustmentReason>
-                                    <ItemPriceAdjustments>
-                                        <Component>
-                                            <Type>Principal</Type>
-                                            <Amount currency="USD">0.51</Amount>
-                                        </Component>'
-                                        .'<Component>
-                                            <Type>Shipping</Type>
-                                            <Amount currency="USD">0.04</Amount>
-                                        </Component>'
-                                    .'</ItemPriceAdjustments>';
-
-                $_document .= '</AdjustedItem>
-                        </OrderAdjustment>
-                    </Message>';
-
-                $_document .= '</AmazonEnvelope>';
-            $params = array(
-                'merchant' => $this->getMerchantInfo(),
-                'messageType' => self::MESSAGE_TYPE_ADJUSTMENT,
-                'doc' => $this->_createAttachment($_document)
-            );
-*/
-        /**
-         * EOF REFUND
-         */
-
         $this->_proccessRequest('postDocument', $params);
         Zend_Debug::dump($this->getClient()->getWire());
         die(__METHOD__.'::'.__LINE__);
@@ -391,20 +238,24 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                 <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
             </Header>
             <MessageType>OrderAdjustment</MessageType>';
-        $items = $payment->getCreditmemo()->getAllItems();
-        $lastId = count($items);
-        $itemsAmount = 0;
+
+        $_shippingAmount = $payment->getCreditmemo()->getShippingAmount();
         $_messageId = 1;
-        foreach ($items as $item) {
+        foreach ($payment->getCreditmemo()->getAllItems() as $item) {
             /* @var $item Mage_Sales_Model_Order_Creditmemo_Item */
             if ($item->getOrderItem()->getParentItemId()) {
                 continue;
             }
-            $_itemsAmount =+ $item->getBaseRowTotal();
-            $_itemAmount = $item->getBaseRowTotal();
-            if ($_messageId == $lastId) {
-                $_itemAmount =+ ($amount - $_itemsAmount);
+
+            $shipping = 0;
+            $amazon_amounts = unserialize($item->getOrderItem()->getProductOptionByCode('amazon_amounts'));
+            if ($amazon_amounts['shipping'] > $_shippingAmount) {
+                $shipping = $_shippingAmount;
+            } else {
+                $shipping = $amazon_amounts['shipping'];
             }
+            $_shippingAmount -= $shipping;
+
             $_document .= '<Message>
                             <MessageID>' . $_messageId . '</MessageID>
                             <OrderAdjustment>
@@ -415,26 +266,22 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                                     <ItemPriceAdjustments>
                                         <Component>
                                             <Type>Principal</Type>
-                                            <Amount currency="USD">' . $_itemAmount . '</Amount>
+                                            <Amount currency="USD">' . $item->getBaseRowTotal() . '</Amount>
+                                        </Component>
+                                        <Component>
+                                            <Type>Tax</Type>
+                                            <Amount currency="USD">' . $item->getBaseTaxAmount() . '</Amount>
+                                        </Component>'
+                                        .'<Component>
+                                            <Type>Shipping</Type>
+                                            <Amount currency="USD">' . $shipping . '</Amount>
                                         </Component>'
                                     .'</ItemPriceAdjustments>';
-
-            /** @todo Check node directAdjustment */
-
             /** @todo calculate promotion */
-            $promotion = false;
-            if ($promotion) {
-                $_document .= '<PromotionAdjustments>
-                                        <PromotionClaimCode>ABC123</PromotionClaimCode>
-                                        <Component>
-                                            <Type>Principal</Type>
-                                            <Amount currency="USD">-' . $item->getBaseDiscountAmount() . '</Amount>
-                                        </Component>
-                                    </PromotionAdjustments>';
-            }
             $_document .= '</AdjustedItem>
                         </OrderAdjustment>
                     </Message>';
+            $_messageId++;
         }
 
         $_document .= '</AmazonEnvelope>';
@@ -444,6 +291,9 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             'doc' => $this->_createAttachment($_document)
         );
         $this->_proccessRequest('postDocument', $params);
+//        Zend_Debug::dump($_document);
+//        Zend_Debug::dump($this->_result);
+//        die(__METHOD__.'::'.__LINE__);
         return $this->_result;
     }
 
@@ -466,7 +316,7 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                         <AmazonOrderID>' . $aOrderId . '</AmazonOrderID>
                         <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
                         <FulfillmentData>
-                            <CarrierCode>' . $carrierCode . '</CarrierCode>
+                            <CarrierCode>' . strtoupper($carrierCode) . '</CarrierCode>
                             <ShippingMethod>' . $carrierMethod . '</ShippingMethod>
                             <ShipperTrackingNumber>' . $trackNumber .'</ShipperTrackingNumber>
                         </FulfillmentData>

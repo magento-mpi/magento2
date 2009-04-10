@@ -616,18 +616,23 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                             break;
                         case 'Shipping':
                             $_shipping      += (string) $_component->Charge->Amount;
+                            $parsedOrder['items'][$_itemId]['shipping'] = (string) $_component->Charge->Amount;
                             break;
                         case 'Tax':
                             $_tax           += (string) $_component->Charge->Amount;
+                            $parsedOrder['items'][$_itemId]['tax'] = (string) $_component->Charge->Amount;
                             break;
                         case 'ShippingTax':
                             $_shippingTax   += (string) $_component->Charge->Amount;
+                            $parsedOrder['items'][$_itemId]['shipping_tax'] = (string) $_component->Charge->Amount;
                             break;
                         case 'PrincipalPromo':
                             $_subtotalPromo += (string) $_component->Charge->Amount;
+                            $parsedOrder['items'][$_itemId]['principal_promo'] = (string) $_component->Charge->Amount;
                             break;
                         case 'ShippingPromo':
                             $_shippingPromo += (string) $_component->Charge->Amount;
+                            $parsedOrder['items'][$_itemId]['shipping_promo'] = (string) $_component->Charge->Amount;
                             break;
                     }
                 }
@@ -932,6 +937,7 @@ XML;
             );
         }
         $carrier = $shipment->getOrder()->getShippingCarrier();
+
         $carrierCode = '';
         $carrierMethod = '';
         $trackNumber = '';
@@ -947,11 +953,10 @@ XML;
             $carrierCode = $_shipping[0];
             $carrierMethod = $carrier->getCode('method', $_shipping[1]);
         }
-        $carrier = $shipment->getOrder()->getShippingCarrier();
 
         $this->getDocumentApi()->confirmShipment(
             $shipment->getOrder()->getExtOrderId(),
-            $carrier,
+            $carrierCode,
             $carrierMethod,
             $items,
             $trackNumber

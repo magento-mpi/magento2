@@ -373,7 +373,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $order->setBillingAddress($convertQuote->addressToOrderAddress($billing))
             ->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
 
-//        $order->setShippingDescription($newOrderDetails['ShippingServiceLevel']);
         $order->setShippingMethod($shipping->getShippingMethod());
         $order->setShippingDescription($_shippingDesc);
 
@@ -386,9 +385,20 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
 
         // add items to order
         foreach ($quote->getAllItems() as $item) {
+            /* @var $item Mage_Sales_Model_Quote_Item */
             $order->addItem($convertQuote->itemToOrderItem($item));
             $orderItem = $order->getItemByQuoteItemId($item->getId());
+            /* @var $orderItem Mage_Sales_Model_Order_Item */
             $orderItem->setExtOrderItemId($newOrderDetails['items'][$item->getId()]['AmazonOrderItemCode']);
+            $orderItemOptions = $orderItem->getProductOptions();
+            $orderItemOptions['amazon_amounts'] = serialize(array(
+                'shipping' => $newOrderDetails['items'][$item->getId()]['shipping'],
+                'tax' => $newOrderDetails['items'][$item->getId()]['tax'],
+                'shipping_tax' => $newOrderDetails['items'][$item->getId()]['shipping_tax'],
+                'principal_promo' => $newOrderDetails['items'][$item->getId()]['principal_promo'],
+                'shipping_promo' => $newOrderDetails['items'][$item->getId()]['shipping_promo']
+            ));
+            $orderItem->setProductOptions($orderItemOptions);
         }
 
         $order->place();
