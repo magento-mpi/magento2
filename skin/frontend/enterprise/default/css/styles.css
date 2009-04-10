@@ -1428,6 +1428,8 @@ button.btn-cart  span { }
 #checkout-step-login .form-list  .input-text { width:210px; }
 
 .opc .form-buttons { padding-right:200px; }
+.checkout-onepage-payment-additional-customerbalance { margin-bottom:5px; }
+.checkout-onepage-payment-additional-customerbalance .checkbox { margin-left:0; }
 
 #checkout-step-shipping_method .buttons-set,
 #opc-payment .buttons-set { width:521px; margin-top:10px; margin-bottom:0; }
@@ -1491,6 +1493,7 @@ button.btn-cart  span { }
 .sp-methods select.year { width:96px; }
 .sp-methods input.cvv { width:3em !important; }
 .sp-methods .input-box { line-height:21px; }
+.sp-methods .v-fix .validation-advice { margin-right:-250px; position:relative; z-index:1; width:250px; }
 
 .please-wait { float:right; margin-right:5px; white-space:nowrap; }
 .cvv-what-is-this { cursor:help; margin-left:5px; }
