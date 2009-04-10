@@ -37,10 +37,23 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
     protected $_infoBlockType = 'paypaluk/direct_info';
     protected $_canSaveCc = false;
 
-    /*
-    * overwrites the method of Mage_Payment_Model_Method_Cc
-    * for switch or solo card
-    */
+    /**
+     * Availability options
+     */
+    protected $_isGateway               = true;
+    protected $_canAuthorize            = true;
+    protected $_canCapture              = true;
+    protected $_canCapturePartial       = false;
+    protected $_canRefund               = false;
+    protected $_canVoid                 = true;
+    protected $_canUseInternal          = true;
+    protected $_canUseCheckout          = true;
+    protected $_canUseForMultishipping  = true;
+
+    /**
+     * overwrites the method of Mage_Payment_Model_Method_Cc
+     * for switch or solo card
+     */
     public function OtherCcType($type)
     {
         return (parent::OtherCcType($type) || $type=='SS');
