@@ -32,6 +32,8 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 
-$installer->run("ALTER TABLE `".$this->getTable('enterprise_stagin/staging_website')."` change master_password_hash master_password_hash varchar(100)");
+$installer->getConnection()->modifyColumn($this->getTable('enterprise_staging/staging_website') , 'master_password_hash' , 'varchar(100)' );
+
+$installer->getConnection()->modifyColumn($this->getTable('core/website') , 'master_password_hash' , 'varchar(100)' );
 
 $installer->endSetup();

@@ -32,8 +32,8 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 
+$installer->getConnection()->dropForeignKey($this->getTable('enterprise_staging/staging_website'), 'FK_ENTERPRISE_STAGING_WEBSITE_SLAVE_WEBSITE_ID');
 
-$installer->run("ALTER TABLE `".$this->getTable('enterprise_stagin/staging_website')."` drop FOREIGN KEY FK_ENTERPRISE_STAGING_WEBSITE_SLAVE_WEBSITE_ID");
-$installer->run("ALTER TABLE `".$this->getTable('enterprise_stagin/staging_website')."` drop FOREIGN KEY FK_ENTERPRISE_STAGING_WEBSITE_MASTER_WEBSITE_ID");
+$installer->getConnection()->dropForeignKey($this->getTable('enterprise_staging/staging_website'), 'FK_ENTERPRISE_STAGING_WEBSITE_MASTER_WEBSITE_ID');
 
 $installer->endSetup();
