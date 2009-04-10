@@ -91,7 +91,7 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
      */
     public function getApi()
     {
-        return Mage::getSingleton('paypalUk/api_pro');
+        return Mage::getSingleton('paypaluk/api_pro');
     }
 
     public function authorize(Varien_Object $payment, $amount)
