@@ -77,7 +77,7 @@ class Enterprise_Pci_Adminhtml_Crypt_KeyController extends Mage_Adminhtml_Contro
             if (!$this->_checkIsLocalXmlWriteable()) {
                 throw new Exception('');
             }
-            if (!$this->getRequest()->getPost('generate_random')) {
+            if (0 == $this->getRequest()->getPost('generate_random')) {
                 $key = $this->getRequest()->getPost('crypt_key');
                 if (empty($key)) {
                     throw new Exception(Mage::helper('enterprise_pci')->__('Enter encryption key'));

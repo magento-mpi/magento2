@@ -42,11 +42,14 @@ class Enterprise_Pci_Block_Adminhtml_Crypt_Key_Form extends Mage_Adminhtml_Block
         $fieldset->addField('enc_key_note', 'note', array(
             'text' => Mage::helper('enterprise_pci')->__('The encryption key is used to encrypt passwords and other sensitive data.')
         ));
-        $fieldset->addField('generate_random', 'checkbox', array(
+        $fieldset->addField('generate_random', 'select', array(
             'name'    => 'generate_random',
             'label'   => Mage::helper('enterprise_pci')->__('Auto-generate a key'),
-            'value'   => 1,
-            'onclick' => "var cryptKey = $('crypt_key'); cryptKey.disabled = this.checked; if (cryptKey.disabled) {cryptKey.parentNode.parentNode.hide();} else {cryptKey.parentNode.parentNode.show();}",
+            'options' => array(
+                0 => Mage::helper('adminhtml')->__('No'),
+                1 => Mage::helper('adminhtml')->__('Yes'),
+            ),
+            'onclick' => "var cryptKey = $('crypt_key'); cryptKey.disabled = this.value == 1; if (cryptKey.disabled) {cryptKey.parentNode.parentNode.hide();} else {cryptKey.parentNode.parentNode.show();}",
             'note'    => Mage::helper('enterprise_pci')->__('The generated key will be displayed after changing.'),
         ));
         $fieldset->addField('crypt_key', 'text', array(

@@ -24,8 +24,8 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php if ($this->canShow() && $this->getEvents()): ?>
-    <h3><?php echo Mage::helper('enterprise_customerbalance')->__('History'); ?></h3>
+<?php if ($this->canShow() && $this->getEvents() && count($this->getEvents())): ?>
+    <h3><?php echo Mage::helper('enterprise_customerbalance')->__('Balance History'); ?></h3>
     <table id="customerbalance-history" class="data-table">
         <col />
         <col width="100" />
@@ -57,7 +57,7 @@
                 <?php echo Mage::helper('core')->currency($event->getBalanceAmount()); ?>
             </td>
             <td>
-                <?php echo Mage::helper('core')->formatDate($event->getDate(), 'short', true); ?>
+                <?php echo Mage::helper('core')->formatDate($event->getUpdatedAt(), 'short', true); ?>
             </td>
         </tr>
         <?php endforeach; ?>
