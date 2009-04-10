@@ -505,7 +505,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
      */
     protected function _parseExtensionsString($extensions)
     {
-        preg_match_all('/[a-z]+/si', strtolower($extensions), $matches);
+        preg_match_all('/[a-z0-9]+/si', strtolower($extensions), $matches);
         if (isset($matches[0]) && is_array($matches[0]) && count($matches[0]) > 0) {
             return $matches[0];
         }
