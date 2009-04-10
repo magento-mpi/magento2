@@ -37,8 +37,6 @@ class Enterprise_Logging_Block_Events_Grid_Renderer_Eventlabel extends Mage_Admi
     public function render(Varien_Object $row)
     {
         $code = $row->getData($this->getColumn()->getIndex());
-        $node = Mage::getConfig()->getNode('adminhtml/enterprise/logging/events');
-        $labels = unserialize(Mage::app()->getCache()->load('actions_to_log_labels'));
-        return $labels[$code];
+        return Mage::getSingleton('enterprise_logging/event')->getLabel($code);
     }
 }

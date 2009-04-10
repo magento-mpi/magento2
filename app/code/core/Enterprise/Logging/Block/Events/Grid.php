@@ -113,7 +113,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
                          ));
 
         $this->addColumn('fullaction', array(
-            'header' => 'Full action',
+            'header' => 'Action path',
             'index'  => 'fullaction',
             'sortable' => false,
             'type'  => 'text'
