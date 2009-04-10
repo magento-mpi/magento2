@@ -24,8 +24,9 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<h3><?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?></h3>
+<div class="account-balance">
+<h3 class="sub-title"><?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?></h3>
 <?php echo Mage::helper('enterprise_customerbalance')->__('Your current balance is:'); ?>
 
 <?php echo Mage::helper('core')->currency($this->getBalance()); ?>
-<br /><br />
+</div>

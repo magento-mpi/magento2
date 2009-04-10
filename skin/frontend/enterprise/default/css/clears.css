@@ -24,6 +24,8 @@
 /************************************************/
 /******************** Clears ********************/
 /************************************************/
+.gift-item:after,
+.block-content:after,
 .block-list li.item:after,
 .currently li:after,
 .order-info:after,

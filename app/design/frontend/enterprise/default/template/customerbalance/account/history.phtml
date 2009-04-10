@@ -25,25 +25,27 @@
  */
 ?>
 <?php if ($this->canShow() && $this->getEvents() && count($this->getEvents())): ?>
-    <h3><?php echo Mage::helper('enterprise_customerbalance')->__('Balance History'); ?></h3>
+    <h3 class="table-caption"><?php echo Mage::helper('enterprise_customerbalance')->__('Balance History'); ?></h3>
     <table id="customerbalance-history" class="data-table">
         <col />
         <col width="100" />
         <col width="100" />
         <col width="150" />
         <tr>
-            <th>
-                <?php echo Mage::helper('enterprise_customerbalance')->__('Action'); ?>
-            </th>
-            <th>
-                <?php echo Mage::helper('enterprise_customerbalance')->__('Balance Change'); ?>
-            </th>
-            <th>
-                <?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?>
-            </th>
-            <th>
-                <?php echo Mage::helper('enterprise_customerbalance')->__('Date'); ?>
-            </th>
+            <thead>
+                <th>
+                    <?php echo Mage::helper('enterprise_customerbalance')->__('Action'); ?>
+                </th>
+                <th>
+                    <?php echo Mage::helper('enterprise_customerbalance')->__('Balance Change'); ?>
+                </th>
+                <th>
+                    <?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?>
+                </th>
+                <th>
+                    <?php echo Mage::helper('enterprise_customerbalance')->__('Date'); ?>
+                </th>
+            </thead>
         </tr>
         <?php foreach ($this->getEvents() as $event): ?>
         <tr>
@@ -63,5 +65,4 @@
         <?php endforeach; ?>
     </table>
     <script type="text/javascript">decorateTable('customerbalance-history')</script>
-	<br />
 <?php endif; ?>

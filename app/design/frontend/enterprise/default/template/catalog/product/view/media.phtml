@@ -123,8 +123,8 @@
     <h3><?php echo $this->__('More Views') ?></h3>
     <ul>
     <?php foreach ($this->getGalleryImages() as $_image): ?>
-        <li>           
-            <a href="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'image', $_image->getFile())->resize(500, 500)->keepFrame(1); ?>" rel="lightbox[gallery]" title="<?php echo $this->htmlEscape($_product->getName()) ?>" ><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(65, 65); ?>" width="65" height="65" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
+        <li>
+            <a href="#" onclick="popWin('<?php echo $this->getGalleryUrl($_image) ?>', 'gallery', 'width=300,height=300,left=50,top=50,location=no,status=yes,scrollbars=yes,resizable=yes'); return false;"><img src="<?php echo $this->helper('catalog/image')->init($this->getProduct(), 'thumbnail', $_image->getFile())->resize(48, 48); ?>" width="48" height="48" alt="<?php echo $this->htmlEscape($_image->getLabel()) ?>" title="<?php echo $this->htmlEscape($_image->getLabel()) ?>" /></a>
         </li>
     <?php endforeach; ?>
     </ul>

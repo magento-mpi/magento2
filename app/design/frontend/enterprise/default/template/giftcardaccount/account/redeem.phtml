@@ -25,12 +25,11 @@
  */
 ?>
 <?php if ($this->canRedeem()): ?>
-    <h3><?php echo Mage::helper('enterprise_giftcardaccount')->__('Redeem Gift Card'); ?></h3>
+    <h3 class="sub-title"><?php echo Mage::helper('enterprise_giftcardaccount')->__('Redeem Gift Card'); ?></h3>
     <form id="giftcard-form" action="<?php echo $this->getUrl('enterprise_giftcardaccount/redeem') ?>" method="post">
-        <fieldset>
+        <fieldset class="fieldset giftcard-redeem">
             <p><?php echo $this->__('<a href="%s">Check Gift Card status</a> and balance.', Mage::getUrl('enterprise_giftcardaccount/cart/check')); ?></p>
-            <input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="<?php echo $this->getCurrentGiftcard(); ?>" />
-            <br />
+            <span class="input-box v-fix"><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="<?php echo $this->getCurrentGiftcard(); ?>" /></span>
             <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo $this->__('Redeem Gift Card') ?>"><span><?php echo $this->__('Redeem Gift Card') ?></span></button>
         </fieldset>
     </form>

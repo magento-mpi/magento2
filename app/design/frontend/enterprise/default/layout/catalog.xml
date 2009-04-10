@@ -52,8 +52,7 @@ Default layout, loads most of the pages
             <block type="core/template" name="top.permanent.callout" template="callouts/callout.phtml">
                 <action method="setImgSrc"><src>images/callouts/apparel-sale.gif</src></action>
                 <action method="setImgAlt" translate="alt" module="catalog"><alt>Get 10% off - All items under Apparel</alt></action>
-                <action method="setLinkUrl"><url>catalog/category/view/s/apparel/id/18/</url></action>
-<!--                 <action method="setLinkClass"><class>top-callout</class></action> -->
+                <action method="setLinkUrl"><url>apparel.html</url></action>
             </block>
         </reference>        
         <!--<reference name="left">

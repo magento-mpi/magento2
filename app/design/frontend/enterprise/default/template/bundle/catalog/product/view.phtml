@@ -38,8 +38,8 @@
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>
-<div id="customizeTitle" style="display:none" class="page-title"><h2><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name')) ?></h2></div>
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div id="customizeTitle" style="display:none" class="page-title"><h2><?php echo $this->__('Customize %s', $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name')) ?></h2></div>
 <div id="productView" class="product-view">
     <div><?php // extra div to smooth slideUp and slideDown ?>
         <div class="product-essential">

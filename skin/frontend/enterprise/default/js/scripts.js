@@ -145,11 +145,11 @@ Enterprise.BundleSummary = {
         this.summary = $('bundleSummary');
         this.summary.show();
         this.summaryContainer = this.summary.getOffsetParent();
-        this.summary.style.top = '61px';
-        this.summary.style.right = '0';
+        this.summary.style.top = '-1px';
+        this.summary.style.left = '623px';
 
         this.summaryStartY = this.summary.positionedOffset().top;
-        this.summaryStartX = 643;
+        this.summaryStartX = 623;
         this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);      
         this.GetScroll = setInterval(this.onDocScroll,1100);   
     },
@@ -157,14 +157,14 @@ Enterprise.BundleSummary = {
     handleDocScroll: function () {
         if (this.summaryContainer.viewportOffset().top < 10) {
               new Effect.Move(this.summary, { 
-                    x: 643, 
-                    y: -(this.summaryContainer.viewportOffset().top)+31, 
+                    x: 623, 
+                    y: -(this.summaryContainer.viewportOffset().top)+10, 
                     mode: 'absolute'
                 });
 
         } else {
              new Effect.Move(this.summary, { 
-                    x: 643, 
+                    x: 623, 
                     y: this.summaryStartY, 
                     mode: 'absolute'
                 });

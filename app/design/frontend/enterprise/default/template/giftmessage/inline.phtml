@@ -209,13 +209,14 @@ billing.onSave = function(evt){
             <p><?php echo $this->__('You can leave a box blank if you don\'t wish to add a gift message for this address.') ?></p>
             <fieldset class="fieldset">
             <input type="hidden" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][type]" value="quote_address" />
-                <ul class="group-select">
+                <ul class="form-list group-select">
                      <li class="fields">
                         <div class="field">
                             <span class="input-box">
                                 <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-from"><?php echo $this->__('From') ?></label>
                                 <input type="text" name="giftmessage[<?php echo $this->getEntity()->getId() ?>][from]" id="gift-message-<?php echo $this->getEntity()->getId() ?>-from" title="<?php echo $this->__('From') ?>" value="<?php echo $this->getEscaped($this->getMessage()->getSender(), $this->getDefaultFrom()) ?>" class="input-text validation-passed" />
                             </span>
+                        </div>
                         <div class="field">
                             <span class="input-box">
                                 <label for="gift-message-<?php echo $this->getEntity()->getId() ?>-to"><?php echo $this->__('To') ?></label>
@@ -255,14 +256,14 @@ billing.onSave = function(evt){
                          <input type="hidden" name="giftmessage[<?php echo $_item->getId() ?>][address]" value="<?php echo $this->getEntity()->getId()?>" />
                          <ul class="form-list group-select">
                              <li class="fields">
-                                 <div class="fields">
+                                 <div class="field">
                                      <label for="gift-message-<?php echo $_item->getId() ?>-from"><?php echo $this->__('From') ?></label>
                                      <span class="input-box">
                                          <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][from]" id="gift-message-<?php echo $_item->getId() ?>-from" title="<?php echo $this->__('From') ?>"  value="<?php echo $this->getEscaped($this->getMessage($_item)->getSender(), $this->getDefaultFrom()) ?>" class="input-text validation-passed" />
                                      </span>
                                  </div>
-                                 <div class="fields">
-                                     <label for="gift-message-<?php echo $_item->getId() ?>-to"><?php echo $this->__('To') ?></label>
+                                 <div class="field">
+                                    <label for="gift-message-<?php echo $_item->getId() ?>-to"><?php echo $this->__('To') ?></label>
                                     <span class="input-box">
                                         <input type="text" name="giftmessage[<?php echo $_item->getId() ?>][to]" id="gift-message-<?php echo $_item->getId() ?>-to" title="<?php echo $this->__('To') ?>" value="<?php echo $this->getEscaped($this->getMessage($_item)->getRecipient(), $this->getDefaultTo()) ?>" class="input-text validation-passed" />
                                     </span>

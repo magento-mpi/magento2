@@ -87,9 +87,13 @@ button.btn-cart span { background-position:100% 0; }
 * html .switcher-language {zoom:1;}
 
 /**/
+.table-caption { position:relative; z-index:1; }
 .data-table { border-collapse:collapse; }
-
+.sidebar .block-account li.current { position:relative; z-index:1; zoom:1; }
 /* Clears and hasLayout fixes */
+.multiple-checkout,
+.gift-item,
+.block-content,
 .block-list li.item,
 .currently li,
 .category-title,
