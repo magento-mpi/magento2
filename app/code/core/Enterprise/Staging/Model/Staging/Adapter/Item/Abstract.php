@@ -355,7 +355,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         if (!in_array('website_id', $fields) && !in_array('website_ids', $fields) && !in_array('scope_id', $fields)) {
             return $this;
         }
-
         $connection     = $this->getConnection($targetModel);
 
         $mapper         = $staging->getMapperInstance();
@@ -365,7 +364,31 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $slaveWebsiteId = $slaveWebsite->getId();
 
         $mappedWebsites = $mapper->getUsedWebsites($slaveWebsiteId);
-
+                
+        if (in_array('website_ids', $fields)) {
+            $this->_mergeTableDataInWebsiteScopeUpdate($connection, $mappedWebsites, $staging, $stagingWebsite, $srcModel, $srcTable, $targetModel, $targetTable, $fields);
+        } else {
+            $this->_mergeTableDataInWebsiteScopeInsert($connection, $mappedWebsites, $staging, $stagingWebsite, $srcModel, $srcTable, $targetModel, $targetTable, $fields);
+        }
+    }
+    
+    /**
+     * Insert New data on merge
+     *
+     * @param Connection $connection
+     * @param array $mappedWebsites
+     * @param Enterprice_Staging_Model_Staging $staging
+     * @param Enterprice_Staging_Model_Staging_Website $stagingWebsite
+     * @param string $srcModel
+     * @param string $srcTable
+     * @param string $targetModel
+     * @param string $targetTable
+     * @param array $fields
+     * 
+     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
+     */
+    protected function _mergeTableDataInWebsiteScopeInsert($connection, $mappedWebsites, $staging, $stagingWebsite, $srcModel, $srcTable, $targetModel, $targetTable, $fields)
+    {    
         $updateField = end($fields);
 
         foreach ($mappedWebsites['master_website'] as $masterWebsiteId => $slaveWebsiteId) {
@@ -374,6 +397,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             $_websiteFieldNameSql = 'website_id';
 
             $_fields = $fields;
+            $doInsert = true;
             foreach ($_fields as $id => $field) {
                 if ($field == 'website_id') {
                     $_fields[$id] = $masterWebsiteId;
@@ -381,18 +405,42 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 } elseif ($field == 'scope_id') {
                     $_fields[$id] = $masterWebsiteId;
                     $_websiteFieldNameSql = "scope = 'websites' AND {$field} = {$slaveWebsiteId}";
-                } elseif ($field == 'website_ids') {
-                    /* FIXME need to fix concat website_ids */
-                    $_fields[$id] = "CONCAT(website_ids,',{$masterWebsiteId}')";
-                    $_websiteFieldNameSql = "FIND_IN_SET({$slaveWebsiteId},website_ids)";
-                }
+                } 
             }
 
-            //$srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_websiteFieldNameSql}";
             $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, $_websiteFieldNameSql);
-
             $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-            //echo $destInsertSql.'<br /><br /><br /><br />';
+            echo $destInsertSql.'<br /><br /><br /><br />';
+            $connection->query($destInsertSql);
+        }
+        self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
+
+        return $this;
+    }
+
+    /**
+     * Update data on merge
+     *
+     * @param Connection $connection
+     * @param array $mappedWebsites
+     * @param Enterprice_Staging_Model_Staging $staging
+     * @param Enterprice_Staging_Model_Staging_Website $stagingWebsite
+     * @param string $srcModel
+     * @param string $srcTable
+     * @param string $targetModel
+     * @param string $targetTable
+     * @param array $fields
+     * 
+     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
+     */    
+    protected function _mergeTableDataInWebsiteScopeUpdate($connection, $mappedWebsites, $staging, $stagingWebsite, $srcModel, $srcTable, $targetModel, $targetTable, $fields)
+    {
+        $updateField = end($fields);
+
+        foreach ($mappedWebsites['master_website'] as $masterWebsiteId => $slaveWebsiteId) {
+            $destInsertSql = "UPDATE `{$targetTable}` SET website_ids = IF(FIND_IN_SET({$masterWebsiteId},website_ids), website_ids, CONCAT(website_ids,',{$masterWebsiteId}')) 
+                WHERE FIND_IN_SET({$slaveWebsiteId},website_ids)";
+            echo $destInsertSql.'<br /><br /><br /><br />';
             $connection->query($destInsertSql);
         }
 
@@ -400,7 +448,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         return $this;
     }
-
+        
+            
     /**
      * Process Store scope 
      *
@@ -745,11 +794,11 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $connection     = $this->getConnection($targetModel);
 
         $tableDestDesc = $this->getTableProperties($targetModel, $targetTable);
+        
         if (!$tableDestDesc) {
             throw Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists',$targetTable));
         }
         $_updateField = end($fields);
-
 
         /* @var $mapper Enterprise_Staging_Model_Staging_Mapper_Website */
         $mapper         = $this->getStaging()->getMapperInstance();
@@ -767,38 +816,46 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
             $_websiteFieldNameSql = 'website_id';
 
-            $_fields = $fields;
-            foreach ($_fields as $id => $field) {
-                if ($field == 'website_id') {
-                    $primaryField = $field;
-                    $_websiteFieldNameSql = " `{$srcTable}`.{$field} IN (" . implode(", ", $masterWebsiteIds). ")";
-                } elseif ($field == 'scope_id') {
-                    $primaryField = $field;                    
-                    $_websiteFieldNameSql = "`{$srcTable}`.scope = 'website' AND `{$srcTable}`.{$field} IN (" . implode(", ", $masterWebsiteIds). ")";
-                } elseif ($field == 'website_ids') {
-                    $whereFields = array();
-                    foreach($masterWebsiteIds AS $webId) {
-                        $whereFields[] = "FIND_IN_SET($webId, `{$srcTable}`.website_ids)";
-                    }
-                    $_websiteFieldNameSql = implode(" OR " , $whereFields);
+            
+            if (in_array('website_id', $fields)) {
+                if (empty($primaryField)) {
+                    $primaryField = 'website_id';
                 }
+                $_websiteFieldNameSql = " `{$srcTable}`.website_id IN (" . implode(", ", $masterWebsiteIds). ")";                
+            } elseif (in_array('scope_id', $fields)) {
+                if (empty($primaryField)) {
+                    $primaryField = 'scope_id';
+                }
+                $_websiteFieldNameSql = "`{$srcTable}`.scope = 'website' AND `{$srcTable}`.scope_id IN (" . implode(", ", $masterWebsiteIds). ")";
+            } elseif (in_array('website_ids', $fields)) {
+                $whereFields = array();
+                foreach($masterWebsiteIds AS $webId) {
+                    $whereFields[] = "FIND_IN_SET($webId, `{$srcTable}`.website_ids)";
+                }
+                $_websiteFieldNameSql = implode(" OR " , $whereFields);
             }
 
             //1 - need remove all resords from web_site tables, which added via marging
             if (!empty($primaryField)) {
+                $destDeleteSql = $this->_deleteDataByUniqKeys($targetTable, $masterWebsiteIds, $slaveWebsiteIds, $tableDestDesc['keys']);
+                
+                if (!empty($destDeleteSql)) {
+                    //echo $destDeleteSql.'<br /><br /><br /><br />';
+                    $connection->query($destDeleteSql);
+                }
                 $destDeleteSql = "
                     DELETE {$targetTable}.* FROM `{$srcTable}`, `{$targetTable}`
                     WHERE `{$targetTable}`.$primaryField = `{$srcTable}`.$primaryField
                         AND $_websiteFieldNameSql";
                 //echo $destDeleteSql.'<br /><br /><br /><br />';
-                $connection->query($destDeleteSql);
+                $connection->query($destDeleteSql);                
+                
             }
 
             //2 - copy old data from bk_ tables
             $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
 
-            //$srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_websiteFieldNameSql}";
-            $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, $_websiteFieldNameSql);
+            $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable, $_websiteFieldNameSql);
             $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
             //echo $destInsertSql.'<br /><br /><br /><br />';
             $connection->query($destInsertSql);
@@ -806,6 +863,56 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         return $this;
     }
 
+    
+    /**
+     * delete rows by Unique fields
+     *
+     * @param string $targetTable
+     * @param array $masterIds
+     * @param array $slaveIds
+     * @param array $key
+     *
+     * @return value
+     */
+    protected function _deleteDataByUniqKeys($targetTable, $masterIds, $slaveIds, $keys)
+    {
+        if (!is_array($masterIds)) {
+            $masterIds = array($masterIds);
+        }
+        if (!is_array($slaveIds)) {
+            $slaveIds = array($slaveIds);
+        }
+        
+        foreach ($keys AS $keyName => $keyData) {
+            
+            if ($keyData['type'] == 'UNIQUE') {
+                $_websiteFieldNameSql = array();
+                foreach ($keyData['fields'] as $field) {
+                    
+                    if ($field == 'website_id' || $field == 'store_id') {
+                        
+                        $_websiteFieldNameSql[] = " T1.{$field} IN (" . implode(", ", $slaveIds). ") 
+                            AND T2.{$field} IN (" . implode(", ", $masterIds). ") ";
+                            
+                    } elseif ($field == 'scope_id') {
+                        
+                        $_websiteFieldNameSql[] = " T1.scope = 'website' AND T1.{$field} IN (" . implode(", ", $slaveIds). ")
+                            AND T2.{$field} IN (" . implode(", ", $masterIds).  ") ";
+                            
+                    } else { //website_ids is update data as rule, so it must be in backup.
+                        
+                        $_websiteFieldNameSql[] = "T1.$field = T2.$field";
+                         
+                    }
+                }
+                
+                $sql = "DELETE T1.* FROM {$targetTable} as T1, {$targetTable} as T2 WHERE " . implode(" AND " , $_websiteFieldNameSql);
+                return $sql;
+                 
+            }
+        } 
+        return "";
+    }
     /**
      * process store scope rollback
      *
@@ -856,18 +963,28 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 
                 foreach ($fields as $id => $field) {
                     if ($field == 'store_id') {
-                        $primaryField = $field;
+                        if (empty($primaryField))
+                            $primaryField = $field;
                     } elseif ($field == 'scope_id') {
+                        if (empty($primaryField))
+                            $primaryField = $field;
                         $primaryField = $field;
                         $_storeFieldNameSql = "scope = 'stores' AND `{$srcTable}`.{$field}";
                     }
                 }                
                 //1 - need remove all resords from stores tables, which added via marging
                 if (!empty($primaryField)) {
+                    $destDeleteSql = $this->_deleteDataByUniqKeys($targetTable, $masterStoreId, $slaveStoreId, $tableDestDesc['keys']);
+                
+                    if (!empty($destDeleteSql)) {
+                        //echo $destDeleteSql.'<br /><br /><br /><br />';
+                        $connection->query($destDeleteSql);
+                    }
+                                        
                     $destDeleteSql = "
                         DELETE {$targetTable}.* FROM `{$srcTable}`, `{$targetTable}`
-                        WHERE `{$targetTable}`.$primaryField = `{$srcTable}`.$primaryField
-                            AND `{$srcTable}`.{$_storeFieldNameSql} = {$slaveStoreId}";
+                        WHERE (`{$targetTable}`.$primaryField = `{$srcTable}`.$primaryField
+                                AND `{$srcTable}`.{$_storeFieldNameSql} = {$slaveStoreId})";
                     //echo $destDeleteSql.'<br /><br /><br /><br />';
                     $connection->query($destDeleteSql);
                 }
@@ -875,7 +992,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 //2 - refresh data by backup
                 $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
 
-                //$srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
                 $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$slaveStoreId}");
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
                 //echo $destInsertSql.'<br /><br />store<br /><br />';
