@@ -176,10 +176,12 @@ ul.add-row .btn-remove,
 .form-list .form-element .radio { vertical-align:middle; }
 
 .form-alt label { float:none; display:inline; width:auto; }
-.form-alt li {margin:0 0 5px}
+.form-alt li { margin:0 0 5px; line-height:16px; }
 .form-alt select  { width:496px; }
 .form-alt .input-box { width:496px; margin-top:5px; padding-bottom:11px; }
 .form-alt .input-text { width:480px; }
+.form-alt input.radio,
+.form-alt input.checkbox { margin-top:2px; vertical-align:top; }
 
 /* Date Of Birth */
 .form-list .customer-dob label { float:none; width:auto; padding:0; font-size:11px; font-weight:normal; color:#777; }
@@ -739,6 +741,9 @@ dd.even { background:#f6f6f6; }*/
 .top-cart .actions { background:#e3e3e3 url(../images/bkg_dots.gif) repeat-x 0 -1px; text-align:center; padding:5px 11px; text-align:right; }
 .top-cart .actions a { float:left;  line-height:23px; }
 .top-cart .actions button { float:none; }
+.top-cart .actions button.button,
+.top-cart .actions button.button span { background-image:url(../images/bkg_btn-onbg.gif); background-repeat:no-repeat; }
+
 
 /* Block: Wishlist */
 .block-wishlist .product-image { float:left; width:50px; margin-right:-50px; }
@@ -824,7 +829,7 @@ dd.even { background:#f6f6f6; }*/
 .products-grid .actions { bottom:0; }
 .products-grid .product-image { display:block; text-decoration:none !important; margin:0 auto 10px; position:relative; width:135px; }
 .product-image .sold-out { display:block; position:absolute; left:0; top:0; font-size:0; line-height:0; width:62px; height:62px; background:url(../images/bkg_sold-out.png) 0 0 no-repeat; }
-.products-grid .product-name { min-height:2.7em; margin-bottom:10px; }
+.products-grid .product-name { margin-bottom:7px; }
 .products-grid .rating-links { display:block; padding:2px 0 0; clear:both; }
 .products-grid .price-box { margin:5px 0 10px; clear:both; }
 /* Different Layout Rewrites */
@@ -957,6 +962,7 @@ filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
 .product-view .product-shop .price-box .price-as-configured .price-excluding-tax .price { color:#222; font-size:11px; }
 .product-view .product-shop .price-box p { margin:4px 0; }
 .product-view .product-pricing { background:#fbf4de; border:1px solid #e2d4c7; padding:8px; margin:20px 0; }
+.product-view .product-shop .add-to-links { margin:10px 0; }
 
 .product-view .product-name h2 { font-size:22px; line-height:1.2; color:#d12c01; font-weight:normal; }
 .product-view .product-ids { text-transform:uppercase; }
@@ -1072,11 +1078,11 @@ button.btn-cart  span { }
 
 /* On product view */
 .product-view .product-essential button.btn-cart,
-.add-to-cart button.btn-cart { background:url(../images/bkg_btn-co.gif) 0 50% no-repeat; line-height:27px!important; padding:0 0 0 13px!important; vertical-align:middle; }
+.add-to-cart button.btn-cart { background:url(../images/bkg_btn-co.gif) 0 50% no-repeat; line-height:26px!important; padding:0 0 0 13px!important; vertical-align:middle; }
 .product-view .product-essential button.btn-cart span,
-.add-to-cart button.btn-cart span { border:0; background:url(../images/bkg_btn-co.gif) 100% 50% no-repeat; padding:0 32px 0 19px!important; color:#fff; font:bold 15px/27px Arial, Helvetica, sans-serif!important; height:27px; text-transform:none; }
+.add-to-cart button.btn-cart span { border:0; background:url(../images/bkg_btn-co.gif) 100% 50% no-repeat; padding:1px 32px 0 19px!important; color:#fff; font:bold 15px/26px Arial, Helvetica, sans-serif!important; height:26px; text-transform:none; }
 .add-to-cart button.btn-cart { padding:0 0 0 6px; }
-.add-to-cart button.btn-cart span { /* padding:0 33px 0 27px; */ }
+.add-to-cart button.btn-cart span {  }
 
 /* Add to Links + Add to Cart */
 .add-to-box {}
@@ -1304,8 +1310,8 @@ button.btn-cart  span { }
 .cart .title-buttons {  }
 .cart .messages li { margin:0; }
 .cart .checkout-types { float:right; text-align:center; }
-.cart .checkout-types .btn-proceed-checkout { background:url(../images/bkg_btn-co.gif) 0 50% no-repeat; line-height:27px!important; padding:0 0 0 13px!important; vertical-align:middle; }
-.cart .checkout-types .btn-proceed-checkout span { border:0; background:url(../images/bkg_btn-co.gif) 100% 50% no-repeat; padding:0 32px 0 19px!important; color:#fff; font:bold 15px/27px Arial, Helvetica, sans-serif!important; height:27px; text-transform:none; }
+.cart .checkout-types .btn-proceed-checkout { background:url(../images/bkg_btn-co.gif) 0 50% no-repeat; line-height:26px!important;  padding:0 0 0 13px!important; vertical-align:middle; }
+.cart .checkout-types .btn-proceed-checkout span { border:0; background:url(../images/bkg_btn-co.gif) 100% 50% no-repeat; padding:1px 32px 0 19px!important; color:#fff; font:bold 15px/26px Arial, Helvetica, sans-serif!important; height:26px; text-transform:none; margin:0!important; }
 
 /* Shopping Cart Table */
 .cart-table                              { border-width: 1px 0; } 
@@ -1413,11 +1419,13 @@ button.btn-cart  span { }
 
 /* steps */
 
-#checkout-step-login  { background:#fcfcfc url(../images/bkg_cols.gif) repeat-y 195px 0; height:auto!important; min-height:0!important; }
+#checkout-step-login  { height:auto!important; min-height:0!important; padding:0; }
+#checkout-step-login  .col2-set { padding:20px 20px 30px; background:#fcfcfc url(../images/bkg_cols.gif) repeat-y 195px 0; height:auto!important; min-height:0!important; }
+#checkout-step-login  .login-only { background-image:none; }
 #checkout-step-login h4 { font-size:16px; color:#000; font-weight:normal; margin:0 0 15px; }
 #checkout-step-login .col2-set .col-1 { }
 #checkout-step-login .col2-set .col-2 { width:338px; }
-#checkout-step-login .col2-set .col-2 li { padding-left:14px; background:url(../images/bkg_bulletsm.gif) no-repeat 0 0.3em; }
+#checkout-step-login .col2-set .col-2 li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-repeat 0 0.5em; }
 #checkout-step-login .col2-set .col-2 .form-list li { background:none; padding-left:0; }
 #checkout-step-login .form-list  label,
 #checkout-step-login .form-list  .label { width:90px; }
@@ -1450,6 +1458,8 @@ button.btn-cart  span { }
 #checkout-step-review .buttons-set { width:580px; }
 #checkout-step-review .buttons-set p { width:265px; float:left; padding-right:15px; text-align:right; }
 #checkout-step-review .buttons-set p a { float:none; }
+
+.opc .checkout-agreements { margin:20px; }
 
 /* Multiple Addresses Checkout */
 .checkout-progress,
