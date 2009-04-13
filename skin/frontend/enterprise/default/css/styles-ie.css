@@ -26,6 +26,7 @@
 .col-main .page-title { _position:relative; _z-index:1; }
 .switch ul .current { _padding-right:4em;}
 .main { _height:350px; }
+.restriction-index-stub .main { _height:auto; }
 .opc .step { _height:300px; }
 .validation-advice { _height:13px; _display:inline; }
 .cart .cart-collaterals { _height:413px; }

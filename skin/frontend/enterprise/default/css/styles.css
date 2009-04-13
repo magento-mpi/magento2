@@ -816,6 +816,9 @@ dd.even { background:#f6f6f6; }*/
 .category-view .note-msg,
 .category-description { padding:20px; }
 
+.catalogsearch-result-index .col-main { padding:0; }
+.catalogsearch-result-index .page-title { margin-left:0; margin-right:0; }
+
 .sidebar .category-title { margin:0; }
 .category-image { display:block; margin:0 auto 1px; }
 
@@ -1705,6 +1708,17 @@ address.copyright { margin-top:6px; }
 .page-head h3,
 .page-head-alt h3,
 .page-head-alt h2 { font:normal 22px/27px Arial, Helvetica, sans-serif; color:#d12c01; }
+
+/* Restricted ================================================================================ */
+.restriction-index-stub .page { width:652px; padding-bottom:3px; }
+.restriction-index-stub .main { margin-top:100px; min-height:0; height:auto!important; padding:13px; text-align:center; margin-bottom:0; }
+.restriction-index-stub .col-main { color:#dedede; height:auto!important; min-height:230px; height:230px; font-size:16px; background:#4a4a4a url(../images/logo-offline.gif) no-repeat 50% 95px; padding:170px 60px 40px; }
+.restriction-index-stub .col-main h1,
+.restriction-index-stub .col-main h2 { color:#fff; padding:0 0 15px; font:35px Georgia, "Times New Roman", Times, serif; font-style:italic; }
+/* .restriction-index-stub .header-container,
+.restriction-index-stub .footer-container { display:none; } */
+.restriction-index-stub .copyright { background:url(../images/bkg_shadow-offline.gif) 50% 0 no-repeat; padding:15px 0 0; margin:0; }
+
 
 /* Misc. overrides ================================================================================ */
 .customer-account-create {}

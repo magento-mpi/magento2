@@ -83,7 +83,7 @@
 <?php // Grid Mode ?>
 
 <?php $_collectionSize = $_productCollection->count() ?>
-<?php $_perRow = $this->getGridconfig(); ?>
+<?php if(!$_perRow = $this->getGridconfig()) $_perRow = 3 ; ?>
 <?php $i=0; foreach ($_productCollection as $_product): ?>
     <?php if ($i++%$_perRow==0): ?>
     <ul class="products-grid">
