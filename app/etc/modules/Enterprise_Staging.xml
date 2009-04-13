@@ -33,6 +33,7 @@
             <depends>
                 <Mage_Catalog/>
                 <Enterprise_WebsiteRestriction/>
+                <Enterprise_Pci/>
             </depends>
         </Enterprise_Staging>
     </modules>

@@ -31,12 +31,13 @@
             <active>false</active>
             <codePool>core</codePool>
             <depends>
-                <Mage_Adminhtml />
-                <Mage_Catalog />
-                <Mage_CatalogSearch />
-                <Mage_Sales />
-                <Mage_Checkout />
-                <Enterprise_WebsiteRestriction />
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_CatalogSearch/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+                <Enterprise_WebsiteRestriction/>
+                <Enterprise_Pci/>
             </depends>
         </Enterprise_CatalogPermissions>
     </modules>

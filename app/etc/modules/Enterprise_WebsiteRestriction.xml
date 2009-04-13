@@ -33,6 +33,7 @@
             <depends>
                 <Mage_Core/>
                 <Mage_Customer/>
+                <Enterprise_Pci/>
             </depends>
         </Enterprise_WebsiteRestriction>
     </modules>

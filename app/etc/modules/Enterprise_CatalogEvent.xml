@@ -31,10 +31,11 @@
             <active>false</active>
             <codePool>core</codePool>
             <depends>
-                <Mage_Adminhtml />
-                <Mage_Catalog />
-                <Mage_Sales />
-                <Mage_Checkout />
+                <Mage_Adminhtml/>
+                <Mage_Catalog/>
+                <Mage_Sales/>
+                <Mage_Checkout/>
+                <Enterprise_Pci/>
             </depends>
         </Enterprise_CatalogEvent>
     </modules>

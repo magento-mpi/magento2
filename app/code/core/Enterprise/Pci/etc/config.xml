@@ -85,6 +85,22 @@
                     </enterprise_pci>
                 </observers>
             </core_session_before_set_cookie_params>
+            <admin_user_save_before>
+                <observers>
+                    <enterprise_pci>
+                        <class>enterprise_pci/observer</class>
+                        <method>checkAdminPasswordChange</method>
+                    </enterprise_pci>
+                </observers>
+            </admin_user_save_before>
+            <admin_user_save_after>
+                <observers>
+                    <enterprise_pci>
+                        <class>enterprise_pci/observer</class>
+                        <method>trackAdminNewPassword</method>
+                    </enterprise_pci>
+                </observers>
+            </admin_user_save_after>
         </events>
     </global>
     <adminhtml>
@@ -104,22 +120,6 @@
                     </enterprise_pci>
                 </observers>
             </admin_user_authenticate_after>
-            <admin_user_save_before>
-                <observers>
-                    <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
-                        <method>checkAdminPasswordChange</method>
-                    </enterprise_pci>
-                </observers>
-            </admin_user_save_before>
-            <admin_user_save_after>
-                <observers>
-                    <enterprise_pci>
-                        <class>enterprise_pci/observer</class>
-                        <method>trackAdminNewPassword</method>
-                    </enterprise_pci>
-                </observers>
-            </admin_user_save_after>
             <api_user_authenticated>
                 <observers>
                     <enterprise_pci>
@@ -210,7 +210,15 @@
             </customer_customer_authenticated>
         </events>
     </frontend>
+    <install>
+        <eula_file>LICENSE_EE.html</eula_file>
+    </install>
     <default>
+        <design>
+            <package>
+                <name>enterprise</name>
+            </package>
+        </design>
         <admin>
             <security>
                 <lockout_failures>6</lockout_failures>

@@ -33,6 +33,7 @@
             <depends>
                 <Mage_Adminhtml/>
                 <Mage_Sales/>
+                <Enterprise_Pci/>
             </depends>
         </Enterprise_Permissions>
     </modules>

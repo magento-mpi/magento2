@@ -31,8 +31,8 @@
             <active>false</active>
             <codePool>core</codePool>
             <depends>
-                <Mage_Customer />
-                <Enterprise_Permissions />
+                <Mage_Customer/>
+                <Enterprise_Pci/>
             </depends>
         </Enterprise_CustomerBalance>
     </modules>
