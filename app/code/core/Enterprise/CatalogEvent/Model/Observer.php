@@ -35,21 +35,11 @@
 class Enterprise_CatalogEvent_Model_Observer
 {
     /**
-     * Store categories tree
+     * Store categories events
      *
-     * @var Varien_Data_Tree
+     * @var array
      */
-    protected $_storeCategories = null;
-
-    /**
-     * In controller pre dipatch observer called flag
-     *
-     * @var boolean
-     */
-    protected $_inControllerInit = false;
-
-    protected $_eventApplyToProduct = array();
-
+    protected $_eventsToCategories = null;
     /**
      * Applies event status by cron
      *
@@ -75,6 +65,7 @@ class Enterprise_CatalogEvent_Model_Observer
                     $event->save();
                 }
             } catch (Exception $e) {    // Ignore
+                Mage::logException($e);
             }
         }
     }
@@ -130,50 +121,8 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventToProduct(Varien_Event_Observer $observer)
     {
-        if ($this->_inControllerInit) {
-            $this->_eventApplyToProduct[] = $observer->getEvent()->getProduct();
-        } else {
-            $product = $observer->getEvent()->getProduct();
-            $this->_applyEventToProduct($product);
-        }
-    }
-
-    /**
-     * Set flag for mass event loading for products
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function applyEventToProductOnPreDispatch()
-    {
-        $this->_inControllerInit = true;
-    }
-
-    /**
-     * Applies events to product on layout load
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function applyEventToProductOnLoadLayout()
-    {
-        $this->_inControllerInit = false;
-        if (Mage::registry('current_product')) {
-            $product = Mage::registry('current_product');
-            if (Mage::registry('current_category')) {
-                $product->setCategoryId(Mage::registry('current_category')->getId());
-            }
-            $this->_applyEventToProduct($product);
-        }
-
-        if (!empty($this->_eventApplyToProduct)) {
-            foreach ($this->_eventApplyToProduct as $product) {
-                $this->_applyEventToProduct($product);
-            }
-
-            $this->_eventApplyToProduct = array();
-        }
-
+        $product = $observer->getEvent()->getProduct();
+        $this->_applyEventToProduct($product);
     }
 
     /**
@@ -213,13 +162,8 @@ class Enterprise_CatalogEvent_Model_Observer
         /* @var $quoteItem Mage_Sales_Model_Quote_Item */
         if ($product->getEvent()) {
             $quoteItem->setEventId($product->getEvent()->getId());
-            $category = $this->_getCategoryInStore($product->getEvent()->getCategoryId());
-            if ($category) {
-                $quoteItem->setEventName($category->getName());
-            }
             if ($quoteItem->getParentItem()) {
-                $quoteItem->getParentItem()->setEventId($quoteItem->getEventId())
-                    ->setEventName($quoteItem->getEventName());
+                $quoteItem->getParentItem()->setEventId($quoteItem->getEventId());
             }
             if ($product->getEvent()->getStatus() != Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
                 if (!$quoteItem->getId()) {
@@ -227,7 +171,6 @@ class Enterprise_CatalogEvent_Model_Observer
                 } else {
                     return;
                 }
-
                 Mage::throwException(
                     Mage::helper('enterprise_catalogevent')->__('Sale was closed for product "%s".', $quoteItem->getName())
                 );
@@ -289,8 +232,7 @@ class Enterprise_CatalogEvent_Model_Observer
     protected function _getProductEvent($product)
     {
         if (($categoryId = $product->getCategoryId())) {
-            $category = $this->_getCategoryInStore($categoryId);
-            return $category->getEvent();
+            return $this->_getEventInStore($product->getCategoryId());
         } elseif ($product->getCategory()) {
             return $product->getCategory()->getEvent();
         } else {
@@ -299,19 +241,18 @@ class Enterprise_CatalogEvent_Model_Observer
             $noOpenEvent = false;
             $eventCount = 0;
             foreach ($categoryIds as $categoryId) {
-                $category = $this->_getCategoryInStore($categoryId);
-                if (!$category) {
+                $categoryEvent = $this->_getEventInStore($categoryId);
+                if ($categoryEvent === false) {
                     continue;
+                } elseif ($categoryEvent === null) {
+                    // If product assigned to category without event
+                    return null;
+                } elseif ($categoryEvent->getStatus() == Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
+                   $event = $categoryEvent;
+                } else {
+                    $noOpenEvent = $categoryEvent;
                 }
-                if ($category->getEvent()
-                    && $category->getEvent()->getStatus() == Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
-                    $event = $category->getEvent();
-                    $eventCount++;
-                } elseif($category->getEvent()) {
-                    $noOpenEvent = $category->getEvent();
-                    $eventCount++;
-                }
-
+                $eventCount++;
             }
 
             if ($eventCount > 1) {
@@ -322,36 +263,38 @@ class Enterprise_CatalogEvent_Model_Observer
         }
     }
 
-    /**
-     * Return store categories
-     *
-     * @return Varien_Data_Tree
-     */
-    protected function _getStoreCategories()
-    {
-        if ($this->_storeCategories === null) {
-            $this->_storeCategories = Mage::helper('catalog/category')->getStoreCategories(false, true);
-        }
-
-        return $this->_storeCategories;
-    }
 
     /**
-     * Return category in store
+     * Get event in store
      *
      * @param int $categoryId
-     * @return Mage_Catalog_Model_Category|Varien_Data_Tree_Node
+     * @return Enterprise_CatalogEvent_Model_Event
      */
-    protected function _getCategoryInStore($categoryId)
+    protected function _getEventInStore($categoryId)
     {
         if (Mage::registry('current_category')
             && Mage::registry('current_category')->getId() == $categoryId) {
             // If category already loaded for page, we don't need to load categories tree
-            return Mage::registry('current_category');
+            return Mage::registry('current_category')->getEvent();
         }
 
-        $category = $this->_getStoreCategories()->getItemById($categoryId);
-        return $category;
+        if ($this->_eventsToCategories === null) {
+            $this->_eventsToCategories = Mage::getModel('enterprise_catalogevent/event')->getCategoryIdsWithEvent();
+
+            $eventCollection = $this->_getEventCollection(array_keys($this->_eventsToCategories));
+
+            foreach ($this->_eventsToCategories as $categoryId => $eventId) {
+                if ($eventId !== null) {
+                    $this->_eventsToCategories[$categoryId] = $eventCollection->getItemById($eventId);
+                }
+            }
+        }
+
+        if (isset($this->_eventsToCategories[$categoryId])) {
+            return $this->_eventsToCategories[$categoryId];
+        }
+
+        return false;
     }
 
     /**

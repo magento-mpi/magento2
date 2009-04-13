@@ -32,6 +32,10 @@
  */
 class Enterprise_CatalogPermissions_Model_Permission extends Mage_Core_Model_Abstract
 {
+    const PERMISSION_ALLOW = -1;
+    const PERMISSION_DENY = -2;
+    const PERMISSION_PARENT = 0;
+
     /**
      * Initialize model
      */

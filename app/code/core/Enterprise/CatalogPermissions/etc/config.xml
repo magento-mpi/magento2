@@ -88,12 +88,19 @@
                                 <config>
                                     <children>
                                            <enterprise_catalogpermissions translate="title" module="enterprise_catalogpermissions">
-                                                <title>Catalog Permissions Section</title>
+                                                <title>Category Permissions Section</title>
                                            </enterprise_catalogpermissions>
                                     </children>
                                 </config>
                             </children>
                         </system>
+                        <catalog>
+                            <children>
+                                 <enterprise_catalogpermissions translate="title" module="enterprise_catalogpermissions">
+                                    <title>Category Permissions</title>
+                                 </enterprise_catalogpermissions>
+                            </children>
+                        </catalog>
                     </children>
                 </admin>
             </resources>
@@ -209,24 +216,6 @@
     </adminhtml>
     <frontend>
         <events>
-            <catalog_category_load_after>
-                <observers>
-                    <enterprise_catalogpermissions>
-                        <type>singleton</type>
-                        <class>enterprise_catalogpermissions/observer</class>
-                        <method>applyCategoryPermissionOnLoadModel</method>
-                    </enterprise_catalogpermissions>
-                </observers>
-            </catalog_category_load_after>
-            <catalog_category_flat_load_nodes_after>
-                <observers>
-                    <enterprise_catalogpermissions>
-                        <type>singleton</type>
-                        <class>enterprise_catalogpermissions/observer</class>
-                        <method>applyCategoryPermissionOnLoadNodes</method>
-                    </enterprise_catalogpermissions>
-                </observers>
-            </catalog_category_flat_load_nodes_after>
             <catalog_product_collection_before_add_count_to_categories>
                 <observers>
                     <enterprise_catalogpermissions>
@@ -290,66 +279,31 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_product_collection_load_after>
-            <catalog_product_load_after>
-                <observers>
-                    <enterprise_catalogpermissions>
-                        <type>singleton</type>
-                        <class>enterprise_catalogpermissions/observer</class>
-                        <method>applyProductPermissionOnModelAfterLoad</method>
-                    </enterprise_catalogpermissions>
-                </observers>
-            </catalog_product_load_after>
-            <catalog_controller_product_init_before>
-                <observers>
-                    <enterprise_catalogpermissions>
-                        <type>singleton</type>
-                        <class>enterprise_catalogpermissions/observer</class>
-                        <method>startProductIndexQueue</method>
-                    </enterprise_catalogpermissions>
-                </observers>
-            </catalog_controller_product_init_before>
             <catalog_controller_product_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
                         <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
-                        <method>endProductIndexQueue</method>
+                        <method>applyProductPermission</method>
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_controller_product_init_after>
-            <review_controller_product_init_before>
-                <observers>
-                    <enterprise_catalogpermissions>
-                        <type>singleton</type>
-                        <class>enterprise_catalogpermissions/observer</class>
-                        <method>startProductIndexQueue</method>
-                    </enterprise_catalogpermissions>
-                </observers>
-            </review_controller_product_init_before>
+            
             <review_controller_product_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
                         <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
-                        <method>endProductIndexQueue</method>
+                        <method>applyProductPermission</method>
                     </enterprise_catalogpermissions>
                 </observers>
             </review_controller_product_init_after>
-            <catalog_controller_category_init_before>
-                <observers>
-                    <enterprise_catalogpermissions>
-                        <type>singleton</type>
-                        <class>enterprise_catalogpermissions/observer</class>
-                        <method>startCategoryIndexQueue</method>
-                    </enterprise_catalogpermissions>
-                </observers>
-            </catalog_controller_category_init_before>
             <catalog_controller_category_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
                         <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
-                        <method>endCategoryIndexQueue</method>
+                        <method>applyCategoryPermission</method>
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_controller_category_init_after>

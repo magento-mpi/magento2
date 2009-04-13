@@ -32,26 +32,27 @@
         </reference>
     </customer_logged_in>
     
-    <enterprise_invitation_index_index>
-        <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>
+    <enterprise_invitation_index_send>
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive"><path>enterprise_invitation/index/index</path></action>
         </reference>
         <reference name="content">
             <block type="core/template" name="invitationForm" template="invitation/form.phtml"/>
         </reference>
-    </enterprise_invitation_index_index>
+    </enterprise_invitation_index_send>
 
-    <enterprise_invitation_index_list>
+    <enterprise_invitation_index_index>
         <update handle="customer_account"/>
         
         <reference name="content">
             <block type="enterprise_invitation/customer_list" name="invitations_list" template="invitation/list.phtml"/>
         </reference>
-    </enterprise_invitation_index_list>
+    </enterprise_invitation_index_index>
 
     <customer_account>
         <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="enterprise_invitation"><name>invitations</name><path>enterprise_invitation/index/list</path><label>Invitations</label></action>
+            <action method="addLink" translate="label" module="enterprise_invitation"><name>invitations</name><path>enterprise_invitation/</path><label>My Invitations</label></action>
         </reference>
     </customer_account>
     

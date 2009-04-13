@@ -31,6 +31,13 @@
  * @see Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions
  */
 ?>
+<ul class="messages">
+    <li class="notice-msg">
+        <ul>
+            <li><?php echo Mage::helper('enterprise_catalogpermissions')->__("Permissions do not depend on store views") ?></li>
+        </ul>
+    </li>
+</ul>
 <div class="entry-edit permissions custom-options" id="category_permissions_<?php echo $this->getCategoryId(); ?>">
     <div class="entry-edit-head">
         <h4><?php echo $this->helper('enterprise_catalogpermissions')->__('Category Permissions') ?></h4>

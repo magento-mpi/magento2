@@ -46,7 +46,7 @@ class Enterprise_CatalogEvent_Helper_Data extends Mage_Core_Helper_Abstract
     public function getEventImageUrl($event)
     {
         if ($event->getImage()) {
-            return Mage::getBaseUrl('media').'enterprise/catalogevent/'. $event->getImage();
+            return $event->getImageUrl();
         }
 
         return false;

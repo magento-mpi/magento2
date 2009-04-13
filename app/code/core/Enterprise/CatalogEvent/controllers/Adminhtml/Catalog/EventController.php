@@ -136,15 +136,14 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
 
 
         try {
-            $path = Mage::getBaseDir('media') . DS . 'enterprise' . DS . 'catalogevent';
+
             if ($data->getData('image/is_default')) {
                 $event->setImage(null);
             } elseif ($data->getData('image/delete')) {
                 $event->setImage('');
             } elseif ($isUploaded) {
                 try {
-                    $uploader->save($path);
-                    $event->setImage($uploader->getUploadedFileName());
+                    $event->setImage($uploader);
                 } catch (Exception $e) {
                     Mage::throwException(
                         Mage::helper('enterprise_catalogevent')->__('Image was not uploaded')

@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Enterprise_CatalogEvent>
-            <version>0.0.2</version>
+            <version>0.0.3</version>
         </Enterprise_CatalogEvent>
     </modules>
     <global>
@@ -97,7 +97,7 @@
                     </enterprise_catalogevent>
                 </observers>
             </catalog_category_load_after>
-            <catalog_product_load_after>
+            <catalog_controller_product_init_after>
                 <observers>
                     <enterprise_catalogevent>
                         <type>singleton</type>
@@ -105,7 +105,16 @@
                         <method>applyEventToProduct</method>
                     </enterprise_catalogevent>
                 </observers>
-            </catalog_product_load_after>
+            </catalog_controller_product_init_after>
+            <review_controller_product_init_after>
+                <observers>
+                    <enterprise_catalogevent>
+                        <type>singleton</type>
+                        <class>enterprise_catalogevent/observer</class>
+                        <method>applyEventToProduct</method>
+                    </enterprise_catalogevent>
+                </observers>
+            </review_controller_product_init_after>
             <catalog_category_collection_load_after>
                 <observers>
                     <enterprise_catalogevent>
@@ -124,42 +133,6 @@
                     </enterprise_catalogevent>
                 </observers>
             </catalog_product_collection_load_after>
-            <controller_action_predispatch_catalog_product_view>
-                <observers>
-                    <enterprise_catalogevent>
-                        <type>singleton</type>
-                        <class>enterprise_catalogevent/observer</class>
-                        <method>applyEventToProductOnPreDispatch</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </controller_action_predispatch_catalog_product_view>
-            <controller_action_predispatch_review_product_list>
-                <observers>
-                    <enterprise_catalogevent>
-                        <type>singleton</type>
-                        <class>enterprise_catalogevent/observer</class>
-                        <method>applyEventToProductOnPreDispatch</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </controller_action_predispatch_review_product_list>
-            <controller_action_predispatch_review_product_view>
-                <observers>
-                    <enterprise_catalogevent>
-                        <type>singleton</type>
-                        <class>enterprise_catalogevent/observer</class>
-                        <method>applyEventToProductOnPreDispatch</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </controller_action_predispatch_review_product_view>
-            <controller_action_layout_load_before>
-                <observers>
-                    <enterprise_catalogevent>
-                        <type>singleton</type>
-                        <class>enterprise_catalogevent/observer</class>
-                        <method>applyEventToProductOnLoadLayout</method>
-                    </enterprise_catalogevent>
-                </observers>
-            </controller_action_layout_load_before>
             <sales_quote_item_set_product>
                 <observers>
                     <enterprise_catalogevent>

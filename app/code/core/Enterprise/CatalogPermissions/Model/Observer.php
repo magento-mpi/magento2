@@ -171,23 +171,26 @@ class Enterprise_CatalogPermissions_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
-    public function applyCategoryPermissionOnLoadModel(Varien_Event_Observer $observer)
+    public function applyCategoryPermission(Varien_Event_Observer $observer)
     {
         if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
             return $this;
         }
 
         $category = $observer->getEvent()->getCategory();
-        if (!$this->_isCategoryQueue) {
-            $permissions = $this->_getIndexModel()->getIndexForCategory($category->getId(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
+        $permissions = $this->_getIndexModel()->getIndexForCategory($category->getId(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
 
-            if (isset($permissions[$category->getId()])) {
-                $category->setPermissions($permissions[$category->getId()]);
-            }
+        if (isset($permissions[$category->getId()])) {
+            $category->setPermissions($permissions[$category->getId()]);
+        }
 
-            $this->_applyPermissionsOnCategory($category);
-        } else {
-            $this->_queue[] = $category;
+        $this->_applyPermissionsOnCategory($category);
+        if ($observer->getEvent()->getCategory()->getIsHidden()) {
+
+            $observer->getEvent()->getControllerAction()->getResponse()
+                ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
+
+            Mage::throwException(Mage::helper('enterprise_catalogpermissions')->__('You have no permissions to access this category'));
         }
         return $this;
     }
@@ -376,61 +379,15 @@ class Enterprise_CatalogPermissions_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_CatalogPermissions_Model_Observer
      */
-    public function applyProductPermissionOnModelAfterLoad(Varien_Event_Observer $observer)
+    public function applyProductPermission(Varien_Event_Observer $observer)
     {
         if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
             return $this;
         }
 
         $product = $observer->getEvent()->getProduct();
-        if (!$this->_isProductQueue) {
-            $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
-            $this->_applyPermissionsOnProduct($product);
-        } else {
-            $this->_queue[] = $product;
-        }
-        return $this;
-    }
-
-
-    /**
-     * Start queue on product view
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_CatalogPermissions_Model_Observer
-     */
-    public function startProductIndexQueue(Varien_Event_Observer $observer)
-    {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
-            return $this;
-        }
-
-        $this->_isProductQueue = true;
-        return $this;
-    }
-
-    /**
-     * End queue on product view
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_CatalogPermissions_Model_Observer
-     */
-    public function endProductIndexQueue(Varien_Event_Observer $observer)
-    {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
-            return $this;
-        }
-
-        $this->_isProductQueue = false;
-
-        foreach ($this->_queue as $index => $product) {
-            if ($product instanceof Mage_Catalog_Model_Product) {
-                $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
-                $this->_applyPermissionsOnProduct($product);
-                unset($this->_queue[$index]);
-            }
-        }
-
+        $this->_getIndexModel()->addIndexToProduct($product, $this->_getCustomerGroupId());
+        $this->_applyPermissionsOnProduct($product);
         if ($observer->getEvent()->getProduct()->getIsHidden()) {
             $observer->getEvent()->getControllerAction()->getResponse()
                 ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
@@ -441,59 +398,8 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
-    /**
-     * Start queue on category view
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_CatalogPermissions_Model_Observer
-     */
-    public function startCategoryIndexQueue(Varien_Event_Observer $observer)
-    {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
-            return $this;
-        }
 
-        $this->_isCategoryQueue = true;
-        return $this;
-    }
 
-    /**
-     * End queue on category view
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Enterprise_CatalogPermissions_Model_Observer
-     */
-    public function endCategoryIndexQueue(Varien_Event_Observer $observer)
-    {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
-            return $this;
-        }
-
-        $this->_isCategoryQueue = false;
-
-        foreach ($this->_queue as $index => $category) {
-            if ($category instanceof Mage_Catalog_Model_Category) {
-                $permissions = $this->_getIndexModel()->getIndexForCategory($category->getId(), $this->_getCustomerGroupId(), $this->_getWebsiteId());
-
-                if (isset($permissions[$category->getId()])) {
-                    $category->setPermissions($permissions[$category->getId()]);
-                }
-
-                $this->_applyPermissionsOnCategory($category);
-                unset($this->_queue[$index]);
-            }
-        }
-
-        if ($observer->getEvent()->getCategory()->getIsHidden()) {
-
-            $observer->getEvent()->getControllerAction()->getResponse()
-                ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
-
-            Mage::throwException(Mage::helper('enterprise_catalogpermissions')->__('You have no permissions to access this category'));
-        }
-
-        return $this;
-    }
 
     /**
      * Apply category related permissions on category

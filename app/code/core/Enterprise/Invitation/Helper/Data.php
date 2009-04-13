@@ -127,7 +127,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCustomerInvitationUrl()
     {
-        return $this->_getUrl('enterprise_invitation/index/list');
+        return $this->_getUrl('enterprise_invitation/');
     }
 
 
@@ -138,7 +138,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getCustomerInvitationFormUrl()
     {
-        return $this->_getUrl('enterprise_invitation/');
+        return $this->_getUrl('enterprise_invitation/index/send');
     }
 
     /**

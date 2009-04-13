@@ -93,7 +93,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
                     if ($category->getIsActive()) {
                         $event->setCategory($category);
                     } else {
-                        $eventCollection->removeItem($event);
+                        $eventCollection->removeItemByKey($event->getId());
                     }
                 }
 

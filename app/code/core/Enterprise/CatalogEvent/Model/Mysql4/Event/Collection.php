@@ -44,6 +44,7 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
     protected function _construct()
     {
         $this->_init('enterprise_catalogevent/event');
+
     }
 
     /**

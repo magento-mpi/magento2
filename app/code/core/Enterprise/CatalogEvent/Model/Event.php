@@ -42,6 +42,8 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
 
     const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
 
+    const IMAGE_PATH = 'enterprise/catalogevent';
+
     protected $_store = null;
 
     /**
@@ -101,6 +103,40 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
         }
 
         return $this->_store;
+    }
+
+    /**
+     * Set event image
+     *
+     * @param string|null|Varien_File_Uploader $value
+     * @return Enterprise_CatalogEvent_Model_Event
+     */
+    public function setImage($value)
+    {
+        if ($value instanceof Varien_File_Uploader) {
+            $value->save(Mage::getBaseDir('media') . DS
+                         . strtr(self::IMAGE_PATH, '/', DS));
+
+            $value = $value->getUploadedFileName();
+        }
+
+        $this->setData('image', $value);
+        return $this;
+    }
+
+    /**
+     * Retreive image url
+     *
+     * @return string|boolean
+     */
+    public function getImageUrl()
+    {
+        if ($this->getImage()) {
+            return Mage::getBaseUrl('media') . '/'
+                   . self::IMAGE_PATH . '/' . $this->getImage();
+        }
+
+        return false;
     }
 
     /**
@@ -172,8 +208,8 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     public function applyStatusByDates()
     {
         if ($this->getDateStart() && $this->getDateEnd()) {
-            $timeStart = strtotime($this->getDateStart()); // Date already in gmt, no conversion
-            $timeEnd = strtotime($this->getDateEnd()); // Date already in gmt, no conversion
+            $timeStart = $this->_getResource()->mktime($this->getDateStart()); // Date already in gmt, no conversion
+            $timeEnd = $this->_getResource()->mktime($this->getDateEnd()); // Date already in gmt, no conversion
             $timeNow = gmdate('U');
             if ($timeStart <= $timeNow && ($timeEnd + 60 /* seconds */) >= $timeNow) {
                 $this->setStatus(self::STATUS_OPEN);
@@ -184,6 +220,17 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
             }
         }
         return $this;
+    }
+
+    /**
+     * Retreive category ids with events
+     *
+     * @param int|string|Mage_Core_Model_Store $storeId
+     * @return array
+     */
+    public function getCategoryIdsWithEvent($storeId = null)
+    {
+        return $this->_getResource()->getCategoryIdsWithEvent($storeId);
     }
 
     /**

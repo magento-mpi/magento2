@@ -50,7 +50,8 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         $category = $observer->getEvent()->getCategory();
 
         /* @var $category Mage_Catalog_Model_Category */
-        if ($category->hasData('permissions') && is_array($category->getData('permissions'))) {
+        if ($category->hasData('permissions') && is_array($category->getData('permissions'))
+            && Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions')) {
             foreach ($category->getData('permissions') as $data) {
                 $permission = Mage::getModel('enterprise_catalogpermissions/permission');
                 if (!empty($data['id'])) {
@@ -73,12 +74,12 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                 }
 
                 $permission->addData($data);
-                if ($permission->getGrantCatalogCategoryView() == -2) {
-                    $permission->setGrantCatalogProductPrice(-2);
+                if ($permission->getGrantCatalogCategoryView() == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY) {
+                    $permission->setGrantCatalogProductPrice(Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
                 }
 
-                if ($permission->getGrantCatalogProductPrice() == -2) {
-                    $permission->setGrantCheckoutItems(-2);
+                if ($permission->getGrantCatalogProductPrice() == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY) {
+                    $permission->setGrantCheckoutItems(Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
                 }
                 $permission->setCategoryId($category->getId());
                 $permission->save();
@@ -183,7 +184,8 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function addCategoryPermissionTab(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled() &&
+            Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions')) {
             return $this;
         }
 

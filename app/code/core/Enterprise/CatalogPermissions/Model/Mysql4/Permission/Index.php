@@ -110,7 +110,10 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
         $notEmptyWhere = array();
 
         foreach (array_keys($this->_grantsInheritance) as $grant) {
-             $notEmptyWhere[] = 'permission.' . $grant . ' != 0';
+             $notEmptyWhere[] = $this->_getReadAdapter()->quoteInto(
+                'permission.' . $grant . ' != ?',
+                Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT
+             );
         }
 
         $select->where('(' . implode(' OR ', $notEmptyWhere).  ')');
@@ -195,11 +198,11 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             $this->_inheritCategoryPermission($path);
             if (isset($this->_permissionCache[$path])) {
                 foreach ($this->_permissionCache[$path] as $permission) {
-                    if ($permission['grant_catalog_category_view'] == -2) {
-                        $permission['grant_catalog_product_price'] = - 2;
+                    if ($permission['grant_catalog_category_view'] == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY) {
+                        $permission['grant_catalog_product_price'] = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
                     }
-                    if ($permission['grant_catalog_product_price'] == -2) {
-                        $permission['grant_checkout_items'] = -2;
+                    if ($permission['grant_catalog_product_price'] == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY) {
+                        $permission['grant_checkout_items'] = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
                     }
                     $this->_insert('permission_index', array(
                         $categoryId,

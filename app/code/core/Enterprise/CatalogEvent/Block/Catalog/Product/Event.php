@@ -40,7 +40,11 @@ class Enterprise_CatalogEvent_Block_Catalog_Product_Event extends Enterprise_Cat
      */
     public function getEvent()
     {
-        return $this->getProduct()->getEvent();
+        if ($this->getProduct()) {
+            return $this->getProduct()->getEvent();
+        }
+
+        return false;
     }
 
     /**
@@ -60,7 +64,8 @@ class Enterprise_CatalogEvent_Block_Catalog_Product_Event extends Enterprise_Cat
      */
     public function canDisplay()
     {
-        return $this->getEvent() &&
+        return $this->getProduct() &&
+               $this->getEvent() &&
                $this->getEvent()->getStatus() != Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED &&
                $this->getEvent()->canDisplayProductPage() &&
                !$this->getProduct()->getEventNoTicker();

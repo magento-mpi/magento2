@@ -50,7 +50,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
      * Send invitations from frontend
      *
      */
-    public function indexAction()
+    public function sendAction()
     {
         $data = $this->getRequest()->getPost();
         if ($data) {
@@ -124,12 +124,14 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
 
                     Mage::getSingleton('customer/session')->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation for %s has been sent successfully.', $email));
                     $sentAmount ++;
+
                 } catch (Mage_Core_Exception $e) {
                     Mage::getSingleton('customer/session')->addError($e->getMessage());
                 } catch (Exception $e) {
                     Mage::getSingleton('customer/session')->addError(Mage::helper('enterprise_invitation')->__('Email to %s was not sent for some reason. Please try again later.', $email));
                 }
             }
+
             $this->_redirect('*/*/');
             return;
         }
@@ -146,7 +148,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
      * View invitation list in 'My Account' section
      *
      **/
-    public function listAction()
+    public function indexAction()
     {
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');

@@ -24,41 +24,26 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/* @var $installer Enterprise_CatalogEvent_Model_Mysql4_Setup */
+$installer = $this;
 
-/**
- * Catalog Events edit page
- *
- * @category   Enterprise
- * @package    Enterprise_CatalogEvent
- */
-class Enterprise_CatalogEvent_Block_Adminhtml_Event_Helper_Image extends Varien_Data_Form_Element_Image
-{
-    /**
-     * Get url for image
-     *
-     * @return string|boolean
-     */
-    protected function _getUrl()
-    {
-        $url = false;
-        if ($this->getValue()) {
-            $url = $this->getForm()->getDataObject()->getImageUrl();
-        }
-        return $url;
-    }
+$installer->startSetup();
 
-    /**
-     * Get default field name
-     *
-     * @return string
-     */
-    public function getDefaultName()
-    {
-        $name = $this->getData('name');
-        if ($suffix = $this->getForm()->getFieldNameSuffix()) {
-            $name = $this->getForm()->addSuffixToName($name, $suffix);
-        }
-        return $name;
-    }
+$blockId = $installer->getConnection()->fetchOne($installer->getConnection()->select()
+    ->from($this->getTable('cms/block'), 'block_id')
+    ->where('identifier = ?', 'catalog_events_lister'));
 
+if ($blockId) {
+    $installer->getConnection()->delete(
+        $this->getTable('cms/block_store'),
+        $installer->getConnection()->quoteInto('block_id = ?', $blockId)
+    );
+
+    $installer->getConnection()->insert(
+        $this->getTable('cms/block_store'),
+        array(
+            'block_id' => $blockId,
+            'store_id' => 0
+        )
+    );
 }

@@ -60,6 +60,88 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
     }
 
     /**
+     * Retreive category ids with events
+     *
+     * @param int|string|Mage_Core_Model_Store $storeId
+     * @return array
+     */
+    public function getCategoryIdsWithEvent($storeId = null)
+    {
+        $rootCategoryId = Mage::app()->getStore($storeId)->getRootCategoryId();
+
+        /* @var $select Varien_Db_Select */
+        $select = Mage::getModel('catalog/category')->getCollection()
+            ->setStoreId(Mage::app()->getStore($storeId)->getId())
+            ->addIsActiveFilter()
+            ->addNameToResult()
+            ->addPathsFilter(Mage_Catalog_Model_Category::TREE_ROOT_ID . '/' . $rootCategoryId)
+            ->getSelect();
+
+        $parts = $select->getPart(Zend_Db_Select::FROM);
+
+        if (isset($parts['main_table'])) {
+            $categoryCorrelationName = 'main_table';
+        } else {
+            $categoryCorrelationName = 'e';
+
+        }
+
+        $fieldsToSelect = array(
+            'entity_id',
+            'path',
+            'level'
+        );
+
+        $columns = $select->getPart(Zend_Db_Select::COLUMNS);
+
+        $select->reset(Zend_Db_Select::COLUMNS);
+
+        foreach ($columns as $column) {
+            if (in_array($column[1], $fieldsToSelect) ||
+                ($column[2] !== null && in_array($column[2], $fieldsToSelect))) {
+                $expr = ($column[2] !== null ? array($column[2]=>$column[1]) : $column[1]);
+                $select->columns($expr, $column[0]);
+            }
+        }
+
+
+        $select
+            ->joinLeft(
+                array('event'=>$this->getMainTable()),
+                'event.category_id = ' . $categoryCorrelationName . '.entity_id',
+                'event_id'
+        )->order($categoryCorrelationName . '.level ASC');
+
+        $eventCategories = $this->_getReadAdapter()->fetchAssoc($select);
+
+        if (empty($eventCategories)) {
+            return array();
+        }
+
+        $result = array();
+
+        foreach ($eventCategories as $categoryId => $category) {
+            if ($category['event_id'] === null && $category['level'] > 2) {
+                foreach ($eventCategories as $parentId => $parentCategory) {
+                    if (strpos($category['path'], $parentCategory['path']) !== false &&
+                        isset($result[$parentId]) &&
+                        $result[$parentId] !== null) {
+                        $result[$categoryId] = $result[$parentId];
+                        break;
+                    }
+                }
+                if (!isset($result[$categoryId])) {
+                    $result[$categoryId] = null;
+                }
+            } else {
+                $result[$categoryId] = $category['event_id'];
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * After model save (save event image)
      *
      * @param Mage_Core_Model_Abstract $object
