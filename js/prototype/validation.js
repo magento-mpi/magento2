@@ -403,6 +403,16 @@ Validation.addAllThese([
                 var pass=v.strip(); /*strip leading and trailing spaces*/
                 return !(pass.length>0 && pass.length < 6);
             }],
+    ['validate-admin-password', 'Please enter 7 or more characters. Password should contain both numeric and alphabetic characters.', function(v) {
+                var pass=v.strip();
+                if (0 == pass.length) {
+                    return true;
+                }
+                if (!(/[a-z]/i.test(v)) || !(/[0-9]/.test(v))) {
+                    return false;
+                }
+                return !(pass.length < 7);
+            }],
     ['validate-cpassword', 'Please make sure your passwords match.', function(v) {
                 var pass = $('password') ? $('password') : $$('.validate-password')[0];
                 var conf = $('confirmation') ? $('confirmation') : $$('.validate-cpassword')[0];
