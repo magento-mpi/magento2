@@ -67,9 +67,11 @@ class Enterprise_Permissions_Block_Permissions_Grid_Renderer_Websites extends Ma
         $storeGroupIds = array();
         if ($websiteIds = $row->getData('website_ids')) {
             $websiteIds = explode(',', $websiteIds);
-            foreach (self::$websites as $website) {
-                unset($website['name']);
-                $storeGroupIds = array_merge($storeGroupIds, array_keys($website));
+            foreach (self::$websites as $websiteId => $website) {
+                if (in_array($websiteId, $websiteIds)) {
+                    unset($website['name']);
+                    $storeGroupIds = array_merge($storeGroupIds, array_keys($website));
+                }
             }
         }
         else {
