@@ -27,6 +27,9 @@
 class Enterprise_Logging_Block_Events_Logs_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
+    /**
+     * constructor
+     */
     protected function _construct()
     {
         $this->setSaveParametersInSession(true);
@@ -50,15 +53,19 @@ class Enterprise_Logging_Block_Events_Logs_Grid extends Mage_Adminhtml_Block_Wid
      */
     protected function _prepareColumns()
     {
-        $url7zip = Mage::helper('adminhtml')->__('The archive can be uncompressed with <a href="%s">%s</a> on Windows systems', 'http://www.7-zip.org/', '7-Zip');
-
         $gridUrl = $this->getUrl('*/*/');
 
         $this->addColumn('download', array(
-            'header'    => Mage::helper('backup')->__('Download'),
+            'header'    => Mage::helper('enterprise_logging')->__('Download'),
             'format'    => '<a href="' . $gridUrl .'download/?name=$filename">$filename</a>',
             'index'     => 'filename',
-            //'filter'    => false
+        ));
+
+        $this->addColumn('date', array(
+            'header'    => Mage::helper('enterprise_logging')->__('Date'),
+            'type'      => 'datetime',
+            'index'     => 'date',
+            'sortable'  => false
         ));
 
         return $this;

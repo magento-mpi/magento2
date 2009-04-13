@@ -38,6 +38,9 @@ class Enterprise_Logging_Block_Events_Grid_Filter_User extends Mage_Adminhtml_Bl
         return $options;
     }
 
+    /**
+     * returns condition
+     */
     public function getCondition()
     {
     	return $this->getValue();

@@ -49,9 +49,13 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
         $result = array();
         foreach ($files as $file) {
             $file = preg_replace(array('/^' . preg_quote($baseDir . DS, '/') . '/', '/\.(xml|ser)$/'), '', $file);
+            $names = explode('/', $file);
+            $date = sprintf("%s-%s-%s", $names[0], $names[1], substr($names[2], 6, 2));
+
             $result[] = array(
                 'filename'    => $file,
-                'filename_id' => $file
+                'filename_id' => $file,
+                'date'        => $date,
             );
         }
         return $result;
@@ -110,7 +114,9 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
         }
     }
 
-    /** ----------------------------- **/
+    /** 
+     * Load files from disk
+     */
     public function loadData($printQuery = false, $logQuery = false)
     {
         if ($this->isLoaded()) {
@@ -149,6 +155,7 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
                 continue;
             }
             $item = new $this->_itemObjectClass();
+
             $item->addData($pkg);
             $this->addItem($item);
         }
@@ -156,12 +163,19 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
         return $this;
     }
 
+    /**
+     * Process grid 'order' action
+     */
+
     public function setOrder($field, $dir='desc')
     {
         $this->_orders[] = array('field'=>$field, 'dir'=>$dir);
         return $this;
     }
 
+    /**
+     * Sorting files
+     */
     public function sortPackages($a, $b)
     {
         $field = $this->_orders[0]['field'];
@@ -172,12 +186,18 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
         return ('asc'===$dir) ? $cmp : -$cmp;
     }
 
+    /**
+     * add filter
+     */
     public function addFieldToFilter($field, $condition)
     {
         $this->_filters[$field] = $condition;
         return $this;
     }
 
+    /**
+     * Process filter
+     */
     public function validateRow($row)
     {
         if (empty($this->_filters)) {
@@ -198,6 +218,16 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
                     return false;
                 }
             }
+            if ($field == 'date') {
+                if (isset($filter['from']) && ($from = $filter['from'])) {
+                    if ($from->getTimestamp() > strtotime($row['date']))
+                        return false;
+                }
+                if (isset($filter['to']) && ($to = $filter['to'])) {
+                    if ($to->getTimestamp() < strtotime($row['date']))
+                        return false;
+                }
+            }
             if ('version'===$field) {
                 if (isset($filter['from'])) {
                     if (!version_compare($filter['from'], $row[$field], '<=')) {
@@ -214,6 +244,9 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
         return true;
     }
 
+    /**
+     * Return files identifiers
+     */
     public function getAllIds()
     {
         $this->load();

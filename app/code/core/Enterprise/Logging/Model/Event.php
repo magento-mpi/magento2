@@ -29,9 +29,6 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     /**
      * configuration
      */
-    private $_config;
-    private $_action;
-    private $_entity = false;
     const   CONFIG_FILE = 'logging.xml';
 
     /**
@@ -49,7 +46,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      */
     public function isActive($action)
     {
-        if( !($conf = Mage::app()->loadCache('actions_to_log')) || 1) {
+        if( !($conf = Mage::app()->loadCache('actions_to_log')) ) {
             $conf = $this->_getActionsConfigFromXml();
             $result = Mage::app()->saveCache(serialize($conf), 'actions_to_log');
 
@@ -86,6 +83,9 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         return $fullconfig[$action];
     }
 
+    /**
+     * Get all labels
+     */
     public function getLabels() {
         $labelsconfig = unserialize(Mage::app()->loadCache('actions_to_log_labels'));
         if (!$labelsconfig) {
@@ -95,11 +95,17 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         return $labelsconfig;
     }
 
+    /**
+     * Get label for current event_code
+     */
     public function getLabel($code) {
         $labelsconfig = $this->getLabels();
         return isset($labelsconfig[$code]) ? $labelsconfig[$code] : "";
     }
 
+    /**
+     * Load actions from config
+     */
     private function _getActionsConfigFromXml() {
         $config = Mage::getConfig();
         $modules = $config->getNode('modules')->children();
@@ -118,6 +124,9 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         return $conf;
     }
 
+    /**
+     * Load labels from configuration file
+     */
     private function _getLabelsConfigFromXml() {
         $config = Mage::getConfig();
         $modules = $config->getNode('modules')->children();

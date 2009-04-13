@@ -26,6 +26,9 @@
 
 class Enterprise_Logging_Block_Events_Grid_Filter_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text
 {
+    /**
+     * ip filter method
+     */
     public function getCondition()
     {
         $ip = $this->getValue();

@@ -32,23 +32,15 @@ class Enterprise_Logging_Model_Logs extends Varien_Object
     /**
      * Type of backup file
      *
-     * @var string db|media|view
+     * @var string csv
      */
     private $_type  = 'csv';
 
     /**
      * Directory to save csv dumps
      */
-
     private $_basePath = null;
     
-    /**
-     * Gz file pointer
-     *
-     * @var resource
-     */
-    protected $_handler = null;
-
 
     /**
      * Getter for _basePath

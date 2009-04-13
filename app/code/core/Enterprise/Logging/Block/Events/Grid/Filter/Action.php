@@ -37,7 +37,10 @@ class Enterprise_Logging_Block_Events_Grid_Filter_Action extends Mage_Adminhtml_
           $options[] = array('value' => $action->getId(), 'label' => $action->getName());
         return $options;
     }
-
+    
+    /**
+     * returns value
+     */
     public function getCondition()
     {
     	return $this->getValue();

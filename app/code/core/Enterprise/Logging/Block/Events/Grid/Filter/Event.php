@@ -26,6 +26,9 @@
 
 class Enterprise_Logging_Block_Events_Grid_Filter_Event extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
+    /**
+     * Load labels from logging.xml
+     */
     protected function _getOptions()
     {
         $options = array(
@@ -40,7 +43,10 @@ class Enterprise_Logging_Block_Events_Grid_Filter_Event extends Mage_Adminhtml_B
         }
         return $options;
     }
-
+    
+    /**
+     * returns value
+     */
     public function getCondition()
     {
     	return $this->getValue();

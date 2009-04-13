@@ -858,13 +858,12 @@
       <permissions>Permissions</permissions>
       <adminlogin>Admin Login</adminlogin>
       <websites>Websites</websites>
-      <stores>Stores</stores>
-      <storeviews>Store Views</storeviews>
+      <stores>Store Views</stores>
+      <storeviews>Stores</storeviews>
       <customertaxclasses> Customer tax class</customertaxclasses>
       <producttaxclasses> Product tax class</producttaxclasses>
       <taxrules> Tax rules</taxrules>
       <taxrates> Tax rates</taxrates>
-
     </list>
   </labels>
 </logging>
