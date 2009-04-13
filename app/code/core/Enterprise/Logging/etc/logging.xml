@@ -36,6 +36,7 @@
       <event>products</event>
       <action>save</action>
       <model>Mage_Catalog_Model_Product</model>
+      <allow-multiply-models>1</allow-multiply-models>
     </catalog_product_save>
 
     <catalog_product_delete>

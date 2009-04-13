@@ -130,7 +130,11 @@ class Enterprise_Logging_Model_Observer
                  * be restored in php 5.3. So you may remove '@' if you use php 5.3 or higher.
                  */
                 if($conf && isset($conf['model']) && ($class = $conf['model']) && @is_a($model, $class)) {
-                    Mage::register('saved_model_'.$action, $model);
+                    if (isset($conf['allow-multiply-models']) && $conf['allow-multiply-models']) {
+                        if (!Mage::registry('saved_model_'.$action)) 
+                            Mage::register('saved_model_'.$action, $model);
+                    } else
+                            Mage::register('saved_model_'.$action, $model);
                 } 
             }
         }
@@ -494,10 +498,9 @@ class Enterprise_Logging_Model_Observer
 
         $node = Mage::getConfig()->getNode('default/admin/logsenabled/adminlogin');
         $enabled = ( (string)$node == '1' ? true : false);
-        if (!$enabled || Mage::registry('login_failed_processed'))
+        if (!$enabled)
             return;
 
-        Mage::register('login_failed_processed', 1);
         $event = Mage::getModel('enterprise_logging/event');
         $event->setIp($_SERVER['REMOTE_ADDR'])
             ->setUserId(0)
