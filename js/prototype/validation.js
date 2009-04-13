@@ -155,8 +155,9 @@ Object.extend(Validation, {
         var container = $(elm).up('.field-row');
         if(container){
             Element.insert(container, {after: advice});
-        }
-        else if (elm.advaiceContainer && $(elm.advaiceContainer)) {
+        } else if (elm.up('td.value')) {
+            elm.up('td.value').insert({bottom: advice});
+        } else if (elm.advaiceContainer && $(elm.advaiceContainer)) {
             $(elm.advaiceContainer).update(advice);
         }
         else {
