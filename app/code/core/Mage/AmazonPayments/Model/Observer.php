@@ -36,6 +36,9 @@ class Mage_AmazonPayments_Model_Observer
     public function confirmShipment(Varien_Event_Observer $observer)
     {
         $shipment = $observer->getEvent()->getShipment();
+        if ($shipment->getOrder()->getPayment()->getMethod() != 'amazonpayments_cba') {
+            return;
+        }
 
         Mage::getModel('amazonpayments/api_cba')
             ->confirmShipment($shipment);
