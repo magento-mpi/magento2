@@ -554,7 +554,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         foreach ($modules as $moduleName => $moduleProps) {
             $depends = $moduleProps['depends'];
             foreach ($moduleProps['depends'] as $depend => $true) {
-                if ((!isset($modules[$depend])) || empty($modules[$depend]['active'])) {
+                if ($moduleProps['active'] && ((!isset($modules[$depend])) || empty($modules[$depend]['active']))) {
                     Mage::throwException(Mage::helper('core')->__('Module "%1$s" requires module "%2$s"', $moduleName, $depend));
                 }
                 $depends = array_merge($depends, $modules[$depend]['depends']);

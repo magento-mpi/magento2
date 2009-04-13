@@ -67,7 +67,12 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 break;
         }
 
-        Mage::dispatchEvent('core_session_before_set_cookie_params');
+        if (Mage::app()->getStore()->isAdmin()) {
+            $adminSessionLifetime = (int)Mage::getStoreConfig('admin/security/session_cookie_lifetime');
+            if ($adminSessionLifetime > 60) {
+                Mage::getSingleton('core/cookie')->setLifetime($adminSessionLifetime);
+            }
+        }
 
         // set session cookie params
         session_set_cookie_params(
