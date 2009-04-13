@@ -35,9 +35,11 @@
 .giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
 .top-cart  { _width:10px; }
 .cart .crosssell { _height:400px; }
-#nav li a { _margin-bottom:-1px; }
+#nav li a { _margin-bottom:-2px; }
+#nav li a:hover,
 #nav li.active,
-#nav li.over a { _margin-bottom:-3px; }
+#nav li.over a { _margin-bottom:-3px; _height:30px; }
+#nav li li a:hover { margin-bottom:0!important; }
 #nav li li a { margin-bottom:0!important; }
 
 /* Doubled Margin Fixes */
