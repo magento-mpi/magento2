@@ -223,17 +223,6 @@ class Enterprise_Pci_Model_Observer
     }
 
     /**
-     * Force admin session lifetime 15 minutes
-     */
-    public function setCookieLifetime()
-    {
-        if (Mage::app()->getStore()->isAdmin()) {
-            // (int)ini_get('session.gc_maxlifetime')
-            Mage::getSingleton('core/cookie')->setLifetime(15 * 60);
-        }
-    }
-
-    /**
      * Force admin to change password
      *
      * @param Varien_Event_Observer $observer
