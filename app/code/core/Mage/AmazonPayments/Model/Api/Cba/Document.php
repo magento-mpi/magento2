@@ -185,17 +185,6 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
      */
     public function cancel($order)
     {
-//        $this->getPendingDocuments();
-//        Zend_Debug::dump($this->getDocument('990002713')->asXML());
-//        try {
-//            Zend_Debug::dump($this->getClient()->getWire());
-//        } catch (Exception $e) {
-//            echo 'Exception';
-//            Zend_Debug::dump($e->getMessage());
-//        }
-//        Zend_Debug::dump($this->_result);
-//        die(__METHOD__.'::'.__LINE__);
-
         $_document = '<?xml version="1.0" encoding="UTF-8"?>
         <AmazonEnvelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="amzn-envelope.xsd">
         <Header>
@@ -220,8 +209,6 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         );
 
         $this->_proccessRequest('postDocument', $params);
-        Zend_Debug::dump($this->getClient()->getWire());
-        die(__METHOD__.'::'.__LINE__);
         return $this->_result;
     }
 
@@ -291,9 +278,6 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
             'doc' => $this->_createAttachment($_document)
         );
         $this->_proccessRequest('postDocument', $params);
-//        Zend_Debug::dump($_document);
-//        Zend_Debug::dump($this->_result);
-//        die(__METHOD__.'::'.__LINE__);
         return $this->_result;
     }
 
@@ -306,29 +290,26 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                 <DocumentVersion>1.01</DocumentVersion>
                 <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
             </Header>
-            <MessageType>OrderFulfillment</MessageType>';
-        $_messageId = 1;
+            <MessageType>OrderFulfillment</MessageType>
+            <Message>
+                <MessageID>1</MessageID>
+                <OrderFulfillment>
+                    <AmazonOrderID>' . $aOrderId . '</AmazonOrderID>
+                    <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
+                    <FulfillmentData>
+                        <CarrierCode>' . strtoupper($carrierCode) . '</CarrierCode>
+                        <ShippingMethod>' . $carrierMethod . '</ShippingMethod>
+                        <ShipperTrackingNumber>' . $trackNumber .'</ShipperTrackingNumber>
+                    </FulfillmentData>';
         foreach ($items as $item) {
-            /* @var $item Mage_Sales_Model_Order_Item */
-            $_document .= '<Message>
-                    <MessageID>' . $_messageId . '</MessageID>
-                    <OrderFulfillment>
-                        <AmazonOrderID>' . $aOrderId . '</AmazonOrderID>
-                        <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
-                        <FulfillmentData>
-                            <CarrierCode>' . strtoupper($carrierCode) . '</CarrierCode>
-                            <ShippingMethod>' . $carrierMethod . '</ShippingMethod>
-                            <ShipperTrackingNumber>' . $trackNumber .'</ShipperTrackingNumber>
-                        </FulfillmentData>
-                        <Item>
+            $_document .= '<Item>
                             <AmazonOrderItemCode>' . $item['id'] . '</AmazonOrderItemCode>
                             <Quantity>' . $item['qty'] . '</Quantity>
-                        </Item>
-                    </OrderFulfillment>
-                </Message>';
-            $_messageId++;
+                        </Item>';
         }
-        $_document .= '</AmazonEnvelope>';
+        $_document .= '</OrderFulfillment>
+                </Message>
+        </AmazonEnvelope>';
         $params = array(
             'merchant' => $this->getMerchantInfo(),
             'messageType' => self::MESSAGE_TYPE_FULFILLMENT,
@@ -357,11 +338,8 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                 <MerchantIdentifier>' . $this->getMerchantIdentifier() . '</MerchantIdentifier>
             </Header>
             <MessageType>OrderFulfillment</MessageType>';
-        $_messageId = 1;
-        foreach ($order->getAllVisibleItems() as $item) {
-            /* @var $item Mage_Sales_Model_Order_Item */
             $_document .= '<Message>
-                    <MessageID>' . $_messageId . '</MessageID>
+                    <MessageID>1</MessageID>
                     <OrderFulfillment>
                         <AmazonOrderID>' . $order->getExtOrderId() . '</AmazonOrderID>
                         <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
@@ -370,14 +348,8 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                             <ShippingMethod>' . $carrierMethod . '</ShippingMethod>
                             <ShipperTrackingNumber>' . $trackNumber .'</ShipperTrackingNumber>
                         </FulfillmentData>
-                        <Item>
-                            <AmazonOrderItemCode>' . $item->getExtOrderItemId() . '</AmazonOrderItemCode>
-                            <Quantity>' . $item->getQtyShipped() . '</Quantity>
-                        </Item>
                     </OrderFulfillment>
                 </Message>';
-            $_messageId++;
-        }
         $_document .= '</AmazonEnvelope>';
         $params = array(
             'merchant' => $this->getMerchantInfo(),

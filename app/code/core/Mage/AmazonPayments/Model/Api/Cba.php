@@ -928,6 +928,7 @@ XML;
     {
         $items = array();
         foreach ($shipment->getAllItems() as $item) {
+            /* @var $item Mage_Sales_Model_Order_Shipment_Item */
             if ($item->getOrderItem()->getParentItemId()) {
                 continue;
             }
@@ -972,25 +973,7 @@ XML;
      */
     public function sendTrackingNumber($order, $track)
     {
-//        $items = array();
-//        foreach ($track->getShipment()->getAllItems() as $item) {
-//            if ($item->getOrderItem()->getParentItemId()) {
-//                continue;
-//            }
-//            $items[] = array(
-//                'id' => $item->getOrderItem()->getExtOrderItemId(),
-//                'qty' => $item->getQty()
-//            );
-//        }
-        /** @todo get carrier method (shipping method) */
-//        $this->getDocumentApi()->confirmShipment(
-//            $order->getExtOrderId(),
-//            $track->getCarrierCode(),
-//            $order->getShippingCarrier()->getCode('method', $track->getCarrierCode()),
-//            $items,
-//            $track->getNumber()
-//        );
-//        $this->getDocumentApi()->sendTrackNumber($track->getShipment(), $carrierCode, $carrierMethod, $trackNumber);
+//        $this->getDocumentApi()->sendTrackNumber($order, $carrierCode, $carrierMethod, $trackNumber);
         return $this;
     }
 
