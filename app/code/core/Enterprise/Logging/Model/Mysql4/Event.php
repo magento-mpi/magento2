@@ -76,7 +76,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
             fputcsv($f, $row);
         }
         fclose($f);
-        $this->_getConnection('write')->query($del_query);
+        //$this->_getConnection('write')->query($del_query);
     }
 
     /**

@@ -328,7 +328,7 @@
     <crontab>
         <jobs>
             <enterprise_logging_rotate_logs>
-                <schedule><cron_expr>* * * * *</cron_expr></schedule>
+                <schedule><cron_expr>1 2 * * *</cron_expr></schedule>
                 <run><model>enterprise_logging/observer::rotateLogs</model></run>
             </enterprise_logging_rotate_logs>
         </jobs>
