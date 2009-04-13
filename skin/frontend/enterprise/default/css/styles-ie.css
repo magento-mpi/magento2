@@ -25,6 +25,7 @@
 
 .col-main .page-title { _position:relative; _z-index:1; }
 .switch ul .current { _padding-right:4em;}
+.sidebar,
 .main { _height:350px; }
 .restriction-index-stub .main { _height:auto; }
 .opc .step { _height:300px; }
