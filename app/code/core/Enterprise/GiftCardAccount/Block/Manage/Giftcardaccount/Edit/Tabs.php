@@ -43,6 +43,19 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit_Tabs extends 
             'active'    => true
         ));
 
+        $this->addTab('send', array(
+            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Send Gift Card'),
+            'content'   => $this->getLayout()->createBlock('enterprise_giftcardaccount/manage_giftcardaccount_edit_tab_send')->initForm()->toHtml(),
+        ));
+
+        $model = Mage::registry('current_giftcardaccount');
+        if ($model->getId()) {
+            $this->addTab('history', array(
+                'label'     => Mage::helper('enterprise_giftcardaccount')->__('History'),
+                'content'   => $this->getLayout()->createBlock('enterprise_giftcardaccount/manage_giftcardaccount_edit_tab_history')->toHtml(),
+            ));
+        }
+
         return parent::_beforeToHtml();
     }
 

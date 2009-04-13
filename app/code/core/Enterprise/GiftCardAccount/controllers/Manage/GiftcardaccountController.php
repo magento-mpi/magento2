@@ -70,28 +70,20 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
 
         // 1. Get ID and create model
         $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
+        $this->_initGca();
+        $model = Mage::registry('current_giftcardaccount');
 
-        // 2. Initial checking
-        if ($id) {
-            $model->load($id);
-            if (! $model->getId()) {
-                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_giftcardaccount')->__('This Gift Card Account no longer exists'));
-                $this->_redirect('*/*/');
-                return;
-            }
+        if (!$model->getId() && $id) {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_giftcardaccount')->__('This Gift Card Account no longer exists'));
+            $this->_redirect('*/*/');
+            return;
         }
 
-        // 3. Set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
-        if (! empty($data)) {
+        if (!empty($data)) {
             $model->setData($data);
         }
 
-        // 4. Register model to use later in blocks
-        Mage::register('current_giftcardaccount', $model);
-
-        // 5. Build edit form
         $this->loadLayout()
             ->_addBreadcrumb($id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'), $id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'))
             ->_addContent($this->getLayout()->createBlock('enterprise_giftcardaccount/manage_giftcardaccount_edit')->setData('action', $this->getUrl('*/_/save')))
@@ -109,20 +101,43 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
             // init model and set data
             $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
             if (isset($data['info'])) {
+                if (isset($data['info']['giftcardaccount_id'])) {
+                    $model->load($data['info']['giftcardaccount_id']);
+                }
                 $model->addData($data['info']);
             }
+
             // try to save it
             try {
                 // save the data
                 $model->save();
+
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully saved'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
 
+                if (isset($data['send'])) {
+                    if (isset($data['send']['action']) && $data['send']['action']) {
+                        try {
+                            $model->load($model->getId());
+
+                            $name = (isset($data['send']['recipient_name']) ? $data['send']['recipient_name'] : '');
+                            $email = (isset($data['send']['recipient_email']) ? $data['send']['recipient_email'] : '');
+
+                            $model->setRecipientEmail($email)
+                                ->setRecipientName($name)
+                                ->sendEmail();
+                            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully sent'));
+                        } catch (Exception $e) {
+                            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account could not be sent'));
+                        }
+                    }
+                }
+
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('block_id' => $model->getId()));
+                    $this->_redirect('*/*/edit', array('id' => $model->getId()));
                     return;
                 }
                 // go to grid
@@ -135,7 +150,7 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
                 // save data in session
                 Mage::getSingleton('adminhtml/session')->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array('block_id' => $this->getRequest()->getParam('block_id')));
+                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
@@ -203,5 +218,29 @@ class Enterprise_GiftCardAccount_Manage_GiftcardaccountController extends Mage_A
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('customer/giftcardaccount');
+    }
+
+    public function gridHistoryAction()
+    {
+        $this->_initGca();
+        $id = (int)$this->getRequest()->getParam('id');
+        if ($id && !Mage::registry('current_giftcardaccount')->getId()) {
+            return;
+        }
+
+        $this->loadLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('enterprise_giftcardaccount/manage_giftcardaccount_edit_tab_history')->toHtml()
+        );
+    }
+
+    protected function _initGca($idFieldName = 'id')
+    {
+        $id = (int)$this->getRequest()->getParam($idFieldName);
+        $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
+        if ($id) {
+            $model->load($id);
+        }
+        Mage::register('current_giftcardaccount', $model);
     }
 }

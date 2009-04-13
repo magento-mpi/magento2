@@ -58,4 +58,15 @@
             <block type="enterprise_customerbalance/checkout_onepage_payment_additional" template="customerbalance/checkout/onepage/payment/scripts.phtml" name="customerbalance_scripts" />
         </reference>
     </checkout_onepage_paymentmethod>
+
+    <sales_order_view>
+        <reference name="order_items">
+            <block type="enterprise_customerbalance/sales_order_customerbalance" name="customerbalance" template="customerbalance/order/customerbalance.phtml" />
+        </reference>
+    </sales_order_view>
+    <sales_order_print>
+        <reference name="sales.order.print">
+            <block type="enterprise_customerbalance/sales_order_customerbalance" name="customerbalance" template="customerbalance/order/customerbalance.phtml" />
+        </reference>
+    </sales_order_print>
 </layout>

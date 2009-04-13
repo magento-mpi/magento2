@@ -83,6 +83,10 @@
                     if (elements[i].name != 'payment[use_customer_balance]') {
                         elements[i].disabled = elements[i].prevDisabled;
                     }
+
+                    if (elements[i].name == 'payment[method]' && elements[i].value == 'free') {
+                        elements[i].parentNode.hide();
+                    }
                 }
             }
 

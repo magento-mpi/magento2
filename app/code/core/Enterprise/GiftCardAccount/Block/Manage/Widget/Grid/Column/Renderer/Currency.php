@@ -19,22 +19,27 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_GiftCard
+ * @package    Enterprise_GiftCardAccount
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_GiftCard_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_GiftCardAccount_Block_Manage_Widget_Grid_Column_Renderer_Currency
+extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
 {
-    public function getEmailGeneratedItemsBlock()
+    protected static $_websiteBaseCurrencyCodes = array();
+
+    protected function _getCurrencyCode($row)
     {
-        $name = 'enterprise_giftcard/email_generated';
-        if ($this->getLayout()) {
-            $block = $this->getLayout()->createBlock($name);
-        } else {
-            $className = Mage::getConfig()->getBlockClassName($name);
-            $block = new $className;
+        $websiteId = Mage::registry('current_giftcardaccount')->getWebsiteId();
+        if (!isset(self::$_websiteBaseCurrencyCodes[$websiteId])) {
+            self::$_websiteBaseCurrencyCodes[$websiteId] = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
         }
-        return $block;
+        return self::$_websiteBaseCurrencyCodes[$websiteId];
+    }
+
+    protected function _getRate($row)
+    {
+        return 1;
     }
 }

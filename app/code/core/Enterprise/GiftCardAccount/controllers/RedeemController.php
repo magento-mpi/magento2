@@ -67,7 +67,12 @@ class Enterprise_GiftCardAccount_RedeemController extends Mage_Core_Controller_F
                     $this->__('Can not redeem Gift Cart, please try again later.' . $e->getMessage())
                 );
             }
+            $this->_redirect('*/*/*');
+        } else {
+            $this->loadLayout();
+            $this->_initLayoutMessages('customer/session');
+            $this->loadLayoutUpdates();
+            $this->renderLayout();
         }
-        $this->_redirect('enterprise_customerbalance/info');
     }
 }

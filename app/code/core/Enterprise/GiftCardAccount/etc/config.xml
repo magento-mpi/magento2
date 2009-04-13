@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_GiftCardAccount>
-             <version>0.0.10</version>
+             <version>0.0.11</version>
         </Enterprise_GiftCardAccount>
     </modules>
 
@@ -47,6 +47,9 @@
                     <pool>
                         <table>enterprise_giftcardaccount_pool</table>
                     </pool>
+                    <history>
+                        <table>enterprise_giftcardaccount_history</table>
+                    </history>
                 </entities>
             </enterprise_giftcardaccount_mysql4>
         </models>
@@ -121,6 +124,16 @@
             </giftcardaccount>
         </enterprise>
         <events>
+            <enterprise_giftcardaccount_save_after>
+                <observers>
+                    <enterprise_giftcardaccount_save_after>
+                        <type>singleton</type>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>giftcardaccountSaveAfter</method>
+                    </enterprise_giftcardaccount_save_after>
+                </observers>
+            </enterprise_giftcardaccount_save_after>
+
             <sales_order_place_after>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_place_after>
@@ -178,6 +191,16 @@
                 <used_gift_cards><to_order>gift_cards</to_order></used_gift_cards>
             </sales_convert_quote_address>
         </fieldsets>
+
+        <template>
+            <email>
+               <giftcardaccount_email_template translate="label" module="enterprise_giftcardaccount">
+                   <label>Gift Card Account Sent From Edit Page</label>
+                   <file>enterprise/giftcardaccount.html</file>
+                   <type>html</type>
+               </giftcardaccount_email_template>
+            </email>
+        </template>
     </global>
 
     <frontend>

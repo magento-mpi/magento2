@@ -19,22 +19,20 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_GiftCard
+ * @package    Enterprise_CustomerBalance
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_GiftCard_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_CustomerBalance_Block_Sales_Order_Customerbalance extends Mage_Core_Block_Template
 {
-    public function getEmailGeneratedItemsBlock()
+    /**
+     * Retrieve current order model instance
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function getOrder()
     {
-        $name = 'enterprise_giftcard/email_generated';
-        if ($this->getLayout()) {
-            $block = $this->getLayout()->createBlock($name);
-        } else {
-            $className = Mage::getConfig()->getBlockClassName($name);
-            $block = new $className;
-        }
-        return $block;
+        return Mage::registry('current_order');
     }
 }

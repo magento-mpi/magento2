@@ -42,6 +42,7 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
                 $args = array(
                     'amount'=>$card['ba'],
                     'giftcardaccount_id'=>$card['i'],
+                    'order'=>$order,
                 );
 
                 Mage::dispatchEvent('enterprise_giftcardaccount_charge', $args);
@@ -65,6 +66,7 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
         Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
             ->loadByCode($id)
             ->charge($amount)
+            ->setOrder($observer->getEvent()->getOrder())
             ->save();
 
         return $this;
@@ -85,6 +87,7 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
         Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
             ->load($id)
             ->charge($amount)
+            ->setOrder($observer->getEvent()->getOrder())
             ->save();
 
         return $this;
@@ -121,6 +124,13 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
     {
         $data = $observer->getEvent()->getRequest();
         $code = $observer->getEvent()->getCode();
+        if ($data->getOrder()) {
+            $order = $data->getOrder();
+        } elseif ($data->getOrderItem()->getOrder()) {
+            $order = $data->getOrderItem()->getOrder();
+        } else {
+            $order = null;
+        }
 
         $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
             ->setStatus(Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED)
@@ -128,9 +138,30 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
             ->setBalance($data->getAmount())
             ->setDateExpires($data->getLifetime())
             ->setIsRedeemable($data->getIsRedeemable())
+            ->setOrder($order)
             ->save();
 
         $code->setCode($model->getCode());
+
+        return $this;
+    }
+
+    /**
+     * Save history on gift card account model save event
+     * used for event: enterprise_giftcardaccount_save_after
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCardAccount_Model_Observer
+     */
+    public function giftcardaccountSaveAfter(Varien_Event_Observer $observer)
+    {
+        $gca = $observer->getEvent()->getGiftcardaccount();
+        
+        if ($gca->hasHistoryAction()) {
+            Mage::getModel('enterprise_giftcardaccount/history')
+                ->setGiftcardaccount($gca)
+                ->save();
+        }
 
         return $this;
     }

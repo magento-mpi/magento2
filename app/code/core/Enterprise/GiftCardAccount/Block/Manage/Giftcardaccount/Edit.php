@@ -38,6 +38,21 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit extends Mage_
         $this->_updateButton('save', 'label', Mage::helper('enterprise_giftcardaccount')->__('Save'));
         $this->_updateButton('delete', 'label', Mage::helper('enterprise_giftcardaccount')->__('Delete'));
 
+        $clickJs  = '';
+
+        $clickJs .= "\$('_sendrecipient_email').addClassName('required-entry');";
+        $clickJs .= "\$('_sendrecipient_name').addClassName('required-entry');";
+        $clickJs .= "\$('_sendaction').value = 1;";
+        $clickJs .= "editForm.submit();";
+        $clickJs .= "\$('_sendaction').value = 0;";
+        $clickJs .= "\$('_sendrecipient_email').removeClassName('required-entry');";
+        $clickJs .= "\$('_sendrecipient_name').removeClassName('required-entry');";
+
+        $this->_addButton('send', array(
+            'label'     => Mage::helper('adminhtml')->__('Save & Send Email'),
+            'onclick'   => $clickJs,
+            'class'     => 'save',
+        ));
     }
 
     public function getGiftcardaccountId()

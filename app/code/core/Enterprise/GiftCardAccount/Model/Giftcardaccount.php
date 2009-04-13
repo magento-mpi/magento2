@@ -37,6 +37,9 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     const REDEEMABLE     = 1;
     const NOT_REDEEMABLE = 0;
 
+    protected $_eventPrefix = 'enterprise_giftcardaccount';
+    protected $_eventObject = 'giftcardaccount';
+
     protected $_defaultPoolModelClass = 'enterprise_giftcardaccount/pool';
 
     protected function _construct()
@@ -85,6 +88,15 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             }
         } else {
             $this->setDateExpires(null);
+        }
+
+        if (!$this->getId() && !$this->hasHistoryAction()) {
+            $this->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_CREATED);
+        }
+
+        if (!$this->hasHistoryAction() && $this->getOrigData('balance') != $this->getBalance()) {
+            $this->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_UPDATED)
+                ->setBalanceDelta($this->getBalance() - $this->getOrigData('balance'));
         }
     }
 
@@ -279,7 +291,9 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     public function charge($amount)
     {
         if ($this->isValid(false, false, false, $amount)) {
-            $this->setBalance($this->getBalance() - $amount);
+            $this->setBalanceDelta(-$amount)
+                ->setBalance($this->getBalance() - $amount)
+                ->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_USED);
         }
 
         return $this;
@@ -380,9 +394,37 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 ->setNotifyByEmail(false)
                 ->save();
 
-            $this->setBalance(0)->save();
+            $this->setBalanceDelta(-$this->getBalance())
+                ->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_REDEEMED)
+                ->setBalance(0)
+                ->save();
         }
 
         return $this;
+    }
+
+    public function sendEmail()
+    {
+        $name = $this->getRecipientName();
+        $email = $this->getRecipientEmail();
+
+        $balance = $this->getBalance();
+        $code = $this->getCode();
+
+        $storeId = Mage::app()->getWebsite($this->getWebsiteId())->getDefaultStore()->getId();
+
+        $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $storeId));
+        $email->sendTransactional(
+            Mage::getStoreConfig('giftcardaccount/email/template', $storeId),
+            Mage::getStoreConfig('giftcardaccount/email/identity', $storeId),
+            $email,
+            $name,
+            array('name'=>$name, 'code'=>$code, 'balance'=>$balance)
+        );
+
+        if ($email->getSentSuccess()) {
+            $this->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_SENT)
+                ->save();
+        }
     }
 }

@@ -191,28 +191,21 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                         if ($senderEmail = $item->getProductOptionByCode('giftcard_sender_email')) {
                             $sender = "$sender <$senderEmail>";
                         }
-                        $codeList = array();
-                        $i=0;
-                        foreach ($codes as $code) {
-                            if ($code !== null) {
-                                $i++;
-                                $redeemLabel = Mage::helper('enterprise_giftcard')->__('Redeem');
-                                $redeemUrl = Mage::getUrl('enterprise_customerbalance/info/', array('giftcard'=>$code));
-                                $codeList[] = sprintf('#%d <strong>%s</strong> <a href="%s">%s</a>', $i, $code, $redeemUrl, $redeemLabel);
-                            }
-                        }
-                        $codeList = implode('<br />', $codeList);
+
+                        $codeList = Mage::helper('enterprise_giftcard')->getEmailGeneratedItemsBlock()
+                            ->setCodes($codes)
+                            ->setIsRedeemable($isRedeemable);
+
                         $templateData = array(
                             'name'                   => htmlspecialchars($item->getProductOptionByCode('giftcard_recipient_name')),
                             'email'                  => htmlspecialchars($item->getProductOptionByCode('giftcard_recipient_email')),
                             'sender_name_with_email' => htmlspecialchars($sender),
                             'gift_message'           => nl2br(htmlspecialchars($item->getProductOptionByCode('giftcard_message'))),
-                            'giftcards'              => $codeList,
+                            'giftcards'              => $codeList->toHtml(),
                         );
 
                         $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $item->getOrder()->getStoreId()));
                         $email->sendTransactional(
-//                            Mage::getStoreConfig('giftcard/general/template', $item->getOrder()->getStoreId()),
                             $item->getProductOptionByCode('giftcard_email_template'),
                             Mage::getStoreConfig('giftcard/general/identity', $item->getOrder()->getStoreId()),
                             $item->getProductOptionByCode('giftcard_recipient_email'),
