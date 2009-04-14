@@ -39,6 +39,13 @@
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {
     /**
+     * Checkout methods 
+     */
+    const CHECKOUT_METHOD_REGISTER = 'register';
+    const CHECKOUT_METHOD_GUEST = 'guest';
+    const CHECKOUT_METHOD_LOGIN_IN = 'login_in';
+
+    /**
      * Performance +30% without cache
      */
 //    const CACHE_TAG         = 'sales_quote';
@@ -309,6 +316,19 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         return $this->getData('customer_tax_class_id');
     }
 
+    /**
+     * Return quote checkout method code
+     *
+     * @return string
+     */
+    public function getCheckoutMethod()
+    {
+        if ($this->getCustomerId()) {
+            return self::CHECKOUT_METHOD_LOGIN_IN;
+        }
+        return $this->_getData('checkout_method');
+    }
+    
     /**
      * Retrieve quote address collection
      *

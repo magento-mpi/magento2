@@ -404,7 +404,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $order->place();
 
         $customer = $quote->getCustomer();
-        if (isset($customer) && $customer) { // && $quote->getCheckoutMethod()=='register') {
+        if (isset($customer) && $customer) { // && $quote->getCheckoutMethod()==Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER) {
             $order->setCustomerId($customer->getId())
                 ->setCustomerEmail($customer->getEmail())
                 ->setCustomerPrefix($customer->getPrefix())
