@@ -268,6 +268,7 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
     public function getCurrencyCode()
     {
         //return $this->getSessionData('currency_code', 'USD');
+        // !!! return $this->getSessionData('currency_code', $this->getPayment()->getOrder()->getStore()->getBaseCurrencyCode());
         return $this->getSessionData('currency_code', Mage::app()->getStore()->getBaseCurrencyCode());
     }
 
