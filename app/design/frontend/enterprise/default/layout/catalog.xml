@@ -49,12 +49,11 @@ Default layout, loads most of the pages
             <block type="catalog/navigation" name="catalog.topnav" template="catalog/navigation/top.phtml"/>
         </reference>
         <reference name="top.container">
-            <block type="core/template" name="top.permanent.callout" template="callouts/callout.phtml">
-                <action method="setImgSrc"><src>images/callouts/apparel-sale.gif</src></action>
-                <action method="setImgAlt" translate="alt" module="catalog"><alt>Get 10% off - All items under Apparel</alt></action>
-                <action method="setLinkUrl"><url>apparel.html</url></action>
+            <block type="cms/block" name="cms.top.callout" before="-">
+                <action method="setBlockId"><block_id>top_callout</block_id></action>
             </block>
-        </reference>        
+        </reference>           
+    
         <!--<reference name="left">
             <block type="core/template" name="left.permanent.callout" template="callouts/callout.phtml">
                 <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
