@@ -53,9 +53,9 @@
                 <action method="addItem"><type>skin_js</type><name>js/iehover-fix.js</name><params/><if>lt IE 7</if></action>
                 <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
             </block>
-            <block type="page/html_header" name="header" as="header">
+<!--             <block type="page/html_header" name="header" as="header">
                 <block type="core/text_list" name="top.container" as="topContainer"/>
-            </block>
+            </block> -->
             <block type="core/messages" name="global_messages" as="global_messages"/>
             <block type="core/messages" name="messages" as="messages"/>
             <block type="core/text_list" name="content" as="content">

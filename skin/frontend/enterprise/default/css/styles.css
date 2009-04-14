@@ -1725,8 +1725,8 @@ address.copyright { margin-top:6px; }
 .restriction-index-stub .col-main { color:#dedede; height:auto!important; min-height:230px; height:230px; font-size:16px; background:#4a4a4a url(../images/logo-offline.gif) no-repeat 50% 95px; padding:170px 60px 40px; }
 .restriction-index-stub .col-main h1,
 .restriction-index-stub .col-main h2 { color:#fff; padding:0 0 15px; font:35px Georgia, "Times New Roman", Times, serif; font-style:italic; }
-/* .restriction-index-stub .header-container,
-.restriction-index-stub .footer-container { display:none; } */
+.restriction-index-stub .header-container,
+.restriction-index-stub .footer-container { display:none; }
 .restriction-index-stub .copyright { background:url(../images/bkg_shadow-offline.gif) 50% 0 no-repeat; padding:15px 0 0; margin:0; }
 
 
