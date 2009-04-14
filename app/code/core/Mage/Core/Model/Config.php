@@ -59,8 +59,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 //        'default'   => 0,
 //        'frontend'  => 0,
 //        'install'   => 0,
-//        'stores'    => 1,
-//        'websites'  => 1
+        'stores'    => 1,
+        'websites'  => 1
     );
 
     /**
@@ -97,6 +97,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function __construct($sourceData=null)
     {
         $this->setCacheId('config_global');
+        $this->_options = new Mage_Core_Model_Config_Options();
         parent::__construct($sourceData);
     }
 
@@ -120,9 +121,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getOptions()
     {
-        if (!$this->_options) {
-            $this->_options = new Mage_Core_Model_Config_Options();
-        }
         return $this->_options;
     }
 
@@ -135,7 +133,9 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     {
         $this->setCacheChecksum(null);
         $this->_cacheLoadedSections = array();
-        $this->_options     = new Mage_Core_Model_Config_Options($options);
+        if (is_array($options)) {
+            $this->getOptions()->addData($options);
+        }
         $etcDir             = $this->getOptions()->getEtcDir();
         $this->_customEtcDir= $etcDir;
         $localConfigLoaded  = $this->loadFile($etcDir.DS.'local.xml');
@@ -421,7 +421,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         /**
          * Check path cache loading
          */
-/*        if ($this->_useCache && ($path !== null)) {
+        if ($this->_useCache && ($path !== null)) {
             $path   = explode('/', $path);
             $section= $path[0];
             if (isset($this->_cacheSections[$section])) {
@@ -431,7 +431,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 }
             }
         }
-*/
         return parent::getNode($path);
     }
 

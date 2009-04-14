@@ -214,6 +214,8 @@ class Mage_Core_Model_App
      */
     protected $_useSessionVar = false;
 
+    protected $_isCacheLocked = null;
+
     /**
      * Constructor
      *
@@ -974,6 +976,9 @@ class Mage_Core_Model_App
      */
     public function loadCache($id)
     {
+        if ($this->_isCacheLocked()) {
+            return false;
+        }
         return $this->getCache()->load($this->_getCacheId($id));
     }
 
@@ -987,6 +992,9 @@ class Mage_Core_Model_App
      */
     public function saveCache($data, $id, $tags=array(), $lifeTime=false)
     {
+        if ($this->_isCacheLocked()) {
+            return $this;
+        }
         $tags = $this->_getCacheTags($tags);
         $this->getCache()->save((string)$data, $this->_getCacheId($id), $tags, $lifeTime);
         return $this;
@@ -1012,6 +1020,7 @@ class Mage_Core_Model_App
      */
     public function cleanCache($tags=array())
     {
+        $this->_lockCache(true);
         if (!empty($tags)) {
             if (!is_array($tags)) {
                 $tags = array($tags);
@@ -1021,11 +1030,62 @@ class Mage_Core_Model_App
         } else {
             $this->getCache()->clean(Zend_Cache::CLEANING_MODE_ALL);
         }
-
+        $this->_lockCache(false);
         Mage::dispatchEvent('application_clean_cache', array('tags' => $tags));
         return $this;
     }
 
+    /**
+     * Lock/unlock cache usage
+     *
+     * @param   bool $lockFlag lock flag
+     * @return  Mage_Core_Model_App
+     */
+    protected function _lockCache($lockFlag=true)
+    {
+        $filename = $this->_getCacheLockFile();
+        if ($lockFlag) {
+            if (!$fp = @fopen($filename, 'w')) {
+                Mage::throwException($filename.' is not writable, unable to provide cache lock');
+            }
+            @fwrite($fp, date('r'));
+            @fclose($fp);
+            @chmod($filename, 0666);
+            $this->_isCacheLocked = true;
+        } else {
+            $this->_isCacheLocked = @unlink($filename);
+        }
+        return $this;
+    }
+
+    /**
+     * Check if cache usage is locked
+     *
+     * @return bool
+     */
+    protected function _isCacheLocked()
+    {
+        if ($this->_isCacheLocked === null) {
+            $this->_isCacheLocked = file_exists($this->_getCacheLockFile());
+        }
+        return $this->_isCacheLocked;
+    }
+
+    /**
+     * Get cache lock file path and name
+     *
+     * @return string
+     */
+    protected function _getCacheLockFile()
+    {
+        return Mage::getConfig()->getOptions()->getEtcDir().DS.'cache.lock';
+    }
+
+    /**
+     * Get file name with cache configuration settings
+     *
+     * @return string
+     */
     public function getUseCacheFilename()
     {
         return Mage::getConfig()->getOptions()->getEtcDir().DS.'use_cache.ser';

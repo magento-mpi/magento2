@@ -217,7 +217,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
      */
     public function initConfigCache()
     {
-        return $this;
+//        return $this;
         /**
          * Funtionality related with config separation
          */
