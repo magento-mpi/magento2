@@ -34,4 +34,14 @@
  */
 class Mage_AmazonPayments_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Format amount value (2 digits after the decimal point)
+     *
+     * @param float $amount
+     * @return float
+     */
+    public function formatAmount($amount)
+    {
+        return round($amount, 2);
+    }
 }

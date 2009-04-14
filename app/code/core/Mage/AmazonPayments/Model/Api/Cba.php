@@ -123,6 +123,17 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
     }
 
     /**
+     * Format amount value (2 digits after the decimal point)
+     *
+     * @param float $amount
+     * @return float
+     */
+    public function formatAmount($amount)
+    {
+        return Mage::helper('amazonpayments')->formatAmount($amount);
+    }
+
+    /**
      * Build XML-based Cart for Checkout by Amazon
      *
      * @param Mage_Sales_Model_Quote
@@ -147,12 +158,12 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                 ."    <MerchantId>{$this->getMerchantId()}</MerchantId>\n"
                 ."    <Title>{$_item->getName()}</Title>\n"
                 ."    <Price>\n"
-                ."     <Amount>{$_item->getPrice()}</Amount>\n"
+                ."     <Amount>{$this->formatAmount($_item->getPrice())}</Amount>\n"
                 ."     <CurrencyCode>{$quote->getBaseCurrencyCode()}</CurrencyCode>\n"
                 ."    </Price>\n"
                 ."    <Quantity>{$_item->getQty()}</Quantity>\n"
                 ."    <Weight>\n"
-                ."      <Amount>{$_item->getWeight()}</Amount>\n"
+                ."      <Amount>{$this->formatAmount($_item->getWeight())}</Amount>\n"
                 ."       <Unit>lb</Unit>\n"
                 ."     </Weight>\n";
             $_xml .= "   </Item>\n";

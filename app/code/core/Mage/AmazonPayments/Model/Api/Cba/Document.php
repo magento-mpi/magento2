@@ -181,6 +181,17 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
     }
 
     /**
+     * Format amount value (2 digits after the decimal point)
+     *
+     * @param float $amount
+     * @return float
+     */
+    public function formatAmount($amount)
+    {
+        return Mage::helper('amazonpayments')->formatAmount($amount);
+    }
+
+    /**
      * Get order info
      *
      * @param string $aOrderId Amazon order id
@@ -309,15 +320,15 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                                     <ItemPriceAdjustments>
                                         <Component>
                                             <Type>Principal</Type>
-                                            <Amount currency="USD">' . $item->getBaseRowTotal() . '</Amount>
+                                            <Amount currency="USD">' . $this->formatAmount($item->getBaseRowTotal()) . '</Amount>
                                         </Component>
                                         <Component>
                                             <Type>Tax</Type>
-                                            <Amount currency="USD">' . $item->getBaseTaxAmount() . '</Amount>
+                                            <Amount currency="USD">' . $this->formatAmount($item->getBaseTaxAmount()) . '</Amount>
                                         </Component>'
                                         .'<Component>
                                             <Type>Shipping</Type>
-                                            <Amount currency="USD">' . $shipping . '</Amount>
+                                            <Amount currency="USD">' . $this->formatAmount($shipping) . '</Amount>
                                         </Component>'
                                     .'</ItemPriceAdjustments>';
             $_document .= '</AdjustedItem>
