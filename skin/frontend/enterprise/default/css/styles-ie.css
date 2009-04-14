@@ -36,12 +36,12 @@
 .giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
 .top-cart  { _width:10px; }
 .cart .crosssell { _height:400px; }
-#nav li a { _margin-bottom:-2px; }
-#nav li.active a { _position:relative; _z-index:2; }
+#nav li a { _margin-bottom:-2px; _position:relative; _z-index:2; }
+#nav li.active a {  }
 #nav li.active,
 #nav li.over a { _margin-bottom:-3px; _height:30px; }
 #nav li li a:hover { margin-bottom:0 !important; }
-#nav li li a { margin-bottom:0 !important; }
+#nav li li a { margin-bottom:0 !important; _position:static; }
 
 /* Doubled Margin Fixes */
 .product-view,
@@ -94,6 +94,7 @@ button.btn-cart span { background-position:100% 0; }
 .data-table { border-collapse:collapse; }
 .sidebar .block-account li.current { position:relative; z-index:1; zoom:1; }
 /* Clears and hasLayout fixes */
+.events-slider,
 .product-image-popup .nav,
 .multiple-checkout,
 .gift-item,

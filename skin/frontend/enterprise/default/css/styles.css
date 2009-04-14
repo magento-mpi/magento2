@@ -453,7 +453,7 @@ ul.disc li,
 
 /********** < Navigation */
 .nav-container { background:url(../images/bkg_nav.gif) 0 100% no-repeat; padding-bottom:3px; margin-bottom:-1px; position:relative; z-index:4; }
-#nav { background:#dedede url(../images/bkg_nav.gif) 0 0 no-repeat; text-align:left; /* height:31px; */ overflow:visible; padding:0 4px 0px; }
+#nav { background:#dedede url(../images/bkg_nav.gif) 0 0 no-repeat; text-align:left; /* height:31px; */ overflow:visible; padding:0 4px 0px; width:932px; }
 
 /* All Levels */
 #nav li { position:relative; z-index:4; }
@@ -577,7 +577,7 @@ ul.disc li,
 
 
 /* Block:  Events Homepage  */
-.events-slider { position:relative; clear:both; margin:0 0 0; display:inline; float:left; z-index:2; width:916px; padding:10px 11px 20px; background:#f0eae3; }
+.events-slider { position:relative; clear:both; margin:0 0 0; /* display:inline; float:left; */ z-index:2; width:916px; padding:10px 11px 20px; background:#f0eae3; }
 .events-slider .slider-panel,
 .events-slider ul.slider  li.slider-item,
 .events-slider .slide-button { float: left; display:inline; }
@@ -1183,7 +1183,9 @@ button.btn-cart  span { }
 .giftcard-send-form .field label { padding-bottom:0px; }
 .giftcard-send-form .field .input-text { width:234px!important; }
 
-
+/* Gift Card Account */
+.giftcard-status p { font-size:12px; margin:10px 0; }
+.giftcard-status .giftcard-number { font-weight:bold; color:#8f1e01; }
 
 /* Block: Description */
 .product-view .description {}
@@ -1404,8 +1406,8 @@ button.btn-cart  span { }
 /* Checkout ============================================================================== */
 /* One Page */
 .checkout-onepage-index .col-main { position:relative; z-index:1; padding:0; background:url(../images/bkg_cols.gif) repeat-y -573px 0; }
-.checkout-onepage-index .page-title { margin:0; }
-.checkout-onepage-index .col-main .callout { position:absolute; right:20px; top:7px; }
+.checkout-onepage-index .page-title { margin:0; z-index:1; }
+.checkout-onepage-index .col-main .callout { position:absolute; z-index:2; right:20px; top:7px; zoom:1; }
 .opc-progress-container { float:left; width:182px; }
 
 .col-main .opc-block-progress { background:#fff; }
@@ -1656,6 +1658,9 @@ button.btn-cart  span { }
 .storecredit .account-balance .price { font-weight:bold; }
 .giftcard-redeem { padding-bottom:20px; }
 .giftcard-redeem .input-box { margin-right:5px; }
+
+/* Gift card */
+.giftcardaccount p { margin:10px 0; font-size:12px; }
 
 /* Print Pages */
 .page-print .print-head {}
