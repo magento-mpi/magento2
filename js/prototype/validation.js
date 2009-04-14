@@ -415,7 +415,12 @@ Validation.addAllThese([
                 return !(pass.length < 7);
             }],
     ['validate-cpassword', 'Please make sure your passwords match.', function(v) {
-                var pass = $('password') ? $('password') : $$('.validate-password')[0];
+                if ($('password')) {
+                    var pass = $('password');
+                }
+                else {
+                    var pass = $$('.validate-password').length ? $$('.validate-password')[0] : $$('.validate-admin-password')[0];
+                }
                 var conf = $('confirmation') ? $('confirmation') : $$('.validate-cpassword')[0];
                 return (pass.value == conf.value);
             }],
