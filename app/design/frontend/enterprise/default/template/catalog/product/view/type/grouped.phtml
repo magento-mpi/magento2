@@ -33,7 +33,7 @@
 ?>
 <?php $_product = $this->getProduct() ?>
 <?php $_associatedProducts = $this->getAssociatedProducts() ?>
-<?php if($_product->isSaleable() && count($_associatedProducts)): ?>
+<?php if($_product->getIsSalable() && count($_associatedProducts)): ?>
     <p class="availability in-stock"><?php echo $this->__('Availability') ?>: <span><?php echo $this->__('In stock') ?></span></p>
 <?php else: ?>
     <p class="availability out-of-stock"><?php echo $this->__('Availability') ?>: <span><?php echo $this->__('Out of stock') ?></span></p>

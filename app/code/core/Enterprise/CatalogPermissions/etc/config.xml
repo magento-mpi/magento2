@@ -225,6 +225,15 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_product_collection_before_add_count_to_categories>
+            <catalog_product_is_salable_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>applyIsSalableToProduct</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_product_is_salable_after>
             <catalog_category_collection_load_after>
                 <observers>
                     <enterprise_catalogpermissions>

@@ -440,23 +440,33 @@ class Enterprise_CatalogPermissions_Model_Observer
             ($product->getData('grant_catalog_product_price')!= -1 &&
                 !Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice())) {
             $product->setCanShowPrice(false);
-            if ($product->isSalable()) {
-                $product->setIsSalable(false);
-            }
             $product->setDisableAddToCart(true);
         }
 
         if ($product->getData('grant_checkout_items') == -2 ||
             ($product->getData('grant_checkout_items')!= -1 &&
                 !Mage::helper('enterprise_catalogpermissions')->isAllowedCheckoutItems())) {
-            if ($product->isSalable()) {
-                $product->setIsSalable(false);
-            }
             $product->setDisableAddToCart(true);
         }
 
         return $this;
     }
+
+    /**
+     * Apply is salable to product
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
+    public function applyIsSalableToProduct(Varien_Event_Observer $observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        if ($product->getDisableAddToCart()) {
+            $observer->getEvent()->getSalable()->setIsSalable(false);
+        }
+        return $this;
+    }
+
 
     /**
      * Check catalog search availability on load layout

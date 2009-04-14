@@ -138,6 +138,24 @@ class Enterprise_CatalogEvent_Model_Observer
     }
 
     /**
+     * Apply is salable to product
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogEvent_Model_Observer
+     */
+    public function applyIsSalableToProduct(Varien_Event_Observer $observer)
+    {
+        $event = $observer->getEvent()->getProduct()->getEvent();
+        if ($event && in_array($event->getStatus(), array(
+                    Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED,
+                    Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING
+        ))) {
+            $observer->getEvent()->getSalable()->setIsSalable(false);
+        }
+        return $this;
+    }
+
+    /**
      * Applies event to product
      *
      * @param Mage_Catalog_Model_Product $product
@@ -149,12 +167,6 @@ class Enterprise_CatalogEvent_Model_Observer
         if (!$product->hasEvent()) {
             $event = $this->_getProductEvent($product);
             $product->setEvent($event);
-            if ($event && in_array($event->getStatus(), array(
-                Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED,
-                Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING
-            ))) {
-                $product->setData('is_salable', false);
-            }
         }
 
         return $this;

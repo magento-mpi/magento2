@@ -40,7 +40,11 @@
             <?php if($_product->isSaleable()): ?>
                 <button type="button" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><?php echo $this->__('Add to Cart') ?></span></button>
             <?php else: ?>
-                <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php if ($_product->getIsSalable()): ?>
+                        <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
+                    <?php else: ?>
+                        <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
+                    <?php endif; ?>
             <?php endif; ?>
             <ul class="add-to-links">
                 <?php if ($this->helper('wishlist')->isAllow()) : ?>

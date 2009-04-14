@@ -134,6 +134,15 @@
                     </enterprise_catalogevent>
                 </observers>
             </catalog_product_collection_load_after>
+            <catalog_product_is_salable_after>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogevent/observer</class>
+                        <method>applyIsSalableToProduct</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </catalog_product_is_salable_after>
             <sales_quote_item_set_product>
                 <observers>
                     <enterprise_catalogevent>

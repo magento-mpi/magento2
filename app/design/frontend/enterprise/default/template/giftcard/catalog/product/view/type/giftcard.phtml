@@ -42,7 +42,7 @@
             </span>
         </div>
 
-    <?php else: ?>    
+    <?php else: ?>
         <fieldset class="fieldset giftcard-amount-form">
             <ul class="form-list group-select">
                 <li>
@@ -71,7 +71,7 @@
                             </p>
                         <?php endif; ?>
                     </div>
-                    <?php endif; ?>                    
+                    <?php endif; ?>
                     <?php if ($this->isAmountAvailable($_product)): ?>
                     <span class="input-box">
                         <select name="giftcard_amount" id="giftcard_amount" class="required-entry giftcard-amount-entry">
@@ -165,7 +165,7 @@
                     <label for="giftcard_sender_name" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Name'); ?></label>
                     <span class="input-box">
                         <input type="text" id="giftcard_sender_name" name="giftcard_sender_name" class="required-entry input-text" value="<?php echo $this->getCustomerName(); ?>" />
-                    </span>                    
+                    </span>
                 </div>
                 <div class="field">
                 <?php if ($this->isEmailAvailable($_product)): ?>
@@ -181,7 +181,7 @@
                     <label for="giftcard_recipient_name" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Recipient Name'); ?></label>
                     <span class="input-box">
                         <input type="text" id="giftcard_recipient_name" name="giftcard_recipient_name" class="required-entry input-text" />
-                    </span>                    
+                    </span>
                 </div>
                 <div class="field">
                 <?php if ($this->isEmailAvailable($_product)): ?>
@@ -199,10 +199,10 @@
                     <textarea name="giftcard_message" class="input-text" rows="4"></textarea>
                 </span>
             </li>
-        <?php endif; ?>            
+        <?php endif; ?>
         </ul>
     </fieldset>
-<?php /* 
+<?php /*
     <table cellpadding="0" cellspacing="0" border="0">
         <tr>
             <td>
@@ -254,6 +254,10 @@
     </table>
 <?php  */ ?>
 <?php else: ?>
+    <?php if ($_product->getIsSalable()): ?>
+    <p class="availability in-stock"><?php echo $this->helper('catalog')->__('Availability') ?>: <span><?php echo $this->helper('catalog')->__('In stock') ?></span></p>
+    <?php else: ?>
     <p class="availability out-of-stock"><?php echo $this->helper('catalog')->__('Availability') ?>: <span><?php echo $this->helper('catalog')->__('Out of stock') ?></span></p>
+    <?php endif; ?>
 <?php endif; ?>
 </div>
