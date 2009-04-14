@@ -32,3 +32,10 @@ Mage::getModel('catalog/product_flat_flag')
     ->loadSelf()
     ->setIsBuild(false)
     ->save();
+
+$installer->startSetup();
+$installer->run("
+    UPDATE `{$installer->getTable('core/config_data')}` SET `value`=0
+        WHERE `path` LIKE '".Mage_Catalog_Helper_Product_Flat::XML_PATH_USE_PRODUCT_FLAT."';
+");
+$installer->endSetup();
