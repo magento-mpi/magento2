@@ -99,6 +99,7 @@ class Enterprise_GiftCard_Block_Catalog_Product_Price extends Mage_Catalog_Block
                     $result[] = $amount['website_value'];
                 }
             }
+            sort($result);
             $this->_amountCache[$product->getId()] = $result;
         }
         return $this->_amountCache[$product->getId()];
