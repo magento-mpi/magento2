@@ -148,9 +148,10 @@ class Enterprise_GiftCard_Model_Attribute_Backend_Giftcard_Amount extends Mage_C
      *
      * @return string
      */
+/*
     public function getTable()
     {
         return $this->_getResource()->getMainTable();
     }
-
+*/
 }
