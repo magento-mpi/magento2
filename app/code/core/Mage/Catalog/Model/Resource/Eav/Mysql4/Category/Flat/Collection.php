@@ -255,6 +255,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
     }
 
     /**
+     * Add attribute to sort order
+     *
+     * @param string $attribute
+     * @param string $dir
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection
+     */
+    public function addAttributeToSort($attribute, $dir='asc')
+    {
+        if (!is_string($attribute)) {
+            return $this;
+        }
+        $this->setOrder($attribute, $dir);
+        return $this;
+    }
+
+    /**
      * Emulate simple add attribute filter to collection
      *
      * @param string $attribute

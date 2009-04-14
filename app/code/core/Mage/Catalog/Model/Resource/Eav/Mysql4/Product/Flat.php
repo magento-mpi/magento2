@@ -163,7 +163,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat
 
         if ($attributeCode) {
             $columns = $this->getAllTableColumns();
-            if (isset($columns[$attributeCode])) {
+            if (in_array($attributeCode, $columns)) {
                 return true;
             }
         }
