@@ -78,6 +78,10 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventToCategory(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+            return $this;
+        }
+
         $category = $observer->getEvent()->getCategory();
         $categoryIds = $this->_parseCategoryPath($category->getPath());
         if (! empty($categoryIds)) {
@@ -94,6 +98,10 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventToCategoryCollection(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+            return $this;
+        }
+
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
         /* @var $categoryCollection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
 
@@ -121,6 +129,10 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventToProduct(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+            return $this;
+        }
+
         $product = $observer->getEvent()->getProduct();
         $this->_applyEventToProduct($product);
     }
@@ -133,6 +145,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     protected function _applyEventToProduct($product)
     {
+
         if (!$product->hasEvent()) {
             $event = $this->_getProductEvent($product);
             $product->setEvent($event);
@@ -156,6 +169,10 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventOnQuoteItemSetProduct(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+            return $this;
+        }
+
         $product = $observer->getEvent()->getProduct();
         /* @var $product Mage_Catalog_Model_Product */
         $quoteItem = $observer->getEvent()->getQuoteItem();
@@ -187,6 +204,9 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventOnQuoteItemSetQty(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+            return $this;
+        }
 
         $item = $observer->getEvent()->getItem();
         /* @var $item Mage_Sales_Model_Quote_Item */
@@ -217,6 +237,10 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     public function applyEventToProductCollection(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+            return $this;
+        }
+
         $collection = $observer->getEvent()->getCollection();
         foreach ($collection as $product) {
             $this->_applyEventToProduct($product);

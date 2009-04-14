@@ -52,6 +52,10 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
      */
     public function sendAction()
     {
+        if (!Mage::helper('enterprise_invitation')->isEnabled()) {
+            $this->norouteAction();
+            return;
+        }
         $data = $this->getRequest()->getPost();
         if ($data) {
             $now = Mage::app()->getLocale()->date()
@@ -150,6 +154,10 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
      **/
     public function indexAction()
     {
+        if (!Mage::helper('enterprise_invitation')->isEnabled()) {
+            $this->norouteAction();
+            return;
+        }
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->loadLayoutUpdates();

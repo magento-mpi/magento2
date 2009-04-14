@@ -60,7 +60,9 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
             return;
         }
 
-        if (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()) {
+        if ((!Mage::helper('enterprise_invitation')->isEnabled())  ||
+            (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()))
+          {
             $this->_redirect('customer/account/create');
             return;
         }
@@ -87,7 +89,9 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
             return;
         }
 
-        if (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()) {
+        if ((!Mage::helper('enterprise_invitation')->isEnabled())  ||
+            (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()))
+          {
             $this->_redirect('customer/account/create');
             return;
         }

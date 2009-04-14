@@ -232,6 +232,7 @@
                 <template>enterprise_invitation_email_template</template>
             </email>
             <general>
+                <enabled>1</enabled>
                 <registration_use_inviter_group>1</registration_use_inviter_group>
                 <registration_required_invitation>1</registration_required_invitation>
                 <max_invitation_amount_per_send>5</max_invitation_amount_per_send>

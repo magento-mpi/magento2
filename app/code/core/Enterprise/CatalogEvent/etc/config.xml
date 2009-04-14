@@ -80,6 +80,7 @@
     <default>
         <catalog>
             <enterprise_catalogevent>
+                <enabled>1</enabled>
                 <lister_output>1</lister_output>
                 <lister_items_number_category>3</lister_items_number_category>
                 <lister_items_number_cms>5</lister_items_number_cms>

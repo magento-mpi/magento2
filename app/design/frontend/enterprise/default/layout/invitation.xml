@@ -28,7 +28,7 @@
 <layout version="0.1.0">
     <customer_logged_in>
         <reference name="account.links">
-            <action method="addLink" translate="label title" module="enterprise_invitation"><label>Send Invitations</label><url helper="enterprise_invitation/data/getCustomerInvitationFormUrl" /><title>Send Invitations</title><prepare /><urlParams /><position>1</position><li>id="invitation-send-link"</li></action>
+            <action ifconfig="enterprise_invitation/general/enabled" method="addLink" translate="label title" module="enterprise_invitation"><label>Send Invitations</label><url helper="enterprise_invitation/data/getCustomerInvitationFormUrl" /><title>Send Invitations</title><prepare /><urlParams /><position>1</position><li>id="invitation-send-link"</li></action>
         </reference>
     </customer_logged_in>
     
@@ -51,8 +51,8 @@
     </enterprise_invitation_index_index>
 
     <customer_account>
-        <reference name="customer_account_navigation">
-            <action method="addLink" translate="label" module="enterprise_invitation"><name>invitations</name><path>enterprise_invitation/</path><label>My Invitations</label></action>
+        <reference name="customer_account_navigation" >
+            <action  ifconfig="enterprise_invitation/general/enabled" method="addLink" translate="label" module="enterprise_invitation"><name>invitations</name><path>enterprise_invitation/</path><label>My Invitations</label></action>
         </reference>
     </customer_account>
     

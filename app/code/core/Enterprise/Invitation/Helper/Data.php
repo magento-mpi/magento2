@@ -32,6 +32,8 @@
  */
 class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_ENABLED = 'enterprise_invitation/general/enabled';
+
     const XML_PATH_USE_INVITATION_MESSAGE = 'enterprise_invitation/general/allow_customer_message';
     const XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND = 'enterprise_invitation/general/max_invitation_amount_per_send';
 
@@ -159,6 +161,16 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return $this->_isRegistrationAllowed;
+    }
+
+    /**
+     * Retrieve configuration for availability of invitations
+     *
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
     }
 
 }

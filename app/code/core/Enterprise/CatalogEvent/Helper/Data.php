@@ -34,6 +34,7 @@
 class Enterprise_CatalogEvent_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_EVENT_LISTER_OUTPUT = 'catalog/enterprise_catalogevent/lister_output';
+    const XML_PATH_ENABLED = 'catalog/enterprise_catalogevent/enabled';
     const XML_PATH_EVENT_LISTER_ITEMS_NUMBER_CATEGORY = 'catalog/enterprise_catalogevent/lister_items_number_category';
     const XML_PATH_EVENT_LISTER_ITEMS_NUMBER_CMS = 'catalog/enterprise_catalogevent/lister_items_number_cms';
 
@@ -59,7 +60,17 @@ class Enterprise_CatalogEvent_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isEnabledEventLister()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_EVENT_LISTER_OUTPUT);
+        return $this->isEnabled() && Mage::getStoreConfigFlag(self::XML_PATH_EVENT_LISTER_OUTPUT);
+    }
+
+    /**
+     * Retrieve configuration value for enabled of catalog event
+     *
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
     }
 
     /**

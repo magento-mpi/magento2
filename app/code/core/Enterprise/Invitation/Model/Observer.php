@@ -40,6 +40,10 @@ class Enterprise_Invitation_Model_Observer
      */
     public function restrictCustomerRegistration(Varien_Event_Observer $observer)
     {
+        if (! Mage::helper('enterprise_invitation')->isEnabled()) {
+            return;
+        }
+
         $result = $observer->getEvent()->getResult();
 
         if (!$result->getIsAllowed()) {

@@ -74,7 +74,8 @@ class Enterprise_CatalogEvent_Block_Catalog_Category_Event extends Enterprise_Ca
      */
     public function canDisplay()
     {
-        return $this->getEvent() &&
+        return Mage::helper('enterprise_catalogevent')->isEnabled() &&
+               $this->getEvent() &&
                $this->getEvent()->getStatus() != Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED &&
                $this->getEvent()->canDisplayCategoryPage();
     }
