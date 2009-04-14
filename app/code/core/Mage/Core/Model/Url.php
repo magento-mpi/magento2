@@ -311,6 +311,14 @@ class Mage_Core_Model_Url extends Varien_Object
             $this->setSecure($params['_secure']);
         }
 
+        /**
+         * Add availability support urls without store code
+         */
+        if ($this->getType() == Mage_Core_Model_Store::URL_TYPE_LINK
+            && Mage::app()->getRequest()->isDirectAccessFrontendName($this->getRouteFrontName())) {
+            $this->setType(Mage_Core_Model_Store::URL_TYPE_DIRECT_LINK);
+        }
+
         return $this->getStore()->getBaseUrl($this->getType(), $this->getSecure());
     }
 

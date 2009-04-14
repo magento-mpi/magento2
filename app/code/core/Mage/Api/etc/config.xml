@@ -87,6 +87,11 @@
                 </connection>
             </api_read>
         </resources>
+        <request>
+            <direct_front_name>
+                <api/>
+            </direct_front_name>
+        </request>
     </global>
     <frontend>
         <routers>
