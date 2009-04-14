@@ -95,6 +95,7 @@ button.btn-cart span { background-position:100% 0; }
 .data-table { border-collapse:collapse; }
 .sidebar .block-account li.current { position:relative; z-index:1; zoom:1; }
 /* Clears and hasLayout fixes */
+.product-image-popup .nav,
 .multiple-checkout,
 .gift-item,
 .block-content,

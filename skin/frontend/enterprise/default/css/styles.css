@@ -210,6 +210,7 @@ ul.add-row .btn-remove,
 /* Buttons */
 .buttons-set { clear:both; margin:15px 0; }
 .buttons-set p.back-link { float:left; padding:2px 15px 0 0; text-align:right; margin:0; }
+.buttons-set p.back-link a { color:#999; }
 .buttons-set button.button { float:left; }
 .buttons-set2 { clear:both; margin:5px 0 0; padding:5px; background-color:#ededed; text-align:right; }
 
@@ -466,22 +467,22 @@ ul.disc li,
 
 /* 1st Level */
 #nav li { margin:0; padding:0 0 0 0; height:28px; float:left; padding: }
-#nav li a { float:left; height:28px; line-height:28px; border-left:1px solid #fff; border-top:1px solid #c0c0c0; border-right:1px solid #a3a3a3; padding:0 0 0 16px; } 
+#nav li a { float:left; height:28px; line-height:28px; border-top:1px solid #c0c0c0; padding:0 0 0 17px; } 
 #nav li a,
-#nav li a span { background:url(../images/bkg_nav-item.gif) no-repeat 0 50px; } 
+#nav li a span { background:url(../images/bkg_nav-item-border.gif) no-repeat 100% 0; } 
 #nav li.first a { border-left:0; padding-left:17px; } 
-#nav li.last a { border-right:0; } 
-#nav li a span { font-weight:bold; padding:0 16px 0 0; float:left; }
+#nav li.last a { /* border-right:0;  */} 
+#nav li a span { font-weight:bold; padding:0 19px 0 0; float:left; }
 #nav li a { color:#333; font-size:13px; }
-#nav li a:hover { background-position:0 0; height:29px; border:0; overflow:hidden; padding:0 0 0 17px; }
-#nav li a:hover span { background-position:100% 0; padding:2px 17px 0 0; }
+#nav li a:hover { background-position:0 -60px; margin-left:-1px; height:29px; border:0; overflow:hidden; padding:0 0 0 18px; }
+#nav li a:hover span { background-position:100% -60px; padding:2px 19px 0 0; }
 #nav li.over a,
-#nav li.active a {  background-position:0 0; height:29px; border:0; overflow:hidden; padding:0 0 0 17px; }
+#nav li.active a {  background-position:0 -60px; margin-left:-1px; height:29px; border:0; overflow:hidden; padding:0 0 0 18px; }
 #nav li.over a span,
-#nav li.active a span { background-position:100% 0; padding:1px 17px 0 0; }
+#nav li.active a span { background-position:100% -60px; padding:1px 19px 0 0; }
 
 #nav li.over a { position:relative; z-index:2; line-height:30px; height:31px; }
-#nav li.over a span { padding:1px 17px 0 0; }
+#nav li.over a span { padding:1px 19px 0 0; }
 
 /* 2nd Level */
 #nav ul { position:absolute; width:13.5em; top:30px; left:-10000px; background:#fbfbfb; padding:5px 11px 10px; border:1px solid #aeaeae; border-top:0; }
@@ -501,7 +502,7 @@ ul.disc li,
 #nav ul ul { top:7px; border-top:1px solid #aeaeae; padding-bottom:5px; }
 
 /* Show Menu */
-#nav li.over > ul { left:0px; }
+#nav li.over > ul { left:-1px; }
 #nav li.over > ul li.over > ul { left:100px; }
 #nav li.over ul ul { left:-10000px; }
 /********** Navigation > */
@@ -901,9 +902,16 @@ dd.even { background:#f6f6f6; }*/
 .product-view .product-img-box .more-views li { float:left; padding:1px; background-color:#ddd; margin:0 6px 6px 0; }
 
 .product-image-popup { margin:0 auto; }
-.product-image-popup .nav { text-align:center; }
-.product-image-popup .image { display:block; }
-.product-image-popup .image-label {}
+.product-image-popup .buttons-set { clear:none; line-height:28px; margin:0 0 10px; float:right; width:150px; text-align:right; }
+.product-image-popup .buttons-set .button { vertical-align:middle; }
+.product-image-popup .image { display:block; clear:both; margin:0 auto 10px; }
+.product-image-popup .image-label { font-size:14px; text-align:left; clear:both; font-weight:normal; color:#000; line-height:19px; margin:0 0 10px; }
+
+.product-image-popup .nav { text-align:center; margin:0 auto 0; width:120px; }
+.product-image-popup .nav .prev,
+.product-image-popup .nav .next { margin:0 15px; display:inline; background:url(../images/bkg_slide-button.gif) no-repeat 0 0; text-indent:-999em; cursor:pointer; width:28px; height:28px; z-index:2; overflow:hidden; float:left; }
+.product-image-popup .nav .prev { left:-19px; float:left; }
+.product-image-popup .nav .next { right:-19px; float:right; background-position:0 -40px; }
 
 /* LightBox Gallery */
 #lightbox { position:absolute; top:20px; left:0; width:100%; z-index:999; text-align:center; line-height:0; color:#151410; }
