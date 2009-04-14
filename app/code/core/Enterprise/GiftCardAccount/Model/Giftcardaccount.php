@@ -411,7 +411,10 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         $balance = $this->getBalance();
         $code = $this->getCode();
 
-        $storeId = Mage::app()->getWebsite($this->getWebsiteId())->getDefaultStore()->getId();
+        $store = Mage::app()->getWebsite($this->getWebsiteId())->getDefaultStore();
+        $storeId = $store->getId();
+
+        $balance = Mage::app()->getLocale()->currency($store->getBaseCurrencyCode())->toCurrency($balance);
 
         $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $storeId));
         $email->sendTransactional(
