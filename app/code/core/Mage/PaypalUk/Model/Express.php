@@ -110,7 +110,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function getPaymentAction($paymentAction=null)
     {
         if (is_null($paymentAction)) {
-            $paymentAction = Mage::getStoreConfig('payment/paypaluk_express/payment_action');
+            $paymentAction = $this->getConfigData('payment_action');
         }
         if (!$paymentAction) {
             $paymentAction = Mage_PaypalUk_Model_Api_Pro::TRXTYPE_AUTH_ONLY;
