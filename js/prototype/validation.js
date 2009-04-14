@@ -97,12 +97,21 @@ Validation.prototype = {
         }, options || {});
         if(this.options.onSubmit) Event.observe(this.form,'submit',this.onSubmit.bind(this),false);
         if(this.options.immediate) {
-            var useTitles = this.options.useTitles;
-            var callback = this.options.onElementValidate;
-            Form.getElements(this.form).each(function(input) { // Thanks Mike!
-                Event.observe(input, 'change', function(ev) { Validation.validate(Event.element(ev),{useTitle : useTitles, onElementValidate : callback}); });
-            });
+            Form.getElements(this.form).each(function(input) { // Thanks Mike!                
+                if (input.tagName.toLowerCase() == 'select') {
+                    Event.observe(input, 'blur', this.onChange.bindAsEventListener(this));
+                }
+                Event.observe(input, 'change', this.onChange.bindAsEventListener(this));
+            }, this);
         }
+    },
+    onChange : function (ev) {
+        Validation.isOnChange = true;
+        Validation.validate(Event.element(ev),{
+                useTitle : this.options.useTitles, 
+                onElementValidate : this.options.onElementValidate
+        });
+        Validation.isOnChange = false; 
     },
     onSubmit :  function(ev){
         if(!this.validate()) Event.stop(ev);
@@ -225,7 +234,7 @@ Object.extend(Validation, {
         elm.addClassName('validate-ajax');
         if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
             var container = elm.up(Validation.defaultOptions.containerClassName);
-            if (container) {
+            if (container  && elm.type !== 'radio' && elm.type !== 'checkbox') {
                 container.removeClassName('validation-passed');
                 container.addClassName('validation-error');
             }
@@ -250,7 +259,7 @@ Object.extend(Validation, {
                 elm.addClassName('validation-failed');
                 if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
                     var container = elm.up(Validation.defaultOptions.containerClassName);
-                    if (container) {
+                    if (container && elm.type !== 'radio' && elm.type !== 'checkbox') {
                         container.removeClassName('validation-passed');
                         container.addClassName('validation-error');
                     }
@@ -266,8 +275,12 @@ Object.extend(Validation, {
             elm.addClassName('validation-passed');
             if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
                 var container = elm.up(Validation.defaultOptions.containerClassName);
-                if (container) {
-                    container.addClassName('validation-passed');
+                if (container && elm.type !== 'radio' && elm.type !== 'checkbox') {
+                    if (!Validation.get('IsEmpty').test(elm.value)) { 
+                        container.addClassName('validation-passed');
+                    } else {
+                        container.removeClassName('validation-passed');
+                    }
                     container.removeClassName('validation-error');
                 }
             }
@@ -331,6 +344,13 @@ Object.extend(Validation, {
             }
             elm.removeClassName('validation-failed');
             elm.removeClassName('validation-passed');
+            if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
+                var container = elm.up(Validation.defaultOptions.containerClassName);
+                if (container) {
+                    container.removeClassName('validation-passed');
+                    container.removeClassName('validation-error');
+                }
+            }
         });
     },
     add : function(className, error, test, options) {
@@ -555,11 +575,21 @@ Validation.addAllThese([
                 if(ccMatchedType != ccType) {
                     return false;
                 }
+                
+                if (ccTypeContainer.hasClassName('validation-failed') && Validation.isOnChange) {
+                    Validation.validate(ccTypeContainer);
+                }
 
                 return true;
             }],
      ['validate-cc-type-select', 'Card type doesn\'t match credit card number', function(v, elm) {
                 var ccNumberContainer = $(elm.id.substr(0,elm.id.indexOf('_cc_type')) + '_cc_number');
+                if (Validation.isOnChange && Validation.get('IsEmpty').test(ccNumberContainer.value)) {
+                    return true;
+                }
+                if (Validation.get('validate-cc-type').test(ccNumberContainer.value, ccNumberContainer)) {
+                    Validation.validate(ccNumberContainer);
+                }
                 return Validation.get('validate-cc-type').test(ccNumberContainer.value, ccNumberContainer);
             }],
      ['validate-cc-exp', 'Incorrect credit card expiration date', function(v, elm) {
