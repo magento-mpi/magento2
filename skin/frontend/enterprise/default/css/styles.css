@@ -163,7 +163,7 @@ p.required { margin:0; padding:5px 0 0 240px; font-size:11px; color:#f02800; }
 .form-list textarea { width:374px; height:13em; }
 .form-list select { float:left; width:256px; vertical-align:top; }
 .form-list input.radio,
-.form-list input.checkbox { margin-top:4px; vertical-align:top; }
+.form-list input.checkbox { margin-top:3px; vertical-align:top; }
 .form-list p { margin:0; padding:0 0 0 240px; }
 ul.add-row,
 .form-list li.add-row { background:url(../images/bkg_dots.gif) repeat-x 0 0; margin-top:15px; }
@@ -174,7 +174,7 @@ ul.add-row .btn-remove,
 .form-list .add-field .input-box { margin-left:240px; }
 .form-list .form-element { position:relative; z-index:1; } /* row with checkbox or radio button */
 .form-list .form-element .input-box { position:absolute; left:0px; margin-left:240px; padding-top:1px; }
-.form-list .form-element .radio { vertical-align:middle; }
+.form-list .form-element .radio { /* vertical-align:middle; */ }
 
 .form-alt label { float:none; display:inline; width:auto; }
 .form-alt li { margin:0 0 5px; line-height:16px; }
@@ -779,7 +779,7 @@ dd.even { background:#f6f6f6; }*/
 
 /* Block: Poll */
 .block-poll li { margin:5px 0; }
-.block-poll input.radio { float:left; margin:0 -18px 0 0; }
+.block-poll input.radio { float:left; margin:1px -18px 0 0; vertical-align:top; }
 .block-poll .label { display:block; margin-left:18px; }
 .block-poll .answer {}
 .block-poll .votes { font-weight:bold; }
@@ -1117,8 +1117,8 @@ button.btn-cart  span { }
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:100%; }
 .product-options .options-list {}
-.product-options .options-list input.radio { float:left; margin:3px -18px 0 0; }
-.product-options .options-list input.checkbox { float:left; margin:3px -20px 0 0; }
+.product-options .options-list input.radio { float:left; margin:2px -18px 0 0; }
+.product-options .options-list input.checkbox { float:left; margin:2px -20px 0 0; }
 .product-options .options-list .label { display:block; margin-left:20px; }
 .product-options ul.validation-failed { padding:0 7px; }
 .product-options li { margin:3px 0; }
@@ -1439,6 +1439,7 @@ button.btn-cart  span { }
 #checkout-step-login h4 { font-size:16px; color:#000; font-weight:normal; margin:0 0 15px; }
 #checkout-step-login .col2-set .col-1 { }
 #checkout-step-login .col2-set .col-2 { width:338px; }
+#checkout-step-login .col2-set .col-2 .radio { margin-right:5px; }
 #checkout-step-login .col2-set .col-2 li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-repeat 0 0.5em; }
 #checkout-step-login .col2-set .col-2 .form-list li { background:none; padding-left:0; }
 #checkout-step-login .form-list label,
