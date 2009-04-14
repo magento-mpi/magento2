@@ -818,8 +818,9 @@ dd.even { background:#f6f6f6; }*/
 .category-view .note-msg,
 .category-description { padding:20px; }
 
-.catalogsearch-result-index .col-main { padding:0; }
-.catalogsearch-result-index .page-title { margin-left:0; margin-right:0; }
+.results-view { margin:0 -20px -20px; }
+.catalogsearch-result-index .page-title { margin-bottom:0; }
+.catalogsearch-result-index .note-msg { margin:20px 0; }
 
 .sidebar .category-title { margin:0; }
 .category-image { display:block; margin:0 auto 1px; }
@@ -1291,7 +1292,8 @@ button.btn-cart  span { }
 .tags-list li a:hover { text-decoration:underline; }
 
 /* Advanced Search */
-.search-summary {}
+.search-summary { padding:10px 10px 0; margin:10px 0 0; font-size:12px; background:url(../images/bkg_dots.gif) repeat-x 0 0; }
+.search-summary li { margin:2px 0; }
 
 /* CMS Home Page */
 .cms-home .products-grid td { width:20%; }

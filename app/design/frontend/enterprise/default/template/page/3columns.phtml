@@ -29,7 +29,10 @@
  * Template for Mage_Page_Block_Html
  */
 ?>
-<?php if($_productsGridHere = $this->getLayout()->getBlock('product_list')):
+<?php if( $this->getLayout()->getBlock('product_list')
+           || $this->getLayout()->getBlock('search_result_list')
+        ):
+        $_productsGridHere = $this->getLayout()->getBlock('product_list') ? $this->getLayout()->getBlock('product_list') : $this->getLayout()->getBlock('search_result_list');
         $_prodsPerRow=3; 
         $_productsGridHere->setData('gridconfig', $_prodsPerRow); 
       endif; 
