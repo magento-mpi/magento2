@@ -176,7 +176,6 @@ $CONFIG['translates'] = array(
     'Mage_GoogleBase' => array(
         'app/code/core/Mage/GoogleBase/',
         'app/design/adminhtml/default/default/template/googlebase/',
-        'app/design/adminhtml/default/modern/template/googlebase/',
     ),
     'Mage_GoogleCheckout' => array(
         'app/code/core/Mage/GoogleCheckout/',
@@ -354,10 +353,10 @@ $CONFIG['translates'] = array(
     ),
     'Mage_Weee' => array(
         'app/code/core/Mage/Weee/',
-        'app/design/frontend/default/default/template/weee/',
+        #'app/design/frontend/default/default/template/weee/',
         'app/design/frontend/default/default/layout/weee.xml',
-        'app/design/frontend/default/modern/template/weee/',
-        'app/design/frontend/default/modern/layout/weee.xml',
+        #'app/design/frontend/default/modern/template/weee/',
+        #'app/design/frontend/default/modern/layout/weee.xml',
     ),
     'Mage_Wishlist' => array(
         'app/code/core/Mage/Wishlist/',

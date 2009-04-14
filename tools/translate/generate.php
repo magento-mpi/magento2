@@ -84,9 +84,10 @@ $CONFIG['generate'] = array(
     'base_dir'      => '../../',
     'allow_ext'     => '(php|phtml)',
     'xml_ext'       => '(xml)',
+    'xml_ignore'    => array('wsdl.xml', 'wsdl2.xml'),
     'exclude_dirs'  => '(\.svn|sql)',
-    'print_dir'     => true,
-    'print_file'    => true,
+    'print_dir'     => false,
+    'print_file'    => false,
     'print_match'   => false,
     'parse_file'    => 0,
     'match_helper'  => 0,
@@ -207,6 +208,10 @@ function parseFile($fileName, $basicModuleName)
             foreach ($matches as $k => $match) {
                 $CONFIG['generate']['match_helper'] ++;
 
+                if (!isset($CONFIG['helpers'][$match[1]])) {
+                    print '    ignore unknown helper ' . $match[1] . "\n";
+                    continue;
+                }
                 $moduleName     = $CONFIG['helpers'][$match[1]];
                 $translationKey = $match[3];
 
@@ -252,10 +257,15 @@ function parseXmlFile($fileName, $basicModuleName)
         print '    parse file ' . $fileName . "\n";
     }
 
+    if (in_array(basename($fileName), $CONFIG['generate']['xml_ignore'])) {
+        return;
+    }
+
     $CONFIG['generate']['parse_file'] ++;
 
     $xmlContent = file_get_contents($fileName);
     $xmlData = new SimpleXMLElement($xmlContent);
+
     $xmlTranslate = array();
     xmlFindTranslate($xmlData, $xmlTranslate);
     foreach ($xmlTranslate as $translate) {
