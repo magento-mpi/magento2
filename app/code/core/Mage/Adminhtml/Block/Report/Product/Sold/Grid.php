@@ -48,7 +48,7 @@ class Mage_Adminhtml_Block_Report_Product_Sold_Grid extends Mage_Adminhtml_Block
     public function __construct()
     {
         parent::__construct();
-        $this->setId('gridSoldProducts');
+        $this->setId('gridProductsSold');
     }
 
     /**

@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Report_Product_Sold extends Mage_Adminhtml_Block_Widg
     public function __construct()
     {
         $this->_controller = 'report_product_sold';
-        $this->_headerText = Mage::helper('reports')->__('Sold Products');
+        $this->_headerText = Mage::helper('reports')->__('Products Sold');
         parent::__construct();
         $this->_removeButton('add');
     }
