@@ -82,6 +82,47 @@ class Mage_Adminhtml_Report_ProductController extends Mage_Adminhtml_Controller_
         $this->_prepareDownloadResponse($fileName, $content);
     }
 
+    /**
+     * Sold Products Report Action
+     *
+     */
+    public function soldAction()
+    {
+        $this->_initAction()
+            ->_setActiveMenu('report/product/sold')
+            ->_addBreadcrumb(Mage::helper('reports')->__('Sold Products'), Mage::helper('reports')->__('Sold Products'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/report_product_sold'))
+            ->renderLayout();
+    }
+
+    /**
+     * Export Sold Products report to CSV format action
+     *
+     */
+    public function exportSoldCsvAction()
+    {
+        $fileName   = 'sold_products.csv';
+        $content    = $this->getLayout()
+            ->createBlock('adminhtml/report_product_sold_grid')
+            ->getCsv();
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
+    /**
+     * Export Sold Products report to XML format action
+     *
+     */
+    public function exportSoldExcelAction()
+    {
+        $fileName   = 'sold_products.xml';
+        $content    = $this->getLayout()
+            ->createBlock('adminhtml/report_product_sold_grid')
+            ->getExcel($fileName);
+
+        $this->_prepareDownloadResponse($fileName, $content);
+    }
+
     public function viewedAction()
     {
         $this->_initAction()
