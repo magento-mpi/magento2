@@ -66,24 +66,24 @@
         </reference>
     </checkout_onepage_paymentmethod>
 
-    <enterprise_giftcardaccount_redeem_index>
+    <enterprise_giftcardaccount_customer_index>
         <update handle="customer_account"/>
 
         <reference name="content">
             <block type="enterprise_giftcardaccount/account_redeem" name="redeem" template="giftcardaccount/account/redeem.phtml" />
         </reference>
-    </enterprise_giftcardaccount_redeem_index>
+    </enterprise_giftcardaccount_customer_index>
 
     <customer_account>
         <reference name="customer_account_navigation">
             <action method="addLink" translate="label" module="enterprise_giftcardaccount">
                 <name>enterprise_giftcardaccount</name>
-                <path>enterprise_giftcardaccount/redeem/</path>
-                <label>Redeem Gift Card</label>
+                <path>enterprise_giftcardaccount/customer/</path>
+                <label>Gift Card</label>
             </action>
         </reference>
     </customer_account>
-    
+
     <enterprise_customerbalance_info_index>
         <reference name="customerbalance.wrapper">
             <block type="enterprise_giftcardaccount/account_redeem" name="redeem" template="giftcardaccount/account/redeem_link.phtml" after="balance" />

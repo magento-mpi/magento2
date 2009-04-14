@@ -34,6 +34,9 @@ class Enterprise_CustomerBalance_Model_Total_Invoice_Customerbalance extends Mag
      */
     public function collect(Mage_Sales_Model_Order_Invoice $invoice)
     {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            return $this;
+        }
         $order = $invoice->getOrder();
         if ($order->getBaseCustomerBalanceAmount() && $order->getBaseCustomerBalanceInvoiced() != $order->getBaseCustomerBalanceAmount()) {
             $gcaLeft = $order->getBaseCustomerBalanceAmount() - $order->getBaseCustomerBalanceInvoiced();

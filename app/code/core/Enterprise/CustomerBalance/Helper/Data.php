@@ -24,7 +24,19 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Customerbalance helper
+ *
+ */
 class Enterprise_CustomerBalance_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
+    /**
+     * Check whether customer balance functionality should be enabled
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return Mage::getStoreConfig('customer/enterprise_customerbalance/is_enabled') == 1;
+    }
 }

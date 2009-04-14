@@ -148,6 +148,15 @@
                     </enterprise_customerbalance_sales_order_place_after>
                 </observers>
             </sales_order_place_after>
+            <core_layout_update_updates_get_after>
+                <observers>
+                    <enterprise_customerbalance>
+                        <type>singleton</type>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>disableLayout</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </core_layout_update_updates_get_after>
         </events>
     </global>
     <frontend>
@@ -191,9 +200,9 @@
     <adminhtml>
         <layout>
             <updates>
-                <customerbalance>
+                <enterprise_customerbalance>
                     <file>enterprise/customerbalance.xml</file>
-                </customerbalance>
+                </enterprise_customerbalance>
             </updates>
         </layout>
         <events>
@@ -210,6 +219,7 @@
     <default>
         <customer>
             <enterprise_customerbalance>
+                <is_enabled>1</is_enabled>
                 <email_template>customer_enterprise_customerbalance_email_template</email_template>
                 <email_identity>general</email_identity>
                 <show_history>1</show_history>

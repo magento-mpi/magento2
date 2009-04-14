@@ -54,6 +54,11 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
         );
     }
 
+    /**
+     * Instantiate customer model
+     *
+     * @param string $idFieldName
+     */
     protected function _initCustomer($idFieldName = 'id')
     {
         $customer = Mage::getModel('customer/customer')->load((int)$this->getRequest()->getParam($idFieldName));
@@ -61,5 +66,15 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
             Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Failed to initialize customer'));
         }
         Mage::register('current_customer', $customer);
+    }
+
+    /**
+     * Check whether store credit functionality is allowed
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return Mage::helper('enterprise_customerbalance')->isEnabled();
     }
 }

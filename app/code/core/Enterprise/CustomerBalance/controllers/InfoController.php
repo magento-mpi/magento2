@@ -46,6 +46,10 @@ class Enterprise_CustomerBalance_InfoController extends Mage_Core_Controller_Fro
      */
     public function indexAction()
     {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            $this->_redirect('customer/account/');
+            return;
+        }
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->loadLayoutUpdates();

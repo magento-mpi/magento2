@@ -24,10 +24,22 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Customer balance observer
+ *
+ */
 class Enterprise_CustomerBalance_Model_Observer
 {
+    /**
+     * Prepare customer balance POST data
+     *
+     * @param Varien_Event_Observer $observer
+     */
     public function prepareCustomerBalanceSave($observer)
     {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            return;
+        }
         /* @var $customer Mage_Customer_Model_Customer */
         $customer = $observer->getCustomer();
         /* @var $request Mage_Core_Controller_Request_Http */
@@ -37,8 +49,16 @@ class Enterprise_CustomerBalance_Model_Observer
         }
     }
 
+    /**
+     * Customer balance update after save
+     *
+     * @param Varien_Event_Observer $observer
+     */
     public function customerSaveAfter($observer)
     {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            return;
+        }
         if ($data = $observer->getCustomer()->getCustomerBalanceData()) {
             if (!empty($data['amount_delta'])) {
                 $balance = Mage::getModel('enterprise_customerbalance/balance')
@@ -58,10 +78,12 @@ class Enterprise_CustomerBalance_Model_Observer
      * Check for customer balance use switch & update payment info
      *
      * @param Varien_Event_Observer $observer
-     * @return Enterprise_CustomerBalance_Model_Observer
      */
     public function paymentDataImport(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            return;
+        }
         $input = $observer->getEvent()->getInput();
         $payment = $observer->getEvent()->getPayment();
         $quote = $payment->getQuote();
@@ -82,18 +104,18 @@ class Enterprise_CustomerBalance_Model_Observer
         if ($input->getUseCustomerBalance() && $balance >= $total) {
             $input->setMethod('free');
         }
-
-        return $this;
     }
 
     /**
      * Check if customer balance was used in quote and reduce balance if so
      *
      * @param Varien_Event_Observer $observer
-     * @return Enterprise_CustomerBalance_Model_Observer
      */
     public function processOrderPlace(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            return;
+        }
         $order = $observer->getEvent()->getOrder();
         if ($order->getBaseCustomerBalanceAmount() > 0) {
             $balance = Mage::getModel('enterprise_customerbalance/balance')
@@ -104,6 +126,17 @@ class Enterprise_CustomerBalance_Model_Observer
                 ->setOrder($order)
                 ->save();
         }
-        return $this;
+    }
+
+    /**
+     * Disable entire customerbalance layout
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function disableLayout($observer)
+    {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            unset($observer->getUpdates()->enterprise_customerbalance);
+        }
     }
 }

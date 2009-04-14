@@ -33,18 +33,18 @@ class Enterprise_GiftCardAccount_Block_Account_Redeem extends Mage_Core_Block_Te
      */
     public function canRedeem()
     {
-        return true;
+        return Mage::helper('enterprise_customerbalance')->isEnabled();
     }
 
     /**
      * Retreive gift card code from url, empty if none
-     * 
+     *
      * @return string
      */
     public function getCurrentGiftcard()
     {
         $code = $this->getRequest()->getParam('giftcard', '');
-        
+
         return $this->htmlEscape($code);
     }
 }

@@ -31,37 +31,23 @@
         <col width="100" />
         <col width="100" />
         <col width="150" />
-        <tr>
-            <thead>
-                <th>
-                    <?php echo Mage::helper('enterprise_customerbalance')->__('Action'); ?>
-                </th>
-                <th>
-                    <?php echo Mage::helper('enterprise_customerbalance')->__('Balance Change'); ?>
-                </th>
-                <th>
-                    <?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?>
-                </th>
-                <th>
-                    <?php echo Mage::helper('enterprise_customerbalance')->__('Date'); ?>
-                </th>
-            </thead>
-        </tr>
+        <thead>
+            <tr>
+                <th><?php echo Mage::helper('enterprise_customerbalance')->__('Action'); ?></th>
+                <th><?php echo Mage::helper('enterprise_customerbalance')->__('Balance Change'); ?></th>
+                <th><?php echo Mage::helper('enterprise_customerbalance')->__('Balance'); ?></th>
+                <th><?php echo Mage::helper('enterprise_customerbalance')->__('Date'); ?></th>
+            </tr>
+        </thead>
         <?php foreach ($this->getEvents() as $event): ?>
-        <tr>
-            <td>
-                <?php echo $this->getActionLabel($event->getAction()); ?>
-            </td>
-            <td>
-                <?php echo Mage::helper('core')->currency($event->getBalanceDelta()); ?>
-            </td>
-            <td>
-                <?php echo Mage::helper('core')->currency($event->getBalanceAmount()); ?>
-            </td>
-            <td>
-                <?php echo Mage::helper('core')->formatDate($event->getUpdatedAt(), 'short', true); ?>
-            </td>
-        </tr>
+        <tbody>
+            <tr>
+                <td><?php echo $this->getActionLabel($event->getAction()); ?></td>
+                <td><?php echo Mage::helper('core')->currency($event->getBalanceDelta()); ?></td>
+                <td><?php echo Mage::helper('core')->currency($event->getBalanceAmount()); ?></td>
+                <td><?php echo Mage::helper('core')->formatDate($event->getUpdatedAt(), 'short', true); ?></td>
+            </tr>
+        </tbody>
         <?php endforeach; ?>
     </table>
     <script type="text/javascript">decorateTable('customerbalance-history')</script>

@@ -24,23 +24,23 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<div class="page-title">
+    <h2><?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Card'); ?></h2>
+</div>
+<div class="giftcardaccount">
+    <p><a href="<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/check') ?>"><?php echo $this->__('Check Gift Card Status and Balance'); ?></a></p>
 <?php if ($this->canRedeem()): ?>
-    <div class="page-title">
-        <h2><?php echo Mage::helper('enterprise_giftcardaccount')->__('Redeem Gift Card'); ?></h2>
-    </div>
-    <div class="giftcardaccount">
-        <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-        <form id="giftcard-form" action="<?php echo $this->getUrl('enterprise_giftcardaccount/redeem') ?>" method="post">
-            <fieldset class="fieldset giftcard-redeem">
-                <p><?php echo $this->__('<a href="%s">Check Gift Card status</a> and balance.', Mage::getUrl('enterprise_giftcardaccount/cart/check')); ?></p>
-                <span class="input-box v-fix"><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="<?php echo $this->getCurrentGiftcard(); ?>" /></span>
-                <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo $this->__('Redeem Gift Card') ?>"><span><?php echo $this->__('Redeem Gift Card') ?></span></button>
-            </fieldset>
-        </form>
-        <script type="text/javascript">
-        //<![CDATA[
-        var giftcardForm = new VarienForm('giftcard-form');
-        //]]>
-        </script>
-    </div>
+    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <form id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post">
+        <fieldset class="fieldset giftcard-redeem">
+            <span class="input-box v-fix"><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="<?php echo $this->getCurrentGiftcard(); ?>" /></span>
+            <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo $this->__('Redeem Gift Card') ?>"><span><?php echo $this->__('Redeem Gift Card') ?></span></button>
+        </fieldset>
+    </form>
+    <script type="text/javascript">
+    //<![CDATA[
+    var giftcardForm = new VarienForm('giftcard-form');
+    //]]>
+    </script>
 <?php endif; ?>
+</div>
