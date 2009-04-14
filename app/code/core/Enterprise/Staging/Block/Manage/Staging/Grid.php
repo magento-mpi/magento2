@@ -114,28 +114,6 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             'index'     => 'updated_at',
             'type'      => 'datetime',
         ));
-        
-        $actions = array();
-        $actions[] = array(
-            'caption' => Mage::helper('enterprise_staging')->__('Edit'),
-            'url'     => array(
-                'base'=>'*/*/edit',
-                'params'=>array('store'=>$this->getRequest()->getParam('store'))
-            ),
-            'field'   => 'id'
-        );
-
-        $this->addColumn('action',
-            array(
-                'header'    => Mage::helper('enterprise_staging')->__('Action'),
-                'width'     => '50px',
-                'type'      => 'action',
-                'getter'    => 'getId',
-                'actions'   => $actions,
-                'filter'    => false,
-                'sortable'  => false,
-                'index'     => 'stores',
-        ));
 
         return $this;
     }

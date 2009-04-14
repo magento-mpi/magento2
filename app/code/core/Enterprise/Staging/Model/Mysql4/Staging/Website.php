@@ -222,6 +222,9 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
                 $unsecureBaseUrl = $this->_entryPoint->getBaseUrl();
                 $secureBaseUrl   = $this->_entryPoint->getBaseUrl(true);
             }
+            
+            $unsecureBaseUrl = $this->_getIndexedUrl($unsecureBaseUrl);
+            $secureBaseUrl = $this->_getIndexedUrl($secureBaseUrl);
 
             $config = Mage::getModel('core/config_data');
             $path = 'web/unsecure/base_url';
@@ -232,22 +235,52 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             $config->save();
 
             $config = Mage::getModel('core/config_data');
+            $path = 'web/unsecure/base_link_url';
+            $config->setPath($path);
+            $config->setScope('websites');
+            $config->setScopeId($object->getSlaveWebsiteId());
+            $config->setValue($unsecureBaseUrl);
+            $config->save();
+            
+            $config = Mage::getModel('core/config_data');
             $path = 'web/secure/base_url';
             $config->setPath('web/secure/base_url');
             $config->setScope('websites');
             $config->setScopeId($object->getSlaveWebsiteId());
             $config->setValue($secureBaseUrl);
             $config->save();
+
+            $config = Mage::getModel('core/config_data');
+            $path = 'web/secure/base_link_url';
+            $config->setPath('web/secure/base_link_url');
+            $config->setScope('websites');
+            $config->setScopeId($object->getSlaveWebsiteId());
+            $config->setValue($secureBaseUrl);
+            $config->save();
             
             $this->updateAttribute($object, 'base_url' , $unsecureBaseUrl);
-            $object->setData('base_url' , $unsecureBaseUrl);
             $this->updateAttribute($object, 'base_secure_url' , $secureBaseUrl);
-            $object->setData('base_secure_url' , $secureBaseUrl);
         }
 
         return $this;
     }
 
+    /**
+     * check existing index.php in url
+     * 
+     * @param string $url
+     * @return string
+     *
+     */
+    protected function _getIndexedUrl($url)
+    {
+        $url = rtrim($url, "/");
+        if (strpos($url, "index.php")=='') {
+            $url .= "/index.php";        
+        }
+        return $url . '/';
+    }
+    
     /**
      * Update specific attribute value (set new value back in given model)
      *

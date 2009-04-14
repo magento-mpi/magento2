@@ -62,7 +62,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
         $staging       = $this->getStaging();
         $collection    = $staging->getItemsCollection();
 
-        $fieldset = $form->addFieldset('staging_dataset_item', array('legend'=>Mage::helper('enterprise_staging')->__('Items to merge')));
+        $fieldset = $form->addFieldset('staging_dataset_item', array('legend'=>Mage::helper('enterprise_staging')->__('Select Items to be merged')));
 
         $extendInfo = $this->getExtendInfo();
         

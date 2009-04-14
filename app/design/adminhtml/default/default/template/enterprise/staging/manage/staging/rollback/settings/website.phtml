@@ -34,18 +34,6 @@
 <?php $stagingWebsites  = $staging->getWebsitesCollection(); ?>
 <?php $mapperUsedItems  = $this->getMapper()->getUsedItems(); ?>
 <?php $mapperWebSites   = $this->getMapper()->getAllUsedWebsites();?>
- 
-<?php if ($this->getIsVersionConflict()): ?>
-    <div id="messages">
-    <ul class="messages">
-        <li class="notice-msg">
-            <?php echo $this->__('Module version conflict!'); ?>
-        </li>            
-    </ul>
-    </div>
-<?php endif; ?>
-
-     
 <div class="filter-actions a-right">
     <?php echo $this->getMainButtonsHtml() ?>
 </div>

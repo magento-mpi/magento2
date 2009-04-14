@@ -217,13 +217,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             }
         }
 
-        //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$targetTable}` WHERE {$_websiteFieldNameSql}";
         $srcSelectSql = $this->_getSimpleSelect($fields, $targetTable, $_websiteFieldNameSql);
-        
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-        //echo $destInsertSql.'<br /><br /><br /><br />';
-
         $connection->query($destInsertSql);
         self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
 
@@ -267,13 +262,9 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             }
         }
 
-        //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$targetTable}` WHERE {$_storeFieldNameSql}";
         $srcSelectSql = $this->_getSimpleSelect($fields, $targetTable, $_storeFieldNameSql);
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-        //echo $destInsertSql.'<br /><br /><br /><br />';
         $connection->query($destInsertSql);
-
         self::$_proceedStoreScopeTables[$this->getEventStateCode()][$srcTable] = true;
 
         return $this;
@@ -410,7 +401,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
             $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, $_websiteFieldNameSql);
             $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-            echo $destInsertSql.'<br /><br /><br /><br />';
             $connection->query($destInsertSql);
         }
         self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
@@ -440,7 +430,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         foreach ($mappedWebsites['master_website'] as $masterWebsiteId => $slaveWebsiteId) {
             $destInsertSql = "UPDATE `{$targetTable}` SET website_ids = IF(FIND_IN_SET({$masterWebsiteId},website_ids), website_ids, CONCAT(website_ids,',{$masterWebsiteId}')) 
                 WHERE FIND_IN_SET({$slaveWebsiteId},website_ids)";
-            echo $destInsertSql.'<br /><br /><br /><br />';
             $connection->query($destInsertSql);
         }
 
@@ -493,12 +482,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                         $_storeFieldNameSql = "scope = 'stores' AND {$field}";
                     }
                 }
-
-                //$srcSelectSql = "SELECT ".implode(',',$_fields)." FROM `{$srcTable}` WHERE {$_storeFieldNameSql} = {$slaveStoreId}";
                 $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$slaveStoreId}");
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-                //echo $destInsertSql.'<br /><br /><br /><br />';
                 $connection->query($destInsertSql);
             }
         }
@@ -573,14 +558,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                     $srcTableDesc['constraints'][$constraint]['fk_name'] = $backupPrefix . $data['fk_name'];    
                 }
             }
-            
             $sql = $this->_getCreateSql($targetModel, $srcTableDesc, $staging);
-
-            //echo '<pre>';
-            //echo $sql;
-            //echo '</pre>';
-            //echo '<br>';
-
             $connection->query($sql);
         }
 
@@ -650,23 +628,15 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         if (!in_array('website_id', $fields) && !in_array('website_ids', $fields) && !in_array('scope_id', $fields)) {
             return $this;
         }
-
-        $connection = $this->getConnection($srcModel);
         
+        $connection = $this->getConnection($srcModel);
         $connection->query("SET foreign_key_checks = 0;");
-
+        
         $updateField = end($fields);
-
         $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s)";
-
-        //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
         $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable);
-
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-        //echo $destInsertSql.'<br /><br /><br /><br />';
         $connection->query($destInsertSql);
-
         self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
 
         return $this;
@@ -690,21 +660,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         }
 
         $connection = $this->getConnection($srcModel);
-
         $field = end($fields);
-
         $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s)";
-
-        //$srcSelectSql = "SELECT ".implode(',',$fields)." FROM `{$srcTable}`";
         $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable);        
-
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-        //echo $destInsertSql.'<br /><br /><br /><br />';
         $connection->query($destInsertSql);
-        
         $connection->query("SET foreign_key_checks = 1;");
-
         self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
 
         return $this;
@@ -837,19 +798,15 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
             //1 - need remove all resords from web_site tables, which added via marging
             if (!empty($primaryField)) {
-                $destDeleteSql = $this->_deleteDataByUniqKeys($targetTable, $masterWebsiteIds, $slaveWebsiteIds, $tableDestDesc['keys']);
+                $destDeleteSql = $this->_deleteDataByUniqKeys('UNIQUE', $targetTable, $masterWebsiteIds, $slaveWebsiteIds, $tableDestDesc['keys']);
                 
                 if (!empty($destDeleteSql)) {
-                    //echo $destDeleteSql.'<br /><br /><br /><br />';
                     $connection->query($destDeleteSql);
                 }
-                $destDeleteSql = "
-                    DELETE {$targetTable}.* FROM `{$srcTable}`, `{$targetTable}`
-                    WHERE `{$targetTable}`.$primaryField = `{$srcTable}`.$primaryField
-                        AND $_websiteFieldNameSql";
-                //echo $destDeleteSql.'<br /><br /><br /><br />';
-                $connection->query($destDeleteSql);                
-                
+                $destDeleteSql = $this->_deleteDataByUniqKeys('PRIMARY', $targetTable, $masterWebsiteIds, $slaveWebsiteIds, $tableDestDesc['keys']);
+                if ($destDeleteSql) {
+                    $connection->query($destDeleteSql);
+                }                
             }
 
             //2 - copy old data from bk_ tables
@@ -857,7 +814,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
             $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable, $_websiteFieldNameSql);
             $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-            //echo $destInsertSql.'<br /><br /><br /><br />';
             $connection->query($destInsertSql);
         }
         return $this;
@@ -874,30 +830,33 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
      *
      * @return value
      */
-    protected function _deleteDataByUniqKeys($targetTable, $masterIds, $slaveIds, $keys)
+    protected function _deleteDataByUniqKeys($type='UNIQUE', $targetTable, $masterIds, $slaveIds, $keys)
     {
-        if (!is_array($masterIds)) {
-            $masterIds = array($masterIds);
+        if (is_array($masterIds)) {
+            $masterWhere = " IN (" . implode(", ", $masterIds). ") ";
+        } else {
+            $masterWhere = " = " . $masterIds;            
         }
-        if (!is_array($slaveIds)) {
-            $slaveIds = array($slaveIds);
+        if (is_array($slaveIds)) {
+            $slaveWhere = " IN (" . implode(", ", $slaveIds). ") ";
+        } else {
+            $slaveWhere = " = " . $slaveIds;            
         }
         
         foreach ($keys AS $keyName => $keyData) {
             
-            if ($keyData['type'] == 'UNIQUE') {
+            if ($keyData['type'] == $type) {
                 $_websiteFieldNameSql = array();
                 foreach ($keyData['fields'] as $field) {
                     
                     if ($field == 'website_id' || $field == 'store_id') {
-                        
-                        $_websiteFieldNameSql[] = " T1.{$field} IN (" . implode(", ", $slaveIds). ") 
-                            AND T2.{$field} IN (" . implode(", ", $masterIds). ") ";
+                        $_websiteFieldNameSql[] = " T1.{$field} $slaveWhere 
+                            AND T2.{$field} $masterWhere ";
                             
                     } elseif ($field == 'scope_id') {
                         
-                        $_websiteFieldNameSql[] = " T1.scope = 'website' AND T1.{$field} IN (" . implode(", ", $slaveIds). ")
-                            AND T2.{$field} IN (" . implode(", ", $masterIds).  ") ";
+                        $_websiteFieldNameSql[] = " T1.scope = 'website' AND T1.{$field} $slaveWhere
+                            AND T2.{$field} $masterWhere ";
                             
                     } else { //website_ids is update data as rule, so it must be in backup.
                         
@@ -974,19 +933,17 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 }                
                 //1 - need remove all resords from stores tables, which added via marging
                 if (!empty($primaryField)) {
-                    $destDeleteSql = $this->_deleteDataByUniqKeys($targetTable, $masterStoreId, $slaveStoreId, $tableDestDesc['keys']);
+                    $destDeleteSql = $this->_deleteDataByUniqKeys('UNIQUE', $targetTable, $masterStoreId, $slaveStoreId, $tableDestDesc['keys']);
                 
                     if (!empty($destDeleteSql)) {
-                        //echo $destDeleteSql.'<br /><br /><br /><br />';
                         $connection->query($destDeleteSql);
                     }
-                                        
-                    $destDeleteSql = "
-                        DELETE {$targetTable}.* FROM `{$srcTable}`, `{$targetTable}`
-                        WHERE (`{$targetTable}`.$primaryField = `{$srcTable}`.$primaryField
-                                AND `{$srcTable}`.{$_storeFieldNameSql} = {$slaveStoreId})";
-                    //echo $destDeleteSql.'<br /><br /><br /><br />';
-                    $connection->query($destDeleteSql);
+                     
+                    $destDeleteSql = $this->_deleteDataByUniqKeys('PRIMARY', $targetTable, $masterStoreId, $slaveStoreId, $tableDestDesc['keys']);
+                    
+                    if ($destDeleteSql) {
+                        $connection->query($destDeleteSql);
+                    }                        
                 }
 
                 //2 - refresh data by backup
@@ -994,7 +951,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                 $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$slaveStoreId}");
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-                //echo $destInsertSql.'<br /><br />store<br /><br />';
                 $connection->query($destInsertSql);
             }
         }

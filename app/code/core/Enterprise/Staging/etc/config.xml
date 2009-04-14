@@ -430,6 +430,9 @@
                         <label>Polls</label>
                         <adapter>enterprise_staging/staging_adapter_item_poll</adapter>
                         <use_storage_method></use_storage_method>
+                        <entities>
+                            <poll_store />
+                        </entities>
                     </poll>
                     <checkout>
                         <code>checkout</code>

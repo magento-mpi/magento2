@@ -185,6 +185,8 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
                 $status = $staging->getStatus();
             }
             
+            $staging->setStatus($status);
+            
             $statusesLabel = $state->getEventStateStatuses();
             $comment = "";
             $scheduleDate = $staging->getMergeSchedulingDate();
@@ -212,6 +214,11 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
                 ->setStaging($staging);
 
             $this->save();
+            
+            if ($staging->getIsNewStaging()==false) {
+                $staging->save();
+            }
+            
             $state->setEventId($this->getId());
         }        
         return $this;

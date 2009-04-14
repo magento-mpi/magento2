@@ -192,7 +192,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                         array(
                             'label' => $this->helper->__('Base Url'),
                             'name'  => "{$_id}[base_url]",
-                            'value' => '{{unsecure_base_url}}'
+                            'value' => '',
+                            'required' => true
                         )
                     );
 
@@ -200,7 +201,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                         array(
                             'label' => $this->helper->__('Secure Base Url'),
                             'name'  => "{$_id}[base_secure_url]",
-                            'value' => '{{secure_base_url}}'
+                            'value' => '',
+                            'required' => true
                         )
                     );
                 }

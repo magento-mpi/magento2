@@ -145,6 +145,8 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
             
             $name = Mage::helper('enterprise_staging')->__('Staging rollback: ') . $staging->getName();
             
+            $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED);
+
             $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging) 
                            . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
                            . $staging->getEventId() . "_";
@@ -161,6 +163,7 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
                 ->setMageVersion(Mage::getVersion())
                 ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
             $this->save();
+            $staging->save();
             $state->setRollbackId($this->getId());
         }
         return $this;

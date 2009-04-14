@@ -134,6 +134,7 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
                 ->setMageVersion(Mage::getVersion())
                 ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
             $this->save();
+            $staging->save();
             $state->setBackupId($this->getId());
         }
         return $this;        
@@ -162,7 +163,7 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         }
         return false;
     }
-    
+
     /**
      * Check items modules versions
      * return item version check array

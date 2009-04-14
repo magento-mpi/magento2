@@ -281,9 +281,12 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();
 
         $_usedItems = !empty($mapData['items']) ? $mapData['items'] : array();
+
         foreach ($_usedItems as $code => $item) {
-            if (isset($item['dataset_item_id'])) {
+            if (!empty($item['dataset_item_id'])) {
                 $this->_usedItems[$code] = $item;
+            } else {
+                unset($this->_usedItems[$code]);
             }
         }
 

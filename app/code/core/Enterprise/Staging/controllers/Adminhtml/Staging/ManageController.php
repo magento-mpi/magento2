@@ -164,6 +164,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     {
         $staging = $this->_initStaging();
 
+        if ($staging->isStatusProcessing()) {
+            $this->_getSession()->addNotice($this->__('Merge cannot be done now, because a Merge or Rollback is in progress. Please try again later.'));
+        }
 //        $websiteIds = (array) $staging->getMasterWebsiteIds();
 //        if ($websiteIds) {
 //            foreach ($websiteIds as $websiteId) {
@@ -245,7 +248,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function eventAction()
     {
         $this->_initEvent();
-
         $this->loadLayout();
         $this->renderLayout();
     }
@@ -493,12 +495,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 $stagingId = $staging->getId();
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
-                //echo '<pre>'.$e;ddd();
                 $this->_getSession()->addError($e->getMessage())
                     ->setStagingData($data);
                 $redirectBack = true;
             } catch (Exception $e) {
-                //echo '<pre>'.$e;ddd();
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
             }
@@ -671,12 +671,18 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     public function backupEditAction()
     {
-        $this->_initBackup();
-
+        $backup = $this->_initBackup();
+        
+        if (!$backup->canRollback()) {
+            $this->_getSession()->addNotice($this->__('All Backup Items are outdated. The Backup is read-only.'));
+        }
+        
+        if ($backup->getStaging()->isStatusProcessing()) {
+            $this->_getSession()->addNotice($this->__('This Backup is read-only, because a Merge or Rollback is in progress. Please try again later.'));
+        }
+         
         $this->loadLayout();
-
         $this->_setActiveMenu('enterprise/staging');
-
         $this->renderLayout();
     }
 

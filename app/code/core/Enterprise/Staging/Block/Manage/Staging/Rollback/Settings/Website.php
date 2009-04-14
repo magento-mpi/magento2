@@ -67,7 +67,6 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
                         'class'  => 'disabled'
                     ))
             );
-            $this->setIsVersionConflict(true);
         }
        
         $this->setChild('website_store_form',

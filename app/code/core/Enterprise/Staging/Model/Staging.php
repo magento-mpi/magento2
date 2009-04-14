@@ -777,6 +777,19 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     }
 
     /**
+     *  Check current status for staging
+     *  @return bool
+     */
+    public function isStatusProcessing()
+    {
+         if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING) {
+             return true;             
+         } else {
+            return false;
+         }
+    }
+    
+    /**
      * check if we can delete
      *
      * @return bool
@@ -804,26 +817,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             return false;
         }
         if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
-            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_BROKEN)) {
+            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_BROKEN)
+            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING)) {
             return false;
         }
         return true;
-    }
-
-    /**
-     * check if we can do rollback
-     *
-     * @return bool
-     */    
-    public function canRollback()
-    {
-        if (!$this->getId()) {
-            return false;
-        }
-        if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_MERGED) {
-            return true;
-        }
-        return false;
     }
 
     /**

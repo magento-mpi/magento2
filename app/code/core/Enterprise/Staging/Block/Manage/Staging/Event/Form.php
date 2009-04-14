@@ -156,6 +156,10 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
         if (is_string($date) && !(strpos($date, "0000")===0)) {
             $date = Mage::app()->getLocale()->date($date, Varien_Date::DATETIME_INTERNAL_FORMAT);
         }
+        
+        if (strpos($date, "0000")===0) {
+            return "";
+        }
 
         return parent::formatDate($date, $format, $showTime);
     }

@@ -75,35 +75,21 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
                 ))
         );
 
-        if ($this->getStaging()->canDelete()) {
-            $this->setChild('delete_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
-                    ->setData(array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Delete'),
-                        'onclick'   => 'confirmSetLocation(\''.Mage::helper('enterprise_staging')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
-                        'class'  => 'delete'
-                    ))
-            );
-        }
-
         if ($this->getStaging()->canMerge()) {
             $this->setChild('merge_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
                         'label'     => Mage::helper('enterprise_staging')->__('Merge'),
                         'onclick'   => 'setLocation(\''.$this->getMergeUrl().'\')',
-                        'class'  => 'add'
+                        'class'     => 'add'
                     ))
             );
-        }
-
-        if ($this->getStaging()->canRollback()) {
-            $this->setChild('rollback_button',
+        } else {
+            $this->setChild('merge_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
-                        'onclick'   => 'setLocation(\''.$this->getRollbackUrl().'\')',
-                        'class'  => 'back'
+                        'label'     => Mage::helper('enterprise_staging')->__('Merge'),
+                        'class'     => 'disabled'
                     ))
             );
         }
@@ -165,22 +151,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
         return $this->getChildHtml('save_and_edit_button');
     }
     
-    /**
-     * Return Delete button as html
-     */
-    public function getDeleteButtonHtml()
-    {
-        return $this->getChildHtml('delete_button');
-    }
-
-    /**
-     * Return Rollback button as html
-     */
-    public function getRollbackButtonHtml()
-    {
-        return $this->getChildHtml('rollback_button');
-    }
-
     /**
      * Return Merge button as html
      */
