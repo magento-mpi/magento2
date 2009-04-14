@@ -68,7 +68,13 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
         return $this;
     }
 
-    private function _apply($package, $theme)
+    /**
+     * Apply package and theme
+     *
+     * @param string $package
+     * @param string $theme
+     */
+    protected function _apply($package, $theme)
     {
         Mage::getSingleton('core/design_package')
             ->setPackageName($package)
