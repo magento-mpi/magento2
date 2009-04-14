@@ -145,7 +145,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
      */
     protected function _isApplyDesign($design, array $date)
     {
-        if (!isset($date['from']) || !isset($date['to'])) {
+        if (!array_key_exists('from', $date) || !array_key_exists('to', $date)) {
             return false;
         }
 
