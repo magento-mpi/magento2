@@ -111,8 +111,8 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
                     AND
                 category_name_attribute.attribute_code = \'name\'', array())
                 ->joinLeft(array('category_varchar' => $this->getTable('catalog/category') . '_varchar'), 'category_varchar.entity_id = category.entity_id
-                    AND
-                category_varchar.attribute_id = category_name_attribute.attribute_id
+                    AND category_varchar.attribute_id = category_name_attribute.attribute_id
+                    AND category_varchar.store_id = 0
                 ', array('category_name' => 'value'));
             $this->_map['fields']['category_name'] = 'category_varchar.value';
             $this->_map['fields']['category_position'] = 'category.position';
