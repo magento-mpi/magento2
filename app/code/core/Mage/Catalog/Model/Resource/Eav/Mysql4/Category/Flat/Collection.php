@@ -244,6 +244,32 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection extends Ma
         return $this;
     }
 
+    /**
+     * Retrieve resource instance
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
+     */
+    public function getResource()
+    {
+        return parent::getResource();
+    }
+
+    /**
+     * Emulate simple add attribute filter to collection
+     *
+     * @param string $attribute
+     * @param mixed $condition
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat_Collection
+     */
+    public function addAttributeToFilter($attribute, $condition = null)
+    {
+        if (!is_string($attribute) || $condition === null) {
+            return $this;
+        }
+
+        return $this->addFieldToFilter($attribute, $condition);
+    }
+
     public function addUrlRewriteToResult()
     {
         $storeId = Mage::app()->getStore()->getId();

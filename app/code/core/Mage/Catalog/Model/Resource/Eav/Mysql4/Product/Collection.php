@@ -998,6 +998,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 $attribute = $attribute->getAttributeCode();
             }
 
+            if (is_array($attribute)) {
+                $sqlArr = array();
+                foreach ($attribute as $condition) {
+                    $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition, $joinType);
+                }
+                $conditionSql = '('.join(') OR (', $sqlArr).')';
+                $this->getSelect()->where($conditionSql);
+                return $this;
+            }
+
             if (!isset($this->_selectAttributes[$attribute])) {
                 $this->addAttributeToSelect($attribute);
             }
