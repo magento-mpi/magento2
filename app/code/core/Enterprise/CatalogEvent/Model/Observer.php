@@ -279,7 +279,9 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         if ($this->_eventsToCategories === null) {
-            $this->_eventsToCategories = Mage::getModel('enterprise_catalogevent/event')->getCategoryIdsWithEvent();
+            $this->_eventsToCategories = Mage::getModel('enterprise_catalogevent/event')->getCategoryIdsWithEvent(
+                Mage::app()->getStore()->getId()
+            );
 
             $eventCollection = $this->_getEventCollection(array_keys($this->_eventsToCategories));
 

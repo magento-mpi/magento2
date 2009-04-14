@@ -73,7 +73,6 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
         $select = Mage::getModel('catalog/category')->getCollection()
             ->setStoreId(Mage::app()->getStore($storeId)->getId())
             ->addIsActiveFilter()
-            ->addNameToResult()
             ->addPathsFilter(Mage_Catalog_Model_Category::TREE_ROOT_ID . '/' . $rootCategoryId)
             ->getSelect();
 
@@ -86,23 +85,9 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
 
         }
 
-        $fieldsToSelect = array(
-            'entity_id',
-            'path',
-            'level'
-        );
-
-        $columns = $select->getPart(Zend_Db_Select::COLUMNS);
-
         $select->reset(Zend_Db_Select::COLUMNS);
 
-        foreach ($columns as $column) {
-            if (in_array($column[1], $fieldsToSelect) ||
-                ($column[2] !== null && in_array($column[2], $fieldsToSelect))) {
-                $expr = ($column[2] !== null ? array($column[2]=>$column[1]) : $column[1]);
-                $select->columns($expr, $column[0]);
-            }
-        }
+        $select->columns(array('entity_id','level', 'path'), $categoryCorrelationName);
 
 
         $select

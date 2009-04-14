@@ -74,7 +74,13 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
         if ($this->_events === null) {
             $this->_events = array();
             $categories = $this->helper('catalog/category')->getStoreCategories('position', true, false);
-            $allIds = $categories->getAllIds();
+            if (($categories instanceof Mage_Eav_Model_Entity_Collection_Abstract) ||
+                ($categories instanceof Mage_Core_Model_Mysql4_Collection_Abstract)) {
+                $allIds = $categories->getAllIds();
+            } else {
+                $allIds = array();
+            }
+
             if (!empty($allIds)) {
                 $eventCollection = Mage::getModel('enterprise_catalogevent/event')
                     ->getCollection();
