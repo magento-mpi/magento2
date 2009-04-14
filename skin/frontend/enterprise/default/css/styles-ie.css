@@ -22,7 +22,6 @@
  */
  
 /* IE 6 only */
-
 .col-main .page-title { _position:relative; _z-index:1; }
 .switch ul .current { _padding-right:4em;}
 .sidebar,
@@ -41,8 +40,8 @@
 #nav li a:hover,
 #nav li.active,
 #nav li.over a { _margin-bottom:-3px; _height:30px; }
-#nav li li a:hover { margin-bottom:0!important; }
-#nav li li a { margin-bottom:0!important; }
+#nav li li a:hover { margin-bottom:0 !important; }
+#nav li li a { margin-bottom:0 !important; }
 
 /* Doubled Margin Fixes */
 .product-view,
