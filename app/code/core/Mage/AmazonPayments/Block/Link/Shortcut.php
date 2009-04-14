@@ -77,4 +77,14 @@ class Mage_AmazonPayments_Block_Link_Shortcut extends Mage_Core_Block_Template
         return $url;
     }
 
+    /**
+     * Return true if 1-Click is enabled
+     *
+     * @return boolean
+     */
+    public function getIsOneClickEnabled()
+    {
+        return Mage::getStoreConfigFlag('payment/amazonpayments_cba/use_oneclick');
+    }
+
 }

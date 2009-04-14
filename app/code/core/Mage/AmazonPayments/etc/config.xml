@@ -194,6 +194,7 @@ Something like this is to be added to resolve bug #4890
                 <button_url>http://g-ecx.images-amazon.com/images/G/01/cba/images/buttons/btn_Chkout-orange-medium.gif</button_url>
                 <wsdl>https://merchant-api.amazon.com/gateway/merchant-interface-mime/</wsdl>
                 <use_callback_api>1</use_callback_api>
+                <use_oneclick>0</use_oneclick>
             </amazonpayments_cba>
 
             <amazonpayments_asp>
