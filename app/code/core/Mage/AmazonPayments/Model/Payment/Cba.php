@@ -228,7 +228,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     ->setResponseBody(time().' - Notification: '. $_request['NotificationType'])
                     ->save();
             }
-            Mage::log($_request['NotificationData']);
             switch ($_request['NotificationType']) {
                 case 'NewOrderNotification':
                     $newOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
@@ -435,6 +434,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      * Proccess existing order
      *
      * @param array $amazonOrderDetails
+     * @return boolean
      */
     protected function _proccessOrder($amazonOrderDetails)
     {
@@ -504,38 +504,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $_quote = $this->getCheckout()->getQuote();
 
         $xml = $this->getApi()->getXmlCart($_quote);
-        $__xml = '<?xml version="1.0" encoding="utf-8"?>
-<Order xmlns="http://payments.amazon.com/checkout/2008-11-30/">
-    <ClientRequestId>cartId:75475</ClientRequestId>
-    <Cart>
-        <Items>
-            <Item>
-                <SKU>16</SKU>
-                <MerchantId>A2ZZYWSJ0WMID8</MerchantId>
-                <Title>Courage Under Fire</Title>
-                <Description>Regional Code: 2 (Japan, Europe, Middle East, South Africa)</Description>
-        <Price>
-          <Amount>29.99</Amount>
-          <CurrencyCode>USD</CurrencyCode>
-        </Price>
-        <Quantity>1</Quantity>
-        <Weight>
-          <Amount>7.00</Amount>
-          <Unit>lb</Unit>
-        </Weight>
-        <Category>Drama</Category>
-        <FulfillmentNetwork>MERCHANT</FulfillmentNetwork>
-      </Item>
-    </Items>
-  </Cart>
-</Order>';
-
-        /*
-         * <IntegratorId>A2E8RSUU6OBDEI</IntegratorId>
-  <IntegratorName>OSCommercev2.0RC2</IntegratorName>
-  <ReturnUrl>http://kv.no-ip.org/dev/ruslan.voitenko/osc/checkout_by_amazon_order_request_handler.php?cbaAction=ResetCart</ReturnUrl>
-  <CancelUrl>http://kv.no-ip.org/dev/ruslan.voitenko/osc/index.php</CancelUrl>
-         */
 
         $xmlCart = array('order-input' =>
             "type:merchant-signed-order/aws-accesskey/1;"

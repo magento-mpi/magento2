@@ -155,16 +155,6 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
                 ."      <Amount>{$_item->getWeight()}</Amount>\n"
                 ."       <Unit>lb</Unit>\n"
                 ."     </Weight>\n";
-            if (!$this->getConfigData('use_callback_api')) {
-                $taxClass = ($_item->getTaxClassId() == 0 ? 'none' : $_item->getTaxClassId());
-                $_xml .= "     <TaxTableId>tax_{$taxClass}</TaxTableId>\n"
-                    ."     <ShippingMethodIds>\n"
-                    ."       <ShippingMethodId>US Standard</ShippingMethodId>\n"
-                    ."       <ShippingMethodId>US Expedited</ShippingMethodId>\n"
-                    ."       <ShippingMethodId>US Two-Day</ShippingMethodId>\n"
-                    ."       <ShippingMethodId>US One-Day</ShippingMethodId>\n"
-                    ."     </ShippingMethodIds>\n";
-            }
             $_xml .= "   </Item>\n";
 
         }
@@ -767,9 +757,6 @@ XML;
 
 
                 $_xmlShippingMethodIds = $_xmlCallbackOrderItem->addChild('ShippingMethodIds');
-                /*foreach ($this->_carriers as $_carrier) {
-                    $_xmlShippingMethodIds->addChild('ShippingMethodId', $_carrier['code']);
-                }*/
                 foreach ($this->_carriers as $_carrier) {
                     $_xmlShippingMethodIds->addChild('ShippingMethodId', $_carrier['code']);
                 }
@@ -779,17 +766,6 @@ XML;
             $this->_appendDiscounts($xml, $quote);
 
             $_xmlShippingMethods = $xml->addChild('ShippingMethods');
-            /*foreach ($this->_carriers as $_carrier) {
-                $_xmlShippingMethod = $_xmlShippingMethods->addChild('ShippingMethod');
-
-                $_xmlShippingMethod->addChild('ShippingMethodId', $_carrier['code']);
-                $_xmlShippingMethod->addChild('ServiceLevel', $_carrier['title']);
-
-                $_xmlShippingMethodRate = $_xmlShippingMethod->addChild('Rate');
-                $_xmlShippingMethodRateItem = $_xmlShippingMethodRate->addChild('ItemQuantityBased');
-                $_xmlShippingMethodRateItem->addChild('Amount', $_carrier['price']);
-                $_xmlShippingMethodRateItem->addChild('CurrencyCode', $_carrier['currency']);
-            }*/
             foreach ($this->_carriers as $_carrier) {
                 $_xmlShippingMethod = $_xmlShippingMethods->addChild('ShippingMethod');
 
@@ -804,7 +780,6 @@ XML;
 
                 $_xmlShippingMethodIncludedRegions = $_xmlShippingMethod->addChild('IncludedRegions');
                 $_xmlShippingMethodIncludedRegions->addChild('PredefinedRegion', 'WorldAll');
-//                $_xmlShippingMethodIncludedRegions->addChild('USZipRegion', '10001');
             }
             $xml->addChild('CartPromotionId', 'cart-total-discount');
         }
@@ -900,6 +875,7 @@ XML;
      * Cancel order
      *
      * @param Mage_Sales_Model_Order $order
+     * @return Mage_AmazonPayments_Model_Api_Cba
      */
     public function cancel($order)
     {
@@ -911,6 +887,8 @@ XML;
      * Refund order
      *
      * @param Mage_Sales_Model_Order_Payment $payment
+     * @param float $amount
+     * @return Mage_AmazonPayments_Model_Api_Cba
      */
     public function refund($payment, $amount)
     {
@@ -919,10 +897,10 @@ XML;
     }
 
     /**
-     * Enter description here...
+     * Confirm crating of shipment
      *
      * @param Mage_Sales_Model_Order_Shipment $shipment
-     * @return unknown
+     * @return Mage_AmazonPayments_Model_Api_Cba
      */
     public function confirmShipment($shipment)
     {
@@ -943,7 +921,8 @@ XML;
         $carrierMethod = '';
         $trackNumber = '';
         /**
-         * Magento track numbers is not connected with items
+         * Magento track numbers is not connected with items.
+         * Get only first track number
          */
         foreach ($shipment->getAllTracks() as $track) {
             $trackNumber = $track->getNumber();
@@ -970,6 +949,7 @@ XML;
      *
      * @param Mage_Sales_Model_Order $order
      * @param Mage_Sales_Model_Order_Shipment_Track $track
+     * @param Mage_AmazonPayments_Model_Api_Cba
      */
     public function sendTrackingNumber($order, $track)
     {

@@ -52,28 +52,55 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         parent::_construct();
     }
 
+    /**
+     * Set Wsdl uri
+     *
+     * @param string $wsdlUri
+     * @return Mage_AmazonPayments_Model_Api_Cba_Document
+     */
     public function setWsdlUri($wsdlUri)
     {
         $this->_wsdlUri = $wsdlUri;
         return $this;
     }
 
+    /**
+     * Return Wsdl Uri
+     *
+     * @return string
+     */
     public function getWsdlUri()
     {
         return $this->_wsdlUri;
     }
 
+    /**
+     * Set merchant info
+     *
+     * @param array $merchantInfo
+     * @return Mage_AmazonPayments_Model_Api_Cba_Document
+     */
     public function setMerchantInfo(array $merchantInfo = array())
     {
         $this->_merchantInfo = $merchantInfo;
         return $this;
     }
 
+    /**
+     * Return merchant info
+     *
+     * @return array
+     */
     public function getMerchantInfo()
     {
         return $this->_merchantInfo;
     }
 
+    /**
+     * Return merchant identifier
+     *
+     * @return string
+     */
     public function getMerchantIdentifier()
     {
         if (array_key_exists('merchantIdentifier', $this->_merchantInfo)) {
@@ -92,6 +119,13 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         return $this->_client;
     }
 
+    /**
+     * Initialize Soap Client object and authorize
+     *
+     * @param string $login
+     * @param string $password
+     * @return Mage_AmazonPayments_Model_Api_Cba_Document
+     */
     public function init($login, $password)
     {
         if ($this->getWsdlUri()) {
@@ -110,6 +144,12 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         return $this;
     }
 
+    /**
+     * Create soap attachment (MIME encoding)
+     *
+     * @param string $document
+     * @return string
+     */
     protected function _createAttachment($document)
     {
         require_once 'SOAP/Value.php';
@@ -119,6 +159,13 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         return $attachment;
     }
 
+    /**
+     * Proccess request and setting result
+     *
+     * @param string $method
+     * @param array $params
+     * @return Mage_AmazonPayments_Model_Api_Cba_Document
+     */
     protected function _proccessRequest($method, $params)
     {
         if ($this->getClient()) {
@@ -137,6 +184,7 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
      * Get order info
      *
      * @param string $aOrderId Amazon order id
+     * @return Varien_Simplexml_Element
      */
     public function getDocument($aOrderId)
     {
@@ -164,6 +212,11 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         return simplexml_load_string($xml, 'Varien_Simplexml_Element');
     }
 
+    /**
+     * Get pending orders
+     *
+     * @return array
+     */
     public function getPendingDocuments()
     {
         $params = array(
@@ -178,10 +231,10 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
     }
 
     /**
-     * Enter description here...
+     * Cancel order
      *
-     * @param string $documentType
      * @param Mage_Sales_Model_Order $order
+     * @return string Amazon Transaction Id
      */
     public function cancel($order)
     {
@@ -213,8 +266,11 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
     }
 
     /**
+     * Refund order
      *
      * @param Mage_Sales_Model_Order_Payment $payment
+     * @param float $amount
+     * @return string Amazon Transaction Id
      */
     public function refund($payment, $amount)
     {
@@ -264,7 +320,6 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                                             <Amount currency="USD">' . $shipping . '</Amount>
                                         </Component>'
                                     .'</ItemPriceAdjustments>';
-            /** @todo calculate promotion */
             $_document .= '</AdjustedItem>
                         </OrderAdjustment>
                     </Message>';
@@ -281,6 +336,16 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
         return $this->_result;
     }
 
+    /**
+     * Confirm creating of shipment
+     *
+     * @param string $aOrderId
+     * @param string $carrierCode
+     * @param string $carrierMethod
+     * @param array $items
+     * @param string $trackNumber
+     * @return string Amazon Transaction Id
+     */
     public function confirmShipment($aOrderId, $carrierCode, $carrierMethod, $items, $trackNumber = '')
     {
         $fulfillmentDate = gmdate('Y-m-d\TH:i:s');
@@ -320,13 +385,13 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
     }
 
     /**
-     * Enter description here...
+     * Send Tracking Number
      *
      * @param Mage_Sales_Model_Order $order
-     * @param unknown_type $carrierCode
-     * @param unknown_type $carrierMethod
-     * @param unknown_type $trackNumber
-     * @return unknown
+     * @param string $carrierCode
+     * @param string $carrierMethod
+     * @param string $trackNumber
+     * @return string Amazon Transaction Id
      */
     public function sendTrackNumber($order, $carrierCode, $carrierMethod, $trackNumber)
     {
