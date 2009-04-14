@@ -121,13 +121,15 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
         $result = array();
 
         foreach ($eventCategories as $categoryId => $category) {
-            if ($category['event_id'] === null && $category['level'] > 2) {
+            if ($category['event_id'] === null && isset($category['level']) && $category['level'] > 2) {
                 foreach ($eventCategories as $parentId => $parentCategory) {
-                    if (strpos($category['path'], $parentCategory['path']) !== false &&
-                        isset($result[$parentId]) &&
-                        $result[$parentId] !== null) {
-                        $result[$categoryId] = $result[$parentId];
-                        break;
+                    if (isset($category['path'])) {
+                        if (strpos($category['path'], $parentCategory['path']) !== false &&
+                            isset($result[$parentId]) &&
+                            $result[$parentId] !== null) {
+                            $result[$categoryId] = $result[$parentId];
+                            break;
+                        }
                     }
                 }
                 if (!isset($result[$categoryId])) {
