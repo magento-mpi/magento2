@@ -19,16 +19,17 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   design_default
- * @package    Mage_AmazonCheckout
+ * @package    Mage_AmazonPayments
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
 <fieldset class="form-list">
-    <?php $_code=$this->getMethodCode() ?>
+    <?php
+    $_code=$this->getMethodCode() ?>
     <ul id="payment_form_<?php echo $_code ?>" style="display:none">
         <li>
-            <?php echo $this->__('You will be redirected to Amazon Checkout website when you place an order.') ?>
+            <?php echo $this->__('Your billing address will be ignored and you will be redirected to Amazon Simple Pay website.') ?>
         </li>
     </ul>
 </fieldset>

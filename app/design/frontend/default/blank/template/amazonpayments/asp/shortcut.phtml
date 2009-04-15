@@ -28,22 +28,6 @@
  * @see Mage_AmazonPayments_Block_Link
  */
 ?>
-
-<li>
-    <?php if (!$this->getIsDisabled()): ?>
-        <?php if ($this->getIsOneClickEnabled()): ?>
-        <script type="text/javascript" src="https://images-na.ssl-images-amazon.com/images/G/01/cba/js/jquery.js"></script>
-        <script type="text/javascript">
-        //<![CDATA[
-            jQuery.noConflict();
-        //]]>
-        </script>
-        <script type="text/javascript" src="https://images-na.ssl-images-amazon.com/images/G/01/cba/js/widget/widget.js"></script>
-        <form action="<?php echo $this->getCheckoutUrl();?>" method="POST" id="cbaOneClickForm">
-            <input alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>" src="<?php echo $this->htmlEscape($this->getImageUrl())?>" type="image" />
-        </form>
-        <?php else: ?>
-        <a href="<?php echo $this->getCheckoutUrl();?>"><img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>"></a>
-        <?php endif; ?>
-    <?php endif; ?>
-</li>
+<a href="<?php echo($this->getCheckoutUrl()); ?>">
+    <img src="<?php echo($this->getButtonImageUrl()); ?>" border="0">
+</a>
