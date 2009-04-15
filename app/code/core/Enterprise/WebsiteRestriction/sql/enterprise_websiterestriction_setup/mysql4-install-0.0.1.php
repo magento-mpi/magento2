@@ -26,6 +26,7 @@
 
 /* @var $installer Enterprise_WebsiteRestriction_Model_Mysql4_Setup */
 $installer = $this;
+$installer->startSetup();
 
 $now = Mage::app()->getLocale()->date();
 $now->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
