@@ -117,7 +117,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link extends Mage_Core_Mode
     /**
      * Retrieve parent ids array by requered child
      *
-     * @param int $childId
+     * @param int|array $childId
      * @param int $typeId
      * @return array
      */
@@ -127,7 +127,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link extends Mage_Core_Mode
 
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), array('product_id', 'linked_product_id'))
-            ->where('linked_product_id=?', $childId)
+            ->where('linked_product_id IN(?)', $childId)
             ->where('link_type_id=?', $typeId);
         foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
             $parentIds[] = $row['product_id'];

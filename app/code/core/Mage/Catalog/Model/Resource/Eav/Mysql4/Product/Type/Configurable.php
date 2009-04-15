@@ -89,7 +89,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable extends M
     /**
      * Retrieve parent ids array by requered child
      *
-     * @param int $childId
+     * @param int|array $childId
      * @return array
      */
     public function getParentIdsByChild($childId)
@@ -98,7 +98,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable extends M
 
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), array('product_id', 'parent_id'))
-            ->where('product_id=?', $childId);
+            ->where('product_id IN(?)', $childId);
         foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
             $parentIds[] = $row['parent_id'];
         }

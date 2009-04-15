@@ -154,7 +154,7 @@ class Mage_Bundle_Model_Mysql4_Selection extends Mage_Core_Model_Mysql4_Abstract
     /**
      * Retrieve parent ids array by requered child
      *
-     * @param int $childId
+     * @param int|array $childId
      * @return array
      */
     public function getParentIdsByChild($childId)
@@ -170,7 +170,7 @@ class Mage_Bundle_Model_Mysql4_Selection extends Mage_Core_Model_Mysql4_Abstract
                 '`tbl_option`.`option_id` = `tbl_selection`.`option_id`',
                 array('required')
             )
-            ->where('`tbl_selection`.`product_id`=?', $childId);
+            ->where('`tbl_selection`.`product_id` IN(?)', $childId);
         foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
             $parentIds[] = $row['parent_product_id'];
         }
