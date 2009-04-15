@@ -717,7 +717,7 @@
             <content_staging>
                 <entry_points_folder_name>staging</entry_points_folder_name>
                 <block_frontend>0</block_frontend>
-                <block_frontend_stub>no-route</block_frontend_stub>
+                <block_frontend_stub>service-unavialable</block_frontend_stub>
             </content_staging>
         </general>
     </default>

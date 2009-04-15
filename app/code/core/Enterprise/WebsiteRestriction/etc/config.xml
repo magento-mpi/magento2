@@ -48,6 +48,17 @@
                 <class>Enterprise_WebsiteRestriction_Helper</class>
             </enterprise_websiterestriction>
         </helpers>
+        <resources>
+            <enterprise_websiterestriction_setup>
+                <setup>
+                    <module>Enterprise_WebsiteRestriction</module>
+                    <class>Enterprise_WebsiteRestriction_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </enterprise_websiterestriction_setup>
+        </resources>
     </global>
     <frontend>
         <events>
@@ -112,7 +123,7 @@
     <default>
         <general>
             <restriction>
-                <cms_page>no-route</cms_page>
+                <cms_page>service-unavialable</cms_page>
             </restriction>
         </general>
     </default>
