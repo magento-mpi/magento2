@@ -29,7 +29,7 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount extends Mage_Admin
 
     public function __construct()
     {
-        $this->_controller = 'manage_giftcardaccount';
+        $this->_controller = 'adminhtml_giftcardaccount';
         $this->_blockGroup = 'enterprise_giftcardaccount';
         $this->_headerText = Mage::helper('enterprise_giftcardaccount')->__('Manage Gift Card Accounts');
         $this->_addButtonLabel = Mage::helper('enterprise_giftcardaccount')->__('Add Gift Card Account');

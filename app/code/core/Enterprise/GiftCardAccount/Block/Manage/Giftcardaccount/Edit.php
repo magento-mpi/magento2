@@ -30,7 +30,7 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit extends Mage_
     public function __construct()
     {
         $this->_objectId = 'id';
-        $this->_controller = 'manage_giftcardaccount';
+        $this->_controller = 'adminhtml_giftcardaccount';
         $this->_blockGroup = 'enterprise_giftcardaccount';
 
         parent::__construct();

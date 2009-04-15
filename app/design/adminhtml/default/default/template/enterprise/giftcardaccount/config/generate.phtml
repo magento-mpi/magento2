@@ -49,7 +49,7 @@ echo Mage::helper('enterprise_giftcardaccount')->__(
 //<![CDATA[
 function redirectToGeneration()
 {
-    var url = '<?php echo Mage::getSingleton('adminhtml/url')->getUrl('*/manage_giftcardaccount/generate'); ?>';
+    var url = '<?php echo Mage::getSingleton('adminhtml/url')->getUrl('*/adminhtml_giftcardaccount/generate'); ?>';
     if (confirm('<?php echo Mage::helper('enterprise_giftcardaccount')->__('Do you really want to proceed? All unsaved changes will be lost.'); ?>')) {
         window.location.href = url;
     }
