@@ -383,10 +383,11 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
      */
     protected function _validateSecretKey()
     {
-        $url = Mage::getSingleton('adminhtml/url');
-        if (in_array($this->getRequest()->getActionName(), $this->_publicActions)) {
+        if (is_array($this->_publicActions) && in_array($this->getRequest()->getActionName(), $this->_publicActions)) {
             return true;
         }
+
+        $url = Mage::getSingleton('adminhtml/url');
 
         if (!($secretKey = $this->getRequest()->getParam(Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME, null))
             || $secretKey != $url->getSecretKey($url->getOriginalControllerName(), $url->getOriginalActionName())) {
