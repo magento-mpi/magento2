@@ -33,8 +33,14 @@
  */
 class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Action
 {
-
     const FLAG_IS_URLS_CHECKED = 'check_url_settings';
+
+    /**
+     * Array of actions which can be processed without secret key validation
+     *
+     * @var array
+     */
+    protected $_publicActions = array();
 
     /**
      * Used module name in current adminhtml controller
@@ -370,7 +376,6 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         return Mage::helper('adminhtml')->getUrl($route, $params);
     }
 
-
     /**
      * Validate Secret Key
      *
@@ -379,6 +384,9 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     protected function _validateSecretKey()
     {
         $url = Mage::getSingleton('adminhtml/url');
+        if (in_array($this->getRequest()->getActionName(), $this->_publicActions)) {
+            return true;
+        }
 
         if (!($secretKey = $this->getRequest()->getParam(Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME, null))
             || $secretKey != $url->getSecretKey($url->getOriginalControllerName(), $url->getOriginalActionName())) {
