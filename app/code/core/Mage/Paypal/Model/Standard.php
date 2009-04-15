@@ -40,6 +40,13 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     protected $_formBlockType = 'paypal/standard_form';
     protected $_allowCurrencyCode = array('AUD', 'CAD', 'CHF', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'JPY', 'NOK', 'NZD', 'PLN', 'SEK', 'SGD','USD');
 
+    /**
+     * Fields that should be replaced in debug with '***'
+     *
+     * @var array
+     */
+    protected $_debugReplacePrivateDataKeys = array('business');
+
      /**
      * Get paypal session namespace
      *
@@ -258,7 +265,10 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         }
 
         $sReq = '';
+        $sReqDebug = '';
         $rArr = array();
+
+
         foreach ($sArr as $k=>$v) {
             /*
             replacing & char with and. otherwise it will break the post
@@ -266,6 +276,12 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             $value =  str_replace("&","and",$v);
             $rArr[$k] =  $value;
             $sReq .= '&'.$k.'='.$value;
+            $sReqDebug .= '&'.$k.'=';
+            if (in_array($k, $this->_debugReplacePrivateDataKeys)) {
+                $sReqDebug .= '***';
+            } else  {
+                $sReqDebug .= $value;
+            }
         }
 
         if ($this->getDebug() && $sReq) {
@@ -297,8 +313,11 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     public function ipnPostSubmit()
     {
         $sReq = '';
+        $sReqDebug = '';
         foreach($this->getIpnFormData() as $k=>$v) {
             $sReq .= '&'.$k.'='.urlencode(stripslashes($v));
+            $sReqDebug .= '&'.$k.'=';
+
         }
         //append ipn commdn
         $sReq .= "&cmd=_notify-validate";

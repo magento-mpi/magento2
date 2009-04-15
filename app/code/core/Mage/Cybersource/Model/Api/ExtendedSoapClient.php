@@ -25,6 +25,17 @@
  */
 class Mage_Cybersource_Model_Api_ExtendedSoapClient extends SoapClient
 {
+    /**
+     * XPaths that should be replaced in debug with '***'
+     *
+     * @var array
+     */
+    protected $_debugReplacePrivateDataXPaths = array(
+        '//*[contains(name(),\'merchantID\')]/text()',
+        '//*[contains(name(),\'card\')]/*/text()',
+        '//*[contains(name(),\'UsernameToken\')]/*/text()'
+    );
+
    public function __construct($wsdl, $options = array())
    {
      parent::__construct($wsdl, $options);
@@ -47,15 +58,28 @@ class Mage_Cybersource_Model_Api_ExtendedSoapClient extends SoapClient
         $requestDOM->loadXML($request);
         $soapHeaderDOM->loadXML($soapHeader);
 
+
+
         $node = $requestDOM->importNode($soapHeaderDOM->firstChild, true);
         $requestDOM->firstChild->insertBefore(
         $node, $requestDOM->firstChild->firstChild);
 
+
+
         $request = $requestDOM->saveXML();
         if ($api->getConfigData('debug')) {
+
+             $requestDOMXPath = new DOMXPath($requestDOM);
+
+             foreach ($this->_debugReplacePrivateDataXPaths as $xPath) {
+                foreach ($requestDOMXPath->query($xPath) as $element) {
+                    $element->data = '***';
+                }
+             }
+
              $debug = Mage::getModel('cybersource/api_debug')
                 ->setAction($action)
-                ->setRequestBody($request)
+                ->setRequestBody($requestDOM->saveXML())
                 ->save();
         }
 
