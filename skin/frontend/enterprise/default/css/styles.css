@@ -136,9 +136,9 @@ button.disabled span {}
 input.input-text.validation-failed,
 textarea.validation-failed { background:#fff7f5 url(../images/bkg_input-failed.gif) 0 0 repeat-x !important; }
 span.validation-passed,
-div.validation-passed { background:url(../images/icon_ok.gif) 100% 4px no-repeat; padding-right:20px; }
+div.validation-passed { background:url(../images/icon_ok.gif) 100% 2px no-repeat; padding-right:20px; }
 span.validation-error,
-div.validation-error { background:url(../images/icon_error.gif) 100% 4px no-repeat; padding-right:20px; }
+div.validation-error { background:url(../images/icon_error.gif) 100% 3px no-repeat; padding-right:20px; }
 .required em { color:#f15c22; margin-right:4px; }
 p.required { margin:0; padding:5px 0 0 240px; font-size:11px; color:#f02800; }
 .form-list .validation-advice { width:250px; margin-right:-250px; }
@@ -267,6 +267,7 @@ ul.add-row .btn-remove,
 .title-buttons h6 { float:left; }
 .title-buttons .link-print { float:right; margin-top:4px; }
 
+.page-popup .page-title,
 .col-main .page-title { margin-left:-20px; margin-right:-20px; }
 
 .sub-title { font-size:16px; font-weight:normal; color:#000; line-height:19px; margin:0 0 10px; }
@@ -340,6 +341,7 @@ ul.add-row .btn-remove,
 
 .page-popup .data-table td,
 .page-popup .data-table th { border-bottom:1px solid #d9d9d9; }
+.page-popup .buttons-set .button { float:right; }
 
 
 /* Tax Details Row */
@@ -394,8 +396,8 @@ ul.disc li,
 /* Misc */
 .link-rss { background:url(../images/icon_rss.gif) 100% 1px no-repeat; padding-right:18px; white-space:nowrap;  }
 .link-rss:hover { color:#f58550; }
-.link-print { background:url(../images/icon_printer.gif) 0 1px no-repeat; padding:2px 0 2px 25px; white-space:nowrap; text-decoration:none; }
-.link-print:hover { text-decoration:underline; }
+.link-print { background:url(../images/icon_printer.gif) 0 1px no-repeat; padding:2px 0 2px 25px; white-space:nowrap; }
+
 
 .divider { margin:16px 0; background:#e7e7e7; font-size:0; line-height:0; height:1px; overflow:hidden; }
 /* ======================================================================================= */
@@ -1185,9 +1187,6 @@ button.btn-cart  span { }
 .giftcard-send-form .field label { padding-bottom:0px; }
 .giftcard-send-form .field .input-text { width:234px!important; }
 
-/* Gift Card Account */
-.giftcard-status p { font-size:12px; margin:10px 0; }
-.giftcard-status .giftcard-number { font-weight:bold; color:#8f1e01; }
 
 /* Block: Description */
 .product-view .description {}
@@ -1505,14 +1504,6 @@ button.btn-cart  span { }
 
 /********** < Common Checkout Styles */
 
-/* Buttons */
-
-/* .multiple-checkout .buttons-set .button,
-.opc button.button { background:transparent url(../images/bkg_button-co.gif) 0 50% no-repeat; padding:0 0 0 6px; vertical-align:middle; }
-.multiple-checkout .buttons-set .button span,
-.opc button.button span { border:0; background:transparent url(../images/bkg_button-co.gif) 100% 50% no-repeat; padding:0 17px 0 11px; color:#d64700; font:normal 14px/28px Arial, Helvetica, sans-serif; text-transform:none; height:30px; }
-.multiple-checkout .buttons-set,
-.opc .buttons-set {line-height:30px; } */
 
 /* Shipping and Payment methods */
 .sp-methods dt { font-weight:bold; margin-bottom:5px; }
@@ -1572,6 +1563,13 @@ button.btn-cart  span { }
 
 /* Invitation page ============================================================ */
 #invitationForm p.required { padding-bottom:20px; }
+
+/* Compare popup ============================================================ */
+.catalog-product-compare-index tr.last a,
+.catalog-product-compare-index tr.first a { color:#999; }
+.catalog-product-compare-index tr.last p,
+.catalog-product-compare-index tr.first p { margin:10px 0; }
+.catalog-product-compare-index tr.first .product-name a { color:#333; }
 
 
 /* Account Login/Create Pages ============================================================ */
@@ -1662,7 +1660,16 @@ button.btn-cart  span { }
 .giftcard-redeem .input-box { margin-right:5px; }
 
 /* Gift card */
-.giftcardaccount p { margin:10px 0; font-size:12px; }
+.giftcardaccount p { margin:15px 0; font-size:12px; }
+.giftcardaccount .fieldset { margin:0; }
+.giftcardaccount .form-list label { float:none; text-align:left; width:auto; display:block; margin-bottom:5px; }
+.giftcardaccount .btn-only { padding-left:0; }
+
+/* Gift Card Status Check */
+.giftcard-status p { font-size:12px; margin:10px 0; }
+.giftcard-status .giftcard-number { font-weight:bold; }
+.giftcard-status .form-list label { float:none; display:block; width:auto; text-align:left; margin-bottom:5px; }
+.giftcard-status .btn-only { padding-left:0; }
 
 /* Print Pages */
 .page-print .print-head {}

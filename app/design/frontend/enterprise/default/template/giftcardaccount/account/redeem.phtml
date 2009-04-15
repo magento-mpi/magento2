@@ -32,10 +32,17 @@
 <?php if ($this->canRedeem()): ?>
     <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <form id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post">
-        <fieldset class="fieldset giftcard-redeem">
-            <span class="input-box v-fix"><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="<?php echo $this->getCurrentGiftcard(); ?>" /></span>
-            <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo $this->__('Redeem Gift Card') ?>"><span><?php echo $this->__('Redeem Gift Card') ?></span></button>
+        <fieldset class="fieldset">
+            <ul class="form-list">
+                <li>
+                    <label for="giftcard_code"><?php echo $this->__('Redeem Gift Card') ?></label>
+                    <span class="input-box"><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="<?php echo $this->getCurrentGiftcard(); ?>" /></span>
+                </li>
+            </ul>
         </fieldset>
+        <div class="buttons-set form-buttons btn-only">
+            <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo $this->__('Redeem Gift Card') ?>"><span><?php echo $this->__('Redeem Gift Card') ?></span></button>
+        </div>        
     </form>
     <script type="text/javascript">
     //<![CDATA[
