@@ -103,7 +103,7 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
         if (isset($data['code'])) {
             $card = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($data['code']);
             $website = Mage::app()->getWebsite()->getId();
-            if ($card->getWebsiteId() != $website) {
+            if ($card->getWebsiteId() != $website || $card->isExpired() || $card->getBalance() == 0) {
                 $card = new Varien_Object();
             }
 
