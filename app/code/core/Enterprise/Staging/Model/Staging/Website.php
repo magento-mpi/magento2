@@ -99,40 +99,6 @@ class Enterprise_Staging_Model_Staging_Website extends Mage_Core_Model_Abstract
 
         return $this->_staging;
     }
-    
-    /**
-     * Authenticate user for frontend view
-     *
-     * @param  string $login
-     * @param  string $password
-     * @return true
-     * @throws Exception
-     */
-    public function authenticate($login, $password)
-    {
-
-        $this->load($login, 'master_login');
-        if ($this->getConfirmation() && $this->isConfirmationRequired()) {
-            throw new Exception(Mage::helper('enterprise_staging')->__('This account is not confirmed.'), self::EXCEPTION_LOGIN_NOT_CONFIRMED);
-        }
-        if (!$this->validatePassword($password)) {
-            throw new Exception(Mage::helper('enterprise_staging')->__('Invalid login or password.'), self::EXCEPTION_INVALID_LOGIN_OR_PASSWORD);
-        }
-        return true;
-    }
-
-    /**
-     * Set plain and hashed password
-     *
-     * @param string $password
-     * @return Enterprise_Staging_Model_Staging
-     */
-    public function setMasterPassword($password)
-    {
-        $this->setData('master_password', $password);
-        $this->setMasterPasswordHash($this->hashPassword($password));
-        return $this;
-    }
 
     /**
      * Hach customer password

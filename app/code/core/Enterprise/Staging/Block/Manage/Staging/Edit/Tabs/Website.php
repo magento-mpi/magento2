@@ -88,12 +88,15 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             $_id = $website->getId();
 
             $stagingWebsite = $collection->getItemByMasterCode($website->getCode());
-
+            
             if ($stagingWebsite) {
                 $stagingWebsiteName = $stagingWebsite->getName();
+                $slaveWebsite = Mage::app()->getWebsite($stagingWebsite->getSlaveWebsiteId());
             } else {
                 $stagingWebsiteName = $website->getName();
+                $slaveWebsite = $website;
             }
+            
             $fieldset = $form->addFieldset('website_fieldset_'.$_id, array('legend'=>$this->helper->__('Website: ') . $stagingWebsiteName));
 
             $fieldset->addField('master_code_label_'.$_id, 'label',
@@ -221,7 +224,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 	                'label'    => $this->helper->__('HTTP Login'),
 	                'class'    => 'input-text required-entry validate-login',
 	                'name'     => "{$_id}[master_login]",
-	                'required' => true
+	                'required' => true,
+	                'value'    => $slaveWebsite->getMasterLogin()
 	            )
 	        );
 
@@ -230,7 +234,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 	                'label'    => $this->helper->__('HTTP Password'),
 	                'class'    => 'input-text required-entry validate-password',
 	                'name'     => "{$_id}[master_password]",
-	                'required' => true
+	                'required' => true,
+	                'value'    => Mage::helper('core')->decrypt($slaveWebsite->getMasterPassword())
 	            )
 	        );
 

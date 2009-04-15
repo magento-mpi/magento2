@@ -58,8 +58,9 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
              if(Mage::helper('core/string')->strlen($password)<6){
                 Mage::throwException(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
             }
-            $object->setMasterPasswordHash($object->hashPassword($password));
         }
+        
+        $object->setData('master_password' , Mage::helper('core')->encrypt($password));
 
         if (!$object->getId()) {
             $value = Mage::getModel('core/date')->gmtDate();
@@ -130,19 +131,24 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         if ($object->getDefaultGroupId()) {
             return $this;
         }
+        $rootCategory = Mage::app()->getWebsite($object->getMasterWebsiteId())
+            ->getDefaultGroup()->getRootCategoryId();
 
+        if (empty($rootCategory)) {
+            $rootCategory = 0;
+        }
         $stagingGroup   = Mage::getModel('enterprise_staging/staging_store_group');
         $stagingGroup->setData('staging_id',         $object->getStagingId());
         $stagingGroup->setData('staging_website_id', $object->getId());
         $stagingGroup->setData('master_website_id',  $object->getMasterWebsiteId());
         $stagingGroup->setData('slave_website_id',   $object->getSlaveWebsiteId());
-        $stagingGroup->setData('root_category_id',   2); // TODO quick FIXME quick
+        $stagingGroup->setData('root_category_id',   $rootCategory); // TODO quick FIXME quick
         $stagingGroup->setData('name',               'Staging Store Group');
         $stagingGroup->save();
 
         $group   = Mage::getModel('core/store_group');
         $group->setData('website_id',           $object->getSlaveWebsiteId());
-        $group->setData('root_category_id',     2); // TODO quick FIXME quick
+        $group->setData('root_category_id',     $rootCategory); // TODO quick FIXME quick
         $group->setData('name',                 'Staging Store Group');
         $group->setIgnoreSyncStagingGroup(true);
         $group->save();
@@ -172,7 +178,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         $slaveWebsite->setData('name', $object->getName());
         $slaveWebsite->setData('master_login', $object->getMasterLogin());
         $slaveWebsite->setData('master_password', $object->getMasterPassword());
-        $slaveWebsite->setData('master_password_hash', $object->getMasterPasswordHash());
 
         $this->_entryPoint = Mage::getModel('enterprise_staging/entry')->setWebsite($slaveWebsite)->save();
 
@@ -226,43 +231,40 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
             $unsecureBaseUrl = $this->_getIndexedUrl($unsecureBaseUrl);
             $secureBaseUrl = $this->_getIndexedUrl($secureBaseUrl);
 
-            $config = Mage::getModel('core/config_data');
-            $path = 'web/unsecure/base_url';
-            $config->setPath($path);
-            $config->setScope('websites');
-            $config->setScopeId($object->getSlaveWebsiteId());
-            $config->setValue($unsecureBaseUrl);
-            $config->save();
-
-            $config = Mage::getModel('core/config_data');
-            $path = 'web/unsecure/base_link_url';
-            $config->setPath($path);
-            $config->setScope('websites');
-            $config->setScopeId($object->getSlaveWebsiteId());
-            $config->setValue($unsecureBaseUrl);
-            $config->save();
+            $unsecureConf = Mage::getConfig()->getNode('default/web/unsecure');
+            $secureConf = Mage::getConfig()->getNode('default/web/secure');
             
-            $config = Mage::getModel('core/config_data');
-            $path = 'web/secure/base_url';
-            $config->setPath('web/secure/base_url');
-            $config->setScope('websites');
-            $config->setScopeId($object->getSlaveWebsiteId());
-            $config->setValue($secureBaseUrl);
-            $config->save();
-
-            $config = Mage::getModel('core/config_data');
-            $path = 'web/secure/base_link_url';
-            $config->setPath('web/secure/base_link_url');
-            $config->setScope('websites');
-            $config->setScopeId($object->getSlaveWebsiteId());
-            $config->setValue($secureBaseUrl);
-            $config->save();
+            $this->_saveUrlsInSystemConfig($object, $unsecureBaseUrl, 'unsecure' , $unsecureConf);
+            $this->_saveUrlsInSystemConfig($object, $secureBaseUrl, 'secure' , $secureConf);
             
             $this->updateAttribute($object, 'base_url' , $unsecureBaseUrl);
             $this->updateAttribute($object, 'base_secure_url' , $secureBaseUrl);
         }
 
         return $this;
+    }
+    
+    /**
+     * Process core config data
+     *
+     * @param string $baseUrl
+     * @param string $mode
+     * @param Simple_Xml $xmlConfig
+     */
+    protected function _saveUrlsInSystemConfig($object, $baseUrl, $mode='unsecure', $xmlConfig)
+    {
+        foreach ($xmlConfig->children() AS $nodeName => $nodeValue) {
+            if ($nodeName == 'base_url' || $nodeName == 'base_link_url') {
+                $nodeValue = $baseUrl;
+            }
+            $config = Mage::getModel('core/config_data');
+            $path = 'web/' . $mode . '/' . $nodeName;
+            $config->setPath($path);
+            $config->setScope('websites');
+            $config->setScopeId($object->getSlaveWebsiteId());
+            $config->setValue($nodeValue);
+            $config->save();
+        }
     }
 
     /**
@@ -423,7 +425,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Website extends Mage_Core_Model_My
         if (!$object->getId()) {
             $object->setData('visibility', Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE);
             $object->setData('master_login');
-            $object->setData('master_password');
             $object->setData('master_password_hash');
         }
 

@@ -130,26 +130,29 @@ class Enterprise_Staging_Model_Observer
     protected function _checkHttpAuth($key)
     {
         $coreSession = Mage::getSingleton('core/session');
-
-        if (isset($_SERVER['PHP_AUTH_USER'])) {
-            $login      = $_SERVER['PHP_AUTH_USER'];
-            $password   = $_SERVER['PHP_AUTH_PW'];
-            $website    = Mage::getModel('enterprise_staging/staging_website');
-
-            try {
-                $website->authenticate($login, $password);
+        $coreSession->setData($key, false);
+        
+        try {
+            if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {        
+                $login      = $_SERVER['PHP_AUTH_USER'];
+                $password   = $_SERVER['PHP_AUTH_PW'];
+                $website    = Mage::app()->getWebsite();
+    
+                if ($website->getMasterLogin() != $login) {
+                    Mage::throwException('Invalid login.');
+                }
+                
+                if (Mage::helper('core')->decrypt($website->getMasterPassword()) != $password) {
+                    Mage::throwException('Invalid password.');
+                }
                 $coreSession->setData($key, true);
-            } catch (Exception $e) {
-                $coreSession->setData($key, false);
-                header('WWW-Authenticate: Basic realm="Staging Site Authentication"');
-                header('HTTP/1.0 401 Unauthorized');
-                exit();
             }
-        }
-        if (!$coreSession->getData($key) || !isset($_SERVER['PHP_AUTH_USER'])) {
+            if (!$coreSession->getData($key)) {
+                Mage::throwException('This staging website requires authentication.');
+            }
+        } catch (Mage_Core_Exception $e) {
             header('WWW-Authenticate: Basic realm="Staging Site Authentication"');
             header('HTTP/1.0 401 Unauthorized');
-            echo "Please, use right login and password for staging website viewing \n";
             exit();
         }
     }
