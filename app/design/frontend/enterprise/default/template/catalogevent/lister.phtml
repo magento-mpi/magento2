@@ -39,15 +39,6 @@
 <?php foreach ($this->getEvents() as $_event): ?>
 <?php $_category = $_event->getCategory(); ?>
 <li class="slider-item">
-<div class="category-info">
-    <a class="category-show" href="<?php echo $this->getCategoryUrl($_category); ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>">
-    <?php if ($this->getEventImageUrl($_event)): ?>
-    <img src="<?php echo $this->getEventImageUrl($_event); ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" />
-    <?php else: ?>
-    <span class="category-name"><?php echo $this->htmlEscape($_category->getName()) ?></span>
-    <?php endif; ?>
-    </a>
-</div>
 <div class="event <?php echo $_event->getStatus()?>">
 <strong class="status">
 <?php echo $this->getStatusText($_event); ?>
@@ -94,11 +85,21 @@
                 <span class="time-part"><?php echo $this->getEventTime('end', $_event, 'hh a zzz'); ?></span>
             </p>
         </div>
-        <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('View Sale') ?></span></a>
+        <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('View Sale') ?></span></a>
 
 
     <?php break; ?>
 <?php endswitch; ?>
+<div class="event-bottom"></div>
+</div>
+<div class="category-info">
+    <a class="category-show" href="<?php echo $this->getCategoryUrl($_category); ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>">
+    <?php if ($this->getEventImageUrl($_event)): ?>
+    <img src="<?php echo $this->getEventImageUrl($_event); ?>" title="<?php echo $this->htmlEscape($_category->getName()) ?>" alt="<?php echo $this->htmlEscape($_category->getName()) ?>" />
+    <?php else: ?>
+    <span class="category-name"><?php echo $this->htmlEscape($_category->getName()) ?></span>
+    <?php endif; ?>
+    </a>
 </div>
 </li>
 <?php endforeach; ?>

@@ -44,7 +44,7 @@
 #nav li.over a { _margin-bottom:-3px; _height:30px; }
 #nav li li a:hover { margin-bottom:0 !important; }
 #nav li li a { margin-bottom:0 !important; _position:static; }
-
+.event  .event-bottom { _bottom:-14px }
 /* Doubled Margin Fixes */
 .product-view,
 .product-view .product-img-box .more-views li,
