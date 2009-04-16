@@ -306,14 +306,16 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
      */
     public function processInvoice($invoice, $payment)
     {
-        if (!is_null($payment->getCcTransId()) &&
+    	if (!is_null($payment->getCcTransId()) &&
             is_null($payment->getLastTransId()) &&
             is_null($invoice->getTransactionId())) {
 
             $amount = Mage::app()->getStore()->roundPrice($invoice->getBaseGrandTotal());
             $currencyCode = $payment->getOrder()->getBaseCurrency();
             $transactionId = $payment->getCcTransId();
-            $response = $this->getApi()->capture($transactionId, $amount, $currencyCode);
+            $response = $this->getApi()
+                ->setStoreId($payment->getOrder()->getStoreId())
+                ->capture($transactionId, $amount, $currencyCode);
 
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_ERROR) {
                 Mage::throwException(
@@ -354,7 +356,9 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
             $amount = Mage::app()->getStore()->roundPrice($creditmemo->getBaseGrandTotal());
             $currencyCode = $payment->getOrder()->getBaseCurrency();
             $referenseID = $creditmemo->getInvoice()->getIncrementId();
-            $response = $this->getApi()->refund($transactionId, $amount, $currencyCode, $referenseID);
+            $response = $this->getApi()
+                ->setStoreId($payment->getOrder()->getStoreId())
+                ->refund($transactionId, $amount, $currencyCode, $referenseID);
 
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_ERROR) {
                 Mage::throwException(
@@ -387,7 +391,9 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
             is_null($payment->getLastTransId())) {
 
             $transactionId = $payment->getCcTransId();
-            $response = $this->getApi()->cancel($transactionId);
+            $response = $this->getApi()
+                ->setStoreId($payment->getOrder()->getStoreId())
+                ->cancel($transactionId);
 
             if ($response->getStatus() == Mage_AmazonPayments_Model_Api_Asp_Fps_Response_Abstract::STATUS_ERROR) {
                 Mage::throwException(

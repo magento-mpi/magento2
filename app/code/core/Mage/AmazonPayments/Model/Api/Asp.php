@@ -55,7 +55,7 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
      */
     protected function _getFps()
     {
-        return Mage::getSingleton($this->_fpsModel);
+        return Mage::getSingleton($this->_fpsModel)->setStoreId($this->getStoreId());
     }
     
     /**
@@ -176,7 +176,6 @@ class Mage_AmazonPayments_Model_Api_Asp extends Mage_AmazonPayments_Model_Api_As
     public function capture($transactionId, $amount, $currencyCode) 
     {
         $fps = $this->_getFps();
-
         $amount = $this->_getAmount()
             ->setValue($amount)
             ->setCurrencyCode($currencyCode);

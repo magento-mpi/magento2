@@ -48,7 +48,34 @@ class Mage_AmazonPayments_Model_Api_Asp_Abstract extends Mage_AmazonPayments_Mod
      * Amount model path 
      */
     protected $_amountModel = 'amazonpayments/api_asp_amount';
-  
+
+    /**
+     * Store id for current operation 
+     */
+    protected $_storeId = null;
+    
+    /**
+     * Set store id for current operation
+     *
+     * @param $id string
+     * @return Mage_AmazonPayments_Model_Api_Asp_Abstract
+     */
+    public function setStoreId($id)
+    {
+        $this->_storeId = $id;
+        return $this;
+    }
+    
+    /**
+     * Get store id for current operation
+     *
+     * @return string
+     */
+    public function getStoreId()
+    {
+        return $this->_storeId;
+    }
+    
     /**
      * Get singleton with AmazonPayments ASP Amount Model
      *
@@ -77,6 +104,6 @@ class Mage_AmazonPayments_Model_Api_Asp_Abstract extends Mage_AmazonPayments_Mod
      */
     protected function _getConfig($path) 
     {
-        return Mage::getStoreConfig('payment/' . $this->paymentCode . '/' . $path);
+        return Mage::getStoreConfig('payment/' . $this->paymentCode . '/' . $path, $this->getStoreId());
     }
 }
