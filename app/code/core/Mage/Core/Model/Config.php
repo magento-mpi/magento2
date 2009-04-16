@@ -34,7 +34,7 @@
  */
 class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 {
-    const CACHE_TAG         = 'config';
+    const CACHE_TAG         = 'CONFIG';
 
     /**
      * Flag which allow use cache logic
@@ -53,41 +53,106 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @var array
      */
     protected $_cacheSections = array(
-//        'admin'     => 0,
-//        'adminhtml' => 0,
-//        'crontab'   => 0,
-//        'default'   => 0,
-//        'frontend'  => 0,
-//        'install'   => 0,
+        'admin'     => 0,
+        'adminhtml' => 0,
+        'crontab'   => 0,
+        'install'   => 0,
         'stores'    => 1,
-        'websites'  => 1
+        'websites'  => 0
     );
 
     /**
-     * Configuration by cached sections
+     * Loaded Configuration by cached sections
      *
      * @var array
      */
     protected $_cacheLoadedSections = array();
 
+    /**
+     * Configuration options
+     *
+     * @var Mage_Core_Model_Config_Options
+     */
     protected $_options;
+
+    /**
+     * Storage for generated class names
+     *
+     * @var array
+     */
     protected $_classNameCache = array();
+
+    /**
+     * Storage for generated block class names
+     *
+     * @var unknown_type
+     */
     protected $_blockClassNameCache = array();
-    protected $_baseDirCache = array();
+
+    /**
+     * Storage of validated secure urls
+     *
+     * @var array
+     */
     protected $_secureUrlCache = array();
-    protected $_customEtcDir = null;
+
+    /**
+     * System environment server variables
+     *
+     * @var array
+     */
     protected $_distroServerVars;
+
+    /**
+     * Array which is using for replace placeholders of server variables
+     *
+     * @var array
+     */
     protected $_substServerVars;
+
+    /**
+     * Resource model
+     * Used for operations with DB
+     *
+     * @var Mage_Core_Model_Mysql4_Config
+     */
     protected $_resourceModel;
 
+    /**
+     * Configuration for events by area
+     *
+     * @var array
+     */
     protected $_eventAreas;
 
     /**
      * Flag cache for existing or already created directories
      *
-     * @var unknown_type
+     * @var array
      */
     protected $_dirExists = array();
+
+    /**
+     * Flach which allow using cache for config initialization
+     *
+     * @var bool
+     */
+    protected $_allowCacheForInit = true;
+
+    /**
+     * Property used during cache save process
+     *
+     * @var array
+     */
+    protected $_cachePartsForSave = array();
+
+    /**
+     * Depricated properties
+     *
+     * @deprecated
+     */
+    protected $_baseDirCache = array();
+    protected $_customEtcDir = null;
 
     /**
      * Class construct
@@ -136,13 +201,14 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         if (is_array($options)) {
             $this->getOptions()->addData($options);
         }
-        $etcDir             = $this->getOptions()->getEtcDir();
-        $this->_customEtcDir= $etcDir;
+
+        $etcDir = $this->getOptions()->getEtcDir();
+
         $localConfigLoaded  = $this->loadFile($etcDir.DS.'local.xml');
         $disableLocalModules= !$this->_canUseLocalModules();
 
         if (Mage::isInstalled()) {
-            if (Mage::app()->useCache('config')) {
+            if ($this->_canUseCacheForInit()) {
                 Varien_Profiler::start('mage::app::init::config::load_cache');
                 $loaded = $this->loadCache();
                 Varien_Profiler::stop('mage::app::init::config::load_cache');
@@ -219,6 +285,19 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Reinitialize configuration
+     *
+     * @param   array $options
+     * @return  Mage_Core_Model_Config
+     */
+    public function reinit($options = array())
+    {
+        $this->_allowCacheForInit = false;
+        $this->_useCache = false;
+        return $this->init($options);
+    }
+
+    /**
      * Check local modules enable/disable flag
      * If local modules are disbled remove local modules path from include dirs
      *
@@ -249,6 +328,36 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     }
 
     /**
+     * Check if cache can be used for config initialization
+     *
+     * @return bool
+     */
+    protected function _canUseCacheForInit()
+    {
+        return Mage::app()->useCache('config') && $this->_allowCacheForInit && !$this->_loadCache($this->_getCacheLockId());
+    }
+
+    /**
+     * Retrieve cache object
+     *
+     * @return Zend_Cache_Frontend_File
+     */
+    public function getCache()
+    {
+        return Mage::app()->getCache();
+    }
+
+    /**
+     * Get lock flag cache identifier
+     *
+     * @return string
+     */
+    protected function _getCacheLockId()
+    {
+        return $this->getCacheId().'.lock';
+    }
+
+    /**
      * Save configuration cache
      *
      * @param   array $tags cache tags
@@ -256,18 +365,29 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function saveCache($tags=array())
     {
+        $cacheLockId = $this->_getCacheLockId();
+        if ($this->_loadCache($cacheLockId)) {
+            return $this;
+        }
+
         if (!empty($this->_cacheSections)) {
             $xml = clone $this->_xml;
             foreach ($this->_cacheSections as $sectionName => $level) {
                 $this->_saveSectionCache($this->getCacheId(), $sectionName, $xml, $level, $tags);
                 unset($xml->$sectionName);
             }
-            $xmlStr = $xml->asNiceXml('', false);
-            $this->_saveCache($xmlStr, $this->getCacheId(), $tags, $this->getCacheLifetime());
+            $this->_cachePartsForSave[$this->getCacheId()] = $xml->asNiceXml('', false);
         } else {
-            parent::saveCache($tags);
+            return parent::saveCache($tags);
         }
 
+        $this->_saveCache(time(), $cacheLockId, array(), 60);
+        $this->removeCache();
+        foreach ($this->_cachePartsForSave as $cacheId => $cacheData) {
+            $this->_saveCache($cacheData, $cacheId, $tags, $this->getCacheLifetime());
+        }
+        unset($this->_cachePartsForSave);
+        $this->_removeCache($cacheLockId);
         return $this;
     }
 
@@ -289,8 +409,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 	$this->_saveSectionCache($cacheId, $subSectionName, $source->$sectionName, $recursionLevel-1, $tags);
                 }
             }
-            $xmlStr = $source->$sectionName->asNiceXml('', false);
-            $this->_saveCache($xmlStr, $cacheId, $tags, $this->getCacheLifetime());
+            $this->_cachePartsForSave[$cacheId] = $source->$sectionName->asNiceXml('', false);
         }
         return $this;
     }
@@ -363,7 +482,17 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     public function removeCache()
     {
         Mage::app()->cleanCache(array(self::CACHE_TAG));
-        return parent::removeCache();;
+        return parent::removeCache();
+    }
+
+    /**
+     * Configuration cache clean process
+     *
+     * @return Mage_Core_Model_Config
+     */
+    public function cleanCache()
+    {
+        return $this->reinit();
     }
 
     /**
@@ -584,28 +713,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         return $modules;
-    }
-
-    /**
-     * Reinitialize configuration
-     *
-     * @param string $etcDir
-     * @return Mage_Core_Model_Config
-     */
-    public function reinit($options = array())
-    {
-        $this->removeCache();
-        return $this->init($options);
-    }
-
-    /**
-     * Retrieve cache object
-     *
-     * @return Zend_Cache_Frontend_File
-     */
-    public function getCache()
-    {
-        return Mage::app()->getCache();
     }
 
     /**
