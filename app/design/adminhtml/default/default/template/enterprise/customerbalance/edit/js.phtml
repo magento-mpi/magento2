@@ -31,7 +31,7 @@ function updateEmailWebsites()
     emailWebsites = $('<?php echo $this->getPrefix() ?>store_id');
     balanceWebsites = $('<?php echo $this->getPrefix() ?>website_id');
     selectedWebsite = $('<?php echo $this->getPrefix() ?>website_id') ? $('<?php echo $this->getPrefix() ?>website_id').value : '<?php echo $this->getCustomerWebsite() ?>';
-    allowedWebsites = eval(<?php echo $this->getAllowedWebsitesJson()?>);
+    allowedWebsites = eval(<?php echo $this->getWebsitesJson()?>);
 
     while(emailWebsites.options.length > 0) {
         emailWebsites.remove(0);
