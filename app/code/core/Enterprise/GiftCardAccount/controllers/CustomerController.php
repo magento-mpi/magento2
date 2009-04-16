@@ -54,7 +54,7 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
                     ->loadByCode($code)
                     ->redeem();
                 Mage::getSingleton('customer/session')->addSuccess(
-                    $this->__('Gift Cart "%s" was redeemed successfully.', Mage::helper('core')->htmlEscape($code))
+                    $this->__('Gift Card "%s" was redeemed successfully.', Mage::helper('core')->htmlEscape($code))
                 );
             } catch (Mage_Core_Exception $e) {
                 Mage::dispatchEvent('enterprise_giftcardaccount_redeem', array('status' => 'fail', 'code' => $code));
@@ -64,7 +64,7 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
             } catch (Exception $e) {
                 Mage::getSingleton('customer/session')->addException(
                     $e,
-                    $this->__('Can not redeem Gift Cart, please try again later.' . $e->getMessage())
+                    $this->__('Can not redeem Gift Card, please try again later.' . $e->getMessage())
                 );
             }
             $this->_redirect('*/*/*');

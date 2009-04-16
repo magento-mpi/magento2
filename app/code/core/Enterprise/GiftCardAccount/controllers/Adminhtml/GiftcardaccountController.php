@@ -86,8 +86,8 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
 
         $this->loadLayout()
             ->_addBreadcrumb($id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'), $id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'))
-            ->_addContent($this->getLayout()->createBlock('enterprise_giftcardaccount/manage_giftcardaccount_edit')->setData('action', $this->getUrl('*/_/save')))
-            ->_addLeft($this->getLayout()->createBlock('enterprise_giftcardaccount/manage_giftcardaccount_edit_tabs'))
+            ->_addContent($this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit')->setData('action', $this->getUrl('*/_/save')))
+            ->_addLeft($this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit_tabs'))
             ->renderLayout();
     }
 
@@ -192,7 +192,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
     public function gridAction()
     {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_giftcardaccount/manage_giftcardaccount_grid', 'giftcardaccount.grid')
+            $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_grid', 'giftcardaccount.grid')
                 ->toHtml()
         );
     }
@@ -230,7 +230,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
 
         $this->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_giftcardaccount/manage_giftcardaccount_edit_tab_history')->toHtml()
+            $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit_tab_history')->toHtml()
         );
     }
 

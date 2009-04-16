@@ -27,15 +27,15 @@
 -->
 
 <layout>
-    <adminhtml_manage_giftcardaccount_index>
+    <adminhtml_giftcardaccount_index>
         <reference name="content">
-            <block type="enterprise_giftcardaccount/manage_giftcardaccount" name="giftcardaccount_list">
+            <block type="enterprise_giftcardaccount/adminhtml_giftcardaccount" name="giftcardaccount_list">
                 <block type="adminhtml/store_switcher" name="store_switcher" as="store_switcher">
                     <action method="setUseConfirm"><params>0</params></action>
                 </block>
             </block>
         </reference>
-    </adminhtml_manage_giftcardaccount_index>
+    </adminhtml_giftcardaccount_index>
 
     <adminhtml_sales_order_view>
         <reference name="sales.order.view.totals.main">

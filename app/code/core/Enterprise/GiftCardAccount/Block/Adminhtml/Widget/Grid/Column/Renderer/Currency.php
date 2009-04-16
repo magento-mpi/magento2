@@ -24,36 +24,22 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-class Enterprise_GiftCardAccount_Block_Manage_System_Config_Generate extends Mage_Adminhtml_Block_System_Config_Form_Field
+class Enterprise_GiftCardAccount_Block_Adminhtml_Widget_Grid_Column_Renderer_Currency
+extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
 {
-    public function __construct()
+    protected static $_websiteBaseCurrencyCodes = array();
+
+    protected function _getCurrencyCode($row)
     {
-        parent::__construct();
-        if (!$this->getTemplate()) {
-            $this->setTemplate('enterprise/giftcardaccount/config/generate.phtml');
+        $websiteId = Mage::registry('current_giftcardaccount')->getWebsiteId();
+        if (!isset(self::$_websiteBaseCurrencyCodes[$websiteId])) {
+            self::$_websiteBaseCurrencyCodes[$websiteId] = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
         }
+        return self::$_websiteBaseCurrencyCodes[$websiteId];
     }
 
-    /**
-     * Get the button and scripts contents
-     *
-     * @param Varien_Data_Form_Element_Abstract $element
-     * @return string
-     */
-    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    protected function _getRate($row)
     {
-        $this->setElement($element);
-        return $this->_toHtml();
-    }
-
-    /**
-     * Return code pool usage
-     *
-     * @return Varien_Object
-     */
-    public function getUsage()
-    {
-        return Mage::getModel('enterprise_giftcardaccount/pool')->getPoolUsageInfo();
+        return 1;
     }
 }

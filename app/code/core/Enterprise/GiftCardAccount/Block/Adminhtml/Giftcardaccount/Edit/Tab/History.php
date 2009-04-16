@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit_Tab_History extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_History extends Mage_Adminhtml_Block_Widget_Grid
 {
     protected $_collection;
 
@@ -73,7 +73,7 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit_Tab_History e
             'type'      => 'price',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'enterprise_giftcardaccount/manage_widget_grid_column_renderer_currency',
+            'renderer'  => 'enterprise_giftcardaccount/adminhtml_widget_grid_column_renderer_currency',
         ));
 
         $this->addColumn('balance_amount', array(
@@ -82,7 +82,7 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Edit_Tab_History e
             'index'     => 'balance_amount',
             'sortable'  => false,
             'filter'    => false,
-            'renderer'  => 'enterprise_giftcardaccount/manage_widget_grid_column_renderer_currency',
+            'renderer'  => 'enterprise_giftcardaccount/adminhtml_widget_grid_column_renderer_currency',
         ));
 
         $this->addColumn('additional_info', array(

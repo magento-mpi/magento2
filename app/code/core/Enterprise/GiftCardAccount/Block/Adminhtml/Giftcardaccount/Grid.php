@@ -24,7 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
     public function __construct()
@@ -71,9 +71,9 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Grid extends Mage_
                 'header'=> Mage::helper('enterprise_giftcardaccount')->__('Code'),
                 'index' => 'code',
         ));
-        
+
         $websites = Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForGridFilter(true, true);
-        
+
         $this->addColumn('website',
             array(
                 'header'    => Mage::helper('enterprise_giftcardaccount')->__('Website'),
@@ -152,10 +152,8 @@ class Enterprise_GiftCardAccount_Block_Manage_Giftcardaccount_Grid extends Mage_
         return $this->getUrl('*/*/grid', array('_current'=>true));
     }
 
-//    public function getRowUrl($row)
-//    {
-//        return $this->getUrl('*/*/edit', array(
-//            'id'=>$row->getId())
-//        );
-//    }
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+    }
 }
