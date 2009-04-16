@@ -39,7 +39,7 @@
             <strong><?php echo $this->formatDate($_card->getDateExpires(), 'short'); ?></strong></p>
         <?php endif; ?>
     <?php else: ?>
-        <p><?php echo Mage::helper('enterprise_giftcardaccount')->__('Specified Gift Card was not found.'); ?></p>
+        <p class="error-msg"><?php echo Mage::helper('enterprise_giftcardaccount')->__('Specified Gift Card was not found.'); ?></p>
     <?php endif; ?>
     <div class="buttons-set">
          <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo Mage::helper('enterprise_giftcardaccount')->__('Back') ?></a></p>
