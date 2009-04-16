@@ -243,6 +243,18 @@ class Enterprise_Logging_Model_Observer
     }
 
     /**
+     * Custom handler for category move
+     */
+    public function categoryMoveHandler($config, $success) {
+
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => Mage::app()->getRequest()->getParam('id')
+        );
+    }
+
+    /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      */
     public function getTaxClassSaveActionInfo($config, $success) {
