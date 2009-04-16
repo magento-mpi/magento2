@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.66</version>
+            <version>0.7.67</version>
         </Mage_Catalog>
     </modules>
 
@@ -653,8 +653,10 @@
                     <small_image_label />
                     <tax_class_id />
                     <status />
-                    <news_from_date/>
-                    <news_to_date/>
+                    <news_from_date />
+                    <news_to_date />
+                    <created_at />
+                    <updated_at />
                 </attributes>
             </collection>
         </product>
