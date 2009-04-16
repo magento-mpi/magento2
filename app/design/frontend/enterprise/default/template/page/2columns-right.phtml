@@ -46,11 +46,11 @@
 <div class="wrapper">
     <div class="page">
         <?php echo $this->getChildHtml('header') ?>
+        <?php echo $this->getChildHtml('global_messages') ?>
         <?php echo $this->getChildHtml('breadcrumbsContainer') ?>
         <div class="main col2-right-layout">
             <div class="col-right sidebar"><div><?php echo $this->getChildHtml('right') ?></div></div>
             <div class="col-main">
-                <?php echo $this->getChildHtml('global_messages') ?>
                 <?php echo $this->getChildHtml('content') ?>
             </div>
         </div>

@@ -43,6 +43,7 @@
 <?php echo $this->getChildHtml('head') ?>
 </head>
 <body<?php echo $this->getBodyClass()?' class="empty-page '.$this->getBodyClass().'"':'' ?>>
+<?php echo $this->getChildHtml('global_messages') ?>
 <?php echo $this->getChildHtml('content') ?>
 <?php echo $this->getAbsoluteFooter() ?>
 </body>

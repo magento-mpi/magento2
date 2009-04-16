@@ -222,8 +222,8 @@ ul.add-row .btn-remove,
 .btn-only { padding-left:240px; }
 
 /* Global Messages  */
-.messages { width:100%; overflow:hidden; }
-.messages li { margin:10px 0 10px; padding:0; }
+.messages { width:100%; overflow:hidden; text-align:left; margin-top:10px; }
+.messages li { margin:0 0 10px; padding:0; }
 .messages ul { padding:10px 17px 18px; margin:0 0 -11px; background-position:35px 100%; background-repeat:no-repeat; position:relative; }
 .messages ul li { margin:0; padding:0 0 3px; }
 .messages a { text-decoration:underline; }
@@ -555,7 +555,7 @@ ul.disc li,
 
 
 .event-container { border:1px solid #d0af83; position:relative; z-index:2; border-width:0 1px 1px; margin-bottom:-5px; height:59px; }
-.event-container .event { background-color:transparent; background-repeat:no-repeat; background-position:50% 100%; padding-bottom:17px; margin-bottom:-17px; padding-top:5px; height:52px; line-height:50px; text-align:center; width:auto; position:relative; z-index:2; }
+.event-container .event { background-color:transparent; background-repeat:no-repeat; background-position:50% 100%; padding-bottom:18px; margin-bottom:-18px; padding-top:5px; height:52px; line-height:50px; text-align:center; width:auto; position:relative; z-index:2; border-bottom:0!important; }
 .event-container .container { display:inline; margin:0; padding:0; background:none; }
 .event-container .status { display:inline; margin:0 10px 0 0; background:none; font-size:22px; }
 .event-container .event-ticker { display:inline; font-size:28px; height:auto; }
@@ -874,6 +874,7 @@ dd.even { background:#f6f6f6; }*/
 /* Product View ========================================================================== */
 .product-view { background:#fff url(../images/bkg_cols.gif) repeat-y 279px 0; border-top:1px solid #cfcfcf; margin:-1px -20px -20px; float:left; width:938px; }
 #messages_product_view { margin:0 -20px; position:relative; z-index:1; }
+#messages_product_view .messages { margin:0; }
 #messages_product_view .messages li { margin:0; position:relative; z-index:1; }
 
 .product-essential {  }
@@ -1332,6 +1333,7 @@ button.btn-cart  span { }
 .checkout-cart-index .col-main .page-title { margin:0; }
 .cart-empty { padding:20px; background:#fff; }
 .cart .title-buttons {}
+.cart .messages,
 .cart .messages li { margin:0; }
 .cart .checkout-types { float:right; text-align:center; }
 .cart .checkout-types .btn-proceed-checkout { background:url(../images/bkg_btn-co.gif) 0 50% no-repeat; line-height:26px!important; padding:0 0 0 13px!important; vertical-align:middle; }
