@@ -41,8 +41,8 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div id="productView" class="product-view">
     <div><?php // extra div to smooth slideUp and slideDown ?>
+    <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
         <div class="product-essential">
-            <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
 
                 <fieldset class="no-display">
                     <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
@@ -93,7 +93,6 @@
 
                     <?php echo $this->getChildHtml('other');?>
                 </div>
-            </form>
         </div>
         <div class="product-collateral">
             <dl id="collateral-tabs" class="collateral-tabs">
@@ -129,6 +128,7 @@
                 <?php echo $this->getChildChildHtml('container2', '', true, true) ?>
             </div>
         <?php endif;?>        
+    </form>
         <?php echo $this->getChildHtml('relatedProducts') ?>  
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>        

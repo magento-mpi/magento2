@@ -36,7 +36,8 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <script src="<?php echo Mage::getBaseUrl('js') ?>varien/payment.js" type="text/javascript"></script>
-<form class="multiple-checkout" action="<?php echo $this->getPostActionUrl() ?>" method="post" id="multishipping-billing-form">
+<div class="multiple-checkout">
+<form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="multishipping-billing-form">
 <div class="col2-set">
     <div class="col-1 narrow">
         <div class="info-box">
@@ -85,6 +86,7 @@
     <button type="submit" class="button"><span><?php echo $this->__('Continue to Review Your Order') ?></span></button>
 </div>
 </form>
+</div>
 <script type="text/javascript">
 //<![CDATA[
     var payment = new paymentForm('multishipping-billing-form');
