@@ -108,7 +108,6 @@ class Enterprise_Logging_Model_Observer
             return;
 
         $model = $observer->getObject();
-        //echo get_class($model); exit;
         $actions = Mage::registry('enterprise_logged_actions');
 
         if(!is_array($actions))
@@ -240,7 +239,7 @@ class Enterprise_Logging_Model_Observer
                 Mage::register('enterprise_logged_actions', 'system_storeview_save');
                 break;
             }
-        }
+        } 
     }
 
     /**
@@ -251,6 +250,19 @@ class Enterprise_Logging_Model_Observer
             $config['event'] = 'producttaxclasses';
         }
         return $this->getSaveActionInfo($config, $success);
+    }
+
+    /**
+     * Custom tax import handler
+     */
+    public function getTaxRatesImportAction($config, $success) {
+        if (!Mage::app()->getRequest()->isPost())
+            return false;
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => "tax rates import"
+        );
     }
 
     /**

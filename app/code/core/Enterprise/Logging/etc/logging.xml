@@ -798,6 +798,12 @@
       <model>Mage_Tax_Model_Calculation_Rate</model>
     </tax_rate_save>
 
+    <tax_rate_importPost> 
+      <event>taxrates</event>
+      <action>import</action>
+      <handler>gettaxratesimportaction</handler>
+    </tax_rate_importPost>
+
     <tax_rate_delete>
       <event>taxrates</event>
       <action>delete</action>
