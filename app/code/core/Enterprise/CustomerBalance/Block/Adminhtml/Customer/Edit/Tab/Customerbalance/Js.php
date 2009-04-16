@@ -31,42 +31,23 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         return Mage::registry('current_customer')->getWebsiteId();
     }
 
-    public function getAllowedWebsitesJson()
+    public function getWebsitesJson()
     {
-        $allowedWebsiteIds = $this->helper('enterprise_permissions')->getAllowedWebsites();
-        $websiteCollection = Mage::getModel('core/website')->getCollection()
-            ->addIdFilter($allowedWebsiteIds)
-            ->load();
-
-        $storeCollection = Mage::getModel('core/store')->getCollection()
-            ->addWebsiteFilter($allowedWebsiteIds)
-            ->load();
-
-        $dataArray = array();
-        foreach( $websiteCollection->getItems() as $item ) {
-            $website = Mage::app()->getWebsite($item->getId());
-
-            $dataArray[$item->getId()] = array(
-                'name'          => $item->getName(),
-                'website_id'    => $item->getId(),
+        $result = array();
+        foreach (Mage::app()->getWebsites() as $websiteId => $website) {
+            $result[$websiteId] = array(
+                'name'          => $website->getName(),
+                'website_id'    => $websiteId,
                 'currency_code' => $website->getBaseCurrencyCode(),
+                'stores'        => array()
             );
-
-            $dataArray[$item->getWebsiteId()]['stores'] = array();
-
-            foreach( $storeCollection->getItems() as $store ) {
-                if( $store->getWebsiteId() != $item->getId() ) {
-                    continue;
-                }
-                $dataArray[$item->getWebsiteId()]['stores'][$store->getId()] = array(
-                    'name'      => $store->getName(),
-                    'store_id'  => $store->getId(),
+            foreach ($website->getStores() as $storeId => $store) {
+                $result[$websiteId]['stores'][$storeId] = array(
+                    'name'     => $store->getName(),
+                    'store_id' => $storeId,
                 );
             }
         }
-
-        $json = new Varien_Object();
-        $json->setData($dataArray);
-        return $json->toJson();
+        return Zend_Json::encode($result);
     }
 }
