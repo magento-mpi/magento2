@@ -49,7 +49,7 @@ abstract class Mage_PaypalUk_Model_Api_Abstract extends Varien_Object
     public function getConfigData($key, $default=false, $storeId = null)
     {
         if (!$this->hasData($key)) {
-            if ($storeId === null) {
+            if ($storeId === null && $this->getPayment() instanceof Varien_Object) {
                 $storeId = $this->getPayment()->getOrder()->getStoreId();
             }
             $value = Mage::getStoreConfig('paypal/wpuk/'.$key, $storeId);

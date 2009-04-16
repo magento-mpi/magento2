@@ -101,7 +101,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
 
     public function getPaymentAction()
     {
-        $paymentAction = Mage::getStoreConfig('payment/paypal_direct/payment_action');
+        $paymentAction = $this->getConfigData('payment_action');
         if (!$paymentAction) {
             $paymentAction = Mage_Paypal_Model_Api_Nvp::PAYMENT_TYPE_AUTH;
         }
@@ -230,6 +230,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         $error = false;
         if($payment->getVoidTransactionId()){
             $api = $this->getApi();
+            $api->setPayment($payment);
             $api->setAuthorizationId($payment->getVoidTransactionId());
             if ($api->callDoVoid()!==false){
                  $payment->setStatus('SUCCESS')
@@ -260,6 +261,7 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
           $error = false;
           if($payment->getRefundTransactionId() && $amount>0){
               $api = $this->getApi();
+              $api->setPayment($payment);
               //we can refund the amount full or partial so it is good to set up as partial refund
               $api->setTransactionId($payment->getRefundTransactionId())
                 ->setRefundType(Mage_Paypal_Model_Api_Nvp::REFUND_TYPE_PARTIAL)
