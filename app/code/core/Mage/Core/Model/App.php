@@ -928,6 +928,11 @@ class Mage_Core_Model_App
                 $backendAttributes = array(
                     'cache_prefix' => (string)Mage::getConfig()->getNode('global/cache/prefix')
                 );
+            } elseif (extension_loaded('eaccelerator') && ini_get('eaccelerator.enable') && $backend=='eaccelerator') {
+                $backend = 'Eaccelerator';
+                $backendAttributes = array(
+                    'cache_prefix' => (string)Mage::getConfig()->getNode('global/cache/prefix')
+                );
             } elseif ('memcached' == $backend && extension_loaded('memcache')) {
                 $backend = 'Memcached';
                 $memcachedConfig = Mage::getConfig()->getNode('global/cache/memcached');
