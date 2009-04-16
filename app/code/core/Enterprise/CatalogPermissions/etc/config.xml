@@ -115,6 +115,15 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_category_save_after>
+            <category_move>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/adminhtml_observer</class>
+                        <method>reindexCategoryPermissionOnMove</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </category_move>
             <store_add>
                 <observers>
                     <enterprise_catalogpermissions>

@@ -335,6 +335,34 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 'category_product_index.category_id'
            ))->where('category_product_index.is_parent = 0');
 
+        $selectNotUnderPermissions = $this->_getReadAdapter()->select();
+
+        $selectNotUnderPermissions->from(array('permission_index_product'=>$this->getTable('permission_index_product')),
+                array(
+                    'product_id',
+                    'store_id'
+                )
+            )->join(
+                array('category_product_index' => $this->getTable('catalog/category_product_index')),
+                'permission_index_product.product_id = category_product_index.product_id',
+                'category_id'
+            )->join(
+                array('store' => $this->getTable('core/store')),
+                'category_product_index.store_id = store.store_id',
+                array()
+            )->joinLeft(
+                array('permission_index'=>$this->getTable('permission_index')),
+                'category_product_index.category_id = permission_index.category_id AND
+                 store.website_id = permission_index.website_id',
+                array()
+            )->columns(array(
+                'customer_group_id',
+                'grant_catalog_category_view',
+                'grant_catalog_product_price',
+                'grant_checkout_items'
+            ))->where('permission_index.category_id IS NULL')
+              ->where('permission_index_product.category_id IS NULL');
+
         if ($productIds !== null) {
             if (!is_array($productIds)) {
                 $productIds = array($productIds);
@@ -342,6 +370,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             $select->where('category_product_index.product_id IN(?)', $productIds);
             $selectCategory->where('category_product_index.product_id IN(?)', $productIds);
             $selectAnchorCategory->where('permission_index_product.product_id IN(?)', $productIds);
+            $selectNotUnderPermissions->where('permission_index_product.product_id IN(?)', $productIds);
             $condition = $this->_getReadAdapter()->quoteInto('product_id IN(?)', $productIds);
         } else {
             $condition = '';
@@ -351,6 +380,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
         $this->_getWriteAdapter()->query($select->insertFromSelect($this->getTable('permission_index_product')));
         $this->_getWriteAdapter()->query($selectCategory->insertFromSelect($this->getTable('permission_index_product')));
         $this->_getWriteAdapter()->query($selectAnchorCategory->insertFromSelect($this->getTable('permission_index_product')));
+        $this->_getWriteAdapter()->query($selectNotUnderPermissions->insertFromSelect($this->getTable('permission_index_product')));
 
         return $this;
     }

@@ -90,6 +90,20 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     }
 
     /**
+     * Reindex category permissions on category move event
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Adminhtml_Observer
+     */
+    public function reindexCategoryPermissionOnMove(Varien_Event_Observer $observer)
+    {
+        $category = Mage::getModel('catalog/category')
+            ->load($observer->getEvent()->getCategoryId());
+        $this->_indexQueue[] = $category->getPath();
+        return $this;
+    }
+
+    /**
      * Reindex permissions in queue on postdipatch
      *
      * @param   Varien_Event_Observer $observer
