@@ -84,6 +84,11 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
         return $this->getMethodInstance()->canRefund();
     }
 
+    public function canRefundPartialPerInvoice()
+    {
+        return $this->getMethodInstance()->canRefundPartialPerInvoice();
+    }
+
     public function canCapturePartial()
     {
         return $this->getMethodInstance()->canCapturePartial();
