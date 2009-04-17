@@ -24,28 +24,32 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+// add fancy homepage content
+
 /* @var $installer Enterprise_CatalogEvent_Model_Mysql4_Setup */
 $installer = $this;
 
 $installer->startSetup();
 
-$blockId = $installer->getConnection()->fetchOne($installer->getConnection()->select()
-    ->from($this->getTable('cms/block'), 'block_id')
-    ->where('identifier = ?', 'catalog_events_lister'));
+$tablePage = $this->getTable('cms/page');
+$pageId = $installer->getConnection()->fetchOne($installer->getConnection()->select()
+    ->from($tablePage, 'page_id')
+    ->where('identifier = ?', 'home'));
 
-if ($blockId) {
-    $installer->getConnection()->delete(
-        $this->getTable('cms/block_store'),
-        $installer->getConnection()->quoteInto('block_id = ?', $blockId)
-    );
-
-    $installer->getConnection()->insert(
-        $this->getTable('cms/block_store'),
-        array(
-            'block_id' => $blockId,
-            'store_id' => 0
-        )
-    );
+if ($pageId) {
+    $installer->getConnection()->update($tablePage, array('content' => '<a href="{{store url=""}}apparel.html">
+<img class="callout" title="Get 10% off - All items under Apparel" alt="Get 10% off - All items under Apparel" src="{{skin url="images/callouts/apparel-sale.gif"}}"/>
+</a>
+<div class="col2-set">
+    <div class="col-1">
+        <img src="{{skin url="images/callouts/home/main.jpg"}}" alt=""/>
+    </div>
+    <div class="col-2">
+        <a href="{{store url=""}}gift-cards.html"><img src="{{skin url="images/callouts/home/gift_cards.jpg"}}" alt=""/></a>
+        <a href="{{store url=""}}apparel.html"><img src="{{skin url="images/callouts/home/rediscover_identity.jpg"}}" alt=""/></a>
+        <a href="{{store url=""}}refund-policy"><img src="{{skin url="images/callouts/home/refund_policy.jpg"}}" alt="" style="margin-bottom:7px;"/></a>
+    </div>
+</div>'), "page_id = {$pageId}");
 }
 
 $installer->endSetup();
