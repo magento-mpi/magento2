@@ -150,6 +150,14 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
             }
         }
 
+        if ($depends->config) {
+            foreach ($depends->config as $path) {
+                if (!Mage::getStoreConfigFlag((string)$path)) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
