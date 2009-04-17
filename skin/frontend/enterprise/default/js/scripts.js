@@ -101,57 +101,56 @@ Enterprise.TopCart= {
     }
 };
 
+
 Enterprise.Bundle = {
      initialize: function () {
-         this.options = $('options-container');
-         
-         if (this.options) {
-            this.options.style.display = 'block';     
-            this.options.hide();
-            this.options.addClassName('bundleProduct');
-         }
-         this.title = $('customizeTitle');
-         this.summary = $('bundleSummary').hide();
+        this.slider = $('bundleProduct');
      },
      start: function () {
-        if ($$('.col-right')) {$$('.col-right').each(function(el){el.id='rightCOL'});}
-        new Effect.SlideUp('productView', { duration: 0.8 });
-        if ($('rightCOL')) {new Effect.SlideUp('rightCOL', { duration: 0.8 });}
-         if (this.options) {
-            new Effect.SlideDown(this.options, { 
-                duration: 0.8, 
-                afterFinish: function () { Enterprise.BundleSummary.initialize() }
+        if (!$('bundle-product-wrapper').hasClassName('moving-now')) {
+        new Effect.Move(this.slider, { 
+                x: -939, y: 0, mode: 'relative', duration: 1.5,
+                beforeStart: function (effect) {
+                    $('bundle-product-wrapper').setStyle({height: $('productView').getHeight() + 'px'});
+                    $('options-container').show();
+                    Enterprise.BundleSummary.initialize();
+                    $('bundle-product-wrapper').addClassName('moving-now');
+                },
+                afterFinish: function (effect) {
+                    $('bundle-product-wrapper').setStyle({height: 'auto'});
+                    $('productView').hide();
+                    $('bundle-product-wrapper').removeClassName('moving-now');
+                }
             });
-         }
-         this.title.show();
-         $$('.col-main').each(function(el){el.addClassName('with-bundle')});
+        }
      },
      end: function () {
-         new Effect.SlideDown('productView', { duration: 0.8 });
-         if ($('rightCOL')) {new Effect.SlideDown('rightCOL', { duration: 0.8 });}
-         if (this.options) {
-            new Effect.SlideUp(this.options, { 
-                duration: 0.8,
-                afterFinish: function () { 
-                    Enterprise.BundleSummary.exitSummary();
-                    $$('.col-main').each(function(el){el.removeClassName('with-bundle')});
+        if (!$('bundle-product-wrapper').hasClassName('moving-now')) {
+            new Effect.Move(this.slider, { 
+                    x: 939, y: 0, mode: 'relative', duration: 1.5,
+                    beforeStart: function (effect) {
+                        $('bundle-product-wrapper').setStyle({height: $('options-container').getHeight() + 'px'});
+                        $('productView').show();                       
+                        $('bundle-product-wrapper').addClassName('moving-now');
+                    },                
+                    afterFinish: function (effect) {
+                        $('bundle-product-wrapper').setStyle({height: 'auto'});
+                        $('options-container').hide();
+                        Enterprise.BundleSummary.exitSummary();
+                        $('bundle-product-wrapper').removeClassName('moving-now');
                     }
                 });
-         }
-         this.title.hide();
+        }
      }
 }; 
 
 Enterprise.BundleSummary = {
     initialize: function () {
         this.summary = $('bundleSummary');
-        this.summary.show();
-        this.summaryContainer = this.summary.getOffsetParent();
-        this.summary.style.top = '-1px';
-        this.summary.style.left = '623px';
+        this.summaryContainer = this.summary.up(0);
 
         this.summaryStartY = this.summary.positionedOffset().top;
-        this.summaryStartX = 623;
+        this.summaryStartX = this.summary.positionedOffset().left;
         this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);      
         this.GetScroll = setInterval(this.onDocScroll,1100);   
     },
@@ -159,14 +158,14 @@ Enterprise.BundleSummary = {
     handleDocScroll: function () {
         if (this.summaryContainer.viewportOffset().top < 10) {
               new Effect.Move(this.summary, { 
-                    x: 623, 
-                    y: -(this.summaryContainer.viewportOffset().top)+10, 
+                    x: this.summaryStartX, 
+                    y: -(this.summaryContainer.viewportOffset().top), 
                     mode: 'absolute'
                 });
 
         } else {
              new Effect.Move(this.summary, { 
-                    x: 623, 
+                    x: this.summaryStartX,
                     y: this.summaryStartY, 
                     mode: 'absolute'
                 });
@@ -174,8 +173,7 @@ Enterprise.BundleSummary = {
     },
     
     exitSummary: function () {
-        clearInterval(this.GetScroll);
-        this.summary.hide();        
+        clearInterval(this.GetScroll);  
     } 
 };
 

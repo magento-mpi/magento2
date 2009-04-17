@@ -46,6 +46,7 @@
 #nav li li a { margin-bottom:0 !important; _position:static; }
 .event  .event-bottom { _bottom:-14px }
 /* Doubled Margin Fixes */
+#bundle-product-wrapper,
 .product-view,
 .product-view .product-img-box .more-views li,
 .product-view .tags .form-add-tags .input-box,
@@ -92,6 +93,7 @@ button.btn-cart span { background-position:100% 0; }
 * html .switcher-language {zoom:1;}
 
 /**/
+#bundleProduct { position:relative; z-index:1; }
 .table-caption { position:relative; z-index:1; }
 .data-table { border-collapse:collapse; }
 .sidebar .block-account li.current { position:relative; z-index:1; zoom:1; }
