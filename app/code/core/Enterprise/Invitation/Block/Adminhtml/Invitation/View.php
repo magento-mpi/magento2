@@ -57,7 +57,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminht
             ), -1);
 
             $this->_addButton('resend', array(
-                    'label' => Mage::helper('enterprise_invitation')->__('Re-send'),
+                    'label' => Mage::helper('enterprise_invitation')->__('Resend'),
                     'onclick' => 'setLocation(\'' . $this->getUrl('*/*/resend', array('_current'=>true)) . '\')'
             ), -1);
         }

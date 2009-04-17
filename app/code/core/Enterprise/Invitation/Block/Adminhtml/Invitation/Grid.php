@@ -143,7 +143,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         ));
 
         $this->getMassactionBlock()->addItem('resend', array(
-                'label' => $this->helper('enterprise_invitation')->__('Re-Send'),
+                'label' => $this->helper('enterprise_invitation')->__('Resend'),
                 'url' => $this->getUrl('*/*/massResend')
         ));
 

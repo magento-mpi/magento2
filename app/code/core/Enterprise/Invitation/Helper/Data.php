@@ -43,7 +43,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_isRegistrationAllowed = null;
 
     /**
-     * Return max inventation amount per send by config
+     * Return max Invitation amount per send by config
      *
      * @return int
      */

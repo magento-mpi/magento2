@@ -174,7 +174,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                     } catch (Mage_Core_Exception $e) {
                         $this->_getSession()->addError(
                             Mage::helper('enterprise_invitation')->__(
-                                'Email to %s was not sent becouse "%s". Please try again later.',
+                                'Email to %s was not sent because "%s". Please try again later.',
                                 $email,
                                 $e->getMessage()
                             )
@@ -270,7 +270,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     }
 
     /**
-     * Invitation re-send action
+     * Invitation resend action
      *
      * @return void
      */
@@ -283,7 +283,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
         if ($invitation->getStatus() !== Enterprise_Invitation_Model_Invitation::STATUS_SENT) {
             $this->_getSession()->addError(
-                Mage::helper('enterprise_invitation')->__('You cannot re-send this invitation')
+                Mage::helper('enterprise_invitation')->__('You cannot resend this invitation')
             );
             $this->_redirect('*/*/view', array('_current'=>true));
             return;
@@ -294,13 +294,13 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             $invitation->setOrigData('status', '')
                 ->save();
             $this->_getSession()->addSuccess(
-                Mage::helper('enterprise_invitation')->__('Invitation was successfully re-sent.')
+                Mage::helper('enterprise_invitation')->__('Invitation was successfully resent.')
             );
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (Exception $e) {
             $this->_getSession()->addError(
-                Mage::helper('enterprise_invitation')->__('Invitation was not re-sent. Try again later.')
+                Mage::helper('enterprise_invitation')->__('Invitation was not resent. Try again later.')
             );
         }
 
@@ -350,11 +350,11 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
         if ($amount > 0) {
              $this->_getSession()->addSuccess(
-                Mage::helper('enterprise_invitation')->__('%d invitation(s) was re-sent.', $amount)
+                Mage::helper('enterprise_invitation')->__('%d invitation(s) were resent.', $amount)
              );
         } else {
             $this->_getSession()->addWarning(
-                Mage::helper('enterprise_invitation')->__('No invitations was re-sent.')
+                Mage::helper('enterprise_invitation')->__('No invitations were resent.')
              );
         }
 
@@ -390,7 +390,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             } catch (Exception $e) {
                 $this->_getSession()->addError(
                     Mage::helper('enterprise_invitation')->__(
-                        'Inventation for %s was not canceled for some reason. Please try again later.',
+                        'Invitation for %s was not canceled for some reason. Please try again later.',
                         $invitation->getEmail()
                     )
                 );
@@ -399,11 +399,11 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
         if ($amount > 0) {
              $this->_getSession()->addSuccess(
-                Mage::helper('enterprise_invitation')->__('%d invitation(s) was canceled.', $amount)
+                Mage::helper('enterprise_invitation')->__('%d invitation(s) were canceled.', $amount)
              );
         } else {
             $this->_getSession()->addWarning(
-                Mage::helper('enterprise_invitation')->__('No invitations was canceled.')
+                Mage::helper('enterprise_invitation')->__('No invitations were canceled.')
              );
         }
 
@@ -422,7 +422,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     }
 
     /**
-     * Send inventation email
+     * Send Invitation email
      *
      * @param Portero_Invitation_Model_Invitation $invitation
      * @return Portero_Invitation_Adminhtml_InvitationController

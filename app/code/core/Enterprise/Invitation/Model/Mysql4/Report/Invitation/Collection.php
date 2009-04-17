@@ -36,7 +36,7 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Collection
 {
 
     /**
-     * Joins inventation report data, and filter by date
+     * Joins Invitation report data, and filter by date
      *
      * @param Zend_Date|string $from
      * @param Zend_Date|string $to
