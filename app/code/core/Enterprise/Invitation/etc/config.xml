@@ -89,7 +89,6 @@
         <routers>
             <adminhtml>
                 <args>
-                    <frontName>admin</frontName>
                     <modules>
                         <enterprise_invitation before="Mage_Adminhtml">Enterprise_Invitation_Adminhtml</enterprise_invitation>
                     </modules>

@@ -673,7 +673,6 @@
         <routers>
             <adminhtml>
                 <args>
-                    <frontName>admin</frontName>
                     <modules>
                         <Enterprise_Staging before="Mage_Adminhtml">Enterprise_Staging_Adminhtml</Enterprise_Staging>
                     </modules>

@@ -182,7 +182,6 @@
         <routers>
             <adminhtml>
                 <args>
-                    <frontName>admin</frontName>
                     <modules>
                         <Enterprise_Pci before="Mage_Adminhtml">Enterprise_Pci_Adminhtml</Enterprise_Pci>
                     </modules>
