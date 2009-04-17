@@ -198,6 +198,7 @@ class Enterprise_CatalogEvent_Model_Observer
                 if (!$quoteItem->getId()) {
                     $quoteItem->setIsDeleted(true);
                 } else {
+                    exit('fuck');
                     return;
                 }
                 Mage::throwException(
@@ -267,36 +268,30 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     protected function _getProductEvent($product)
     {
-        if (($categoryId = $product->getCategoryId())) {
-            return $this->_getEventInStore($product->getCategoryId());
-        } elseif ($product->getCategory()) {
-            return $product->getCategory()->getEvent();
-        } else {
-            $categoryIds = $product->getCategoryIds();
-            $event = false;
-            $noOpenEvent = false;
-            $eventCount = 0;
-            foreach ($categoryIds as $categoryId) {
-                $categoryEvent = $this->_getEventInStore($categoryId);
-                if ($categoryEvent === false) {
-                    continue;
-                } elseif ($categoryEvent === null) {
-                    // If product assigned to category without event
-                    return null;
-                } elseif ($categoryEvent->getStatus() == Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
-                   $event = $categoryEvent;
-                } else {
-                    $noOpenEvent = $categoryEvent;
-                }
-                $eventCount++;
+        $categoryIds = $product->getCategoryIds();
+        $event = false;
+        $noOpenEvent = false;
+        $eventCount = 0;
+        foreach ($categoryIds as $categoryId) {
+            $categoryEvent = $this->_getEventInStore($categoryId);
+            if ($categoryEvent === false) {
+                continue;
+            } elseif ($categoryEvent === null) {
+                // If product assigned to category without event
+                return null;
+            } elseif ($categoryEvent->getStatus() == Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
+               $event = $categoryEvent;
+            } else {
+                $noOpenEvent = $categoryEvent;
             }
-
-            if ($eventCount > 1) {
-                $product->setEventNoTicker(true);
-            }
-
-            return ($event ? $event : $noOpenEvent);
+            $eventCount++;
         }
+
+        if ($eventCount > 1) {
+            $product->setEventNoTicker(true);
+        }
+
+        return ($event ? $event : $noOpenEvent);
     }
 
 

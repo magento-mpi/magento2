@@ -149,7 +149,7 @@
                     </enterprise_catalogevent>
                 </observers>
             </catalog_product_is_salable_after>
-            <sales_quote_item_set_product>
+            <checkout_cart_product_add_after>
                 <observers>
                     <enterprise_catalogevent>
                         <type>singleton</type>
@@ -157,7 +157,7 @@
                         <method>applyEventOnQuoteItemSetProduct</method>
                     </enterprise_catalogevent>
                 </observers>
-            </sales_quote_item_set_product>
+            </checkout_cart_product_add_after>
             <sales_quote_item_qty_set_after>
                 <observers>
                     <enterprise_catalogevent>

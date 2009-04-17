@@ -325,7 +325,7 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_controller_category_init_after>
-            <sales_quote_item_set_product>
+            <checkout_cart_product_add_after>
                 <observers>
                     <enterprise_catalogpermissions>
                         <type>singleton</type>
@@ -333,7 +333,7 @@
                         <method>checkQuoteItemSetProduct</method>
                     </enterprise_catalogpermissions>
                 </observers>
-            </sales_quote_item_set_product>
+            </checkout_cart_product_add_after>
             <sales_quote_item_qty_set_after>
                 <observers>
                     <enterprise_catalogpermissions>

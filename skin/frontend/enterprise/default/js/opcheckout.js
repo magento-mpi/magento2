@@ -620,7 +620,9 @@ Payment.prototype = {
     init : function () {
         if ($(this.form)) {
             $(this.form).observe('submit', function(event){this.save();Event.stop(event);}.bind(this));
+            this.validator = new Validation(this.form);
         }
+        
         var elements = Form.getElements(this.form);
         var method = null;
         for (var i=0; i<elements.length; i++) {
@@ -668,8 +670,10 @@ Payment.prototype = {
 
     save: function(){
         if (checkout.loadWaiting!=false) return;
-        var validator = new Validation(this.form);
-        if (this.validate() && validator.validate()) {
+        if (!this.validator) {
+            this.validator = new Validation(this.form);
+        }
+        if (this.validate() && this.validator.validate()) {
             checkout.setLoadWaiting('payment');
             var request = new Ajax.Request(
                 this.saveUrl,
