@@ -148,7 +148,10 @@
                            <action>adminhtml/invitation</action>
                            <resource>customer/enterprise_invitation</resource>
                            <sort_order>30</sort_order>
-                           <depends><module>Enterprise_Invitation</module></depends>
+                           <depends>
+                               <module>Enterprise_Invitation</module>
+                               <config>enterprise_invitation/general/enabled</config>
+                           </depends>
                     </enterprise_invitation>
                 </children>
             </customer>
@@ -158,7 +161,10 @@
                            <title>Invitations</title>
                            <resource>report/enterprise_invitation</resource>
                            <sort_order>30</sort_order>
-                           <depends><module>Enterprise_Invitation</module></depends>
+                           <depends>
+                               <module>Enterprise_Invitation</module>
+                               <config>enterprise_invitation/general/enabled</config>
+                           </depends>
                            <children>
                                <general translate="title" module="enterprise_invitation">
                                    <title>General</title>

@@ -213,7 +213,10 @@
                         <sort_order>1</sort_order>
                         <action>adminhtml/catalog_event</action>
                         <resource>catalog/events</resource>
-                        <depends><module>Enterprise_CatalogEvent</module></depends>
+                        <depends>
+                            <module>Enterprise_CatalogEvent</module>
+                            <config>catalog/enterprise_catalogevent/enabled</config>
+                        </depends>
                    </enterprise_catalogevent>
                </children>
             </catalog>

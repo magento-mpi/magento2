@@ -58,7 +58,8 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons exte
      */
     public function addButtons()
     {
-        if (Mage::getSingleton('admin/session')->isAllowed('catalog/events') &&
+        if ($this->helper('enterprise_catalogevent')->isEnabled() &&
+            Mage::getSingleton('admin/session')->isAllowed('catalog/events') &&
             $this->getCategoryId() && $this->getCategory()->getLevel() > 1) {
             if ($this->getEvent() && $this->getEvent()->getId()) {
                 $url = $this->helper('adminhtml')->getUrl('*/catalog_event/edit', array(
