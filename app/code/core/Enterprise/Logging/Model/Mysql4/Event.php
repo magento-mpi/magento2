@@ -87,13 +87,14 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     /**
      * Get list of actions presented in event table
      */
-    public function getActions() {
-        if(!$this->_actions) {
+    public function getActions() 
+    {
+        if (!$this->_actions) {
             $query = "SELECT DISTINCT action FROM ".$this->getTable('enterprise_logging/event');
             $st = $this->_getConnection('read')->query($query);
             $actions = $st->fetchAll();
             $this->_actions = array();
-            if($actions) {
+            if ($actions) {
                 foreach($actions as $action) {
                     $u = new Varien_Object();
                     $u->setId($action['action']);
@@ -108,8 +109,9 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     /**
      * Get list of users presented in event table
      */
-    public function getUsers() {
-        if(!$this->_users) {
+    public function getUsers() 
+    {
+        if (!$this->_users) {
             $query = "SELECT DISTINCT user FROM ".$this->getTable('enterprise_logging/event');
             $st = $this->_getConnection('read')->query($query);
             $users = $st->fetchAll();

@@ -30,6 +30,8 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      * configuration
      */
     const   CONFIG_FILE = 'logging.xml';
+    private $_config;
+    private $_labels;
 
     /**
      * Constructor
@@ -37,6 +39,20 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     public function __construct()
     {
         $this->_init('enterprise_logging/event');
+        if( !($conf = Mage::app()->loadCache('actions_to_log')) ) {
+            $conf = $this->_getActionsConfigFromXml();
+            $result = Mage::app()->saveCache(serialize($conf), 'actions_to_log');
+        } else
+            $conf = unserialize($conf);
+        $this->_config = $conf;
+
+        if( !($conf = Mage::app()->loadCache('actions_to_log_labels')) ) {
+            $conf = $this->_getLabelsConfigFromXml(); 
+            Mage::app()->saveCache(serialize($conf['list']), 'actions_to_log_labels');
+        } else
+            $conf = unserialize($conf);
+
+        $this->_labels = $conf;
     }
 
     /**
@@ -46,16 +62,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      */
     public function isActive($action)
     {
-        if( !($conf = Mage::app()->loadCache('actions_to_log')) ) {
-            $conf = $this->_getActionsConfigFromXml();
-            $result = Mage::app()->saveCache(serialize($conf), 'actions_to_log');
-
-            $labelslist = $this->_getLabelsConfigFromXml(); 
-            Mage::app()->getCache()->save(serialize($labelslist['list']), 'actions_to_log_labels');
-        } else
-            $conf = unserialize($conf);
-
-        $current = isset($conf[$action]) ? $conf[$action] : false;
+        $current = isset($this->_config[$action]) ? $this->_config[$action] : false;
         if (!$current)
             return false;
 
@@ -71,34 +78,27 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Return, previously stored in cache config
      */ 
-    public function getConfig($action) {
-        $fullconfig = unserialize(Mage::app()->loadCache('actions_to_log'));
-        if (!$fullconfig) {
-            $fullconfig = $this->_getActionsConfigFromXml();
-        }
-
-        if (!isset($fullconfig[$action]))
+    public function getConfig($action) 
+    {
+        if (!isset($this->_config[$action]))
             return null;
-        $fullconfig[$action]['base_action'] = $action;
-        return $fullconfig[$action];
+        $this->_config[$action]['base_action'] = $action;
+        return $this->_config[$action];
     }
 
     /**
      * Get all labels
      */
-    public function getLabels() {
-        $labelsconfig = unserialize(Mage::app()->loadCache('actions_to_log_labels'));
-        if (!$labelsconfig) {
-            $labelsconfig = $this->_getLabelsConfigFromXml();
-            $labelsconfig = $labelsconfig['list'];
-        }
-        return $labelsconfig;
+    public function getLabels() 
+    {
+        return $this->_labels;
     }
 
     /**
      * Get label for current event_code
      */
-    public function getLabel($code) {
+    public function getLabel($code) 
+    {
         $labelsconfig = $this->getLabels();
         return isset($labelsconfig[$code]) ? $labelsconfig[$code] : "";
     }
@@ -106,7 +106,8 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Load actions from config
      */
-    private function _getActionsConfigFromXml() {
+    private function _getActionsConfigFromXml() 
+    {
         $config = Mage::getConfig();
         $modules = $config->getNode('modules')->children();
 
@@ -127,7 +128,8 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Load labels from configuration file
      */
-    private function _getLabelsConfigFromXml() {
+    private function _getLabelsConfigFromXml() 
+    {
         $config = Mage::getConfig();
         $modules = $config->getNode('modules')->children();
 
@@ -151,10 +153,14 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      * @param int $id
      * @return Enterprise_Logging_Model_Event
      */
-    public function setUserId($id) {
-        $user = Mage::getModel('admin/user')->load($id);
-        $name = $user->getUsername();
-        return $this->setUser($name);
+    public function setUserId($id) 
+    {
+        if (!$this->getUser() && $id) {
+            $user = Mage::getModel('admin/user')->load($id);
+            $name = $user->getUsername();
+            return $this->setUser($name);
+        }
+        return $this;
     }
 
 

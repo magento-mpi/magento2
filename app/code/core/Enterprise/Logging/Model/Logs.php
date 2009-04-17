@@ -59,7 +59,7 @@ class Enterprise_Logging_Model_Logs extends Varien_Object
      *
      * @param string fileName
      * @param string filePath
-     * @return Mage_Backup_Model_Backup
+     * @return Enterprise_Logging_Model_Logs
      */
     public function load($fileName, $filePath)
     {

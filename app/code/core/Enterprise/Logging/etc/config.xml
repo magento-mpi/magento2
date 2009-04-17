@@ -169,29 +169,15 @@
                         </logging>
                       </children>
                     </config>
+                    <logging translate="title" module="enterprise_logging">
+                      <title>Admin Logging</title>
+                    </logging>
                   </children>
                 </system>
               </children>
             </admin>
           </resources>
         </acl>
-        <acl>
-          <resources>
-            <admin>
-              <children>
-                <system>
-                  <children>
-                        <logging translate="title" module="enterprise_logging">
-                          <title>Admin Logging</title>
-                        </logging>
-                  </children>
-                </system>
-              </children>
-            </admin>
-          </resources>
-        </acl>
-
-
 
         <layout>
             <updates>
@@ -247,7 +233,6 @@
         <routers>
             <adminhtml>
                 <args>
-                    <frontName>admin</frontName>
                     <modules>
                         <Enterprise_Logging before="Mage_Adminhtml">Enterprise_Logging_Adminhtml</Enterprise_Logging>
                     </modules>
