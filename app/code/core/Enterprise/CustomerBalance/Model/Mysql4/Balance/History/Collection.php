@@ -37,8 +37,7 @@ class Enterprise_CustomerBalance_Model_Mysql4_Balance_History_Collection extends
         $this->getSelect()
             ->joinInner(array('b' => $this->getTable('enterprise_customerbalance/balance')),
                 'main_table.balance_id = b.balance_id', array('customer_id' => 'b.customer_id', 'website_id' => 'b.website_id'))
-            ->joinLeft(array('w' => $this->getTable('core/website')),
-                'b.website_id = w.website_id', array('website_id' => 'b.website_id', 'website_name' => 'w.name'));
+        ;
         return $this;
     }
 
