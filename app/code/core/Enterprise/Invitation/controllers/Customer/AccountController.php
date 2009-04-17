@@ -60,7 +60,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
             return;
         }
 
-        if ((!Mage::helper('enterprise_invitation')->isEnabled())  ||
+        if ((!Mage::helper('enterprise_invitation')->isEnabled()) ||
             (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()))
           {
             $this->_redirect('customer/account/create');
@@ -68,9 +68,13 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
         }
 
         $invitation = $this->_initInvitation();
-        if (!$invitation->getId() && !Mage::helper('enterprise_invitation')->getInvitationRequired()) {
+        if (!$invitation->getId() && Mage::helper('enterprise_invitation')->getInvitationRequired()) {
             $this->_getSession()->addError(Mage::helper('enterprise_invitation')->__('Registration only by invitation'));
-            $this->_redirect('customer/login');
+            $this->_redirect('customer/account/login');
+            return;
+        } elseif (!$invitation->getId()) {
+            $this->_getSession()->addError(Mage::helper('enterprise_invitation')->__('This invitation is not valid'));
+            $this->_redirect('customer/account/login');
             return;
         }
 
