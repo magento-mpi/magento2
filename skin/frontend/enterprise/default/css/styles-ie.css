@@ -25,7 +25,7 @@
  
 /* IE 6 only */
 .col-main .page-title { _position:relative; _z-index:1; }
-.switch ul .current { _padding-right:4em;}
+.switch ul .current { _padding-right:4.8em;}
 .sidebar,
 .main { _height:350px; }
 .restriction-index-stub .main { _height:auto; }

@@ -156,7 +156,7 @@ Enterprise.BundleSummary = {
     },
     
     handleDocScroll: function () {
-        if (this.summaryContainer.viewportOffset().top < 10) {
+        if (this.summaryContainer.viewportOffset().top < -60) {
               new Effect.Move(this.summary, { 
                     x: this.summaryStartX, 
                     y: -(this.summaryContainer.viewportOffset().top), 
@@ -386,7 +386,7 @@ Object.extend(Enterprise.Slider.prototype, {
     }
 });
 
-Enterprise.PopUpMenu = {
+/* Enterprise.PopUpMenu = {
     currentPopUp: null, 
     documentHandlerInitialized: false,
     popUpZIndex: 994, 
@@ -480,4 +480,62 @@ Enterprise.PopUpMenu = {
 
 function popUpMenu(element) {
    Enterprise.PopUpMenu.show(element);
+} */
+
+function popUpMenu(element,trigger) {
+        var iDelay = 2000;
+        var new_popup = 0;
+        var sTempId = 'popUped';
+        if (document.getElementById(sTempId)) {
+            var eTemp = document.getElementById(sTempId);
+            $(sTempId).previous(0).down('.switcher').removeClassName('list-opened');
+            new Effect.Fade (eTemp, { duration:0.3 });
+            eTemp.id = sNativeId;
+            clearTimeout(tId);
+            document.onclick = null;
+        }
+            
+        sNativeId = 'popId-'+$(element).up(1).id;
+        var el = $(sNativeId);
+        el.id = sTempId;
+
+        if (eTemp && el == eTemp) {
+            hideElement();
+        } else {
+            $(element).addClassName('list-opened');
+            $(sTempId).getOffsetParent().style.zIndex = 994;
+            new Effect.Appear (el, { duration:0.3 });
+            tId=setTimeout("hideElement()",2*iDelay);        
+        }
+        new_popup = 1;    
+        document.onclick = function() {
+            if (!new_popup) {
+                hideElement();
+                document.onclick = null;
+            }
+            new_popup = 0;    
+        }
+        
+        el.onmouseout = function() {
+            if ($(sTempId)) {    
+                $(sTempId).addClassName('faded');
+                tId=setTimeout("hideElement()",iDelay);
+            }
+        }
+        
+        el.onmouseover = function() {
+            if ($(sTempId)) {    
+                $(sTempId).removeClassName('faded');
+                clearTimeout(tId);
+            }
+        }
+        
+        hideElement = function() {    
+            //el.hide();
+            new Effect.Fade (el, { duration:0.3 });
+            $(element).removeClassName('list-opened');
+            el.getOffsetParent().style.zIndex = 1;
+            el.id = sNativeId;
+            if (tId) {clearTimeout(tId);}
+        }
 }
