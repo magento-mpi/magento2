@@ -71,9 +71,24 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             }
         }
 
-        $action->loadLayout(array('default', 'cms_page'), false, false);
+        $action->getLayout()->getUpdate()
+            ->addHandle('default')
+            ->addHandle('cms_page');
+
+        $action->addActionLayoutHandles();
+        if ($page->getRootTemplate()) {
+            $action->getLayout()->helper('page/layout')
+                ->applyHandle($page->getRootTemplate());
+        }
+
+        $action->loadLayoutUpdates();
         $action->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
         $action->generateLayoutXml()->generateLayoutBlocks();
+
+        if ($page->getRootTemplate()) {
+            $action->getLayout()->helper('page/layout')
+                ->applyTemplate($page->getRootTemplate());
+        }
 
         if ($storage = Mage::getSingleton('catalog/session')) {
             $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));

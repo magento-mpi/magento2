@@ -57,11 +57,6 @@ class Mage_Catalog_Block_Category_View extends Mage_Core_Block_Template
                 $headBlock->addItem('rss', $this->getRssLink(), 'title="'.$title.'"');
             }
         }
-        if ($layout = $this->getCurrentCategory()->getPageLayout()) {
-            if ($template = (string)Mage::getConfig()->getNode('global/cms/layouts/'.$layout.'/template')) {
-                $this->getLayout()->getBlock('root')->setTemplate($template);
-            }
-        }
 
         return $this;
     }
