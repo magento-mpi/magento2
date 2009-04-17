@@ -234,8 +234,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                     $this->_createNewOrder($newOrderDetails);
                     break;
                 case 'OrderReadyToShipNotification':
-                    $amazonOrderDetails = $this->getApi()->parseOrder($_request['NotificationData']);
-                    $this->_proccessOrder($amazonOrderDetails);
+                    $orderReadyToShipDetails = $this->getApi()->parseOrder($_request['NotificationData']);
+                    $this->_proccessOrder($orderReadyToShipDetails);
                     break;
                 case 'OrderCancelledNotification':
                     $cancelDetails = $this->getApi()->parseCancelNotification($_request['NotificationData']);
@@ -415,7 +415,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 ->setCustomerTaxClassId($customer->getTaxClassId());
         }
 
-        $order->save();
+        $order->setState(Mage_Sales_Model_Order::STATE_HOLDED)
+            ->save();
 
         $quote->setIsActive(false);
         $quote->save();
@@ -438,14 +439,14 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      */
     protected function _proccessOrder($amazonOrderDetails)
     {
-        if ($quoteId = $newOrderDetails['ClientRequestId']) {
-            if ($order = Mage::getModel('sales/order')->loadByAttribute('quote_id', $quoteId)) {
-                /* @var $order Mage_Sales_Model_Order */
-
-                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING);
-                $order->setStatus('Processing');
-                $order->setIsNotified(false);
-                $order->save();
+        if (array_key_exists('amazon_order_id', $amazonOrderDetails)) {
+            $order = Mage::getModel('sales/order')
+                ->loadByAttribute('ext_order_id', $amazonOrderDetails['amazon_order_id']);
+            /* @var $order Mage_Sales_Model_Order */
+            if ($order->getId()) {
+                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING)->save();
+            } else {
+                return false;
             }
         }
         return true;

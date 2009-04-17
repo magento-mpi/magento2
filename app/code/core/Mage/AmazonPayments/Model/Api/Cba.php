@@ -655,6 +655,23 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
         return $parsedOrder;
     }
 
+    /**
+     * Parsing xml notification for amazon order id
+     *
+     * @param string $xmlData
+     * @return array
+     */
+    public function parseOrderReadyToShipNotification($xmlData)
+    {
+        $readyToShipData = array();
+        if (strlen(trim($xmlData))) {
+            $xml = simplexml_load_string($xmlData, 'Varien_Simplexml_Element');
+            $aOrderId = (string) $xml->descend('ProcessedOrder/AmazonOrderID');
+            $readyToShipData['amazon_order_id'] = $aOrderId;
+        }
+        return $readyToShipData;
+    }
+
     public function parseCancelNotification($xmlData)
     {
         $cancelData = array();
