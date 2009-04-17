@@ -417,7 +417,8 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
      */
     protected function isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('customer/enterprise_invitation');
+        return Mage::helper('enterprise_invitation')->isEnabled() &&
+               Mage::getSingleton('admin/session')->isAllowed('customer/enterprise_invitation');
     }
 
     /**

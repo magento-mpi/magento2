@@ -161,6 +161,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
      */
     protected function isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('report/enterprise_invitation');
+        return Mage::helper('enterprise_invitation')->isEnabled() &&
+               Mage::getSingleton('admin/session')->isAllowed('report/enterprise_invitation');
     }
 }

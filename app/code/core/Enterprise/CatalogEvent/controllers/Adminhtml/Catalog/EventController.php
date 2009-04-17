@@ -215,7 +215,8 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('catalog/events');
+        return Mage::helper('enterprise_catalogevent')->isEnabled() &&
+               Mage::getSingleton('admin/session')->isAllowed('catalog/events');
     }
 
 }
