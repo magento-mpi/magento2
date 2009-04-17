@@ -376,9 +376,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function updateQtyOption($options, Varien_Object $option, $value, $product = null)
     {
-        $optionProduct = $option->getProduct($product);
-
-        $optionCollection = $this->getOptionsCollection($product);
+        $optionProduct      = $option->getProduct($product);
+        $optionUpdateFlag   = $option->getHasQtyOptionUpdate();
+        $optionCollection   = $this->getOptionsCollection($product);
 
         $selections = $this->getSelectionsCollection($optionCollection->getAllIds(), $product);
 
@@ -386,7 +386,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             if ($selection->getProductId() == $optionProduct->getId()) {
                 foreach ($options as &$option) {
                     if ($option->getCode() == 'selection_qty_'.$selection->getSelectionId()) {
-                        $option->setValue($value);
+                        if ($optionUpdateFlag) {
+                            $option->setValue(intval($option->getValue()));
+                        }
+                        else {
+                            $option->setValue($value);
+                        }
                     }
                 }
             }

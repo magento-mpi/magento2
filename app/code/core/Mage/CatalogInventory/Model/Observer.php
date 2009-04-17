@@ -219,6 +219,7 @@ class Mage_CatalogInventory_Model_Observer
                 }
 
                 if ($result->getHasQtyOptionUpdate()) {
+                    $option->setHasQtyOptionUpdate(true);
                     $quoteItem->updateQtyOption($option, $result->getOrigQty());
                     $option->setValue($result->getOrigQty());
                     /**
