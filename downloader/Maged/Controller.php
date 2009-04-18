@@ -177,8 +177,8 @@ final class Maged_Controller
     {
         if (!self::$_instance) {
             self::$_instance = new self;
-            if (class_exists('Mage') && Mage::isInstalled()) {
-                // initialize Magento Config
+            
+            if (self::$_instance->isDownloaded() && self::$_instance->isInstalled()) {
                 Mage::app();
                 Mage::getSingleton('adminhtml/url')->turnOffSecretKey();
             }
