@@ -39,18 +39,20 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     public function __construct()
     {
         $this->_init('enterprise_logging/event');
-        if( !($conf = Mage::app()->loadCache('actions_to_log')) ) {
+        if ( !($conf = Mage::app()->loadCache('actions_to_log')) ) {
             $conf = $this->_getActionsConfigFromXml();
             $result = Mage::app()->saveCache(serialize($conf), 'actions_to_log');
-        } else
+        } else {
             $conf = unserialize($conf);
+        }
         $this->_config = $conf;
 
-        if( !($conf = Mage::app()->loadCache('actions_to_log_labels')) ) {
+        if ( !($conf = Mage::app()->loadCache('actions_to_log_labels')) ) {
             $conf = $this->_getLabelsConfigFromXml(); 
             Mage::app()->saveCache(serialize($conf['list']), 'actions_to_log_labels');
-        } else
+        } else {
             $conf = unserialize($conf);
+        }
 
         $this->_labels = $conf;
     }
@@ -63,8 +65,9 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     public function isActive($action)
     {
         $current = isset($this->_config[$action]) ? $this->_config[$action] : false;
-        if (!$current)
+        if (!$current) {
             return false;
+        }
 
         $code = $current['event'];
         /**
@@ -80,8 +83,9 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
      */ 
     public function getConfig($action) 
     {
-        if (!isset($this->_config[$action]))
+        if (!isset($this->_config[$action])) {
             return null;
+        }
         $this->_config[$action]['base_action'] = $action;
         return $this->_config[$action];
     }
@@ -180,7 +184,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         $this->setEventCode($code);
         $action = $info['event_action'];
         $this->setAction($action);
-        if(isset($info['event_status']) && $info['event_status'] != $this->getSuccess()) {
+        if (isset($info['event_status']) && $info['event_status'] != $this->getSuccess()) {
             $this->setSuccess($info['event_status']);
         }
 

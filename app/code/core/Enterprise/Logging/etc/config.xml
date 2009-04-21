@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Logging>
-             <version>0.1.3</version>
+             <version>0.1.4</version>
         </Enterprise_Logging>
     </modules>
     <global>
@@ -164,7 +164,7 @@
                   <children>
                     <config>
                       <children>
-                        <logging>
+                        <logging translate="title" module="enterprise_logging">
                           <title>Logging</title>
                         </logging>
                       </children>
@@ -189,37 +189,37 @@
         <enterprise>
           <logging>
             <frequency>
-              <daily>
+              <daily translate="label" module="enterprise_logging">>
                 <label>Daily</label>
                 <value>1</value>
               </daily>
-              <weekly>
+              <weekly translate="label" module="enterprise_logging">
                 <label>Weekly</label>
                 <value>7</value>
               </weekly>
-              <monthly>
+              <monthly translate="label" module="enterprise_logging">
                 <label>Monthly</label>
                 <value>30</value>
               </monthly>
             </frequency>
             <lifetime>
-              <oneday>
+              <oneday translate="label" module="enterprise_logging">
                 <label>One Day</label>
                 <value>1</value>
               </oneday>
-              <week>
+              <week translate="label" module="enterprise_logging">
                 <label>One Week</label>
                 <value>7</value>
               </week>
-              <month>
+              <month translate="label" module="enterprise_logging">
                 <label>30 days</label>
                 <value>30</value>
               </month>
-              <twomonth>
+              <twomonth translate="label" module="enterprise_logging">
                 <label>60 days</label>
                 <value>60</value>
               </twomonth>
-              <quartal>
+              <quartal translate="label" module="enterprise_logging">
                 <label>90 days</label>
                 <value>90</value>
               </quartal>
@@ -239,18 +239,6 @@
                 </args>
             </adminhtml>
         </routers>
-        <acl>
-          <resources>
-            <admin>
-                <system>
-                    <config>
-                        <logging />
-                    </config>
-                </system>
-            </admin>
-          </resources>
-        </acl>
-
     </admin>
 
     <default>

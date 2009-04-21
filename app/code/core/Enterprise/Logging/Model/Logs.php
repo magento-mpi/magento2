@@ -30,17 +30,10 @@ class Enterprise_Logging_Model_Logs extends Varien_Object
     const LOGS_EXTENSION  = 'csv';
 
     /**
-     * Type of backup file
-     *
-     * @var string csv
-     */
-    private $_type  = 'csv';
-
-    /**
      * Directory to save csv dumps
      */
     private $_basePath = null;
-    
+    private $_path = null;
 
     /**
      * Getter for _basePath
@@ -52,6 +45,25 @@ class Enterprise_Logging_Model_Logs extends Varien_Object
             $this->_basePath = implode(DS, $path);
         }
         return $this->_basePath;
+    }
+
+    /**
+     * path getter
+     */
+    public function getPath() 
+    {
+        if (!$this->_path) {
+            return $this->getBasePath();
+        }
+        return $this->_path;
+    }
+
+    /**
+     * Path setter
+     */
+    public function setPath($path) 
+    {
+        $this->_path = $path;
     }
 
     /**
@@ -70,7 +82,6 @@ class Enterprise_Logging_Model_Logs extends Varien_Object
             'path' => $filePath,
             'time_formated' => date('Y-m-d H:i:s', (int)$time))
         );
-        $this->setType($type);
         return $this;
     }
 
@@ -82,209 +93,6 @@ class Enterprise_Logging_Model_Logs extends Varien_Object
     public function exists()
     {
         return is_file($this->getPath() . DS . $this->getFileName());
-    }
-
-    public function setDefaultPath() {
-        $this->setPath($this->getBasePath());
-        return $this;
-    }
-
-    /**
-     * Sets type of file
-     *
-     * @param string $value db|media|view
-     */
-    public function setType($value='csv')
-    {
-        if(!in_array($value, array('csv', 'sql', 'db','media','view'))) {
-            $value = 'csv';
-        }
-
-        $this->_type = $value;
-        $this->setData('type', $this->_type);
-
-        return $this;
-    }
-
-    /**
-     * Returns type of backup file
-     *
-     * @return string db|media|view
-     */
-    public function getType()
-    {
-        return $this->_type;
-    }
-
-    /**
-     * Set the backup file content
-     *
-     * @param string $content
-     * @return Mage_Backup_Model_Backup
-     * @throws Mage_Backup_Exception
-     */
-    public function setFile(&$content)
-    {
-        return $this;
-        if (!$this->hasData('time') || !$this->hasData('type') || !$this->hasData('path')) {
-            Mage::throwException(Mage::helper('backup')->__('Wrong order of creation for new backup'));
-        }
-
-        $ioProxy = new Varien_Io_File();
-        $ioProxy->setAllowCreateFolders(true);
-        $ioProxy->open(array('path'=>$this->getPath()));
-
-        $compress = 0;
-        if (extension_loaded("zlib")) {
-            $compress = 1;
-        }
-
-        $rawContent = '';
-        if ( $compress ) {
-            $rawContent = gzcompress( $content, self::COMPRESS_RATE );
-        } else {
-            $rawContent = $content;
-        }
-
-        $fileHeaders = pack("ll", $compress, strlen($rawContent));
-        $ioProxy->write($this->getFileName(), $fileHeaders . $rawContent);
-        return $this;
-    }
-
-    /**
-     * Return content of backup file
-     *
-     * @todo rewrite to Varien_IO, but there no possibility read part of files.
-     * @return string
-     * @throws Mage_Backup_Exception
-     */
-    public function &getFile()
-    {
-
-        if (!$this->exists()) {
-            Mage::throwException(Mage::helper('enterprise_logging')->__("Log file doesn't exist"));
-        }
-
-        return file_get_contents($this->getPath() . DS . $this->getFileName());
-    }
-
-    /**
-     * Delete backup file
-     *
-     * @throws Mage_Backup_Exception
-     */
-    public function deleteFile()
-    {
-        if (!$this->exists()) {
-            Mage::throwException(Mage::helper('enterprise_logging')->__("Log file doesn't exist"));
-        }
-
-        $ioProxy = new Varien_Io_File();
-        $ioProxy->open(array('path'=>$this->getPath()));
-        $ioProxy->rm($this->getFileName());
-        return $this;
-    }
-
-    /**
-     * Open backup file (write or read mode)
-     *
-     * @param bool $write
-     * @return Mage_Backup_Model_Backup
-     */
-    public function open($write = false)
-    {
-        return $this;
-        if (is_null($this->getPath())) {
-            Mage::exception('Mage_Backup', Mage::helper('backup')->__('Backup file path don\'t specify'));
-        }
-
-        $ioAdapter = new Varien_Io_File();
-        try {
-            $path = $ioAdapter->getCleanPath($this->getPath());
-            $ioAdapter->checkAndCreateFolder($path);
-            $filePath = $path . DS . $this->getFileName();
-        }
-        catch (Exception $e) {
-            Mage::exception('Mage_Backup', $e->getMessage());
-        }
-
-        if ($write && $ioAdapter->fileExists($filePath)) {
-            $ioAdapter->rm($filePath);
-        }
-        if (!$write && !$ioAdapter->fileExists($filePath)) {
-            Mage::exception('Mage_Backup', Mage::helper('backup')->__('Backup file "%s" doesn\'t exist', $this->getFileName()));
-        }
-
-        $mode = $write ? 'wb' . self::COMPRESS_RATE : 'rb';
-
-        try {
-            $this->_handler = gzopen($filePath, $mode);
-        }
-        catch (Exception $e) {
-            Mage::exception('Mage_Backup', Mage::helper('backup')->__('Backup file "%s" can\'t read or write', $this->getFileName()));
-        }
-
-        return $this;
-    }
-
-    /**
-     * Read backup uncomressed data
-     *
-     * @param int $length
-     * @return string
-     */
-    public function read($length)
-    {
-        if (is_null($this->_handler)) {
-            Mage::exception('Mage_Backup', Mage::helper('backup')->__('Backup file handler don\'t specify'));
-        }
-        return fread($this->_handler, $length);
-        //        return gzread($this->_handler, $length);
-    }
-
-    public function eof()
-    {
-        if (is_null($this->_handler)) {
-            Mage::exception('Enterprise_Logging', Mage::helper('enterprise_loggingx')->__('Log file handler don\'t specify'));
-        }
-
-        return feof($this->_handler);
-    }
-
-    /**
-     * Write to backup file
-     *
-     * @param string $string
-     * @return Mage_Backup_Model_Backup
-     */
-    public function write($string)
-    {
-        return $this;
-        if (is_null($this->_handler)) {
-            Mage::exception('Mage_Backup', Mage::helper('backup')->__('Backup file handler don\'t specify'));
-        }
-
-        try {
-            gzwrite($this->_handler, $string);
-        }
-        catch (Exception $e) {
-            Mage::exception('Mage_Backup', Mage::helper('backup')->__('Error write to Backup file "%s"', $this->getFileName()));
-        }
-
-        return $this;
-    }
-
-    /**
-     * Close open backup file
-     *
-     * @return Mage_Backup_Model_Backup
-     */
-    public function close()
-    {
-        @gzclose($this->_handler);
-        $this->_handler = null;
-
-        return $this;
     }
 
     /**
@@ -307,6 +115,9 @@ class Enterprise_Logging_Model_Logs extends Varien_Object
         $ioAdapter->streamClose();
     }
 
+    /**
+     * Calculate size
+     */
     public function getSize()
     {
         if (!is_null($this->getData('size'))) {
@@ -317,7 +128,7 @@ class Enterprise_Logging_Model_Logs extends Varien_Object
             $this->setData('size', filesize($this->getPath() . DS . $this->getFileName()));
             return $this->getData('size');
         }
-
         return 0;
     }
+
 }

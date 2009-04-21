@@ -67,8 +67,8 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
          * security tools like SeLinux, or apparmor are disabled or allows 
          * mysql to create $outfile
          */
-        $query = sprintf("SELECT * FROM %s WHERE time + INTERVAL %s DAY < NOW()", $table, $lifetime);
-        $del_query = sprintf("DELETE FROM %s WHERE time + INTERVAL %s DAY < NOW()", $table, $lifetime);
+        $query = sprintf("SELECT * FROM %s WHERE time + INTERVAL %s DAY < %s", $table, $lifetime, now());
+        $del_query = sprintf("DELETE FROM %s WHERE time + INTERVAL %s DAY < %s", $table, $lifetime, now());
         $st = $this->_getConnection('write')->query($query);
         
         if ( !($firstline = $st->fetch()) ) {
@@ -116,7 +116,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
             $st = $this->_getConnection('read')->query($query);
             $users = $st->fetchAll();
             $this->_users = array();
-            if($users) {
+            if ($users) {
                 foreach($users as $user) {
                     $u = new Varien_Object();
                     $u->setId($user['user']);

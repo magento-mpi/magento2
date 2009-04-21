@@ -65,15 +65,17 @@ class Enterprise_Logging_Model_Observer
          * customer page.
          */
         if ($act = Mage::getSingleton('admin/session')->getSkipLoggingAction()) {
-            if (is_array($act))
+            if (is_array($act)) {
                 $denied = $act;
-            else
+            } else {
                 $denied = explode(',', $act);
+            }
             if (in_array($action, $denied)) {
                 $denied_that_left = array();
                 foreach ($denied as $d) {
-                    if ($action != $d)
+                    if ($action != $d) {
                         $denied_that_left[] = $d;
+                    }
                 }
                 if (count($denied_that_left)) {
                     Mage::getSingleton('admin/session')->setSkipLoggingAction(implode(',', $denied_that_left));                    
@@ -133,12 +135,14 @@ class Enterprise_Logging_Model_Observer
                  * Check if model has to be saved. Using deprecated in php5.2 'is_a' which should
                  * be restored in php 5.3. So you may remove '@' if you use php 5.3 or higher.
                  */
-                if($conf && isset($conf['model']) && ($class = $conf['model']) && @is_a($model, $class)) {
+                if ($conf && isset($conf['model']) && ($class = $conf['model']) && @is_a($model, $class)) {
                     if (isset($conf['allow-multiply-models']) && $conf['allow-multiply-models']) {
-                        if (!Mage::registry('saved_model_'.$action)) 
+                        if (!Mage::registry('saved_model_'.$action)) {
                             Mage::register('saved_model_'.$action, $model);
-                    } else
+                        }
+                    } else {
                             Mage::register('saved_model_'.$action, $model);
+                    }
                 } 
             }
         }
@@ -192,8 +196,9 @@ class Enterprise_Logging_Model_Observer
     public function catchActionEnd($observer) 
     {
         if ($actions = Mage::registry('enterprise_logged_actions')) {
-            if(!is_array($actions)) 
+            if (!is_array($actions)) {
                 $actions = array($actions);
+            }
             $ip = $_SERVER['REMOTE_ADDR'];
             $username = null;
             if (Mage::getSingleton('admin/session')->isLoggedIn()) {
@@ -206,8 +211,9 @@ class Enterprise_Logging_Model_Observer
             foreach ($actions as $action) {
                 $success = $this->getSuccess($action);
                 $info = $this->getInfo($action, $success);
-                if(!$info)
+                if (!$info) {
                     continue;
+                }
                 Mage::getSingleton('enterprise_logging/event')
                   ->setIp($ip)
                   ->setUser($username)
@@ -228,13 +234,14 @@ class Enterprise_Logging_Model_Observer
     
     protected function _checkSpecialActions($action) 
     {
-        if($action == 'customer_save') {
+        if ($action == 'customer_save') {
             $request = Mage::app()->getRequest();
             $data = $request->getParam('customerbalance');
-            if(isset($data['amount_delta']) && $data['amount_delta'] != '') {
+            if (isset($data['amount_delta']) && $data['amount_delta'] != '') {
                 $actions = Mage::registry('enterprise_logged_actions');
-                if(!is_array($actions))
+                if (!is_array($actions)) {
                     $actions = array($actions);
+                }
                 $actions[] = 'customerbalance_save';
                 Mage::unregister('enterprise_logged_actions');
                 Mage::register('enterprise_logged_actions', $actions);
@@ -283,8 +290,9 @@ class Enterprise_Logging_Model_Observer
      */
     public function getTaxRatesImportAction($config, $success) 
     {
-        if (!Mage::app()->getRequest()->isPost())
+        if (!Mage::app()->getRequest()->isPost()) {
             return false;
+        }
         return array(
             'event_code' => $config['event'],
             'event_action' => $config['action'],
@@ -308,7 +316,7 @@ class Enterprise_Logging_Model_Observer
         /**
          * Skip if no id
          */
-        if($id === false || $id === null) {
+        if ($id === false || $id === null) {
             return false;
         }
 
@@ -373,8 +381,9 @@ class Enterprise_Logging_Model_Observer
             $id = $model->getId();
         }
 
-        if( ($id === false) && isset($config['skip-on-empty-id']) && $config['skip-on-empty-id'])
+        if ( ($id === false) && isset($config['skip-on-empty-id']) && $config['skip-on-empty-id']) {
             return false;
+        }
 
         /**
          * Set actions to skip. We use 'back' and '_continue' params to make redirect after save.
@@ -417,10 +426,11 @@ class Enterprise_Logging_Model_Observer
         if (Mage::app()->getRequest()->isPost()) {
             $type = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType();
             $success = ($type != 'error');
-            if ($model = Mage::registry('saved_model_index_forgotpassword'))
+            if ($model = Mage::registry('saved_model_index_forgotpassword')) {
                 $id = $model->getId();
-            else
+            } else {
                 $id = Mage::app()->getRequest()->getParam('email');
+            }
             return array(
                 'event_code' => 'adminlogin',
                 'event_action' => 'forgotpassword',
@@ -513,8 +523,9 @@ class Enterprise_Logging_Model_Observer
     {
         $node = Mage::getConfig()->getNode('default/admin/logsenabled/adminlogin');
         $enabled = ( (string)$node == '1' ? true : false);
-        if (!$enabled)
+        if (!$enabled) {
             return;
+        }
 
         $event = Mage::getSingleton('enterprise_logging/event');
         $event->setIp($_SERVER['REMOTE_ADDR'])
@@ -542,8 +553,9 @@ class Enterprise_Logging_Model_Observer
     {
         $node = Mage::getConfig()->getNode('default/admin/logsenabled/adminlogin');
         $enabled = ( (string)$node == '1' ? true : false);
-        if (!$enabled)
+        if (!$enabled) {
             return;
+        }
 
         $event = Mage::getSingleton('enterprise_logging/event');
         $event->setIp($_SERVER['REMOTE_ADDR'])

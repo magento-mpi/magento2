@@ -60,15 +60,14 @@ class Enterprise_Logging_Adminhtml_EventsController extends Mage_Adminhtml_Contr
         }
 
         $log = Mage::getModel('enterprise_logging/logs')
-          ->setFileName($name)
-          ->setDefaultPath();
+          ->setFileName($name);
+
 
         /* @var $backup Mage_Backup_Model_Backup */
 
         if (!$log->exists()) {
             $this->_redirect('*/*');
         }
-
         $fileName = $chunks[2];
         $this->_prepareDownloadResponse($fileName, null, 'application/octet-stream', $log->getSize());
         $this->getResponse()->sendHeaders();

@@ -257,20 +257,4 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
         }
         return $ids;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

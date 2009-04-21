@@ -55,9 +55,9 @@ class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_
     public function load($printQuery = false, $logQuery = false) 
     {
         parent::load($printQuery, $logQuery);
-        if(!$this->_ipLoaded) {
-            if($this->_items) {
-                foreach($this->_items as $item) {
+        if (!$this->_ipLoaded) {
+            if ($this->_items) {
+                foreach ($this->_items as $item) {
                     $item->setIp(long2ip($item->getIp()));
                 }
             }

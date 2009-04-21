@@ -24,25 +24,24 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Block_Events_Grid_Filter_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
-{
-    /**
-     * Build options list for filter
-     */
-    public function _getOptions() {
-        $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All actions')));
-        $resource = Mage::getResourceModel('enterprise_logging/event');
-        $collection = $resource->getActions();
-        foreach($collection as $action)
-          $options[] = array('value' => $action->getId(), 'label' => $action->getName());
-        return $options;
-    }
-    
-    /**
-     * returns value
-     */
-    public function getCondition()
-    {
-    	return $this->getValue();
-    }
-}
+
+$installer = $this;
+/* @var $installer Mage_Eav_Model_Entity_Setup */
+$installer->startSetup();
+
+$installer->run("DROP TABLE IF EXISTS `".$this->getTable('enterprise_logging/event')."`");
+$installer->run("CREATE TABLE `".$this->getTable('enterprise_logging/event')."` (
+                    `log_id` int(11) NOT NULL auto_increment,
+                    `ip` bigint(20) unsigned NOT NULL default '0',
+                    `event_code` char(20) NOT NULL default '',
+                    `time` datetime NOT NULL default '0000-00-00 00:00:00',
+                    `action` char(20) NOT NULL default '-',
+                    `info` varchar(255) NOT NULL default '-',
+                    `status` char(15) NOT NULL default 'success',
+                    `user` char(15) NOT NULL default '-',
+                    `fullaction` varchar(200) NOT NULL default '-',
+                    PRIMARY KEY  (`log_id`)
+                ) ENGINE=InnoDB"
+);
+
+$installer->endSetup();

@@ -30,7 +30,7 @@ class Enterprise_Logging_Block_Events_Grid_Filter_User extends Mage_Adminhtml_Bl
      * Build options list for filter
      */
     public function _getOptions() {
-        $options = array(array('value' => '', 'label' => 'All users'));
+        $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All users')));
         $resource = Mage::getResourceModel('enterprise_logging/event');
         $collection = $resource->getUsers();
         foreach($collection as $user)
