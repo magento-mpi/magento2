@@ -1177,7 +1177,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         } else {
             if ($this->isEnabledFlat()) {
                 if ($attribute == 'position') {
-                    $this->getSelect()->order("{$attribute} {$dir}");
+                    $this->getSelect()
+                        ->order("{$attribute} {$dir}")
+                        ->order("{$this->getEntity()->getIdFieldName()} {$dir}");
                 }
                 elseif ($sortColumn = $this->getEntity()->getAttributeSortColumn($attribute)) {
                     $this->getSelect()->order("e.{$sortColumn} {$dir}");
@@ -1215,7 +1217,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             return $this;
         }
 
-        if ($attribute !== 'position') {
+        if ($attribute == 'position') {
+            $this->getSelect()
+                ->order("{$attribute} {$dir}")
+                ->order("{$this->getEntity()->getIdFieldName()} {$dir}");
+            return $this;
+        }
+        else {
             $attrInstance = $this->getEntity()->getAttribute($attribute);
             if ($attrInstance && $attrInstance->usesSource()) {
                 $attrInstance->getSource()
