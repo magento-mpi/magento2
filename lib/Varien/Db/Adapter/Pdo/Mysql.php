@@ -469,8 +469,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         if ($this->tableColumnExists($tableName, $columnName)) {
             return true;
         }
+
+        $sql = sprintf('ALTER TABLE `%s` ADD COLUMN `%s` %s',
+            $tableName,
+            $columnName,
+            $definition
+        );
+        $result = $this->raw_query($sql);
         $this->resetDescribesCache($tableName);
-        $result = $this->raw_query("alter table `$tableName` add column `$columnName` ".$definition);
         return $result;
     }
 
@@ -643,6 +649,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      */
     public function addKey($tableName, $indexName, $fields, $indexType = 'index')
     {
+        $columns = $this->describeTable($tableName);
         $keyList = $this->getKeyList($tableName);
 
         $sql = 'ALTER TABLE '.$this->quoteIdentifier($tableName);
@@ -650,16 +657,22 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             $sql .= ' DROP INDEX ' . $this->quoteIdentifier($indexName) . ',';
         }
 
-        if (is_array($fields)) {
-            $fieldSql = array();
-            foreach ($fields as $field) {
-                $fieldSql[] = $this->quoteIdentifier($field);
+        if (!is_array($fields)) {
+            $fields = array($fields);
+        }
+
+        $fieldSql = array();
+        foreach ($fields as $field) {
+            if (!isset($columns[$field])) {
+                $msg = sprintf('There is no field "%s" that you are trying to create an index on "%s"',
+                    $field,
+                    $tableName
+                );
+                throw new Exception($msg);
             }
-            $fieldSql = join(',', $fieldSql);
+            $fieldSql[] = $this->quoteIdentifier($field);
         }
-        else {
-            $fieldSql = $this->quoteIdentifier($fields);
-        }
+        $fieldSql = join(',', $fieldSql);
 
         switch (strtolower($indexType)) {
             case 'primary':
@@ -677,8 +690,62 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
 
         $sql .= ' ADD ' . $condition . ' (' . $fieldSql . ')';
+
+        $cycle = true;
+        while ($cycle === true) {
+            try {
+                $result = $this->raw_query($sql);
+                $cycle  = false;
+            }
+            catch (PDOException $e) {
+                if (in_array(strtolower($indexType), array('primary', 'unique'))) {
+                    $match = array();
+                    if (preg_match('#SQLSTATE\[23000\]: [^:]+: 1062[^\']+\'([\d-]+)\'#', $e->getMessage(), $match)) {
+                        $ids = explode('-', $match[1]);
+                        $this->_removeDuplicateEntry($tableName, $fields, $ids);
+                        continue;
+                    }
+                }
+                throw $e;
+            }
+            catch (Exception $e) {
+                throw $e;
+            }
+        }
+
         $this->resetDescribesCache($tableName);
-        return $this->raw_query($sql);
+
+        return $result;
+    }
+
+    /**
+     * Remove duplicate entry for create key
+     *
+     * @param string $table
+     * @param array $fields
+     * @param array $ids
+     * @return Varien_Db_Adapter_Pdo_Mysql
+     */
+    protected function _removeDuplicateEntry($table, $fields, $ids)
+    {
+        $sql = sprintf('SELECT COUNT(*) as `cnt` FROM `%s` WHERE ', $table);
+        $where = array();
+        $i = 0;
+        foreach ($fields as $field) {
+            $where[] = $this->quoteInto($field . '=?', $ids[$i]);
+            $i ++;
+        }
+        echo $sql;
+        if ($cnt = $this->raw_fetchRow($sql, 'cnt')) {
+            $sql = sprintf('DELETE FROM `%s` WHERE %s LIMIT %d',
+                $table,
+                join(' AND ', $where),
+                $cnt - 1
+            );
+            $this->raw_query($sql);
+        }
+
+        return $this;
     }
 
     /**
@@ -767,6 +834,11 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         throw $e;
     }
 
+    /**
+     * Debug write to file process
+     *
+     * @param string $str
+     */
     protected function _debugWriteToFile($str)
     {
         if (!$this->_debugIoAdapter) {
