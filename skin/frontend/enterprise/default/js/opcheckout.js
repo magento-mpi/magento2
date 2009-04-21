@@ -69,7 +69,7 @@ Checkout.prototype = {
                 this.setLoadWaiting(false);
             }
             var container = $(step+'-buttons-container');
-            container.setStyle({opacity:.5});
+            container.setStyle({opacity:.8});
             this._disableEnableAll(container, true);
             Element.show(step+'-please-wait');
         } else {

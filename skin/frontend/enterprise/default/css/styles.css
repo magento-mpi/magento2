@@ -1466,6 +1466,9 @@ button.btn-cart  span { }
 
 /* steps */
 
+.opc .form-alt .input-box { width:695px; }
+.opc .form-alt .input-box select { width:695px; }
+
 #checkout-step-login { height:auto!important; min-height:0!important; padding:0; }
 #checkout-step-login .col2-set { padding:20px 20px 30px; background:#fcfcfc url(../images/bkg_cols.gif) repeat-y 195px 0; height:auto!important; min-height:0!important; }
 #checkout-step-login .login-only { background-image:none; }
@@ -1483,11 +1486,18 @@ button.btn-cart  span { }
 #checkout-step-login .form-list p { padding-left:105px; margin:0; }
 #checkout-step-login .form-list .input-text { width:210px; }
 
-.opc .form-buttons { padding-right:200px; }
+.opc .buttons-set
+.opc .form-buttons { width:auto; text-align:right; }
+.opc .buttons-set p.back-link { text-align:left; }
+.opc .form-buttons { width:auto; text-align:right; }
+.opc .buttons-set .button,
+.opc .form-buttons .button { float:right; margin:0; }
+.opc p.required { text-align:right; width:auto; padding-left:0; }
+
 .checkout-onepage-payment-additional-customerbalance { margin-bottom:5px; }
 .checkout-onepage-payment-additional-customerbalance .checkbox { margin-left:0; }
 
-#checkout-step-shipping_method .buttons-set,
+/* #checkout-step-shipping_method .buttons-set,
 #opc-payment .buttons-set { width:521px; margin-top:10px; margin-bottom:0; }
 #checkout-step-shipping_method .buttons-set .back-link,
 #opc-payment .buttons-set .back-link { width:245px; padding-right:15px; float:left; text-align:right; }
@@ -1495,7 +1505,7 @@ button.btn-cart  span { }
 #opc-payment .buttons-set .back-link a { display:inline; float:none; }
 #checkout-step-shipping_method p.required,
 #opc-payment p.required { padding:0 0 0 260px; }
-#opc-payment p.note { padding:10px 0; font-size:11px; }
+#opc-payment p.note { padding:10px 0; font-size:11px; } */
 
 #checkout-step-review { padding:0; }
 #checkout-step-review .data-table { border:0; font-size:12px; }
@@ -1503,9 +1513,9 @@ button.btn-cart  span { }
 #checkout-step-review .data-table thead th { vertical-align:bottom; font-size:11px; }
 #checkout-step-review .data-table .product-name { font-size:12px; }
 #checkout-step-review .data-table tfoot tr.last strong { font-size:14px; }
-#checkout-step-review .buttons-set { width:580px; }
-#checkout-step-review .buttons-set p { width:265px; float:left; padding-right:15px; text-align:right; }
-#checkout-step-review .buttons-set p a { float:none; }
+
+#checkout-step-review .buttons-set { padding:0 20px; }
+
 
 .opc .checkout-agreements { margin:20px; }
 
@@ -1547,7 +1557,7 @@ button.btn-cart  span { }
 .sp-methods .checkbox { vertical-align:top; margin-top:2px; font-size:10px!important; }
 .sp-methods .v-fix .validation-advice { margin-right:-250px; position:relative; z-index:1; width:250px; }
 
-.please-wait { float:right; margin-right:5px; white-space:nowrap; }
+.please-wait { float:right; position:absolute; top:50%; left:50%; margin:-34px 0 0 -90px; display:block; border:5px solid #f3b66f; font-size:12px; color:#f18200; font-weight:bold; background:#fff; padding:20px; white-space:nowrap; }
 .cvv-what-is-this { cursor:help; margin-left:5px; }
 
 /* Tooltip */
@@ -1573,7 +1583,7 @@ button.btn-cart  span { }
 .gift-message-form .gift-item .number { padding:5px 20px 5px; margin-bottom:0; background:url(../images/bkg_dots.gif) repeat-x 0 100%; color:#adadad; font-weight:bold; }
 .gift-message-form .gift-item .product-img-box { float:left; width:150px; margin-right:15px; }
 .gift-message-form .gift-item .product-image { text-align:center; margin:20px; }
-.gift-message-form .gift-item .product-name { font-size:12px; margin:20px; text-align:center; }
+.gift-message-form .gift-item .product-name { font-size:12px; margin:20px 0 5px; text-align:center; }
 .gift-message-form .gift-item .fieldset { float:left; background:url(../images/bkg_dots.gif) repeat-y 0 0; padding:20px 0 10px 10px; margin:0; }
 .gift-message-form .gift-item .fieldset label { width:80px; }
 
