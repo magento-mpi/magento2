@@ -27,436 +27,434 @@
 -->
 <config>
     <sections>
-      <system>
-        <tab>advanced</tab>
-        <groups>
-          <rotation>
-            <label>Event Log Archiving</label>
-            <show_in_default>1</show_in_default>
-            <show_in_website>1</show_in_website>
-            <show_in_store>1</show_in_store>
-            <sort_order>500</sort_order>
-            <fields>
-              <frequency>
-                <label>Log Frequency </label>
-                <frontend_type>select</frontend_type>
-                <source_model>enterprise_logging/system_config_rotationList</source_model>
-                <sort_order>1</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </frequency>
+        <system>
+            <tab>advanced</tab>
+            <groups>
+                <rotation>
+                    <label>Event Log Archiving</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>500</sort_order>
+                    <fields>
+                        <frequency>
+                            <label>Log Frequency </label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>enterprise_logging/system_config_rotationList</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </frequency>
 
-              <lifetime>
-                <label>Save Log, days </label>
-                <frontend_type>text</frontend_type>
-                <sort_order>1</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </lifetime>
-            </fields>
-          </rotation>
-        </groups>
-      </system>
+                        <lifetime>
+                            <label>Save Log, days </label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lifetime>
+                    </fields>
+                </rotation>
+            </groups>
+        </system>
 
-      <admin>
-        <tab>advanced</tab>
-        <groups>
-          <logsenabled>
-            <label>Events Logging</label>
-            <show_in_default>1</show_in_default>
-            <show_in_website>1</show_in_website>
-            <show_in_store>1</show_in_store>
-            <sort_order>500</sort_order>
+        <admin>
+            <tab>advanced</tab>
+            <groups>
+                <logsenabled>
+                    <label>Events Logging</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>500</sort_order>
 
-            <fields>
-              <products>
-                <label>Products</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>1</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </products>
+                    <fields>
+                        <products>
+                            <label>Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </products>
 
-              <categories>
-                <label>Categories</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>2</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </categories>
+                        <categories>
+                            <label>Categories</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </categories>
 
-              <urlrewrites>
-                <label>Url Rewrites</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>2</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </urlrewrites>
+                        <urlrewrites>
+                            <label>Url Rewrites</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </urlrewrites>
 
-              <attributes>
-                <label>Attributes</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>2</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </attributes>
+                        <attributes>
+                            <label>Attributes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </attributes>
 
-              <attributessets>
-                <label>Attribute Sets</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>2</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </attributessets>
+                        <attributessets>
+                            <label>Attribute Sets</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </attributessets>
 
-              <catalogsearch>
-                <label>Catalog Search</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>2</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </catalogsearch>
+                        <catalogsearch>
+                            <label>Catalog Search</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </catalogsearch>
 
-              <catalogtags>
-                <label>Catalog Tags</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>2</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </catalogtags>
+                        <catalogtags>
+                            <label>Catalog Tags</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </catalogtags>
 
-              <catalogratings>
-                <label>Catalog Ratings</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>2</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </catalogratings>
+                        <catalogratings>
+                            <label>Catalog Ratings</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </catalogratings>
 
-              <reviews>
-                <label>Reviews</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>2</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </reviews>
+                        <reviews>
+                            <label>Reviews</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>2</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </reviews>
 
-              <adminlogin>
-                <label>Admin Login</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>3</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </adminlogin>
+                        <adminlogin>
+                            <label>Admin Login</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>3</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </adminlogin>
 
-             <cmspages>
-                <label>CMS Pages</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>4</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </cmspages>
+                        <cmspages>
+                            <label>CMS Pages</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cmspages>
 
-              <cmsblocks>
-                <label>CMS Blocks</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>5</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </cmsblocks>
+                        <cmsblocks>
+                            <label>CMS Blocks</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cmsblocks>
 
-             <cmspolls>
-                <label>CMS Polls</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>4</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </cmspolls>
+                        <cmspolls>
+                            <label>CMS Polls</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cmspolls>
 
 
-              <customers>
-                <label>Customers</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </customers>
+                        <customers>
+                            <label>Customers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customers>
 
-              <customerbalance>
-                <label>Customer Balance</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </customerbalance>
- 
-              <reports>
-                <label>Reports</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>4</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </reports>
+                        <customerbalance>
+                            <label>Customer Balance</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customerbalance>
+                        
+                        <reports>
+                            <label>Reports</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </reports>
 
-              <giftaccount>
-                <label>Gift Card Accounts</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>7</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </giftaccount>
+                        <giftaccount>
+                            <label>Gift Card Accounts</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </giftaccount>
 
-              <systemconfiguration>
-                <label>System Configuration</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>7</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </systemconfiguration>
+                        <systemconfiguration>
+                            <label>System Configuration</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </systemconfiguration>
 
-              <customergroups>
-                <label>Customer Groups</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </customergroups>
- 
-              <catalogevents>
-                <label>Events</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </catalogevents>
- 
-              <promoquote>
-                <label>Shopping Cart Price Rules</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </promoquote>
- 
-              <promocatalog>
-                <label>Catalog Price Rules</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </promocatalog>
- 
-              <invitations>
-                <label>Invitations</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </invitations>
- 
-              <systemaccount>
-                <label>My Account</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </systemaccount>
+                        <customergroups>
+                            <label>Customer Groups</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customergroups>
+                        
+                        <catalogevents>
+                            <label>Events</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </catalogevents>
+                        
+                        <promoquote>
+                            <label>Shopping Cart Price Rules</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </promoquote>
+                        
+                        <promocatalog>
+                            <label>Catalog Price Rules</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </promocatalog>
+                        
+                        <invitations>
+                            <label>Invitations</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </invitations>
+                        
+                        <systemaccount>
+                            <label>My Account</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </systemaccount>
 
-              <orders>
-                <label>Orders</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </orders>
-              
-              <orderstatus>
-                <label>Order Status</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </orderstatus>
+                        <orders>
+                            <label>Orders</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </orders>
+                        
+                        <orderstatus>
+                            <label>Order Status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </orderstatus>
 
-              <Invoices>
-                <label>Invoices</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </Invoices>
+                        <Invoices>
+                            <label>Invoices</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </Invoices>
 
-              <shipments>
-                <label>Shipments</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </shipments>
+                        <shipments>
+                            <label>Shipments</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shipments>
 
-              <creditmemos>
-                <label>Creditmemos</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </creditmemos>
+                        <creditmemos>
+                            <label>Creditmemos</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </creditmemos>
 
-              <api>
-                <label>Api</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </api>
+                        <api>
+                            <label>Api</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api>
 
-              <permissions>
-                <label>Permissions</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </permissions>
+                        <permissions>
+                            <label>Permissions</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </permissions>
 
-              <websites>
-                <label>Websites</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </websites>
+                        <websites>
+                            <label>Websites</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </websites>
 
-              <stores>
-                <label>Stores</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </stores>
+                        <stores>
+                            <label>Stores</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </stores>
 
-              <storeviews>
-                <label>Store Views</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </storeviews>
+                        <storeviews>
+                            <label>Store Views</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </storeviews>
 
-              <customertaxclasses>
-                <label>Customer Tax Classes</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </customertaxclasses>
+                        <customertaxclasses>
+                            <label>Customer Tax Classes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </customertaxclasses>
 
-              <producttaxclasses>
-                <label>Product Tax Classes</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </producttaxclasses>
+                        <producttaxclasses>
+                            <label>Product Tax Classes</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </producttaxclasses>
 
-              <taxrules>
-                <label>Tax Rules</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </taxrules>
+                        <taxrules>
+                            <label>Tax Rules</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </taxrules>
 
-              <taxrates>
-                <label>Tax Rates</label>
-                <frontend_type>select</frontend_type>
-                <source_model>adminhtml/system_config_source_yesno</source_model>
-                <sort_order>6</sort_order>
-                <show_in_default>1</show_in_default>
-                <show_in_website>1</show_in_website>
-                <show_in_store>1</show_in_store>
-              </taxrates>
+                        <taxrates>
+                            <label>Tax Rates</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>6</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </taxrates>
 
-            </fields>
-          </logsenabled>
-        </groups>
-      </admin>
+                    </fields>
+                </logsenabled>
+            </groups>
+        </admin>
     </sections>
 </config>
-
-

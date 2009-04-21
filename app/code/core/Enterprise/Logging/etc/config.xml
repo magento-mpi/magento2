@@ -28,33 +28,33 @@
 <config>
     <modules>
         <Enterprise_Logging>
-             <version>0.1.4</version>
+            <version>0.1.4</version>
         </Enterprise_Logging>
     </modules>
     <global>
         <models>
-          <enterprise_logging_mysql4>
-            <class>Enterprise_Logging_Model_Mysql4</class>
-            <entities>
-              <event>
-                <table>enterprise_logging_event</table>
-              </event>
-            </entities>
-          </enterprise_logging_mysql4>
-          <enterprise_logging>
+            <enterprise_logging_mysql4>
+                <class>Enterprise_Logging_Model_Mysql4</class>
+                <entities>
+                    <event>
+                        <table>enterprise_logging_event</table>
+                    </event>
+                </entities>
+            </enterprise_logging_mysql4>
+            <enterprise_logging>
                 <class>Enterprise_Logging_Model</class>
                 <resourceModel>enterprise_logging_mysql4</resourceModel>
-          </enterprise_logging>
+            </enterprise_logging>
         </models>
         <blocks>
-          <enterprise_logging>
-            <class>Enterprise_Logging_Block</class>
-          </enterprise_logging>
+            <enterprise_logging>
+                <class>Enterprise_Logging_Block</class>
+            </enterprise_logging>
         </blocks>
         <helpers>
-          <enterprise_logging>
-            <class>Enterprise_Logging_Helper</class>
-          </enterprise_logging>
+            <enterprise_logging>
+                <class>Enterprise_Logging_Helper</class>
+            </enterprise_logging>
         </helpers>
         <resources>
             <enterprise_logging_setup>
@@ -67,116 +67,116 @@
                 </connection>
             </enterprise_logging_setup>
             <enterprise_logging_write>
-              <connection>
-                <use>core_write</use>
-              </connection>
+                <connection>
+                    <use>core_write</use>
+                </connection>
             </enterprise_logging_write>
             <enterprise_logging_read>
-              <connection>
-                <use>core_read</use>
-              </connection>
+                <connection>
+                    <use>core_read</use>
+                </connection>
             </enterprise_logging_read>
         </resources>
 
     </global>
     <adminhtml>
         <events>
-          <controller_action_predispatch>
-            <observers>
-              <enterprise_logging>
-                <type>singleton</type>
-                <class>enterprise_logging/observer</class>
-                <method>catchActionStart</method>
-              </enterprise_logging>
-            </observers>
-          </controller_action_predispatch>
+            <controller_action_predispatch>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>catchActionStart</method>
+                    </enterprise_logging>
+                </observers>
+            </controller_action_predispatch>
 
-          <controller_action_postdispatch_adminhtml>
-            <observers>
-              <enterprise_logging>
-                <type>singleton</type>
-                <class>enterprise_logging/observer</class>
-                <method>catchActionEnd</method>
-              </enterprise_logging>
-            </observers>
-          </controller_action_postdispatch_adminhtml>
+            <controller_action_postdispatch_adminhtml>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>catchActionEnd</method>
+                    </enterprise_logging>
+                </observers>
+            </controller_action_postdispatch_adminhtml>
 
-          <model_save_after>
-              <observers>
-                  <enterprise_logging>
-                      <type>singleton</type>
-                      <class>enterprise_logging/observer</class>
-                      <method>catchModelAfterSave</method>
-                  </enterprise_logging>
-              </observers>
-          </model_save_after>
+            <model_save_after>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>catchModelAfterSave</method>
+                    </enterprise_logging>
+                </observers>
+            </model_save_after>
 
-          <admin_session_user_login_success>
-              <observers>
-                  <enterprise_logging>
-                      <type>singleton</type>
-                      <class>enterprise_logging/observer</class>
-                      <method>catchLoginSuccess</method>
-                  </enterprise_logging>
-              </observers>
-          </admin_session_user_login_success>
+            <admin_session_user_login_success>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>catchLoginSuccess</method>
+                    </enterprise_logging>
+                </observers>
+            </admin_session_user_login_success>
 
-          <admin_session_user_login_failed>
-              <observers>
-                  <enterprise_logging>
-                      <type>singleton</type>
-                      <class>enterprise_logging/observer</class>
-                      <method>catchLoginFail</method>
-                  </enterprise_logging>
-              </observers>
-          </admin_session_user_login_failed>
+            <admin_session_user_login_failed>
+                <observers>
+                    <enterprise_logging>
+                        <type>singleton</type>
+                        <class>enterprise_logging/observer</class>
+                        <method>catchLoginFail</method>
+                    </enterprise_logging>
+                </observers>
+            </admin_session_user_login_failed>
         </events>
         <menu>
-          <system>
-            <children>
-              <logging translate="title">
-                 <title>Admin Logging</title>
-                 <sort_order>71</sort_order>
-                 <depends><module>Enterprise_Logging</module></depends>
-                 <children>
-                   <events>
-                     <title>Report</title>
-                     <sort_order>1</sort_order>
-                     <action>adminhtml/events</action>
-                     <depends><module>Enterprise_Logging</module></depends>
-                   </events>
-                   <backups translate="title">
-                     <title>Archive</title>
-                     <sort_order>2</sort_order>
-                     <action>adminhtml/events/log</action>
-                     <depends><module>Enterprise_Logging</module></depends>
-                   </backups>
-                 </children>
-              </logging>
-            </children>
-          </system>
+            <system>
+                <children>
+                    <logging translate="title">
+                        <title>Admin Logging</title>
+                        <sort_order>71</sort_order>
+                        <depends><module>Enterprise_Logging</module></depends>
+                        <children>
+                            <events>
+                                <title>Report</title>
+                                <sort_order>1</sort_order>
+                                <action>adminhtml/events</action>
+                                <depends><module>Enterprise_Logging</module></depends>
+                            </events>
+                            <backups translate="title">
+                                <title>Archive</title>
+                                <sort_order>2</sort_order>
+                                <action>adminhtml/events/log</action>
+                                <depends><module>Enterprise_Logging</module></depends>
+                            </backups>
+                        </children>
+                    </logging>
+                </children>
+            </system>
         </menu>
         <acl>
-          <resources>
-            <admin>
-              <children>
-                <system>
-                  <children>
-                    <config>
-                      <children>
-                        <logging translate="title" module="enterprise_logging">
-                          <title>Logging</title>
-                        </logging>
-                      </children>
-                    </config>
-                    <logging translate="title" module="enterprise_logging">
-                      <title>Admin Logging</title>
-                    </logging>
-                  </children>
-                </system>
-              </children>
-            </admin>
-          </resources>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <logging translate="title" module="enterprise_logging">
+                                            <title>Logging</title>
+                                        </logging>
+                                    </children>
+                                </config>
+                                <logging translate="title" module="enterprise_logging">
+                                    <title>Admin Logging</title>
+                                </logging>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
         </acl>
 
         <layout>
@@ -187,44 +187,44 @@
             </updates>
         </layout>
         <enterprise>
-          <logging>
-            <frequency>
-              <daily translate="label" module="enterprise_logging">>
-                <label>Daily</label>
-                <value>1</value>
-              </daily>
-              <weekly translate="label" module="enterprise_logging">
-                <label>Weekly</label>
-                <value>7</value>
-              </weekly>
-              <monthly translate="label" module="enterprise_logging">
-                <label>Monthly</label>
-                <value>30</value>
-              </monthly>
-            </frequency>
-            <lifetime>
-              <oneday translate="label" module="enterprise_logging">
-                <label>One Day</label>
-                <value>1</value>
-              </oneday>
-              <week translate="label" module="enterprise_logging">
-                <label>One Week</label>
-                <value>7</value>
-              </week>
-              <month translate="label" module="enterprise_logging">
-                <label>30 days</label>
-                <value>30</value>
-              </month>
-              <twomonth translate="label" module="enterprise_logging">
-                <label>60 days</label>
-                <value>60</value>
-              </twomonth>
-              <quartal translate="label" module="enterprise_logging">
-                <label>90 days</label>
-                <value>90</value>
-              </quartal>
-            </lifetime>
-          </logging>
+            <logging>
+                <frequency>
+                    <daily translate="label" module="enterprise_logging">>
+                        <label>Daily</label>
+                        <value>1</value>
+                    </daily>
+                    <weekly translate="label" module="enterprise_logging">
+                        <label>Weekly</label>
+                        <value>7</value>
+                    </weekly>
+                    <monthly translate="label" module="enterprise_logging">
+                        <label>Monthly</label>
+                        <value>30</value>
+                    </monthly>
+                </frequency>
+                <lifetime>
+                    <oneday translate="label" module="enterprise_logging">
+                        <label>One Day</label>
+                        <value>1</value>
+                    </oneday>
+                    <week translate="label" module="enterprise_logging">
+                        <label>One Week</label>
+                        <value>7</value>
+                    </week>
+                    <month translate="label" module="enterprise_logging">
+                        <label>30 days</label>
+                        <value>30</value>
+                    </month>
+                    <twomonth translate="label" module="enterprise_logging">
+                        <label>60 days</label>
+                        <value>60</value>
+                    </twomonth>
+                    <quartal translate="label" module="enterprise_logging">
+                        <label>90 days</label>
+                        <value>90</value>
+                    </quartal>
+                </lifetime>
+            </logging>
         </enterprise>
 
     </adminhtml>
@@ -242,60 +242,60 @@
     </admin>
 
     <default>
-      <admin>
-        <logsenabled>
-          <products>1</products>
-          <categories>1</categories>
-          <urlrewrites>1</urlrewrites>
-          <catalogsearch>1</catalogsearch>
-          <catalogratings>1</catalogratings>
-          <reviews>1</reviews>
-          <attributes>1</attributes>
-          <attributesets>1</attributesets>
-          <catalogtags>1</catalogtags>
-          <adminlogin>1</adminlogin>
-          <cmspages>1</cmspages>
-          <cmsblocks>1</cmsblocks>
-          <cmspolls>1</cmspolls>
-          <customers>1</customers>
-          <customerbalance>1</customerbalance>
-          <reports>1</reports>
-          <giftaccount>1</giftaccount>
-          <systemconfiguration>1</systemconfiguration>
-          <customergroups>1</customergroups>
-          <customerbalance>1</customerbalance>
-          <catalogevents>1</catalogevents>
-          <promocatalog>1</promocatalog>
-          <promoquote>1</promoquote>
-          <systemaccount>1</systemaccount>
-          <invitations>1</invitations>
-          <newslettertemplate>1</newslettertemplate>
-          <newsletterqueue>1</newsletterqueue>
-          <newslettersubscriber>1</newslettersubscriber>
-          <newsletterproblem>1</newsletterproblem>
-          <orders>1</orders>
-          <orderstatus>1</orderstatus>
-          <invoices>1</invoices>
-          <shipments>1</shipments>
-          <creditmemos>1</creditmemos>
-          <api>1</api>
-          <permissions>1</permissions>
-          <websites>1</websites>
-          <stores>1</stores>
-          <storeviews>1</storeviews>
-          <customertaxclasses>1</customertaxclasses>
-          <producttaxclasses>1</producttaxclasses>
-          <taxrules>1</taxrules>
-          <taxrates>1</taxrates>
-          
-        </logsenabled>
-      </admin>
-      <system>
-        <rotation>
-          <frequency>Daily</frequency>
-          <lifetime>60</lifetime>
-        </rotation>
-      </system>
+        <admin>
+            <logsenabled>
+                <products>1</products>
+                <categories>1</categories>
+                <urlrewrites>1</urlrewrites>
+                <catalogsearch>1</catalogsearch>
+                <catalogratings>1</catalogratings>
+                <reviews>1</reviews>
+                <attributes>1</attributes>
+                <attributesets>1</attributesets>
+                <catalogtags>1</catalogtags>
+                <adminlogin>1</adminlogin>
+                <cmspages>1</cmspages>
+                <cmsblocks>1</cmsblocks>
+                <cmspolls>1</cmspolls>
+                <customers>1</customers>
+                <customerbalance>1</customerbalance>
+                <reports>1</reports>
+                <giftaccount>1</giftaccount>
+                <systemconfiguration>1</systemconfiguration>
+                <customergroups>1</customergroups>
+                <customerbalance>1</customerbalance>
+                <catalogevents>1</catalogevents>
+                <promocatalog>1</promocatalog>
+                <promoquote>1</promoquote>
+                <systemaccount>1</systemaccount>
+                <invitations>1</invitations>
+                <newslettertemplate>1</newslettertemplate>
+                <newsletterqueue>1</newsletterqueue>
+                <newslettersubscriber>1</newslettersubscriber>
+                <newsletterproblem>1</newsletterproblem>
+                <orders>1</orders>
+                <orderstatus>1</orderstatus>
+                <invoices>1</invoices>
+                <shipments>1</shipments>
+                <creditmemos>1</creditmemos>
+                <api>1</api>
+                <permissions>1</permissions>
+                <websites>1</websites>
+                <stores>1</stores>
+                <storeviews>1</storeviews>
+                <customertaxclasses>1</customertaxclasses>
+                <producttaxclasses>1</producttaxclasses>
+                <taxrules>1</taxrules>
+                <taxrates>1</taxrates>
+                
+            </logsenabled>
+        </admin>
+        <system>
+            <rotation>
+                <frequency>Daily</frequency>
+                <lifetime>60</lifetime>
+            </rotation>
+        </system>
     </default>
 
     <crontab>
