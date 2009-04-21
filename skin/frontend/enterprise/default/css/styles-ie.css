@@ -38,6 +38,7 @@
 .giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
 .top-cart  { _width:10px; }
 .cart .crosssell { _height:400px; }
+#nav { _height:28px; }
 #nav li a { _margin-bottom:-2px; _position:relative; _z-index:2; }
 #nav li.active a {  }
 #nav li.active,

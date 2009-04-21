@@ -465,7 +465,7 @@ ul.disc li,
 
 /********** < Navigation */
 .nav-container { background:url(../images/bkg_nav.gif) 0 100% no-repeat; padding-bottom:3px; margin-bottom:-1px; position:relative; z-index:4; }
-#nav { background:#dedede url(../images/bkg_nav.gif) 0 0 no-repeat; text-align:left; /* height:31px; */ overflow:visible; padding:0 4px 0px; width:932px; }
+#nav { min-height:28px; background:#dedede url(../images/bkg_nav.gif) 0 0 no-repeat; text-align:left; /* height:31px; */ overflow:visible; padding:0 4px 0px; width:932px; }
 
 /* All Levels */
 #nav li { position:relative; z-index:4; }
@@ -603,10 +603,10 @@ ul.disc li,
 
 .events-slider .slider-panel { position: relative; overflow: hidden; width: 916px; background:#d0c2b6; z-index:1; }
 .events-slider ul.slider { width: 200000px; }
-.events-slider  ul.slider  li.slider-item { overflow:hidden; width:182px; height: 406px; border:1px solid #d0c2b6; margin-right:-1px; background:#f5f5f5 url(../images/bkg_block.gif) repeat-x 0 0; }
+.events-slider  ul.slider  li.slider-item { overflow:hidden; width:182px; height: 386px; border:1px solid #d0c2b6; margin-right:-1px; background:#f5f5f5 url(../images/bkg_block.gif) repeat-x 0 0; }
 .events-slider ul.slider  li.slider-item .category-name { font:bold 16px georgia, san-serif; color:#43322a; display:block; padding:80px 10px 0; }
-.events-slider ul.slider  li.slider-item  .category-show { width:182px; height:261px; background:#fff;  overflow:hidden; text-align:center; display:block; text-decoration:none; }
-.events-slider ul.slider  li.slider-item  .no-event { height:421px; }
+.events-slider ul.slider  li.slider-item  .category-show { width:182px; height:241px; background:#fff;  overflow:hidden; text-align:center; display:block; text-decoration:none; }
+.events-slider ul.slider  li.slider-item  .no-event { height:401px; }
 
 .events-slider .slide-button { background:url(../images/bkg_slide-button.gif) no-repeat 0 0; position:absolute; text-indent:-999em; cursor:pointer; top:105px; width:28px; height:28px; z-index:2; overflow:hidden; }
 .events-slider .backward { left:-19px; }
