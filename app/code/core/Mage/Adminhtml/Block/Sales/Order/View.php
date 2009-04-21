@@ -143,8 +143,14 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
 
     public function getHeaderText()
     {
-        $text = Mage::helper('sales')->__('Order # %s | Order Date %s',
+        if ($_extOrderId = $this->getOrder()->getExtOrderId()) {
+            $_extOrderId = '[' . $_extOrderId . '] ';
+        } else {
+            $_extOrderId = '';
+        }
+        $text = Mage::helper('sales')->__('Order # %s %s| Order Date %s',
             $this->getOrder()->getRealOrderId(),
+            $_extOrderId,
             $this->formatDate($this->getOrder()->getCreatedAtDate(), 'medium', true)
         );
         return $text;
