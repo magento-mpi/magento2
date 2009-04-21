@@ -172,7 +172,9 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
                     $cnt++;
                 }
             }
-            $html .= ' parent';
+            if ($cnt > 0) {
+                $html .= ' parent';
+            }
         }
         $html.= '">'."\n";
         $html.= '<a href="'.$this->getCategoryUrl($category).'"><span>'.$this->htmlEscape($category->getName()).'</span></a>'."\n";
