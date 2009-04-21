@@ -851,6 +851,7 @@ dd.even { background:#f6f6f6; }*/
 .products-grid .product-image { display:block; text-decoration:none !important; margin:0 auto 10px; position:relative; width:135px; }
 .product-image .sold-out { display:block; position:absolute; left:0; top:0; font-size:0; line-height:0; width:62px; height:62px; background:url(../images/bkg_sold-out.png) 0 0 no-repeat; }
 .products-grid .product-name { margin-bottom:7px; text-align:left;  }
+.products-grid .ratings { text-align:left; line-height:13px; }
 .products-grid .rating-links { display:block; padding:2px 0 0; clear:both; }
 .products-grid .price-box { margin:5px 0 10px; clear:both; text-align:left;  }
 /* Different Layout Rewrites */
@@ -1222,14 +1223,14 @@ button.btn-cart  span { }
 /* Block: Upsell */
 .product-view .up-sell { }
 .product-view .up-sell .block-title { } 
-.product-view .up-sell .products-grid { padding:30px 11px 10px 61px; margin:0; }
-.product-view .up-sell .products-grid li { width:176px; margin-right:40px; }
+.product-view .up-sell .products-grid { padding:30px 0 10px 61px; margin:0; }
+.product-view .up-sell .products-grid li { width:176px; margin-right:40px; display:inline; }
 
 
 /* Block: Tags */
 .product-view .tags {}
 .product-view .tags h4 { font-size:12px; font-weight:normal; }
-.product-view .tags .form-add-tags { padding:5px 0 0; }
+.product-view .tags .form-add-tags { padding:5px 0 0; height:9em; overflow:visible; }
 .product-view .tags .form-add-tags label { margin:0; font-weight:bold; display:block; }
 .product-view .tags .form-add-tags .input-box { margin:5px 0 9px; float:left; }
 .product-view .tags .form-add-tags input.input-text { width:300px; }
