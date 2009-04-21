@@ -81,8 +81,9 @@ select option { padding-right:10px; }
 select.multiselect option { padding:2px 2px; border-bottom:1px solid #bbb; }
 select.multiselect option:last-child { border-top:0; }
 textarea { overflow:auto; }
-/*input.radio,
-input.checkbox { margin-right:3px; }*/
+input.radio,
+input.checkbox { margin-right:3px; font-size:11px!important; margin-top:2px; vertical-align:top; }
+input.radio { font-size:10px!important; }
 input.qty { width:2.5em !important; }
 button.button::-moz-focus-inner { padding:0; border:0; } /* FF Fix */
 button.button { -webkit-border-fit:lines; } /* <- Safari & Google Chrome Fix */
@@ -164,10 +165,6 @@ p.required { margin:0; padding:5px 0 0 240px; font-size:11px; color:#f02800; }
 .form-list textarea { float:left; width:250px; vertical-align:top; }
 .form-list textarea { width:374px; height:13em; }
 .form-list select { float:left; width:256px; vertical-align:top; }
-.form-list input.radio,
-.form-list input.checkbox { margin-top:2px; vertical-align:top; }
-input.checkbox,
-input.radio { font-size:11px!important; margin-top:2px; vertical-align:top; }
 .form-list p { margin:0; padding:0 0 0 240px; }
 ul.add-row,
 .form-list li.add-row { background:url(../images/bkg_dots.gif) repeat-x 0 0; margin-top:15px; }
@@ -176,18 +173,17 @@ ul.add-row .btn-remove,
 .form-list .range input.input-text { float:none; width:64px; vertical-align:middle; }
 
 .form-list .add-field .input-box { margin-left:240px; }
-.form-list .form-element { position:relative; z-index:1; } /* row with checkbox or radio button */
+.form-list .form-element { position:relative; vertical-align:top; z-index:1; } /* row with checkbox or radio button */
 .form-list .form-element label { line-height:16px; }
-.form-list .form-element .input-box { position:absolute; left:0px; margin-left:240px; padding-top:1px; }
-.form-list .form-element .radio { /* vertical-align:middle; */ }
+.form-list .form-element .input-box { position:absolute; left:0px; margin-left:240px; line-height:16px; padding-top:1px; }
+.form-list .form-element input.radio { margin-top:3px; }
 
 .form-alt label { float:none; display:inline; width:auto; }
 .form-alt li { margin:0 0 5px; line-height:16px; }
 .form-alt select { width:496px; }
 .form-alt .input-box { width:496px; margin-top:5px; padding-bottom:11px; }
 .form-alt .input-text { width:480px; }
-.form-alt input.radio,
-.form-alt input.checkbox { margin-top:2px; vertical-align:top; }
+
 
 /* Date Of Birth */
 .form-list .customer-dob label { float:none; width:auto; padding:0; font-size:11px; font-weight:normal; color:#777; }
@@ -1536,9 +1532,10 @@ button.btn-cart  span { }
 .multiple-checkout .col3-set address { padding:10px; clear:both; }
 .multiple-checkout .col3-set,
 .multiple-checkout .col2-set { margin:0 0 15px; }
-.multiple-checkout .buttons-set { padding:15px 0; clear:both; }
+.multiple-checkout .buttons-set { padding:15px 0; clear:both; width:auto; }
+.multiple-checkout .buttons-set .button { float:right; }
 .multiple-checkout .tool-tip { top:50%; margin-top:-120px; right:10px; }
-.multiple-checkout .grand-total { font-weight:normal; font-size:18px; color:#cd3800; display:block; margin:10px 0 15px; }
+.multiple-checkout .grand-total { font-weight:normal; font-size:18px; color:#cd3800; text-align:right; display:block; margin:10px 0 15px; }
 .multiple-checkout .grand-total .price-label { font-weight:normal; }
 .multiple-checkout .grand-total .price { font-weight:bold; }
 
@@ -1554,10 +1551,10 @@ button.btn-cart  span { }
 .sp-methods input.cvv { width:3em !important; }
 .sp-methods .input-box { line-height:21px; }
 .sp-methods .radio,
-.sp-methods .checkbox { vertical-align:top; margin-top:2px; font-size:10px!important; }
+.sp-methods .checkbox {}
 .sp-methods .v-fix .validation-advice { margin-right:-250px; position:relative; z-index:1; width:250px; }
 
-.please-wait { float:right; position:absolute; top:50%; left:50%; margin:-34px 0 0 -90px; display:block; border:5px solid #f3b66f; font-size:12px; color:#f18200; font-weight:bold; background:#fff; padding:20px; white-space:nowrap; }
+.please-wait { float:right; z-index:99; position:absolute; top:50%; left:50%; margin:-34px 0 0 -90px; display:block; border:5px solid #f3b66f; font-size:12px; color:#f18200; font-weight:bold; background:#fff; padding:20px; white-space:nowrap; }
 .cvv-what-is-this { cursor:help; margin-left:5px; }
 
 /* Tooltip */

@@ -30,6 +30,7 @@
 .main { _height:350px; }
 .restriction-index-stub .main { _height:auto; }
 .opc .step { _height:300px; }
+.account-login { _height:350px; }
 .validation-advice { _height:13px; _display:inline; }
 .cart .cart-collaterals { _height:413px; }
 .opc li.section { vertical-align:top; }
@@ -63,7 +64,9 @@
 #nav li.over li ul.shown-sub { left:100px; }
 /********** < Navigation styles */
 
+.please-wait { filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80); }
 
+.form-list .form-element .input-box { padding-top:2px; }
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
 button.button span { position:relative; }
