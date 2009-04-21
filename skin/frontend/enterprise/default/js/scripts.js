@@ -30,6 +30,8 @@ Validation.defaultOptions.addClassNameToContainer = true;
 if (!window.Enterprise) {
     window.Enterprise = {};
 }
+Enterprise.templatesPattern =  /(^|.|\r|\n)(\{\{(.*?)\}\})/;
+
 Enterprise.TopCart= {
     initialize: function (container) {
         this.container = $(container);
@@ -103,12 +105,75 @@ Enterprise.TopCart= {
 
 
 Enterprise.Bundle = {
+     oldReloadPrice: false,
      initialize: function () {
         this.slider = $('bundleProduct');
      },
+     swapReloadPrice: function () {
+         Enterprise.Bundle.oldReloadPrice = Product.Bundle.prototype.reloadPrice;
+         Product.Bundle.prototype.reloadPrice = Enterprise.Bundle.reloadPrice;
+         Product.Bundle.prototype.selection = Enterprise.Bundle.selection;         
+     },
+     reloadPrice: function () {
+         var result = Enterprise.Bundle.oldReloadPrice.bind(this)();
+         var priceContainer, duplicateContainer = null
+         if (priceContainer = $('bundle-product-wrapper').down('.price-box .price-as-configured')) {
+            if (duplicateContainer = $('bundle-product-wrapper').down('.duplicate-price-box .price-as-configured')) {
+                duplicateContainer.down('.price').update(
+                    priceContainer.down('.price').innerHTML
+                );
+            }
+         }
+         if (!this.summaryTemplate && $('bundle-summary-template')) {
+             this.summaryTemplate = new Template($('bundle-summary-template').innerHTML, Enterprise.templatesPattern);
+             this.optionTemplate = new Template($('bundle-summary-option-template').innerHTML, Enterprise.templatesPattern);
+             this.optionMultiTemplate = new Template($('bundle-summary-option-multi-template').innerHTML, Enterprise.templatesPattern);
+         }
+         
+         if (this.summaryTemplate && $('bundle-summary')) {
+             var summaryHTML = '';
+             for (var option in this.config.selected) {
+                if (this.config.options[option]) {
+                    var optionHTML = '';
+                    for (var i = 0, l = this.config.selected[option].length; i < l; i ++) {
+                        var selection = this.selection(option, this.config.selected[option][i]);
+                        if (selection && this.config.options[option].isMulti) {
+                            optionHTML += this.optionMultiTemplate.evaluate(selection);
+                        } else if (selection) {
+                            optionHTML += this.optionTemplate.evaluate(selection);
+                        }
+                    }
+                    
+                    if (optionHTML.length > 0) {
+                        summaryHTML = this.summaryTemplate.evaluate({label:this.config.options[option].title.escapeHTML(), options: optionHTML}) + summaryHTML;
+                    }
+                }
+             }
+             
+             $('bundle-summary').update(summaryHTML)
+         }
+         return result;
+     },
+     selection: function(optionId, selectionId) {
+        if (selectionId == '' || selectionId == 'none') {
+            return false;
+        }        
+        var qty = null;
+        if (this.config.options[optionId].selections[selectionId].customQty == 1 && !this.config['options'][optionId].isMulti) {
+            if ($('bundle-option-' + optionId + '-qty-input')) {
+                qty = $('bundle-option-' + optionId + '-qty-input').value;
+            } else {
+                qty = 1;
+            }
+        } else {
+            qty = this.config.options[optionId].selections[selectionId].qty;
+        }
+        
+        return {qty: qty, name: this.config.options[optionId].selections[selectionId].name.escapeHTML()};
+     },
      start: function () {
         if (!$('bundle-product-wrapper').hasClassName('moving-now')) {
-        new Effect.Move(this.slider, { 
+            new Effect.Move(this.slider, { 
                 x: -939, y: 0, mode: 'relative', duration: 1.5,
                 beforeStart: function (effect) {
                     $('bundle-product-wrapper').setStyle({height: $('productView').getHeight() + 'px'});
@@ -122,7 +187,7 @@ Enterprise.Bundle = {
                     $('bundle-product-wrapper').removeClassName('moving-now');
                 }
             });
-        }
+         }
      },
      end: function () {
         if (!$('bundle-product-wrapper').hasClassName('moving-now')) {
@@ -386,11 +451,11 @@ Object.extend(Enterprise.Slider.prototype, {
     }
 });
 
-/* Enterprise.PopUpMenu = {
+Enterprise.PopUpMenu = {
     currentPopUp: null, 
     documentHandlerInitialized: false,
     popUpZIndex: 994, 
-    hideDelay: 1500,
+    hideDelay: 2000,
     hideOnClick: true,
     hideInterval: null,
     //
@@ -398,7 +463,7 @@ Object.extend(Enterprise.Slider.prototype, {
         if (!this.documentHandlerInitialized) {
             this.documentHandlerInitialized = true;
             Event.observe(
-                document, 
+                document.body, 
                 'click', 
                 this.handleDocumentClick.bindAsEventListener(this)
             );
@@ -407,7 +472,7 @@ Object.extend(Enterprise.Slider.prototype, {
     handleDocumentClick: function (evt) {
         if (this.currentPopUp !== null) {
             var element = Event.element(evt);
-            if (!this.currentPopUp.onlyShowed && (!element.descendantOf(this.currentPopUp) || this.hideOnClick)) {
+            if (!this.currentPopUp.onlyShowed && this.hideOnClick) {
                 this.hide();
             } else {
                 this.currentPopUp.onlyShowed = false;
@@ -417,30 +482,27 @@ Object.extend(Enterprise.Slider.prototype, {
     handlePopUpOver: function (evt) {
         if (this.currentPopUp !== null) {
             this.currentPopUp.removeClassName('faded');
-            if (this.hideTimeout !== null) {
-                clearTimeout(this.hideTimeout);
-            }
+            this.resetTimeout(0);
         }
     },
     handlePopUpOut: function (evt) {
         if (this.currentPopUp !== null) {
             this.currentPopUp.addClassName('faded');
-            if (this.hideTimeout === null) {
-                this.hideTimeout = setTimeout(
-                    this.hide.bind(this), 
-                    this.hideDelay
-                );
-            }
+            this.resetTimeout(1);
         }
     },
     show: function (trigger) {
-        this.initializeDocumentHandler();
-        if (this.currentPopUp !== null) {
-            this.hide(true);
+        this.initializeDocumentHandler();        
+        
+        var container = $(trigger).up('.switch-wrapper');
+        if (!$('popId-' + container.id)) {
+            return;
         }
         
-        var container = $(trigger).up('*[id]');
-        if (!$('popId-' + container.id)) {
+        if (this.currentPopUp !== null && $('popId-' + container.id) !== this.currentPopUp) {
+            this.hide(true);
+        } else if (this.currentPopUp !== null && this.currentPopUp === $('popId-' + container.id)) {
+            this.hide();
             return;
         }
         
@@ -450,16 +512,15 @@ Object.extend(Enterprise.Slider.prototype, {
         this.currentPopUp.container.style.zIndex = this.popUpZIndex;
         new Effect.Appear(this.currentPopUp, { duration:0.3 });
         
-        this.hideTimeout = setTimeout(
-            this.hide.bind(this), 
-            this.hideDelay * 2
-        );
+        
         if (!this.currentPopUp.isHandled) {
             this.currentPopUp.observe('mouseover', this.handlePopUpOver.bindAsEventListener(this));
             this.currentPopUp.observe('mouseout', this.handlePopUpOut.bindAsEventListener(this));
             this.currentPopUp.isHandled = true;
         }
         this.currentPopUp.onlyShowed = true;
+        this.currentPopUp.container.down('.switcher').addClassName('list-opened');
+        this.resetTimeout(2);
     },
     hide: function () {
         if (this.currentPopUp !== null) {
@@ -469,10 +530,21 @@ Object.extend(Enterprise.Slider.prototype, {
                 this.currentPopUp.hide();
             }
             this.currentPopUp.container.style.zIndex = this.currentPopUp.container.oldZIndex;
-            if (this.hideTimeout !== null) {
-                this.hideTimeout = null;
-            }
+            this.resetTimeout(0);
+            this.currentPopUp.container.down('.switcher').removeClassName('list-opened');
             this.currentPopUp = null;
+        }
+    },
+    resetTimeout: function (delay) {
+        if (this.hideTimeout !== null) {
+            clearTimeout(this.hideTimeout);
+            this.hideTimeout = null;
+        }
+        if (delay) {
+            this.hideTimeout = setTimeout(
+                this.hide.bind(this), 
+                this.hideDelay * delay
+            );
         }
     }
 };
@@ -480,8 +552,8 @@ Object.extend(Enterprise.Slider.prototype, {
 
 function popUpMenu(element) {
    Enterprise.PopUpMenu.show(element);
-} */
-
+} 
+/*
 function popUpMenu(element,trigger) {
         var iDelay = 2000;
         var new_popup = 0;
@@ -538,4 +610,4 @@ function popUpMenu(element,trigger) {
             el.id = sNativeId;
             if (tId) {clearTimeout(tId);}
         }
-}
+} */

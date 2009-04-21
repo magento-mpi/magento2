@@ -197,8 +197,10 @@ class Enterprise_CatalogEvent_Model_Observer
             if ($product->getEvent()->getStatus() != Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
                 if (!$quoteItem->getId()) {
                     $quoteItem->setIsDeleted(true);
+                    if ($quoteItem->getParentItem()) {
+                        $quoteItem->getParentItem()->setIsDeleted(true);
+                    }
                 } else {
-                    exit('fuck');
                     return;
                 }
                 Mage::throwException(
@@ -229,6 +231,7 @@ class Enterprise_CatalogEvent_Model_Observer
             $item->getQuote()->removeItem($item->getId());
             if ($item->getParentItem()) {
                 $parentItem = $item->getParentItem();
+                $item->getQuote()->removeItem($parentItem);
                 $item->getQuote()->setHasError(true)
                         ->addMessage(
                             Mage::helper('enterprise_catalogevent')->__('Sale was closed for product "%s".', $parentItem->getName())

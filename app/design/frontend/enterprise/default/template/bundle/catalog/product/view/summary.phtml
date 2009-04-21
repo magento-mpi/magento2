@@ -39,23 +39,23 @@
             <?php else: ?>
                 <p class="availability out-of-stock"><?php echo $this->__('Availability') ?>: <span><?php echo $this->__('Out of stock') ?></span></p>
             <?php endif; ?>
-            <?php /* --------- hardcoded part ---------- */ ?>
-            <div class="price-box">
+
+            <div class="duplicate-price-box">
                 <p class="price-as-configured">
                     <span class="price-label"><?php echo $this->__('Configured:'); ?></span>
-                    <span class="price">$2,748.98</span>
+                    <span class="price"></span>
                 </p>
             </div>
         </div>
     </div>
     <div class="block-content summary">
         <h4><?php echo $this->__('Summary'); ?></h4>
-        <?php /* --------- hardcoded part ---------- */ ?>
-        <ul>
-            <li><strong class="label">Case:</strong> NZXT Lexa Silver Aluminum ATX Mid-Tower Case (Default)</li>
-            <li><strong class="label">CPU:</strong> Intel Core 2 Extreme QX9775 3.20GHz Reta</li>
-            <li><strong class="label">Hard Drive:</strong> Western digital - 1TB HD</li>
-            <li><strong class="label">Peripheral:</strong> Logitech diNovo Edge </li>
+        <ul class="no-display" id="bundle-summary-template">
+           <li><strong class="label">{{label}}:</strong>{{options}}</li>
+        </ul>
+        <div class="no-display" id="bundle-summary-option-template"> <?php echo $this->__('%s x %s', '{{qty}}', '{{name}}') ?></div>
+        <div class="no-display" id="bundle-summary-option-multi-template"><div><?php echo $this->__('%s x %s', '{{qty}}', '{{name}}') ?></div></div>
+        <ul id="bundle-summary">
         </ul>
         <?php echo $this->getChildHtml('', true, true);?>
     </div>
