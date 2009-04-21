@@ -100,7 +100,11 @@
                        field.value = config[params[i]];
                    } else {
                        for (var j=0, ln = field.options.length; j < ln; j++) {
-                           if (field.options[j].value == config[params[i]] && field.options[j].value.length == config[params[i]].length) { 
+                           if (config[params[i]] == null) {
+                               config[params[i]] = '-1';
+                           }
+                           if (field.options[j].value == config[params[i]] && 
+                               field.options[j].value.length == config[params[i]].length) {
                                field.value = field.options[j].value;
                            }
                        }
@@ -205,7 +209,12 @@
         var fields = row.select('select.is-unique', 'input.is-unique');
         var key = '';
         for (var i=0, l=fields.length; i < l; i ++) {
+            if (fields[i].value === '') {
+               return '';
+            }
+            
             key += '_' + fields[i].value;
+            
         }
         
         return key;

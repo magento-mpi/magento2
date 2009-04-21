@@ -41,9 +41,9 @@
         <thead>
             <tr>
                 <?php if ($this->canEditWebsites()): ?>
-                <th><?php echo $this->helper('enterprise_catalogpermissions')->__('Website');?></th>
+                <th><?php echo $this->helper('enterprise_catalogpermissions')->__('Website');?> <span class="required">*</span></th>
                 <?php endif; ?>
-                <th><?php echo $this->helper('enterprise_catalogpermissions')->__('Customer Group');?></th>
+                <th><?php echo $this->helper('enterprise_catalogpermissions')->__('Customer Group');?> <span class="required">*</span></th>
                 <?php foreach ($this->getGrants() as $_label): ?>
                 <th><?php echo $_label ?></th>
                 <?php endforeach; ?>
@@ -54,16 +54,18 @@
         <tbody>
             <tr>
                  <?php if ($this->canEditWebsites()): ?>
-                 <td><select class="<?php echo $this->getFieldClassName('website_id'); ?> select is-unique" name="general[permissions][{{index}}][website_id]">
-                    <option value=""><?php echo $this->helper('enterprise_catalogpermissions')->__('All Websites');?></option>
+                 <td><select class="<?php echo $this->getFieldClassName('website_id'); ?> select is-unique required-entry" name="general[permissions][{{index}}][website_id]">
+                    <option value=""><?php echo $this->helper('enterprise_catalogpermissions')->__('-- Please Select --');?></option>
+                    <option value="-1"><?php echo $this->helper('enterprise_catalogpermissions')->__('All Websites');?></option>
                     <?php foreach ($this->getWebsiteCollection() as $_website): ?>
                         <option value="<?php echo $_website->getId() ?>"><?php echo $this->htmlEscape($_website->getName()) ?></option>
                     <?php endforeach; ?>
                  </select></td>
                  <?php endif; ?>
                  <td>
-                     <select class="<?php echo $this->getFieldClassName('customer_group_id'); ?> select is-unique" name="general[permissions][{{index}}][customer_group_id]">
-                        <option value=""><?php echo $this->helper('enterprise_catalogpermissions')->__('All Customer Groups');?></option>
+                     <select class="<?php echo $this->getFieldClassName('customer_group_id'); ?> select is-unique required-entry" name="general[permissions][{{index}}][customer_group_id]">
+                        <option value=""><?php echo $this->helper('enterprise_catalogpermissions')->__('-- Please Select --');?></option>
+                        <option value="-1"><?php echo $this->helper('enterprise_catalogpermissions')->__('All Customer Groups');?></option>
                         <?php foreach ($this->getCustomerGroupCollection() as $_customerGroup): ?>
                             <option value="<?php echo $_customerGroup->getId() ?>"><?php echo $this->htmlEscape($_customerGroup->getCode()) ?></option>
                         <?php endforeach; ?>

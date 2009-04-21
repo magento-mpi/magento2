@@ -116,7 +116,7 @@
                     <?php if($_item->isSaleable()): ?>
                         <p><button type="button" class="button btn-cart" onclick="setPLocation('<?php echo $this->helper('catalog/product_compare')->getAddToCartUrl($_item) ?>', true)"><span><?php echo $this->__('Add to Cart') ?></span></button></p>
                     <?php else: ?>
-                        <?php if ($_product->getIsInStock()): ?>
+                        <?php if ($_item->getIsSalable()): ?>
                             <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
                         <?php else: ?>
                             <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>

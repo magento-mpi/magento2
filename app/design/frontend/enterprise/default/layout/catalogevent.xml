@@ -57,11 +57,4 @@
         </reference>
     </review_product_view>
     
-    <cms_index_index>
-        <reference name="content">
-            <block  after="-" type="cms/block" name="home_page_catalogevent_callout">
-                <action method="setBlockId"><identifier>catalog_events_lister</identifier></action>
-            </block>
-        </reference>
-    </cms_index_index>
 </layout>

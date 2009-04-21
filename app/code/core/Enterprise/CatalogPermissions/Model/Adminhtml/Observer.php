@@ -32,6 +32,8 @@
  */
 class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
 {
+    const FORM_SELECT_ALL_VALUES = -1;
+
     protected $_indexQueue = array();
     protected $_indexProductQueue = array();
 
@@ -65,11 +67,11 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
                     continue;
                 }
 
-                if (strlen($data['website_id']) == 0) {
+                if ($data['website_id'] == self::FORM_SELECT_ALL_VALUES) {
                     $data['website_id'] = null;
                 }
 
-                if (strlen($data['customer_group_id']) == 0) {
+                if ($data['customer_group_id'] == self::FORM_SELECT_ALL_VALUES) {
                     $data['customer_group_id'] = null;
                 }
 

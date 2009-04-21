@@ -268,7 +268,13 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     protected function _getProductEvent($product)
     {
+        if (!$product instanceof Mage_Catalog_Model_Product) {
+            return false;
+        }
+
         $categoryIds = $product->getCategoryIds();
+
+
         $event = false;
         $noOpenEvent = false;
         $eventCount = 0;
