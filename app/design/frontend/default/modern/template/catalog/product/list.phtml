@@ -92,7 +92,7 @@
     <table cellspacing="0" class="generic-product-grid" id="product-list-table">
     <?php $_columnCount = $this->getColumnCount(); ?>
     <?php $i=0; foreach ($_productCollection as $_product): ?>
-    <?php if ($i++%$_rowSize==0): ?>
+    <?php if ($i++%$_columnCount==0): ?>
     <tr>
     <?php endif ?>
         <td>
