@@ -30,6 +30,13 @@
 class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
 {
     /**
+     * Action list where need check enabled cookie
+     *
+     * @var array
+     */
+    protected $_cookieCheckActions = array('add');
+
+    /**
      * Retrieve shopping cart model object
      *
      * @return Mage_Checkout_Model_Cart

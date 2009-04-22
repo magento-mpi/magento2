@@ -42,6 +42,7 @@ abstract class Mage_Core_Controller_Varien_Action
     const FLAG_NO_POST_DISPATCH         = 'no-postDispatch';
     const FLAG_NO_START_SESSION         = 'no-startSession';
     const FLAG_NO_DISPATCH_BLOCK_EVENT  = 'no-beforeGenerateLayoutBlocksDispatch';
+    const FLAG_NO_COOKIES_REDIRECT      = 'no-cookies-redirect';
 
     const PARAM_NAME_SUCCESS_URL        = 'success_url';
     const PARAM_NAME_ERROR_URL          = 'error_url';
@@ -80,6 +81,13 @@ abstract class Mage_Core_Controller_Varien_Action
      * @var array
      */
     protected $_flags = array();
+
+    /**
+     * Action list where need check enabled cookie
+     *
+     * @var array
+     */
+    protected $_cookieCheckActions = array();
 
     /**
      * Constructor
@@ -398,10 +406,20 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
-            Mage::getSingleton('core/session', array('name'=>$this->getLayout()->getArea()))->start();
+            $namespace   = $this->getLayout()->getArea();
+            $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions);
+            if ($checkCookie && !Mage::getSingleton('core/cookie')->get($namespace)) {
+                $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
+            }
+            Mage::getSingleton('core/session', array('name' => $namespace))->start();
         }
 
         Mage::app()->loadArea($this->getLayout()->getArea());
+
+        if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)) {
+            $this->_forward('noCookies', 'index', 'core');
+            return;
+        }
 
         if ($this->getFlag('', self::FLAG_NO_PRE_DISPATCH)) {
             return;
@@ -461,6 +479,28 @@ abstract class Mage_Core_Controller_Varien_Action
         }
     }
 
+    public function noCookiesAction()
+    {
+        $redirect = new Varien_Object();
+        Mage::dispatchEvent('controller_action_nocookies', array(
+            'action'    => $this,
+            'redirect'  => $redirect
+        ));
+
+        if ($url = $redirect->getRedirectUrl()) {
+            $this->_redirectUrl($url);
+        }
+        elseif ($redirect->getRedirect()) {
+            $this->_redirect($redirect->getPath(), $redirect->getArguments());
+        }
+        else {
+            $this->loadLayout(array('default', 'noCookie'));
+            $this->renderLayout();
+        }
+
+        $this->getRequest()->setDispatched(true);
+    }
+
     protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
         $request = $this->getRequest();
@@ -479,7 +519,7 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         $request->setActionName($action)
-                ->setDispatched(false);
+            ->setDispatched(false);
     }
 
     protected function _initLayoutMessages($messagesStorage)

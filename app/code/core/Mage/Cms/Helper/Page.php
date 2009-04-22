@@ -20,17 +20,24 @@
  *
  * @category   Mage
  * @package    Mage_Cms
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Cms page helper
+ * CMS Page Helper
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Cms
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_NO_ROUTE_PAGE        = 'web/default/cms_no_route';
+    const XML_PATH_NO_COOKIES_PAGE      = 'web/default/cms_no_cookies';
+    const XML_PATH_HOME_PAGE            = 'web/default/cms_home_page';
+
     /**
     * Renders CMS page
     *
@@ -40,7 +47,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     * @param integer $pageId
     * @return boolean
     */
-    public function renderPage(Mage_Core_Controller_Front_Action $action, $pageId=null)
+    public function renderPage(Mage_Core_Controller_Front_Action $action, $pageId = null)
     {
         $page = Mage::getSingleton('cms/page');
         if (!is_null($pageId) && $pageId!==$page->getId()) {
@@ -101,5 +108,28 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
         $action->renderLayout();
 
         return true;
+    }
+
+    /**
+     * Retrieve page direct URL
+     *
+     * @param string $pageId
+     * @return string
+     */
+    public function getPageUrl($pageId = null)
+    {
+        $page = Mage::getSingleton('cms/page');
+        if (!is_null($pageId) && $pageId !== $page->getId()) {
+            $page->setStoreId(Mage::app()->getStore()->getId());
+            if (!$page->load($pageId)) {
+                return null;
+            }
+        }
+
+        if (!$page->getId()) {
+            return null;
+        }
+
+        return Mage::getUrl(null, array('_direct' => $page->getIdentifier()));
     }
 }
