@@ -41,12 +41,11 @@
 <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <div class="product-view">
     <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+        <fieldset class="no-display">
+            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </fieldset>    
         <div class="product-essential">
-
-                <fieldset class="no-display">
-                    <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
-                    <input type="hidden" name="related_product" id="related-products-field" value="" />
-                </fieldset>
 
                 <div class="product-img-box">
                     <?php echo $this->getChildHtml('media') ?>
@@ -107,12 +106,6 @@
                     <div class="tab-content"><?php echo $_additional ?></div>
                 </dd>
             <?php endif;?>
-            <?php if ($this->getChildHtml('productTagList')): ?>
-                <dt class="tab"><span><?php echo $this->__('Tags') ?></span></dt>
-                <dd class="tab-container">
-                    <div class="tab-content"><?php echo $this->getChildHtml('productTagList') ?></div>
-                </dd>
-            <?php endif;?>
             </dl>
             <?php if ($_description || $_additional || $this->getChildHtml('productTagList')): ?>
                 <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
@@ -130,6 +123,7 @@
     </form>
         <?php echo $this->getChildHtml('relatedProducts') ?>  
         <?php echo $this->getChildHtml('upsell_products') ?>
+        <?php echo $this->getChildHtml('productTagList') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>        
 </div>
 

@@ -97,12 +97,6 @@
                         <div class="tab-content"><?php echo $_additional ?></div>
                     </dd>
                 <?php endif;?>
-                <?php if ($this->getChildHtml('productTagList')): ?>
-                    <dt class="tab"><span><?php echo $this->__('Tags') ?></span></dt>
-                    <dd class="tab-container">
-                        <div class="tab-content"><?php echo $this->getChildHtml('productTagList') ?></div>
-                    </dd>
-                <?php endif;?>
                 </dl>
                 <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
                 <?php if ($this->canEmailToFriend()): ?>
@@ -114,7 +108,8 @@
                 <?php echo $this->getChildHtml('relatedProducts') ?>  
             </div>
             <?php echo $this->getChildHtml('upsell_products') ?>
-            <?php echo $this->getChildHtml('product_additional_data') ?>        
+            <?php echo $this->getChildHtml('productTagList') ?>            
+            <?php echo $this->getChildHtml('product_additional_data') ?> 
         </div>
         <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
         <fieldset class="no-display">

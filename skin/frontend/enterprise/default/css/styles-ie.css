@@ -26,6 +26,7 @@
 /* IE 6 only */
 .col-main .page-title { _position:relative; _z-index:1; }
 .switch ul .current { _padding-right:4.8em;}
+.block-cart .block-title  { _width:242px; }
 .sidebar,
 .main { _height:350px; }
 .restriction-index-stub .main { _height:auto; }
@@ -34,7 +35,7 @@
 .validation-advice { _height:13px; _display:inline; }
 .cart .cart-collaterals { _height:413px; }
 .opc li.section { vertical-align:top; }
-
+.product-view .tags .form-add-tags .input-box { margin-top:-1px; }
 .giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
 .top-cart  { _width:10px; }
 .cart .crosssell { _height:400px; }
@@ -96,11 +97,12 @@ button.btn-cart span { background-position:100% 0; }
 * html .switcher-language {zoom:1;}
 
 /**/
-#bundleProduct { position:relative; z-index:1; }
+#bundleProduct,
 .table-caption { position:relative; z-index:1; }
 .data-table { border-collapse:collapse; }
 .sidebar .block-account li.current { position:relative; z-index:1; zoom:1; }
 /* Clears and hasLayout fixes */
+.checkout-onepage-index .col-main .callout,
 .events-slider,
 .product-image-popup .nav,
 .multiple-checkout,
