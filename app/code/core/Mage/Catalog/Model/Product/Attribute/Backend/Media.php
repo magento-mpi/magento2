@@ -490,16 +490,23 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
      */
     protected function _copyImage($file)
     {
-        $ioObject = new Varien_Io_File();
-        $destDirectory = dirname($this->_getConfig()->getMediaPath($file));
-        $ioObject->open(array('path'=>$destDirectory));
-        $destFile = dirname($file) . $ioObject->dirsep()
-                  . Varien_File_Uploader::getNewFileName($this->_getConfig()->getMediaPath($file));
+        try {
+            $ioObject = new Varien_Io_File();
+            $destDirectory = dirname($this->_getConfig()->getMediaPath($file));
+            $ioObject->open(array('path'=>$destDirectory));
+            $destFile = dirname($file) . $ioObject->dirsep()
+                      . Varien_File_Uploader::getNewFileName($this->_getConfig()->getMediaPath($file));
 
-        $ioObject->cp(
-            $this->_getConfig()->getMediaPath($file),
-            $this->_getConfig()->getMediaPath($destFile)
-        );
+            $ioObject->cp(
+                $this->_getConfig()->getMediaPath($file),
+                $this->_getConfig()->getMediaPath($destFile)
+            );
+        } catch (Exception $e) {
+            Mage::throwException(
+                Mage::helper('catalog')->__('Failed to copy file %s. Please, delete media with non-existing images and try again.',
+                    $this->_getConfig()->getMediaPath($file))
+            );
+        }
 
         return str_replace($ioObject->dirsep(), '/', $destFile);
     }
