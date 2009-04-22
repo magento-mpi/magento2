@@ -98,11 +98,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected $_addTaxPercents = false;
 
     /**
-     * Category index is a joined flag
+     * Category Product index filters
      *
-     * @var bool
+     * @var array
      */
-    protected $_categoryIndexJoined = false;
+    protected $_categoryProductIndexFilters = array();
 
     /**
      * Category product count select
@@ -486,50 +486,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      * Specify category filter for product collection
      *
      * @param   Mage_Catalog_Model_Category $category
-     * @param   bool $renderAlias instruction for build category table alias based on category id
      * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
-    public function addCategoryFilter(Mage_Catalog_Model_Category $category, $renderAlias=false)
+    public function addCategoryFilter(Mage_Catalog_Model_Category $category)
     {
-        if ($renderAlias) {
-            $alias = 'cat_index_'.$category->getId();
+        $this->_categoryProductIndexFilters['category_id'] = $category->getId();
+        if ($category->getIsAnchor()) {
+            unset($this->_categoryProductIndexFilters['category_is_parent']);
         }
         else {
-            $alias = 'cat_index';
+            $this->_categoryProductIndexFilters['category_is_parent'] = 1;
         }
-
-        $categoryCondition = $this->getConnection()->quoteInto(
-            $alias.'.product_id=e.entity_id AND '.$alias.'.store_id=? AND ',
-            $this->getStoreId()
-        );
-
-        if ($category->getIsAnchor()) {
-            $categoryCondition.= $this->getConnection()->quoteInto(
-                $alias.'.category_id=?',
-                $category->getId()
-            );
-        } else {
-            $categoryCondition.= $this->getConnection()->quoteInto(
-                $alias.'.category_id=? AND '.$alias.'.is_parent=1',
-                $category->getId()
-            );
-        }
-
-
-        $this->getSelect()->joinInner(
-            array($alias => $this->getTable('catalog/category_product_index')),
-            $categoryCondition,
-            array('position'=>'position')
-        );
-        $this->_categoryIndexJoined = true;
-        $this->_joinFields['position'] = array('table'=>$alias, 'field'=>'position' );
-//        $this->joinField(
-//            $alias,
-//            'catalog/category_product_index',
-//            'position',
-//            'product_id=entity_id',
-//            $categoryCondition
-//        );
+        $this->_applyCategoryProductIndexFilters();
         return $this;
     }
 
@@ -1132,19 +1100,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     public function setVisibility($visibility)
     {
-        if ($this->_categoryIndexJoined) {
-            $this->getSelect()->where('cat_index.visibility IN (?)', $visibility);
-        } else {
-            $condition = $this->getConnection()->quoteInto('enabled_index.visibility IN (?)', $visibility);
-            $storeCondition = $this->getConnection()->quoteInto('enabled_index.store_id=?', $this->getStoreId());
-            $this->getSelect()->join(
-                array('enabled_index'=>$this->getTable('catalog/product_enabled_index')),
-                'enabled_index.product_id=e.entity_id AND '.$storeCondition.' AND '.$condition,
-                array()
-            );
-        }
+        $this->_categoryProductIndexFilters['visibility'] = $visibility;
+        $this->_applyCategoryProductIndexFilters();
 
-        Mage::dispatchEvent('catalog_product_collection_set_visibility_after', array('collection' => $this));
+        Mage::dispatchEvent('catalog_product_collection_set_visibility_after', array(
+            'collection' => $this
+        ));
 
         return $this;
     }
@@ -1195,7 +1156,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 if ($attribute == 'position') {
                     $this->getSelect()
                         ->order("{$attribute} {$dir}")
-                        ->order("{$this->getEntity()->getIdFieldName()} {$dir}");
+                        ->order("cat_index.product_id {$dir}");
                 }
                 elseif ($sortColumn = $this->getEntity()->getAttributeSortColumn($attribute)) {
                     $this->getSelect()->order("e.{$sortColumn} {$dir}");
@@ -1219,12 +1180,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function addAttributeToSort($attribute, $dir='asc')
     {
         if ($this->isEnabledFlat()) {
-            if ($attribute == 'position') {
-                $column = $attribute;
-            }
-            else {
-                $column = $this->getEntity()->getAttributeSortColumn($attribute);
-            }
+            $column = $this->getEntity()->getAttributeSortColumn($attribute);
 
             if ($column) {
                 $this->getSelect()->order("{$column} {$dir}");
@@ -1236,7 +1192,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($attribute == 'position') {
             $this->getSelect()
                 ->order("{$attribute} {$dir}")
-                ->order("{$this->getEntity()->getIdFieldName()} {$dir}");
+                ->order("cat_index.product_id {$dir}");
             return $this;
         }
         else {
@@ -1249,5 +1205,74 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
 
         return parent::addAttributeToSort($attribute, $dir);
+    }
+
+    /**
+     * Apply filters to category product index
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    protected function _applyCategoryProductIndexFilters()
+    {
+        $connection = $this->getConnection();
+        // prepare conditions
+        $conditions = array(
+            'cat_index.product_id=e.entity_id',
+            $connection->quoteInto('cat_index.store_id=?', $this->getStoreId())
+        );
+        $columns = array();
+        if (isset($this->_categoryProductIndexFilters['visibility'])) {
+            $visibility = $this->_categoryProductIndexFilters['visibility'];
+            $conditions[] = $connection->quoteInto('cat_index.visibility IN(?)', $visibility);
+        }
+        if (isset($this->_categoryProductIndexFilters['category_id'])) {
+            $categoryId = $this->_categoryProductIndexFilters['category_id'];
+            $conditions[] = $connection->quoteInto('cat_index.category_id=?', $categoryId);
+            if (isset($this->_categoryProductIndexFilters['category_is_parent'])) {
+                $isParent = $this->_categoryProductIndexFilters['category_is_parent'];
+                $conditions[] = $connection->quoteInto('cat_index.is_parent=?', $isParent);
+            }
+            $columns['position'] = 'position';
+        }
+
+        $joinCond = join(' AND ', $conditions);
+        $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
+        // table joined, modify condition
+        if (isset($fromPart['cat_index'])) {
+            $fromPart['cat_index']['joinCondition'] = $joinCond;
+            $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
+            if ($columns) {
+                $columnsPart = $this->getSelect()->getPart(Zend_Db_Select::COLUMNS);
+                foreach ($columns as $columnAlias => $columnName) {
+                    $columnFound = false;
+                    foreach ($columnsPart as $columnEntry) {
+                        list($correlationName, $column) = $columnEntry;
+                        if ($correlationName == 'cat_index' && $column == $columnName) {
+                            $columnFound = true;
+                        }
+                    }
+                    if (!$columnFound) {
+                        $columnsPart[] = array('cat_index', $columnName, $columnAlias);
+                    }
+                }
+                $this->getSelect()->setPart(Zend_Db_Select::COLUMNS, $columnsPart);
+            }
+        }
+        else {
+            $this->getSelect()->joinInner(
+                array('cat_index' => $this->getTable('catalog/category_product_index')),
+                $joinCond,
+                $columns
+            );
+        }
+
+        foreach ($columns as $column) {
+            $this->_joinFields[$column] = array(
+                'table' => 'cat_index',
+                'field' => $column
+            );
+        }
+
+        return $this;
     }
 }
