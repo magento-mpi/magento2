@@ -139,6 +139,7 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     public function cleanCacheOnConfigChange()
     {
         Mage::app()->cleanCache(array(Mage_Catalog_Model_Category::CACHE_TAG));
+        Mage::getSingleton('enterprise_catalogpermissions/permission_index')->reindexProductsStandalone();
         return $this;
     }
 

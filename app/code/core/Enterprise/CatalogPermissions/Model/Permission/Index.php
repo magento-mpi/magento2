@@ -62,6 +62,18 @@ class Enterprise_CatalogPermissions_Model_Permission_Index extends Mage_Core_Mod
     }
 
     /**
+     * Reindex products permissions for standalone mode
+     *
+     * @param array|string $productIds
+     * @return Enterprise_CatalogPermissions_Model_Permission_Index
+     */
+    public function reindexProductsStandalone($productIds = null)
+    {
+        $this->getResource()->reindexProductsStandalone($productIds);
+        return $this;
+    }
+
+    /**
      * Retrive permission index for category or categories with specified customer group and website id
      *
      * @param int|array $categoryId

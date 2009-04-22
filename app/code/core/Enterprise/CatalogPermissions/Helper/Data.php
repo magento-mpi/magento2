@@ -55,31 +55,37 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
     /**
      * Retrieve config value for category access permission
      *
+     * @param int $customerGroupId
+     * @param int $storeId
      * @return boolean
      */
-    public function isAllowedCategoryView()
+    public function isAllowedCategoryView($storeId = null, $customerGroupId = null)
     {
-        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW);
+        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW, $storeId, $customerGroupId);
     }
 
     /**
      * Retrieve config value for product price permission
      *
+     * @param int $customerGroupId
+     * @param int $storeId
      * @return boolean
      */
-    public function isAllowedProductPrice()
+    public function isAllowedProductPrice($storeId = null, $customerGroupId = null)
     {
-        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE);
+        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE, $storeId, $customerGroupId);
     }
 
     /**
      * Retrieve config value for checkout items permission
      *
+     * @param int $customerGroupId
+     * @param int $storeId
      * @return boolean
      */
-    public function isAllowedCheckoutItems()
+    public function isAllowedCheckoutItems($storeId = null, $customerGroupId = null)
     {
-        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CHECKOUT_ITEMS);
+        return $this->_getIsAllowedGrant(self::XML_PATH_GRANT_CHECKOUT_ITEMS, $storeId, $customerGroupId);
     }
 
 
@@ -117,10 +123,10 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
      * @param string $configPath
      * @return boolean
      */
-    protected function _getIsAllowedGrant($configPath)
+    protected function _getIsAllowedGrant($configPath, $storeId = null, $customerGroupId = null)
     {
-        if (Mage::getStoreConfig($configPath) == 2) {
-            $groups = trim(Mage::getStoreConfig($configPath . '_groups'));
+        if (Mage::getStoreConfig($configPath, $storeId) == 2) {
+            $groups = trim(Mage::getStoreConfig($configPath . '_groups', $storeId));
 
             if ($groups === '') {
                 return false;
@@ -128,8 +134,12 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
 
             $groups = explode(',', $groups);
 
+            if ($customerGroupId === null) {
+                $customerGroupId = Mage::getSingleton('customer/session')->getCustomerGroupId();
+            }
+
             return in_array(
-                Mage::getSingleton('customer/session')->getCustomerGroupId(),
+                $customerGroupId,
                 $groups
             );
         }

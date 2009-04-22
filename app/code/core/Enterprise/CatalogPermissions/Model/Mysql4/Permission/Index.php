@@ -32,6 +32,15 @@
  */
 class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_Core_Model_Mysql4_Abstract
 {
+    const XML_PATH_GRANT_BASE = 'enterprise_catalogpermissions/general/';
+
+    /**
+     * Store ids
+     *
+     * @var arrray
+     */
+    protected $_storeIds = array();
+
     /**
      * Data for insert
      *
@@ -52,6 +61,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
      * @var array
      */
     protected $_permissionCache = array();
+
 
     /**
      * Inheritance of grant appling in categories tree
@@ -241,7 +251,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
     {
         $isActiveAttributeId = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_active')->getId();
 
-        $select = $this->getReadConnection()->select()
+        $selectCategory = $this->getReadConnection()->select()
             ->from(
                 array('category_product_index' => $this->getTable('catalog/category_product_index')),
                 array('product_id', 'store_id')
@@ -265,26 +275,8 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 'category_product_index.store_id',
                 'category_product_index.product_id',
                 'permission_index.customer_group_id'
-           ))->where('IFNULL(category_is_active.value, category_is_active_default.value) = 1');
-
-        $selectCategory = clone $select;
-
-        $select
-            ->columns(array('category_id'=>new Zend_Db_Expr('NULL')), 'category_product_index')
-            ->join(
-                array('permission_index'=>$this->getTable('permission_index')),
-                'category_product_index.category_id = permission_index.category_id AND
-                 store.website_id = permission_index.website_id',
-                array(
-                    'customer_group_id',
-                    'grant_catalog_category_view' => 'MAX(IF(permission_index.grant_catalog_category_view = 0, NULL, permission_index.grant_catalog_category_view))',
-                    'grant_catalog_product_price' => 'MAX(IF(permission_index.grant_catalog_product_price = 0, NULL, permission_index.grant_catalog_product_price))',
-                    'grant_checkout_items' => 'MAX(IF(permission_index.grant_checkout_items = 0, NULL, permission_index.grant_checkout_items))'
-                )
-            )->where('category_product_index.is_parent = ?', 1);
-
-        // Select for per category product index (without anchor category usage)
-        $selectCategory
+           ))->where('IFNULL(category_is_active.value, category_is_active_default.value) = 1')
+            // Select for per category product index (without anchor category usage)
              ->columns('category_id', 'category_product_index')
              ->join(
                 array('permission_index'=>$this->getTable('permission_index')),
@@ -335,16 +327,52 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 'category_product_index.category_id'
            ))->where('category_product_index.is_parent = 0');
 
-        $selectNotUnderPermissions = $this->_getReadAdapter()->select();
 
-        $selectNotUnderPermissions->from(
+        if ($productIds !== null) {
+            if (!is_array($productIds)) {
+                $productIds = array($productIds);
+            }
+            $selectCategory->where('category_product_index.product_id IN(?)', $productIds);
+            $selectAnchorCategory->where('permission_index_product.product_id IN(?)', $productIds);
+            $condition = $this->_getReadAdapter()->quoteInto('product_id IN(?)', $productIds);
+        } else {
+            $condition = '';
+        }
+
+        $fields = array(
+            'product_id', 'store_id', 'category_id', 'customer_group_id',
+            'grant_catalog_category_view', 'grant_catalog_product_price',
+            'grant_checkout_items'
+        );
+
+        $this->_getReadAdapter()->delete($this->getTable('permission_index_product'), $condition);
+        $this->_getWriteAdapter()->query($selectCategory->insertFromSelect($this->getTable('permission_index_product'), $fields));
+        $this->_getWriteAdapter()->query($selectAnchorCategory->insertFromSelect($this->getTable('permission_index_product'), $fields));
+
+        $this->reindexProductsStandalone($productIds);
+
+        return $this;
+    }
+
+    /**
+     * Reindex products permissions for standalone mode
+     *
+     * @param array|string $productIds
+     * @return Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index
+     */
+    public function reindexProductsStandalone($productIds = null)
+    {
+
+        $selectConfig = $this->_getReadAdapter()->select();
+        // Config depend index select
+        $selectConfig->from(
                 array('category_product_index' => $this->getTable('catalog/category_product_index')),
                 array()
             )->join(
                 array('permission_index_product'=>$this->getTable('permission_index_product')),
                 'permission_index_product.product_id = category_product_index.product_id AND
                 permission_index_product.store_id = category_product_index.store_id AND
-                permission_index_product.category_id IS NULL',
+                permission_index_product.is_config = 0',
                 array('product_id', 'store_id')
             )->joinLeft(
                 array('permission_index_product_exists'=>$this->getTable('permission_index_product')),
@@ -356,34 +384,145 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             )->columns('category_id')
              ->columns(array(
                 'customer_group_id',
-                'grant_catalog_category_view',
-                'grant_catalog_product_price',
-                'grant_checkout_items'
-            ), 'permission_index_product')->where('permission_index_product_exists.category_id IS NULL');
+                'grant_catalog_category_view' => $this->_getConfigGrantDbExpr('grant_catalog_category_view', 'permission_index_product'),
+                'grant_catalog_product_price' => $this->_getConfigGrantDbExpr('grant_catalog_product_price', 'permission_index_product'),
+                'grant_checkout_items' => $this->_getConfigGrantDbExpr('grant_checkout_items', 'permission_index_product'),
+                'is_config' => new Zend_Db_Expr('1')
+            ), 'permission_index_product')->group(array(
+                'category_product_index.category_id',
+                'permission_index_product.product_id',
+                'permission_index_product.store_id',
+                'permission_index_product.customer_group_id'
+            ))->where('permission_index_product_exists.category_id IS NULL');
+
+        // Select for standalone product index
+        $selectStandalone = $this->_getReadAdapter()->select();
+        $selectStandalone
+            ->from(array('permission_index_product'=>$this->getTable('permission_index_product')),
+                array(
+                    'product_id',
+                    'store_id'
+                )
+            )->columns(
+                array(
+                    'category_id' => new Zend_Db_Expr('NULL'),
+                    'customer_group_id',
+                    'grant_catalog_category_view' => 'MAX(IF(permission_index_product.grant_catalog_category_view = 0, NULL, permission_index_product.grant_catalog_category_view))',
+                    'grant_catalog_product_price' => 'MAX(IF(permission_index_product.grant_catalog_product_price = 0, NULL, permission_index_product.grant_catalog_product_price))',
+                    'grant_checkout_items' => 'MAX(IF(permission_index_product.grant_checkout_items = 0, NULL, permission_index_product.grant_checkout_items))',
+                    'is_config' => new Zend_Db_Expr('1')
+                ),
+                'permission_index_product'
+           )->group(array(
+                'permission_index_product.store_id',
+                'permission_index_product.product_id',
+                'permission_index_product.customer_group_id'
+           ));
+
+        $condition = 'is_config = 1';
+
+
 
         if ($productIds !== null) {
             if (!is_array($productIds)) {
                 $productIds = array($productIds);
             }
-            $select->where('category_product_index.product_id IN(?)', $productIds);
-            $selectCategory->where('category_product_index.product_id IN(?)', $productIds);
-            $selectAnchorCategory->where('permission_index_product.product_id IN(?)', $productIds);
-            $selectNotUnderPermissions->where('category_product_index.product_id IN(?)', $productIds);
-            $condition = $this->_getReadAdapter()->quoteInto('product_id IN(?)', $productIds);
-        } else {
-            $condition = '';
+            $selectConfig->where('category_product_index.product_id IN(?)', $productIds);
+            $selectStandalone->where('permission_index_product.product_id IN(?)', $productIds);
+            $condition .= $this->_getReadAdapter()->quoteInto(' AND product_id IN(?)', $productIds);
         }
 
-
+        $fields = array(
+            'product_id', 'store_id', 'category_id', 'customer_group_id',
+            'grant_catalog_category_view', 'grant_catalog_product_price',
+            'grant_checkout_items', 'is_config'
+        );
 
         $this->_getReadAdapter()->delete($this->getTable('permission_index_product'), $condition);
-        $this->_getWriteAdapter()->query($select->insertFromSelect($this->getTable('permission_index_product')));
-        $this->_getWriteAdapter()->query($selectCategory->insertFromSelect($this->getTable('permission_index_product')));
-        $this->_getWriteAdapter()->query($selectAnchorCategory->insertFromSelect($this->getTable('permission_index_product')));
-        $this->_getWriteAdapter()->query($selectNotUnderPermissions->insertFromSelect($this->getTable('permission_index_product')));
+        $this->_getReadAdapter()->query($selectConfig->insertFromSelect($this->getTable('permission_index_product'), $fields));
+        $this->_getReadAdapter()->query($selectStandalone->insertFromSelect($this->getTable('permission_index_product'), $fields));
+        // Fix inherited permissions
+        $deny = (int) Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
+        $this->_getReadAdapter()->query(
+            "UPDATE {$this->getTable('permission_index_product')}
+                SET
+                    grant_catalog_product_price = IF(grant_catalog_category_view = {$deny}, {$deny}, grant_catalog_product_price),
+                    grant_checkout_items = IF(grant_catalog_category_view = {$deny} OR grant_catalog_product_price = {$deny}, {$deny}, grant_checkout_items)
+                WHERE
+                    {$condition}
+            ");
 
         return $this;
     }
+
+    /**
+     * Generates CASE ... WHEN .... THEN expression for grant depends on config
+     *
+     * @param string $grant
+     * @param string $tableAlias
+     * @return Zend_Db_Expr
+     */
+    protected function _getConfigGrantDbExpr($grant, $tableAlias)
+    {
+        $conditions = array();
+        foreach ($this->_getStoreIds() as $storeId) {
+            $config = Mage::getStoreConfig(self::XML_PATH_GRANT_BASE . $grant);
+
+            if ($config == 2) {
+                $groups = explode(',', trim(Mage::getStoreConfig(
+                    self::XML_PATH_GRANT_BASE . $grant . '_groups'
+                )));
+                foreach ($groups as $groupId) {
+                    if (is_numeric($groupId)) {
+                        // Case per customer group
+                        $condition = $tableAlias . '.store_id = ' . $storeId
+                                   . ' AND '. $tableAlias . '.customer_group_id = '
+                                   . (int) $groupId;
+                        $conditions[$condition] = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
+                    }
+                }
+
+                $condition = $tableAlias . '.store_id = ' . $storeId;
+                $conditions[$condition] = Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
+            } else {
+                $condition = $tableAlias . '.store_id = ' . $storeId;
+                $conditions[$condition] = (
+                    $config ?
+                    Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW :
+                    Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY
+                );
+            }
+        }
+
+        if (empty($conditions)) {
+            return new Zend_Db_Expr('0');
+        }
+
+        $expr = 'CASE ';
+        foreach ($conditions as $condition => $value) {
+            $expr .= ' WHEN ' . $condition . ' THEN ' . $this->_getReadAdapter()->quote($value);
+        }
+        $expr .= ' END';
+
+        return new Zend_Db_Expr($expr);
+    }
+
+    protected function _getStoreIds()
+    {
+        if (empty($this->_storeIds)) {
+            $this->_storeIds = array();
+            $stores = Mage::app()->getConfig()->getNode('stores');
+            foreach ($stores->children() as $store) {
+                $storeId = (int) $store->descend('system/store/id');
+                if ($storeId) {
+                    $this->_storeIds[] = $storeId;
+                }
+            }
+        }
+
+        return $this->_storeIds;
+    }
+
     /**
      * Inherit category permission from it's parent
      *
