@@ -70,6 +70,10 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
         if ($imageFile) {
             $this->setImageFile($imageFile);
         }
+        else {
+            // add for work original size
+            $this->_getModel()->setBaseFile( $this->getProduct()->getData($this->_getModel()->getDestinationSubdir()) );
+        }
         return $this;
     }
 
@@ -367,6 +371,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function getOriginalWidth()
     {
+        echo get_class($this->_getModel());
         return $this->_getModel()->getImageProcessor()->getOriginalWidth();
     }
 
