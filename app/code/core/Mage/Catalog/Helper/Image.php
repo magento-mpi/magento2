@@ -371,7 +371,6 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
      */
     public function getOriginalWidth()
     {
-        echo get_class($this->_getModel());
         return $this->_getModel()->getImageProcessor()->getOriginalWidth();
     }
 
