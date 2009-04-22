@@ -123,7 +123,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
      * @param string    $srcTable
      * @param string    $targetModel
      * @param string    $targetTable
-     * @param mixed     $usedStorageMethod
      * @param mixed     $fields
      * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
      */
@@ -149,16 +148,16 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 $fields[$id] = $stagingWebsiteId;
                 $_websiteFieldNameSql = "scope = 'websites' AND {$field} = {$masterWebsiteId}";
             } elseif ($field == 'website_ids') {
-                /* FIXME need to fix concat website_ids */
                 $fields[$id] = "CONCAT(website_ids,',{$stagingWebsiteId}')";
                 $_websiteFieldNameSql = "FIND_IN_SET({$masterWebsiteId},website_ids)";
             }
         }
 
-        $srcSelectSql = $this->_getSimpleSelect($fields, $targetTable, $_websiteFieldNameSql);
+        $srcSelectSql  = $this->_getSimpleSelect($fields, $targetTable, $_websiteFieldNameSql);
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
         $connection->query($destInsertSql);
+
         self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
 
         return $this;
@@ -183,7 +182,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         foreach ($websites as $website) {
             $stores = $website->getStores();
-            foreach ($stores as $masterStored => $store) {
+            foreach ($stores as $_idx => $store) {
                 $masterStoreId  = $store->getMasterStoreId();
                 $stagingStoreId = $store->getStagingStoreId();
                 if (!$masterStoreId || !$stagingStoreId) {
@@ -197,7 +196,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 foreach ($fields as $id => $field) {
                     if ($field == 'store_id') {
                         $fields[$id] = $stagingStoreId;
-                        $_storeFieldNameSql = "({$field} = {$masterStoreId})"; //  OR {$field} = 0) TODO how about singlestore mode ?
+                        $_storeFieldNameSql = "({$field} = {$masterStoreId})";
                     } elseif ($field == 'scope_id') {
                         $fields[$id] = $stagingStoreId;
                         $_storeFieldNameSql = "scope = 'stores' AND {$field} = {$masterStoreId}";
@@ -208,6 +207,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
                 $connection->query($destInsertSql);
+
                 self::$_proceedStoreScopeTables[$this->getEventStateCode()][$srcTable] = true;
             }
         }
@@ -247,20 +247,13 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
      */
     protected function _backupItem($staging, $srcModel, $srcTable, $targetModel, $targetTable, $usedStorageMethod)
     {
-        $srcTableDesc   = $this->getTableProperties($srcModel, $srcTable);
-
         $internalPrefix = "";
-
         $stateRegestryCode  = "staging/" . $this->getEventStateCode() . "/enterprise_staging/staging_event";
-
         $event = Mage::registry($stateRegestryCode);
-
         if (is_object($event)) {
             $internalPrefix = $event->getId();
         }
-
         $backupPrefix    = $this->getBackupTablePrefix($internalPrefix);
-
         $targetTable     = $this->getStagingTableName($staging, $srcModel, $srcTable, $backupPrefix, true);
 
         if ($srcTable == $targetTable) {
@@ -268,7 +261,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         }
 
         $srcTableDesc = $this->getTableProperties($srcModel, $srcTable, true);
-
         $fields = $srcTableDesc['fields'];
         $fields = array_keys($fields);
 
@@ -452,8 +444,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
     {
         $connection     = $this->getConnection($targetModel);
         $mapper         = $staging->getMapperInstance();
-        /* @var $mapper Enterprise_Staging_Model_Staging_Mapper_Website */
-
         $mappedWebsites = $mapper->getWebsites();
 
         if (in_array('website_ids', $fields)) {
@@ -508,6 +498,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 $connection->query($destInsertSql);
             }
         }
+
         self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
 
         return $this;
@@ -563,8 +554,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
     {
         $connection = $this->getConnection($targetModel);
         $mapper     = $staging->getMapperInstance();
-
         $storesMap  = $mapper->getStores();
+
         foreach ($storesMap as $stagingStoreId => $masterStoreIds) {
             foreach ($masterStoreIds as $masterStoreId) {
                 $tableDestDesc = $this->getTableProperties($targetModel, $targetTable, true);
@@ -605,7 +596,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
      */
-    public function rollbackItem(Enterprise_Staging_Model_Staging $staging)
+    public function rollback(Enterprise_Staging_Model_Staging $staging)
     {
         $this->_processItemMethodCallback('_rollbackItem', $staging);
 
@@ -631,14 +622,11 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         if (!$srcTableDesc) {
             throw Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists', $srcTable));
         }
-
         $fields = $srcTableDesc['fields'];
         $fields = array_keys($fields);
 
         $internalPrefix = $staging->getEventId();
-
         $backupPrefix   = $this->getBackupTablePrefix($internalPrefix);
-
         $backupTable    = $this->getStagingTableName($staging, $srcModel, $targetTable, $backupPrefix, true);
 
         if ($this->tableExists($srcModel, $backupTable)) {
@@ -743,10 +731,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
      */
     protected function _rollbackTableDataInStoreScope($staging, $srcTable, $targetTable, $fields)
     {
-        if (!in_array('store_id', $fields) && !in_array('scope_id', $fields)) {
-            return $this;
-        }
-
         $targetModel    = 'enterprise_staging';
         $connection     = $this->getConnection($targetModel);
 

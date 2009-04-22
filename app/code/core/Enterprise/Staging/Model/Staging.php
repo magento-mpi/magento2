@@ -434,10 +434,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function canResetStatus()
     {
-        if (Mage::helper('enterprise_staging')->getCatalogIndexRunningFlag()) {
-            return true;
-        }
-
         if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING) {
             return true;
         }
@@ -454,14 +450,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-
-        if (Mage::helper('enterprise_staging')->getCatalogIndexRunningFlag()) {
-            return false;
-        }
-
         if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
-            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_BROKEN)
-            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING)) {
+            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_BROKEN)) {
             return false;
         }
         return true;

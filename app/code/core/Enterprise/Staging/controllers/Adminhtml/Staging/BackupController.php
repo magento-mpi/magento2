@@ -223,7 +223,6 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         $backup         = $this->_initBackup();
 
         $staging        = $backup->getStaging();
-        $stagingId      = $staging->getId();
 
         $mapData        = $this->getRequest()->getPost('map');
 
@@ -236,11 +235,9 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
 
             $this->_getSession()->addSuccess($this->__('Master website successfully restored.'));
         } catch (Mage_Core_Exception $e) {
-            echo $e; DD();
             $this->_getSession()->addError($e->getMessage());
             $redirectBack = true;
         } catch (Exception $e) {
-            echo $e; DD();
             $this->_getSession()->addException($e, $e->getMessage());
             $redirectBack = true;
         }
