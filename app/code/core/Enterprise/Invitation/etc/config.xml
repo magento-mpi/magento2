@@ -99,7 +99,7 @@
     <adminhtml>
         <layout>
             <updates>
-                <enterprise_invitation>
+                <enterprise_invitation module="Enterprise_Invitation">
                     <file>enterprise/invitation.xml</file>
                 </enterprise_invitation>
             </updates>

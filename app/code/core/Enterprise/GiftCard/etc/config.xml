@@ -166,7 +166,7 @@
     <frontend>
         <layout>
             <updates>
-                <enterprise_giftcard>
+                <enterprise_giftcard module="Enterprise_GiftCard">
                     <file>giftcard.xml</file>
                 </enterprise_giftcard>
             </updates>

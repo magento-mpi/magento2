@@ -224,7 +224,7 @@
         </routers>
         <layout>
             <updates>
-                <enterprise_giftcardaccount>
+                <enterprise_giftcardaccount module="Enterprise_GiftCardAccount">
                     <file>giftcardaccount.xml</file>
                 </enterprise_giftcardaccount>
             </updates>

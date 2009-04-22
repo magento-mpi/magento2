@@ -170,7 +170,7 @@
         </events>
         <layout>
             <updates>
-                <enterprise_catalogevent>
+                <enterprise_catalogevent module="Enterprise_CatalogEvent">
                     <file>catalogevent.xml</file>
                 </enterprise_catalogevent>
             </updates>
