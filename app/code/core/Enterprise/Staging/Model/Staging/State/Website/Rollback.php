@@ -27,13 +27,6 @@
 class Enterprise_Staging_Model_Staging_State_Website_Rollback extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
     /**
-     * flag to add Event in event history
-     *
-     * @var bool
-     */
-    protected $_addToEventHistory = true;
-
-    /**
      * Run rollback process
      *
      * @param Enterprise_Staging_Model_Staging $staging
@@ -41,26 +34,26 @@ class Enterprise_Staging_Model_Staging_State_Website_Rollback extends Enterprise
      */
     protected function _run(Enterprise_Staging_Model_Staging $staging)
     {
-        $this->_rollbackItems($staging);
+        $mapper         = $staging->getMapperInstance();
+        $stagingItems   = $mapper->getStagingItems();
+        foreach ($stagingItems as $stagingItem) {
+            $adapter = $this->getItemAdapterInstanse($stagingItem);
+            $adapter->rollback($staging);
+        }
         return $this;
     }
 
     /**
-     * Process rollback items
+     * Set complete status into current staging
      *
      * @param Enterprise_Staging_Model_Staging $staging
+     *
      * @return Enterprise_Staging_Model_Staging_State_Website_Rollback
      */
-    protected function _rollbackItems($staging)
+    protected function _afterRun(Enterprise_Staging_Model_Staging $staging)
     {
-        $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
-        $usedItems      = $this->getStaging()->getMapperInstance()->getUsedItems();
+        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
 
-        foreach ($usedItems as $usedItem) {
-            $itemXmlConfig = $stagingItems->{$usedItem['code']};
-            $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
-            $adapter->rollbackItem($staging, $itemXmlConfig);
-        }
-        return $this;
+        return parent::_afterRun($staging);
     }
 }

@@ -43,34 +43,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item extends Mage_Core_Model_Mysql
             if ($staging->getId()) {
                 $object->setStagingId($staging->getId());
             }
-            $object->setDatasetId($staging->getDatasetId());
-        }
-
-        $stagingWebsite = $object->getStagingWebsite();
-        if ($stagingWebsite instanceof Enterprise_Staging_Model_Staging_Website) {
-            if ($stagingWebsite->getId()) {
-                $object->setStagingWebsiteId($stagingWebsite->getId());
-            }
-        }
-
-        $stagingStore = $object->getStagingStore();
-        if ($stagingStore instanceof Enterprise_Staging_Model_Staging_Store) {
-            if ($stagingStore->getId()) {
-                $object->setStagingStoreId($stagingStore->getId());
-            }
-        }
-
-        if (!$object->getId()) {
-            $value = Mage::getModel('core/date')->gmtDate();
-            $object->setCreatedAt($value);
-
-            $datasetItem = $object->getDatasetItemInstance();
-            if ($datasetItem) {
-                $object->addData($datasetItem->getData());
-            }
-        } else {
-            $value = Mage::getModel('core/date')->gmtDate();
-            $object->setUpdatedAt($value);
         }
 
     	parent::_beforeSave($object);

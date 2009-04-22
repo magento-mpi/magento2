@@ -25,20 +25,14 @@
  */
 ?>
 <?php /* @var $this Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website */?>
-<?php $event            = $this->getEvent(); ?>
-<?php $backup          = $this->getBackup(); ?>
+<?php $backup           = $this->getBackup(); ?>
 <?php $staging          = $this->getStaging(); ?>
-<?php $items            = $staging->getItemsCollection(); ?>
-<?php $masterWebsites   = $this->getWebsiteCollection(); ?>
-<?php $stores           = $this->getAllStoresCollection(); ?>
-<?php $stagingWebsites  = $staging->getWebsitesCollection(); ?>
-<?php $mapperUsedItems  = $this->getMapper()->getUsedItems(); ?>
-<?php $mapperWebSites   = $this->getMapper()->getAllUsedWebsites();?>
+
 <div class="filter-actions a-right">
     <?php echo $this->getMainButtonsHtml() ?>
 </div>
-     
-    
+
+
 
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_rollback_form" enctype="multipart/form-data">
 <input type="hidden" name="staging_id" value="<?php echo $staging->getId(); ?>">
@@ -48,7 +42,7 @@
 <?php echo $this->getChildhtml('website_store_form');?>
 
 <div id="enterprise_staging_rollback_container" class="grid">
-<?php echo $this->getChildHtml('event_form')?>    
+<?php echo $this->getChildHtml('event_form')?>
 <?php echo $this->getBlockHtml('formkey')?>
 <?php echo $this->getChildHtml('items') ?>
 <?php echo $this->getChildHtml('rollbackGrid') ?>

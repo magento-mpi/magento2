@@ -48,29 +48,15 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $staging    = Mage::getModel('enterprise_staging/staging');
 
         if (!$stagingId) {
-            if ($websiteIds = $this->getRequest()->getParam('websites')) {
-                $staging->setMasterWebsiteIds($websiteIds);
+            if ($websiteId = $this->getRequest()->getParam('master_website_id')) {
+                $staging->setMasterWebsiteId($websiteId);
             }
-
-            if ($storeIds = $this->getRequest()->getParam('stores')) {
-                $staging->setMasterStoreIds($storeIds);
-            }
-
-            if ($setId = (int) $this->getRequest()->getParam('set')) {
-                $staging->setDatasetId($setId);
-            }
-
             if ($type = $this->getRequest()->getParam('type')) {
                 $staging->setType($type);
             }
         }
-
         if ($stagingId) {
             $staging->load($stagingId);
-        }
-
-        if (Mage::registry('staging')) {
-            Mage::unregister('staging');
         }
 
         Mage::register('staging', $staging);
@@ -87,64 +73,24 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         if (is_null($eventId)) {
             $eventId  = (int) $this->getRequest()->getParam('id');
         }
-        $event    = Mage::getModel('enterprise_staging/staging_event');
+        $event = Mage::getModel('enterprise_staging/staging_event');
 
         if ($eventId) {
             $event->load($eventId);
         }
 
         $stagingId = $event->getStagingId();
-
         if ($stagingId) {
             $this->_initStaging($stagingId);
         }
 
-        $event->restoreMap();
-
-        if (Mage::registry('staging_event')) {
-            Mage::unregister('staging_event');
+        if ($event->getId()) {
+            $event->restoreMap();
         }
 
         Mage::register('staging_event', $event);
 
         return $event;
-    }
-
-    /**
-     * Initialize staging backup from request parameters
-     *
-     * @return Enterprise_Staging_Model_Staging_Backup
-     */
-    protected function _initBackup($backupId = null)
-    {
-        if (is_null($backupId)) {
-            $backupId  = (int) $this->getRequest()->getParam('id');
-        }
-
-        $backup    = Mage::getModel('enterprise_staging/staging_backup');
-
-        if ($backupId) {
-            $backup->load($backupId);
-        }
-
-        $eventId = $backup->getEventId();
-
-        if ($eventId) {
-            $this->_initEvent($eventId);
-        } else {
-            $stagingId = $backup->getStagingId();
-            if ($stagingId) {
-                $this->_initStaging($stagingId);
-            }
-        }
-
-        if (Mage::registry('staging_backup')) {
-            Mage::unregister('staging_backup');
-        }
-
-        Mage::register('staging_backup', $backup);
-
-        return $backup;
     }
 
     /**
@@ -167,32 +113,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         if ($staging->isStatusProcessing()) {
             $this->_getSession()->addNotice($this->__('Merge cannot be done now, because a Merge or Rollback is in progress. Please try again later.'));
         }
-//        $websiteIds = (array) $staging->getMasterWebsiteIds();
-//        if ($websiteIds) {
-//            foreach ($websiteIds as $websiteId) {
-//                $website = Mage::app()->getWebsite($websiteId);
-//                if ($website->getIsStaging()) {
-//                    $this->_getSession()->addError('Some of selected website is staging.');
-//                    $this->_redirect('*/*/edit', array('_current' => false));
-//                    return $this;
-//                }
-//
-//                $storeIds = $staging->getMasterStoreIds();
-//                if ($storeIds) {
-//                    $currentStoreIds = isset($storeIds[$websiteId]) ? $storeIds[$websiteId] : array();
-//                    if ($currentStoreIds) {
-//                        foreach ($currentStoreIds as $storeId) {
-//                            $store = Mage::app()->getStore($storeId);
-//                            if ($store->getIsStaging()) {
-//                                $this->_getSession()->addError('Some of selected stores is staging.');
-//                                $this->_redirect('*/*/edit', array('_current' => false));
-//                                return $this;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
 
         Mage::dispatchEvent('staging_edit_action', array('staging' => $staging));
 
@@ -207,8 +127,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 try {
                     $this->_getSession()->addNotice($this->__('Base URL for this website will be created automatically.'));
                     $entryPoint->canEntryPointBeCreated();
-                }
-                catch (Mage_Core_Exception $e) {
+                } catch (Mage_Core_Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                 }
             }
@@ -223,7 +142,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $this->_setActiveMenu('enterprise_staging');
 
         $this->renderLayout();
-        Mage::dispatchEvent('on_staging_edit_after', array('staging' => $staging));
     }
 
     /**
@@ -267,21 +185,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
     /**
-     * Retrieve "add new staging store view form" (AJAX request)
-     */
-    public function createStagingStoreAction()
-    {
-        $staging = $this->_initStaging();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_edit_tabs_website_store_item')
-                ->setStaging($staging)
-                ->toHtml()
-        );
-    }
-
-    /**
      * execute validate methods
      *
      */
@@ -311,156 +214,18 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
     /**
      * Initialize staging before saving
+     *
+     * @return Enterprise_Staging_Model_Staging
      */
     protected function _initStagingSave()
     {
         $staging = $this->_initStaging();
 
         $stagingData = $this->getRequest()->getPost('staging');
-
-        $items = isset($stagingData['items']) ? $stagingData['items'] : false;
-        if ($items) {
-            foreach ($items as $itemData) {
-                if (isset($itemData['dataset_item_id'])) {
-                    if (!isset($itemData['staging_item_id'])) {
-                        $item = Mage::getModel('enterprise_staging/staging_item');
-                        $item->addData($itemData);
-                        $staging->addItem($item);
-                    } else {
-                        $code = $itemData['code'];
-                        $item = $staging->getItemsCollection()->getItemByCode($code);
-                        $item->addData($itemData);
-                    }
-                } else {
-                    if (isset($itemData['staging_item_id'])) {
-                        $code = $itemData['code'];
-                        $item = $staging->getItemsCollection()->getItemByCode($code);
-                        $item->isDeleted(true);
-                    }
-                }
-            }
+        if (is_array($stagingData)) {
+            $staging->addData($stagingData);
         }
-
-        $websites       = isset($stagingData['websites']) ? $stagingData['websites'] : array();
-        $existWebsites  = Mage::getResourceSingleton('enterprise_staging/staging')->getWebsiteIds($staging);
-
-        foreach ($websites as $key => $websiteData) {
-            if (!is_array($websiteData)) {
-                $stagingData[$key] = $websiteData;
-                continue;
-            }
-            $websiteId          = isset($websiteData['staging_website_id']) ? $websiteData['staging_website_id'] : false;
-            $masterWebsiteId    = isset($websiteData['master_website_id']) ? $websiteData['master_website_id'] : false;
-            if ($websiteId && in_array($websiteId, $existWebsites)) {
-                $website = $staging->getWebsitesCollection()->getItemById($websiteId);
-                $website->addData($websiteData);
-            } else {
-                $website = Mage::getModel('enterprise_staging/staging_website');
-                $website->addData($websiteData);
-                $staging->addWebsite($website);
-            }
-
-            $datasetItems = isset($websiteData['dataset_items']) ? $websiteData['dataset_items'] : array();
-            if ($datasetItems) {
-                $items = isset($websiteData['items']) ? $websiteData['items'] : array();
-                foreach ($datasetItems as $datasetItemId) {
-                    if (array_key_exists($datasetItemId, $items)) {
-                        $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
-                        $id = isset($itemData['used_dataset_item_id']) ? $itemData['used_dataset_item_id'] : false;
-                        if (!empty($itemData['remove_item'])) {
-                            if ($id) {
-                                $item = $website->getItemsCollection()->getItemByDatasetItemId($id);
-                                $item->isDeleted(true);
-                            }
-                        } else {
-                            $item = $website->getItemsCollection()->getItemByDatasetItemId($id);
-                            $item->addData($itemData);
-                        }
-                    } else {
-                        $item = Mage::getModel('enterprise_staging/staging_item');
-                        $item->setDatasetItemId($datasetItemId);
-                        $website->addItem($item);
-                    }
-                }
-            }
-
-            $stores = isset($websiteData['stores'][$masterWebsiteId]) ? $websiteData['stores'][$masterWebsiteId] : array();
-
-            $existStores = Mage::getResourceSingleton('enterprise_staging/staging_website')->getStoreIds($website);
-
-            foreach ($stores as $storeData) {
-
-                if (empty($storeData['staging_store'])) {
-                    continue;
-                }
-
-                $storeId = isset($storeData['staging_store_id']) ? $storeData['staging_store_id'] : false;
-                if ($storeId && in_array($storeId, $existStores)) {
-                    $store = $website->getStoresCollection()->getItemById($storeId);
-                    $store->addData($storeData);
-                } else {
-                    $store = Mage::getModel('enterprise_staging/staging_store');
-                    $store->addData($storeData);
-                    $website->addStore($store);
-                }
-
-                $datasetItems = isset($storeData['dataset_items']) ? $storeData['dataset_items'] : array();
-                if ($datasetItems && !empty($storeData['use_specific_items'])) {
-                    $items = isset($storeData['items']) ? $storeData['items'] :  array();
-                    foreach ($datasetItems as $datasetItemId) {
-                        if (array_key_exists($datasetItemId, $items)) {
-                            $itemData = isset($items[$datasetItemId]) ? $items[$datasetItemId] : array();
-                            $id = isset($itemData['used_dataset_item_id']) ? $itemData['used_dataset_item_id'] : false;
-                            if (!empty($itemData['remove_item'])) {
-                                if ($id) {
-                                    $item = $store->getItemsCollection()->getItemByDatasetItemId($id);
-                                    $item->isDeleted(true);
-                                }
-                            } else {
-                                $item = $store->getItemsCollection()->getItemByDatasetItemId($id);
-                                $item->addData($itemData);
-                            }
-                        } else {
-                            $item = Mage::getModel('enterprise_staging/staging_item');
-                            $item->setDatasetItemId($datasetItemId);
-                            $store->addItem($item);
-                        }
-                    }
-                }
-            }
-        }
-
-        /**
-         * Initialize general data for staging
-         */
-        $staging->addData($stagingData);
-
-        /**
-         * Initialize data for configurable staging
-         */
-        $data = $this->getRequest()->getPost('configurable_data');
-        if ($data) {
-            $staging->setConfigurableData(Zend_Json::decode($data));
-        }
-
-        Mage::dispatchEvent('enterprise_staging_prepare_save',
-            array('staging' => $staging, 'request' => $this->getRequest()));
-
         return $staging;
-    }
-
-    /**
-     * Initialize create staging process throw Ajax request/response
-     *
-     */
-    public function createItemAction()
-    {
-        $this->_initStaging();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_staging/manage_staging_create_run')
-            ->toHtml());
-        $this->getResponse()->sendResponse();
     }
 
     /**
@@ -470,27 +235,17 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     {
         $redirectBack   = $this->getRequest()->getParam('back', false);
         $stagingId      = $this->getRequest()->getParam('id');
-        $isEdit         = (int)($this->getRequest()->getParam('id') != null);
-
-        $data = $this->getRequest()->getPost();
+        $data           = $this->getRequest()->getPost('staging');
 
         if ($data) {
-            $staging  = $this->_initStagingSave();
-            $isUpdate = $staging->getId();
-
+            $staging    = $this->_initStagingSave();
+            $isNew      = !$staging->getId();
             try {
-                if (!$isUpdate) {
-                    $staging->setEventCode('create');
-                } else {
-                    $staging->setEventCode('update');
-                }
                 $staging->save();
-                if (!$isUpdate) {
-                    $mapData = $this->getRequest()->getPost('staging');
-                    $staging->getMapperInstance()->setCreateMapData($mapData);
+                if ($isNew) {
+                    $staging->getMapperInstance()->setCreateMapData($data);
                     $staging->create();
                 }
-
                 $this->_getSession()->addSuccess($this->__('Staging website successfully saved.'));
                 $stagingId = $staging->getId();
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
@@ -498,58 +253,54 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 $this->_getSession()->addError($e->getMessage())
                     ->setStagingData($data);
                 $redirectBack = true;
+                if ($isNew) {
+                    $staging->delete();
+                }
             } catch (Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
                 $redirectBack = true;
+                if ($isNew) {
+                    $staging->delete();
+                }
             }
         }
 
         if ($redirectBack) {
             $this->_redirect('*/*/edit', array(
-                'id'    => $stagingId,
-                '_current'=>true
-            ));
-        } elseif ($this->getRequest()->getParam('popup')) {
-            $this->_redirect('*/*/created', array(
-                '_current'   => true,
-                'id'         => $stagingId,
-                'edit'       => $isEdit
+                'id'        => $stagingId,
+                '_current'  => true
             ));
         } else {
             $this->_redirect('*/*/');
         }
     }
 
-
     /**
-     * Staging delete action
+     * Reset Staging Status
+     *
      */
-    public function deleteAction()
+    public function resetStatusAction()
     {
-        $id = $this->getRequest()->getParam('id');
-        if ($id) {
-            $staging = Mage::getModel('enterprise_staging/staging')->load($id);
+        $staging = $this->_initStaging();
+        $staging->setState(Enterprise_Staging_Model_Staging_Config::STATE_NEW);
+        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_NEW);
 
-            try {
+        $lastEvent  = $staging->getEventsCollection()->getFirstItem();
+        $state      = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
+        $status     = Enterprise_Staging_Model_Staging_Config::STATUS_FAIL;
 
-                $backupCollection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')->setStagingFilter($staging->getId());
-                foreach ($backupCollection as $backup) {
-                    if ($backup->getId() > 0) {
-                        $backup->setStaging($staging);
-                        $backup->setIsDeleteTables(true);
-                        $backup->delete();
-                    }
-                }
+        $comment    = $this->__('Failed to %s', $lastEvent->getName());
+        $staging->addEvent($lastEvent->getCode(), $state, $status, $lastEvent->getName(), $comment);
+        $staging->save();
 
-                Mage::dispatchEvent('enterprise_staging_controller_staging_delete', array('staging'=>$staging));
-                $staging->delete();
-                $this->_getSession()->addSuccess($this->__('Staging website deleted'));
-            } catch (Exception $e){
-                mageDebugBacktrace();fff();
-                $this->_getSession()->addError($e->getMessage());
-            }
+        $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+            $catalogIndexFlag->delete();
         }
-        $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+
+        $this->_redirect('*/*/edit', array(
+            'id' => $staging->getId()
+        ));
     }
 
     /**
@@ -573,7 +324,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     public function mergePostAction()
     {
-        $redirectBack   = $this->getRequest()->getParam('back', false);
+        $redirectBack = $this->getRequest()->getParam('back', false);
 
         $staging = $this->_initStaging();
         /* @var $staging Enterprise_Staging_Model_Staging */
@@ -584,11 +335,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         $mergeSchedulingDate = $this->getRequest()->getPost('schedule_merge_later');
 
-        $stagingId = "";
+        $stagingId = $staging->getId();
 
         if ($mapData) {
             try {
-                $staging->getMapperInstance()->setMapData($mapData);
+                $staging->getMapperInstance()->setMergeMapData($mapData);
 
                 if (!empty($mapData['backup'])) {
                     $staging->setIsBackuped(1);
@@ -597,16 +348,15 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 //scheduling merge
                 if ($isMergeLater && !empty($mergeSchedulingDate)) {
                     $staging->setIsMergeLater('true');
-                    
+
                     //convert to internal time
-                    $date = $currentDate = Mage::getModel('core/date')->gmtDate(null, $mergeSchedulingDate);
+                    $date = Mage::getModel('core/date')->gmtDate(null, $mergeSchedulingDate);
                     $staging->setMergeSchedulingDate($date);
-                    
+
                     $originDate = Mage::app()->getHelper('core')->formatDate($date, 'medium', true);
                     $staging->setMergeSchedulingOriginDate($originDate);
-                    
-                } else {
 
+                } else {
                     if (!empty($mapData['backup'])) {
                         // run create database backup
                         $staging->backup();
@@ -641,222 +391,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         }
 
         if ($redirectBack) {
-            $this->_redirect('*/*/edit', array(
+            $this->_redirect('*/*/merge', array(
                 'id'        => $stagingId,
-                '_current'  =>true
-            ));
-        } else {
-            $this->_redirect('*/*/');
-        }
-    }
-
-    /**
-     * Staging backup view action
-     *
-     */
-    public function backupAction()
-    {
-        $this->_initStaging();
-
-        $this->loadLayout();
-
-        $this->_setActiveMenu('enterprise/staging');
-
-        $this->renderLayout();
-    }
-
-    /**
-     * backup edit process
-     *
-     */
-    public function backupEditAction()
-    {
-        $backup = $this->_initBackup();
-        
-        if (!$backup->canRollback()) {
-            $this->_getSession()->addNotice($this->__('All Backup Items are outdated. The Backup is read-only.'));
-        }
-        
-        if ($backup->getStaging()->isStatusProcessing()) {
-            $this->_getSession()->addNotice($this->__('This Backup is read-only, because a Merge or Rollback is in progress. Please try again later.'));
-        }
-         
-        $this->loadLayout();
-        $this->_setActiveMenu('enterprise/staging');
-        $this->renderLayout();
-    }
-
-    /**
-     * Staging grid for AJAX request
-     */
-    public function backupGridAction()
-    {
-        $staging = $this->_initStaging();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_backup_grid')
-                ->setStaging($staging)
-                ->toHtml()
-        );
-    }
-
-    /**
-     * Remove mass backups
-     *
-     */
-    public function massBackupDeleteAction()
-    {
-        $backupDeleteIds = $this->getRequest()->getPost("backupDelete");
-
-        $redirectBack = false;
-
-        if (is_array($backupDeleteIds)) {
-            foreach ($backupDeleteIds as $backupId) {
-                if ($backupId > 0) {
-                    $backup = $this->_initBackup($backupId);
-
-                    if ($backup->getId() > 0) {
-
-                        $staging = $backup->getStaging();
-
-                        $redirectBack = false;
-
-                        try{
-                            $backup->setIsDeleteTables(true);
-                            $backup->delete();
-                        } catch (Exception $e) {
-                            $redirectBack = true;
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($redirectBack) {
-            $this->_redirect('*/*/backup', array(
-                'id'        => $backup->getId(),
-                '_current'  =>true
-            ));
-        } else {
-            $this->_redirect('*/*/backup');
-        }
-
-    }
-
-    /**
-     * Remove backup
-     *
-     */
-    public function backupDeleteAction()
-    {
-        $backup = $this->_initBackup();
-
-        $staging = $backup->getStaging();
-
-        $redirectBack = false;
-
-        try{
-
-            $backup->setIsDeleteTables(true);
-
-            $backup->delete();
-
-        } catch (Exception $e) {
-
-            $redirectBack = true;
-        }
-
-        if ($redirectBack) {
-            $this->_redirect('*/*/backup', array(
-                'id'        => $backup->getId(),
-                '_current'  =>true
-            ));
-        } else {
-            $this->_redirect('*/*/backup');
-        }
-
-    }
-
-    /**
-     * Staging grid for AJAX request
-     */
-    public function rollbackGridAction()
-    {
-        $backupId = $this->getRequest()->getParam('id');
-
-        $backup = $this->_initBackup($backupId);
-
-        $staging = $backup->getStaging();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_rollback')
-                ->setStaging($staging)
-                ->setBackup($backup)
-                ->toHtml()
-        );
-    }
-
-    /**
-     * Rollback view action
-     *
-     */
-    public function rollbackAction()
-    {
-        $this->_initBackup();
-
-        $this->loadLayout();
-
-        $this->_setActiveMenu('enterprise/staging');
-
-        $this->renderLayout();
-    }
-
-    /**
-     * Process rollback Action
-     *
-     */
-    public function rollbackPostAction()
-    {
-        $redirectBack   = $this->getRequest()->getParam('back', false);
-
-        $stagingId = $this->getRequest()->getPost('staging_id');
-
-        $backupId = $this->getRequest()->getPost('backup_id');
-
-        $backup = $this->_initBackup();
-
-        $staging = $backup->getStaging();
-
-        $stagingId = $staging->getId();
-
-        $mapData = $this->getRequest()->getPost('map');
-
-        try {
-            $staging->getMapperInstance()->setMapData($mapData);
-
-            $staging->setEventId($backup->getEventId());
-
-            $staging->rollback();
-
-            $this->_getSession()->addSuccess($this->__('Master website successfully restored.'));
-
-            $stagingId = $staging->getId();
-            
-            Mage::dispatchEvent('on_enterprise_staging_rollback', array('staging' => $staging));
-        } catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
-            $redirectBack = true;
-        } catch (Exception $e) {
-            $this->_getSession()->addException($e, $e->getMessage());
-            $redirectBack = true;
-        }
-
-        if ($redirectBack) {
-            $this->_redirect('*/*/backup', array(
-                'id'        => $backupId,
-                '_current'  =>true
+                '_current'  => true
             ));
         } else {
             $this->_redirect('*/*/');

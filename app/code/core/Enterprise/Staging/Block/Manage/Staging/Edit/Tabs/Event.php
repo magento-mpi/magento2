@@ -50,12 +50,12 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
-        
+
         $this->setColumnRenderers(
             array(
                 'long2ip' => 'enterprise_staging/manage_staging_edit_renderer_ip'
             ));
-        
+
         $this->helper = Mage::helper('enterprise_staging');
     }
 
@@ -68,18 +68,16 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
     {
         $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection')
             ->setStagingFilter($this->getStaging()->getId());
-        
+
         foreach($collection AS $datasetItem) {
             $user = Mage::getModel('admin/user')->load($datasetItem->getUserId());
-            
+
             $collection->getItemById($datasetItem->getId())
                 ->setData("loginname", $user->getUsername());
         }
-        
-        $collection->setStagingFilter($this->getStaging());
-        
+
         $this->setCollection($collection);
-        
+
         return parent::_prepareCollection();
     }
 
@@ -105,41 +103,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             'filter'        => false
         ));
 
-        /*$this->addColumn('code', array(
-            'header'    => $this->helper->__('Event Code'),
-            'width'     => '100px',        
-            'index'     => 'code',
-            'type'      => 'options',
-            'options'   => $this->_getEventCodeArray()
-        ));*/
-
         $this->addColumn('loginname', array(
             'header'    => $this->helper->__('Username'),
             'index'     => 'loginname',
             'type'      => 'text',
-            'sortable'      => false,            
+            'sortable'      => false,
             'filter'        => false
         ));
-
-        /*$this->addColumn('action', array(
-            'header'    => $this->helper->__('Action'),
-            'index'     => 'action',
-            'type'      => 'text'
-        ));
-
-        $this->addColumn('state', array(
-            'header'    => $this->helper->__('State'),
-            'index'     => 'state',
-            'type'      => 'text',
-            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('state')
-        )); */
-
-        /*$this->addColumn('status', array(
-            'header'    => $this->helper->__('Status'),
-            'index'     => 'status',
-            'type'      => 'text',
-            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('status')
-        ));*/
 
         $this->addColumn('comment', array(
             'header'        => $this->helper->__('Comment'),
@@ -152,18 +122,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             'sortable'      => false,
             'filter'        => false
         ));
-/*
-        $this->addColumn('log', array(
-            'header'        => $this->helper->__('Log'),
-            'align'         => 'left',
-            'index'         => 'log',
-            'type'          => 'text',
-            'truncate'      => 50,
-            'nl2br'         => true,
-            'escape'        => true,
-            'sortable'      => false,
-            'filter'        => false
-        ));*/
 
         return parent::_prepareColumns();
     }
@@ -188,11 +146,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             $backupId = $row->getBackupId();
             if ($backupId > 0) {
                 return $this->getUrl('*/*/backupEdit', array(
-                    'id' => $backupId 
+                    'id' => $backupId
                 ));
             }
         }
-        
+
         return $this->getUrl('*/*/event', array(
             'id' => $row->getId()
         ));

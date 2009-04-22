@@ -105,22 +105,22 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);
     }
-    
+
     /**
      * save backup state in db
      *
      * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
      * @param   Enterprise_Staging_Model_Staging $staging
-     * 
-     * @return Enterprise_Staging_Model_Staging_Backup 
+     *
+     * @return Enterprise_Staging_Model_Staging_Backup
      */
-    public function saveFromEvent(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
+    public function saveFromState(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
     {
         if ($staging && $staging->getId()) {
-            
+
             $name = Mage::helper('enterprise_staging')->__('Backup: ') . $staging->getName();
-            
-            $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging) 
+
+            $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging)
                            . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
                            . $state->getEventId() . "_";
             $this->setStagingId($staging->getId())
@@ -137,9 +137,9 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
             $staging->save();
             $state->setBackupId($this->getId());
         }
-        return $this;        
+        return $this;
     }
-    
+
     /**
      * check rollback condition. If module version changed we can't rollback db
      *
@@ -150,6 +150,11 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
+
+        if (Mage::helper('enterprise_staging')->getCatalogIndexRunningFlag()) {
+            return false;
+        }
+
         $itemInfo = $this->getItemVersionCheck();
 
         if (empty($itemInfo)) {
@@ -158,7 +163,7 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
 
         foreach($itemInfo AS $item) {
             if($item["disabled"]==false) {
-                return true;    
+                return true;
             }
         }
         return false;
@@ -175,40 +180,57 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-        
+
         // get all current module version
         $currentModuleVersion = Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion();
 
         //get backup version list
         $backupModules = unserialize($this->getMageModulesVersion());
-        
-        //Item List
-        $getCurrentItems = Enterprise_Staging_Model_Staging_Config::getConfig("staging_items");
-        
+
         $itemVersionCheck = array();
-        
-        if (!empty($getCurrentItems) && count($getCurrentItems)>0) {
-            foreach($getCurrentItems->children() AS $item) {
-                $itemModel = (string) $item->model;
-                $itemCode = (string) $item->code;
-                $itemCheckModuleName = $itemModel . "_setup";                
-                
+
+        foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
+            if ((int)$stagingItem->is_backend) {
+                continue;
+            }
+
+            $itemModel = (string) $stagingItem->model;
+            $itemCode  = (string) $stagingItem->code;
+            $itemCheckModuleName = $itemModel . "_setup";
+
+            if (isset($backupModules[$itemCheckModuleName])) {
                 $itemVersionCheck[$itemCode]["model"] = $itemModel;
                 $itemVersionCheck[$itemCode]["backupVersion"] = $backupModules[$itemCheckModuleName];
                 $itemVersionCheck[$itemCode]["currentVersion"] =  $currentModuleVersion[$itemCheckModuleName];
                 if ($backupModules[$itemCheckModuleName] == $currentModuleVersion[$itemCheckModuleName]) {
-                    $itemVersionCheck[$itemCode]["disabled"] = false;                    
-                    $itemVersionCheck[$itemCode]["note"] = Mage::helper('enterprise_staging')->__('ok');    
+                    $itemVersionCheck[$itemCode]["disabled"] = false;
+                    $itemVersionCheck[$itemCode]["note"] = Mage::helper('enterprise_staging')->__('ok');
                 } else {
-                    $itemVersionCheck[$itemCode]["disabled"] = true;                    
-                    $itemVersionCheck[$itemCode]["note"] = 
-                        Mage::helper('enterprise_staging')->__('Backup version: ') . ' ' .  
-                        $backupModules[$itemCheckModuleName]. " ,". 
+                    $itemVersionCheck[$itemCode]["disabled"] = true;
+                    $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('version mismatch');
+                    $itemVersionCheck[$itemCode]["note"] =
+                        Mage::helper('enterprise_staging')->__('Backup version: ') . ' ' .
+                        $backupModules[$itemCheckModuleName]. " ,".
                         Mage::helper('enterprise_staging')->__('Current: ') .
-                        $currentModuleVersion[$itemCheckModuleName];    
+                        $currentModuleVersion[$itemCheckModuleName];
                 }
+            } else {
+                $itemVersionCheck[$itemCode]["disabled"] = true;
+                $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('unknown item');
+                $itemVersionCheck[$itemCode]["note"] =
+                    Mage::helper('enterprise_staging')->__('Item model "%s" is not under backup', $itemModel);
             }
-        } 
+        }
+
         return $itemVersionCheck;
+    }
+
+    public function restoreMap()
+    {
+        $mergeMap = $this->getMergeMap();
+        if (!empty($mergeMap)) {
+            $this->getStaging()->getMapperInstance()->unserialize($mergeMap);
+        }
+        return $this;
     }
 }

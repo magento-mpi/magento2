@@ -85,7 +85,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
                         'class'     => 'add'
                     ))
             );
-        } else {
+        } elseif ($this->getStaging()->getId()) {
             $this->setChild('merge_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
@@ -105,7 +105,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
                     ))
             );
         } else {
-            if ($this->getRequest()->getParam('set')) {
+            if ($this->getRequest()->getParam('type')) {
                 $this->setChild('create_button',
                     $this->getLayout()->createBlock('adminhtml/widget_button')
                         ->setData(array(
@@ -115,6 +115,17 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
                         ))
                 );
             }
+        }
+
+        if ($this->getStaging()->canResetStatus()) {
+            $this->setChild('reset_status_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Reset Status'),
+                        'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/resetStatus', array('_current'=>true)) . '\')',
+                        'class' => 'reset'
+                ))
+            );
         }
 
         return parent::_prepareLayout();
@@ -135,7 +146,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
     {
         return $this->getChildHtml('reset_button');
     }
-    
+
     /**
      * Return Save button as html
      */
@@ -145,13 +156,21 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
     }
 
     /**
+     * Return Save button as html
+     */
+    public function getResetStatusButtonHtml()
+    {
+        return $this->getChildHtml('reset_status_button');
+    }
+
+    /**
      * Return SaveandEdit button as html
      */
     public function getSaveAndEditButtonHtml()
     {
         return $this->getChildHtml('save_and_edit_button');
     }
-    
+
     /**
      * Return Merge button as html
      */
@@ -213,17 +232,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
     }
 
     /**
-     * Return dataset id
-     */
-    public function getDatasetId()
-    {
-        if (!($setId = $this->getStaging()->getDatasetId()) && $this->getRequest()) {
-            $setId = $this->getRequest()->getParam('set', null);
-        }
-        return $setId;
-    }
-
-    /**
      * Return delete url
      */
     public function getDeleteUrl()
@@ -233,7 +241,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
 
     /**
      * Return merge url
-     */    
+     */
     public function getMergeUrl()
     {
         return $this->getUrl('*/*/merge', array('_current'=>true));
@@ -241,7 +249,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
 
     /**
      * Return sync url
-     */    
+     */
     public function getSyncUrl()
     {
         return $this->getUrl('*/*/sync', array('_current'=>true));
@@ -249,7 +257,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
 
     /**
      * Return rollback url
-     */    
+     */
     public function getRollbackUrl()
     {
         return $this->getUrl('*/*/rollback', array('_current'=>true));
@@ -257,7 +265,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
 
     /**
      * Return header
-     */    
+     */
     public function getHeader()
     {
         $header = '';
@@ -274,28 +282,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
     }
 
     /**
-     * Return staging entity set name
-     */    
-    public function getStagingEntitySetName()
-    {
-    	$setId = $this->getStaging()->getStagingEntitySetId();
-        if ($setId) {
-            $set = Mage::getModel('enterprise_staging/staging_entity_set')
-                ->load($setId);
-            return $set->getName();
-        }
-        return '';
-    }
-
-    /**
-     * status if IsConfigurable
-     */    
-    public function getIsConfigurable()
-    {
-        return $this->getStaging()->isConfigurable();
-    }
-
-    /**
      * return selected table id
      *
      * @return string
@@ -303,57 +289,5 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
     public function getSelectedTabId()
     {
         return addslashes(htmlspecialchars($this->getRequest()->getParam('tab')));
-    }
-
-    /**
-     * return dataset item ids
-     *
-     * @return int
-     */
-    public function getDatasetItemIds()
-    {
-        return count($this->getStaging()->getDatasetItemIds());
-    }
-    
-    /**
-     * get config data as json
-     *
-     * @return string
-     */
-    public function getConfig()
-    {
-        $config = array(
-            'styles' => array(
-                'error' => array(
-                    'icon' => Mage::getDesign()->getSkinUrl('images/error_msg_icon.gif'),
-                    'bg'   => '#FDD'
-                ),
-                'message' => array(
-                    'icon' => Mage::getDesign()->getSkinUrl('images/fam_bullet_success.gif'),
-                    'bg'   => '#DDF'
-                ),
-                'loader'  => Mage::getDesign()->getSkinUrl('images/ajax-loader.gif')
-            )
-        );
-
-        return Zend_Json::encode($config);
-    }
-
-    /**
-     * return item as json
-     *
-     * @return string
-     */
-    public function getItemsJson()
-    {
-        $json = array();
-        $items = $this->getStaging()->getDatasetItemsCollection();
-        if ($items) {
-            foreach ($items as $item) {
-                $json[] = $item->getData();
-            }
-        }
-
-        return Zend_Json::encode($json);
     }
 }

@@ -42,7 +42,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
         $this->setId('enterpriseStagingBackupGrid');
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('DESC');
-//        $this->setSaveParametersInSession(true);
+
         $this->setUseAjax(true);
         $this->setMassactionBlock("vailable");
 
@@ -57,24 +57,25 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
     {
         if (!$this->getCollection()) {
             $collection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')
-                ->addStagingToCollection()
-                ->addWebsiteToCollection();
-            
+                ->addStagingToCollection(true);
+
             $this->setCollection($collection);
         }
-        
-        return parent::_prepareCollection();
+
+        parent::_prepareCollection();
+
+        return $this;
     }
 
-    
+
     /**
      * Configuration of grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('swebsite_id', array(
+        $this->addColumn('master_website_id', array(
             'header'    => Mage::helper('enterprise_staging')->__('Website'),
-            'index'     => 'website_id',
+            'index'     => 'master_website_id',
             'filter_index'  => 'core_website.website_id',
             'type'      => 'options',
             'options'   => $this->_getWebsiteList(),
@@ -88,35 +89,13 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
             'type'      => 'datetime',
         ));
 
-/*        $actions = array();
-        $actions[] = array(
-            'caption' => Mage::helper('enterprise_staging')->__('Delete'),
-            'url'     => array(
-                'base'   =>'* /* /backupDelete',
-                'params' =>array()
-            ),
-            'field'      => 'id'
-        );
-
-        $this->addColumn('action_delete',
-            array(
-                'header'    => Mage::helper('enterprise_staging')->__('Delete'),
-                'width'     => '100px',
-                'type'      => 'action',
-                'getter'    => 'getId',
-                'actions'   => $actions,
-                'filter'    => false,
-                'sortable'  => false,
-                'index'     => 'stores',
-        ));*/
-
         return $this;
     }
 
     /**
      *  Prepare mass action block
-     * 
-     * 
+     *
+     *
      */
     protected function _prepareMassaction()
     {
@@ -127,7 +106,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
 
         $this->getMassactionBlock()->addItem('delete', array(
             'label'=> Mage::helper('review')->__('Delete'),
-            'url'  => $this->getUrl('*/*/massBackupDelete'),
+            'url'  => $this->getUrl('*/*/massDelete'),
             'confirm' => Mage::helper('review')->__('Are you sure?')
         ));
         return $this;
@@ -143,23 +122,22 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
     {
         if (!$this->getCollection()) {
             $collection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')
-                ->addStagingToCollection()
-                ->addWebsiteToCollection();
+                ->addStagingToCollection(true);
         } else {
             $collection = $this->getCollection();
         }
-        
-        $websites = array(); 
 
-        foreach($collection AS $datasetItem) {
-            $websiteId = $datasetItem->getWebsiteId();
-            $websiteName = $datasetItem->getWebsite();
+        $websites = array();
+
+        foreach($collection AS $backup) {
+            $websiteId   = $backup->getMasterWebsiteId();
+            $websiteName = $backup->getMasterWebsiteName();
             $websites[$websiteId] = $websiteName;
         }
-        
+
         return $websites;
     }
-    
+
     /**
      * Retrieve currently edited staging object
      *
@@ -178,14 +156,14 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/backupGrid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current'=>true));
     }
 
     /**
      * Return grid row url
-     */    
+     */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/backupEdit', array('_current'=>true, 'id'=>$row->getId()));
+        return $this->getUrl('*/*/edit', array('_current'=>true, 'id'=>$row->getId()));
     }
 }

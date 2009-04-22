@@ -130,27 +130,27 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);
     }
-    
+
     /**
      * save rollback state in db
      *
      * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
      * @param   Enterprise_Staging_Model_Staging $staging
-     * 
-     * @return Enterprise_Staging_Model_Staging_Rollback 
+     *
+     * @return Enterprise_Staging_Model_Staging_Rollback
      */
-    public function saveFromEvent(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
+    public function saveFromState(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
     {
         if ($staging && $staging->getId()) {
-            
+
             $name = Mage::helper('enterprise_staging')->__('Staging rollback: ') . $staging->getName();
-            
+
             $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED);
 
-            $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging) 
+            $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging)
                            . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
                            . $staging->getEventId() . "_";
-            
+
             $this->setStagingId($staging->getId())
                 ->setBackupId($this->getBackup()->getBackupId())
                 ->setEventId($state->getEventId())
@@ -168,5 +168,5 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
         }
         return $this;
     }
-    
+
 }

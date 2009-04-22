@@ -26,5 +26,25 @@
 
 class Enterprise_Staging_Model_Staging_State_Website_Prepare extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
+    /**
+     * Main run method of current state
+     *
+     * @param   Enterprise_Staging_Model_Staging $staging
+     *
+     * @return  Enterprise_Staging_Model_Staging_State_Website_Prepare
+     */
+    protected function _run(Enterprise_Staging_Model_Staging $staging)
+    {
+        $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+            $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_FAIL);
+            throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Cann\'t run process because of cron process is running.'));
+        } else {
+            $catalogIndexFlag
+                ->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING)
+                ->save();
+        }
 
+        return $this;
+    }
 }

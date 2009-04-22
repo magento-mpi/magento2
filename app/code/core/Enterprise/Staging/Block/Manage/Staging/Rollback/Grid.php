@@ -38,10 +38,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->setPagerVisibility(false);
         $this->setFilterVisibility(false);
-
 
         $this->setTemplate('enterprise/staging/manage/staging/rollback/grid.phtml');
     }
@@ -52,40 +51,40 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
     protected function _prepareCollection()
     {
         $staging       = $this->getStaging();
-        $itemCollection    = $staging->getDatasetItemsCollection(true);
 
         $extendInfo = $this->getExtendInfo();
-        
-        $collection = $itemCollection;
-        
-        foreach($itemCollection AS $datasetItem) {
-            
-            $itemData = $collection->getItemById($datasetItem->getId());
-            
-            $collection->removeItemByKey($datasetItem->getId());
-            
+
+        $collection = new Varien_Data_Collection();
+
+        foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
+            if ((int)$stagingItem->is_backend/* || (int)$stagingItem->is_extend*/) {
+                continue;
+            }
+            $_code = (string) $stagingItem->code;
+
+            $item = Mage::getModel('enterprise_staging/staging_item')
+                ->loadFromXmlStagingItem($stagingItem);
+
             $disabled = "none";
             $checked = true;
             //process extend information
-            if (!empty($extendInfo) && is_array($extendInfo)) {
-                $itemData->addData($extendInfo[$datasetItem->getCode()]);
-                if ($extendInfo[$datasetItem->getCode()]["disabled"]==true) {
+            if (!empty($extendInfo) && is_array($extendInfo) && isset($extendInfo[$_code])) {
+                $item->addData($extendInfo[$_code]);
+                if ($extendInfo[$_code]["disabled"]==true) {
                     $disabled = "disabled";
                     $checked = false;
-                    $availabilityText = '<div style="color:#800;">version mismatch</div>';
+                    $availabilityText = '<div style="color:#800;">'.$extendInfo[$_code]["reason"].'</div>';
                 } else {
-                    $availabilityText = '<div style="color:#080;"><b>available</b></div>';
+                    $availabilityText = '<div style="color:#080;"><b>'.Mage::helper('enterprise_staging')->__('available').'</b></div>';
                 }
             }
-            
-            $itemData->setData("code", $datasetItem->getCode());
-            $itemData->setData("id", $datasetItem->getId());
-            $itemData->setData("itemCheckbox", $this->_addFieldset($datasetItem->getId(), $datasetItem->getCode(), $disabled, $checked));
-            $itemData->setData("rollbackAvailability", $availabilityText);
-            
-            $collection->addItem($itemData);            
+            $item->setData("id", $_code);
+            $item->setData("itemCheckbox", $this->_addFieldset($_code, $disabled, $checked));
+            $item->setData("rollbackAvailability", $availabilityText);
+
+            $collection->addItem($item);
         }
-        
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -93,37 +92,27 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
     /**
      * Return input checkbox
      *
-     * @param int $id
-     * @param string $disabled
-     * @param bool $checked
+     * @param string  $disabled
+     * @param boolean $checked
      * @return string
      */
-    protected function _addFieldset($id, $code, $disabled, $checked)
+    protected function _addFieldset($code, $disabled, $checked)
     {
         $form = new Varien_Data_Form();
 
-//        $form->addFieldset("checkbox_main_fieldset_" . $id, array())
-               
-        $form->addField("checkbox" .$id , "checkbox" , 
+        $form->addField("checkbox" .$code , "checkbox" ,
             array(
-                'value' => $id,
-                'name'  => "map[items][{$id}][dataset_item_id]",
+                'value'   => $code,
+                'name'    => "map[staging_items][{$code}][staging_item_code]",
                 $disabled => true,
-                'checked' => $checked 
-            ) 
+                'checked' => $checked
+            )
         );
-        
-        $form->addField("checkbox_hidden" .$id , "hidden", 
-            array(
-                'name'  => "map[items][{$id}][code]",
-                'value' => $code,
-            ) 
-        );
-        
-        return $form->toHtml();                
+
+        return $form->toHtml();
     }
- 
-    
+
+
     /**
      * Configuration of grid
      */
@@ -136,9 +125,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
             'type'      => 'text',
             'truncate'  => 1000,
             'width'     => '20px'
-        
+
         ));
-                
+
         $this->addColumn('name', array(
             'header'    => 'Item Name',
             'index'     => 'name',

@@ -65,38 +65,34 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
         $fieldset = $form->addFieldset('staging_dataset_item', array('legend'=>Mage::helper('enterprise_staging')->__('Select Items to be merged')));
 
         $extendInfo = $this->getExtendInfo();
-        
-        foreach ($staging->getDatasetItemsCollection(true) as $datasetItem) {
-            $_id = $datasetItem->getId();
 
-            $disabled = "none";
-            $note = "";
-            
+        foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
+            if ((int)$stagingItem->is_backend/* || (int)$stagingItem->is_extend*/) {
+                continue;
+            }
+
+            $_code      = (string) $stagingItem->code;
+            $disabled   = "none";
+            $note       = "";
+
             //process extend information
             if (!empty($extendInfo) && is_array($extendInfo)) {
-                if ($extendInfo[$datasetItem->getCode()]["disabled"]==true) {
+                if ($extendInfo[$_code]["disabled"]==true) {
                     $disabled = "disabled";
-                    $note = '<div style="color:#900">'.$extendInfo[$datasetItem->getCode()]["note"] . "<div>"; 
+                    $note = '<div style="color:#900">'.$extendInfo[$_code]["note"] . "<div>";
                 } else {
-                    $note = '<div style="color:#090">'.$extendInfo[$datasetItem->getCode()]["note"] . "<div>"; 
+                    $note = '<div style="color:#090">'.$extendInfo[$_code]["note"] . "<div>";
                 }
             }
-            
-            $fieldset->addField('dataset_item_id_'.$_id, 'checkbox',
+
+            $fieldset->addField('staging_item_code_'.$_code, 'checkbox',
                 array(
-                    'label'    => $datasetItem->getName(),
-                    'name'     => "{$datasetItem->getId()}[dataset_item_id]",
-                    'value'    => $datasetItem->getId(),
+                    'label'    => $this->helper->__((string) $stagingItem->label),
+                    'name'     => "{$_code}[staging_item_code]",
+                    'value'    => $_code,
                     'checked'  => true,
-                    $disabled  => true,                                                
-                    'note'     => $note, 
-                )
-            );
-            
-            $fieldset->addField('staging_item_code_'.$_id, 'hidden',
-                array(
-                    'name'     => "{$datasetItem->getId()}[code]",
-                    'value'    => $datasetItem->getCode()
+                    $disabled  => true,
+                    'note'     => $note,
                 )
             );
         }

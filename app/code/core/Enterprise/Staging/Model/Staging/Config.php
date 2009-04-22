@@ -33,12 +33,6 @@ class Enterprise_Staging_Model_Staging_Config
      * Staging type codes
      */
     const TYPE_WEBSITE          = 'website';
-    const TYPE_CATALOG          = 'catalog';
-    const TYPE_CUSTOMER         = 'customer';
-    const TYPE_SALES            = 'sales';
-    const TYPE_CMS              = 'cms';
-    const TYPE_CONFIG           = 'config';
-    const TYPE_CONFIGURABLE     = 'configurable';
 
     const DEFAULT_TYPE          = 'website';
 
@@ -69,6 +63,7 @@ class Enterprise_Staging_Model_Staging_Config
     const STATUS_BROKEN         = 'broken';
     const STATUS_RESTORED       = 'restored';
     const STATUS_HOLDED         = 'holded';
+    const STATUS_FAIL           = 'failed';
 
     /**
      * Staging event codes
@@ -88,8 +83,8 @@ class Enterprise_Staging_Model_Staging_Config
     const VISIBILITY_NOT_ACCESSIBLE             = 'not_accessible';
     const VISIBILITY_ACCESSIBLE                 = 'accessible';
     const VISIBILITY_REQUIRE_HTTP_AUTH          = 'require_http_auth';
-    const VISIBILITY_REQUIRE_ADMIN_SESSION      = 'require_admin_session';
-    const VISIBILITY_REQUIRE_BOTH               = 'require_both';
+
+    static $_stagingItems;
 
     /**
      * Retrieve staging module xml config as Varien_Simplexml_Element object
@@ -133,10 +128,9 @@ class Enterprise_Staging_Model_Staging_Config
             $model = Mage::getModel($modelName);
         }
 
-        // TODO try to give current staging into models as an attribute
         $model->setStaging($staging);
-
         $model->setConfig($typeConfig);
+
         return $model;
     }
 
@@ -219,12 +213,12 @@ class Enterprise_Staging_Model_Staging_Config
     }
 
     /**
-     * get Config node as mixed option array, with selected structure: value, label  
+     * get Config node as mixed option array, with selected structure: value, label
      * with empty first element
      *
      * @param string $nodeName
      * @return mixed
-     */    
+     */
     static public function getAllOptions($nodeName='type')
     {
         $res = array();
@@ -239,11 +233,11 @@ class Enterprise_Staging_Model_Staging_Config
     }
 
     /**
-     * get Config node as mixed option array, with selected structure: value, label  
+     * get Config node as mixed option array, with selected structure: value, label
      *
      * @param string $nodeName
      * @return mixed
-     */      
+     */
     static public function getOptions($nodeName='type')
     {
         $res = array();
@@ -257,12 +251,12 @@ class Enterprise_Staging_Model_Staging_Config
     }
 
     /**
-     * get Config node as text by option id  
+     * get Config node as text by option id
      *
-     * @param int $optionId 
+     * @param int $optionId
      * @param string $nodeName
      * @return text
-     */      
+     */
     static public function getOptionText($optionId, $nodeName)
     {
         $options = self::getOptionArray($nodeName);
@@ -272,21 +266,25 @@ class Enterprise_Staging_Model_Staging_Config
     /**
      * create staging item as simpleXml
      *
-     * @return simpleXml 
+     * @return simpleXml
      */
     static public function getStagingItems()
     {
-        $stagingItems = self::getConfig('staging_items');
-        
-        foreach($stagingItems->children() AS $item_id => $item){
-            if (!empty($item->extends) && is_object($item->extends)){
-                foreach($item->extends->children() AS $extendItem){
-                    $stagingItems->appendChild($extendItem);             
+        if (is_null(self::$_stagingItems)) {
+            $stagingItems = self::getConfig('staging_items');
+
+            foreach($stagingItems->children() AS $item_id => $item) {
+                if (!empty($item->extends) && is_object($item->extends)) {
+                    foreach ($item->extends->children() AS $extendItem) {
+                        $stagingItems->appendChild($extendItem);
+                    }
                 }
             }
+
+            self::$_stagingItems = $stagingItems;
         }
-        
-        return $stagingItems;
+
+        return self::$_stagingItems;
     }
 
     /**
@@ -298,7 +296,7 @@ class Enterprise_Staging_Model_Staging_Config
     static public function getStagingItem($itemCode)
     {
         $stagingItems = self::getStagingItems();
-        
+
         if (!empty($stagingItems->{$itemCode})) {
             return $stagingItems->{$itemCode};
         } else {
@@ -385,12 +383,12 @@ class Enterprise_Staging_Model_Staging_Config
         }
         return $visibility;
     }
-    
+
     /**
      * Retrieve staging table prefix
      *
      * @param   object $object
-     * @param   string $internalPrefix 
+     * @param   string $internalPrefix
      * @return  string
      */
     static public function getTablePrefix($object = null, $internalPrefix = '')
@@ -405,7 +403,7 @@ class Enterprise_Staging_Model_Staging_Config
 
         $stagingTablePrefix  .=  $internalPrefix;
 
-        return $globalTablePrefix . $stagingTablePrefix;            
+        return $globalTablePrefix . $stagingTablePrefix;
     }
 
     /**
@@ -426,7 +424,7 @@ class Enterprise_Staging_Model_Staging_Config
     static public function getBackupTablePrefix($internalPrefix)
     {
         $backupPrefix    = Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix();
-        
+
         if (is_object($internalPrefix)) {
             $backupPrefix .= $internalPrefix . "_";
         }
@@ -441,9 +439,9 @@ class Enterprise_Staging_Model_Staging_Config
     {
         return (string) self::getConfig('global_staging_backup_table_prefix');
     }
-        
+
     /**
-     * Get table name by item config info 
+     * Get table name by item config info
      *
      * @param string $tableName
      * @param string $modelEntity
@@ -453,26 +451,26 @@ class Enterprise_Staging_Model_Staging_Config
     {
 
     	list($model, $entity) = split("[/]" , $modelEntity,2);
-    
+
     	if (!$model){
-    	    return $tableName;	
+    	    return $tableName;
     	}
-    
+
     	$stagingTablePrefix = self::getTablePrefix();
 
     	if (empty($stagingTablePrefix)){
-    	    return $tableName;	
+    	    return $tableName;
     	}
-    	
+
     	if (self::isStagingUpTableName($model, $tableName)) {
 
     	    $stagingAdapter = Mage::getModel('enterprise_staging/staging')
                 ->getAdapterInstance(true);
 
     	    $tableDescription = $stagingAdapter->getTableProperties($model, $tableName);
-    	    
+
             $tableName = $stagingTablePrefix . $tableName;
-            
+
             $stagingAdapter->createTable($tableName, $model, $modelEntity, $tableDescription);
 
     	} else {
@@ -480,9 +478,9 @@ class Enterprise_Staging_Model_Staging_Config
     	}
 
     	return $tableName;
-    	
+
     }
-    
+
     /**
      * Check in staging config ig need to modify src table name
      *
@@ -496,14 +494,14 @@ class Enterprise_Staging_Model_Staging_Config
 
         if (is_object($itemSet)) {
             foreach($itemSet->children() AS $item) {
-                
+
                 $itemModel = (string) $item->model;
-                
+
                 if ($itemModel == $model) {
-                    
+
                     $isBackand = (string) $item->is_backend;
                     $useStorageMethod = (string) $item->use_storage_method;
-                    
+
                     if ($isBackand && $useStorageMethod == "table_prefix") {
                         //apply prefix for custom tables
                         if (!empty($item->entities) && is_object($item->entities)){
@@ -511,15 +509,15 @@ class Enterprise_Staging_Model_Staging_Config
                             foreach($entities->children() AS $entitie) {
                                 $entitieTable = (string) $entitie->table;
                                 if (!empty($entitieTable) && $entitieTable == $tableName) {
-                                    return true;    
+                                    return true;
                                 }
-                            }   
+                            }
                         } else {
                              return true;
                         }
                     }
                 }
-            }   
+            }
         }
         return false;
     }
@@ -529,7 +527,7 @@ class Enterprise_Staging_Model_Staging_Config
      * Retrieve core resources version
      *
      * @return  string
-     */    
+     */
     static public function getCoreResourcesVersion()
     {
         $coreResource = Mage::getSingleton('core/resource');
@@ -541,8 +539,8 @@ class Enterprise_Staging_Model_Staging_Config
         } else {
             return array();
         }
-    } 
-    
+    }
+
 
     /**
      * Retrieve event label

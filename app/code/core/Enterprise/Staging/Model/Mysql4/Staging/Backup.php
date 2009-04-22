@@ -65,19 +65,15 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
      *
      * @param   Mage_Core_Model_Abstract $object
      * @return  Enterprise_Staging_Model_Mysql4_Staging_Backup
-     */    
+     */
     protected function _afterDelete(Mage_Core_Model_Abstract $object)
     {
- 
         if ($object->getIsDeleteTables() === true) {
-            
             $stagingTablePrefix = $object->getStagingTablePrefix();
-            $connection = $object->getStaging()->getAdapterInstance(true)
-                            ->getConnection("backup");
-            
-            // create sql
+            $connection = $this->_getWriteAdapter();
+
             $sql = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
-            
+
             $result = $connection->fetchAll($sql);
 
             foreach ($result AS $row) {
@@ -85,12 +81,27 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
 
                 if (!empty($table[0])) {
                     $dropTableSql = "DROP TABLE {$table[0]}";
-                   
+
                     $connection->query($dropTableSql);
-                    
+
                 }
             }
         }
         return $this;
-    }    
+    }
+
+    public function getBackupTables($stagingTablePrefix)
+    {
+        $sql    = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
+        $result = $this->_getReadAdapter()->fetchAll($sql);
+
+        $resultArray = array();
+        if ($result) {
+            foreach ($result as $row) {
+                $table = array_values($row);
+                $resultArray[] = $table[0];
+            }
+        }
+        return $resultArray;
+    }
 }

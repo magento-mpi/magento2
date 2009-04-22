@@ -149,7 +149,7 @@ $numColumns = sizeof($this->getColumns());
 	         </tfoot>
 	    <?php endif; ?>
 	    <tbody>
-	    <?php if (($this->getCollection()->getSize()>0) && (!$this->getIsCollapsed())): ?>
+	    <?php if (($this->getCollection()->count()>0) && (!$this->getIsCollapsed())): ?>
 	    <?php foreach ($this->getCollection() as $_index=>$_item): ?>
 	        <tr title="<?php echo $this->getRowUrl($_item) ?>"<?php if ($_class = $this->getRowClass($_item)):?> class="<?php echo $_class; ?>"<?php endif;?> >
 	        <?php $i=0;foreach ($this->getColumns() as $_column): ?>

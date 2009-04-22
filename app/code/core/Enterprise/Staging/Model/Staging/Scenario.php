@@ -28,7 +28,7 @@
  * Enterprise Staging Scenario class
  *
  */
-final class Enterprise_Staging_Model_Staging_Scenario
+class Enterprise_Staging_Model_Staging_Scenario
 {
     /**
      * Scenario Code
@@ -36,13 +36,6 @@ final class Enterprise_Staging_Model_Staging_Scenario
      * @var string
      */
     private $_scenarioCode;
-
-    /**
-     * adapter model
-     *
-     * @var Enterprise_Staging_Model_Staging_Adapter
-     */
-    private $_adapter;
 
     /**
      * Staging model
@@ -61,11 +54,11 @@ final class Enterprise_Staging_Model_Staging_Scenario
     /**
      * Init scenario first state
      *
-     * @param unknown_type $scenario
+     * @param string $scenarioCode
+     * @return Enterprise_Staging_Model_Staging_Scenario
      */
-    function init($adapter, $scenarioCode)
+    function init($scenarioCode)
     {
-        $this->setAdapter($adapter);
         $this->setScenarioCode($scenarioCode);
 
         $initState = $this->stateFactory();
@@ -73,12 +66,12 @@ final class Enterprise_Staging_Model_Staging_Scenario
         if ($initState) {
             $this->setState($initState);
         }
-        
+
         if (!Mage::registry($scenarioCode . "_event_start_time")) {
             $date = Mage::getModel('core/date')->gmtDate();
             Mage::register($scenarioCode . "_event_start_time", $date);
         }
-        
+
         return $this;
     }
 
@@ -96,31 +89,13 @@ final class Enterprise_Staging_Model_Staging_Scenario
                     $state->run();
                 }
             } while ($state = $state->next());
+
+            $staging = $this->getStaging();
+            if ($staging->hasData('state_exception')) {
+                throw new Enterprise_Staging_Exception($staging->getData('state_exception'));
+            }
         }
         return $this;
-    }
-
-    /**
-     * set adapter model
-     *
-     * @param Enterprise_Staging_Model_Staging_Adapter $adapter
-     * @return Enterprise_Staging_Model_Staging_Scenario
-     */
-    function setAdapter($adapter)
-    {
-        $this->_adapter = $adapter;
-
-        return $this;
-    }
-
-    /**
-     * get adapter model
-     *
-     * @return Enterprise_Staging_Model_Staging_Adapter
-     */
-    function getAdapter()
-    {
-        return $this->_adapter;
     }
 
     /**
@@ -222,7 +197,7 @@ final class Enterprise_Staging_Model_Staging_Scenario
         $path = 'type/' . $staging->getType() . '/scenaries/' . $scenarioCode . '/' . $stateCode;
 
         $stateConfig = Enterprise_Staging_Model_Staging_Config::getConfig($path);
-        
+
         if (empty($stateConfig)) {
             return false;
         }
@@ -249,7 +224,6 @@ final class Enterprise_Staging_Model_Staging_Scenario
         $state->setEventStateLabel($eventStateLabel);
         $state->setNextStateName($nextModelName);
         $state->setStaging($staging);
-        $state->setAdapter($this->getAdapter());
         $state->setScenario($this);
 
         return $state;

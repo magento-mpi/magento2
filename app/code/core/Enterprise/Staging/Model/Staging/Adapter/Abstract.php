@@ -48,19 +48,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     protected $_config;
 
     /**
-     * Custom Table models
-     *
-     * @var mixed
-     */
-    protected $_tableModels = array(
-       'catalog_product_entity'     => 'catalog',
-       'catalog_category_entity'    => 'catalog',
-       'customer_entity'            => 'customer',
-       'customer_address_entity'    => 'customer',
-    );
-
-    /**
-     * Table list, exclude from copying 
+     * Table list, exclude from copying
      *
      * @var mixed
      */
@@ -75,15 +63,15 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         'catalog_product_bundle_option_value',
         'downloadable_sample_title'
     );
-    
+
     /**
-     * tables to ignore on _processItemMethod
+     * ignore table list
      *
      * @var mixed
      */
     protected $_ignoreTables = array(
-        'catalog_category_flat'     => true,
-        'catalog_product_flat'      => true
+        'category_flat' => true,
+        'product_flat'  => true
     );
 
     /**
@@ -94,25 +82,23 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     protected $_tables;
 
     /**
+     * EAV type Table models
+     *
+     * @var mixed
+     */
+    protected $_eavModels = array(
+       'product'            => 'catalog',
+       'category'           => 'catalog',
+       'customer'           => 'customer',
+       'customer_address'   => 'customer',
+    );
+
+    /**
      * EAV table entities
      *
      * @var modex
      */
     protected $_eavTableTypes = array('int', 'decimal', 'varchar', 'text', 'datetime');
-
-    /**
-     * Current source Model name
-     *
-     * @var string
-     */
-    protected $_srcModel;
-
-    /**
-     * Current target Model name
-     *
-     * @var string
-     */
-    protected $_targetModel;
 
     /**
      * Constructor
@@ -121,13 +107,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     public function __construct()
     {
         $this->_resource = Mage::getSingleton('core/resource');
-
-        $this->_read  = $this->_resource->getConnection('staging_read');
-        $this->_write = $this->_resource->getConnection('staging_write');
+        $this->_read     = $this->_resource->getConnection('staging_read');
+        $this->_write    = $this->_resource->getConnection('staging_write');
     }
 
     /**
-     * Create Staging
+     * Create item method
      *
      * @param Enterprise_Staging_Model_Staging $staging
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
@@ -136,7 +121,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     {
         return $this;
     }
-    
+
     /**
      * Make staging content merge
      *
@@ -149,7 +134,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     }
 
     /**
-     * Make staging content rollback 
+     * Make staging content rollback
      *
      * @param Enterprise_Staging_Model_Staging $staging
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
@@ -171,7 +156,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     }
 
     /**
-     * Staging Content repair 
+     * Staging Content repair
      *
      * @param Enterprise_Staging_Model_Staging $staging
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
@@ -243,12 +228,35 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     }
 
     /**
+     * Specify item xml config
+     *
+     * @param   Varien_Simplexml_Config $config
+     * @return  Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
+    public function setConfig($config)
+    {
+        $this->_config = $config;
+
+        return $this;
+    }
+
+    /**
+     * Retrieve item xml config
+     *
+     * @return Varien_Simplexml_Config
+     */
+    public function getConfig()
+    {
+        return $this->_config;
+    }
+
+    /**
      * Get connection by name or type
      *
      * @param   string $connectionName
      * @return  Zend_Db_Adapter_Abstract
      */
-    public function getConnection($connectionName, $scope = 'read')
+    public function getConnection($connectionName = 'enterprise_staging', $scope = 'read')
     {
         $connectionName = $connectionName . '_' .$scope;
 
@@ -264,7 +272,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
 
         return $this->_connections[$connectionName];
     }
-    
+
     /**
      * Create table
      *
@@ -329,12 +337,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     }
 
     /**
-     * get sql fields list 
+     * get sql fields list
      *
      * @param mixed $field
      * @param Enterprise_Staging_Model_Staging $object
      * @return string
-     */    
+     */
     protected function _getFieldSql($field, $object= null)
     {
         $_fieldSql = "`{$field['name']}` {$field['type']} {$field['extra']}";
@@ -364,12 +372,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     }
 
     /**
-     * get sql keys list 
+     * get sql keys list
      *
      * @param mixed $key
      * @param Enterprise_Staging_Model_Staging $object
      * @return string
-     */       
+     */
     protected function _getKeySql($key, $object= null)
     {
         $_keySql = "";
@@ -387,7 +395,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
                 break;
         }
 
-        
+
         $fields = array();
         foreach ($key['fields'] as $field) {
             $fields[] = "`{$field}`";
@@ -398,13 +406,13 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     }
 
     /**
-     * get sql FOREIGN KEY list 
+     * get sql FOREIGN KEY list
      *
      * @param mixed $key
-     * @param string $model 
+     * @param string $model
      * @param Enterprise_Staging_Model_Staging $object
      * @return string
-     */    
+     */
     protected function _getConstraintSql($key, $model, $object= null)
     {
         $targetRefTable = $this->getStagingTableName($object, $model, $key['ref_table']);
@@ -442,14 +450,14 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     /**
      * Return Staging table name with all prefixes
      *
-     * @param Enterprise_Staging_Model_Staging $object
+     * @param Enterprise_Staging_Model_Staging $staging
      * @param string $model
      * @param string $table
      * @param string $internalPrefix
      * @param bool $ignoreIsStaging
      * @return string
      */
-    public function getStagingTableName($object = null, $model, $table, $internalPrefix = '', $ignoreIsStaging = false)
+    public function getStagingTableName($staging = null, $model, $table, $internalPrefix = '', $ignoreIsStaging = false)
     {
         if (!$ignoreIsStaging) {
             if (!$this->isStagingItem($model, $table)) {
@@ -457,7 +465,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
             }
         }
 
-        $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($object, $internalPrefix);
+        $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging, $internalPrefix);
 
         return $tablePrefix . $table;
     }
@@ -515,14 +523,14 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         // create sql
         $sql = "SHOW CREATE TABLE `{$tableName}`";
         $result = $connection->fetchRow($sql);
-        
+
         $tableProp['create_sql'] = $result["Create Table"];
 
         // collect keys
         $regExp  = '#(PRIMARY|UNIQUE|FULLTEXT|FOREIGN)?\sKEY\s+(`[^`]+` )?(\([^\)]+\))#';
         $matches = array();
         preg_match_all($regExp, $tableProp['create_sql'], $matches, PREG_SET_ORDER);
-        
+
         foreach ($matches as $match) {
             if (isset($match[1]) && $match[1] == 'PRIMARY') {
                 $keyName = 'PRIMARY';
@@ -730,8 +738,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
 
         if (!is_null($table)) {
-            if (isset($this->_tableModels[$table])) {
-                $model = $this->_tableModels[$table];
+            if (isset($this->_eavModels[$table])) {
+                $model = $this->_eavModels[$table];
             }
         }
 

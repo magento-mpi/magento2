@@ -48,39 +48,11 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
     protected $_scenario;
 
     /**
-     * Website instance
-     *
-     * @var mixed
-     */
-    protected $_website;
-
-    /**
      * State Xml config
      *
      * @var Varien_Simplexml_Element
      */
     protected $_config;
-        
-    /**
-     * Store Group instance
-     *
-     * @var mixed
-     */
-    protected $_group;
-
-    /**
-     * Store instance
-     *
-     * @var mixed
-     */
-    protected $_store;
-
-    /**
-     * Flag to add event in event history
-     *
-     * @var bool
-     */
-    protected $_addToEventHistory = false;
 
     /**
      * Event State Code
@@ -95,13 +67,19 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      * @var string
      */
     protected $_eventStateLabel;
-    
+
     /**
      * Event State status message
      *
      * @var string
      */
     protected $_eventStateStatuses;
+
+    /**
+     * Catalog index flag
+     * @var string
+     */
+    protected $_catalogIndexFlag = false;
 
     /**
      * Constructor
@@ -125,39 +103,29 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         }
 
         try {
-            $this->startEventState($staging);
-
-            $this->getAdapter()->beginTransaction('enterprise_staging');
-            $this->_beforeRun($staging);
-            $this->_run($staging);
-            $this->_afterRun($staging);
-            $this->getAdapter()->commitTransaction('enterprise_staging');
-
-            $message = $this->getEventStateStatuses()->complite;
-            $message = Mage::helper('enterprise_staging')
-                ->__($message);
-            //$this->endEventState($staging, $message);
+            if (!$staging->hasData('state_exception')) {
+                $this->getAdapter()->beginTransaction('enterprise_staging');
+                $this->_beforeRun($staging);
+                $this->_run($staging);
+                $this->getAdapter()->commitTransaction('enterprise_staging');
+            }
         } catch (Exception $e) {
             $this->getAdapter()->rollbackTransaction('enterprise_staging');
 
-            $message = (string) $this->getEventStateStatuses()->processing;
-            
-            $message = Mage::helper('enterprise_staging')->__($message);
-            
-            $this->endEventState($staging, $message, $e, true);
-
-            throw new Enterprise_Staging_Exception($e);
+            $staging->setData('state_exception', $e);
         }
+
+        $this->_afterRun($staging);
 
         return $this;
     }
-    
+
     /**
      * Process configured(additional) action before main Run
      *
      * @param Enterprise_Staging_Model_Staging $staging
-     * 
-     * @return Enterprise_Staging_Model_Staging_State_Abstract 
+     *
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
      */
     protected function _beforeRun(Enterprise_Staging_Model_Staging $staging)
     {
@@ -172,12 +140,11 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      * Process configured(additional) action after main Run
      *
      * @param Enterprise_Staging_Model_Staging $staging
-     * 
-     * @return Enterprise_Staging_Model_Staging_State_Abstract 
+     *
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
      */
     protected function _afterRun(Enterprise_Staging_Model_Staging $staging)
     {
-        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
         $this->_runExtendActions('after', $staging);
         return $this;
     }
@@ -186,12 +153,12 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      * Process action Set
      *
      * @param string $nodeName
-     * @param Enterprise_Staging_Model_Staging $staging 
-     * 
-     * @return Enterprise_Staging_Model_Staging_State_Abstract 
+     * @param Enterprise_Staging_Model_Staging $staging
+     *
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
      */
     protected function _runExtendActions($nodeName, $staging)
-    {   
+    {
         if ($config = $this->getConfig($nodeName)) {
             foreach ($config->children() AS $action) {
                 $this->_runExtendAction($action, $staging);
@@ -199,41 +166,43 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         }
         return $this;
     }
-    
+
     /**
      * Process direct Action
      *
      * @param Varien_Simplexml_Element $action
-     * @param Enterprise_Staging_Model_Staging $staging 
-     * 
-     * @return Enterprise_Staging_Model_Staging_State_Abstract 
+     * @param Enterprise_Staging_Model_Staging $staging
+     *
+     * @return Enterprise_Staging_Model_Staging_State_Abstract
      */
     protected function _runExtendAction($action, $staging)
     {
-        
+
         $instance = null;
-        
-        $stateRegistryCode = "staging/" . $this->getEventStateCode() . "/".$action->class;
+
+        $class = (string) $action->class;
+
+        $stateRegistryCode = "staging/" . $this->getEventStateCode() . "/".$class;
         $instance = Mage::registry($stateRegistryCode);
-        
+
         if (!is_object($instance)) {
             switch ($action->type) {
                 case "singleton" :
-                    $instance = Mage::getSingleton($action->class);
+                    $instance = Mage::getSingleton($class);
                     break;
                 default:
-                    $instance = Mage::getModel($action->class);
-                    break;                        
+                    $instance = Mage::getModel($class);
+                    break;
             }
 
             Mage::register($stateRegistryCode, $instance);
-        }            
-            
+        }
+
         if (is_object($instance)) {
             $method = (string) $action->method;
             if (!empty($method)) {
-                $instance->$method($this, $staging);
-            }                
+                $instance->{$method}($this, $staging);
+            }
         }
         return $this;
     }
@@ -251,7 +220,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
             return false;
         }
     }
-    
+
     /**
      * Set state code
      *
@@ -343,6 +312,18 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         return $this;
     }
 
+    public function getEventStateStatusLabel($status)
+    {
+        $statuses = $this->getEventStateStatuses();
+        if ($statuses) {
+            if ($statusNode = $statuses->{$status}) {
+                $status = (string) $statusNode->label;
+                return Mage::helper('enterprise_staging')->__($status);
+            }
+        }
+        return $status;;
+    }
+
     /**
      * get next state name
      *
@@ -350,7 +331,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      */
     public function getNextStateName()
     {
-        if (is_null($this->_adapter)) {
+        if (is_null($this->_nextStateName)) {
             throw new Enterprise_Staging_Exception('Next state is not defined.');
         }
         return $this->_nextStateName;
@@ -367,32 +348,20 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
     }
 
     /**
-     * Set staging adapter as attribute
-     *
-     * @param Enterprise_Staging_Model_Staging_Adapter_Abstract $adapter
-     * @return Enterprise_Staging_Model_Staging_State_Abstract
-     */
-    public function setAdapter(Enterprise_Staging_Model_Staging_Adapter_Abstract $adapter)
-    {
-        $this->_adapter = $adapter;
-        return $this;
-    }
-
-    /**
-     * get staging adapter
+     * Get staging adapter
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
     public function getAdapter()
     {
         if (is_null($this->_adapter)) {
-            throw new Enterprise_Staging_Exception('Adapter is not setted.');
+            $this->_adapter = Mage::getModel('enterprise_staging/staging_adapter');
         }
         return $this->_adapter;
     }
 
     /**
-     * set stenario model as attribute
+     * Declare stenario model
      *
      * @param Enterprise_Staging_Model_Staging_Scenario $scenario
      * @return Enterprise_Staging_Model_Staging_State_Abstract
@@ -402,7 +371,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         $this->_scenario = $scenario;
         return $this;
     }
-    
+
     /**
      * Set config element
      *
@@ -411,17 +380,17 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
     public function setConfig($simpleXml)
     {
         $this->_config = $simpleXml;
-        return $this;        
+        return $this;
     }
-    
+
     /**
      * Get config node value
      *
      * @param empty
-     * @return Varien_Simplexml_Element _config 
-     * 
+     * @return Varien_Simplexml_Element _config
+     *
      * @param string $node (Config Node Name)
-     * @return string Node Value  
+     * @return string Node Value
      */
     public function getConfig($node = null)
     {
@@ -484,160 +453,6 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
     }
 
     /**
-     * set website model as attribute
-     *
-     * @param Enterprise_Staging_Model_Staging_Type_Website $website
-     * @return Enterprise_Staging_Model_Staging_State_Abstract
-     */
-    public function setWebsite(Enterprise_Staging_Model_Staging_Type_Website $website)
-    {
-        $this->_website = $website;
-        return $this;
-    }
-
-    /**
-     * get website model
-     *
-     * @return Enterprise_Staging_Model_Staging_Type_Website
-     */
-    public function getWebsite()
-    {
-        if (is_null($this->_website)) {
-            throw new Enterprise_Staging_Exception('Website is not specified.');
-        }
-        return $this->_website;
-    }
-
-    /**
-     * set staging group as attribute 
-     *
-     * @param Enterprise_Staging_Model_Staging_Type_Store_Group $group
-     * @return Enterprise_Staging_Model_Staging_State_Abstract
-     */
-    public function setGroup(Enterprise_Staging_Model_Staging_Type_Store_Group $group)
-    {
-        $this->_group = $group;
-        return $this;
-    }
-
-    /**
-     * get staging group 
-     *
-     * @return Enterprise_Staging_Model_Staging_Type_Store_Group
-     */
-    public function getGroup()
-    {
-        if (is_null($this->_group)) {
-            throw new Enterprise_Staging_Exception('Store Group is not specified.');
-        }
-        return $this->_group;
-    }
-
-    /**
-     * set staging store object as attribute
-     *
-     * @param Enterprise_Staging_Model_Staging_Type_Store $store
-     * @return Enterprise_Staging_Model_Staging_State_Abstract
-     */
-    public function setStore(Enterprise_Staging_Model_Staging_Type_Store $store)
-    {
-        $this->_store = $store;
-        return $this;
-    }
-
-    /**
-     * get staging store object
-     *
-     * @return Enterprise_Staging_Model_Staging_Type_Store
-     */
-    public function getStore()
-    {
-        if (is_null($this->_store)) {
-            throw new Enterprise_Staging_Exception('Store is not specified.');
-        }
-        return $this->_store;
-    }
-
-
-
-    /**
-     * set start event state
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @param string $message
-     * @param string $log
-     * @return Enterprise_Staging_Model_Staging_State_Abstract
-     */
-    public function startEventState($staging = null, $message = null, $log = null)
-    {
-/*
-        if (!$this->_addToEventHistory) {
-            return $this;
-        }
-
-        if (is_null($staging)) {
-            $staging = $this->getStaging();
-        }
-
-        $eventStateCode = $this->getEventStateCode();
-
-        if (is_null($message)) {
-            $message = Mage::helper('enterprise_staging')
-                ->__('%s event was started', $this->getEventStateLabel());
-        }
-
-        $staging->addEvent($eventStateCode,
-            Enterprise_Staging_Model_Staging_Config::STATE_HOLDED,
-            Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED,
-            $message,
-            $log
-        );
-*/
-        return $this;
-    }
-
-    /**
-     * set end event state
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @param string $message
-     * @param string $log
-     * @param bool $isError 
-     * @return Enterprise_Staging_Model_Staging_State_Abstract
-     */
-    public function endEventState($staging = null, $message = null, $log = null, $isError = false)
-    {
-        if (!$this->_addToEventHistory) {
-            return $this;
-        }
-
-        if (is_null($staging)) {
-            $staging = $this->getStaging();
-        }
-
-        $eventStateCode = $this->getEventStateCode();
-
-        if (is_null($message)) {
-            $message = Mage::helper('enterprise_staging')
-                ->__('%s event was finished', $this->getEventStateLabel());
-        }
-
-        if ($isError) {
-            $state  = Enterprise_Staging_Model_Staging_Config::STATE_HOLDED;
-            $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
-        } else {
-            $state  = Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE;
-            $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
-        }
-
-        $eventName = $this->getEventStateLabel();
-
-        $staging->addEvent($eventStateCode, $state, $status, $eventName, $message, $log);
-
-        return $this;
-    }
-
-    /**
      * Retrieve item resource adapter instance
      *
      * @param Varien_Simplexml_Element $itemXmlConfig
@@ -655,6 +470,7 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
         $adapter = Mage::getSingleton($adapterModelName);
         if ($adapter) {
             $adapter->setEventStateCode($this->getEventStateCode());
+            $adapter->setConfig($itemXmlConfig);
             return $adapter;
         } else {
             throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Wrong item adapter model: %s', $adapterModelName));

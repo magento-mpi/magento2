@@ -146,6 +146,10 @@ class Enterprise_Staging_Model_Entry
                 array('\'../../app/Mage.php\'', "Mage::run('{$this->_website->getCode()}', 'website');"),
                 $sample
             ));
+
+            $sample = file_get_contents(BP . DS . '.htaccess');
+            $outputFile = $this->getBaseFolder() . DS . $this->_website->getCode() . DS . '.htaccess';;
+            file_put_contents($outputFile, $sample);
         }
         return $this;
     }

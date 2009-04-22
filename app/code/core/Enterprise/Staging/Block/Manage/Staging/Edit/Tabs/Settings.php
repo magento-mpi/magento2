@@ -61,7 +61,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
                     'label'     => $this->helper->__('Continue'),
-                    'onclick'   => "setSettings('".$this->getContinueUrl()."','staging_website_ids','staging_entity_set_id','type')",
+                    'onclick'   => "setSettings('".$this->getContinueUrl()."', 'master_website_id', 'type')",
                     'class'     => 'save'
             ))
         );
@@ -83,19 +83,12 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG));
         $websiteCollection->addFieldToFilter('is_staging',array('neq'=>1));
 
-        $fieldset->addField('staging_website_ids', 'select', array(
+        $fieldset->addField('master_website_id', 'select', array(
             'label' => $this->helper->__('Staging Source Website'),
             'title' => $this->helper->__('Staging Source Website'),
-            'name'  => 'websites[]',
+            'name'  => 'master_website_id',
             'value' => '',
             'values'=> $websiteCollection->toOptionArray()
-        ));
-
-        $fieldset->addField('staging_entity_set_id', 'hidden', array(
-            'label' => $this->helper->__('Staging Items Set'),
-            'title' => $this->helper->__('Staging Items Set'),
-            'name'  => 'set',
-            'value' => '1'
         ));
 
         $fieldset->addField('type', 'hidden', array(
@@ -123,10 +116,9 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
     public function getContinueUrl()
     {
         return $this->getUrl('*/*/edit', array(
-            '_current'  => true,
-            'websites'  => '{{websites}}',
-            'set'       => '{{set}}',
-            'type'      => '{{type}}'
+            '_current' => true,
+            'master_website_id'  => '{{master_website_id}}',
+            'type' => '{{type}}'
         ));
     }
 }

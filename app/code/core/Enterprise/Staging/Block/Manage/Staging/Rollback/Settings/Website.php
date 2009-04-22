@@ -38,7 +38,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         $this->setTemplate('enterprise/staging/manage/staging/rollback/settings/website.phtml');
         $this->setId('staging_website_mapper');
         $this->setUseAjax(true);
-        
+
         $this->setRollbackJsObjectName('enterpriseRollbackForm');
         $this->setRowInitCallback($this->getRollbackJsObjectName().'.stagingWebsiteMapperRowInit');
         $this->setIsReadyForRollback(true);
@@ -51,38 +51,19 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
      */
     protected function _prepareLayout()
     {
-        if ($this->getBackup()->canRollback()) {
-            $this->setChild('rollback_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
-                    ->setData(array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
-                        'onclick'   => $this->getRollbackJsObjectName().'.submit()',
-                        'class'  => 'add'
-                    ))
-            );
-        } else {
-            $this->setChild('rollback_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
-                    ->setData(array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
-                        'class'  => 'disabled'
-                    ))
-            );
-        }
-       
+
         $this->setChild('website_store_form',
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_rollback_settings_store')
         );
 
-
         $this->setChild('rollbackGrid',
             $this->getLayout()->createBlock('enterprise_staging/manage_staging_rollback_grid', 'staging.rollback.grid')
-                ->setExtendInfo($this->getBackup()->getItemVersionCheck()));        
-        
+                ->setExtendInfo($this->getBackup()->getItemVersionCheck()));
+
         return parent::_prepareLayout();
     }
-    
+
     /**
      * Retrieve currently edited backup object
      *
@@ -95,9 +76,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         }
         return $this->getData('staging_backup');
     }
-        
+
     /**
-     * Retrieve event 
+     * Retrieve event
      *
      * @return Enterprise_Staging_Block_Manage_Staging-Event
      */
@@ -108,9 +89,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
         }
         return $this->getData('staging_event');
     }
-    
+
     /**
-     * Retrieve staging object of current event 
+     * Retrieve staging object of current event
      *
      * @return Enterprise_Staging_Block_Manage_Staging
      */
@@ -118,7 +99,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
     {
         return $this->getEvent()->getStaging();
     }
-    
+
     /**
      * Return mapper instance
      */
@@ -126,7 +107,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
     {
         return $this->getStaging()->getMapperInstance();
     }
-    
+
     /**
      * Return Save url
      */
@@ -136,17 +117,13 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
     }
 
     /**
-     * Return website collection 
+     * Return website collection
      *
      * @return object
      */
     public function getWebsiteCollection()
     {
         $collection = Mage::getModel('core/website')->getResourceCollection();
-
-        $staging = $this->getStaging();
-
-        //$collection->addFieldToFilter('is_staging',array('neq'=>1));
 
         return $collection->load();
     }

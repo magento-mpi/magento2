@@ -36,16 +36,16 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
      * Keep main translate helper instance
      *
      * @var object
-     */    
+     */
     protected $helper;
-    
+
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->helper = Mage::helper('enterprise_staging');
     }
-    
+
     /**
      * Prepare form before rendering HTML
      *
@@ -53,106 +53,12 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
      */
     protected function _prepareForm()
     {
-
-        $event            = $this->getEvent();
-        $backup          = $this->getBackup(); 
-        $staging          = $this->getStaging();
-        $items            = $staging->getItemsCollection();
-        $masterWebsites   = $this->getWebsiteCollection();
-        $stores           = $this->getAllStoresCollection();
-        $stagingWebsites  = $staging->getWebsitesCollection();
-        $mapperUsedItems  = $this->getMapper()->getUsedItems();
-        $mapperWebSites   = $this->getMapper()->getAllUsedWebsites();
-        
         $form = new Varien_Data_Form();
-        
-        foreach($mapperWebSites AS $mapperWebSiteInfo){
-            if (isset($mapperWebSiteInfo["master_website"])){
-        
-                foreach($mapperWebSiteInfo["master_website"] AS $toSiteId => $fromSiteId){
-                    
-                    $siteInfo = $masterWebsites->getItemByColumnValue("website_id", $toSiteId);
-                    $form = $this->_initWebSiteForm($form, $fromSiteId , $toSiteId);
-                    
-                    if (isset($mapperWebSiteInfo["stores"][$toSiteId])){
-                        foreach($stores AS $storeInfo){
-                            if ($fromStoreId = array_search($storeInfo->getId(), $mapperWebSiteInfo["stores"][$toSiteId])){
-                                $id = $fromSiteId . '-' . $toSiteId;
-                                 
-                                $form = $this->_initStoreForm($form, $id, $fromStoreId, $storeInfo->getId());
-                            }                       
-                        }
-                    }
-                }
-            }
-        } 
-        
+
         $this->setForm($form);
         return parent::_prepareForm();
     }
-    
-    /**
-     * Init website form
-     *
-     * @param Mage_Adminhtml_Block_Widget_Form $form
-     * @param int $fromSiteId
-     * @param int $toSiteId
-     * @return Mage_Adminhtml_Block_Widget_Form
-     */
-    protected function _initWebSiteForm($form, $fromSiteId, $toSiteId)
-    {
-        $id = $fromSiteId . "_" . $toSiteId;
-        
-        $form->addField("map_from_$id" , 'hidden' , 
-            array(
-                'name'  => 'map[websites][from][]',
-                'value' => $fromSiteId
-            )
-        );
 
-        $form->addField("map_to_$id" , 'hidden' , 
-            array(
-                'name'  => 'map[websites][to][]',
-                'value' => $toSiteId
-            )
-        );
-        
-        return $form;
-        
-    }
-
-    /**
-     * Init Store form
-     *
-     * @param Mage_Adminhtml_Block_Widget_Form $form
-     * @param int $website_id
-     * @param int $fromStoreId
-     * @param int $toStoreId
-     * @return Mage_Adminhtml_Block_Widget_Form
-     */
-    
-    protected function _initStoreForm($form, $website_id, $fromStore, $toStore)
-    {
-        $fieldset_id = $website_id . '_' . $fromStore . '_' . $toStore;
-        //$fieldset = $form->addFieldset('store_website_'.$fieldset_id, array());
-        
-        $form->addField("map_store_from_$fieldset_id" , 'hidden' , 
-            array(
-                'name'  => "map[stores][$website_id][from][]",
-                'value' => $fromStore
-            )
-        );
-
-        $form->addField("map_store_to_$fieldset_id" , 'hidden' , 
-            array(
-                'name'  => "map[stores][$website_id][to][]",
-                'value' => $toStore
-            )
-        );
-        
-        return $form;
-    }
-    
     /**
      * Retrieve currently edited backup object
      *
@@ -165,9 +71,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
         }
         return $this->getData('staging_backup');
     }
-        
+
     /**
-     * Retrieve event 
+     * Retrieve event
      *
      * @return Enterprise_Staging_Block_Manage_Staging-Event
      */
@@ -178,9 +84,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
         }
         return $this->getData('staging_event');
     }
-    
+
     /**
-     * Retrieve staging object of current event 
+     * Retrieve staging object of current event
      *
      * @return Enterprise_Staging_Block_Manage_Staging
      */
@@ -188,17 +94,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
     {
         return $this->getEvent()->getStaging();
     }
-    
-    /**
-     * return mapper instance
-     *
-     * @return Enterprise_Staging_Model_Mapper
-     */
-    public function getMapper()
-    {
-        return $this->getStaging()->getMapperInstance();
-    }
-    
+
     /**
      * return website collection
      *
@@ -206,13 +102,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
      */
     public function getWebsiteCollection()
     {
-        $collection = Mage::getModel('core/website')->getResourceCollection();
-
-        $staging = $this->getStaging();
-
-        //$collection->addFieldToFilter('is_staging',array('neq'=>1));
-
-        return $collection->load();
+        return Mage::getModel('core/website')->getResourceCollection();
     }
 
     /**

@@ -53,7 +53,7 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
         $this->setChild('items',
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_edit_tabs_item')
-                ->setFieldNameSuffix('map[items]')
+                ->setFieldNameSuffix('map[staging_items]')
         );
 
         $this->setChild('schedule',
@@ -100,6 +100,23 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
         $collection->addFieldToFilter('is_staging',array('neq'=>1));
 
         return $collection->load();
+    }
+
+    /**
+     * return Staging website
+     *
+     * @return array
+     */
+    public function getStagingWebsiteCollection()
+    {
+        $staging = $this->getStaging();
+        if ($staging) {
+            $stagingWebsite = $this->getStaging()->getStagingWebsite();
+            if ($stagingWebsite) {
+                return array($stagingWebsite);
+            }
+        }
+        return array();
     }
 
     /**

@@ -26,42 +26,20 @@
 
 
 /**
- * Staging backup grid
+ * Staging backup grid container block
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Staging_Block_Manage_Staging_Backup extends Mage_Adminhtml_Block_Template
 {
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('enterprise/staging/manage/staging/backup.phtml');
-    }
-
-    /**
      * Prepare Layout
      */
     protected function _prepareLayout()
     {
         $this->setChild('grid',
-            $this->getLayout()->createBlock('enterprise_staging/manage_staging_backup_grid', 'staging.backup.grid'));
+            $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_backup_grid'));
         return parent::_prepareLayout();
-    }
-    
-
-    /**
-     * Retrieve currently edited staging object
-     *
-     * @return Enterprise_Staging_Block_Manage_Staging
-     */
-    public function getStaging()
-    {
-        if (!($this->getData('staging') instanceof Enterprise_Staging_Model_Staging)) {
-            $this->setData('staging', Mage::registry('staging'));
-        }
-        return $this->getData('staging');
     }
 }

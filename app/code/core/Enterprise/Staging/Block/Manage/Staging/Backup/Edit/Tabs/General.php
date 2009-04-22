@@ -62,28 +62,28 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
         $fieldset->addField('name', 'label', array(
             'label'     => $this->helper->__('Name'),
             'title'     => $this->helper->__('Name'),
-            'value'      => $this->getBackup()->getStaging()->getName()
+            'value'     => $this->getBackup()->getStaging()->getName()
         ));
-        
+
         $fieldset->addField('master_website', 'label', array(
             'label'     => $this->helper->__('Master Website'),
             'title'     => $this->helper->__('Master Website'),
-            'value'      => $this->getMasterWebsite()->getName()
+            'value'     => $this->getMasterWebsite()->getName()
         ));
-                
+
         $fieldset->addField('backupCreateAt', 'label', array(
             'label'     => $this->helper->__('Created Date'),
             'title'     => $this->helper->__('Created Date'),
             'value'     => $this->formatDate($this->getBackup()->getCreatedAt(), 'medium', true)
         ));
-        
+
         $fieldset->addField('tablePrefix', 'label', array(
             'label'     => $this->helper->__('Table Prefix'),
             'title'     => $this->helper->__('Table Prefix'),
             'value'     => $this->getBackup()->getStagingTablePrefix()
         ));
-        
-        
+
+
 /*        $fieldset = $form->addFieldset('staging_backup_used_tables', array('legend'=>Mage::helper('enterprise_staging')->__('Used Tables')));
 
         $usedTables = $this->_getBackupTables();
@@ -94,8 +94,8 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
                 ));
             }
         }*/
-        
-        //$form->addValues($this->getBackup()->getData());        
+
+        //$form->addValues($this->getBackup()->getData());
         $form->setFieldNameSuffix($this->getFieldNameSuffix());
 
         $this->setForm($form);
@@ -112,16 +112,15 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
     public function getMasterWebsite()
     {
 
-        $masterWebsiteId = $this->getBackup()->getStaging()->getMasterWebsiteIds();
-        $masterWebsiteId = $masterWebsiteId[0];
+        $masterWebsiteId = $this->getBackup()->getStaging()->getMasterWebsiteId();
         if (!is_null($masterWebsiteId)) {
             return Mage::app()->getWebsite($masterWebsiteId);
         } else {
             return false;
         }
     }
-    
-    
+
+
     /**
      * Retrieve currently edited backup object
      *
@@ -143,21 +142,6 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
     {
         $backup = $this->getBackup();
         $stagingTablePrefix = $backup->getStagingTablePrefix();
-
-        $connection = $backup->getStaging()->getAdapterInstance(true)
-            ->getConnection("backup");
-        
-        // create sql
-        $sql = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
-        
-        $result = $connection->fetchAll($sql);
-
-        $resultArray = array();
-        
-        foreach ($result AS $row) {
-            $table = array_values($row);
-            $resultArray[] = $table[0];
-        }
-        return $resultArray;
+        return $backup->getResource()->getBackupTables($stagingTablePrefix);
     }
 }

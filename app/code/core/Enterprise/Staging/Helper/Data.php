@@ -24,7 +24,19 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Staging_Helper_Data extends Mage_Core_Helper_Abstract 
+class Enterprise_Staging_Helper_Data extends Mage_Core_Helper_Abstract
 {
-
+    /**
+     * return catalog index flag
+     * @return bool
+     */
+    function getCatalogIndexRunningFlag()
+    {
+        $flag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        if ($flag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

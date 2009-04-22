@@ -34,13 +34,6 @@ abstract class Enterprise_Staging_Model_Staging_Mapper_Abstract extends Varien_O
     protected $_staging;
 
     /**
-     * Staging type config data
-     *
-     * @var mixed
-     */
-    protected $_config;
-
-    /**
      * Constructor
      *
      */
@@ -51,9 +44,9 @@ abstract class Enterprise_Staging_Model_Staging_Mapper_Abstract extends Varien_O
     }
 
     /**
-     * Specify staging instance
+     * Declare staging instance
      *
-     * @param   mixed $staging
+     * @param   Enterprise_Staging_Model_Staging $staging
      * @return  Enterprise_Staging_Model_Staging_Mapper_Abstract
      */
     public function setStaging($staging)
@@ -71,52 +64,22 @@ abstract class Enterprise_Staging_Model_Staging_Mapper_Abstract extends Varien_O
      */
     public function getStaging()
     {
-        if (is_object($this->_staging)) {
+        if ($this->_staging instanceof Enterprise_Staging_Model_Staging) {
             return $this->_staging;
-        }
-        /* TODO try to set staging_id instead whole staging object */
-        $_staging = Mage::registry('staging');
-        if ($_staging && $this->_staging &&  ($_staging->getId() == (int) $this->_staging)) {
-            return $_staging;
-        } else {
-            if (is_int($this->_staging)) {
-                $this->_staging = Mage::getModel('enterprise_staging/staging')->load($this->_staging);
+        } elseif (is_null($this->_staging)) {
+            $_staging = Mage::registry('staging');
+            if ($_staging && $this->_staging &&  ($_staging->getId() == $this->_staging)) {
+                $this->_staging = $_staging;
             } else {
-                $this->_staging = false;
+                if (is_int($this->_staging)) {
+                    $this->_staging = Mage::getModel('enterprise_staging/staging')
+                        ->load($this->_staging);
+                } else {
+                    $this->_staging = false;
+                }
             }
         }
 
         return $this->_staging;
-    }
-
-    /**
-     * Setting specified config
-     *
-     * @param mixed $config
-     * @return Enterprise_Staging_Model_Staging_Type_Abstract
-     */
-    public function setConfig($config)
-    {
-        $this->_config = $config;
-        return $this;
-    }
-
-    /**
-     * Retrieve Staging config
-     * @param string $key
-     * @return unknown
-     */
-    public function getConfig($key = null)
-    {
-        $false = false;
-        if (is_null($key)) {
-            return $this->_config;
-        } else {
-            if (isset($this->_config[$key])) {
-                return $this->_config[$key];
-            } else {
-                return $false;
-            }
-        }
     }
 }

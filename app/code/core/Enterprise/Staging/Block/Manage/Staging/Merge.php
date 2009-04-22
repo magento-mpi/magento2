@@ -38,27 +38,20 @@ class Enterprise_Staging_Block_Manage_Staging_Merge extends Mage_Adminhtml_Block
      * @var array
      */
 	private $_mergeSettingsBlock = array();
-	
+
 	/**
 	 * merge settings template
 	 *
 	 * @var string
 	 */
     private $_mergeSettingsBlockDefaultTemplate = 'enterprise/staging/merge/settings.phtml';
-    
+
     /**
      * merge settings block types
      *
      * @var array
      */
     private $_mergeSettingsBlockTypes = array();
-
-    public function __construct()
-    {
-        parent::__construct();
-        //$this->setTemplate('enterprise/staging/manage/staging/merge.phtml');
-        //$this->setId('enterprise_staging_merge');
-    }
 
     /**
      * Retrieve currently edited staging object
@@ -131,7 +124,7 @@ class Enterprise_Staging_Block_Manage_Staging_Merge extends Mage_Adminhtml_Block
     }
 
     /**
-     * return html structure of merge 
+     * return html structure of merge
      *
      * @return string
      */

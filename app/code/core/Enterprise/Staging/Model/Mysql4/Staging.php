@@ -29,15 +29,11 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
 {
 	protected $_itemTable;
 
-	protected $_websiteTable;
-
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging', 'staging_id');
 
         $this->_itemTable = $this->getTable('enterprise_staging/staging_item');
-
-        $this->_websiteTable = $this->getTable('enterprise_staging/staging_website');
     }
 
     /**
@@ -47,19 +43,11 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $password = trim($object->getMasterPassword());
-        if ($password) {
-             if(Mage::helper('core/string')->strlen($password)<6){
-                Mage::throwException(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
-            }
-            $object->setMasterPasswordHash($object->hashPassword($password));
-        }
-
         $object->setUpdatedAt($this->formatDate(time()));
         if (!$object->getId()) {
             $object->setCreatedAt($object->getUpdatedAt());
         }
-        
+
         parent::_beforeSave($object);
 
         return $this;
@@ -67,31 +55,9 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
 
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        $this->saveItems($object);
-
-        $this->saveWebsites($object);
-
         $this->saveEvents($object);
 
         parent::_afterSave($object);
-
-        return $this;
-    }
-
-    public function saveItems($staging)
-    {
-        foreach ($staging->getItemsCollection() as $item) {
-            $item->save();
-        }
-
-    	return $this;
-    }
-
-    public function saveWebsites($staging)
-    {
-        foreach ($staging->getWebsitesCollection() as $website) {
-            $website->save();
-        }
 
         return $this;
     }
@@ -100,6 +66,15 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     {
         foreach ($staging->getEventsCollection() as $event) {
             $event->save();
+        }
+
+        return $this;
+    }
+
+    public function saveItems($staging)
+    {
+        foreach ($staging->getItemsCollection() as $item) {
+            $item->save();
         }
 
         return $this;
@@ -126,21 +101,6 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     *
-     */
-    public function getWebsiteIds(Enterprise_Staging_Model_Staging $staging)
-    {
-    	if (!$staging->getId()) {
-    		return array();
-    	}
-
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->_websiteTable, array('staging_website_id'))
-            ->where('staging_id=?', $staging->getId());
-        return $this->_getReadAdapter()->fetchCol($select);
-    }
-
-    /**
      * Validate all object's attributes against configuration
      *
      * @param Varien_Object $object
@@ -149,5 +109,64 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     public function validate($object)
     {
         return $this;
+    }
+
+    /**
+     * Update specific attribute value (set new value back in given model)
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @param string $attribute
+     * @param mixed  $value
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Website
+     */
+    public function updateAttribute($staging, $attribute, $value)
+    {
+        if (!$stagingId = (int)$staging->getId()) {
+            return $this;
+        }
+        $whereSql = "staging_id = {$stagingId}";
+        $this->_getWriteAdapter()
+           ->update($this->getMainTable(), array($attribute => $value), $whereSql);
+       $staging->setData($attribute, $value);
+       return $this;
+    }
+
+    /**
+     * Return margeMap for processing websites
+     *
+     * @return array
+     */
+    public function getProcessingWebsites()
+    {
+        $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), array('staging_website_id'))
+            ->where("status = ?", Enterprise_Staging_Model_Config::STATUS_PROCESSING);
+
+        $result = $this->_getReadAdapter()->fetchOne($select);
+        if (is_array($result) && count($result) > 0) {
+            return $result;
+        } else {
+            return array();
+        }
+    }
+
+    /**
+     * get bool result if website in processing now
+     *
+     * @param int $currentWebsiteId
+     * @return bool
+     */
+    public function isWebsiteInProcessing($currentWebsiteId)
+    {
+        $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), array('COUNT(*)'))
+            ->where("status = ?", Enterprise_Staging_Model_Config::STATUS_PROCESSING)
+            ->where("staging_website_id = " . $currentWebsiteId);
+
+        $result = (int) $this->_getReadAdapter()->fetchOne($select);
+        if ($result > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

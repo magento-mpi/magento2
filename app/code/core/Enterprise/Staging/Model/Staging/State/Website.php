@@ -27,12 +27,4 @@
 class Enterprise_Staging_Model_Staging_State_Website extends Enterprise_Staging_Model_Staging_State_Abstract
 {
 
-    /**
-     * Constructor
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 }

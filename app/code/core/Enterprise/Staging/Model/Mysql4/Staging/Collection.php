@@ -30,4 +30,20 @@ class Enterprise_Staging_Model_Mysql4_Staging_Collection extends Mage_Core_Model
     {
         $this->_init('enterprise_staging/staging');
     }
+    
+    /**
+     * Set slave website filter into collection
+     *
+     * @param   mixed   $slaveWebsiteId (if object must be implemented getId() method)
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Website_Collection
+     */
+    public function addSlaveWebsiteFilter($slaveWebsiteId)
+    {
+        if (is_object($slaveWebsiteId)) {
+            $slaveWebsiteId = $slaveWebsiteId->getId();
+        }
+        $this->addFieldToFilter('slave_website_id', (int) $slaveWebsiteId);
+        
+        return $this;
+    }
 }

@@ -28,7 +28,7 @@
 <?php $staging          = $this->getStaging(); ?>
 <?php $items            = $staging->getItemsCollection(); ?>
 <?php $masterWebsites   = $this->getWebsiteCollection(); ?>
-<?php $stagingWebsites  = $staging->getWebsitesCollection(true); ?>
+<?php $stagingWebsites  = $this->getStagingWebsiteCollection(); ?>
 <div>
     <h3 class="icon-head head-categories"><?php echo $staging->getName(); ?></h3>
 </div>
@@ -71,7 +71,7 @@
                             </button>
                         </span>
                     </span>
-                    <span style="padding: 0px 20px 0px 20px;"><b><?php echo $this->__('or') ?></b></span> 
+                    <span style="padding: 0px 20px 0px 20px;"><b><?php echo $this->__('or') ?></b></span>
                     <span class="hor-scroll">
                         <span>
                             <input type="text" style="width: 120px;" class="schedule_merge_later input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/> <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/grid-cal.gif");?> "/>
@@ -101,14 +101,14 @@
         <td></td>
         <td align="right">
             <div style="width: 220px;">
-                    <input type="hidden" class="schedule_merge_later_flag" name="schedule_merge_later_flag" value="" id="schedule_merge_later_flag">                    
+                    <input type="hidden" class="schedule_merge_later_flag" name="schedule_merge_later_flag" value="" id="schedule_merge_later_flag">
             </div>
         </td>
     </tr>
 </table>
 </div>
 
-    
+
 <?php echo $this->getBlockHtml('formkey')?>
 <div id="<?php echo $this->getId() ?>" class="grid">
     <div class="hor-scroll">
@@ -128,9 +128,8 @@
                 <td class="mapper-name"><?php echo $this->__('Staging Website: '); ?>&nbsp;&nbsp;&nbsp;
                     <select name="map[websites][from][]" class="validate-select-website staging-mapper-website-from">
                         <option value=""><?php echo $this->__('Select website from map'); ?></option>
-                    <?php foreach ($stagingWebsites as $website): ?>
-                        <?php $slaveWebsite = $website->getSlaveWebsite(); ?>
-                        <option value="<?php echo $slaveWebsite->getId(); ?>"><?php echo $slaveWebsite->getName(); ?></option>
+                    <?php foreach ($stagingWebsites as $stagingWebsite): ?>
+                        <option value="<?php echo $stagingWebsite->getId(); ?>"><?php echo $stagingWebsite->getName(); ?></option>
                     <?php endforeach; ?>
                     </select>
                 </td>
@@ -207,27 +206,27 @@ stagingGrid.rows.each(function(row){<?php echo $this->getRowInitCallback() ?>(st
 Validation.addAllThese([
     ['schedule_merge_later_flag', '<?php echo Mage::helper('catalog')->__('Please set up merge date/time .') ?>', function(v) {
                 if ($('schedule_merge_later_flag').value == 1) {
-                
+
                     var dateV = $('schedule_merge_later').value;
-                    
+
                     if (!dateV) {
                         return false;
                     }
-                    
+
                     var mergeDate   = new Date(dateV);
-                    
+
                     var currentTime  = new Date();
-                    
+
                     if (v == '' || ((currentTime.getTime()+3600) >= mergeDate.getTime())) {
                         return false;
                     }
                 }
                 return true;
             }],
-            
+
     ['validate-select-website', 'Please select website', function(v, elem) {
                 if (elem.parentNode.parentNode.style.display != 'none') {
-                    
+
                 }
                 return true;
             }],
@@ -237,7 +236,7 @@ Validation.addAllThese([
                 }
                 return true;
             }]]);
-            
-            
-//]]>            
+
+
+//]]>
 </script>

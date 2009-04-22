@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Staging>
-             <version>0.1.3</version>
+             <version>0.1.4</version>
         </Enterprise_Staging>
     </modules>
     <global>
@@ -88,71 +88,15 @@
             </enterprise_staging>
         </helpers>
 
-        <events>
-            <resource_get_tablename>
-                <observers>
-                    <enterprise_staging_get_table_name>
-                        <type>singleton</type>
-                        <class>enterprise_staging/observer</class>
-                        <method>getTableName</method>
-                    </enterprise_staging_get_table_name>
-                </observers>
-            </resource_get_tablename>
-            <controller_front_init_before>
-                <observers>
-                    <enterprise_staging_check_staging>
-                        <type>singleton</type>
-                        <class>enterprise_staging/observer</class>
-                        <method>beforeFrontendInit</method>
-                    </enterprise_staging_check_staging>
-                </observers>
-            </controller_front_init_before>
-            <store_save_after>
-                <observers>
-                    <enterprise_staging_save_store>
-                        <type>singleton</type>
-                        <class>enterprise_staging/observer</class>
-                        <method>saveStore</method>
-                    </enterprise_staging_save_store>
-                </observers>
-            </store_save_after>
-            <store_group_save_after>
-                <observers>
-                    <enterprise_staging_save_store_group>
-                        <type>singleton</type>
-                        <class>enterprise_staging/observer</class>
-                        <method>saveStoreGroup</method>
-                    </enterprise_staging_save_store_group>
-                </observers>
-            </store_group_save_after>
-            <website_save_after>
-                <observers>
-                    <enterprise_staging_save_website>
-                        <type>singleton</type>
-                        <class>enterprise_staging/observer</class>
-                        <method>saveWebsite</method>
-                    </enterprise_staging_save_website>
-                </observers>
-            </website_save_after>
-            <website_delete_after>
-                <observers>
-                    <enterprise_staging_delete_website>
-                        <type>singleton</type>
-                        <class>enterprise_staging/observer</class>
-                        <method>deleteWebsite</method>
-                    </enterprise_staging_delete_website>
-                </observers>
-            </website_delete_after>
-        </events>
         <enterprise>
             <staging>
                 <global_staging_table_prefix>st</global_staging_table_prefix>
                 <global_staging_backup_table_prefix>bk</global_staging_backup_table_prefix>
                 <use_storage_method>table_prefix</use_storage_method>
-                <starage_method>
+                <storage_method>
                     <new_db></new_db>
                     <table_prefix></table_prefix>
-                </starage_method>
+                </storage_method>
 
                 <use_backup_method>table_prefix</use_backup_method>
                 <backup_method>
@@ -183,21 +127,27 @@
                                     <code>create</code>
                                     <label>Staging Website Create</label>
                                     <status>
-                                        <new translate="label">Staging Website Created</new>
-                                        <processing translate="label">Staging Website creating in progress</processing>
-                                        <complete translate="label">Staging Website create successfuly complete</complete>
-                                        <holded translate="label">Staging Website create scheduled</holded>
+                                        <new translate="label"><label>Staging Website Created</label></new>
+                                        <processing translate="label"><label>Staging Website creating in progress</label></processing>
+                                        <complete translate="label"><label>Staging Website create successfuly complete</label></complete>
+                                        <holded translate="label"><label>Staging Website create scheduled</label></holded>
                                     </status>
                                     <model>enterprise_staging/staging_state_website_create</model>
                                     <after>
                                         <save_event>
                                             <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromEvent</method>
+                                            <method>saveFromState</method>
                                         </save_event>
                                     </after>
-                                    <next>0</next>
+                                    <next>check</next>
                                 </create>
+                                <check>
+                                    <code>check</code>
+                                    <label>Check Staging After Create Process</label>
+                                    <model>enterprise_staging/staging_state_website_check</model>
+                                    <next>0</next>
+                                </check>
                             </create>
                             <backup>
                                 <prepare>
@@ -210,32 +160,38 @@
                                     <code>backup</code>
                                     <label>Database Backup</label>
                                     <status>
-                                        <processing translate="label">Backup in progress</processing>
-                                        <complete translate="label">Backup successfuly complete</complete>
-                                        <holded translate="label">Backup scheduled</holded>
+                                        <processing translate="label"><label>Backup in progress</label></processing>
+                                        <complete translate="label"><label>Backup successfuly complete</label></complete>
+                                        <holded translate="label"><label>Backup scheduled</label></holded>
                                     </status>
                                     <model>enterprise_staging/staging_state_website_backup</model>
                                     <before>
                                         <save_event>
                                             <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromEvent</method>
+                                            <method>saveFromState</method>
                                         </save_event>
                                     </before>
                                     <after>
                                         <save_event>
                                             <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromEvent</method>
+                                            <method>saveFromState</method>
                                         </save_event>
                                         <save_backup>
                                             <type>singleton</type>
                                             <class>enterprise_staging/staging_backup</class>
-                                            <method>saveFromEvent</method>
+                                            <method>saveFromState</method>
                                         </save_backup>
                                     </after>
-                                    <next>0</next>
+                                    <next>check</next>
                                 </backup>
+                                <check>
+                                    <code>check</code>
+                                    <label>Check Staging After Create Process</label>
+                                    <model>enterprise_staging/staging_state_website_check</model>
+                                    <next>0</next>
+                                </check>
                             </backup>
                             <merge>
                                 <prepare>
@@ -248,27 +204,33 @@
                                     <code>merge</code>
                                     <label>Merge</label>
                                     <status>
-                                        <processing translate="label">Merge in progress</processing>
-                                        <complete translate="label">Merge successfuly complete</complete>
-                                        <holded translate="label">Merge scheduled</holded>
+                                        <processing translate="label"><label>Merge in progress</label></processing>
+                                        <complete translate="label"><label>Merge successfuly complete</label></complete>
+                                        <holded translate="label"><label>Merge scheduled</label></holded>
                                     </status>
                                     <model>enterprise_staging/staging_state_website_merge</model>
                                     <before>
                                         <save_event>
                                             <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromEvent</method>
+                                            <method>saveFromState</method>
                                         </save_event>
                                     </before>
                                     <after>
                                         <save_event>
                                             <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromEvent</method>
+                                            <method>saveFromState</method>
                                         </save_event>
                                     </after>
-                                    <next>0</next>
+                                    <next>check</next>
                                 </merge>
+                                <check>
+                                    <code>check</code>
+                                    <label>Check Staging After Create Process</label>
+                                    <model>enterprise_staging/staging_state_website_check</model>
+                                    <next>0</next>
+                                </check>
                             </merge>
                             <rollback>
                                 <prepare>
@@ -281,32 +243,38 @@
                                     <code>rollback</code>
                                     <label>Rollback</label>
                                     <status>
-                                        <processing translate="label">Rollback in progress</processing>
-                                        <complete translate="label">Rollback successfuly complete</complete>
-                                        <holded translate="label">Rolback scheduled</holded>
+                                        <processing translate="label"><label>Rollback in progress</label></processing>
+                                        <complete translate="label"><label>Rollback successfuly complete</label></complete>
+                                        <holded translate="label"><label>Rolback scheduled</label></holded>
                                     </status>
                                     <model>enterprise_staging/staging_state_website_rollback</model>
                                     <before>
                                         <save_event>
                                             <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromEvent</method>
+                                            <method>saveFromState</method>
                                         </save_event>
                                     </before>
                                     <after>
                                         <save_event>
                                             <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromEvent</method>
+                                            <method>saveFromState</method>
                                         </save_event>
                                         <save_rollback>
                                             <type>singleton</type>
                                             <class>enterprise_staging/staging_rollback</class>
-                                            <method>saveFromEvent</method>
+                                            <method>saveFromState</method>
                                         </save_rollback>
                                     </after>
-                                    <next>0</next>
+                                    <next>check</next>
                                 </rollback>
+                                <check>
+                                    <code>check</code>
+                                    <label>Check Staging After Create Process</label>
+                                    <model>enterprise_staging/staging_state_website_check</model>
+                                    <next>0</next>
+                                </check>
                             </rollback>
                         </scenaries>
                         <scenaries_status>
@@ -322,10 +290,10 @@
                     <customer>
                         <code>customer</code>
                         <model>customer</model>
-                        <is_backend></is_backend>
+                        <is_backend>1</is_backend>
                         <label>Customers</label>
                         <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
-                        <use_storage_method></use_storage_method>
+                        <use_storage_method>table_prefix</use_storage_method>
                     </customer>
                     <customer_address>
                         <code>customer_address</code>
@@ -351,12 +319,13 @@
                         <is_backend></is_backend>
                         <label>Catalog Products</label>
                         <adapter>enterprise_staging/staging_adapter_item_product</adapter>
-                        <use_storage_method></use_storage_method>
                         <extends>
                             <bundle>
                                 <code>bundle</code>
                                 <model>bundle</model>
                                 <is_backend></is_backend>
+                                <is_extend>1</is_extend>
+                                <label>Bundle products</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <option_value />
@@ -366,21 +335,25 @@
                                 <code>downloadable</code>
                                 <model>downloadable</model>
                                 <is_backend></is_backend>
+                                <is_extend>1</is_extend>
+                                <label>Downloadable products</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <link_title />
                                     <sample_title />
                                 </entities>
                             </downloadable>
-                            <giftcertificate>
-                                <code>giftcertificate</code>
-                                <model>giftcertificate</model>
+                            <enterprise_giftcard>
+                                <code>enterprise_giftcard</code>
+                                <model>enterprise_giftcard</model>
                                 <is_backend></is_backend>
+                                <is_extend>1</is_extend>
+                                <label>Gift Card products</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <code />
                                 </entities>
-                            </giftcertificate>
+                            </enterprise_giftcard>
                         </extends>
                     </catalog_product>
                     <catalog_category>
@@ -388,28 +361,24 @@
                         <model>catalog</model>
                         <label>Catalog Categories</label>
                         <adapter>enterprise_staging/staging_adapter_item_category</adapter>
-                        <use_storage_method></use_storage_method>
                     </catalog_category>
                     <catalogrule>
                         <code>catalogrule</code>
                         <model>catalogrule</model>
                         <label>Catalog Rules</label>
                         <adapter>enterprise_staging/staging_adapter_item_catalogrule</adapter>
-                        <use_storage_method></use_storage_method>
                     </catalogrule>
                     <salesrule>
                         <code>salesrule</code>
                         <model>salesrule</model>
                         <label>Sales Rules</label>
                         <adapter>enterprise_staging/staging_adapter_item_salesrule</adapter>
-                        <use_storage_method></use_storage_method>
                     </salesrule>
                     <cms_page>
                         <code>cms_page</code>
                         <model>cms</model>
                         <label>CMS Pages</label>
                         <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
-                        <use_storage_method></use_storage_method>
                         <entities>
                             <page_store />
                         </entities>
@@ -419,7 +388,6 @@
                         <model>cms</model>
                         <label>CMS Blocks</label>
                         <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
-                        <use_storage_method></use_storage_method>
                         <entities>
                             <block_store />
                         </entities>
@@ -429,7 +397,6 @@
                         <model>poll</model>
                         <label>Polls</label>
                         <adapter>enterprise_staging/staging_adapter_item_poll</adapter>
-                        <use_storage_method></use_storage_method>
                         <entities>
                             <poll_store />
                         </entities>
@@ -439,7 +406,6 @@
                         <model>checkout</model>
                         <label>Coditions And Terms</label>
                         <adapter>enterprise_staging/staging_adapter_item_checkout</adapter>
-                        <use_storage_method></use_storage_method>
                         <entities>
                             <agreement_store />
                         </entities>
@@ -447,9 +413,8 @@
                     <system_config>
                         <code>system_config</code>
                         <model>core</model>
-                        <label>System Configs</label>
+                        <label>System Configuration</label>
                         <adapter>enterprise_staging/staging_adapter_item_config</adapter>
-                        <use_storage_method></use_storage_method>
                         <entities>
                             <config_data />
                         </entities>
@@ -469,7 +434,6 @@
                         <is_backend>1</is_backend>
                         <label>Catalog Inventory</label>
                         <adapter>enterprise_staging/staging_adapter_item_cataloginventory</adapter>
-                        <use_storage_method></use_storage_method>
                         <entities>
                             <cataloginventory_stock_item>
                                 <table>cataloginventory_stock_item</table>
@@ -577,10 +541,8 @@
                 </status>
                 <visibility>
                     <not_accessible translate="label"><label>Not accessible</label></not_accessible>
-                    <accessible translate="label"><label>accessible</label></accessible>
+                    <accessible translate="label"><label>Accessible</label></accessible>
                     <require_http_auth translate="label"><label>Require Http Auth</label></require_http_auth>
-                    <require_admin_session translate="label"><label>Require Admin Session</label></require_admin_session>
-                    <require_both translate="label"><label>Require both</label></require_both>
                 </visibility>
             </staging>
         </enterprise>
@@ -602,18 +564,8 @@
                     <staging_backup>
                         <title>Backups</title>
                          <sort_order>20</sort_order>
-                         <action>adminhtml/staging_manage/backup</action>
+                         <action>adminhtml/staging_backup/index</action>
                     </staging_backup>
-                    <!--staging_merge>
-                        <title>Merge</title>
-                        <sort_order>20</sort_order>
-                        <action>adminhtml/staging_manage/merge</action>
-                    </staging_merge-->
-                    <!--staging_rollback>
-                        <title>Rollback</title>
-                        <sort_order>30</sort_order>
-                        <action>adminhtml/staging_manage/rollback</action>
-                    </staging_rollback-->
                  </children>
               </enterprise_staging>
             </children>
@@ -647,6 +599,17 @@
                 </enterprise_staging>
             </updates>
         </layout>
+        <events>
+            <website_delete_after>
+                <observers>
+                    <enterprise_staging_delete_website>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>deleteWebsite</method>
+                    </enterprise_staging_delete_website>
+                </observers>
+            </website_delete_after>
+        </events>
     </adminhtml>
     <frontend>
         <routers>
@@ -659,6 +622,15 @@
             </staging>
         </routers>
         <events>
+            <resource_get_tablename>
+                <observers>
+                    <enterprise_staging_get_table_name>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>getTableName</method>
+                    </enterprise_staging_get_table_name>
+                </observers>
+            </resource_get_tablename>
             <websiterestriction_frontend>
                 <observers>
                     <enterprise_staging>
@@ -667,6 +639,15 @@
                     </enterprise_staging>
                 </observers>
             </websiterestriction_frontend>
+            <controller_front_init_before>
+                <observers>
+                    <enterprise_staging_check_staging>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>beforeFrontendInit</method>
+                    </enterprise_staging_check_staging>
+                </observers>
+            </controller_front_init_before>
         </events>
     </frontend>
     <admin>
@@ -679,27 +660,6 @@
                 </args>
             </adminhtml>
         </routers>
-        <menu>
-            <system>
-                <children>
-                    <enterprise_staging translate="title">
-                        <title>Admin Staging</title>
-                        <sort_order>21</sort_order>
-                    </enterprise_staging>
-                </children>
-            </system>
-        </menu>
-        <acl>
-            <resources>
-                <admin>
-                    <system>
-                        <config>
-                            <enterprise_staging />
-                        </config>
-                    </system>
-                </admin>
-            </resources>
-        </acl>
     </admin>
 
     <crontab>

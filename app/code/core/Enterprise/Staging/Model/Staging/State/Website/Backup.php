@@ -27,14 +27,6 @@
 class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
     /**
-     * Boolean flag that confirm to create event history record
-     * after current state is done
-     *
-     * @var boolean
-     */
-    protected $_addToEventHistory = true;
-
-    /**
      * Main run method of current state
      *
      * @param   Enterprise_Staging_Model_Staging $staging
@@ -42,31 +34,27 @@ class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_S
      */
     protected function _run(Enterprise_Staging_Model_Staging $staging)
     {
-        $this->_backup($staging);            
-
-        return $this;
-    }
-
-    /**
-     * Create database backup of all staging items
-     * typicaly uses before staging merge operation
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @return Enterprise_Staging_Model_Staging_State_Website_Backup
-     */
-    protected function _backup(Enterprise_Staging_Model_Staging $staging)
-    {
-        $usedItems      = $staging->getMapperInstance()->getUsedItems();
-        foreach ($usedItems as $usedItem) {
-            $itemXmlConfig = Enterprise_Staging_Model_Staging_Config::getStagingItem($usedItem['code']);
-            if ($itemXmlConfig) {
-                $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
-                $adapter->backupItem($staging, $itemXmlConfig);
-            }
+        $mapper       = $staging->getMapperInstance();
+        $stagingItems = $mapper->getStagingItems();
+        foreach ($stagingItems as $stagingItem) {
+            $adapter = $this->getItemAdapterInstanse($stagingItem);
+            $adapter->backup($staging);
         }
 
         return $this;
     }
 
-    
+    /**
+     * Set complete status into current staging
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     *
+     * @return Enterprise_Staging_Model_Staging_State_Website_Backup
+     */
+    protected function _afterRun(Enterprise_Staging_Model_Staging $staging)
+    {
+        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
+
+        return parent::_afterRun($staging);
+    }
 }

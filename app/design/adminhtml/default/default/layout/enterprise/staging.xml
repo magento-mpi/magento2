@@ -56,16 +56,22 @@
         </reference>
     </adminhtml_staging_manage_merge>
     
-    <adminhtml_staging_manage_backup>
+    <adminhtml_staging_manage_event>
         <reference name="content">
-            <block type="enterprise_staging/manage_staging_backup"  name="enterprise_staging_manage_staging_backup" />
+            <block type="enterprise_staging/manage_staging_event"  name="enterprise_staging_manage_staging_event" template="enterprise/staging/manage/staging/event.phtml" />
+        </reference>
+    </adminhtml_staging_manage_event>
+    
+    <adminhtml_staging_backup_index>
+        <reference name="content">
+            <block type="enterprise_staging/manage_staging_backup"  name="enterprise_staging_manage_staging_backup" template="enterprise/staging/manage/staging/backup.phtml" />
         </reference>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
-    </adminhtml_staging_manage_backup>
+    </adminhtml_staging_backup_index>
     
-    <adminhtml_staging_manage_backupedit>
+    <adminhtml_staging_backup_edit>
         <reference name="content">
             <block type="enterprise_staging/manage_staging_backup_edit"  name="enterprise_staging_manage_staging_backup_edit" />
         </reference>
@@ -75,9 +81,9 @@
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
-    </adminhtml_staging_manage_backupedit>
+    </adminhtml_staging_backup_edit>
     
-    <adminhtml_staging_manage_rollback>
+    <adminhtml_staging_backup_rollback>
         <reference name="content">
             <block type="enterprise_staging/manage_staging_rollback"  name="enterprise_staging_manage_staging_rollback">
                 <action method="addRollbackSettingsBlockType"><type>website</type><block>enterprise_staging/manage_staging_rollback_settings_website</block><template>enterprise/staging/manage/staging/rollback/settings/website.phtml</template></action>
@@ -86,11 +92,5 @@
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
-    </adminhtml_staging_manage_rollback>
-    
-    <adminhtml_staging_manage_event>
-        <reference name="content">
-            <block type="enterprise_staging/manage_staging_event"  name="enterprise_staging_manage_staging_event" template="enterprise/staging/manage/staging/event.phtml" />
-        </reference>
-    </adminhtml_staging_manage_event>
+    </adminhtml_staging_backup_rollback>
 </layout>

@@ -62,7 +62,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection extends Mage_Cor
 
         return $this;
     }
-        
+
     /**
      * Add backuped filter into collection
      *
@@ -89,7 +89,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection extends Mage_Cor
         return $this;
     }
 
-    public function addStagingToCollection()
+    public function addStagingToCollection($addWebsiteData = false)
     {
         $this->getSelect()
             ->joinLeft(
@@ -98,25 +98,25 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection extends Mage_Cor
                 array('staging_name'=>'name')
         );
 
+        if ($addWebsiteData) {
+            $this->getSelect()
+                ->joinLeft(
+                    array('core_website' => $this->getTable('core/website')),
+                    'staging.master_website_id=core_website.website_id',
+                    array('master_website_id' => 'website_id',
+                        'master_website_name' => 'name'))
+                ->joinLeft(
+                    array('staging_website' => $this->getTable('core/website')),
+                    'staging.staging_website_id=staging_website.website_id',
+                    array('staging_website_id' => 'website_id',
+                        'staging_website_name' => 'name')
+            );
+
+        }
+
         return $this;
     }
 
-    public function addWebsiteToCollection()
-    {
-        $this->getSelect()
-            ->joinLeft(
-                array('staging_website' => $this->getTable('enterprise_staging/staging_website')),
-                'main_table.staging_id=staging_website.staging_id',
-                array('master_website_id'=>'master_website_id'))
-            ->joinLeft(
-                array('core_website' => $this->getTable('core/website')),
-                'staging_website.master_website_id=core_website.website_id',
-                array('website_id'=>'website_id' , 
-                      'website'=>'name')                
-        );
-
-        return $this;
-    }    
     public function toOptionArray()
     {
         return parent::_toOptionArray('backup_id', 'name');

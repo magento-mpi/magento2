@@ -49,9 +49,6 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             array(
                 'action' => 'enterprise_staging/manage_staging_renderer_action'
             ));
-
-
-        //$this->setTemplate('enterprise/staging/manage/grid.phtml');
     }
 
     /**
@@ -60,18 +57,16 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('enterprise_staging/staging_collection');
-        
-        foreach($collection AS $datasetItem) {
-            $collection->getItemById($datasetItem->getId())
-                ->setData("lastEvent", $datasetItem->getEventsCollection()->getFirstItem()->getComment());
-            foreach ($datasetItem->getWebsitesCollection() as $website) {
-                $baseUrl = $website->getBaseUrl();
-            }
-            $collection->getItemById($datasetItem->getId())
+
+        foreach($collection AS $staging) {
+            $collection->getItemById($staging->getId())
+                ->setData("lastEvent", $staging->getEventsCollection()->getFirstItem()->getComment());
+            $baseUrl = $staging->getStagingWebsite()->getConfig('web/unsecure/base_url');
+            $collection->getItemById($staging->getId())
                 ->setData("base_url", $baseUrl);
-            
+
         }
-        
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -97,16 +92,16 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             'filter'    => false,
             'sortable'  => false,
         ));
-        
+
         $this->addColumn('lastEvent', array(
-            'width'     => '250px',        
+            'width'     => '250px',
             'header'    => 'Latest Event',
             'index'     => 'lastEvent',
             'type'      => 'text',
             'filter'    => false,
             'sortable'  => false,
         ));
-        
+
         $this->addColumn('created_at', array(
             'width'     => '100px',
             'header'    => 'Created At',
@@ -115,7 +110,7 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('updated_at', array(
-            'width'     => '100px',        
+            'width'     => '100px',
             'header'    => 'Updated At',
             'index'     => 'updated_at',
             'type'      => 'datetime',
@@ -123,7 +118,7 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
 
         return $this;
     }
-    
+
     /**
      * Return grids url
      */
@@ -138,7 +133,7 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array(
-            'id'    => $row->getId())
+            'id' => $row->getId())
         );
     }
 }

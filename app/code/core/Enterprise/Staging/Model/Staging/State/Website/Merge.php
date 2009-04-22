@@ -27,14 +27,6 @@
 class Enterprise_Staging_Model_Staging_State_Website_Merge extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
     /**
-     * Boolean flag that confirm to create event history record
-     * after current state is done
-     *
-     * @var boolean
-     */
-    protected $_addToEventHistory = true;
-
-    /**
      * Main run method of current state
      *
      * @param   Enterprise_Staging_Model_Staging $staging
@@ -42,41 +34,30 @@ class Enterprise_Staging_Model_Staging_State_Website_Merge extends Enterprise_St
      */
     protected function _run(Enterprise_Staging_Model_Staging $staging)
     {
-        $this->_mergeStagingWebsites($staging);
-        return $this;
-    }
+        if ($staging->getIsMergeLater() == true) {
+            return $this;
+        }
 
-    /**
-     * Merge selected items data from staging websites to mapped ones
-     *
-     * @param   Enterprise_Staging_Model_Staging $staging
-     * @return  Enterprise_Staging_Model_Staging_State_Website_Merge
-     */
-    protected function _mergeStagingWebsites($staging)
-    {
-        foreach ($staging->getWebsitesCollection() as $stagingWebsite) {
-            $this->_mergeStagingWebsite($staging, $stagingWebsite);
+        $mapper         = $staging->getMapperInstance();
+        $stagingItems   = $mapper->getStagingItems();
+        foreach ($stagingItems as $stagingItem) {
+            $adapter = $this->getItemAdapterInstanse($stagingItem);
+            $adapter->merge($staging);
         }
         return $this;
     }
 
     /**
-     * Merge selected items data from staging website to mapped one
+     * Set complete status into current staging
      *
-     * @param   Enterprise_Staging_Model_Staging            $staging
-     * @param   Enterprise_Staging_Model_Staging_Website    $stagingWebsite
-     * @return  Enterprise_Staging_Model_Staging_State_Website_Merge
+     * @param Enterprise_Staging_Model_Staging $staging
+     *
+     * @return Enterprise_Staging_Model_Staging_State_Website_Merge
      */
-    protected function _mergeStagingWebsite($staging, $stagingWebsite)
+    protected function _afterRun(Enterprise_Staging_Model_Staging $staging)
     {
-        $usedItems = $staging->getMapperInstance()->getUsedItems();
-        foreach ($usedItems as $usedItem) {
-            $itemXmlConfig = Enterprise_Staging_Model_Staging_Config::getStagingItem($usedItem['code']);
-            if ($itemXmlConfig) {
-                $adapter = $this->getItemAdapterInstanse($itemXmlConfig);
-                $adapter->mergeItem($staging, $stagingWebsite, $itemXmlConfig);
-            }
-        }
-        return $this;
+        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
+
+        return parent::_afterRun($staging);
     }
 }

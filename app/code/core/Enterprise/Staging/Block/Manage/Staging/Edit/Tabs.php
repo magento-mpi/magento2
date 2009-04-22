@@ -48,18 +48,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs extends Mage_Adminhtml_B
     {
         $staging = $this->getStaging();
 
-        $setId = $staging->getDatasetId();
-        if (!$setId) {
-            // try to find dataset in request parameters
-            $setId = $this->getRequest()->getParam('set', null);
+        $type = $staging->getType();
+        if (!$type) {
+            // try to find staging type in request parameters
+            $type = $this->getRequest()->getParam('type', null);
         }
 
-        if ($setId) {
-//            $this->addTab('general', array(
-//                'label'     => Mage::helper('enterprise_staging')->__('Staging General Info'),
-//                'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_general')->toHtml(),
-//            ));
-
+        if ($type) {
             $this->addTab('website', array(
                 'label'     => Mage::helper('enterprise_staging')->__('General Information'),
                 'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_edit_tabs_website')->toHtml(),

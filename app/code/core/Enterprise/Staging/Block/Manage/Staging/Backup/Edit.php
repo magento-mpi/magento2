@@ -72,6 +72,25 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
      */
     protected function _prepareLayout()
     {
+         if ($this->getBackup()->canRollback() && !$this->getStaging()->isStatusProcessing()) {
+            $this->setChild('rollback_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
+                        'onclick'   => 'enterpriseRollbackForm.submit()',
+                        'class'  => 'add'
+                    ))
+            );
+        } else {
+            $this->setChild('rollback_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
+                        'class'  => 'disabled'
+                    ))
+            );
+        }
+
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
@@ -113,15 +132,15 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
 
     /**
      * Return Cancel Button Html
-     */    
+     */
     public function getCancelButtonHtml()
     {
         return $this->getChildHtml('reset_button');
     }
-    
+
     /**
      * Return Delete Button Html
-     */    
+     */
     public function getDeleteButtonHtml()
     {
         return $this->getChildHtml('delete_button');
@@ -129,7 +148,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
 
     /**
      * Return Rolllback Button Html
-     */    
+     */
     public function getRollbackButtonHtml()
     {
         return $this->getChildHtml('rollback_button');
@@ -137,7 +156,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
 
     /**
      * Return Validation url
-     */    
+     */
     public function getValidationUrl()
     {
         return $this->getUrl('*/*/validate', array('_current'=>true));
@@ -145,7 +164,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
 
     /**
      * Return Staging Id
-     */    
+     */
     public function getStagingId()
     {
         return $this->getStaging()->getId();
@@ -158,7 +177,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
     {
         return $this->getUrl('*/*/backupDelete', array('_current'=>true));
     }
-    
+
     /**
      * Return Rollback Url
      */

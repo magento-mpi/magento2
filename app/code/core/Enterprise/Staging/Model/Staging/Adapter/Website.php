@@ -26,159 +26,162 @@
 
 class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Staging_Model_Staging_Adapter_Abstract
 {
-
     /**
-     * constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-     * Scenario Create staging 
      *
-     * @param Enterprise_Staging_Model_Staging $staging
+     *
      * @return Enterprise_Staging_Model_Staging_Adapter_Website
      */
     public function create(Enterprise_Staging_Model_Staging $staging)
     {
-        try {
-            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-            $scenario->setStaging($staging);
-            $scenario->init($this, 'create');
-            $scenario->run();
-        } catch (Exception $e) {
-            $staging->saveEventHistory();
-            throw new Enterprise_Staging_Exception($e);
+        $mapper     = $staging->getMapperInstance();
+        $websites   = $mapper->getWebsites();
+
+        foreach ($websites as $website) {
+            $masterWebsiteId = $website->getMasterWebsiteId();
+
+            $stagingWebsite   = Mage::getModel('core/website');
+
+            $stagingWebsite->setData('is_staging', 1);
+            $stagingWebsite->setData('code', $website->getCode());
+            $stagingWebsite->setData('name', $website->getName());
+
+            $stagingWebsite->setData('base_url', $website->getBaseUrl());
+            $stagingWebsite->setData('base_secure_url', $website->getBaseSecureUrl());
+
+            $stagingWebsite->setData('master_login', $website->getMasterLogin());
+
+            $password = trim($website->getMasterPassword());
+            if ($password) {
+                 if(Mage::helper('core/string')->strlen($password)<6){
+                    Mage::throwException(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                }
+            }
+            $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
+
+            if (!$stagingWebsite->getId()) {
+                $value = Mage::getModel('core/date')->gmtDate();
+                $stagingWebsite->setCreatedAt($value);
+            } else {
+                $value = Mage::getModel('core/date')->gmtDate();
+                $stagingWebsite->setUpdatedAt($value);
+            }
+
+            $stagingWebsite->save();
+
+            $entryPoint = Mage::getModel('enterprise_staging/entry')
+                ->setWebsite($stagingWebsite)->save();
+
+            $stagingWebsiteId = (int)$stagingWebsite->getId();
+
+            $website->setStagingWebsite($stagingWebsite);
+            $website->setStagingWebsiteId($stagingWebsiteId);
+
+            $this->_saveSystemConfig($staging, $stagingWebsite, $entryPoint);
+
+            $staging->updateAttribute('master_website_id', $masterWebsiteId);
+            $staging->updateAttribute('staging_website_id', $stagingWebsiteId);
+
+            Mage::dispatchEvent('staging_website_create_after', array(
+                'old_website_id' => $masterWebsiteId, 'new_website_id' => $stagingWebsiteId)
+            );
+
+            break;
         }
-        $staging->saveEventHistory();
         return $this;
     }
 
     /**
-     * Merge staging 
+     * Save system config resource model
      *
-     * @param Enterprise_Staging_Model_Staging $staging
+     * @param Enterprise_Staging_Model_Staging  $staging
+     * @param Mage_Core_Model_Website           $stagingWebsite
      * @return Enterprise_Staging_Model_Staging_Adapter_Website
-     */    
-    public function merge(Enterprise_Staging_Model_Staging $staging)
+     */
+    protected function _saveSystemConfig($staging, Mage_Core_Model_Website $stagingWebsite, $entryPoint = null)
     {
-        try {
-            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-            $scenario->setStaging($staging);
-            $scenario->init($this, 'merge');
-            $scenario->run();
-        } catch (Exception $e) {
-            $staging->saveEventHistory();
-            throw new Enterprise_Staging_Exception($e);
+        $masterWebsite = $staging->getMasterWebsite();
+
+        $unsecureBaseUrl = $stagingWebsite->getBaseUrl();
+        $secureBaseUrl   = $stagingWebsite->getBaseSecureUrl();
+        if ($entryPoint && $entryPoint->isAutomatic()) {
+            $unsecureBaseUrl = $entryPoint->getBaseUrl();
+            $secureBaseUrl   = $entryPoint->getBaseUrl(true);
         }
-        $staging->saveEventHistory();
+
+        $unsecureBaseUrl = $this->_getIndexedUrl($unsecureBaseUrl);
+        $secureBaseUrl = $this->_getIndexedUrl($secureBaseUrl);
+
+        $unsecureConf = Mage::getConfig()->getNode('default/web/unsecure');
+        $secureConf = Mage::getConfig()->getNode('default/web/secure');
+
+        if (!$masterWebsite->getIsStaging()) {
+            $originalBaseUrl = (string) $masterWebsite->getConfig("web/unsecure/base_url");
+        } else {
+            $originalBaseUrl = Mage::getBaseUrl();
+        }
+        $this->_saveUrlsInSystemConfig($stagingWebsite, $originalBaseUrl, $unsecureBaseUrl, 'unsecure' , $unsecureConf);
+
+        if (!$masterWebsite->getIsStaging()) {
+            $originalBaseUrl = (string) $masterWebsite->getConfig("web/secure/base_url");
+        } else {
+            $originalBaseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true);
+        }
+        $this->_saveUrlsInSystemConfig($stagingWebsite, $originalBaseUrl, $secureBaseUrl, 'secure', $secureConf);
+
         return $this;
     }
 
     /**
-     * Rollback staging 
+     * Process core config data
      *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @return Enterprise_Staging_Model_Staging_Adapter_Website
-     */    
-    public function rollback(Enterprise_Staging_Model_Staging $staging)
+     * @param Mage_Core_Model_Website   $stagingWebsite
+     * @param string $originalBaseUrl
+     * @param string $baseUrl
+     * @param string $mode
+     * @param Varien_Simplexml_Element  $xmlConfig
+     */
+    protected function _saveUrlsInSystemConfig($stagingWebsite, $originalBaseUrl, $baseUrl, $mode = 'unsecure', $xmlConfig)
     {
-        try {
-            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-            $scenario->setStaging($staging);
-            $scenario->init($this, 'rollback');
-            $scenario->run();
-        } catch (Exception $e) {
-            $staging->saveEventHistory();
-            throw new Enterprise_Staging_Exception($e);
+        foreach ($xmlConfig->children() AS $nodeName => $nodeValue) {
+            if ($mode == 'secure' || $mode == 'unsecure') {
+                if ($nodeName == 'base_url' || $nodeName == 'base_web_url' || $nodeName == 'base_link_url') {
+                    $nodeValue = $baseUrl;
+                } elseif ($mode == 'unsecure') {
+                    if (strpos($nodeValue, '{{unsecure_base_url}}') !== false) {
+                        $nodeValue = str_replace('{{unsecure_base_url}}', $originalBaseUrl, $nodeValue);
+                    }
+                } elseif ($mode == 'secure') {
+                    if (strpos($nodeValue, '{{secure_base_url}}') !== false) {
+                        $nodeValue = str_replace('{{secure_base_url}}', $originalBaseUrl, $nodeValue);
+                    }
+                }
+            }
+
+            $config = Mage::getModel('core/config_data');
+            $path = 'web/' . $mode . '/' . $nodeName;
+            $config->setPath($path);
+            $config->setScope('websites');
+            $config->setScopeId($stagingWebsite->getId());
+            $config->setValue($nodeValue);
+            $config->save();
         }
-        $staging->saveEventHistory();
+
         return $this;
     }
 
     /**
-     * Check staging state 
+     * check existing index.php in url
      *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @return Enterprise_Staging_Model_Staging_Adapter_Website
-     */    
-    public function check(Enterprise_Staging_Model_Staging $staging)
-    {
-        try {
-            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-            $scenario->setStaging($staging);
-            $scenario->init($this, 'check');
-            $scenario->run();
-        } catch (Exception $e) {
-            $staging->saveEventHistory();
-            throw new Enterprise_Staging_Exception($e);
-        }
-        $staging->saveEventHistory();
-        return $this;
-    }
-
-    /**
-     * Repair staging structure 
+     * @param string $url
+     * @return string
      *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @return Enterprise_Staging_Model_Staging_Adapter_Website
-     */    
-    public function repair(Enterprise_Staging_Model_Staging $staging)
+     */
+    protected function _getIndexedUrl($url)
     {
-        try {
-            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-            $scenario->setStaging($staging);
-            $scenario->init($this, 'repair');
-            $scenario->run();
-        } catch (Exception $e) {
-            $staging->saveEventHistory();
-            throw new Enterprise_Staging_Exception($e);
+        $url = rtrim($url, "/");
+        if (strpos($url, "index.php") === false) {
+            $url .= "/index.php";
         }
-        $staging->saveEventHistory();
-        return $this;
-    }
-
-    /**
-     * Copy staging structure 
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @return Enterprise_Staging_Model_Staging_Adapter_Website
-     */    
-    public function copy(Enterprise_Staging_Model_Staging $staging)
-    {
-        try {
-            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-            $scenario->setStaging($staging);
-            $scenario->init($this, 'copy');
-            $scenario->run();
-        } catch (Exception $e) {
-            $staging->saveEventHistory();
-            throw new Enterprise_Staging_Exception($e);
-        }
-        $staging->saveEventHistory();
-        return $this;
-    }
-
-    /**
-     * Backup staging  
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @return Enterprise_Staging_Model_Staging_Adapter_Website
-     */    
-    public function backup(Enterprise_Staging_Model_Staging $staging)
-    {
-        try {
-            $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-            $scenario->setStaging($staging);
-            $scenario->init($this, 'backup');
-            $scenario->run();
-        } catch (Exception $e) {
-            $staging->saveEventHistory();
-            throw new Enterprise_Staging_Exception($e);
-        }
-        $staging->saveEventHistory();
-        return $this;
+        return $url . '/';
     }
 }
