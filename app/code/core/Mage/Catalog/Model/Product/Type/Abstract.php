@@ -183,6 +183,8 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
                     $attribute->setSortPath($attribute->getData(
                         "attribute_set_info/{$attributeSetId}/sort"
                     ));
+                    $attribute->setStoreId( $this->getProduct($product)->getStore()->getId() );
+
                     $setAttributes[$attribute->getAttributeCode()] = $attribute;
                 }
             }
