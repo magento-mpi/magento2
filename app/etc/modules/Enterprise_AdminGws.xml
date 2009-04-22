@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Magento Enterprise Edition
  *
@@ -19,27 +20,22 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_GiftCardAccount
+ * @package    Enterprise_AdminGws
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
-
-class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-{
-    protected function _construct()
-    {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount');
-    }
-
-    /**
-     * Filter collection by specified websites
-     *
-     * @param array|int $websiteIds
-     * @return Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection
-     */
-    public function addWebsiteFilter($websiteIds)
-    {
-        $this->getSelect()->where('main_table.website_id IN (?)', $websiteIds);
-        return $this;
-    }
-}
+-->
+<config>
+    <modules>
+        <Enterprise_AdminGws>
+            <active>false</active>
+            <codePool>core</codePool>
+            <depends>
+                <Mage_Adminhtml/>
+                <Mage_Admin/>
+                <Mage_Sales/>
+                <Enterprise_Pci/>
+            </depends>
+        </Enterprise_AdminGws>
+    </modules>
+</config>

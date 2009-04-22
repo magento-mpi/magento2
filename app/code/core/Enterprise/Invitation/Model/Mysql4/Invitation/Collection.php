@@ -50,7 +50,19 @@ class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core
      */
     public function loadByCustomerId($id)
     {
-        $this->getSelect()->where('customer_id = ?', $id);
+        $this->getSelect()->where('main_table.customer_id = ?', $id);
         return $this->load();
+    }
+
+    /**
+     * Filter by specified store ids
+     *
+     * @param array|int $storeIds
+     * @return Enterprise_Invitation_Model_Mysql4_Invitation_Collection
+     */
+    public function addStoreFilter($storeIds)
+    {
+        $this->getSelect()->where('main_table.store_id IN (?)', $storeIds);
+        return $this;
     }
 }

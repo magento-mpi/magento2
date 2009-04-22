@@ -19,27 +19,37 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_GiftCardAccount
+ * @package    Enterprise_AdminGws
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+/**
+ * Websites fieldset for admin roles edit tab
+ *
+ */
+class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends Mage_Core_Block_Template
 {
-    protected function _construct()
+    /**
+     * Check whether role assumes all websites permissions
+     *
+     * @return bool
+     */
+    public function getGwsIsAll()
     {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount');
+        if (!Mage::registry('current_role')->getId()) {
+            return true;
+        }
+        return Mage::registry('current_role')->getGwsIsAll();
     }
 
     /**
-     * Filter collection by specified websites
+     * Get the role object
      *
-     * @param array|int $websiteIds
-     * @return Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection
+     * @return Mage_Admin_Model_Roles
      */
-    public function addWebsiteFilter($websiteIds)
+    public function getRole()
     {
-        $this->getSelect()->where('main_table.website_id IN (?)', $websiteIds);
-        return $this;
+        return Mage::registry('current_role');
     }
 }

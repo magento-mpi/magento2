@@ -19,27 +19,26 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_GiftCardAccount
+ * @package    Enterprise_AdminGws
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-{
-    protected function _construct()
-    {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount');
-    }
+/**
+ * Resource setup - add columns to roles table:
+ * gws_is_all       - yes/no flag
+ * gws_websites     - comma-separated
+ * gws_store_groups - comma-separated
+ */
 
-    /**
-     * Filter collection by specified websites
-     *
-     * @param array|int $websiteIds
-     * @return Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection
-     */
-    public function addWebsiteFilter($websiteIds)
-    {
-        $this->getSelect()->where('main_table.website_id IN (?)', $websiteIds);
-        return $this;
-    }
-}
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer->startSetup();
+
+$tableRoles = $installer->getTable('admin/role');
+
+$installer->getConnection()->addColumn($tableRoles, 'gws_is_all', "tinyint(1) NOT NULL DEFAULT 1");
+$installer->getConnection()->addColumn($tableRoles, 'gws_websites', "varchar(255) NOT NULL DEFAULT ''");
+$installer->getConnection()->addColumn($tableRoles, 'gws_store_groups', "varchar(255) NOT NULL DEFAULT ''");
+
+$installer->endSetup();

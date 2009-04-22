@@ -106,10 +106,11 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
      */
     public function addCategoryData()
     {
-        if (! $this->_categoryDataAdded) {
-             $this->getSelect()->joinLeft(array('category' => $this->getTable('catalog/category')), 'category.entity_id = main_table.category_id', array('category_position' => 'position'))->joinLeft(array('category_name_attribute' => $this->getTable('eav/attribute')), 'category_name_attribute.entity_type_id = category.entity_type_id
-                    AND
-                category_name_attribute.attribute_code = \'name\'', array())
+        if (!$this->_categoryDataAdded) {
+             $this->getSelect()
+                ->joinLeft(array('category' => $this->getTable('catalog/category')), 'category.entity_id = main_table.category_id', array('category_position' => 'position'))
+                ->joinLeft(array('category_name_attribute' => $this->getTable('eav/attribute')), 'category_name_attribute.entity_type_id = category.entity_type_id
+                    AND category_name_attribute.attribute_code = \'name\'', array())
                 ->joinLeft(array('category_varchar' => $this->getTable('catalog/category') . '_varchar'), 'category_varchar.entity_id = category.entity_id
                     AND category_varchar.attribute_id = category_name_attribute.attribute_id
                     AND category_varchar.store_id = 0
@@ -165,6 +166,26 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
             array())
         ->group('main_table.event_id');
 
+        return $this;
+    }
+
+    /**
+     * Limit collection by specified category paths
+     *
+     * @param array $allowedPaths
+     * @return Enterprise_CatalogEvent_Model_Mysql4_Event_Collection
+     */
+    public function capByCategoryPaths($allowedPaths)
+    {
+        $this->addCategoryData();
+        $paths = array();
+        foreach ($allowedPaths as $path) {
+            $paths[] = $this->getConnection()->quoteInto('category.path = ?', $path);
+            $paths[] = $this->getConnection()->quoteInto('category.path LIKE ?', $path . '/%');
+        }
+        if ($paths) {
+            $this->getSelect()->where(implode(' OR ', $paths));
+        }
         return $this;
     }
 }

@@ -1,0 +1,205 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_AdminGws
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_AdminGws>
+             <version>0.0.1</version>
+        </Enterprise_AdminGws>
+    </modules>
+    <global>
+        <models>
+            <enterprise_admingws>
+                <class>Enterprise_AdminGws_Model</class>
+                <resourceModel>enterprise_admingws_mysql4</resourceModel>
+            </enterprise_admingws>
+            <enterprise_admingws_mysql4>
+                <class>Enterprise_AdminGws_Model_Mysql4</class>
+            </enterprise_admingws_mysql4>
+        </models>
+        <blocks>
+            <enterprise_admingws>
+                <class>Enterprise_AdminGws_Block</class>
+            </enterprise_admingws>
+        </blocks>
+        <helpers>
+            <enterprise_admingws>
+                <class>Enterprise_AdminGws_Helper</class>
+            </enterprise_admingws>
+        </helpers>
+        <resources>
+            <enterprise_admingws_setup>
+                <setup>
+                    <module>Enterprise_AdminGws</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </enterprise_admingws_setup>
+            <enterprise_admingws_write>
+                <use>core_write</use>
+            </enterprise_admingws_write>
+            <enterprise_admingws_read>
+                <use>core_read</use>
+            </enterprise_admingws_read>
+        </resources>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <enterprise_admingws>
+                    <file>enterprise/admingws.xml</file>
+                </enterprise_admingws>
+            </updates>
+        </layout>
+        <events>
+            <admin_roles_load_after>
+                <observers>
+                    <enterprise_admingws>
+                        <type>singleton</type>
+                        <class>enterprise_admingws/observer</class>
+                        <method>addDataAfterRoleLoad</method>
+                    </enterprise_admingws>
+                </observers>
+            </admin_roles_load_after>
+            <admin_roles_save_before>
+                <observers>
+                    <enterprise_admingws>
+                        <type>singleton</type>
+                        <class>enterprise_admingws/observer</class>
+                        <method>setDataBeforeRoleSave</method>
+                    </enterprise_admingws>
+                </observers>
+            </admin_roles_save_before>
+            <admin_permissions_role_prepare_save>
+                <observers>
+                    <enterprise_admingws>
+                        <type>singleton</type>
+                        <class>enterprise_admingws/observer</class>
+                        <method>prepareRoleSave</method>
+                    </enterprise_admingws>
+                </observers>
+            </admin_permissions_role_prepare_save>
+            <staging_website_create_after>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>copyWebsiteCopyPermissions</method>
+                    </enterprise_admingws>
+                </observers>
+            </staging_website_create_after>
+            <controller_action_predispatch>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>adminAuthenticated</method>
+                    </enterprise_admingws>
+                </observers>
+            </controller_action_predispatch>
+            <core_collection_abstract_load_before>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>limitCollection</method>
+                    </enterprise_admingws>
+                </observers>
+            </core_collection_abstract_load_before>
+            <eav_collection_abstract_load_before>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>limitCollection</method>
+                    </enterprise_admingws>
+                </observers>
+            </eav_collection_abstract_load_before>
+            <review_review_collection_load_before>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>limitCollection</method>
+                    </enterprise_admingws>
+                </observers>
+            </review_review_collection_load_before>
+            <log_visitor_collection_load_before>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>limitCollection</method>
+                    </enterprise_admingws>
+                </observers>
+            </log_visitor_collection_load_before>
+            <model_save_before>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>validateModelBeforeSave</method>
+                    </enterprise_admingws>
+                </observers>
+            </model_save_before>
+        </events>
+        <enterprise>
+            <admingws>
+                <collections>
+                    <core__store_collection>limitStores</core__store_collection>
+                    <core__website_collection>limitWebsites</core__website_collection>
+                    <core__store_group_collection>limitStoreGroups</core__store_group_collection>
+                    <cms__page_collection>limitCms</cms__page_collection>
+                    <cms__block_collection>limitCms</cms__block_collection>
+                    <poll__poll_collection>limitCms</poll__poll_collection>
+                    <sales__order_collection>addStoreAttributeToFilter</sales__order_collection>
+                    <_sales__entity_order_collection>addStoreAttributeToFilter</_sales__entity_order_collection>
+                    <catalog__product_collection>limitProducts</catalog__product_collection>
+                    <customer__customer_collection>limitCustomers</customer__customer_collection>
+                    <review__review_collection>limitReviews</review__review_collection>
+                    <tag__tag_collection>addStoreFilter</tag__tag_collection>
+                    <catalogsearch__query_collection>addStoreFilter</catalogsearch__query_collection>
+                    <enterprise_invitation__invitation_collection>addStoreFilter</enterprise_invitation__invitation_collection>
+                    <catalogrule__rule_collection>limitPriceRules</catalogrule__rule_collection>
+                    <salesrule__rule_collection>limitPriceRules</salesrule__rule_collection>
+                    <log__visitor_collection>limitOnlineCustomers</log__visitor_collection>
+                    <enterprise_giftcardaccount__giftcardaccount_collection>limitGiftCardAccounts</enterprise_giftcardaccount__giftcardaccount_collection>
+                    <enterprise_catalogevent__event_collection>limitCatalogEvents</enterprise_catalogevent__event_collection>
+                    <catalog__category_collection>limitCatalogCategories</catalog__category_collection>
+                    <core__url_rewrite_collection>limitCoreUrlRewrites</core__url_rewrite_collection>
+                    <rating__rating_collection>limitRatings</rating__rating_collection>
+                    <googlebase__item_collection>addStoreFilter</googlebase__item_collection>
+                    <sitemap__sitemap_collection>addStoreFilter</sitemap__sitemap_collection>
+                    <sales__order_invoice_collection>addStoreAttributeToFilter</sales__order_invoice_collection>
+                    <sales__order_shipment_collection>addStoreAttributeToFilter</sales__order_shipment_collection>
+                    <sales__order_creditmemo_collection>addStoreAttributeToFilter</sales__order_creditmemo_collection>
+                    <checkout__agreement_collection>addStoreFilter</checkout__agreement_collection>
+                </collections>
+                <models_before_save>
+                    <cms__page>cmsPageSaveBefore</cms__page>
+                    <cms__block>cmsBlockSaveBefore</cms__block>
+                    <poll__poll>pollSaveBefore</poll__poll>
+                </models_before_save>
+            </admingws>
+        </enterprise>
+    </adminhtml>
+</config>

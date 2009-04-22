@@ -19,27 +19,34 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_GiftCardAccount
+ * @package    Enterprise_AdminGws
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+/**
+ * Admin roles grid
+ *
+ */
+class Enterprise_AdminGws_Block_Adminhtml_Permissions_Grid_Role extends Mage_Adminhtml_Block_Permissions_Grid_Role
 {
-    protected function _construct()
-    {
-        $this->_init('enterprise_giftcardaccount/giftcardaccount');
-    }
-
     /**
-     * Filter collection by specified websites
+     * Add allowed websites/stores column
      *
-     * @param array|int $websiteIds
-     * @return Enterprise_GiftCardAccount_Model_Mysql4_Giftcardaccount_Collection
+     * @return Enterprise_Permissions_Block_Permissions_Grid_Role
      */
-    public function addWebsiteFilter($websiteIds)
+    protected function _prepareColumns()
     {
-        $this->getSelect()->where('main_table.website_id IN (?)', $websiteIds);
+        parent::_prepareColumns();
+
+        $this->addColumn('gws', array(
+            'header'   => $this->__('Allowed Scopes'),
+            'width'    => '200',
+            'sortable' => false,
+            'filter'   => false,
+            'renderer' => 'enterprise_admingws/adminhtml_permissions_grid_renderer_gws'
+        ));
+
         return $this;
     }
 }
