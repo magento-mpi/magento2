@@ -112,6 +112,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     protected $_productCountSelect = null;
 
     /**
+     * @var bool
+     */
+    protected $_isWebsiteFilter = false;
+
+    /**
      * Retrieve Catalog Product Flat Helper object
      *
      * @return Mage_Catalog_Helper_Product_Flat
@@ -444,25 +449,36 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
          * For admin store we display all products
          */
         if (!$store->isAdmin()) {
+            if ($this->_isWebsiteFilter) {
+                return $this;
+            }
             $websiteId = $store->getWebsite()->getId();
             $this->joinField('website_id', 'catalog/product_website', 'website_id', 'product_id=entity_id',
                     '{{table}}.website_id='.$websiteId
             );
+            $this->_isWebsiteFilter = true;
         }
         return $this;
     }
 
     public function addWebsiteFilter($website=null)
     {
+        if ($this->_isWebsiteFilter) {
+            return $this;
+        }
         if (is_null($website)) {
             return $this;
         }
 
         if (is_array($website)) {
-            $this->joinField('website_id', 'catalog/product_website', 'website_id', 'product_id=entity_id',
+            $isOneWebsite = count($website) == 1;
+            $this->joinField('website_id', 'catalog/product_website', ($isOneWebsite ? 'website' : ''), 'product_id=entity_id',
                     '{{table}}.website_id IN('.$this->getConnection()->quoteInto('?', $website) . ')');
+            if (!$isOneWebsite) {
+                $this->getSelect()->distinct();
+            }
         }
-
+        $this->_isWebsiteFilter = true;
         return $this;
     }
 

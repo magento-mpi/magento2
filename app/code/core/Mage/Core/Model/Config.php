@@ -1100,29 +1100,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
-        $classArr = explode('/', $modelClass);
-
-        $resourceModel = false;
-
-        if (!isset($this->_xml->global->models->{$classArr[0]})) {
+        if (!$factoryName = $this->_getResourceModelFactoryClassName($modelClass)) {
             return false;
         }
-
-        $module = $this->_xml->global->models->{$classArr[0]};
-
-        if ((count($classArr)==2)
-            && isset($module->{$classArr[1]}->resourceModel)
-            && $resourceInfo = $module->{$classArr[1]}->resourceModel) {
-            $resourceModel = (string) $resourceInfo;
-        }
-        elseif (isset($module->resourceModel) && $resourceInfo = $module->resourceModel) {
-            $resourceModel = (string) $resourceInfo;
-        }
-
-        if (!$resourceModel) {
-            return false;
-        }
-        return $this->getModelInstance($resourceModel.'/'.$classArr[1], $constructArguments);
+        return $this->getModelInstance($factoryName, $constructArguments);
     }
 
     /**
@@ -1305,5 +1286,52 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             return null;
         }
         return $rootNode->$name ? $rootNode->$name->children() : null;
+    }
+
+    /**
+     * Get factory class name for for a resource
+     *
+     * @param string $modelClass
+     * @return string|false
+     */
+    protected function _getResourceModelFactoryClassName($modelClass)
+    {
+        $classArr = explode('/', $modelClass);
+
+        $resourceModel = false;
+
+        if (!isset($this->_xml->global->models->{$classArr[0]})) {
+            return false;
+        }
+
+        $module = $this->_xml->global->models->{$classArr[0]};
+
+        if ((count($classArr)==2)
+            && isset($module->{$classArr[1]}->resourceModel)
+            && $resourceInfo = $module->{$classArr[1]}->resourceModel) {
+            $resourceModel = (string) $resourceInfo;
+        }
+        elseif (isset($module->resourceModel) && $resourceInfo = $module->resourceModel) {
+            $resourceModel = (string) $resourceInfo;
+        }
+
+        if (!$resourceModel) {
+            return false;
+        }
+        return $resourceModel . '/' . $classArr[1];
+    }
+
+    /**
+     * Get a resource model class name
+     *
+     * @param string $modelClass
+     * @return string|false
+     */
+    public function getResourceModelClassName($modelClass)
+    {
+        if ($factoryName = $this->_getResourceModelFactoryClassName($modelClass)) {
+            return $this->getModelClassName($factoryName);
+        }
+        return false;
     }
 }

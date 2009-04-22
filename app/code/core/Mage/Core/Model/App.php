@@ -1246,4 +1246,19 @@ class Mage_Core_Model_App
     {
         return $this->_useSessionVar;
     }
+
+    /**
+     * Get either default or any store view
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getAnyStoreView()
+    {
+        if ($store = $this->getDefaultStoreView()) {
+            return $store;
+        }
+        foreach ($this->getStores() as $store) {
+            return $store;
+        }
+    }
 }
