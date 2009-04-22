@@ -50,11 +50,11 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_Create_Items extends Mage_Adminht
                 'onclick'   => $onclick,
             ))
         );
-
+        $_submitLabel = $this->getOrder()->getForcedDoShipmentWithInvoice()?'Submit Invoice and Shipment':'Submit Invoice';
         $this->setChild(
             'submit_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-                'label'     => Mage::helper('sales')->__('Submit Invoice'),
+                'label'     => Mage::helper('sales')->__('%s', $_submitLabel),
                 'class'     => 'save submit-button',
                 'onclick'   => '$(\'edit_form\').submit()',
             ))

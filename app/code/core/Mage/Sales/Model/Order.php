@@ -177,7 +177,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         }
 
         foreach ($this->getAllItems() as $item) {
-            if ($item->getQtyToInvoice()>0) {
+            if ($item->getQtyToInvoice()>0 && !$item->getLockedDoInvoice()) {
                 return true;
             }
         }
@@ -255,7 +255,9 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         }
 
         foreach ($this->getAllItems() as $item) {
-            if ($item->getQtyToShip()>0 && !$item->getIsVirtual()) {
+            if ($item->getQtyToShip()>0 && !$item->getIsVirtual()
+                && !$item->getLockedDoShip())
+            {
                 return true;
             }
         }

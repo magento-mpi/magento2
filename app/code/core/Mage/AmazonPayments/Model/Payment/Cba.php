@@ -372,8 +372,9 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $order->setBillingAddress($convertQuote->addressToOrderAddress($billing))
             ->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
 
-        $order->setShippingMethod($shipping->getShippingMethod());
-        $order->setShippingDescription($_shippingDesc);
+        $order->setShippingMethod($shipping->getShippingMethod())
+            ->setShippingDescription($_shippingDesc)
+            ->setForcedDoShipmentWithInvoice(true);
 
         $order->setPayment($convertQuote->paymentToOrderPayment($quote->getPayment()));
 
@@ -386,8 +387,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         foreach ($quote->getAllItems() as $item) {
             /* @var $item Mage_Sales_Model_Quote_Item */
             $order->addItem($convertQuote->itemToOrderItem($item));
-            $orderItem = $order->getItemByQuoteItemId($item->getId());
             /* @var $orderItem Mage_Sales_Model_Order_Item */
+            $orderItem = $order->getItemByQuoteItemId($item->getId());
             $orderItem->setExtOrderItemId($newOrderDetails['items'][$item->getId()]['AmazonOrderItemCode']);
             $orderItemOptions = $orderItem->getProductOptions();
             $orderItemOptions['amazon_amounts'] = serialize(array(
@@ -398,6 +399,8 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 'shipping_promo' => $newOrderDetails['items'][$item->getId()]['shipping_promo']
             ));
             $orderItem->setProductOptions($orderItemOptions);
+            $orderItem->setLockedDoInvoice(true)
+                ->setLockedDoShip(true);
         }
 
         $order->place();
@@ -414,9 +417,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 ->setCustomerGroupId($customer->getGroupId())
                 ->setCustomerTaxClassId($customer->getTaxClassId());
         }
-
-        $order->setState(Mage_Sales_Model_Order::STATE_HOLDED)
-            ->save();
 
         $quote->setIsActive(false);
         $quote->save();
@@ -444,9 +444,14 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 ->loadByAttribute('ext_order_id', $amazonOrderDetails['amazon_order_id']);
             /* @var $order Mage_Sales_Model_Order */
             if ($order->getId()) {
-                $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING)->save();
-            } else {
-                return false;
+                /* @var $item Mage_Sales_Model_Order_Item */
+                foreach ($order->getAllVisibleItems() as $item) {
+                    if (array_key_exists($item->getEctOrderItemId(), $amazonOrderDetails['items'])) {
+                        $item->setLockedDoInvoice(true)
+                            ->setLockedDoShip(true)
+                            ->save();
+                    }
+                }
             }
         }
         return true;
