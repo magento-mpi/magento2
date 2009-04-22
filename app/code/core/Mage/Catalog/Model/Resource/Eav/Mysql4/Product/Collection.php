@@ -472,7 +472,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         if (is_array($website)) {
             $isOneWebsite = count($website) == 1;
-            $this->joinField('website_id', 'catalog/product_website', ($isOneWebsite ? 'website' : ''), 'product_id=entity_id',
+            $this->joinField('website_id', 'catalog/product_website', ($isOneWebsite ? 'website_id' : ''), 'product_id=entity_id',
                     '{{table}}.website_id IN('.$this->getConnection()->quoteInto('?', $website) . ')');
             if (!$isOneWebsite) {
                 $this->getSelect()->distinct();
