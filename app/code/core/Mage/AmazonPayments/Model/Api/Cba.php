@@ -973,6 +973,9 @@ XML;
             $items,
             $trackNumber
         );
+        $shipment->addComment(
+            Mage::helper('amazonpayments')->__('Shipment was created with Checkout by Amazon.')
+        );
         return $this;
     }
 

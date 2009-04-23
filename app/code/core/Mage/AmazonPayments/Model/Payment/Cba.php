@@ -138,12 +138,25 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         return $this;
     }
 
+    public function processInvoice($invoice, $payment)
+    {
+        parent::processInvoice($invoice, $payment);
+        $invoice->addComment(
+            Mage::helper('amazonpayments')->__('Invoice was created with Checkout by Amazon.')
+        );
+        return $this;
+    }
+
     public function cancel(Varien_Object $payment)
     {
         if ($this->_skipProccessDocument) {
             return $this;
         }
         $this->getApi()->cancel($payment->getOrder());
+        $payment->getOrder()->addStatusToHistory(
+            $payment->getOrder()->getStatus(),
+            Mage::helper('amazonpayments')->__('Order was canceled with Checkout by Amazon.')
+        );
         return $this;
     }
 
@@ -159,6 +172,9 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             return $this;
         }
         $this->getApi()->refund($payment, $amount);
+        $payment->getCreditmemo()->addComment(
+            Mage::helper('amazonpayments')->__('Refund was created with Checkout by Amazon.')
+        );
         return $this;
     }
 
@@ -264,6 +280,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
      */
     protected function _createNewOrder(array $newOrderDetails)
     {
+        /* @var $order Mage_Sales_Model_Order */
         if (array_key_exists('amazonOrderID', $newOrderDetails)) {
             $_order = Mage::getModel('sales/order')
                 ->loadByAttribute('ext_order_id', $newOrderDetails['amazonOrderID']);
@@ -405,6 +422,11 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
 
         $order->place();
 
+        $order->addStatusToHistory(
+            $order->getStatus(),
+            Mage::helper('amazonpayments')->__('New Order Notification received from Checkout by Amazon service.')
+        );
+
         $customer = $quote->getCustomer();
         if ($customer && $customer->getId()) {
             $order->setCustomerId($customer->getId())
@@ -456,6 +478,10 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                             ->save();
                     }
                 }
+                $order->addStatusToHistory(
+                    $order->getStatus(),
+                    Mage::helper('amazonpayments')->__('Order Ready To Ship Notification received form Checkout by Amazon service.')
+                )->save();
             }
         }
         return true;
@@ -475,7 +501,11 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             /* @var $order Mage_Sales_Model_Order */
             if ($order->getId()) {
                 try {
-                    $order->cancel()->save();
+                    $order->cancel()
+                        ->addStatusToHistory(
+                            $order->getStatus(),
+                            Mage::helper('amazonpayments')->__('Cancel Order Notification received from Checkout by Amazon service.')
+                        )->save();
                 } catch (Exception $e) {
                     return false;
                 }

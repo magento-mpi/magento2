@@ -42,6 +42,7 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
     protected $_merchantInfo = array();
     protected $_client = null;
     protected $_result = null;
+    protected $_proccessFailed = false;
     protected $_options = array(
         'trace'     => true,
         'timeout'   => '20',
@@ -170,11 +171,12 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
     {
         if ($this->getClient()) {
             $this->_result = null;
+            $this->_proccessFailed = false;
             try {
                 $this->_result = $this->getClient()
                     ->call($method, $params, $this->_options);
             } catch (Exception $e) {
-                Zend_Debug::dump($e->getMessage());
+                $this->_proccessFailed = true;
             }
         }
         return $this;
