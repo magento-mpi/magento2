@@ -947,29 +947,27 @@ XML;
                 'qty' => $item->getQty()
             );
         }
-        $carrier = $shipment->getOrder()->getShippingCarrier();
 
-        $carrierCode = '';
-        $carrierMethod = '';
+        $carrierName = '';
+        $shippingMethod = '';
         $trackNumber = '';
         /**
          * Magento track numbers is not connected with items.
          * Get only first track number
          */
         foreach ($shipment->getAllTracks() as $track) {
+            $carrierName = $track->getTitle();
             $trackNumber = $track->getNumber();
             break;
         }
-        $_shipping = explode('_', $shipment->getOrder()->getShippingMethod());
-        if ($_shipping && count($_shipping) >= 2) {
-            $carrierCode = $_shipping[0];
-            $carrierMethod = $carrier->getCode('method', $_shipping[1]);
+        if (preg_match("/\((.+)\)/", $shipment->getOrder()->getShippingDescription(), $_result)) {
+            $shippingMethod = $_result[1];
         }
 
         $this->getDocumentApi()->confirmShipment(
             $shipment->getOrder()->getExtOrderId(),
-            $carrierCode,
-            $carrierMethod,
+            $carrierName,
+            $shippingMethod,
             $items,
             $trackNumber
         );

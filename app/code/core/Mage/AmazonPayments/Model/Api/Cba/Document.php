@@ -353,13 +353,13 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
      * Confirm creating of shipment
      *
      * @param string $aOrderId
-     * @param string $carrierCode
-     * @param string $carrierMethod
+     * @param string $carrierName
+     * @param string $shippingMethod
      * @param array $items
      * @param string $trackNumber
      * @return string Amazon Transaction Id
      */
-    public function confirmShipment($aOrderId, $carrierCode, $carrierMethod, $items, $trackNumber = '')
+    public function confirmShipment($aOrderId, $carrierName, $shippingMethod, $items, $trackNumber = '')
     {
         $fulfillmentDate = gmdate('Y-m-d\TH:i:s');
         $_document = '<?xml version="1.0" encoding="UTF-8"?>
@@ -375,8 +375,8 @@ class Mage_AmazonPayments_Model_Api_Cba_Document extends Varien_Object
                     <AmazonOrderID>' . $aOrderId . '</AmazonOrderID>
                     <FulfillmentDate>' . $fulfillmentDate . '</FulfillmentDate>
                     <FulfillmentData>
-                        <CarrierCode>' . strtoupper($carrierCode) . '</CarrierCode>
-                        <ShippingMethod>' . $carrierMethod . '</ShippingMethod>
+                        <CarrierName>' . strtoupper($carrierName) . '</CarrierName>
+                        <ShippingMethod>' . $shippingMethod . '</ShippingMethod>
                         <ShipperTrackingNumber>' . $trackNumber .'</ShipperTrackingNumber>
                     </FulfillmentData>';
         foreach ($items as $item) {
