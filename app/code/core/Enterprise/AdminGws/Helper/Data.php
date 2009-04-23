@@ -67,7 +67,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
 
             /**
              * Important to set this flag after determining all true permissions data,
-             * because it will be used for limiting websites / stores collections in observer
+             * because it will be used for limiting websites / stores collections everywhere
              */
             $this->_roleIsAll = $role->getGwsIsAll();
         }
@@ -153,5 +153,31 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $this->_allowedRootCategories;
+    }
+
+    /**
+     * Check whether specified website ID is allowed
+     *
+     * @param string $websiteId
+     * @param bool $isExplicit
+     * @return bool
+     */
+    public function hasWebsiteAccess($websiteId, $isExplicit = false)
+    {
+        if ($isExplicit) {
+            return in_array($websiteId, $this->_roleWebsites);
+        }
+        return in_array($websiteId, $this->_roleRelevantWebsites);
+    }
+
+    /**
+     * Check whether specified store ID is allowed
+     *
+     * @param string $storeId
+     * @return bool
+     */
+    public function hasStoreAccess($storeId)
+    {
+        return in_array($storeId, $this->_roleStores);
     }
 }

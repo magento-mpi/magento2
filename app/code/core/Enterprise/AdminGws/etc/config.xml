@@ -117,7 +117,7 @@
                 <observers>
                     <enterprise_admingws>
                         <class>enterprise_admingws/observer</class>
-                        <method>adminAuthenticated</method>
+                        <method>adminControllerPredispatch</method>
                     </enterprise_admingws>
                 </observers>
             </controller_action_predispatch>
@@ -199,6 +199,9 @@
                     <cms__block>cmsBlockSaveBefore</cms__block>
                     <poll__poll>pollSaveBefore</poll__poll>
                 </models_before_save>
+                <controllers>
+                    <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__>
+                </controllers>
             </admingws>
         </enterprise>
     </adminhtml>

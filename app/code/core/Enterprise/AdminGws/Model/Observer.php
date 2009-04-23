@@ -34,7 +34,8 @@ class Enterprise_AdminGws_Model_Observer
      * @var Mage_Core_Model_Mysql4_Store_Group_Collection
      */
     protected $_storeGroupCollection;
-    protected $_callbacks = array();
+    protected $_callbacks      = array();
+    protected $_controllersMap = null;
 
     /**
      * Put websites/stores permissions data after loading admin role
@@ -193,13 +194,15 @@ class Enterprise_AdminGws_Model_Observer
      *
      * @param Varien_Event_Observer $observer
      */
-    public function adminAuthenticated($observer)
+    public function adminControllerPredispatch($observer)
     {
         if (Mage::getSingleton('admin/session')->isLoggedIn()) {
             // load role with true websites and store groups
             Mage::helper('enterprise_admingws')->setRole(Mage::getSingleton('admin/session')->getUser()->getRole());
             // reset websites/stores
             Mage::app()->reinitStores();
+
+            $this->validateControllerPredispatch($observer);
         }
     }
 
@@ -235,6 +238,53 @@ class Enterprise_AdminGws_Model_Observer
             return;
         }
         Mage::getSingleton('enterprise_admingws/models')->$callback($model);
+    }
+
+    /**
+     * Validate page by current request (module, controller, action)
+     *
+     * @param unknown_type $observer
+     */
+    public function validateControllerPredispatch($observer)
+    {
+        if (Mage::helper('enterprise_admingws')->getIsAll()) {
+            return;
+        }
+
+        // initialize controllers map
+        if (null === $this->_controllersMap) {
+            $this->_controllersMap = array('full' => array(), 'partial' => array());
+            foreach ((array)Mage::getConfig()->getNode('adminhtml/enterprise/admingws/controllers') as $actionName => $method) {
+                list($module, $controller, $action) = explode('__', $actionName);
+                $map = array('module' => $module, 'controller' => $controller, 'action' => $action, 'callback' => $method);
+                if ($action) {
+                    $this->_controllersMap['full'][$module][$controller][$action] = $method;
+                }
+                else {
+                    $this->_controllersMap['partial'][$module][$controller] = $method;
+                }
+            }
+        }
+
+        // map request to validator callback
+        $request        = Mage::app()->getRequest();
+        $routeName      = $request->getRouteName();
+        $controllerName = $request->getControllerName();
+        $actionName     = $request->getActionName();
+        $callback       = false;
+        if (isset($this->_controllersMap['full'][$routeName])
+            && isset($this->_controllersMap['full'][$routeName][$controllerName])
+            && isset($this->_controllersMap['full'][$routeName][$controllerName][$actionName])) {
+            $callback = $this->_controllersMap['full'][$routeName][$controllerName][$actionName];
+        }
+        elseif (isset($this->_controllersMap['partial'][$routeName])
+            && isset($this->_controllersMap['partial'][$routeName][$controllerName])) {
+            $callback = $this->_controllersMap['partial'][$routeName][$controllerName];
+        }
+
+        if ($callback) {
+            Mage::getSingleton('enterprise_admingws/controllers')->$callback($observer->getControllerAction());
+        }
     }
 
     /**
