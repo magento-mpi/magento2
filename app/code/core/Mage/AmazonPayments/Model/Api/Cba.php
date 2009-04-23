@@ -904,6 +904,20 @@ XML;
     }
 
     /**
+     * Associate Magento real order id with Amazon order id
+     *
+     * @param Mage_Sales_Model_Order $order
+     * @return Mage_AmazonPayments_Model_Api_Cba
+     */
+    public function syncOrder($order)
+    {
+        if ($order->getId()) {
+            $this->getDocumentApi()->sendAcknowledgement($order);
+        }
+        return $this;
+    }
+
+    /**
      * Cancel order
      *
      * @param Mage_Sales_Model_Order $order

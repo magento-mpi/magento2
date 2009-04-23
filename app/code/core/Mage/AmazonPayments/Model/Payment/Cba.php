@@ -285,6 +285,10 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             $_order = Mage::getModel('sales/order')
                 ->loadByAttribute('ext_order_id', $newOrderDetails['amazonOrderID']);
             if ($_order->getId()) {
+                /**
+                * associate real order id with Amazon order
+                */
+                $this->getApi()->syncOrder($_order);
                 $_order = null;
                 return $this;
             }
@@ -348,8 +352,6 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 }
             }
         }
-        /** @todo save shipping method */
-//        $this->getQuote()->getShippingAddress()->setShippingMethod($shippingMethod);
 
         $billing->setCountryId($_address['countryCode'])
             ->setRegion($_address['regionCode'])
@@ -454,6 +456,10 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $this->getCheckout()->setLastRealOrderId($order->getIncrementId());
 
         $order->sendNewOrderEmail();
+        /**
+         * associate real order id with Amazon order
+         */
+        $this->getApi()->syncOrder($order);
         return $this;
     }
 
