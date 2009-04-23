@@ -81,6 +81,40 @@ class Enterprise_AdminGws_Model_Models
     }
 
     /**
+     * Limit Rule save
+     *
+     * @param Mage_Rule_Model_Rule $model
+     * @return void
+     */
+    public function ruleSaveBefore($model)
+    {
+        $originalWebsiteIds = explode(',', $model->getOrigData('website_ids'));
+        $websiteIds = explode(',', $model->getData('website_ids'));
+
+        $updatedWebsiteIds = $this->_updateSavingWebsiteIds(
+           $websiteIds, $originalWebsiteIds
+        );
+
+        $model->setData('website_ids', implode(',', $updatedWebsiteIds));
+    }
+
+    /**
+     * Limit newsletter queue save
+     *
+     * @param Mage_Newsletter_Model_Queque $model
+     * @return void
+     */
+    public function newsletterQueueSaveBefore($model)
+    {
+        if ($model->getSaveStoresFlag()) {
+            $model->setStores($this->_updateSavingStoreIds(
+                $model->getStores(),
+                $model->getResource()->getStores($model)
+            ));
+        }
+    }
+
+    /**
      * Limit incoming store IDs to allowed and add disallowed original stores
      *
      * @param array $newIds
@@ -92,6 +126,22 @@ class Enterprise_AdminGws_Model_Models
         return array_unique(array_merge(
             array_intersect($newIds, $this->_helper->getStoreIds()),
             array_intersect($origIds, $this->_helper->getDisallowedStoreIds())
+        ));
+    }
+
+
+    /**
+     * Limit incoming website IDs to allowed and add disallowed original websites
+     *
+     * @param array $newIds
+     * @param array $origIds
+     * @return array
+     */
+    protected function _updateSavingWebsiteIds($newIds, $origIds)
+    {
+        return array_unique(array_merge(
+            array_intersect($newIds, $this->_helper->getWebsiteIds()),
+            array_intersect($origIds, $this->_helper->getDisallowedWebsiteIds())
         ));
     }
 }

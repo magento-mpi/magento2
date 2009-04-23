@@ -201,6 +201,8 @@
                     <cms__page>cmsPageSaveBefore</cms__page>
                     <cms__block>cmsBlockSaveBefore</cms__block>
                     <poll__poll>pollSaveBefore</poll__poll>
+                    <rule__rule>ruleSaveBefore</rule__rule>
+                    <newsletter__queue>newsletterQueueSaveBefore</newsletter__queue>
                 </models_before_save>
                 <controllers>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__><!-- system config saving and browsing -->
@@ -218,3 +220,4 @@
         </enterprise>
     </adminhtml>
 </config>
+
