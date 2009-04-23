@@ -45,7 +45,11 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
-        $contentBlock = $this->getLayout()->createBlock('googlebase/adminhtml_items');
+        if (0 === (int)$this->getRequest()->getParam('store')) {
+            $this->_redirect('*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
+            return;
+        }
+        $contentBlock = $this->getLayout()->createBlock('googlebase/adminhtml_items')->setStore($this->_getStore());
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
             $contentBlock->setGbaseCaptchaToken(
@@ -332,13 +336,19 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
         );
     }
 
+    /**
+     * Get store object, basing on request
+     *
+     * @return Mage_Core_Model_Store
+     * @throws Mage_Core_Exception
+     */
     public function _getStore()
     {
-        $storeId = (int) $this->getRequest()->getParam('store', 0);
-        if ($storeId == 0) {
-            return Mage::app()->getDefaultStoreView();
+        $store = Mage::app()->getStore((int)$this->getRequest()->getParam('store', 0));
+        if ((!$store) || 0 == $store->getId()) {
+            Mage::throwException($this->__('Unable to select a Store View'));
         }
-        return Mage::app()->getStore($storeId);
+        return $store;
     }
 
     protected function _getConfig()
