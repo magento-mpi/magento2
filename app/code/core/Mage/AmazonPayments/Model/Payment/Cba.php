@@ -446,9 +446,9 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
             if ($order->getId()) {
                 /* @var $item Mage_Sales_Model_Order_Item */
                 foreach ($order->getAllVisibleItems() as $item) {
-                    if (array_key_exists($item->getEctOrderItemId(), $amazonOrderDetails['items'])) {
-                        $item->setLockedDoInvoice(true)
-                            ->setLockedDoShip(true)
+                    if (array_key_exists($item->getExtOrderItemId(), $amazonOrderDetails['items'])) {
+                        $item->setLockedDoInvoice(false)
+                            ->setLockedDoShip(false)
                             ->save();
                     }
                 }

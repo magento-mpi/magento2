@@ -668,6 +668,10 @@ class Mage_AmazonPayments_Model_Api_Cba extends Mage_AmazonPayments_Model_Api_Ab
             $xml = simplexml_load_string($xmlData, 'Varien_Simplexml_Element');
             $aOrderId = (string) $xml->descend('ProcessedOrder/AmazonOrderID');
             $readyToShipData['amazon_order_id'] = $aOrderId;
+            $readyToShipData['items'] = array();
+            foreach ($xml->descend('ProcessedOrder/ProcessedOrderItems/ProcessedOrderItem') as $item) {
+                $readyToShipData['items'][(string)$item->AmazonOrderItemCode] = (string)$item->Quantity;
+            }
         }
         return $readyToShipData;
     }
