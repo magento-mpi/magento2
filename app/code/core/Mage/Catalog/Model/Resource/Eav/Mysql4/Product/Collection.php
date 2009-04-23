@@ -1233,12 +1233,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 $conditions[] = $connection->quoteInto('cat_index.is_parent=?', $isParent);
             }
             $columns['position'] = 'position';
+            $indexTable = $this->getTable('catalog/category_product_index');
+        }
+        else {
+            $indexTable = $this->getTable('catalog/product_enabled_index');
         }
 
         $joinCond = join(' AND ', $conditions);
         $fromPart = $this->getSelect()->getPart(Zend_Db_Select::FROM);
         // table joined, modify condition
         if (isset($fromPart['cat_index'])) {
+            $fromPart['cat_index']['tableName']     = $indexTable;
             $fromPart['cat_index']['joinCondition'] = $joinCond;
             $this->getSelect()->setPart(Zend_Db_Select::FROM, $fromPart);
             if ($columns) {
@@ -1260,7 +1265,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         }
         else {
             $this->getSelect()->joinInner(
-                array('cat_index' => $this->getTable('catalog/category_product_index')),
+                array('cat_index' => $indexTable),
                 $joinCond,
                 $columns
             );
