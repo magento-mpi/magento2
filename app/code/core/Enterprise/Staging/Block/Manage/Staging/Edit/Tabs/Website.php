@@ -63,7 +63,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 
         $outputFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
 
-        $fieldset = $form->addFieldset('general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Main Information')));
+        $fieldset = $form->addFieldset('general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('General Information')));
 
         $fieldset->addField('name', 'text', array(
             'label'     => $this->helper->__('Label'),
@@ -84,7 +84,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                 $stagingWebsiteName = $masterWebsite->getName();
             }
 
-            $fieldset = $form->addFieldset('website_fieldset_'.$_id, array('legend'=>$this->helper->__('Website: ') . $stagingWebsiteName));
+            $fieldset = $form->addFieldset('website_fieldset_'.$_id, array('legend'=>$this->helper->__('Staging Website')));
 
             $fieldset->addField('master_website_code_label_'.$_id, 'label',
                 array(
@@ -253,9 +253,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
         }
 
         if ($stagingWebsite) {
-            $fieldset = $form->addFieldset('staging_website_items', array('legend'=>Mage::helper('enterprise_staging')->__('Items copied')));
+            $fieldset = $form->addFieldset('staging_website_items',
+                array('legend'=>Mage::helper('enterprise_staging')
+                    ->__('Items copied')));
         } else {
-            $fieldset = $form->addFieldset('staging_website_items', array('legend'=>Mage::helper('enterprise_staging')->__('Select items to be copied')));
+            $fieldset = $form->addFieldset('staging_website_items',
+                array('legend' => Mage::helper('enterprise_staging')
+                    ->__('Select Original Website Content to be Copied to Staging Website')));
         }
 
         $usedItemCodes = $staging->getStagingItemCodes();
@@ -346,9 +350,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
         }
 
         if ($stagingWebsite) {
-            $fieldset = $form->addFieldset('staging_website_stores', array('legend'=>Mage::helper('enterprise_staging')->__('Store views copied')));
+            $fieldset = $form->addFieldset('staging_website_stores',
+                array('legend'=>Mage::helper('enterprise_staging')
+                    ->__('Store views copied')));
         } else {
-            $fieldset = $form->addFieldset('staging_website_stores', array('legend'=>Mage::helper('enterprise_staging')->__('Select store views to be copied')));
+            $fieldset = $form->addFieldset('staging_website_stores',
+                array('legend'=>Mage::helper('enterprise_staging')
+                    ->__('Select Original Website Store Views to be Copied to Staging Website')));
         }
 
         if ($stagingWebsite) {

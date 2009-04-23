@@ -287,32 +287,29 @@
                 </type>
 
                 <staging_items>
-                    <customer>
-                        <code>customer</code>
-                        <model>customer</model>
-                        <is_backend>1</is_backend>
-                        <label>Customers</label>
-                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
-                        <use_storage_method>table_prefix</use_storage_method>
-                    </customer>
-                    <customer_address>
-                        <code>customer_address</code>
-                        <model>customer</model>
-                        <is_backend>1</is_backend>
-                        <label>Customer Adresses</label>
-                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
-                        <use_storage_method>table_prefix</use_storage_method>
-                    </customer_address>
-
-                    <sales>
-                        <code>sales</code>
-                        <model>sales</model>
-                        <is_backend>1</is_backend>
-                        <label>Sales</label>
-                        <adapter>enterprise_staging/staging_adapter_item_sales</adapter>
-                        <use_storage_method>table_prefix</use_storage_method>
-                    </sales>
-
+                    <system_config>
+                        <code>system_config</code>
+                        <model>core</model>
+                        <label>System Configuration</label>
+                        <adapter>enterprise_staging/staging_adapter_item_config</adapter>
+                        <entities>
+                            <config_data />
+                        </entities>
+                        <ignore_nodes>
+                            <base_url />
+                            <base_secure_url />
+                            <paypal />
+                            <google_api />
+                            <payment_methods />
+                            <developer />
+                        </ignore_nodes>
+                    </system_config>
+                    <catalog_category>
+                        <code>catalog_category</code>
+                        <model>catalog</model>
+                        <label>Catalog Categories</label>
+                        <adapter>enterprise_staging/staging_adapter_item_category</adapter>
+                    </catalog_category>
                     <catalog_product>
                         <code>catalog_product</code>
                         <model>catalog</model>
@@ -356,24 +353,6 @@
                             </enterprise_giftcard>
                         </extends>
                     </catalog_product>
-                    <catalog_category>
-                        <code>catalog_category</code>
-                        <model>catalog</model>
-                        <label>Catalog Categories</label>
-                        <adapter>enterprise_staging/staging_adapter_item_category</adapter>
-                    </catalog_category>
-                    <catalogrule>
-                        <code>catalogrule</code>
-                        <model>catalogrule</model>
-                        <label>Catalog Rules</label>
-                        <adapter>enterprise_staging/staging_adapter_item_catalogrule</adapter>
-                    </catalogrule>
-                    <salesrule>
-                        <code>salesrule</code>
-                        <model>salesrule</model>
-                        <label>Sales Rules</label>
-                        <adapter>enterprise_staging/staging_adapter_item_salesrule</adapter>
-                    </salesrule>
                     <cms_page>
                         <code>cms_page</code>
                         <model>cms</model>
@@ -392,6 +371,18 @@
                             <block_store />
                         </entities>
                     </cms_block>
+                    <salesrule>
+                        <code>salesrule</code>
+                        <model>salesrule</model>
+                        <label>Shopping Cart Price Rules</label>
+                        <adapter>enterprise_staging/staging_adapter_item_salesrule</adapter>
+                    </salesrule>
+                    <catalogrule>
+                        <code>catalogrule</code>
+                        <model>catalogrule</model>
+                        <label>Catalog Price Rules</label>
+                        <adapter>enterprise_staging/staging_adapter_item_catalogrule</adapter>
+                    </catalogrule>
                     <poll>
                         <code>poll</code>
                         <model>poll</model>
@@ -404,30 +395,13 @@
                     <checkout>
                         <code>checkout</code>
                         <model>checkout</model>
-                        <label>Coditions And Terms</label>
+                        <label>Terms And Coditions</label>
                         <adapter>enterprise_staging/staging_adapter_item_checkout</adapter>
                         <entities>
                             <agreement_store />
                         </entities>
                     </checkout>
-                    <system_config>
-                        <code>system_config</code>
-                        <model>core</model>
-                        <label>System Configuration</label>
-                        <adapter>enterprise_staging/staging_adapter_item_config</adapter>
-                        <entities>
-                            <config_data />
-                        </entities>
-                        <ignore_nodes>
-                            <base_url />
-                            <base_secure_url />
-                            <paypal />
-                            <google_api />
-                            <payment_methods />
-                            <developer />
-                        </ignore_nodes>
-                    </system_config>
-
+                    
                     <cataloginventory>
                         <code>cataloginventory</code>
                         <model>cataloginventory</model>
@@ -456,6 +430,31 @@
                         <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
                         <use_storage_method>table_prefix</use_storage_method>
                     </catalogsearch>
+                    
+                    <sales>
+                        <code>sales</code>
+                        <model>sales</model>
+                        <is_backend>1</is_backend>
+                        <label>Sales</label>
+                        <adapter>enterprise_staging/staging_adapter_item_sales</adapter>
+                        <use_storage_method>table_prefix</use_storage_method>
+                    </sales>
+                    <customer>
+                        <code>customer</code>
+                        <model>customer</model>
+                        <is_backend>1</is_backend>
+                        <label>Customers</label>
+                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
+                        <use_storage_method>table_prefix</use_storage_method>
+                    </customer>
+                    <customer_address>
+                        <code>customer_address</code>
+                        <model>customer</model>
+                        <is_backend>1</is_backend>
+                        <label>Customer Adresses</label>
+                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
+                        <use_storage_method>table_prefix</use_storage_method>
+                    </customer_address>
                 </staging_items>
                 <staging_website_code_suffix></staging_website_code_suffix>
 
@@ -552,12 +551,12 @@
           <system>
             <children>
               <enterprise_staging translate="title">
-                 <title>Content Staging</title>
+                 <title>Staging Environments</title>
                  <sort_order>21</sort_order>
                  <action>adminhtml/staging_manage</action>
                  <children>
                     <staging_grid>
-                        <title>Stagings</title>
+                        <title>Staging Websites</title>
                          <sort_order>10</sort_order>
                          <action>adminhtml/staging_manage/index</action>
                     </staging_grid>

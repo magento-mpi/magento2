@@ -140,7 +140,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     public function getProcessingWebsites()
     {
         $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), array('staging_website_id'))
-            ->where("status = ?", Enterprise_Staging_Model_Config::STATUS_PROCESSING);
+            ->where("status = ?", Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
 
         $result = $this->_getReadAdapter()->fetchOne($select);
         if (is_array($result) && count($result) > 0) {
@@ -159,7 +159,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     public function isWebsiteInProcessing($currentWebsiteId)
     {
         $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), array('COUNT(*)'))
-            ->where("status = ?", Enterprise_Staging_Model_Config::STATUS_PROCESSING)
+            ->where("status = ?", Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING)
             ->where("staging_website_id = " . $currentWebsiteId);
 
         $result = (int) $this->_getReadAdapter()->fetchOne($select);

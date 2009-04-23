@@ -77,15 +77,15 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('settings', array('legend'=>$this->helper->__('Create Staging Settings')));
+        $fieldset = $form->addFieldset('settings', array('legend'=>$this->helper->__('Staging Website Settings')));
 
         $websiteCollection = Mage::getModel('core/website')->getCollection()
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG));
         $websiteCollection->addFieldToFilter('is_staging',array('neq'=>1));
 
         $fieldset->addField('master_website_id', 'select', array(
-            'label' => $this->helper->__('Staging Source Website'),
-            'title' => $this->helper->__('Staging Source Website'),
+            'label' => $this->helper->__('Source Website'),
+            'title' => $this->helper->__('Source Website'),
             'name'  => 'master_website_id',
             'value' => '',
             'values'=> $websiteCollection->toOptionArray()

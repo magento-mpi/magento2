@@ -335,18 +335,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     }
 
     /**
-     * get visibility on front
-     *
-     * @return boolean
-     */
-    public function getVisibleOnFront()
-    {
-        return Enterprise_Staging_Model_Config::checkCurrentVisibility($this);
-    }
-
-
-
-    /**
      * Retrieve Staging Type instance
      *
      * @return  Enterprise_Staging_Model_Staging_Type_Abstract
@@ -450,6 +438,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
+
+        if (Mage::helper('enterprise_staging')->getCatalogIndexRunningFlag()) {
+            return false;
+        }
+
         if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
             || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_BROKEN)) {
             return false;
