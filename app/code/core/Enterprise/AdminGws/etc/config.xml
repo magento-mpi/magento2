@@ -193,6 +193,9 @@
                     <sales__order_shipment_collection>addStoreAttributeToFilter</sales__order_shipment_collection>
                     <sales__order_creditmemo_collection>addStoreAttributeToFilter</sales__order_creditmemo_collection>
                     <checkout__agreement_collection>addStoreFilter</checkout__agreement_collection>
+                    <newsletter__queue_collection>addStoreFilter</newsletter__queue_collection>
+                    <core__design_collection>addStoreFilter</core__design_collection>
+                    <dataflow__profile_collection>addStoreFilter</dataflow__profile_collection>
                 </collections>
                 <models_before_save>
                     <cms__page>cmsPageSaveBefore</cms__page>
