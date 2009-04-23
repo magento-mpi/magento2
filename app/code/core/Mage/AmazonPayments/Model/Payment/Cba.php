@@ -406,7 +406,7 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
         $order->place();
 
         $customer = $quote->getCustomer();
-        if (isset($customer) && $customer) { // && $quote->getCheckoutMethod()==Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER) {
+        if ($customer && $customer->getId()) {
             $order->setCustomerId($customer->getId())
                 ->setCustomerEmail($customer->getEmail())
                 ->setCustomerPrefix($customer->getPrefix())
@@ -416,6 +416,10 @@ class Mage_AmazonPayments_Model_Payment_Cba extends Mage_Payment_Model_Method_Ab
                 ->setCustomerSuffix($customer->getSuffix())
                 ->setCustomerGroupId($customer->getGroupId())
                 ->setCustomerTaxClassId($customer->getTaxClassId());
+        } else {
+            $quote->setCustomerEmail($newOrderDetails['buyerEmailAddress'])
+                ->setCustomerIsGuest(true)
+                ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
         }
 
         $quote->setIsActive(false);
