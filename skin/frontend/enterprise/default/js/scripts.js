@@ -132,8 +132,8 @@ Enterprise.Bundle = {
          
          if (this.summaryTemplate && $('bundle-summary')) {
              var summaryHTML = '';
-             for (var option in this.config.selected) {
-                if (this.config.options[option]) {
+             for (var option in this.config.options) {
+                if (typeof (this.config.selected[option]) !== 'undefined') {
                     var optionHTML = '';
                     for (var i = 0, l = this.config.selected[option].length; i < l; i ++) {
                         var selection = this.selection(option, this.config.selected[option][i]);
@@ -145,7 +145,7 @@ Enterprise.Bundle = {
                     }
                     
                     if (optionHTML.length > 0) {
-                        summaryHTML = this.summaryTemplate.evaluate({label:this.config.options[option].title.escapeHTML(), options: optionHTML}) + summaryHTML;
+                        summaryHTML += this.summaryTemplate.evaluate({label:this.config.options[option].title.escapeHTML(), options: optionHTML});
                     }
                 }
              }
