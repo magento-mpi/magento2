@@ -75,6 +75,11 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
      */
     public function canShow()
     {
+        if (!$this->isOutputEnabled('Mage_AdminNotification')) {
+            $this->_available = false;
+            return false;
+        }
+
         if (!$this->_isObjectReadable()) {
             $this->_available = false;
             return false;
