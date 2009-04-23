@@ -180,4 +180,15 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return in_array($storeId, $this->_roleStores);
     }
+
+    /**
+     * Find disallowed websites the product is assigned to
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    public function getProductDisallowedWebsiteIds($product)
+    {
+        return array_diff($product->getResource()->getWebsiteIds($product), $this->_roleWebsites);
+    }
 }

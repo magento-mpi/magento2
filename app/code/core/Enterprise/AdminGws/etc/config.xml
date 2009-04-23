@@ -176,7 +176,7 @@
                     <catalog__product_collection>limitProducts</catalog__product_collection>
                     <customer__customer_collection>limitCustomers</customer__customer_collection>
                     <review__review_collection>limitReviews</review__review_collection>
-                    <tag__tag_collection>addStoreFilter</tag__tag_collection>
+<!-- tag relation logic is not clear <tag__tag_collection>addStoreFilter</tag__tag_collection>-->
                     <catalogsearch__query_collection>addStoreFilter</catalogsearch__query_collection>
                     <enterprise_invitation__invitation_collection>addStoreFilter</enterprise_invitation__invitation_collection>
                     <catalogrule__rule_collection>limitPriceRules</catalogrule__rule_collection>
@@ -203,7 +203,16 @@
                     <poll__poll>pollSaveBefore</poll__poll>
                 </models_before_save>
                 <controllers>
-                    <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__>
+                    <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__><!-- system config saving and browsing -->
+                    <adminhtml__catalog_product__>validateCatalogProduct</adminhtml__catalog_product__><!-- catalog product generic -->
+                    <adminhtml__catalog_product__edit>validateCatalogProductEdit</adminhtml__catalog_product__edit><!-- catalog product edit -->
+                    <!-- catalog price rules creation -->
+                    <!-- shopping cart price rules creation -->
+                    <!-- customers creation -->
+                    <!-- gift card accounts creation -->
+                    <!-- categories index, root category creation, category creation -->
+                    <!-- catalog events creation, catalog events edit -->
+                    <!-- order creation -->
                 </controllers>
             </admingws>
         </enterprise>

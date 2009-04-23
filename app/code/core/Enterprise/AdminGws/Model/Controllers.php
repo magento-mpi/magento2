@@ -75,14 +75,60 @@ class Enterprise_AdminGws_Model_Controllers
 
         // redirect to first allowed website or store scope
         if ($this->_helper->getWebsiteIds()) {
-            $this->_redirect($controller, Mage::getUrl('adminhtml/system_config/edit',
+            return $this->_redirect($controller, Mage::getUrl('adminhtml/system_config/edit',
                 array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode()))
             );
-            return;
         }
         $this->_redirect($controller, Mage::getUrl('adminhtml/system_config/edit',
             array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode(), 'store' => Mage::app()->getAnyStoreView()->getCode()))
         );
+    }
+
+    /**
+     * Validate catalog product requests
+     */
+    public function validateCatalogProduct()
+    {
+        // don't allow to create products, if there are no website permissions
+        if ((!$this->_helper->getWebsiteIds())
+            && ('new' === $this->_request->getActionName() || ('save' === $this->_request->getActionName() && !$this->_request->getParam('id')))) {
+            return $this->_forward();
+        }
+
+        // allow specific store view scope
+        if ($storeId = $this->_request->getParam('store')) {
+            if ($store = Mage::app()->getStore($storeId)) {
+                if ($this->_helper->hasStoreAccess($store->getId())) {
+                    return;
+                }
+            }
+        }
+        else {
+            return;
+        }
+        $this->_forward();
+    }
+
+    /**
+     * Validate catalog product edit page
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateCatalogProductEdit($controller)
+    {
+        if (!$id = $this->_request->getParam('id')) {
+            return $this->_redirect($controller, '*/*/');
+        }
+        if (!$store = Mage::app()->getStore($this->_request->getParam('store', 0))) {
+            return $this->_redirect($controller, '*/*/');
+        }
+        $product = Mage::getModel('catalog/product')->load($id);
+        if (!$product->getId()) {
+            return $this->_redirect($controller, '*/*/');
+        }
+        if ($store->isAdmin() && $this->_helper->getProductDisallowedWebsiteIds($product)) {
+            return $this->_redirect($controller, array('*/*/*', 'id' => $product->getId(), 'store' => Mage::app()->getAnyStoreView()->getId()));
+        }
     }
 
     /**
@@ -94,8 +140,34 @@ class Enterprise_AdminGws_Model_Controllers
     {
         $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
-            $url = Mage::getUrl('adminhtml/index/denied');
+            $url = Mage::getUrl('*/*/denied');
+        }
+        elseif (is_array($url)) {
+            $url = Mage::getUrl(array_shift($url), $url);
+        }
+        elseif (false === strpos($url, 'http', 0)) {
+            $url = Mage::getUrl($url);
         }
         Mage::app()->getResponse()->setRedirect($url);
+    }
+
+    /**
+     * Forward current request
+     */
+    protected function _forward($action = 'denied', $module = null, $controller = null)
+    {
+        if ($this->_request->getActionName() === $action
+            && (null === $module || $this->_request->getModuleName() === $module)
+            && (null === $controller || $this->_request->getControllerName() === $controller)) {
+            return;
+        }
+
+        if ($module) {
+            $this->_request->setModuleName($module);
+        }
+        if ($controller) {
+            $this->_request->setControllerName($controller);
+        }
+        $this->_request->setActionName($action)->setDispatched(false);
     }
 }
