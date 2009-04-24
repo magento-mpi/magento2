@@ -180,6 +180,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $mapper         = $staging->getMapperInstance();
         $websites       = $mapper->getWebsites();
 
+        $_updateField = end($fields);
+
         foreach ($websites as $website) {
             $stores = $website->getStores();
             foreach ($stores as $_idx => $store) {
@@ -189,21 +191,21 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                     return $this;
                 }
 
-                $_updateField = end($fields);
                 $destInsertSql = "INSERT INTO `{$srcTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
-
                 $_storeFieldNameSql = 'store_id';
-                foreach ($fields as $id => $field) {
+
+                $_fields = $fields;
+                foreach ($_fields as $id => $field) {
                     if ($field == 'store_id') {
-                        $fields[$id] = $stagingStoreId;
+                        $_fields[$id] = $stagingStoreId;
                         $_storeFieldNameSql = "({$field} = {$masterStoreId})";
                     } elseif ($field == 'scope_id') {
-                        $fields[$id] = $stagingStoreId;
+                        $_fields[$id] = $stagingStoreId;
                         $_storeFieldNameSql = "scope = 'stores' AND {$field} = {$masterStoreId}";
                     }
                 }
 
-                $srcSelectSql = $this->_getSimpleSelect($fields, $targetTable, $_storeFieldNameSql);
+                $srcSelectSql  = $this->_getSimpleSelect($_fields, $targetTable, $_storeFieldNameSql);
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
                 $connection->query($destInsertSql);
