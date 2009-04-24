@@ -58,7 +58,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
 
         if (!$invitation->getId()) {
             $this->_getSession()->addError(
-                Mage::helper('enterprise_invitation')->__('Invitaion not found')
+                Mage::helper('enterprise_invitation')->__('Invitation not found')
             );
             $this->_redirect('*/*/');
             return false;
@@ -68,7 +68,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     }
 
     /**
-     * Invitaion view action
+     * Invitation view action
      *
      * @return void
      */

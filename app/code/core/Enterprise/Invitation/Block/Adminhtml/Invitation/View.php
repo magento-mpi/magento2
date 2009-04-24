@@ -68,7 +68,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminht
     }
 
     /**
-     * Return invitaion for view
+     * Return Invitation for view
      *
      * @return Portero_Invitation_Model_Invitation
      */

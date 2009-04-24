@@ -75,7 +75,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General
     }
 
     /**
-     * Return invitaion for view
+     * Return Invitation for view
      *
      * @return Enterprise_Invitation_Model_Invitation
      */
