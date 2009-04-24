@@ -648,6 +648,9 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
+        if ($this->getResource()->isForbiddenToDelete($this->getId())) {
+            Mage::throwException("Can't delete root category.");
+        }
         return parent::_beforeDelete();
     }
 

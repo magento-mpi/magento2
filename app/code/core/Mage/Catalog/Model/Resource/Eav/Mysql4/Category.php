@@ -950,4 +950,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 //        }
 //        return true;
     }
+
+    /**
+     * Check category is forbidden to delete.
+     *
+     * If category is root and assigned to store group return false
+     *
+     * @param integer $categoryId
+     * @return boolean
+     */
+    public function isForbiddenToDelete($categoryId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('core/store_group'), array('group_id'))
+            ->where('root_category_id = ?', $categoryId);
+        if ($this->_getReadAdapter()->fetchOne($select)) {
+            return true;
+        }
+        return false;
+    }
 }
