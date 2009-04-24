@@ -420,11 +420,13 @@ class Enterprise_Staging_Model_Staging_Config
 
         if (!is_null($object)) {
             $stagingTablePrefix = $object->getTablePrefix();
+        } else {
+            $stagingTablePrefix = $globalTablePrefix . $stagingTablePrefix;
         }
 
         $stagingTablePrefix  .=  $internalPrefix;
 
-        return $globalTablePrefix . $stagingTablePrefix;
+        return $stagingTablePrefix;
     }
 
     /**
@@ -492,10 +494,10 @@ class Enterprise_Staging_Model_Staging_Config
             return $tableName;
         }
 
+        $tableName = $globalTablePrefix . $tableName;
+
         if (self::isStagingUpTableName($model, $tableName)) {
             $tableName = $stagingTablePrefix . $tableName;
-        } else {
-            $tableName = $globalTablePrefix . $tableName;
         }
 
         return $tableName;

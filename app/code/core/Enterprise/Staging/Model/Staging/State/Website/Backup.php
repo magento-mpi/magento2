@@ -37,11 +37,11 @@ class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_S
         $mapper       = $staging->getMapperInstance();
         $stagingItems = $mapper->getStagingItems();
         foreach ($stagingItems as $stagingItem) {
-            $adapter = Enterprise_Staging_Model_Staging_Config::getItemAdapterInstanse($stagingItem);
+            $adapter = $this->getItemAdapterInstanse($stagingItem);
             $adapter->backup($staging);
             if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
                 foreach ($stagingItem->extends->children() AS $extendItem) {
-                    $adapter = Enterprise_Staging_Model_Staging_Config::getItemAdapterInstanse($extendItem);
+                    $adapter = $this->getItemAdapterInstanse($extendItem);
                     $adapter->backup($staging);
                 }
             }

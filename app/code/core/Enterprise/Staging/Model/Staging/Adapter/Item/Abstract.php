@@ -87,7 +87,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $targetTable = $stagingTablePrefix . $srcTable;
 
         $srcTableDescription = $this->getTableProperties($srcModel, $srcTable);
-        if ($srcTableDescription) {
+        $targetTableDescription = $this->getTableProperties($targetModel, $targetTable);
+        if ($srcTableDescription && !$targetTableDescription) {
             $this->createTable($targetTable, $targetModel, $srcModel, $srcTableDescription);
         }
     }
@@ -906,6 +907,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                     continue;
                 }
             }
+
             $realTableName = $this->getTableName("{$model}/{$table}");
 
             if (isset($this->_eavModels[$table])) {
