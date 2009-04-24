@@ -275,7 +275,7 @@ Object.extend(Validation, {
             elm.addClassName('validation-passed');
             if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
                 var container = elm.up(Validation.defaultOptions.containerClassName);
-                if (container && elm.type !== 'radio' && elm.type !== 'checkbox') {
+                if (container && !container.down('.validation-failed') && elm.type !== 'radio' && elm.type !== 'checkbox') {
                     if (!Validation.get('IsEmpty').test(elm.value)) { 
                         container.addClassName('validation-passed');
                     } else {
