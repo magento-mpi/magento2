@@ -27,25 +27,25 @@
 abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends Enterprise_Staging_Model_Staging_Adapter_Abstract
 {
     /**
+     * proceed tables
+     *
+     * @var array
+     */
+    static $_proceedTables = array();
+
+    /**
      * proceed website scope tables
      *
-     * @var mixed
+     * @var array
      */
     static $_proceedWebsiteScopeTables = array();
 
     /**
      * processd store tables
      *
-     * @var mixed
+     * @var array
      */
     static $_proceedStoreScopeTables = array();
-
-    /**
-     * event state code
-     *
-     * @var string
-     */
-    protected $_eventStateCode;
 
     protected function allowToProceedInWebsiteScope($srcTable, $fields)
     {
@@ -65,6 +65,11 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         }
     }
 
+
+
+
+
+
     /**
      * Staging Create (Staging Item handle part)
      *
@@ -78,6 +83,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         return $this;
     }
+
 
     /**
      * Create item table and records, run processes in website and store scopes
@@ -262,19 +268,16 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             return $this;
         }
 
+        if (isset(self::$_proceedTables[$this->getEventStateCode()][$srcTable])) {
+            return $this;
+        }
+
         $srcTableDesc = $this->getTableProperties($srcModel, $srcTable, true);
         $fields = $srcTableDesc['fields'];
         $fields = array_keys($fields);
 
-        if ($this->allowToProceedInWebsiteScope($srcTable, $fields)) {
-            $this->_checkCreateTable($staging, $targetModel, $targetTable, $srcTableDesc, $backupPrefix);
-            $this->_backupWebsiteScopeItemTableData($staging, $srcModel, $srcTable, $targetModel, $targetTable, $fields);
-        }
-
-        if ($this->allowToProceedInStoreScope($srcTable, $fields)) {
-            $this->_checkCreateTable($staging, $targetModel, $targetTable, $srcTableDesc, $backupPrefix);
-            $this->_backupStoreScopeItemTableData($staging, $srcModel, $srcTable, $targetModel, $targetTable, $fields);
-        }
+        $this->_checkCreateTable($staging, $targetModel, $targetTable, $srcTableDesc, $backupPrefix);
+        $this->_backupItemData($staging, $srcModel, $srcTable, $targetModel, $targetTable, $fields);
 
         return $this;
     }
@@ -295,34 +298,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
     }
 
     /**
-     * Check table for existing and create it if not
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @param string $targetModel
-     * @param string $targetTable
-     * @param array $srcTableDesc
-     * @param string $backupPrefix
-     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
-     */
-    protected function _checkCreateTable($staging, $targetModel, $targetTable, $srcTableDesc, $backupPrefix)
-    {
-        $targetTableDesc = $this->getTableProperties($targetModel, $targetTable);
-        if (!$targetTableDesc) {
-            $srcTableDesc['table_name'] = $targetTable;
-            if (!empty($srcTableDesc['constraints'])) {
-                foreach($srcTableDesc['constraints'] AS $constraint => $data) {
-                    $srcTableDesc['constraints'][$constraint]['fk_name'] = $backupPrefix . $data['fk_name'];
-                }
-            }
-            $sql = $this->_getCreateSql($targetModel, $srcTableDesc, $staging);
-
-            $this->getConnection()->query($sql);
-        }
-        return $this;
-    }
-
-    /**
-     * process backup for website scope
+     * process backup
      *
      * @param Enterprise_Staging_Model_Staging $staging
      * @param string $srcModel
@@ -332,47 +308,19 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
      * @param mixed $fields
      * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
      */
-    protected function _backupWebsiteScopeItemTableData($staging, $srcModel, $srcTable, $targetModel, $targetTable, $fields)
+    protected function _backupItemData($staging, $srcModel, $srcTable, $targetModel, $targetTable, $fields)
     {
         $this->getConnection()->query("SET foreign_key_checks = 0;");
 
         $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s)";
         $srcSelectSql  = $this->_getSimpleSelect($fields, $srcTable);
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
+        echo "$destInsertSql<br /><br />";
         $this->getConnection()->query($destInsertSql);
 
         $this->getConnection()->query("SET foreign_key_checks = 1;");
 
-        self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
-
-        return $this;
-    }
-
-    /**
-     * process backup for store scope
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @param string $srcModel
-     * @param string $srcTable
-     * @param string $targetModel
-     * @param string $targetTable
-     * @param mixed $fields
-     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
-     */
-    protected function _backupStoreScopeItemTableData($staging, $srcModel, $srcTable, $targetModel, $targetTable, $fields)
-    {
-        $this->getConnection()->query("SET foreign_key_checks = 0;");
-
-        $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s)";
-        $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable);
-        $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-        $this->getConnection()->query($destInsertSql);
-
-        $this->getConnection()->query("SET foreign_key_checks = 1;");
-
-        self::$_proceedWebsiteScopeTables[$this->getEventStateCode()][$srcTable] = true;
+        self::$_proceedTables[$this->getEventStateCode()][$srcTable] = true;
 
         return $this;
     }
@@ -497,6 +445,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                 $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, $_websiteFieldNameSql);
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+
                 $connection->query($destInsertSql);
             }
         }
@@ -532,6 +481,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 }
                 $destInsertSql = "UPDATE `{$targetTable}` SET website_ids = IF(FIND_IN_SET({$masterWebsiteId},website_ids), website_ids, CONCAT(website_ids,',{$masterWebsiteId}'))
                     WHERE FIND_IN_SET({$stagingWebsiteId},website_ids)";
+
                 $connection->query($destInsertSql);
             }
         }
@@ -613,11 +563,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
      * @param string  $srcTable
      * @param string  $targetModel
      * @param string  $targetTable
-     * @param boolean $usedStorageMethod
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
      */
-    protected function _rollbackItem($staging, $srcModel, $srcTable, $targetModel, $targetTable, $usedStorageMethod)
+    protected function _rollbackItem($staging, $srcModel, $srcTable, $targetModel, $targetTable)
     {
         $targetTable  = $this->getStagingTableName($staging, $srcModel, $srcTable);
         $srcTableDesc = $this->getTableProperties($srcModel, $srcTable);
@@ -696,6 +645,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                     $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'website',$targetTable, $targetTable, $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys']);
                     if (!empty($destDeleteSql)) {
+echo "$destDeleteSql<br /><br />";
                         $connection->query($destDeleteSql);
                     }
 
@@ -716,6 +666,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                 $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable, $_websiteFieldNameSql);
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+echo "$destDeleteSql<br /><br />";
                 $connection->query($destInsertSql);
             }
         }
@@ -777,6 +728,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                     $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'store', $srcTable, $targetTable, $stagingStoreId, $masterStoreId, $tableDestDesc['keys']);
                     if (!empty($destDeleteSql)) {
+echo "$destDeleteSql<br /><br />";
                         $connection->query($destDeleteSql);
                     }
 
@@ -796,6 +748,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                 $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$masterStoreId}");
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+echo "$destDeleteSql<br /><br />";
                 $connection->query($destInsertSql);
             }
         }
@@ -889,6 +842,11 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         return $targetTable;
     }
 
+
+
+
+
+
     /**
      * Prepares data for action and makes callback
      *
@@ -947,29 +905,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         }
 
         return $this;
-    }
-
-    /**
-     * Set event state code attribute
-     *
-     * @param string $code
-     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
-     */
-    public function setEventStateCode($code)
-    {
-        $this->_eventStateCode = $code;
-
-        return $this;
-    }
-
-    /**
-     * Retrieve event state code
-     *
-     * @return string
-     */
-    public function getEventStateCode()
-    {
-        return $this->_eventStateCode;
     }
 
     /**

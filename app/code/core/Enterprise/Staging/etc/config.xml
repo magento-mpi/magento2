@@ -306,12 +306,14 @@
                     </system_config>
                     <catalog_category>
                         <code>catalog_category</code>
+                        <module>Mage_Catalog</module>
                         <model>catalog</model>
                         <label>Catalog Categories</label>
                         <adapter>enterprise_staging/staging_adapter_item_category</adapter>
                     </catalog_category>
                     <catalog_product>
                         <code>catalog_product</code>
+                        <module>Mage_Catalog</module>
                         <model>catalog</model>
                         <is_backend></is_backend>
                         <label>Catalog Products</label>
@@ -319,10 +321,11 @@
                         <extends>
                             <bundle>
                                 <code>bundle</code>
+                                <module>Mage_Bundle</module>
                                 <model>bundle</model>
                                 <is_backend></is_backend>
                                 <is_extend>1</is_extend>
-                                <label>Bundle products</label>
+                                <label>Bundles</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <option_value />
@@ -330,10 +333,11 @@
                             </bundle>
                             <downloadable>
                                 <code>downloadable</code>
+                                <module>Mage_Downloadable</module>
                                 <model>downloadable</model>
                                 <is_backend></is_backend>
                                 <is_extend>1</is_extend>
-                                <label>Downloadable products</label>
+                                <label>Downloadable</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <link_title />
@@ -342,10 +346,11 @@
                             </downloadable>
                             <enterprise_giftcard>
                                 <code>enterprise_giftcard</code>
+                                <module>Enterprise_GiftCard</module>
                                 <model>enterprise_giftcard</model>
                                 <is_backend></is_backend>
                                 <is_extend>1</is_extend>
-                                <label>Gift Card products</label>
+                                <label>Bundles</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <code />
@@ -355,6 +360,7 @@
                     </catalog_product>
                     <cms_page>
                         <code>cms_page</code>
+                        <module>Mage_Cms</module>
                         <model>cms</model>
                         <label>CMS Pages</label>
                         <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
@@ -364,6 +370,7 @@
                     </cms_page>
                     <cms_block>
                         <code>cms_block</code>
+                        <module>Mage_Cms</module>
                         <model>cms</model>
                         <label>CMS Blocks</label>
                         <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
@@ -373,18 +380,21 @@
                     </cms_block>
                     <salesrule>
                         <code>salesrule</code>
+                        <module>Mage_SalesRule</module>
                         <model>salesrule</model>
                         <label>Shopping Cart Price Rules</label>
                         <adapter>enterprise_staging/staging_adapter_item_salesrule</adapter>
                     </salesrule>
                     <catalogrule>
                         <code>catalogrule</code>
+                        <module>Mage_CatalogRule</module>
                         <model>catalogrule</model>
                         <label>Catalog Price Rules</label>
                         <adapter>enterprise_staging/staging_adapter_item_catalogrule</adapter>
                     </catalogrule>
                     <poll>
                         <code>poll</code>
+                        <module>Mage_Poll</module>
                         <model>poll</model>
                         <label>Polls</label>
                         <adapter>enterprise_staging/staging_adapter_item_poll</adapter>
@@ -394,6 +404,7 @@
                     </poll>
                     <checkout>
                         <code>checkout</code>
+                        <module>Mage_Checkout</module>
                         <model>checkout</model>
                         <label>Terms And Coditions</label>
                         <adapter>enterprise_staging/staging_adapter_item_checkout</adapter>
@@ -404,6 +415,7 @@
                     
                     <cataloginventory>
                         <code>cataloginventory</code>
+                        <module>Mage_CatalogInventory</module>
                         <model>cataloginventory</model>
                         <is_backend>1</is_backend>
                         <label>Catalog Inventory</label>
@@ -416,6 +428,7 @@
                     </cataloginventory>
                     <catalogindex>
                         <code>catalogindex</code>
+                        <module>Mage_CatalogIndex</module>
                         <model>catalogindex</model>
                         <is_backend>1</is_backend>
                         <label>Catalog Index</label>
@@ -424,6 +437,7 @@
                     </catalogindex>
                     <catalogsearch>
                         <code>catalogsearch</code>
+                        <module>Mage_CatalogSearch</module>
                         <model>catalogsearch</model>
                         <is_backend>1</is_backend>
                         <label>Catalog Search</label>
@@ -433,6 +447,7 @@
                     
                     <sales>
                         <code>sales</code>
+                        <module>Mage_Sales</module>
                         <model>sales</model>
                         <is_backend>1</is_backend>
                         <label>Sales</label>
@@ -441,6 +456,7 @@
                     </sales>
                     <customer>
                         <code>customer</code>
+                        <module>Mage_Customer</module>
                         <model>customer</model>
                         <is_backend>1</is_backend>
                         <label>Customers</label>
@@ -449,6 +465,7 @@
                     </customer>
                     <customer_address>
                         <code>customer_address</code>
+                        <module>Mage_Customer</module>
                         <model>customer</model>
                         <is_backend>1</is_backend>
                         <label>Customer Adresses</label>

@@ -274,10 +274,8 @@ class Enterprise_Staging_Model_Staging_Config
             $stagingItems = self::getConfig('staging_items');
 
             foreach($stagingItems->children() AS $item_id => $item) {
-                if (!empty($item->extends) && is_object($item->extends)) {
-                    foreach ($item->extends->children() AS $extendItem) {
-                        $stagingItems->appendChild($extendItem);
-                    }
+                if (!self::isItemModuleActive($item)) {
+                     continue;
                 }
             }
 
@@ -285,6 +283,20 @@ class Enterprise_Staging_Model_Staging_Config
         }
 
         return self::$_stagingItems;
+    }
+
+    static function isItemModuleActive($stagingItem)
+    {
+        $module = (string) $stagingItem->module;
+        if (!empty($module)) {
+            $moduleConfig = Mage::getConfig()->getModuleConfig($module);
+            if ($moduleConfig) {
+                if ('false' === (string)$moduleConfig->active) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     /**

@@ -50,6 +50,12 @@ class Enterprise_Staging_Model_Staging_State_Website_Create extends Enterprise_S
         foreach ($stagingItems as $stagingItem) {
             $adapter = $this->getItemAdapterInstanse($stagingItem);
             $adapter->create($staging);
+            if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
+                foreach ($stagingItem->extends->children() AS $extendItem) {
+                    $adapter = $this->getItemAdapterInstanse($extendItem);
+                    $adapter->create($staging);
+                }
+            }
         }
 
         return $this;

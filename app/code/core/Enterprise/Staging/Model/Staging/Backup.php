@@ -189,40 +189,59 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
 
         $itemVersionCheck = array();
 
-        foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
+        $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
+
+        foreach ($stagingItems->children() as $stagingItem) {
             if ((int)$stagingItem->is_backend) {
                 continue;
             }
 
-            $itemModel = (string) $stagingItem->model;
-            $itemCode  = (string) $stagingItem->code;
-            $itemCheckModuleName = $itemModel . "_setup";
+            $this->_addStagingItemVersionInfo($itemVersionCheck, $stagingItem, $currentModuleVersion, $backupModules);
 
-            if (isset($backupModules[$itemCheckModuleName])) {
-                $itemVersionCheck[$itemCode]["model"] = $itemModel;
-                $itemVersionCheck[$itemCode]["backupVersion"] = $backupModules[$itemCheckModuleName];
-                $itemVersionCheck[$itemCode]["currentVersion"] =  $currentModuleVersion[$itemCheckModuleName];
-                if ($backupModules[$itemCheckModuleName] == $currentModuleVersion[$itemCheckModuleName]) {
-                    $itemVersionCheck[$itemCode]["disabled"] = false;
-                    $itemVersionCheck[$itemCode]["note"] = Mage::helper('enterprise_staging')->__('ok');
-                } else {
-                    $itemVersionCheck[$itemCode]["disabled"] = true;
-                    $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('version mismatch');
-                    $itemVersionCheck[$itemCode]["note"] =
-                        Mage::helper('enterprise_staging')->__('Backup version: ') . ' ' .
-                        $backupModules[$itemCheckModuleName]. " ,".
-                        Mage::helper('enterprise_staging')->__('Current: ') .
-                        $currentModuleVersion[$itemCheckModuleName];
+            if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
+                foreach ($stagingItem->extends->children() AS $extendItem) {
+                    if (!Enterprise_Staging_Model_Staging_Config::isItemModuleActive($extendItem)) {
+                         continue;
+                    }
+                    $this->_addStagingItemVersionInfo($itemVersionCheck, $extendItem, $currentModuleVersion, $backupModules);
                 }
-            } else {
-                $itemVersionCheck[$itemCode]["disabled"] = true;
-                $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('unknown item');
-                $itemVersionCheck[$itemCode]["note"] =
-                    Mage::helper('enterprise_staging')->__('Item model "%s" is not under backup', $itemModel);
             }
+
         }
 
         return $itemVersionCheck;
+    }
+
+    protected function _addStagingItemVersionInfo(&$itemVersionCheck, $stagingItem, $currentModuleVersion, $backupModules)
+    {
+        $itemModel = (string) $stagingItem->model;
+        $itemCode  = (string) $stagingItem->code;
+        $itemCheckModuleName = $itemModel . "_setup";
+
+        if (isset($backupModules[$itemCheckModuleName])) {
+            $itemVersionCheck[$itemCode]["model"] = $itemModel;
+            $itemVersionCheck[$itemCode]["backupVersion"] = $backupModules[$itemCheckModuleName];
+            $itemVersionCheck[$itemCode]["currentVersion"] =  $currentModuleVersion[$itemCheckModuleName];
+            if ($backupModules[$itemCheckModuleName] == $currentModuleVersion[$itemCheckModuleName]) {
+                $itemVersionCheck[$itemCode]["disabled"] = false;
+                $itemVersionCheck[$itemCode]["note"] = Mage::helper('enterprise_staging')->__('ok');
+            } else {
+                $itemVersionCheck[$itemCode]["disabled"] = true;
+                $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('version mismatch');
+                $itemVersionCheck[$itemCode]["note"] =
+                    Mage::helper('enterprise_staging')->__('Backup version: ') . ' ' .
+                    $backupModules[$itemCheckModuleName]. " ,".
+                    Mage::helper('enterprise_staging')->__('Current: ') .
+                    $currentModuleVersion[$itemCheckModuleName];
+            }
+        } else {
+            $itemVersionCheck[$itemCode]["disabled"] = true;
+            $itemVersionCheck[$itemCode]["reason"] = Mage::helper('enterprise_staging')->__('unknown item');
+            $itemVersionCheck[$itemCode]["note"] =
+                Mage::helper('enterprise_staging')->__('Item model "%s" is not under backup', $itemModel);
+        }
+
+        return $this;
     }
 
     public function restoreMap()

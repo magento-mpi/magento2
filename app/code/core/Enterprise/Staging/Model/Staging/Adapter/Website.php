@@ -114,14 +114,18 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         $unsecureConf = Mage::getConfig()->getNode('default/web/unsecure');
         $secureConf = Mage::getConfig()->getNode('default/web/secure');
 
-        $originalBaseUrl = Mage::getBaseUrl();
+        if (!$masterWebsite->getIsStaging()) {
+            $originalBaseUrl = (string) $masterWebsite->getConfig("web/secure/base_url");
+        } else {
+            $originalBaseUrl = (string) Mage::getConfig()->getNode("default/web/unsecure/base_url");
+        }
 
         $this->_saveUrlsInSystemConfig($stagingWebsite, $originalBaseUrl, $unsecureBaseUrl, 'unsecure' , $unsecureConf);
 
         if (!$masterWebsite->getIsStaging()) {
             $originalBaseUrl = (string) $masterWebsite->getConfig("web/secure/base_url");
         } else {
-            $originalBaseUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true);
+            $originalBaseUrl = (string) Mage::getConfig()->getNode("default/web/secure/base_url");
         }
         $this->_saveUrlsInSystemConfig($stagingWebsite, $originalBaseUrl, $secureBaseUrl, 'secure', $secureConf);
 

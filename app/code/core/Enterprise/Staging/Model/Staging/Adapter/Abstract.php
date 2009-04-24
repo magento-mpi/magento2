@@ -101,6 +101,13 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     protected $_eavTableTypes = array('int', 'decimal', 'varchar', 'text', 'datetime');
 
     /**
+     * event state code
+     *
+     * @var string
+     */
+    protected $_eventStateCode;
+
+    /**
      * Constructor
      *
      */
@@ -109,6 +116,29 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         $this->_resource = Mage::getSingleton('core/resource');
         $this->_read     = $this->_resource->getConnection('staging_read');
         $this->_write    = $this->_resource->getConnection('staging_write');
+    }
+
+    /**
+     * Set event state code attribute
+     *
+     * @param string $code
+     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
+     */
+    public function setEventStateCode($code)
+    {
+        $this->_eventStateCode = $code;
+
+        return $this;
+    }
+
+    /**
+     * Retrieve event state code
+     *
+     * @return string
+     */
+    public function getEventStateCode()
+    {
+        return $this->_eventStateCode;
     }
 
     /**
@@ -292,6 +322,33 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
 
         $connection->query($sql);
 
+        return $this;
+    }
+
+    /**
+     * Check table for existing and create it if not
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @param string    $targetModel
+     * @param string    $targetTable
+     * @param array     $srcTableDesc
+     * @param string    $prefix
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
+    protected function _checkCreateTable($staging, $targetModel, $targetTable, $srcTableDesc, $prefix)
+    {
+        $targetTableDesc = $this->getTableProperties($targetModel, $targetTable);
+        if (!$targetTableDesc) {
+            $srcTableDesc['table_name'] = $targetTable;
+            if (!empty($srcTableDesc['constraints'])) {
+                foreach($srcTableDesc['constraints'] AS $constraint => $data) {
+                    $srcTableDesc['constraints'][$constraint]['fk_name'] = $prefix . $data['fk_name'];
+                }
+            }
+            $sql = $this->_getCreateSql($targetModel, $srcTableDesc, $staging);
+
+            $this->getConnection()->query($sql);
+        }
         return $this;
     }
 

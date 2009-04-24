@@ -52,41 +52,59 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
     {
         $staging       = $this->getStaging();
 
-        $extendInfo = $this->getExtendInfo();
-
         $collection = new Varien_Data_Collection();
 
         foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
-            if ((int)$stagingItem->is_backend/* || (int)$stagingItem->is_extend*/) {
+            if ((int)$stagingItem->is_backend) {
                 continue;
             }
-            $_code = (string) $stagingItem->code;
 
-            $item = Mage::getModel('enterprise_staging/staging_item')
-                ->loadFromXmlStagingItem($stagingItem);
+            $this->_addStagingItemToCollection($collection, $stagingItem);
 
-            $disabled = "none";
-            $checked = true;
-            //process extend information
-            if (!empty($extendInfo) && is_array($extendInfo) && isset($extendInfo[$_code])) {
-                $item->addData($extendInfo[$_code]);
-                if ($extendInfo[$_code]["disabled"]==true) {
-                    $disabled = "disabled";
-                    $checked = false;
-                    $availabilityText = '<div style="color:#800;">'.$extendInfo[$_code]["reason"].'</div>';
-                } else {
-                    $availabilityText = '<div style="color:#080;"><b>'.Mage::helper('enterprise_staging')->__('available').'</b></div>';
+            if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
+                foreach ($stagingItem->extends->children() AS $extendItem) {
+                    if (!Enterprise_Staging_Model_Staging_Config::isItemModuleActive($extendItem)) {
+                         continue;
+                    }
+                    $this->_addStagingItemToCollection($collection, $extendItem);
                 }
             }
-            $item->setData("id", $_code);
-            $item->setData("itemCheckbox", $this->_addFieldset($_code, $disabled, $checked));
-            $item->setData("rollbackAvailability", $availabilityText);
-
-            $collection->addItem($item);
         }
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
+    }
+
+    protected function _addStagingItemToCollection($collection, $stagingItem)
+    {
+        $extendInfo = $this->getExtendInfo();
+
+        $_code = (string) $stagingItem->code;
+
+        $item = Mage::getModel('enterprise_staging/staging_item')
+            ->loadFromXmlStagingItem($stagingItem);
+
+        $disabled = "none";
+        $checked = true;
+        $availabilityText = "";
+        //process extend information
+        if (!empty($extendInfo) && is_array($extendInfo) && isset($extendInfo[$_code])) {
+            $item->addData($extendInfo[$_code]);
+            if ($extendInfo[$_code]["disabled"]==true) {
+                $disabled = "disabled";
+                $checked = false;
+                $availabilityText = '<div style="color:#800;">'.$extendInfo[$_code]["reason"].'</div>';
+            } else {
+                $availabilityText = '<div style="color:#080;"><b>'.Mage::helper('enterprise_staging')->__('available').'</b></div>';
+            }
+        }
+        $item->setData("id", $_code);
+        $item->setData("itemCheckbox", $this->_addFieldset($_code, $disabled, $checked));
+        $item->setData("rollbackAvailability", $availabilityText);
+
+        $collection->addItem($item);
+
+        return $this;
     }
 
     /**
