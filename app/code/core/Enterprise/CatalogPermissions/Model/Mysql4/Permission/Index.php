@@ -763,42 +763,45 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
     {
         $parts = $collection->getSelect()->getPart(Zend_Db_Select::FROM);
 
+        $conditions = array();
+        if (isset($parts['cat_index']) && $parts['cat_index']['tableName'] == $this->getTable('catalog/product_enabled_index')) {
+            $conditions[] = 'permission_index_product.category_id = cat_index.category_id';
+            $conditions[] = 'permission_index_product.product_id = cat_index.product_id';
+            $conditions[] = 'permission_index_product.store_id = cat_index.store_id';
+        }
+        else {
+            $conditions[] = 'permission_index_product.category_id IS NULL';
+            $conditions[] = 'permission_index_product.product_id = e.entity_id';
+            $conditions[] = 'permission_index_product.store_id=' . intval($collection->getStoreId());
+        }
+        $conditions[] = 'permission_index_product.customer_group_id=' . intval($customerGroupId);
+
+        $condition = join(' AND ', $conditions);
+
         if (isset($parts['permission_index_product'])) {
-            return $this;
+            $parts['permission_index_product']['joinCondition'] = $condition;
+            $collection->getSelect()->setPart(Zend_Db_Select::FROM, $parts);
         }
-
-        if (isset($parts['cat_index'])) {
-            $condition = 'permission_index_product.category_id = cat_index.category_id AND
-                 permission_index_product.product_id = cat_index.product_id AND
-                 permission_index_product.store_id = cat_index.store_id AND
-                 permission_index_product.customer_group_id = ' . (int) $customerGroupId;
-        } else {
-            $condition = 'permission_index_product.category_id IS NULL AND
-                 permission_index_product.product_id = e.entity_id AND
-                 permission_index_product.store_id = '. (int) $collection->getStoreId() .' AND
-                 permission_index_product.customer_group_id = ' . (int) $customerGroupId;
-        }
-
-        $collection->getSelect()
-            ->joinLeft(
-                array('permission_index_product'=>$this->getTable('permission_index_product')),
-                $condition,
-                array(
-                    'grant_catalog_category_view',
-                    'grant_catalog_product_price',
-                    'grant_checkout_items'
-                )
-            );
-
-        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
+        else {
             $collection->getSelect()
-                ->where('permission_index_product.grant_catalog_category_view = -1');
-        } else {
-            $collection->getSelect()
-                ->where('permission_index_product.grant_catalog_category_view != -2
-                         OR permission_index_product.grant_catalog_category_view IS NULL');
+                ->joinLeft(
+                    array('permission_index_product' => $this->getTable('permission_index_product')),
+                    $condition,
+                    array(
+                        'grant_catalog_category_view',
+                        'grant_catalog_product_price',
+                        'grant_checkout_items'
+                    )
+                );
+            if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
+                $collection->getSelect()
+                    ->where('permission_index_product.grant_catalog_category_view = -1');
+            } else {
+                $collection->getSelect()
+                    ->where('permission_index_product.grant_catalog_category_view != -2
+                             OR permission_index_product.grant_catalog_category_view IS NULL');
+            }
         }
-
 
         return $this;
     }
