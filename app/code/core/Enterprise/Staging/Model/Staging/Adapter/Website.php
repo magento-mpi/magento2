@@ -48,6 +48,7 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $stagingWebsite->setData('base_url', $website->getBaseUrl());
             $stagingWebsite->setData('base_secure_url', $website->getBaseSecureUrl());
 
+            $stagingWebsite->setData('visibility', $website->getVisibility());
             $stagingWebsite->setData('master_login', $website->getMasterLogin());
 
             $password = trim($website->getMasterPassword());
