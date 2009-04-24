@@ -764,7 +764,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
         $parts = $collection->getSelect()->getPart(Zend_Db_Select::FROM);
 
         $conditions = array();
-        if (isset($parts['cat_index']) && $parts['cat_index']['tableName'] == $this->getTable('catalog/product_enabled_index')) {
+        if (isset($parts['cat_index']) && $parts['cat_index']['tableName'] == $this->getTable('catalog/category_product_index')) {
             $conditions[] = 'permission_index_product.category_id = cat_index.category_id';
             $conditions[] = 'permission_index_product.product_id = cat_index.product_id';
             $conditions[] = 'permission_index_product.store_id = cat_index.store_id';
