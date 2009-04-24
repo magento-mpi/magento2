@@ -315,7 +315,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s)";
         $srcSelectSql  = $this->_getSimpleSelect($fields, $srcTable);
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-        echo "$destInsertSql<br /><br />";
+
         $this->getConnection()->query($destInsertSql);
 
         $this->getConnection()->query("SET foreign_key_checks = 1;");
@@ -645,7 +645,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                     $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'website',$targetTable, $targetTable, $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys']);
                     if (!empty($destDeleteSql)) {
-echo "$destDeleteSql<br /><br />";
+
                         $connection->query($destDeleteSql);
                     }
 
@@ -666,7 +666,7 @@ echo "$destDeleteSql<br /><br />";
 
                 $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable, $_websiteFieldNameSql);
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-echo "$destDeleteSql<br /><br />";
+
                 $connection->query($destInsertSql);
             }
         }
@@ -728,7 +728,7 @@ echo "$destDeleteSql<br /><br />";
 
                     $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'store', $srcTable, $targetTable, $stagingStoreId, $masterStoreId, $tableDestDesc['keys']);
                     if (!empty($destDeleteSql)) {
-echo "$destDeleteSql<br /><br />";
+
                         $connection->query($destDeleteSql);
                     }
 
@@ -748,7 +748,7 @@ echo "$destDeleteSql<br /><br />";
 
                 $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$masterStoreId}");
                 $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-echo "$destDeleteSql<br /><br />";
+
                 $connection->query($destInsertSql);
             }
         }
