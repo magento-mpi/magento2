@@ -39,14 +39,9 @@
             <?php else: ?>
                 <p class="availability out-of-stock"><?php echo $this->__('Availability') ?>: <span><?php echo $this->__('Out of stock') ?></span></p>
             <?php endif; ?>
-
-            <div class="duplicate-price-box">
-                <p class="price-as-configured">
-                    <span class="price-label"><?php echo $this->__('Configured:'); ?></span>
-                    <span class="price"></span>
-                </p>
-            </div>
         </div>
+        <div class="clearer"></div>
+        <?php echo $this->getChildHtml('', true, true);?>
     </div>
     <div class="block-content summary">
         <h4><?php echo $this->__('Summary'); ?></h4>
@@ -57,6 +52,6 @@
         <div class="no-display" id="bundle-summary-option-multi-template"><div><?php echo $this->__('%s x %s', '{{qty}}', '{{name}}') ?></div></div>
         <ul id="bundle-summary">
         </ul>
-        <?php echo $this->getChildHtml('', true, true);?>
+
     </div>
 </div>

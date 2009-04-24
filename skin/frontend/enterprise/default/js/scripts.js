@@ -217,23 +217,39 @@ Enterprise.BundleSummary = {
         this.summaryStartY = this.summary.positionedOffset().top;
         this.summaryStartX = this.summary.positionedOffset().left;
         this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);      
-        this.GetScroll = setInterval(this.onDocScroll,1100);   
+        this.GetScroll = setInterval(this.onDocScroll, 50);   
     },
     
     handleDocScroll: function () {
-        if (this.summaryContainer.viewportOffset().top < -60) {
-              new Effect.Move(this.summary, { 
+        if (this.currentOffsetTop == document.viewport.getScrollOffsets().top) {
+            return;
+        } else {
+            this.currentOffsetTop = document.viewport.getScrollOffsets().top;
+        }
+        
+        if (this.currentEffect) {
+            this.currentEffect.cancel();
+            if (this.summaryContainer.viewportOffset().top < -60) {
+                this.currentEffect.start({ 
                     x: this.summaryStartX, 
                     y: -(this.summaryContainer.viewportOffset().top), 
                     mode: 'absolute'
                 });
-
-        } else {
-             new Effect.Move(this.summary, { 
+            } else {
+                this.currentEffect.start({ 
                     x: this.summaryStartX,
                     y: this.summaryStartY, 
                     mode: 'absolute'
                 });
+            }
+            
+            return;
+        }
+        
+        if (this.summaryContainer.viewportOffset().top < -60) {
+              this.currentEffect = new Effect.Move(this.summary);
+        } else {
+             this.currentEffect = new Effect.Move(this.summary);
         }
     },
     
