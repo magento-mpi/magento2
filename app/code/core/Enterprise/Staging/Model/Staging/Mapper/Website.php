@@ -102,6 +102,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $this->addStoresMap($storesMap);
 
         $stagingItems = !empty($mapData['staging_items']) ? $mapData['staging_items'] : array();
+
         $this->addStagingItemsMap($stagingItems);
 
         return $this;
@@ -149,6 +150,8 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
                 $stagingItem = Enterprise_Staging_Model_Staging_Config::getStagingItem($stagingItemCode);
                 if ($stagingItem) {
                     $stagingItems[$stagingItemCode] = $stagingItem;
+                } else {
+                    unset($stagingItems[$stagingItemCode]);
                 }
             }
             $this->setData('staging_items', $stagingItems);
@@ -178,6 +181,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $this->addStoresMap($storesMap);
 
         $stagingItems = !empty($mapData['staging_items']) ? $mapData['staging_items'] : array();
+
         $this->addStagingItemsMap($stagingItems);
 
         return $this;

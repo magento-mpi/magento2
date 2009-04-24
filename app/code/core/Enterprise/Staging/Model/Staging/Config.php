@@ -312,6 +312,13 @@ class Enterprise_Staging_Model_Staging_Config
         if (!empty($stagingItems->{$itemCode})) {
             return $stagingItems->{$itemCode};
         } else {
+            foreach ($stagingItems->children() as $stagingItem) {
+                if ($stagingItem->extends) {
+                    if ($stagingItem->extends->{$itemCode}) {
+                        return $stagingItem->extends->{$itemCode};
+                    }
+                }
+            }
             return null;
         }
     }

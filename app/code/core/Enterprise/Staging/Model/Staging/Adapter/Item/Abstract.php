@@ -626,7 +626,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                 if (in_array('website_id', $fields)) {
                     $_websiteFieldNameSql = " `{$srcTable}`.website_id IN (" . implode(", ", $masterWebsiteIds). ")";
                 } elseif (in_array('scope_id', $fields)) {
-                    $_websiteFieldNameSql = "`{$srcTable}`.scope = 'website' AND `{$srcTable}`.scope_id IN (" . implode(", ", $masterWebsiteIds). ")";
+                    $_websiteFieldNameSql = "`{$srcTable}`.scope = 'websites' AND `{$srcTable}`.scope_id IN (" . implode(", ", $masterWebsiteIds). ")";
                 } elseif (in_array('website_ids', $fields)) {
                     $whereFields = array();
                     foreach($masterWebsiteIds AS $webId) {
@@ -767,7 +767,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
      *
      * @return value
      */
-    protected function _deleteDataByKeys($type='UNIQUE', $scope='website', $srcTable, $targetTable, $masterIds, $slaveIds, $keys, $addidtionalWhereCondition=null)
+    protected function _deleteDataByKeys($type='UNIQUE', $scope='websites', $srcTable, $targetTable, $masterIds, $slaveIds, $keys, $addidtionalWhereCondition=null)
     {
         if (is_array($masterIds)) {
             $masterWhere = " IN (" . implode(", ", $masterIds). ") ";
@@ -792,7 +792,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                     } elseif ($field == 'scope_id') {
 
-                        $_websiteFieldNameSql[] = " (T1.scope = '{$scope}' OR T1.scope = '{$scope}s') AND T1.{$field} $slaveWhere
+                        $_websiteFieldNameSql[] = " T1.scope = '{$scope}' AND T1.{$field} $slaveWhere
                             AND T2.{$field} $masterWhere ";
 
                     } else { //website_ids is update data as rule, so it must be in backup.
@@ -858,7 +858,6 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
     protected function _processItemMethodCallback($callbackMethod, $staging)
     {
         $itemXmlConfig = $this->getConfig();
-
         if ((int)$itemXmlConfig->is_backend) {
             return $this;
         }

@@ -296,12 +296,12 @@
                             <config_data />
                         </entities>
                         <ignore_nodes>
-                            <base_url />
-                            <base_secure_url />
-                            <paypal />
-                            <google_api />
-                            <payment_methods />
-                            <developer />
+                            <unsecure_urls><path>web/unsecure</path></unsecure_urls>
+                            <secure_urls><path>web/secure</path></secure_urls>
+                            <paypal_accounts><path>paypal</path></paypal_accounts>
+                            <payment_accounts><path>payment</path></payment_accounts>
+                            <google_api><path>google</path></google_api>
+                            <developer><path>dev</path></developer>
                         </ignore_nodes>
                     </system_config>
                     <catalog_category>
@@ -350,7 +350,7 @@
                                 <model>enterprise_giftcard</model>
                                 <is_backend></is_backend>
                                 <is_extend>1</is_extend>
-                                <label>Bundles</label>
+                                <label>Gift Cards</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <code />
