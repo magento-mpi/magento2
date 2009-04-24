@@ -36,6 +36,15 @@ class Enterprise_Staging_Model_Staging_Adapter_Store extends Enterprise_Staging_
         $mapper     = $staging->getMapperInstance();
         $websites   = $mapper->getWebsites();
 
+        $defaultStoreId = null;
+        $masterWebsite = $staging->getMasterWebsite();
+        if ($masterWebsite) {
+            $masterDefaultGroup = $masterWebsite->getDefaultGroup();
+            if ($masterDefaultGroup) {
+                $defaultStoreId = $masterDefaultGroup->getDefaultStoreId();
+            }
+        }
+
         foreach ($websites as $website) {
             $stores = $website->getStores();
             foreach ($stores as $masterStoreId => $store) {
@@ -64,8 +73,12 @@ class Enterprise_Staging_Model_Staging_Adapter_Store extends Enterprise_Staging_
                 if ($stagingWebsite) {
                     $defaultGroup = $stagingWebsite->getDefaultGroup();
                     if ($defaultGroup) {
-                        $defaultGroup->setDefaultStoreId($stagingStore->getId());
-                        $defaultGroup->save();
+                        if (!$defaultGroup->getDefaultStoreId()
+                            && (is_null($defaultStoreId) ||
+                            ($stagingStore->getId() == $defaultStoreId))) {
+                                $defaultGroup->setDefaultStoreId($stagingStore->getId());
+                                $defaultGroup->save();
+                        }
                     }
                 }
 
