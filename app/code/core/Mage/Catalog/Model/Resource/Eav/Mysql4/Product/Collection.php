@@ -1103,10 +1103,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $this->_categoryProductIndexFilters['visibility'] = $visibility;
         $this->_applyCategoryProductIndexFilters();
 
-        Mage::dispatchEvent('catalog_product_collection_set_visibility_after', array(
-            'collection' => $this
-        ));
-
         return $this;
     }
 
@@ -1277,6 +1273,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 'field' => $column
             );
         }
+
+        Mage::dispatchEvent('catalog_product_collection_apply_cat_index', array(
+            'collection'    => $this
+        ));
 
         return $this;
     }
