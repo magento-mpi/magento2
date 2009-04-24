@@ -280,7 +280,7 @@
       <event>invitations</event>
       <action>view</action>
     </invitation_view>
-    
+
     <invitation_save>
       <event>invitations</event>
       <action>save</action>
@@ -349,111 +349,111 @@
       <action>delete</action>
     </poll_delete>
 
-    <report_sales_sales> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_sales_sales>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_sales_sales>
 
 
-    <report_sales_tax> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_sales_tax>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_sales_tax>
 
-    <report_sales_shipping> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_sales_shipping>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_sales_shipping>
 
-    <report_sales_invoiced> 
-      <event>reports</event> 
+    <report_sales_invoiced>
+      <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
     </report_sales_invoiced>
 
-    <report_sales_refunded> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_sales_refunded>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_sales_refunded>
 
     <report_sales_coupons>
-      <event>reports</event> 
+      <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
     </report_sales_coupons>
 
-    <report_shopcard_product> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_shopcard_product>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_shopcard_product>
 
-    <report_shopcard_abadoned> 
+    <report_shopcard_abadoned>
       <event>reports</event>
-      <action>view</action> 
+      <action>view</action>
       <handler>getreport</handler>
     </report_shopcard_abadoned>
 
     <report_product_ordered>
-      <event>reports</event> 
+      <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
     </report_product_ordered>
 
-    <report_product_viewed> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_product_viewed>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_product_viewed>
 
-    <report_product_lowstock> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_product_lowstock>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_product_lowstock>
 
-    <report_product_downloads> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_product_downloads>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_product_downloads>
 
-    <report_customer_accouts> 
+    <report_customer_accouts>
       <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
     </report_customer_accouts>
 
     <report_customer_orders>
-      <event>reports</event> 
-      <action>view</action> 
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_customer_orders>
 
-    <report_customer_totals> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_customer_totals>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_customer_totals>
 
     <report_review_customer>
-      <event>reports</event> 
-      <action>view</action> 
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_review_customer>
 
-    <report_review_product> 
-      <event>reports</event> 
-      <action>view</action> 
+    <report_review_product>
+      <event>reports</event>
+      <action>view</action>
       <handler>getreport</handler>
     </report_review_product>
 
     <report_tag_customer>
-      <event>reports</event> 
+      <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
     </report_tag_customer>
@@ -470,7 +470,7 @@
       <handler>getreport</handler>
     </report_tag_popular>
 
-    <report_search> 
+    <report_search>
       <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
@@ -482,22 +482,22 @@
       <handler>getreport</handler>
     </report_invitation_index>
 
-    <report_invitation_customer> 
+    <report_invitation_customer>
       <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
     </report_invitation_customer>
-    
+
     <report_invitation_order>
       <event>reports</event>
-      <action>view</action> 
+      <action>view</action>
       <handler>getreport</handler>
     </report_invitation_order>
 
 
     <report_invitation_order>
       <event>reports</event>
-      <action>view</action> 
+      <action>view</action>
       <handler>getreport</handler>
     </report_invitation_order>
 
@@ -530,7 +530,7 @@
       <handler>savemyaccount</handler>
     </system_account_save>
 
-    <system_config_edit> 
+    <system_config_edit>
       <event>systemconfiguration</event>
       <action>view</action>
       <id>section</id>
@@ -551,7 +551,7 @@
       <action>view</action>
       <id>user_id</id>
     </api_user_edit>
-    
+
     <api_user_save>
       <event>api</event>
       <action>save</action>
@@ -571,7 +571,7 @@
       <action>view</action>
       <id>rid</id>
     </api_role_editrole>
-    
+
     <api_role_saverole>
       <event>api</event>
       <action>save</action>
@@ -592,7 +592,7 @@
       <action>view</action>
       <id>user_id</id>
     </permissions_user_edit>
-    
+
     <permissions_user_save>
       <event>permissions</event>
       <action>save</action>
@@ -612,7 +612,7 @@
       <action>view</action>
       <id>rid</id>
     </permissions_role_editrole>
-    
+
     <permissions_role_saverole>
       <event>permissions</event>
       <action>save</action>
@@ -690,7 +690,7 @@
       <force-skip>1</force-skip>
       <skip-on-back>sales_order_view</skip-on-back>
     </sales_order_shipment_save>
-    
+
     <admin_login>
       <event>adminlogin</event>
     </admin_login>
@@ -719,7 +719,7 @@
       <action>view</action>
       <id>store_id</id>
     </system_store_editStore>
-    
+
     <system_store_save>
       <event>stores</event>
       <action>save</action>
@@ -798,7 +798,7 @@
       <model>Mage_Tax_Model_Calculation_Rate</model>
     </tax_rate_save>
 
-    <tax_rate_importPost> 
+    <tax_rate_importPost>
       <event>taxrates</event>
       <action>import</action>
       <handler>gettaxratesimportaction</handler>
@@ -830,47 +830,47 @@
     </tax_rule_delete>
   </actions>
 
-  <labels>
+    <labels>
     <list>
-      <products>Products</products>
-      <categories>Categories</categories>
-      <urlrewrites>Url Rewrites</urlrewrites>
-      <attributes>Attributes</attributes>
-      <attributesets>Attribute Sets</attributesets>
-      <catalogsearch>Catalog Search</catalogsearch>
-      <catalogtags>Catalog Tags</catalogtags>
-      <catalogratings>Catalog Ratings</catalogratings>
-      <reviews>Reviews</reviews>
-      <adminlogin>Admin Login</adminlogin>
-      <cmspages>Cms pages</cmspages>
-      <cmsblocks>Cms Blocks</cmsblocks>
-      <cmspolls>Cms Polls</cmspolls>
-      <customers>Customers</customers>
-      <customerbalance>Customer Balacne</customerbalance>
-      <reports>Report</reports>
-      <giftaccount>Gift Account</giftaccount>
-      <systemconfiguration>System configuration</systemconfiguration>
-      <customergroups>Customer Groups</customergroups>
-      <catalogevents>Catalog Events</catalogevents>
-      <promocatalog>Promo catalog</promocatalog>
-      <promoquote>Promo Quote</promoquote>
-      <systemaccount>My Account</systemaccount>
-      <invitations>Invitations</invitations>
-      <orders>Orders</orders>
-      <orderstatus>Order Status History</orderstatus>
-      <invoices>Invoices</invoices>
-      <shipments>Shipments</shipments>
-      <creditmemos>Creditmemos</creditmemos>
-      <api>Api</api>
-      <permissions>Permissions</permissions>
-      <adminlogin>Admin Login</adminlogin>
-      <websites>Websites</websites>
-      <stores>Store Views</stores>
-      <storeviews>Stores</storeviews>
-      <customertaxclasses> Customer tax class</customertaxclasses>
-      <producttaxclasses> Product tax class</producttaxclasses>
-      <taxrules> Tax rules</taxrules>
-      <taxrates> Tax rates</taxrates>
+        <products>Products</products>
+        <categories>Categories</categories>
+        <urlrewrites>Url Rewrites</urlrewrites>
+        <attributes>Attributes</attributes>
+        <attributesets>Attribute Sets</attributesets>
+        <catalogsearch>Catalog Search</catalogsearch>
+        <catalogtags>Catalog Tags</catalogtags>
+        <catalogratings>Catalog Ratings</catalogratings>
+        <reviews>Reviews</reviews>
+        <adminlogin>Admin Login</adminlogin>
+        <cmspages>Cms pages</cmspages>
+        <cmsblocks>Cms Blocks</cmsblocks>
+        <cmspolls>Cms Polls</cmspolls>
+        <customers>Customers</customers>
+        <customerbalance>Customer Balance</customerbalance>
+        <reports>Report</reports>
+        <giftaccount>Gift Account</giftaccount>
+        <systemconfiguration>System configuration</systemconfiguration>
+        <customergroups>Customer Groups</customergroups>
+        <catalogevents>Catalog Events</catalogevents>
+        <promocatalog>Promo catalog</promocatalog>
+        <promoquote>Promo Quote</promoquote>
+        <systemaccount>My Account</systemaccount>
+        <invitations>Invitations</invitations>
+        <orders>Orders</orders>
+        <orderstatus>Order Status History</orderstatus>
+        <invoices>Invoices</invoices>
+        <shipments>Shipments</shipments>
+        <creditmemos>Creditmemos</creditmemos>
+        <api>Api</api>
+        <permissions>Permissions</permissions>
+        <adminlogin>Admin Login</adminlogin>
+        <websites>Websites</websites>
+        <stores>Store Views</stores>
+        <storeviews>Stores</storeviews>
+        <customertaxclasses> Customer tax class</customertaxclasses>
+        <producttaxclasses> Product tax class</producttaxclasses>
+        <taxrules> Tax rules</taxrules>
+        <taxrates> Tax rates</taxrates>
     </list>
-  </labels>
+    </labels>
 </logging>
