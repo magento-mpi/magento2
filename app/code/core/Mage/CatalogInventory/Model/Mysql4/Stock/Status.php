@@ -194,4 +194,3 @@ class Mage_CatalogInventory_Model_Mysql4_Stock_Status extends Mage_Core_Model_My
         return $this->_getReadAdapter()->fetchPairs($select);
     }
 }
-
