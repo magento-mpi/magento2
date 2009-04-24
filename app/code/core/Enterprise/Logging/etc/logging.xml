@@ -502,21 +502,21 @@
     </report_invitation_order>
 
 
-    <manage_giftcardaccount_edit>
+    <giftcardaccount_edit>
       <event>giftaccount</event>
       <action>view</action>
-    </manage_giftcardaccount_edit>
+    </giftcardaccount_edit>
 
-    <manage_giftcardaccount_save>
+    <giftcardaccount_save>
       <event>giftaccount</event>
       <action>save</action>
       <model>Enterprise_GiftCardAccount_Model_Giftcardaccount</model>
-    </manage_giftcardaccount_save>
+    </giftcardaccount_save>
 
-    <manage_giftcardaccount_delete>
+    <giftcardaccount_delete>
       <event>giftaccount</event>
       <action>delete</action>
-    </manage_giftcardaccount_delete>
+    </giftcardaccount_delete>
 
     <system_account_index>
       <event>systemaccount</event>
