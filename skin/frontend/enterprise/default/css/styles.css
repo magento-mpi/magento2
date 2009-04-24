@@ -1504,8 +1504,8 @@ button.btn-cart  span { }
 #checkout-step-login .col2-set .col-2 .form-list li { background:none; padding-left:0; }
 #checkout-step-login .form-list label,
 #checkout-step-login .form-list .label { width:90px; }
-#checkout-step-login .btn-only { padding:0 0 0 105px; text-align:right; width:214px; } 
-#checkout-step-login .btn-only .button { float:left; }
+#checkout-step-login .btn-only { padding:0 0 0 105px; text-align:left; width:214px; } 
+#checkout-step-login .btn-only .button { float:right; }
 #checkout-step-login p { margin:0 0 15px; }
 #checkout-step-login .form-list p { padding-left:105px; margin:0; }
 #checkout-step-login .form-list .input-text { width:210px; }
