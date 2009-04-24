@@ -34,7 +34,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     */
     protected function _construct() 
     {
-        $this->_init('enterprise_logging/event', 'event_id');
+        $this->_init('enterprise_logging/event', 'log_id');
     }
 
     /**
