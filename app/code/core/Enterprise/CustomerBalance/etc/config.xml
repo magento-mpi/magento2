@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerBalance>
-             <version>0.0.8</version>
+             <version>0.0.9</version>
         </Enterprise_CustomerBalance>
     </modules>
     <global>
