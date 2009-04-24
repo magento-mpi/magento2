@@ -215,5 +215,34 @@ function xmlModulesCallback($filename)
 {
     $package = str_replace('.xml', '', basename($filename));
     list($category) = explode('_', $package);
+    if ('Mage_All' === $package) {
+        $package = 'Mage_Core';
+    }
     return array($category, $package);
+}
+
+/**
+ * Get category & package name from filename of a theme file
+ *
+ * @param string $filename
+ * @return array
+ */
+function themeCallback($filename)
+{
+    list(, $package) = explode('app/design/', $filename);
+    list(, $packagePart1, $packagePart2) = explode('/', $package);
+    return array('design', "{$packagePart1}_{$packagePart2}");
+}
+
+/**
+ * Get category & package name from filename of a skin file
+ *
+ * @param string $filename
+ * @return array
+ */
+function skinCallback($filename)
+{
+    list(, $package) = explode('skin/', $filename);
+    list(, $packagePart1, $packagePart2) = explode('/', $package);
+    return array('design', "{$packagePart1}_{$packagePart2}");
 }
