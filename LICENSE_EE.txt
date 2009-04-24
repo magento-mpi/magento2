@@ -1,4 +1,3 @@
-
 Magento Enterprise Edition License
 
-Put EE EULA text here.
+Magento Enterprise Edition is licensed under Magento Enterprise End User License Agreement. For exact license terms please contact license@magentocommerce.com.

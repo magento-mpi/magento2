@@ -38,9 +38,9 @@
 
 
 <?php if (!$_nativeZoom): ?>
-<?php /* --------- jqZoom --------- */ ?>   
+<?php /* --------- jqZoom --------- */ ?>
     <?php if ($_product->getImage() != 'no_selection' && $_product->getImage()): ?>
-    <?php list($_imgWidth, $_imgHeight) = getimagesize($this->helper('catalog/image')->init($_product, 'image')); ?>
+    <?php list($_imgWidth, $_imgHeight) = $this->helper('catalog/image')->init($_product, 'image')->getOriginalSizeArray(); ?>
 
         <a class="product-image image-zoom" rel="lightbox[gallery]" id="main-image<?php if ($_imgWidth < 380 && $_imgHeight < 380): echo '-nozoom'; endif;?>" title="<?php echo $this->htmlEscape($_product->getImageLabel()); ?>" href="<?php echo $this->helper('catalog/image')->init($_product, 'image'); ?>">
         <?php /* if(!$_product->isSaleable()): ?><span class="sold-out">&nbsp;</span><?php endif; */ ?>
@@ -49,7 +49,7 @@
                 echo $_helper->productAttribute($_product, $_img, 'image-thumb');
             ?></a>
         <script type="text/javascript">
-        //<![CDATA[    
+        //<![CDATA[
             jQuery(document).ready(function(){
                 var options = {
                         zoomType: 'reverse',
@@ -75,8 +75,8 @@
                 echo $_helper->productAttribute($_product, $_img, 'image');
             ?>
         </p>
-    <?php endif; ?>    
-    
+    <?php endif; ?>
+
 <?php else: ?>
 
 <?php /* --------- native magento zoom --------- */ ?>
@@ -111,7 +111,7 @@
             ?>
         </p>
     <?php endif; ?>
-    
+
 <?php /* --------- /native magento zoom --------- */ ?>
 <?php endif; ?>
 
