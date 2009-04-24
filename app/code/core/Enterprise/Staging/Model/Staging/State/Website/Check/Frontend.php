@@ -24,43 +24,42 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_Staging_Model_Staging_State_Website_Abstract
+class Enterprise_Staging_Model_Staging_State_Website_Check_Frontend extends Enterprise_Staging_Model_Staging_State_Website_Abstract
 {
     /**
      * Main run method of current state
      *
      * @param   Enterprise_Staging_Model_Staging $staging
-     * @return  Enterprise_Staging_Model_Staging_State_Website_Backup
+     * @return  Enterprise_Staging_Model_Staging_State_Website_Merge
      */
     protected function _run(Enterprise_Staging_Model_Staging $staging)
     {
-        $mapper       = $staging->getMapperInstance();
-        $stagingItems = $mapper->getStagingItems();
-        foreach ($stagingItems as $stagingItem) {
-            $adapter = Enterprise_Staging_Model_Staging_Config::getItemAdapterInstanse($stagingItem);
-            $adapter->backup($staging);
+        if (Mage::registry('staging/frontend_checked_started')) {
+            return $this;
+        }
+        Mage::register('staging/frontend_checked_started', true);
+
+        $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
+        foreach ($stagingItems->children() as $stagingItem) {
+            if (!$stagingItem->is_backend) {
+                continue;
+            }
+
+            $adapter = $this->getItemAdapterInstanse($stagingItem);
+            $adapter->checkFrontend($staging);
+
             if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
                 foreach ($stagingItem->extends->children() AS $extendItem) {
-                    $adapter = Enterprise_Staging_Model_Staging_Config::getItemAdapterInstanse($extendItem);
-                    $adapter->backup($staging);
+                    if (!$extendItem->is_backend) {
+                        continue;
+                    }
+                    $adapter = $this->getItemAdapterInstanse($extendItem);
+                    $adapter->checkFrontend($staging);
                 }
             }
         }
-
+        Mage::register('staging/frontend_checked', true);
+        Mage::unregister('staging/frontend_checked_started');
         return $this;
-    }
-
-    /**
-     * Set complete status into current staging
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     *
-     * @return Enterprise_Staging_Model_Staging_State_Website_Backup
-     */
-    protected function _afterRun(Enterprise_Staging_Model_Staging $staging)
-    {
-        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
-
-        return parent::_afterRun($staging);
     }
 }

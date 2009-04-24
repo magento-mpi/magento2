@@ -113,7 +113,9 @@ class Enterprise_Staging_Model_Staging_Config
     {
         $types = self::getConfig('type');
         $stagingType = $staging->getType();
-
+        if (is_null($stagingType)) {
+            $stagingType = self::DEFAULT_TYPE;
+        }
         $typeConfig = $types->{$stagingType}->asArray();
 
         if (!empty($typeConfig['models'][$model])) {
@@ -432,7 +434,7 @@ class Enterprise_Staging_Model_Staging_Config
      */
     static public function getStagingTablePrefix()
     {
-    	return (string) self::getConfig('global_staging_table_prefix');
+        return (string) self::getConfig('global_staging_table_prefix');
     }
 
     /**
@@ -464,39 +466,39 @@ class Enterprise_Staging_Model_Staging_Config
      *
      * @param string $tableName
      * @param string $modelEntity
+     * @param Mage_Core_Model_Website $stagingWebsite
+     *
      * @return string
      */
-    static public function getStagingTableName($tableName, $modelEntity)
+    static public function getStagingTableName($tableName, $modelEntity, $stagingWebsite = null)
     {
+        $staging = Mage::getModel('enterprise_staging/staging');
+        if (!is_null($stagingWebsite)) {
+            $staging->loadByStagingWebsiteId($stagingWebsite->getId());
+        }
+        if (!Mage::registry("staging/frontend_checked")) {
+            $staging->checkFrontend($staging);
+        }
 
-    	list($model, $entity) = split("[/]" , $modelEntity,2);
+        list($model, $entity) = split("[/]" , $modelEntity, 2);
+        if (!$model){
+            return $tableName;
+        }
 
-    	if (!$model){
-    	    return $tableName;
-    	}
+        $globalTablePrefix = (string) Mage::getConfig()->getTablePrefix();
 
-    	$stagingTablePrefix = self::getTablePrefix();
+        $stagingTablePrefix = self::getTablePrefix();
+        if (empty($stagingTablePrefix)){
+            return $tableName;
+        }
 
-    	if (empty($stagingTablePrefix)){
-    	    return $tableName;
-    	}
-
-    	if (self::isStagingUpTableName($model, $tableName)) {
-
-    	    $stagingAdapter = Mage::getModel('enterprise_staging/staging')
-                ->getAdapterInstance(true);
-
-    	    $tableDescription = $stagingAdapter->getTableProperties($model, $tableName);
-
+        if (self::isStagingUpTableName($model, $tableName)) {
             $tableName = $stagingTablePrefix . $tableName;
+        } else {
+            $tableName = $globalTablePrefix . $tableName;
+        }
 
-            $stagingAdapter->createTable($tableName, $model, $modelEntity, $tableDescription);
-
-    	} else {
-    	    $tableName = (string) Mage::getConfig()->getTablePrefix() . $tableName;
-    	}
-
-    	return $tableName;
+        return $tableName;
 
     }
 
@@ -512,22 +514,17 @@ class Enterprise_Staging_Model_Staging_Config
         $itemSet = self::getConfig("staging_items");
 
         if (is_object($itemSet)) {
-            foreach($itemSet->children() AS $item) {
-
+            foreach($itemSet->children() as $item) {
                 $itemModel = (string) $item->model;
-
                 if ($itemModel == $model) {
-
-                    $isBackand = (string) $item->is_backend;
+                    $isBackend = (string) $item->is_backend;
                     $useStorageMethod = (string) $item->use_storage_method;
-
-                    if ($isBackand && $useStorageMethod == "table_prefix") {
+                    if ($isBackend && $useStorageMethod == "table_prefix") {
                         //apply prefix for custom tables
                         if (!empty($item->entities) && is_object($item->entities)){
-                            $entities = $item->entities;
-                            foreach($entities->children() AS $entitie) {
-                                $entitieTable = (string) $entitie->table;
-                                if (!empty($entitieTable) && $entitieTable == $tableName) {
+                            foreach($item->entities->children() AS $entity) {
+                                $entityTable = (string) $entity->table;
+                                if (!empty($entityTable) && $entityTable == $tableName) {
                                     return true;
                                 }
                             }

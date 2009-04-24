@@ -250,16 +250,21 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 $stagingId = $staging->getId();
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($e->getMessage())
-                    ->setStagingData($data);
+                $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
                 if ($isNew) {
+                    if ($staging->getStagingWebsite()) {
+                        $staging->getStagingWebsite()->delete();
+                    }
                     $staging->delete();
                 }
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, $e->getMessage());
+                $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
                 if ($isNew) {
+                    if ($staging->getStagingWebsite()) {
+                        $staging->getStagingWebsite()->delete();
+                    }
                     $staging->delete();
                 }
             }

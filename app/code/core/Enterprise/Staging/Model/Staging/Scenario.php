@@ -57,11 +57,11 @@ class Enterprise_Staging_Model_Staging_Scenario
      * @param string $scenarioCode
      * @return Enterprise_Staging_Model_Staging_Scenario
      */
-    function init($scenarioCode)
+    function init($scenarioCode, $firstState = null)
     {
         $this->setScenarioCode($scenarioCode);
 
-        $initState = $this->stateFactory();
+        $initState = $this->stateFactory($firstState);
 
         if ($initState) {
             $this->setState($initState);
@@ -189,8 +189,12 @@ class Enterprise_Staging_Model_Staging_Scenario
      *
      * @return  object  Enterprise_Staging_Model_Staging_State_Abstract
      */
-    public function stateFactory($stateCode = 'prepare', $singleton = false)
+    public function stateFactory($stateCode = null, $singleton = false)
     {
+        if (is_null($stateCode)) {
+            $stateCode = 'prepare';
+        }
+
         $staging        = $this->getStaging();
         $scenarioCode   = $this->getScenarioCode();
 

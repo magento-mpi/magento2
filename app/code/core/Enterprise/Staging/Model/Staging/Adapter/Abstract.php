@@ -531,7 +531,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * Retrieve table properties as array
      * fields, keys, constraints, engine, charset, create
      *
-     * @param string $item
+     * @param string $model
      * @param string $table
      * @return array
      */
@@ -548,7 +548,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         $connection = $this->getConnection($model);
 
         $tableName = $this->getTable($table, $model);
-        $prefix    = $this->_config[$model]['prefix'];
+        if (isset($this->_config[$model]['prefix'])) {
+            $prefix = $this->_config[$model]['prefix'];
+        } else {
+            $prefix = '';
+        }
+
         $tableProp = array(
             'table_name'  => $tableName,
             'fields'      => array(),

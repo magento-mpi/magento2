@@ -270,6 +270,21 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Check Frontend Website Staging
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
+    public function checkFrontend()
+    {
+        $scenario = Mage::getModel('enterprise_staging/staging_scenario');
+        $scenario->setStaging($this);
+        $scenario->init('check_frontend', 'check');
+        $scenario->run();
+
+        return $this;
+    }
+
+    /**
      * Add event
      *
      * @param   string  $code
@@ -482,6 +497,19 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function saveItems()
     {
         $this->getResource()->saveItems($this);
+
+        return $this;
+    }
+
+    /**
+     * Load staging model by given staging website id
+     *
+     * @param int $stagingWebsiteId
+     * @return Enterprise_Staging_Model_Staging
+     */
+    public function loadByStagingWebsiteId($stagingWebsiteId)
+    {
+        $this->load($stagingWebsiteId, 'staging_website_id');
 
         return $this;
     }

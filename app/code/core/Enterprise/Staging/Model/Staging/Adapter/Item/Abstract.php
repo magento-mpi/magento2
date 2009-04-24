@@ -68,7 +68,29 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
 
 
+    /**
+     * Check backend Staging Tables Creates
+     *
+     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
+     */
+    public function checkFrontend(Enterprise_Staging_Model_Staging $staging)
+    {
+        $this->_processItemMethodCallback('_checkBackendTables', $staging, true);
 
+        return $this;
+    }
+
+    protected function _checkBackendTables($staging, $srcModel, $srcTable, $targetModel, $targetTable, $usedStorageMethod)
+    {
+        $stagingTablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix();
+
+        $targetTable = $stagingTablePrefix . $srcTable;
+
+        $srcTableDescription = $this->getTableProperties($srcModel, $srcTable);
+        if ($srcTableDescription) {
+            $this->createTable($targetTable, $targetModel, $srcModel, $srcTableDescription);
+        }
+    }
 
     /**
      * Staging Create (Staging Item handle part)
@@ -836,7 +858,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         }
 
         if (!$this->tableExists($targetModel, $targetTable)) {
-            throw Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists',$table));
+            $targetTable = $srcTable;
+            //throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists',$targetTable));
         }
 
         return $targetTable;
@@ -855,10 +878,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
      */
-    protected function _processItemMethodCallback($callbackMethod, $staging)
+    protected function _processItemMethodCallback($callbackMethod, $staging, $allowBackend = false)
     {
         $itemXmlConfig = $this->getConfig();
-        if ((int)$itemXmlConfig->is_backend) {
+        if (!$allowBackend && (int)$itemXmlConfig->is_backend) {
             return $this;
         }
 

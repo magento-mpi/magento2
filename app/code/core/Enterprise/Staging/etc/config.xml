@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Staging>
-             <version>0.1.4</version>
+             <version>0.1.5</version>
         </Enterprise_Staging>
     </modules>
     <global>
@@ -90,7 +90,7 @@
 
         <enterprise>
             <staging>
-                <global_staging_table_prefix>st</global_staging_table_prefix>
+                <global_staging_table_prefix>st_</global_staging_table_prefix>
                 <global_staging_backup_table_prefix>bk</global_staging_backup_table_prefix>
                 <use_storage_method>table_prefix</use_storage_method>
                 <storage_method>
@@ -276,6 +276,14 @@
                                     <next>0</next>
                                 </check>
                             </rollback>
+                            <check_frontend>
+                                <check>
+                                    <code>check_frontend</code>
+                                    <label>Check Frontend Staging Website</label>
+                                    <model>enterprise_staging/staging_state_website_check_frontend</model>
+                                    <next>0</next>
+                                </check>
+                            </check_frontend>
                         </scenaries>
                         <scenaries_status>
                             <new translate="label"><label>New</label></new>
@@ -315,7 +323,6 @@
                         <code>catalog_product</code>
                         <module>Mage_Catalog</module>
                         <model>catalog</model>
-                        <is_backend></is_backend>
                         <label>Catalog Products</label>
                         <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                         <extends>
@@ -412,7 +419,7 @@
                             <agreement_store />
                         </entities>
                     </checkout>
-                    
+                    <!--
                     <cataloginventory>
                         <code>cataloginventory</code>
                         <module>Mage_CatalogInventory</module>
@@ -444,7 +451,7 @@
                         <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
                         <use_storage_method>table_prefix</use_storage_method>
                     </catalogsearch>
-                    
+                    -->
                     <sales>
                         <code>sales</code>
                         <module>Mage_Sales</module>
@@ -562,6 +569,18 @@
                 </visibility>
             </staging>
         </enterprise>
+        
+        <events>
+            <controller_front_init_before>
+                <observers>
+                    <enterprise_staging>
+                        <type>singleton</type>
+                        <class>enterprise_staging/observer</class>
+                        <method>beforeFrontendInit</method>
+                    </enterprise_staging>
+                </observers>
+            </controller_front_init_before>
+        </events>
     </global>
     <adminhtml>
         <menu>
@@ -607,7 +626,6 @@
                 </admin>
           </resources>
         </acl>
-
         <layout>
             <updates>
                 <enterprise_staging>
@@ -650,20 +668,13 @@
             <websiterestriction_frontend>
                 <observers>
                     <enterprise_staging>
+                        <type>singleton</type>
                         <class>enterprise_staging/observer</class>
                         <method>takeFrontendDown</method>
                     </enterprise_staging>
                 </observers>
             </websiterestriction_frontend>
-            <controller_front_init_before>
-                <observers>
-                    <enterprise_staging_check_staging>
-                        <type>singleton</type>
-                        <class>enterprise_staging/observer</class>
-                        <method>beforeFrontendInit</method>
-                    </enterprise_staging_check_staging>
-                </observers>
-            </controller_front_init_before>
+            
         </events>
     </frontend>
     <admin>

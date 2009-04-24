@@ -43,17 +43,20 @@ class Enterprise_Staging_Model_Observer
         if (Mage::app()->getStore()->isAdmin()) {
             return $this;
         }
+        if (Mage::registry('staging/frontend_checked_started')) {
+            return $this;
+        }
 
         try {
-            $resource = $observer->getEvent()->getResource();
-            $tableName = $observer->getEvent()->getTableName();
+            $resource    = $observer->getEvent()->getResource();
+            $tableName   = $observer->getEvent()->getTableName();
             $modelEntity = $observer->getEvent()->getModelEntity();
-            $website = Mage::app()->getWebsite();
-            $_tableName = '';
-            if ($website->getIsStaging()) {
-                $_tableName = Enterprise_Staging_Model_Staging_Config::getStagingTableName($tableName, $modelEntity);
-            }
 
+            $website     = Mage::app()->getWebsite();
+            $_tableName  = '';
+            if ($website->getIsStaging()) {
+                $_tableName = Enterprise_Staging_Model_Staging_Config::getStagingTableName($tableName, $modelEntity, $website);
+            }
             if ($_tableName) {
                 $resource->setMappedTableName($tableName, $_tableName);
             }
@@ -66,21 +69,24 @@ class Enterprise_Staging_Model_Observer
      * observer execute before frontend init
      *
      */
-    public function beforeFrontendInit()
+    public function beforeFrontendInit($observer)
     {
+        if (Mage::app()->getStore()->isAdmin()) {
+            return $this;
+        }
         $website = Mage::app()->getWebsite();
         if ($website->getIsStaging()) {
-            $stagingWebsite = Mage::getModel('enterprise_staging/staging_website');
-            $stagingWebsite->loadBySlaveWebsiteId($website->getId());
-            if (!$stagingWebsite->getId()) {
-                Mage::app()->getResponse()->setRedirect('/')->sendResponse();
-                exit();
-            }
-
             $key = 'allow_view_staging_website_'.$website->getCode();
             $coreSession = Mage::getSingleton('core/session');
 
-            switch ($stagingWebsite->getVisibility()) {
+            $staging = Mage::getModel('enterprise_staging/staging');
+            $staging->loadByStagingWebsiteId($website->getId());
+            if (!$staging->getId()) {
+                Mage::app()->getResponse()->setRedirect('/')->sendResponse();
+                return $this;
+            }
+
+            switch ($website->getVisibility()) {
                 case Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE :
                     $coreSession->setData($key, false);
                     Mage::app()->getResponse()->setRedirect('/')->sendResponse();
@@ -94,6 +100,8 @@ class Enterprise_Staging_Model_Observer
                     break;
             }
         }
+
+        return $this;
     }
 
     /**

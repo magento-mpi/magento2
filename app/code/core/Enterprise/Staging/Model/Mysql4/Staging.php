@@ -133,7 +133,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Return margeMap for processing websites
+     * Return websites with processing status
      *
      * @return array
      */
