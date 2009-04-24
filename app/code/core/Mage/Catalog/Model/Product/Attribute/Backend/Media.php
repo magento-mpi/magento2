@@ -220,13 +220,10 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
         if (!$file) {
             Mage::throwException(Mage::helper('catalog')->__('Image not exists'));
         }
-
         $pathinfo = pathinfo($file);
-
-        if (!isset($pathinfo['extension']) || !in_array($pathinfo['extension'], array('jpg','jpeg','gif','png'))) {
+        if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), array('jpg','jpeg','gif','png'))) {
             Mage::throwException(Mage::helper('catalog')->__('Invalid image file type'));
         }
-
 
         $fileName       = Varien_File_Uploader::getCorrectFileName($pathinfo['basename']);
         $dispretionPath = Varien_File_Uploader::getDispretionPath($fileName);
