@@ -386,17 +386,17 @@
       <handler>getreport</handler>
     </report_sales_coupons>
 
-    <report_shopcard_product>
+    <report_shopcart_product>
       <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
-    </report_shopcard_product>
+    </report_shopcart_product>
 
-    <report_shopcard_abadoned>
+    <report_shopcart_abandoned>
       <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
-    </report_shopcard_abadoned>
+    </report_shopcart_abandoned>
 
     <report_product_ordered>
       <event>reports</event>
