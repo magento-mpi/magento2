@@ -327,11 +327,11 @@
       <id>block_id</id>
     </cms_block_save>
 
-    <cmsblocks_delete>
+    <cms_block_delete>
       <event>cmsblocks</event>
       <action>delete</action>
       <id>block_id</id>
-    </cmsblocks_delete>
+    </cms_block_delete>
 
     <poll_edit>
       <event>cmspolls</event>
