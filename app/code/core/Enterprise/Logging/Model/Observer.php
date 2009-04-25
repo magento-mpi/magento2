@@ -277,6 +277,17 @@ class Enterprise_Logging_Model_Observer
     }
 
     /**
+     * Custom handler for catalog price rules apply
+     */
+    public function promocatalogApply($config, $success) {
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => 'all rules'
+        );
+    }
+
+    /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      */
     public function getTaxClassSaveActionInfo($config, $success)

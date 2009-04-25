@@ -194,8 +194,6 @@
       <action>delete</action>
     </urlrewrite_delete>
 
-
-
     <promo_catalog_edit>
       <event>promocatalog</event>
       <action>view</action>
@@ -211,6 +209,12 @@
       <event>promocatalog</event>
       <action>delete</action>
     </promo_catalog_delete>
+
+    <promo_catalog_applyRules>
+      <event>promocatalog</event>
+      <action>apply</action>
+      <handler>promocatalogapply</handler>
+    </promo_catalog_applyRules>
 
     <promo_quote_edit>
        <event>promoquote</event>
