@@ -422,11 +422,11 @@
       <handler>getreport</handler>
     </report_product_downloads>
 
-    <report_customer_accouts>
+    <report_customer_accounts>
       <event>reports</event>
       <action>view</action>
       <handler>getreport</handler>
-    </report_customer_accouts>
+    </report_customer_accounts>
 
     <report_customer_orders>
       <event>reports</event>
