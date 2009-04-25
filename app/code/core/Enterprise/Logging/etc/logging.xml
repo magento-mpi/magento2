@@ -73,6 +73,7 @@
       <action>save</action>
       <model>Mage_Eav_Model_Entity_Attribute_Set</model>
       <force-skip>1</force-skip>
+      <allow-multiply-models>1</allow-multiply-models>
     </catalog_product_set_save>
 
     <catalog_product_set_delete>
