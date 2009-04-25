@@ -398,6 +398,12 @@
       <handler>getreport</handler>
     </report_shopcart_abandoned>
 
+    <report_product_sold>
+      <event>reports</event>
+      <action>view</action>
+      <handler>getreport</handler>
+    </report_product_sold>
+
     <report_product_ordered>
       <event>reports</event>
       <action>view</action>
