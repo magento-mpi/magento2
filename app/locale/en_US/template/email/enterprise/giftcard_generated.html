@@ -1,4 +1,4 @@
-<!--@subject Here are your Gift Cards. @-->
+<!--@subject You've been sent a gift from {{var sender_name}} @-->
 
 
 <style type="text/css">
@@ -20,10 +20,16 @@
                 <table cellspacing="0" cellpadding="0" border="0" width="650">
                     <tr>
                         <td valign="top">
-                        Hello, {{var name}}<br />
-                        {{var sender_name_with_email}}<br />
+                        Dear, {{var name}}<br />
+                        {{var sender_name_with_email}} has sent you a gift card for use at {{store url=""}} and it is now ready to be used for purchases.<br />
+                        <br />
+                        The Gift Card code(s):<br />
                         {{var giftcards}}<br />
-                        {{var gift_message}}
+                        <br />
+                        The card(s) has a balance of {{var balance}} that can be used at {{store url=""}}.<br />
+                        <br />
+                        {{var gift_message}}<br />
+                        Thank you,
                         </td>
                     </tr>
                 </table>

@@ -188,20 +188,25 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                     }
                     if ($goodCodes && $item->getProductOptionByCode('giftcard_recipient_email')) {
                         $sender = $item->getProductOptionByCode('giftcard_sender_name');
+                        $senderName = $item->getProductOptionByCode('giftcard_sender_name');
                         if ($senderEmail = $item->getProductOptionByCode('giftcard_sender_email')) {
                             $sender = "$sender <$senderEmail>";
                         }
 
                         $codeList = Mage::helper('enterprise_giftcard')->getEmailGeneratedItemsBlock()
                             ->setCodes($codes)
-                            ->setIsRedeemable($isRedeemable);
+                            ->setIsRedeemable($isRedeemable)
+                            ->setStore(Mage::app()->getStore($order->getStoreId()));
+                        $balance = Mage::app()->getLocale()->currency(Mage::app()->getStore($order->getStoreId())->getBaseCurrencyCode())->toCurrency($amount);
 
                         $templateData = array(
                             'name'                   => htmlspecialchars($item->getProductOptionByCode('giftcard_recipient_name')),
                             'email'                  => htmlspecialchars($item->getProductOptionByCode('giftcard_recipient_email')),
                             'sender_name_with_email' => htmlspecialchars($sender),
+                            'sender_name'            => htmlspecialchars($senderName),
                             'gift_message'           => nl2br(htmlspecialchars($item->getProductOptionByCode('giftcard_message'))),
                             'giftcards'              => $codeList->toHtml(),
+                            'balance'                => $balance,
                         );
 
                         $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $item->getOrder()->getStoreId()));
