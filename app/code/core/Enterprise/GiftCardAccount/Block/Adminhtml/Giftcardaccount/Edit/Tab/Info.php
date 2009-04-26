@@ -30,6 +30,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
     public function __construct()
     {
         parent::__construct();
+        $this->setTemplate('enterprise/giftcardaccount/edit/tab/info.phtml');
     }
 
     public function initForm()
@@ -106,6 +107,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             'name'      => 'balance',
             'class'     => 'validate-number',
             'required'  => true,
+            'note'      => '<div id="balance_currency"></div>',
         ));
 
     	$fieldset->addField('date_expires', 'date', array(
@@ -123,5 +125,16 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
         }
         $this->setForm($form);
         return $this;
+    }
+
+    public function getCurrencyJson()
+    {
+        $result = array();
+        $websites = Mage::getSingleton('adminhtml/system_store')->getWebsiteCollection();
+        foreach ($websites as $id=>$website) {
+            $result[$id] = $website->getBaseCurrencyCode();
+        }
+
+        return Zend_Json::encode($result);
     }
 }
