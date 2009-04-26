@@ -41,6 +41,18 @@ class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Mage_Sales_Blo
     }
 
     /**
+     * Prepare a string containing name and email
+     *
+     * @param string $name
+     * @param string $email
+     * @return mixed
+     */
+    protected function _getNameEmailString($name, $email)
+    {
+        return "$name &lt;{$email}&gt;";
+    }
+
+    /**
      * Get gift card option list
      *
      * @return array
@@ -50,7 +62,7 @@ class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Mage_Sales_Blo
         $result = array();
         if ($value = $this->_prepareCustomOption('giftcard_sender_name')) {
             if ($email = $this->_prepareCustomOption('giftcard_sender_email')) {
-                $value = "{$value} &lt;{$email}&gt;";
+                $value = $this->_getNameEmailString($value, $email);
             }
             $result[] = array(
                 'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Sender'),
@@ -59,7 +71,7 @@ class Enterprise_GiftCard_Block_Sales_Order_Item_Renderer extends Mage_Sales_Blo
         }
         if ($value = $this->_prepareCustomOption('giftcard_recipient_name')) {
             if ($email = $this->_prepareCustomOption('giftcard_recipient_email')) {
-                $value = "{$value} &lt;{$email}&gt;";
+                $value = $this->_getNameEmailString($value, $email);
             }
             $result[] = array(
                 'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Recipient'),

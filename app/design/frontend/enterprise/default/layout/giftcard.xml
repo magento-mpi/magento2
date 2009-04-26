@@ -279,7 +279,7 @@
         <reference name="sales.order.print">
             <action method="addItemRender">
                 <type>giftcard</type>
-                <block>enterprise_giftcard/sales_order_item_renderer</block>
+                <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
                 <template>sales/order/items/renderer/default.phtml</template>
             </action>
         </reference>
@@ -289,7 +289,7 @@
         <reference name="sales.order.print.invoice">
             <action method="addItemRender">
                 <type>giftcard</type>
-                <block>enterprise_giftcard/sales_order_item_renderer</block>
+                <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
                 <template>sales/order/invoice/items/renderer/default.phtml</template>
             </action>
         </reference>
@@ -299,7 +299,7 @@
         <reference name="sales.order.print.shipment">
             <action method="addItemRender">
                 <type>giftcard</type>
-                <block>enterprise_giftcard/sales_order_item_renderer</block>
+                <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
                 <template>sales/order/shipment/items/renderer/default.phtml</template>
             </action>
         </reference>
@@ -309,7 +309,7 @@
         <reference name="sales.order.print.creditmemo">
             <action method="addItemRender">
                 <type>giftcard</type>
-                <block>enterprise_giftcard/sales_order_item_renderer</block>
+                <block>enterprise_giftcard/sales_order_item_renderer_noquote</block>
                 <template>sales/order/creditmemo/items/renderer/default.phtml</template>
             </action>
         </reference>
