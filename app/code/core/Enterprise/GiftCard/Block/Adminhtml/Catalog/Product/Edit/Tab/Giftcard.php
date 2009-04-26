@@ -139,4 +139,9 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
         }
         return $result;
     }
+
+    public function getConfigValue($field)
+    {
+        return Mage::getStoreConfig(Enterprise_GiftCard_Model_Giftcard::XML_PATH . $field);
+    }
 }

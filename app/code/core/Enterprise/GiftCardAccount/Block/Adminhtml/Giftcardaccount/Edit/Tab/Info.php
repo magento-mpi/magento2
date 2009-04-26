@@ -96,7 +96,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             'label'     => Mage::helper('enterprise_giftcardaccount')->__('Website'),
             'title'     => Mage::helper('enterprise_giftcardaccount')->__('Website'),
             'required'  => true,
-            'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true, true),
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
         ));
 
 
