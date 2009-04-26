@@ -149,21 +149,22 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
      * Return shopping cart total row items
      *
      * @param Mage_Sales_Model_Quote_Address $address
-     * @return Enterprise_GiftCertificate_Model_Total_Giftcertificate
+     * @return Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount
      */
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
-        $giftCards = Mage::helper('enterprise_giftcardaccount')->getCards($address);
-        foreach ($giftCards as $card) {
-            $title = Mage::helper('enterprise_giftcardaccount')->__('Gift Card (%s)', $card['c']);
-            $address->addTotal(array(
-                'code'=>"{$this->getCode()}_{$card['c']}",
-                'as'=>$this->getCode(),
-                'title'=>$title,
-                'value'=>$card['a'],
-                'gift_card'=>$card['c'],
-            ));
+        if ($address->getQuote()->isVirtual()) {
+            $giftCards = Mage::helper('enterprise_giftcardaccount')->getCards($address->getQuote()->getBillingAddress());
+        } else {
+            $giftCards = Mage::helper('enterprise_giftcardaccount')->getCards($address);
         }
+        $address->addTotal(array(
+            'code'=>$this->getCode(),
+            'title'=>Mage::helper('enterprise_giftcardaccount')->__('Gift Cards'),
+            'value'=>$address->getGiftCardsAmount(),
+            'gift_cards'=>$giftCards,
+        ));
+
         return $this;
     }
 
