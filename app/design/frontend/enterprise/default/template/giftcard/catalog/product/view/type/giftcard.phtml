@@ -73,12 +73,30 @@
                                 minAllowedAmount = <?php echo Mage::helper('core')->currency($_product->getOpenAmountMin(), false, false) ?>;
                                 maxAllowedAmount = <?php echo Mage::helper('core')->currency($_product->getOpenAmountMax(), false, false) ?>;
 
+                                function parsePrice(value) {
+                                    value = value.replace('\'', '').replace(' ', '');
+                                    separatorComa = value.indexOf(',');
+                                    separatorDot  = value.indexOf('.');
+
+                                    if (separatorComa != -1 && separatorDot != -1) {
+                                        if (separatorComa > separatorDot) {
+                                            value = value.replace('.', '').replace(',', '.');
+                                        } else {
+                                            value = value.replace(',', '');
+                                        }
+                                    } else if (separatorComa != -1) {
+                                        value = value.replace(',', '.');
+                                    }
+
+                                    return parseFloat(value);
+                                }
+
                                 Validation.add('giftcard-min-amount', '<?php echo $this->__('Entered amount is too low'); ?>', function(v) {
-                                    return (v >= minAllowedAmount);
+                                    return (parsePrice(v) >= minAllowedAmount);
                                 });
                                 Validation.add('giftcard-max-amount', '<?php echo $this->__('Entered amount is too high'); ?>', function(v) {
                                     if (maxAllowedAmount == 0) {return true;}
-                                    return (v <= maxAllowedAmount);
+                                    return (parsePrice(v) <= maxAllowedAmount);
                                 });
                             </script>
                         <?php endif; ?>

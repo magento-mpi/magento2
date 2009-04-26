@@ -144,7 +144,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
 
         $rate = Mage::app()->getStore()->getCurrentCurrencyRate();
         if ($rate != 1) {
-            if ($customAmount && is_numeric($customAmount)) {
+            if ($customAmount) {
+                $customAmount = Mage::app()->getLocale()->getNumber($customAmount);
+                if (is_numeric($customAmount) && $customAmount)
                 $customAmount = Mage::app()->getStore()->roundPrice($customAmount/$rate);
             }
         }
