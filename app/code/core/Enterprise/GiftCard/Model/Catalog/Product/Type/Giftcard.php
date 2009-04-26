@@ -129,6 +129,7 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
         }
 
         $product = $this->getProduct($product);
+
         $allowedAmounts = array();
         foreach ($product->getGiftcardAmounts() as $value) {
             $allowedAmounts[] = $value['website_value'];
@@ -143,16 +144,44 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
 
         $rate = Mage::app()->getStore()->getCurrentCurrencyRate();
         if ($rate != 1) {
-            if ($selectedAmount && is_numeric($selectedAmount)) {
-                $selectedAmount = Mage::app()->getStore()->roundPrice($selectedAmount/$rate);
-            }
             if ($customAmount && is_numeric($customAmount)) {
                 $customAmount = Mage::app()->getStore()->roundPrice($customAmount/$rate);
             }
         }
 
-        $amount = null;
+        $emptyFields = 0;
+        if (!$buyRequest->getGiftcardRecipientName()) {
+            $emptyFields++;
+        }
+        if (!$buyRequest->getGiftcardSenderName()) {
+            $emptyFields++;
+        }
 
+        if (!$this->isTypePhysical($product)) {
+            if (!$buyRequest->getGiftcardRecipientEmail()) {
+                $emptyFields++;
+            }
+            if (!$buyRequest->getGiftcardSenderEmail()) {
+                $emptyFields++;
+            }
+        }
+
+        if (($selectedAmount == 'custom' || !$selectedAmount) && $allowOpen && $customAmount <= 0) {
+            $emptyFields++;
+        } else if (is_numeric($selectedAmount)) {
+            if (!in_array($selectedAmount, $allowedAmounts)) {
+                $emptyFields++;
+            }
+        } else if (count($allowedAmounts) != 1) {
+            $emptyFields++;
+        }
+
+        if ($emptyFields > 1) {
+            return Mage::helper('enterprise_giftcard')->__('Please specify all the required information.');
+        }
+
+
+        $amount = null;
         if (($selectedAmount == 'custom' || !$selectedAmount) && $allowOpen) {
             if ($customAmount <= 0) {
                 return Mage::helper('enterprise_giftcard')->__('Please specify Gift Card amount.');

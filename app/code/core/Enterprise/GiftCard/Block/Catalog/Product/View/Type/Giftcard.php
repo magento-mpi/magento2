@@ -101,7 +101,11 @@ class Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Mage_
     	$firstName = (string)Mage::getSingleton('customer/session')->getCustomer()->getFirstname();
     	$lastName  = (string)Mage::getSingleton('customer/session')->getCustomer()->getLastname();
 
-        return $firstName . ' ' . $lastName;
+        if ($firstName && $lastName) {
+            return $firstName . ' ' . $lastName;
+        } else {
+            return '';
+        }
     }
 
     public function getCustomerEmail()
