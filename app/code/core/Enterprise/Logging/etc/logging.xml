@@ -86,6 +86,17 @@
       <action>view</action>
     </catalog_search_edit>
 
+    <catalog_search_save>
+      <event>catalogsearch</event>
+      <action>save</action>
+      <model>Mage_CatalogSearch_Model_Query</model>
+    </catalog_search_save>
+    
+    <catalog_search_delete>
+      <event>catalogsearch</event>
+      <action>delete</action>
+    </catalog_search_delete>
+
     <tag_edit>
       <event>catalogtags</event>
       <action>view</action>
