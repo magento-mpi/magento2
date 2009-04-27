@@ -533,6 +533,23 @@ class Enterprise_Logging_Model_Observer
         );
     }
 
+
+    /**
+     * special handler for adminlogging action
+     */
+
+    public function viewAdminLogs($config, $success)
+    {
+        $code = $config['event'];
+        $act = $config['action'];
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => '-',
+            'event_status' => $success
+        );
+    }
+
     /**
      * special handler for myaccount action
      */

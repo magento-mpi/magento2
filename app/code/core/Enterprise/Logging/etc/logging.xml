@@ -148,7 +148,6 @@
       <action>delete</action>
     </catalog_product_review_delete>
 
-
     <catalog_category_edit>
       <event>categories</event>
       <action>view</action>
@@ -858,10 +857,17 @@
       <action>delete</action>
       <id>rule</id>
     </tax_rule_delete>
+    
+    <events_index>
+      <event>adminlogging</event>
+      <action>view</action>
+      <handler>viewadminlogs</handler>
+    </events_index>
   </actions>
 
     <labels>
     <list>
+        <adminlogging>Admin Logging</adminlogging>
         <products>Products</products>
         <categories>Categories</categories>
         <urlrewrites>Url Rewrites</urlrewrites>
