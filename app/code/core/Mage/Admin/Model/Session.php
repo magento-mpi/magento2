@@ -144,12 +144,6 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
             }
 
             try {
-                if ($acl->isAllowed($user->getAclRole(), 'all', null)){
-                    return true;
-                }
-            } catch (Exception $e) {}
-
-            try {
                 return $acl->isAllowed($user->getAclRole(), $resource, $privilege);
             } catch (Exception $e) {
                 return false;
