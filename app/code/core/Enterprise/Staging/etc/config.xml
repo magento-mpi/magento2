@@ -398,7 +398,7 @@
                         <code>checkout</code>
                         <module>Mage_Checkout</module>
                         <model>checkout</model>
-                        <label>Terms And Coditions</label>
+                        <label>Terms And Conditions</label>
                         <adapter>enterprise_staging/staging_adapter_item_checkout</adapter>
                         <entities>
                             <agreement_store />
