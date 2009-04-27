@@ -75,6 +75,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard exten
             $result[] = array(
                 'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Sender'),
                 'value'=>$value,
+                'custom_view'=>true,
             );
         }
         if ($value = $this->_prepareCustomOption('giftcard_recipient_name')) {
@@ -84,6 +85,7 @@ class Enterprise_GiftCard_Block_Adminhtml_Sales_Items_Column_Name_Giftcard exten
             $result[] = array(
                 'label'=>Mage::helper('enterprise_giftcard')->__('Gift Card Recipient'),
                 'value'=>$value,
+                'custom_view'=>true,
             );
         }
         if ($value = $this->_prepareCustomOption('giftcard_message')) {
