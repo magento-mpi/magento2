@@ -76,8 +76,10 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
     {
         $websites = Mage::app()->getWebsites();
         if ($websiteIds = $this->getWebsiteIds()) {
-            foreach ($websiteIds as $websiteId) {
-                unset($websites[$websiteId]);
+            foreach ($websites as $websiteId => $website) {
+                if (!in_array($websiteId, $websiteIds)) {
+                    unset($websites[$websiteId]);
+                }
             }
         }
         return $websites;
@@ -137,8 +139,10 @@ class Mage_Adminhtml_Block_Store_Switcher extends Mage_Adminhtml_Block_Template
         }
         $stores = $group->getStores();
         if ($storeIds = $this->getStoreIds()) {
-            foreach ($storeIds as $storeId) {
-                unset($stores[$storeId]);
+            foreach ($stores as $storeId => $store) {
+                if (!in_array($storeId, $storeIds)) {
+                    unset($stores[$storeId]);
+                }
             }
         }
         return $stores;
