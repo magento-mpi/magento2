@@ -176,7 +176,9 @@ class Mage_Checkout_CartController extends Mage_Core_Controller_Front_Action
             /**
              * @todo remove wishlist observer processAddToCart
              */
-            Mage::dispatchEvent('checkout_cart_add_product_complete', array('product'=>$product, 'request'=>$this->getRequest()));
+            Mage::dispatchEvent('checkout_cart_add_product_complete',
+                array('product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse())
+            );
             $message = $this->__('%s was successfully added to your shopping cart.', $product->getName());
             if (!$this->_getSession()->getNoCartRedirect(true)) {
                 $this->_getSession()->addSuccess($message);
