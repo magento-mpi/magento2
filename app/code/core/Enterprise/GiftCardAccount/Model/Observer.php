@@ -136,7 +136,7 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
             ->setStatus(Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED)
             ->setWebsiteId($data->getWebsiteId())
             ->setBalance($data->getAmount())
-            ->setDateExpires($data->getLifetime())
+            ->setLifetime($data->getLifetime())
             ->setIsRedeemable($data->getIsRedeemable())
             ->setOrder($order)
             ->save();

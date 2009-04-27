@@ -69,14 +69,10 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             }
         }
 
-        if ($this->getDateExpires()) {
-            if ($this->getDateExpires() == '0') {
-                $this->setDateExpires(null);
-            } else {
-                if (is_numeric($this->getDateExpires())) {
-                    $this->setDateExpires(date('Y-m-d', strtotime("now +{$this->getDateExpires()} days")));
-                }
-
+        if (is_numeric($this->getLifetime()) && $this->getLifetime() > 0) {
+            $this->setDateExpires(date('Y-m-d', strtotime("now +{$this->getLifetime()}days")));
+        } else {
+            if ($this->getDateExpires()) {
                 $this->setDateExpires(
                     Mage::app()->getLocale()->date(
                         $this->getDateExpires(),
@@ -85,9 +81,9 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                         false
                     )->toString(Varien_Date::DATE_INTERNAL_FORMAT)
                 );
+            } else {
+                $this->setDateExpires(null);
             }
-        } else {
-            $this->setDateExpires(null);
         }
 
         if (!$this->getId() && !$this->hasHistoryAction()) {
