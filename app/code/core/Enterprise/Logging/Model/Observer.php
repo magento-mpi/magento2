@@ -286,6 +286,24 @@ class Enterprise_Logging_Model_Observer
     }
 
     /**
+     * Custom handler for customer validation fail's action
+     */
+    public function getCustomerValidateAction($config, $success) {
+        $out = json_decode(Mage::app()->getResponse()->getBody());
+        if ( !empty($out->error)) {
+            $id = Mage::app()->getRequest()->getParam('id');
+            return array(
+                'event_code' => $config['event'],
+                'event_action' => $config['action'],
+                'event_message' => $id == 0 ? 'new customer' : $id,
+                'event_status'  => 0
+            );
+        }
+        return false;
+    }
+
+
+    /**
      * Custom handler for poll save fail's action
      */
     public function getPollValidationAction($config, $success) {

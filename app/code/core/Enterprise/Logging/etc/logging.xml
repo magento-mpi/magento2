@@ -243,6 +243,12 @@
       <model>Mage_Customer_Model_Customer</model>
     </customer_save>
 
+    <customer_validate>
+      <event>customers</event>
+      <action>save</action>
+      <handler>getcustomervalidateaction</handler>
+    </customer_validate>
+
     <customer_delete>
       <event>customers</event>
       <action>delete</action>
