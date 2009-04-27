@@ -209,37 +209,38 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $mapper         = $staging->getMapperInstance();
         $websites       = $mapper->getWebsites();
 
-        $_updateField = end($fields);
-
-        foreach ($websites as $website) {
-            $stores = $website->getStores();
-            foreach ($stores as $_idx => $store) {
-                $masterStoreId  = $store->getMasterStoreId();
-                $stagingStoreId = $store->getStagingStoreId();
-                if (!$masterStoreId || !$stagingStoreId) {
-                    return $this;
-                }
-
-                $destInsertSql = "INSERT INTO `{$srcTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
-                $_storeFieldNameSql = 'store_id';
-
-                $_fields = $fields;
-                foreach ($_fields as $id => $field) {
-                    if ($field == 'store_id') {
-                        $_fields[$id] = $stagingStoreId;
-                        $_storeFieldNameSql = "({$field} = {$masterStoreId})";
-                    } elseif ($field == 'scope_id') {
-                        $_fields[$id] = $stagingStoreId;
-                        $_storeFieldNameSql = "scope = 'stores' AND {$field} = {$masterStoreId}";
+        if (!empty($websites)) {
+            $_updateField = end($fields);
+            foreach ($websites as $website) {
+                $stores = $website->getStores();
+                foreach ($stores as $_idx => $store) {
+                    $masterStoreId  = $store->getMasterStoreId();
+                    $stagingStoreId = $store->getStagingStoreId();
+                    if (!$masterStoreId || !$stagingStoreId) {
+                        return $this;
                     }
+
+                    $destInsertSql = "INSERT INTO `{$srcTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
+                    $_storeFieldNameSql = 'store_id';
+
+                    $_fields = $fields;
+                    foreach ($_fields as $id => $field) {
+                        if ($field == 'store_id') {
+                            $_fields[$id] = $stagingStoreId;
+                            $_storeFieldNameSql = "({$field} = {$masterStoreId})";
+                        } elseif ($field == 'scope_id') {
+                            $_fields[$id] = $stagingStoreId;
+                            $_storeFieldNameSql = "scope = 'stores' AND {$field} = {$masterStoreId}";
+                        }
+                    }
+
+                    $srcSelectSql  = $this->_getSimpleSelect($_fields, $targetTable, $_storeFieldNameSql);
+                    $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+
+                    $connection->query($destInsertSql);
+
+                    self::$_proceedStoreScopeTables[$this->getEventStateCode()][$srcTable] = true;
                 }
-
-                $srcSelectSql  = $this->_getSimpleSelect($_fields, $targetTable, $_storeFieldNameSql);
-                $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-                $connection->query($destInsertSql);
-
-                self::$_proceedStoreScopeTables[$this->getEventStateCode()][$srcTable] = true;
             }
         }
 
@@ -531,26 +532,28 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $mapper     = $staging->getMapperInstance();
         $storesMap  = $mapper->getStores();
 
-        foreach ($storesMap as $stagingStoreId => $masterStoreIds) {
-            foreach ($masterStoreIds as $masterStoreId) {
-                $tableDestDesc = $this->getTableProperties($targetModel, $targetTable, true);
+        if (!empty($storesMap)) {
+            foreach ($storesMap as $stagingStoreId => $masterStoreIds) {
+                foreach ($masterStoreIds as $masterStoreId) {
+                    $tableDestDesc = $this->getTableProperties($targetModel, $targetTable, true);
 
-                $_updateField = end($fields);
-                $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
-                $_storeFieldNameSql = 'store_id';
-                $_fields = $fields;
-                foreach ($fields as $id => $field) {
-                    if ($field == 'store_id') {
-                        $_fields[$id] = $masterStoreId;
-                    } elseif ($field == 'scope_id') {
-                        $_fields[$id] = $masterStoreId;
-                        $_storeFieldNameSql = "scope = 'stores' AND {$field}";
+                    $_updateField = end($fields);
+                    $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
+                    $_storeFieldNameSql = 'store_id';
+                    $_fields = $fields;
+                    foreach ($fields as $id => $field) {
+                        if ($field == 'store_id') {
+                            $_fields[$id] = $masterStoreId;
+                        } elseif ($field == 'scope_id') {
+                            $_fields[$id] = $masterStoreId;
+                            $_storeFieldNameSql = "scope = 'stores' AND {$field}";
+                        }
                     }
-                }
-                $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$stagingStoreId}");
-                $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+                    $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$stagingStoreId}");
+                    $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
-                $connection->query($destInsertSql);
+                    $connection->query($destInsertSql);
+                }
             }
         }
 
@@ -641,58 +644,58 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         $mergedWebsites = $mapper->getWebsites();
 
-        foreach ($mergedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
-            if (!empty($masterWebsiteIds)) {
-
-                $_websiteFieldNameSql = 'website_id';
-
-                if (in_array('website_id', $fields)) {
-                    $_websiteFieldNameSql = " `{$srcTable}`.website_id IN (" . implode(", ", $masterWebsiteIds). ")";
-                } elseif (in_array('scope_id', $fields)) {
-                    $_websiteFieldNameSql = "`{$srcTable}`.scope = 'websites' AND `{$srcTable}`.scope_id IN (" . implode(", ", $masterWebsiteIds). ")";
-                } elseif (in_array('website_ids', $fields)) {
-                    $whereFields = array();
-                    foreach($masterWebsiteIds AS $webId) {
-                        $whereFields[] = "FIND_IN_SET($webId, `{$srcTable}`.website_ids)";
+        if (!empty($mergedWebsites)) {
+            foreach ($mergedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
+                if (!empty($masterWebsiteIds)) {
+                    $_websiteFieldNameSql = 'website_id';
+                    if (in_array('website_id', $fields)) {
+                        $_websiteFieldNameSql = " `{$srcTable}`.website_id IN (" . implode(", ", $masterWebsiteIds). ")";
+                    } elseif (in_array('scope_id', $fields)) {
+                        $_websiteFieldNameSql = "`{$srcTable}`.scope = 'websites' AND `{$srcTable}`.scope_id IN (" . implode(", ", $masterWebsiteIds). ")";
+                    } elseif (in_array('website_ids', $fields)) {
+                        $whereFields = array();
+                        foreach($masterWebsiteIds AS $webId) {
+                            $whereFields[] = "FIND_IN_SET($webId, `{$srcTable}`.website_ids)";
+                        }
+                        $_websiteFieldNameSql = implode(" OR " , $whereFields);
                     }
-                    $_websiteFieldNameSql = implode(" OR " , $whereFields);
+
+                    //1 - need remove all resords from web_site tables, which added via marging
+                    if (!empty($tableDestDesc['keys'])) {
+                        if (!empty($tableDestDesc['keys']['PRIMARY']) && !empty($tableDestDesc['keys']['PRIMARY']['fields'])) {
+                            $primaryFields = $tableDestDesc['keys']['PRIMARY']['fields'];
+                        } else {
+                            $primaryFields = array();
+                        }
+
+                        $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'website',$targetTable, $targetTable, $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys']);
+                        if (!empty($destDeleteSql)) {
+
+                            $connection->query($destDeleteSql);
+                        }
+
+                        $additionalWhereCondition = $_websiteFieldNameSql;
+                        if (in_array('website_id', $primaryFields) || in_array('scope_id', $primaryFields) || in_array('website_ids', $primaryFields)) {
+                            $additionalWhereCondition = "";
+                        }
+
+                        $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'website', $srcTable, $targetTable, $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys'], $additionalWhereCondition);
+                        if ($destDeleteSql) {
+                            //$connection->query($destDeleteSql);
+                        }
+                    }
+
+                    //2 - copy old data from bk_ tables
+                    $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
+
+                    $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable, $_websiteFieldNameSql);
+                    $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+
+                    $connection->query($destInsertSql);
                 }
-
-                //1 - need remove all resords from web_site tables, which added via marging
-                if (!empty($tableDestDesc['keys'])) {
-                    if (!empty($tableDestDesc['keys']['PRIMARY']) && !empty($tableDestDesc['keys']['PRIMARY']['fields'])) {
-                        $primaryFields = $tableDestDesc['keys']['PRIMARY']['fields'];
-                    } else {
-                        $primaryFields = array();
-                    }
-
-                    $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'website',$targetTable, $targetTable, $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys']);
-                    if (!empty($destDeleteSql)) {
-
-                        $connection->query($destDeleteSql);
-                    }
-
-
-                    $additionalWhereCondition = $_websiteFieldNameSql;
-                    if (in_array('website_id', $primaryFields) || in_array('scope_id', $primaryFields) || in_array('website_ids', $primaryFields)) {
-                        $additionalWhereCondition = "";
-                    }
-
-                    $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'website', $srcTable, $targetTable, $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys'], $additionalWhereCondition);
-                    if ($destDeleteSql) {
-                        //$connection->query($destDeleteSql);
-                    }
-                }
-
-                //2 - copy old data from bk_ tables
-                $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
-
-                $srcSelectSql = $this->_getSimpleSelect($fields, $srcTable, $_websiteFieldNameSql);
-                $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-                $connection->query($destInsertSql);
             }
         }
+
         return $this;
     }
 
@@ -714,65 +717,67 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
         $mergedStores = $mapper->getStores();
 
-        foreach ($mergedStores as $stagingStoreId => $masterStoreIds) {
-            if (empty($stagingStoreId) || empty($masterStoreIds)) {
-                continue;
-            }
-            foreach ($masterStoreIds as $masterStoreId) {
-                if (empty($masterStoreId)) {
+        if (!empty($mergedStores)) {
+            foreach ($mergedStores as $stagingStoreId => $masterStoreIds) {
+                if (empty($stagingStoreId) || empty($masterStoreIds)) {
                     continue;
                 }
+                foreach ($masterStoreIds as $masterStoreId) {
+                    if (empty($masterStoreId)) {
+                        continue;
+                    }
 
-                $tableDestDesc = $this->getTableProperties($targetModel, $targetTable);
-                if (!$tableDestDesc) {
-                    throw Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists', $targetTable));
+                    $tableDestDesc = $this->getTableProperties($targetModel, $targetTable);
+                    if (!$tableDestDesc) {
+                        throw Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists', $targetTable));
+                    }
+
+                    $_updateField = end($fields);
+
+                    $_storeFieldNameSql = "`{$srcTable}`.store_id";
+                    $_fields = $fields;
+
+                    foreach ($_fields as $id => $field) {
+                        if ($field == 'store_id') {
+                            $_fields[$id] = $masterStoreId;
+                        } elseif ($field == 'scope_id') {
+                            $_storeFieldNameSql = "`{$srcTable}`.scope = 'stores' AND `{$srcTable}`.{$field}";
+                        }
+                    }
+
+                    //1 - need remove all resords from stores tables, which added via marging
+                    if (!empty($tableDestDesc['keys'])) {
+                        if (!empty($tableDestDesc['keys']['PRIMARY']) && !empty($tableDestDesc['keys']['PRIMARY']['fields'])) {
+                            $primaryFields = $tableDestDesc['keys']['PRIMARY']['fields'];
+                        } else {
+                            $primaryFields = array();
+                        }
+
+                        $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'store', $srcTable, $targetTable, $stagingStoreId, $masterStoreId, $tableDestDesc['keys']);
+                        if (!empty($destDeleteSql)) {
+
+                            $connection->query($destDeleteSql);
+                        }
+
+                        $additionalWhereCondition = "{$_storeFieldNameSql} = {$masterStoreId}";
+                        if ( in_array('store_id' , $primaryFields) || in_array('scope_id' ,$primaryFields)) {
+                            $additionalWhereCondition = "";
+                        }
+
+                        $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'store', $srcTable, $targetTable, $masterStoreId, $stagingStoreId, $tableDestDesc['keys'], $additionalWhereCondition);
+                        if ($destDeleteSql) {
+                            //$connection->query($destDeleteSql);
+                        }
+                    }
+
+                    //2 - refresh data by backup
+                    $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
+
+                    $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$masterStoreId}");
+                    $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+
+                    $connection->query($destInsertSql);
                 }
-
-                $_updateField = end($fields);
-
-                $_storeFieldNameSql = "`{$srcTable}`.store_id";
-                $_fields = $fields;
-
-                foreach ($_fields as $id => $field) {
-                    if ($field == 'store_id') {
-                        $_fields[$id] = $masterStoreId;
-                    } elseif ($field == 'scope_id') {
-                        $_storeFieldNameSql = "`{$srcTable}`.scope = 'stores' AND `{$srcTable}`.{$field}";
-                    }
-                }
-
-                //1 - need remove all resords from stores tables, which added via marging
-                if (!empty($tableDestDesc['keys'])) {
-                    if (!empty($tableDestDesc['keys']['PRIMARY']) && !empty($tableDestDesc['keys']['PRIMARY']['fields'])) {
-                        $primaryFields = $tableDestDesc['keys']['PRIMARY']['fields'];
-                    } else {
-                        $primaryFields = array();
-                    }
-
-                    $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'store', $srcTable, $targetTable, $stagingStoreId, $masterStoreId, $tableDestDesc['keys']);
-                    if (!empty($destDeleteSql)) {
-
-                        $connection->query($destDeleteSql);
-                    }
-
-                    $additionalWhereCondition = "{$_storeFieldNameSql} = {$masterStoreId}";
-                    if ( in_array('store_id' , $primaryFields) || in_array('scope_id' ,$primaryFields)) {
-                        $additionalWhereCondition = "";
-                    }
-
-                    $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'store', $srcTable, $targetTable, $masterStoreId, $stagingStoreId, $tableDestDesc['keys'], $additionalWhereCondition);
-                    if ($destDeleteSql) {
-                        //$connection->query($destDeleteSql);
-                    }
-                }
-
-                //2 - refresh data by backup
-                $destInsertSql = "INSERT INTO `{$targetTable}` (".implode(',',$fields).") (%s) ON DUPLICATE KEY UPDATE {$_updateField}=VALUES({$_updateField})";
-
-                $srcSelectSql = $this->_getSimpleSelect($_fields, $srcTable, "{$_storeFieldNameSql} = {$masterStoreId}");
-                $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-
-                $connection->query($destInsertSql);
             }
         }
 

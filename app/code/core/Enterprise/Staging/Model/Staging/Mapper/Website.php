@@ -61,12 +61,13 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
 
         $websiteMap = new Varien_Object($websiteMap);
 
+        $_storesMap = array();
         foreach ($stores as $masterStoreId => $storeMap) {
             if (isset($storeMap['use'])) {
-                $stores[$masterStoreId] = $this->getStoreWrapper($storeMap);
+                $_storesMap[$masterStoreId] = $this->getStoreWrapper($storeMap);
             }
         }
-        $websiteMap->setData('stores', $stores);
+        $websiteMap->setData('stores', $_storesMap);
 
         return $websiteMap;
     }
@@ -110,52 +111,52 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
 
     public function addWebsitesMap(array $websitesMap)
     {
-        if (!empty($websitesMap)) {
-            $_websitesMap = array();
-            $fromWebsitesData   = !empty($websitesMap['from'])   ? $websitesMap['from']   : array();
-            $toWebsitesData     = !empty($websitesMap['to'])     ? $websitesMap['to']     : array();
-            foreach ($fromWebsitesData as $_idx => $stagingWebsiteId) {
-                if (!empty($stagingWebsiteId)) {
-                    $_websitesMap[$stagingWebsiteId][] = $toWebsitesData[$_idx];
-                }
+        $_websitesMap = array();
+
+        $fromWebsitesData   = !empty($websitesMap['from'])   ? $websitesMap['from']   : array();
+        $toWebsitesData     = !empty($websitesMap['to'])     ? $websitesMap['to']     : array();
+        foreach ($fromWebsitesData as $_idx => $stagingWebsiteId) {
+            if (!empty($stagingWebsiteId)) {
+                $_websitesMap[$stagingWebsiteId][] = $toWebsitesData[$_idx];
             }
-            $this->setData('websites', $_websitesMap);
         }
+
+        $this->setData('websites', $_websitesMap);
 
         return $this;
     }
 
     public function addStoresMap(array $storesMap)
     {
-        if (!empty($storesMap)) {
-            foreach ($storesMap as &$storeMap) {
-                $fromStoresData   = !empty($storeMap['from']) ? $storeMap['from'] : array();
-                $toStoresData     = !empty($storeMap['to'])   ? $storeMap['to']   : array();
-                foreach ($fromStoresData as $_idx => $stagingStoreId) {
-                    if (!empty($stagingStoreId) && !empty($toStoresData[$_idx])) {
-                        $_storesMap[$stagingStoreId][] = $toStoresData[$_idx];
-                    }
+        $_storesMap = array();
+
+        foreach ($storesMap as &$storeMap) {
+            $fromStoresData   = !empty($storeMap['from']) ? $storeMap['from'] : array();
+            $toStoresData     = !empty($storeMap['to'])   ? $storeMap['to']   : array();
+            foreach ($fromStoresData as $_idx => $stagingStoreId) {
+                if (!empty($stagingStoreId) && !empty($toStoresData[$_idx])) {
+                    $_storesMap[$stagingStoreId][] = $toStoresData[$_idx];
                 }
             }
-            $this->setData('stores', $_storesMap);
         }
+
+        $this->setData('stores', $_storesMap);
 
         return $this;
     }
 
     public function addStagingItemsMap(array $stagingItems)
     {
-        if (!empty($stagingItems)) {
-            foreach ($stagingItems as $stagingItemCode => $stagingItemInfo) {
-                $stagingItem = Enterprise_Staging_Model_Staging_Config::getStagingItem($stagingItemCode);
-                if ($stagingItem) {
-                    $stagingItems[$stagingItemCode] = $stagingItem;
-                } else {
-                    unset($stagingItems[$stagingItemCode]);
-                }
+        $_stagingItems = array();
+
+        foreach ($stagingItems as $stagingItemCode => $stagingItemInfo) {
+            $stagingItem = Enterprise_Staging_Model_Staging_Config::getStagingItem($stagingItemCode);
+            if ($stagingItem) {
+                $_stagingItems[$stagingItemCode] = $stagingItem;
             }
-            $this->setData('staging_items', $stagingItems);
         }
+
+        $this->setData('staging_items', $_stagingItems);
 
         return $this;
     }
@@ -175,14 +176,19 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $this->_rollbackMapData = $mapData;
 
         $websitesMap = !empty($mapData['websites']) ? $mapData['websites'] : array();
-        $this->addWebsitesMap($websitesMap);
+        if (!empty($websitesMap)) {
+            $this->addWebsitesMap($websitesMap);
+        }
 
         $storesMap = !empty($mapData['stores']) ? $mapData['stores'] : array();
-        $this->addStoresMap($storesMap);
+        if (!empty($storesMap)) {
+            $this->addStoresMap($storesMap);
+        }
 
         $stagingItems = !empty($mapData['staging_items']) ? $mapData['staging_items'] : array();
-
-        $this->addStagingItemsMap($stagingItems);
+        if (!empty($stagingItems)) {
+            $this->addStagingItemsMap($stagingItems);
+        }
 
         return $this;
     }
