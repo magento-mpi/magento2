@@ -135,7 +135,7 @@ $installer->addAttribute('catalog_product', 'giftcard_type', array(
         'label'             => 'Card Type',
         'input'             => 'select',
         'class'             => '',
-        'source'            => '',
+        'source'            => 'enterprise_giftcard/source_type',
         'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL,
         'visible'           => false,
         'required'          => true,

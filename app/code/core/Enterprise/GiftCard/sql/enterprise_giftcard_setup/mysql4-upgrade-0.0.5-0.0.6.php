@@ -24,36 +24,11 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_Source_Open extends Mage_Core_Model_Abstract
-{
-    public function getAllOptions()
-    {
-        $result = array();
+$installer = $this;
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
-        foreach ($this->_getValues() as $k=>$v) {
-            $result[] = array(
-                'value' => $k,
-                'label' => $v,
-            );
-        }
+$installer->startSetup();
 
-        return $result;
-    }
+$installer->updateAttribute('catalog_product', 'giftcard_type', 'source_model', 'enterprise_giftcard/source_type');
 
-    public function getOptionText($value)
-    {
-        $options = $this->_getValues();
-        if (isset($options[$value])) {
-            return $options[$value];
-        }
-        return null;
-    }
-
-    protected function _getValues()
-    {
-        return array(
-            Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_DISABLED => Mage::helper('enterprise_giftcard')->__('No'),
-            Enterprise_GiftCard_Model_Giftcard::OPEN_AMOUNT_ENABLED  => Mage::helper('enterprise_giftcard')->__('Yes'),
-        );
-    }
-}
+$installer->endSetup();
