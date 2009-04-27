@@ -53,19 +53,12 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
         return $this;
     }
 
-    protected function _afterSave(Mage_Core_Model_Abstract $object)
-    {
-        $this->saveEvents($object);
-
-        parent::_afterSave($object);
-
-        return $this;
-    }
-
     public function saveEvents($staging)
     {
         foreach ($staging->getEventsCollection() as $event) {
-            $event->save();
+            if (!$event->getId()) {
+                $event->save();
+            }
         }
 
         return $this;

@@ -111,7 +111,6 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
             }
         } catch (Exception $e) {
             $this->getAdapter()->rollbackTransaction('enterprise_staging');
-
             $staging->setData('state_exception', $e);
         }
 
@@ -177,24 +176,13 @@ abstract class Enterprise_Staging_Model_Staging_State_Abstract extends Varien_Ob
      */
     protected function _runExtendAction($action, $staging)
     {
-
-        $instance = null;
-
         $class = (string) $action->class;
 
         $stateRegistryCode = "staging/" . $this->getEventStateCode() . "/".$class;
         $instance = Mage::registry($stateRegistryCode);
 
         if (!is_object($instance)) {
-            switch ($action->type) {
-                case "singleton" :
-                    $instance = Mage::getSingleton($class);
-                    break;
-                default:
-                    $instance = Mage::getModel($class);
-                    break;
-            }
-
+            $instance = Mage::getSingleton($class);
             Mage::register($stateRegistryCode, $instance);
         }
 

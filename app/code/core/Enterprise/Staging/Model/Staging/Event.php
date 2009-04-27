@@ -166,7 +166,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
 
 
     /**
-     * save event state in db
+     * save event in db
      *
      * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
      * @param   Enterprise_Staging_Model_Staging $staging
@@ -187,15 +187,10 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
 
             $staging->setStatus($status);
 
-            $statusesLabel = $state->getEventStateStatuses();
-            $comment = "";
             $scheduleDate = $staging->getMergeSchedulingDate();
             $scheduleOriginDate = $staging->getMergeSchedulingOriginDate();
 
-            if (!empty($statusesLabel)) {
-                $comment = $statusesLabel->$status;
-            }
-
+            $comment = $state->getEventStateStatusLabel($status);
             if (!empty($scheduleOriginDate)) {
                 $comment .= " " . $scheduleOriginDate;
             }

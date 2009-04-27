@@ -42,15 +42,9 @@
                 <entities>
                     <staging><table>enterprise_staging</table></staging>
                     <staging_item><table>enterprise_staging_item</table></staging_item>
-                    <staging_website><table>enterprise_staging_website</table></staging_website>
-                    <staging_store_group><table>enterprise_staging_store_group</table></staging_store_group>
-                    <staging_store><table>enterprise_staging_store</table></staging_store>
                     <staging_event><table>enterprise_staging_event</table></staging_event>
                     <staging_backup><table>enterprise_staging_backup</table></staging_backup>
                     <staging_rollback><table>enterprise_staging_rollback</table></staging_rollback>
-                    <staging_event_history><table>enterprise_staging_event_history</table></staging_event_history>
-                    <dataset><table>enterprise_staging_dataset</table></dataset>
-                    <dataset_item><table>enterprise_staging_dataset_item</table></dataset_item>
                 </entities>
             </enterprise_staging_mysql4>
         </models>
@@ -135,7 +129,6 @@
                                     <model>enterprise_staging/staging_state_website_create</model>
                                     <after>
                                         <save_event>
-                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromState</method>
                                         </save_event>
@@ -167,19 +160,16 @@
                                     <model>enterprise_staging/staging_state_website_backup</model>
                                     <before>
                                         <save_event>
-                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromState</method>
                                         </save_event>
                                     </before>
                                     <after>
                                         <save_event>
-                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromState</method>
                                         </save_event>
                                         <save_backup>
-                                            <type>singleton</type>
                                             <class>enterprise_staging/staging_backup</class>
                                             <method>saveFromState</method>
                                         </save_backup>
@@ -211,14 +201,12 @@
                                     <model>enterprise_staging/staging_state_website_merge</model>
                                     <before>
                                         <save_event>
-                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromState</method>
                                         </save_event>
                                     </before>
                                     <after>
                                         <save_event>
-                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromState</method>
                                         </save_event>
@@ -250,19 +238,16 @@
                                     <model>enterprise_staging/staging_state_website_rollback</model>
                                     <before>
                                         <save_event>
-                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromState</method>
                                         </save_event>
                                     </before>
                                     <after>
                                         <save_event>
-                                            <type>model</type>
                                             <class>enterprise_staging/staging_event</class>
                                             <method>saveFromState</method>
                                         </save_event>
                                         <save_rollback>
-                                            <type>singleton</type>
                                             <class>enterprise_staging/staging_rollback</class>
                                             <method>saveFromState</method>
                                         </save_rollback>
