@@ -341,18 +341,20 @@
     <poll_edit>
       <event>cmspolls</event>
       <action>view</action>
+      <skip-zero-id>1</skip-zero-id>
     </poll_edit>
-
-    <poll_save>
-      <event>cmspolls</event>
-      <action>save</action>
-      <use-request>1</use-request>
-    </poll_save>
 
     <poll_delete>
       <event>cmspolls</event>
       <action>delete</action>
     </poll_delete>
+
+    <poll_validate>
+      <event>cmspolls</event>
+      <action>save</action>
+      <model>Mage_Poll_Model_Poll</model>
+      <handler>getpollvalidationaction</handler>
+    </poll_validate>
 
     <report_sales_sales>
       <event>reports</event>

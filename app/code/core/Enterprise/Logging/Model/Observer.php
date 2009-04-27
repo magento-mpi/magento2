@@ -115,11 +115,9 @@ class Enterprise_Logging_Model_Observer
 
         $model = $observer->getObject();
         $actions = Mage::registry('enterprise_logged_actions');
-
         if (!is_array($actions)) {
             $actions = array($actions);
         }
-
         /**
          * List all saved actions to check if we need save current model for some.
          */
@@ -141,7 +139,7 @@ class Enterprise_Logging_Model_Observer
                             Mage::register('saved_model_'.$action, $model);
                         }
                     } else {
-                            Mage::register('saved_model_'.$action, $model);
+                        Mage::register('saved_model_'.$action, $model);
                     }
                 }
             }
@@ -288,6 +286,33 @@ class Enterprise_Logging_Model_Observer
     }
 
     /**
+     * Custom handler for poll save fail's action
+     */
+    public function getPollValidationAction($config, $success) {
+        $out = json_decode(Mage::app()->getResponse()->getBody());
+        if ( !empty($out->error)) {
+            $id = Mage::app()->getRequest()->getParam('id');
+            return array(
+                'event_code' => $config['event'],
+                'event_action' => $config['action'],
+                'event_message' => $id == 0 ? 'new poll' : $id,
+                'event_status'  => 0
+            );
+        } else {
+            $poll = Mage::registry('saved_model_poll_validate');
+            if ($poll && $poll->getId()) {
+                return array(
+                    'event_code' => $config['event'],
+                    'event_action' => $config['action'],
+                    'event_message' => $poll->getId(),
+                    'event_status'  => 1
+                );
+            }
+        }
+        return false;
+    }
+    
+    /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      */
     public function getTaxClassSaveActionInfo($config, $success)
@@ -332,6 +357,8 @@ class Enterprise_Logging_Model_Observer
         if ($id === false || $id === null) {
             return false;
         }
+        if ($id === 0 && isset($config['skip-zero-id']) && $config['skip-zero-id'])
+            return false;
 
         return array(
             'event_code' => $code,
