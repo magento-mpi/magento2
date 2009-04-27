@@ -43,7 +43,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
      * Declare staging instance
      *
      * @param   Enterprise_Staging_Model_Staging $staging
-     * @return  Enterprise_Staging_Model_Staging_Event_History
+     * @return  Enterprise_Staging_Model_Staging_Event
      */
     public function setStaging(Enterprise_Staging_Model_Staging $staging)
     {
@@ -60,6 +60,14 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     {
         if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
             $this->_staging = Mage::registry('staging');
+            if ($this->getId()) {
+                $stagingId = $this->getStagingId();
+                if ($stagingId) {
+                    if (!$this->_staging || ($this->_staging->getId() != $stagingId)) {
+                        $this->_staging = Mage::getModel('enterprise_staging/staging')->load($stagingId);
+                    }
+                }
+            }
         }
         return $this->_staging;
     }
@@ -138,34 +146,6 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * get Event Comment
-     *
-     * @param unknown_type $eventLabel
-     * @param unknown_type $eventStatus
-     * @return string
-     */
-    public function _getEventComment($eventLabel, $eventStatus, $aditional)
-    {
-        $confPath = "type/website/scenaries_status/" . $eventStatus;
-        $config = Enterprise_Staging_Model_Staging_Config::getConfig($confPath);
-
-        if (!is_object($config)) {
-            return "";
-        }
-
-        $comment = (string) $config->label;
-
-        $comment = Mage::helper('enterprise_staging')->__('%s '.$comment, $eventLabel);
-
-        if (isset($aditional)) {
-            $comment .= ' ' . $aditional;
-        }
-
-        return $comment;
-    }
-
-
-    /**
      * save event in db
      *
      * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
@@ -175,7 +155,8 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
      */
     public function saveFromState(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
     {
-        if ($staging && $staging->getId()) {
+        if ($staging->getId()) {
+            $this->setStagingId($staging->getId());
 
             if ($staging->getIsMergeLater()==true) {
                 $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
@@ -184,38 +165,38 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
             } else {
                 $status = $staging->getStatus();
             }
-
             $staging->setStatus($status);
 
-            $scheduleDate = $staging->getMergeSchedulingDate();
+            $scheduleDate       = $staging->getMergeSchedulingDate();
             $scheduleOriginDate = $staging->getMergeSchedulingOriginDate();
+            $this->setMergeScheduleDate($scheduleDate);
 
-            $comment = $state->getEventStateStatusLabel($status);
-            if (!empty($scheduleOriginDate)) {
-                $comment .= " " . $scheduleOriginDate;
-            }
-
-            $this->setStagingId($staging->getId())
-                ->setCode($state->getEventStateCode())
-                ->setName($state->getEventStateLabel())
-                ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
-                ->setStatus($status)
-                ->setIsAdminNotified(false)
-                ->setComment($comment)
-                ->setMergeMap($staging->getMapperInstance()->serialize())
-                ->setMergeScheduleDate($scheduleDate)
-                ->setIsBackuped($staging->getIsBackuped())
-                ->setStaging($staging);
-
-            $this->save();
-
-            if ($staging->getIsNewStaging()==false) {
-                $staging->save();
-            }
-
-            $state->setEventId($this->getId());
+            $this->setIsBackuped($staging->getIsBackuped());
+            $this->setStaging($staging);
+            $thi->setMergeMap($staging->getMapperInstance()->serialize());
+        } else {
+            $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
         }
+
+        $comment = $state->getEventStateStatusLabel($status);
+        if (!empty($scheduleOriginDate)) {
+            $comment .= " " . $scheduleOriginDate;
+        }
+
+        $this->setCode($state->getEventStateCode())
+            ->setName($state->getEventStateLabel())
+            ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
+            ->setStatus($status)
+            ->setIsAdminNotified(false)
+            ->setComment($comment)
+            ->save();
+
+        if ($staging->getId() && $staging->getIsNewStaging()==false) {
+            $staging->save();
+        }
+
+        $state->setEventId($this->getId());
+
         return $this;
     }
-
 }

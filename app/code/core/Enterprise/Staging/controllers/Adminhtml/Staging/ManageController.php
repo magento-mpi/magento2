@@ -165,7 +165,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     public function eventAction()
     {
-        $this->_initEvent();
+        $event = $this->_initEvent();
+        if (!$event->getId()) {
+            $this->_redirect('*/*');
+            return $this;
+        }
         $this->loadLayout();
         $this->renderLayout();
     }

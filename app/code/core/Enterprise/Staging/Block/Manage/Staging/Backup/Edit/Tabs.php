@@ -48,58 +48,25 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs extends Mage_Admi
     {
         $this->addTab('backup_general_info', array(
             'label'     => Mage::helper('enterprise_staging')->__('Backup General Info'),
-            'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_general')->toHtml(),
+            'content'   => $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_general')
+                ->toHtml()
         ));
 
         $this->addTab('rollback_history', array(
             'label'     => Mage::helper('enterprise_staging')->__('Rollback History'),
-            'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_rollback')->toHtml(),
+            'content'   => $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_rollback')
+                ->toHtml()
         ));
 
         $this->addTab('rollback', array(
             'label'     => Mage::helper('enterprise_staging')->__('Rollback'),
-            'content'   => $this->getLayout()->createBlock('enterprise_staging/manage_staging_rollback_settings_website')->toHtml(),
+            'content'   => $this->getLayout()
+                ->createBlock('enterprise_staging/manage_staging_rollback_settings_website')
+                ->toHtml()
         ));
 
         return parent::_prepareLayout();
-    }
-
-    /**
-     * Retrieve currently edited backup object
-     *
-     * @return Enterprise_Staging_Model_Staging_Backup
-     */
-    public function getBackup()
-    {
-        if (!($this->getData('staging_backup') instanceof Enterprise_Staging_Model_Staging_Backup)) {
-            $this->setData('staging_backup', Mage::registry('staging_backup'));
-        }
-        return $this->getData('staging_backup');
-    }
-
-    /**
-     * Retrive event object
-     *
-     * @return Enterprise_Staging_Model_Staging_Event
-     */
-    public function getEvent()
-    {
-        if (!($this->getData('staging_event') instanceof Enterprise_Staging_Model_Staging_Event)) {
-            $this->setData('staging_event', Mage::registry('staging_event'));
-        }
-        return $this->getData('staging_event');
-    }
-
-    /**
-     * Retrive staging object
-     *
-     * @return Enterprise_Staging_Model_Staging
-     */
-    public function getStaging()
-    {
-        if (!($this->getData('staging') instanceof Enterprise_Staging_Model_Staging)) {
-            $this->setData('staging', Mage::registry('staging'));
-        }
-        return $this->getData('staging');
     }
 }

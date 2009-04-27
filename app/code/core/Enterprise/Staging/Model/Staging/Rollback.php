@@ -35,9 +35,16 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     protected $_staging;
 
     /**
-     * Backup instance
+     * Staging Event instance
      *
-     * @var Enterprise_Staging_Model_Staging
+     * @var Enterprise_Staging_Model_Staging_Event
+     */
+    protected $_event;
+
+    /**
+     * Staging Backup instance
+     *
+     * @var Enterprise_Staging_Model_Staging_Backup
      */
     protected $_backup;
 
@@ -67,8 +74,49 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     {
         if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
             $this->_staging = Mage::registry('staging');
+            if ($this->getId()) {
+                $stagingId = $this->getStagingId();
+                if ($this->_staging && $this->_staging->getId() == $stagingId) {
+
+                } else {
+                    $this->_staging = Mage::getModel('enterprise_staging/staging')->load($stagingId);
+                }
+            }
         }
         return $this->_staging;
+    }
+
+    /**
+     * Declare staging event instance
+     *
+     * @param   Enterprise_Staging_Model_Staging_Event $event
+     * @return  Enterprise_Staging_Model_Staging_Rollback
+     */
+    public function setEvent(Enterprise_Staging_Model_Staging_Event $event)
+    {
+        $this->_event = $event;
+        return $this;
+    }
+
+    /**
+     * Retrieve staging event instance
+     *
+     * @return Enterprise_Staging_Model_Staging_Event
+     */
+    public function getEvent()
+    {
+        if (!$this->_event instanceof Enterprise_Staging_Model_Staging_Event) {
+            $this->_event = Mage::registry('staging_event');
+            if ($this->getId()) {
+                $eventId = $this->getEventId();
+                if ($eventId) {
+                    if (!$this->_event || ($this->_event->getId() != $eventId)) {
+                        $this->_event = Mage::getModel('enterprise_staging/staging_event')->load($eventId);
+                    }
+                }
+            }
+        }
+        return $this->_event;
     }
 
     /**
@@ -86,12 +134,20 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     /**
      * Retrieve backup instance
      *
-     * @return Enterprise_Staging_Model_Staging_Rollback
+     * @return Enterprise_Staging_Model_Staging_Backup
      */
     public function getBackup()
     {
         if (!$this->_backup instanceof Enterprise_Staging_Model_Staging_Backup) {
             $this->_backup = Mage::registry('staging_backup');
+            if ($this->getId()) {
+                $backupId = $this->getBackupId();
+                if ($backupId) {
+                    if (!$this->_backup || ($this->_backup->getId() != $backupId)) {
+                        $this->_backup = Mage::getModel('enterprise_staging/staging_backup')->load($backupId);
+                    }
+                }
+            }
         }
         return $this->_backup;
     }
@@ -141,32 +197,33 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
      */
     public function saveFromState(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
     {
-        if ($staging && $staging->getId()) {
-
-            $name = Mage::helper('enterprise_staging')->__('Staging rollback: ') . $staging->getName();
-
+        if ($staging->getId()) {
             $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED);
+            $name = Mage::helper('enterprise_staging')->__('Staging rollback: %s', $staging->getName());
 
-            $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging)
-                           . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
-                           . $staging->getEventId() . "_";
-
-            $this->setStagingId($staging->getId())
-                ->setBackupId($this->getBackup()->getBackupId())
-                ->setEventId($state->getEventId())
-                ->setEventCode($state->getEventStateCode())
-                ->setName($name)
-                ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
-                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                ->setCreatedAt(Mage::registry($state->getCode() . "_event_start_time"))
-                ->setStagingTablePrefix($tablePrefix)
-                ->setMageVersion(Mage::getVersion())
-                ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
-            $this->save();
-            $staging->save();
-            $state->setRollbackId($this->getId());
+            $this->setStagingId($staging->getId());
+        } else {
+            $name = Mage::helper('enterprise_staging')->__('Staging rollback');
         }
+
+        $this->setBackupId($this->getBackup()->getBackupId())
+            ->setEventId($state->getEventId())
+            ->setEventCode($state->getEventStateCode())
+            ->setName($name)
+            ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
+            ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+            ->setCreatedAt(Mage::registry($state->getCode() . "_event_start_time"))
+            ->setStagingTablePrefix($this->getBackup()->getStagingTablePrefix())
+            ->setMageVersion(Mage::getVersion())
+            ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()))
+            ->save();
+
+        if ($staging->getId()) {
+            $staging->save();
+        }
+
+        $state->setRollbackId($this->getId());
+
         return $this;
     }
-
 }

@@ -34,6 +34,13 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
      */
     protected $_staging;
 
+    /**
+     * Staging Event instance
+     *
+     * @var Enterprise_Staging_Model_Staging_Event
+     */
+    protected $_event;
+
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging_backup');
@@ -60,8 +67,49 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
     {
         if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
             $this->_staging = Mage::registry('staging');
+            if ($this->getId()) {
+                $stagingId = $this->getStagingId();
+                if ($stagingId) {
+                    if (!$this->_staging || ($this->_staging->getId() != $stagingId)) {
+                        $this->_staging = Mage::getModel('enterprise_staging/staging')->load($stagingId);
+                    }
+                }
+            }
         }
         return $this->_staging;
+    }
+
+    /**
+     * Declare staging event instance
+     *
+     * @param   Enterprise_Staging_Model_Staging_Event $event
+     * @return  Enterprise_Staging_Model_Staging_Backup
+     */
+    public function setEvent(Enterprise_Staging_Model_Staging_Event $event)
+    {
+        $this->_event = $event;
+        return $this;
+    }
+
+    /**
+     * Retrieve staging event instance
+     *
+     * @return Enterprise_Staging_Model_Staging_Event
+     */
+    public function getEvent()
+    {
+        if (!$this->_event instanceof Enterprise_Staging_Model_Staging_Event) {
+            $this->_event = Mage::registry('staging_event');
+            if ($this->getId()) {
+                $eventId = $this->getEventId();
+                if ($eventId) {
+                    if (!$this->_event || ($this->_event->getId() != $eventId)) {
+                        $this->_event = Mage::getModel('enterprise_staging/staging_event')->load($eventId);
+                    }
+                }
+            }
+        }
+        return $this->_event;
     }
 
     /**
@@ -116,13 +164,13 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
      */
     public function saveFromState(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
     {
-        if ($staging && $staging->getId()) {
-
+        if ($staging->getId()) {
             $name = Mage::helper('enterprise_staging')->__('Backup: ') . $staging->getName();
 
             $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging)
-                           . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
-                           . $state->getEventId() . "_";
+            . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
+            . $state->getEventId() . "_";
+
             $this->setStagingId($staging->getId())
                 ->setEventId($state->getEventId())
                 ->setEventCode($state->getEventStateCode())
@@ -134,7 +182,9 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
                 ->setMageVersion(Mage::getVersion())
                 ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
             $this->save();
+
             $staging->save();
+
             $state->setBackupId($this->getId());
         }
         return $this;
@@ -152,6 +202,10 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         }
 
         if (Mage::helper('enterprise_staging')->getCatalogIndexRunningFlag()) {
+            return false;
+        }
+
+        if ($this->getStaging() && $this->getStaging()->isStatusProcessing()) {
             return false;
         }
 

@@ -196,22 +196,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
     }
 
     /**
-     * Return Create Item Url
-     */
-    public function getCreateItemNextUrl()
-    {
-        return $this->getUrl('*/*/createItem', array('_current'=>true));
-    }
-
-    /**
-     * Return Finish url
-     */
-    public function getFinishCreateUrl()
-    {
-        return $this->getUrl('*/*/finishCreate', array('_current'=>true));
-    }
-
-    /**
      * REturn SaveandEdit Url
      */
     public function getSaveAndContinueUrl()

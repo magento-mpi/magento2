@@ -57,13 +57,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
      */
     protected function _prepareForm()
     {
-        $form          = new Varien_Data_Form();
-
-        $staging       = $this->getStaging();
-
-        $outputFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-
-        $fieldset = $form->addFieldset('general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('General Information')));
+        $form       = new Varien_Data_Form();
+        $staging    = $this->getStaging();
+        $fieldset   = $form->addFieldset('general_fieldset',
+            array('legend' => Mage::helper('enterprise_staging')
+                ->__('General Information')));
 
         $fieldset->addField('name', 'text', array(
             'label'     => $this->helper->__('Label'),
@@ -84,7 +82,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                 $stagingWebsiteName = $masterWebsite->getName();
             }
 
-            $fieldset = $form->addFieldset('website_fieldset_'.$_id, array('legend'=>$this->helper->__('Staging Website')));
+            $fieldset = $form->addFieldset('website_fieldset_'.$_id,
+                array('legend' => $this->helper->__('Staging Website')));
 
             $fieldset->addField('master_website_code_label_'.$_id, 'label',
                 array(
@@ -110,7 +109,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             );
 
             if ($stagingWebsite) {
-            	$fieldset->addField('staging_website_code_'.$_id, 'label',
+                $fieldset->addField('staging_website_code_'.$_id, 'label',
                     array(
                         'label' => $this->helper->__('Staging Website Code'),
                         'name'  => "websites[{$_id}][code]",
@@ -151,15 +150,15 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                     )
                 );
             } else {
-            	$fieldset->addField('staging_website_code_'.$_id, 'text',
-	                array(
-	                    'label' => $this->helper->__('Staging Website Code'),
-	                    'name'  => "websites[{$_id}][code]",
-	                    'value' => Mage::helper('enterprise_staging/website')->generateWebsiteCode($masterWebsite->getCode())
-	                )
-	            );
+                $fieldset->addField('staging_website_code_'.$_id, 'text',
+                    array(
+                        'label' => $this->helper->__('Staging Website Code'),
+                        'name'  => "websites[{$_id}][code]",
+                        'value' => Mage::helper('enterprise_staging/website')->generateWebsiteCode($masterWebsite->getCode())
+                    )
+                );
 
-	            $fieldset->addField('staging_website_name_'.$_id, 'text',
+                $fieldset->addField('staging_website_name_'.$_id, 'text',
                     array(
                         'label' => $this->helper->__('Staging Website Name'),
                         'name'  => "websites[{$_id}][name]",
@@ -189,34 +188,34 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             }
 
             $fieldset->addField('staging_website_visibility_'.$_id, 'select', array(
-	            'label'     => $this->helper->__('Frontend restriction'),
-	            'title'     => $this->helper->__('Frontend restriction'),
-	            'name'      => "websites[{$_id}][visibility]",
-	            'value'     => Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH,
-	            'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('visibility')
-	        ));
+                'label'     => $this->helper->__('Frontend restriction'),
+                'title'     => $this->helper->__('Frontend restriction'),
+                'name'      => "websites[{$_id}][visibility]",
+                'value'     => Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH,
+                'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('visibility')
+            ));
 
-	        $fieldset->addField('staging_website_master_login_'.$_id, 'text',
-	            array(
-	                'label'    => $this->helper->__('HTTP Login'),
-	                'class'    => 'input-text required-entry validate-login',
-	                'name'     => "websites[{$_id}][master_login]",
-	                'required' => true,
-	                'value'    => $stagingWebsite ? $stagingWebsite->getMasterLogin() : ''
-	            )
-	        );
+            $fieldset->addField('staging_website_master_login_'.$_id, 'text',
+                array(
+                    'label'    => $this->helper->__('HTTP Login'),
+                    'class'    => 'input-text required-entry validate-login',
+                    'name'     => "websites[{$_id}][master_login]",
+                    'required' => true,
+                    'value'    => $stagingWebsite ? $stagingWebsite->getMasterLogin() : ''
+                )
+            );
 
-	        $fieldset->addField('staging_website_master_password_'.$_id, 'text',
-	            array(
-	                'label'    => $this->helper->__('HTTP Password'),
-	                'class'    => 'input-text required-entry validate-password',
-	                'name'     => "websites[{$_id}][master_password]",
-	                'required' => true,
-	                'value'    => $stagingWebsite ? Mage::helper('core')->decrypt($stagingWebsite->getMasterPassword()) : ''
-	            )
-	        );
+            $fieldset->addField('staging_website_master_password_'.$_id, 'text',
+                array(
+                    'label'    => $this->helper->__('HTTP Password'),
+                    'class'    => 'input-text required-entry validate-password',
+                    'name'     => "websites[{$_id}][master_password]",
+                    'required' => true,
+                    'value'    => $stagingWebsite ? Mage::helper('core')->decrypt($stagingWebsite->getMasterPassword()) : ''
+                )
+            );
 
-	        if ($stagingWebsite) {
+            if ($stagingWebsite) {
                 foreach ($stagingWebsite->getData() as $key => $value) {
                     if ($key == 'master_password') {
                         continue;

@@ -94,11 +94,13 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
     {
         $backup = $this->_initBackup();
 
+        $staging = $backup->getStaging();
+
         if (!$backup->canRollback()) {
             $this->_getSession()->addNotice($this->__('All Backup Items are outdated. The Backup is read-only.'));
         }
 
-        if ($backup->getStaging()->isStatusProcessing()) {
+        if ($staging && $staging->isStatusProcessing()) {
             $this->_getSession()->addNotice($this->__('This Backup is read-only, because a Merge or Rollback is in progress. Please try again later.'));
         }
 

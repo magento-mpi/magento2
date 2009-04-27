@@ -37,15 +37,15 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
      *
      * @var array
      */
-	private $_rollbackSettingsBlock = array();
-	
-	/**
-	 * rollback setting block template
-	 *
-	 * @var string
-	 */
+    private $_rollbackSettingsBlock = array();
+
+    /**
+     * rollback setting block template
+     *
+     * @var string
+     */
     private $_rollbackSettingsBlockDefaultTemplate = 'enterprise/staging/rollback/settings.phtml';
-    
+
     /**
      * rollback setting block types
      *
@@ -54,7 +54,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
     private $_rollbackSettingsBlockTypes = array();
 
     /**
-     * Retrieve event 
+     * Retrieve event
      *
      * @return Enterprise_Staging_Block_Manage_Staging-Event
      */
@@ -62,12 +62,12 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
     {
         if (!($this->getData('staging_event') instanceof Enterprise_Staging_Model_Staging_Event)) {
             $this->setData('staging_event', Mage::registry('staging_event'));
-        }        
+        }
         return $this->getData('staging_event');
     }
-    
+
     /**
-     * Retrieve staging object of current event 
+     * Retrieve staging object of current event
      *
      * @return Enterprise_Staging_Block_Manage_Staging
      */
@@ -95,7 +95,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
         }
         return $this->_rollbackSettingsBlock[$stagingType];
     }
-    
+
     /**
      * get rollback settings block types
      *
@@ -120,9 +120,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
      */
     public function getRollbackSettingsHtml($staging = null, $idSuffix='')
     {
-    	if (is_null($staging)) {
-    		$staging = $this->getStaging();
-    	}
+        if (is_null($staging)) {
+            $staging = $this->getStaging();
+        }
         return $this->_getRollbackSettingsBlock($staging->getType())
             ->setTemplate($this->_getRollbackSettingsBlockTemplate($staging->getType()))
             ->setStaging($staging)
@@ -137,7 +137,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback extends Mage_Adminhtml_Bl
      */
     protected function _toHtml()
     {
-    	return $this->getRollbackSettingsHtml();
+        return $this->getRollbackSettingsHtml();
     }
 
     /**

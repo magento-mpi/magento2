@@ -49,7 +49,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
     }
 
     /**
-     * Enter description here...
+     * Prepare form fieldset and form values
      *
      * @return Mage_Adminhtml_Block_Widget_Form
      */
@@ -57,18 +57,19 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('staging_backup_general_fieldset', array('legend'=>Mage::helper('enterprise_staging')->__('Backup Main Info')));
+        $fieldset = $form->addFieldset('staging_backup_general_fieldset',
+            array('legend'=>Mage::helper('enterprise_staging')->__('Backup Main Information')));
 
         $fieldset->addField('name', 'label', array(
             'label'     => $this->helper->__('Name'),
             'title'     => $this->helper->__('Name'),
-            'value'     => $this->getBackup()->getStaging()->getName()
+            'value'     => $this->getBackupName()
         ));
 
         $fieldset->addField('master_website', 'label', array(
             'label'     => $this->helper->__('Master Website'),
             'title'     => $this->helper->__('Master Website'),
-            'value'     => $this->getMasterWebsite()->getName()
+            'value'     => $this->getMasterWebsiteName()
         ));
 
         $fieldset->addField('backupCreateAt', 'label', array(
@@ -83,19 +84,6 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
             'value'     => $this->getBackup()->getStagingTablePrefix()
         ));
 
-
-/*        $fieldset = $form->addFieldset('staging_backup_used_tables', array('legend'=>Mage::helper('enterprise_staging')->__('Used Tables')));
-
-        $usedTables = $this->_getBackupTables();
-        if (is_array($usedTables)) {
-            foreach($usedTables AS $tableName) {
-                $fieldset->addField('UsedTable_' . $tableName, 'label', array(
-                    'value'     => $tableName
-                ));
-            }
-        }*/
-
-        //$form->addValues($this->getBackup()->getData());
         $form->setFieldNameSuffix($this->getFieldNameSuffix());
 
         $this->setForm($form);
@@ -105,18 +93,22 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
 
 
     /**
-     * get master website instance
+     * Retrieve master website name (if staging and website exists)
      *
      * @return Mage_Core_Model_Website
      */
-    public function getMasterWebsite()
+    public function getMasterWebsiteName()
     {
-
-        $masterWebsiteId = $this->getBackup()->getStaging()->getMasterWebsiteId();
-        if (!is_null($masterWebsiteId)) {
-            return Mage::app()->getWebsite($masterWebsiteId);
+        $staging = $this->getBackup()->getStaging();
+        if ($staging) {
+            $masterWebsite = $staging->getMasterWebsite();
+            if ($masterWebsite) {
+                return $masterWebsite->getName();
+            } else {
+                return $this->helper->__('No information');
+            }
         } else {
-            return false;
+            return $this->helper->__('No information');
         }
     }
 
@@ -133,15 +125,14 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
         }
         return $this->getData('staging_backup');
     }
-    /**
-     * Get backupped table list
-     *
-     * @return unknown
-     */
-    protected function _getBackupTables()
+
+    public function getBackupName()
     {
-        $backup = $this->getBackup();
-        $stagingTablePrefix = $backup->getStagingTablePrefix();
-        return $backup->getResource()->getBackupTables($stagingTablePrefix);
+        $staging = $this->getBackup()->getStaging();
+        if ($staging && $staging->getId()) {
+            return $staging->getName();
+        } else {
+            return $this->getBackup()->getName();
+        }
     }
 }

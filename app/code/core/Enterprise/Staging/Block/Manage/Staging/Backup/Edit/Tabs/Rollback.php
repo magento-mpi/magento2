@@ -54,8 +54,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
         $this->setColumnRenderers(
             array(
                 'long2ip' => 'enterprise_staging/manage_staging_edit_renderer_ip'
-            ));
-
+        ));
 
         $this->helper = Mage::helper('enterprise_staging');
     }
@@ -67,9 +66,10 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_staging/staging_rollback_collection');
-        $collection->setBackupFilter($this->getBackup())->addEventToCollection()->getSelect();
-        //$collection->addCompleteFilter();
+        $collection = Mage::getResourceModel('enterprise_staging/staging_rollback_collection')
+            ->setBackupFilter($this->getBackup())
+            ->addEventToCollection();
+
         foreach($collection AS $datasetItem) {
             $user = Mage::getModel('admin/user')->load($datasetItem->getEventUserId());
 
@@ -100,7 +100,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
         $this->addColumn('event_ip', array(
             'header'    => $this->helper->__('IP'),
             'index'     => 'event_ip',
-            'type'    => 'long2ip',
+            'type'      => 'long2ip',
             'sortable'  => false,
             'filter'    => false
         ));
@@ -114,15 +114,15 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
         ));
 
         $this->addColumn('event_comment', array(
-            'header'        => $this->helper->__('Comment'),
-            'align'         => 'left',
-            'index'         => 'event_comment',
-            'type'          => 'text',
-            'truncate'      => 50,
-            'nl2br'         => true,
-            'escape'        => true,
-            'sortable'      => false,
-            'filter'        => false
+            'header'    => $this->helper->__('Comment'),
+            'align'     => 'left',
+            'index'     => 'event_comment',
+            'type'      => 'text',
+            'truncate'  => 50,
+            'nl2br'     => true,
+            'escape'    => true,
+            'sortable'  => false,
+            'filter'    => false
         ));
 
         return parent::_prepareColumns();
@@ -147,7 +147,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
     }
 
     /**
-     * Retrieve currently edited backup object
+     * Retrieve current backup object
      *
      * @return Enterprise_Staging_Model_Staging_Backup
      */
@@ -157,18 +157,5 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
             $this->setData('staging_backup', Mage::registry('staging_backup'));
         }
         return $this->getData('staging_backup');
-    }
-
-    /**
-     * Retrieve currently edited staging object
-     *
-     * @return Enterprise_Staging_Model_Staging
-     */
-    public function getStaging()
-    {
-        if (!($this->getData('staging') instanceof Enterprise_Staging_Model_Staging)) {
-            $this->setData('staging', Mage::registry('staging'));
-        }
-        return $this->getData('staging');
     }
 }

@@ -83,27 +83,25 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/mergePost', array('_current'=>true, 'back'=>null));
+        return $this->getUrl('*/*/mergePost', array('_current'=>true));
     }
 
     /**
-     * return website collection
+     * Retrieve website collection
      *
      * @return Varien_Object
      */
     public function getWebsiteCollection()
     {
-        $collection = Mage::getModel('core/website')->getResourceCollection();
+        $collection = Mage::getModel('core/website')
+            ->getResourceCollection()
+            ->addFieldToFilter('is_staging',array('neq'=>1));
 
-        $staging = $this->getStaging();
-
-        $collection->addFieldToFilter('is_staging',array('neq'=>1));
-
-        return $collection->load();
+        return $collection;
     }
 
     /**
-     * return Staging website
+     * Retrieve Staging Website Collection
      *
      * @return array
      */
@@ -120,7 +118,7 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
     }
 
     /**
-     * return stores collection
+     * Retrieve stores collection
      *
      * @return Varien_Object
      */
@@ -130,7 +128,7 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
     }
 
     /**
-     * return store Json
+     * Retrieve stores collection Json
      *
      * @return string (Json)
      */
@@ -148,7 +146,7 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
     }
 
     /**
-     * Return Main buttons html
+     * Retrieve Main buttons html
      */
     public function getMainButtonsHtml()
     {

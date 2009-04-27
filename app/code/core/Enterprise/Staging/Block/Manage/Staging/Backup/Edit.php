@@ -42,7 +42,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
     }
 
     /**
-     * Retrieve currently edited backup object
+     * Retrieve current Staging backup object
      *
      * @return Enterprise_Staging_Model_Staging_Backup
      */
@@ -55,24 +55,11 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
     }
 
     /**
-     * Retrieve currently edited backup staging object
-     *
-     * @return Enterprise_Staging_Model_Staging
-     */
-    public function getStaging()
-    {
-        if (!($this->getData('staging') instanceof Enterprise_Staging_Model_Staging)) {
-            $this->setData('staging', Mage::registry('staging'));
-        }
-        return $this->getData('staging');
-    }
-
-    /**
      * Prepare output layout
      */
     protected function _prepareLayout()
     {
-         if ($this->getBackup()->canRollback() && !$this->getStaging()->isStatusProcessing()) {
+         if ($this->getBackup()->canRollback()) {
             $this->setChild('rollback_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
@@ -108,16 +95,14 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
                 ))
         );
 
-        if ($this->getStaging()->canDelete()) {
-            $this->setChild('delete_button',
-                $this->getLayout()->createBlock('adminhtml/widget_button')
-                    ->setData(array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Delete'),
-                        'onclick'   => 'confirmSetLocation(\''.Mage::helper('enterprise_staging')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
-                        'class'  => 'delete'
-                    ))
-            );
-        }
+        $this->setChild('delete_button',
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'label'     => Mage::helper('enterprise_staging')->__('Delete'),
+                    'onclick'   => 'confirmSetLocation(\''.Mage::helper('enterprise_staging')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+                    'class'  => 'delete'
+                ))
+        );
 
         return parent::_prepareLayout();
     }
@@ -160,14 +145,6 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
     public function getValidationUrl()
     {
         return $this->getUrl('*/*/validate', array('_current'=>true));
-    }
-
-    /**
-     * Return Staging Id
-     */
-    public function getStagingId()
-    {
-        return $this->getStaging()->getId();
     }
 
     /**

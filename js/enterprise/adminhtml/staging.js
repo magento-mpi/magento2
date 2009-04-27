@@ -516,15 +516,13 @@ Enterprise.Staging.Form.prototype = {
     proceedIterator         : 0,
     countOfError            : 0,
     totalItems              : 0,
-    initialize : function(containerId, formId, validationUrl, nextUrl, finishUrl, config, items)
+    initialize : function(containerId, formId, validationUrl, config, items)
     {
         this.containerId    = containerId;
     
         this.config         = config;
 
         this.formId         = formId;
-        this.nextUrl        = nextUrl;
-        this.finishUrl      = finishUrl;
 
         this.form           =  new varienForm(this.formId, validationUrl);
         

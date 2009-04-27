@@ -32,12 +32,4 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 
-$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_website') , 'master_password');
-
-$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_website') , 'master_login');
-
-$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_website') , 'master_password_hash');
-
-$installer->getConnection()->dropColumn($this->getTable('core/website') , 'master_password_hash');
-
 $installer->endSetup();

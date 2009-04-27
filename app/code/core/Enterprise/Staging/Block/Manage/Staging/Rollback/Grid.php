@@ -50,8 +50,6 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
      */
     protected function _prepareCollection()
     {
-        $staging       = $this->getStaging();
-
         $collection = new Varien_Data_Collection();
 
         foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
@@ -160,18 +158,4 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
 
         return $this;
     }
-
-    /**
-     * Retrieve currently edited staging object
-     *
-     * @return Enterprise_Staging_Block_Manage_Staging
-     */
-    public function getStaging()
-    {
-        if (!($this->getData('staging') instanceof Enterprise_Staging_Model_Staging)) {
-            $this->setData('staging', Mage::registry('staging'));
-        }
-        return $this->getData('staging');
-    }
-
 }

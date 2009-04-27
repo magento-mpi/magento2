@@ -52,8 +52,9 @@ class Enterprise_Staging_Model_Staging_State_Website_Rollback extends Enterprise
      */
     protected function _afterRun(Enterprise_Staging_Model_Staging $staging)
     {
-        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
-
+        if ($staging->getId()) {
+            $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
+        }
         return parent::_afterRun($staging);
     }
 }

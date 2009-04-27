@@ -37,7 +37,6 @@ class Enterprise_Staging_Block_Manage_Staging_Event extends Mage_Adminhtml_Block
         parent::__construct();
         $this->setId('enterprise_staging_event');
         $this->setTemplate('enterprise/staging/manage/staging/event.phtml');
-        $this->helper = Mage::helper('enterprise_staging');
     }
 
     /**
@@ -45,33 +44,22 @@ class Enterprise_Staging_Block_Manage_Staging_Event extends Mage_Adminhtml_Block
      */
     protected function _prepareLayout()
     {
-        $this->setChild('back_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('enterprise_staging')->__('Back'),
-                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/edit', array('id'=>$this->getStaging()->getId())).'\')',
-                    'class' => 'back'
-                ))
-        );
+        if ($this->getEvent()->getStaging()) {
+            $this->setChild('back_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Back'),
+                        'onclick'   => 'setLocation(\''.$this->getUrl('*/*/edit', array('id' => $this->getEvent()->getStaging()->getId())).'\')',
+                        'class'     => 'back'
+                    ))
+            );
+        }
 
         $this->setChild('event_form',
             $this->getLayout()->createBlock('enterprise_staging/manage_staging_event_form')
         );
 
         return parent::_prepareLayout();
-    }
-
-    /**
-     * Retrieve staging object
-     *
-     * @return Enterprise_Staging_Model_Staging
-     */
-    public function getStaging()
-    {
-        if (!($this->getData('staging') instanceof Enterprise_Staging_Model_Staging)) {
-            $this->setData('staging', Mage::registry('staging'));
-        }
-        return $this->getData('staging');
     }
 
     /**

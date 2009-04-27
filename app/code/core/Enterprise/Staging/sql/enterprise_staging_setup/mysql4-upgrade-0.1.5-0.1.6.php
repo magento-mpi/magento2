@@ -24,16 +24,10 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+$installer = $this;
+/* @var $installer Mage_Eav_Model_Entity_Setup */
+$installer->startSetup();
 
-/**
- * Staging Create Run block
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_Block_System_Convert_Profile_Run extends Mage_Adminhtml_Block_Abstract
-{
-    protected function _toHtml()
-    {
-        return '';
-    }
-}
+$installer->getConnection()->dropForeignKey($installer->getTable('enterprise_staging/staging_event'), 'FK_ENTERPRISE_STAGING_EVENT_ID');
+
+$installer->endSetup();

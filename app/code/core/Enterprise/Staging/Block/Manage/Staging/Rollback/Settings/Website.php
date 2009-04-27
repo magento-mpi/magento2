@@ -51,7 +51,6 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
      */
     protected function _prepareLayout()
     {
-
         $this->setChild('website_store_form',
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_rollback_settings_store')
@@ -85,7 +84,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
     public function getEvent()
     {
         if (!($this->getData('staging_event') instanceof Enterprise_Staging_Model_Staging_Event)) {
-            $this->setData('staging_event', Mage::registry('staging_event'));
+            $this->setData('staging_event', $this->getBackup()->getEvent());
         }
         return $this->getData('staging_event');
     }
@@ -97,7 +96,10 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
      */
     public function getStaging()
     {
-        return $this->getEvent()->getStaging();
+        if (!($this->getData('staging') instanceof Enterprise_Staging_Model_Staging)) {
+            $this->setData('staging', $this->getBackup()->getStaging());
+        }
+        return $this->getData('staging');
     }
 
     /**
@@ -113,7 +115,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/rollbackPost', array('_current'=>true, 'back'=>null));
+        return $this->getUrl('*/*/rollbackPost', array('_current'=>true));
     }
 
     /**
@@ -123,9 +125,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website extends 
      */
     public function getWebsiteCollection()
     {
-        $collection = Mage::getModel('core/website')->getResourceCollection();
-
-        return $collection->load();
+        return Mage::app()->getWebsites();
     }
 
     /**

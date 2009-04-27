@@ -198,7 +198,12 @@ class Enterprise_Staging_Model_Staging_Scenario
         $staging        = $this->getStaging();
         $scenarioCode   = $this->getScenarioCode();
 
-        $path = 'type/' . $staging->getType() . '/scenaries/' . $scenarioCode . '/' . $stateCode;
+        $stagingType = $staging->getType();
+        if (is_null($stagingType)) {
+            $stagingType = Enterprise_Staging_Model_Staging_Config::DEFAULT_TYPE;
+        }
+
+        $path = 'type/' . $stagingType . '/scenaries/' . $scenarioCode . '/' . $stateCode;
 
         $stateConfig = Enterprise_Staging_Model_Staging_Config::getConfig($path);
 

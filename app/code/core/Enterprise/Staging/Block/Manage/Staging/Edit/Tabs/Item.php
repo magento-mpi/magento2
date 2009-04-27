@@ -62,12 +62,14 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
         $staging       = $this->getStaging();
         $collection    = $staging->getItemsCollection();
 
-        $fieldset = $form->addFieldset('staging_dataset_item', array('legend'=>Mage::helper('enterprise_staging')->__('Select Items to be merged')));
+        $fieldset = $form->addFieldset('staging_dataset_item',
+            array('legend' => Mage::helper('enterprise_staging')
+                ->__('Select Items to be merged')));
 
         $extendInfo = $this->getExtendInfo();
 
         foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
-            if ((int)$stagingItem->is_backend/* || (int)$stagingItem->is_extend*/) {
+            if ((int)$stagingItem->is_backend) {
                 continue;
             }
 
@@ -104,7 +106,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
     }
 
     /**
-     * Retrive staging object from setted data if not from registry
+     * Retrive current staging object
      *
      * @return Enterprise_Staging_Model_Staging
      */

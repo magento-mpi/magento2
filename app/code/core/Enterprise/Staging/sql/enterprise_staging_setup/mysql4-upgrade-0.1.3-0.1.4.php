@@ -40,12 +40,12 @@ $installer->getConnection()->addColumn($this->getTable('core/website'), 'master_
 $installer->getConnection()->addColumn($this->getTable('core/website'), 'master_password', "VARCHAR(100) NOT NULL");
 
 $installer->run("
-DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/dataset')}`;
-DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/dataset_item')}`;
+DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging_dataset')}`;
+DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging_dataset_item')}`;
 
-DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_store')}`;
-DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_store_group')}`;
-DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_website')}`;
+DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging_store')}`;
+DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging_store_group')}`;
+DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging_website')}`;
 
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_rollback')}`;
 DROP TABLE IF EXISTS `{$this->getTable('enterprise_staging/staging_backup')}`;

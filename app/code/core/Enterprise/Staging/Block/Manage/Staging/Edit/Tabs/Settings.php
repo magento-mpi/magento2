@@ -51,7 +51,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
     }
 
     /**
-     * Prepare block children
+     * Prepare block additional children
      *
      * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings
      */

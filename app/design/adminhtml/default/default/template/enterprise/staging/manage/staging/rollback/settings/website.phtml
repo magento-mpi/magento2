@@ -26,7 +26,6 @@
 ?>
 <?php /* @var $this Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Website */?>
 <?php $backup           = $this->getBackup(); ?>
-<?php $staging          = $this->getStaging(); ?>
 
 <div class="filter-actions a-right">
     <?php echo $this->getMainButtonsHtml() ?>
@@ -35,7 +34,7 @@
 
 
 <form action="<?php echo $this->getSaveUrl() ?>" method="post" id="enterprise_staging_rollback_form" enctype="multipart/form-data">
-<input type="hidden" name="staging_id" value="<?php echo $staging->getId(); ?>">
+<input type="hidden" name="staging_id" value="<?php echo $backup->getStagingId(); ?>">
 <input type="hidden" name="backup_id" value="<?php echo $backup->getId(); ?>">
 <input type="hidden" name="back" value="1" />
 

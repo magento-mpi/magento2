@@ -69,10 +69,10 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
         $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection')
             ->setStagingFilter($this->getStaging()->getId());
 
-        foreach($collection AS $datasetItem) {
-            $user = Mage::getModel('admin/user')->load($datasetItem->getUserId());
+        foreach($collection AS $event) {
+            $user = Mage::getModel('admin/user')->load($event->getUserId());
 
-            $collection->getItemById($datasetItem->getId())
+            $collection->getItemById($event->getId())
                 ->setData("loginname", $user->getUsername());
         }
 
@@ -98,29 +98,29 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
         $this->addColumn('ip', array(
             'header'    => $this->helper->__('IP'),
             'index'     => 'ip',
-            'type'    => 'long2ip',
+            'type'      => 'long2ip',
             'sortable'  => false,
-            'filter'        => false
+            'filter'    => false
         ));
 
         $this->addColumn('loginname', array(
             'header'    => $this->helper->__('Username'),
             'index'     => 'loginname',
             'type'      => 'text',
-            'sortable'      => false,
-            'filter'        => false
+            'sortable'  => false,
+            'filter'    => false
         ));
 
         $this->addColumn('comment', array(
-            'header'        => $this->helper->__('Comment'),
-            'align'         => 'left',
-            'index'         => 'comment',
-            'type'          => 'text',
-            'truncate'      => 50,
-            'nl2br'         => true,
-            'escape'        => true,
-            'sortable'      => false,
-            'filter'        => false
+            'header'    => $this->helper->__('Comment'),
+            'align'     => 'left',
+            'index'     => 'comment',
+            'type'      => 'text',
+            'truncate'  => 50,
+            'nl2br'     => true,
+            'escape'    => true,
+            'sortable'  => false,
+            'filter'    => false
         ));
 
         return parent::_prepareColumns();
@@ -157,7 +157,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
     }
 
     /**
-     * Retrieve currently edited staging object
+     * Retrive current staging object
      *
      * @return Enterprise_Staging_Model_Staging
      */

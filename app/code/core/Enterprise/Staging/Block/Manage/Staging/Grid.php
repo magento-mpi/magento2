@@ -64,7 +64,6 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             $baseUrl = $staging->getStagingWebsite()->getConfig('web/unsecure/base_url');
             $collection->getItemById($staging->getId())
                 ->setData("base_url", $baseUrl);
-
         }
 
         $this->setCollection($collection);
