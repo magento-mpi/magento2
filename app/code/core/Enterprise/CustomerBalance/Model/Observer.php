@@ -116,11 +116,13 @@ class Enterprise_CustomerBalance_Model_Observer
         if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
             return;
         }
+
         $order = $observer->getEvent()->getOrder();
         if ($order->getBaseCustomerBalanceAmount() > 0) {
+            $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
             $balance = Mage::getModel('enterprise_customerbalance/balance')
                 ->setCustomerId($order->getCustomerId())
-                ->setWebsiteId($order->getWebsiteId())
+                ->setWebsiteId($websiteId)
                 ->setAmountDelta(-$order->getBaseCustomerBalanceAmount())
                 ->setHistoryAction(Enterprise_CustomerBalance_Model_Balance_History::ACTION_USED)
                 ->setOrder($order)
