@@ -24,7 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Staging_Model_Staging_Adapter_Item_CatalogInventory extends Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
+class Enterprise_Staging_Model_Staging_Adapter_Item_Catalogindex extends Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
 {
 
 }
