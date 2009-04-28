@@ -240,7 +240,7 @@ AdminOrder.prototype = {
         }
 
         if(!this.paymentMethod || method){
-            $('order-billing_method').select('input', 'select').each(function(elem){
+            $('order-billing_method_form').select('input', 'select').each(function(elem){
                 if(elem.type != 'radio') elem.disabled = true;
             })
         }
@@ -543,7 +543,7 @@ AdminOrder.prototype = {
                     if(typeof this.loadingAreas == 'string'){
                         this.loadingAreas = [this.loadingAreas];
                     }
-                    if(this.loadingAreas.indexOf('messages'==-1)) this.loadingAreas.push('messages');
+                    if(this.loadingAreas.indexOf('message'==-1)) this.loadingAreas.push('message');
                     for(var i=0; i<this.loadingAreas.length; i++){
                         var id = this.loadingAreas[i];
                         if($(this.getAreaId(id))){

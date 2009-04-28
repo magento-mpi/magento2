@@ -25,20 +25,25 @@
  */
 
 /**
- * Adminhtml sales order create newsletter form block
+ * Adminhtml sales order create newsletter block
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Sales_Order_Create_Newsletter_Form extends Mage_Adminhtml_Block_Widget
+class Mage_Adminhtml_Block_Sales_Order_Create_Load extends Mage_Core_Block_Template
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setId('sales_order_create_newsletter_form');
-    }
-
+	protected function _toHtml()
+	{
+        $result = array();
+		foreach ($this->getSortedChildren() as $name) {
+			if (!$block = $this->getChild($name)) {
+				$result[$name] = Mage::helper('sales')->__('Invalid block: %s', $name);
+			} else {
+                $result[$name] = $block->toHtml();
+            }
+		}
+	    return Zend_Json::encode($result);
+	}
 }
