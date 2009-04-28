@@ -25,6 +25,7 @@
  
 /* IE 6 only */
 .col-main .page-title { _position:relative; _z-index:1; }
+.header { _height:56px; }
 .switch ul .current { _padding-right:4.8em;}
 .block-cart .block-title  { _width:242px; }
 .sidebar,
@@ -54,6 +55,8 @@
 .product-view .tags .form-add-tags .input-box,
 .form-list .customer-dob .input-box,
 .sp-methods select.month { display:inline; }
+.header .quick-access .links li { padding:0 6px 0 7px; }
+.header .quick-access .checkout-link li { padding:0 0 0 12px; } 
 
 /********** < Navigation styles */
 #nav li,
