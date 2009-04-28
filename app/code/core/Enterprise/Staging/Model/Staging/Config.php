@@ -414,7 +414,7 @@ class Enterprise_Staging_Model_Staging_Config
      */
     static public function getTablePrefix($object = null, $internalPrefix = '')
     {
-        $globalTablePrefix   = (string) Mage::getConfig()->getTablePrefix();
+        $globalTablePrefix  = (string) Mage::getConfig()->getTablePrefix();
 
         $stagingTablePrefix = self::getStagingTablePrefix();
 
@@ -446,7 +446,7 @@ class Enterprise_Staging_Model_Staging_Config
      */
     static public function getBackupTablePrefix($internalPrefix)
     {
-        $backupPrefix    = Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix();
+        $backupPrefix = Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix();
 
         if (is_object($internalPrefix)) {
             $backupPrefix .= $internalPrefix . "_";

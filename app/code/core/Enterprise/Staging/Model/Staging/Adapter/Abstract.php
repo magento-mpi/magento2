@@ -65,11 +65,11 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     );
 
     /**
-     * ignore table list
+     * Flat type table list
      *
      * @var mixed
      */
-    protected $_ignoreTables = array(
+    protected $_flatTables = array(
         'category_flat' => true,
         'product_flat'  => true
     );
@@ -357,10 +357,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      *
      * @param string $model
      * @param mixed $tableDescription
-     * @param Enterprise_Staging_Model_Staging $object
+     * @param Enterprise_Staging_Model_Staging $staging
      * @return string
      */
-    protected function _getCreateSql($model, $tableDescription, $object= null)
+    protected function _getCreateSql($model, $tableDescription, $staging= null)
     {
         $_sql = "CREATE TABLE IF NOT EXISTS `{$tableDescription['table_name']}`\n";
 
@@ -372,10 +372,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         }
 
         foreach ($tableDescription['keys'] as $key) {
-            $rows[] = $this->_getKeySql($key, $object);
+            $rows[] = $this->_getKeySql($key, $staging);
         }
         foreach ($tableDescription['constraints'] as $key) {
-            $rows[] = $this->_getConstraintSql($key, $model, $object);
+            $rows[] = $this->_getConstraintSql($key, $model, $staging);
         }
         $rows = implode(",\n", $rows);
         $_sql .= " ({$rows})";
@@ -397,10 +397,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * get sql fields list
      *
      * @param mixed $field
-     * @param Enterprise_Staging_Model_Staging $object
+     * @param Enterprise_Staging_Model_Staging $staging
      * @return string
      */
-    protected function _getFieldSql($field, $object= null)
+    protected function _getFieldSql($field, $staging= null)
     {
         $_fieldSql = "`{$field['name']}` {$field['type']} {$field['extra']}";
 
@@ -432,10 +432,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * get sql keys list
      *
      * @param mixed $key
-     * @param Enterprise_Staging_Model_Staging $object
+     * @param Enterprise_Staging_Model_Staging $staging
      * @return string
      */
-    protected function _getKeySql($key, $object= null)
+    protected function _getKeySql($key, $staging = null)
     {
         $_keySql = "";
         switch ((string) $key['type']) {
@@ -467,12 +467,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      *
      * @param mixed $key
      * @param string $model
-     * @param Enterprise_Staging_Model_Staging $object
+     * @param Enterprise_Staging_Model_Staging $staging
      * @return string
      */
-    protected function _getConstraintSql($key, $model, $object= null)
+    protected function _getConstraintSql($key, $model, $staging = null)
     {
-        $targetRefTable = $this->getStagingTableName($object, $model, $key['ref_table']);
+        $targetRefTable = $this->getStagingTableName($staging, $model, $key['ref_table']);
 
         if ($targetRefTable) {
             $_refTable = "`$targetRefTable`";
@@ -494,9 +494,9 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
             $onUpdate .= "ON UPDATE {$key['on_update']}";
         }
 
-        $prefix = 'STAGING_';
-        if ($object) {
-            $prefix = strtoupper($object->getTablePrefix());
+        $prefix = 'S_';
+        if ($staging) {
+            $prefix = strtoupper($staging->getTablePrefix());
         }
 
         $_keySql = " CONSTRAINT `{$prefix}{$key['fk_name']}` FOREIGN KEY (`{$key['pri_field']}`) REFERENCES {$_refTable} (`{$key['ref_field']}`) {$onDelete} {$onUpdate}";

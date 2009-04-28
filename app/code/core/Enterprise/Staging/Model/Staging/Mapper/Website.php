@@ -116,7 +116,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $fromWebsitesData   = !empty($websitesMap['from'])   ? $websitesMap['from']   : array();
         $toWebsitesData     = !empty($websitesMap['to'])     ? $websitesMap['to']     : array();
         foreach ($fromWebsitesData as $_idx => $stagingWebsiteId) {
-            if (!empty($stagingWebsiteId)) {
+            if (!empty($stagingWebsiteId) && !empty($toWebsitesData[$_idx])) {
                 $_websitesMap[$stagingWebsiteId][] = $toWebsitesData[$_idx];
             }
         }

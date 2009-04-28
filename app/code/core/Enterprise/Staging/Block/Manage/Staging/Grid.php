@@ -62,10 +62,14 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             $collection->getItemById($staging->getId())
                 ->setData("lastEvent", $staging->getEventsCollection()->getFirstItem()->getComment());
             $defaultStore = $staging->getStagingWebsite()->getDefaultStore();
-            if ($defaultStore->isFrontUrlSecure()) {
-                $baseUrl = $defaultStore->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true);
+            if ($defaultStore) {
+                if ($defaultStore->isFrontUrlSecure()) {
+                    $baseUrl = $defaultStore->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true);
+                } else {
+                    $baseUrl = $defaultStore->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
+                }
             } else {
-                $baseUrl = $defaultStore->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
+                $baseUrl = '';
             }
 
             $collection->getItemById($staging->getId())

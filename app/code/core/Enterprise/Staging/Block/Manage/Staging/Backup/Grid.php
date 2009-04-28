@@ -47,6 +47,11 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
         $this->setMassactionBlock("vailable");
 
         $this->setTemplate('enterprise/staging/manage/staging/backup/grid.phtml');
+
+        $this->setColumnRenderers(
+            array(
+                'action' => 'enterprise_staging/manage_staging_renderer_grid_column_action'
+        ));
     }
 
     /**
@@ -86,6 +91,28 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
             'index'     => 'created_at',
             'filter_index' => 'main_table.created_at',
             'type'      => 'datetime',
+        ));
+
+        $this->addColumn('action', array(
+            'header'    => Mage::helper('enterprise_staging')->__('Action'),
+            'type'      => 'action',
+            'getter'     => 'getId',
+            'width'     => '80px',
+            'filter'    => false,
+            'sortable'  => false,
+            'index'     => 'type',
+            'render_type' => 'link',
+            'actions'   => array(
+                array(
+                    'url'       => $this->getUrl('*/*/edit', array('id' => '$backup_id')),
+                    'caption'   => Mage::helper('enterprise_staging')->__('Edit')
+                ),
+                array(
+                    'url'       => $this->getUrl('*/*/delete', array('id' => '$backup_id')),
+                    'caption'   => Mage::helper('enterprise_staging')->__('Delete'),
+                    'confirm'   => Mage::helper('enterprise_staging')->__('Are you sure you want to do this?')
+                )
+            )
         ));
 
         return $this;

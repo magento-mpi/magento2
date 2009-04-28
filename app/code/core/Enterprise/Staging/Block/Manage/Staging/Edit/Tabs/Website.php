@@ -125,22 +125,28 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                     )
                 );
 
-                $fieldset->addField('staging_website_base_url_'.$_id, 'label',
+                $element = $fieldset->addField('staging_website_base_url_'.$_id, 'label',
                     array(
                         'label' => $this->helper->__('Base Url'),
                         'name'  => "websites[{$_id}][base_url]",
                         'value' => $stagingWebsite->getConfig('web/unsecure/base_url')
                     )
-                )->setRenderer($this->getLayout()->createBlock('enterprise_staging/manage_staging_renderer_link'));
+                );
 
-                $fieldset->addField('staging_website_base_secure_url_'.$_id, 'label',
+                if ($stagingWebsite->getStoresCount() > 0) {
+                    $element->setRenderer($this->getLayout()->createBlock('enterprise_staging/manage_staging_renderer_link'));
+                }
+
+                $element = $fieldset->addField('staging_website_base_secure_url_'.$_id, 'label',
                     array(
                         'label' => $this->helper->__('Secure Base Url'),
                         'name'  => "websites[{$_id}][base_secure_url]",
                         'value' => $stagingWebsite->getConfig('web/secure/base_url')
                     )
-                )->setRenderer($this->getLayout()->createBlock('enterprise_staging/manage_staging_renderer_link'));
-
+                );
+                if ($stagingWebsite->getStoresCount() > 0) {
+                    $element->setRenderer($this->getLayout()->createBlock('enterprise_staging/manage_staging_renderer_link'));
+                }
 
                 $fieldset->addField('staging_website_id_'.$_id, 'hidden',
                     array(
@@ -243,7 +249,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
      * @param Staging Object $staging
      * @param int $website_id
      * @param Mage_Core_Model_Website $stagingWebsite
-     * @return Varien_Data_Form
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website
      */
     protected function _initWebsiteItems($form, $staging, $websiteId, $stagingWebsite = null)
     {
@@ -296,10 +302,10 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
      * Init Website Item New Elements
      *
      * @param Varien_Data_Form $fieldset
-     * @param Item Object $dataSet
-     * @param int $website_id
-     * @param string $_id
-     * @return Varien_Data_Form
+     * @param Varien_Simplexml_Element $stagingItem
+     * @param int $websiteId
+     * @param string $_code
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website
      */
     protected function _initWebsiteItemsNew($fieldset, $stagingItem, $websiteId, $_code)
     {
@@ -319,9 +325,9 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
      * Init Website Item Stores Elements
      *
      * @param Varien_Data_Form $fieldset
-     * @param Item Object $dataSet
-     * @param string $_id
-     * @return Varien_Data_Form
+     * @param Varien_Simplexml_Element $stagingItem
+     * @param string $_code
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website
      */
     protected function _initWebsiteItemsStored($fieldset, $stagingItem, $_code)
     {
@@ -338,126 +344,131 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
      * Init Website Store Elements
      *
      * @param Varien_Data_Form $form
-     * @param WebsiteObject $website
+     * @param Mage_Core_Model_Website $masterWebsite
      * @param Mage_Core_Model_Website $stagingWebsite
-     * @return Varien_Data_Form
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website
      */
-    protected function _initWebsiteStore($form, $website, $stagingWebsite = null)
+    protected function _initWebsiteStore($form, $masterWebsite, $stagingWebsite = null)
     {
-        if (empty($website)) {
+        if (empty($masterWebsite)) {
             return $this;
         }
 
         if ($stagingWebsite) {
             $fieldset = $form->addFieldset('staging_website_stores',
-                array('legend'=>Mage::helper('enterprise_staging')
+                array('legend' => Mage::helper('enterprise_staging')
                     ->__('Store views copied')));
         } else {
             $fieldset = $form->addFieldset('staging_website_stores',
-                array('legend'=>Mage::helper('enterprise_staging')
+                array('legend' => Mage::helper('enterprise_staging')
                     ->__('Select Original Website Store Views to be Copied to Staging Website')));
         }
 
         if ($stagingWebsite) {
-            $_storeCollection = $stagingWebsite->getStoreCollection();
+            $_storeGroups = $stagingWebsite->getGroups();
         } else {
-            $_storeCollection = $website->getStoreCollection();
+            $_storeGroups = $masterWebsite->getGroups();
         }
 
-        if ($_storeCollection) {
-            foreach($_storeCollection as $storeView){
-                if ($stagingWebsite) {
-                    $this->_initWebsiteStoreStored($fieldset, $storeView);
-                } else {
-                    $this->_initWebsiteStoreNew($fieldset, $storeView);
+        foreach ($_storeGroups as $group) {
+            if ($group->getStoresCount()) {
+                $_stores = $group->getStores();
+                $this->_initStoreGroup($fieldset, $group);
+                foreach ($_stores as $storeView) {
+                    $this->_initStoreView($fieldset, $storeView);
                 }
+            } else {
+                $fieldset->addField('staging_no_stores', 'label',
+                    array(
+                        'label' => Mage::helper('enterprise_staging')->__('There are no store views were copied')
+                    )
+                );
             }
         }
-        if (!$stagingWebsite) {
-            $fieldset->addField('staging_website_stores_check' , 'hidden' ,
+
+        return $this;
+    }
+
+    /**
+     * Init Staging Store Group
+     *
+     * @param Varien_Data_Form $fieldset
+     * @param Mage_Core_Model_Store_Group $group
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website
+     */
+    protected function _initStoreGroup($fieldset, $group)
+    {
+        $fieldset->addField('staging_store_group_' . $group->getId(), 'label',
+            array(
+                'label' => $group->getName()
+            )
+        );
+
+        return $this;
+    }
+
+    /**
+     * Init Staging Store Views
+     *
+     * @param Varien_Data_Form $fieldset
+     * @param Mage_Core_Model_Store $storeView
+     * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website
+     */
+    protected function _initStoreView($fieldset, $storeView)
+    {
+        $_shift = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+        if (!$storeView->getWebsite()->getIsStaging()) {
+            $_id        = $storeView->getId();
+            $websiteId  = $storeView->getWebsiteId();
+
+            $fieldset->addField('master_store_use_'.$_id, 'checkbox',
                 array(
-                    'lable'     => 'Staging Website Stores Check',
-                    'name'      => 'stores_check',
-                    'value'     => 'check',
-                    'class'     => 'staging_website_stores_check'
+                    'label'    => $_shift . $storeView->getName(),
+                    'name'     => "websites[{$websiteId}][stores][{$_id}][use]",
+                    'value'    => $storeView->getId(),
+                    'checked'  => true
+                )
+            );
+
+            $fieldset->addField('master_store_id_'.$_id, 'hidden',
+                array(
+                    'label' => $this->helper->__('Master Store Id'),
+                    'name'  => "websites[{$websiteId}][stores][{$_id}][master_store_id]",
+                    'value' => $storeView->getId(),
+                )
+            );
+
+            $fieldset->addField('master_store_code_'.$_id, 'hidden',
+                array(
+                    'label' => $this->helper->__('Master Store Code'),
+                    'name'  => "websites[{$websiteId}][stores][{$_id}][master_store_code]",
+                    'value' => $storeView->getCode()
+                )
+            );
+
+            $fieldset->addField('staging_store_code_'.$_id, 'hidden',
+                array(
+                    'label' => $this->helper->__('Staging Store Code'),
+                    'name'  => "websites[{$websiteId}][stores][{$_id}][code]",
+                    'value' => Mage::helper('enterprise_staging/store')->generateStoreCode($storeView->getCode())
+                )
+            );
+
+            $fieldset->addField('staging_store_name_'.$_id, 'hidden',
+                array(
+                    'label' => $this->helper->__('Staging Store Name'),
+                    'name'  => "websites[{$websiteId}][stores][{$_id}][name]",
+                    'value' => $storeView->getName()
+                )
+            );
+        } else {
+            $fieldset->addField('staging_store_'.$storeView->getId(), 'label',
+                array(
+                    'label' => $_shift . $storeView->getName()
                 )
             );
         }
-
         return $this;
-    }
-
-    /**
-     * Init Existens Website Store Element
-     *
-     * @param Varien_Data_Form $fieldset
-     * @param StoreCollection $storeView
-     * @return Varien_Data_Form
-     */
-    protected function _initWebsiteStoreStored($fieldset, $storeView)
-    {
-        $fieldset->addField('staging_store_'.$storeView->getId(), 'label',
-            array(
-                'label' => $storeView->getName()
-            )
-        );
-        return $this;
-    }
-
-    /**
-     * Init Website Store New Element
-     *
-     * @param Varien_Data_Form $fieldset
-     * @param StoreCollection $storeView
-     * @return Varien_Data_Form
-     */
-    protected function _initWebsiteStoreNew($fieldset, $storeView)
-    {
-        $_id        = $storeView->getId();
-        $websiteId  = $storeView->getWebsiteId();
-
-        $fieldset->addField('master_store_use_'.$_id, 'checkbox',
-            array(
-                'label'    => $storeView->getName(),
-                'name'     => "websites[{$websiteId}][stores][{$_id}][use]",
-                'value'    => $storeView->getId(),
-                'checked'  => true
-            )
-        );
-
-        $fieldset->addField('master_store_id_'.$_id, 'hidden',
-            array(
-                'label' => $this->helper->__('Master Store Id'),
-                'name'  => "websites[{$websiteId}][stores][{$_id}][master_store_id]",
-                'value' => $storeView->getId(),
-            )
-        );
-
-        $fieldset->addField('master_store_code_'.$_id, 'hidden',
-            array(
-                'label' => $this->helper->__('Master Store Code'),
-                'name'  => "websites[{$websiteId}][stores][{$_id}][master_store_code]",
-                'value' => $storeView->getCode()
-            )
-        );
-
-        $fieldset->addField('staging_store_code_'.$_id, 'hidden',
-            array(
-                'label' => $this->helper->__('Staging Store Code'),
-                'name'  => "websites[{$websiteId}][stores][{$_id}][code]",
-                'value' => Mage::helper('enterprise_staging/store')->generateStoreCode($storeView->getCode())
-            )
-        );
-
-        $fieldset->addField('staging_store_name_'.$_id, 'hidden',
-            array(
-                'label' => $this->helper->__('Staging Store Name'),
-                'name'  => "websites[{$websiteId}][stores][{$_id}][name]",
-                'value' => $storeView->getName()
-            )
-        );
-        return $fieldset;
-
     }
 
     /**

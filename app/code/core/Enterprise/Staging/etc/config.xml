@@ -84,8 +84,8 @@
 
         <enterprise>
             <staging>
-                <global_staging_table_prefix>st_</global_staging_table_prefix>
-                <global_staging_backup_table_prefix>bk</global_staging_backup_table_prefix>
+                <global_staging_table_prefix>s</global_staging_table_prefix>
+                <global_staging_backup_table_prefix>b</global_staging_backup_table_prefix>
                 <use_storage_method>table_prefix</use_storage_method>
                 <storage_method>
                     <new_db></new_db>
@@ -315,7 +315,6 @@
                                 <code>bundle</code>
                                 <module>Mage_Bundle</module>
                                 <model>bundle</model>
-                                <is_backend></is_backend>
                                 <is_extend>1</is_extend>
                                 <label>Bundles</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
@@ -327,7 +326,6 @@
                                 <code>downloadable</code>
                                 <module>Mage_Downloadable</module>
                                 <model>downloadable</model>
-                                <is_backend></is_backend>
                                 <is_extend>1</is_extend>
                                 <label>Downloadable</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
@@ -340,7 +338,6 @@
                                 <code>enterprise_giftcard</code>
                                 <module>Enterprise_GiftCard</module>
                                 <model>enterprise_giftcard</model>
-                                <is_backend></is_backend>
                                 <is_extend>1</is_extend>
                                 <label>Gift Cards</label>
                                 <adapter>enterprise_staging/staging_adapter_item_product</adapter>
@@ -348,6 +345,47 @@
                                     <code />
                                 </entities>
                             </enterprise_giftcard>
+                            
+                            <cataloginventory>
+		                        <code>cataloginventory</code>
+		                        <module>Mage_CatalogInventory</module>
+		                        <model>cataloginventory</model>
+		                        <is_backend>1</is_backend>
+		                        <is_extend>1</is_extend>
+		                        <label>Catalog Inventory</label>
+		                        <adapter>enterprise_staging/staging_adapter_item_cataloginventory</adapter>
+		                    </cataloginventory>
+		                    <catalogindex>
+		                        <code>catalogindex</code>
+		                        <module>Mage_CatalogIndex</module>
+		                        <model>catalogindex</model>
+		                        <is_backend>1</is_backend>
+		                        <is_extend>1</is_extend>
+		                        <label>Catalog Index</label>
+		                        <adapter>enterprise_staging/staging_adapter_item_catalogindex</adapter>
+		                        <use_storage_method>table_prefix</use_storage_method>
+		                    </catalogindex>
+		                    <catalogsearch>
+		                        <code>catalogsearch</code>
+		                        <module>Mage_CatalogSearch</module>
+		                        <model>catalogsearch</model>
+		                        <is_backend>1</is_backend>
+		                        <is_extend>1</is_extend>
+		                        <label>Catalog Search</label>
+		                        <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
+		                        <use_storage_method>table_prefix</use_storage_method>
+		                    </catalogsearch>
+		                    <core_url_rewrite>
+                                <code>core_url_rewrite</code>
+                                <module>Mage_Core</module>
+                                <model>core</model>
+                                <is_extend>1</is_extend>
+                                <label>URL Rewrites</label>
+                                <adapter>enterprise_staging/staging_adapter_item_urlrewrite</adapter>
+                                <entities>
+		                            <url_rewrite />
+		                        </entities>
+                            </core_url_rewrite>
                         </extends>
                     </catalog_product>
                     <cms_page>
@@ -404,39 +442,7 @@
                             <agreement_store />
                         </entities>
                     </checkout>
-                    <!--
-                    <cataloginventory>
-                        <code>cataloginventory</code>
-                        <module>Mage_CatalogInventory</module>
-                        <model>cataloginventory</model>
-                        <is_backend>1</is_backend>
-                        <label>Catalog Inventory</label>
-                        <adapter>enterprise_staging/staging_adapter_item_cataloginventory</adapter>
-                        <entities>
-                            <cataloginventory_stock_item>
-                                <table>cataloginventory_stock_item</table>
-                            </cataloginventory_stock_item>
-                        </entities>
-                    </cataloginventory>
-                    <catalogindex>
-                        <code>catalogindex</code>
-                        <module>Mage_CatalogIndex</module>
-                        <model>catalogindex</model>
-                        <is_backend>1</is_backend>
-                        <label>Catalog Index</label>
-                        <adapter>enterprise_staging/staging_adapter_item_catalogindex</adapter>
-                        <use_storage_method>table_prefix</use_storage_method>
-                    </catalogindex>
-                    <catalogsearch>
-                        <code>catalogsearch</code>
-                        <module>Mage_CatalogSearch</module>
-                        <model>catalogsearch</model>
-                        <is_backend>1</is_backend>
-                        <label>Catalog Search</label>
-                        <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
-                        <use_storage_method>table_prefix</use_storage_method>
-                    </catalogsearch>
-                    -->
+
                     <sales>
                         <code>sales</code>
                         <module>Mage_Sales</module>

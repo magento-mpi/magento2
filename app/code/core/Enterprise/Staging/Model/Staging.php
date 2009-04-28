@@ -31,9 +31,9 @@
  */
 class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 {
-    protected $_eventPrefix     = 'enterprise_staging';
-    protected $_eventObject     = 'enterprise_staging';
-    protected $_tablePrefix     = 'staging';
+    protected $_eventPrefix = 'enterprise_staging';
+    protected $_eventObject = 'enterprise_staging';
+    protected $_tablePrefix = 'staging';
 
     /**
      * Staging type instance
@@ -76,7 +76,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         if ($this->getId()) {
             $prefix .= $this->getId();
         }
-        $prefix .='_';
         return $prefix;
     }
 

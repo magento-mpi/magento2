@@ -220,12 +220,9 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
     public function rollbackPostAction()
     {
         $redirectBack   = $this->getRequest()->getParam('back', false);
-
         $backupId       = $this->getRequest()->getPost('backup_id');
         $backup         = $this->_initBackup();
-
         $staging        = $backup->getStaging();
-
         $mapData        = $this->getRequest()->getPost('map');
 
         try {

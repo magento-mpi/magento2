@@ -49,7 +49,7 @@ class Enterprise_Staging_Model_Staging_Adapter_Item_Config extends Enterprise_St
             }
         }
         if (is_array($fields)) {
-            $fields = implode(",", $fields);
+            $fields = $this->_prepareFields($fields);
         }
         if (!empty($_where)) {
             $_where = implode(' AND ', $_where);

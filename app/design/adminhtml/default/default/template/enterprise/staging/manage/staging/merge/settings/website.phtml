@@ -129,7 +129,7 @@
                     <select name="map[websites][from][]" class="validate-select-website staging-mapper-website-from">
                         <option value=""><?php echo $this->__('Select website from map'); ?></option>
                     <?php foreach ($stagingWebsites as $stagingWebsite): ?>
-                        <option value="<?php echo $stagingWebsite->getId(); ?>"><?php echo $stagingWebsite->getName(); ?></option>
+                        <option selected="selected" value="<?php echo $stagingWebsite->getId(); ?>"><?php echo $stagingWebsite->getName(); ?></option>
                     <?php endforeach; ?>
                     </select>
                 </td>
