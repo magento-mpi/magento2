@@ -53,7 +53,7 @@ class Enterprise_Logging_Model_Observer
             return;
         }
 
-        if (!Mage::getSingleton('enterprise_logging/event')->isActive($action)) {
+        if (!Mage::helper('enterprise_logging')->isActive($action)) {
             return;
         }
 
@@ -122,7 +122,7 @@ class Enterprise_Logging_Model_Observer
          * List all saved actions to check if we need save current model for some.
          */
         foreach ($actions as $action) {
-            $conf = Mage::getSingleton('enterprise_logging/event')->getConfig($action);
+            $conf = Mage::helper('enterprise_logging')->getConfig($action);
             if (isset($conf['after-save-handler'])) {
                 /**
                  * Load custom handler from config
@@ -212,9 +212,7 @@ class Enterprise_Logging_Model_Observer
                 if (!$info) {
                     continue;
                 }
-                $singleton = Mage::getSingleton('enterprise_logging/event');
-                $clone = clone $singleton;
-                $clone
+                $singleton = Mage::getModel('enterprise_logging/event')
                   ->setIp($ip)
                   ->setUser($username)
                   ->setUserId($user_id)
@@ -506,7 +504,7 @@ class Enterprise_Logging_Model_Observer
 
     public function getInfo($action, $success)
     {
-        $config = Mage::getSingleton('enterprise_logging/event')->getConfig($action);
+        $config = Mage::helper('enterprise_logging')->getConfig($action);
         if (isset($config['handler'])) {
             return $this->$config['handler']($config, $success);
         }

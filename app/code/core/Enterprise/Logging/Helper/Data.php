@@ -26,5 +26,136 @@
 
 class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract 
 {
+    /**
+     * configuration
+     */
+    const   CONFIG_FILE = 'logging.xml';
+    private $_config;
+    private $_labels;
 
+    public function loadConfig()
+    {
+        if ( !($conf = Mage::app()->loadCache('actions_to_log'))) {
+            $conf = $this->_getActionsConfigFromXml();
+            $result = Mage::app()->saveCache(serialize($conf), 'actions_to_log');
+        } else {
+            $conf = unserialize($conf);
+        }
+        $this->_config = $conf;
+
+        if ( !($conf = Mage::app()->loadCache('actions_to_log_labels'))) {
+            $conf = $this->_getLabelsConfigFromXml(); 
+            Mage::app()->saveCache(serialize($conf['list']), 'actions_to_log_labels');
+            $conf = $conf['list'];
+        } else {
+            $conf = unserialize($conf);
+        }
+        $this->_labels = $conf;
+    }
+
+    /**
+     * Filter if we need to log this action
+     *
+     * @param string action - fullActionName with removed 'adminhtml_' prefix
+     */
+    public function isActive($action)
+    {
+        if (!isset($this->_config)) {
+            $this->loadConfig();
+        }
+        $current = isset($this->_config[$action]) ? $this->_config[$action] : false;
+        if (!$current) {
+            return false;
+        }
+
+        $code = $current['event'];
+        /**
+         * Note that /default/logging/enabled/products - is an indicator if the products should be logged
+         * but /enterprise/logging/event/products - is a node where event info stored.
+         */
+        $node = Mage::getConfig()->getNode('default/admin/logsenabled/' . $code);
+        return ( (string)$node == '1' ? true : false);
+    }
+
+    /**
+     * Return, previously stored in cache config
+     */ 
+    public function getConfig($action) 
+    {
+        if (!isset($this->_config)) {
+            $this->loadConfig();
+        }
+        if (!isset($this->_config[$action])) {
+            return null;
+        }
+        $this->_config[$action]['base_action'] = $action;
+        return $this->_config[$action];
+    }
+
+    /**
+     * Get all labels
+     */
+    public function getLabels() 
+    {
+        if (!isset($this->_labels)) {
+            $this->loadConfig();
+        }
+        return $this->_labels;
+    }
+
+    /**
+     * Get label for current event_code
+     */
+    public function getLabel($code) 
+    {
+        if (!isset($this->_labels)) {
+            $this->loadConfig();
+        }
+        $labelsconfig = $this->getLabels();
+        return isset($labelsconfig[$code]) ? $labelsconfig[$code] : "";
+    }
+
+    /**
+     * Load actions from config
+     */
+    private function _getActionsConfigFromXml() 
+    {
+        $config = Mage::getConfig();
+        $modules = $config->getNode('modules')->children();
+
+        // check if local modules are disabled                                                                                                               
+        $disableLocalModules = (string)$config->getNode('global/disable_local_modules');
+        $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
+
+        $configFile = $config->getModuleDir('etc', 'Enterprise_Logging').DS.'logging.xml';
+
+        $logConfig = Mage::getModel('core/config_base');
+        $logConfig->loadFile($configFile);
+
+        $node = $logConfig->getNode('actions');
+        $conf = $node->asArray();
+        return $conf;
+    }
+
+    /**
+     * Load labels from configuration file
+     */
+    private function _getLabelsConfigFromXml() 
+    {
+        $config = Mage::getConfig();
+        $modules = $config->getNode('modules')->children();
+
+        // check if local modules are disabled                                                                                                               
+        $disableLocalModules = (string)$config->getNode('global/disable_local_modules');
+        $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
+
+        $configFile = $config->getModuleDir('etc', 'Enterprise_Logging').DS. self::CONFIG_FILE;
+
+        $logConfig = Mage::getModel('core/config_base');
+        $logConfig->loadFile($configFile);
+
+        $node = $logConfig->getNode('labels');
+        $conf = $node->asArray();
+        return $conf;
+    }
 }

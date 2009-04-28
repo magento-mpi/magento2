@@ -37,7 +37,7 @@ class Enterprise_Logging_Block_Events_Grid_Filter_Event extends Mage_Adminhtml_B
                     'label'=> Mage::helper('enterprise_logging')->__('All events')
                 ),
             );
-        $labels = Mage::getModel('enterprise_logging/event')->getLabels();
+        $labels = Mage::helper('enterprise_logging')->getLabels();
         foreach($labels as $code => $label) {
             $options[] = array('value' => $code, 'label' => $label);
         }
