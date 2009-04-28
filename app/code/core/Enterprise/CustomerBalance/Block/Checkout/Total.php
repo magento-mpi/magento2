@@ -18,10 +18,13 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design
- * @package    enterprise_default
+ * @category   Enterprise
+ * @package    Enterprise_CustomerBalance
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
-?>
-isFullyPaidAfterCustomerBalanceApplication = <?php echo ($this->isFullyPaidAfterApplication() ? 'true' : 'false'); ?>;
+
+class Enterprise_CustomerBalance_Block_Checkout_Total extends Mage_Checkout_Block_Total_Default
+{
+    protected $_template = 'customerbalance/checkout/total.phtml';
+}
