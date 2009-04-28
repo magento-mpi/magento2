@@ -320,7 +320,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
      * @param bool $addCollectionData
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree
      */
-    public function loadByIds($ids, $addCollectionData = true)
+    public function loadByIds($ids, $addCollectionData = true, $updateAnchorProductCount = true)
     {
         // load first two levels, if no ids specified
         if (empty($ids)) {
@@ -368,7 +368,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         if (!$arrNodes) {
             return false;
         }
-        $this->_updateAnchorProductCount($arrNodes);
+        if ($updateAnchorProductCount) {
+            $this->_updateAnchorProductCount($arrNodes);
+        }
         $childrenItems = array();
         foreach ($arrNodes as $key => $nodeInfo) {
             $pathToParent = explode('/', $nodeInfo[$this->_pathField]);

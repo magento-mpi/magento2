@@ -64,10 +64,53 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
 
     public function getRootNode()
     {
-        $root = parent::getRoot();
+//        $root = parent::getRoot();
+        $root = $this->getRoot();
         if ($root && in_array($root->getId(), $this->getCategoryIds())) {
             $root->setChecked(true);
         }
+        return $root;
+    }
+
+    public function getRoot($parentNodeCategory=null, $recursionLevel=3)
+    {
+        if (!is_null($parentNodeCategory) && $parentNodeCategory->getId()) {
+            return $this->getNode($parentNodeCategory, $recursionLevel);
+        }
+        $root = Mage::registry('root');
+        if (is_null($root)) {
+            $storeId = (int) $this->getRequest()->getParam('store');
+
+            if ($storeId) {
+                $store = Mage::app()->getStore($storeId);
+                $rootId = $store->getRootCategoryId();
+            }
+            else {
+                $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
+            }
+
+            $ids = $this->getSelectedCategoriesPathIds();
+            $tree = Mage::getResourceSingleton('catalog/category_tree')
+                ->loadByIds($ids, false, false);
+
+            if ($this->getCategory()) {
+                $tree->loadEnsuredNodes($this->getCategory(), $tree->getNodeById($rootId));
+            }
+
+            $tree->addCollectionData($this->getCategoryCollection());
+
+            $root = $tree->getNodeById($rootId);
+
+            if ($root && $rootId != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+                $root->setIsVisible(true);
+            }
+            elseif($root && $root->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
+                $root->setName(Mage::helper('catalog')->__('Root'));
+            }
+
+            Mage::register('root', $root);
+        }
+
         return $root;
     }
 
@@ -139,5 +182,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
     public function getLoadTreeUrl($expanded=null)
     {
         return $this->getUrl('*/*/categoriesJson', array('_current'=>true));
+    }
+
+    /**
+     * Return distinct path ids of selected categories
+     *
+     * @return array
+     */
+    public function getSelectedCategoriesPathIds()
+    {
+        $ids = array();
+        $collection = Mage::getModel('catalog/category')->getCollection()
+            ->addFieldToFilter('entity_id', array('in'=>$this->getCategoryIds()));
+        foreach ($collection as $item) {
+            foreach (explode('/', $item->getPath()) as $id) {
+                if (!in_array($id, $ids)) {
+                    $ids[] = $id;
+                }
+            }
+        }
+        return $ids;
     }
 }
