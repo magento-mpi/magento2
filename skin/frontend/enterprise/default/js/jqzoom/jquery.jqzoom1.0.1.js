@@ -92,7 +92,7 @@
 			//se settato alwaysOn attivo lo Zoom e lo mostro.
 
 			//attivo al mouseover
-			$(this).hover(function(e)
+/* 			$(this).hover(function(e)
 			{
 				mousepos.x = e.pageX;
 				mousepos.y	= e.pageY;
@@ -100,6 +100,21 @@
 			},function()
 			{
 				deactivate();
+			}); */
+			
+			//activation on click
+			$(this).click(function(e)
+			{	
+				if(!running) {
+					mousepos.x = e.pageX;
+					mousepos.y	= e.pageY;
+					$(a).parent(0).addClass('zoom-activated');
+					activate();
+					// adding class to container for manipulating styles
+				} else {
+					$(a).parent(0).removeClass('zoom-activated');
+					deactivate();
+				}
 			});
 
 
