@@ -148,6 +148,8 @@ class Mage_Adminhtml_Permissions_RoleController extends Mage_Adminhtml_Controlle
             }
             $rid = $role->getId();
             Mage::getSingleton('adminhtml/session')->addSuccess($this->__('Role successfully saved.'));
+        } catch (Mage_Core_Exception $e) {
+            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
         } catch (Exception $e) {
             Mage::getSingleton('adminhtml/session')->addError($this->__('Error while saving this role. Please try again later.'));
         }
