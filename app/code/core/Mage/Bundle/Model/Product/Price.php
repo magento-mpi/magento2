@@ -33,6 +33,9 @@
  */
 class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Price
 {
+    const PRICE_TYPE_FIXED      = 1;
+    const PRICE_TYPE_DYNAMIC    = 0;
+
     /**
      * Return product base price
      *
@@ -72,10 +75,10 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
             $finalPrice = $product->getData('final_price');
         }
+        $basePrice = $finalPrice;
 
         if ($product->hasCustomOptions()) {
             $customOption = $product->getCustomOption('bundle_option_ids');
-//            $optionIds = unserialize($customOption->getValue());
             $customOption = $product->getCustomOption('bundle_selection_ids');
             $selectionIds = unserialize($customOption->getValue());
             $selections = $product->getTypeInstance(true)->getSelectionsByIds($selectionIds, $product);
@@ -104,7 +107,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 //            }
         }
 
-        $finalPrice = $this->_applyOptionsPrice($product, $qty, $finalPrice);
+        $finalPrice = $finalPrice + $this->_applyOptionsPrice($product, $qty, $basePrice) - $basePrice;
         $product->setFinalPrice($finalPrice);
 
         return max(0, $product->getData('final_price'));
@@ -117,77 +120,83 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
 
     public function getPrices($product, $which = null)
     {
-        /**
-         * Check if product price is fixed
-         */
-        if ($product->getPriceType()) {
-            $minimalPrice = $maximalPrice = $product->getFinalPrice();
-        } else {
-            $minimalPrice = $maximalPrice = $product->getPrice();
+        // check calculated price index
+        if ($product->getData('_price_index')) {
+            $minimalPrice = $product->getData('_price_index_min_price');
+            $maximalPrice = $product->getData('_price_index_max_price');
         }
+        else {
+            /**
+             * Check if product price is fixed
+             */
+            if ($product->getPriceType()) {
+                $minimalPrice = $maximalPrice = $product->getFinalPrice();
+            } else {
+                $minimalPrice = $maximalPrice = $product->getPrice();
+            }
 
-        if ($options = $this->getOptions($product)) {
-            foreach ($options as $option) {
-                if ($option->getSelections()) {
+            if ($options = $this->getOptions($product)) {
+                foreach ($options as $option) {
+                    if ($option->getSelections()) {
 
-                    $selectionMinimalPrices = array();
-                    $selectionMaximalPrices = array();
+                        $selectionMinimalPrices = array();
+                        $selectionMaximalPrices = array();
 
-                    foreach ($option->getSelections() as $selection) {
-                        if (!$selection->isSalable()) {
-                            continue;
+                        foreach ($option->getSelections() as $selection) {
+                            if (!$selection->isSalable()) {
+                                continue;
+                            }
+
+                            $qty = $selection->getSelectionQty();
+                            if ($selection->getSelectionCanChangeQty() && $option->getType() != 'multi' && $option->getType() != 'checkbox') {
+                                $qty = min(1, $qty);
+                            }
+
+                            $selectionMinimalPrices[] = $this->getSelectionPrice($product, $selection, $qty);
+                            $selectionMaximalPrices[] = $this->getSelectionPrice($product, $selection);
                         }
 
-                        $qty = $selection->getSelectionQty();
-                        if ($selection->getSelectionCanChangeQty() && $option->getType() != 'multi' && $option->getType() != 'checkbox') {
-                            $qty = min(1, $qty);
-                        }
+                        if (count($selectionMinimalPrices)) {
+                            if ($option->getRequired()) {
+                                $minimalPrice += min($selectionMinimalPrices);
+                            }
 
-                        $selectionMinimalPrices[] = $this->getSelectionPrice($product, $selection, $qty);
-                        $selectionMaximalPrices[] = $this->getSelectionPrice($product, $selection);
-                    }
-
-                    if (count($selectionMinimalPrices)) {
-                        if ($option->getRequired()) {
-                            $minimalPrice += min($selectionMinimalPrices);
-                        }
-
-                        if ($option->isMultiSelection()) {
-                            $maximalPrice += array_sum($selectionMaximalPrices);
-                        } else {
-                            $maximalPrice += max($selectionMaximalPrices);
+                            if ($option->isMultiSelection()) {
+                                $maximalPrice += array_sum($selectionMaximalPrices);
+                            } else {
+                                $maximalPrice += max($selectionMaximalPrices);
+                            }
                         }
                     }
                 }
             }
-        }
 
+            // incorrect for fixed
+            //$this->_applySpecialPrice($product, $minimalPrice);
 
-        $minimalPrice = $this->_applySpecialPrice($product, $minimalPrice);
-        $maximalPrice = $this->_applySpecialPrice($product, $maximalPrice);
-
-        if ($customOptions = $product->getOptions()) {
-            foreach ($customOptions as $customOption) {
-                if ($values = $customOption->getValues()) {
-                    $prices = array();
-                    foreach ($values as $value) {
-                        $prices[] = $value->getPrice();
-                    }
-                    if (count($prices)) {
+            if ($customOptions = $product->getOptions()) {
+                foreach ($customOptions as $customOption) {
+                    if ($values = $customOption->getValues()) {
+                        $prices = array();
+                        foreach ($values as $value) {
+                            $prices[] = $value->getPrice();
+                        }
+                        if (count($prices)) {
+                            var_dump($prices);
+                            if ($customOption->getIsRequire()) {
+                                $minimalPrice += min($prices);
+                            }
+                            $maximalPrice += max($prices);
+                        }
+                    } else {
                         if ($customOption->getIsRequire()) {
-                            $minimalPrice += min($prices);
+                            $minimalPrice += $customOption->getPrice();
                         }
-                        $maximalPrice += max($prices);
+                        $maximalPrice += $customOption->getPrice();
                     }
-                } else {
-                    if ($customOption->getIsRequire()) {
-                        $minimalPrice += $customOption->getPrice();
-                    }
-                    $maximalPrice += $customOption->getPrice();
                 }
             }
         }
-
         if (is_null($which)) {
             return array($minimalPrice, $maximalPrice);
         } else if ($which = 'max') {
@@ -228,14 +237,17 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getOptions($product)
     {
-        $product->getTypeInstance(true)->setStoreFilter($product->getStoreId(), $product);
+        $product->getTypeInstance(true)
+            ->setStoreFilter($product->getStoreId(), $product);
 
-        $optionCollection = $product->getTypeInstance(true)->getOptionsCollection($product);
+        $optionCollection = $product->getTypeInstance(true)
+            ->getOptionsCollection($product);
 
-        $selectionCollection = $product->getTypeInstance(true)->getSelectionsCollection(
-            $product->getTypeInstance(true)->getOptionsIds($product),
-            $product
-        );
+        $selectionCollection = $product->getTypeInstance(true)
+            ->getSelectionsCollection(
+                $product->getTypeInstance(true)->getOptionsIds($product),
+                $product
+            );
 
         return $optionCollection->appendSelections($selectionCollection, false, false);
     }

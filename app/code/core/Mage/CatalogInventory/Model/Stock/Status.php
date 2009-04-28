@@ -480,4 +480,17 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
 
         return $this;
     }
+
+    /**
+     * Add stock status to prepare index select
+     *
+     * @param Varien_Db_Select $select
+     * @param Mage_Core_Model_Website $website
+     * @return Mage_CatalogInventory_Model_Stock_Status
+     */
+    public function addStockStatusToSelect(Varien_Db_Select $select, Mage_Core_Model_Website $website)
+    {
+        $this->_getResource()->addStockStatusToSelect($select, $website);
+        return $this;
+    }
 }

@@ -467,4 +467,21 @@ class Mage_CatalogInventory_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Add stock status to prepare index select
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_CatalogInventory_Model_Observer
+     */
+    public function addStockStatusToPrepareIndexSelect(Varien_Event_Observer $observer)
+    {
+        $website    = $observer->getEvent()->getWebsite();
+        $select     = $observer->getEvent()->getSelect();
+
+        Mage::getSingleton('cataloginventory/stock_status')
+            ->addStockStatusToSelect($select, $website);
+
+        return $this;
+    }
 }

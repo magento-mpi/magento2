@@ -350,6 +350,10 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
      */
     protected function _afterPlainReindex($store, $products = null)
     {
+        Mage::dispatchEvent('catalogindex_plain_reindex_after', array(
+            'products' => $products
+        ));
+
         /**
          * Catalog Product Flat price update
          */
@@ -373,6 +377,7 @@ class Mage_CatalogIndex_Model_Indexer extends Mage_Core_Model_Abstract
 
             $this->updateCatalogProductFlat($store, $products);
         }
+
         return $this;
     }
 
