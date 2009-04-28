@@ -19,28 +19,15 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_Permissions
+ * @package    Enterprise_Pci
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer->startSetup();
 
-/**
- * Adminhtml catalog product edit action attributes update tab block
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Permissions_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
-    extends Mage_Adminhtml_Block_Catalog_Product_Edit_Action_Attribute_Tab_Attributes
-{
-    protected function _returnAdditionalElementHtml($element)
-    {
-        if( !Mage::helper('enterprise_permissions')->isSuperAdmin() ) {
-            return ((bool) $element->getEntityAttribute()->getIsGlobal()) === true ? false : true;
-        }
+$installer->run("UPDATE {$this->getTable('cms/page')} SET root_template = 'one_column' WHERE `identifier` = 'home';");
 
-        return true;
-    }
-}
+$installer->endSetup();
