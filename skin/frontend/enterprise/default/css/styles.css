@@ -654,8 +654,8 @@ dd.even { background:#f6f6f6; }*/
 .sidebar .block .btn-remove { color:#222; margin-right:3px; }
 .sidebar .block .btn-remove a { color:#222 !important; text-decoration:none !important; }
 .sidebar .block .actions { margin:8px 0 0; text-align:right; }
-.sidebar .block .actions a { float:right; }
-.sidebar .block .actions button.button { float:left; }
+.sidebar .block .actions a { float:left; color:#999; margin-top:3px; }
+.sidebar .block .actions button.button { float:right; }
 
 .sidebar .block li a.btn-remove { float:right; width:13px; height:0px; padding-top:12px; margin-top:3px; overflow:hidden; background:url(../images/btn_remove.gif) no-repeat 0 0; }
 
@@ -708,7 +708,7 @@ dd.even { background:#f6f6f6; }*/
 .sidebar .block-layered-nav .currently { border:1px solid #d1d1d1; border-width:1px 0; padding:10px 10px 10px 17px; margin-bottom:-1px; background:#f4f4f4 url(../images/bkg_currently.gif) repeat-x 0 -20px; }
 .sidebar .block-layered-nav .currently li { padding:5px 0; color:#444; }
 .sidebar .block-layered-nav .currently .label { font-weight:bold; color:#d33911; font-size:12px; }
-.sidebar .block-layered-nav .actions { text-align:right; padding-right:7px; display:none; }
+.sidebar .block-layered-nav .actions { text-align:left; padding-right:7px; display:none; }
 
 
 /* Mini Shopping Cart */
@@ -861,20 +861,16 @@ dd.even { background:#f6f6f6; }*/
 
 /* View Type: Grid */
 .products-grid { padding:0 0 0 20px; margin:0 0 40px 0; position:relative; z-index:1; }
-.products-grid li.item { float:left; width:164px; text-align:center; margin-right:20px; overflow:hidden; }
+.products-grid li.item { float:left; width:164px; margin-right:20px; overflow:hidden; }
 .products-grid li.last { margin-right:0; }
 .products-grid .actions { bottom:0; }
 .products-grid .product-image { display:block; text-decoration:none !important; margin:0 auto 10px; position:relative; width:135px; }
 .product-image .sold-out { display:block; position:absolute; left:0; top:0; font-size:0; line-height:0; width:62px; height:62px; background:url(../images/bkg_sold-out.png) 0 0 no-repeat; }
-.products-grid .product-name { margin-bottom:7px; text-align:left;  }
+.products-grid .product-name { margin-bottom:7px; }
 .products-grid .ratings { text-align:left; line-height:13px; }
 .products-grid .rating-links { display:block; padding:2px 0 0; clear:both; }
-.products-grid .price-box { margin:5px 0 10px; clear:both; text-align:left;  }
-/* Different Layout Rewrites */
-/* .col1-layout .products-grid li.item { width:290px; }
-.col2-left-layout .products-grid li.item,
-.col2-right-layout .products-grid li.item { width:233px; }
- */
+.products-grid .price-box { margin:5px 0 10px; clear:both; }
+
 /* View Type: List */
 .category-products-list { /* padding:20px 0 20px 0; */ }
 .products-list li.item { margin:0 0 20px 0; padding:0 20px 20px 20px; background:url(../images/bkg_dots.gif) repeat-x 0 100%; }
@@ -1722,6 +1718,13 @@ button.btn-cart  span { }
 .order-info li.current strong { background-position:100% 0; padding-bottom:1px; }
 .order-info dt { font-weight:bold; }
 
+/* Manage Newsletter Subscription */
+.newsletter-manage-index .form-buttons .button { float:left; margin:0; }
+
+/* Wishlist */
+#wishlist-table td { text-align:center; }
+#wishlist-table .price-box { margin:3px 0; }
+
 /* Store credit */
 .storecredit .account-balance { margin:0 0 20px; padding:0 0 10px; font-size:12px; background:url(../images/bkg_dots.gif) repeat-x 0 100%; }
 .storecredit .account-balance .price { font-weight:bold; }
@@ -1732,8 +1735,8 @@ button.btn-cart  span { }
 .giftcardaccount p { margin:15px 0; font-size:12px; }
 .giftcardaccount .fieldset { margin:0; }
 .giftcardaccount .form-list label { float:none; text-align:left; width:auto; display:block; margin-bottom:5px; }
-.giftcardaccount .btn-only { padding-left:0; text-align:left; width:auto; }
-.giftcardaccount .btn-only .button { float:left; margin:0; }
+.giftcardaccount .btn-only { padding-left:0; text-align:left; width:380px; }
+.giftcardaccount .btn-only .button { margin:0; }
 
 /* Gift Card Status Check */
 .giftcard-status p { font-size:12px; margin:10px 0; }
@@ -1767,8 +1770,8 @@ button.btn-cart  span { }
 /* Footer ================================================================================ */
 .form-subscribe { float:left; width:183px; padding:12px 17px 0 0; background:url(../images/bkg_newsletter.gif) no-repeat 0 3px; }
 .form-subscribe label { display:block; margin:6px 0; }
-.form-subscribe input.input-text { width:174px; display:block; }
-.form-subscribe button.button { margin:6px 0 0 }
+.form-subscribe input.input-text { width:177px; display:block; }
+.form-subscribe button.button { margin:6px 0 0; float:right; }
 .form-subscribe .validation-advice { width:180px; }
 .form-subscribe .v-fix { text-align:left; padding-right:5px; }
 .form-subscribe a { color:#777; }
