@@ -128,16 +128,54 @@ class Enterprise_AdminGws_Model_Observer
         $object = $observer->getEvent()->getObject();
         $websiteIds    = $object->getGwsWebsites();
         $storeGroupIds = $object->getGwsStoreGroups();
+        /* @var $helper Enterprise_AdminGws_Helper_Data */
+        $helper = Mage::helper('enterprise_admingws');
 
-        // validate 'em
-        // TODO
+        // validate specified data
+        if ($object->getGwsIsAll() == 0 && empty($websiteIds) && empty($storeGroupIds)) {
+            Mage::throwException(Mage::helper('enterprise_admingws')->__('Specify at least one website or one store group.'));
+        }
+        if (empty($websiteIds)) {
+            $websiteIds = array();
+        }
+        else {
+            if (!is_array($websiteIds)) {
+                $websiteIds = explode(',', $websiteIds);
+            }
+            $allWebsiteIds = array_keys(Mage::app()->getWebsites());
+            foreach ($websiteIds as $websiteId) {
+                if (!in_array($websiteId, $allWebsiteIds)) {
+                    Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong website ID: %d', $websiteId));
+                }
+                // prevent from granting disallowed websites
+                if (!$helper->getIsAll()) {
+                    if (!in_array($websiteId, $helper->getWebsiteIds())) {
+                        Mage::throwException(Mage::helper('enterprise_admingws')->__('Website "%s" is not allowed in your current permission scope.', Mage::app()->getWebsite($websiteId)->getName()));
+                    }
+                }
+            }
+        }
+        if (empty($storeGroupIds)) {
+            $storeGroupIds = array();
+        }
+        else {
+            if (!is_array($storeGroupIds)) {
+                $storeGroupIds = explode(',', $storeGroupIds);
+            }
+            $allStoreGroups = array();
+            foreach (Mage::app()->getWebsites() as $website) {
+                $allStoreGroups = array_merge($allStoreGroups, $website->getGroupIds());
+            }
+            foreach ($storeGroupIds as $storeGroupId) {
+                if (!array($storeGroupId, $allStoreGroups)) {
+                    Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong store ID: %d', $storeGroupId));
+                }
+            }
+        }
 
-        if (is_array($websiteIds)) {
-            $object->setGwsWebsites(implode(',', $websiteIds));
-        }
-        if (is_array($storeGroupIds)) {
-            $object->setGwsStoreGroups(implode(',', $storeGroupIds));
-        }
+        $object->setGwsWebsites(implode(',', $websiteIds));
+        $object->setGwsStoreGroups(implode(',', $storeGroupIds));
+
         return $this;
     }
 
