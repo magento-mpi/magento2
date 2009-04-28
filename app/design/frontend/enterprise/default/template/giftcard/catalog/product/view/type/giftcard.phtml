@@ -227,11 +227,13 @@
                 <label for="giftcard_message"><?php echo Mage::helper('enterprise_giftcard')->__('Message'); ?></label>
                 <span class="input-box">
                     <textarea name="giftcard_message" class="input-text giftcard-message-max-length" rows="4"></textarea>
-                    <script>
-                        Validation.add('giftcard-message-max-length', '<?php echo $this->__('Message max. length is 255 symbols.'); ?>', function(v) {
-                            return v.length <= 255;
-                        });
-                    </script>
+                    <?php if ($this->getMessageMaxLength()): ?>
+                        <script>
+                            Validation.add('giftcard-message-max-length', '<?php echo $this->__('Maximum length of the message is %d characters.', $this->getMessageMaxLength()); ?>', function(v) {
+                                return v.length <= <?php echo $this->getMessageMaxLength(); ?>;
+                            });
+                        </script>
+                    <?php endif; ?>
                 </span>
             </li>
         <?php endif; ?>

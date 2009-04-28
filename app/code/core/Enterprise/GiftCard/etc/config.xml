@@ -222,6 +222,7 @@
                 <lifetime>0</lifetime>
                 <order_item_status>9</order_item_status>
                 <allow_message>1</allow_message>
+                <message_max_length>255</message_max_length>
                 <identity>general</identity>
                 <template>giftcard_general_template</template>
             </general>
