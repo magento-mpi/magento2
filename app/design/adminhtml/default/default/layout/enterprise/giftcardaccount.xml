@@ -60,4 +60,24 @@
             <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/invoice/totals/giftcardaccount.phtml" />
         </reference>
     </adminhtml_sales_order_invoice_view>
+
+
+
+    <adminhtml_sales_order_create_load_block_billing_method>
+        <reference name="billing_method">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/payment.phtml" name="giftcardaccount" after="-" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_billing_method>
+
+    <adminhtml_sales_order_create_load_block_data>
+        <reference name="billing_method">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/payment.phtml" name="giftcardaccount" after="-" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_data>
+
+    <adminhtml_sales_order_create_index>
+        <reference name="billing_method">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/payment.phtml" name="giftcardaccount" after="-" />
+        </reference>
+    </adminhtml_sales_order_create_index>
 </layout>

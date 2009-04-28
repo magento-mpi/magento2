@@ -137,10 +137,13 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      * @param bool $saveQuote
      * @return Enterprise_GiftCardAccount_Model_Giftcardaccount
      */
-    public function addToCart($saveQuote = true)
+    public function addToCart($saveQuote = true, $quote = null)
     {
         if ($this->isValid()) {
-            $cards = Mage::helper('enterprise_giftcardaccount')->getCards($this->_getCheckoutSession()->getQuote());
+            if (is_null($quote)) {
+                $quote = $this->_getCheckoutSession()->getQuote();
+            }
+            $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
             if (!$cards) {
                 $cards = array();
             } else {
@@ -156,10 +159,10 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 'a'=>$this->getBalance(),   // amount
                 'ba'=>$this->getBalance(),  // base amount
             );
-            Mage::helper('enterprise_giftcardaccount')->setCards($this->_getCheckoutSession()->getQuote(), $cards);
+            Mage::helper('enterprise_giftcardaccount')->setCards($quote, $cards);
 
             if ($saveQuote) {
-                $this->_getCheckoutSession()->getQuote()->save();
+                $quote->save();
             }
         }
 
@@ -172,21 +175,24 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      * @param bool $saveQuote
      * @return Enterprise_GiftCardAccount_Model_Giftcardaccount
      */
-    public function removeFromCart($saveQuote = true)
+    public function removeFromCart($saveQuote = true, $quote = null)
     {
         if (!$this->getId()) {
             Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Wrong Gift Card code.'));
         }
+        if (is_null($quote)) {
+            $quote = $this->_getCheckoutSession()->getQuote();
+        }
 
-        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($this->_getCheckoutSession()->getQuote());
+        $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
         if ($cards) {
             foreach ($cards as $k=>$one) {
                 if ($one['i'] == $this->getId()) {
                     unset($cards[$k]);
-                    Mage::helper('enterprise_giftcardaccount')->setCards($this->_getCheckoutSession()->getQuote(), $cards);
+                    Mage::helper('enterprise_giftcardaccount')->setCards($quote, $cards);
 
                     if ($saveQuote) {
-                        $this->_getCheckoutSession()->getQuote()->save();
+                        $quote->save();
                     }
                     return $this;
                 }

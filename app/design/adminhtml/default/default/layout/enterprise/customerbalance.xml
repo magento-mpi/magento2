@@ -84,4 +84,25 @@
             </block>
         </reference>
     </adminhtml_sales_order_invoice_view>
+
+    <adminhtml_sales_order_create_load_block_billing_method>
+        <reference name="billing_method">
+            <block type="enterprise_customerbalance/adminhtml_sales_order_create_payment" template="enterprise/customerbalance/sales/order/create/payment.phtml" name="customerbalance" before="-" />
+            <block type="enterprise_customerbalance/adminhtml_sales_order_create_payment" template="enterprise/customerbalance/sales/order/create/hider.phtml" name="customerbalance_hider" after="form" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_billing_method>
+
+    <adminhtml_sales_order_create_load_block_data>
+        <reference name="billing_method">
+            <block type="enterprise_customerbalance/adminhtml_sales_order_create_payment" template="enterprise/customerbalance/sales/order/create/payment.phtml" name="customerbalance" before="-" />
+            <block type="enterprise_customerbalance/adminhtml_sales_order_create_payment" template="enterprise/customerbalance/sales/order/create/hider.phtml" name="customerbalance_hider" after="form" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_data>
+
+    <adminhtml_sales_order_create_index>
+        <reference name="billing_method">
+            <block type="enterprise_customerbalance/adminhtml_sales_order_create_payment" template="enterprise/customerbalance/sales/order/create/payment.phtml" name="customerbalance" before="-" />
+            <block type="enterprise_customerbalance/adminhtml_sales_order_create_payment" template="enterprise/customerbalance/sales/order/create/hider.phtml" name="customerbalance_hider" after="form" />
+        </reference>
+    </adminhtml_sales_order_create_index>
 </layout>

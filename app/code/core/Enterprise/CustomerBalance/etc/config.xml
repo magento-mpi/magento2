@@ -158,6 +158,15 @@
                     </enterprise_customerbalance>
                 </observers>
             </core_layout_update_updates_get_after>
+            <adminhtml_sales_order_create_process_data>
+                <observers>
+                    <enterprise_customerbalance>
+                        <type>singleton</type>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>processOrderCreationData</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </adminhtml_sales_order_create_process_data>
         </events>
     </global>
     <frontend>

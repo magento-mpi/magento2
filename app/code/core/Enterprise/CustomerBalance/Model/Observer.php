@@ -92,9 +92,11 @@ class Enterprise_CustomerBalance_Model_Observer
             return;
         }
 
+        $store = Mage::app()->getStore($quote->getStoreId());
+
         $balance = Mage::getModel('enterprise_customerbalance/balance')
             ->setCustomerId($quote->getCustomerId())
-            ->setWebsiteId($quote->getWebsiteId())
+            ->setWebsiteId($store->getWebsiteId())
             ->loadByCustomer()
             ->getAmount();
 
@@ -140,5 +142,51 @@ class Enterprise_CustomerBalance_Model_Observer
         if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
             unset($observer->getUpdates()->enterprise_customerbalance);
         }
+    }
+
+    /**
+     * Process post data and set usage of customer balance into order creation model
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function processOrderCreationData(Varien_Event_Observer $observer)
+    {
+        $model = $observer->getEvent()->getOrderCreateModel();
+        $request = $observer->getEvent()->getRequest();
+        $quote = $model->getQuote();
+        $payment = $quote->getPayment();
+        $store = Mage::app()->getStore($quote->getStoreId());
+
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled($store)) {
+            return $this;
+        }
+
+        if (!$quote->getCustomerId()) {
+            return $this;
+        }
+
+        if (isset($request['payment']) && isset($request['payment']['use_customer_balance'])) {
+            $use = $request['payment']['use_customer_balance'];
+
+            $quote->setUseCustomerBalance($request['payment']['use_customer_balance']);
+            if ($use) {
+                $balance = Mage::getModel('enterprise_customerbalance/balance')
+                    ->setCustomerId($quote->getCustomerId())
+                    ->setWebsiteId($store->getWebsiteId())
+                    ->loadByCustomer()
+                    ->getAmount();
+
+                if ($balance) {
+                    $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
+                    if ($balance >= $total) {
+                        $payment->setMethod('free');
+                    }
+                } else {
+                    $quote->setUseCustomerBalance(false);
+                }
+            }
+        }
+
+        return $this;
     }
 }
