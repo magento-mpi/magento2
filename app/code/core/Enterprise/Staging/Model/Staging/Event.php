@@ -173,7 +173,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
 
             $this->setIsBackuped($staging->getIsBackuped());
             $this->setStaging($staging);
-            $thi->setMergeMap($staging->getMapperInstance()->serialize());
+            $this->setMergeMap($staging->getMapperInstance()->serialize());
         } else {
             $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
         }

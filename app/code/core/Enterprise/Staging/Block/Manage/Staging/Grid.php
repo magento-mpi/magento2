@@ -61,7 +61,13 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         foreach($collection AS $staging) {
             $collection->getItemById($staging->getId())
                 ->setData("lastEvent", $staging->getEventsCollection()->getFirstItem()->getComment());
-            $baseUrl = $staging->getStagingWebsite()->getConfig('web/unsecure/base_url');
+            $defaultStore = $staging->getStagingWebsite()->getDefaultStore();
+            if ($defaultStore->isFrontUrlSecure()) {
+                $baseUrl = $defaultStore->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true);
+            } else {
+                $baseUrl = $defaultStore->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
+            }
+
             $collection->getItemById($staging->getId())
                 ->setData("base_url", $baseUrl);
         }
