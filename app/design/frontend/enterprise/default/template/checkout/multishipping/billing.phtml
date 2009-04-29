@@ -54,8 +54,9 @@
                     <div class="btn-close"><a href="#" id="payment-tool-tip-close"><img src="<?php echo $this->getSkinUrl('images/btn_window_close.gif') ?>" alt="<?php echo $this->__('Close') ?>" title="<?php echo $this->__('Close') ?>" /></a></div>
                     <div class="tool-tip-content"><img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" title="<?php echo $this->__('Card Verification Number Visual Reference') ?>" /></div>
                 </div>
+                <?php echo $this->getChildHtml('payment_methods_before') ?>
                 <!-- Payment methods forms list -->
-                <dl class="sp-methods">
+                <dl class="sp-methods" id="payment-methods">
                 <?php
                     $_methods       = $this->getMethods();
                     $_methodsCount  = count($_methods);
@@ -76,6 +77,7 @@
                     <?php endif; ?>
                 <?php endforeach; ?>
                 </dl>
+                <?php echo $this->getChildHtml('payment_methods_after') ?>
                 <?php echo $this->getChildHtml('checkout_billing_items') ?>
             </div>
         </div>

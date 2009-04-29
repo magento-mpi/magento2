@@ -106,6 +106,10 @@ class Enterprise_CustomerBalance_Model_Observer
         if ($input->getUseCustomerBalance() && $balance >= $total) {
             $input->setMethod('free');
         }
+
+        if ($quote->getIsMultiShipping()) {
+            $quote->collectTotals()->save();
+        }
     }
 
     /**

@@ -211,6 +211,8 @@ Multi address shipping checkout billing information
         <reference name="content">
             <block type="checkout/multishipping_billing" name="checkout_billing" template="checkout/multishipping/billing.phtml">
                 <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+                <block type="core/text_list" name="payment_methods_before" />
+                <block type="core/text_list" name="payment_methods_after" />
 
                 <!--<block type="checkout/multishipping_billing_items" name="checkout_billing_items" template="checkout/multishipping/billing/items.phtml">
                     <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>checkout/multishipping/item/default.phtml</template></action>

@@ -89,4 +89,11 @@
             <block type="enterprise_giftcardaccount/account_redeem" name="redeem" template="giftcardaccount/account/redeem_link.phtml" after="balance" />
         </reference>
     </enterprise_customerbalance_info_index>
+
+
+    <checkout_multishipping_billing>
+        <reference name="payment_methods_after">
+            <block type="enterprise_giftcardaccount/checkout_onepage_payment_additional" template="giftcardaccount/multishipping/payment.phtml" name="giftcardaccount" />
+        </reference>
+    </checkout_multishipping_billing>
 </layout>

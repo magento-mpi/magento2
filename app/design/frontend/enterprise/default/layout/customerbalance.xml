@@ -69,4 +69,11 @@
             <block type="enterprise_customerbalance/sales_order_customerbalance" name="customerbalance" template="customerbalance/order/customerbalance.phtml" />
         </reference>
     </sales_order_print>
+
+
+    <checkout_multishipping_billing>
+        <reference name="payment_methods_before">
+            <block type="enterprise_customerbalance/checkout_onepage_payment_additional" template="customerbalance/checkout/multishipping/payment.phtml" name="customerbalance" />
+        </reference>
+    </checkout_multishipping_billing>
 </layout>
