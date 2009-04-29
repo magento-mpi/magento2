@@ -259,6 +259,19 @@ class PEAR_Common extends PEAR
         if (!class_exists('System')) {
             require_once 'System.php';
         }
+        
+        /*
+         * Magento fix for custom set permissions in config.ini
+         */
+        $magedConfig = Maged_Controller::model('Config',true)->load();
+        if ($magedConfig->get('use_custom_permissions_mode') == '1' && 
+            $mode = $magedConfig->get('mkdir_mode')) {
+            return System::mkDir(array('-m' . $mode, $dir));
+        }
+        /*
+         * End fix
+         */
+
         return System::mkDir(array('-p', $dir));
     }
 
