@@ -26,20 +26,20 @@
 ?>
 <div class="header-container">
     <div class="header-panel">
+        <div class="switches"><?php echo $this->getChildHtml('switches') ?></div>
         <p class="welcome-msg"><?php echo $this->getWelcome()?></p>
         <?php echo $this->getChildHtml('accountLinks') ?>
-        <?php echo $this->getChildHtml('switches') ?>
     </div>
     <div class="header">
         <div class="branding">
-			<h1 id="logo" class="logo" title="<?php echo $this->getLogoAlt() ?>" style="background-image:url(<?php echo $this->getLogoSrc() ?>);"><a href="<?php echo $this->getUrl('') ?>"><?php echo $this->getLogoAlt() ?></a></h1>
-			<img src="<?php echo $this->getSkinUrl('images/callouts/header_free_shipping.gif')?>" alt="" class="free-shipping"/>
-		</div>
-		<div class="quick-access">
+            <h1 id="logo" class="logo" title="<?php echo $this->getLogoAlt() ?>" style="background-image:url(<?php echo $this->getLogoSrc() ?>);"><a href="<?php echo $this->getUrl('') ?>"><?php echo $this->getLogoAlt() ?></a></h1>
+            <img src="<?php echo $this->getSkinUrl('images/callouts/header_free_shipping.gif')?>" alt="" class="free-shipping"/>
+        </div>
+        <div class="quick-access">
             <div class="checkout-link"><?php echo $this->getChildHtml('checkoutLinks') ?></div>
             <?php echo $this->getChildHtml('topCart') ?>
             <?php echo $this->getChildHtml('topLinks') ?>
-			<?php echo $this->getChildHtml('topSearch') ?>
+            <?php echo $this->getChildHtml('topSearch') ?>
         </div>
     </div>
     <?php echo $this->getChildHtml('topMenu') ?>
