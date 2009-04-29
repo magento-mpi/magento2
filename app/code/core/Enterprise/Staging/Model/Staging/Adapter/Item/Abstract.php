@@ -153,24 +153,30 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         }
 
         $_updateField = end($fields);
-        $destInsertSql = "INSERT INTO `{$srcTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$_updateField}`=VALUES(`{$_updateField}`)";
 
-        $_websiteFieldNameSql = 'website_id';
-        foreach ($fields as $id => $field) {
-            if ($field == 'website_id') {
-                $fields[$id] = $stagingWebsiteId;
-                $_websiteFieldNameSql = "`{$field}` = {$masterWebsiteId}";
-            } elseif ($field == 'scope_id') {
-                $fields[$id] = $stagingWebsiteId;
-                $_websiteFieldNameSql = "scope = 'websites' AND `{$field}` = {$masterWebsiteId}";
-            } elseif ($field == 'website_ids') {
-                $fields[$id] = new Zend_Db_Expr("CONCAT(website_ids,',{$stagingWebsiteId}')");
-                $_websiteFieldNameSql = "FIND_IN_SET({$masterWebsiteId},website_ids)";
+        if (in_array('website_ids', $fields)) {
+            $destInsertSql = "UPDATE `{$srcTable}` SET `website_ids` = IF(FIND_IN_SET({$stagingWebsiteId},`website_ids`), `website_ids`, CONCAT(`website_ids`,',{$stagingWebsiteId}'))
+                    WHERE FIND_IN_SET({$masterWebsiteId},`website_ids`)";
+        } else {
+            $destInsertSql = "INSERT INTO `{$srcTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$_updateField}`=VALUES(`{$_updateField}`)";
+
+            $_websiteFieldNameSql = 'website_id';
+            foreach ($fields as $id => $field) {
+                if ($field == 'website_id') {
+                    $fields[$id] = $stagingWebsiteId;
+                    $_websiteFieldNameSql = "`{$field}` = {$masterWebsiteId}";
+                } elseif ($field == 'scope_id') {
+                    $fields[$id] = $stagingWebsiteId;
+                    $_websiteFieldNameSql = "scope = 'websites' AND `{$field}` = {$masterWebsiteId}";
+                } elseif ($field == 'website_ids') {
+                    $fields[$id] = new Zend_Db_Expr("CONCAT(website_ids,',{$stagingWebsiteId}')");
+                    $_websiteFieldNameSql = "FIND_IN_SET({$masterWebsiteId},website_ids)";
+                }
             }
-        }
 
-        $srcSelectSql  = $this->_getSimpleSelect($fields, $targetTable, $_websiteFieldNameSql);
-        $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+            $srcSelectSql  = $this->_getSimpleSelect($fields, $targetTable, $_websiteFieldNameSql);
+            $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
+        }
 
         $connection->query($destInsertSql);
 
