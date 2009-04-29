@@ -33,6 +33,7 @@
         <locale>
             <allow>
                 <codes>
+                    <af_ZA/><!-- Afrikaans (South Africa) -->
                     <ar_EG/><!-- Arabic (Egypt) -->
                     <ar_KW/><!-- Arabic (Kuwait) -->
                     <ar_MA/><!-- Arabic (Morocco) -->
