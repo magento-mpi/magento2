@@ -37,7 +37,14 @@
                 <action method="setPrefix"><value>_customerbalance</value></action>
             </block>
         </reference>
+
+        <reference name="customer_edit_tab_view">
+            <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance" name="customerbalance.balance" template="enterprise/customerbalance/balance.phtml" before="-">
+                <block type="enterprise_customerbalance/adminhtml_customer_edit_tab_customerbalance_balance_grid" name="customer.balance.grid" as="grid"/>
+            </block>
+        </reference>
     </adminhtml_customer_edit>
+
 
     <adminhtml_customerbalance_form>
         <block type="core/text_list" name="root">
