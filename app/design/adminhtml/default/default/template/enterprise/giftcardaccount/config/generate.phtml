@@ -55,6 +55,17 @@ function redirectToGeneration()
     }
 }
 
+function disableGenerateButton()
+{
+    var elem = $('generateBtn<?php echo $_htmlId ?>');
+    elem.disabled = true;
+    elem.addClassName('disabled');    
+}
+
 Event.observe('generateBtn<?php echo $_htmlId ?>', 'click', redirectToGeneration)
+
+$('giftcardaccount_general').select('input', 'select').each(function(elem) {
+    Event.observe($(elem.id), 'change', disableGenerateButton);
+});
 //]]>
 </script>

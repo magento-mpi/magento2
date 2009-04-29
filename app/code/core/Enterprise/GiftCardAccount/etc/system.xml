@@ -42,7 +42,7 @@
             <sort_order>100</sort_order>
             <groups>
                 <email translate="label" module="enterprise_giftcardaccount">
-                    <label>Email</label>
+                    <label>Email sent from Gift Card Account management</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>100</sort_order>
                     <show_in_default>1</show_in_default>

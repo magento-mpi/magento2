@@ -100,11 +100,11 @@
 
         <template>
             <email>
-               <giftcard_general_template translate="label" module="enterprise_giftcard">
+               <giftcard_email_template translate="label" module="enterprise_giftcard">
                    <label>Gift Card Accounts Generated From Gift Card</label>
                    <file>enterprise/giftcard_generated.html</file>
                    <type>html</type>
-               </giftcard_general_template>
+               </giftcard_email_template>
             </email>
         </template>
 
@@ -217,14 +217,16 @@
     </adminhtml>
     <default>
         <giftcard>
+            <email>
+                <identity>general</identity>
+                <template>giftcard_email_template</template>
+            </email>
             <general>
                 <is_redeemable>1</is_redeemable>
                 <lifetime>0</lifetime>
                 <order_item_status>9</order_item_status>
                 <allow_message>1</allow_message>
                 <message_max_length>255</message_max_length>
-                <identity>general</identity>
-                <template>giftcard_general_template</template>
             </general>
         </giftcard>
     </default>

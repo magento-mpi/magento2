@@ -214,7 +214,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                         $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $item->getOrder()->getStoreId()));
                         $email->sendTransactional(
                             $item->getProductOptionByCode('giftcard_email_template'),
-                            Mage::getStoreConfig('giftcard/general/identity', $item->getOrder()->getStoreId()),
+                            Mage::getStoreConfig(Enterprise_GiftCard_Model_Giftcard::XML_PATH_EMAIL_IDENTITY, $item->getOrder()->getStoreId()),
                             $item->getProductOptionByCode('giftcard_recipient_email'),
                             $item->getProductOptionByCode('giftcard_recipient_name'),
                             $templateData
