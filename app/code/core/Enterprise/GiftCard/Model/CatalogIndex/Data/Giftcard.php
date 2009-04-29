@@ -54,7 +54,7 @@ class Enterprise_GiftCard_Model_CatalogIndex_Data_Giftcard extends Mage_CatalogI
      */
     public function getFinalPrice($product, $store, $group)
     {
-        $finalPrice = null;
+        $finalPrice = false;
         $allowOpen = $minAmount = 0;
 
         $minAmountId = Mage::getSingleton('eav/entity_attribute')->getIdByCode('catalog_product', 'open_amount_min');
@@ -83,7 +83,7 @@ class Enterprise_GiftCard_Model_CatalogIndex_Data_Giftcard extends Mage_CatalogI
         if (is_array($amounts) && $amounts) {
             sort($amounts);
             $minAvailableAmount = $amounts[0];
-            if (is_null($finalPrice)) {
+            if ($finalPrice === false) {
                 $finalPrice = $minAvailableAmount;
             } else {
                 $finalPrice = min($minAvailableAmount, $finalPrice);
