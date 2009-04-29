@@ -34,7 +34,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item extends Mage_Core_Model_Mysql
     /**
      * Before save processing
      *
-     * @param Varien_Object $object
+     * @param Mage_Core_Model_Abstract $object
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {

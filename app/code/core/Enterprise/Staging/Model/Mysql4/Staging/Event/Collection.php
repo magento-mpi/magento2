@@ -70,7 +70,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
 
         return $this;
     }
-        
+
     /**
      * Add merged staging filter into collection
      *
@@ -106,7 +106,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
      */
     public function addRollbackProcessingFilter()
     {
-        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::EVENT_ROLLBACK);        
+        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::EVENT_ROLLBACK);
         $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
 
         return $this;
@@ -119,13 +119,17 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
      */
     public function addMergeProcessingFilter()
     {
-        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::EVENT_MERGE);        
+        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::EVENT_MERGE);
         $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
 
         return $this;
     }
-    
-    
+
+    /**
+     * Enter description here...
+     *
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Event_Collection
+     */
     public function addStagingToCollection()
     {
         $this->getSelect()
@@ -138,11 +142,30 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
         return $this;
     }
 
+    /**
+     * Convert items array to array for select options
+     *
+     * array(
+     *      $index => array(
+     *          'value' => mixed
+     *          'label' => mixed
+     *      )
+     * )
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return parent::_toOptionArray('event_id', 'name');
     }
 
+    /**
+     * Convert items array to hash for select options
+     *
+     * array($value => $label)
+     *
+     * @return array
+     */
     public function toOptionHash()
     {
         return parent::_toOptionHash('event_id', 'name');

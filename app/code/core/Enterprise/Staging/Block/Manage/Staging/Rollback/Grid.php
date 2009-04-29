@@ -47,6 +47,8 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
 
     /**
      * PrepareCollection method.
+     *
+     * @return Enterprise_Staging_Block_Manage_Staging_Rollback_Grid
      */
     protected function _prepareCollection()
     {
@@ -73,6 +75,13 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
         return parent::_prepareCollection();
     }
 
+    /**
+     * Add items into collection object
+     *
+     * @param Varien_Data_Collection $collection
+     * @param Varien_Simplexml_Element $stagingItem
+     * @return Enterprise_Staging_Block_Manage_Staging_Rollback_Grid
+     */
     protected function _addStagingItemToCollection($collection, $stagingItem)
     {
         $extendInfo = $this->getExtendInfo();
@@ -130,7 +139,9 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
 
 
     /**
-     * Configuration of grid
+     * Configuration of grid columns
+     *
+     * @return Enterprise_Staging_Block_Manage_Staging_Rollback_Grid
      */
     protected function _prepareColumns()
     {

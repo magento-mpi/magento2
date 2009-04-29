@@ -26,5 +26,5 @@
 
 class Enterprise_Staging_Model_Staging_Type_Website extends Enterprise_Staging_Model_Staging_Type_Abstract
 {
-    
+
 }

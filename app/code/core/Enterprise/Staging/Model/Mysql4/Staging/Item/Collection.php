@@ -111,11 +111,30 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item_Collection extends Mage_Core_
         return false;
     }
 
+    /**
+     * Convert items array to array for select options
+     *
+     * array(
+     *      $index => array(
+     *          'value' => mixed
+     *          'label' => mixed
+     *      )
+     * )
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return parent::_toOptionArray('staging_item_id', 'name');
     }
 
+    /**
+     * Convert items array to hash for select options
+     *
+     * array($value => $label)
+     *
+     * @return array
+     */
     public function toOptionHash()
     {
         return parent::_toOptionHash('staging_item_id', 'name');

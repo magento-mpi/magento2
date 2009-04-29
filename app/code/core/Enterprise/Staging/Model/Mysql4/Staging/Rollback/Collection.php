@@ -75,7 +75,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection extends Mage_C
 
         return $this;
     }
-    
+
     public function addEventToCollection()
     {
         $this->getSelect()
@@ -91,12 +91,32 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection extends Mage_C
         );
 
         return $this;
-    }    
+    }
+
+    /**
+     * Convert items array to array for select options
+     *
+     * array(
+     *      $index => array(
+     *          'value' => mixed
+     *          'label' => mixed
+     *      )
+     * )
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return parent::_toOptionArray('rollback_id', 'name');
     }
 
+    /**
+     * Convert items array to hash for select options
+     *
+     * array($value => $label)
+     *
+     * @return array
+     */
     public function toOptionHash()
     {
         return parent::_toOptionHash('rollback_id', 'name');

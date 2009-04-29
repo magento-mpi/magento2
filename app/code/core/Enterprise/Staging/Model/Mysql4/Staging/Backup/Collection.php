@@ -117,11 +117,30 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection extends Mage_Cor
         return $this;
     }
 
+    /**
+     * Convert items array to array for select options
+     *
+     * array(
+     *      $index => array(
+     *          'value' => mixed
+     *          'label' => mixed
+     *      )
+     * )
+     *
+     * @return array
+     */
     public function toOptionArray()
     {
         return parent::_toOptionArray('backup_id', 'name');
     }
 
+    /**
+     * Convert items array to hash for select options
+     *
+     * array($value => $label)
+     *
+     * @return array
+     */
     public function toOptionHash()
     {
         return parent::_toOptionHash('backup_id', 'name');

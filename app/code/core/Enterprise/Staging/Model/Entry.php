@@ -117,14 +117,15 @@ class Enterprise_Staging_Model_Entry
     /**
      * Generate a base URL for a website like if it is staging
      *
-     * @param bool $secure
-     * @return string
+     * @param   Mage_Core_Model_Website $masterWebsite
+     * @param   bool $secure
+     * @return  string
      */
-    public function getBaseUrl($secure = false)
+    public function getBaseUrl($masterWebsite, $secure = false)
     {
         $this->_ensureWebsite();
         $this->getBaseFolder();
-        return Mage::getStoreConfig('web/' . ($secure ? '' : 'un') . 'secure/base_url', 0) . $this->_baseFolderName . '/' . $this->_website->getCode() . '/';
+        return $masterWebsite->getConfig('web/' . ($secure ? '' : 'un') . 'secure/base_url') . $this->_baseFolderName . '/' . $this->_website->getCode() . '/';
     }
 
     /**

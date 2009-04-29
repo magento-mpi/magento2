@@ -105,8 +105,8 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
         $unsecureBaseUrl = $stagingWebsite->getBaseUrl();
         $secureBaseUrl   = $stagingWebsite->getBaseSecureUrl();
         if ($entryPoint && $entryPoint->isAutomatic()) {
-            $unsecureBaseUrl = $entryPoint->getBaseUrl();
-            $secureBaseUrl   = $entryPoint->getBaseUrl(true);
+            $unsecureBaseUrl = $entryPoint->getBaseUrl($masterWebsite);
+            $secureBaseUrl   = $entryPoint->getBaseUrl($masterWebsite, true);
         }
 
         $unsecureBaseUrl = $this->_getIndexedUrl($unsecureBaseUrl);

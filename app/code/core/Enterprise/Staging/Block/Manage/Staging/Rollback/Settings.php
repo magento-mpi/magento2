@@ -38,14 +38,14 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings extends Mage_Adm
      * @var array
      */
 	private $_rollbackSettingsBlock = array();
-	
+
 	/**
 	 * rollback template
 	 *
 	 * @var string
 	 */
     private $_rollbackSettingsBlockDefaultTemplate = 'enterprise/staging/rollback/settings.phtml';
-    
+
     /**
      * rollback block types
      *

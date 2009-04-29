@@ -30,20 +30,34 @@ class Enterprise_Staging_Model_Mysql4_Staging_Collection extends Mage_Core_Model
     {
         $this->_init('enterprise_staging/staging');
     }
-    
+
+
     /**
-     * Set slave website filter into collection
+     * Convert items array to array for select options
      *
-     * @param   mixed   $slaveWebsiteId (if object must be implemented getId() method)
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Website_Collection
+     * array(
+     *      $index => array(
+     *          'value' => mixed
+     *          'label' => mixed
+     *      )
+     * )
+     *
+     * @return array
      */
-    public function addSlaveWebsiteFilter($slaveWebsiteId)
+    public function toOptionArray()
     {
-        if (is_object($slaveWebsiteId)) {
-            $slaveWebsiteId = $slaveWebsiteId->getId();
-        }
-        $this->addFieldToFilter('slave_website_id', (int) $slaveWebsiteId);
-        
-        return $this;
+        return parent::_toOptionArray('staging_id', 'name');
+    }
+
+    /**
+     * Convert items array to hash for select options
+     *
+     * array($value => $label)
+     *
+     * @return array
+     */
+    public function toOptionHash()
+    {
+        return parent::_toOptionHash('staging_id', 'name');
     }
 }

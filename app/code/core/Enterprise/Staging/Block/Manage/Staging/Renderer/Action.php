@@ -36,18 +36,18 @@ class Enterprise_Staging_Block_Manage_Staging_Renderer_Action extends Mage_Admin
         $href = $row->getData($this->getColumn()->getIndex());
         if ($this->getColumn()->getTitle()) {
             if ($this->getColumn()->getIndex() == $this->getColumn()->getTitle()) {
-                $title = $href;               
+                $title = $href;
             } else {
                 $title = $this->getColumn()->getTitle();
-            }	
+            }
         } else {
             $title = $this->__('click here');
         }
-        
+
         if ($this->getColumn()->getLength() && strlen($title) > $this->getColumn()->getLength()) {
-            $title = substr($title, 0, $this->getColumn()->getLength()) . '...';                         
+            $title = substr($title, 0, $this->getColumn()->getLength()) . '...';
         }
-        
+
         return '<a href="'.$href.'" target="_blank">'.$title.'</a>';
     }
 }
