@@ -207,19 +207,8 @@ class Enterprise_Staging_Model_Observer
             }
 
             $collection = Mage::getResourceModel('enterprise_staging/staging_collection')
-                ->addSlaveWebsiteFilter($websiteId);
+                ->addStagingWebsiteToFilter($_website->getId());
             foreach ($collection as $staging) {
-                $backupCollection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')
-                    ->setStagingFilter($staging->getId());
-
-                foreach ($backupCollection as $backup) {
-                    if ($backup->getId() > 0) {
-                        $backup->setStaging($staging);
-                        $backup->setIsDeleteTables(true);
-                        $backup->delete();
-                    }
-                }
-
                 Mage::dispatchEvent('enterprise_staging_controller_staging_delete', array('staging'=>$staging));
                 $staging->delete();
             }

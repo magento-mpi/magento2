@@ -921,10 +921,32 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             }
 
             if (isset($this->_flatTables[$table])) {
-                foreach (Mage::app()->getStores() as $store) {
-                    $_flatTable  = $this->getTableName('catalog/product_flat') . '_' . $store->getId();
-                    $targetTable = $this->_getTargetTableName($staging, $model, $_flatTable, $targetModel, $usedStorageMethod);
-                    $this->{$callbackMethod}($staging, $model, $_flatTable, $targetModel, $targetTable, $usedStorageMethod);
+                if ('category_flat' == $table) {
+                    if (!Mage::helper('catalog/category_flat')->isEnabled()) {
+                        //continue;
+                    }
+                    $flatModel = Mage::getResourceModel('catalog/category_flat');
+                    foreach (Mage::app()->getStores() as $store) {
+                        $flatTableName = $flatModel->getMainStoreTable($store->getId());
+                        if (!$this->tableExists($model, $flatTableName)) {
+                            $flatModel->createTable($store->getId());
+                        }
+                        $targetTable = $this->_getTargetTableName($staging, $model, $flatTableName, $targetModel, $usedStorageMethod);
+                        $this->{$callbackMethod}($staging, $model, $flatTableName, $targetModel, $targetTable, $usedStorageMethod);
+                    }
+
+                } else {
+                    if (!Mage::helper('catalog/product_flat')->isEnabled()) {
+                        //continue;
+                    }
+                    foreach (Mage::app()->getStores() as $store) {
+                        $flatModel = Mage::getSingleton('catalog/product_flat_indexer');
+                        $flatModel->prepareDataStorage($store->getId());
+                        $flatTableName  = $flatModel->getResource()->getFlatTableName($store->getId());
+
+                        $targetTable = $this->_getTargetTableName($staging, $model, $flatTableName, $targetModel, $usedStorageMethod);
+                        $this->{$callbackMethod}($staging, $model, $flatTableName, $targetModel, $targetTable, $usedStorageMethod);
+                    }
                 }
                 // ignore main flat type "prefix" table
                 continue;

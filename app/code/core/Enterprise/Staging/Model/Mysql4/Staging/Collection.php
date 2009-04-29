@@ -31,6 +31,21 @@ class Enterprise_Staging_Model_Mysql4_Staging_Collection extends Mage_Core_Model
         $this->_init('enterprise_staging/staging');
     }
 
+    /**
+     * Set staging website filter into collection
+     *
+     * @param   mixed   $stagingWebsiteId (if object must be implemented getId() method)
+     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Collection
+     */
+    public function addStagingWebsiteToFilter($stagingWebsiteId)
+    {
+        if (is_object($stagingWebsiteId)) {
+            $stagingWebsiteId = $stagingWebsiteId->getId();
+        }
+        $this->addFieldToFilter('staging_website_id', (int) $stagingWebsiteId);
+
+        return $this;
+    }
 
     /**
      * Convert items array to array for select options
