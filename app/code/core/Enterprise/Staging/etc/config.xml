@@ -281,7 +281,7 @@
 
                 <staging_items>
                     <system_config>
-                        <code>system_config</code>
+                        <code>config_data</code>
                         <model>core</model>
                         <label>System Configuration</label>
                         <adapter>enterprise_staging/staging_adapter_item_config</adapter>
@@ -297,15 +297,15 @@
                             <developer><path>dev</path></developer>
                         </ignore_nodes>
                     </system_config>
-                    <catalog_category>
-                        <code>catalog_category</code>
+                    <category>
+                        <code>category</code>
                         <module>Mage_Catalog</module>
                         <model>catalog</model>
                         <label>Catalog Categories</label>
                         <adapter>enterprise_staging/staging_adapter_item_category</adapter>
-                    </catalog_category>
-                    <catalog_product>
-                        <code>catalog_product</code>
+                    </category>
+                    <product>
+                        <code>product</code>
                         <module>Mage_Catalog</module>
                         <model>catalog</model>
                         <label>Catalog Products</label>
@@ -387,7 +387,7 @@
 		                        </entities>
                             </core_url_rewrite>
                         </extends>
-                    </catalog_product>
+                    </product>
                     <cms_page>
                         <code>cms_page</code>
                         <module>Mage_Cms</module>

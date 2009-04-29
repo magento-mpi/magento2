@@ -892,6 +892,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             $usedStorageMethod = Enterprise_Staging_Model_Staging_Config::getUsedStorageMethod();
         }
 
+        $code  = (string) $itemXmlConfig->code;
         $model  = (string) $itemXmlConfig->model;
         $tables = (array)  $itemXmlConfig->entities;
 
@@ -903,6 +904,9 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         foreach ($entityTables as $entityTableConfig) {
             $table = $entityTableConfig->getName();
 
+            if (strpos($table, $code) !== 0) {
+                continue;
+            }
             if ($tables) {
                 if (!array_key_exists($table, $tables)) {
                     continue;
