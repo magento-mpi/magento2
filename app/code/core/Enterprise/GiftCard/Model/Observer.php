@@ -138,17 +138,23 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
 
         foreach ($order->getAllItems() as $item) {
             if ($item->getProductType() == Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard::TYPE_GIFTCARD) {
-                if ($item->getStatusId() == $requiredStatus) {
-                    $qty = 0;
-                    switch ($requiredStatus) {
-                        case Mage_Sales_Model_Order_Item::STATUS_INVOICED:
-                            $qty = $item->getQtyInvoiced();
-                            break;
-                        default:
-                            $qty = $item->getQtyOrdered();
-                            break;
-                    }
+                $qty = 0;
+                switch ($requiredStatus) {
+                    case Mage_Sales_Model_Order_Item::STATUS_INVOICED:
+                        $qty = $item->getQtyInvoiced();
+                        break;
+                    default:
+                        $qty = $item->getQtyOrdered();
+                        break;
+                }
 
+                $options = $item->getProductOptions();
+                if (isset($options['giftcard_created_codes'])) {
+                    $qty -= count($options['giftcard_created_codes']);
+                }
+                $hasFailedCodes = false;
+
+                if ($qty > 0) {
                     $isRedeemable = 0;
                     if ($option = $item->getProductOptionByCode('giftcard_is_redeemable')) {
                         $isRedeemable = $option;
@@ -169,11 +175,6 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                         ->setIsRedeemable($isRedeemable)
                         ->setOrderItem($item);
 
-                    $options = $item->getProductOptions();
-                    if (isset($options['giftcard_created_codes'])) {
-                        $qty -= count($options['giftcard_created_codes']);
-                    }
-
                     $codes = (isset($options['giftcard_created_codes']) ? $options['giftcard_created_codes'] : array());
                     $goodCodes = 0;
                     for ($i = 0; $i < $qty; $i++) {
@@ -183,6 +184,7 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             $codes[] = $code->getCode();
                             $goodCodes++;
                         } catch (Mage_Core_Exception $e) {
+                            $hasFailedCodes = true;
                             $codes[] = null;
                         }
                     }
@@ -225,6 +227,12 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                     $options['giftcard_created_codes'] = $codes;
                     $item->setProductOptions($options);
                     $item->save();
+                }
+                if ($hasFailedCodes) {
+                    $url = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/giftcardaccount');
+                    $message = Mage::helper('enterprise_giftcard')->__('Some of Gift Card Accounts were not generated properly. You can create Gift Card Accounts manually <a href="%s">here</a>.', $url);
+
+                    Mage::getSingleton('adminhtml/session')->addError($message);
                 }
             }
         }

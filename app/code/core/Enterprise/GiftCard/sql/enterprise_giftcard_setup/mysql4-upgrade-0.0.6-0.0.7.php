@@ -30,14 +30,19 @@ $installer = $this;
 $installer->startSetup();
 
 $fieldList = array(
-    'weight',
+    'cost',
 );
 
-// make these attributes applicable to gift card products
+// make these attributes not applicable to gift card products
 foreach ($fieldList as $field) {
     $applyTo = split(',', $installer->getAttribute('catalog_product', $field, 'apply_to'));
-    if (!in_array('giftcard', $applyTo)) {
-        $applyTo[] = 'giftcard';
+    if (in_array('giftcard', $applyTo)) {
+        foreach ($applyTo as $k=>$v) {
+            if ($v == 'giftcard') {
+                unset($applyTo[$k]);
+                break;
+            }
+        }
         $installer->updateAttribute('catalog_product', $field, 'apply_to', join(',', $applyTo));
     }
 }
