@@ -929,7 +929,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
             if (isset($this->_flatTables[$table])) {
                 if ('category_flat' == $table) {
                     if (!Mage::helper('catalog/category_flat')->isEnabled()) {
-                        //continue;
+                        continue;
                     }
                     $flatModel = Mage::getResourceModel('catalog/category_flat');
                     foreach (Mage::app()->getStores() as $store) {
@@ -943,7 +943,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
 
                 } else {
                     if (!Mage::helper('catalog/product_flat')->isEnabled()) {
-                        //continue;
+                        continue;
                     }
                     foreach (Mage::app()->getStores() as $store) {
                         $flatModel = Mage::getSingleton('catalog/product_flat_indexer');
