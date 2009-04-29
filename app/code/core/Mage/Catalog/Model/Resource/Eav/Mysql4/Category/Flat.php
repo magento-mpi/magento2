@@ -432,6 +432,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     }
 
     /**
+     * Create Flate Table(s)
+     *
+     * @param array|int $stores
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
+     */
+    public function createTable($stores)
+    {
+        return $this->_createTable($stores);
+    }
+
+    /**
      * Creating table and adding attributes as fields to table
      *
      * @param array|integer $stores
