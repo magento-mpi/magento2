@@ -29,6 +29,7 @@
 <?php $items            = $staging->getItemsCollection(); ?>
 <?php $masterWebsites   = $this->getWebsiteCollection(); ?>
 <?php $stagingWebsites  = $this->getStagingWebsiteCollection(); ?>
+<?php $stagingWebsite   = $staging->getStagingWebsite(); ?>
 <div>
     <h3 class="icon-head head-categories"><?php echo $staging->getName(); ?></h3>
 </div>
@@ -126,12 +127,8 @@
         <tbody id="<?php echo $this->getId() ?>_rows">
             <tr id="<?php echo $this->getId() ?>_website_template" style="display: none;">
                 <td class="mapper-name"><?php echo $this->__('Staging Website: '); ?>&nbsp;&nbsp;&nbsp;
-                    <select name="map[websites][from][]" class="validate-select-website staging-mapper-website-from">
-                        <option value=""><?php echo $this->__('Select website from map'); ?></option>
-                    <?php foreach ($stagingWebsites as $stagingWebsite): ?>
-                        <option selected="selected" value="<?php echo $stagingWebsite->getId(); ?>"><?php echo $stagingWebsite->getName(); ?></option>
-                    <?php endforeach; ?>
-                    </select>
+                    <input type="hidden" name="map[websites][from][]" class="validate-select-website staging-mapper-website-from" value="<?php echo $stagingWebsite->getId(); ?>" />
+                    <span><?php echo $stagingWebsite->getName(); ?></span>
                 </td>
                 <td class="mapper-select"><?php echo $this->__('Website: '); ?>&nbsp;&nbsp;&nbsp;
                     <select name="map[websites][to][]" class="validate-select-website staging-mapper-website-to">
@@ -141,9 +138,7 @@
                     <?php endforeach; ?>
                     </select>
                 </td>
-                <td>
-                    <button class="button" onclick="<?php echo $this->getJsObjectName() ?>.removeWebsiteMap(this); return false;"><span><?php echo $this->__('Remove'); ?></span></button>
-                </td>
+                <td>&nbsp;</td>
             </tr>
             <tr id="<?php echo $this->getId() ?>_store_template" style="display: none;">
                 <td class="mapper-name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->__('Staging Store: '); ?>&nbsp;&nbsp;&nbsp;
@@ -162,14 +157,6 @@
                 </td>
             </tr>
         </tbody>
-        <tfoot>
-            <tr class="staging-mapper-add-website-row">
-                <td></td>
-                <td align="right" colspan="2">
-                    <button class="staging-mapper-add-website-btn button"" onclick="<?php echo $this->getJsObjectName() ?>.addWebsiteMap(); return false;"><span><?php echo $this->__('Add new website map'); ?></span></button>
-                </td>
-            </tr>
-        </tfoot>
     </table>
     </div>
 </div>
@@ -239,4 +226,6 @@ Validation.addAllThese([
 
 
 //]]>
+
+<?php echo $this->getJsObjectName() ?>.addWebsiteMap();
 </script>
