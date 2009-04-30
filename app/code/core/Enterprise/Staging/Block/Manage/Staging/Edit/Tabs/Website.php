@@ -204,9 +204,9 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             $fieldset->addField('staging_website_master_login_'.$_id, 'text',
                 array(
                     'label'    => $this->helper->__('HTTP Login'),
-                    'class'    => 'input-text required-entry validate-login',
+                    //'class'    => 'input-text required-entry validate-login',
                     'name'     => "websites[{$_id}][master_login]",
-                    'required' => true,
+                    'required' => false,
                     'value'    => $stagingWebsite ? $stagingWebsite->getMasterLogin() : ''
                 )
             );
@@ -214,9 +214,9 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             $fieldset->addField('staging_website_master_password_'.$_id, 'text',
                 array(
                     'label'    => $this->helper->__('HTTP Password'),
-                    'class'    => 'input-text required-entry validate-password',
+                    //'class'    => 'input-text required-entry validate-password',
                     'name'     => "websites[{$_id}][master_password]",
-                    'required' => true,
+                    'required' => false,
                     'value'    => $stagingWebsite ? Mage::helper('core')->decrypt($stagingWebsite->getMasterPassword()) : ''
                 )
             );

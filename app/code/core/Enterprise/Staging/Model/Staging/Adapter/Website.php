@@ -49,15 +49,15 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $stagingWebsite->setData('base_secure_url', $website->getBaseSecureUrl());
 
             $stagingWebsite->setData('visibility', $website->getVisibility());
-            $stagingWebsite->setData('master_login', $website->getMasterLogin());
 
+            $stagingWebsite->setData('master_login', $website->getMasterLogin());
             $password = trim($website->getMasterPassword());
             if ($password) {
                  if(Mage::helper('core/string')->strlen($password)<6){
                     Mage::throwException(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
                 }
+                $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
             }
-            $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
 
             if (!$stagingWebsite->getId()) {
                 $value = Mage::getModel('core/date')->gmtDate();
