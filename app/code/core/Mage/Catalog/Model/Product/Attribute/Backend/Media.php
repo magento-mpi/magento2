@@ -217,7 +217,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
     {
         $file = realpath($file);
 
-        if (!$file) {
+        if (!$file || !file_exists($file)) {
             Mage::throwException(Mage::helper('catalog')->__('Image not exists'));
         }
         $pathinfo = pathinfo($file);
