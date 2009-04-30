@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Logging>
-            <version>0.1.4</version>
+            <version>0.1.5</version>
         </Enterprise_Logging>
     </modules>
     <global>
@@ -288,6 +288,10 @@
                 <taxrules>1</taxrules>
                 <taxrates>1</taxrates>
                 <adminlogging>1</adminlogging>
+                <newsletterqueue>1</newsletterqueue>
+                <newslettertemplate>1</newslettertemplate>
+                <newslettersubscriber>1</newslettersubscriber>
+                <newsletterproblem>1</newsletterproblem>
             </logsenabled>
         </admin>
         <system>
