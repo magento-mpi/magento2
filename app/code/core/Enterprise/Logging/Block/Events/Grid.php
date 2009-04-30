@@ -130,7 +130,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
             'index'     => 'info',
             'type'      => 'text',
             'sortable'  => false,
-            'filter'    => false
+            'filter'    => 'adminhtml/widget_grid_column_filter_text'
         ));
 
         $this->addExportType('*/*/exportCsv', Mage::helper('enterprise_logging')->__('CSV'));
