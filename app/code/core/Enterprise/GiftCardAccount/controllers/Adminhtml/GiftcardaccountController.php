@@ -112,11 +112,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 // save the data
                 $model->save();
 
-                // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully saved'));
-                // clear previously saved data from session
-                Mage::getSingleton('adminhtml/session')->setFormData(false);
-
+                $sending = null;
                 if (isset($data['send'])) {
                     if (isset($data['send']['action']) && $data['send']['action']) {
                         try {
@@ -128,12 +124,25 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                             $model->setRecipientEmail($email)
                                 ->setRecipientName($name)
                                 ->sendEmail();
-                            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully sent'));
+                            $sending = $model->getEmailSent();
                         } catch (Exception $e) {
-                            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account could not be sent'));
+                            $sending = false;
                         }
                     }
                 }
+                
+                if (!is_null($sending)) {
+                    if ($sending) {
+                        Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully saved & sent'));
+                    } else {
+                        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully saved, but email was not sent'));
+                    }
+                } else {
+                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully saved'));
+                }
+
+                // clear previously saved data from session
+                Mage::getSingleton('adminhtml/session')->setFormData(false);
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {

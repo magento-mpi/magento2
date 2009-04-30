@@ -34,7 +34,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
         parent::__construct();
         $this->setId('historyGrid');
         $this->setUseAjax(true);
-        $this->setDefaultSort('updated_at');
+        $this->setDefaultSort('id');
     }
 
     protected function _prepareCollection()
@@ -49,6 +49,13 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
 
     protected function _prepareColumns()
     {
+        $this->addColumn('id', array(
+            'header'    => Mage::helper('enterprise_giftcardaccount')->__('ID'),
+            'index'     => 'history_id',
+            'type'      => 'int',
+            'width'     => 50,
+        ));
+
         $this->addColumn('updated_at', array(
             'header'    => Mage::helper('enterprise_giftcardaccount')->__('Date'),
             'index'     => 'updated_at',

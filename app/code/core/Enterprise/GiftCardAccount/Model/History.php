@@ -56,6 +56,11 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
         if ($this->getGiftcardaccount()->getOrder()) {
             $orderId = $this->getGiftcardaccount()->getOrder()->getIncrementId();
             return Mage::helper('enterprise_giftcardaccount')->__('Order #%s.', $orderId);
+        } else if ($user = Mage::getSingleton('admin/session')->getUser()) {
+            $username = $user->getUsername();
+            if ($username) {
+                return Mage::helper('enterprise_giftcardaccount')->__('By admin: %s.', $username);
+            }
         }
 
         return '';
@@ -77,16 +82,37 @@ class Enterprise_GiftCardAccount_Model_History extends Mage_Core_Model_Abstract
         if ($name = $this->getGiftcardaccount()->getRecipientName()) {
             $recipient = "{$name} <{$recipient}>";
         }
-        return Mage::helper('enterprise_giftcardaccount')->__('Recipient: %s.', $recipient);;
+
+        $sender = '';
+        if ($user = Mage::getSingleton('admin/session')->getUser()) {
+            if ($user->getUsername()) {
+                $sender = $user->getUsername();
+            }
+        }
+
+        if ($sender) {
+            return Mage::helper('enterprise_giftcardaccount')->__('Recipient: %s. By admin: %s.', $recipient, $sender);
+        } else {
+            return Mage::helper('enterprise_giftcardaccount')->__('Recipient: %s.', $recipient);
+        }
     }
 
     protected function _getRedeemedAdditionalInfo()
     {
+        if ($customerId = $this->getGiftcardaccount()->getCustomerId()) {
+            return Mage::helper('enterprise_giftcardaccount')->__('Customer #%s.', $customerId);
+        }
         return '';
     }
 
     protected function _getUpdatedAdditionalInfo()
     {
+        if ($user = Mage::getSingleton('admin/session')->getUser()) {
+            $username = $user->getUsername();
+            if ($username) {
+                return Mage::helper('enterprise_giftcardaccount')->__('By admin: %s.', $username);
+            }
+        }
         return '';
     }
 

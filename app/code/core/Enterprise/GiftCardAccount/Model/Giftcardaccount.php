@@ -389,16 +389,21 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Invalid customer ID supplied.'));
             }
 
+            $additionalInfo = Mage::helper('enterprise_giftcardaccount')
+                ->__('Gift Card Redeemed: %s. For customer #%s.', $this->getCode(), $customerId);
+
             $balance = Mage::getModel('enterprise_customerbalance/balance')
                 ->setCustomerId($customerId)
                 ->setWebsiteId(Mage::app()->getWebsite()->getId())
                 ->setAmountDelta($this->getBalance())
                 ->setNotifyByEmail(false)
+                ->setUpdatedActionAdditionalInfo($additionalInfo)
                 ->save();
 
             $this->setBalanceDelta(-$this->getBalance())
                 ->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_REDEEMED)
                 ->setBalance(0)
+                ->setCustomerId($customerId)
                 ->save();
         }
 
@@ -427,8 +432,10 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             array('name'=>$name, 'code'=>$code, 'balance'=>$balance)
         );
 
+        $this->setEmailSent(false);
         if ($email->getSentSuccess()) {
-            $this->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_SENT)
+            $this->setEmailSent(true)
+                ->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_SENT)
                 ->save();
         }
     }

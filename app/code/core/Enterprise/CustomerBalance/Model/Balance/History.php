@@ -65,6 +65,15 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
             case self::ACTION_CREATED:
                 // break intentionally omitted
             case self::ACTION_UPDATED:
+                if (!$balance->getUpdatedActionAdditionalInfo()) {
+                    if ($user = Mage::getSingleton('admin/session')->getUser()) {
+                        if ($user->getUsername()) {
+                            $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('By admin: %s.', $user->getUsername()));
+                        }
+                    }
+                } else {
+                    $this->setAdditionalInfo($balance->getUpdatedActionAdditionalInfo());
+                }
                 break;
             case self::ACTION_USED:
                 $this->_checkBalanceModelOrder($balance);
