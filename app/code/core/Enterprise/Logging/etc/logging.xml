@@ -540,6 +540,7 @@
       <event>giftaccount</event>
       <action>save</action>
       <model>Enterprise_GiftCardAccount_Model_Giftcardaccount</model>
+      <allow-multiply-models>1</allow-multiply-models>
     </giftcardaccount_save>
 
     <giftcardaccount_delete>
@@ -863,6 +864,47 @@
       <action>view</action>
       <handler>viewadminlogs</handler>
     </events_index>
+
+    <newsletter_queue_edit>
+      <event>newsletterqueue</event>
+      <action>view</action>
+    </newsletter_queue_edit>
+
+    <newsletter_queue_save>
+      <event>newsletterqueue</event>
+      <action>save</action>
+      <model>Mage_Newsletter_Model_Queue</model>
+    </newsletter_queue_save>
+    
+    <newsletter_template_toqueue>
+      <event>newsletterqueue</event>
+      <action>save</action>
+      <model>Mage_Newsletter_Model_Queue</model>
+      <force-skip>1</force-skip>
+      <skip-on-back>newsletter_queue_edit</skip-on-back>
+    </newsletter_template_toqueue>
+
+    <newsletter_template_save>
+      <event>newslettertemplate</event>
+      <action>save</action>
+      <model>Mage_Newsletter_Model_Template</model>
+    </newsletter_template_save>
+
+    <newsletter_template_edit>
+      <event>newslettertemplate</event>
+      <action>view</action>
+    </newsletter_template_edit>
+
+    <newsletter_template_delete>
+      <event>newslettertemplate</event>
+      <action>delete</action>
+    </newsletter_template_delete>
+
+    <newsletter_subscriber_massUnsubscribe>
+      <event>newslettersubscriber</event>
+      <action>unsubscribe</action>
+      <handler>getnewsletterunsubscribeaction</handler>
+    </newsletter_subscriber_massUnsubscribe>
   </actions>
 
     <labels>
@@ -907,6 +949,11 @@
         <producttaxclasses> Product tax class</producttaxclasses>
         <taxrules> Tax rules</taxrules>
         <taxrates> Tax rates</taxrates>
+        <newsletterqueue>Newsletters Queue</newsletterqueue>
+        <newslettertemplate>Newsletters Templates</newslettertemplate>
+        <newslettersubscriber>Newsletters Subscribers</newslettersubscriber>
+        <newsletterproblem>Newsletters Problem</newsletterproblem>
+
     </list>
     </labels>
 </logging>
