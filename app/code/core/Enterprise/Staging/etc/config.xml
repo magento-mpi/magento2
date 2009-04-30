@@ -280,7 +280,7 @@
                 </type>
 
                 <staging_items>
-                    <system_config>
+                    <config_data>
                         <code>config_data</code>
                         <model>core</model>
                         <label>System Configuration</label>
@@ -296,7 +296,7 @@
                             <google_api><path>google</path></google_api>
                             <developer><path>dev</path></developer>
                         </ignore_nodes>
-                    </system_config>
+                    </config_data>
                     <category>
                         <code>category</code>
                         <module>Mage_Catalog</module>
@@ -363,7 +363,6 @@
 		                        <is_extend>1</is_extend>
 		                        <label>Catalog Index</label>
 		                        <adapter>enterprise_staging/staging_adapter_item_catalogindex</adapter>
-		                        <use_storage_method>table_prefix</use_storage_method>
 		                    </catalogindex>
 		                    <catalogsearch>
 		                        <code>catalogsearch</code>
@@ -373,12 +372,12 @@
 		                        <is_extend>1</is_extend>
 		                        <label>Catalog Search</label>
 		                        <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
-		                        <use_storage_method>table_prefix</use_storage_method>
 		                    </catalogsearch>
 		                    <core_url_rewrite>
                                 <code>core_url_rewrite</code>
                                 <module>Mage_Core</module>
                                 <model>core</model>
+                                <is_backend>1</is_backend>
                                 <is_extend>1</is_extend>
                                 <label>URL Rewrites</label>
                                 <adapter>enterprise_staging/staging_adapter_item_urlrewrite</adapter>

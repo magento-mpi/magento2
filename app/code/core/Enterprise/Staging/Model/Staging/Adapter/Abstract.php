@@ -87,10 +87,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * @var mixed
      */
     protected $_eavModels = array(
-       'product'            => 'catalog',
-       'category'           => 'catalog',
-       'customer'           => 'customer',
-       'customer_address'   => 'customer',
+        'catalog/product'           => 'catalog',
+        'catalog/category'          => 'catalog',
+        'sales/order'               => 'sales',
+        'sales/order_entity'        => 'sales',
+        'customer/entity'           => 'customer',
+        'customer/address_entity'   => 'customer',
     );
 
     /**
@@ -306,19 +308,18 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     /**
      * Create table
      *
-     * @param string $targetTable
-     * @param string $targetModel
-     * @param string $srcModel
+     * @param string $model
      * @param array $srcTableDescription
+     * @param string $targetTable
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    public function createTable($targetTable, $targetModel, $srcModel, $srcTableDescription)
+    public function createTable($model, $srcTableDescription, $targetTable)
     {
-        $connection = $this->getConnection($targetModel);
+        $connection = $this->getConnection();
 
         $srcTableDescription['table_name'] = $targetTable;
 
-        $sql = $this->_getCreateSql($srcModel, $srcTableDescription);
+        $sql = $this->_getCreateSql($srcTableDescription, null);
 
         $connection->query($sql);
 
@@ -328,16 +329,15 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     /**
      * Check table for existing and create it if not
      *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @param string    $targetModel
-     * @param string    $targetTable
+     * @param string    $model
      * @param array     $srcTableDesc
+     * @param string    $targetTable
      * @param string    $prefix
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    protected function _checkCreateTable($staging, $targetModel, $targetTable, $srcTableDesc, $prefix)
+    protected function _checkCreateTable($model, $srcTableDesc, $targetTable, $prefix)
     {
-        $targetTableDesc = $this->getTableProperties($targetModel, $targetTable);
+        $targetTableDesc = $this->getTableProperties($targetTable);
         if (!$targetTableDesc) {
             $srcTableDesc['table_name'] = $targetTable;
             if (!empty($srcTableDesc['constraints'])) {
@@ -345,7 +345,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
                     $srcTableDesc['constraints'][$constraint]['fk_name'] = $prefix . $data['fk_name'];
                 }
             }
-            $sql = $this->_getCreateSql($targetModel, $srcTableDesc, $staging);
+            $sql = $this->_getCreateSql($srcTableDesc);
 
             $this->getConnection()->query($sql);
         }
@@ -357,10 +357,9 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      *
      * @param string $model
      * @param mixed $tableDescription
-     * @param Enterprise_Staging_Model_Staging $staging
      * @return string
      */
-    protected function _getCreateSql($model, $tableDescription, $staging= null)
+    protected function _getCreateSql($tableDescription)
     {
         $_sql = "CREATE TABLE IF NOT EXISTS `{$tableDescription['table_name']}`\n";
 
@@ -372,10 +371,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
         }
 
         foreach ($tableDescription['keys'] as $key) {
-            $rows[] = $this->_getKeySql($key, $staging);
+            $rows[] = $this->_getKeySql($key);
         }
         foreach ($tableDescription['constraints'] as $key) {
-            $rows[] = $this->_getConstraintSql($key, $model, $staging);
+            $rows[] = $this->_getConstraintSql($key);
         }
         $rows = implode(",\n", $rows);
         $_sql .= " ({$rows})";
@@ -397,10 +396,9 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * get sql fields list
      *
      * @param mixed $field
-     * @param Enterprise_Staging_Model_Staging $staging
      * @return string
      */
-    protected function _getFieldSql($field, $staging= null)
+    protected function _getFieldSql($field)
     {
         $_fieldSql = "`{$field['name']}` {$field['type']} {$field['extra']}";
 
@@ -432,10 +430,9 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * get sql keys list
      *
      * @param mixed $key
-     * @param Enterprise_Staging_Model_Staging $staging
      * @return string
      */
-    protected function _getKeySql($key, $staging = null)
+    protected function _getKeySql($key)
     {
         $_keySql = "";
         switch ((string) $key['type']) {
@@ -466,13 +463,11 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * get sql FOREIGN KEY list
      *
      * @param mixed $key
-     * @param string $model
-     * @param Enterprise_Staging_Model_Staging $staging
      * @return string
      */
-    protected function _getConstraintSql($key, $model, $staging = null)
+    protected function _getConstraintSql($key)
     {
-        $targetRefTable = $this->getStagingTableName($staging, $model, $key['ref_table']);
+        $targetRefTable = $this->getStagingTableName('enterprise_staging', $key['ref_table']);
 
         if ($targetRefTable) {
             $_refTable = "`$targetRefTable`";
@@ -494,9 +489,10 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
             $onUpdate .= "ON UPDATE {$key['on_update']}";
         }
 
-        $prefix = 'S_';
-        if ($staging) {
-            $prefix = strtoupper($staging->getTablePrefix());
+        if ($this->getStaging()) {
+            $prefix = strtoupper($this->getStaging()->getTablePrefix());
+        } else {
+            $prefix = 'S_';
         }
 
         $_keySql = " CONSTRAINT `{$prefix}{$key['fk_name']}` FOREIGN KEY (`{$key['pri_field']}`) REFERENCES {$_refTable} (`{$key['ref_field']}`) {$onDelete} {$onUpdate}";
@@ -507,14 +503,13 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     /**
      * Return Staging table name with all prefixes
      *
-     * @param Enterprise_Staging_Model_Staging $staging
      * @param string $model
      * @param string $table
      * @param string $internalPrefix
      * @param bool $ignoreIsStaging
      * @return string
      */
-    public function getStagingTableName($staging = null, $model, $table, $internalPrefix = '', $ignoreIsStaging = false)
+    public function getStagingTableName($model, $table, $internalPrefix = '', $ignoreIsStaging = false)
     {
         if (!$ignoreIsStaging) {
             if (!$this->isStagingItem($model, $table)) {
@@ -522,7 +517,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
             }
         }
 
-        $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging, $internalPrefix);
+        $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($this->getStaging(), $internalPrefix);
 
         return $tablePrefix . $table;
     }
@@ -531,11 +526,12 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
      * Retrieve table properties as array
      * fields, keys, constraints, engine, charset, create
      *
-     * @param string $model
      * @param string $table
+     * @param string $model
+     * @param bool   $strongRestrict
      * @return array
      */
-    public function getTableProperties($model, $table, $strongRestrict = false)
+    public function getTableProperties($table, $model = 'enterprise_staging', $strongRestrict = false)
     {
         if (!$this->tableExists($model, $table)) {
             if ($strongRestrict) {
@@ -797,15 +793,8 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
             return false;
         }
 
-        $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
-
-        if (!is_null($table)) {
-            if (isset($this->_eavModels[$table])) {
-                $model = $this->_eavModels[$table];
-            }
-        }
-
-        $stagingItem = $stagingItems->{$model};
+        $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
+        $stagingItem    = $stagingItems->{$model};
 
         if (!(int)$stagingItem->use_table_prefix) {
             return false;

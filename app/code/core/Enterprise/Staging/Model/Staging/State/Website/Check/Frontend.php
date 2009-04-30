@@ -44,6 +44,9 @@ class Enterprise_Staging_Model_Staging_State_Website_Check_Frontend extends Ente
             if (!$stagingItem->is_backend) {
                 continue;
             }
+            if ((string)$stagingItem->use_storage_method !== 'table_prefix') {
+                continue;
+            }
 
             $adapter = $this->getItemAdapterInstanse($stagingItem);
             $adapter->checkFrontend($staging);
@@ -51,6 +54,9 @@ class Enterprise_Staging_Model_Staging_State_Website_Check_Frontend extends Ente
             if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
                 foreach ($stagingItem->extends->children() AS $extendItem) {
                     if (!$extendItem->is_backend) {
+                        continue;
+                    }
+                    if ((string)$extendItem->use_storage_method !== 'table_prefix') {
                         continue;
                     }
                     $adapter = $this->getItemAdapterInstanse($extendItem);
