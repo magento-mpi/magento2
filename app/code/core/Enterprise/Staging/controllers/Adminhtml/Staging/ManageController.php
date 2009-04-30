@@ -248,9 +248,12 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $isNew      = !$staging->getId();
             try {
                 $staging->save();
+
+                $staging->getMapperInstance()->setCreateMapData($data);
                 if ($isNew) {
-                    $staging->getMapperInstance()->setCreateMapData($data);
                     $staging->create();
+                } else {
+                    $staging->update();
                 }
                 $this->_getSession()->addSuccess($this->__('Staging website successfully saved.'));
                 $stagingId = $staging->getId();

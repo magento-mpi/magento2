@@ -92,6 +92,45 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
     }
 
     /**
+     *
+     *
+     * @return Enterprise_Staging_Model_Staging_Adapter_Website
+     */
+    public function update(Enterprise_Staging_Model_Staging $staging)
+    {
+        $mapper     = $staging->getMapperInstance();
+        $websites   = $mapper->getWebsites();
+
+        foreach ($websites as $website) {
+            $masterWebsiteId = $website->getMasterWebsiteId();
+
+            $stagingWebsiteId = $website->getStagingWebsiteId();
+            if ($stagingWebsiteId) {
+                $stagingWebsite = Mage::app()->getWebsite($stagingWebsiteId);
+            }
+            if (!$stagingWebsite->getId() || !$stagingWebsite->getIsStaging()) {
+                continue;
+            }
+
+            $stagingWebsite->setData('visibility', $website->getVisibility());
+
+            $stagingWebsite->setData('master_login', $website->getMasterLogin());
+            $password = trim($website->getMasterPassword());
+            if ($password) {
+                 if(Mage::helper('core/string')->strlen($password)<6){
+                    Mage::throwException(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                }
+                $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
+            }
+
+            $stagingWebsite->save();
+
+            break;
+        }
+        return $this;
+    }
+
+    /**
      * Save system config resource model
      *
      * @param Enterprise_Staging_Model_Staging  $staging

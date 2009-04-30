@@ -142,6 +142,20 @@
                                     <next>0</next>
                                 </check>
                             </create>
+                            <update>
+                                <update>
+                                    <code>update</code>
+                                    <label>Staging Website Update</label>
+                                    <status>
+                                        <new translate="label"><label>Staging Website Created</label></new>
+                                        <processing translate="label"><label>Staging Website creating in progress</label></processing>
+                                        <complete translate="label"><label>Staging Website create successfuly complete</label></complete>
+                                        <holded translate="label"><label>Staging Website create scheduled</label></holded>
+                                    </status>
+                                    <model>enterprise_staging/staging_state_website_update</model>
+                                    <next>0</next>
+                                </update>
+                            </update>
                             <backup>
                                 <prepare>
                                     <code>prepare</code>

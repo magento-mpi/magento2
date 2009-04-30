@@ -224,6 +224,21 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Update staging
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
+    public function update()
+    {
+        $scenario = Mage::getModel('enterprise_staging/staging_scenario');
+        $scenario->setStaging($this);
+        $scenario->init('update', 'update');
+        $scenario->run();
+
+        return $this;
+    }
+
+    /**
      * Merge Staging
      *
      * @return Enterprise_Staging_Model_Staging

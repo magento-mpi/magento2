@@ -155,6 +155,17 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     }
 
     /**
+     * Update item method
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
+    public function update(Enterprise_Staging_Model_Staging $staging)
+    {
+        return $this;
+    }
+
+    /**
      * Make staging content merge
      *
      * @param Enterprise_Staging_Model_Staging $staging
