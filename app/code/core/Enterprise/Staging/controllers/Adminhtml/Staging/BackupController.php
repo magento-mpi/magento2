@@ -81,7 +81,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('enterprise/staging');
+        $this->_setActiveMenu('system/enterprise_staging');
 
         $this->renderLayout();
     }
@@ -105,7 +105,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('enterprise/staging');
+        $this->_setActiveMenu('system/enterprise_staging');
         $this->renderLayout();
     }
 
@@ -208,7 +208,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('enterprise/staging');
+        $this->_setActiveMenu('system/enterprise_staging');
 
         $this->renderLayout();
     }

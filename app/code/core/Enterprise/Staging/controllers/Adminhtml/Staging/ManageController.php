@@ -100,6 +100,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function indexAction()
     {
         $this->loadLayout();
+        $this->_setActiveMenu('system/enterprise_staging');
         $this->renderLayout();
     }
 
@@ -139,7 +140,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             'staging_'.$staging->getType() . $_additionalLayoutPart
         ));
 
-        $this->_setActiveMenu('enterprise_staging');
+        $this->_setActiveMenu('system/enterprise_staging');
 
         $this->renderLayout();
     }
@@ -171,6 +172,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             return $this;
         }
         $this->loadLayout();
+        $this->_setActiveMenu('system/enterprise_staging');
         $this->renderLayout();
     }
 
@@ -322,7 +324,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         $this->loadLayout();
 
-        $this->_setActiveMenu('enterprise/staging');
+        $this->_setActiveMenu('system/enterprise_staging');
 
         $this->renderLayout();
     }
