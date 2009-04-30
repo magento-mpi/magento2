@@ -43,8 +43,8 @@
             <?php endif ?>
             </h3>
         <?php else: ?>
-            <?php echo $this->__('My Cart') ?>
-        <?php endif ?>
+            <h3 id="cartHeader"><?php echo $this->__('My Cart') ?> (<strong>0</strong>)</h3>
+        <?php endif ?>       
     </div>
     <div id="topCartContent" class="block-content" style="display:none">
         <div class="inner-wrapper"><?php // extra div to smooth slideUp and slideDown ?>
@@ -61,7 +61,13 @@
             </ol>
             <script type="text/javascript">decorateList('cart-sidebar', 'none-recursive')</script>
         <?php else: ?>
-            <p><?php echo $this->__('You have no items in your shopping cart.') ?></p>
+            <h3>
+                <span onclick="Enterprise.TopCart.hideCart()" class="close-btn"><?php echo $this->__('Close'); ?></span>
+                <?php echo $this->__('Recently added item(s)') ?>
+            </h3>        
+            <p class="cart-empty">
+                <?php echo $this->__('You have no items in your shopping cart.') ?>
+            </p>
         <?php endif ?>
         <?php if($_cartQty && $this->isPossibleOnepageCheckout()): ?>
             <p class="subtotal">
@@ -75,10 +81,16 @@
         </div>
     </div>
 </div>
-<?php if(count($_items)): ?>
+<?php /* if(count($_items)): ?>
 <script type="text/javascript">
     Enterprise.TopCart.initialize('topCartContent');
     // Below can be used to show minicart after item added
     // Enterprise.TopCart.showCart(7);
 </script>
-<?php endif; ?>
+<?php endif;  */?>
+<script type="text/javascript">
+    Enterprise.TopCart.initialize('topCartContent');
+    // Below can be used to show minicart after item added
+    // Enterprise.TopCart.showCart(7);
+</script>
+
