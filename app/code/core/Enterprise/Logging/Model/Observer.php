@@ -585,6 +585,22 @@ class Enterprise_Logging_Model_Observer
         );
     }
 
+    /**
+     * special handler for newsletterunsubscribe
+     */
+    public function getNewsletterUnsubscribeAction($config, $success) {
+        $code = $config['event'];
+        $act = $config['action'];
+
+        $id = Mage::app()->getRequest()->getParam('subscriber');
+        if (is_array($id))
+            $id = implode(", ", $id);
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => $id,
+        );
+    }
 
     /**
      * Store event after success login. Event throwed by Admin/Model/Session
