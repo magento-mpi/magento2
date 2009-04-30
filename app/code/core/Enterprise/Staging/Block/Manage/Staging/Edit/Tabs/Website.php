@@ -197,7 +197,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                 'label'     => $this->helper->__('Frontend restriction'),
                 'title'     => $this->helper->__('Frontend restriction'),
                 'name'      => "websites[{$_id}][visibility]",
-                'value'     => Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH,
+                'value'     => $stagingWebsite ? $stagingWebsite->getVisibility() : Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH,
                 'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('visibility')
             ));
 
