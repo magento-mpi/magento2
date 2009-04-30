@@ -81,7 +81,7 @@ class Mage_AdminNotification_Model_Feed extends Mage_Core_Model_Abstract
         $feedData = array();
 
         $feedXml = $this->getFeedData();
-        if ($feedXml && $feedXml->channel && $feedXml->channel->item) {
+        if ($feedXml && is_object($feedXml->channel) && is_array($feedXml->channel->item)) {
             foreach ($feedXml->channel->item as $item) {
                 $feedData[] = array(
                     'severity'      => (int)$item->severity,
