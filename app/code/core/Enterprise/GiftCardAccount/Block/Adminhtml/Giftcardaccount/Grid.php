@@ -105,7 +105,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
                 'header'    => Mage::helper('enterprise_giftcardaccount')->__('Active'),
                 'width'     => '50px',
                 'align'     => 'center',
-                'index'     => 'website_id',
+                'index'     => 'status',
                 'type'      => 'options',
                 'options'   => array(
                     Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED =>
