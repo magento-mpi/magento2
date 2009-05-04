@@ -257,6 +257,18 @@ class Enterprise_Logging_Model_Observer
                 Mage::register('enterprise_logged_actions', 'system_storeview_save');
                 break;
             }
+        } else if ($action == 'sales_order_invoice_save') {
+            $request = Mage::app()->getRequest();
+            $data = $request->getParam('invoice');
+            if (isset($data['do_shipment']) && $data['do_shipment'] == 1) {
+                $actions = Mage::registry('enterprise_logged_actions');
+                if (!is_array($actions)) {
+                    $actions = array($actions);
+                }
+                $actions[] = 'sales_order_shipment_save';
+                Mage::unregister('enterprise_logged_actions');
+                Mage::register('enterprise_logged_actions', $actions);
+            }
         }
     }
 
