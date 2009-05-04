@@ -44,6 +44,25 @@
       <action>delete</action>
     </catalog_product_delete>
 
+    <catalog_product_massStatus>
+      <event>products</event>
+      <action>massUpdate</action>
+      <id>product</id>
+    </catalog_product_massStatus>
+
+    <catalog_product_massDelete>
+      <event>products</event>
+      <action>massUpdate</action>
+      <id>product</id>
+    </catalog_product_massDelete>
+
+    <catalog_product_action_attribute_save>
+      <event>products</event>
+      <action>massUpdate</action>
+      <id>product</id>
+      <handler>getproductmassattributeupdateaction</handler>
+    </catalog_product_action_attribute_save>
+
     <catalog_product_attribute_edit>
       <event>attributes</event>
       <action>view</action>
@@ -116,6 +135,18 @@
       <id>tag_id</id>
     </tag_delete>
 
+    <tag_massStatus>
+      <event>catalogtags</event>
+      <action>massUpdate</action>
+      <id>tag</id>
+    </tag_massStatus>
+
+    <tag_massDelete>
+      <event>catalogtags</event>
+      <action>massUpdate</action>
+      <id>tag</id>
+    </tag_massDelete>
+
     <rating_edit>
       <event>catalogratings</event>
       <action>view</action>
@@ -147,6 +178,18 @@
       <event>reviews</event>
       <action>delete</action>
     </catalog_product_review_delete>
+
+    <catalog_product_review_massUpdateStatus>
+      <event>reviews</event>
+      <action>massUpdate</action>
+      <id>reviews</id>
+    </catalog_product_review_massUpdateStatus>
+
+    <catalog_product_review_massDelete>
+      <event>reviews</event>
+      <action>massUpdate</action>
+      <id>reviews</id>
+    </catalog_product_review_massDelete>
 
     <catalog_category_edit>
       <event>categories</event>
@@ -663,6 +706,24 @@
       <action>view</action>
       <id>order_id</id>
     </sales_order_view>
+
+    <sales_order_massHold>
+      <event>orders</event>
+      <action>massUpdate</action>
+      <id>order_ids</id>
+    </sales_order_massHold>
+
+    <sales_order_massUnhold>
+      <event>orders</event>
+      <action>massUpdate</action>
+      <id>order_ids</id>
+    </sales_order_massUnhold>
+
+    <sales_order_massCancel>
+      <event>orders</event>
+      <action>massUpdate</action>
+      <id>order_ids</id>
+    </sales_order_massCancel>
 
     <sales_order_create_save>
       <event>orders</event>

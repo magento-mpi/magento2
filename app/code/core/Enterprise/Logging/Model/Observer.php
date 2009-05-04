@@ -463,6 +463,45 @@ class Enterprise_Logging_Model_Observer
     }
 
     /**
+     * Common mass-update handler
+     */
+
+    public function getMassUpdateActionInfo($config, $success)
+    {
+        $code = $config['event'];
+        $act = $config['action'];
+        $id = isset($config['id'])? $config['id'] : 'id';
+        $ids = Mage::app()->getRequest()->getParam($id);
+        if (is_array($ids))
+            $ids = implode(", ", $ids);
+
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => $ids,
+        );
+    }
+
+
+    /**
+     * Mass-update product attributes
+     */
+
+    public function getProductMassAttributeUpdateAction($config, $success)
+    {
+        $code = $config['event'];
+        $act = $config['action'];
+        $ids = implode(", ", Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds());
+
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => $ids,
+        );
+    }
+
+
+    /**
      * Handler for reports
      */
     public function getReport($config)
@@ -508,7 +547,7 @@ class Enterprise_Logging_Model_Observer
         if (isset($config['handler'])) {
             return $this->$config['handler']($config, $success);
         }
-        if (in_array($config['action'], array('view', 'save', 'delete'))) {
+        if (in_array($config['action'], array('view', 'save', 'delete', 'massUpdate'))) {
             $method = sprintf("get%sactioninfo", $config['action']);
             return $this->$method($config, $success);
         }
