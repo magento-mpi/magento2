@@ -103,6 +103,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
                 if(!$attribute->getIsUnique()
                     && $attribute->getFrontend()->getInputType()!='gallery'
+                    && $attribute->getAttributeCode() != 'required_options'
+                    && $attribute->getAttributeCode() != 'has_options'
                     && $attribute->getAttributeCode() != $configProduct->getIdFieldName()) {
                     $data[$attribute->getAttributeCode()] = $configProduct->getData($attribute->getAttributeCode());
                 }
