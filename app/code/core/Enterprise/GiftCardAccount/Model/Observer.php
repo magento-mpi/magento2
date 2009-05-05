@@ -225,4 +225,15 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    /**
+     * Set the flag that we need to collect overall totals
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function quoteCollectTotalsBefore(Varien_Event_Observer $observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $quote->setGiftCardsTotalCollected(false);
+    }
 }

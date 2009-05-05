@@ -102,6 +102,7 @@ class Enterprise_CustomerBalance_Model_Observer
 
         $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
 
+
         $quote->setUseCustomerBalance($input->getUseCustomerBalance());
         if ($input->getUseCustomerBalance() && $balance >= $total) {
             $input->setMethod('free');
@@ -192,5 +193,16 @@ class Enterprise_CustomerBalance_Model_Observer
         }
 
         return $this;
+    }
+
+    /**
+     * Set the flag that we need to collect overall totals
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function quoteCollectTotalsBefore(Varien_Event_Observer $observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $quote->setCustomerBalanceCollected(false);
     }
 }

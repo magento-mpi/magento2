@@ -193,6 +193,16 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </adminhtml_sales_order_create_process_data>
+
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <enterprise_giftcardaccount>
+                        <type>singleton</type>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>quoteCollectTotalsBefore</method>
+                    </enterprise_giftcardaccount>
+                </observers>
+            </sales_quote_collect_totals_before>
         </events>
         <fieldsets>
             <sales_convert_quote_address>
