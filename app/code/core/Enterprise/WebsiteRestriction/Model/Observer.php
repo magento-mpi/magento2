@@ -105,6 +105,11 @@ class Enterprise_WebsiteRestriction_Model_Observer
                             $response->setRedirect($redirectUrl);
                             $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                         }
+                        Mage::getSingleton('core/session')->setWebsiteRestrictionAfterLoginUrl(Mage::getUrl());
+                    }
+                    elseif (Mage::getSingleton('core/session')->hasWebsiteRestrictionAfterLoginUrl()) {
+                        $response->setRedirect(Mage::getSingleton('core/session')->getWebsiteRestrictionAfterLoginUrl(true));
+                        $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
                     }
                     break;
             }
