@@ -122,7 +122,8 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                             array(
                                 'url'  => $url,
                                 'allow_message' => $message !== null,
-                                'message' => htmlspecialchars($message)
+                                'message' => htmlspecialchars($message),
+                                'store_name' => Mage::app()->getStore($invitation->getStoreId())->getName(),
                             )
                         );
 

@@ -30,7 +30,7 @@
         <general>
             <groups>
                 <content_staging translate="label">
-                    <label>Website Staging Restrictions</label>
+                    <label>Staging Websites</label>
                     <sort_order>80</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>

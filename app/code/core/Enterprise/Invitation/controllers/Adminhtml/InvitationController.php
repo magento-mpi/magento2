@@ -429,7 +429,6 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
      */
     protected function _sendInvitationEmail($invitation)
     {
-
         $template = Mage::getStoreConfig('enterprise_invitation/email/template', $invitation->getStoreId());
         $sender = Mage::getStoreConfig('enterprise_invitation/email/identity', $invitation->getStoreId());
         $mail = Mage::getModel('core/email_template');
@@ -442,7 +441,8 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                 array(
                     'url' => Mage::helper('enterprise_invitation')->getInvitationUrl($invitation),
                     'allow_message' => Mage::getStoreConfigFlag('enterprise_invitation/general/allow_customer_message', $invitation->getStoreId()),
-                    'message' => htmlspecialchars($invitation->getMessage())
+                    'message' => htmlspecialchars($invitation->getMessage()),
+                    'store_name' => Mage::app()->getStore($invitation->getStoreId())->getName(),
                 )
             );
 
