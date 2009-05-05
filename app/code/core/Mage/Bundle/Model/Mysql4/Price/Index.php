@@ -700,6 +700,7 @@ class Mage_Bundle_Model_Mysql4_Price_Index extends Mage_Core_Model_Mysql4_Abstra
                     ));
 
                     $selectionPrice = isset($priceIndex[$priceIndexKey]) ? $priceIndex[$priceIndexKey] : 0;
+                    $selectionPrice = $this->_calculateSpecialPrice($selectionPrice, $priceData, $website);
                 }
                 else {
                     if ($selection['price_type']) { // persent

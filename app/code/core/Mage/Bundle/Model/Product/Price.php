@@ -43,7 +43,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getPrice($product)
     {
-        if ($product->getPriceType()) {
+        if ($product->getPriceType() == self::PRICE_TYPE_FIXED) {
             return $product->getData('price');
         } else {
             return 0;
@@ -69,8 +69,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
          * Just product with fixed price calculation has price
          */
         if ($finalPrice) {
-            $finalPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
-            $finalPrice = $this->_applySpecialPrice($product, $finalPrice);
+            $tierPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
+            $specialPrice = $this->_applySpecialPrice($product, $finalPrice);
+            $finalPrice = min(array($tierPrice, $specialPrice));
             $product->setFinalPrice($finalPrice);
             Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
             $finalPrice = $product->getData('final_price');
@@ -86,7 +87,7 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                 if ($selection->isSalable()) {
                     $selectionQty = $product->getCustomOption('selection_qty_' . $selection->getSelectionId());
                     if ($selectionQty) {
-                        $finalPrice = $finalPrice + $this->getSelectionPrice($product, $selection, $selectionQty->getValue());
+                        $finalPrice = $finalPrice + $this->getSelectionFinalPrice($product, $selection, $qty, $selectionQty->getValue());
                     }
                 }
             }
@@ -266,12 +267,13 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             $selectionQty = $selectionProduct->getSelectionQty();
         }
 
-        if ($bundleProduct->getPriceType() == Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tab_Attributes_Extend::DYNAMIC){
+        if ($bundleProduct->getPriceType() == self::PRICE_TYPE_DYNAMIC) {
             if ($multiplyQty) {
-                return $selectionProduct->getFinalPrice($selectionQty)*$selectionQty;
+                $selectionPrice = $selectionProduct->getFinalPrice($selectionQty) * $selectionQty;
             } else {
-                return $selectionProduct->getFinalPrice($selectionQty);
+                $selectionPrice = $selectionProduct->getFinalPrice($selectionQty);
             }
+            return $selectionPrice;
         } else {
             if ($selectionProduct->getSelectionPriceType()) {
                 return ($bundleProduct->getPrice()*$selectionProduct->getSelectionPriceValue()/100)*$selectionQty;
@@ -306,13 +308,14 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
      */
     public function getSelectionFinalPrice($bundleProduct, $selectionProduct, $bundleQty, $selectionQty = null, $multiplyQty = true)
     {
+        $selectionPrice = $this->getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty, $multiplyQty);
         // apply bundle tier price
-        $finalPrice = $this->_applyTierPrice($bundleProduct, $bundleQty, $this->getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty, $multiplyQty));
+        $tierPrice = $this->_applyTierPrice($bundleProduct, $bundleQty, $selectionPrice);
 
         // apply bundle special price
-        $finalPrice = $this->_applySpecialPrice($bundleProduct, $finalPrice);
+        $specialPrice = $this->_applySpecialPrice($bundleProduct, $selectionPrice);
 
-        return $finalPrice;
+        return min(array($tierPrice, $specialPrice));
     }
 
     /**

@@ -86,11 +86,13 @@ class Mage_Bundle_Model_Price_Index extends Mage_Core_Model_Abstract
      */
     public function addPriceIndexToCollection($collection)
     {
-        $productIds = array();
+        $productObjects = array();
+        $productIds     = array();
         foreach ($collection->getItems() as $product) {
             /* @var $product Mage_Catalog_Model_Product */
             if ($product->getTypeId() == Mage_Catalog_Model_Product_Type::TYPE_BUNDLE) {
-                $productIds[] = $product->getId();
+                $productIds[] = $product->getEntityId();
+                $productObjects[$product->getEntityId()] = $product;
             }
         }
         $websiteId  = Mage::app()->getStore($collection->getStoreId())
@@ -102,7 +104,7 @@ class Mage_Bundle_Model_Price_Index extends Mage_Core_Model_Abstract
         $prices = $this->_getResource()->loadPriceIndex($productIds, $websiteId, $groupId);
         foreach ($productIds as $productId) {
             if (isset($prices[$productId])) {
-                $collection->getItemById($productId)
+                $productObjects[$productId]
                     ->setData('_price_index', true)
                     ->setData('_price_index_min_price', $prices[$productId]['min_price'])
                     ->setData('_price_index_max_price', $prices[$productId]['max_price']);
