@@ -76,9 +76,6 @@ class Enterprise_Staging_Model_Observer
         }
         $website = Mage::app()->getWebsite();
         if ($website->getIsStaging()) {
-            $key = 'allow_view_staging_website_'.$website->getCode();
-            $coreSession = Mage::getSingleton('core/session');
-
             $staging = Mage::getModel('enterprise_staging/staging');
             $staging->loadByStagingWebsiteId($website->getId());
             if (!$staging->getId()) {
@@ -88,15 +85,14 @@ class Enterprise_Staging_Model_Observer
 
             switch ($website->getVisibility()) {
                 case Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE :
-                    $coreSession->setData($key, false);
                     Mage::app()->getResponse()->setRedirect('/')->sendResponse();
                     exit();
                     break;
                 case Enterprise_Staging_Model_Staging_Config::VISIBILITY_ACCESSIBLE :
-                    $coreSession->setData($key, true);
+
                     break;
                 case Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH :
-                    $this->_checkHttpAuth($key);
+                    $this->_checkHttpAuth();
                     break;
             }
         }
@@ -107,32 +103,33 @@ class Enterprise_Staging_Model_Observer
     /**
      * check http auth on staging website loading
      *
-     * @param dataset $key
      */
-    protected function _checkHttpAuth($key)
+    protected function _checkHttpAuth()
     {
         $coreSession = Mage::getSingleton('core/session');
-        $coreSession->setData($key, false);
+        $website     = Mage::app()->getWebsite();
+        $code        = $website->getCode();
 
         try {
-            if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
-                $login      = $_SERVER['PHP_AUTH_USER'];
-                $password   = $_SERVER['PHP_AUTH_PW'];
-                $website    = Mage::app()->getWebsite();
-
-                if ($website->getMasterLogin() != $login) {
-                    Mage::throwException('Invalid login.');
-                }
-
-                if (Mage::helper('core')->decrypt($website->getMasterPassword()) != $password) {
-                    Mage::throwException('Invalid password.');
-                }
-                $coreSession->setData($key, true);
+            if (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW'])) {
+                throw new Exception('Staging is Unauthorized.');
             }
-            if (!$coreSession->getData($key)) {
-                Mage::throwException('This staging website requires authentication.');
+
+            if ($coreSession->getData('staging_validation_passed') !== $code) {
+                $coreSession->setData('staging_validation_passed', $code);
+                throw new Exception('This staging website requires authentication.');
             }
-        } catch (Mage_Core_Exception $e) {
+
+            $login      = $_SERVER['PHP_AUTH_USER'];
+            $password   = $_SERVER['PHP_AUTH_PW'];
+
+            if ($website->getMasterLogin() != $login) {
+                throw new Exception('Invalid login.');
+            }
+            if (Mage::helper('core')->decrypt($website->getMasterPassword()) != $password) {
+                throw new Exception('Invalid password.');
+            }
+        } catch (Exception $e) {
             header('WWW-Authenticate: Basic realm="Staging Site Authentication"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
