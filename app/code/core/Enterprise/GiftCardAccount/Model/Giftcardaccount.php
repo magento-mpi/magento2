@@ -139,10 +139,11 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      */
     public function addToCart($saveQuote = true, $quote = null)
     {
-        if ($this->isValid()) {
-            if (is_null($quote)) {
-                $quote = $this->_getCheckoutSession()->getQuote();
-            }
+        if (is_null($quote)) {
+            $quote = $this->_getCheckoutSession()->getQuote();
+        }
+        $website = Mage::app()->getStore($quote->getStoreId())->getWebsite();
+        if ($this->isValid(true, true, $website)) {
             $cards = Mage::helper('enterprise_giftcardaccount')->getCards($quote);
             if (!$cards) {
                 $cards = array();
