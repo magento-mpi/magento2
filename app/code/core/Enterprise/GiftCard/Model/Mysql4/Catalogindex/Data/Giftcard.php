@@ -40,7 +40,7 @@ class Enterprise_GiftCard_Model_Mysql4_Catalogindex_Data_Giftcard extends Mage_C
 
         if (!isset($this->_cache[$key])) {
             $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('enterprise_giftcard/amount'), array('value'))
+                ->from($this->getTable('enterprise_giftcard/amount'), array('value', 'website_id'))
                 ->where('entity_id=?', $product);
 
             if ($isGlobal) {
@@ -48,8 +48,29 @@ class Enterprise_GiftCard_Model_Mysql4_Catalogindex_Data_Giftcard extends Mage_C
             } else {
                 $select->where('website_id IN (?)', array(0, $website));
             }
-            $this->_cache[$key] = $this->_getReadAdapter()->fetchAll($select);
+            $fetched = $this->_getReadAdapter()->fetchAll($select);
+            $this->_cache[$key] = $this->_convertPrices($fetched, $store);
         }
         return $this->_cache[$key];
+    }
+
+    protected function _convertPrices($amounts, $store)
+    {
+        $result = array();
+        if (is_array($amounts) && $amounts) {
+            foreach ($amounts as $amount) {
+                $value = $amount['value'];
+                if ($amount['website_id'] == 0) {
+                    $rate = $store->getBaseCurrency()->getRate(Mage::app()->getBaseCurrencyCode());
+                    if ($rate) {
+                        $value = $value/$rate;
+                    } else {
+                        continue;
+                    }
+                }
+                $result[] = $value;
+            }
+        }
+        return $result;
     }
 }
