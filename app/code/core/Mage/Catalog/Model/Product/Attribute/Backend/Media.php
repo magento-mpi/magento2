@@ -494,6 +494,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Media extends Mage_Eav_Model_
             $destFile = dirname($file) . $ioObject->dirsep()
                       . Varien_File_Uploader::getNewFileName($this->_getConfig()->getMediaPath($file));
 
+            if (!$ioObject->fileExists($this->_getConfig()->getMediaPath($file),true)) {
+                throw new Exception();
+            }
             $ioObject->cp(
                 $this->_getConfig()->getMediaPath($file),
                 $this->_getConfig()->getMediaPath($destFile)
