@@ -177,6 +177,16 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_quote_collect_totals_before>
+
+            <sales_order_place_before>
+                <observers>
+                    <enterprise_customerbalance_sales_order_place_before>
+                        <type>singleton</type>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>processBeforeOrderPlace</method>
+                    </enterprise_customerbalance_sales_order_place_before>
+                </observers>
+            </sales_order_place_before>
         </events>
     </global>
     <frontend>

@@ -114,6 +114,33 @@ class Enterprise_CustomerBalance_Model_Observer
     }
 
     /**
+     * Check customer balance used in order
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function processBeforeOrderPlace(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            return;
+        }
+
+        $order = $observer->getEvent()->getOrder();
+        if ($order->getBaseCustomerBalanceAmount() > 0) {
+            $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
+
+            $balance = Mage::getModel('enterprise_customerbalance/balance')
+                ->setCustomerId($order->getCustomerId())
+                ->setWebsiteId($websiteId)
+                ->loadByCustomer()
+                ->getAmount();
+
+            if ($balance < $order->getBaseCustomerBalanceAmount()) {
+                Mage::throwException(Mage::helper('enterprise_customerbalance')->__("You don't have enough store credit to complete this order."));
+            }
+        }
+    }
+
+    /**
      * Check if customer balance was used in quote and reduce balance if so
      *
      * @param Varien_Event_Observer $observer
