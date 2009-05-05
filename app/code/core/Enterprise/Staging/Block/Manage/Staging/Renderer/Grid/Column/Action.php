@@ -41,6 +41,19 @@ class Enterprise_Staging_Block_Manage_Staging_Renderer_Grid_Column_Action extend
      */
     public function render(Varien_Object $row)
     {
+        switch ($this->getColumn()->getLinkType()) {
+            case 'url':
+                return $this->_renderUrl($row);
+                break;
+            case 'actions':
+            default :
+                return $this->_renderActions($row);
+                break;
+        }
+    }
+
+    protected function _renderActions(Varien_Object $row)
+    {
         $actions = $this->getColumn()->getActions();
         if ( empty($actions) || !is_array($actions) ) {
             return '&nbsp';
@@ -69,5 +82,25 @@ class Enterprise_Staging_Block_Manage_Staging_Renderer_Grid_Column_Action extend
         }
         $out .= '</select>';
         return $out;
+    }
+
+    protected function _renderUrl(Varien_Object $row)
+    {
+        $href = $row->getData($this->getColumn()->getIndex());
+        if ($this->getColumn()->getTitle()) {
+            if ($this->getColumn()->getIndex() == $this->getColumn()->getTitle()) {
+                $title = $href;
+            } else {
+                $title = $this->getColumn()->getTitle();
+            }
+        } else {
+            $title = $this->__('click here');
+        }
+
+        if ($this->getColumn()->getLength() && strlen($title) > $this->getColumn()->getLength()) {
+            $title = substr($title, 0, $this->getColumn()->getLength()) . '...';
+        }
+
+        return '<a href="'.$href.'" target="_blank">'.$title.'</a>';
     }
 }

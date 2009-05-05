@@ -132,7 +132,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                         'value' => $stagingWebsite->getConfig('web/unsecure/base_url')
                     )
                 );
-
                 if ($stagingWebsite->getStoresCount() > 0) {
                     $element->setRenderer($this->getLayout()->createBlock('enterprise_staging/manage_staging_renderer_link'));
                 }
@@ -168,7 +167,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                     array(
                         'label' => $this->helper->__('Staging Website Name'),
                         'name'  => "websites[{$_id}][name]",
-                        'value' => $masterWebsite->getName() . $this->helper->__(' (Staging Copy)')
+                        'value' => $masterWebsite->getName() .' '. $this->helper->__('(Staging Copy)')
                     )
                 );
 
@@ -178,7 +177,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                             'label' => $this->helper->__('Base Url'),
                             'name'  => "websites[{$_id}][base_url]",
                             'value' => '',
-                            'note'  => "Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/",
+                            'class' => 'validate-url',
+                            'note'  => $this->helper->__("Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/"),
                             'required' => true
                         )
                     );
@@ -188,7 +188,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                             'label' => $this->helper->__('Secure Base Url'),
                             'name'  => "websites[{$_id}][base_secure_url]",
                             'value' => '',
-                            'note'  => "Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/",
+                            'class' => 'validate-url',
+                            'note'  => $this->helper->__("Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/"),
                             'required' => true
                         )
                     );

@@ -45,10 +45,12 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
 
+        $this->setRowClickCallback(false);
+
         $this->setColumnRenderers(
             array(
-                'action' => 'enterprise_staging/manage_staging_renderer_action'
-            ));
+                'action' => 'enterprise_staging/manage_staging_renderer_grid_column_action'
+        ));
     }
 
     /**
@@ -100,6 +102,7 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             'title'     => 'base_url',
             'length'    => '40',
             'type'      => 'action',
+            'link_type' => 'url',
             'filter'    => false,
             'sortable'  => false,
         ));
@@ -125,6 +128,27 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             'header'    => 'Updated At',
             'index'     => 'updated_at',
             'type'      => 'datetime',
+        ));
+
+        $this->addColumn('action', array(
+            'header'    => Mage::helper('enterprise_staging')->__('Action'),
+            'type'      => 'action',
+            'getter'    => 'getId',
+            'width'     => '80px',
+            'filter'    => false,
+            'sortable'  => false,
+            'index'     => 'type',
+            'link_type' => 'actions',
+            'actions'   => array(
+                array(
+                    'url'       => $this->getUrl('*/*/edit', array('id' => '$staging_id')),
+                    'caption'   => Mage::helper('enterprise_staging')->__('Edit')
+                ),
+                array(
+                    'url'       => $this->getUrl('*/*/merge', array('id' => '$staging_id')),
+                    'caption'   => Mage::helper('enterprise_staging')->__('Merge')
+                )
+            )
         ));
 
         return $this;

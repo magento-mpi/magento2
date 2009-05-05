@@ -100,7 +100,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
             'filter'    => false,
             'sortable'  => false,
             'index'     => 'type',
-            'render_type' => 'link',
+            'link_type' => 'actions',
             'actions'   => array(
                 array(
                     'url'       => $this->getUrl('*/*/edit', array('id' => '$backup_id')),
