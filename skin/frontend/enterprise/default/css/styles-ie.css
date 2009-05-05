@@ -72,18 +72,11 @@
 .form-list .form-element .input-box { padding-top:2px; }
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
-button.button span { position:relative; }
-button.button { height:21px; _overflow-y:hidden; position:relative; }
+/* button.button span { position:relative; } */
+button.button { height:21px; }
 .cart .checkout-types .btn-proceed-checkout,
-button.btn-cart { height:27px; background-position:0 0; }
-.cart .checkout-types .btn-proceed-checkout span,
-button.btn-cart span { background-position:100% 0; }
-
-/* Checkout buttons */
-/* .multiple-checkout .buttons-set .button,
-.opc button.button { height:30px; background-position:0 0; }
-.multiple-checkout .buttons-set .button span,
-.opc button.button span { background-position:100% 0; } */
+.product-view .product-essential button.btn-cart,
+.add-to-cart button.btn-cart { height:27px; }
 
 #invitation-send-link { margin-right:7px; }
 .product-view .add-review .form-list .review-summary-table { width:50px; }

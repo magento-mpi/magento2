@@ -87,31 +87,32 @@ input.radio { font-size:10px !important; }
 input.qty { width:2.5em !important; }
 button.button::-moz-focus-inner { padding:0; border:0; } /* FF Fix */
 button.button { -webkit-border-fit:lines; } /* <- Safari & Google Chrome Fix */
+button.button:active { margin:1px -1px -1px 1px; position:relative; z-index:2; }
+
+button.button { border:0; padding:0; margin:0; background:transparent; /* line-height:21px; */ overflow:visible; cursor:pointer; vertical-align:middle; }
 
 a.button,
-button.button,
+button.button span,
 a.button span,
-button.button span { background-color:transparent; background-image:url(../images/bkg_btn.gif); background-repeat:no-repeat; }
+button.button span span { background-color:transparent; background-image:url(../images/bkg_btn.gif); background-repeat:no-repeat; }
 
 a.button,
-button.button {
+button.button span {
     border:0;
     padding:0 0 0 10px; margin:0;
-    cursor:pointer; 
-    overflow:visible;
-    background-position:0 50%;
+    cursor:pointer;    
+    background-position:0 0;
     display:-moz-inline-stack;
     display:inline-block;
-    vertical-align:middle;
     color:#c73615;
-    line-height:20px;
+    height:21px;
     text-decoration:none;
     }
 a.button span,    
-button.button span {
+button.button span span {
     padding:0 15px 1px 5px;
     color:#c73615;
-    background-position:100% 50%;
+    background-position:100% 0;
     display:-moz-inline-block;    
     display:inline-block;
     white-space:nowrap;
@@ -123,6 +124,7 @@ button.button span {
 button.btn-small span { font-size:11px; line-height:14px; padding:1px 9px 0; }
 button.disabled {}
 button.disabled span {}
+
 /* Input & Textarea stretched for 100% */
 .field-100 { border:1px solid #888; padding:2px; overflow:hidden; }
 .field-100 input.input-text,
@@ -757,8 +759,8 @@ dd.even { background:#f6f6f6; }*/
 .top-cart .actions { background:#e3e3e3 url(../images/bkg_dots.gif) repeat-x 0 -1px; text-align:center; padding:5px 11px; text-align:right; }
 .top-cart .actions a { float:left;  line-height:23px; }
 .top-cart .actions button { float:none; }
-.top-cart .actions button.button,
-.top-cart .actions button.button span { background-image:url(../images/bkg_btn-onbg.gif); background-repeat:no-repeat; }
+.top-cart .actions button.button span,
+.top-cart .actions button.button span span { background-image:url(../images/bkg_btn-onbg.gif); background-repeat:no-repeat; }
 
 /* Block: Wishlist */
 .block-wishlist .product-image { float:left; width:50px; margin-right:-50px; }
@@ -1102,12 +1104,10 @@ a.minimal-price-link .price { font-weight:normal; font-weight:bold; }
 button.btn-cart span {}
 
 /* On product view */
-.product-view .product-essential button.btn-cart,
-.add-to-cart button.btn-cart { background-image:url(../images/bkg_btn-co.gif); padding:0 0 0 13px !important; vertical-align:middle; }
 .product-view .product-essential button.btn-cart span,
-.add-to-cart button.btn-cart span { border:0; background-image:url(../images/bkg_btn-co.gif); padding:1px 32px 0 19px !important; color:#fff; font:bold 15px/26px Arial, Helvetica, sans-serif !important; height:26px; text-transform:none; }
-.add-to-cart button.btn-cart { padding:0 0 0 6px; }
-.add-to-cart button.btn-cart span {  }
+.add-to-cart button.btn-cart span { background-image:url(../images/bkg_btn-co.gif); padding:0 0 0 13px !important; height:27px!important; }
+.product-view .product-essential button.btn-cart span span,
+.add-to-cart button.btn-cart span span { border:0; background-image:url(../images/bkg_btn-co.gif); padding:1px 32px 0 19px !important; color:#fff; font:bold 15px/26px Arial, Helvetica, sans-serif !important; height:26px; text-transform:none; }
 
 /* Add to Links + Add to Cart */
 .add-to-box {}
@@ -1350,12 +1350,12 @@ button.btn-cart span {}
 .checkout-cart-index .col-main { padding:0; background:url(../images/bkg_cart.gif) repeat-y 100% 0; }
 .checkout-cart-index .col-main .page-title { margin:0; }
 .cart-empty { padding:20px; background:#fff; }
-.cart .title-buttons {}
+.cart .title-buttons { padding-right:15px; }
 .cart .messages,
 .cart .messages li { margin:0; }
 .cart .checkout-types { float:right; text-align:center; }
-.cart .checkout-types .btn-proceed-checkout { background:url(../images/bkg_btn-co.gif) 0 50% no-repeat; line-height:26px !important; padding:0 0 0 13px !important; vertical-align:middle; }
-.cart .checkout-types .btn-proceed-checkout span { border:0; background:url(../images/bkg_btn-co.gif) 100% 50% no-repeat; padding:1px 32px 0 19px !important; color:#fff; font:bold 15px/26px Arial, Helvetica, sans-serif !important; height:26px; text-transform:none; margin:0 !important; }
+.cart .checkout-types .btn-proceed-checkout span { background-image:url(../images/bkg_btn-co.gif); height:27px !important; padding:0 0 0 13px !important; }
+.cart .checkout-types .btn-proceed-checkout span span { border:0; background-image:url(../images/bkg_btn-co.gif); padding:1px 32px 0 19px !important; color:#fff; font:bold 15px/26px Arial, Helvetica, sans-serif !important; height:26px; text-transform:none; margin:0 !important; }
 
 /* Shopping Cart Table */
 .cart-table { border-width:1px 0; } 

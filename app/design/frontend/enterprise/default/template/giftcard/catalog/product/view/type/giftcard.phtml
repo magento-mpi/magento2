@@ -197,14 +197,14 @@
                         <input type="text" id="giftcard_sender_name" name="giftcard_sender_name" class="required-entry input-text" value="<?php echo $this->getCustomerName(); ?>" />
                     </span>
                 </div>
-                <div class="field">
                 <?php if ($this->isEmailAvailable($_product)): ?>
+                <div class="field">
                     <label for="giftcard_sender_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Sender Email'); ?></label>
                     <span class="input-box">
                         <input type="text" id="giftcard_sender_email" name="giftcard_sender_email" class="validate-email required-entry input-text" value="<?php echo $this->getCustomerEmail(); ?>"/>
                     </span>
-                <?php endif; ?>
                 </div>
+                <?php endif; ?>
             </li>
             <li class="fields">
                 <div class="field">
@@ -213,14 +213,14 @@
                         <input type="text" id="giftcard_recipient_name" name="giftcard_recipient_name" class="required-entry input-text" />
                     </span>
                 </div>
-                <div class="field">
                 <?php if ($this->isEmailAvailable($_product)): ?>
+                <div class="field">
                     <label for="giftcard_recipient_email" class="required"><em>*</em><?php echo Mage::helper('enterprise_giftcard')->__('Recipient Email'); ?></label>
                     <span class="input-box">
                         <input type="text" id="giftcard_recipient_email" name="giftcard_recipient_email" class="validate-email required-entry input-text" />
                     </span>
-                <?php endif; ?>
                 </div>
+                <?php endif; ?>
             </li>
         <?php if ($this->isMessageAvailable($_product)): ?>
             <li>
@@ -228,7 +228,7 @@
                 <span class="input-box">
                     <textarea name="giftcard_message" class="input-text giftcard-message-max-length" rows="4"></textarea>
                     <?php if ($this->getMessageMaxLength()): ?>
-                        <script>
+                        <script type="text/javascript">
                             Validation.add('giftcard-message-max-length', '<?php echo $this->__('Maximum length of the message is %d characters.', $this->getMessageMaxLength()); ?>', function(v) {
                                 return v.length <= <?php echo $this->getMessageMaxLength(); ?>;
                             });

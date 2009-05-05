@@ -47,7 +47,7 @@
             </ul>
         </fieldset>
         <div class="buttons-set form-buttons btn-only">
-            <button type="submit" class="button" onclick="loginForm.submit()"><span><?php echo $this->__('Login') ?></span></button>
+            <button type="submit" class="button" onclick="loginForm.submit()"><span><span><?php echo $this->__('Login') ?></span></span></button>
             <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a>
         </div>       
         </form>
@@ -93,7 +93,7 @@
             <input type="hidden" name="checkout_method" id="login:register" value="register" checked="checked" />
         <?php endif; ?>
         <div class="buttons-set">
-            <button type="button" class="button" onclick="checkout.setMethod();"><span><?php echo ($this->getQuote()->isAllowedGuestCheckout() ? $this->__('Continue') : $this->__('Register')) ?></span></button>
+            <button type="button" class="button" onclick="checkout.setMethod();"><span><span><?php echo ($this->getQuote()->isAllowedGuestCheckout() ? $this->__('Continue') : $this->__('Register')) ?></span></span></button>
         </div>
     </div>
     <?php endif; ?>
