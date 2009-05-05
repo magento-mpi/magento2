@@ -47,10 +47,9 @@ class Enterprise_Staging_Model_Staging_Adapter_Group extends Enterprise_Staging_
 
                 $realStoreGroup = $realStore->getGroup();
 
-                $rootCategory = 0;
-                if ($staging->getMapperInstance()->hasStagingItem('category')) {
-                    $rootCategory = $realStoreGroup->getRootCategoryId();
-                }
+                //if ($staging->getMapperInstance()->hasStagingItem('category')) {
+                    $rootCategory = (int) $realStoreGroup->getRootCategoryId();
+                //}
 
                 $stagingGroup = Mage::getModel('core/store_group');
                 $stagingGroup->setData('website_id', $website->getStagingWebsiteId());

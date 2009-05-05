@@ -325,6 +325,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     {
         $this->_initStaging();
 
+        $this->_getSession()
+            ->addNotice($this->__('If no store view mapping is specified only website-related information will be merged'));
+
         $this->loadLayout();
 
         $this->_setActiveMenu('system/enterprise_staging');
