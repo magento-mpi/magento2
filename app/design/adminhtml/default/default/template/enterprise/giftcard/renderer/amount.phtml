@@ -105,8 +105,9 @@
                 Element.hide(tr);
                 Element.addClassName(tr, 'no-display template');
             }
-        },
-    }
+        }
+    };
+
     <?php foreach ($this->getValues() as $_item): ?>
     giftcardAmountsControl.addItem('<?php echo $_htmlId ?>', '<?php echo $_item['website_id'] ?>', '<?php echo sprintf('%.2f', $_item['value']) ?>');
     <?php endforeach; ?>
