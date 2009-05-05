@@ -643,11 +643,13 @@ class Mage_Bundle_Model_Mysql4_Price_Index extends Mage_Core_Model_Mysql4_Abstra
                 Mage_Catalog_Model_Product_Option::OPTION_TYPE_CHECKBOX,
                 Mage_Catalog_Model_Product_Option::OPTION_TYPE_MULTIPLE
             );
-            if (in_array($option['type'], $multiTypes)) {
-                $maxPrice += array_sum($optionPrices);
-            }
-            else {
-                $maxPrice += max($optionPrices);
+            if ($optionPrices) {
+                if (in_array($option['type'], $multiTypes)) {
+                    $maxPrice += array_sum($optionPrices);
+                }
+                else {
+                    $maxPrice += max($optionPrices);
+                }
             }
         }
 
@@ -719,14 +721,16 @@ class Mage_Bundle_Model_Mysql4_Price_Index extends Mage_Core_Model_Mysql4_Abstra
                 $optionPrices[$selection['selection_id']] = $selectionPrice;
             }
 
-            if ($option['required']) {
-                $minPrice += min($optionPrices);
-            }
-            if (in_array($option['type'], array('multi', 'checkbox'))) {
-                $maxPrice += array_sum($optionPrices);
-            }
-            else {
-                $maxPrice += max($optionPrices);
+            if ($optionPrices) {
+                if ($option['required']) {
+                    $minPrice += min($optionPrices);
+                }
+                if (in_array($option['type'], array('multi', 'checkbox'))) {
+                    $maxPrice += array_sum($optionPrices);
+                }
+                else {
+                    $maxPrice += max($optionPrices);
+                }
             }
         }
         return array($minPrice, $maxPrice);
