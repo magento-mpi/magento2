@@ -215,4 +215,19 @@ abstract class Mage_Core_Model_Mysql4_Collection_Abstract extends Varien_Data_Co
     {
         return Mage::app()->useCache('collections');
     }
+
+    /**
+     * Redeclared for processing cache tags throw application object
+     *
+     * @return array
+     */
+    protected function _getCacheTags()
+    {
+        $tags = parent::_getCacheTags();
+        foreach ($tags as $key => $value) {
+        	$tags[$key] = Mage::app()->prepareCacheId($value);
+        }
+        $tags[] = Mage_Core_Model_App::CACHE_TAG;
+        return $tags;
+    }
 }

@@ -901,9 +901,21 @@ class Mage_Core_Model_App
     protected function _getCacheId($id=null)
     {
         if ($id) {
-            $id = strtoupper($id);
-            $id = preg_replace('/([^a-zA-Z0-9_]{1,1})/', '_', $id);
+            $id = $this->prepareCacheId($id);
         }
+        return $id;
+    }
+
+    /**
+     * Prepare identifier which can be used as cache id or cache tag
+     *
+     * @param   string $id
+     * @return  string
+     */
+    public function prepareCacheId($id)
+    {
+        $id = strtoupper($id);
+        $id = preg_replace('/([^a-zA-Z0-9_]{1,1})/', '_', $id);
         return $id;
     }
 

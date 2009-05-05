@@ -90,17 +90,18 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
         return $this;
     }
 
+    /**
+     * Add root category id filter to store collection
+     *
+     * @param   int|array $category
+     * @return  Mage_Core_Model_Mysql4_Store_Collection
+     */
     public function addCategoryFilter($category)
     {
-        if (is_array($category)) {
-            $condition = $this->getConnection()->quoteInto("main_table.root_category_id IN (?)", $category);
+        if (!is_array($category)) {
+            $category = array($category);
         }
-        else {
-            $condition = $this->getConnection()->quoteInto("main_table.root_category_id=?",$category);
-        }
-
-        $this->addFilter('category', $condition, 'string');
-        return $this;
+        return $this->loadByCategoryIds($category);
     }
 
     public function toOptionArray()
@@ -125,10 +126,16 @@ class Mage_Core_Model_Mysql4_Store_Collection extends Mage_Core_Model_Mysql4_Col
         return $this;
     }
 
+    /**
+     * Add root category id filter to store collection
+     *
+     * @param   array $categories
+     * @return  Mage_Core_Model_Mysql4_Store_Collection
+     */
     public function loadByCategoryIds(array $categories)
     {
         $this->setLoadDefault(true);
-        $condition = $this->getConnection()->quoteInto('main_table.root_category_id IN(?)', $categories);
+        $condition = $this->getConnection()->quoteInto('group_table.root_category_id IN(?)', $categories);
         $this->_select->joinLeft(
             array('group_table' => $this->getTable('core/store_group')),
             'main_table.group_id=group_table.group_id',
