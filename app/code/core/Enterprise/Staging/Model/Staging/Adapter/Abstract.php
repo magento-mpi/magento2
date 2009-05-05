@@ -673,41 +673,13 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
     public function tableExists($model, $table)
     {
         $connection = $this->getConnection($model);
-        $sql = $this->_quote("SHOW TABLES LIKE ?", $this->getTable($table, $model));
+        $sql = $connection->quoteInto("SHOW TABLES LIKE ?", $this->getTable($table, $model));
         $stmt = $connection->query($sql);
         if (!$stmt->fetch()) {
             return false;
         } else {
             return true;
         }
-    }
-
-    /**
-     * Simple quote SQL statement
-     * supported ? or %[type] sprintf format
-     *
-     * @param string $statement
-     * @param array $bind
-     * @return string
-     */
-    protected function _quote($statement, $bind = array())
-    {
-        $statement = str_replace('?', '%s', $statement);
-        if (!is_array($bind)) {
-            $bind = array($bind);
-        }
-        foreach ($bind as $k => $v) {
-            if (is_numeric($v)) {
-                $bind[$k] = $v;
-            }
-            elseif (is_null($v)) {
-                $bind[$k] = 'NULL';
-            }
-            else {
-                $bind[$k] = "'" . mysql_escape_string($v) . "'";
-            }
-        }
-        return vsprintf($statement, $bind);
     }
 
     /**

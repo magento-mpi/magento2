@@ -40,6 +40,7 @@ class Enterprise_Staging_Model_Staging_State_Website_Merge extends Enterprise_St
 
         $mapper         = $staging->getMapperInstance();
         $stagingItems   = $mapper->getStagingItems();
+
         foreach ($stagingItems as $stagingItem) {
             $adapter = $this->getItemAdapterInstanse($stagingItem);
             $adapter->merge($staging);

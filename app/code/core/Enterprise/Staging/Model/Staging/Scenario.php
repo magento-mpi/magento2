@@ -92,7 +92,7 @@ class Enterprise_Staging_Model_Staging_Scenario
 
             $staging = $this->getStaging();
             if ($staging->hasData('state_exception')) {
-                throw new Enterprise_Staging_Exception($staging->getData('state_exception'));
+                throw new Enterprise_Staging_Exception($staging->getData('state_exception')->getMessage());
             }
         }
         return $this;

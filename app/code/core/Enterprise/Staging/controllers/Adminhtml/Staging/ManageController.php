@@ -125,11 +125,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         if (!$staging->getId()) {
             $entryPoint = Mage::getSingleton('enterprise_staging/entry');
             if ($entryPoint->isAutomatic()) {
-                try {
-                    $this->_getSession()->addNotice($this->__('Base URL for this website will be created automatically.'));
-                    $entryPoint->canEntryPointBeCreated();
-                } catch (Mage_Core_Exception $e) {
-                    $this->_getSession()->addError($e->getMessage());
+                $this->_getSession()->addNotice($this->__('Base URL for this website will be created automatically.'));
+                if (!$entryPoint->canEntryPointBeCreated()) {
+                    $this->_getSession()->addNotice(Mage::helper('enterprise_staging')->__('To create entry points, the folder %s must be writeable.', $entryPoint->getBaseFolder()));
                 }
             }
         }
@@ -247,6 +245,13 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $staging    = $this->_initStagingSave();
             $isNew      = !$staging->getId();
             try {
+                $entryPoint = Mage::getSingleton('enterprise_staging/entry');
+                if ($entryPoint->isAutomatic()) {
+                    if (!$entryPoint->canEntryPointBeCreated()) {
+                        throw new Mage_Core_Exception(Mage::helper('enterprise_staging')->__('Please, make sure that folder %s is exists and writeable.', $entryPoint->getBaseFolder()));
+                    }
+                }
+
                 $staging->save();
 
                 $staging->getMapperInstance()->setCreateMapData($data);
@@ -424,6 +429,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         try {
             $event->setData('merge_schedule_date', '0000-00-00 00:00:00');
             $event->save();
+
+            $staging = $event->getStaging();
+            $staging->updateAttribute('state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
+            $staging->updateAttribute('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
 
             $this->_getSession()->addSuccess($this->__('Staging was successfully unscheduled.'));
         } catch (Exception $e) {
