@@ -68,7 +68,7 @@ class Enterprise_GiftCard_Block_Catalog_Product_View_Type_Giftcard extends Mage_
     {
         $result = array();
         foreach ($product->getGiftcardAmounts() as $amount) {
-            $result[] = $amount['website_value'];
+            $result[] = Mage::app()->getStore()->roundPrice($amount['website_value']);
         }
         sort($result);
         return $result;

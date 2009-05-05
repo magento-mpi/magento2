@@ -132,8 +132,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
 
         $allowedAmounts = array();
         foreach ($product->getGiftcardAmounts() as $value) {
-            $allowedAmounts[] = $value['website_value'];
+            $allowedAmounts[] = Mage::app()->getStore()->roundPrice($value['website_value']);
         }
+
         $allowOpen = $product->getAllowOpenAmount();
         $minAmount = $product->getOpenAmountMin();
         $maxAmount = $product->getOpenAmountMax();
@@ -146,8 +147,9 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
         if ($rate != 1) {
             if ($customAmount) {
                 $customAmount = Mage::app()->getLocale()->getNumber($customAmount);
-                if (is_numeric($customAmount) && $customAmount)
-                $customAmount = Mage::app()->getStore()->roundPrice($customAmount/$rate);
+                if (is_numeric($customAmount) && $customAmount) {
+                    $customAmount = Mage::app()->getStore()->roundPrice($customAmount/$rate);
+                }
             }
         }
 

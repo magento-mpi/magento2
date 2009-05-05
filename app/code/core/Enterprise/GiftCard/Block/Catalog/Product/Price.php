@@ -96,7 +96,7 @@ class Enterprise_GiftCard_Block_Catalog_Product_Price extends Mage_Catalog_Block
             $giftcardAmounts = $product->getPriceModel()->getAmounts($product);
             if (is_array($giftcardAmounts)) {
                 foreach ($giftcardAmounts as $amount) {
-                    $result[] = $amount['website_value'];
+                    $result[] = Mage::app()->getStore()->roundPrice($amount['website_value']);
                 }
             }
             sort($result);
