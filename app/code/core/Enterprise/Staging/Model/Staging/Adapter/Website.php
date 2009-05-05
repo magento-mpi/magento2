@@ -224,6 +224,8 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
      */
     protected function _getIndexedUrl($url)
     {
+        return $url;
+
         $url = rtrim($url, "/");
         if (strpos($url, "index.php") === false) {
             $url .= "/index.php";
