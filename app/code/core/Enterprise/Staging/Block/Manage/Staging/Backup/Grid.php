@@ -63,7 +63,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
     {
         if (!$this->getCollection()) {
             $collection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')
-                ->addStagingToCollection(true);
+                ->addWebsitesToCollection();
             $this->setCollection($collection);
         }
 
@@ -80,7 +80,6 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
         $this->addColumn('master_website_id', array(
             'header'    => Mage::helper('enterprise_staging')->__('Website'),
             'index'     => 'master_website_id',
-            'filter_index' => 'core_website.website_id',
             'type'      => 'options',
             'options'   => $this->_getWebsiteList(),
             'sortable'  => false
@@ -148,7 +147,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
     {
         if (!$this->getCollection()) {
             $collection = Mage::getResourceModel('enterprise_staging/staging_backup_collection')
-                ->addStagingToCollection(true);
+                ->addWebsitesToCollection();
         } else {
             $collection = $this->getCollection();
         }

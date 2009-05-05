@@ -31,23 +31,43 @@ class Enterprise_Staging_Model_Staging_Adapter_Group extends Enterprise_Staging_
         $mapper     = $staging->getMapperInstance();
         $websites   = $mapper->getWebsites();
 
+        $createdStoreGroups = array();
         foreach ($websites as $website) {
-            $rootCategory = Mage::app()->getWebsite($website->getMasterWebsiteId())
-                ->getDefaultGroup()->getRootCategoryId();
-            if (empty($rootCategory)) {
+            $stores = $website->getStores();
+
+            foreach ($stores as $store) {
+                $realStore = Mage::app()->getStore($store->getMasterStoreId());
+                if (!$realStore) {
+                    continue;
+                }
+                if (array_key_exists($realStore->getGroupId(), $createdStoreGroups)) {
+                    $store->setGroupId($createdStoreGroups[$realStore->getGroupId()]);
+                    continue;
+                }
+
+                $realStoreGroup = $realStore->getGroup();
+
                 $rootCategory = 0;
-            }
+                if ($staging->getMapperInstance()->hasStagingItem('category')) {
+                    $rootCategory = $realStoreGroup->getRootCategoryId();
+                }
 
-            $stagingGroup = Mage::getModel('core/store_group');
-            $stagingGroup->setData('website_id', $website->getStagingWebsiteId());
-            $stagingGroup->setData('root_category_id', $rootCategory);
-            $stagingGroup->setData('name', 'Staging Store Group');
-            $stagingGroup->save();
+                $stagingGroup = Mage::getModel('core/store_group');
+                $stagingGroup->setData('website_id', $website->getStagingWebsiteId());
+                $stagingGroup->setData('root_category_id', $rootCategory);
+                $stagingGroup->setData('name', $realStoreGroup->getName());
+                $stagingGroup->save();
 
-            $stagingWebsite = $website->getStagingWebsite();
-            if ($stagingWebsite) {
-                $stagingWebsite->setData('default_group_id', $stagingGroup->getId());
-                $stagingWebsite->save();
+                $masterWebsite = $website->getMasterWebsite();
+                $stagingWebsite = $website->getStagingWebsite();
+                if ($stagingWebsite && ($realStoreGroup->getId() == $masterWebsite->getDefaultGroupId()) ) {
+                    $stagingWebsite->setData('default_group_id', $stagingGroup->getId());
+                    $stagingWebsite->save();
+                }
+
+                $store->setGroupId($stagingGroup->getId());
+
+                $createdStoreGroups[$realStore->getGroupId()] = $stagingGroup->getId();
             }
         }
 

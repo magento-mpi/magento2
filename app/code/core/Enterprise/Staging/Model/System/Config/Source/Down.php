@@ -44,11 +44,11 @@ class Enterprise_Staging_Model_System_Config_Source_Down extends Varien_Object
             ),
             array(
                 'value' => 1,
-                'label' => Mage::helper('enterprise_staging')->__('Take down entire frontend'),
+                'label' => Mage::helper('enterprise_staging')->__('Close Entire Frontend'),
             ),
             array(
                 'value' => 2,
-                'label' => Mage::helper('enterprise_staging')->__('Take down only relevant websites'),
+                'label' => Mage::helper('enterprise_staging')->__('Close only relevant websites'),
             ),
         );
     }

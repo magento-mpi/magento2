@@ -178,6 +178,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                             'label' => $this->helper->__('Base Url'),
                             'name'  => "websites[{$_id}][base_url]",
                             'value' => '',
+                            'note'  => "Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/",
                             'required' => true
                         )
                     );
@@ -187,6 +188,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                             'label' => $this->helper->__('Secure Base Url'),
                             'name'  => "websites[{$_id}][base_secure_url]",
                             'value' => '',
+                            'note'  => "Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/",
                             'required' => true
                         )
                     );
@@ -204,7 +206,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             $fieldset->addField('staging_website_master_login_'.$_id, 'text',
                 array(
                     'label'    => $this->helper->__('HTTP Login'),
-                    //'class'    => 'input-text required-entry validate-login',
+                    'class'    => 'input-text validate-login',
                     'name'     => "websites[{$_id}][master_login]",
                     'required' => false,
                     'value'    => $stagingWebsite ? $stagingWebsite->getMasterLogin() : ''
@@ -214,7 +216,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
             $fieldset->addField('staging_website_master_password_'.$_id, 'text',
                 array(
                     'label'    => $this->helper->__('HTTP Password'),
-                    //'class'    => 'input-text required-entry validate-password',
+                    'class'    => 'input-text validate-password',
                     'name'     => "websites[{$_id}][master_password]",
                     'required' => false,
                     'value'    => $stagingWebsite ? Mage::helper('core')->decrypt($stagingWebsite->getMasterPassword()) : ''

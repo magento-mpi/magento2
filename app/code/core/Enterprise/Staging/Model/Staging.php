@@ -93,6 +93,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         	$errors[] = $result;
         }
 
+        $password = $this->getMasterPassword();
+        if ($password && !Zend_Validate::is($password, 'StringLength', array(6))) {
+            $errors[] = Mage::helper('customer')->__('Password minimal length must be more %s', 6);
+        }
+
         if (empty($errors)) {
             return true;
         }

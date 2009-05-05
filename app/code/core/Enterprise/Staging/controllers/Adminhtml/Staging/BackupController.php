@@ -228,11 +228,13 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         try {
             $staging->getMapperInstance()->setRollbackMapData($mapData);
 
-            $staging->setEventId($backup->getEventId());
-
-            $staging->rollback();
-
-            $this->_getSession()->addSuccess($this->__('Master website successfully restored.'));
+            if ($staging->getMapperInstance()->hasStagingItems()) {
+                $staging->setEventId($backup->getEventId());
+                $staging->rollback();
+                $this->_getSession()->addSuccess($this->__('Master website successfully restored.'));
+            } else {
+                $this->_getSession()->addNotice($this->__('There are no items were selected for rollback.'));
+            }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $redirectBack = true;

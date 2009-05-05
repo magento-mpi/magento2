@@ -43,6 +43,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
         if ($staging instanceof Enterprise_Staging_Model_Staging) {
             if ($staging->getId()) {
                 $object->setStagingId($staging->getId());
+                $object->setStagingWebsiteId($staging->getStagingWebsiteId());
+                $object->setMasterWebsiteId($staging->getMasterWebsiteId());
             }
         }
 

@@ -60,6 +60,10 @@ class Enterprise_Staging_Model_Staging_Adapter_Store extends Enterprise_Staging_
                     $stagingStore->setData('group_id', $stagingWebsite->getDefaultGroupId());
                 }
 
+                if ($store->getGroupId()) {
+                    $stagingStore->setData('group_id', $store->getGroupId());
+                }
+
                 if (!$stagingStore->getId()) {
                     $value = Mage::getModel('core/date')->gmtDate();
                     $stagingStore->setCreatedAt($value);

@@ -142,6 +142,24 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
         return $this;
     }
 
+    public function addWebsitesToCollection()
+    {
+        $this->getSelect()
+            ->joinLeft(
+                array('core_website' => $this->getTable('core/website')),
+                'main_table.master_website_id=core_website.website_id',
+                array('master_website_id' => 'website_id',
+                    'master_website_name' => 'name'))
+            ->joinLeft(
+                array('staging_website' => $this->getTable('core/website')),
+                'main_table.staging_website_id=staging_website.website_id',
+                array('staging_website_id' => 'website_id',
+                    'staging_website_name' => 'name')
+        );
+
+        return $this;
+    }
+
     /**
      * Convert items array to array for select options
      *

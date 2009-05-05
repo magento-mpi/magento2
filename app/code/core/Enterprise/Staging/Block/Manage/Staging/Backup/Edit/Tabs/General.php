@@ -99,9 +99,9 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
      */
     public function getMasterWebsiteName()
     {
-        $staging = $this->getBackup()->getStaging();
-        if ($staging) {
-            $masterWebsite = $staging->getMasterWebsite();
+        $masterWebsiteId = $this->getBackup()->getMasterWebsiteId();
+        if ($masterWebsiteId) {
+            $masterWebsite = Mage::app()->getWebsite($masterWebsiteId);
             if ($masterWebsite) {
                 return $masterWebsite->getName();
             } else {

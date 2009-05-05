@@ -61,6 +61,13 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
 
         $websiteMap = new Varien_Object($websiteMap);
 
+        $password = trim($websiteMap->getMasterPassword());
+        if ($password) {
+             if (Mage::helper('core/string')->strlen($password)<6) {
+                throw new Mage_Core_Exception(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+            }
+        }
+
         $_storesMap = array();
         foreach ($stores as $masterStoreId => $storeMap) {
             if (isset($storeMap['use'])) {
@@ -159,6 +166,25 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $this->setData('staging_items', $_stagingItems);
 
         return $this;
+    }
+
+    public function hasStagingItems()
+    {
+        $items = $this->getData('staging_items');
+
+        return (is_array($items) && count($items) > 0);
+    }
+
+    public function hasStagingItem($itemCode)
+    {
+        $items = $this->getData('staging_items');
+
+        foreach ($items as $item) {
+        	if ($itemCode == $item->getName()) {
+        	    return true;
+        	}
+        }
+        return false;
     }
 
     public function getMergeMapData()

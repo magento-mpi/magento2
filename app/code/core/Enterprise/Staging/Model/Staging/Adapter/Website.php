@@ -38,8 +38,9 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
 
         foreach ($websites as $website) {
             $masterWebsiteId = $website->getMasterWebsiteId();
+            $masterWebsite   = Mage::app()->getWebsite($masterWebsiteId);
 
-            $stagingWebsite   = Mage::getModel('core/website');
+            $stagingWebsite  = Mage::getModel('core/website');
 
             $stagingWebsite->setData('is_staging', 1);
             $stagingWebsite->setData('code', $website->getCode());
@@ -54,7 +55,7 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $password = trim($website->getMasterPassword());
             if ($password) {
                  if(Mage::helper('core/string')->strlen($password)<6){
-                    Mage::throwException(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                    throw new Mage_Core_Exception(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
                 }
                 $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
             }
@@ -76,6 +77,8 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
 
             $website->setStagingWebsite($stagingWebsite);
             $website->setStagingWebsiteId($stagingWebsiteId);
+
+            $website->setMasterWebsite($masterWebsite);
 
             $this->_saveSystemConfig($staging, $stagingWebsite, $entryPoint);
 

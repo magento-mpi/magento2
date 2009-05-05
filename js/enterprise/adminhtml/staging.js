@@ -356,44 +356,85 @@ selectStoreMap = function(event)
     var element = Event.element(event);
     element = $(element);
     
+    var btn = element.parentRow.addNewRow.btn;
+    
     if (!element.parentRow || !element.mapper) {
        return;
     }
     
-    var btn         = element.parentRow.addNewRow.btn;
-    
     var fromElement = element.parentRow.fromElement;
     
-    var websiteRow     = fromElement.websiteRow;
-    
-    if (fromElement) {
-        if (fromElement.prevValue) {
-            websiteRow.stores.unset(fromElement.prevValue);
-        }
-        if (fromElement.value) {
-            if (websiteRow.stores.get(fromElement.value)) {
-                alert('Please, select an another store view to map.');
-                fromElement.value = '';
-                element.mapper.disableBtn(btn);
-                return;
-            }
-        }
-        element.parentRow.fromStore = fromElement.value;
-        fromElement.prevValue         = fromElement.value;
-    }
     var toElement = element.parentRow.toElement;
-    if (toElement) {
-        element.parentRow.toStore     = toElement.value;
-        toElement.prevValue         = toElement.value;
+    
+    if (!fromElement || !toElement) {
+    	return;
+    }
+    
+    var websiteRow = fromElement.websiteRow;
+    
+    if (fromElement == element) {
+    	processFromStoreElement(element, toElement);
+    } else {
+    	processToStoreElement(fromElement, element);
     }
     
     if (fromElement.value && toElement.value) {
         element.mapper.enableBtn(btn);
-        websiteRow.stores.set(fromElement.value, toElement.value)
+        var currentMappedStores = websiteRow.stores.get(toElement.value);
+        currentMappedStores.set(fromElement.value, true);
+        //websiteRow.stores.set(toElement.value, currentMappedStores);
     } else {
         element.mapper.disableBtn(btn);
     }
 };
+
+processToStoreElement = function(fromElement, toElement)
+{
+	var btn = toElement.parentRow.addNewRow.btn;
+	
+	var websiteRow = fromElement.websiteRow;
+	
+	if (toElement.value) {
+		var currentMappedStores = websiteRow.stores.get(toElement.value);
+	    if (!currentMappedStores) {
+	    	currentMappedStores = new $H();
+	    	websiteRow.stores.set(toElement.value, currentMappedStores);
+	    } else {
+	    	if (toElement.prevValue) {
+	    		toElement.value = toElement.prevValue;
+	    	} else {
+	    		toElement.value = '';
+	    	}
+	    	alert('Please, select an another store view to map.');
+	        return;
+	    }
+	}
+	
+	if (toElement.prevValue) {
+    	websiteRow.stores.unset(toElement.prevValue);
+	}
+	
+    toElement.parentRow.toStore = toElement.value;
+    toElement.prevValue         = toElement.value;
+}
+
+processFromStoreElement = function(fromElement, toElement)
+{
+	var btn = fromElement.parentRow.addNewRow.btn;
+    
+    var websiteRow = fromElement.websiteRow;
+
+    if (toElement.value) {
+    	var currentMappedStores = websiteRow.stores.get(toElement.value);
+    	currentMappedStores.set(fromElement.value, true);
+	    if (fromElement.prevValue) {
+	    	currentMappedStores.unset(fromElement.prevValue);
+			websiteRow.stores.set(toElement.value, currentMappedStores);
+		}
+    }
+    fromElement.parentRow.fromStore = fromElement.value;
+    fromElement.prevValue           = fromElement.value;
+}
 
 Enterprise.Staging.Form = new Class.create();
 Enterprise.Staging.Form.prototype = {

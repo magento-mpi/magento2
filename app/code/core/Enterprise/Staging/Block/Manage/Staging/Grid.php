@@ -58,6 +58,9 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
     {
         $collection = Mage::getResourceModel('enterprise_staging/staging_collection');
 
+        $this->setCollection($collection);
+        parent::_prepareCollection();
+
         foreach($collection AS $staging) {
             $collection->getItemById($staging->getId())
                 ->setData("lastEvent", $staging->getEventsCollection()->getFirstItem()->getComment());
@@ -76,8 +79,7 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
                 ->setData("base_url", $baseUrl);
         }
 
-        $this->setCollection($collection);
-        return parent::_prepareCollection();
+        return $this;
     }
 
     /**

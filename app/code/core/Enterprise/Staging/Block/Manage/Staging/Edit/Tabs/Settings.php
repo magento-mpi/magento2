@@ -81,7 +81,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Settings extends Mage_Ad
 
         $websiteCollection = Mage::getModel('core/website')->getCollection()
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Website::CACHE_TAG));
-        $websiteCollection->addFieldToFilter('is_staging',array('neq'=>1));
 
         $fieldset->addField('master_website_id', 'select', array(
             'label' => $this->helper->__('Source Website'),
