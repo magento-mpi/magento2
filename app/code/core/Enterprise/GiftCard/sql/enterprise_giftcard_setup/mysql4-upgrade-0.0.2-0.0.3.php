@@ -57,7 +57,7 @@ $installer->addAttribute('catalog_product', 'giftcard_amounts', array(
 $installer->addAttribute('catalog_product', 'allow_open_amount', array(
         'group'             => 'Prices',
         'type'              => 'int',
-        'backend'           => 'catalog/product_attribute_backend_price',
+        'backend'           => '',
         'frontend'          => '',
         'label'             => 'Allow Open Amount',
         'input'             => 'select',
