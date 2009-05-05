@@ -41,6 +41,17 @@ class Enterprise_Staging_Block_Manage_Staging_Renderer_Grid_Column_Action extend
      */
     public function render(Varien_Object $row)
     {
+        $validate = $this->getColumn()->getValidate();
+        if (is_array($validate)) {
+            foreach ($validate as $field => $condition) {
+                $args = isset($condition['args']) ? $condition['args'] : array();
+                $classBaseName = isset($condition['class_base_name']) ? $condition['class_base_name'] : 'NotEmpty';
+                $value = $row->getData($field);
+                if (!Zend_Validate::is($value , $classBaseName, $args)) {
+                    return '';
+                }
+            }
+        }
         switch ($this->getColumn()->getLinkType()) {
             case 'url':
                 return $this->_renderUrl($row);

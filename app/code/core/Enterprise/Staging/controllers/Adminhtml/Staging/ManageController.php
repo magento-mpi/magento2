@@ -416,4 +416,23 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $this->_redirect('*/*/');
         }
     }
+
+    public function unscheduleAction()
+    {
+        $event = $this->_initEvent();
+
+        try {
+            $event->setData('merge_schedule_date', '0000-00-00 00:00:00');
+            $event->save();
+
+            $this->_getSession()->addSuccess($this->__('Staging was successfully unscheduled.'));
+        } catch (Exception $e) {
+            $this->_getSession()->addError($this->__('Unable to unschedule merge'));
+        }
+
+        $this->_redirect('*/*/edit', array(
+            'id'        => $event->getStagingId(),
+            '_current'  => true
+        ));
+    }
 }

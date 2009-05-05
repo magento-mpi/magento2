@@ -54,7 +54,11 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
         $this->setColumnRenderers(
             array(
                 'long2ip' => 'enterprise_staging/manage_staging_edit_renderer_ip'
-            ));
+        ));
+        $this->setColumnRenderers(
+            array(
+                'action' => 'enterprise_staging/manage_staging_renderer_grid_column_action'
+        ));
 
         $this->helper = Mage::helper('enterprise_staging');
     }
@@ -121,6 +125,38 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             'escape'    => true,
             'sortable'  => false,
             'filter'    => false
+        ));
+
+//        $this->addColumn('is_backuped', array(
+//            'header'    => $this->helper->__('Is Backuped'),
+//            'index'     => 'is_backuped',
+//            'type'      => 'options',
+//            'options'   => Mage::getModel('eav/entity_attribute_source_boolean')->getOptionArray(),
+//            'sortable'  => false
+//        ));
+
+        $this->addColumn('action', array(
+            'header'    => Mage::helper('enterprise_staging')->__('Action'),
+            'type'      => 'action',
+            'getter'    => 'getId',
+            'width'     => '80px',
+            'filter'    => false,
+            'sortable'  => false,
+            'index'     => 'type',
+            'link_type' => 'actions',
+            'validate'  => array(
+                'merge_schedule_date' => array(
+                    'class_base_name' => 'Date',
+                    'args' => array(
+                        'format' => Varien_Date::DATETIME_INTERNAL_FORMAT
+                    )
+            )),
+            'actions'   => array(
+                array(
+                    'url'       => $this->getUrl('*/*/unschedule', array('id' => '$event_id')),
+                    'caption'   => Mage::helper('enterprise_staging')->__('Unschedule Merge')
+                )
+            )
         ));
 
         return parent::_prepareColumns();
