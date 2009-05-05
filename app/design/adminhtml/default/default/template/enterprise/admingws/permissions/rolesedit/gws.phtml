@@ -55,7 +55,7 @@
                     <ul id="gws_website_<?php echo $websiteId ?>_groups" style="margin-left:1.5em">
                     <?php foreach ($website->getGroups() as $group): ?>
                         <li>
-                        <input class="gws_store_group" type="checkbox" name="gws_store_groups[]" value="<?php echo $group->getId() ?>" id="gws_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getGwsStoreGroups()) ? 'checked="checked" ' : '') ?>/><label for="gws_store_group_<?php echo $group->getId() ?>">
+                        <input class="gws_store_group validate-one-required-by-name" type="checkbox" name="gws_store_groups[]" value="<?php echo $group->getId() ?>" id="gws_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getGwsStoreGroups()) ? 'checked="checked" ' : '') ?>/><label for="gws_store_group_<?php echo $group->getId() ?>">
                             <?php echo $group->getName() ?>
                         </label>
                         </li>
