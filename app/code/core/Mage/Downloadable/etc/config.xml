@@ -914,13 +914,13 @@
     </frontend>
     <admin>
         <routers>
-            <downloadable>
+            <downloadableadmin>
                 <use>admin</use>
                 <args>
                     <module>Mage_Downloadable</module>
-                    <frontName>downloadable</frontName>
+                    <frontName>downloadableadmin</frontName>
                 </args>
-            </downloadable>
+            </downloadableadmin>
         </routers>
     </admin>
     <default>
