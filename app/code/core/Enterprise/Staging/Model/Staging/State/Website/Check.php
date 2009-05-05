@@ -40,6 +40,9 @@ class Enterprise_Staging_Model_Staging_State_Website_Check extends Enterprise_St
             $catalogIndexFlag->delete();
         }
 
+        Mage::getConfig()->reinit();
+        Mage::app()->reinitStores();
+
         return parent::_afterRun($staging);
     }
 }
