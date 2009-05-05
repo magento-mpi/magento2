@@ -285,10 +285,6 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             return false;
         }
 
-        if ($this->getParentItemId()) {
-            return false;
-        }
-
         $itemOptions    = $this->getOptions();
         $productOptions = $product->getCustomOptions();
         if (count($itemOptions) != count($productOptions)) {
