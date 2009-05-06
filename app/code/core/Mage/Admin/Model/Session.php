@@ -89,7 +89,7 @@ class Mage_Admin_Model_Session extends Mage_Core_Model_Session_Abstract
             }
         }
         catch (Mage_Core_Exception $e) {
-            Mage::dispatchEvent('admin_session_user_login_failed', array('user_name'=>$username));
+            Mage::dispatchEvent('admin_session_user_login_failed', array('user_name'=>$username, 'exception' => $e));
             if ($request && !$request->getParam('messageSent')) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $request->setParam('messageSent', true);
