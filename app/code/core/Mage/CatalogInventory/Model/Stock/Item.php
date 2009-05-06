@@ -453,13 +453,8 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
             $this->setQty(0);
         }
 
-        if ($this->getProductStatusChanged()
-            OR $this->getProductChangedWebsites()
-            OR $this->dataHasChangedFor('is_in_stock')
-            OR $this->dataHasChangedFor('manage_stock')) {
-            Mage::getSingleton('cataloginventory/stock_status')
-                ->changeItemStatus($this);
-        }
+        Mage::getSingleton('cataloginventory/stock_status')
+            ->changeItemStatus($this);
 
         Mage::dispatchEvent('cataloginventory_stock_item_save_before', array('item' => $this));
         return $this;
