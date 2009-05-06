@@ -215,6 +215,7 @@ Enterprise.BundleSummary = {
         this.summaryContainer = this.summary.up(0);
 
         this.summaryStartY = this.summary.positionedOffset().top;
+        this.summaryStartY = 61;
         this.summaryStartX = this.summary.positionedOffset().left;
         this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);      
         this.GetScroll = setInterval(this.onDocScroll, 50);   
@@ -254,7 +255,7 @@ Enterprise.BundleSummary = {
     },
     
     exitSummary: function () {
-        clearInterval(this.GetScroll);  
+        clearInterval(this.GetScroll);
     } 
 };
 

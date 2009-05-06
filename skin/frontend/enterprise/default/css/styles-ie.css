@@ -36,7 +36,9 @@
 .validation-advice { _height:13px; _display:inline; }
 .cart .cart-collaterals { _height:413px; }
 .opc li.section { vertical-align:top; }
-.product-view .tags .form-add-tags .input-box { margin-top:-1px; }
+.product-view .tags .form-add-tags .input-box .input-text { _display:block; }
+.product-view .tags .form-add-tags .input-box .input-text { vertical-align:top; }
+.product-view .tags .form-add-tags .button { margin-top:1px; }
 .giftcard-send-form   { float:left; width:416px; display:inline; margin-bottom:-40px;}
 .top-cart  { _width:10px; }
 .cart .crosssell { _height:400px; }
@@ -72,8 +74,8 @@
 .form-list .form-element .input-box { padding-top:2px; }
 input.radio { width:13px; height:13px; }
 input.checkbox { width:13px; height:13px; }
-/* button.button span { position:relative; } */
-button.button { height:21px; }
+button.button { height:21px; padding:0 1px 1px 0; }
+a.button { _height:22px; }
 .cart .checkout-types .btn-proceed-checkout,
 .product-view .product-essential button.btn-cart,
 .add-to-cart button.btn-cart { height:27px; }
