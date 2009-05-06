@@ -45,7 +45,7 @@
         <ul style="display:none" id="popId-currencySelect">
             <li class="current currency-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
                 <span><?php echo $this->htmlEscape($this->getCurrentCurrencyCode()) ?>
-                - <?php echo $this->htmlEscape(Mage::app()->getStore()->getCurrentCurrencyCode()) ?></span>
+                - <?php echo $this->htmlEscape($currencies[Mage::app()->getStore()->getCurrentCurrencyCode()]) ?></span>
             </li>
             <?php foreach ($currencies as $_code => $_name): ?>
                 <?php if($_code != $this->getCurrentCurrencyCode()): ?>
