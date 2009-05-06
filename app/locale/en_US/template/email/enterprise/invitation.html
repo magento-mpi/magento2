@@ -1,4 +1,4 @@
-<!--@subject Invite to join Private Sales Site @-->
+<!--@subject {{if inviter_name}}{{var inviter_name}} invites you{{else}}Invite{{/if}} to join Private Sales Site @-->
 
 <style type="text/css">
     body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
@@ -19,13 +19,15 @@
                 <table cellspacing="0" cellpadding="0" border="0" width="650">
                     <tr>
                         <td valign="top">
-                        <p>Please accept this invitation to join {{var store_name}}</p>
-                        <p>{{var store_name}} offers limited time sales of products only to members.</p>
-                        <div>
-                        Please use the following link to create an account and view the deals {{depend allow_message}} {{var message}} {{/depend}}
-                        <a href="{{var url}}">{{var url}}</a>
-                        </div>
-                        <p>Thank you,</p>
+                            <p>Please accept this invitation to join {{var store_name}}</p>
+                            <p>{{var store_name}} offers limited time sales of products only to members.</p>
+
+                            <div>
+                            Please use the following link to create an account and view the deals {{if allow_message}} {{var message}} {{/if}}
+                            <a href="{{var url}}">{{var url}}</a>
+                            </div>
+
+                            <p>Thank you,</p>
                         </td>
                     </tr>
                 </table>

@@ -209,6 +209,9 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                             'gift_message'           => nl2br(htmlspecialchars($item->getProductOptionByCode('giftcard_message'))),
                             'giftcards'              => $codeList->toHtml(),
                             'balance'                => $balance,
+                            'is_multiple_codes'      => 1 < $goodCodes,
+                            'store_name'             => $order->getStore()->getName(),
+                            'is_redeemable'          => $isRedeemable,
                         );
 
                         $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $item->getOrder()->getStoreId()));

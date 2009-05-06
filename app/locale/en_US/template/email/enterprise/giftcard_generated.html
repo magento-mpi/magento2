@@ -1,6 +1,5 @@
 <!--@subject You've been sent a gift from {{var sender_name}} @-->
 
-
 <style type="text/css">
     body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
 </style>
@@ -20,16 +19,23 @@
                 <table cellspacing="0" cellpadding="0" border="0" width="650">
                     <tr>
                         <td valign="top">
-                        Dear, {{var name}}<br />
-                        {{var sender_name_with_email}} has sent you a gift card for use at {{store url=""}} and it is now ready to be used for purchases.<br />
-                        <br />
-                        The Gift Card code(s):<br />
-                        {{var giftcards}}<br />
-                        <br />
-                        The card(s) has a balance of {{var balance}} that can be used at {{store url=""}}.<br />
-                        <br />
-                        {{var gift_message}}<br />
-                        Thank you,
+                        <p>Dear, {{var name}}<br />
+                        {{var sender_name_with_email}} has sent you a gift card for use at {{var store_name}} and it is now ready to be used for purchases.</p>
+
+                        <div>The Gift Card code(s):
+                        {{var giftcards}}
+                        </div>
+
+                        <p>{{if is_multiple_codes}}Each{{else}}The{{/if}} card has a balance of {{var balance}} that can be used at <a href="{{store url=""}}">{{store url=""}}</a>.</p>
+                        {{if is_redeemable}}
+                        <p>Click at the code(s) above to redeem them into Store Credit.</p>
+                        {{/if}}
+
+                        <div>
+                        {{var gift_message}}
+                        </div>
+
+                        <p>Thank you,</p>
                         </td>
                     </tr>
                 </table>

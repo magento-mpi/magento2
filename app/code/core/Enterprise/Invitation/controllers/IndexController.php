@@ -124,6 +124,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                                 'allow_message' => $message !== null,
                                 'message' => htmlspecialchars($message),
                                 'store_name' => Mage::app()->getStore($invitation->getStoreId())->getName(),
+                                'inviter_name' => Mage::getSingleton('customer/session')->getCustomer()->getName(),
                             )
                         );
 

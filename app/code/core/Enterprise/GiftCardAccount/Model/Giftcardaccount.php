@@ -430,7 +430,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             Mage::getStoreConfig('giftcardaccount/email/identity', $storeId),
             $email,
             $name,
-            array('name'=>$name, 'code'=>$code, 'balance'=>$balance)
+            array('name' => $name, 'code' => $code, 'balance' => $balance, 'store_name' => $store->getName())
         );
 
         $this->setEmailSent(false);

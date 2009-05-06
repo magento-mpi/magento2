@@ -1,5 +1,4 @@
-<!--@subject Here is your Gift Card. @-->
-
+<!--@subject You've been sent a gift from {{var store_name}} @-->
 
 <style type="text/css">
     body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }
@@ -20,16 +19,17 @@
                 <table cellspacing="0" cellpadding="0" border="0" width="650">
                     <tr>
                         <td valign="top">
-                        Dear, {{var name}}<br /><br />
+                            <p>Dear {{var name}},<br />
+                            You've been sent a gift card for use at {{var store_name}} and it is now ready to be used for purchases.</p>
 
-                        Here is a Gift Card for you:<br />
-                        {{var code}}<br /><br />
+                            <p>The Gift Card code is {{var code}}.</p>
 
-                        It has {{var balance}} that can be used in shopping cart instead of real money.
+                            <p>The card has a balance of {{var balance}} that can be used at <a href="{{store url=""}}">{{store url=""}}</a></p>
+
+                            <p>Thank you,</p>
                         </td>
                     </tr>
                 </table>
-
             </td>
         </tr>
     </table>
