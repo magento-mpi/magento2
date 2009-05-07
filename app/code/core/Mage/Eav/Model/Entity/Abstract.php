@@ -472,12 +472,23 @@ abstract class Mage_Eav_Model_Entity_Abstract
         return $this;
     }
 
-    public function getSortedAttributes($setId=null)
+    /**
+     * Retrieve sorted attributes
+     *
+     * @param int $setId
+     * @return array
+     */
+    public function getSortedAttributes($setId = null)
     {
-        $attributes =$this->getAttributesByCode();
+        $attributes = $this->getAttributesByCode();
         if (is_null($setId)) {
             $setId = $this->getEntityType()->getDefaultAttributeSetId();
         }
+
+        // initialize set info
+        Mage::getSingleton('eav/entity_attribute_set')
+            ->addSetInfo($this->getEntityType(), $attributes, $setId);
+
         $this->_sortingSetId = $setId;
         uasort($attributes, array($this, 'attributesCompare'));
         return $attributes;

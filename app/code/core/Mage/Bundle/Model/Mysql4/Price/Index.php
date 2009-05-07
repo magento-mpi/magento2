@@ -74,8 +74,7 @@ class Mage_Bundle_Model_Mysql4_Price_Index extends Mage_Core_Model_Mysql4_Abstra
     {
         if (!isset($this->_attributes[$attributeCode])) {
             $this->_attributes[$attributeCode] = Mage::getSingleton('catalog/config')
-            ->preloadAttributes('catalog_product', $attributeCode)
-            ->getAttribute('catalog_product', $attributeCode);
+                ->getAttribute('catalog_product', $attributeCode);
         }
         return $this->_attributes[$attributeCode];
     }

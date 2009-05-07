@@ -168,31 +168,9 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
      */
     public function getSetAttributes($product = null)
     {
-        $cacheKey = '_cache_set_attributes';
-        if (!$this->getProduct($product)->hasData($cacheKey)) {
-            $attributes = $this->getProduct($product)->getResource()
-                ->loadAllAttributes($this->getProduct($product))
-                ->getAttributesByCode();
-            $setAttributes = array();
-            $attributeSetId = $this->getProduct($product)->getAttributeSetId();
-            foreach ($attributes as $attribute) {
-                if ($attribute->isInSet($attributeSetId)) {
-                    $attribute->setGroupSortPath($attribute->getData(
-                        "attribute_set_info/{$attributeSetId}/group_sort"
-                    ));
-                    $attribute->setSortPath($attribute->getData(
-                        "attribute_set_info/{$attributeSetId}/sort"
-                    ));
-                    $attribute->setStoreId( $this->getProduct($product)->getStore()->getId() );
-
-                    $setAttributes[$attribute->getAttributeCode()] = $attribute;
-                }
-            }
-
-            uasort($setAttributes, array($this, 'attributesCompare'));
-            $this->getProduct($product)->setData($cacheKey, $setAttributes);
-        }
-        return $this->getProduct($product)->getData($cacheKey);
+        return $this->getProduct($product)->getResource()
+            ->loadAllAttributes($this->getProduct($product))
+            ->getSortedAttributes($this->getProduct($product)->getAttributeSetId());
     }
 
     /**

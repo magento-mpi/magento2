@@ -335,17 +335,24 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $entityType = $this->getEavConfig()->getEntityType('catalog_product');
             $entity     = $entityType->getEntity();
 
+            $whereCond  = array(
+                $this->_getReadAdapter()->quoteInto('is_searchable=?', 1),
+                $this->_getReadAdapter()->quoteInto('attribute_code IN(?)', array('status', 'visibility'))
+            );
+
             $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('eav/attribute'), array('attribute_code'))
+                ->from($this->getTable('eav/attribute'))
                 ->where('entity_type_id=?', $entityType->getEntityTypeId())
-                ->where('is_searchable=?', 1);
-            $attributeCodes = array_merge($this->_getReadAdapter()->fetchCol($select), array('status', 'visibility'));
-            $this->getEavConfig()->preloadAttributes($entityType, $attributeCodes);
-            foreach ($attributeCodes as $attributeCode) {
+                ->where(join(' OR ', $whereCond));
+            $attributesData = $this->_getReadAdapter()->fetchAll($select);
+            $this->getEavConfig()->importAttributesData($entityType, $attributesData);
+            foreach ($attributesData as $attributeData) {
+                $attributeCode = $attributeData['attribute_code'];
                 $attribute = $this->getEavConfig()->getAttribute($entityType, $attributeCode);
                 $attribute->setEntity($entity);
                 $this->_searchableAttributes[$attribute->getId()] = $attribute;
             }
+            unset($attributesData);
         }
         if (!is_null($backendType)) {
             $attributes = array();
