@@ -80,11 +80,11 @@ class Enterprise_AdminGws_Model_Controllers
 
         // redirect to first allowed website or store scope
         if ($this->_helper->getWebsiteIds()) {
-            return $this->_redirect($controller, Mage::getUrl('adminhtml/system_config/edit',
+            return $this->_redirect($controller, Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_config/edit',
                 array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode()))
             );
         }
-        $this->_redirect($controller, Mage::getUrl('adminhtml/system_config/edit',
+        $this->_redirect($controller, Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_config/edit',
             array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode(), 'store' => Mage::app()->getAnyStoreView()->getCode()))
         );
     }
@@ -289,13 +289,13 @@ class Enterprise_AdminGws_Model_Controllers
     {
         $controller->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
         if (null === $url) {
-            $url = Mage::getUrl('*/*/denied');
+            $url = Mage::getSingleton('adminhtml/url')->getUrl('*/*/denied');
         }
         elseif (is_array($url)) {
-            $url = Mage::getUrl(array_shift($url), $url);
+            $url = Mage::getSingleton('adminhtml/url')->getUrl(array_shift($url), $url);
         }
         elseif (false === strpos($url, 'http', 0)) {
-            $url = Mage::getUrl($url);
+            $url = Mage::getSingleton('adminhtml/url')->getUrl($url);
         }
         Mage::app()->getResponse()->setRedirect($url);
     }
