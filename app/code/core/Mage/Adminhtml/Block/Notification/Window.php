@@ -142,7 +142,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
      */
     protected function _isObjectReadable()
     {
-        if (@fopen($this->getObjectUrl() . '.swf', 'r') || @fopen($this->getObjectUrl() . '.dcr', 'r')) {
+        if (@fopen($this->getObjectUrl() . '.swf', 'r')) {
             return true;
         }
         return false;
