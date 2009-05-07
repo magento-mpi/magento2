@@ -258,17 +258,13 @@
                 <cmsblocks>1</cmsblocks>
                 <cmspolls>1</cmspolls>
                 <customers>1</customers>
-                <customerbalance>1</customerbalance>
                 <reports>1</reports>
-                <giftaccount>1</giftaccount>
                 <systemconfiguration>1</systemconfiguration>
                 <customergroups>1</customergroups>
                 <customerbalance>1</customerbalance>
-                <catalogevents>1</catalogevents>
                 <promocatalog>1</promocatalog>
                 <promoquote>1</promoquote>
                 <systemaccount>1</systemaccount>
-                <invitations>1</invitations>
                 <newslettertemplate>1</newslettertemplate>
                 <newsletterqueue>1</newsletterqueue>
                 <newslettersubscriber>1</newslettersubscriber>

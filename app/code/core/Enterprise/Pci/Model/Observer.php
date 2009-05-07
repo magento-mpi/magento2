@@ -31,6 +31,8 @@
  */
 class Enterprise_Pci_Model_Observer
 {
+    const ADMIN_USER_LOCKED = 243;
+
     /**
      * Admin locking and password hashing upgrade logic implementation
      *
@@ -76,7 +78,7 @@ class Enterprise_Pci_Model_Observer
             $lockExpires = new Zend_Date($lockExpires, Varien_Date::DATETIME_INTERNAL_FORMAT);
             $lockExpires = $lockExpires->toValue();
             if ($lockExpires > time()) {
-                Mage::throwException(Mage::helper('enterprise_pci')->__('This account is locked.'));
+                throw new Mage_Core_Exception(Mage::helper('enterprise_pci')->__('This account is locked.'), self::ADMIN_USER_LOCKED);
             }
         }
 

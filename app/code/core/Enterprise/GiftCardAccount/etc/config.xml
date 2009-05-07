@@ -308,6 +308,11 @@
     </adminhtml>
 
     <default>
+        <admin>
+            <logsenabled>
+                <giftaccount>1</giftaccount>
+            </logsenabled>
+        </admin>
         <giftcardaccount>
             <email>
                 <identity>general</identity>

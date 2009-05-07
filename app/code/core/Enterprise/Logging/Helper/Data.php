@@ -115,6 +115,7 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
         return isset($labelsconfig[$code]) ? $labelsconfig[$code] : "";
     }
 
+
     /**
      * Load actions from config
      */
@@ -123,18 +124,29 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
         $config = Mage::getConfig();
         $modules = $config->getNode('modules')->children();
 
-        // check if local modules are disabled                                                                                                               
+        // check if local modules are disabled
         $disableLocalModules = (string)$config->getNode('global/disable_local_modules');
         $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
+        $conf = Mage::getModel('core/config');
+        $is_loaded = false;
+        foreach ($modules as $modName=>$module) {
+            if ($module->is('active')) {
+                if ($disableLocalModules && ('local' === (string)$module->codePool)) {
+                    continue;
+                }
 
-        $configFile = $config->getModuleDir('etc', 'Enterprise_Logging').DS.'logging.xml';
-
-        $logConfig = Mage::getModel('core/config_base');
-        $logConfig->loadFile($configFile);
-
-        $node = $logConfig->getNode('actions');
-        $conf = $node->asArray();
-        return $conf;
+                $configFile = $config->getModuleDir('etc', $modName) . DS . self::CONFIG_FILE;
+                $logConfig = Mage::getModel('core/config_base');
+                if ($logConfig->loadFile($configFile) ) {
+                    if (!$is_loaded) {
+                        $conf->loadFile($configFile);
+                        $is_loaded = true;
+                    } else
+                        $conf->extend($logConfig, true);
+                } 
+            }
+        }
+        return $conf->getNode('actions')->asArray();
     }
 
     /**
@@ -145,17 +157,28 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
         $config = Mage::getConfig();
         $modules = $config->getNode('modules')->children();
 
-        // check if local modules are disabled                                                                                                               
+        // check if local modules are disabled
         $disableLocalModules = (string)$config->getNode('global/disable_local_modules');
         $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
+        $conf = Mage::getModel('core/config');
+        $is_loaded = false;
+        foreach ($modules as $modName=>$module) {
+            if ($module->is('active')) {
+                if ($disableLocalModules && ('local' === (string)$module->codePool)) {
+                    continue;
+                }
 
-        $configFile = $config->getModuleDir('etc', 'Enterprise_Logging').DS. self::CONFIG_FILE;
-
-        $logConfig = Mage::getModel('core/config_base');
-        $logConfig->loadFile($configFile);
-
-        $node = $logConfig->getNode('labels');
-        $conf = $node->asArray();
-        return $conf;
+                $configFile = $config->getModuleDir('etc', $modName) . DS . self::CONFIG_FILE;
+                $logConfig = Mage::getModel('core/config_base');
+                if ($logConfig->loadFile($configFile) ) {
+                    if (!$is_loaded) {
+                        $conf->loadFile($configFile);
+                        $is_loaded = true;
+                    } else
+                        $conf->extend($logConfig, true);
+                } 
+            }
+        }
+        return $conf->getNode('labels')->asArray();
     }
 }

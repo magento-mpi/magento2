@@ -127,7 +127,13 @@ class Enterprise_Logging_Model_Observer
                 /**
                  * Load custom handler from config
                  */
-                $this->$conf['after-save-handler']($model, $conf);
+                $method = $conf['after-save-handler'];
+                $object = $this;
+                if (preg_match("%^(.*?)::(.*?)$%", $conf['after-save-handler'], $m)) {
+                    $method = $m[2];
+                    $object = Mage::getModel($m[1]);
+                }
+                return $object->$method($model, $conf);
             } else {
                 /**
                  * Check if model has to be saved. Using deprecated in php5.2 'is_a' which should
@@ -269,7 +275,88 @@ class Enterprise_Logging_Model_Observer
                 Mage::unregister('enterprise_logged_actions');
                 Mage::register('enterprise_logged_actions', $actions);
             }
+        } else {
+            $conf = Mage::helper('enterprise_logging')->getConfig($action);
+            if (isset($conf['special-action-handler'])) {
+                $object = $this;
+                $method = $config['special-action-handler'];
+                if (preg_match("%^(.*?)::(.*?)$%", $config['special-action-handler'], $m)) {
+                    $method = $m[2];
+                    $object = Mage::getModel($m[1]);
+                }
+                $object->$method($action);
+            }
         }
+    }
+
+    /**
+     * Custom method for staging mergePost
+     */
+    public function getMergePostStagingAction($config, $success) {
+        $request = Mage::app()->getRequest();
+        $staging_id = $request->getParam('id');
+        $data = $request->getParam('map');
+        $data = $data['websites'];
+        $to = 0; 
+        foreach ($data['to'] as $element) {
+            if ($element) {
+                $to = $element;
+                break;
+            }
+        }
+        $from = $data['from'][0];
+        $info = sprintf("staging_id-%s,from-%s,to-%s", $staging_id, $from, $to);
+        if ($schedule = $request->getParam('schedule_merge_later')) {
+            $info .= ", scheduled to ".$schedule;
+        }
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => $info,
+        );
+    }
+
+    /**
+     * Custom method for rollback staging
+     */
+    public function getRollbackStagingAction($config, $success) {
+        $request = Mage::app()->getRequest();
+        $backup_id = $request->getParam('backup_id');
+        $staging_id = $request->getParam('staging_id');
+        $info = sprintf("backup_id-%s, staging_id-%s", $backup_id, $staging_id);
+
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => $info,
+        );
+    }
+
+    /**
+     * Custom method for save staging
+     */
+    public function getSaveStagingAction($config, $success) {
+        $data = Mage::app()->getRequest()->getParam('staging');
+        $data = $data['websites'];
+        list($master_id, $date) = each($data);
+
+        $class = isset($config['model']) ? $config['model'] : '';
+        $action = $config['base_action'];
+        $model = Mage::registry('saved_model_'.$action);
+
+        $id = 0;
+        if ($model == null || !(@is_a($model, $class))) {
+            $success = 0;
+        } else {
+            $id = $model->getId();
+        }
+        $info = sprintf("master-%s,staging_id-%s", $master_id, $id);
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => $info,
+            'event_status' => $success
+        );
     }
 
     /**
@@ -281,6 +368,30 @@ class Enterprise_Logging_Model_Observer
             'event_code' => $config['event'],
             'event_action' => $config['action'],
             'event_message' => Mage::app()->getRequest()->getParam('id')
+        );
+    }
+
+    /**
+     * Custom handler for pci encryption key change
+     */
+    public function getPciKeyChangeAction($config, $success)
+    {
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => Mage::app()->getRequest()->getParam('crypt_key')
+        );
+    }
+
+    /**
+     * Custom handler for global search
+     */
+    public function getGlobalSearchAction($config, $success)
+    {
+        return array(
+            'event_code'    => $config['event'],
+            'event_action'  => $config['action'],
+            'event_message' => Mage::app()->getRequest()->getParam('query')
         );
     }
 
@@ -305,7 +416,7 @@ class Enterprise_Logging_Model_Observer
             return array(
                 'event_code' => $config['event'],
                 'event_action' => $config['action'],
-                'event_message' => $id == 0 ? 'new customer' : $id,
+                'event_message' => $id == 0 ? '-' : $id,
                 'event_status'  => 0
             );
         }
@@ -323,7 +434,7 @@ class Enterprise_Logging_Model_Observer
             return array(
                 'event_code' => $config['event'],
                 'event_action' => $config['action'],
-                'event_message' => $id == 0 ? 'new poll' : $id,
+                'event_message' => $id == 0 ? '-' : $id,
                 'event_status'  => 0
             );
         } else {
@@ -557,7 +668,13 @@ class Enterprise_Logging_Model_Observer
     {
         $config = Mage::helper('enterprise_logging')->getConfig($action);
         if (isset($config['handler'])) {
-            return $this->$config['handler']($config, $success);
+            $method = $config['handler'];
+            $object = $this;
+            if (preg_match("%^(.*?)::(.*?)$%", $config['handler'], $m)) {
+                $method = $m[2];
+                $object = Mage::getModel($m[1]);
+            }
+            return $object->$method($config, $success);
         }
         if (in_array($config['action'], array('view', 'save', 'delete', 'massUpdate'))) {
             $method = sprintf("get%sactioninfo", $config['action']);
@@ -696,16 +813,24 @@ class Enterprise_Logging_Model_Observer
         if (!$enabled) {
             return;
         }
+        $user_id = 0;
+        $username = $observer->getUserName(); 
+        $message = $username;
 
+        $e = $observer->getException();
+        if ($e->getCode() == Enterprise_Pci_Model_Observer::ADMIN_USER_LOCKED) {
+            $message = "locked";
+        }
         $event = Mage::getSingleton('enterprise_logging/event');
         $event->setIp($_SERVER['REMOTE_ADDR'])
             ->setUserId(0)
+            ->setUser($username)
             ->setEventCode('adminlogin')
             ->setFullaction('admin_login')
             ->setInfo(
                 array(
                     'event_code' => 'adminlogin',
-                    'event_message' => $observer->getUserName(),
+                    'event_message' => $message,
                     'event_action' => 'login',
                     'event_status' => 0
                 ))

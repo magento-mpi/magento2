@@ -237,6 +237,11 @@
         </events>
     </frontend>
     <default>
+        <admin>
+            <logsenabled>
+                <invitations>1</invitations>
+            </logsenabled>
+        </admin>
         <enterprise_invitation>
             <email>
                 <identity>general</identity>

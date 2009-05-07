@@ -116,6 +116,12 @@
       <action>delete</action>
     </catalog_search_delete>
 
+    <index_globalSearch>
+      <event>catalogsearch</event>
+      <action>global_search</action>
+      <handler>getglobalsearchaction</handler>
+    </index_globalSearch>
+
     <tag_edit>
       <event>catalogtags</event>
       <action>view</action>
@@ -215,22 +221,6 @@
       <action>delete</action>
     </catalog_category_delete>
 
-    <catalog_event_edit>
-      <event>catalogevents</event>
-      <action>view</action>
-    </catalog_event_edit>
-
-    <catalog_event_save>
-      <event>catalogevents</event>
-      <action>save</action>
-      <model>Enterprise_CatalogEvent_Model_Event</model>
-    </catalog_event_save>
-
-    <catalog_event_delete>
-      <event>catalogevents</event>
-      <action>delete</action>
-    </catalog_event_delete>
-
     <urlrewrite_edit>
       <event>urlrewrites</event>
       <action>view</action>
@@ -327,37 +317,6 @@
       <event>customergroups</event>
       <action>delete</action>
     </customer_group_delete>
-
-    <customerbalance_form>
-      <event>customerbalance</event>
-      <action>view</action>
-    </customerbalance_form>
-
-    <customerbalance_save>
-      <event>customerbalance</event>
-      <action>save</action>
-      <model>Mage_Customer_Model_Customer</model>
-      <skip-on-back>customerbalance_form,customer_edit</skip-on-back>
-    </customerbalance_save>
-
-    <invitation_view>
-      <event>invitations</event>
-      <action>view</action>
-    </invitation_view>
-
-    <invitation_save>
-      <event>invitations</event>
-      <action>save</action>
-      <model>Enterprise_Invitation_Model_Invitation</model>
-      <after-save-handler>invitationaftersave</after-save-handler>
-    </invitation_save>
-
-    <invitation_cancel>
-      <event>invitations</event>
-      <action>cancel</action>
-      <handler>cancelinvitation</handler>
-      <skip-action>invitation_view</skip-action>
-    </invitation_cancel>
 
     <cms_page_edit>
       <event>cmspages</event>
@@ -573,24 +532,6 @@
       <handler>getreport</handler>
     </report_invitation_order>
 
-
-    <giftcardaccount_edit>
-      <event>giftaccount</event>
-      <action>view</action>
-    </giftcardaccount_edit>
-
-    <giftcardaccount_save>
-      <event>giftaccount</event>
-      <action>save</action>
-      <model>Enterprise_GiftCardAccount_Model_Giftcardaccount</model>
-      <allow-multiply-models>1</allow-multiply-models>
-    </giftcardaccount_save>
-
-    <giftcardaccount_delete>
-      <event>giftaccount</event>
-      <action>delete</action>
-    </giftcardaccount_delete>
-
     <system_account_index>
       <event>systemaccount</event>
       <action>view</action>
@@ -758,6 +699,11 @@
       <id>creditmemo_id</id>
     </sales_creditmemo_view>
 
+    <sales_order_creditmemo_view>
+      <event>creditmemos</event>
+      <action>view</action>
+      <id>creditmemo_id</id>
+    </sales_order_creditmemo_view>
 
     <sales_order_creditmemo_save>
       <event>creditmemos</event>
@@ -773,6 +719,11 @@
       <id>shipment_id</id>
     </sales_shipment_view>
 
+    <sales_order_shipment_view>
+      <event>shipments</event>
+      <action>view</action>
+      <id>shipment_id</id>
+    </sales_order_shipment_view>
 
     <sales_order_shipment_save>
       <event>shipments</event>
@@ -985,16 +936,12 @@
         <cmsblocks>Cms Blocks</cmsblocks>
         <cmspolls>Cms Polls</cmspolls>
         <customers>Customers</customers>
-        <customerbalance>Customer Balance</customerbalance>
         <reports>Report</reports>
-        <giftaccount>Gift Account</giftaccount>
         <systemconfiguration>System configuration</systemconfiguration>
         <customergroups>Customer Groups</customergroups>
-        <catalogevents>Catalog Events</catalogevents>
         <promocatalog>Promo catalog</promocatalog>
         <promoquote>Promo Quote</promoquote>
         <systemaccount>My Account</systemaccount>
-        <invitations>Invitations</invitations>
         <orders>Orders</orders>
         <orderstatus>Order Status History</orderstatus>
         <invoices>Invoices</invoices>
@@ -1014,7 +961,6 @@
         <newslettertemplate>Newsletters Templates</newslettertemplate>
         <newslettersubscriber>Newsletters Subscribers</newslettersubscriber>
         <newsletterproblem>Newsletters Problem</newsletterproblem>
-
     </list>
     </labels>
 </logging>

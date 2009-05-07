@@ -247,6 +247,11 @@
         </events>
     </adminhtml>
     <default>
+        <admin>
+            <logsenabled>
+                <customerbalance>1</customerbalance>
+            </logsenabled>
+        </admin>
         <customer>
             <enterprise_customerbalance>
                 <is_enabled>1</is_enabled>
