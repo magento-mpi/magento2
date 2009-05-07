@@ -838,7 +838,7 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             parse_str($parsedUrl['query'], $parsedQuery);
         }
 
-        foreach (Mage::app()->getRequest()->getParams() as $k => $v) {
+        foreach (Mage::app()->getRequest()->getQuery() as $k => $v) {
             $parsedQuery[$k] = $v;
         }
 
