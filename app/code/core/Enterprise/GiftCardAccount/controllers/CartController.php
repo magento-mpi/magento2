@@ -93,25 +93,32 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
     }
 
     /**
-     * Check Gift Card expiration date and balance
+     * Check a gift card account availability
      *
      */
     public function checkAction()
     {
-        $data = $this->getRequest()->getPost();
-        $card = null;
-        if (isset($data['code'])) {
-            $card = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($data['code']);
-            $website = Mage::app()->getWebsite()->getId();
-            if ($card->getWebsiteId() != $website || $card->isExpired() || $card->getBalance() == 0) {
-                $card = new Varien_Object();
-            }
+        return $this->quickCheckAction();
+    }
 
-        }
+    /**
+     * Check a gift card account availability
+     *
+     */
+    public function quickCheckAction()
+    {
+        /* @var $card Enterprise_GiftCardAccount_Model_Giftcardaccount */
+        $card = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+            ->loadByCode($this->getRequest()->getParam('giftcard_code', ''));
         Mage::register('current_giftcardaccount', $card);
+        try {
+            $card->isValid(true, true, true, false);
+        }
+        catch (Mage_Core_Exception $e) {
+            $card->unsetData();
+        }
 
         $this->loadLayout();
         $this->renderLayout();
-
     }
 }

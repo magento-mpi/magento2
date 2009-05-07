@@ -24,33 +24,25 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+<?php
+/**
+ * @see Enterprise_GiftCardAccount_Block_Check
+ */
+?>
 <div class="giftcard-status">
     <div class="page-title">
         <h2><?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Card status'); ?></h2>
     </div>
-<?php if ($_card = $this->getCard()): ?>
-    <?php if ($_card->getId()): ?>
-        <p><?php echo Mage::helper('enterprise_giftcardaccount')->__("Gift Card: %s", '<strong class="giftcard-number">' . $_card->getCode() . '</strong>'); ?></p>
-        <p><?php echo Mage::helper('enterprise_giftcardaccount')->__('Current Balance'); ?>: 
-        <strong><?php echo Mage::helper('core')->currency($_card->getBalance()); ?></strong></p>
 
-        <?php if ($_card->getDateExpires()): ?>
-            <p><?php echo Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'); ?>:
-            <strong><?php echo $this->formatDate($_card->getDateExpires(), 'short'); ?></strong></p>
-        <?php endif; ?>
-    <?php else: ?>
-        <p class="error-msg"><?php echo Mage::helper('enterprise_giftcardaccount')->__('Specified Gift Card was not found.'); ?></p>
-    <?php endif; ?>
-    <div class="buttons-set">
-         <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo Mage::helper('enterprise_giftcardaccount')->__('Back') ?></a></p>
-    </div>    
-<?php else: ?>
+<?php if ($this->getCode()): ?>
+    <?php echo $this->getChildHtml('check_result') ?>
+<?php endif; ?>
     <form method="post" id="codeForm">
         <fieldset>
             <ul class="form-list">
                 <li>
                     <label for="code"><?php echo Mage::helper('enterprise_giftcardaccount')->__('Enter Gift Card code'); ?></label>
-                    <span class="input-box"><input type="text" class="input-text required-entry" name="code" id="code" /></span>
+                    <span class="input-box"><input type="text" class="input-text required-entry" name="giftcard_code" id="code" value="<?php echo $this->htmlEscape($this->getCode()) ?>" /></span>
                 </li>
             </ul>
         </fieldset>
@@ -61,5 +53,4 @@
     <script type="text/javascript">
     var cForm = new VarienForm('codeForm');
     </script>
-<?php endif; ?>
 </div>

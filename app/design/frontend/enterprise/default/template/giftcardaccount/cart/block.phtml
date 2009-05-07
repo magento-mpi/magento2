@@ -1,10 +1,42 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design
+ * @package    enterprise_default
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+<?php
+/**
+ * @see Enterprise_GiftCardAccount_Block_Checkout_Cart_Giftcardaccount
+ */
+?>
 <div class="giftcard">
     <h3><?php echo $this->__('Gift Cards') ?></h3>
     <form id="giftcard-form" action="<?php echo $this->getUrl('enterprise_giftcardaccount/cart/add') ?>" method="post">
         <fieldset>
-            <p><?php echo $this->__('<a href="%s">Check Gift Card status and balance</a>.',Mage::getUrl('enterprise_giftcardaccount/cart/check')); ?></p>
+            <div id="giftcard_balance_lookup"></div>
             <div class="v-fix"><input class="required-entry input-text" id="giftcard_code" name="giftcard_code" value="" /></div>
             <button class="button" onclick="giftcardForm.submit()" type="button" value="<?php echo $this->__('Add Gift Card') ?>"><span><span><?php echo $this->__('Add Gift Card') ?></span></span></button>
+            <button class="button" onclick="new Ajax.Updater('giftcard_balance_lookup', '<?php echo Mage::getUrl('enterprise_giftcardaccount/cart/quickCheck') ?>', {parameters : {giftcard_code : $('giftcard_code').value}})" type="button" value="<?php echo $this->__('Check Status and Balance') ?>"><span><span><?php echo $this->__('Check Status and Balance') ?></span></span></button>
         </fieldset>
     </form>
     <script type="text/javascript">
