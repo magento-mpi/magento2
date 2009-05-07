@@ -41,6 +41,9 @@ class Enterprise_Staging_Model_Staging_State_Website_Backup extends Enterprise_S
             $adapter->backup($staging);
             if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
                 foreach ($stagingItem->extends->children() AS $extendItem) {
+                    if (!Enterprise_Staging_Model_Staging_Config::isItemModuleActive($extendItem)) {
+                         continue;
+                    }
                     $adapter = $this->getItemAdapterInstanse($extendItem);
                     $adapter->backup($staging);
                 }

@@ -289,16 +289,16 @@ class Enterprise_Staging_Model_Staging_Config
 
     static function isItemModuleActive($stagingItem)
     {
-        $module = (string) $stagingItem->module;
-        if (!empty($module)) {
-            $moduleConfig = Mage::getConfig()->getModuleConfig($module);
-            if ($moduleConfig) {
-                if ('false' === (string)$moduleConfig->active) {
-                    return false;
+        $moduleName = (string) $stagingItem->module;
+        if (!empty($moduleName)) {
+            $module = Mage::getConfig()->getModuleConfig($moduleName);
+            if ($module) {
+                if ($module->is('active')) {
+                    return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 
     /**

@@ -48,7 +48,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $staging    = Mage::getModel('enterprise_staging/staging');
 
         if (!$stagingId) {
-            if ($websiteId = $this->getRequest()->getParam('master_website_id')) {
+            if ($websiteId = (int) $this->getRequest()->getParam('master_website_id')) {
                 $staging->setMasterWebsiteId($websiteId);
             }
             if ($type = $this->getRequest()->getParam('type')) {
@@ -57,6 +57,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         }
         if ($stagingId) {
             $staging->load($stagingId);
+            if (!$staging->getId()) {
+                return false;
+            }
         }
 
         Mage::register('staging', $staging);
@@ -110,6 +113,12 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function editAction()
     {
         $staging = $this->_initStaging();
+        /* @var $staging Enterprise_Staging_Model_Staging */
+        if (!$staging) {
+            $this->_getSession()->addError($this->__('Incorrect Id'));
+            $this->_redirect('*/*/');
+            return $this;
+        }
 
         if ($staging->isStatusProcessing()) {
             $this->_getSession()->addNotice($this->__('Merge cannot be done now, because a Merge or Rollback is in progress. Please try again later.'));
@@ -166,6 +175,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     {
         $event = $this->_initEvent();
         if (!$event->getId()) {
+            $this->_getSession()->addError($this->__('Incorrect Id'));
             $this->_redirect('*/*');
             return $this;
         }
@@ -224,6 +234,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     protected function _initStagingSave()
     {
         $staging = $this->_initStaging();
+        if (!$staging) {
+            return false;
+        }
 
         $stagingData = $this->getRequest()->getPost('staging');
         if (is_array($stagingData)) {
@@ -243,6 +256,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         if ($data) {
             $staging    = $this->_initStagingSave();
+            if (!$staging) {
+                $this->_getSession()->addError($this->__('Incorrect Id'));
+                $this->_redirect('*/*/');
+                return $this;
+            }
             $isNew      = !$staging->getId();
             try {
                 $entryPoint = Mage::getSingleton('enterprise_staging/entry');
@@ -301,6 +319,13 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function resetStatusAction()
     {
         $staging = $this->_initStaging();
+        /* @var $staging Enterprise_Staging_Model_Staging */
+        if (!$staging) {
+            $this->_getSession()->addError($this->__('Incorrect Id'));
+            $this->_redirect('*/*/');
+            return $this;
+        }
+
         $staging->setState(Enterprise_Staging_Model_Staging_Config::STATE_NEW);
         $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_NEW);
 
@@ -328,7 +353,13 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     public function mergeAction()
     {
-        $this->_initStaging();
+        $staging = $this->_initStaging();
+        /* @var $staging Enterprise_Staging_Model_Staging */
+        if (!$staging) {
+            $this->_getSession()->addError($this->__('Incorrect Id'));
+            $this->_redirect('*/*/');
+            return $this;
+        }
 
         $this->_getSession()
             ->addNotice($this->__('If no store view mapping is specified only website-related information will be merged'));
@@ -346,10 +377,15 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     public function mergePostAction()
     {
-        $redirectBack = $this->getRequest()->getParam('back', false);
-
         $staging = $this->_initStaging();
         /* @var $staging Enterprise_Staging_Model_Staging */
+        if (!$staging) {
+            $this->_getSession()->addError($this->__('Incorrect Id'));
+            $this->_redirect('*/*/');
+            return $this;
+        }
+
+        $redirectBack = $this->getRequest()->getParam('back', false);
 
         $mapData = $this->getRequest()->getPost('map');
 
@@ -425,6 +461,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function unscheduleAction()
     {
         $event = $this->_initEvent();
+        if (!$event) {
+            $this->_getSession()->addError($this->__('Incorrect Id'));
+            $this->_redirect('*/*/');
+            return $this;
+        }
 
         try {
             $event->setData('merge_schedule_date', '0000-00-00 00:00:00');
@@ -434,9 +475,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $staging->updateAttribute('state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
             $staging->updateAttribute('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
 
-            $this->_getSession()->addSuccess($this->__('Staging was successfully unscheduled.'));
+            $this->_getSession()->addSuccess($this->__('Staging was successfully unscheduled'));
         } catch (Exception $e) {
-            $this->_getSession()->addError($this->__('Unable to unschedule merge'));
+            $this->_getSession()->addError($this->__('Failed to unschedule merge'));
         }
 
         $this->_redirect('*/*/edit', array(

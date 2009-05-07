@@ -296,6 +296,7 @@
                 <staging_items>
                     <config_data>
                         <code>config_data</code>
+                        <module>Mage_Core</module>
                         <model>core</model>
                         <label>System Configuration</label>
                         <adapter>enterprise_staging/staging_adapter_item_config</adapter>

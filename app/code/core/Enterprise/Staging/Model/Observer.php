@@ -78,14 +78,29 @@ class Enterprise_Staging_Model_Observer
         if ($website->getIsStaging()) {
             $staging = Mage::getModel('enterprise_staging/staging');
             $staging->loadByStagingWebsiteId($website->getId());
+
+            try {
+                $defaultWebsite = Mage::app()->getWebsite(true);
+                if ($defaultWebsite) {
+                    $defaultStore = $defaultWebsite->getDefaultStore();
+                }
+                if ($defaultStore) {
+                    $baseUrl = $defaultStore->getConfig('web/unsecure/base_url');
+                } else {
+                    $baseUrl = '/';
+                }
+            } catch (Exception $e) {
+                $baseUrl = '/';
+            }
+
             if (!$staging->getId()) {
-                Mage::app()->getResponse()->setRedirect('/')->sendResponse();
+                Mage::app()->getResponse()->setRedirect($baseUrl)->sendResponse();
                 return $this;
             }
 
             switch ($website->getVisibility()) {
                 case Enterprise_Staging_Model_Staging_Config::VISIBILITY_NOT_ACCESSIBLE :
-                    Mage::app()->getResponse()->setRedirect('/')->sendResponse();
+                    Mage::app()->getResponse()->setRedirect($baseUrl)->sendResponse();
                     exit();
                     break;
                 case Enterprise_Staging_Model_Staging_Config::VISIBILITY_ACCESSIBLE :
