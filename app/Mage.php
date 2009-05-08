@@ -464,9 +464,9 @@ final class Mage {
             die();
         }
         catch (Mage_Core_Model_Store_Exception $e) {
-            $baseUrl = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+            $baseUrl = self::getScriptSystemUrl('404');
             if (!headers_sent()) {
-                header('Location: ' . $baseUrl.'/404/');
+                 header('Location: ' . rtrim($baseUrl, '/').'/404/');
             }
             else {
                 print '<script type="text/javascript">';
@@ -656,8 +656,8 @@ final class Mage {
             }
             catch (Exception $e) {}
 
-            $baseUrl = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'])), '/');
-            $reportUrl = $baseUrl . '/report/?id='
+            $baseUrl = self::getScriptSystemUrl('report', true);
+            $reportUrl = rtrim($baseUrl, '/') . '/report/?id='
                 . $reportId . '&s=' . $storeCode;
 
             if (!headers_sent()) {
@@ -671,6 +671,53 @@ final class Mage {
         }
 
         die();
+    }
+
+    /**
+     * Define system folder directory url by virtue of running script directory name
+     * Try to find requested folder by shifting to domain root directory
+     *
+     * @param   string  $folder
+     * @param   boolean $exitIfNot
+     * @return  string
+     */
+    public static function getScriptSystemUrl($folder, $exitIfNot = false)
+    {
+        $runDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), DS);
+        $runDir = trim($runDir, '/');
+        $baseUrl = null;
+        if (is_dir($runDir.DS.$folder)) {
+            $baseUrl = str_replace(DS, '/', $runDir);
+        } else {
+            $runDirArray = explode('/', $runDir);
+            $count = count($runDirArray);
+            $prefix = '';
+            for ($i=0; $i < $count; $i++) {
+                $prefix .= '../';
+                array_pop($runDirArray);
+                $_runDir = implode('/', $runDirArray);
+                if (!empty($_runDir)) {
+                    $_runDir .= '/';
+                }
+                $_runDir = $prefix.$_runDir;
+                if (is_dir($_runDir.$folder)) {
+                    $baseUrl = str_replace(DS, '/', $_runDir);
+                    break;
+                }
+            }
+        }
+
+        if (is_null($baseUrl)) {
+            $errorMessage = "Unable detect system directory: $folder";
+            if ($exitIfNot) {
+                // exit because of infinity loop
+                exit($errorMessage);
+            } else {
+                self::printException(new Exception(), $errorMessage);
+            }
+        }
+
+        return $baseUrl;
     }
 
     public static function setIsDownloader($flag=true)

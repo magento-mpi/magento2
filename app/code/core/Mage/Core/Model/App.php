@@ -720,7 +720,10 @@ class Mage_Core_Model_App
             $id = $this->getStore()->getWebsiteId();
         } elseif ($id instanceof Mage_Core_Model_Website) {
             return $id;
+        } elseif ($id === true) {
+        	return $this->_website;
         }
+
         if (empty($this->_websites[$id])) {
             $website = Mage::getModel('core/website');
             if (is_numeric($id)) {
