@@ -27,13 +27,9 @@
 
 class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abstract
 {
-	protected $_itemTable;
-
     protected function _construct()
     {
         $this->_init('enterprise_staging/staging', 'staging_id');
-
-        $this->_itemTable = $this->getTable('enterprise_staging/staging_item');
     }
 
     /**
@@ -71,15 +67,6 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
         }
 
         return $this;
-    }
-
-    /**
-     * TODO need to remove this method if it no needed more
-     */
-    public function getItemsCollection(Enterprise_Staging_Model_Staging $staging)
-    {
-    	return Mage::getResourceModel('enterprise_staging/staging_item_collection')
-            ->addStagingFilter($staging);
     }
 
     /**

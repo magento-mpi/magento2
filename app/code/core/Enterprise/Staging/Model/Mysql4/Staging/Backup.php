@@ -63,7 +63,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
     }
 
     /**
-     * After save processing
+     * Needto delete all backup tables also
      *
      * @param   Mage_Core_Model_Abstract $object
      * @return  Enterprise_Staging_Model_Mysql4_Staging_Backup
@@ -73,19 +73,13 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
         if ($object->getIsDeleteTables() === true) {
             $stagingTablePrefix = $object->getStagingTablePrefix();
             $connection = $this->_getWriteAdapter();
-
             $sql = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
-
             $result = $connection->fetchAll($sql);
-
             foreach ($result AS $row) {
                 $table = array_values($row);
-
                 if (!empty($table[0])) {
                     $dropTableSql = "DROP TABLE {$table[0]}";
-
                     $connection->query($dropTableSql);
-
                 }
             }
         }
@@ -96,7 +90,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
     {
         $sql    = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
         $result = $this->_getReadAdapter()->fetchAll($sql);
-
         $resultArray = array();
         if ($result) {
             foreach ($result as $row) {

@@ -32,49 +32,17 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item_Collection extends Mage_Core_
     }
 
     /**
-     * Set staging filter
+     * Set staging filter into collection
      *
      * @param   mixed   $stagingId (if object must be implemented getId() method)
      * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
      */
-    public function addStagingFilter($stagingId)
+    public function setStagingFilter($stagingId)
     {
-        if (is_object($stagingId)) {
+        if ($stagingId instanceof Varien_Object) {
             $stagingId = $stagingId->getId();
         }
         $this->addFieldToFilter('staging_id', (int) $stagingId);
-
-        return $this;
-    }
-
-    /**
-     * Set staging website filter
-     *
-     * @param   mixed   $stagingWebsiteId (if object must be implemented getId() method)
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
-     */
-    public function addStagingWebsiteFilter($stagingWebsiteId)
-    {
-        if (is_object($stagingWebsiteId)) {
-            $stagingWebsiteId = $stagingWebsiteId->getId();
-        }
-        $this->addFieldToFilter('staging_website_id', (int) $stagingWebsiteId);
-
-        return $this;
-    }
-
-    /**
-     * Set staging store filter
-     *
-     * @param   mixed   $stagingStoreId (if object must be implemented getId() method)
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Item_Collection
-     */
-    public function addStagingStoreFilter($stagingStoreId)
-    {
-        if (is_object($stagingStoreId)) {
-            $stagingStoreId = $stagingStoreId->getId();
-        }
-        $this->addFieldToFilter('staging_store_id', (int) $stagingStoreId);
 
         return $this;
     }
@@ -89,22 +57,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item_Collection extends Mage_Core_
     {
         foreach ($this->_items as $item) {
             if ($item->getCode() == (string) $code) {
-                return $item;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Retrieve item from collection where "dataset_item_id" attribute value equals to given
-     *
-     * @param   integer $id
-     * @return  object Enterprise_Staging_Model_Staging_Item
-     */
-    public function getItemByDatasetItemId($id)
-    {
-        foreach ($this->_items as $item) {
-            if ($item->getDatasetItemId() == (int) $id) {
                 return $item;
             }
         }

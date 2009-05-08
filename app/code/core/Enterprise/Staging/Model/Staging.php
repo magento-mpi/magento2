@@ -155,7 +155,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     {
         if (is_null($this->_items)) {
             $this->_items = Mage::getResourceModel('enterprise_staging/staging_item_collection')
-                ->addStagingFilter($this->getId());
+                ->setStagingFilter($this->getId());
 
             if ($this->getId()) {
                 foreach ($this->_items as $item) {
@@ -175,8 +175,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     {
         $scenario = Mage::getModel('enterprise_staging/staging_scenario');
         $scenario->setStaging($this);
-        $scenario->init('create');
-        $scenario->run();
+        $scenario->run('create');
 
         return $this;
     }
@@ -190,8 +189,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     {
         $scenario = Mage::getModel('enterprise_staging/staging_scenario');
         $scenario->setStaging($this);
-        $scenario->init('update', 'update');
-        $scenario->run();
+        $scenario->run('update', 'update');
 
         return $this;
     }
@@ -205,8 +203,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     {
         $scenario = Mage::getModel('enterprise_staging/staging_scenario');
         $scenario->setStaging($this);
-        $scenario->init('merge');
-        $scenario->run();
+        $scenario->run('merge');
 
         return $this;
     }
@@ -220,8 +217,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     {
         $scenario = Mage::getModel('enterprise_staging/staging_scenario');
         $scenario->setStaging($this);
-        $scenario->init('backup');
-        $scenario->run();
+        $scenario->run('backup');
 
         return $this;
     }
@@ -235,8 +231,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     {
         $scenario = Mage::getModel('enterprise_staging/staging_scenario');
         $scenario->setStaging($this);
-        $scenario->init('rollback');
-        $scenario->run();
+        $scenario->run('rollback');
 
         return $this;
     }
@@ -250,8 +245,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     {
         $scenario = Mage::getModel('enterprise_staging/staging_scenario');
         $scenario->setStaging($this);
-        $scenario->init('check_frontend', 'check');
-        $scenario->run();
+        $scenario->run('check_frontend', 'check');
 
         return $this;
     }

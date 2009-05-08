@@ -55,7 +55,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection extends Mage_C
      */
     public function setBackupFilter($backupId)
     {
-        if (is_object($backupId)) {
+        if ($backupId instanceof Varien_Object) {
             $backupId = $backupId->getId();
         }
         $this->addFieldToFilter('backup_id', (int) $backupId);

@@ -27,8 +27,8 @@
 class Enterprise_Staging_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * return catalog index flag
-     * @return bool
+     * Retrieve catalog index running flag
+     * @return boolean
      */
     function getCatalogIndexRunningFlag()
     {

@@ -127,25 +127,21 @@ class Enterprise_Staging_Model_Observer
 
         try {
             if (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW'])) {
+                $coreSession->setData('staging_validation_passed',$code);
                 throw new Exception('Staging is Unauthorized.');
-            }
-
-            if ($coreSession->getData('staging_validation_passed') !== $code) {
-                $coreSession->setData('staging_validation_passed', $code);
-                throw new Exception('This staging website requires authentication.');
             }
 
             $login      = $_SERVER['PHP_AUTH_USER'];
             $password   = $_SERVER['PHP_AUTH_PW'];
 
-            if ($website->getMasterLogin() != $login) {
+            if ($website->getMasterLogin() != $login) {ff();
                 throw new Exception('Invalid login.');
             }
             if (Mage::helper('core')->decrypt($website->getMasterPassword()) != $password) {
                 throw new Exception('Invalid password.');
             }
         } catch (Exception $e) {
-            header('WWW-Authenticate: Basic realm="Staging Site Authentication"');
+            header('WWW-Authenticate: Basic realm="'.$e->getMessage().'"');
             header('HTTP/1.0 401 Unauthorized');
             exit();
         }

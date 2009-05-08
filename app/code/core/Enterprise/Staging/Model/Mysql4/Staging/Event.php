@@ -32,7 +32,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
     }
 
     /**
-     * Before save processing
+     * Prepare some data before save processing
      *
      * @param   Mage_Core_Model_Abstract $object
      * @return  Enterprise_Staging_Model_Mysql4_Staging_Event
@@ -66,8 +66,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
             $object->setUsername($user->getName());
         }
 
-        parent::_beforeSave($object);
-
-        return $this;
+        return parent::_beforeSave($object);
     }
 }

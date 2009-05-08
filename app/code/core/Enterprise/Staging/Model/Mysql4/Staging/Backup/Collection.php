@@ -39,7 +39,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection extends Mage_Cor
      */
     public function setStagingFilter($stagingId)
     {
-        if (is_object($stagingId)) {
+        if ($stagingId instanceof Varien_Object) {
             $stagingId = $stagingId->getId();
         }
         $this->addFieldToFilter('staging_id', (int) $stagingId);

@@ -45,44 +45,20 @@ class Enterprise_Staging_Model_Staging_Scenario
     private $_staging;
 
     /**
-     * state model
-     *
-     * @var Enterprise_Staging_Model_Staging_State_Abstract
-     */
-    private $_state;
-
-    /**
-     * Init scenario first state
-     *
+     * Run scenario
      * @param string $scenarioCode
+     * @param string $firstState
      * @return Enterprise_Staging_Model_Staging_Scenario
      */
-    function init($scenarioCode, $firstState = null)
+    final public function run($scenarioCode, $firstState = null)
     {
-        $this->setScenarioCode($scenarioCode);
-
-        $initState = $this->stateFactory($firstState);
-
-        if ($initState) {
-            $this->setState($initState);
-        }
-
         if (!Mage::registry($scenarioCode . "_event_start_time")) {
             $date = Mage::getModel('core/date')->gmtDate();
             Mage::register($scenarioCode . "_event_start_time", $date);
         }
+        $this->setScenarioCode($scenarioCode);
 
-        return $this;
-    }
-
-    /**
-     * Run scenario
-     *
-     * @return Enterprise_Staging_Model_Staging_Scenario
-     */
-    final public function run()
-    {
-        $state = $this->getState();
+        $state = $this->stateFactory($firstState);
         if ($state) {
             do {
                 if ($state->check()) {
@@ -107,7 +83,6 @@ class Enterprise_Staging_Model_Staging_Scenario
     function setScenarioCode($code)
     {
         $this->_scenarioCode = $code;
-
         return $this;
     }
 
@@ -119,29 +94,6 @@ class Enterprise_Staging_Model_Staging_Scenario
     function getScenarioCode()
     {
         return $this->_scenarioCode;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @param Enterprise_Staging_Model_Staging_State_Abstract $state
-     * @return Enterprise_Staging_Model_Staging_Scenario
-     */
-    function setState(Enterprise_Staging_Model_Staging_State_Abstract $state)
-    {
-        $this->_state = $state;
-
-        return $this;
-    }
-
-    /**
-     * get state model
-     *
-     * @return Enterprise_Staging_Model_Staging_State_Abstract
-     */
-    function getState()
-    {
-        return $this->_state;
     }
 
     /**
@@ -163,7 +115,7 @@ class Enterprise_Staging_Model_Staging_Scenario
      */
     public function getStaging()
     {
-        if (is_object($this->_staging)) {
+        if ($this->_staging instanceof Enterprise_Staging_Model_Staging) {
             return $this->_staging;
         }
         /* try to set staging_id instead whole staging object */

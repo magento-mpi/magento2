@@ -44,9 +44,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item extends Mage_Core_Model_Mysql
                 $object->setStagingId($staging->getId());
             }
         }
-
-    	parent::_beforeSave($object);
-
-        return $this;
+        return parent::_beforeSave($object);
     }
 }

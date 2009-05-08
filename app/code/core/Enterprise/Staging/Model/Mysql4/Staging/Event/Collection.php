@@ -39,7 +39,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
      */
     public function setStagingFilter($stagingId)
     {
-        if (is_object($stagingId)) {
+        if ($stagingId instanceof Varien_Object) {
             $stagingId = $stagingId->getId();
         }
         $this->addFieldToFilter('staging_id', (int) $stagingId);
@@ -93,8 +93,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
     public function addRollbackFilter()
     {
         $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::EVENT_ROLLBACK);
-//        $this->addFieldToFilter('main_table.state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
-//        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
 
         return $this;
     }

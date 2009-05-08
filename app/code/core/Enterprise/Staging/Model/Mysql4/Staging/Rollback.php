@@ -61,9 +61,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback extends Mage_Core_Model_M
             $value = Mage::getModel('core/date')->gmtDate();
             $object->setUpdatedAt($value);
         }
-
-        parent::_beforeSave($object);
-
-        return $this;
+        return parent::_beforeSave($object);
     }
 }

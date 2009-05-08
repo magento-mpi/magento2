@@ -30,12 +30,6 @@ require_once 'Enterprise/Staging/controllers/Adminhtml/Staging/ManageController.
  */
 class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_Staging_Adminhtml_Staging_ManageController
 {
-    protected function _construct()
-    {
-        // Define module dependent translate
-        $this->setUsedModuleName('Enterprise_Staging');
-    }
-
     /**
      * Initialize staging backup from request parameters
      *
@@ -80,9 +74,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         $this->_initStaging();
 
         $this->loadLayout();
-
         $this->_setActiveMenu('system/enterprise_staging');
-
         $this->renderLayout();
     }
 

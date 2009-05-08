@@ -24,6 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Staging website helper
  *
