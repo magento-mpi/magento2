@@ -387,7 +387,6 @@ class Mage_Catalog_Model_Convert_Parser_Product
     {
         $entityIds = $this->getData();
 
-        $m = memory_get_usage();
         foreach ($entityIds as $i => $entityId) {
             $product = $this->getProductModel()
                 ->reset()
@@ -474,7 +473,6 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 ->setStatus(1)
                 ->save();
         }
-        echo (memory_get_usage() - $m) / 1024 / 1024;
 
         return $this;
     }
