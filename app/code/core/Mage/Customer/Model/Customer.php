@@ -954,4 +954,18 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         }
         return null;
     }
+
+    /**
+     * Reset all model data
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function reset()
+    {
+        $this->setData(array());
+        $this->setOrigData();
+        $this->_attributes = null;
+
+        return $this;
+    }
 }
