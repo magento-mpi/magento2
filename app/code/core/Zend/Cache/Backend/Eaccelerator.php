@@ -100,7 +100,6 @@ class Zend_Cache_Backend_Eaccelerator extends Zend_Cache_Backend implements Zend
     /**
      * Test if a cache is available for the given id and (if yes) return it (false else)
      *
-     * WARNING $doNotTestCacheValidity=true is unsupported by the Apc backend
      *
      * @param string $id cache id
      * @param boolean $doNotTestCacheValidity if set to true, the cache validity won't be tested

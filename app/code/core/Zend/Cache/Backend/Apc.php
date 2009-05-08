@@ -24,12 +24,12 @@
 /**
  * Zend_Cache_Backend_Interface
  */
-require_once 'Zend/Cache/Backend/Interface.php';
+#require_once 'Zend/Cache/Backend/Interface.php';
 
 /**
  * Zend_Cache_Backend
  */
-require_once 'Zend/Cache/Backend.php';
+#require_once 'Zend/Cache/Backend.php';
 
 
 /**
@@ -213,12 +213,12 @@ class Zend_Cache_Backend_Apc extends Zend_Cache_Backend implements Zend_Cache_Ba
         }
     }
 
-	/**
-	 * Remove this tagId from a global array of all tags with self::TAGS_MASTER_ID as the id.
-	 *
-	 * @param $tagId string the id of the tag being removed
-	 * @return bool true if the tag was removed, false otherwise
-	 */
+    /**
+     * Remove this tagId from a global array of all tags with self::TAGS_MASTER_ID as the id.
+     *
+     * @param $tagId string the id of the tag being removed
+     * @return bool true if the tag was removed, false otherwise
+     */
     private function removeTagUsage($tagId)
     {
         $tmaster_wrapper = apc_fetch($this->_getTagStorageId());
