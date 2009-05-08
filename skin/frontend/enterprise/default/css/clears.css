@@ -27,6 +27,7 @@
 /************************************************/
 /******************** Clears ********************/
 /************************************************/
+.product-options dt:after,
 #bundleProduct:after,
 .events-slider:after,
 .product-image-popup .nav:after,

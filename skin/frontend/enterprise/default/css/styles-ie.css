@@ -96,6 +96,7 @@ a.button { _height:22px; }
 * html .switcher-language { zoom:1; }
 
 /**/
+.product-options dt,
 #giftcard_balance_lookup .gift-card-info,
 #giftcard_balance_lookup p.error-msg,
 .deals .giftcard,

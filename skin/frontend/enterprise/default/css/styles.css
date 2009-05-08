@@ -137,6 +137,7 @@ button.disabled span {}
 
 /* Form Validation */
 .validation-advice { clear:both; font-size:11px !important; padding:3px 0 0 !important; color:#d91a00 !important; }
+.product-options .validation-error .options-list,
 .validation-failed { border:1px solid #f47d4e !important; background:#fff7f5 !important; }
 input.input-text.validation-failed,
 textarea.validation-failed { background:#fff7f5 url(../images/bkg_input-failed.gif) 0 0 repeat-x !important; }
@@ -1111,6 +1112,7 @@ button.btn-cart span {}
 .product-options .options-list input.radio { float:left; margin:2px -18px 0 0; }
 .product-options .options-list input.checkbox { float:left; margin:2px -20px 0 0; }
 .product-options .options-list .label { display:block; margin-left:20px; }
+.product-options .validation-error .options-list,
 .product-options ul.validation-failed { padding:0 7px; }
 .product-options li { margin:3px 0; }
 
@@ -1128,7 +1130,7 @@ button.btn-cart span {}
 .options-container-small  .add-to-cart { padding:13px 15px 0 0 !important; }
 .options-container-small  .product-options-bottom p.required { padding:0 0 0 90px; width:auto; float:left; clear:left; text-align:left; }
 .options-container-small  dt { float:left; line-height:1.2; width:10em; clear:left; padding:3px 5px 3px 0; margin:0 0 8px; }
-.options-container-small  dd { float:left; width:20em; border-bottom:0; padding:0; margin:0 0 8px; }
+.options-container-small  dd { float:left; width:275px; border-bottom:0; padding:0; margin:0 0 8px; }
 .options-container-small .product-options { margin:0 0 0; }
 
 /* Options after product info column */
