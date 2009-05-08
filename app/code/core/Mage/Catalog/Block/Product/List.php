@@ -248,24 +248,6 @@ class Mage_Catalog_Block_Product_List extends Mage_Catalog_Block_Product_Abstrac
     }
 
     /**
-     * Retrieve url for add product to cart
-     * Rewrited for Product List and has required options products
-     *
-     * @param  Mage_Catalog_Model_Product $product
-     * @param array $additional
-     * @return string
-     */
-    public function getAddToCartUrl($product, $additional = array())
-    {
-        if ($product->hasRequiredOptions()) {
-            $url = $product->getProductUrl();
-            $link = (strpos($url, '?') !== false) ? '&' : '?';
-            return $url . $link . 'options=cart';
-        }
-        return parent::getAddToCartUrl($product, $additional);
-    }
-
-    /**
      * Retrieve product amount per row in grid display mode
      *
      * @return int

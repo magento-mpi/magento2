@@ -78,6 +78,13 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
         return $sendToFriendModel && $sendToFriendModel->canEmailToFriend();
     }
 
+    /**
+     * Retrieve url for direct adding product to cart
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @param array $additional
+     * @return string
+     */
     public function getAddToCartUrl($product, $additional = array())
     {
         $additional = array();
@@ -86,7 +93,7 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
             $additional['wishlist_next'] = 1;
         }
 
-        return parent::getAddToCartUrl($product, $additional);
+        return $this->helper('checkout/cart')->getAddUrl($product, $additional);
     }
 
     public function getJsonConfig()
