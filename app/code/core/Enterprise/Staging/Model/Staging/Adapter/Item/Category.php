@@ -26,5 +26,33 @@
 
 class Enterprise_Staging_Model_Staging_Adapter_Item_Category extends Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
 {
+    /**
+     * List of table codes which shuldn't process if product item were not chosen
+     *
+     * @var array
+     */
+    protected $_ignoreIfProductNotChosen = array('category_product', 'category_product_index');
 
+    /**
+     * Create item table and records, run processes in website and store scopes
+     *
+     * @param string    $model
+     * @param string    $table
+     * @param string    $srcTable
+     * @param string    $targetTable
+     *
+     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
+     */
+    protected function _createItem($model, $table, $srcTable, $targetTable)
+    {
+        $staging = $this->getStaging();
+
+        if (!$staging->getMapperInstance()->hasStagingItem('product')) {
+            if (in_array($table, $this->_ignoreIfProductNotChosen)) {
+                return $this;
+            }
+        }
+
+        return parent::_createItem($model, $table, $srcTable, $targetTable);
+    }
 }
