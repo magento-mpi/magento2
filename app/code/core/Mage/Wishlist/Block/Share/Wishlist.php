@@ -61,7 +61,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Catalog_Block_Product_Abst
                 ->addStoreFilter();
 
             Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($this->_collection);
-            Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($this->_collection);
+            Mage::getSingleton('catalog/product_visibility')->addVisibleInSiteFilterToCollection($this->_collection);
         }
 
         return $this->_collection;
