@@ -96,6 +96,11 @@ a.button { _height:22px; }
 * html .switcher-language { zoom:1; }
 
 /**/
+#giftcard_balance_lookup .gift-card-info,
+#giftcard_balance_lookup p.error-msg,
+.deals .giftcard,
+.giftcardaccount { zoom:1;}
+
 #bundleProduct,
 .table-caption { position:relative; z-index:1; }
 .data-table { border-collapse:collapse; }
@@ -176,8 +181,8 @@ a.button { _height:22px; }
 .group-select .field,
 .form-list li,
 .group-select li,
-.buttons-set,
 .buttons-set2,
+.buttons-set,
 .clearfix,
 .page-print .print-head,
 .cart-tax-total,

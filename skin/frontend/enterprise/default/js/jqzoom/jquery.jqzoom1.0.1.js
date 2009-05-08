@@ -422,14 +422,14 @@
                         this.image = new Image();
                         this.image.src = smallimage.node.src; // fires off async
                         this.node.appendChild( this.image );
-                        $( this.node ).css({'opacity' : 1});
+                        //$( this.node ).css({'opacity' : 1});
                     break;
                     case 'innerzoom':
 
                         this.image = new Image();
                         this.image.src = largeimage.node.src; // fires off async
                         this.node.appendChild( this.image );
-                        $( this.node ).css({'opacity' : 1});
+                        //$( this.node ).css({'opacity' : 1});
                     break
                     default:
                     break;
