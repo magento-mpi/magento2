@@ -368,27 +368,38 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
         }
 
         if ($stagingWebsite) {
-            $_storeGroups = $stagingWebsite->getGroups();
+            $_storeGroups       = $stagingWebsite->getGroups();
+            $_storeGroupsCount  = $stagingWebsite->getGroupsCount();
         } else {
-            $_storeGroups = $masterWebsite->getGroups();
+            $_storeGroups       = $masterWebsite->getGroups();
+            $_storeGroupsCount  = $masterWebsite->getGroupsCount();
         }
-
+        $noStores = true;
         foreach ($_storeGroups as $group) {
             if ($group->getStoresCount()) {
+                $noStores = false;
                 $_stores = $group->getStores();
-                $this->_initStoreGroup($fieldset, $group);
+                $this->_initStoreGroup($fieldset, $group, $stagingWebsite);
                 foreach ($_stores as $storeView) {
-                    $this->_initStoreView($fieldset, $storeView);
+                    $this->_initStoreView($fieldset, $storeView, $stagingWebsite);
                 }
-            } else {
+            }
+        }
+        if ($noStores) {
+            if ($stagingWebsite) {
                 $fieldset->addField('staging_no_stores', 'label',
                     array(
                         'label' => Mage::helper('enterprise_staging')->__('There are no store views were copied')
                     )
                 );
+            } else {
+                $fieldset->addField('staging_no_stores', 'label',
+                    array(
+                        'label' => Mage::helper('enterprise_staging')->__('There are no store views for copieng')
+                    )
+                );
             }
         }
-
         return $this;
     }
 
@@ -397,9 +408,10 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
      *
      * @param Varien_Data_Form $fieldset
      * @param Mage_Core_Model_Store_Group $group
+     * @param Mage_Core_Model_Website $stagingWebsite
      * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website
      */
-    protected function _initStoreGroup($fieldset, $group)
+    protected function _initStoreGroup($fieldset, $group, $stagingWebsite = null)
     {
         $fieldset->addField('staging_store_group_' . $group->getId(), 'label',
             array(
@@ -415,12 +427,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
      *
      * @param Varien_Data_Form $fieldset
      * @param Mage_Core_Model_Store $storeView
+     * @param Mage_Core_Model_Website $stagingWebsite
      * @return Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website
      */
-    protected function _initStoreView($fieldset, $storeView)
+    protected function _initStoreView($fieldset, $storeView, $stagingWebsite = null)
     {
         $_shift = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-        if (!$storeView->getWebsite()->getIsStaging()) {
+        if (!$stagingWebsite) {
             $_id        = $storeView->getId();
             $websiteId  = $storeView->getWebsiteId();
 
