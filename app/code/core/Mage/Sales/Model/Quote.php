@@ -1138,6 +1138,14 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      */
     public function merge(Mage_Sales_Model_Quote $quote)
     {
+        Mage::dispatchEvent(
+            $this->_eventPrefix . '_merge_before',
+            array(
+                $this->_eventObject=>$this,
+                'source'=>$quote
+            )
+        );
+
         foreach ($quote->getAllVisibleItems() as $item) {
             $found = false;
             foreach ($this->getAllItems() as $quoteItem) {
@@ -1164,6 +1172,15 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if ($quote->getCouponCode()) {
             $this->setCouponCode($quote->getCouponCode());
         }
+
+        Mage::dispatchEvent(
+            $this->_eventPrefix . '_merge_after',
+            array(
+                $this->_eventObject=>$this,
+                'source'=>$quote
+            )
+        );
+
         return $this;
     }
 
