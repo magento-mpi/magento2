@@ -399,8 +399,6 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
      */
     public function gBaseDate2DateTime($gBaseDate)
     {
-        return Mage::getSingleton('core/date')->timestamp($gBaseDate);
-        //ex return Y-m-d H:i:s format in current timezone use next code
-        // return Mage::getSingleton('core/date')->date(null, Mage::getSingleton('core/date')->timestamp($gBaseDate));
+        return Mage::getSingleton('core/date')->date(null, $gBaseDate);
     }
 }

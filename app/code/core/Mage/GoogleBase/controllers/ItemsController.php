@@ -246,44 +246,33 @@ class Mage_GoogleBase_ItemsController extends Mage_Adminhtml_Controller_Action
         $totalDeleted = 0;
 
         try {
-            $collection = Mage::getResourceModel('googlebase/item_collection')
-                ->addStoreFilterId($storeId)
-                ->load();
+            $itemIds = $this->getRequest()->getParam('item');
+            foreach ($itemIds as $itemId) {
+                $item = Mage::getModel('googlebase/item')->load($itemId);
 
-            $existing = array();
-            foreach ($collection as $item) {
-                $existing[$item->getGbaseItemId()] = array(
-                    'id'    => $item->getId(),
-                    'is_hidden' => $item->getIsHidden(),
-                );
-            }
-
-            $stats = Mage::getModel('googlebase/service_feed')->getItemsStatsArray($storeId);
-
-            foreach ($existing as $entryId => $itemInfo) {
-
-                $item = Mage::getModel('googlebase/item')->load($itemInfo['id']);
-
-                if (!isset($stats[$entryId])) {
+                $stats = Mage::getSingleton('googlebase/service_feed')->getItemStats($item->getGbaseItemId(), $storeId);
+                if ($stats === null) {
                     $item->delete();
                     $totalDeleted++;
                     continue;
                 }
 
-                if ($stats[$entryId]['draft'] != $itemInfo['is_hidden']) {
-                    $item->setIsHidden($stats[$entryId]['draft']);
+                if ($stats['draft'] != $item->getIsHidden()) {
+                    $item->setIsHidden($stats['draft']);
                 }
 
-                if (isset($stats[$entryId]['expires'])) {
-                    $item->setExpires($stats[$entryId]['expires']);
+                if (isset($stats['expires'])) {
+                    $item->setExpires($stats['expires']);
                 }
 
                 $item->save();
                 $totalUpdated++;
             }
+
             $this->_getSession()->addSuccess(
                 $this->__('Total of %d items(s) were successfully deleted, Total of %d items(s) were successfully updated', $totalDeleted, $totalUpdated)
             );
+
         } catch (Zend_Gdata_App_CaptchaRequiredException $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectToCaptcha($e);
