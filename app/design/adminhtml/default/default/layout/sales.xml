@@ -649,4 +649,46 @@
             <block type="adminhtml/sales_order_create_customer_grid" name="grid" />
         </reference>
     </adminhtml_sales_order_create_load_block_customer_grid>
+
+    <adminhtml_sales_order_create_load_block_sidebar_cart>
+        <reference name="content">
+            <block type="adminhtml/sales_order_create_sidebar_cart" template="sales/order/create/sidebar/items.phtml" name="sidebar_cart" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_sidebar_cart>
+
+    <adminhtml_sales_order_create_load_block_sidebar_wishlist>
+        <reference name="content">
+            <block type="adminhtml/sales_order_create_sidebar_wishlist" template="sales/order/create/sidebar/items.phtml" name="sidebar_wishlist" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_sidebar_wishlist>
+
+    <adminhtml_sales_order_create_load_block_sidebar_reorder>
+        <reference name="content">
+            <block type="adminhtml/sales_order_create_sidebar_reorder" template="sales/order/create/sidebar/items.phtml" name="sidebar_reorder" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_sidebar_reorder>
+
+    <adminhtml_sales_order_create_load_block_sidebar_viewed>
+        <reference name="content">
+            <block type="adminhtml/sales_order_create_sidebar_viewed" template="sales/order/create/sidebar/items.phtml" name="sidebar_viewed" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_sidebar_viewed>
+
+    <adminhtml_sales_order_create_load_block_sidebar_compared>
+        <reference name="content">
+            <block type="adminhtml/sales_order_create_sidebar_compared" template="sales/order/create/sidebar/items.phtml" name="sidebar_compared" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_sidebar_compared>
+
+    <adminhtml_sales_order_create_load_block_sidebar_pviewed>
+        <reference name="content">
+            <block type="adminhtml/sales_order_create_sidebar_pviewed" template="sales/order/create/sidebar/items.phtml" name="sidebar_pviewed" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_sidebar_pviewed>
+
+    <adminhtml_sales_order_create_load_block_sidebar_pcompared>
+        <reference name="content">
+            <block type="adminhtml/sales_order_create_sidebar_pcompared" template="sales/order/create/sidebar/items.phtml" name="sidebar_pcompared" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_sidebar_pcompared>
 </layout>
