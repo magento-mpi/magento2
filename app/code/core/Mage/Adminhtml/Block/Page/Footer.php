@@ -43,7 +43,7 @@ class Mage_Adminhtml_Block_Page_Footer extends Mage_Adminhtml_Block_Template
 
     public function getChangeLocaleUrl()
     {
-        return $this->getUrl('*/index/changeLocale');
+        return $this->getUrl('adminhtml/index/changeLocale');
     }
 
     public function getUrlForReferer()
