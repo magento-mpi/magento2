@@ -45,6 +45,13 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     protected $_productTypes;
 
     /**
+     * Product Type Instances singletons
+     *
+     * @var array
+     */
+    protected $_productTypeInstances = array();
+
+    /**
      * product attribute set collection array
      *
      * @var array
@@ -177,6 +184,23 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             }
         }
         return $this->_productTypes;
+    }
+
+    /**
+     * ReDefine Product Type Instance to Product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return Mage_Catalog_Model_Convert_Adapter_Product
+     */
+    public function setProductTypeInstance(Mage_Catalog_Model_Product $product)
+    {
+        $type = $product->getTypeId();
+        if (!isset($this->_productTypeInstances[$type])) {
+            $this->_productTypeInstances[$type] = Mage::getSingleton('catalog/product_type')
+                ->factory($this, true);
+        }
+        $product->setTypeInstance($this->_productTypeInstances[$type], true);
+        return $this;
     }
 
     /**
@@ -469,11 +493,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
      */
     public function saveRow(array $importData)
     {
-        $product = $this->getProductModel();
-        $product->setData(array());
-        if ($stockItem = $product->getStockItem()) {
-            $stockItem->setData(array());
-        }
+        $product = $this->getProductModel()
+            ->reset();
 
         if (empty($importData['store'])) {
             if (!is_null($this->getBatchParams('store'))) {
@@ -482,7 +503,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                 $message = Mage::helper('catalog')->__('Skip import row, required field "%s" not defined', 'store');
                 Mage::throwException($message);
             }
-        } else {
+        }
+        else {
             $store = $this->getStoreByCode($importData['store']);
         }
 
@@ -490,6 +512,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
             $message = Mage::helper('catalog')->__('Skip import row, store "%s" field not exists', $importData['store']);
             Mage::throwException($message);
         }
+
         if (empty($importData['sku'])) {
             $message = Mage::helper('catalog')->__('Skip import row, required field "%s" not defined', 'sku');
             Mage::throwException($message);
@@ -531,6 +554,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                 }
             }
         }
+
+        $this->setProductTypeInstance($product);
 
         if (isset($importData['category_ids'])) {
             $product->setCategoryIds($importData['category_ids']);

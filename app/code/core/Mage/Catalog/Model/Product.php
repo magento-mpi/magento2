@@ -1486,4 +1486,22 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         // kept for legacy purposes
     }
+
+    /**
+     * Reset all model data
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    public function reset()
+    {
+        $this->setData(array());
+        $this->setOrigData();
+        $this->_customOptions       = array();
+        $this->_optionInstance      = null;
+        $this->_options             = array();
+        $this->_canAffectOptions    = false;
+        $this->_errors              = array();
+
+        return $this;
+    }
 }
