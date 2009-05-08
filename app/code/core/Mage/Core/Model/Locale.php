@@ -200,11 +200,32 @@ class Mage_Core_Model_Locale
     }
 
     /**
-     * Retrieve options array for locale dropdown
+     * Get options array for locale dropdown in currunt locale
      *
      * @return array
      */
     public function getOptionLocales()
+    {
+        return $this->_getOptionLocales();
+    }
+
+    /**
+     * Get translated to original locale options array for locale dropdown
+     *
+     * @return array
+     */
+    public function getTranslatedOptionLocales()
+    {
+        return $this->_getOptionLocales(true);
+    }
+
+    /**
+     * Get options array for locale dropdown
+     *
+     * @param   bool $translatedName translation flag
+     * @return  array
+     */
+    protected function _getOptionLocales($translatedName=false)
     {
         $options    = array();
         $locales    = $this->getLocale()->getLocaleList();
@@ -221,9 +242,15 @@ class Mage_Core_Model_Locale
                 if (!isset($languages[$data[0]]) || !isset($countries[$data[1]])) {
                     continue;
                 }
+                if ($translatedName) {
+                    $label = ucwords($this->getLocale()->getLanguageTranslation($data[0], $code))
+                        . ' (' . $this->getLocale()->getCountryTranslation($data[1], $code)  . ')';
+                } else {
+                    $label = $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
+                }
                 $options[] = array(
                     'value' => $code,
-                    'label' => $languages[$data[0]] . ' (' . $countries[$data[1]] . ')'
+                    'label' => $label
                 );
             }
         }
