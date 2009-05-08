@@ -1106,13 +1106,33 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         return $this;
     }
 
-    public function setOrder($attribute, $dir='desc')
+    /**
+     * Add attribute to sort order
+     *
+     * @param string $attribute
+     * @param string $dir
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
+     */
+    public function addAttributeToSort($attribute, $dir='asc')
     {
-        $storeId = Mage::app()->getStore()->getId();
-        $websiteId = Mage::app()->getStore()->getWebsiteId();
+        if ($attribute == 'position') {
+            $this->getSelect()->order("{$attribute} {$dir}");
+            // optimize for using price in cat_index
+            if ($this->_categoryProductIndexFilters) {
+                $this->getSelect()->order('cat_index.product_id ' . $dir);
+            }
+            else {
+                $this->getSelect()->order('e.entity_id ' . $dir);
+            }
 
+            return $this;
+        }
+
+        $storeId = Mage::app()->getStore()->getId();
         if ($attribute == 'price' && $storeId != 0) {
+            $websiteId = Mage::app()->getStore()->getWebsiteId();
             $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
+
             if ($this->isEnabledFlat()) {
                 $priceColumn = 'e.display_price_group_' . $customerGroup;
                 $this->getSelect()->order("{$priceColumn} {$dir}");
@@ -1147,51 +1167,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                  */
                 $this->getSelect()->distinct(true);
             }
-        } else {
-            if ($this->isEnabledFlat()) {
-                if ($attribute == 'position') {
-                    $this->getSelect()
-                        ->order("{$attribute} {$dir}")
-                        ->order("cat_index.product_id {$dir}");
-                }
-                elseif ($sortColumn = $this->getEntity()->getAttributeSortColumn($attribute)) {
-                    $this->getSelect()->order("e.{$sortColumn} {$dir}");
-                }
-            }
-            else {
-                parent::setOrder($attribute, $dir);
-            }
+
+            return $this;
         }
 
-        return $this;
-    }
-
-    /**
-     * Add attribute to sort order
-     *
-     * @param string $attribute
-     * @param string $dir
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
-     */
-    public function addAttributeToSort($attribute, $dir='asc')
-    {
         if ($this->isEnabledFlat()) {
             $column = $this->getEntity()->getAttributeSortColumn($attribute);
 
             if ($column) {
-                $this->getSelect()->order("{$column} {$dir}");
+                $this->getSelect()->order("e.{$column} {$dir}");
             }
 
             return $this;
-        }
-
-        if ($attribute == 'position') {
-            $this->getSelect()
-                ->order("{$attribute} {$dir}")
-                ->order("cat_index.product_id {$dir}");
-            return $this;
-        }
-        else {
+        } else {
             $attrInstance = $this->getEntity()->getAttribute($attribute);
             if ($attrInstance && $attrInstance->usesSource()) {
                 $attrInstance->getSource()
