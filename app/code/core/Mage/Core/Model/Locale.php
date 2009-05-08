@@ -244,7 +244,8 @@ class Mage_Core_Model_Locale
                 }
                 if ($translatedName) {
                     $label = ucwords($this->getLocale()->getLanguageTranslation($data[0], $code))
-                        . ' (' . $this->getLocale()->getCountryTranslation($data[1], $code)  . ')';
+                        . ' (' . $this->getLocale()->getCountryTranslation($data[1], $code)  . ') / '
+                        . $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
                 } else {
                     $label = $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
                 }
