@@ -77,9 +77,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $eventId  = (int) $this->getRequest()->getParam('id');
         }
         $event = Mage::getModel('enterprise_staging/staging_event');
-
         if ($eventId) {
             $event->load($eventId);
+            if (!$event->getId()) {
+                return false;
+            }
         }
 
         $stagingId = $event->getStagingId();
@@ -87,9 +89,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $this->_initStaging($stagingId);
         }
 
-        if ($event->getId()) {
-            $event->restoreMap();
-        }
+        $event->restoreMap();
 
         Mage::register('staging_event', $event);
 
@@ -97,7 +97,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
     /**
-     * execute index action: load layout, render layout
+     * View Stagings Grid
      *
      */
     public function indexAction()
@@ -126,12 +126,12 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         Mage::dispatchEvent('staging_edit_action', array('staging' => $staging));
 
-        $_additionalLayoutPart = '';
         if (!$staging->getId()) {
-            $_additionalLayoutPart = '_new';
-        }
+            $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+            if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+                $this->_getSession()->addNotice($this->__('Cannot perform create operation, because reindexing process or another staging operation is running.'));
+            }
 
-        if (!$staging->getId()) {
             $entryPoint = Mage::getSingleton('enterprise_staging/entry');
             if ($entryPoint->isAutomatic()) {
                 $this->_getSession()->addNotice($this->__('Base URL for this website will be created automatically.'));
@@ -141,24 +141,17 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             }
         }
 
-        $this->loadLayout(array(
-            'default',
-            strtolower($this->getFullActionName()),
-            'staging_'.$staging->getType() . $_additionalLayoutPart
-        ));
-
+        $this->loadLayout();
         $this->_setActiveMenu('system/enterprise_staging');
-
         $this->renderLayout();
     }
 
     /**
-     * Staging grid for AJAX request
+     * Retrieve Staging Grid HTML content for AJAX request
      */
     public function gridAction()
     {
         $staging = $this->_initStaging();
-
         $this->getResponse()->setBody(
             $this->getLayout()
                 ->createBlock('enterprise_staging/manage_staging_grid')
@@ -168,13 +161,13 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
     /**
-     * execute event action: init event, load layout, render layout
+     * Staging Event view action
      *
      */
     public function eventAction()
     {
         $event = $this->_initEvent();
-        if (!$event->getId()) {
+        if (!$event) {
             $this->_getSession()->addError($this->__('Incorrect Id'));
             $this->_redirect('*/*');
             return $this;
@@ -190,16 +183,18 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function eventGridAction()
     {
         $staging = $this->_initStaging();
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_edit_tabs_event')
-                ->setStaging($staging)
-                ->toHtml()
-        );
+        if ($staging) {
+            $this->getResponse()->setBody(
+                $this->getLayout()
+                    ->createBlock('enterprise_staging/manage_staging_edit_tabs_event')
+                    ->setStaging($staging)
+                    ->toHtml()
+            );
+        }
     }
 
     /**
-     * execute validate methods
+     * Validate Staging before it save
      *
      */
     public function validateAction()
@@ -210,7 +205,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         try {
             $stagingData = $this->getRequest()->getPost('staging');
             Mage::getModel('enterprise_staging/staging')
-                ->setId($this->getRequest()->getParam('id'))
+                ->setStagingId($this->getRequest()->getParam('id'))
                 ->addData($stagingData)
                 ->validate();
         } catch (Enterprise_Staging_Exception $e) {
@@ -246,7 +241,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
     /**
-     * Save/Create staging action
+     * Save/Create Staging action
      */
     public function saveAction()
     {
@@ -258,19 +253,32 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $staging    = $this->_initStagingSave();
             if (!$staging) {
                 $this->_getSession()->addError($this->__('Incorrect Id'));
-                $this->_redirect('*/*/');
+                $this->_redirect('*/*/', array('_current' => true));
                 return $this;
             }
             $isNew      = !$staging->getId();
+
+            if ($isNew) {
+                $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+                if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+                    $this->_getSession()->addError($this->__('Cannot perform create operation, because reindexing process or another staging operation is running.'));
+                    $this->_redirect('*/*/edit', array(
+                        '_current'  => true
+                    ));
+                    return $this;
+                }
+            }
             try {
                 $entryPoint = Mage::getSingleton('enterprise_staging/entry');
                 if ($entryPoint->isAutomatic()) {
                     if (!$entryPoint->canEntryPointBeCreated()) {
-                        throw new Mage_Core_Exception(Mage::helper('enterprise_staging')->__('Please, make sure that folder %s is exists and writeable.', $entryPoint->getBaseFolder()));
+                        throw new Mage_Core_Exception(Mage::helper('enterprise_staging')
+                            ->__('Please, make sure that folder %s is exists and writeable.', $entryPoint->getBaseFolder()));
                     }
                 }
 
                 $staging->save();
+                $stagingId = $staging->getId();
 
                 $staging->getMapperInstance()->setCreateMapData($data);
                 if ($isNew) {
@@ -279,7 +287,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                     $staging->update();
                 }
                 $this->_getSession()->addSuccess($this->__('Staging website successfully saved.'));
-                $stagingId = $staging->getId();
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -313,7 +320,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
     /**
-     * Reset Staging Status
+     * Reset Staging Status to allow next merge
+     * needs if previous create/merge/rollback process was not fully finished
      *
      */
     public function resetStatusAction()
@@ -365,14 +373,12 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             ->addNotice($this->__('If no store view mapping is specified only website-related information will be merged'));
 
         $this->loadLayout();
-
         $this->_setActiveMenu('system/enterprise_staging');
-
         $this->renderLayout();
     }
 
     /**
-     * Staging process merge
+     * Staging Merge action
      *
      */
     public function mergePostAction()
@@ -385,17 +391,13 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             return $this;
         }
 
-        $redirectBack = $this->getRequest()->getParam('back', false);
+        $stagingId      = $staging->getId();
 
-        $mapData = $this->getRequest()->getPost('map');
-
-        $isMergeLater = $this->getRequest()->getPost('schedule_merge_later_flag');
-
-        $mergeSchedulingDate = $this->getRequest()->getPost('schedule_merge_later');
-
-        $stagingId = $staging->getId();
-
-        if ($mapData) {
+        $redirectBack   = $this->getRequest()->getParam('back');
+        $isMergeLater   = $this->getRequest()->getPost('schedule_merge_later_flag');
+        $schedulingDate = $this->getRequest()->getPost('schedule_merge_later');
+        $mapData        = $this->getRequest()->getPost('map');
+        if (!empty($mapData)) {
             try {
                 $staging->getMapperInstance()->setMergeMapData($mapData);
 
@@ -404,16 +406,15 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 }
 
                 //scheduling merge
-                if ($isMergeLater && !empty($mergeSchedulingDate)) {
+                if ($isMergeLater && !empty($schedulingDate)) {
                     $staging->setIsMergeLater('true');
 
                     //convert to internal time
-                    $date = Mage::getModel('core/date')->gmtDate(null, $mergeSchedulingDate);
+                    $date = Mage::getModel('core/date')->gmtDate(null, $schedulingDate);
                     $staging->setMergeSchedulingDate($date);
 
                     $originDate = Mage::app()->getHelper('core')->formatDate($date, 'medium', true);
                     $staging->setMergeSchedulingOriginDate($originDate);
-
                 } else {
                     if (!empty($mapData['backup'])) {
                         // run create database backup
@@ -423,22 +424,12 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
                 $staging->merge();
 
-                if ($staging->getId()) {
-                    if ($isMergeLater && !empty($mergeSchedulingDate)) {
-                        $this->_getSession()->addSuccess($this->__('Staging website successfully scheduled to merge.'));
-                    } else {
-                        $this->_getSession()->addSuccess($this->__('Staging website successfully merged.'));
-                    }
-                    $stagingId = $staging->getId();
-                    Mage::dispatchEvent('on_enterprise_staging_merge', array('staging' => $staging));
+                if ($isMergeLater && !empty($schedulingDate)) {
+                    $this->_getSession()->addSuccess($this->__('Staging website successfully scheduled to merge.'));
                 } else {
-                    $redirectBack = false;
-                    if ($isMergeLater && !empty($mergeSchedulingDate)) {
-                        $this->_getSession()->addSuccess($this->__('Staging website(s) was successfully scheduled to merged.'));
-                    } else {
-                        $this->_getSession()->addSuccess($this->__('Staging website(s) was successfully merged.'));
-                    }
+                    $this->_getSession()->addSuccess($this->__('Staging website successfully merged.'));
                 }
+                Mage::dispatchEvent('on_enterprise_staging_merge', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
