@@ -31,10 +31,10 @@ extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Currency
 
     protected function _getCurrencyCode($row)
     {
-        $websiteId = Mage::registry('current_giftcardaccount')->getWebsiteId();
-        if (!isset(self::$_websiteBaseCurrencyCodes[$websiteId])) {
-            self::$_websiteBaseCurrencyCodes[$websiteId] = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
-        }
+        $websiteId = $row->getWebsiteId();
+        $code = Mage::app()->getWebsite($websiteId)->getBaseCurrencyCode();
+        self::$_websiteBaseCurrencyCodes[$websiteId] = $code;
+
         return self::$_websiteBaseCurrencyCodes[$websiteId];
     }
 
