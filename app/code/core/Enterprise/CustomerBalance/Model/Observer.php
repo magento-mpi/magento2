@@ -232,4 +232,19 @@ class Enterprise_CustomerBalance_Model_Observer
         $quote = $observer->getEvent()->getQuote();
         $quote->setCustomerBalanceCollected(false);
     }
+
+    /**
+     * Set the source customer balance usage flag into new quote
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function quoteMergeAfter(Varien_Event_Observer $observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $source = $observer->getEvent()->getSource();
+
+        if ($source->getUseCustomerBalance()) {
+            $quote->setUseCustomerBalance($source->getUseCustomerBalance());
+        }
+    }
 }

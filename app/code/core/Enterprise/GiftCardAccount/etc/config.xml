@@ -203,6 +203,16 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </sales_quote_collect_totals_before>
+
+            <sales_quote_merge_after>
+                <observers>
+                    <enterprise_giftcardaccount>
+                        <type>singleton</type>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>quoteMergeAfter</method>
+                    </enterprise_giftcardaccount>
+                </observers>
+            </sales_quote_merge_after>
         </events>
         <fieldsets>
             <sales_convert_quote_address>

@@ -187,6 +187,16 @@
                     </enterprise_customerbalance_sales_order_place_before>
                 </observers>
             </sales_order_place_before>
+
+            <sales_quote_merge_after>
+                <observers>
+                    <enterprise_customerbalance>
+                        <type>singleton</type>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>quoteMergeAfter</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </sales_quote_merge_after>
         </events>
     </global>
     <frontend>

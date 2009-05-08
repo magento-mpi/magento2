@@ -236,4 +236,20 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
         $quote = $observer->getEvent()->getQuote();
         $quote->setGiftCardsTotalCollected(false);
     }
+
+
+    /**
+     * Set the source gift card accounts into new quote
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function quoteMergeAfter(Varien_Event_Observer $observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $source = $observer->getEvent()->getSource();
+
+        if ($source->getGiftCards()) {
+            $quote->setGiftCards($source->getGiftCards());
+        }
+    }
 }
