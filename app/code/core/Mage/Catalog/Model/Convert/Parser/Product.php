@@ -220,7 +220,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
         $type = $product->getTypeId();
         if (!isset($this->_productTypeInstances[$type])) {
             $this->_productTypeInstances[$type] = Mage::getSingleton('catalog/product_type')
-                ->factory($this, true);
+                ->factory($product, true);
         }
         $product->setTypeInstance($this->_productTypeInstances[$type], true);
         return $this;
@@ -387,6 +387,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     {
         $entityIds = $this->getData();
 
+        $m = memory_get_usage();
         foreach ($entityIds as $i => $entityId) {
             $product = $this->getProductModel()
                 ->reset()
@@ -473,6 +474,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
                 ->setStatus(1)
                 ->save();
         }
+        echo (memory_get_usage() - $m) / 1024 / 1024;
 
         return $this;
     }

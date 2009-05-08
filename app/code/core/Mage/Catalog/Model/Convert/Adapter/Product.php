@@ -197,7 +197,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         $type = $product->getTypeId();
         if (!isset($this->_productTypeInstances[$type])) {
             $this->_productTypeInstances[$type] = Mage::getSingleton('catalog/product_type')
-                ->factory($this, true);
+                ->factory($product, true);
         }
         $product->setTypeInstance($this->_productTypeInstances[$type], true);
         return $this;
