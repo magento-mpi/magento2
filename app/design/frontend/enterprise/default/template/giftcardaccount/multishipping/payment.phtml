@@ -36,7 +36,15 @@
 
     <?php if ($this->isFullyPaidAfterApplication()): ?>
         <script language="javascript">
-            $('payment-methods').hide();
+            $('payment-methods').select('input').each(function(elem){
+                if (elem.name="payment[method]") {
+                    if (elem.value != 'free') {
+                        elem.parentNode.hide();
+                    } else {
+                        elem.checked = true;
+                    }
+                }
+            });
         </script>
         <input type="hidden" name="payment[method]" value="free" />
     <?php endif; ?>
