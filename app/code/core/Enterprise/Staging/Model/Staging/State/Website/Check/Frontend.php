@@ -39,7 +39,7 @@ class Enterprise_Staging_Model_Staging_State_Website_Check_Frontend extends Ente
         }
         Mage::register('staging/frontend_checked_started', true);
 
-        $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
+        $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
         foreach ($stagingItems->children() as $stagingItem) {
             if (!$stagingItem->is_backend) {
                 continue;

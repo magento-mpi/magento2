@@ -916,18 +916,24 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
         $code   = (string) $itemXmlConfig->code;
         $model  = (string) $itemXmlConfig->model;
         $tables = (array)  $itemXmlConfig->entities;
+        $ignoreTables = (array) $itemXmlConfig->ignore_tables;
 
         $resourceName = (string) Mage::getConfig()->getNode("global/models/{$model}/resourceModel");
         $entityTables = (array) Mage::getConfig()->getNode("global/models/{$resourceName}/entities");
 
         foreach ($entityTables as $entityTableConfig) {
             $table = $entityTableConfig->getName();
+
             if (!empty($tables)) {
                 if (!array_key_exists($table, $tables)) {
                     continue;
                 }
             }
-
+            if (!empty($ignoreTables)) {
+                if (array_key_exists($table, $ignoreTables)) {
+                    continue;
+                }
+            }
             if (!$this->_matchTable($table, $code, $model)) {
                 continue;
             }

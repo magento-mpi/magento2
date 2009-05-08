@@ -26,12 +26,5 @@
 
 class Enterprise_Staging_Model_Staging_Adapter_Item_Customer extends Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
 {
-    protected function _matchTable($table, $code, $model)
-    {
-        if ('customer_group' === $table) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+
 }

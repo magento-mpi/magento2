@@ -91,14 +91,6 @@
                     <new_db></new_db>
                     <table_prefix></table_prefix>
                 </storage_method>
-
-                <use_backup_method>table_prefix</use_backup_method>
-                <backup_method>
-                    <new_db></new_db>
-                    <table_prefix></table_prefix>
-                    <basic></basic>
-                </backup_method>
-
                 <type>
                     <website>
                         <code>website</code>
@@ -457,6 +449,36 @@
                         </entities>
                     </checkout>
 
+                    <customer>
+                        <code>customer</code>
+                        <module>Mage_Customer</module>
+                        <model>customer</model>
+                        <is_backend>1</is_backend>
+                        <label>Customers</label>
+                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
+                        <ignore_tables>
+                            <customer_group />
+                        </ignore_tables>
+                        <use_storage_method>table_prefix</use_storage_method>
+                    </customer>
+                    <wishlist>
+                        <code>wishlist</code>
+                        <module>Mage_Wishlist</module>
+                        <model>wishlist</model>
+                        <is_backend>1</is_backend>
+                        <label>Wishlist</label>
+                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
+                        <use_storage_method>table_prefix</use_storage_method>
+                    </wishlist>
+                    <tag>
+                        <code>tag</code>
+                        <module>Mage_Tag</module>
+                        <model>tag</model>
+                        <is_backend>1</is_backend>
+                        <label>Tags</label>
+                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
+                        <use_storage_method>table_prefix</use_storage_method>
+                    </tag>
                     <sales>
                         <code>sales</code>
                         <module>Mage_Sales</module>
@@ -466,24 +488,6 @@
                         <adapter>enterprise_staging/staging_adapter_item_sales</adapter>
                         <use_storage_method>table_prefix</use_storage_method>
                     </sales>
-                    <customer>
-                        <code>customer</code>
-                        <module>Mage_Customer</module>
-                        <model>customer</model>
-                        <is_backend>1</is_backend>
-                        <label>Customers</label>
-                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
-                        <use_storage_method>table_prefix</use_storage_method>
-                    </customer>
-                    <customer_address>
-                        <code>customer_address</code>
-                        <module>Mage_Customer</module>
-                        <model>customer</model>
-                        <is_backend>1</is_backend>
-                        <label>Customer Adresses</label>
-                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
-                        <use_storage_method>table_prefix</use_storage_method>
-                    </customer_address>
                 </staging_items>
                 <staging_website_code_suffix></staging_website_code_suffix>
 

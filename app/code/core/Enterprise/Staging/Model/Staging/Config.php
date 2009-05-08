@@ -474,6 +474,11 @@ class Enterprise_Staging_Model_Staging_Config
      */
     static public function getStagingTableName($tableName, $modelEntity, $stagingWebsite = null)
     {
+        $stagingTablePrefix = self::getTablePrefix();
+        if (empty($stagingTablePrefix)){
+            return $tableName;
+        }
+
         $staging = Mage::getModel('enterprise_staging/staging');
         if (!is_null($stagingWebsite)) {
             $staging->loadByStagingWebsiteId($stagingWebsite->getId());
@@ -489,18 +494,13 @@ class Enterprise_Staging_Model_Staging_Config
 
         $globalTablePrefix = (string) Mage::getConfig()->getTablePrefix();
 
-        $stagingTablePrefix = self::getTablePrefix();
-        if (empty($stagingTablePrefix)){
-            return $tableName;
-        }
-
-        $tableName = $globalTablePrefix . $tableName;
+        $_tableName = $globalTablePrefix . $tableName;
 
         if (self::isStagingUpTableName($model, $tableName)) {
-            $tableName = $stagingTablePrefix . $tableName;
+            $_tableName = $stagingTablePrefix . $_tableName;
         }
 
-        return $tableName;
+        return $_tableName;
 
     }
 
@@ -514,24 +514,28 @@ class Enterprise_Staging_Model_Staging_Config
     static public function isStagingUpTableName($model, $tableName)
     {
         $itemSet = self::getConfig("staging_items");
-
-        if (is_object($itemSet)) {
+        if ($itemSet) {
             foreach($itemSet->children() as $item) {
                 $itemModel = (string) $item->model;
                 if ($itemModel == $model) {
                     $isBackend = (string) $item->is_backend;
                     $useStorageMethod = (string) $item->use_storage_method;
                     if ($isBackend && $useStorageMethod == "table_prefix") {
-                        //apply prefix for custom tables
-                        if (!empty($item->entities) && is_object($item->entities)){
-                            foreach($item->entities->children() AS $entity) {
-                                $entityTable = (string) $entity->table;
-                                if (!empty($entityTable) && $entityTable == $tableName) {
-                                    return true;
-                                }
+                        $ignoreTables = (array) $item->ignore_tables;
+                        //ignore for specified tables
+                        if (!empty($ignoreTables)){
+                            if (array_key_exists($tableName, $ignoreTables)) {
+                                return false;
+                            }
+                        }
+                        $tables = (array)  $item->entities;
+                        //apply for specified tables
+                        if (!empty($tables)){
+                            if (!array_key_exists($tableName, $tables)) {
+                                return false;
                             }
                         } else {
-                             return true;
+                            return true;
                         }
                     }
                 }
