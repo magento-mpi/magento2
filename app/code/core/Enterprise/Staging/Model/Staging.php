@@ -36,25 +36,11 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     protected $_tablePrefix = 'staging';
 
     /**
-     * Staging type instance
-     *
-     * @var mixed Enterprise_Staging_Model_Staging_Type_Abstract
-     */
-    protected $_typeInstance                = null;
-
-    /**
      * Staging mapper instance
      *
      * @var mixed Enterprise_Staging_Model_Staging_Mapper_Abstract
      */
     protected $_mapperInstance              = null;
-
-    /**
-     * Staging resource adapter instance
-     *
-     * @var mixed Enterprise_Staging_Model_Staging_Mapper_Abstract
-     */
-    protected $_adapterInstance             = null;
 
     protected $_items;
 
@@ -120,39 +106,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         } else {
             return false;
         }
-    }
-
-    public function getUsedItems()
-    {
-        return $this->getMapperInstance()->getUsedItems();
-    }
-
-    public function getUsedItemCodes()
-    {
-        return $this->getMapperInstance()->getUsedItemCodes();
-    }
-
-    /**
-     * Get staging item ids
-     *
-     * @return array
-     */
-    public function getItemIds()
-    {
-        if ($this->hasData('staging_item_ids')) {
-            $ids = $this->getData('staging_item_ids');
-            if (!is_array($ids)) {
-                $ids = !empty($ids) ? explode(',', $ids) : array();
-                $this->setData('staging_item_ids', $ids);
-            }
-        } else {
-        	$ids = array();
-            foreach ($this->getItemsCollection() as $item) {
-            	$ids[] = $item->getId();
-            }
-            $this->setData('staging_item_ids', $ids);
-        }
-        return $this->getData('staging_item_ids');
     }
 
     /**
@@ -313,7 +266,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      * @param   boolean $isAdminNotified
      * @return  object  Enterprise_Staging_Model_Staging
      */
-    public function addEvent($code, $state, $status, $name, $comment='', $log='', $isAdminNotified = false)
+    public function addEvent($code, $state, $status, $name, $comment='', $isAdminNotified = false)
     {
         $event = Mage::getModel('enterprise_staging/staging_event')
             ->setStagingId($this->getId())
@@ -369,19 +322,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Staging Type instance
-     *
-     * @return  Enterprise_Staging_Model_Staging_Type_Abstract
-     */
-    public function getTypeInstance()
-    {
-        if ($this->_typeInstance === null) {
-            $this->_typeInstance = Enterprise_Staging_Model_Staging_Config::typeFactory($this, true);
-        }
-        return $this->_typeInstance;
-    }
-
-    /**
      * Retrieve Mapper instance
      *
      * @return Enterprise_Staging_Model_Staging_Mapper_Abstract
@@ -392,19 +332,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             $this->_mapperInstance = Enterprise_Staging_Model_Staging_Config::mapperFactory($this, true);
         }
         return $this->_mapperInstance;
-    }
-
-    /**
-     * Retrieve Adaptor instance
-     *
-     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
-     */
-    public function getAdapterInstance()
-    {
-        if ($this->_adapterInstance === null) {
-            $this->_adapterInstance = Enterprise_Staging_Model_Staging_Config::adapterFactory($this, true);
-        }
-        return $this->_adapterInstance;
     }
 
     /**
@@ -487,9 +414,9 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     /**
      * Update staging attribute
      *
-     * @param string $attribute
-     * @param any_type $value
-     * @return Enterprice_Staging_Model_Staging
+     * @param   string  $attribute
+     * @param   mixed   $value
+     * @return  Enterprice_Staging_Model_Staging
      */
     public function updateAttribute($attribute, $value)
     {

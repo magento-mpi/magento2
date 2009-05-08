@@ -76,17 +76,6 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     /**
      * TODO need to remove this method if it no needed more
      */
-    public function getItemIds(Enterprise_Staging_Model_Staging $staging)
-    {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->_itemTable, array('staging_item_id'))
-            ->where('staging_id=?', $staging->getId());
-        return $this->_getReadAdapter()->fetchCol($select);
-    }
-
-    /**
-     * TODO need to remove this method if it no needed more
-     */
     public function getItemsCollection(Enterprise_Staging_Model_Staging $staging)
     {
     	return Mage::getResourceModel('enterprise_staging/staging_item_collection')

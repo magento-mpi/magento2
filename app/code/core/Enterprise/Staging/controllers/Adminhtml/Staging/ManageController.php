@@ -278,8 +278,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 }
 
                 $staging->save();
-                $stagingId = $staging->getId();
-
                 $staging->getMapperInstance()->setCreateMapData($data);
                 if ($isNew) {
                     $staging->create();
@@ -297,6 +295,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                     }
                     $staging->delete();
                 }
+                $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+                if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+                    $catalogIndexFlag->delete();
+                }
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
@@ -306,15 +308,14 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                     }
                     $staging->delete();
                 }
+                $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+                if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+                    $catalogIndexFlag->delete();
+                }
             }
         }
 
         if ($redirectBack) {
-            $this->_redirect('*/*/edit', array(
-                'id'        => $stagingId,
-                '_current'  => true
-            ));
-        } else {
             $this->_redirect('*/*/');
         }
     }
