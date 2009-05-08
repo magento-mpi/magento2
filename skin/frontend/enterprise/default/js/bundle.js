@@ -92,7 +92,7 @@ Product.Bundle.prototype = {
     selectionPrice: function(optionId, selectionId) {
         if (selectionId == '' || selectionId == 'none') {
             return 0;
-        }        
+        }
         var qty = null;
         if (this.config.options[optionId].selections[selectionId].customQty == 1 && !this.config['options'][optionId].isMulti) {
             if ($('bundle-option-' + optionId + '-qty-input')) {
@@ -177,13 +177,13 @@ Product.Bundle.prototype = {
         if (typeof elmId == 'undefined') {
             return;
         }
-        var container = $(elmId).up('ul.options-list');
+        var container = $(elmId).up('div.input-box');
         if (typeof container != 'undefined') {
             if (result == 'failed') {
                 container.removeClassName('validation-passed');
-                container.addClassName('validation-failed');
+                container.addClassName('validation-error');
             } else {
-                container.removeClassName('validation-failed');
+                container.removeClassName('validation-error');
                 container.addClassName('validation-passed');
             }
         }
