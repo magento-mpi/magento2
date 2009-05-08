@@ -632,4 +632,21 @@ abstract class Mage_Catalog_Model_Product_Type_Abstract
         }
         return $this;
     }
+
+    /**
+     * Retrieve additional searchable data from type instance
+     * Using based on product id and store_id data
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    public function getSearchableData($product = null)
+    {
+        $product = $this->getProduct($product);
+
+        $searchData = Mage::getSingleton('catalog/product_option')
+            ->getSearchableData($product->getId(), $product->getStoreId());
+
+        return $searchData;
+    }
 }

@@ -432,6 +432,24 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
+     * Retrieve Product Type Instance
+     *
+     * @param string $typeId
+     * @return Mage_Catalog_Model_Product_Type_Abstract
+     */
+    protected function _getProductTypeInstance($typeId)
+    {
+        if (!isset($this->_productTypes[$typeId])) {
+            $productEmulator = $this->_getProductEmulator();
+            $productEmulator->setTypeId($typeId);
+
+            $this->_productTypes[$typeId] = Mage::getSingleton('catalog/product_type')
+                ->factory($productEmulator);
+        }
+        return $this->_productTypes[$typeId];
+    }
+
+    /**
      * Return all product children ids
      *
      * @param int $productId Product Entity Id
@@ -440,15 +458,11 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
      */
     protected function _getProductChildIds($productId, $typeId)
     {
-        if (!isset($this->_productTypes[$typeId])) {
-            $productEmulator = new Varien_Object();
-            $productEmulator->setTypeId($typeId);
+        $typeInstance = $this->_getProductTypeInstance($typeId);
+        $relation = $typeInstance->isComposite()
+            ? $typeInstance->getRelationInfo()
+            : false;
 
-            $typeInstance = Mage::getSingleton('catalog/product_type')->factory($productEmulator);
-            $this->_productTypes[$typeId] = $typeInstance->isComposite() ? $typeInstance->getRelationInfo() : false;
-        }
-
-        $relation = $this->_productTypes[$typeId];
         if ($relation && $relation->getTable() && $relation->getParentFieldName() && $relation->getChildFieldName()) {
             $select = $this->_getReadAdapter()->select()
                 ->from(
@@ -462,6 +476,18 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         }
 
         return null;
+    }
+
+    /**
+     * Retrieve Product Emulator (Varien Object)
+     *
+     * @return Varien_Object
+     */
+    protected function _getProductEmulator()
+    {
+        $productEmulator = new Varien_Object();
+        $productEmulator->setIdFieldName('entity_id');
+        return $productEmulator;
     }
 
     /**
@@ -488,6 +514,16 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 }
             }
         }
+
+        $product = $this->_getProductEmulator()
+            ->setId($productData['entity_id'])
+            ->setTypeId($productData['type_id'])
+            ->setStoreId($storeId);
+        $typeInstance = $this->_getProductTypeInstance($productData['type_id']);
+        if ($data = $typeInstance->getSearchableData($product)) {
+            $index = array_merge($index, $data);
+        }
+
         return join($this->_separator, $index);
     }
 

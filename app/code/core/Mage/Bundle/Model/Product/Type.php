@@ -806,4 +806,24 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
         return true;
     }
 
+    /**
+     * Retrieve additional searchable data from type instance
+     * Using based on product id and store_id data
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    public function getSearchableData($product = null)
+    {
+        $searchData = parent::getSearchableData($product);
+        $product = $this->getProduct($product);
+
+        $optionSearchData = Mage::getSingleton('bundle/option')
+            ->getSearchableData($product->getId(), $product->getStoreId());
+        if ($optionSearchData) {
+            $searchData = array_merge($searchData, $optionSearchData);
+        }
+
+        return $searchData;
+    }
 }
