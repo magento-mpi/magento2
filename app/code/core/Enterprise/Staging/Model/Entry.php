@@ -104,14 +104,13 @@ class Enterprise_Staging_Model_Entry
     {
         $folder = $this->getBaseFolder();
         if ((!is_dir($folder)) || (!is_writeable($folder))) {
-            //Mage::throwException(Mage::helper('enterprise_staging')->__('To create entry points, the folder %s must be exists and writeable.', $folder));
             return false;
         }
-        if ($this->_website && $this->_website->getCode()) {
-            if (file_exists($this->getFilename())) {
-                return false;
-            }
-        }
+//        if ($this->_website && $this->_website->getCode()) {
+//            if (file_exists($this->getFilename())) {
+//                return false;
+//            }
+//        }
         return true;
     }
 
@@ -150,7 +149,7 @@ class Enterprise_Staging_Model_Entry
             ));
 
             $sample = file_get_contents(BP . DS . '.htaccess');
-            $outputFile = $this->getBaseFolder() . DS . $this->_website->getCode() . DS . '.htaccess';;
+            $outputFile = $this->getBaseFolder() . DS . $this->_website->getCode() . DS . '.htaccess';
             file_put_contents($outputFile, $sample);
         }
         return $this;
