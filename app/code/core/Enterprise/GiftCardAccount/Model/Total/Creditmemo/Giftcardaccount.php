@@ -35,6 +35,30 @@ class Enterprise_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount extends 
     public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
         $order = $creditmemo->getOrder();
+        if ($order->getBaseGiftCardsAmount() && $order->getBaseGiftCardsInvoiced() != 0) {
+            $gcaLeft = $order->getBaseGiftCardsInvoiced() - $order->getBaseGiftCardsRefunded();
+
+            $used = 0;
+            $baseUsed = 0;
+
+            if ($gcaLeft >= $creditmemo->getBaseGrandTotal()) {
+                $baseUsed = $creditmemo->getBaseGrandTotal();
+                $used = $creditmemo->getGrandTotal();
+
+                $creditmemo->setBaseGrandTotal(0);
+                $creditmemo->setGrandTotal(0);
+            } else {
+                $baseUsed = $order->getBaseGiftCardsInvoiced() - $order->getBaseGiftCardsRefunded();
+                $used = $order->getGiftCardsInvoiced() - $order->getGiftCardsRefunded();
+
+                $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal()-$baseUsed);
+                $creditmemo->setGrandTotal($creditmemo->getGrandTotal()-$used);
+            }
+
+            $creditmemo->setBaseGiftCardsAmount($baseUsed);
+            $creditmemo->setGiftCardsAmount($used);
+        }
+
         return $this;
     }
 }

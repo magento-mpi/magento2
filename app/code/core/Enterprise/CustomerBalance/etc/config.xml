@@ -197,6 +197,36 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_quote_merge_after>
+
+            <sales_order_invoice_save_after>
+                <observers>
+                    <enterprise_customerbalance_sales_order_invoice_save_after>
+                        <type>singleton</type>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>increaseOrderInvoicedAmount</method>
+                    </enterprise_customerbalance_sales_order_invoice_save_after>
+                </observers>
+            </sales_order_invoice_save_after>
+
+            <sales_order_creditmemo_save_after>
+                <observers>
+                    <enterprise_customerbalance_sales_order_creditmemo_save_after>
+                        <type>singleton</type>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>increaseOrderRefundedAmount</method>
+                    </enterprise_customerbalance_sales_order_creditmemo_save_after>
+                </observers>
+            </sales_order_creditmemo_save_after>
+
+            <adminhtml_sales_order_creditmemo_register_before>
+                <observers>
+                    <enterprise_customerbalance>
+                        <type>singleton</type>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>creditmemoDataImport</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </adminhtml_sales_order_creditmemo_register_before>
         </events>
     </global>
     <frontend>

@@ -252,4 +252,58 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
             $quote->setGiftCards($source->getGiftCards());
         }
     }
+
+    /**
+     * Increase order gift_cards_refunded attribute based on created creditmemo
+     * used for event: sales_order_creditmemo_save_after
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCardAccount_Model_Observer
+     */
+    public function increaseOrderRefundedAmount(Varien_Event_Observer $observer)
+    {
+        $creditmemo = $observer->getEvent()->getCreditmemo();
+        $order = $creditmemo->getOrder();
+
+        if ($creditmemo->getBaseGiftCardsAmount()) {
+            $order->setBaseGiftCardsRefunded($order->getBaseGiftCardsRefunded() + $creditmemo->getBaseGiftCardsAmount());
+            $order->setGiftCardsRefunded($order->getGiftCardsRefunded() + $creditmemo->getGiftCardsAmount());
+        }
+
+        if ($creditmemo->getBaseGiftCardsAmount() > 0 && $order->getCustomerId() && $creditmemo->getRefundGiftCards()) {
+            $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
+
+            $balance = Mage::getModel('enterprise_customerbalance/balance')
+                ->setCustomerId($order->getCustomerId())
+                ->setWebsiteId($websiteId)
+                ->setAmountDelta($creditmemo->getBaseGiftCardsAmount())
+                ->setHistoryAction(Enterprise_CustomerBalance_Model_Balance_History::ACTION_REFUNDED)
+                ->setOrder($order)
+                ->setCreditMemo($creditmemo)
+                ->save();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set refund flag to creditmemo based on user input
+     * used for event: adminhtml_sales_order_creditmemo_register_before
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCardAccount_Model_Observer
+     */
+    public function creditmemoDataImport(Varien_Event_Observer $observer)
+    {
+        $request = $observer->getEvent()->getRequest();
+        $creditmemo = $observer->getEvent()->getCreditmemo();
+
+        $input = $request->getParam('creditmemo');
+
+        if (isset($input['refund_giftcardaccount']) && $input['refund_giftcardaccount']) {
+            $creditmemo->setRefundGiftCards(true);
+        }
+
+        return $this;
+    }
 }

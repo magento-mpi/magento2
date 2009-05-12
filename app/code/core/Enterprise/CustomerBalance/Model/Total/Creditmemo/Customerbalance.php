@@ -34,7 +34,35 @@ class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends 
      */
     public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            return $this;
+        }
+
         $order = $creditmemo->getOrder();
+        if ($order->getBaseCustomerBalanceAmount() && $order->getBaseCustomerBalanceInvoiced() != 0) {
+            $cbLeft = $order->getBaseCustomerBalanceInvoiced() - $order->getBaseCustomerBalanceRefunded();
+
+            $used = 0;
+            $baseUsed = 0;
+
+            if ($cbLeft >= $creditmemo->getBaseGrandTotal()) {
+                $baseUsed = $creditmemo->getBaseGrandTotal();
+                $used = $creditmemo->getGrandTotal();
+
+                $creditmemo->setBaseGrandTotal(0);
+                $creditmemo->setGrandTotal(0);
+            } else {
+                $baseUsed = $order->getBaseCustomerBalanceInvoiced() - $order->getBaseCustomerBalanceRefunded();
+                $used = $order->getCustomerBalanceInvoiced() - $order->getCustomerBalanceRefunded();
+
+                $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal()-$baseUsed);
+                $creditmemo->setGrandTotal($creditmemo->getGrandTotal()-$used);
+            }
+
+            $creditmemo->setBaseCustomerBalanceAmount($baseUsed);
+            $creditmemo->setCustomerBalanceAmount($used);
+        }
+
         return $this;
     }
 }

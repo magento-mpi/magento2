@@ -80,4 +80,22 @@
             <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/payment.phtml" name="giftcardaccount" after="-" />
         </reference>
     </adminhtml_sales_order_create_index>
+
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="sales.order.view.totals.main">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_totals_giftcardaccount" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/giftcardaccount.phtml" after="-" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="sales.order.view.totals.main">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_totals_giftcardaccount" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/giftcardaccount.phtml" after="-" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
+
+    <adminhtml_sales_order_creditmemo_view>
+        <reference name="sales.order.view.totals.main">
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/view.phtml" after="-" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_view>
 </layout>
