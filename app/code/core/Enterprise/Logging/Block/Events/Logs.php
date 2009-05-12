@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -19,24 +18,29 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design
- * @package    default_default
+ * @category   Enterprise
+ * @package    Enterprise_Logging
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
--->
 
-<layout>
-    <adminhtml_events_index>
-        <reference name="content">
-            <block type="enterprise_logging/events"  name="enterprise_logging_events" />
-        </reference>
-    </adminhtml_events_index>
+class Enterprise_Logging_Block_Events_Logs extends Mage_Adminhtml_Block_Widget_Grid_Container
+{
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->_headerText = Mage::helper('enterprise_logging')->__('View backups');
+        $this->_blockGroup = 'enterprise_logging';
+        $this->_controller = 'events_logs';
+        parent::__construct();
+    }
 
-    <adminhtml_events_log>
-        <reference name="content">
-            <block type="enterprise_logging/events_logs"  name="enterprise_logging_events_logs_grid" />
-        </reference>
-    </adminhtml_events_log>
-
-</layout>
+    /**
+     * Overrided method, to disable add button
+     */
+    protected function _enabledAddNewButton() {
+        return false;
+    }
+}
