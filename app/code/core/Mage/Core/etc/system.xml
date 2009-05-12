@@ -815,7 +815,7 @@
                             <show_in_store>0</show_in_store>
                         </use_form_key>
                         <session_cookie_lifetime translate="label comment">
-                            <label>Session Lifetime, Seconds</label>
+                            <label>Session Lifetime (seconds)</label>
                             <comment>Values less than 60 are ignored.</comment>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
