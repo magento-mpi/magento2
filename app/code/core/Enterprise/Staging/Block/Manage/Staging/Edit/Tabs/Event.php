@@ -48,16 +48,13 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
         $this->setId('enterpriseStagingEventHistoryGrid');
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('DESC');
-        $this->setSaveParametersInSession(true);
-        $this->setUseAjax(true);
+        $this->setSaveParametersInSession(false);
+        $this->setUseAjax(false);
+        $this->setRowClickCallback(false);
 
         $this->setColumnRenderers(
             array(
-                'long2ip' => 'enterprise_staging/manage_staging_edit_renderer_ip'
-        ));
-        $this->setColumnRenderers(
-            array(
-                'action' => 'enterprise_staging/manage_staging_renderer_grid_column_action'
+                'long2ip' => 'enterprise_staging/widget_grid_column_renderer_ip'
         ));
 
         $this->helper = Mage::helper('enterprise_staging');
@@ -103,8 +100,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             'header'    => $this->helper->__('IP'),
             'index'     => 'ip',
             'type'      => 'long2ip',
-            'sortable'  => false,
-            'filter'    => false
+            'filter'    => 'enterprise_staging/widget_grid_column_filter_ip',
+            'sortable'  => false
         ));
 
         $this->addColumn('loginname', array(
@@ -127,38 +124,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             'filter'    => false
         ));
 
-//        $this->addColumn('is_backuped', array(
-//            'header'    => $this->helper->__('Is Backuped'),
-//            'index'     => 'is_backuped',
-//            'type'      => 'options',
-//            'options'   => Mage::getModel('eav/entity_attribute_source_boolean')->getOptionArray(),
-//            'sortable'  => false
-//        ));
-
-        $this->addColumn('action', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Action'),
-            'type'      => 'action',
-            'getter'    => 'getId',
-            'width'     => '80px',
-            'filter'    => false,
-            'sortable'  => false,
-            'index'     => 'type',
-            'link_type' => 'actions',
-            'validate'  => array(
-                'merge_schedule_date' => array(
-                    'class_base_name' => 'Date',
-                    'args' => array(
-                        'format' => Varien_Date::DATETIME_INTERNAL_FORMAT
-                    )
-            )),
-            'actions'   => array(
-                array(
-                    'url'       => $this->getUrl('*/*/unschedule', array('id' => '$event_id')),
-                    'caption'   => Mage::helper('enterprise_staging')->__('Unschedule Merge')
-                )
-            )
-        ));
-
         return parent::_prepareColumns();
     }
 
@@ -177,19 +142,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
      */
     public function getRowUrl($row)
     {
-        //customisation
-        if ($row->getCode()=='backup') {
-            $backupId = $row->getBackupId();
-            if ($backupId > 0) {
-                return $this->getUrl('*/*/backupEdit', array(
-                    'id' => $backupId
-                ));
-            }
-        }
-
-        return $this->getUrl('*/*/event', array(
-            'id' => $row->getId()
-        ));
+        return '';
     }
 
     /**

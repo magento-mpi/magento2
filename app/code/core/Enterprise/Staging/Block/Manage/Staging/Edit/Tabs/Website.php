@@ -133,7 +133,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                     )
                 );
                 if ($stagingWebsite->getStoresCount() > 0) {
-                    $element->setRenderer($this->getLayout()->createBlock('enterprise_staging/manage_staging_renderer_link'));
+                    $element->setRenderer($this->getLayout()->createBlock('enterprise_staging/widget_form_renderer_fieldset_link'));
                 }
 
                 $element = $fieldset->addField('staging_website_base_secure_url_'.$_id, 'label',
@@ -144,7 +144,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                     )
                 );
                 if ($stagingWebsite->getStoresCount() > 0) {
-                    $element->setRenderer($this->getLayout()->createBlock('enterprise_staging/manage_staging_renderer_link'));
+                    $element->setRenderer($this->getLayout()->createBlock('enterprise_staging/widget_form_renderer_fieldset_link'));
                 }
 
                 $fieldset->addField('staging_website_id_'.$_id, 'hidden',

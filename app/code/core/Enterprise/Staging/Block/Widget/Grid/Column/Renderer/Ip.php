@@ -29,25 +29,17 @@
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Manage_Staging_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Enterprise_Staging_Block_Widget_Grid_Column_Renderer_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
+    /**
+     * replacing ip from long to 4-digits value.
+     *
+     * @param Varien_Object row   row with 'ip' item
+     *
+     * @return string - replaced ip value.
+     */
     public function render(Varien_Object $row)
     {
-        $href = $row->getData($this->getColumn()->getIndex());
-        if ($this->getColumn()->getTitle()) {
-            if ($this->getColumn()->getIndex() == $this->getColumn()->getTitle()) {
-                $title = $href;
-            } else {
-                $title = $this->getColumn()->getTitle();
-            }
-        } else {
-            $title = $this->__('click here');
-        }
-
-        if ($this->getColumn()->getLength() && strlen($title) > $this->getColumn()->getLength()) {
-            $title = substr($title, 0, $this->getColumn()->getLength()) . '...';
-        }
-
-        return '<a href="'.$href.'" target="_blank">'.$title.'</a>';
+    	return long2ip($row->getData($this->getColumn()->getIndex()));
     }
 }

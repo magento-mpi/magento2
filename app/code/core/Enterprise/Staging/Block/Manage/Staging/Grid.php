@@ -49,7 +49,7 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
 
         $this->setColumnRenderers(
             array(
-                'action' => 'enterprise_staging/manage_staging_renderer_grid_column_action'
+                'action' => 'enterprise_staging/widget_grid_column_renderer_action'
         ));
     }
 
@@ -146,7 +146,11 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
                 ),
                 array(
                     'url'       => $this->getUrl('*/*/merge', array('id' => '$staging_id')),
-                    'caption'   => Mage::helper('enterprise_staging')->__('Merge')
+                    'caption'   => Mage::helper('enterprise_staging')->__('Merge'),
+                    'validate'  => array(
+                        '__method_callback' => array(
+                            'method' => 'canMerge'
+                    ))
                 )
             )
         ));

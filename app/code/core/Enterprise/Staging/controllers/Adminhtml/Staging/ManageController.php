@@ -459,11 +459,14 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         try {
             $event->setData('merge_schedule_date', '0000-00-00 00:00:00');
+            $event->setData('state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
+            $event->setData('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
             $event->save();
 
             $staging = $event->getStaging();
             $staging->updateAttribute('state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
             $staging->updateAttribute('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
+            $staging->updateAttribute('schedule_merge_event_id', '');
 
             $this->_getSession()->addSuccess($this->__('Staging was successfully unscheduled'));
         } catch (Exception $e) {

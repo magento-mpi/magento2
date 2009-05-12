@@ -24,22 +24,14 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Staging events history tab
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Staging_Block_Manage_Staging_Edit_Renderer_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+class Enterprise_Staging_Block_Widget_Grid_Column_Filter_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text
 {
     /**
-     * replacing ip from long to 4-digits value.
-     *
-     * @param Varien_Object row   row with 'ip' item
-     *
-     * @return string - replaced ip value.
+     * ip filter method
      */
-    public function render(Varien_Object $row)
+    public function getCondition()
     {
-    	return long2ip($row->getData($this->getColumn()->getIndex()));
+        $ip = $this->getValue();
+    	return ip2long($ip);
     }
 }

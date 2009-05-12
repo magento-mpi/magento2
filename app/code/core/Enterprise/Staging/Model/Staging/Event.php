@@ -158,9 +158,9 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
         if ($staging->getId()) {
             $this->setStagingId($staging->getId());
 
-            if ($staging->getIsMergeLater()==true) {
+            if ($staging->getIsMergeLater() == true) {
                 $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
-            } elseif ($staging->getIsNewStaging()==true) {
+            } elseif ($staging->getIsNewStaging() == true) {
                 $status = Enterprise_Staging_Model_Staging_Config::STATUS_NEW;
             } else {
                 $status = $staging->getStatus();
@@ -190,6 +190,10 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
             ->setIsAdminNotified(false)
             ->setComment($comment)
             ->save();
+
+        if ($staging->getIsMergeLater() == true) {
+            $staging->setScheduleMergeEventId($this->getId());
+        }
 
         if ($staging->getId() && $staging->getIsNewStaging()==false) {
             $staging->save();

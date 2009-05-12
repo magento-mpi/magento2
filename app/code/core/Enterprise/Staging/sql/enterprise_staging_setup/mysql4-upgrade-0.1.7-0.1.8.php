@@ -28,10 +28,6 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 
-$installer = $this;
-/* @var $installer Mage_Eav_Model_Entity_Setup */
-$installer->startSetup();
-
 $installer->getConnection()->addColumn($this->getTable('enterprise_staging/staging_backup'), 'staging_website_id', "smallint(5) unsigned default NULL");
 $installer->getConnection()->addColumn($this->getTable('enterprise_staging/staging_event'), 'staging_website_id', "smallint(5) unsigned default NULL");
 
@@ -67,6 +63,4 @@ $installer->getConnection()->addConstraint(
     $installer->getTable('core/website'),
     'website_id'
 );
-$installer->endSetup();
-
 $installer->endSetup();

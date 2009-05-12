@@ -50,7 +50,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
 
         $this->setColumnRenderers(
             array(
-                'action' => 'enterprise_staging/manage_staging_renderer_grid_column_action'
+                'action' => 'enterprise_staging/widget_grid_column_renderer_action'
         ));
     }
 

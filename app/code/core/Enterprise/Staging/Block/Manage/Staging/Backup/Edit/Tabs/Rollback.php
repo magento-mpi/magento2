@@ -53,7 +53,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
 
         $this->setColumnRenderers(
             array(
-                'long2ip' => 'enterprise_staging/manage_staging_edit_renderer_ip'
+                'long2ip' => 'enterprise_staging/widget_grid_column_renderer_ip'
         ));
 
         $this->helper = Mage::helper('enterprise_staging');
@@ -101,8 +101,8 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
             'header'    => $this->helper->__('IP'),
             'index'     => 'event_ip',
             'type'      => 'long2ip',
-            'sortable'  => false,
-            'filter'    => false
+            'filter'    => 'enterprise_staging/widget_grid_column_filter_ip',
+            'sortable'  => false
         ));
 
         $this->addColumn('loginname', array(

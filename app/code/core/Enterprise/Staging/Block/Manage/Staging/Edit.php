@@ -128,6 +128,17 @@ class Enterprise_Staging_Block_Manage_Staging_Edit extends Mage_Adminhtml_Block_
             );
         }
 
+        if ($eventId = $this->getStaging()->getScheduleMergeEventId()) {
+            $this->setChild('unschedule_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Unschedule Merge'),
+                        'onclick'   => 'setLocation(\'' . $this->getUrl('*/*/unschedule', array('id' => $eventId)) . '\')',
+                        'class' => 'reset'
+                ))
+            );
+        }
+
         return parent::_prepareLayout();
     }
 

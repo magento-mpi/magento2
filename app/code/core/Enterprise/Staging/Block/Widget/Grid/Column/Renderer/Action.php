@@ -31,7 +31,7 @@
  * @package    Enterprise_Staging
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Block_Manage_Staging_Renderer_Grid_Column_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
+class Enterprise_Staging_Block_Widget_Grid_Column_Renderer_Action extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Action
 {
     /**
      * Renders column
@@ -41,17 +41,6 @@ class Enterprise_Staging_Block_Manage_Staging_Renderer_Grid_Column_Action extend
      */
     public function render(Varien_Object $row)
     {
-        $validate = $this->getColumn()->getValidate();
-        if (is_array($validate)) {
-            foreach ($validate as $field => $condition) {
-                $args = isset($condition['args']) ? $condition['args'] : array();
-                $classBaseName = isset($condition['class_base_name']) ? $condition['class_base_name'] : 'NotEmpty';
-                $value = $row->getData($field);
-                if (!Zend_Validate::is($value , $classBaseName, $args)) {
-                    return '';
-                }
-            }
-        }
         switch ($this->getColumn()->getLinkType()) {
             case 'url':
                 return $this->_renderUrl($row);
@@ -85,7 +74,10 @@ class Enterprise_Staging_Block_Manage_Staging_Renderer_Grid_Column_Action extend
         $out = '<select class="action-select" onchange="varienGridAction.execute(this);">'
              . '<option value=""></option>';
         $i = 0;
-        foreach ($actions as $action){
+        foreach ($actions as $action) {
+            if (!$this->_validateAction($row, $action)) {
+                continue;
+            }
             $i++;
             if ( is_array($action) ) {
                 $out .= $this->_toOptionHtml($action, $row);
@@ -113,5 +105,32 @@ class Enterprise_Staging_Block_Manage_Staging_Renderer_Grid_Column_Action extend
         }
 
         return '<a href="'.$href.'" target="_blank">'.$title.'</a>';
+    }
+
+    protected function _validateAction(Varien_Object $row, $action)
+    {
+        $validate = isset($action['validate']) ? $action['validate'] : false;
+        if ($validate) {
+            foreach ($validate as $field => $condition) {
+                $args = isset($condition['args']) ? $condition['args'] : array();
+                if ($field == '__method_callback') {
+                    if (isset($condition['method'])) {
+                        $method = $condition['method'];
+                        if (is_callable(array($row, $method))) {
+                            if (!call_user_func_array(array($row, $method), $args)) {
+                                return false;
+                            }
+                        }
+                    }
+                } else {
+                    $classBaseName = isset($condition['class_base_name']) ? $condition['class_base_name'] : 'NotEmpty';
+                    $value = $row->getData($field);
+                    if (!Zend_Validate::is($value , $classBaseName, $args)) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }
