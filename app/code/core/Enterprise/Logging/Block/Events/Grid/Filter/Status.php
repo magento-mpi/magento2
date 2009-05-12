@@ -29,10 +29,11 @@ class Enterprise_Logging_Block_Events_Grid_Filter_Status extends Mage_Adminhtml_
     /**
      * Build options list for filter
      */
-    public function _getOptions() {
-        $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All statuses')));
-        $options[] = array('value' => 'success', 'label' => Mage::helper('enterprise_logging')->__('success'));
-        $options[] = array('value' => 'fail', 'label' => Mage::helper('enterprise_logging')->__('fail'));
+    public function _getOptions()
+    {
+        $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All Results')));
+        $options[] = array('value' => 'success', 'label' => Mage::helper('enterprise_logging')->__('Success'));
+        $options[] = array('value' => 'fail', 'label' => Mage::helper('enterprise_logging')->__('Failure'));
         return $options;
     }
 
@@ -41,6 +42,6 @@ class Enterprise_Logging_Block_Events_Grid_Filter_Status extends Mage_Adminhtml_
      */
     public function getCondition()
     {
-    	return $this->getValue();
+        return $this->getValue();
     }
 }

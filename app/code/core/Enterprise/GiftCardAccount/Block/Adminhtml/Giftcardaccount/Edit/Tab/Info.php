@@ -67,8 +67,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
         }
 
         $fieldset->addField('status', 'select', array(
-            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Is Active'),
-            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Is Active'),
+            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Active'),
+            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Active'),
             'name'      => 'status',
             'required'  => true,
             'options'   => array(
@@ -80,8 +80,8 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
         ));
 
         $fieldset->addField('is_redeemable', 'select', array(
-            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Is Redeemable'),
-            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Is Redeemable'),
+            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Redeemable'),
+            'title'     => Mage::helper('enterprise_giftcardaccount')->__('Redeemable'),
             'name'      => 'is_redeemable',
             'required'  => true,
             'options'   => array(

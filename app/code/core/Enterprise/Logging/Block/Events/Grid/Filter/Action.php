@@ -30,19 +30,19 @@ class Enterprise_Logging_Block_Events_Grid_Filter_Action extends Mage_Adminhtml_
      * Build options list for filter
      */
     public function _getOptions() {
-        $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All actions')));
+        $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All Actions')));
         $resource = Mage::getResourceModel('enterprise_logging/event');
         $collection = $resource->getActions();
         foreach($collection as $action)
           $options[] = array('value' => $action->getId(), 'label' => $action->getName());
         return $options;
     }
-    
+
     /**
      * returns value
      */
     public function getCondition()
     {
-    	return $this->getValue();
+        return $this->getValue();
     }
 }

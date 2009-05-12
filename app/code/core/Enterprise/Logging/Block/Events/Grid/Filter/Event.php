@@ -31,24 +31,22 @@ class Enterprise_Logging_Block_Events_Grid_Filter_Event extends Mage_Adminhtml_B
      */
     protected function _getOptions()
     {
-        $options = array(
-                array(
-                    'value'=>'',
-                    'label'=> Mage::helper('enterprise_logging')->__('All events')
-                ),
-            );
+        $options = array(array(
+            'value' => '',
+            'label' => Mage::helper('enterprise_logging')->__('All Events')
+        ));
         $labels = Mage::helper('enterprise_logging')->getLabels();
         foreach($labels as $code => $label) {
             $options[] = array('value' => $code, 'label' => $label);
         }
         return $options;
     }
-    
+
     /**
      * returns value
      */
     public function getCondition()
     {
-    	return $this->getValue();
+        return $this->getValue();
     }
 }

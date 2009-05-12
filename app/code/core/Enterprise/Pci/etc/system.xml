@@ -40,12 +40,12 @@
                         </lockout_failures>
                         <lockout_threshold translate="label">
                             <sort_order>110</sort_order>
-                            <label>Lockout Time, minutes</label>
+                            <label>Lockout Time (minutes)</label>
                             <show_in_default>1</show_in_default>
                         </lockout_threshold>
                         <password_lifetime translate="label comment">
                             <sort_order>120</sort_order>
-                            <label>Password Lifetime, days</label>
+                            <label>Password Lifetime (days)</label>
                             <comment>If empty, this feature will be disabled.</comment>
                             <show_in_default>1</show_in_default>
                         </password_lifetime>

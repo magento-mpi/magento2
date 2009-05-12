@@ -79,9 +79,9 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         ));
 
         $this->addColumn('ip', array(
-            'header'    => 'IP',
+            'header'    => 'IP-address',
             'index'     => 'ip',
-            'type'      => 'text', 
+            'type'      => 'text',
             'filter'    => 'enterprise_logging/events_grid_filter_ip',
             'sortable'  => false
         ));
@@ -111,7 +111,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
         ));
 
         $this->addColumn('status', array(
-            'header'    => 'Status',
+            'header'    => 'Result',
             'index'     => 'status',
             'sortable'  => false,
             'type'      => 'text',
@@ -119,14 +119,14 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
                          ));
 
         $this->addColumn('fullaction', array(
-            'header' => 'Action path',
+            'header' => 'Action Path',
             'index'  => 'fullaction',
             'sortable' => false,
             'type'  => 'text'
         ));
 
         $this->addColumn('info', array(
-            'header'    => 'Item_id',
+            'header'    => 'Identifier',
             'index'     => 'info',
             'type'      => 'text',
             'sortable'  => false,
