@@ -314,10 +314,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 }
             }
         }
-
-        if ($redirectBack) {
-            $this->_redirect('*/*/');
-        }
+        $this->_redirect('*/*/');
     }
 
     /**
