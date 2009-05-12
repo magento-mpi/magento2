@@ -415,14 +415,19 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     {
         $recipientName = $this->getRecipientName();
         $recipientEmail = $this->getRecipientEmail();
+        $recipientStore = $this->getRecipientStore();
+        if (is_null($recipientStore)) {
+            $recipientStore = Mage::app()->getWebsite($this->getWebsiteId())->getDefaultStore();
+        } else {
+            $recipientStore = Mage::app()->getStore($recipientStore);
+        }
+
+        $storeId = $recipientStore->getId();
 
         $balance = $this->getBalance();
         $code = $this->getCode();
 
-        $store = Mage::app()->getWebsite($this->getWebsiteId())->getDefaultStore();
-        $storeId = $store->getId();
-
-        $balance = Mage::app()->getLocale()->currency($store->getBaseCurrencyCode())->toCurrency($balance);
+        $balance = Mage::app()->getLocale()->currency($recipientStore->getBaseCurrencyCode())->toCurrency($balance);
 
         $email = Mage::getModel('core/email_template')->setDesignConfig(array('store' => $storeId));
         $email->sendTransactional(
@@ -430,7 +435,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             Mage::getStoreConfig('giftcardaccount/email/identity', $storeId),
             $recipientEmail,
             $recipientName,
-            array('name' => $recipientName, 'code' => $code, 'balance' => $balance, 'store_name' => $store->getName())
+            array('name' => $recipientName, 'code' => $code, 'balance' => $balance, 'store_name' => $recipientStore->getName())
         );
 
         $this->setEmailSent(false);

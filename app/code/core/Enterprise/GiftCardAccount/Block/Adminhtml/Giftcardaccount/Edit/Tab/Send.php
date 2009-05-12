@@ -65,11 +65,63 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             'name'      => 'recipient_name',
         ));
 
+        $fieldset->addField('store_id', 'select', array(
+            'name'     => 'store_id',
+            'label'    => Mage::helper('enterprise_customerbalance')->__('Send email from the following Store View'),
+            'title'    => Mage::helper('enterprise_customerbalance')->__('Send email from the following Store View'),
+            'after_element_html'=>$this->_getStoreIdScript()
+        ));
+
         $fieldset->addField('action', 'hidden', array(
             'name'      => 'action',
         ));
 
         $this->setForm($form);
         return $this;
+    }
+
+    protected function _getStoreIdScript()
+    {
+        $websiteStores = array();
+        foreach (Mage::app()->getWebsites() as $websiteId => $website) {
+            $websiteStores[$websiteId] = array();
+            foreach ($website->getStores() as $storeId => $store) {
+                $websiteStores[$websiteId][] = array(
+                    'name' => $store->getName(),
+                    'id'   => $storeId,
+                );
+            }
+        }        
+        $websiteStores = Zend_Json::encode($websiteStores);
+
+        $result = '<script language="javascript">';
+
+        $result .= "var websiteStores = $websiteStores;";
+        $result .= "Event.observe('_infowebsite_id', 'change', setCurrentStores);";
+        $result .= "setCurrentStores();";
+        $result .= 'function setCurrentStores(){
+            var wSel = $("_infowebsite_id");
+            var sSel = $("_sendstore_id");
+
+            sSel.options.length = 0;
+            var website = wSel.options[wSel.selectedIndex].value;
+            if (websiteStores[website]) {
+                for (i=0;i<websiteStores[website].length;i++) {
+                    option = new Option();
+                    option.value = websiteStores[website][i]["id"];
+                    option.text = websiteStores[website][i]["name"];
+
+                    try {
+                        sSel.add(option, null);
+                    } catch (e) {
+                        sSel.add(option);
+                    }
+                }
+            }
+        }';
+
+        $result .= '</script>';
+
+        return $result;
     }
 }

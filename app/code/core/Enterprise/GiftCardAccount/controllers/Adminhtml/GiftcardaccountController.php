@@ -120,9 +120,11 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
 
                             $name = (isset($data['send']['recipient_name']) ? $data['send']['recipient_name'] : '');
                             $email = (isset($data['send']['recipient_email']) ? $data['send']['recipient_email'] : '');
+                            $store = (isset($data['send']['store_id']) ? $data['send']['store_id'] : null);
 
                             $model->setRecipientEmail($email)
                                 ->setRecipientName($name)
+                                ->setRecipientStore($store)
                                 ->sendEmail();
                             $sending = $model->getEmailSent();
                         } catch (Exception $e) {
