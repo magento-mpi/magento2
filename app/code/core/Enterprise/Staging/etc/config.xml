@@ -69,19 +69,16 @@
               </connection>
             </enterprise_staging_read>
         </resources>
-
         <blocks>
             <enterprise_staging>
                 <class>Enterprise_Staging_Block</class>
             </enterprise_staging>
         </blocks>
-
         <helpers>
             <enterprise_staging>
                 <class>Enterprise_Staging_Helper</class>
             </enterprise_staging>
         </helpers>
-
         <enterprise>
             <staging>
                 <global_staging_table_prefix>s</global_staging_table_prefix>
@@ -284,7 +281,6 @@
                         </scenaries_status>
                     </website>
                 </type>
-
                 <staging_items>
                     <config_data>
                         <code>config_data</code>
@@ -352,35 +348,34 @@
                                     <code />
                                 </entities>
                             </enterprise_giftcard>
-                            
                             <cataloginventory>
-		                        <code>cataloginventory</code>
-		                        <module>Mage_CatalogInventory</module>
-		                        <model>cataloginventory</model>
-		                        <is_backend>1</is_backend>
-		                        <is_extend>1</is_extend>
-		                        <label>Catalog Inventory</label>
-		                        <adapter>enterprise_staging/staging_adapter_item_cataloginventory</adapter>
-		                    </cataloginventory>
-		                    <catalogindex>
-		                        <code>catalogindex</code>
-		                        <module>Mage_CatalogIndex</module>
-		                        <model>catalogindex</model>
-		                        <is_backend>1</is_backend>
-		                        <is_extend>1</is_extend>
-		                        <label>Catalog Index</label>
-		                        <adapter>enterprise_staging/staging_adapter_item_catalogindex</adapter>
-		                    </catalogindex>
-		                    <catalogsearch>
-		                        <code>catalogsearch</code>
-		                        <module>Mage_CatalogSearch</module>
-		                        <model>catalogsearch</model>
-		                        <is_backend>1</is_backend>
-		                        <is_extend>1</is_extend>
-		                        <label>Catalog Search</label>
-		                        <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
-		                    </catalogsearch>
-		                    <core_url_rewrite>
+                                <code>cataloginventory</code>
+                                <module>Mage_CatalogInventory</module>
+                                <model>cataloginventory</model>
+                                <is_backend>1</is_backend>
+                                <is_extend>1</is_extend>
+                                <label>Catalog Inventory</label>
+                                <adapter>enterprise_staging/staging_adapter_item_cataloginventory</adapter>
+                            </cataloginventory>
+                            <catalogindex>
+                                <code>catalogindex</code>
+                                <module>Mage_CatalogIndex</module>
+                                <model>catalogindex</model>
+                                <is_backend>1</is_backend>
+                                <is_extend>1</is_extend>
+                                <label>Catalog Index</label>
+                                <adapter>enterprise_staging/staging_adapter_item_catalogindex</adapter>
+                            </catalogindex>
+                            <catalogsearch>
+                                <code>catalogsearch</code>
+                                <module>Mage_CatalogSearch</module>
+                                <model>catalogsearch</model>
+                                <is_backend>1</is_backend>
+                                <is_extend>1</is_extend>
+                                <label>Catalog Search</label>
+                                <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
+                            </catalogsearch>
+                            <core_url_rewrite>
                                 <code>core_url_rewrite</code>
                                 <module>Mage_Core</module>
                                 <model>core</model>
@@ -389,8 +384,8 @@
                                 <label>URL Rewrites</label>
                                 <adapter>enterprise_staging/staging_adapter_item_urlrewrite</adapter>
                                 <entities>
-		                            <url_rewrite />
-		                        </entities>
+                                    <url_rewrite />
+                                </entities>
                             </core_url_rewrite>
                         </extends>
                     </product>
@@ -448,7 +443,6 @@
                             <agreement_store />
                         </entities>
                     </checkout>
-
                     <customer>
                         <code>customer</code>
                         <module>Mage_Customer</module>
@@ -490,7 +484,6 @@
                     </sales>
                 </staging_items>
                 <staging_website_code_suffix></staging_website_code_suffix>
-
                 <state>
                     <new translate="label">
                         <label>New</label>
@@ -578,7 +571,6 @@
                 </visibility>
             </staging>
         </enterprise>
-        
         <events>
             <controller_front_init_before>
                 <observers>
@@ -683,7 +675,6 @@
                     </enterprise_staging>
                 </observers>
             </websiterestriction_frontend>
-            
         </events>
     </frontend>
     <admin>
@@ -697,7 +688,6 @@
             </adminhtml>
         </routers>
     </admin>
-
     <crontab>
         <jobs>
             <enterprise_staging_automates>
@@ -706,10 +696,10 @@
             </enterprise_staging_automates>
         </jobs>
     </crontab>
-
     <default>
         <general>
             <content_staging>
+                <create_entry_point>1</create_entry_point>
                 <entry_points_folder_name>staging</entry_points_folder_name>
                 <block_frontend>0</block_frontend>
                 <block_frontend_stub>service-unavialable</block_frontend_stub>
