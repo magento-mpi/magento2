@@ -297,6 +297,25 @@
       <action>delete</action>
     </customer_delete>
 
+    <customer_massSubscribe>
+      <event>customers</event>
+      <action>massUpdate</action>
+      <id>customer</id>
+    </customer_massSubscribe>
+
+    <customer_massUnsubscribe>
+      <event>customers</event>
+      <action>massUpdate</action>
+      <id>customer</id>
+    </customer_massUnsubscribe>
+
+    <customer_massDelete>
+      <event>customers</event>
+      <action>massUpdate</action>
+      <id>customer</id>
+    </customer_massDelete>
+
+
     <customer_group_edit>
       <event>customergroups</event>
       <action>view</action>
