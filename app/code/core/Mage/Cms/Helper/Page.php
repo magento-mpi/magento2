@@ -62,15 +62,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
         }
 
         if ($page->getCustomTheme()) {
-            $apply = true;
-            $today = Mage::app()->getLocale()->date()->toValue();
-            if (($from = $page->getCustomThemeFrom()) && strtotime($from)>$today) {
-                $apply = false;
-            }
-            if ($apply && ($to = $page->getCustomThemeTo()) && strtotime($to)<$today) {
-                $apply = false;
-            }
-            if ($apply) {
+            if (Mage::app()->getLocale()->IsStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())) {
                 list($package, $theme) = explode('/', $page->getCustomTheme());
                 Mage::getSingleton('core/design_package')
                     ->setPackageName($package)

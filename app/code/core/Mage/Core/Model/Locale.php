@@ -736,4 +736,38 @@ class Mage_Core_Model_Locale
     {
         return $this->getLocale()->getCountryTranslationList($this->getLocale());
     }
+
+    /**
+     * Is Store dat in iterval
+     *
+     * @param int|string|Mage_Core_Model_Store $store
+     * @param string|null $dateFrom
+     * @param string|null $dateTo
+     * @return bool
+     */
+    public function IsStoreDateInInterval($store, $dateFrom = null, $dateTo = null)
+    {
+        if (!$store instanceof Mage_Core_Model_Store) {
+            $store = Mage::app()->getStore($store);
+        }
+
+        $storeTimeStamp = $this->storeTimeStamp($store);
+        $fromTimeStamp  = strtotime($dateFrom);
+        $toTimeStamp    = strtotime($dateTo);
+        if ($dateTo) {
+            // fix date YYYY-MM-DD 00:00:00 to YYYY-MM-DD 23:59:59
+            $toTimeStamp += 86400;
+        }
+
+        $result = false;
+        if ($dateFrom && $storeTimeStamp < $fromTimeStamp) {
+        }
+        elseif ($dateTo && $storeTimeStamp > $toTimeStamp) {
+        }
+        else {
+            $result = true;
+        }
+
+        return $result;
+    }
 }

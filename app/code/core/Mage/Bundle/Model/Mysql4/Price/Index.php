@@ -748,21 +748,9 @@ class Mage_Bundle_Model_Mysql4_Price_Index extends Mage_Core_Model_Mysql4_Abstra
     {
         $store              = $website->getDefaultStore();
         $specialPrice       = $priceData['special_price'];
-        $specialPriceFrom   = $priceData['special_from_date'];
-        $specialPriceTo     = $priceData['special_to_date'];
 
         if (!is_null($specialPrice) && $specialPrice != false) {
-            if (!$store instanceof Mage_Core_Model_Store) {
-                $store = Mage::app()->getStore($store);
-            }
-
-            $storeTimeStamp     = Mage::app()->getLocale()->storeTimeStamp($store);
-            $fromTimeStamp  = strtotime($specialPriceFrom);
-            $toTimeStamp    = strtotime($specialPriceTo);
-
-            if ($specialPriceFrom && $storeTimeStamp < $fromTimeStamp) {
-            } elseif ($specialPriceTo && $storeTimeStamp > $toTimeStamp) {
-            } else {
+            if (Mage::app()->getLocale()->IsStoreDateInInterval($store, $priceData['special_from_date'], $priceData['special_to_date'])) {
                 $specialPrice   = ($finalPrice * $specialPrice) / 100;
                 $finalPrice     = min($finalPrice, $specialPrice);
             }
