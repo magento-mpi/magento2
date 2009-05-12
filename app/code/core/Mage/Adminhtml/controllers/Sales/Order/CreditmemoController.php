@@ -210,6 +210,12 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             $creditmemo->collectTotals();
         }
 
+        $args = array(
+            'creditmemo' => $creditmemo,
+            'request'    => $this->getRequest(),
+        );
+        Mage::dispatchEvent('adminhtml_sales_order_creditmemo_register_before', $args);
+
         Mage::register('current_creditmemo', $creditmemo);
         return $creditmemo;
     }
