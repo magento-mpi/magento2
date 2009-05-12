@@ -683,25 +683,28 @@ final class Mage {
      */
     public static function getScriptSystemUrl($folder, $exitIfNot = false)
     {
-        $runDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), DS);
-        $runDir = trim($runDir, '/');
-        $baseUrl = null;
-        if (is_dir($runDir.DS.$folder)) {
-            $baseUrl = str_replace(DS, '/', $runDir);
+        $runDirUrl  = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+        $runDir     = rtrim(dirname($_SERVER['SCRIPT_FILENAME']), DS);
+        
+        $baseUrl    = null;
+        if (is_dir($runDir.'/'.$folder)) {
+            $baseUrl = str_replace(DS, '/', $runDirUrl);
         } else {
+            $runDirUrlArray = explode('/', $runDirUrl);
             $runDirArray = explode('/', $runDir);
-            $count = count($runDirArray);
-            $prefix = '';
+            $count       = count($runDirArray);
+            
             for ($i=0; $i < $count; $i++) {
-                $prefix .= '../';
+                array_pop($runDirUrlArray);
                 array_pop($runDirArray);
                 $_runDir = implode('/', $runDirArray);
                 if (!empty($_runDir)) {
                     $_runDir .= '/';
                 }
-                $_runDir = $prefix.$_runDir;
+
                 if (is_dir($_runDir.$folder)) {
-                    $baseUrl = str_replace(DS, '/', $_runDir);
+                    $_runDirUrl = implode('/', $runDirUrlArray);
+                    $baseUrl = str_replace(DS, '/', $_runDirUrl);
                     break;
                 }
             }
