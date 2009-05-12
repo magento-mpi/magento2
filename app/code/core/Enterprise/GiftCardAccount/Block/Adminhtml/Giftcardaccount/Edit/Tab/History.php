@@ -73,23 +73,25 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Histor
             'options'   => Mage::getSingleton('enterprise_giftcardaccount/history')->getActionNamesArray(),
         ));
 
+        $currency = Mage::app()->getWebsite(Mage::registry('current_giftcardaccount')->getWebsiteId())->getBaseCurrencyCode();
         $this->addColumn('balance_delta', array(
-            'header'    => Mage::helper('enterprise_giftcardaccount')->__('Balance Change'),
-            'width'     => 50,
-            'index'     => 'balance_delta',
-            'type'      => 'price',
-            'sortable'  => false,
-            'filter'    => false,
-            'renderer'  => 'enterprise_giftcardaccount/adminhtml_widget_grid_column_renderer_currency',
+            'header'        => Mage::helper('enterprise_giftcardaccount')->__('Balance Change'),
+            'width'         => 50,
+            'index'         => 'balance_delta',
+            'sortable'      => false,
+            'filter'        => false,
+            'type'          => 'price',
+            'currency_code' => $currency,
         ));
 
         $this->addColumn('balance_amount', array(
-            'header'    => Mage::helper('enterprise_giftcardaccount')->__('Balance'),
-            'width'     => 50,
-            'index'     => 'balance_amount',
-            'sortable'  => false,
-            'filter'    => false,
-            'renderer'  => 'enterprise_giftcardaccount/adminhtml_widget_grid_column_renderer_currency',
+            'header'        => Mage::helper('enterprise_giftcardaccount')->__('Balance'),
+            'width'         => 50,
+            'index'         => 'balance_amount',
+            'sortable'      => false,
+            'filter'        => false,
+            'type'          => 'price',
+            'currency_code' => $currency,
         ));
 
         $this->addColumn('additional_info', array(
