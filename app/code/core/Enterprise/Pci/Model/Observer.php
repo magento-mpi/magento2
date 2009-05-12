@@ -54,7 +54,7 @@ class Enterprise_Pci_Model_Observer
             if (!($lockThreshold && $maxFailures)) {
                 return;
             }
-            $failuresNum = (int)$user->getFailuresNum();
+            $failuresNum = (int)$user->getFailuresNum() + 1;
             if ($firstFailureDate = $user->getFirstFailure()) {
                 $firstFailureDate = new Zend_Date($firstFailureDate, Varien_Date::DATETIME_INTERNAL_FORMAT);
                 $firstFailureDate = $firstFailureDate->toValue();
@@ -63,7 +63,7 @@ class Enterprise_Pci_Model_Observer
             $updateFirstFailureDate = false;
             $updateLockExpires      = false;
             // set first failure date when this is first failure or last first failure expired
-            if (0 === $failuresNum || !$firstFailureDate || (($now - $firstFailureDate) > $lockThreshold)) {
+            if (1 === $failuresNum || !$firstFailureDate || (($now - $firstFailureDate) > $lockThreshold)) {
                 $updateFirstFailureDate = $now;
             }
             // otherwise lock user
