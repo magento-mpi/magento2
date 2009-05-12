@@ -95,7 +95,7 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
     {
         $collection = Mage::getModel('core/website')
             ->getResourceCollection()
-            ->addFieldToFilter('is_staging',array('neq'=>1));
+            ->addFieldToFilter('website_id',array('neq'=>0));
 
         return $collection;
     }
