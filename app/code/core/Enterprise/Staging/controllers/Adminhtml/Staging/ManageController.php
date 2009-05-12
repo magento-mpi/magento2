@@ -245,10 +245,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
      */
     public function saveAction()
     {
-        $redirectBack   = $this->getRequest()->getParam('back', false);
-        $stagingId      = $this->getRequest()->getParam('id');
-        $data           = $this->getRequest()->getPost('staging');
-
+        $data = $this->getRequest()->getPost('staging');
         if ($data) {
             $staging    = $this->_initStagingSave();
             if (!$staging) {
@@ -256,7 +253,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 $this->_redirect('*/*/', array('_current' => true));
                 return $this;
             }
-            $isNew      = !$staging->getId();
+            $isNew = !$staging->getId();
 
             if ($isNew) {
                 $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
@@ -288,7 +285,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $redirectBack = true;
                 if ($isNew) {
                     if ($staging->getStagingWebsite()) {
                         $staging->getStagingWebsite()->delete();
@@ -301,7 +297,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 }
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $redirectBack = true;
                 if ($isNew) {
                     if ($staging->getStagingWebsite()) {
                         $staging->getStagingWebsite()->delete();
@@ -391,7 +386,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         $stagingId      = $staging->getId();
 
-        $redirectBack   = $this->getRequest()->getParam('back');
+        $redirectBack   = $this->getRequest()->getParam('back', false);
         $isMergeLater   = $this->getRequest()->getPost('schedule_merge_later_flag');
         $schedulingDate = $this->getRequest()->getPost('schedule_merge_later');
         $mapData        = $this->getRequest()->getPost('map');

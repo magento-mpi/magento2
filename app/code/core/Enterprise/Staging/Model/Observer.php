@@ -121,22 +121,18 @@ class Enterprise_Staging_Model_Observer
      */
     protected function _checkHttpAuth()
     {
-        $coreSession = Mage::getSingleton('core/session');
         $website     = Mage::app()->getWebsite();
-        $code        = $website->getCode();
-
         try {
             if (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW'])) {
-                $coreSession->setData('staging_validation_passed',$code);
-                throw new Exception('Staging is Unauthorized.');
+                throw new Exception('Staging Website is Unauthorized.');
             }
 
             $login      = $_SERVER['PHP_AUTH_USER'];
-            $password   = $_SERVER['PHP_AUTH_PW'];
-
-            if ($website->getMasterLogin() != $login) {ff();
+            if ($website->getMasterLogin() != $login) {
                 throw new Exception('Invalid login.');
             }
+
+            $password   = $_SERVER['PHP_AUTH_PW'];
             if (Mage::helper('core')->decrypt($website->getMasterPassword()) != $password) {
                 throw new Exception('Invalid password.');
             }
