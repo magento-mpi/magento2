@@ -87,6 +87,13 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     protected $_reservedAttributes;
 
     /**
+     * Flag for available duplicate function
+     *
+     * @var boolean
+     */
+    protected $_isDuplicable = true;
+
+    /**
      * Initialize resources
      */
     protected function _construct()
@@ -287,16 +294,32 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     public function getCategoryIds()
     {
         if ($this->hasData('category_ids')) {
-            $ids = $this->getData('category_ids');
+            $ids = $this->_getData('category_ids');
             if (!is_array($ids)) {
+                $wasLocked = false;
+                if ($this->isLockedAttribute('category_ids')) {
+                    $this->unlockAttribute('category_ids');
+                    $wasLocked = true;
+                }
+
                 $ids = !empty($ids) ? explode(',', $ids) : array();
                 $this->setData('category_ids', $ids);
+                if ($wasLocked) {
+                    $this->lockAttribute('category_ids');
+                }
             }
         } else {
+            $wasLocked = false;
+            if ($this->isLockedAttribute('category_ids')) {
+                $this->unlockAttribute('category_ids');
+            }
             $ids = $this->_getResource()->getCategoryIds($this);
             $this->setData('category_ids', $ids);
+            if ($wasLocked) {
+                $this->lockAttribute('category_ids');
+            }
         }
-        return $this->getData('category_ids');
+        return $this->_getData('category_ids');
     }
 
     /**
@@ -1036,6 +1059,29 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         return in_array($this->getVisibility(), $this->getVisibleInSiteVisibilities());
     }
+
+    /**
+     * Checks product can be duplicated
+     *
+     * @return boolean
+     */
+    public function isDuplicable()
+    {
+        return $this->_isDuplicable;
+    }
+
+    /**
+     * Set is duplicable flag
+     *
+     * @param boolean $value
+     * @return Mage_Catalog_Model_Product
+     */
+    public function setIsDuplicable($value)
+    {
+        $this->_isDuplicable = (boolean) $value;
+        return $this;
+    }
+
 
     /**
      * Check is product available for sale

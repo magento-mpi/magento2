@@ -125,4 +125,25 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Website extends Mage_Core_M
 
         return $this;
     }
+
+    /**
+     * Retrieve products' website ids.
+     *
+     * @param array $productIds
+     * @return array
+     */
+    public function getWebsites($productIds)
+    {
+         $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), array('product_id', 'website_id'))
+            ->where('product_id IN (?)', $productIds);
+
+         $result = array();
+         foreach ($this->_getReadAdapter()->fetchAll($select) as $row)
+         {
+             $result[$row['product_id']][] = $row['website_id'];
+         }
+
+         return $result;
+    }
 } // Class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Website End

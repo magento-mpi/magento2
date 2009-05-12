@@ -44,15 +44,15 @@ class Mage_Bundle_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $product = $observer->getEvent()->getProduct();
 
-        if ($items = $request->getPost('bundle_options')) {
+        if ($items = $request->getPost('bundle_options') && !$product->getCompositeReadonly()) {
             $product->setBundleOptionsData($items);
         }
 
-        if ($selections = $request->getPost('bundle_selections')) {
+        if ($selections = $request->getPost('bundle_selections') && !$product->getCompositeReadonly()) {
             $product->setBundleSelectionsData($selections);
         }
 
-        if ($product->getPriceType() == '0') {
+        if ($product->getPriceType() == '0' && !$product->getOptionsReadonly()) {
             $product->setCanSaveCustomOptions(true);
             if ($customOptions = $product->getProductOptions()) {
                 foreach ($customOptions as $key => $customOption) {
@@ -62,7 +62,7 @@ class Mage_Bundle_Model_Observer
             }
         }
 
-        $product->setCanSaveBundleSelections((bool)$request->getPost('affect_bundle_product_selections'));
+        $product->setCanSaveBundleSelections((bool)$request->getPost('affect_bundle_product_selections') && !$product->getCompositeReadonly());
 
         return $this;
     }

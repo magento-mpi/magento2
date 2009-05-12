@@ -223,4 +223,26 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         }
         return parent::serialize($attributes, $valueSeparator, $fieldSeparator, $quote);
     }
+
+    public function setReadonly($readonly, $useDisabled = false)
+    {
+        if ($useDisabled) {
+            $this->setDisabled($readonly);
+            $this->setData('readonly_disabled', $readonly);
+        } else {
+            $this->setData('readonly', $readonly);
+        }
+
+        return $this;
+    }
+
+    public function getReadonly()
+    {
+        if ($this->hasData('readonly_disabled')) {
+            return $this->_getData('readonly_disabled');
+        }
+
+        return $this->_getData('readonly');
+    }
+
 }

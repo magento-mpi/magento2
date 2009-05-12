@@ -53,6 +53,17 @@ class Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Sa
     }
 
     /**
+     * Check block is readonly
+     *
+     * @return boolean
+     */
+    public function isReadonly()
+    {
+         return $this->getProduct()->getDownloadableReadonly();
+    }
+
+
+    /**
      * Enter description here...
      *
      * @return string

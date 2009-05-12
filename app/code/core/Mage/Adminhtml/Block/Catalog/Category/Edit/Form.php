@@ -61,7 +61,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
                 ))
         );
 
-        if (!in_array($this->getCategory()->getId(), $this->getRootIds())) {
+        if (!in_array($this->getCategory()->getId(), $this->getRootIds()) &&
+            $this->getCategory()->isDeleteable()) {
             $this->setChild('delete_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(

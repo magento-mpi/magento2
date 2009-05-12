@@ -98,26 +98,28 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
                         'class' => 'save'
                     ))
             );
-            $this->setChild('delete_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
+            if ($this->getProduct()->isDeleteable()) {
+                $this->setChild('delete_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                        ->setData(array(
+                            'label'     => Mage::helper('catalog')->__('Delete'),
+                            'onclick'   => 'confirmSetLocation(\''.Mage::helper('catalog')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
+                            'class'  => 'delete'
+                        ))
+                );
+            }
+
+            if ($this->getProduct()->isDuplicable()) {
+                $this->setChild('duplicate_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label'     => Mage::helper('catalog')->__('Delete'),
-                        'onclick'   => 'confirmSetLocation(\''.Mage::helper('catalog')->__('Are you sure?').'\', \''.$this->getDeleteUrl().'\')',
-                        'class'  => 'delete'
+                        'label'     => Mage::helper('catalog')->__('Duplicate'),
+                        'onclick'   => 'setLocation(\''.$this->getDuplicateUrl().'\')',
+                        'class'  => 'add'
                     ))
-            );
-            $this->setChild('duplicate_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Duplicate'),
-                    'onclick'   => 'setLocation(\''.$this->getDuplicateUrl().'\')',
-                    'class'  => 'add'
-                ))
-            );
+                );
+            }
         }
-
-
-
 
         return parent::_prepareLayout();
     }

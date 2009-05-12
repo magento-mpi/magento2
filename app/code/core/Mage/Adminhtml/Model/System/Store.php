@@ -139,9 +139,17 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         return $options;
     }
 
-    protected function _forceDisableWebsitesAll()
+    protected function _forceDisableAdminWebsite()
     {
-        return false;
+        $options = new Varien_Object(array(
+            'disable' => false
+        ));
+
+        Mage::dispatchEvent('adminhtml_system_store_force_disable_admin_website', array(
+            'options' => $options
+        ));
+
+        return $options->getDisable();
     }
 
     public function getStoreValuesForForm($empty = false, $all = false)
@@ -195,7 +203,7 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
                 'value' => ''
             );
         }
-        if ($all && !$this->_forceDisableWebsitesAll()) {
+        if ($all && !$this->_forceDisableAdminWebsite()) {
             $options[] = array(
                 'label' => Mage::helper('adminhtml')->__('Admin'),
                 'value' => 0

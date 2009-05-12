@@ -52,6 +52,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
         return Mage::registry('current_product');
     }
 
+    /**
+     * Checks when this block is readonly
+     *
+     * @return boolean
+     */
+    public function isReadonly()
+    {
+        return $this->getProduct()->getCategoriesReadonly();
+    }
+
     protected function getCategoryIds()
     {
         return $this->getProduct()->getCategoryIds();
@@ -103,6 +113,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
 
             if ($root && $rootId != Mage_Catalog_Model_Category::TREE_ROOT_ID) {
                 $root->setIsVisible(true);
+                if ($this->isReadonly()) {
+                    $root->setDisabled(true);
+                }
             }
             elseif($root && $root->getId() == Mage_Catalog_Model_Category::TREE_ROOT_ID) {
                 $root->setName(Mage::helper('catalog')->__('Root'));
@@ -131,7 +144,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
 
         if (in_array($node->getId(), $this->getCategoryIds())) {
             $item['checked'] = true;
+        }
 
+        if ($this->isReadonly()) {
+            $item['disabled'] = true;
         }
         return $item;
     }
