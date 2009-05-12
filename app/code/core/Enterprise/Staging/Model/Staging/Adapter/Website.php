@@ -151,8 +151,8 @@ class Enterprise_Staging_Model_Staging_Adapter_Website extends Enterprise_Stagin
             $secureBaseUrl   = $entryPoint->getBaseUrl($masterWebsite, true);
         }
 
-        $unsecureBaseUrl = $this->_getIndexedUrl($unsecureBaseUrl);
-        $secureBaseUrl = $this->_getIndexedUrl($secureBaseUrl);
+//        $unsecureBaseUrl = $this->_getIndexedUrl($unsecureBaseUrl);
+//        $secureBaseUrl = $this->_getIndexedUrl($secureBaseUrl);
 
         $unsecureConf = Mage::getConfig()->getNode('default/web/unsecure');
         $secureConf = Mage::getConfig()->getNode('default/web/secure');

@@ -332,7 +332,11 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Abstract extends Varien_
 
         $sql = $this->_getCreateSql($srcTableDescription, null);
 
-        $connection->query($sql);
+        try {
+            $connection->query($sql);
+        } catch (Exception $e) {
+            throw new Exception(Mage::helper('enterprise_staging')->__('Exception while SQL query: %s. Query: %s', $e->getMessage(), $sql));
+        }
 
         return $this;
     }

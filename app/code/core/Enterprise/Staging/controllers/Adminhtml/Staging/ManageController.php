@@ -127,6 +127,12 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         Mage::dispatchEvent('staging_edit_action', array('staging' => $staging));
 
         if (!$staging->getId()) {
+            $defaultUnsecure= (string) Mage::getConfig()->getNode('default/'.Mage_Core_Model_Store::XML_PATH_UNSECURE_BASE_URL);
+            $defaultSecure  = (string) Mage::getConfig()->getNode('default/'.Mage_Core_Model_Store::XML_PATH_SECURE_BASE_URL);
+            if ($defaultSecure == '{{base_url}}' || $defaultUnsecure == '{{base_url}}') {
+                $this->_getSession()->addNotice($this->__('Before creating a staging website, make sure that the base URLs of the source website are properly defined.'));
+            }
+
             $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
             if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
                 $this->_getSession()->addNotice($this->__('Cannot perform create operation, because reindexing process or another staging operation is running.'));

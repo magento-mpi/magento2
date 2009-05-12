@@ -61,7 +61,8 @@ class Enterprise_Staging_Model_Observer
                 $resource->setMappedTableName($tableName, $_tableName);
             }
         } catch (Enterprise_Staging_Exception $e) {
-            throw new Mage_Core_Exception($e);
+            Mage::logException($e);
+            throw new Mage_Core_Exception(Mage::helper('enterprise_staging')->__('Can not run staging website'));
         }
     }
 
