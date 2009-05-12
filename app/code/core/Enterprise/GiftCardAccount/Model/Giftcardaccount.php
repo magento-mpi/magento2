@@ -413,8 +413,8 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
 
     public function sendEmail()
     {
-        $name = $this->getRecipientName();
-        $email = $this->getRecipientEmail();
+        $recipientName = $this->getRecipientName();
+        $recipientEmail = $this->getRecipientEmail();
 
         $balance = $this->getBalance();
         $code = $this->getCode();
@@ -428,9 +428,9 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         $email->sendTransactional(
             Mage::getStoreConfig('giftcardaccount/email/template', $storeId),
             Mage::getStoreConfig('giftcardaccount/email/identity', $storeId),
-            $email,
-            $name,
-            array('name' => $name, 'code' => $code, 'balance' => $balance, 'store_name' => $store->getName())
+            $recipientEmail,
+            $recipientName,
+            array('name' => $recipientName, 'code' => $code, 'balance' => $balance, 'store_name' => $store->getName())
         );
 
         $this->setEmailSent(false);
