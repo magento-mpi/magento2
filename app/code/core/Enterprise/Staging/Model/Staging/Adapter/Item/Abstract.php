@@ -970,7 +970,7 @@ abstract class Enterprise_Staging_Model_Staging_Adapter_Item_Abstract extends En
                         $this->{$callbackMethod}($model, $table, $flatTableName, $targetTable);
                     }
                 } else {
-                    if (!Mage::helper('catalog/product_flat')->isEnabled()) {
+                    if (!Mage::helper('catalog/product_flat')->isBuilt()) {
                         continue;
                     }
                     foreach (Mage::app()->getStores() as $store) {
