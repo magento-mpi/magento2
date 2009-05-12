@@ -27,6 +27,7 @@
 <?php $_htmlId      = $this->getElement()->getHtmlId() ?>
 <?php $_htmlClass   = $this->getElement()->getClass() ?>
 <?php $_htmlName    = $this->getElement()->getName() ?>
+<?php $_readonly    = $this->getElement()->getReadonly() ?>
 <?php $_multiWebsite= $this->isMultiWebsites(); ?>
 <tr>
     <td class="label"><?php echo $this->getElement()->getLabel() ?></td>
@@ -95,6 +96,16 @@
             Element.insert($(data.prefix + '_container'), {'bottom':template.evaluate(data)});
 
             $(data.prefix + '_giftcard_amounts_row_'+data.index+'_website').value = data.website_id;
+            <?php if ($_readonly): ?>
+            $('<?php echo $_htmlId ?>_container').select('input', 'select')
+                .each(this.disableElement);
+            $('<?php echo $_htmlId ?>_container').up('table').select('button')
+                .each(this.disableElement);
+            <?php endif; ?>
+        },
+        disableElement: function(elem) {
+            elem.disabled = true
+            elem.addClassName('disabled');
         },
 
         deleteItem : function(prefix, event) {

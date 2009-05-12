@@ -144,4 +144,14 @@ class Enterprise_GiftCard_Block_Adminhtml_Catalog_Product_Edit_Tab_Giftcard
     {
         return Mage::getStoreConfig(Enterprise_GiftCard_Model_Giftcard::XML_PATH . $field);
     }
+
+    /**
+     * Check block is readonly
+     *
+     * @return boolean
+     */
+    public function isReadonly()
+    {
+        return Mage::registry('product')->getGiftCardReadonly();
+    }
 }

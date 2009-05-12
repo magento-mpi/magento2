@@ -161,9 +161,76 @@
                     </enterprise_admingws>
                 </observers>
             </model_save_before>
+            <model_load_after>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>validateModelAfterLoad</method>
+                    </enterprise_admingws>
+                </observers>
+            </model_load_after>
+            <adminhtml_catalog_category_tree_is_moveable>
+                <observers>
+                    <enterprise_admingws>
+                        <type>singleton</type>
+                        <class>enterprise_admingws/observer</class>
+                        <method>validateCatalogCategoryMoveable</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_catalog_category_tree_is_moveable>
+            <adminhtml_catalog_category_tree_can_add_root_category>
+                <observers>
+                    <enterprise_admingws>
+                        <type>singleton</type>
+                        <class>enterprise_admingws/observer</class>
+                        <method>validateCatalogAddCategory</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_catalog_category_tree_can_add_root_category>
+            <adminhtml_catalog_category_tree_can_add_sub_category>
+                <observers>
+                    <enterprise_admingws>
+                        <type>singleton</type>
+                        <class>enterprise_admingws/observer</class>
+                        <method>validateCatalogAddCategory</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_catalog_category_tree_can_add_sub_category>
+            <adminhtml_system_store_force_disable_admin_website>
+                <observers>
+                    <enterprise_admingws>
+                        <type>singleton</type>
+                        <class>enterprise_admingws/observer</class>
+                        <method>limitAdminWebsiteInDropdowns</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_system_store_force_disable_admin_website>
+            <catalog_category_tree_move_before>
+                <observers>
+                    <enterprise_admingws>
+                        <type>singleton</type>
+                        <class>enterprise_admingws/observer</class>
+                        <method>validateCatalogCategoryMoveBefore</method>
+                    </enterprise_admingws>
+                </observers>
+            </catalog_category_tree_move_before>
+            <enterprise_catalog_permissions_is_allowed_category>
+                <observers>
+                    <enterprise_admingws>
+                        <type>singleton</type>
+                        <class>enterprise_admingws/observer</class>
+                        <method>validateCatalogPermissionsIsActiveCategory</method>
+                    </enterprise_admingws>
+                </observers>
+            </enterprise_catalog_permissions_is_allowed_category>
         </events>
         <enterprise>
             <admingws>
+                <acl>
+                    <deny>
+                        <attributes>admin/catalog/attributes</attributes>
+                    </deny>
+                </acl>
                 <collections>
                     <core__store_collection>limitStores</core__store_collection>
                     <core__website_collection>limitWebsites</core__website_collection>
@@ -204,6 +271,10 @@
                     <rule__rule>ruleSaveBefore</rule__rule>
                     <newsletter__queue>newsletterQueueSaveBefore</newsletter__queue>
                 </models_before_save>
+                <models_after_load>
+                    <catalog__product>catalogProductLoadAfter</catalog__product>
+                    <catalog__category>catalogCategoryLoadAfter</catalog__category>                    
+                </models_after_load>
                 <controllers>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__><!-- system config saving and browsing -->
                     <adminhtml__catalog_product__>validateCatalogProduct</adminhtml__catalog_product__><!-- catalog product submitting -->

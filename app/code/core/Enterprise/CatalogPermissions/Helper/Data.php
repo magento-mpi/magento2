@@ -51,6 +51,23 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
         return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
     }
 
+    /**
+     * Check category permission is allowed
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return boolean
+     */
+    public function isAllowedCategory($category)
+    {
+        $options = new Varien_Object();
+        $options->setCategory($category);
+        $options->setIsAllowed(true);
+
+        Mage::dispatchEvent('enterprise_catalog_permissions_is_allowed_category', array('options' => $options));
+
+        return $options->getIsAllowed();
+    }
+
 
     /**
      * Retrieve config value for category access permission

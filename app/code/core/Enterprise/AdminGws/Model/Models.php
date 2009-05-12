@@ -91,8 +91,10 @@ class Enterprise_AdminGws_Model_Models
         $originalWebsiteIds = explode(',', $model->getOrigData('website_ids'));
         $websiteIds = explode(',', $model->getData('website_ids'));
 
-        $updatedWebsiteIds = $this->_updateSavingWebsiteIds(
-           $websiteIds, $originalWebsiteIds
+        $updatedWebsiteIds = $this->_preventLoosingWebsiteIds(
+            $this->_updateSavingWebsiteIds(
+                $websiteIds, $originalWebsiteIds
+            )
         );
 
         $model->setData('website_ids', implode(',', $updatedWebsiteIds));
@@ -107,10 +109,150 @@ class Enterprise_AdminGws_Model_Models
     public function newsletterQueueSaveBefore($model)
     {
         if ($model->getSaveStoresFlag()) {
-            $model->setStores($this->_updateSavingStoreIds(
-                $model->getStores(),
-                $model->getResource()->getStores($model)
+            $model->setStores(
+                $this->_preventLoosingStoreIds($this->_updateSavingStoreIds(
+                    $model->getStores(),
+                    $model->getResource()->getStores($model)
+                )
             ));
+        }
+    }
+
+    /**
+     * Validate customer before save
+     *
+     * @param Mage_Customer_Model_Customer $model
+     * @return void
+     */
+    public function customerSaveBefore($model)
+    {
+
+    }
+
+    /**
+     * Catalog product initialize after loading
+     *
+     * @param Mage_Catalog_Model_Product $model
+     * @return void
+     */
+    public function catalogProductLoadAfter($model)
+    {
+        if (!$this->_helper->hasExclusiveAccess($model->getWebsiteIds())) {
+            $model->unlockAttributes();
+            $attributes = $model->getAttributes();
+            foreach ($attributes as $attribute) {
+                /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                if ($attribute->isScopeGlobal() ||
+                    ($attribute->isScopeWebsite() && count($this->_helper->getWebsiteIds())==0) ||
+                    !in_array($model->getStore()->getId(), $this->_helper->getStoreIds())) {
+                    $model->lockAttribute($attribute->getAttributeCode());
+                }
+            }
+
+            $model->setInventoryReadonly(true);
+            $model->setRelatedReadonly(true);
+            $model->setCrosssellReadonly(true);
+            $model->setUpsellReadonly(true);
+            $model->setWebsitesReadonly(true);
+            $model->lockAttribute('website_ids');
+            $model->setCategoriesReadonly(true);
+            $model->setOptionsReadonly(true);
+            $model->setCompositeReadonly(true);
+            $model->setDownloadableReadonly(true);
+            $model->setGiftCardReadonly(true);
+            $model->setIsDeleteable(false);
+            $model->setIsDuplicable(false);
+        } else {
+            if (count($model->getWebsiteIds()) == 1) {
+                $model->setWebsitesReadonly(true);
+                $model->lockAttribute('website_ids');
+            }
+        }
+    }
+
+    /**
+     * Catalog product validate before saving
+     *
+     * @param Mage_Catalog_Model_Product $model
+     * @return void
+     */
+    public function catalogProductSaveBefore($model)
+    {
+        $websiteIds = $model->getWebsiteIds();
+        $origWebsiteIds = $model->getResource()->getWebsiteIds($model);
+
+        $model->setWebsiteIds($this->_preventLoosingWebsiteIds(
+            $this->_updateSavingWebsiteIds($websiteIds, $origWebsiteIds)
+        ));
+
+    }
+
+    /**
+     * Catalog product validate before delete
+     *
+     * @param Mage_Catalog_Model_Product $model
+     * @return void
+     */
+    public function catalogProductDeleteBefore($model)
+    {
+        if (!$this->_helper->hasExclusiveAccess($model->getWebsiteIds())) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot delete this product')
+            );
+        }
+    }
+
+    /**
+     * Catalog category validate before delete
+     *
+     * @param Mage_Catalog_Model_Product $model
+     * @return void
+     */
+    public function catalogCategoryDeleteBefore($model)
+    {
+        if (!$this->_helper->hasExclusiveCategoryAccess($model->getPath())) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot delete this category')
+            );
+        }
+    }
+
+    /**
+     * Customer validate before delete
+     *
+     * @param Mage_Customer_Model_Customer $model
+     * @return void
+     */
+    public function customerDeleteBefore($model)
+    {
+        if (!in_array($model->getWebsiteId(), $this->_helper->getWebsiteIds())) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot delete this customer')
+            );
+        }
+    }
+
+    /**
+     * Catalog category initialize after loading
+     *
+     * @param Mage_Catalog_Model_Category $model
+     * @return void
+     */
+    public function catalogCategoryLoadAfter($model)
+    {
+        if (!$this->_helper->hasExclusiveCategoryAccess($model->getPath())) {
+            $model->unlockAttributes();
+            $attributes = $model->getAttributes();
+            foreach ($attributes as $attribute) {
+                /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+                if ($attribute->isScopeGlobal() ||
+                    ($attribute->isScopeWebsite() && count($this->_helper->getWebsiteIds())==0) ||
+                    !in_array($model->getStore()->getId(), $this->_helper->getStoreIds())) {
+                    $model->lockAttribute($attribute->getAttributeCode());
+                }
+            }
+            $model->setProductsReadonly(true);
+            $model->setIsDeleteable(false);
         }
     }
 
@@ -129,7 +271,6 @@ class Enterprise_AdminGws_Model_Models
         ));
     }
 
-
     /**
      * Limit incoming website IDs to allowed and add disallowed original websites
      *
@@ -144,4 +285,37 @@ class Enterprise_AdminGws_Model_Models
             array_intersect($origIds, $this->_helper->getDisallowedWebsiteIds())
         ));
     }
+
+    /**
+     * Prevent loosign of website from model
+     *
+     * @param array $websiteIds
+     * @return array
+     */
+    protected function _preventLoosingWebsiteIds($websiteIds)
+    {
+        if (count(array_intersect($websiteIds, $this->_helper->getWebsiteIds())) === 0 &&
+            count($this->_helper->getWebsiteIds())) {
+            $websiteIds[] = current($this->_helper->getWebsiteIds());
+        }
+
+        return $websiteIds;
+    }
+
+    /**
+     * Prevent loosign of store view from model
+     *
+     * @param array $storeIds
+     * @return array
+     */
+    protected function _preventLoosingStoreIds($storeIds)
+    {
+        if (count(array_intersect($storeIds, $this->_helper->getStoreIds())) === 0 &&
+            count($this->_helper->getStoreIds())) {
+            $storeIds[] = current($this->_helper->getStoreIds());
+        }
+
+        return $storeIds;
+    }
+
 }

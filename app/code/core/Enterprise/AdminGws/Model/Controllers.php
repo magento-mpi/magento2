@@ -140,7 +140,7 @@ class Enterprise_AdminGws_Model_Controllers
     public function validateCustomerEdit($controller)
     {
         $customer = Mage::getModel('customer/customer')->load($this->_request->getParam('id'));
-        if ((!$customer->getId()) || !in_array($customer->getWebsiteId(), $this->_helper->getRelevantWebsiteIds())) {
+        if ($customer->getId() && !in_array($customer->getWebsiteId(), $this->_helper->getRelevantWebsiteIds())) {
             return $this->_forward();
         }
     }
@@ -178,10 +178,36 @@ class Enterprise_AdminGws_Model_Controllers
      */
     public function validateCatalogCategories($controller)
     {
-        // creating
-        // saving
-        // moving
-        // deleting
+        if (!in_array($controller->getRequest()->getActionName(), array('edit', 'add')) ||
+            $this->_helper->getIsAll()) {
+            return;
+        }
+
+        $forward = false;
+
+        if ($controller->getRequest()->getActionName() == 'add' ||
+            !$controller->getRequest()->getParam('id')) {
+            $forward = true;
+        }
+
+        if (!$forward) {
+            $category = Mage::getModel('catalog/category')->load(
+                $controller->getRequest()->getParam('id')
+            );
+            if (!$category->getId() ||
+                !$this->_isCategoryAllowed($category)) {
+                $forward = true;
+            }
+        }
+
+        if ($forward) {
+            $categoryId = current(array_keys(
+                $this->_helper->getAllowedRootCategories()
+            ));
+            $controller->getRequest()->setParam('id', $categoryId);
+            $controller->getRequest()->setParam('clear', 1);
+            $this->_forward( $categoryId ? 'edit' : 'denied');
+        }
     }
 
     /**
@@ -191,7 +217,7 @@ class Enterprise_AdminGws_Model_Controllers
      */
     public function validateCatalogCategoryView($controller)
     {
-        // total mess - cannot do anything in current implementation
+
     }
 
     /**
@@ -254,6 +280,8 @@ class Enterprise_AdminGws_Model_Controllers
         if (!$this->_helper->getWebsiteIds()) {
             return $this->_forward();
         }
+
+
 
         // check whether there is disallowed website in request?
     }

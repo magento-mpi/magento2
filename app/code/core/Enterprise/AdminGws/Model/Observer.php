@@ -30,6 +30,13 @@
  */
 class Enterprise_AdminGws_Model_Observer
 {
+    const XML_PATH_ACL_DENY_RULES = 'adminhtml/enterprise/admingws/acl/deny';
+    const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/enterprise/admingws/';
+
+    const VALIDATE_COLLECTIONS = 'collections';
+    const VALIDATE_MODELS = 'models';
+    const VALIDATE_CONTROLLERS = 'controllers';
+
     /**
      * @var Mage_Core_Model_Mysql4_Store_Group_Collection
      */
@@ -234,11 +241,20 @@ class Enterprise_AdminGws_Model_Observer
      */
     public function adminControllerPredispatch($observer)
     {
-        if (Mage::getSingleton('admin/session')->isLoggedIn()) {
+        /* @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
+
+        if ($session->isLoggedIn()) {
             // load role with true websites and store groups
             Mage::helper('enterprise_admingws')->setRole(Mage::getSingleton('admin/session')->getUser()->getRole());
             // reset websites/stores
             Mage::app()->reinitStores();
+
+            if (!Mage::helper('enterprise_admingws')->getIsAll()) {
+                foreach (Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES)->children() as $rule) {
+                    $session->getAcl()->deny($session->getUser()->getAclRole(), $rule);
+                }
+            }
 
             $this->validateControllerPredispatch($observer);
         }
@@ -279,9 +295,126 @@ class Enterprise_AdminGws_Model_Observer
     }
 
     /**
+     * Initialize a model after loading it
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function validateModelAfterLoad($observer)
+    {
+        if (Mage::helper('enterprise_admingws')->getIsAll()) {
+            return;
+        }
+        $model = $observer->getObject();
+        if (!$callback = $this->_pickCallback('models_after_load', $model)) {
+            return;
+        }
+        Mage::getSingleton('enterprise_admingws/models')->$callback($model);
+    }
+
+    /**
+     * Validate a model before delete
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function validateModelBeforeDelete($observer)
+    {
+        if (Mage::helper('enterprise_admingws')->getIsAll()) {
+            return;
+        }
+
+        $model = $observer->getObject();
+        if (!$callback = $this->_pickCallback('models_before_delete', $model)) {
+            return;
+        }
+
+        Mage::getSingleton('enterprise_admingws/models')->$callback($model);
+    }
+
+
+    /**
+     * Validate category before move
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function validateCatalogCategoryMoveBefore($observer)
+    {
+        $parentCategory = $observer->getEvent()->getParent();
+        $currentCategory = $observer->getEvent()->getCategory();
+
+        foreach (array($parentCategory, $currentCategory) as $category) {
+            if (!Mage::helper('enterprise_admingws')->hasExclusiveCategoryAccess($category->getPath())) {
+                Mage::throwException(
+                    Mage::helper('enterprise_admingws')->__('You cannot move this category')
+                );
+            }
+        }
+    }
+
+    /**
+     * Validate category moveable
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function validateCatalogCategoryMoveable($observer)
+    {
+        $category = $observer->getEvent()->getOptions()->getCategory();
+        if (!Mage::helper('enterprise_admingws')
+                ->hasExclusiveCategoryAccess($category->getData('path'))) {
+
+            $observer->getEvent()->getOptions()->setIsMoveable(false);
+        }
+    }
+
+    /**
+     * Validate add new category action
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function validateCatalogAddCategory($observer)
+    {
+        if (!Mage::helper('enterprise_admingws')->getIsAll()) {
+            $observer->getEvent()->getOptions()->setIsAllow(false);
+        }
+    }
+
+
+    /**
+     * Validate category permissions tab
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function validateCatalogPermissionsIsActiveCategory($observer)
+    {
+        if (!Mage::helper('enterprise_admingws')->getIsAll()
+            && !Mage::helper('enterprise_admingws')->hasExclusiveCategoryAccess(
+                            $observer->getEvent()->getOptions()->getCategory()
+                                ->getPath())) {
+            $observer->getEvent()->getOptions()->setIsAllowed(false);
+        }
+    }
+
+    /**
+     * Limit admin website in dropdowns
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function limitAdminWebsiteInDropdowns($observer)
+    {
+        if (!Mage::helper('enterprise_admingws')->getIsAll()) {
+            $observer->getEvent()->getOptions()->setDisable(true);
+        }
+    }
+
+    /**
      * Validate page by current request (module, controller, action)
      *
-     * @param unknown_type $observer
+     * @param Varien_Event_Observer $observer
      */
     public function validateControllerPredispatch($observer)
     {
@@ -292,14 +425,14 @@ class Enterprise_AdminGws_Model_Observer
         // initialize controllers map
         if (null === $this->_controllersMap) {
             $this->_controllersMap = array('full' => array(), 'partial' => array());
-            foreach ((array)Mage::getConfig()->getNode('adminhtml/enterprise/admingws/controllers') as $actionName => $method) {
+            foreach (Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . self::VALIDATE_CONTROLLERS)->children() as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
                 $map = array('module' => $module, 'controller' => $controller, 'action' => $action, 'callback' => $method);
                 if ($action) {
-                    $this->_controllersMap['full'][$module][$controller][$action] = $method;
+                    $this->_controllersMap['full'][$module][$controller][$action] = (string)$method;
                 }
                 else {
-                    $this->_controllersMap['partial'][$module][$controller] = $method;
+                    $this->_controllersMap['partial'][$module][$controller] = (string)$method;
                 }
             }
         }
@@ -341,9 +474,9 @@ class Enterprise_AdminGws_Model_Observer
         // gather callbacks from mapper configuration
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
-            foreach ((array)Mage::getConfig()->getNode("adminhtml/enterprise/admingws/{$callbackGroup}") as $className => $method) {
+            foreach ((array)Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup) as $className => $method) {
                 $factoryClassName = str_replace('__', '/', $className);
-                if ('collections' === $callbackGroup) {
+                if (self::VALIDATE_COLLECTIONS === $callbackGroup) {
                     if (0 === strpos($factoryClassName, '_', 0)) {
                         $className = Mage::getConfig()->getModelClassName(substr($factoryClassName, 1));
                     }
@@ -378,4 +511,5 @@ class Enterprise_AdminGws_Model_Observer
         }
         return $callback;
     }
+
 }

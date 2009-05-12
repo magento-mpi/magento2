@@ -220,7 +220,7 @@
                    <categories>
                        <sort_order>0</sort_order>
                    </categories>
-                   <enterprise_catalogevent translate="title" module="enterprise_catalogevent">
+                   <events translate="title" module="enterprise_catalogevent">
                         <title>Manage Catalog Events</title>
                         <sort_order>1</sort_order>
                         <action>adminhtml/catalog_event</action>
@@ -229,7 +229,7 @@
                             <module>Enterprise_CatalogEvent</module>
                             <config>catalog/enterprise_catalogevent/enabled</config>
                         </depends>
-                   </enterprise_catalogevent>
+                   </events>
                </children>
             </catalog>
         </menu>

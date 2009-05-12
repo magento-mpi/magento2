@@ -38,6 +38,23 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
     protected $_indexProductQueue = array();
 
     /**
+     * Check permissions availability for current category
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Adminhtml_Observer
+     */
+    public function checkCategoryPermissions(Varien_Event_Observer $observer)
+    {
+        $category = $observer->getEvent()->getCategory();
+        /* @var $category Mage_Catalog_Model_Category */
+        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategory($category) && $category->hasData('permissions')) {
+            $category->unsetData('permissions');
+        }
+
+        return $this;
+    }
+
+    /**
      * Save category permissions on category after save event
      *
      * @param Varien_Event_Observer $observer
@@ -50,7 +67,6 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         }
 
         $category = $observer->getEvent()->getCategory();
-
         /* @var $category Mage_Catalog_Model_Category */
         if ($category->hasData('permissions') && is_array($category->getData('permissions'))
             && Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions')) {
@@ -208,10 +224,13 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
 
         $tabs = $observer->getEvent()->getTabs();
         /* @var $tabs Mage_Adminhtml_Block_Catalog_Category_Tabs */
-        $tabs->addTab(
-            'permissions',
-            'enterprise_catalogpermissions/adminhtml_catalog_category_tab_permissions'
-        );
+
+        if (Mage::helper('enterprise_catalogpermissions')->isAllowedCategory($tabs->getCategory())) {
+            $tabs->addTab(
+                'permissions',
+                'enterprise_catalogpermissions/adminhtml_catalog_category_tab_permissions'
+            );
+        }
 
         return $this;
     }

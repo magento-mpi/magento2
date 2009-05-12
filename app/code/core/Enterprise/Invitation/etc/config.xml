@@ -121,6 +121,20 @@
                                 <enterprise_invitation translate="title" module="enterprise_invitation">
                                     <title>Invitations</title>
                                     <sort_order>40</sort_order>
+                                    <children>
+                                        <general translate="title" module="enterprise_invitation">
+                                            <title>General</title>
+                                            <sort_order>10</sort_order>
+                                        </general>
+                                        <customer translate="title" module="enterprise_invitation">
+                                            <title>Customers</title>
+                                            <sort_order>20</sort_order>
+                                        </customer>
+                                        <order translate="title" module="enterprise_invitation">
+                                            <title>Order Conversion Rate</title>
+                                            <sort_order>30</sort_order>
+                                        </order>
+                                    </children>
                                 </enterprise_invitation>
                             </children>
                         </report>

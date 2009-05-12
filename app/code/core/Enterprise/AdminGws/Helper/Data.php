@@ -61,7 +61,8 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
             }
             foreach (Mage::app()->getStores(true) as $storeId => $store) {
                 if (!in_array($storeId, $this->_roleStores)) {
-                    $this->_disallowedStores[] = $storeId;
+                    $this->_disallowedStores[] = $store;
+
                 }
             }
 
@@ -132,6 +133,22 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDisallowedStoreIds()
     {
+        $result = array();
+
+        foreach ($this->_disallowedStores as $store) {
+            $result[] = $store->getId();
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get stores that are not allowed
+     *
+     * @return array
+     */
+    public function getDisallowedStores()
+    {
         return $this->_disallowedStores;
     }
 
@@ -153,6 +170,38 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
         return $this->_allowedRootCategories;
+    }
+
+    /**
+     * Check exclusive category access
+     *
+     * @param string $categoryPath
+     * @return boolean
+     */
+    public function hasExclusiveCategoryAccess($categoryPath)
+    {
+        if ($this->getIsAll()) {
+            return true;
+        }
+
+        if (!is_array($categoryPath)) {
+            $categoryPath = explode('/', $categoryPath);
+        }
+
+        if (count(array_intersect(
+                $categoryPath,
+                array_keys($this->getAllowedRootCategories())
+            )) == 0) {
+            return false;
+        }
+
+        foreach ($this->getDisallowedStores() as $store) {
+            if (in_array($store->getRootCategoryId(), $categoryPath)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -179,5 +228,18 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     public function hasStoreAccess($storeId)
     {
         return in_array($storeId, $this->_roleStores);
+    }
+
+    /**
+     * Check whether website access is exlusive
+     *
+     * @param array $websiteIds
+     * @return bool
+     */
+    public function hasExclusiveAccess($websiteIds)
+    {
+        return $this->getIsAll() ||
+               (count(array_intersect($this->getWebsiteIds(), $websiteIds)) === count($websiteIds) &&
+                count($this->getWebsiteIds()) > 0);
     }
 }
