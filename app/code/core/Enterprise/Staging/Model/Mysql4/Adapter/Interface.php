@@ -25,37 +25,19 @@
  */
 
 /**
- * Staging item model
+ * Staging Resource Adapter Interface
  *
+ * @category   Enterprise
+ * @package    Enterprise_Staging
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+interface Enterprise_Staging_Model_Mysql4_Adapter_Interface
 {
-    /**
-     * constructor
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_staging/staging_item');
-    }
+    public function checkfrontendRun(Enterprise_Staging_Model_Staging $staging, $event = null);
+    public function createRun(Enterprise_Staging_Model_Staging $staging, $event = null);
+    public function updateRun(Enterprise_Staging_Model_Staging $staging, $event = null);
+    public function backupRun(Enterprise_Staging_Model_Staging $staging, $event = null);
+    public function mergeRun(Enterprise_Staging_Model_Staging $staging, $event = null);
+    public function rollbackRun(Enterprise_Staging_Model_Staging $staging, $event = null);
 
-    /**
-     * Update staging item
-     *
-     * @param string $attribute
-     * @param unknown_type $value
-     * @return Mage_Core_Model_Abstract
-     */
-    public function updateAttribute($attribute, $value)
-    {
-        return $this->getResource()->updateAttribute($this, $attribute, $value);
-    }
-
-    public function loadFromXmlStagingItem($xmlItem)
-    {
-        $this->setData('code', (string) $xmlItem->getName());
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-        return $this;
-    }
 }

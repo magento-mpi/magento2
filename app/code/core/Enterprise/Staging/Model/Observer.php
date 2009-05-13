@@ -53,7 +53,7 @@ class Enterprise_Staging_Model_Observer
             $modelEntity = $observer->getEvent()->getModelEntity();
             $website     = Mage::app()->getWebsite();
             if ($website->getIsStaging()) {
-                $_tableName = Enterprise_Staging_Model_Staging_Config::getStagingTableName($tableName, $modelEntity, $website);
+                $_tableName = Mage::getSingleton('enterprise_staging/staging_config')->getStagingFrontendTableName($tableName, $modelEntity, $website);
                 if ($_tableName) {
                     $resource->setMappedTableName($tableName, $_tableName);
                 }

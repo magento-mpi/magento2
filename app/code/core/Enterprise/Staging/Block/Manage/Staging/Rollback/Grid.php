@@ -54,16 +54,16 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
     {
         $collection = new Varien_Data_Collection();
 
-        foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
+        foreach (Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems() as $stagingItem) {
             if ((int)$stagingItem->is_backend) {
                 continue;
             }
 
             $this->_addStagingItemToCollection($collection, $stagingItem);
 
-            if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
-                foreach ($stagingItem->extends->children() AS $extendItem) {
-                    if (!Enterprise_Staging_Model_Staging_Config::isItemModuleActive($extendItem)) {
+            if ($stagingItem->extends) {
+                foreach ($stagingItem->extends->children() as $extendItem) {
+                    if (!Mage::getSingleton('enterprise_staging/staging_config')->isItemModuleActive($extendItem)) {
                          continue;
                     }
                     $this->_addStagingItemToCollection($collection, $extendItem);
@@ -137,7 +137,6 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
         return $form->toHtml();
     }
 
-
     /**
      * Configuration of grid columns
      *
@@ -145,14 +144,12 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
      */
     protected function _prepareColumns()
     {
-
         $this->addColumn('itemCheckbox', array(
             'header'    => '',
             'index'     => 'itemCheckbox',
             'type'      => 'text',
             'truncate'  => 1000,
             'width'     => '20px'
-
         ));
 
         $this->addColumn('name', array(

@@ -152,7 +152,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit extends Mage_Adminhtml
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/backupDelete', array('_current'=>true));
+        return $this->getUrl('*/*/delete', array('_current'=>true));
     }
 
     /**

@@ -34,9 +34,9 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Store extends Enterprise_Staging_M
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Store
      */
-    public function create(Enterprise_Staging_Model_Staging $staging, $event = null)
+    public function createRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
-        parent::create($staging, $event);
+        parent::createRun($staging, $event);
 
         $websites       = $staging->getMapperInstance()->getWebsites();
         $masterWebsite  = $staging->getMasterWebsite();

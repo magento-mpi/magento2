@@ -66,15 +66,7 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
     public function getStaging()
     {
         if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
-            $this->_staging = Mage::registry('staging');
-            if ($this->getId()) {
-                $stagingId = $this->getStagingId();
-                if ($stagingId) {
-                    if (!$this->_staging || ($this->_staging->getId() != $stagingId)) {
-                        $this->_staging = Mage::getModel('enterprise_staging/staging')->load($stagingId);
-                    }
-                }
-            }
+            $this->_staging = Mage::getModel('enterprise_staging/staging')->load($this->getStagingId());
         }
         return $this->_staging;
     }
@@ -99,27 +91,9 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
     public function getEvent()
     {
         if (!$this->_event instanceof Enterprise_Staging_Model_Staging_Event) {
-            $this->_event = Mage::registry('staging_event');
-            if ($this->getId()) {
-                $eventId = $this->getEventId();
-                if ($eventId) {
-                    if (!$this->_event || ($this->_event->getId() != $eventId)) {
-                        $this->_event = Mage::getModel('enterprise_staging/staging_event')->load($eventId);
-                    }
-                }
-            }
+            $this->_event = Mage::getModel('enterprise_staging/staging_event')->load($this->getEventId());
         }
         return $this->_event;
-    }
-
-    /**
-     * Retrieve event state label
-     *
-     * @return string
-     */
-    public function getStateLabel()
-    {
-        return Enterprise_Staging_Model_Staging_Config::getStateLabel($this->getState());
     }
 
     /**
@@ -129,17 +103,7 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
      */
     public function getStatusLabel()
     {
-        return Enterprise_Staging_Model_Staging_Config::getStatusLabel($this->getStatus());
-    }
-
-    /**
-     * Retrieve event label
-     *
-     * @return string
-     */
-    public function getFrontendLabel()
-    {
-        return Enterprise_Staging_Model_Staging_Config::getEventLabel($this->getCode());
+        return Mage::getSingleton('enterprise_staging/staging_config')->getStatusLabel($this->getStatus());
     }
 
     /**
@@ -167,26 +131,23 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         if ($staging->getId()) {
             $name = Mage::helper('enterprise_staging')->__('Backup: ') . $staging->getName();
 
-            $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging)
-                . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
+            $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix($staging)
+                . Mage::getSingleton('enterprise_staging/staging_config')->getStagingBackupTablePrefix()
                 . $event->getId() . "_";
 
             $this->setStagingId($staging->getId())
                 ->setEventId($event->getId())
                 ->setEventCode($event->getCode())
                 ->setName($name)
-                ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
                 ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
                 ->setCreatedAt(Mage::registry($event->getCode() . "_event_start_time"))
                 ->setStagingTablePrefix($tablePrefix)
                 ->setMageVersion(Mage::getVersion())
-                ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
+                ->setMageModulesVersion(serialize(Mage::getSingleton('enterprise_staging/staging_config')->getCoreResourcesVersion()));
             $this->save();
 
             $event->setBackupId($this->getId());
             $staging->setBackupId($this->getId());
-
-            $staging->save();
         }
         return $this;
     }
@@ -201,23 +162,18 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-
         if (Mage::helper('enterprise_staging')->getCatalogIndexRunningFlag()) {
             return false;
         }
-
         if ($this->getStaging() && $this->getStaging()->isStatusProcessing()) {
             return false;
         }
-
         $itemInfo = $this->getItemVersionCheck();
-
         if (empty($itemInfo)) {
             return true;
         }
-
-        foreach($itemInfo AS $item) {
-            if($item["disabled"]==false) {
+        foreach ($itemInfo as $item) {
+            if ($item["disabled"] == false) {
                 return true;
             }
         }
@@ -235,42 +191,40 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-
         // get all current module version
-        $currentModuleVersion = Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion();
+        $currentModuleVersion = Mage::getSingleton('enterprise_staging/staging_config')->getCoreResourcesVersion();
 
         //get backup version list
         $backupModules = unserialize($this->getMageModulesVersion());
 
         $itemVersionCheck = array();
 
-        $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
-
-        foreach ($stagingItems->children() as $stagingItem) {
+        $stagingItems = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems();
+        foreach ($stagingItems as $stagingItem) {
             if ((int)$stagingItem->is_backend) {
                 continue;
             }
-
             $this->_addStagingItemVersionInfo($itemVersionCheck, $stagingItem, $currentModuleVersion, $backupModules);
-
-            if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
-                foreach ($stagingItem->extends->children() AS $extendItem) {
-                    if (!Enterprise_Staging_Model_Staging_Config::isItemModuleActive($extendItem)) {
+            if ($stagingItem->extends) {
+                foreach ($stagingItem->extends->children() as $extendItem) {
+                    if (!Mage::getSingleton('enterprise_staging/staging_config')->isItemModuleActive($extendItem)) {
                          continue;
                     }
                     $this->_addStagingItemVersionInfo($itemVersionCheck, $extendItem, $currentModuleVersion, $backupModules);
                 }
             }
-
         }
-
         return $itemVersionCheck;
     }
 
     protected function _addStagingItemVersionInfo(&$itemVersionCheck, $stagingItem, $currentModuleVersion, $backupModules)
     {
-        $itemModel = (string) $stagingItem->model;
         $itemCode  = (string) $stagingItem->getName();
+        if ($stagingItem->model) {
+            $itemModel = (string) $stagingItem->model;
+        } else {
+            $itemModel = $itemCode;
+        }
         $itemCheckModuleName = $itemModel . "_setup";
 
         if (isset($backupModules[$itemCheckModuleName])) {

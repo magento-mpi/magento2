@@ -201,7 +201,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
                 'title'     => $this->helper->__('Frontend restriction'),
                 'name'      => "websites[{$_id}][visibility]",
                 'value'     => $stagingWebsite ? $stagingWebsite->getVisibility() : Enterprise_Staging_Model_Staging_Config::VISIBILITY_REQUIRE_HTTP_AUTH,
-                'options'   => Enterprise_Staging_Model_Staging_Config::getOptionArray('visibility')
+                'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getVisibilityOptionArray()
             ));
 
             $fieldset->addField('staging_website_master_login_'.$_id, 'text',
@@ -272,7 +272,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
 
         $usedItemCodes = $staging->getStagingItemCodes();
 
-        foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
+        foreach (Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems() as $stagingItem) {
             if ((int)$stagingItem->is_backend) {
                 continue;
             }
@@ -335,11 +335,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
     protected function _initWebsiteItemsStored($fieldset, $stagingItem, $_code)
     {
         $fieldset->addField('staging_website_items_'.$_code, 'label',
-            array(
-                'label' => (string) $stagingItem->label
-            )
+            array('label' => (string) $stagingItem->label)
         );
-
         return $this;
     }
 
@@ -414,11 +411,8 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
     protected function _initStoreGroup($fieldset, $group, $stagingWebsite = null)
     {
         $fieldset->addField('staging_store_group_' . $group->getId(), 'label',
-            array(
-                'label' => $group->getName()
-            )
+            array('label' => $group->getName())
         );
-
         return $this;
     }
 

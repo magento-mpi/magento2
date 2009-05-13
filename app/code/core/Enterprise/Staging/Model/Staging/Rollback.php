@@ -73,15 +73,7 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     public function getStaging()
     {
         if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
-            $this->_staging = Mage::registry('staging');
-            if ($this->getId()) {
-                $stagingId = $this->getStagingId();
-                if ($this->_staging && $this->_staging->getId() == $stagingId) {
-
-                } else {
-                    $this->_staging = Mage::getModel('enterprise_staging/staging')->load($stagingId);
-                }
-            }
+            $this->_staging = Mage::getModel('enterprise_staging/staging')->load($this->getStagingId());
         }
         return $this->_staging;
     }
@@ -106,15 +98,7 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     public function getEvent()
     {
         if (!$this->_event instanceof Enterprise_Staging_Model_Staging_Event) {
-            $this->_event = Mage::registry('staging_event');
-            if ($this->getId()) {
-                $eventId = $this->getEventId();
-                if ($eventId) {
-                    if (!$this->_event || ($this->_event->getId() != $eventId)) {
-                        $this->_event = Mage::getModel('enterprise_staging/staging_event')->load($eventId);
-                    }
-                }
-            }
+            $this->_event = Mage::getModel('enterprise_staging/staging_event')->load($this->getEventId());
         }
         return $this->_event;
     }
@@ -139,27 +123,9 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     public function getBackup()
     {
         if (!$this->_backup instanceof Enterprise_Staging_Model_Staging_Backup) {
-            $this->_backup = Mage::registry('staging_backup');
-            if ($this->getId()) {
-                $backupId = $this->getBackupId();
-                if ($backupId) {
-                    if (!$this->_backup || ($this->_backup->getId() != $backupId)) {
-                        $this->_backup = Mage::getModel('enterprise_staging/staging_backup')->load($backupId);
-                    }
-                }
-            }
+            $this->_backup = Mage::getModel('enterprise_staging/staging_backup')->load($this->getBackupId());
         }
         return $this->_backup;
-    }
-
-    /**
-     * Retrieve event state label
-     *
-     * @return string
-     */
-    public function getStateLabel()
-    {
-        return Enterprise_Staging_Model_Staging_Config::getStateLabel($this->getState());
     }
 
     /**
@@ -169,17 +135,7 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
      */
     public function getStatusLabel()
     {
-        return Enterprise_Staging_Model_Staging_Config::getStatusLabel($this->getStatus());
-    }
-
-    /**
-     * Retrieve event label
-     *
-     * @return string
-     */
-    public function getFrontendLabel()
-    {
-        return Enterprise_Staging_Model_Staging_Config::getEventLabel($this->getCode());
+        return Mage::getSingleton('enterprise_staging/staging_config')->getStatusLabel($this->getStatus());
     }
 
     public function updateAttribute($attribute, $value)
@@ -209,12 +165,11 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
         $this->setBackupId($backup->getId())
             ->setEventId($event->getId())
             ->setName($name)
-            ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
             ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
             ->setCreatedAt(Mage::registry($event->getCode() . "_event_start_time"))
             ->setStagingTablePrefix($this->getBackup()->getStagingTablePrefix())
             ->setMageVersion(Mage::getVersion())
-            ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()))
+            ->setMageModulesVersion(serialize(Mage::getSingleton('enterprise_staging/staging_config')->getCoreResourcesVersion()))
             ->save();
 
         return $this;

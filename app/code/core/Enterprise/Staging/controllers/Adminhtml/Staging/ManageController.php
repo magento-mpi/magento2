@@ -262,9 +262,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $isNew = !$staging->getId();
 
             if ($isNew) {
-                $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-                if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-                    $this->_getSession()->addError($this->__('Cannot perform create operation, because reindexing process or another staging operation is running.'));
+                if (!$staging->checkCoreFlag()) {
+                    $this->_getSession()->addError($this->__('Cannot perform create operation, because reindexing process or another staging operation is running'));
                     $this->_redirect('*/*/edit', array(
                         '_current'  => true
                     ));
@@ -275,41 +274,27 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 $entryPoint = Mage::getSingleton('enterprise_staging/entry');
                 if ($entryPoint->isAutomatic()) {
                     if (!$entryPoint->canEntryPointBeCreated()) {
-                        throw new Mage_Core_Exception(Mage::helper('enterprise_staging')
+                        Mage::throwException(Mage::helper('enterprise_staging')
                             ->__('Please, make sure that folder %s is exists and writeable.', $entryPoint->getBaseFolder()));
                     }
                 }
 
+                $staging->getMapperInstance()->setCreateMapData($data);
+                $staging->setIsNew($isNew);
                 $staging->save();
 
-                $staging->getMapperInstance()->setCreateMapData($data);
                 if ($isNew) {
-                    $staging->create();
-                    $this->_getSession()->addSuccess($this->__('Staging website successfully created.'));
+                    $this->_getSession()->addSuccess($this->__('Staging website successfully created'));
                 } else {
-                    $staging->update();
-                    $this->_getSession()->addSuccess($this->__('Staging website successfully saved.'));
+                    $this->_getSession()->addSuccess($this->__('Staging website successfully saved'));
                 }
-
                 Mage::dispatchEvent('on_enterprise_staging_save', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                if ($isNew) {
-                    $staging->delete();
-                }
-                $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-                if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-                    $catalogIndexFlag->delete();
-                }
+                $staging->releaseCoreFlag();
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                if ($isNew) {
-                    $staging->delete();
-                }
-                $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-                if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-                    $catalogIndexFlag->delete();
-                }
+                $staging->releaseCoreFlag();
             }
         }
 
@@ -331,7 +316,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             return $this;
         }
 
-        $staging->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
         $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
         $staging->save();
 
@@ -343,10 +327,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             ->setComment($comment)
             ->save();
 
-        $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
-        if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
-            $catalogIndexFlag->delete();
-        }
+        $staging->releaseCoreFlag();
 
         $this->_redirect('*/*/edit', array(
             'id' => $staging->getId()
@@ -401,6 +382,15 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $isMergeLater   = $this->getRequest()->getPost('schedule_merge_later_flag');
         $schedulingDate = $this->getRequest()->getPost('schedule_merge_later');
         $mapData        = $this->getRequest()->getPost('map');
+
+        if (!$staging->checkCoreFlag()) {
+            $this->_getSession()->addError($this->__('Cannot perform merge operation, because reindexing process or another staging operation is running'));
+            $this->_redirect('*/*/edit', array(
+                '_current'  => true
+            ));
+            return $this;
+        }
+
         if (!empty($mapData)) {
             try {
                 $staging->getMapperInstance()->setMergeMapData($mapData);
@@ -436,9 +426,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 Mage::dispatchEvent('on_enterprise_staging_merge', array('staging' => $staging));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
+                $staging->releaseCoreFlag();
                 $redirectBack = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e, $e->getMessage());
+                $staging->releaseCoreFlag();
                 $redirectBack = true;
             }
         }
@@ -464,13 +456,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
         try {
             $event->setData('merge_schedule_date', '0000-00-00 00:00:00');
-            $event->setData('state', Enterprise_Staging_Model_Staging_Config::STATE_UPDATED);
             $event->setData('status', Enterprise_Staging_Model_Staging_Config::STATUS_UPDATED);
             $event->setData('comment', $this->__('Staging Website unschedule'));
             $event->save();
 
             $staging = $event->getStaging();
-            $staging->updateAttribute('state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
             $staging->updateAttribute('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
             $staging->updateAttribute('schedule_merge_event_id', '');
 

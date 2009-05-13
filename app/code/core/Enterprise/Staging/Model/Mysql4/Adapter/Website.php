@@ -34,9 +34,9 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Website extends Enterprise_Staging
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Website
      */
-    public function create(Enterprise_Staging_Model_Staging $staging, $event = null)
+    public function createRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
-        parent::create($staging, $event);
+        parent::createRun($staging, $event);
 
         $websites = $staging->getMapperInstance()->getWebsites();
         foreach ($websites as $website) {
@@ -105,9 +105,9 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Website extends Enterprise_Staging
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Website
      */
-    public function update(Enterprise_Staging_Model_Staging $staging, $event = null)
+    public function updateRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
-        parent::update($staging, $event);
+        parent::updateRun($staging, $event);
 
         $websites = $staging->getMapperInstance()->getWebsites();
         foreach ($websites as $website) {

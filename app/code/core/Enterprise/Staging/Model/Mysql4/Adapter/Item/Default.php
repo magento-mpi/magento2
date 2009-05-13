@@ -24,6 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_Staging_Model_Mysql4_Adapter_Abstract
 {
     /**
@@ -34,33 +35,76 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     protected $_proceedTables = array();
 
     /**
-     * Return Staging table name with all prefixes
-     *
-     * @param string $model
-     * @param string $table
-     * @param string $internalPrefix
-     * @param bool $ignoreIsStaging
-     * @return string
-     */
-    public function getStagingTableName($model, $table, $internalPrefix = '', $ignoreIsStaging = false)
-    {
-        if (isset($this->_proceedTables[$table])) {
-            return $this->_proceedTables[$table];
-        }
-        return parent::getStagingTableName($model, $table, $internalPrefix, $ignoreIsStaging);
-    }
-
-    /**
      * Check backend Staging Tables Creates
      *
      * @param   object Enterprise_Staging_Model_Staging $staging
      *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    public function checkfrontend(Enterprise_Staging_Model_Staging $staging)
+    public function checkfrontendRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
-        parent::checkfrontend($staging);
+        parent::checkfrontendRun($staging);
         $this->_processItemMethodCallback('_checkBackendTables');
+        return $this;
+    }
+
+    /**
+     * Staging Create (Staging Item handle part)
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    public function createRun(Enterprise_Staging_Model_Staging $staging, $event = null)
+    {
+        parent::checkfrontendRun($staging, $event);
+        $this->_processItemMethodCallback('_createItem');
+        return $this;
+    }
+
+    /**
+     * Staging Backup (Staging Item handle part)
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    public function backupRun(Enterprise_Staging_Model_Staging $staging, $event = null)
+    {
+        parent::backupRun($staging, $event);
+        $this->_processItemMethodCallback('_backupItem');
+        return $this;
+    }
+
+    /**
+     * Staging Merge (Staging Item handle part)
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    public function mergeRun(Enterprise_Staging_Model_Staging $staging, $event = null)
+    {
+        parent::mergeRun($staging, $event);
+        $this->_processItemMethodCallback('_mergeItem');
+        return $this;
+    }
+
+    /**
+     * Staging Rollback (Staging Item handle part)
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    public function rollbackRun(Enterprise_Staging_Model_Staging $staging, $event = null)
+    {
+        parent::rollbackRun($staging, $event);
+        $this->_processItemMethodCallback('_rollbackItem');
         return $this;
     }
 
@@ -76,34 +120,18 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
      */
     protected function _checkBackendTables($model, $table, $srcTable, $targetTable)
     {
-        $targetTable            = Enterprise_Staging_Model_Staging_Config::getTablePrefix() . $srcTable;
-        $srcTableDescription    = $this->getTableProperties($srcTable, $model);
+        $targetTable            = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix() . $srcTable;
+        $srcTableDescription    = $this->getTableProperties($srcTable);
         $targetTableDescription = $this->getTableProperties($targetTable);
 
         if ($srcTableDescription && !$targetTableDescription) {
-            $this->createTable($model, $srcTableDescription, $targetTable);
+            $this->createTable($srcTableDescription, $targetTable);
         }
 
         $this->_proceedTables[$srcTable] = $targetTable;
 
         return $this;
     }
-
-    /**
-     * Staging Create (Staging Item handle part)
-     *
-     * @param   object Enterprise_Staging_Model_Staging $staging
-     * @param   object Enterprise_Staging_Model_Staging_Event $event
-     *
-     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
-     */
-    public function create(Enterprise_Staging_Model_Staging $staging, $event = null)
-    {
-        parent::checkfrontend($staging, $event);
-        $this->_processItemMethodCallback('_createItem');
-        return $this;
-    }
-
 
     /**
      * Create item table and records, run processes in website and store scopes
@@ -117,7 +145,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
      */
     protected function _createItem($model, $table, $srcTable, $targetTable)
     {
-        $srcTableDesc = $this->getTableProperties($srcTable, $model);
+        $srcTableDesc = $this->getTableProperties($srcTable);
         if (!$srcTableDesc) {
             return $this;
         }
@@ -132,11 +160,11 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         }
         $fields = array_keys($fields);
 
-        if ($this->allowToProceedInWebsiteScope($srcTable, $fields)) {
+        if ($this->allowToProceedInWebsiteScope($fields)) {
             $this->_createWebsiteScopeItemTableData($model, $srcTable, $targetTable, $fields);
         }
 
-        if ($this->allowToProceedInStoreScope($srcTable, $fields)) {
+        if ($this->allowToProceedInStoreScope($fields)) {
             $this->_createStoreScopeItemTableData($model, $srcTable, $targetTable, $fields);
         }
 
@@ -157,7 +185,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     protected function _createWebsiteScopeItemTableData($model, $srcTable, $targetTable, $fields)
     {
         $staging            = $this->getStaging();
-        $connection         = $this->getConnection();
+        $connection         = $this->_getWriteAdapter();
 
         $masterWebsiteId    = (int) $staging->getMasterWebsiteId();
         $stagingWebsiteId   = (int) $staging->getStagingWebsiteId();
@@ -208,7 +236,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     protected function _createStoreScopeItemTableData($model, $srcTable, $targetTable, $fields)
     {
         $staging        = $this->getStaging();
-        $connection     = $this->getConnection();
+        $connection     = $this->_getWriteAdapter();
         $websites       = $staging->getMapperInstance()->getWebsites();
 
         if (!empty($websites)) {
@@ -246,26 +274,6 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         return $this;
     }
 
-
-
-
-
-
-    /**
-     * Staging Backup (Staging Item handle part)
-     *
-     * @param   object Enterprise_Staging_Model_Staging $staging
-     * @param   object Enterprise_Staging_Model_Staging_Event $event
-     *
-     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
-     */
-    public function backup(Enterprise_Staging_Model_Staging $staging, $event = null)
-    {
-        parent::backup($staging, $event);
-        $this->_processItemMethodCallback('_backupItem');
-        return $this;
-    }
-
     /**
      * Prepare data for merging
      *
@@ -283,12 +291,12 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         $targetTable     = $this->getStagingTableName($model, $srcTable, $backupPrefix, true);
 
         if ($srcTable != $targetTable) {
-            $srcTableDesc = $this->getTableProperties($srcTable, $model);
+            $srcTableDesc = $this->getTableProperties($srcTable);
             if ($srcTableDesc) {
                 $fields = $srcTableDesc['fields'];
                 $fields = array_keys($fields);
 
-                $this->_checkCreateTable($model, $srcTableDesc, $targetTable, $backupPrefix);
+                $this->_checkCreateTable($srcTableDesc, $targetTable, $backupPrefix);
                 $this->_backupItemData($model, $srcTable, $targetTable, $fields);
             }
         }
@@ -305,7 +313,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
      */
     public function getBackupTablePrefix($internalPrefix = null)
     {
-        $backupPrefix = Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix();
+        $backupPrefix = Mage::getSingleton('enterprise_staging/staging_config')->getStagingBackupTablePrefix();
 
         if (isset($internalPrefix)) {
             $backupPrefix .= $internalPrefix;
@@ -324,36 +332,16 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
      */
     protected function _backupItemData($model, $srcTable, $targetTable, $fields)
     {
-        $this->getConnection()->query("SET foreign_key_checks = 0;");
+        $this->_getWriteAdapter()->query("SET foreign_key_checks = 0;");
 
         $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s)";
         $srcSelectSql  = $this->_getSimpleSelect($fields, $srcTable);
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
-        $this->getConnection()->query($destInsertSql);
+        $this->_getWriteAdapter()->query($destInsertSql);
 
-        $this->getConnection()->query("SET foreign_key_checks = 1;");
+        $this->_getWriteAdapter()->query("SET foreign_key_checks = 1;");
 
-        return $this;
-    }
-
-
-
-
-
-
-    /**
-     * Staging Merge (Staging Item handle part)
-     *
-     * @param   object Enterprise_Staging_Model_Staging $staging
-     * @param   object Enterprise_Staging_Model_Staging_Event $event
-     *
-     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
-     */
-    public function merge(Enterprise_Staging_Model_Staging $staging, $event = null)
-    {
-        parent::merge($staging, $event);
-        $this->_processItemMethodCallback('_mergeItem');
         return $this;
     }
 
@@ -368,7 +356,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
      */
     protected function _mergeItem($model, $table, $srcTable, $targetTable)
     {
-        $srcTableDesc = $this->getTableProperties($srcTable, $model);
+        $srcTableDesc = $this->getTableProperties($srcTable);
         if (!$srcTableDesc) {
             return $this;
         }
@@ -383,11 +371,11 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         }
         $fields = array_keys($fields);
 
-        if ($this->allowToProceedInWebsiteScope($srcTable, $fields)) {
+        if ($this->allowToProceedInWebsiteScope($fields)) {
             $this->_mergeTableDataInWebsiteScope($model, $srcTable, $targetTable, $fields);
         }
 
-        if ($this->allowToProceedInStoreScope($srcTable, $fields)) {
+        if ($this->allowToProceedInStoreScope($fields)) {
             $this->_mergeTableDataInStoreScope($model, $srcTable, $targetTable, $fields);
         }
 
@@ -408,7 +396,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     protected function _mergeTableDataInWebsiteScope($model, $srcTable, $targetTable, $fields)
     {
         $staging        = $this->getStaging();
-        $connection     = $this->getConnection($model);
+        $connection     = $this->_getWriteAdapter();
         $mappedWebsites = $staging->getMapperInstance()->getWebsites();
 
         if (in_array('website_ids', $fields)) {
@@ -505,7 +493,6 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                 $connection->query($destInsertSql);
             }
         }
-
         return $this;
     }
 
@@ -521,7 +508,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     protected function _mergeTableDataInStoreScope($model, $srcTable, $targetTable, $fields)
     {
         $staging    = $this->getStaging();
-        $connection = $this->getConnection($model);
+        $connection = $this->_getWriteAdapter();
         $storesMap  = $staging->getMapperInstance()->getStores();
 
         if (!empty($storesMap)) {
@@ -531,7 +518,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                 foreach ($masterStoreIds as $masterStoreId) {
                     $masterStoreId = intval($masterStoreId);
 
-                    $tableDestDesc = $this->getTableProperties($targetTable, $model, true);
+                    $tableDestDesc = $this->getTableProperties($targetTable, true);
 
                     $_updateField = end($fields);
                     $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$_updateField}`=VALUES(`{$_updateField}`)";
@@ -552,27 +539,6 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                 }
             }
         }
-
-        return $this;
-    }
-
-
-
-
-
-
-    /**
-     * Staging Rollback (Staging Item handle part)
-     *
-     * @param   object Enterprise_Staging_Model_Staging $staging
-     * @param   object Enterprise_Staging_Model_Staging_Event $event
-     *
-     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
-     */
-    public function rollback(Enterprise_Staging_Model_Staging $staging, $event = null)
-    {
-        parent::rollback($staging, $event);
-        $this->_processItemMethodCallback('_rollbackItem');
         return $this;
     }
 
@@ -589,9 +555,9 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     protected function _rollbackItem($model, $table, $srcTable, $targetTable)
     {
         $staging    = $this->getStaging();
-        $connection = $this->getConnection($model);
+        $connection = $this->_getWriteAdapter();
 
-        $srcTableDesc = $this->getTableProperties($srcTable, $model);
+        $srcTableDesc = $this->getTableProperties($srcTable);
         if (!$srcTableDesc) {
             return $this;
         }
@@ -603,18 +569,15 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         $backupPrefix   = $this->getBackupTablePrefix($internalPrefix);
         $backupTable    = $this->getStagingTableName($model, $targetTable, $backupPrefix, true);
 
-        if ($this->tableExists($model, $backupTable)) {
-            if ($this->allowToProceedInWebsiteScope($srcTable, $fields)) {
+        if ($this->tableExists($backupTable)) {
+            if ($this->allowToProceedInWebsiteScope($fields)) {
                 $this->_rollbackTableDataInWebsiteScope($model, $backupTable, $targetTable, $connection, $fields);
             }
-
-            if ($this->allowToProceedInStoreScope($srcTable, $fields)) {
+            if ($this->allowToProceedInStoreScope($fields)) {
                 $this->_rollbackTableDataInStoreScope($model, $backupTable, $targetTable, $connection, $fields);
             }
         }
-
         $this->_proceedTables[$backupTable] = $targetTable;
-
         return $this;
     }
 
@@ -718,7 +681,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                     }
                     $masterStoreId = intval($masterStoreId);
 
-                    $tableDestDesc = $this->getTableProperties($targetTable, $model);
+                    $tableDestDesc = $this->getTableProperties($targetTable);
                     if (!$tableDestDesc) {
                         continue;
                     }
@@ -771,9 +734,10 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                 }
             }
         }
-
         return $this;
     }
+
+
 
 
     /**
@@ -799,8 +763,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
             $slaveWhere = " = " . $slaveIds;
         }
 
-        foreach ($keys AS $keyName => $keyData) {
-
+        foreach ($keys as $keyName => $keyData) {
             if ($keyData['type'] == $type) {
                 $_websiteFieldNameSql = array();
                 foreach ($keyData['fields'] as $field) {
@@ -808,16 +771,11 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                     if ($field == 'website_id' || $field == 'store_id') {
                         $_websiteFieldNameSql[] = " T1.`{$field}` $slaveWhere
                             AND T2.`{$field}` $masterWhere ";
-
                     } elseif ($field == 'scope_id') {
-
                         $_websiteFieldNameSql[] = " T1.`scope` = '{$scope}' AND T1.`{$field}` $slaveWhere
                             AND T2.`{$field}` $masterWhere ";
-
                     } else { //website_ids is update data as rule, so it must be in backup.
-
                         $_websiteFieldNameSql[] = "T1.`$field` = T2.`$field`";
-
                     }
                 }
 
@@ -833,34 +791,44 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     }
 
     /**
-     * get Staging Table Name
+     * Return Staging table name with all prefixes
      *
-     * @param string $srcModel
-     * @param string $srcTable
-     * @param bool $usedStorageMethod
+     * @param string $model
+     * @param string $table
+     * @param string $internalPrefix
+     * @param bool $ignoreIsStaging
      * @return string
      */
-    protected function _getStagingTableName($srcModel, $srcTable, $usedStorageMethod=null)
+    public function getStagingTableName($model, $table, $internalPrefix = '', $ignoreIsStaging = false)
     {
-        if (!$usedStorageMethod) {
-            $targetTable = $srcTable;
-        } elseif ($usedStorageMethod == Enterprise_Staging_Model_Staging_Config::STORAGE_METHOD_PREFIX) {
-            $targetTable = $this->getStagingTableName($srcModel, $srcTable);
-        } else {
-            // TODO case for staging that use new db
-            throw new Enterprise_Staging_Exception('Wrong Storage Method!');
+        if (isset($this->_proceedTables[$table])) {
+            return $this->_proceedTables[$table];
         }
+        return parent::getStagingTableName($model, $table, $internalPrefix, $ignoreIsStaging);
+    }
 
-        if (!$this->tableExists('enterprise_staging', $targetTable)) {
+    /**
+     * Get Staging Table Name
+     *
+     * @param string    $srcModel
+     * @param string    $srcTable
+     * @param boolean   $isBackend
+     * @return string
+     */
+    protected function _getStagingTableName($srcModel, $srcTable, $isBackend = false)
+    {
+        if ($isBackend) {
+            $targetTable = $this->getStagingTableName($srcModel, $srcTable);
+            if (!$this->tableExists($targetTable)) {
+                $targetTable = $srcTable;
+                //throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists',$targetTable));
+            }
+        } else {
             $targetTable = $srcTable;
-            //throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists',$targetTable));
         }
 
         return $targetTable;
     }
-
-
-
 
     protected function _matchTable($table, $code, $model)
     {
@@ -881,14 +849,18 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
      */
     protected function _processItemMethodCallback($callbackMethod)
     {
-        $itemXmlConfig      = $this->getConfig();
+        $itemConfig = $this->getConfig();
 
-        $usedStorageMethod  = (string)  $itemXmlConfig->use_storage_method;
+        $isBackend  = ((string)$itemConfig->is_backend === '1');
+        $code       = (string) $itemConfig->getName();
+        if ($itemConfig->model) {
+            $model  = (string) $itemConfig->model;
+        } else {
+            $model  = $code;
+        }
 
-        $code   = (string) $itemXmlConfig->getName();
-        $model  = (string) $itemXmlConfig->model;
-        $tables = (array)  $itemXmlConfig->entities;
-        $ignoreTables = (array) $itemXmlConfig->ignore_tables;
+        $tables       = (array) $itemConfig->entities;
+        $ignoreTables = (array) $itemConfig->ignore_tables;
 
         $resourceName = (string) Mage::getConfig()->getNode("global/models/{$model}/resourceModel");
         $entityTables = (array) Mage::getConfig()->getNode("global/models/{$resourceName}/entities");
@@ -910,20 +882,20 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                 continue;
             }
 
-            $srcTable = $this->getTableName("{$model}/{$table}");
+            $srcTable = $this->getTable("{$model}/{$table}");
             if (isset($this->_proceedTables[$srcTable])) {
                 continue;
             }
 
-            $targetTable = $this->_getStagingTableName($model, $srcTable, $usedStorageMethod);
+            $targetTable = $this->_getStagingTableName($model, $srcTable, $isBackend);
 
             if (isset($this->_eavModels["{$model}/{$table}"])) {
-                if ($usedStorageMethod === 'table_prefix') {
+                if ($isBackend) {
                     $this->{$callbackMethod}($model, $table, $srcTable, $targetTable);
                 }
                 foreach ($this->_eavTableTypes as $type) {
                     $_srcTable = $srcTable . '_' . $type;
-                    $targetTable = $this->_getStagingTableName($model, $_srcTable, $usedStorageMethod);
+                    $targetTable = $this->_getStagingTableName($model, $_srcTable, $isBackend);
                     $this->{$callbackMethod}($model, $table, $_srcTable, $targetTable);
                 }
                 continue;
@@ -935,10 +907,10 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                     $flatModel = Mage::getResourceModel('catalog/category_flat');
                     foreach (Mage::app()->getStores() as $store) {
                         $flatTableName = $flatModel->getMainStoreTable($store->getId());
-                        if (!$this->tableExists($model, $flatTableName)) {
+                        if (!$this->tableExists($flatTableName)) {
                             continue;
                         }
-                        $targetTable = $this->_getStagingTableName($model, $flatTableName, $usedStorageMethod);
+                        $targetTable = $this->_getStagingTableName($model, $flatTableName, $isBackend);
                         $this->{$callbackMethod}($model, $table, $flatTableName, $targetTable);
                     }
                 } else {
@@ -949,10 +921,10 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         $flatModel = Mage::getSingleton('catalog/product_flat_indexer');
                         $flatModel->prepareDataStorage($store->getId());
                         $flatTableName  = $flatModel->getResource()->getFlatTableName($store->getId());
-                        if (!$this->tableExists($model, $flatTableName)) {
+                        if (!$this->tableExists($flatTableName)) {
                             continue;
                         }
-                        $targetTable = $this->_getStagingTableName($model, $flatTableName, $usedStorageMethod);
+                        $targetTable = $this->_getStagingTableName($model, $flatTableName, $isBackend);
                         $this->{$callbackMethod}($model, $table, $flatTableName, $targetTable);
                     }
                 }
@@ -964,46 +936,5 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         }
 
         return $this;
-    }
-
-    /**
-     * Prepare simple select by given parameters
-     *
-     * @param mixed $fields
-     * @param string $table
-     * @param string $where
-     * @return string
-     */
-    protected function _getSimpleSelect($fields, $table, $where = null)
-    {
-        if (is_array($fields)) {
-            $fields = $this->_prepareFields($fields);
-        }
-
-        if (isset($where)) {
-            $where = " WHERE " . $where;
-        }
-
-        return "SELECT $fields FROM `{$table}` $where";
-    }
-
-    /**
-     * Add sql quotes to fields and return imploded string
-     *
-     * @param array $fields
-     * @return string
-     */
-    protected function _prepareFields($fields)
-    {
-        foreach ($fields as $k => $field) {
-            if ($field instanceof Zend_Db_Expr) {
-                $fields[$k] = (string) $field;
-            } elseif (is_int($field)) {
-                $fields[$k] = "{$field}";
-            } else {
-                $fields[$k] = "`{$field}`";
-            }
-        }
-        return implode(', ', $fields);
     }
 }

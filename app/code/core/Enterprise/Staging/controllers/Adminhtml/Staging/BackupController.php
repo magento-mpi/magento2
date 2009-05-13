@@ -217,6 +217,14 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         $staging        = $backup->getStaging();
         $mapData        = $this->getRequest()->getPost('map');
 
+        if (!$staging->checkCoreFlag()) {
+            $this->_getSession()->addError($this->__('Cannot perform rollback operation, because reindexing process or another staging operation is running'));
+            $this->_redirect('*/*/edit', array(
+                '_current'  => true
+            ));
+            return $this;
+        }
+
         try {
             $staging->getMapperInstance()->setRollbackMapData($mapData);
 
@@ -229,9 +237,11 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
             }
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
+            $staging->releaseCoreFlag();
             $redirectBack = true;
         } catch (Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
+            $staging->releaseCoreFlag();
             $redirectBack = true;
         }
 

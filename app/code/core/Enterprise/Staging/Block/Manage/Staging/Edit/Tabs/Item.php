@@ -68,7 +68,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
 
         $extendInfo = $this->getExtendInfo();
 
-        foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
+        foreach (Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems() as $stagingItem) {
             if ((int)$stagingItem->is_backend) {
                 continue;
             }

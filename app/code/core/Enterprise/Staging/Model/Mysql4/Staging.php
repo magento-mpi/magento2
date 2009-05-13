@@ -164,18 +164,18 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     public function createRun($staging, $event = null)
     {
         Mage::getResourceModel('enterprise_staging/adapter_website')
-            ->create($staging, $event);
+            ->createRun($staging, $event);
 
         Mage::getResourceModel('enterprise_staging/adapter_group')
-            ->create($staging, $event);
+            ->createRun($staging, $event);
 
         Mage::getResourceModel('enterprise_staging/adapter_store')
-            ->create($staging, $event);
+            ->createRun($staging, $event);
 
         Mage::getResourceModel('enterprise_staging/adapter_item')
-            ->create($staging, $event);
+            ->createRun($staging, $event);
 
-        $this->_processStagingItemsCallback('create', $staging, $event);
+        $this->_processStagingItemsCallback('createRun', $staging, $event);
 
         return $this;
     }
@@ -191,7 +191,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     public function updateRun($staging, $event = null)
     {
         Mage::getResourceModel('enterprise_staging/adapter_website')
-            ->update($staging, $event);
+            ->updateRun($staging, $event);
 
         return $this;
     }
@@ -206,7 +206,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
      */
     public function backupRun($staging, $event = null)
     {
-        $this->_processStagingItemsCallback('backup', $staging, $event);
+        $this->_processStagingItemsCallback('backupRun', $staging, $event);
 
         Mage::getModel('enterprise_staging/staging_backup')->saveOnBackupRun($staging, $event);
 
@@ -227,7 +227,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
             return $this;
         }
 
-        $this->_processStagingItemsCallback('merge', $staging, $event);
+        $this->_processStagingItemsCallback('mergeRun', $staging, $event);
 
         return $this;
     }
@@ -242,7 +242,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
      */
     public function rollbackRun($staging, $event = null)
     {
-        $this->_processStagingItemsCallback('rollback', $staging, $event, true);
+        $this->_processStagingItemsCallback('rollbackRun', $staging, $event, true);
 
         Mage::getModel('enterprise_staging/staging_rollback')->saveOnRollbackRun($staging, $event);
 
@@ -263,8 +263,8 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
         }
         Mage::register('staging/frontend_checked_started', true);
 
-        $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
-        foreach ($stagingItems->children() as $stagingItem) {
+        $stagingItems = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems();
+        foreach ($stagingItems as $stagingItem) {
             if (!$stagingItem->is_backend) {
                 continue;
             }
@@ -276,8 +276,8 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
 
             $adapter->checkfrontend($staging);
 
-            if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
-                foreach ($stagingItem->extends->children() AS $extendItem) {
+            if ($stagingItem->extends) {
+                foreach ($stagingItem->extends->children() as $extendItem) {
                     if (!$extendItem->is_backend) {
                         continue;
                     }
@@ -289,8 +289,9 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
                 }
             }
         }
-        Mage::register("staging/frontend_checked", true);
+
         Mage::unregister('staging/frontend_checked_started');
+        Mage::getSingleton("core/session")->setData('staging_frontend_website_is_checked', true);
         return $this;
     }
 
@@ -326,9 +327,9 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
             if ($ignoreExtends) {
                 return $this;
             }
-            if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
-                foreach ($stagingItem->extends->children() AS $extendItem) {
-                    if (!Enterprise_Staging_Model_Staging_Config::isItemModuleActive($extendItem)) {
+            if ($stagingItem->extends) {
+                foreach ($stagingItem->extends->children() as $extendItem) {
+                    if (!Mage::getSingleton('enterprise_staging/staging_config')->isItemModuleActive($extendItem)) {
                          continue;
                     }
                     $adapter = $this->getItemAdapterInstanse($extendItem);

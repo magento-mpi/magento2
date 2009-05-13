@@ -59,27 +59,9 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     public function getStaging()
     {
         if (!$this->_staging instanceof Enterprise_Staging_Model_Staging) {
-            $this->_staging = Mage::registry('staging');
-            if ($this->getId()) {
-                $stagingId = $this->getStagingId();
-                if ($stagingId) {
-                    if (!$this->_staging || ($this->_staging->getId() != $stagingId)) {
-                        $this->_staging = Mage::getModel('enterprise_staging/staging')->load($stagingId);
-                    }
-                }
-            }
+            $this->_staging = Mage::getModel('enterprise_staging/staging')->load($this->getStagingId());
         }
         return $this->_staging;
-    }
-
-    /**
-     * Retrieve event state label
-     *
-     * @return string
-     */
-    public function getStateLabel()
-    {
-        return Enterprise_Staging_Model_Staging_Config::getStateLabel($this->getState());
     }
 
     /**
@@ -89,17 +71,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
      */
     public function getStatusLabel()
     {
-        return Enterprise_Staging_Model_Staging_Config::getStatusLabel($this->getStatus());
-    }
-
-    /**
-     * Retrieve event label
-     *
-     * @return string
-     */
-    public function getFrontendLabel()
-    {
-        return Enterprise_Staging_Model_Staging_Config::getEventLabel($this->getCode());
+        return Mage::getSingleton('enterprise_staging/staging_config')->getStatusLabel($this->getStatus());
     }
 
     /**
@@ -115,8 +87,8 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
 
             $collection->setEventFilter($eventId);
 
-            foreach($collection AS $backup) {
-                if ($backup->getId()){
+            foreach ($collection as $backup) {
+                if ($backup->getId()) {
                     return $backup->getId();
                 }
             }
@@ -164,36 +136,30 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
         $config = Mage::getSingleton('enterprise_staging/staging_config');
 
         if ($onState == 'before') {
-            $state  = $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_PROCESSING;
             $status = $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING;
         } else {
-            $state  = $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE;
             $status = $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
         }
 
         switch ($process) {
             case 'create':
                 if ($onState == 'after') {
-                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_CREATED;
                     $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_CREATED;
                 }
                 break;
             case 'update':
                 if ($onState == 'after') {
-                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_UPDATED;
                     $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_UPDATED;
                 }
                 break;
             case 'backup':
                 $this->setIsBackuped($staging->getIsBackuped());
                 if ($onState == 'after') {
-                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_BACKUP_CREATED;
                     $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_BACKUP_CREATED;
                 }
                 break;
             case 'merge':
                 if ($staging->getIsMergeLater() == true) {
-                    $state  = Enterprise_Staging_Model_Staging_Config::STATE_HOLDED;
                     $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
 
                     $scheduleDate       = $staging->getMergeSchedulingDate();
@@ -202,27 +168,23 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
                 }
                 $this->setMergeMap($staging->getMapperInstance()->serialize());
                 if ($onState == 'after') {
-                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_MERGED;
                     $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_MERGED;
                 }
                 break;
             case 'rollback':
                 $this->setMergeMap($staging->getMapperInstance()->serialize());
                 if ($onState == 'after') {
-                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_RESTORED;
                     $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED;
                 }
                 break;
         }
 
         if ($currentStatus != Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED) {
-            $staging->setState($state);
-            $staging->setStatus($status);
+            $staging->updateAttribute('status', $status);
         }
 
         $this->setSaveThrowException($exception);
 
-        $eventStateLabel  = $config->getStateLabel($eventState);
         $eventStatusLabel = $config->getStatusLabel($eventStatus);
 
         $comment = $eventStatusLabel;
@@ -235,8 +197,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
             $exceptionMessage = $exception->getMessage();
         }
         $this->setCode($process)
-            ->setName($eventStateLabel)
-            ->setState($eventState)
+            ->setName($eventStatusLabel)
             ->setStatus($eventStatus)
             ->setIsAdminNotified(false)
             ->setComment($comment)
@@ -244,11 +205,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
             ->save();
 
         if ($staging->getIsMergeLater() == true) {
-            $staging->setScheduleMergeEventId($this->getId());
-        }
-
-        if ($staging->getId() && !$this->getSaveThrowException()) {
-            $staging->save();
+            $staging->updateAttribute('schedule_merge_event_id',$this->getId());
         }
 
         return $this;

@@ -34,9 +34,9 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item extends Enterprise_Staging_Mo
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Item
      */
-    public function create(Enterprise_Staging_Model_Staging $staging, $event = null)
+    public function createRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
-        parent::create($staging, $event);
+        parent::createRun($staging, $event);
 
         $stagingItems = $staging->getMapperInstance()->getStagingItems();
         foreach ($stagingItems as $stagingItem) {

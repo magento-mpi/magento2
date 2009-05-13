@@ -83,22 +83,8 @@
             <staging>
                 <global_staging_table_prefix>s</global_staging_table_prefix>
                 <global_staging_backup_table_prefix>b</global_staging_backup_table_prefix>
-                <use_storage_method>table_prefix</use_storage_method>
-                <storage_method>
-                    <new_db></new_db>
-                    <table_prefix></table_prefix>
-                </storage_method>
-                <type>
-                    <website>
-                        <code>website</code>
-                        <label>Website</label>
-                        <models>
-                            <mapper>enterprise_staging/staging_mapper_website</mapper>
-                        </models>
-                    </website>
-                </type>
                 <staging_items>
-                    <config_data>
+                    <config_data translate="label">
                         <module>Mage_Core</module>
                         <model>core</model>
                         <label>System Configuration</label>
@@ -115,7 +101,7 @@
                             <developer><path>dev</path></developer>
                         </ignore_nodes>
                     </config_data>
-                    <category>
+                    <category translate="label">
                         <module>Mage_Catalog</module>
                         <model>catalog</model>
                         <label>Catalog Categories</label>
@@ -126,47 +112,41 @@
                         <model>catalog</model>
                         <label>Catalog Products</label>
                         <extends>
-                            <bundle>
+                            <bundle translate="label">
                                 <module>Mage_Bundle</module>
-                                <model>bundle</model>
                                 <label>Bundles</label>
                                 <entities>
                                     <option_value />
                                 </entities>
                             </bundle>
-                            <downloadable>
+                            <downloadable translate="label">
                                 <module>Mage_Downloadable</module>
-                                <model>downloadable</model>
                                 <label>Downloadable</label>
                                 <entities>
                                     <link_title />
                                     <sample_title />
                                 </entities>
                             </downloadable>
-                            <enterprise_giftcard>
+                            <enterprise_giftcard translate="label">
                                 <module>Enterprise_GiftCard</module>
-                                <model>enterprise_giftcard</model>
                                 <label>Gift Cards</label>
                                 <entities>
                                     <code />
                                 </entities>
                             </enterprise_giftcard>
-                            <cataloginventory>
+                            <cataloginventory translate="label">
                                 <module>Mage_CatalogInventory</module>
-                                <model>cataloginventory</model>
                                 <label>Catalog Inventory</label>
                             </cataloginventory>
-                            <catalogindex>
+                            <catalogindex translate="label">
                                 <module>Mage_CatalogIndex</module>
-                                <model>catalogindex</model>
                                 <label>Catalog Index</label>
                             </catalogindex>
-                            <catalogsearch>
+                            <catalogsearch translate="label">
                                 <module>Mage_CatalogSearch</module>
-                                <model>catalogsearch</model>
                                 <label>Catalog Search</label>
                             </catalogsearch>
-                            <core_url_rewrite>
+                            <core_url_rewrite translate="label">
                                 <module>Mage_Core</module>
                                 <model>core</model>
                                 <label>URL Rewrites</label>
@@ -176,7 +156,7 @@
                             </core_url_rewrite>
                         </extends>
                     </product>
-                    <cms_page>
+                    <cms_page translate="label">
                         <module>Mage_Cms</module>
                         <model>cms</model>
                         <label>CMS Pages</label>
@@ -184,7 +164,7 @@
                             <page_store />
                         </entities>
                     </cms_page>
-                    <cms_block>
+                    <cms_block translate="label">
                         <module>Mage_Cms</module>
                         <model>cms</model>
                         <label>CMS Blocks</label>
@@ -192,125 +172,55 @@
                             <block_store />
                         </entities>
                     </cms_block>
-                    <salesrule>
+                    <salesrule translate="label">
                         <module>Mage_SalesRule</module>
-                        <model>salesrule</model>
                         <label>Shopping Cart Price Rules</label>
                     </salesrule>
-                    <catalogrule>
+                    <catalogrule translate="label">
                         <module>Mage_CatalogRule</module>
-                        <model>catalogrule</model>
                         <label>Catalog Price Rules</label>
                     </catalogrule>
-                    <poll>
+                    <poll translate="label">
                         <module>Mage_Poll</module>
-                        <model>poll</model>
                         <label>Polls</label>
                         <entities>
                             <poll_store />
                         </entities>
                     </poll>
-                    <checkout>
+                    <checkout translate="label">
                         <module>Mage_Checkout</module>
-                        <model>checkout</model>
                         <label>Terms And Conditions</label>
                         <entities>
                             <agreement_store />
                         </entities>
                     </checkout>
-                    <customer>
+                    <customer translate="label">
                         <module>Mage_Customer</module>
-                        <model>customer</model>
                         <is_backend>1</is_backend>
                         <label>Customers</label>
                         <ignore_tables>
                             <customer_group />
                         </ignore_tables>
-                        <use_storage_method>table_prefix</use_storage_method>
                     </customer>
-                    <wishlist>
+                    <wishlist translate="label">
                         <module>Mage_Wishlist</module>
-                        <model>wishlist</model>
                         <is_backend>1</is_backend>
                         <label>Wishlist</label>
-                        <use_storage_method>table_prefix</use_storage_method>
                     </wishlist>
-                    <tag>
+                    <tag translate="label">
                         <module>Mage_Tag</module>
-                        <model>tag</model>
                         <is_backend>1</is_backend>
                         <label>Tags</label>
-                        <use_storage_method>table_prefix</use_storage_method>
                     </tag>
-                    <sales>
+                    <sales translate="label">
                         <module>Mage_Sales</module>
-                        <model>sales</model>
                         <is_backend>1</is_backend>
                         <label>Sales</label>
-                        <use_storage_method>table_prefix</use_storage_method>
                     </sales>
                 </staging_items>
-                <staging_website_code_suffix></staging_website_code_suffix>
-                <state>
-                    <processing translate="label">
-                        <label>Processing</label>
-                        <statuses>
-                            <processing />
-                        </statuses>
-                    </processing>
-                    <complete translate="label">
-                        <label>Complete</label>
-                        <statuses>
-                            <complete />
-                        </statuses>
-                    </complete>
-                    <created translate="label">
-                        <label>Created</label>
-                        <statuses>
-                            <created />
-                        </statuses>
-                    </created>
-                    <updated translate="label">
-                        <label>Updated</label>
-                        <statuses>
-                            <updated />
-                        </statuses>
-                    </updated>
-                    <backup_created translate="label">
-                        <label>Backup Created</label>
-                        <statuses>
-                            <backup_created />
-                        </statuses>
-                    </backup_created>
-                    <merged translate="label">
-                        <label>Merged</label>
-                        <statuses>
-                            <merged />
-                        </statuses>
-                    </merged>
-                    <holded translate="label">
-                        <label>On Hold</label>
-                        <statuses>
-                            <holded />
-                        </statuses>
-                    </holded>
-                    <restored translate="label">
-                        <label>Restored</label>
-                        <statuses>
-                            <restored />
-                        </statuses>
-                    </restored>
-                    <fail translate="label">
-                        <label>Fail</label>
-                        <statuses>
-                            <fail />
-                        </statuses>
-                    </fail>
-                </state>
                 <status>
-                    <processing translate="label"><label>Staging Website Processing</label></processing>
+                    <processing translate="label"><label>Processing</label></processing>
                     <complete translate="label"><label>Complete</label></complete>
-
                     <created translate="label"><label>Staging Website create</label></created>
                     <updated translate="label"><label>Staging Website update</label></updated>
                     <backup_created translate="label"><label>Master Website Backup create</label></backup_created>
@@ -319,19 +229,6 @@
                     <restored translate="label"><label>Master Website restore</label></restored>
                     <fail translate="label"><label>Fail</label></fail>
                 </status>
-                <visibility>
-                    <not_accessible translate="label"><label>Not accessible</label></not_accessible>
-                    <accessible translate="label"><label>Accessible</label></accessible>
-                    <require_http_auth translate="label"><label>Require Http Auth</label></require_http_auth>
-                </visibility>
-                <processes>
-                    <create translate="label"><label>Create</label></create>
-                    <update translate="label"><label>Update</label></update>
-                    <merge translate="label"><label>Merge</label></merge>
-                    <backup translate="label"><label>Backup</label></backup>
-                    <rollback translate="label"><label>Rollback</label></rollback>
-                    <checkfrontend translate="label"><label>Check Frontend</label></checkfrontend>
-                </processes>
             </staging>
         </enterprise>
         <events>
@@ -348,27 +245,27 @@
     </global>
     <adminhtml>
         <menu>
-          <system>
-            <children>
-              <enterprise_staging translate="title">
-                 <title>Staging Environments</title>
-                 <sort_order>21</sort_order>
-                 <action>adminhtml/staging_manage</action>
-                 <children>
-                    <staging_grid>
-                        <title>Staging Websites</title>
-                         <sort_order>10</sort_order>
-                         <action>adminhtml/staging_manage/index</action>
-                    </staging_grid>
-                    <staging_backup>
-                        <title>Backups</title>
-                         <sort_order>20</sort_order>
-                         <action>adminhtml/staging_backup/index</action>
-                    </staging_backup>
-                 </children>
-              </enterprise_staging>
-            </children>
-          </system>
+            <system>
+                <children>
+                    <enterprise_staging translate="title">
+                        <title>Staging Environments</title>
+                        <sort_order>21</sort_order>
+                        <action>adminhtml/staging_manage</action>
+                        <children>
+                            <staging_grid>
+                                <title>Staging Websites</title>
+                                 <sort_order>10</sort_order>
+                                 <action>adminhtml/staging_manage/index</action>
+                            </staging_grid>
+                            <staging_backup>
+                                <title>Backups</title>
+                                 <sort_order>20</sort_order>
+                                 <action>adminhtml/staging_backup/index</action>
+                            </staging_backup>
+                        </children>
+                    </enterprise_staging>
+                </children>
+            </system>
         </menu>
         <acl>
             <resources>

@@ -70,7 +70,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
             ->setBackupFilter($this->getBackup())
             ->addEventToCollection();
 
-        foreach($collection AS $item) {
+        foreach($collection as $item) {
             $user = Mage::getModel('admin/user')->load($item->getEventUserId());
 
             $collection->getItemById($item->getId())

@@ -24,15 +24,8 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_Object
+abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Core_Model_Mysql4_Abstract implements Enterprise_Staging_Model_Mysql4_Adapter_Interface
 {
-    /**
-     * Database read/write connections
-     *
-     * @var resource
-     */
-    protected $_connections = array();
-
     /**
      * Staging instance
      *
@@ -82,13 +75,6 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
     );
 
     /**
-     * table list
-     *
-     * @var mixed
-     */
-    protected $_tables;
-
-    /**
      * EAV type Table models
      *
      * @var mixed
@@ -109,22 +95,22 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
      */
     protected $_eavTableTypes = array('int', 'decimal', 'varchar', 'text', 'datetime');
 
-    /**
-     * event state code
-     *
-     * @var string
-     */
-    protected $_eventStateCode;
-
-    /**
-     * Constructor
-     *
-     */
-    public function __construct()
+    protected function _construct()
     {
-        $this->_resource = Mage::getSingleton('core/resource');
-        $this->_read     = $this->_resource->getConnection('staging_read');
-        $this->_write    = $this->_resource->getConnection('staging_write');
+        $this->_setResource('enterprise_staging');
+    }
+    /**
+     * Staging content check
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @param Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
+    public function checkfrontendRun(Enterprise_Staging_Model_Staging $staging, $event = null)
+    {
+        $this->setStaging($staging);
+        return $this;
     }
 
     /**
@@ -133,7 +119,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
      * @param Enterprise_Staging_Model_Staging_Action_Run $runModel
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    public function create(Enterprise_Staging_Model_Staging $staging, $event = null)
+    public function createRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
         $this->setStaging($staging);
         $this->setEvent($event);
@@ -146,7 +132,22 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
      * @param Enterprise_Staging_Model_Staging_Action_Run $runModel
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    public function update(Enterprise_Staging_Model_Staging $staging, $event = null)
+    public function updateRun(Enterprise_Staging_Model_Staging $staging, $event = null)
+    {
+        $this->setStaging($staging);
+        $this->setEvent($event);
+        return $this;
+    }
+
+    /**
+     * Create Staging content backup
+     *
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @param Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
+     */
+    public function backupRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
         $this->setStaging($staging);
         $this->setEvent($event);
@@ -161,7 +162,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    public function merge(Enterprise_Staging_Model_Staging $staging, $event = null)
+    public function mergeRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
         $this->setStaging($staging);
         $this->setEvent($event);
@@ -176,36 +177,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    public function rollback(Enterprise_Staging_Model_Staging $staging, $event = null)
-    {
-        $this->setStaging($staging);
-        $this->setEvent($event);
-        return $this;
-    }
-
-    /**
-     * Staging content check
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @param Enterprise_Staging_Model_Staging_Event $event
-     *
-     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
-     */
-    public function checkfrontend(Enterprise_Staging_Model_Staging $staging)
-    {
-        $this->setStaging($staging);
-        return $this;
-    }
-
-    /**
-     * Create Staging content backup
-     *
-     * @param Enterprise_Staging_Model_Staging $staging
-     * @param Enterprise_Staging_Model_Staging_Event $event
-     *
-     * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
-     */
-    public function backup(Enterprise_Staging_Model_Staging $staging, $event = null)
+    public function rollbackRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
         $this->setStaging($staging);
         $this->setEvent($event);
@@ -222,7 +194,6 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
     public function setEvent($event)
     {
         $this->_event = $event;
-
         return $this;
     }
 
@@ -246,7 +217,6 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
     public function setStaging(Enterprise_Staging_Model_Staging $staging)
     {
         $this->_staging = $staging;
-
         return $this;
     }
 
@@ -270,7 +240,6 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
     public function setConfig($config)
     {
         $this->_config = $config;
-
         return $this;
     }
 
@@ -284,31 +253,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
         return $this->_config;
     }
 
-    /**
-     * Get connection by name or type
-     *
-     * @param   string $connectionName
-     *
-     * @return  Zend_Db_Adapter_Abstract
-     */
-    public function getConnection($connectionName = 'enterprise_staging', $scope = 'read')
-    {
-        $connectionName = $connectionName . '_' .$scope;
-
-        if (isset($this->_connections[$connectionName])) {
-            return $this->_connections[$connectionName];
-        }
-
-        try {
-            $this->_connections[$connectionName] = Mage::getSingleton('core/resource')->getConnection($connectionName);
-        } catch (Exception $e) {
-            throw new Enterprise_Staging_Exception($e);
-        }
-
-        return $this->_connections[$connectionName];
-    }
-
-    protected function allowToProceedInWebsiteScope($srcTable, $fields)
+    protected function allowToProceedInWebsiteScope($fields)
     {
         if (in_array('website_id', $fields) || in_array('website_ids', $fields) || in_array('scope_id', $fields)) {
             return true;
@@ -317,7 +262,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
         }
     }
 
-    protected function allowToProceedInStoreScope($srcTable, $fields)
+    protected function allowToProceedInStoreScope($fields)
     {
         if (in_array('store_id', $fields) || in_array('store_ids', $fields) || in_array('scope_id', $fields)) {
             return true;
@@ -329,61 +274,54 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
     /**
      * Create table
      *
-     * @param string $model
      * @param array $srcTableDescription
      * @param string $targetTable
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    public function createTable($model, $srcTableDescription, $targetTable)
+    public function createTable($srcTableDescription, $targetTable)
     {
-        $connection = $this->getConnection();
-
         $srcTableDescription['table_name'] = $targetTable;
-
         $sql = $this->_getCreateSql($srcTableDescription, null);
 
         try {
-            $connection->query($sql);
+            $this->_getWriteAdapter()->query($sql);
         } catch (Exception $e) {
-            throw new Exception(Mage::helper('enterprise_staging')->__('Exception while SQL query: %s. Query: %s', $e->getMessage(), $sql));
+            throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')
+                ->__('Exception while SQL query: %s. Query: %s', $e->getMessage(), $sql));
         }
-
         return $this;
     }
 
     /**
      * Check table for existing and create it if not
      *
-     * @param string    $model
      * @param array     $srcTableDesc
      * @param string    $targetTable
      * @param string    $prefix
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    protected function _checkCreateTable($model, $srcTableDesc, $targetTable, $prefix)
+    protected function _checkCreateTable($srcTableDesc, $targetTable, $prefix)
     {
         $targetTableDesc = $this->getTableProperties($targetTable);
         if (!$targetTableDesc) {
             $srcTableDesc['table_name'] = $targetTable;
             if (!empty($srcTableDesc['constraints'])) {
-                foreach($srcTableDesc['constraints'] AS $constraint => $data) {
+                foreach($srcTableDesc['constraints'] as $constraint => $data) {
                     $srcTableDesc['constraints'][$constraint]['fk_name'] = $prefix . $data['fk_name'];
                 }
             }
             $sql = $this->_getCreateSql($srcTableDesc);
-
-            $this->getConnection()->query($sql);
+            $this->_getWriteAdapter()->query($sql);
         }
         return $this;
     }
 
     /**
-     * get sql to create new tables
+     * Get create table sql
      *
-     * @param string $model
-     * @param mixed $tableDescription
+     * @param  mixed  $tableDescription
      * @return string
      */
     protected function _getCreateSql($tableDescription)
@@ -420,9 +358,9 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
     }
 
     /**
-     * get sql fields list
+     * Get sql fields list
      *
-     * @param mixed $field
+     * @param  mixed  $field
      * @return string
      */
     protected function _getFieldSql($field)
@@ -449,14 +387,13 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
                 $_fieldSql .= " DEFAULT '{$field['default']}'";
                 break;
         }
-
         return $_fieldSql;
     }
 
     /**
-     * get sql keys list
+     * Get sql keys list
      *
-     * @param mixed $key
+     * @param  mixed  $key
      * @return string
      */
     protected function _getKeySql($key)
@@ -475,8 +412,6 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
                 $_keySql .= " `{$key['name']}`";
                 break;
         }
-
-
         $fields = array();
         foreach ($key['fields'] as $field) {
             $fields[] = "`{$field}`";
@@ -487,9 +422,9 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
     }
 
     /**
-     * get sql FOREIGN KEY list
+     * Get sql FOREIGN KEY list
      *
-     * @param mixed $key
+     * @param  mixed  $key
      * @return string
      */
     protected function _getConstraintSql($key)
@@ -528,57 +463,27 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
     }
 
     /**
-     * Return Staging table name with all prefixes
-     *
-     * @param string $model
-     * @param string $table
-     * @param string $internalPrefix
-     * @param bool $ignoreIsStaging
-     * @return string
-     */
-    public function getStagingTableName($model, $table, $internalPrefix = '', $ignoreIsStaging = false)
-    {
-        if (!$ignoreIsStaging) {
-            if (!$this->isStagingItem($model, $table)) {
-                return $table;
-            }
-        }
-
-        $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($this->getStaging(), $internalPrefix);
-
-        return $tablePrefix . $table;
-    }
-
-    /**
      * Retrieve table properties as array
      * fields, keys, constraints, engine, charset, create
      *
      * @param string $table
-     * @param string $model
      * @param bool   $strongRestrict
      * @return array
      */
-    public function getTableProperties($table, $model = 'enterprise_staging', $strongRestrict = false)
+    public function getTableProperties($table, $strongRestrict = false)
     {
-        if (!$this->tableExists($model, $table)) {
+        if (!$this->tableExists($table)) {
             if ($strongRestrict) {
                 throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')
-                    ->__('Staging Table %s doesn\'t exists',$table));
+                    ->__('Staging Table %s doesn\'t exists', $table));
             }
             return false;
         }
 
-        $connection = $this->getConnection($model);
-
-        $tableName = $this->getTable($table, $model);
-        if (isset($this->_config[$model]['prefix'])) {
-            $prefix = $this->_config[$model]['prefix'];
-        } else {
-            $prefix = '';
-        }
+        $prefix = '';
 
         $tableProp = array(
-            'table_name'  => $tableName,
+            'table_name'  => $table,
             'fields'      => array(),
             'keys'        => array(),
             'constraints' => array(),
@@ -589,8 +494,8 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
         );
 
         // collect fields
-        $sql = "SHOW FULL COLUMNS FROM `{$tableName}`";
-        $result = $connection->fetchAll($sql);
+        $sql = "SHOW FULL COLUMNS FROM `{$table}`";
+        $result = $this->_getReadAdapter()->fetchAll($sql);
 
         foreach($result as $row) {
             $tableProp['fields'][$row["Field"]] = array(
@@ -606,8 +511,8 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
         }
 
         // create sql
-        $sql = "SHOW CREATE TABLE `{$tableName}`";
-        $result = $connection->fetchRow($sql);
+        $sql = "SHOW CREATE TABLE `{$table}`";
+        $result = $this->_getReadAdapter()->fetchRow($sql);
 
         $tableProp['create_sql'] = $result["Create Table"];
 
@@ -683,14 +588,13 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
      * Check exists table
      *
      * @param string $table
-     * @param string $entity
      * @return bool
      */
-    public function tableExists($model, $table)
+    public function tableExists($table)
     {
-        $connection = $this->getConnection($model);
-        $sql = $connection->quoteInto("SHOW TABLES LIKE ?", $this->getTable($table, $model));
-        $stmt = $connection->query($sql);
+        $connection = $this->_getReadAdapter();
+        $sql        = $connection->quoteInto("SHOW TABLES LIKE ?", $table);
+        $stmt       = $connection->query($sql);
         if (!$stmt->fetch()) {
             return false;
         } else {
@@ -699,48 +603,66 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
     }
 
     /**
-     * Get table name for the entity
+     * Prepare simple select by given parameters
      *
-     * @param string $entityName
+     * @param mixed $fields
+     * @param string $table
+     * @param string $where
+     * @return string
      */
-    public function getTable($entityName, $entity)
+    protected function _getSimpleSelect($fields, $table, $where = null)
     {
-        /* FIXME getTable() method doesn't needed yet */
-        return $entityName;
+        if (is_array($fields)) {
+            $fields = $this->_prepareFields($fields);
+        }
 
-        if (isset($this->_tables[$entityName])) {
-            return $this->_tables[$entityName];
+        if (isset($where)) {
+            $where = " WHERE " . $where;
         }
-        if (strpos($entityName, '/')) {
-            $this->_tables[$entityName] = $this->_resource->getTableName($entityName);
-        } elseif (!empty($this->_resourceModel)) {
-            $this->_tables[$entityName] = $this->_resource->getTableName(
-                $this->_resourceModel.'/'.$entityName);
-        } else {
-            $this->_tables[$entityName] = $entityName;
-        }
-        return $this->_tables[$entityName];
+
+        return "SELECT $fields FROM `{$table}` $where";
     }
 
-/**
-     * Get table name for the entity
+    /**
+     * Add sql quotes to fields and return imploded string
      *
-     * @param string $entityName
+     * @param array $fields
+     * @return string
      */
-    public function getTableName($entityName)
+    protected function _prepareFields($fields)
     {
-        if (isset($this->_tables[$entityName])) {
-            return $this->_tables[$entityName];
+        foreach ($fields as $k => $field) {
+            if ($field instanceof Zend_Db_Expr) {
+                $fields[$k] = (string) $field;
+            } elseif (is_int($field)) {
+                $fields[$k] = "{$field}";
+            } else {
+                $fields[$k] = "`{$field}`";
+            }
         }
-        if (strpos($entityName, '/')) {
-            $this->_tables[$entityName] = $this->_resource->getTableName($entityName);
-        } elseif (!empty($this->_resourceModel)) {
-            $this->_tables[$entityName] = $this->_resource->getTableName(
-                $this->_resourceModel.'/'.$entityName);
-        } else {
-            $this->_tables[$entityName] = $entityName;
+        return implode(', ', $fields);
+    }
+
+    /**
+     * Return Staging table name with all prefixes
+     *
+     * @param string $model
+     * @param string $table
+     * @param string $internalPrefix
+     * @param bool   $ignoreIsStaging
+     * @return string
+     */
+    public function getStagingTableName($model, $table, $internalPrefix = '', $ignoreIsStaging = false)
+    {
+        if (!$ignoreIsStaging) {
+            if (!$this->isStagingItem($model, $table)) {
+                return $table;
+            }
         }
-        return $this->_tables[$entityName];
+        $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')
+            ->getTablePrefix($this->getStaging(), $internalPrefix);
+
+        return $tablePrefix . $table;
     }
 
     /**
@@ -756,10 +678,10 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Varien_O
             return false;
         }
 
-        $stagingItems   = Enterprise_Staging_Model_Staging_Config::getStagingItems();
+        $stagingItems   = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems();
         $stagingItem    = $stagingItems->{$model};
 
-        if (!(int)$stagingItem->use_table_prefix) {
+        if (!(int)$stagingItem->is_backend) {
             return false;
         }
 
