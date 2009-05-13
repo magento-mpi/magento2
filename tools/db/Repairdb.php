@@ -503,7 +503,7 @@ class Tools_Db_Repair_Mysql4
             $sql = "DELETE `p`.* FROM `{$this->getTable($config['pri_table'], $type)}` AS `p`"
                 . " LEFT JOIN `{$this->getTable($config['ref_table'], $type)}` AS `r`"
                 . " ON `p`.`{$config['pri_field']}` = `r`.`{$config['ref_field']}`"
-                . " WHERE `p`.`{$config['pri_field']}` IS NULL";
+                . " WHERE `r`.`{$config['ref_field']}` IS NULL";
             $this->sqlQuery($sql, $type);
         }
         elseif (strtoupper($config['on_delete']) == 'SET NULL') {
@@ -511,7 +511,7 @@ class Tools_Db_Repair_Mysql4
                 . " LEFT JOIN `{$this->getTable($config['ref_table'], $type)}` AS `r`"
                 . " ON `p`.`{$config['pri_field']}` = `r`.`{$config['ref_field']}`"
                 . " SET `p`.`{$config['pri_field']}`=NULL"
-                . " WHERE `p`.`{$config['pri_field']}` IS NULL";
+                . " WHERE `r`.`{$config['ref_field']}` IS NULL";
             $this->sqlQuery($sql, $type);
         }
 
@@ -859,9 +859,9 @@ p.required { margin-bottom:10px; }
 </head>
 <body>
 <div class="header-container">
-	<div class="header">
-		<h1 title="Magento Database Repair Tool"><img src="{$this->getImageSrc('logo.gif')}" alt="Magento Database Repair Tool" /></h1>
-	</div>
+    <div class="header">
+        <h1 title="Magento Database Repair Tool"><img src="{$this->getImageSrc('logo.gif')}" alt="Magento Database Repair Tool" /></h1>
+    </div>
 </div>
 HEADER;
     }
@@ -875,8 +875,8 @@ HEADER;
         echo <<<FOOTER
 <div class="footer-container">
     <div class="footer">
-	    <p class="legality">Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright © {$date} Irubin Consulting Inc.</p>
-	</div>
+        <p class="legality">Magento is a trademark of Irubin Consulting Inc. DBA Varien. Copyright © {$date} Irubin Consulting Inc.</p>
+    </div>
 </div>
 </body>
 </html>
