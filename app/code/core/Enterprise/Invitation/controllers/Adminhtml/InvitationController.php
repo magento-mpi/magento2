@@ -114,7 +114,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             }
             if (empty($emails)) {
                 $this->_getSession()->addError(
-                    Mage::helper('invitation_adminhtml')->__('Specify at least one valid email')
+                    Mage::helper('enterprise_invitation')->__('Specify at least one valid email')
                 );
                 $this->_redirect('*/*/new');
                 return;
