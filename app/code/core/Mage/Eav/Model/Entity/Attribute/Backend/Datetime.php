@@ -29,7 +29,6 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_En
     public function beforeSave($object)
     {
         $_formated = $object->getData($this->getAttribute()->getName() . '_is_formated');
-        Mage::log($this->getAttribute()->getName() . '_is_formated');
         if (!$_formated) {
             $value = $this->formatDate($object->getData($this->getAttribute()->getName()));
             $object->setData($this->getAttribute()->getName(), $value);
