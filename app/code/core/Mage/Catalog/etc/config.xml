@@ -247,6 +247,11 @@
             </store_edit>
             <store_delete>
                 <observers>
+                    <catalog>
+                        <type>singleton</type>
+                        <class>catalog/observer</class>
+                        <method>storeDelete</method>
+                    </catalog>
                     <catalog_product_flat>
                         <type>singleton</type>
                         <class>catalog/product_flat_observer</class>

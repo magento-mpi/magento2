@@ -506,6 +506,37 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     }
 
     /**
+     * Delete store table(s) of given stores;
+     *
+     * @param array|integer $stores
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
+     */
+    public function deleteStores($stores)
+    {
+        $this->_deleteTable($stores);
+        return $this;
+    }
+
+    /**
+     * Delete table(s) of given stores.
+     *
+     * @param array|integer $stores
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat
+     */
+    protected function _deleteTable($stores)
+    {
+        if (!is_array($stores)) {
+            $stores = array($stores);
+        }
+        foreach ($stores as $store) {
+            $_tableExist = $this->_getReadAdapter()->query(
+                "DROP TABLE IF EXISTS `{$this->getMainStoreTable($store)}`"
+            );
+        }
+        return $this;
+    }
+
+    /**
      * Synchronize flat data with eav model.
      *
      * @param Mage_Catalog_Model_Category $category
@@ -636,6 +667,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             }
             $_tmpCategory = null;
         }
+        return $this;
+    }
+
+    public function removeStores($stores)
+    {
+        $this->_deleteTable($stores);
         return $this;
     }
 
