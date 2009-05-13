@@ -86,7 +86,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         $process['id'] = "{$id}-{$value}";
         $process['rates'][] = $rate;
 
-        return $process;
+        return array($process);
     }
 
     public function getRate($request)
