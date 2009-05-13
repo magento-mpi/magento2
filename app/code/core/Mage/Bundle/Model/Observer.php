@@ -44,18 +44,18 @@ class Mage_Bundle_Model_Observer
         $request = $observer->getEvent()->getRequest();
         $product = $observer->getEvent()->getProduct();
 
-        if ($items = $request->getPost('bundle_options') && !$product->getCompositeReadonly()) {
+        if (($items = $request->getPost('bundle_options')) && !$product->getCompositeReadonly()) {
             $product->setBundleOptionsData($items);
         }
 
-        if ($selections = $request->getPost('bundle_selections') && !$product->getCompositeReadonly()) {
+        if (($selections = $request->getPost('bundle_selections')) && !$product->getCompositeReadonly()) {
             $product->setBundleSelectionsData($selections);
         }
 
         if ($product->getPriceType() == '0' && !$product->getOptionsReadonly()) {
             $product->setCanSaveCustomOptions(true);
             if ($customOptions = $product->getProductOptions()) {
-                foreach ($customOptions as $key => $customOption) {
+                foreach (array_keys($customOptions) as $key) {
                     $customOptions[$key]['is_delete'] = 1;
                 }
                 $product->setProductOptions($customOptions);
