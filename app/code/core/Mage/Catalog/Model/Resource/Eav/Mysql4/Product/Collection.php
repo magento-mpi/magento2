@@ -729,6 +729,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             if ($isNotAnchor) {
                 $notAnchorStmt = clone $select;
                 $notAnchorStmt->where('count_table.category_id in (?)', $isNotAnchor);
+                $notAnchorStmt->where('count_table.is_parent=1');
                 $productCounts += $this->getConnection()->fetchPairs($notAnchorStmt, array('category_id'=>'product_count'));
                 $notAnchorStmt = null;
             }
