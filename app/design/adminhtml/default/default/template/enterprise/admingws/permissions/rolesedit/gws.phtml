@@ -37,8 +37,8 @@
     <fieldset>
 
         <span class="field-row">
-            <label for="all_websites"><?php echo $this->__('Role Scopes') ?></label>
-            <select id="all_websites" name="gws_is_all" onchange="$('gws_container').toggle()" class="select">
+            <label for="gws_is_all"><?php echo $this->__('Role Scopes') ?></label>
+            <select id="gws_is_all" name="gws_is_all" onchange="$('gws_container').toggle()" class="select">
                 <option value="0"><?php echo $this->__('Custom') ?></option>
                 <option value="1" <?php echo ($this->getGwsIsAll() ? 'selected="selected"' : '') ?>><?php echo $this->__('All') ?></option>
             </select>
@@ -55,7 +55,7 @@
                     <ul id="gws_website_<?php echo $websiteId ?>_groups" style="margin-left:1.5em">
                     <?php foreach ($website->getGroups() as $group): ?>
                         <li>
-                        <input class="gws_store_group validate-one-required-by-name" type="checkbox" name="gws_store_groups[]" value="<?php echo $group->getId() ?>" id="gws_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getGwsStoreGroups()) ? 'checked="checked" ' : '') ?>/><label for="gws_store_group_<?php echo $group->getId() ?>">
+                        <input class="gws_store_group validate-one-gws-store" type="checkbox" name="gws_store_groups[]" value="<?php echo $group->getId() ?>" id="gws_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getGwsStoreGroups()) ? 'checked="checked" ' : '') ?>/><label for="gws_store_group_<?php echo $group->getId() ?>">
                             <?php echo $group->getName() ?>
                         </label>
                         </li>
@@ -65,9 +65,40 @@
                 </li>
             <?php endforeach;?>
             </ul>
+            <span id="gws_validation_container"></span>
         </div>
         <script type="text/javascript">
         //<![CDATA[
+        // checkboxes validation
+<?php foreach (Mage::app()->getWebsites() as $websiteId => $website): ?>
+        $('gws_website_<?php echo $websiteId ?>').advaiceContainer = 'gws_validation_container';
+<?php if (count($website->getGroups())): ?>
+<?php foreach ($website->getGroups() as $group): ?>
+        $('gws_store_group_<?php echo $group->getId() ?>').advaiceContainer = 'gws_validation_container';
+<?php endforeach;?>
+<?php endif; ?>
+<?php endforeach;?>
+        GwsValidationResult = null;
+        Validation.add('validate-one-gws-store', 'Please select one of the options.', function(v, elm) {
+            if ($('gws_is_all').value == 1) {
+                return true; // not touching GwsValidationResult intentionally
+            }
+            // prevent cycling validation for all checkboxes
+            if (null !== GwsValidationResult) {
+                return GwsValidationResult;
+            }
+            GwsValidationResult = false;
+            var inputs = $('gws_container').select('input.gws_store_group');
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].checked) {
+                    GwsValidationResult = true;
+                    return GwsValidationResult;
+                }
+            }
+            return GwsValidationResult;
+        });
+
+        // checkboxes relation logic
         <?php if ($this->getGwsIsAll()):?>
             $('gws_container').toggle();
         <?php endif;?>
@@ -88,10 +119,12 @@
                 this.stores = [];
                 $('gws_container').select('input.gws_store_group').each(function(store) {
                     this.stores.push(store);
+                    Event.observe(store, 'click', this.forceRevalidate);
                 }.bind(this));
             },
 
             isWebsiteChecked : function() {
+                this.forceRevalidate();
                 // disable checkboxes of all stores if any of a website is checked
                 for (var k = 0; k < this.websites.length; k++) {
                     if (this.websites[k].checked) {
@@ -115,6 +148,10 @@
                         storeCheckbox.checked = false;
                     }
                 }
+            },
+
+            forceRevalidate : function() {
+                GwsValidationResult = null;
             }
         }
 
