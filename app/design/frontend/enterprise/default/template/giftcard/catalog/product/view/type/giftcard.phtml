@@ -61,12 +61,12 @@
                             <?php $_max = Mage::helper('core')->currency($_product->getOpenAmountMax(), true, false); ?>
                             <p class="notice">
                                 <?php if ($_product->getOpenAmountMax() && $_product->getOpenAmountMin()): ?></span>
-                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Min: %s', $_min); ?></span>
-                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Max: %s', $_max); ?></span>
+                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Minimum: %s', $_min); ?></span>
+                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Maximum: %s', $_max); ?></span>
                                 <?php elseif ($_product->getOpenAmountMin()): ?>
-                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Min: %s', $_min); ?></span>
+                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Minimum: %s', $_min); ?></span>
                                 <?php elseif ($_product->getOpenAmountMax()): ?>
-                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Max: %s', $_max); ?></span>
+                                    <span><?php echo Mage::helper('enterprise_giftcard')->__('Maximum: %s', $_max); ?></span>
                                 <?php endif; ?>
                             </p>
                             <script>
