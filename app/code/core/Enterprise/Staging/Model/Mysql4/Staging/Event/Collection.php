@@ -79,7 +79,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
     public function addMergedFilter()
     {
         $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE);
-        $this->addFieldToFilter('main_table.state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
         $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
 
         return $this;

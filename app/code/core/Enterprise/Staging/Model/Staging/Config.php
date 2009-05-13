@@ -50,6 +50,16 @@ class Enterprise_Staging_Model_Staging_Config
     const VISIBILITY_REQUIRE_HTTP_AUTH  = 'require_http_auth';
 
     /**
+     * Staging process action codes
+     */
+    const PROCESS_CHECK     = 'checkfrontend';
+    const PROCESS_CREATE    = 'create';
+    const PROCESS_UPDATE    = 'update';
+    const PROCESS_BACKUP    = 'backup';
+    const PROCESS_MERGE     = 'merge';
+    const PROCESS_ROLLBACK  = 'rollback';
+
+    /**
      * Retrieve staging module xml config as Varien_Simplexml_Element object
      *
      * @param   string $path
@@ -86,9 +96,9 @@ class Enterprise_Staging_Model_Staging_Config
     public function getVisibilityOptionArray()
     {
         return array(
-            'not_accessible'    => Mage::helper('enterprise_staging')->__('Not accessible'),
-            'accessible'        => Mage::helper('enterprise_staging')->__('Accessible'),
-            'require_http_auth' => Mage::helper('enterprise_staging')->__('Require Http Auth')
+            self::VISIBILITY_NOT_ACCESSIBLE    => Mage::helper('enterprise_staging')->__('Not accessible'),
+            self::VISIBILITY_ACCESSIBLE        => Mage::helper('enterprise_staging')->__('Accessible'),
+            self::VISIBILITY_REQUIRE_HTTP_AUTH => Mage::helper('enterprise_staging')->__('Require Http Auth')
         );
     }
 
@@ -303,11 +313,8 @@ class Enterprise_Staging_Model_Staging_Config
         }
 
         $staging = Mage::getModel('enterprise_staging/staging');
-        if (!is_null($stagingWebsite)) {
-            $staging->loadByStagingWebsiteId($stagingWebsite->getId());
-        }
         if (!Mage::getSingleton("core/session")->getData('staging_frontend_website_is_checked')) {
-            $staging->checkFrontend($staging);
+            $staging->checkFrontend();
         }
 
         list($model, $entity) = split("[/]" , $modelEntity, 2);

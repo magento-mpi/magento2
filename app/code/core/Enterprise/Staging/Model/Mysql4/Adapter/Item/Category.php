@@ -36,20 +36,18 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Category extends Enterprise_S
     /**
      * Create item table and records, run processes in website and store scopes
      *
-     * @param string    $model
-     * @param string    $table
      * @param string    $srcTable
      * @param string    $targetTable
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
      */
-    protected function _createItem($model, $table, $srcTable, $targetTable)
+    protected function _createItem($srcTable, $targetTable)
     {
         if (!$this->getStaging()->getMapperInstance()->hasStagingItem('product')) {
-            if (in_array($table, $this->_ignoreIfProductNotChosen)) {
+            if (strpos($srcTable, 'product') !== false) {
                 return $this;
             }
         }
-        return parent::_createItem($model, $table, $srcTable, $targetTable);
+        return parent::_createItem($srcTable, $targetTable);
     }
 }

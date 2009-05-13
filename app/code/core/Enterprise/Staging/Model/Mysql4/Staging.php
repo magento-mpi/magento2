@@ -72,10 +72,10 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     /**
      * Validate all object's attributes against configuration
      *
-     * @param Varien_Object $object
-     * @return Varien_Object
+     * @param Enterprise_Staging_Model_Staging $staging
+     * @return Enterprise_Staging_Model_Mysql4_Staging
      */
-    public function validate($object)
+    public function validate($staging)
     {
         return $this;
     }
@@ -268,13 +268,9 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
             if (!$stagingItem->is_backend) {
                 continue;
             }
-            if ((string)$stagingItem->use_storage_method !== 'table_prefix') {
-                continue;
-            }
 
             $adapter = $this->getItemAdapterInstanse($stagingItem);
-
-            $adapter->checkfrontend($staging);
+            $adapter->checkfrontendRun($staging);
 
             if ($stagingItem->extends) {
                 foreach ($stagingItem->extends->children() as $extendItem) {
@@ -285,7 +281,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
                         continue;
                     }
                     $adapter = $this->getItemAdapterInstanse($extendItem);
-                    $adapter->checkfrontend($staging);
+                    $adapter->checkfrontendRun($staging);
                 }
             }
         }

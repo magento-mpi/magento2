@@ -43,7 +43,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection extends Mage_C
             $stagingId = $stagingId->getId();
         }
         $this->addFieldToFilter('staging_id', (int) $stagingId);
-
         return $this;
     }
 
@@ -59,7 +58,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection extends Mage_C
             $backupId = $backupId->getId();
         }
         $this->addFieldToFilter('backup_id', (int) $backupId);
-
         return $this;
     }
 
@@ -70,9 +68,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection extends Mage_C
      */
     public function addCompleteFilter()
     {
-        $this->addFieldToFilter('main_table.state', Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE);
         $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
-
         return $this;
     }
 
@@ -89,7 +85,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Rollback_Collection extends Mage_C
                     'event_ip'      =>  'ip'
                 )
         );
-
         return $this;
     }
 

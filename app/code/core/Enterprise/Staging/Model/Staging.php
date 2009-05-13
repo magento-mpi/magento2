@@ -24,6 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
  * Staging model
  *
@@ -59,7 +60,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
     public function getTablePrefix()
     {
-        $prefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix();
+        $prefix = Mage::getSingleton('enterprise_staging/staging_config')
+            ->getTablePrefix();
         if ($this->getId()) {
             $prefix .= $this->getId();
         }
@@ -74,17 +76,10 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function validate()
     {
         $errors = array();
-
         $result = $this->_getResource()->validate($this);
         if (!empty($result)) {
         	$errors[] = $result;
         }
-
-        $password = $this->getMasterPassword();
-        if ($password && !Zend_Validate::is($password, 'StringLength', array(6))) {
-            $errors[] = Mage::helper('customer')->__('Password minimal length must be more %s', 6);
-        }
-
         if (empty($errors)) {
             return true;
         }
@@ -231,7 +226,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         } else {
             $this->update();
         }
-        parent::_afterSave();
+        return parent::_afterSave();
     }
 
     /**
@@ -243,7 +238,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function stagingProcessRun($process)
     {
-        $event = Mage::getModel('enterprise_staging/staging_event')->saveOnProcessRun($this, $process, 'before');
+        $event = Mage::getModel('enterprise_staging/staging_event')
+            ->saveOnProcessRun($this, $process, 'before');
 
         $method = $process.'Run';
 

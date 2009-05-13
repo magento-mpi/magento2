@@ -43,7 +43,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
      */
     public function checkfrontendRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
-        parent::checkfrontendRun($staging);
+        parent::checkfrontendRun($staging, $event);
         $this->_processItemMethodCallback('_checkBackendTables');
         return $this;
     }
@@ -109,16 +109,14 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     }
 
     /**
-     * Enter description here...
+     * Check Staging backend tables to exist
      *
-     * @param   string $model
-     * @param   string $table
      * @param   string $srcTable
      * @param   string $targetTable
      *
      * @return  Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _checkBackendTables($model, $table, $srcTable, $targetTable)
+    protected function _checkBackendTables($srcTable, $targetTable)
     {
         $targetTable            = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix() . $srcTable;
         $srcTableDescription    = $this->getTableProperties($srcTable);
@@ -136,14 +134,12 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * Create item table and records, run processes in website and store scopes
      *
-     * @param string    $model
-     * @param string    $table
      * @param string    $srcTable
      * @param string    $targetTable
      *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _createItem($model, $table, $srcTable, $targetTable)
+    protected function _createItem($srcTable, $targetTable)
     {
         $srcTableDesc = $this->getTableProperties($srcTable);
         if (!$srcTableDesc) {
@@ -161,11 +157,11 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         $fields = array_keys($fields);
 
         if ($this->allowToProceedInWebsiteScope($fields)) {
-            $this->_createWebsiteScopeItemTableData($model, $srcTable, $targetTable, $fields);
+            $this->_createWebsiteScopeItemTableData($srcTable, $targetTable, $fields);
         }
 
         if ($this->allowToProceedInStoreScope($fields)) {
-            $this->_createStoreScopeItemTableData($model, $srcTable, $targetTable, $fields);
+            $this->_createStoreScopeItemTableData($srcTable, $targetTable, $fields);
         }
 
         $this->_proceedTables[$srcTable] = $targetTable;
@@ -176,13 +172,13 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * Create item table, run website and item table structure
      *
-     * @param string    $model
      * @param string    $srcTable
      * @param string    $targetTable
      * @param mixed     $fields
+     *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _createWebsiteScopeItemTableData($model, $srcTable, $targetTable, $fields)
+    protected function _createWebsiteScopeItemTableData($srcTable, $targetTable, $fields)
     {
         $staging            = $this->getStaging();
         $connection         = $this->_getWriteAdapter();
@@ -227,13 +223,13 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * Create item table, run website and item table structure
      *
-     * @param string    $model
      * @param string    $srcTable
      * @param string    $targetTable
      * @param mixed     $fields
+     *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _createStoreScopeItemTableData($model, $srcTable, $targetTable, $fields)
+    protected function _createStoreScopeItemTableData($srcTable, $targetTable, $fields)
     {
         $staging        = $this->getStaging();
         $connection     = $this->_getWriteAdapter();
@@ -243,7 +239,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
             $_updateField = end($fields);
             foreach ($websites as $website) {
                 $stores = $website->getStores();
-                foreach ($stores as $_idx => $store) {
+                foreach ($stores as $store) {
                     $masterStoreId  = (int) $store->getMasterStoreId();
                     $stagingStoreId = (int) $store->getStagingStoreId();
                     if (!$masterStoreId || !$stagingStoreId) {
@@ -277,18 +273,16 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * Prepare data for merging
      *
-     * @param string $model
-     * @param string $table
      * @param string $srcTable
      * @param string $targetTable
+     *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _backupItem($model, $table, $srcTable, $targetTable)
+    protected function _backupItem($srcTable, $targetTable)
     {
         $internalPrefix  = $this->getEvent()->getId();
-
         $backupPrefix    = $this->getBackupTablePrefix($internalPrefix);
-        $targetTable     = $this->getStagingTableName($model, $srcTable, $backupPrefix, true);
+        $targetTable     = $this->getStagingTableName($srcTable, $backupPrefix);
 
         if ($srcTable != $targetTable) {
             $srcTableDesc = $this->getTableProperties($srcTable);
@@ -297,7 +291,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                 $fields = array_keys($fields);
 
                 $this->_checkCreateTable($srcTableDesc, $targetTable, $backupPrefix);
-                $this->_backupItemData($model, $srcTable, $targetTable, $fields);
+                $this->_backupItemData($srcTable, $targetTable, $fields);
             }
         }
 
@@ -307,30 +301,31 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     }
 
     /**
-     * get backup table prefix
+     * Get backup table prefix
      *
+     * @param  string $internalPrefix
      * @return string
      */
-    public function getBackupTablePrefix($internalPrefix = null)
+    public function getBackupTablePrefix($internalPrefix = '')
     {
-        $backupPrefix = Mage::getSingleton('enterprise_staging/staging_config')->getStagingBackupTablePrefix();
-
-        if (isset($internalPrefix)) {
+        $backupPrefix = Mage::getSingleton('enterprise_staging/staging_config')
+            ->getStagingBackupTablePrefix();
+        if (!empty($internalPrefix)) {
             $backupPrefix .= $internalPrefix;
         }
         return $backupPrefix . "_";;
     }
 
     /**
-     * process backup
+     * Process backup item
      *
-     * @param string $model
      * @param string $srcTable
      * @param string $targetTable
-     * @param mixed $fields
+     * @param mixed  $fields
+     *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _backupItemData($model, $srcTable, $targetTable, $fields)
+    protected function _backupItemData($srcTable, $targetTable, $fields)
     {
         $this->_getWriteAdapter()->query("SET foreign_key_checks = 0;");
 
@@ -339,7 +334,6 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
 
         $this->_getWriteAdapter()->query($destInsertSql);
-
         $this->_getWriteAdapter()->query("SET foreign_key_checks = 1;");
 
         return $this;
@@ -348,19 +342,18 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * Prepare data to merge as Website Scope and as Store scope
      *
-     * @param string $model
      * @param string $table
      * @param string $srcTable
      * @param string $targetTable
+     *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _mergeItem($model, $table, $srcTable, $targetTable)
+    protected function _mergeItem($srcTable, $targetTable)
     {
         $srcTableDesc = $this->getTableProperties($srcTable);
         if (!$srcTableDesc) {
             return $this;
         }
-
         $fields = $srcTableDesc['fields'];
         foreach ($fields as $id => $field) {
             if ((strpos($srcTable, 'catalog_product_website') === false)) {
@@ -370,52 +363,46 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
             }
         }
         $fields = array_keys($fields);
-
         if ($this->allowToProceedInWebsiteScope($fields)) {
-            $this->_mergeTableDataInWebsiteScope($model, $srcTable, $targetTable, $fields);
+            $this->_mergeTableDataInWebsiteScope($srcTable, $targetTable, $fields);
         }
-
         if ($this->allowToProceedInStoreScope($fields)) {
-            $this->_mergeTableDataInStoreScope($model, $srcTable, $targetTable, $fields);
+            $this->_mergeTableDataInStoreScope($srcTable, $targetTable, $fields);
         }
-
         $this->_proceedTables[$srcTable] = $targetTable;
-
         return $this;
     }
 
     /**
-     * process website scope
+     * Process website scope
      *
-     * @param string    $model
      * @param string    $srcTable
      * @param string    $targetTable
      * @param mixed     $fields
+     *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _mergeTableDataInWebsiteScope($model, $srcTable, $targetTable, $fields)
+    protected function _mergeTableDataInWebsiteScope($srcTable, $targetTable, $fields)
     {
         $staging        = $this->getStaging();
         $connection     = $this->_getWriteAdapter();
         $mappedWebsites = $staging->getMapperInstance()->getWebsites();
-
         if (in_array('website_ids', $fields)) {
-            $this->_mergeTableDataInWebsiteScopeUpdate($mappedWebsites, $connection, $srcTable, $targetTable, $fields);
+            $this->_mergeTableDataInWebsiteScopeUpdate($mappedWebsites, $connection, $targetTable);
         } else {
             $this->_mergeTableDataInWebsiteScopeInsert($mappedWebsites, $connection, $srcTable, $targetTable, $fields);
         }
-
         return $this;
     }
 
     /**
      * Insert New data on merge
      *
-     * @param array $mappedWebsites
-     * @param Connection $connection
-     * @param string $srcTable
-     * @param string $targetTable
-     * @param array $fields
+     * @param array     $mappedWebsites
+     * @param object    $connection
+     * @param string    $srcTable
+     * @param string    $targetTable
+     * @param array     $fields
      *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
@@ -463,18 +450,14 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * Update data on merge
      *
-     * @param array         $mappedWebsites
-     * @param Connection    $connection
-     * @param string        $srcTable
-     * @param string        $targetTable
-     * @param array         $fields
+     * @param array     $mappedWebsites
+     * @param object    $connection
+     * @param string    $targetTable
      *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _mergeTableDataInWebsiteScopeUpdate($mappedWebsites, $connection, $srcTable, $targetTable, $fields)
+    protected function _mergeTableDataInWebsiteScopeUpdate($mappedWebsites, $connection, $targetTable)
     {
-        $updateField = end($fields);
-
         foreach ($mappedWebsites as $stagingWebsiteId => $masterWebsiteIds) {
             if (empty($stagingWebsiteId) || empty($masterWebsiteIds)) {
                 continue;
@@ -499,13 +482,13 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * Process Store scope
      *
-     * @param string $model
      * @param string $srcTable
      * @param string $targetTable
      * @param mixed  $fields
+     *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _mergeTableDataInStoreScope($model, $srcTable, $targetTable, $fields)
+    protected function _mergeTableDataInStoreScope($srcTable, $targetTable, $fields)
     {
         $staging    = $this->getStaging();
         $connection = $this->_getWriteAdapter();
@@ -517,9 +500,6 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
 
                 foreach ($masterStoreIds as $masterStoreId) {
                     $masterStoreId = intval($masterStoreId);
-
-                    $tableDestDesc = $this->getTableProperties($targetTable, true);
-
                     $_updateField = end($fields);
                     $destInsertSql = "INSERT INTO `{$targetTable}` (".$this->_prepareFields($fields).") (%s) ON DUPLICATE KEY UPDATE `{$_updateField}`=VALUES(`{$_updateField}`)";
                     $_storeFieldNameSql = 'store_id';
@@ -545,16 +525,13 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * Prepare table data to rollback
      *
-     * @param string  $model
-     * @param string  $table
      * @param string  $srcTable
      * @param string  $targetTable
      *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _rollbackItem($model, $table, $srcTable, $targetTable)
+    protected function _rollbackItem($srcTable, $targetTable)
     {
-        $staging    = $this->getStaging();
         $connection = $this->_getWriteAdapter();
 
         $srcTableDesc = $this->getTableProperties($srcTable);
@@ -567,14 +544,14 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
 
         $internalPrefix = $this->getEvent()->getId();
         $backupPrefix   = $this->getBackupTablePrefix($internalPrefix);
-        $backupTable    = $this->getStagingTableName($model, $targetTable, $backupPrefix, true);
+        $backupTable    = $this->getStagingTableName($targetTable, $backupPrefix);
 
         if ($this->tableExists($backupTable)) {
             if ($this->allowToProceedInWebsiteScope($fields)) {
-                $this->_rollbackTableDataInWebsiteScope($model, $backupTable, $targetTable, $connection, $fields);
+                $this->_rollbackTableDataInWebsiteScope($backupTable, $targetTable, $connection, $fields);
             }
             if ($this->allowToProceedInStoreScope($fields)) {
-                $this->_rollbackTableDataInStoreScope($model, $backupTable, $targetTable, $connection, $fields);
+                $this->_rollbackTableDataInStoreScope($backupTable, $targetTable, $connection, $fields);
             }
         }
         $this->_proceedTables[$backupTable] = $targetTable;
@@ -584,14 +561,14 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * process website rollback
      *
-     * @param string $model
      * @param string $srcTable
      * @param string $targetTable
-     * @param $connection
-     * @param mixed $fields
+     * @param object $connection
+     * @param mixed  $fields
+     *
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _rollbackTableDataInWebsiteScope($model, $srcTable, $targetTable, $connection, $fields)
+    protected function _rollbackTableDataInWebsiteScope($srcTable, $targetTable, $connection, $fields)
     {
         $staging        = $this->getStaging();
         $mergedWebsites = $staging->getMapperInstance()->getWebsites();
@@ -613,7 +590,11 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         }
                         $_websiteFieldNameSql = implode(" OR " , $whereFields);
                     }
-
+                    // FIXME need to investigate next code ASAP !
+                    $tableDestDesc = $this->getTableProperties($targetTable);
+                    if (!$tableDestDesc) {
+                        continue;
+                    }
                     //1 - need remove all resords from web_site tables, which added via marging
                     if (!empty($tableDestDesc['keys'])) {
                         if (!empty($tableDestDesc['keys']['PRIMARY']) && !empty($tableDestDesc['keys']['PRIMARY']['fields'])) {
@@ -621,10 +602,8 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         } else {
                             $primaryFields = array();
                         }
-
                         $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'website',$targetTable, $targetTable, $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys']);
                         if (!empty($destDeleteSql)) {
-
                             $connection->query($destDeleteSql);
                         }
 
@@ -632,11 +611,10 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         if (in_array('website_id', $primaryFields) || in_array('scope_id', $primaryFields) || in_array('website_ids', $primaryFields)) {
                             $additionalWhereCondition = "";
                         }
-
                         $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'website', $srcTable, $targetTable, $masterWebsiteIds, $stagingWebsiteId, $tableDestDesc['keys'], $additionalWhereCondition);
-                        if ($destDeleteSql) {
+                        //if ($destDeleteSql) {
                             //$connection->query($destDeleteSql);
-                        }
+                        //}
                     }
 
                     //2 - copy old data from bk_ tables
@@ -656,14 +634,13 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * process store scope rollback
      *
-     * @param string $model
      * @param string $srcTable
      * @param string $targetTable
-     * @param $connection
-     * @param mixed $fields
+     * @param object $connection
+     * @param mixed  $fields
      * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
      */
-    protected function _rollbackTableDataInStoreScope($model, $srcTable, $targetTable, $connection, $fields)
+    protected function _rollbackTableDataInStoreScope($srcTable, $targetTable, $connection, $fields)
     {
         $staging        = $this->getStaging();
         $mergedStores   = $staging->getMapperInstance()->getStores();
@@ -680,13 +657,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         continue;
                     }
                     $masterStoreId = intval($masterStoreId);
-
-                    $tableDestDesc = $this->getTableProperties($targetTable);
-                    if (!$tableDestDesc) {
-                        continue;
-                    }
-
-                    $_updateField = end($fields);
+                    $_updateField  = end($fields);
 
                     $_storeFieldNameSql = "`{$srcTable}`.`store_id`";
                     $_fields = $fields;
@@ -698,7 +669,11 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                             $_storeFieldNameSql = "`{$srcTable}`.`scope` = 'stores' AND `{$srcTable}`.`{$field}`";
                         }
                     }
-
+                    // FIXME need to investigate next code ASAP !
+                    $tableDestDesc = $this->getTableProperties($targetTable);
+                    if (!$tableDestDesc) {
+                        continue;
+                    }
                     //1 - need remove all resords from stores tables, which added via marging
                     if (!empty($tableDestDesc['keys'])) {
                         if (!empty($tableDestDesc['keys']['PRIMARY']) && !empty($tableDestDesc['keys']['PRIMARY']['fields'])) {
@@ -719,9 +694,9 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         }
 
                         $destDeleteSql = $this->_deleteDataByKeys('PRIMARY', 'store', $srcTable, $targetTable, $masterStoreId, $stagingStoreId, $tableDestDesc['keys'], $additionalWhereCondition);
-                        if ($destDeleteSql) {
+                        //if ($destDeleteSql) {
                             //$connection->query($destDeleteSql);
-                        }
+                        //}
                     }
 
                     //2 - refresh data by backup
@@ -737,16 +712,17 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         return $this;
     }
 
-
-
-
     /**
-     * delete rows by Unique fields
+     * Delete rows by Unique fields
      *
+     * @param string $type
+     * @param string $scope
+     * @param string $srcTable
      * @param string $targetTable
-     * @param array $masterIds
-     * @param array $slaveIds
-     * @param array $key
+     * @param mixed  $masterIds
+     * @param mixed  $slaveIds
+     * @param mixed  $keys
+     * @param string $addidtionalWhereCondition
      *
      * @return value
      */
@@ -763,7 +739,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
             $slaveWhere = " = " . $slaveIds;
         }
 
-        foreach ($keys as $keyName => $keyData) {
+        foreach ($keys as $keyData) {
             if ($keyData['type'] == $type) {
                 $_websiteFieldNameSql = array();
                 foreach ($keyData['fields'] as $field) {
@@ -793,32 +769,29 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     /**
      * Return Staging table name with all prefixes
      *
-     * @param string $model
      * @param string $table
      * @param string $internalPrefix
-     * @param bool $ignoreIsStaging
      * @return string
      */
-    public function getStagingTableName($model, $table, $internalPrefix = '', $ignoreIsStaging = false)
+    public function getStagingTableName($table, $internalPrefix = '')
     {
         if (isset($this->_proceedTables[$table])) {
             return $this->_proceedTables[$table];
         }
-        return parent::getStagingTableName($model, $table, $internalPrefix, $ignoreIsStaging);
+        return parent::getStagingTableName($table, $internalPrefix);
     }
 
     /**
      * Get Staging Table Name
      *
-     * @param string    $srcModel
      * @param string    $srcTable
      * @param boolean   $isBackend
      * @return string
      */
-    protected function _getStagingTableName($srcModel, $srcTable, $isBackend = false)
+    protected function _getStagingTableName($srcTable, $isBackend = false)
     {
         if ($isBackend) {
-            $targetTable = $this->getStagingTableName($srcModel, $srcTable);
+            $targetTable = $this->getStagingTableName($srcTable);
             if (!$this->tableExists($targetTable)) {
                 $targetTable = $srcTable;
                 //throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists',$targetTable));
@@ -830,6 +803,14 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         return $targetTable;
     }
 
+    /**
+     * Check is table matchs to current staging item
+     *
+     * @param string $table
+     * @param string $code
+     * @param string $model
+     * @return bollean
+     */
     protected function _matchTable($table, $code, $model)
     {
         if ($model == 'catalog') {
@@ -887,16 +868,16 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                 continue;
             }
 
-            $targetTable = $this->_getStagingTableName($model, $srcTable, $isBackend);
+            $targetTable = $this->_getStagingTableName($srcTable, $isBackend);
 
             if (isset($this->_eavModels["{$model}/{$table}"])) {
                 if ($isBackend) {
-                    $this->{$callbackMethod}($model, $table, $srcTable, $targetTable);
+                    $this->{$callbackMethod}($srcTable, $targetTable);
                 }
                 foreach ($this->_eavTableTypes as $type) {
                     $_srcTable = $srcTable . '_' . $type;
-                    $targetTable = $this->_getStagingTableName($model, $_srcTable, $isBackend);
-                    $this->{$callbackMethod}($model, $table, $_srcTable, $targetTable);
+                    $targetTable = $this->_getStagingTableName($_srcTable, $isBackend);
+                    $this->{$callbackMethod}($_srcTable, $targetTable);
                 }
                 continue;
             } elseif (isset($this->_flatTables[$table])) {
@@ -910,8 +891,8 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         if (!$this->tableExists($flatTableName)) {
                             continue;
                         }
-                        $targetTable = $this->_getStagingTableName($model, $flatTableName, $isBackend);
-                        $this->{$callbackMethod}($model, $table, $flatTableName, $targetTable);
+                        $targetTable = $this->_getStagingTableName($flatTableName, $isBackend);
+                        $this->{$callbackMethod}($flatTableName, $targetTable);
                     }
                 } else {
                     if (!Mage::helper('catalog/product_flat')->isBuilt()) {
@@ -924,17 +905,15 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         if (!$this->tableExists($flatTableName)) {
                             continue;
                         }
-                        $targetTable = $this->_getStagingTableName($model, $flatTableName, $isBackend);
-                        $this->{$callbackMethod}($model, $table, $flatTableName, $targetTable);
+                        $targetTable = $this->_getStagingTableName($flatTableName, $isBackend);
+                        $this->{$callbackMethod}($flatTableName, $targetTable);
                     }
                 }
                 // skip main flat type "prefix" table
                 continue;
             }
-
-            $this->{$callbackMethod}($model, $table, $srcTable, $targetTable);
+            $this->{$callbackMethod}($srcTable, $targetTable);
         }
-
         return $this;
     }
 }

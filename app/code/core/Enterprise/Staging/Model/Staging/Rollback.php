@@ -144,7 +144,7 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     }
 
     /**
-     * save rollback state in db
+     * Save Staging Rollback
      *
      * @param  object Enterprise_Staging_Model_Staging $staging
      * @param  object Enterprise_Staging_Model_Staging_Event $event

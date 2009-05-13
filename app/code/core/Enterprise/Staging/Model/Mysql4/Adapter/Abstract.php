@@ -110,6 +110,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
     public function checkfrontendRun(Enterprise_Staging_Model_Staging $staging, $event = null)
     {
         $this->setStaging($staging);
+        $this->setEvent($event);
         return $this;
     }
 
@@ -429,7 +430,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
      */
     protected function _getConstraintSql($key)
     {
-        $targetRefTable = $this->getStagingTableName('enterprise_staging', $key['ref_table']);
+        $targetRefTable = $this->getStagingTableName($key['ref_table']);
 
         if ($targetRefTable) {
             $_refTable = "`$targetRefTable`";
@@ -646,58 +647,17 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
     /**
      * Return Staging table name with all prefixes
      *
-     * @param string $model
      * @param string $table
      * @param string $internalPrefix
-     * @param bool   $ignoreIsStaging
      * @return string
      */
-    public function getStagingTableName($model, $table, $internalPrefix = '', $ignoreIsStaging = false)
+    public function getStagingTableName($table, $internalPrefix = '')
     {
-        if (!$ignoreIsStaging) {
-            if (!$this->isStagingItem($model, $table)) {
-                return $table;
-            }
+        if ($internalPrefix) {
+            $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')
+                ->getTablePrefix($this->getStaging(), $internalPrefix);
+            return $tablePrefix . $table;
         }
-        $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')
-            ->getTablePrefix($this->getStaging(), $internalPrefix);
-
-        return $tablePrefix . $table;
-    }
-
-    /**
-     * Check if item in staging
-     *
-     * @param string $model
-     * @param string $table
-     * @return bool
-     */
-    public function isStagingItem($model, $table)
-    {
-        if (in_array($table, $this->_excludeList)) {
-            return false;
-        }
-
-        $stagingItems   = Mage::getSingleton('enterprise_staging/staging_config')->getStagingItems();
-        $stagingItem    = $stagingItems->{$model};
-
-        if (!(int)$stagingItem->is_backend) {
-            return false;
-        }
-
-        if (empty($table)) {
-            return true;
-        } else {
-            $tables = (array) $stagingItem->entities;
-            if (!empty($tables)) {
-                if (array_key_exists($table, $tables)) {
-                    return true;
-                }
-            } else {
-                return true;
-            }
-        }
-
-        return false;
+        return $table;
     }
 }
