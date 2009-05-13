@@ -191,6 +191,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canCreditmemo()
     {
+        if ($this->hasForcedCanCreditmemo()) {
+            return $this->getForcedCanCreditmemo();
+        }
+
         if ($this->canUnhold()) {
             return false;
         }

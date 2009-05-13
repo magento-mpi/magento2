@@ -321,6 +321,8 @@
                                 <block type="adminhtml/sales_order_totals_item" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml" />
                             </block>
                         </block>
+                        <block type="core/text_list" name="submit_before" />
+                        <block type="core/text_list" name="submit_after" />
                     </block>
                 </block>
             </block>
@@ -357,6 +359,9 @@
                     <block type="adminhtml/sales_order_totals_item" name="adjustments" template="sales/order/creditmemo/create/totals/adjustments.phtml" />
                 </block>
             </block>
+
+            <block type="core/text_list" name="submit_before" />
+            <block type="core/text_list" name="submit_after" />
         </block>
     </adminhtml_sales_order_creditmemo_updateqty>
 
