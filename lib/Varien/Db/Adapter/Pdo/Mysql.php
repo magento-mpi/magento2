@@ -728,18 +728,23 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      */
     protected function _removeDuplicateEntry($table, $fields, $ids)
     {
-        $sql = sprintf('SELECT COUNT(*) as `cnt` FROM `%s` WHERE ', $table);
         $where = array();
         $i = 0;
         foreach ($fields as $field) {
             $where[] = $this->quoteInto($field . '=?', $ids[$i]);
             $i ++;
         }
-        echo $sql;
+
+        if (!$where) {
+            return $this;
+        }
+        $whereCond = join(' AND ', $where);
+        $sql = sprintf('SELECT COUNT(*) as `cnt` FROM `%s` WHERE %s', $table, $whereCond);
+
         if ($cnt = $this->raw_fetchRow($sql, 'cnt')) {
             $sql = sprintf('DELETE FROM `%s` WHERE %s LIMIT %d',
                 $table,
-                join(' AND ', $where),
+                $whereCond,
                 $cnt - 1
             );
             $this->raw_query($sql);
