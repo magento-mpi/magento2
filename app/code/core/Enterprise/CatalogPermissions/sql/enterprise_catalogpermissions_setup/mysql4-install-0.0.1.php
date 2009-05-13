@@ -42,7 +42,7 @@ $installer->run("
         `grant_checkout_items` TINYINT(1) NOT NULL,
         PRIMARY KEY (`permission_id`),
         UNIQUE KEY `UNQ_PERMISSION_SCOPE` (`category_id`, `website_id`, `customer_group_id`)
-    ) ENGINE=InnoDB;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
 $installer->getConnection()->addConstraint('ENTERPRISE_CATALOGPEMISSIONS_PERMISSION_CATEGORY', $tableName, 'category_id',

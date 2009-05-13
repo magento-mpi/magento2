@@ -31,17 +31,16 @@ $installer->startSetup();
 
 $installer->run("DROP TABLE IF EXISTS `".$this->getTable('enterprise_logging/event')."`");
 $installer->run("CREATE TABLE `".$this->getTable('enterprise_logging/event')."` (
-                    `log_id` int(11) NOT NULL auto_increment,
-                    `ip` bigint(20) unsigned NOT NULL default '0',
-                    `event_code` char(20) NOT NULL default '',
-                    `time` datetime NOT NULL default '0000-00-00 00:00:00',
-                    `action` char(20) NOT NULL default '-',
-                    `info` varchar(255) NOT NULL default '-',
-                    `status` char(15) NOT NULL default 'success',
-                    `user` char(15) NOT NULL default '-',
-                    `fullaction` varchar(200) NOT NULL default '-',
-                    PRIMARY KEY  (`log_id`)
-                ) ENGINE=InnoDB"
-);
+    `log_id` int(11) NOT NULL auto_increment,
+    `ip` bigint(20) unsigned NOT NULL default '0',
+    `event_code` char(20) NOT NULL default '',
+    `time` datetime NOT NULL default '0000-00-00 00:00:00',
+    `action` char(20) NOT NULL default '-',
+    `info` varchar(255) NOT NULL default '-',
+    `status` char(15) NOT NULL default 'success',
+    `user` char(15) NOT NULL default '-',
+    `fullaction` varchar(200) NOT NULL default '-',
+    PRIMARY KEY  (`log_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8");
 
 $installer->endSetup();

@@ -66,7 +66,7 @@ CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation_status_his
     `date` DATETIME NOT NULL,
     `status` ENUM('sent','accepted', 'canceled') NOT NULL,
     INDEX `IDX_invitation_id` (`invitation_id`)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
 $fkName = $installer->getTable('enterprise_invitation/invitation_status_history');

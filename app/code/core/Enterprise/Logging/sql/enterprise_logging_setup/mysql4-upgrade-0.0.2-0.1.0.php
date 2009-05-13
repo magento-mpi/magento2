@@ -44,7 +44,7 @@ $installer->run("CREATE TABLE `".$this->getTable('enterprise_logging/event')."` 
   `user_id` int(11) NOT NULL default '0',
   `action` char(20) NOT NULL default '-',
   `info` varchar(255) NOT NULL default '-',
-  PRIMARY KEY  (`log_id`));"
+  PRIMARY KEY  (`log_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
 );
 
 $installer->endSetup();

@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `{$tableOldPasswds}` (
   `password_hash` varchar(100) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `expires` int(11) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`password_id`)
-);");
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 $installer->getConnection()->addConstraint('FK_ADMIN_PASSWORDS_USER', $tableOldPasswds, 'user_id', $tableAdmins, 'user_id');
 
 $installer->endSetup();

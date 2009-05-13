@@ -39,7 +39,7 @@ CREATE TABLE `{$tableBalance}` (
   `website_id` smallint(5) unsigned NOT NULL DEFAULT 0,
   `amount` decimal(12,4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`balance_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE TABLE `{$tableHistory}` (
   `history_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `balance_id` int(10) unsigned NOT NULL DEFAULT 0,
@@ -50,7 +50,7 @@ CREATE TABLE `{$tableHistory}` (
   `additional_info` tinytext COLLATE utf8_general_ci NULL,
   `is_customer_notified` tinyint(1) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`history_id`)
-);");
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 $installer->getConnection()->addConstraint('FK_CUSTOMERBALANCE_CUSTOMER', $tableBalance, 'customer_id',
     $installer->getTable('customer/entity'), 'entity_id'
 );

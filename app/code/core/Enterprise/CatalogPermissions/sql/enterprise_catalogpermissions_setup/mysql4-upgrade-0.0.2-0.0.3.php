@@ -42,7 +42,7 @@ $installer->run("
         `grant_catalog_product_price` TINYINT(1) DEFAULT NULL,
         `grant_checkout_items` TINYINT(1) DEFAULT NULL,
         UNIQUE KEY `UNQ_INDEX_SCOPE` (`product_id`, `store_id`, `category_id`, `customer_group_id`)
-    ) ENGINE=InnoDB;
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
 $installer->getConnection()->addConstraint('ENTERPRISE_CATALOGPEMISSIONS_INDEX_PRODUCT', $tableName, 'product_id',

@@ -38,7 +38,7 @@ CREATE TABLE `{$installer->getTable('enterprise_giftcardaccount/history')}` (
   `balance_delta` decimal(12,4) NOT NULL DEFAULT 0,
   `additional_info` tinytext COLLATE utf8_general_ci NULL,
   PRIMARY KEY (`history_id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
 $installer->getConnection()->addConstraint(
