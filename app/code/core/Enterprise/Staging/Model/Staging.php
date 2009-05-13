@@ -32,21 +32,29 @@
 class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 {
     protected $_eventPrefix = 'enterprise_staging';
-    protected $_eventObject = 'enterprise_staging';
+    protected $_eventObject = 'staging';
     protected $_tablePrefix = 'staging';
+
+    /**
+     * Current staging process name
+     *
+     * @var string
+     */
+    protected $_processName;
 
     /**
      * Staging mapper instance
      *
      * @var mixed Enterprise_Staging_Model_Staging_Mapper_Abstract
      */
-    protected $_mapperInstance              = null;
+    protected $_mapperInstance = null;
 
+    /**
+     * Keeps copied staging items collection
+     *
+     * @var object Varien_Data_Collection
+     */
     protected $_items;
-
-    protected $_masterWebsite;
-
-    protected $_slaveWebsite;
 
     /**
      * Initialize resources
@@ -167,16 +175,121 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Check posibility to run some staging action (create, merge etc)
+     *
+     * @return  boolean
+     */
+    public function checkCoreFlag()
+    {
+        $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Set core flag for reserve process
+     *
+     * @return  Enterprise_Staging_Model_Staging
+     */
+    public function setCoreFlag()
+    {
+        $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')
+            ->loadSelf()
+            ->setState(Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING)
+            ->save();
+        return $this;
+    }
+
+    /**
+     * Release core flag after process
+     *
+     * @return  Enterprise_Staging_Model_Staging
+     */
+    public function releaseCoreFlag()
+    {
+        $catalogIndexFlag = Mage::getModel('catalogindex/catalog_index_flag')->loadSelf();
+        if ($catalogIndexFlag->getState() == Mage_CatalogIndex_Model_Catalog_Index_Flag::STATE_RUNNING) {
+            $catalogIndexFlag->delete();
+        }
+        return $this;
+    }
+
+    /**
+     * Processing object process run
+     *
+     * @param  string $process
+     * @return Enterprise_Staging_Model_Staging
+     */
+    public function stagingProcessRun($process)
+    {
+        $this->_processName = $process;
+
+        $event = Mage::getModel('enterprise_staging/staging_event')->saveOnProcessRun($this, $process, 'before');
+
+        $method = $this->_processName.'Run';
+
+        $this->_getResource()->beginTransaction();
+        try {
+            $this->_beforeStagingProcessRun();
+
+            $this->_getResource()->{$method}($this, $event);
+
+            $this->_afterStagingProcessRun();
+
+            $this->_getResource()->commit();
+
+            $event->saveOnProcessRun($this, $process, 'after');
+        }
+        catch (Exception $e){
+            $this->_getResource()->rollBack();
+            $event->saveOnProcessRun($this, $process, 'after', $e);
+            throw $e;
+        }
+        return $this;
+    }
+
+    /**
+     * Processing object before process run data
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
+    protected function _beforeStagingProcessRun()
+    {
+        $this->setCoreFlag();
+        Mage::dispatchEvent($this->_eventPrefix.'_process_run_before', array($this->_eventObject=>$this));
+        Mage::dispatchEvent($this->_eventPrefix.'_'.$this->_processName.'_process_run_before', array($this->_eventObject=>$this));
+        return $this;
+    }
+
+    /**
+     * Perform object after process run data
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
+    protected function _afterStagingProcessRun()
+    {
+        Mage::dispatchEvent($this->_eventPrefix.'_action_run_after', array($this->_eventObject=>$this));
+        Mage::dispatchEvent($this->_eventPrefix.'_'.$this->_processName.'_process_run_after', array($this->_eventObject=>$this));
+
+        $this->releaseCoreFlag();
+        Mage::getConfig()->reinit();
+        Mage::app()->reinitStores();
+        return $this;
+    }
+
+    /**
      * Create staging
      *
      * @return Enterprise_Staging_Model_Staging
      */
     public function create()
     {
-        $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-        $scenario->setStaging($this);
-        $scenario->run('create');
-
+        if ($this->checkCoreFlag()) {
+            $this->stagingProcessRun('create');
+        }
         return $this;
     }
 
@@ -187,10 +300,9 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function update()
     {
-        $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-        $scenario->setStaging($this);
-        $scenario->run('update', 'update');
-
+        if ($this->checkCoreFlag()) {
+            $this->stagingProcessRun('update');
+        }
         return $this;
     }
 
@@ -201,10 +313,9 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function merge()
     {
-        $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-        $scenario->setStaging($this);
-        $scenario->run('merge');
-
+        if ($this->checkCoreFlag()) {
+            $this->stagingProcessRun('merge');
+        }
         return $this;
     }
 
@@ -215,10 +326,9 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function backup()
     {
-        $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-        $scenario->setStaging($this);
-        $scenario->run('backup');
-
+        if ($this->checkCoreFlag()) {
+            $this->stagingProcessRun('backup');
+        }
         return $this;
     }
 
@@ -229,10 +339,9 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function rollback()
     {
-        $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-        $scenario->setStaging($this);
-        $scenario->run('rollback');
-
+        if ($this->checkCoreFlag()) {
+            $this->stagingProcessRun('rollback');
+        }
         return $this;
     }
 
@@ -243,10 +352,25 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function checkFrontend()
     {
-        $scenario = Mage::getModel('enterprise_staging/staging_scenario');
-        $scenario->setStaging($this);
-        $scenario->run('check_frontend', 'check');
+        $this->_getResource()->checkfrontendRun($this);
 
+        return $this;
+    }
+
+    /**
+     * Processing staging after delete
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
+    protected function _afterDelete()
+    {
+        if ($this->getStagingWebsite()) {
+            $this->getStagingWebsite()->delete();
+        }
+        foreach ($this->getEventsCollection() as $event) {
+            $event->delete();
+        }
+        parent::_afterDelete();
         return $this;
     }
 
@@ -260,7 +384,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      * @param   boolean $isAdminNotified
      * @return  object  Enterprise_Staging_Model_Staging
      */
-    public function addEvent($code, $state, $status, $name, $comment='', $isAdminNotified = false)
+    public function addEvent($code, $name, $state, $status, $comment='', $log='', $isAdminNotified = false)
     {
         $event = Mage::getModel('enterprise_staging/staging_event')
             ->setStagingId($this->getId())
@@ -271,6 +395,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             ->setDate(Mage::getModel('core/date')->gmtDate())
             ->setIsAdminNotified($isAdminNotified)
             ->setComment($comment)
+            ->setLog($log)
             ->setMergeMap($this->getMapperInstance()->serialize())
             ->setIsBackuped($this->getMapperInstance()->getIsBackupped())
             ->setStaging($this);
@@ -393,13 +518,10 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-
-        if (Mage::helper('enterprise_staging')->getCatalogIndexRunningFlag()) {
+        if (!$this->checkCoreFlag()) {
             return false;
         }
-
-        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
-            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_BROKEN)) {
+        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)) {
             return false;
         }
         return true;

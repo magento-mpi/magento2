@@ -138,4 +138,204 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
             return false;
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Create Staging Website with all relatives
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return  object Enterprise_Staging_Model_Mysql4_Staging
+     */
+    public function createRun($staging, $event = null)
+    {
+        Mage::getResourceModel('enterprise_staging/adapter_website')
+            ->create($staging, $event);
+
+        Mage::getResourceModel('enterprise_staging/adapter_group')
+            ->create($staging, $event);
+
+        Mage::getResourceModel('enterprise_staging/adapter_store')
+            ->create($staging, $event);
+
+        Mage::getResourceModel('enterprise_staging/adapter_item')
+            ->create($staging, $event);
+
+        $this->_processStagingItemsCallback('create', $staging, $event);
+
+        return $this;
+    }
+
+    /**
+     * Update Staging Website
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return  Enterprise_Staging_Model_Staging_Action_Run
+     */
+    public function updateRun($staging, $event = null)
+    {
+        Mage::getResourceModel('enterprise_staging/adapter_website')
+            ->update($staging, $event);
+
+        return $this;
+    }
+
+    /**
+     * Run Backup default tables before merge
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return  Enterprise_Staging_Model_Staging_Action_Run
+     */
+    public function backupRun($staging, $event = null)
+    {
+        $this->_processStagingItemsCallback('backup', $staging, $event);
+
+        Mage::getModel('enterprise_staging/staging_backup')->saveOnBackupRun($staging, $event);
+
+        return $this;
+    }
+
+    /**
+     * Run Staging Website Merge
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return  Enterprise_Staging_Model_Staging_Action_Run
+     */
+    public function mergeRun($staging, $event = null)
+    {
+        if ($staging->getIsMergeLater() == true) {
+            return $this;
+        }
+
+        $this->_processStagingItemsCallback('merge', $staging, $event);
+
+        return $this;
+    }
+
+    /**
+     * Run Staging Website Rollback
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return Enterprise_Staging_Model_Staging_Action_Run
+     */
+    public function rollbackRun($staging, $event = null)
+    {
+        $this->_processStagingItemsCallback('rollback', $staging, $event, true);
+
+        Mage::getModel('enterprise_staging/staging_rollback')->saveOnRollbackRun($staging, $event);
+
+        return $this;
+    }
+
+    /**
+     * Run validate backend tables for frontend usage within Staging Website navigation
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     *
+     * @return  Enterprise_Staging_Model_Staging_Action_Run
+     */
+    public function checkfrontendRun($staging)
+    {
+        if (Mage::registry('staging/frontend_checked_started')) {
+            return $this;
+        }
+        Mage::register('staging/frontend_checked_started', true);
+
+        $stagingItems = Enterprise_Staging_Model_Staging_Config::getStagingItems();
+        foreach ($stagingItems->children() as $stagingItem) {
+            if (!$stagingItem->is_backend) {
+                continue;
+            }
+            if ((string)$stagingItem->use_storage_method !== 'table_prefix') {
+                continue;
+            }
+
+            $adapter = $this->getItemAdapterInstanse($stagingItem);
+
+            $adapter->checkfrontend($staging);
+
+            if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
+                foreach ($stagingItem->extends->children() AS $extendItem) {
+                    if (!$extendItem->is_backend) {
+                        continue;
+                    }
+                    if ((string)$extendItem->use_storage_method !== 'table_prefix') {
+                        continue;
+                    }
+                    $adapter = $this->getItemAdapterInstanse($extendItem);
+                    $adapter->checkfrontend($staging);
+                }
+            }
+        }
+        Mage::register("staging/frontend_checked", true);
+        Mage::unregister('staging/frontend_checked_started');
+        return $this;
+    }
+
+    /**
+     * Retrieve item resource adapter instance
+     *
+     * @param Varien_Simplexml_Element $itemXmlConfig
+     *
+     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
+     */
+    public function getItemAdapterInstanse($itemXmlConfig)
+    {
+        if ($itemXmlConfig) {
+            $resourceAdapterName = (string) $itemXmlConfig->resource_adapter;
+            if (!$resourceAdapterName) {
+                $resourceAdapterName = 'enterprise_staging/adapter_item_default';
+            }
+            $resourceAdapter = Mage::getResourceModel($resourceAdapterName);
+            if ($resourceAdapter) {
+                $resourceAdapter->setConfig($itemXmlConfig);
+                return $resourceAdapter;
+            }
+        }
+        throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Wrong item resource adapter model.'));
+    }
+
+    protected function _processStagingItemsCallback($callback, $staging, $event = null, $ignoreExtends = false)
+    {
+        $stagingItems = $staging->getMapperInstance()->getStagingItems();
+        foreach ($stagingItems as $stagingItem) {
+            $adapter = $this->getItemAdapterInstanse($stagingItem);
+            $adapter->{$callback}($staging, $event);
+            if ($ignoreExtends) {
+                return $this;
+            }
+            if (!empty($stagingItem->extends) && is_object($stagingItem->extends)) {
+                foreach ($stagingItem->extends->children() AS $extendItem) {
+                    if (!Enterprise_Staging_Model_Staging_Config::isItemModuleActive($extendItem)) {
+                         continue;
+                    }
+                    $adapter = $this->getItemAdapterInstanse($extendItem);
+                    $adapter->{$callback}($staging, $event);
+                }
+            }
+        }
+        return $this;
+    }
 }

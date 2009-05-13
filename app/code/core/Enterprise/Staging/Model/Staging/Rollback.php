@@ -190,39 +190,32 @@ class Enterprise_Staging_Model_Staging_Rollback extends Mage_Core_Model_Abstract
     /**
      * save rollback state in db
      *
-     * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
-     * @param   Enterprise_Staging_Model_Staging $staging
+     * @param  object Enterprise_Staging_Model_Staging $staging
+     * @param  object Enterprise_Staging_Model_Staging_Event $event
      *
      * @return Enterprise_Staging_Model_Staging_Rollback
      */
-    public function saveFromState(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
+    public function saveOnRollbackRun(Enterprise_Staging_Model_Staging $staging, Enterprise_Staging_Model_Staging_Event $event)
     {
-        if ($staging->getId()) {
-            $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED);
-            $name = Mage::helper('enterprise_staging')->__('Staging rollback: %s', $staging->getName());
+        $backup  = Mage::registry('staging_backup');
 
+        if ($staging->getId()) {
+            $name = Mage::helper('enterprise_staging')->__('Staging rollback: %s', $staging->getName());
             $this->setStagingId($staging->getId());
         } else {
             $name = Mage::helper('enterprise_staging')->__('Staging rollback');
         }
 
-        $this->setBackupId($this->getBackup()->getBackupId())
-            ->setEventId($state->getEventId())
-            ->setEventCode($state->getEventStateCode())
+        $this->setBackupId($backup->getId())
+            ->setEventId($event->getId())
             ->setName($name)
             ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
             ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-            ->setCreatedAt(Mage::registry($state->getCode() . "_event_start_time"))
+            ->setCreatedAt(Mage::registry($event->getCode() . "_event_start_time"))
             ->setStagingTablePrefix($this->getBackup()->getStagingTablePrefix())
             ->setMageVersion(Mage::getVersion())
             ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()))
             ->save();
-
-        if ($staging->getId()) {
-            $staging->save();
-        }
-
-        $state->setRollbackId($this->getId());
 
         return $this;
     }

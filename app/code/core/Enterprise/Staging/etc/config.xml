@@ -93,201 +93,16 @@
                         <code>website</code>
                         <label>Website</label>
                         <models>
-                            <type>enterprise_staging/staging_type_website</type>
                             <mapper>enterprise_staging/staging_mapper_website</mapper>
-                            <adapter>enterprise_staging/staging_adapter_website</adapter>
-                            <state>enterprise_staging/staging_state_website</state>
                         </models>
-                        <scenaries>
-                            <create>
-                                <prepare>
-                                    <code>prepare</code>
-                                    <label>Prepare Staging for Create</label>
-                                    <model>enterprise_staging/staging_state_website_prepare</model>
-                                    <next>create</next>
-                                </prepare>
-                                <create>
-                                    <code>create</code>
-                                    <label>Staging Website Create</label>
-                                    <status>
-                                        <new translate="label"><label>Staging Website Created</label></new>
-                                        <processing translate="label"><label>Staging Website creating in progress</label></processing>
-                                        <complete translate="label"><label>Staging Website create successfuly complete</label></complete>
-                                        <holded translate="label"><label>Staging Website create scheduled</label></holded>
-                                    </status>
-                                    <model>enterprise_staging/staging_state_website_create</model>
-                                    <after>
-                                        <save_event>
-                                            <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromState</method>
-                                        </save_event>
-                                    </after>
-                                    <next>check</next>
-                                </create>
-                                <check>
-                                    <code>check</code>
-                                    <label>Check Staging After Create Process</label>
-                                    <model>enterprise_staging/staging_state_website_check</model>
-                                    <next>0</next>
-                                </check>
-                            </create>
-                            <update>
-                                <update>
-                                    <code>update</code>
-                                    <label>Staging Website Update</label>
-                                    <status>
-                                        <new translate="label"><label>Staging Website Created</label></new>
-                                        <processing translate="label"><label>Staging Website creating in progress</label></processing>
-                                        <complete translate="label"><label>Staging Website create successfuly complete</label></complete>
-                                        <holded translate="label"><label>Staging Website create scheduled</label></holded>
-                                    </status>
-                                    <model>enterprise_staging/staging_state_website_update</model>
-                                    <next>0</next>
-                                </update>
-                            </update>
-                            <backup>
-                                <prepare>
-                                    <code>prepare</code>
-                                    <label>Prepare Database for Backup</label>
-                                    <model>enterprise_staging/staging_state_website_prepare</model>
-                                    <next>backup</next>
-                                </prepare>
-                                <backup>
-                                    <code>backup</code>
-                                    <label>Database Backup</label>
-                                    <status>
-                                        <processing translate="label"><label>Backup in progress</label></processing>
-                                        <complete translate="label"><label>Backup successfuly complete</label></complete>
-                                        <holded translate="label"><label>Backup scheduled</label></holded>
-                                    </status>
-                                    <model>enterprise_staging/staging_state_website_backup</model>
-                                    <before>
-                                        <save_event>
-                                            <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromState</method>
-                                        </save_event>
-                                    </before>
-                                    <after>
-                                        <save_event>
-                                            <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromState</method>
-                                        </save_event>
-                                        <save_backup>
-                                            <class>enterprise_staging/staging_backup</class>
-                                            <method>saveFromState</method>
-                                        </save_backup>
-                                    </after>
-                                    <next>check</next>
-                                </backup>
-                                <check>
-                                    <code>check</code>
-                                    <label>Check Staging After Create Process</label>
-                                    <model>enterprise_staging/staging_state_website_check</model>
-                                    <next>0</next>
-                                </check>
-                            </backup>
-                            <merge>
-                                <prepare>
-                                    <code>prepare</code>
-                                    <label>Prepare Staging for Merge</label>
-                                    <model>enterprise_staging/staging_state_website_prepare</model>
-                                    <next>merge</next>
-                                </prepare>
-                                <merge>
-                                    <code>merge</code>
-                                    <label>Merge</label>
-                                    <status>
-                                        <processing translate="label"><label>Merge in progress</label></processing>
-                                        <complete translate="label"><label>Merge successfuly complete</label></complete>
-                                        <holded translate="label"><label>Merge scheduled</label></holded>
-                                    </status>
-                                    <model>enterprise_staging/staging_state_website_merge</model>
-                                    <before>
-                                        <save_event>
-                                            <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromState</method>
-                                        </save_event>
-                                    </before>
-                                    <after>
-                                        <save_event>
-                                            <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromState</method>
-                                        </save_event>
-                                    </after>
-                                    <next>check</next>
-                                </merge>
-                                <check>
-                                    <code>check</code>
-                                    <label>Check Staging After Create Process</label>
-                                    <model>enterprise_staging/staging_state_website_check</model>
-                                    <next>0</next>
-                                </check>
-                            </merge>
-                            <rollback>
-                                <prepare>
-                                    <code>prepare</code>
-                                    <label>Prepare Staging for Rollback</label>
-                                    <model>enterprise_staging/staging_state_website_prepare</model>
-                                    <next>rollback</next>
-                                </prepare>
-                                <rollback translate="label">
-                                    <code>rollback</code>
-                                    <label>Rollback</label>
-                                    <status>
-                                        <processing translate="label"><label>Rollback in progress</label></processing>
-                                        <complete translate="label"><label>Rollback successfuly complete</label></complete>
-                                        <holded translate="label"><label>Rolback scheduled</label></holded>
-                                    </status>
-                                    <model>enterprise_staging/staging_state_website_rollback</model>
-                                    <before>
-                                        <save_event>
-                                            <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromState</method>
-                                        </save_event>
-                                    </before>
-                                    <after>
-                                        <save_event>
-                                            <class>enterprise_staging/staging_event</class>
-                                            <method>saveFromState</method>
-                                        </save_event>
-                                        <save_rollback>
-                                            <class>enterprise_staging/staging_rollback</class>
-                                            <method>saveFromState</method>
-                                        </save_rollback>
-                                    </after>
-                                    <next>check</next>
-                                </rollback>
-                                <check>
-                                    <code>check</code>
-                                    <label>Check Staging After Create Process</label>
-                                    <model>enterprise_staging/staging_state_website_check</model>
-                                    <next>0</next>
-                                </check>
-                            </rollback>
-                            <check_frontend>
-                                <check>
-                                    <code>check_frontend</code>
-                                    <label>Check Frontend Staging Website</label>
-                                    <model>enterprise_staging/staging_state_website_check_frontend</model>
-                                    <next>0</next>
-                                </check>
-                            </check_frontend>
-                        </scenaries>
-                        <scenaries_status>
-                            <new translate="label"><label>New</label></new>
-                            <processing translate="label"><label>In progress</label></processing>
-                            <complete translate="label"><label>successfuly finished</label></complete>
-                            <holded translate="label"><label>successfuly scheduled</label></holded>
-                        </scenaries_status>
                     </website>
                 </type>
                 <staging_items>
                     <config_data>
-                        <code>config_data</code>
                         <module>Mage_Core</module>
                         <model>core</model>
                         <label>System Configuration</label>
-                        <adapter>enterprise_staging/staging_adapter_item_config</adapter>
+                        <resource_adapter>enterprise_staging/adapter_item_config</resource_adapter>
                         <entities>
                             <config_data />
                         </entities>
@@ -301,88 +116,60 @@
                         </ignore_nodes>
                     </config_data>
                     <category>
-                        <code>category</code>
                         <module>Mage_Catalog</module>
                         <model>catalog</model>
                         <label>Catalog Categories</label>
-                        <adapter>enterprise_staging/staging_adapter_item_category</adapter>
+                        <resource_adapter>enterprise_staging/adapter_item_category</resource_adapter>
                     </category>
                     <product>
-                        <code>product</code>
                         <module>Mage_Catalog</module>
                         <model>catalog</model>
                         <label>Catalog Products</label>
-                        <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                         <extends>
                             <bundle>
-                                <code>bundle</code>
                                 <module>Mage_Bundle</module>
                                 <model>bundle</model>
-                                <is_extend>1</is_extend>
                                 <label>Bundles</label>
-                                <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <option_value />
                                 </entities>
                             </bundle>
                             <downloadable>
-                                <code>downloadable</code>
                                 <module>Mage_Downloadable</module>
                                 <model>downloadable</model>
-                                <is_extend>1</is_extend>
                                 <label>Downloadable</label>
-                                <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <link_title />
                                     <sample_title />
                                 </entities>
                             </downloadable>
                             <enterprise_giftcard>
-                                <code>enterprise_giftcard</code>
                                 <module>Enterprise_GiftCard</module>
                                 <model>enterprise_giftcard</model>
-                                <is_extend>1</is_extend>
                                 <label>Gift Cards</label>
-                                <adapter>enterprise_staging/staging_adapter_item_product</adapter>
                                 <entities>
                                     <code />
                                 </entities>
                             </enterprise_giftcard>
                             <cataloginventory>
-                                <code>cataloginventory</code>
                                 <module>Mage_CatalogInventory</module>
                                 <model>cataloginventory</model>
-                                <is_backend>1</is_backend>
-                                <is_extend>1</is_extend>
                                 <label>Catalog Inventory</label>
-                                <adapter>enterprise_staging/staging_adapter_item_cataloginventory</adapter>
                             </cataloginventory>
                             <catalogindex>
-                                <code>catalogindex</code>
                                 <module>Mage_CatalogIndex</module>
                                 <model>catalogindex</model>
-                                <is_backend>1</is_backend>
-                                <is_extend>1</is_extend>
                                 <label>Catalog Index</label>
-                                <adapter>enterprise_staging/staging_adapter_item_catalogindex</adapter>
                             </catalogindex>
                             <catalogsearch>
-                                <code>catalogsearch</code>
                                 <module>Mage_CatalogSearch</module>
                                 <model>catalogsearch</model>
-                                <is_backend>1</is_backend>
-                                <is_extend>1</is_extend>
                                 <label>Catalog Search</label>
-                                <adapter>enterprise_staging/staging_adapter_item_catalogsearch</adapter>
                             </catalogsearch>
                             <core_url_rewrite>
-                                <code>core_url_rewrite</code>
                                 <module>Mage_Core</module>
                                 <model>core</model>
-                                <is_backend>1</is_backend>
-                                <is_extend>1</is_extend>
                                 <label>URL Rewrites</label>
-                                <adapter>enterprise_staging/staging_adapter_item_urlrewrite</adapter>
                                 <entities>
                                     <url_rewrite />
                                 </entities>
@@ -390,185 +177,161 @@
                         </extends>
                     </product>
                     <cms_page>
-                        <code>cms_page</code>
                         <module>Mage_Cms</module>
                         <model>cms</model>
                         <label>CMS Pages</label>
-                        <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
                         <entities>
                             <page_store />
                         </entities>
                     </cms_page>
                     <cms_block>
-                        <code>cms_block</code>
                         <module>Mage_Cms</module>
                         <model>cms</model>
                         <label>CMS Blocks</label>
-                        <adapter>enterprise_staging/staging_adapter_item_cms</adapter>
                         <entities>
                             <block_store />
                         </entities>
                     </cms_block>
                     <salesrule>
-                        <code>salesrule</code>
                         <module>Mage_SalesRule</module>
                         <model>salesrule</model>
                         <label>Shopping Cart Price Rules</label>
-                        <adapter>enterprise_staging/staging_adapter_item_salesrule</adapter>
                     </salesrule>
                     <catalogrule>
-                        <code>catalogrule</code>
                         <module>Mage_CatalogRule</module>
                         <model>catalogrule</model>
                         <label>Catalog Price Rules</label>
-                        <adapter>enterprise_staging/staging_adapter_item_catalogrule</adapter>
                     </catalogrule>
                     <poll>
-                        <code>poll</code>
                         <module>Mage_Poll</module>
                         <model>poll</model>
                         <label>Polls</label>
-                        <adapter>enterprise_staging/staging_adapter_item_poll</adapter>
                         <entities>
                             <poll_store />
                         </entities>
                     </poll>
                     <checkout>
-                        <code>checkout</code>
                         <module>Mage_Checkout</module>
                         <model>checkout</model>
                         <label>Terms And Conditions</label>
-                        <adapter>enterprise_staging/staging_adapter_item_checkout</adapter>
                         <entities>
                             <agreement_store />
                         </entities>
                     </checkout>
                     <customer>
-                        <code>customer</code>
                         <module>Mage_Customer</module>
                         <model>customer</model>
                         <is_backend>1</is_backend>
                         <label>Customers</label>
-                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
                         <ignore_tables>
                             <customer_group />
                         </ignore_tables>
                         <use_storage_method>table_prefix</use_storage_method>
                     </customer>
                     <wishlist>
-                        <code>wishlist</code>
                         <module>Mage_Wishlist</module>
                         <model>wishlist</model>
                         <is_backend>1</is_backend>
                         <label>Wishlist</label>
-                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
                         <use_storage_method>table_prefix</use_storage_method>
                     </wishlist>
                     <tag>
-                        <code>tag</code>
                         <module>Mage_Tag</module>
                         <model>tag</model>
                         <is_backend>1</is_backend>
                         <label>Tags</label>
-                        <adapter>enterprise_staging/staging_adapter_item_customer</adapter>
                         <use_storage_method>table_prefix</use_storage_method>
                     </tag>
                     <sales>
-                        <code>sales</code>
                         <module>Mage_Sales</module>
                         <model>sales</model>
                         <is_backend>1</is_backend>
                         <label>Sales</label>
-                        <adapter>enterprise_staging/staging_adapter_item_sales</adapter>
                         <use_storage_method>table_prefix</use_storage_method>
                     </sales>
                 </staging_items>
                 <staging_website_code_suffix></staging_website_code_suffix>
                 <state>
-                    <new translate="label">
-                        <label>New</label>
-                        <statuses>
-                            <new />
-                        </statuses>
-                    </new>
                     <processing translate="label">
                         <label>Processing</label>
                         <statuses>
                             <processing />
                         </statuses>
                     </processing>
-                    <merged translate="label">
-                        <label>Merged</label>
-                        <statuses>
-                            <merged />
-                        </statuses>
-                    </merged>
                     <complete translate="label">
                         <label>Complete</label>
                         <statuses>
                             <complete />
                         </statuses>
                     </complete>
-                    <closed translate="label">
-                        <label>Closed</label>
+                    <created translate="label">
+                        <label>Created</label>
                         <statuses>
-                            <closed />
+                            <created />
                         </statuses>
-                        <visible_on_front/>
-                    </closed>
-                    <canceled translate="label">
-                        <label>Canceled</label>
+                    </created>
+                    <updated translate="label">
+                        <label>Updated</label>
                         <statuses>
-                            <canceled />
+                            <updated />
                         </statuses>
-                    </canceled>
-                    <reverted translate="label">
-                        <label>Reverted</label>
+                    </updated>
+                    <backup_created translate="label">
+                        <label>Backup Created</label>
                         <statuses>
-                            <reverted />
-                            <posible_errors />
+                            <backup_created />
                         </statuses>
-                    </reverted>
-                    <broken translate="label">
-                        <label>Broken</label>
+                    </backup_created>
+                    <merged translate="label">
+                        <label>Merged</label>
                         <statuses>
-                            <broken_while_process />
-                            <broken_while_create />
-                            <broken_while_merge />
-                            <broken_while_restore />
+                            <merged />
                         </statuses>
-                    </broken>
-                    <restored translate="label">
-                        <label>Restored</label>
-                        <statuses>
-                            <restored />
-                            <restored_whith_errors />
-                        </statuses>
-                    </restored>
+                    </merged>
                     <holded translate="label">
                         <label>On Hold</label>
                         <statuses>
                             <holded />
                         </statuses>
                     </holded>
+                    <restored translate="label">
+                        <label>Restored</label>
+                        <statuses>
+                            <restored />
+                        </statuses>
+                    </restored>
+                    <fail translate="label">
+                        <label>Fail</label>
+                        <statuses>
+                            <fail />
+                        </statuses>
+                    </fail>
                 </state>
                 <status>
-                    <new translate="label"><label>New</label></new>
-                    <processing translate="label"><label>Processing</label></processing>
-                    <merged translate="label"><label>Merged</label></merged>
+                    <processing translate="label"><label>Staging Website Processing</label></processing>
                     <complete translate="label"><label>Complete</label></complete>
-                    <closed translate="label"><label>Closed</label></closed>
-                    <canceled translate="label"><label>Canceled</label></canceled>
-                    <reverted translate="label"><label>Reverted</label></reverted>
-                    <broken translate="label"><label>Broken</label></broken>
-                    <restored translate="label"><label>Restored</label></restored>
-                    <holded translate="label"><label>On Hold</label></holded>
+
+                    <created translate="label"><label>Staging Website create</label></created>
+                    <updated translate="label"><label>Staging Website update</label></updated>
+                    <backup_created translate="label"><label>Master Website Backup create</label></backup_created>
+                    <merged translate="label"><label>Staging Website merge</label></merged>
+                    <holded translate="label"><label>Staging Website Hold for Scheduled Merge</label></holded>
+                    <restored translate="label"><label>Master Website restore</label></restored>
+                    <fail translate="label"><label>Fail</label></fail>
                 </status>
                 <visibility>
                     <not_accessible translate="label"><label>Not accessible</label></not_accessible>
                     <accessible translate="label"><label>Accessible</label></accessible>
                     <require_http_auth translate="label"><label>Require Http Auth</label></require_http_auth>
                 </visibility>
+                <processes>
+                    <create translate="label"><label>Create</label></create>
+                    <update translate="label"><label>Update</label></update>
+                    <merge translate="label"><label>Merge</label></merge>
+                    <backup translate="label"><label>Backup</label></backup>
+                    <rollback translate="label"><label>Rollback</label></rollback>
+                    <checkfrontend translate="label"><label>Check Frontend</label></checkfrontend>
+                </processes>
             </staging>
         </enterprise>
         <events>

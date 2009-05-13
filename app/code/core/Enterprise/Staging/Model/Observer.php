@@ -51,14 +51,12 @@ class Enterprise_Staging_Model_Observer
             $resource    = $observer->getEvent()->getResource();
             $tableName   = $observer->getEvent()->getTableName();
             $modelEntity = $observer->getEvent()->getModelEntity();
-
             $website     = Mage::app()->getWebsite();
-            $_tableName  = '';
             if ($website->getIsStaging()) {
                 $_tableName = Enterprise_Staging_Model_Staging_Config::getStagingTableName($tableName, $modelEntity, $website);
-            }
-            if ($_tableName) {
-                $resource->setMappedTableName($tableName, $_tableName);
+                if ($_tableName) {
+                    $resource->setMappedTableName($tableName, $_tableName);
+                }
             }
         } catch (Enterprise_Staging_Exception $e) {
             Mage::logException($e);

@@ -24,40 +24,38 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Staging item model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Model_Mysql4_Adapter_Item_Config extends Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
 {
     /**
-     * constructor
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_staging/staging_item');
-    }
-
-    /**
-     * Update staging item
+     * Prepare simple select by given parameters
      *
-     * @param string $attribute
-     * @param unknown_type $value
-     * @return Mage_Core_Model_Abstract
+     * @param mixed $fields
+     * @param string $table
+     * @param string $where
+     * @return string
      */
-    public function updateAttribute($attribute, $value)
+    protected function _getSimpleSelect($fields, $table, $where = null)
     {
-        return $this->getResource()->updateAttribute($this, $attribute, $value);
-    }
+        $_where = array();
+        if (!is_null($where)) {
+            $_where[] = $where;
+        }
 
-    public function loadFromXmlStagingItem($xmlItem)
-    {
-        $this->setData('code', (string) $xmlItem->getName());
+        $itemXmlConfig = $this->getConfig();
+        if ($itemXmlConfig->ignore_nodes) {
+            foreach ($itemXmlConfig->ignore_nodes->children() as $node) {
+                $path = (string) $node->path;
+                $_where[] = "path NOT LIKE '%{$path}%'";
+            }
+        }
+        if (is_array($fields)) {
+            $fields = $this->_prepareFields($fields);
+        }
+        if (!empty($_where)) {
+            $_where = implode(' AND ', $_where);
+            $_where = " WHERE " . $_where;
+        }
 
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-
-        return $this;
+        return "SELECT $fields FROM `{$table}` $_where";
     }
 }

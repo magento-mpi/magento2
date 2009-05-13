@@ -273,10 +273,10 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Website extends Mage_Adm
         $usedItemCodes = $staging->getStagingItemCodes();
 
         foreach (Enterprise_Staging_Model_Staging_Config::getStagingItems()->children() as $stagingItem) {
-            if ((int)$stagingItem->is_backend || (int)$stagingItem->is_extend) {
+            if ((int)$stagingItem->is_backend) {
                 continue;
             }
-            $_code = (string) $stagingItem->code;
+            $_code = (string) $stagingItem->getName();
 
             if ($stagingWebsite) {
                 if (in_array($_code, $usedItemCodes)) {

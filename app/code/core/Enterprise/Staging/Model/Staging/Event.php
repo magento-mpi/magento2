@@ -148,58 +148,108 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
     /**
      * save event in db
      *
-     * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
      * @param   Enterprise_Staging_Model_Staging $staging
+     * @param   string $process
+     * @param   string $onState
+     * @param   Exception $exception
      *
      * @return Enterprise_Staging_Model_Staging_Event
      */
-    public function saveFromState(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
+    public function saveOnProcessRun(Enterprise_Staging_Model_Staging $staging, $process, $onState, $exception = null)
     {
-        if ($staging->getId()) {
-            $this->setStagingId($staging->getId());
+        $this->setStaging($staging);
 
-            if ($staging->getIsMergeLater() == true) {
-                $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
-            } elseif ($staging->getIsNewStaging() == true) {
-                $status = Enterprise_Staging_Model_Staging_Config::STATUS_NEW;
-            } else {
-                $status = $staging->getStatus();
-            }
-            $staging->setStatus($status);
+        $currentStatus = $staging->getStatus();
 
-            $scheduleDate       = $staging->getMergeSchedulingDate();
-            $scheduleOriginDate = $staging->getMergeSchedulingOriginDate();
-            $this->setMergeScheduleDate($scheduleDate);
+        $config = Mage::getSingleton('enterprise_staging/staging_config');
 
-            $this->setIsBackuped($staging->getIsBackuped());
-            $this->setStaging($staging);
-            $this->setMergeMap($staging->getMapperInstance()->serialize());
+        if ($onState == 'before') {
+            $state  = $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_PROCESSING;
+            $status = $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING;
         } else {
-            $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
+            $state  = $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE;
+            $status = $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
         }
 
-        $comment = $state->getEventStateStatusLabel($status);
+        switch ($process) {
+            case 'create':
+                if ($onState == 'after') {
+                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_CREATED;
+                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_CREATED;
+                }
+                break;
+            case 'update':
+                if ($onState == 'after') {
+                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_UPDATED;
+                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_UPDATED;
+                }
+                break;
+            case 'backup':
+                $this->setIsBackuped($staging->getIsBackuped());
+                if ($onState == 'after') {
+                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_BACKUP_CREATED;
+                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_BACKUP_CREATED;
+                }
+                break;
+            case 'merge':
+                if ($staging->getIsMergeLater() == true) {
+                    $state  = Enterprise_Staging_Model_Staging_Config::STATE_HOLDED;
+                    $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
+
+                    $scheduleDate       = $staging->getMergeSchedulingDate();
+                    $scheduleOriginDate = $staging->getMergeSchedulingOriginDate();
+                    $this->setMergeScheduleDate($scheduleDate);
+                }
+                $this->setMergeMap($staging->getMapperInstance()->serialize());
+                if ($onState == 'after') {
+                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_MERGED;
+                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_MERGED;
+                }
+                break;
+            case 'rollback':
+                $this->setMergeMap($staging->getMapperInstance()->serialize());
+                if ($onState == 'after') {
+                    $eventState  = Enterprise_Staging_Model_Staging_Config::STATE_RESTORED;
+                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED;
+                }
+                break;
+        }
+
+        if ($currentStatus != Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED) {
+            $staging->setState($state);
+            $staging->setStatus($status);
+        }
+
+        $this->setSaveThrowException($exception);
+
+        $eventStateLabel  = $config->getStateLabel($eventState);
+        $eventStatusLabel = $config->getStatusLabel($eventStatus);
+
+        $comment = $eventStatusLabel;
         if (!empty($scheduleOriginDate)) {
-            $comment .= " " . $scheduleOriginDate;
+            $comment .= " scheduled to: " . $scheduleOriginDate;
         }
 
-        $this->setCode($state->getEventStateCode())
-            ->setName($state->getEventStateLabel())
-            ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
-            ->setStatus($status)
+        $exceptionMessage = '';
+        if (!is_null($exception)) {
+            $exceptionMessage = $exception->getMessage();
+        }
+        $this->setCode($process)
+            ->setName($eventStateLabel)
+            ->setState($eventState)
+            ->setStatus($eventStatus)
             ->setIsAdminNotified(false)
             ->setComment($comment)
+            ->setLog($exceptionMessage)
             ->save();
 
         if ($staging->getIsMergeLater() == true) {
             $staging->setScheduleMergeEventId($this->getId());
         }
 
-        if ($staging->getId() && $staging->getIsNewStaging()==false) {
+        if ($staging->getId() && !$this->getSaveThrowException()) {
             $staging->save();
         }
-
-        $state->setEventId($this->getId());
 
         return $this;
     }

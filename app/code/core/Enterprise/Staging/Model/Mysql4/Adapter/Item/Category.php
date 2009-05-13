@@ -24,40 +24,32 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Staging item model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Model_Mysql4_Adapter_Item_Category extends Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
 {
     /**
-     * constructor
+     * List of table codes which shuldn't process if product item were not chosen
+     *
+     * @var array
      */
-    protected function _construct()
-    {
-        $this->_init('enterprise_staging/staging_item');
-    }
+    protected $_ignoreIfProductNotChosen = array('category_product', 'category_product_index');
 
     /**
-     * Update staging item
+     * Create item table and records, run processes in website and store scopes
      *
-     * @param string $attribute
-     * @param unknown_type $value
-     * @return Mage_Core_Model_Abstract
+     * @param string    $model
+     * @param string    $table
+     * @param string    $srcTable
+     * @param string    $targetTable
+     *
+     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
      */
-    public function updateAttribute($attribute, $value)
+    protected function _createItem($model, $table, $srcTable, $targetTable)
     {
-        return $this->getResource()->updateAttribute($this, $attribute, $value);
-    }
-
-    public function loadFromXmlStagingItem($xmlItem)
-    {
-        $this->setData('code', (string) $xmlItem->getName());
-
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-
-        return $this;
+        if (!$this->getStaging()->getMapperInstance()->hasStagingItem('product')) {
+            if (in_array($table, $this->_ignoreIfProductNotChosen)) {
+                return $this;
+            }
+        }
+        return parent::_createItem($model, $table, $srcTable, $targetTable);
     }
 }

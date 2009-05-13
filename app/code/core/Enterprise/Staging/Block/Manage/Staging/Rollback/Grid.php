@@ -86,7 +86,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
     {
         $extendInfo = $this->getExtendInfo();
 
-        $_code = (string) $stagingItem->code;
+        $_code = (string) $stagingItem->getName();
 
         $item = Mage::getModel('enterprise_staging/staging_item')
             ->loadFromXmlStagingItem($stagingItem);

@@ -39,40 +39,28 @@ class Enterprise_Staging_Model_Staging_Config
     /**
      * Staging states
      */
-    const STATE_NEW             = 'new';
     const STATE_PROCESSING      = 'processing';
     const STATE_COMPLETE        = 'complete';
-    const STATE_CLOSED          = 'closed';
-    const STATE_CANCELED        = 'canceled';
+    const STATE_CREATED         = 'created';
+    const STATE_UPDATED         = 'updated';
+    const STATE_BACKUP_CREATED  = 'backup_created';
     const STATE_MERGED          = 'merged';
-    const STATE_REVERTED        = 'reverted';
-    const STATE_BROKEN          = 'broken';
     const STATE_RESTORED        = 'restored';
     const STATE_HOLDED          = 'holded';
+    const STATE_FAIL            = 'fail';
 
     /**
      * Staging statuses
      */
-    const STATUS_NEW            = 'new';
     const STATUS_PROCESSING     = 'processing';
     const STATUS_COMPLETE       = 'complete';
-    const STATUS_CLOSED         = 'closed';
-    const STATUS_CANCELED       = 'canceled';
+    const STATUS_CREATED        = 'created';
+    const STATUS_UPDATED        = 'updated';
+    const STATUS_BACKUP_CREATED = 'backup_created';
     const STATUS_MERGED         = 'merged';
-    const STATUS_REVERTED       = 'reverted';
-    const STATUS_BROKEN         = 'broken';
     const STATUS_RESTORED       = 'restored';
     const STATUS_HOLDED         = 'holded';
-    const STATUS_FAIL           = 'failed';
-
-    /**
-     * Staging event codes
-     */
-    const EVENT_CREATE          = 'create';
-    const EVENT_SAVE            = 'save';
-    const EVENT_BACKUP          = 'backup';
-    const EVENT_MERGE           = 'merge';
-    const EVENT_ROLLBACK        = 'rollback';
+    const STATUS_FAIL           = 'fail';
 
     const STORAGE_METHOD_PREFIX = 'table_prefix';
     const STORAGE_METHOD_NEW_DB = 'new_db';
@@ -80,11 +68,9 @@ class Enterprise_Staging_Model_Staging_Config
     /**
      * Staging visibility codes
      */
-    const VISIBILITY_NOT_ACCESSIBLE             = 'not_accessible';
-    const VISIBILITY_ACCESSIBLE                 = 'accessible';
-    const VISIBILITY_REQUIRE_HTTP_AUTH          = 'require_http_auth';
-
-    static $_stagingItems;
+    const VISIBILITY_NOT_ACCESSIBLE     = 'not_accessible';
+    const VISIBILITY_ACCESSIBLE         = 'accessible';
+    const VISIBILITY_REQUIRE_HTTP_AUTH  = 'require_http_auth';
 
     /**
      * Retrieve staging module xml config as Varien_Simplexml_Element object
@@ -137,18 +123,6 @@ class Enterprise_Staging_Model_Staging_Config
     }
 
     /**
-     * Staging type instance factory
-     *
-     * @param   Enterprise_Staging_Model_Staging $staging
-     * @param   bool $singleton
-     * @return  Enterprise_Staging_Model_Staging_Type_Abstract
-     */
-    public static function typeFactory($staging, $singleton = false)
-    {
-        return self::factory('type', $staging, $singleton);
-    }
-
-    /**
      * Staging type mapper instance factory
      *
      * @param   Enterprise_Staging_Model_Staging $staging
@@ -170,18 +144,6 @@ class Enterprise_Staging_Model_Staging_Config
     public static function adapterFactory($staging, $singleton = false)
     {
         return self::factory('adapter', $staging, $singleton);
-    }
-
-    /**
-     * Staging state instance factory
-     *
-     * @param   Enterprise_Staging_Model_Staging $staging
-     * @param   boolean $singleton
-     * @return  Enterprise_Staging_Model_Staging_State_Abstract
-     */
-    public static function stateFactory($staging, $singleton = false)
-    {
-        return self::factory('state', $staging, $singleton);
     }
 
     /**
@@ -272,19 +234,7 @@ class Enterprise_Staging_Model_Staging_Config
      */
     static public function getStagingItems()
     {
-        if (is_null(self::$_stagingItems)) {
-            $stagingItems = self::getConfig('staging_items');
-
-            foreach($stagingItems->children() AS $item_id => $item) {
-                if (!self::isItemModuleActive($item)) {
-                     continue;
-                }
-            }
-
-            self::$_stagingItems = $stagingItems;
-        }
-
-        return self::$_stagingItems;
+        return self::getConfig('staging_items');
     }
 
     static function isItemModuleActive($stagingItem)
@@ -361,12 +311,27 @@ class Enterprise_Staging_Model_Staging_Config
     }
 
     /**
-     * Retrieve state label
+     * Retrieve Staging Action Label
+     *
+     * @param   string $process
+     * @return  string
+     */
+    static public function getStagingProcessLabel($process)
+    {
+        if ($processNode = self::getConfig('processes/'.$process)) {
+            $process = (string) $processNode->label;
+            return Mage::helper('enterprise_staging')->__($process);
+        }
+        return $process;
+    }
+
+    /**
+     * Retrieve stat label
      *
      * @param   string $state
      * @return  string
      */
-    static public function getStateLabel($state)
+    public function getStateLabel($state)
     {
         if ($stateNode = self::getConfig('state/'.$state)) {
             $state = (string) $stateNode->label;
@@ -475,8 +440,8 @@ class Enterprise_Staging_Model_Staging_Config
     static public function getStagingTableName($tableName, $modelEntity, $stagingWebsite = null)
     {
         $stagingTablePrefix = self::getTablePrefix();
-        if (empty($stagingTablePrefix)){
-            return $tableName;
+        if (empty($stagingTablePrefix)) {
+            return false;
         }
 
         $staging = Mage::getModel('enterprise_staging/staging');
@@ -489,18 +454,17 @@ class Enterprise_Staging_Model_Staging_Config
 
         list($model, $entity) = split("[/]" , $modelEntity, 2);
         if (!$model){
-            return $tableName;
+            return false;
         }
 
         $globalTablePrefix = (string) Mage::getConfig()->getTablePrefix();
 
         $_tableName = $globalTablePrefix . $tableName;
-
         if (self::isStagingUpTableName($model, $tableName)) {
-            $_tableName = $stagingTablePrefix . $_tableName;
+            return $stagingTablePrefix . $_tableName;
         }
 
-        return $_tableName;
+        return false;
 
     }
 

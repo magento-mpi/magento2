@@ -70,10 +70,10 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
             ->setBackupFilter($this->getBackup())
             ->addEventToCollection();
 
-        foreach($collection AS $datasetItem) {
-            $user = Mage::getModel('admin/user')->load($datasetItem->getEventUserId());
+        foreach($collection AS $item) {
+            $user = Mage::getModel('admin/user')->load($item->getEventUserId());
 
-            $collection->getItemById($datasetItem->getId())
+            $collection->getItemById($item->getId())
                 ->setData("loginname", $user->getUsername());
         }
 
@@ -143,7 +143,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_Rollback extends 
      */
     public function getRowUrl($row)
     {
-        return "";
+        return '';
     }
 
     /**

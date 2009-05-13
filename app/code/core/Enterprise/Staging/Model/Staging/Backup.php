@@ -155,37 +155,38 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
     }
 
     /**
-     * save backup state in db
+     * Save backup from backup staging process
      *
-     * @param   Enterprise_Staging_Model_Staging_State_Abstract $state
-     * @param   Enterprise_Staging_Model_Staging $staging
+     * @param  object Enterprise_Staging_Model_Staging $staging
+     * @param  object Enterprise_Staging_Model_Staging_Event $event
      *
      * @return Enterprise_Staging_Model_Staging_Backup
      */
-    public function saveFromState(Enterprise_Staging_Model_Staging_State_Abstract $state, Enterprise_Staging_Model_Staging $staging)
+    public function saveOnBackupRun(Enterprise_Staging_Model_Staging $staging, Enterprise_Staging_Model_Staging_Event $event)
     {
         if ($staging->getId()) {
             $name = Mage::helper('enterprise_staging')->__('Backup: ') . $staging->getName();
 
             $tablePrefix = Enterprise_Staging_Model_Staging_Config::getTablePrefix($staging)
-            . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
-            . $state->getEventId() . "_";
+                . Enterprise_Staging_Model_Staging_Config::getStagingBackupTablePrefix()
+                . $event->getId() . "_";
 
             $this->setStagingId($staging->getId())
-                ->setEventId($state->getEventId())
-                ->setEventCode($state->getEventStateCode())
+                ->setEventId($event->getId())
+                ->setEventCode($event->getCode())
                 ->setName($name)
                 ->setState(Enterprise_Staging_Model_Staging_Config::STATE_COMPLETE)
                 ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                ->setCreatedAt(Mage::registry($state->getCode() . "_event_start_time"))
+                ->setCreatedAt(Mage::registry($event->getCode() . "_event_start_time"))
                 ->setStagingTablePrefix($tablePrefix)
                 ->setMageVersion(Mage::getVersion())
                 ->setMageModulesVersion(serialize(Enterprise_Staging_Model_Staging_Config::getCoreResourcesVersion()));
             $this->save();
 
-            $staging->save();
+            $event->setBackupId($this->getId());
+            $staging->setBackupId($this->getId());
 
-            $state->setBackupId($this->getId());
+            $staging->save();
         }
         return $this;
     }
@@ -269,7 +270,7 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
     protected function _addStagingItemVersionInfo(&$itemVersionCheck, $stagingItem, $currentModuleVersion, $backupModules)
     {
         $itemModel = (string) $stagingItem->model;
-        $itemCode  = (string) $stagingItem->code;
+        $itemCode  = (string) $stagingItem->getName();
         $itemCheckModuleName = $itemModel . "_setup";
 
         if (isset($backupModules[$itemCheckModuleName])) {

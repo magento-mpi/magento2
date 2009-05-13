@@ -43,8 +43,11 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
         if ($staging instanceof Enterprise_Staging_Model_Staging) {
             if ($staging->getId()) {
                 $object->setStagingId($staging->getId());
-                $object->setStagingWebsiteId($staging->getStagingWebsiteId());
-                $object->setMasterWebsiteId($staging->getMasterWebsiteId());
+
+                if (!$object->getSaveThrowException()) {
+                    $object->setStagingWebsiteId($staging->getStagingWebsiteId());
+                    $object->setMasterWebsiteId($staging->getMasterWebsiteId());
+                }
             }
         }
 

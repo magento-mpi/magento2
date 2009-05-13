@@ -75,6 +75,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
             $connection = $this->_getWriteAdapter();
             $sql = "SHOW TABLES LIKE '{$stagingTablePrefix}%'";
             $result = $connection->fetchAll($sql);
+
+            $connection->query("SET foreign_key_checks = 0;");
             foreach ($result AS $row) {
                 $table = array_values($row);
                 if (!empty($table[0])) {
@@ -82,6 +84,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Backup extends Mage_Core_Model_Mys
                     $connection->query($dropTableSql);
                 }
             }
+            $connection->query("SET foreign_key_checks = 1;");
         }
         return $this;
     }

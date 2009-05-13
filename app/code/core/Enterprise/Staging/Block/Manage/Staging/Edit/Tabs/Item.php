@@ -73,7 +73,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Item extends Mage_Adminh
                 continue;
             }
 
-            $_code      = (string) $stagingItem->code;
+            $_code      = (string) $stagingItem->getName();
             $disabled   = "none";
             $note       = "";
 

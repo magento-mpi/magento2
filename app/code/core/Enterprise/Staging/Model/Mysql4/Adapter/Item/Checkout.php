@@ -24,40 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Staging item model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Model_Staging_Adapter_Item_Checkout extends Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
 {
-    /**
-     * constructor
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_staging/staging_item');
-    }
 
-    /**
-     * Update staging item
-     *
-     * @param string $attribute
-     * @param unknown_type $value
-     * @return Mage_Core_Model_Abstract
-     */
-    public function updateAttribute($attribute, $value)
-    {
-        return $this->getResource()->updateAttribute($this, $attribute, $value);
-    }
-
-    public function loadFromXmlStagingItem($xmlItem)
-    {
-        $this->setData('code', (string) $xmlItem->getName());
-
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-
-        return $this;
-    }
 }
