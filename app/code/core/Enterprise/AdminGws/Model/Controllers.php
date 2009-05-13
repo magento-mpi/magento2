@@ -71,10 +71,15 @@ class Enterprise_AdminGws_Model_Controllers
         }
         // allow specific website scope
         elseif ($websiteCode = $this->_request->getParam('website')) {
-            if ($website = Mage::app()->getWebsite($websiteCode)) {
-                if ($this->_helper->hasWebsiteAccess($website->getId(), true)) {
-                    return;
+            try {
+                if ($website = Mage::app()->getWebsite($websiteCode)) {
+                    if ($this->_helper->hasWebsiteAccess($website->getId(), true)) {
+                        return;
+                    }
                 }
+            }
+            catch (Mage_Core_Exception $e) {
+                // redirect later from non-existing website
             }
         }
 
