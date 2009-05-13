@@ -108,7 +108,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
      */
     public function getObjectUrl()
     {
-        if (!empty($_SERVER['HTTPS'])) {
+        if (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off')) {
             return $this->_httpsObjectUrl;
         } else {
             return $this->_httpObjectUrl;

@@ -110,7 +110,7 @@ echo "<hr/><strong>DONE.</strong> ";
 
 if (isset($_SERVER['HTTP_HOST'])) {
     $host = explode(':', $_SERVER['HTTP_HOST']);
-    $link = !empty($_SERVER['HTTPS']) || $host[1]===443 ? 'https' : 'http';
+    $link = (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off')) || $host[1]===443 ? 'https' : 'http';
     $link .= '://'.$host[0].(isset($host[1]) && $host[1]!==80 && $host[1]!==443 ? ':'.$host[1] : '');
     $link .= dirname(str_replace('\\', '/', $_SERVER['SCRIPT_NAME'])).'/magento';
 
