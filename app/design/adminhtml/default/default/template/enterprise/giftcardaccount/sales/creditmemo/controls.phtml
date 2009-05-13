@@ -18,20 +18,17 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Enterprise
- * @package    Enterprise_CustomerBalance
+ * @category   design
+ * @package    default_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
+?>
 
-class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Totals_Customerbalance
- extends Mage_Adminhtml_Block_Sales_Order_Totals_Item
-{
-    public function canRefundToCustomerBalance()
-    {
-        if ($this->getSource()->getOrder()->getCustomerIsGuest()) {
-            return false;
-        }
-        return true;
-    }
-}
+<input type="hidden" name="creditmemo[refund_giftcardaccount]" value="0">
+<?php if ($this->canRefundToCustomerBalance()): ?>
+    <p>
+        <label for="creditmemo_refund_giftcardaccount"><?php echo Mage::helper('enterprise_giftcardaccount')->__('Refund Gift Cards to Store Credit') ?></label>
+        <input type="checkbox" name="creditmemo[refund_giftcardaccount]" value="1" id="creditmemo_refund_giftcardaccount">
+    </p>
+<?php endif; ?>

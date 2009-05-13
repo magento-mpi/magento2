@@ -216,11 +216,11 @@
 
             <sales_order_creditmemo_save_after>
                 <observers>
-                    <enterprise_giftcardaccount_sales_order_creditmemo_save_after>
+                    <enterprise_giftcardaccount>
                         <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>increaseOrderRefundedAmount</method>
-                    </enterprise_giftcardaccount_sales_order_creditmemo_save_after>
+                    </enterprise_giftcardaccount>
                 </observers>
             </sales_order_creditmemo_save_after>
 
@@ -233,6 +233,16 @@
                     </enterprise_giftcardaccount>
                 </observers>
             </adminhtml_sales_order_creditmemo_register_before>
+
+            <sales_order_load_after>
+                <observers>
+                    <enterprise_giftcardaccount>
+                        <type>singleton</type>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>salesOrderLoadAfter</method>
+                    </enterprise_giftcardaccount>
+                </observers>
+            </sales_order_load_after>
         </events>
         <fieldsets>
             <sales_convert_quote_address>

@@ -24,12 +24,16 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Creditmemo_Totals_Giftcardaccount
- extends Mage_Adminhtml_Block_Sales_Order_Totals_Item
+class Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Creditmemo_Controls
+ extends Mage_Core_Block_Template
 {
     public function canRefundToCustomerBalance()
     {
-        if ($this->getSource()->getOrder()->getCustomerIsGuest()) {
+        if (!Mage::registry('current_creditmemo')->getGiftCardsAmount()) {
+            return false;
+        }
+
+        if (Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
             return false;
         }
         return true;

@@ -115,13 +115,13 @@
 
     <adminhtml_sales_order_creditmemo_new>
         <reference name="sales.order.view.totals.main">
-            <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_totals_customerbalance" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/customerbalance.phtml" after="-" />
+            <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/customerbalance.phtml" after="-" />
         </reference>
     </adminhtml_sales_order_creditmemo_new>
 
     <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="sales.order.view.totals.main">
-            <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_totals_customerbalance" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/customerbalance.phtml" after="-" />
+            <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/customerbalance.phtml" after="-" />
         </reference>
     </adminhtml_sales_order_creditmemo_updateqty>
 
@@ -130,4 +130,16 @@
             <block type="adminhtml/sales_order_totals_item" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/totals/view.phtml" after="-" />
         </reference>
     </adminhtml_sales_order_creditmemo_view>
+
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="submit_before">
+            <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_controls" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/controls.phtml" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="submit_before">
+            <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_controls" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/controls.phtml" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
 </layout>

@@ -306,4 +306,31 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
 
         return $this;
     }
+
+    /**
+     * Set forced canCreditmemo flag
+     * used for event: sales_order_load_after
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCardAccount_Model_Observer
+     */
+    public function salesOrderLoadAfter(Varien_Event_Observer $observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+
+        if ($order->canUnhold()) {
+            return $this;
+        }
+
+        if ($order->getState() === Mage_Sales_Model_Order::STATE_CANCELED ||
+            $order->getState() === Mage_Sales_Model_Order::STATE_CLOSED ) {
+            return $this;
+        }
+
+        if ($order->getGiftCardsInvoiced() - $order->getGiftCardsRefunded() > 0) {
+            $order->setForcedCanCreditmemo(true);
+        }
+
+        return $this;
+    }
 }

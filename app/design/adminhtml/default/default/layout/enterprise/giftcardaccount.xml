@@ -83,13 +83,13 @@
 
     <adminhtml_sales_order_creditmemo_new>
         <reference name="sales.order.view.totals.main">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_totals_giftcardaccount" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/giftcardaccount.phtml" after="-" />
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/giftcardaccount.phtml" after="-" />
         </reference>
     </adminhtml_sales_order_creditmemo_new>
 
     <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="sales.order.view.totals.main">
-            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_totals_giftcardaccount" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/giftcardaccount.phtml" after="-" />
+            <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/giftcardaccount.phtml" after="-" />
         </reference>
     </adminhtml_sales_order_creditmemo_updateqty>
 
@@ -98,4 +98,16 @@
             <block type="adminhtml/sales_order_totals_item" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/totals/view.phtml" after="-" />
         </reference>
     </adminhtml_sales_order_creditmemo_view>
+
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="submit_before">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="submit_before">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty>
 </layout>

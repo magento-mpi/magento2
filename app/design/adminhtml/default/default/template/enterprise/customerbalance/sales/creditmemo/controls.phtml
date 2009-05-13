@@ -25,16 +25,18 @@
  */
 ?>
 
-<?php $_source  = $this->getSource() ?>
-<?php $this->setPriceDataObject($_source) ?>
+<input type="hidden" name="creditmemo[refund_customerbalance]" value="0">
+<?php if ($this->canRefundToCustomerBalance()): ?>
+    <p>
+        <label for="creditmemo_refund_customerbalance"><?php echo Mage::helper('enterprise_customerbalance')->__('Refund Store Credit to Store Credit') ?></label>
+        <input type="checkbox" name="creditmemo[refund_customerbalance]" value="1" id="creditmemo_refund_customerbalance">
+    </p>
+<?php endif; ?>
 
-<?php if ((float) $_source->getGiftCardsAmount()): ?>
-    <tr>
-        <td class="label">
-            <?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Cards') ?>
-        </td>
-        <td>
-            <?php echo $this->displayPrices(-$_source->getBaseGiftCardsAmount(), -$_source->getGiftCardsAmount()); ?>
-        </td>
-    </tr>
+<input type="hidden" name="creditmemo[refund_real_customerbalance]" value="0">
+<?php if ($this->canRefundMoneyToCustomerBalance()): ?>
+    <p>
+        <label for="creditmemo_refund_real_customerbalance"><?php echo Mage::helper('enterprise_customerbalance')->__('Refund Money to Store Credit') ?></label>
+        <input type="checkbox" name="creditmemo[refund_real_customerbalance]" value="1" id="creditmemo_refund_real_customerbalance">
+    </p>
 <?php endif; ?>

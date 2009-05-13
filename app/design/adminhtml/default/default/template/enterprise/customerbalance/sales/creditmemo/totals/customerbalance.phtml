@@ -32,13 +32,6 @@
     <tr>
         <td class="label">
             <?php echo Mage::helper('enterprise_customerbalance')->__('Store Credit') ?>
-            <input type="hidden" name="creditmemo[refund_customerbalance]" value="0">
-
-            <?php if ($this->canRefundToCustomerBalance()): ?>
-                <br />
-                <label for="creditmemo_refund_customerbalance"><?php echo Mage::helper('enterprise_customerbalance')->__('Refund to Store Credit') ?></label>
-                <input type="checkbox" name="creditmemo[refund_customerbalance]" value="1" id="creditmemo_refund_customerbalance">
-            <?php endif; ?>
         </td>
         <td>
             <?php echo $this->displayPrices(-$_source->getBaseCustomerBalanceAmount(), -$_source->getCustomerBalanceAmount()); ?>

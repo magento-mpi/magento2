@@ -300,6 +300,19 @@ class Enterprise_CustomerBalance_Model_Observer
                 ->save();
         }
 
+        if ($creditmemo->getBaseGrandTotal() > 0 && $order->getCustomerId() && $creditmemo->getRefundRealCustomerBalance()) {
+            $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
+
+            $balance = Mage::getModel('enterprise_customerbalance/balance')
+                ->setCustomerId($order->getCustomerId())
+                ->setWebsiteId($websiteId)
+                ->setAmountDelta($creditmemo->getBaseGrandTotal())
+                ->setHistoryAction(Enterprise_CustomerBalance_Model_Balance_History::ACTION_REFUNDED)
+                ->setOrder($order)
+                ->setCreditMemo($creditmemo)
+                ->save();
+        }
+
         return $this;
     }
 
@@ -319,6 +332,38 @@ class Enterprise_CustomerBalance_Model_Observer
 
         if (isset($input['refund_customerbalance']) && $input['refund_customerbalance']) {
             $creditmemo->setRefundCustomerBalance(true);
+        }
+
+        if (isset($input['refund_real_customerbalance']) && $input['refund_real_customerbalance']) {
+            $creditmemo->setRefundRealCustomerBalance(true);
+            $creditmemo->setPaymentRefundDisallowed(true);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set forced canCreditmemo flag
+     * used for event: sales_order_load_after
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CustomerBalance_Model_Observer
+     */
+    public function salesOrderLoadAfter(Varien_Event_Observer $observer)
+    {
+        $order = $observer->getEvent()->getOrder();
+
+        if ($order->canUnhold()) {
+            return $this;
+        }
+
+        if ($order->getState() === Mage_Sales_Model_Order::STATE_CANCELED ||
+            $order->getState() === Mage_Sales_Model_Order::STATE_CLOSED ) {
+            return $this;
+        }
+
+        if ($order->getCustomerBalanceInvoiced() - $order->getCustomerBalanceRefunded() > 0) {
+            $order->setForcedCanCreditmemo(true);
         }
 
         return $this;

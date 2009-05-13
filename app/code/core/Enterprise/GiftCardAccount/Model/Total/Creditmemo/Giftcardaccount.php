@@ -47,6 +47,8 @@ class Enterprise_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount extends 
 
                 $creditmemo->setBaseGrandTotal(0);
                 $creditmemo->setGrandTotal(0);
+
+                $creditmemo->setAllowZeroGrandTotal(true);
             } else {
                 $baseUsed = $order->getBaseGiftCardsInvoiced() - $order->getBaseGiftCardsRefunded();
                 $used = $order->getGiftCardsInvoiced() - $order->getGiftCardsRefunded();

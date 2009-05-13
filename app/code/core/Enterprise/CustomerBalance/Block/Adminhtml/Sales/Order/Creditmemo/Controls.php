@@ -18,23 +18,36 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design
- * @package    default_default
+ * @category   Enterprise
+ * @package    Enterprise_CustomerBalance
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
-?>
 
-<?php $_source  = $this->getSource() ?>
-<?php $this->setPriceDataObject($_source) ?>
+class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
+ extends Mage_Core_Block_Template
+{
+    public function canRefundToCustomerBalance()
+    {
+        if (!Mage::registry('current_creditmemo')->getCustomerBalanceAmount()) {
+            return false;
+        }
 
-<?php if ((float) $_source->getGiftCardsAmount()): ?>
-    <tr>
-        <td class="label">
-            <?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Cards') ?>
-        </td>
-        <td>
-            <?php echo $this->displayPrices(-$_source->getBaseGiftCardsAmount(), -$_source->getGiftCardsAmount()); ?>
-        </td>
-    </tr>
-<?php endif; ?>
+        if (Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
+            return false;
+        }
+        return true;
+    }
+
+    public function canRefundMoneyToCustomerBalance()
+    {
+        if (!Mage::registry('current_creditmemo')->getGrandTotal()) {
+            return false;
+        }
+
+        if (Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
+            return false;
+        }
+        return true;
+    }
+}

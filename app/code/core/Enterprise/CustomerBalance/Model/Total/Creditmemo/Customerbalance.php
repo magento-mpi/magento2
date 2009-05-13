@@ -51,6 +51,8 @@ class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends 
 
                 $creditmemo->setBaseGrandTotal(0);
                 $creditmemo->setGrandTotal(0);
+
+                $creditmemo->setAllowZeroGrandTotal(true);
             } else {
                 $baseUsed = $order->getBaseCustomerBalanceInvoiced() - $order->getBaseCustomerBalanceRefunded();
                 $used = $order->getCustomerBalanceInvoiced() - $order->getCustomerBalanceRefunded();
