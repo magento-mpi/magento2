@@ -528,6 +528,20 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     }
 
     /**
+     * check if we can merge
+     *
+     * @return boolean
+     */
+    public function canUnschedule()
+    {
+        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
+            && $this->getScheduleMergeEventId()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Update staging attribute
      *
      * @param   string  $attribute

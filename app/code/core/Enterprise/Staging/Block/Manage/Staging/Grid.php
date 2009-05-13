@@ -151,6 +151,14 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
                         '__method_callback' => array(
                             'method' => 'canMerge'
                     ))
+                ),
+                array(
+                    'url'       => $this->getUrl('*/*/unschedule', array('id' => '$schedule_merge_event_id')),
+                    'caption'   => Mage::helper('enterprise_staging')->__('Unschedule'),
+                    'validate'  => array(
+                        '__method_callback' => array(
+                            'method' => 'canUnschedule'
+                    ))
                 )
             )
         ));

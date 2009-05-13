@@ -103,7 +103,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_staging');
+        $this->_setActiveMenu('system');
         $this->renderLayout();
     }
 
@@ -148,7 +148,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         }
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_staging');
+        $this->_setActiveMenu('system');
         $this->renderLayout();
     }
 
@@ -179,7 +179,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             return $this;
         }
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_staging');
+        $this->_setActiveMenu('system');
         $this->renderLayout();
     }
 
@@ -377,7 +377,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             ->addNotice($this->__('If no store view mapping is specified only website-related information will be merged'));
 
         $this->loadLayout();
-        $this->_setActiveMenu('system/enterprise_staging');
+        $this->_setActiveMenu('system');
         $this->renderLayout();
     }
 
@@ -479,9 +479,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $this->_getSession()->addError($this->__('Failed to unschedule merge'));
         }
 
-        $this->_redirect('*/*/edit', array(
-            'id'        => $event->getStagingId(),
-            '_current'  => true
-        ));
+        $this->_redirect('*/*/');
     }
 }
