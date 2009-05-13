@@ -482,6 +482,10 @@
             </block>
         </reference>
     </adminhtml_sales_order_create_index>
+    
+    <adminhtml_sales_order_edit_index>
+        <update handle="adminhtml_sales_order_create_index" />
+    </adminhtml_sales_order_edit_index>
 
     <adminhtml_sales_order_create_load_block_json>
         <reference name="root">
