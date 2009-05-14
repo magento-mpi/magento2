@@ -238,6 +238,18 @@
                 </observers>
             </sales_order_load_after>
         </events>
+        <pdf>
+            <totals>
+                <enterprise_customerbalance translate="title">
+                    <title>Store Credit</title>
+                    <source_field>customer_balance_amount</source_field>
+                    <amount_prefix>-</amount_prefix>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>560</sort_order>
+                </enterprise_customerbalance>
+            </totals>
+        </pdf>
     </global>
     <frontend>
         <translate>
