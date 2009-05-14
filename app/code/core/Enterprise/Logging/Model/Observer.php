@@ -400,10 +400,12 @@ class Enterprise_Logging_Model_Observer
      * Custom handler for catalog price rules apply
      */
     public function promocatalogApply($config, $success) {
+        $request = Mage::app()->getRequest();
+        $message = $request->getParam('rule_id') ? $request->getParam('rule_id') : 'all rules';
         return array(
             'event_code' => $config['event'],
             'event_action' => $config['action'],
-            'event_message' => 'all rules'
+            'event_message' => $message
         );
     }
 
