@@ -33,7 +33,11 @@ class Enterprise_Logging_Adminhtml_EventsController extends Mage_Adminhtml_Contr
 
     public function indexAction() 
     {
-        $this->loadLayout();
+        $this->loadLayout()
+          ->_addBreadcrumb(Mage::helper('enterprise_logging')->__('View admin logs list'), Mage::helper('enterprise_logging')->__('View admin logs list'))
+          ->_addBreadcrumb('one', 'one');
+
+        $this->_setActiveMenu('system/enterprise_logging');
         $this->renderLayout();
     }
 
@@ -44,6 +48,7 @@ class Enterprise_Logging_Adminhtml_EventsController extends Mage_Adminhtml_Contr
     public function logAction() 
     {
         $this->loadLayout();
+        $this->_setActiveMenu('system/enterprise_logging');
         $this->renderLayout();
     }
 
