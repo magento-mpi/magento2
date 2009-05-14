@@ -492,10 +492,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         /**
          * Initialize data for configurable product
          */
-        if ($data = $this->getRequest()->getPost('configurable_products_data') && !$product->getConfigurableReadonly()) {
+        if (($data = $this->getRequest()->getPost('configurable_products_data')) && !$product->getConfigurableReadonly()) {
             $product->setConfigurableProductsData(Zend_Json::decode($data));
         }
-        if ($data = $this->getRequest()->getPost('configurable_attributes_data') && !$product->getConfigurableReadonly()) {
+        if (($data = $this->getRequest()->getPost('configurable_attributes_data')) && !$product->getConfigurableReadonly()) {
             $product->setConfigurableAttributesData(Zend_Json::decode($data));
         }
 
