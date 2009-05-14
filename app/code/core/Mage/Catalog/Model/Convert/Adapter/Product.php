@@ -70,9 +70,19 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
     protected $_imageFields = array();
 
-    protected $_inventorySimpleFields = array();
+    /**
+     * Inventory Fields array
+     *
+     * @var array
+     */
+    protected $_inventoryFields             = array();
 
-    protected $_inventoryOtherFields = array();
+    /**
+     * Inventory Fields by product Types
+     *
+     * @var array
+     */
+    protected $_inventoryFieldsProductTypes = array();
 
     protected $_toNumber = array();
 
@@ -307,15 +317,21 @@ class Mage_Catalog_Model_Convert_Adapter_Product
      */
     public function __construct()
     {
-        foreach (Mage::getConfig()->getFieldset('catalog_product_dataflow', 'admin') as $code=>$node) {
+        $fieldset = Mage::getConfig()->getFieldset('catalog_product_dataflow', 'admin');
+        foreach ($fieldset as $code => $node) {
+            /* @var $node Mage_Core_Model_Config_Element */
             if ($node->is('inventory')) {
-                $this->_inventorySimpleFields[] = $code;
-                if ($node->is('use_config')) {
-                    $this->_inventorySimpleFields[] = 'use_config_'.$code;
-                    $this->_configs[] = $code;
+                foreach ($node->product_type->children() as $productType) {
+                    $productType = $productType->getName();
+                    $this->_inventoryFieldsProductTypes[$productType][] = $code;
+                    if ($node->is('use_config')) {
+                        $this->_inventoryFieldsProductTypes[$productType][] = 'use_config_' . $code;
+                    }
                 }
-                if ($node->is('inventory_other')) {
-                    $this->_inventoryOtherFields[] = $code;
+
+                $this->_inventoryFields[] = $code;
+                if ($node->is('use_config')) {
+                    $this->_inventoryFields[] = 'use_config_'.$code;
                 }
             }
             if ($node->is('required')) {
@@ -598,7 +614,7 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
 
         foreach ($importData as $field => $value) {
-            if (in_array($field, $this->_inventorySimpleFields)) {
+            if (in_array($field, $this->_inventoryFields)) {
                 continue;
             }
             if (in_array($field, $this->_imageFields)) {
@@ -651,7 +667,9 @@ class Mage_Catalog_Model_Convert_Adapter_Product
         }
 
         $stockData = array();
-        $inventoryFields = $product->getTypeId() == 'simple' ? $this->_inventorySimpleFields : $this->_inventoryOtherFields;
+        $inventoryFields = isset($this->_inventoryFieldsProductTypes[$product->getTypeId()])
+            ? $this->_inventoryFieldsProductTypes[$product->getTypeId()]
+            : array();
         foreach ($inventoryFields as $field) {
             if (isset($importData[$field])) {
                 if (in_array($field, $this->_toNumber)) {
