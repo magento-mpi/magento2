@@ -67,6 +67,18 @@
             <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice($_invoice->getTaxAmount()) ?></td>
         </tr>
         <?php endif; ?>
+        <?php if ($_invoice->getGiftCardsAmount() > 0): ?>
+        <tr>
+            <td colspan="3" align="right" style="padding:3px 9px"><?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Cards'); ?></td>
+            <td align="right" style="padding:3px 9px">-<?php echo $_order->formatPrice($_invoice->getGiftCardsAmount()) ?></td>
+        </tr>
+        <?php endif; ?>
+        <?php if ($_invoice->getCustomerBalanceAmount() > 0): ?>
+        <tr>
+            <td colspan="3" align="right" style="padding:3px 9px"><?php echo Mage::helper('enterprise_customerbalance')->__('Store Credit'); ?></td>
+            <td align="right" style="padding:3px 9px">-<?php echo $_order->formatPrice($_invoice->getCustomerBalanceAmount()) ?></td>
+        </tr>
+        <?php endif; ?>
         <tr bgcolor="#DEE5E8">
             <td colspan="3" align="right" style="padding:3px 9px"><strong><big><?php echo $this->__('Grand Total') ?></big></strong></td>
             <td align="right" style="padding:6px 9px"><strong><big><?php echo $_order->formatPrice($_invoice->getGrandTotal()) ?></big></strong></td>
