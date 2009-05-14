@@ -36,6 +36,6 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->run("DROP TABLE IF EXISTS `enterprise_logging_user_log`");
-$installer->run("ALTER TABLE `".$this->getTable('enterprise_logging/event')."` ADD status char(15) NOT NULL DEFAULT 'success'");
+$installer->getConnection()->addColumn($this->getTable('enterprise_logging/event'), 'status', "char(15) NOT NULL DEFAULT 'success'");
 
 $installer->endSetup();
