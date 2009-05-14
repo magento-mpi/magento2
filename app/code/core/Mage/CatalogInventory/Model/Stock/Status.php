@@ -291,6 +291,8 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
             foreach ($requiredChildrenIds as $groupedChildrenIds) {
                 $childrenIds = array_merge($childrenIds, $groupedChildrenIds);
             }
+            $childrenWebsites = Mage::getSingleton('catalog/product_website')
+                ->getWebsites($childrenIds);
             foreach ($websites as $websiteId => $storeId) {
                 $childrenStatus = $this->getProductStatusModel()
                     ->getProductStatus($childrenIds, $storeId);
@@ -301,6 +303,8 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
                     $optionStatus = false;
                     foreach ($groupedChildrenIds as $childId) {
                         if (isset($childrenStatus[$childId])
+                            and isset($childrenWebsites[$childId])
+                            and in_array($websiteId, $childrenWebsites[$childId])
                             and $childrenStatus[$childId] == $this->getProductStatusEnabled()
                             and isset($childrenStock[$childId])
                             and $childrenStock[$childId] == self::STATUS_IN_STOCK
