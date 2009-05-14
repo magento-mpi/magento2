@@ -52,8 +52,8 @@ Default layout, loads most of the pages
             <block type="cms/block" name="cms.top.callout" before="-">
                 <action method="setBlockId"><block_id>top_callout</block_id></action>
             </block>
-        </reference>           
-    
+        </reference>
+
         <!--<reference name="left">
             <block type="core/template" name="left.permanent.callout" template="callouts/callout.phtml">
                 <action method="setImgSrc"><src>images/media/col_left_callout.jpg</src></action>
@@ -261,15 +261,21 @@ Additional block dependant on product type
     </PRODUCT_TYPE_simple>
     <PRODUCT_TYPE_configurable>
         <reference name="product.info">
-            <block type="catalog/product_view_type_configurable" name="product.info.configurable" as="product_type_data" template="catalog/product/view/type/configurable.phtml"/>
+            <block type="catalog/product_view_type_configurable" name="product.info.configurable" as="product_type_data" template="catalog/product/view/type/configurable.phtml" />
         </reference>
         <reference name="product.info.options.wrapper">
             <block type="catalog/product_view_type_configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="catalog/product/view/type/options/configurable.phtml"/>
         </reference>
     </PRODUCT_TYPE_configurable>
     <PRODUCT_TYPE_grouped>
+        <remove name="alert.urls" />
         <reference name="product.info">
-            <block type="catalog/product_view_type_grouped" name="product.info.grouped" as="product_type_data" template="catalog/product/view/type/grouped.phtml"/>
+            <block type="catalog/product_view_type_grouped" name="product.info.grouped" as="product_type_data" template="catalog/product/view/type/grouped.phtml">
+                <block type="core/text_list" name="alert.urls.grouped" as="alert_urls_grouped">
+                    <block type="productalert/price" name="productalert.price" as="productalert_price" template="productalert/price.phtml" />
+                    <block type="productalert/stock" name="productalert.stock" as="productalert_stock" />               
+                </block>
+            </block>
         </reference>
     </PRODUCT_TYPE_grouped>
     <PRODUCT_TYPE_virtual>
@@ -346,7 +352,7 @@ SEO Site Map
             <action method="addLink" translate="label title" module="catalog"><label>Products Sitemap</label><url helper="catalog/map/getProductUrl"/><title>Products Sitemap</title></action>
         </reference>
     </catalog_seo_sitemap_category>
-    
+
     <catalog_seo_sitemap_category_tree>
         <reference name="seo.sitemap.container">
             <remove name="seo.sitemap.pager.top" />
