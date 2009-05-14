@@ -254,11 +254,11 @@
 
         <template>
             <email>
-               <giftcardaccount_email_template translate="label" module="enterprise_giftcardaccount">
+               <giftcard_giftcardaccount_email_template translate="label" module="enterprise_giftcardaccount">
                    <label>Gift Card Account Sent From Edit Page</label>
                    <file>enterprise/giftcardaccount.html</file>
                    <type>html</type>
-               </giftcardaccount_email_template>
+               </giftcard_giftcardaccount_email_template>
             </email>
         </template>
     </global>
@@ -353,18 +353,18 @@
                 <giftaccount>1</giftaccount>
             </enterprise_logging>
         </admin>
-        <giftcardaccount>
-            <email>
+        <giftcard>
+            <giftcardaccount_email>
                 <identity>general</identity>
-                <template>giftcardaccount_email_template</template>
-            </email>
-            <general>
+                <template>giftcard_giftcardaccount_email_template</template>
+            </giftcardaccount_email>
+            <giftcardaccount_general>
                 <code_length>12</code_length>
                 <code_format>alphanum</code_format>
                 <code_split>0</code_split>
                 <pool_size>1000</pool_size>
-            </general>
-        </giftcardaccount>
+            </giftcardaccount_general>
+        </giftcard>
         <sales>
             <totals_sort>
                 <giftcardaccount>90</giftcardaccount>

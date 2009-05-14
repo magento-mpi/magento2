@@ -26,25 +26,13 @@
  */
 -->
 <config>
-    <tabs>
-        <giftcards translate="label" module="enterprise_giftcardaccount">
-            <label>Gift Cards</label>
-            <sort_order>220</sort_order>
-        </giftcards>
-    </tabs>
     <sections>
-        <giftcardaccount translate="label" module="enterprise_giftcardaccount">
-            <label>Gift Card Accounts</label>
-            <tab>giftcards</tab>
-            <show_in_default>1</show_in_default>
-            <show_in_website>1</show_in_website>
-            <show_in_store>1</show_in_store>
-            <sort_order>100</sort_order>
+        <giftcard>
             <groups>
-                <email translate="label" module="enterprise_giftcardaccount">
+                <giftcardaccount_email translate="label" module="enterprise_giftcardaccount">
                     <label>Email sent from Gift Card Account management</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>100</sort_order>
+                    <sort_order>300</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -68,11 +56,11 @@
                             <show_in_store>1</show_in_store>
                         </template>
                     </fields>
-                </email>
-                <general translate="label" module="enterprise_giftcardaccount">
-                    <label>General</label>
+                </giftcardaccount_email>
+                <giftcardaccount_general translate="label" module="enterprise_giftcardaccount">
+                    <label>Gift Card Account General Settings</label>
                     <frontend_type>text</frontend_type>
-                    <sort_order>200</sort_order>
+                    <sort_order>400</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>0</show_in_website>
                     <show_in_store>0</show_in_store>
@@ -143,9 +131,9 @@
                             <comment>WARNING: Save your configuration before running generation process.</comment>
                         </generate>
                     </fields>
-                </general>
+                </giftcardaccount_general>
             </groups>
-        </giftcardaccount>
+        </giftcard>
         <sales>
             <groups>
                 <totals_sort>

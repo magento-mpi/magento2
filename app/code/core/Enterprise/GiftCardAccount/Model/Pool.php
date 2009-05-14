@@ -30,12 +30,12 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
     const CODE_FORMAT_ALPHA = 'alpha';
     const CODE_FORMAT_NUM = 'num';
 
-    const XML_CONFIG_CODE_FORMAT = 'giftcardaccount/general/code_format';
-    const XML_CONFIG_CODE_LENGTH = 'giftcardaccount/general/code_length';
-    const XML_CONFIG_CODE_PREFIX = 'giftcardaccount/general/code_prefix';
-    const XML_CONFIG_CODE_SUFFIX = 'giftcardaccount/general/code_suffix';
-    const XML_CONFIG_CODE_SPLIT  = 'giftcardaccount/general/code_split';
-    const XML_CONFIG_POOL_SIZE   = 'giftcardaccount/general/pool_size';
+    const XML_CONFIG_CODE_FORMAT = 'giftcard/giftcardaccount_general/code_format';
+    const XML_CONFIG_CODE_LENGTH = 'giftcard/giftcardaccount_general/code_length';
+    const XML_CONFIG_CODE_PREFIX = 'giftcard/giftcardaccount_general/code_prefix';
+    const XML_CONFIG_CODE_SUFFIX = 'giftcard/giftcardaccount_general/code_suffix';
+    const XML_CONFIG_CODE_SPLIT  = 'giftcard/giftcardaccount_general/code_split';
+    const XML_CONFIG_POOL_SIZE   = 'giftcard/giftcardaccount_general/pool_size';
 
     const XML_CHARSET_NODE      = 'global/enterprise/giftcardaccount/charset/%s';
     const XML_CHARSET_SEPARATOR = 'global/enterprise/giftcardaccount/separator';

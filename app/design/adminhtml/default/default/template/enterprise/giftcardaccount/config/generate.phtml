@@ -64,7 +64,7 @@ function disableGenerateButton()
 
 Event.observe('generateBtn<?php echo $_htmlId ?>', 'click', redirectToGeneration)
 
-$('giftcardaccount_general').select('input', 'select').each(function(elem) {
+$('giftcard_giftcardaccount_general').select('input', 'select').each(function(elem) {
     Event.observe($(elem.id), 'change', disableGenerateButton);
 });
 //]]>
