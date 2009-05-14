@@ -528,6 +528,11 @@ class Mage_Checkout_Model_Type_Onepage
             $customer->setDefaultBilling($customerBillingId);
             $customer->save();
 
+            /**
+             * Authenticate customer
+             */
+            Mage::getSingleton('customer/session')->setCustomerAsLoggedIn($customer);
+
             $this->getQuote()->setCustomerId($customer->getId());
 
             $order->setCustomerId($customer->getId());
