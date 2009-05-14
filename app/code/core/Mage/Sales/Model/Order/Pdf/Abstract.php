@@ -350,70 +350,50 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         }
     }
 
+    protected function _sortTotalsList($a, $b) {
+        if (!isset($a['sort_order']) || !isset($b['sort_order'])) {
+            return 0;
+        }
+
+        if ($a['sort_order'] == $b['sort_order']) {
+            return 0;
+        }
+
+        return ($a['sort_order'] > $b['sort_order']) ? 1 : -1;
+    }
+
+    protected function _getTotalsList($source)
+    {
+        $totals = Mage::getConfig()->getNode('global/pdf/totals')->asArray();
+        usort($totals, array($this, '_sortTotalsList'));
+
+        return $totals;
+    }
+
     protected function insertTotals(&$page, $source){
         $order = $source->getOrder();
         $font = $this->_setFontBold($page);
 
-        $order_subtotal = Mage::helper('sales')->__('Order Subtotal:');
-        $page->drawText($order_subtotal, 475-$this->widthForStringUsingFontSize($order_subtotal, $font, 7), $this->y, 'UTF-8');
+        $totals = $this->_getTotalsList($source);
+        foreach ($totals as $total) {
+            $amount = $source->getDataUsingMethod($total['source_field']);
+            if ($amount > 0) {
+                $amount = $order->formatPriceTxt($amount);
 
-        $order_subtotal = $order->formatPriceTxt($source->getSubtotal());
-        $page->drawText($order_subtotal, 565-$this->widthForStringUsingFontSize($order_subtotal, $font, 7), $this->y, 'UTF-8');
-        $this->y -=15;
+                if (isset($total['amount_prefix']) && $total['amount_prefix']) {
+                    $amount = "{$total['amount_prefix']}{$amount}";
+                }
 
-        if ((float)$source->getDiscountAmount()){
-            $discount = Mage::helper('sales')->__('Discount :');
-            $page->drawText($discount, 475-$this->widthForStringUsingFontSize($discount, $font, 7), $this->y, 'UTF-8');
+                $fontSize = (isset($total['font_size']) ? $total['font_size'] : 7);
+                $page->setFont($font, $fontSize);
 
-            $discount = $order->formatPriceTxt(0.00 - $source->getDiscountAmount());
-            $page->drawText($discount, 565-$this->widthForStringUsingFontSize($discount, $font, 7), $this->y, 'UTF-8');
-            $this->y -=15;
+                $label = Mage::helper('sales')->__($total['title']) . ':';
+
+                $page->drawText($label, 475-$this->widthForStringUsingFontSize($label, $font, $fontSize), $this->y, 'UTF-8');
+                $page->drawText($amount, 565-$this->widthForStringUsingFontSize($amount, $font, $fontSize), $this->y, 'UTF-8');
+                $this->y -=15;
+            }
         }
-
-        if ((float)$source->getTaxAmount()){
-            $order_tax = Mage::helper('sales')->__('Tax :');
-            $page->drawText($order_tax, 475-$this->widthForStringUsingFontSize($order_tax, $font, 7), $this->y, 'UTF-8');
-
-            $order_tax = $order->formatPriceTxt($source->getTaxAmount());
-            $page->drawText($order_tax, 565-$this->widthForStringUsingFontSize($order_tax, $font, 7), $this->y, 'UTF-8');
-            $this->y -=15;
-        }
-
-        if ((float)$source->getShippingAmount()){
-            $order_shipping = Mage::helper('sales')->__('Shipping & Handling:');
-            $page->drawText($order_shipping, 475-$this->widthForStringUsingFontSize($order_shipping, $font, 7), $this->y, 'UTF-8');
-
-            $order_shipping = $order->formatPriceTxt($source->getShippingAmount());
-            $page->drawText($order_shipping, 565-$this->widthForStringUsingFontSize($order_shipping, $font, 7), $this->y, 'UTF-8');
-            $this->y -=15;
-        }
-
-        if ($source->getAdjustmentPositive()){
-            $adjustment_refund = Mage::helper('sales')->__('Adjustment Refund:');
-            $page ->drawText($adjustment_refund, 475-$this->widthForStringUsingFontSize($adjustment_refund, $font, 7), $this->y, 'UTF-8');
-
-            $adjustment_refund = $order->formatPriceTxt($source->getAdjustmentPositive());
-            $page ->drawText($adjustment_refund, 565-$this->widthForStringUsingFontSize($adjustment_refund, $font, 7), $this->y, 'UTF-8');
-            $this->y -=15;
-        }
-
-        if ((float) $source->getAdjustmentNegative()){
-            $adjustment_fee = Mage::helper('sales')->__('Adjustment Fee:');
-            $page ->drawText($adjustment_fee, 475-$this->widthForStringUsingFontSize($adjustment_fee, $font, 7), $this->y, 'UTF-8');
-
-            $adjustment_fee=$order->formatPriceTxt($source->getAdjustmentNegative());
-            $page ->drawText($adjustment_fee, 565-$this->widthForStringUsingFontSize($adjustment_fee, $font, 7), $this->y, 'UTF-8');
-            $this->y -=15;
-        }
-
-        $page->setFont($font, 8);
-
-        $order_grandtotal = Mage::helper('sales')->__('Grand Total:');
-        $page ->drawText($order_grandtotal, 475-$this->widthForStringUsingFontSize($order_grandtotal, $font, 8), $this->y, 'UTF-8');
-
-        $order_grandtotal = $order->formatPriceTxt($source->getGrandTotal());
-        $page ->drawText($order_grandtotal, 565-$this->widthForStringUsingFontSize($order_grandtotal, $font, 8), $this->y, 'UTF-8');
-        $this->y -=15;
     }
 
     protected function _parseItemDescription($item)
