@@ -133,7 +133,7 @@
         <?php endif; ?>
         <?php if ($_creditmemo->getGiftCardsAmount() > 0): ?>
         <tr>
-            <td class="a-right" colspan="4">
+            <td class="a-right" colspan="6">
                 <?php echo Mage::helper('enterprise_giftcardaccount')->__('Gift Cards'); ?>
             </td>
             <td class="a-right">-<?php echo $_order->formatPrice($_creditmemo->getGiftCardsAmount()) ?></td>
@@ -141,7 +141,7 @@
         <?php endif; ?>
         <?php if ($_creditmemo->getCustomerBalanceAmount() > 0): ?>
         <tr>
-            <td class="a-right" colspan="4">
+            <td class="a-right" colspan="6">
                 <?php echo Mage::helper('enterprise_customerbalance')->__('Store Credit'); ?>
             </td>
             <td class="a-right">-<?php echo $_order->formatPrice($_creditmemo->getCustomerBalanceAmount()) ?></td>
