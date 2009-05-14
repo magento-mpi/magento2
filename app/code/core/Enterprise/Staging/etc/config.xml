@@ -217,6 +217,11 @@
                         <is_backend>1</is_backend>
                         <label>Sales</label>
                     </sales>
+                    <log translate="label">
+                        <module>Mage_Log</module>
+                        <is_backend>1</is_backend>
+                        <label>Visitor Logs</label>
+                    </log>
                 </staging_items>
                 <status>
                     <processing translate="label"><label>Processing</label></processing>
