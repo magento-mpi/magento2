@@ -35,7 +35,7 @@
         <catalog_event_save>
             <event>catalogevents</event>
             <action>save</action>
-            <model>Enterprise_CatalogEvent_Model_Event</model>
+            <model>enterprise_catalogevent/event</model>
         </catalog_event_save>
 
         <catalog_event_delete>

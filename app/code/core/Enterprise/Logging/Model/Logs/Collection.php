@@ -32,8 +32,7 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
     protected $_isLoaded = false;
 
     public static $allowDirs     = '/^[a-z0-9\.\-]+$/i';
-    public static $allowFiles    = '/^[a-z0-9\.\-\_]+\.(xml|ser|csv)$/i';
-    public static $disallowFiles = '/^package\.xml$/i';
+    public static $allowFiles    = '/^[a-z0-9\.\-\_]+\.(csv)$/i';
 
 
     /**
@@ -48,7 +47,7 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
         $this->_collectRecursive($baseDir,  $files);
         $result = array();
         foreach ($files as $file) {
-            $file = preg_replace(array('/^' . preg_quote($baseDir . DS, '/') . '/', '/\.(xml|ser)$/'), '', $file);
+            $file = preg_replace('/^' . preg_quote($baseDir . DS, '/') . '/',  '', $file);
             $names = explode('/', $file);
             $date = sprintf("%s-%s-%s", $names[0], $names[1], substr($names[2], 6, 2));
 
@@ -83,8 +82,7 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
                     $this->_collectRecursive($item, $result, $dirsFirst);
                 }
                 elseif (is_file($item)
-                    && preg_match(self::$allowFiles, basename($item))
-                    && !preg_match(self::$disallowFiles, basename($item))) {
+                    && preg_match(self::$allowFiles, basename($item))) {
                         $result[] = $item;
                 }
             }
@@ -98,8 +96,7 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
                     $dirs[] = $item;
                 }
                 elseif (is_file($item)
-                    && preg_match(self::$allowFiles, basename($item))
-                    && !preg_match(self::$disallowFiles, basename($item))) {
+                    && preg_match(self::$allowFiles, basename($item))) {
                         $files[] = $item;
                 }
             }

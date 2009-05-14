@@ -104,7 +104,7 @@ class Enterprise_Logging_Model_Observer
      * on post dispatch for all saving actions including creation.
      *
      * Supports custom observer, from
-     * <after-save-handler> node.
+     * <after_save_handler> node.
      */
 
     public function catchModelAfterSave($observer)
@@ -123,13 +123,13 @@ class Enterprise_Logging_Model_Observer
          */
         foreach ($actions as $action) {
             $conf = Mage::helper('enterprise_logging')->getConfig($action);
-            if (isset($conf['after-save-handler'])) {
+            if (isset($conf['after_save_handler'])) {
                 /**
                  * Load custom handler from config
                  */
-                $method = $conf['after-save-handler'];
+                $method = $conf['after_save_handler'];
                 $object = $this;
-                if (preg_match("%^(.*?)::(.*?)$%", $conf['after-save-handler'], $m)) {
+                if (preg_match("%^(.*?)::(.*?)$%", $conf['after_save_handler'], $m)) {
                     $method = $m[2];
                     $object = Mage::getModel($m[1]);
                 }
@@ -139,8 +139,8 @@ class Enterprise_Logging_Model_Observer
                  * Check if model has to be saved. Using deprecated in php5.2 'is_a' which should
                  * be restored in php 5.3. So you may remove '@' if you use php 5.3 or higher.
                  */
-                if ($conf && isset($conf['model']) && ($class = $conf['model']) && @is_a($model, $class)) {
-                    if (isset($conf['allow-multiply-models']) && $conf['allow-multiply-models']) {
+                if ($conf && isset($conf['model']) && ($class = Mage::getConfig()->getModelClassName($conf['model'])) && ($model instanceof $class)) {
+                    if (isset($conf['allow_model_repeat']) && $conf['allow_model_repeat']) {
                         if (!Mage::registry('saved_model_'.$action)) {
                             Mage::register('saved_model_'.$action, $model);
                         }
@@ -341,11 +341,12 @@ class Enterprise_Logging_Model_Observer
         list($master_id, $date) = each($data);
 
         $class = isset($config['model']) ? $config['model'] : '';
+        $class = Mage::getConfig()->getModelClassName($class);
         $action = $config['base_action'];
         $model = Mage::registry('saved_model_'.$action);
 
         $id = 0;
-        if ($model == null || !(@is_a($model, $class))) {
+        if ($model == null || !($model instanceof $class)) {
             $success = 0;
         } else {
             $id = $model->getId();
@@ -496,7 +497,7 @@ class Enterprise_Logging_Model_Observer
         if ($id === false || $id === null) {
             return false;
         }
-        if ($id === 0 && isset($config['skip-zero-id']) && $config['skip-zero-id'])
+        if ($id === 0 && isset($config['skip_zero_id']) && $config['skip_zero_id'])
             return false;
 
         return array(
@@ -534,6 +535,7 @@ class Enterprise_Logging_Model_Observer
         $act = $config['action'];
         $id = isset($config['id'])? $config['id'] : 'id';
         $class = isset($config['model']) ? $config['model'] : '';
+        $class = Mage::getConfig()->getModelClassName($class);
 
         $action = $config['base_action'];
 
@@ -544,23 +546,23 @@ class Enterprise_Logging_Model_Observer
 
         /**
          * Here is where actual id for logging is taken. If no model given in registry, or model type
-         * does not corresponds config value, or 'use-request' node is set in config - take id from
+         * does not corresponds config value, or 'use_request' node is set in config - take id from
          * request.
-         * If no 'use-request' param set that mean that save was not successfull so, fail an event
+         * If no 'use_request' param set that mean that save was not successfull so, fail an event
          *
          */
-        if ($model == null || !(@is_a($model, $class)) || (isset($config['use-request']) && $config['use-request'])) {
+        if ($model == null || !($model instanceof $class) || (isset($config['use_request']) && $config['use_request'])) {
             $id = Mage::app()->getRequest()->getParam($id);
             /**
              * Fail event, if there is no custom force to request
              */
-            if (!isset($config['use-request']) || !$config['use-request'])
+            if (!isset($config['use_request']) || !$config['use_request'])
                 $success = 0;
         } else {
             $id = $model->getId();
         }
 
-        if ( ($id === false) && isset($config['skip-on-empty-id']) && $config['skip-on-empty-id']) {
+        if ( ($id === false) && isset($config['skip_on_empty_id']) && $config['skip_on_empty_id']) {
             return false;
         }
 
@@ -569,12 +571,12 @@ class Enterprise_Logging_Model_Observer
          * We could also force some action skipping in some cases (when no special params in request)
          */
 
-        if ($success && ($request->getParam('back') || $request->getParam('_continue') || isset($config['force-skip']))) {
+        if ($success && ($request->getParam('back') || $request->getParam('_continue') || isset($config['force_skip']))) {
             /**
              * Comma-separated actions to be skipped next time. If no settings in config, set action by replacing
              * '_save' to '_edit'. Replace occures in only action ending with '_save'.
              */
-            $action_to_skip = (isset($config['skip-on-back']) ? $config['skip-on-back'] : preg_replace('%save$%', 'edit', $action));
+            $action_to_skip = (isset($config['skip_on_back']) ? $config['skip_on_back'] : preg_replace('%save$%', 'edit', $action));
             Mage::getSingleton('admin/session')->setSkipLoggingAction($action_to_skip);
         }
         return array(
@@ -745,7 +747,7 @@ class Enterprise_Logging_Model_Observer
         $id = isset($config['id'])? $config['id'] : 'id';
 
         $id = Mage::app()->getRequest()->getParam($id);
-        Mage::getSingleton('admin/session')->setSkipLoggingAction($config['skip-action']);
+        Mage::getSingleton('admin/session')->setSkipLoggingAction($config['skip_action']);
         return array(
             'event_code' => $code,
             'event_action' => $act,
@@ -778,7 +780,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function catchLoginSuccess($observer)
     {
-        $node = Mage::getConfig()->getNode('default/admin/logsenabled/adminlogin');
+        $node = Mage::getConfig()->getNode('default/admin/enterprise_logging/adminlogin');
         $enabled = ( (string)$node == '1' ? true : false);
         if (!$enabled) {
             return;
@@ -808,7 +810,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function catchLoginFail($observer)
     {
-        $node = Mage::getConfig()->getNode('default/admin/logsenabled/adminlogin');
+        $node = Mage::getConfig()->getNode('default/admin/enterprise_logging/adminlogin');
         $enabled = ( (string)$node == '1' ? true : false);
         if (!$enabled) {
             return;

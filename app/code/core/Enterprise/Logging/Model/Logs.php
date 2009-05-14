@@ -79,8 +79,7 @@ class Enterprise_Logging_Model_Logs extends Varien_Object
         $this->addData(array(
             'id'   => $filePath . DS . $fileName,
             'time' => (int)$time,
-            'path' => $filePath,
-            'time_formated' => date('Y-m-d H:i:s', (int)$time))
+            'path' => $filePath)
         );
         return $this;
     }

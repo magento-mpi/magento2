@@ -252,9 +252,9 @@
     </frontend>
     <default>
         <admin>
-            <logsenabled>
+            <enterprise_logging>
                 <invitations>1</invitations>
-            </logsenabled>
+            </enterprise_logging>
         </admin>
         <enterprise_invitation>
             <email>

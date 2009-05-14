@@ -298,9 +298,9 @@
     </adminhtml>
     <default>
         <admin>
-            <logsenabled>
+            <enterprise_logging>
                 <customerbalance>1</customerbalance>
-            </logsenabled>
+            </enterprise_logging>
         </admin>
         <customer>
             <enterprise_customerbalance>

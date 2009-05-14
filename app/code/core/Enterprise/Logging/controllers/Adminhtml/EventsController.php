@@ -87,7 +87,7 @@ class Enterprise_Logging_Adminhtml_EventsController extends Mage_Adminhtml_Contr
     {
         try {
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_logging/events_logs_grid')->toHtml()
+            $this->getLayout()->createBlock('enterprise_logging/events_archive_grid')->toHtml()
         );
         } catch(Exception $e) {
             echo $e;

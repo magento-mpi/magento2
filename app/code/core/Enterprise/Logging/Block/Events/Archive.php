@@ -24,7 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Block_Events_Logs extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Enterprise_Logging_Block_Events_Archive extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
      * Constructor
@@ -33,7 +33,7 @@ class Enterprise_Logging_Block_Events_Logs extends Mage_Adminhtml_Block_Widget_G
     {
         $this->_headerText = Mage::helper('enterprise_logging')->__('View backups');
         $this->_blockGroup = 'enterprise_logging';
-        $this->_controller = 'events_logs';
+        $this->_controller = 'events_archive';
         parent::__construct();
     }
 

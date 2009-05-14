@@ -85,9 +85,9 @@
     </global>
     <default>
         <admin>
-            <logsenabled>
+            <enterprise_logging>
                 <catalogevents>1</catalogevents>
-            </logsenabled>
+            </enterprise_logging>
         </admin>
 
         <catalog>

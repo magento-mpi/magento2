@@ -229,9 +229,9 @@
                 <password_lifetime>90</password_lifetime>
                 <password_is_forced>1</password_is_forced>
             </security>
-            <logsenabled>
+            <enterprise_logging>
                 <pci>1</pci>
-            </logsenabled>
+            </enterprise_logging>
         </admin>
     </default>
     <stores>

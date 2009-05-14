@@ -35,8 +35,8 @@
     <customerbalance_save>
       <event>customerbalance</event>
       <action>save</action>
-      <model>Mage_Customer_Model_Customer</model>
-      <skip-on-back>customerbalance_form,customer_edit</skip-on-back>
+      <model>customer/customer</model>
+      <skip_on_back>customerbalance_form,customer_edit</skip_on_back>
     </customerbalance_save>
   </actions>
 

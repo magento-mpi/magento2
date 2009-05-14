@@ -35,8 +35,8 @@
     <giftcardaccount_save>
       <event>giftaccount</event>
       <action>save</action>
-      <model>Enterprise_GiftCardAccount_Model_Giftcardaccount</model>
-      <allow-multiply-models>1</allow-multiply-models>
+      <model>enterprise_giftcardaccount/giftcardaccount</model>
+      <allow_model_repeat>1</allow_model_repeat>
     </giftcardaccount_save>
 
     <giftcardaccount_delete>
@@ -47,7 +47,7 @@
 
   <labels>
       <list>
-        <giftaccount>Gift Account</giftaccount>
+        <giftaccount>Gift Card Accounts</giftaccount>
       </list>
   </labels>
 </logging>

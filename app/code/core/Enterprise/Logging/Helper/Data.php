@@ -35,7 +35,7 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function loadConfig()
     {
-        if ( !($conf = Mage::app()->loadCache('actions_to_log'))) {
+        if ( !($conf = Mage::app()->loadCache('actions_to_log')) ) {
             $conf = $this->_getActionsConfigFromXml();
             $result = Mage::app()->saveCache(serialize($conf), 'actions_to_log');
         } else {
@@ -43,7 +43,7 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
         }
         $this->_config = $conf;
 
-        if ( !($conf = Mage::app()->loadCache('actions_to_log_labels'))) {
+        if ( !($conf = Mage::app()->loadCache('actions_to_log_labels')) ) {
             $conf = $this->_getLabelsConfigFromXml(); 
             Mage::app()->saveCache(serialize($conf['list']), 'actions_to_log_labels');
             $conf = $conf['list'];
@@ -73,7 +73,7 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
          * Note that /default/logging/enabled/products - is an indicator if the products should be logged
          * but /enterprise/logging/event/products - is a node where event info stored.
          */
-        $node = Mage::getConfig()->getNode('default/admin/logsenabled/' . $code);
+        $node = Mage::getConfig()->getNode('default/admin/enterprise_logging/' . $code);
         return ( (string)$node == '1' ? true : false);
     }
 
