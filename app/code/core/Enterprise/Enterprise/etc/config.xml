@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Enterprise
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_Enterprise>
+             <version>0.0.1</version>
+        </Enterprise_Enterprise>
+    </modules>
+    <global>
+        <models>
+            <enterprise_enterprise>
+                <class>Enterprise_Enterprise_Model</class>
+            </enterprise_enterprise>
+        </models>
+        <resources>
+            <enterprise_enterprise_setup>
+                <setup>
+                    <module>Enterprise_Enterprise</module>
+                    <class>Mage_Core_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </enterprise_enterprise_setup>
+            <enterprise_enterprise_write>
+                <use>core_write</use>
+            </enterprise_enterprise_write>
+            <enterprise_enterprise_read>
+                <use>core_read</use>
+            </enterprise_enterprise_read>
+        </resources>
+    </global>
+    <!-- installer customizations -->
+    <install>
+        <eula_file>LICENSE_EE.html</eula_file>
+        <events>
+            <controller_action_predispatch_install>
+                <observers>
+                    <enterprise_install>
+                        <class>enterprise_enterprise/observer_install</class>
+                        <method>setDesignTheme</method>
+                    </enterprise_install>
+                </observers>
+            </controller_action_predispatch_install>
+        </events>
+    </install>
+    <!-- default design package/theme on frontend -->
+    <default>
+        <design>
+            <package>
+                <name>enterprise</name>
+            </package>
+            <theme>
+                <default>enterprise</default>
+            </theme>
+            <head>
+                <default_title>Magento Enterprise Edition</default_title>
+                <default_keywords>Magento, Varien, E-commerce</default_keywords>
+            </head>
+            <footer>
+                <copyright>&amp;copy; 2009 Magento Enterprise Edition Demo Store. All Rights Reserved.</copyright>
+            </footer>
+        </design>
+    </default>
+    <!-- default theme in admin -->
+    <stores>
+        <admin>
+            <design>
+                <theme>
+                    <default>enterprise</default>
+                </theme>
+            </design>
+        </admin>
+    </stores>
+</config>

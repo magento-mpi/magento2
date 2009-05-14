@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_Pci
+ * @package    Enterprise_Enterprise
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
@@ -28,7 +28,7 @@
  * Installer observer
  *
  */
-class Enterprise_Pci_Model_Observer_Install
+class Enterprise_Enterprise_Model_Observer_Install
 {
     /**
      * Set Enterprise design theme

@@ -197,30 +197,7 @@
             </customer_customer_authenticated>
         </events>
     </frontend>
-    <!-- actually the design and installation-related things can be moved to another module -->
-    <!-- now this module is used, because all EE modules depend on it -->
-    <install>
-        <eula_file>LICENSE_EE.html</eula_file>
-        <events>
-            <controller_action_predispatch_install>
-                <observers>
-                    <enterprise_install>
-                        <class>enterprise_pci/observer_install</class>
-                        <method>setDesignTheme</method>
-                    </enterprise_install>
-                </observers>
-            </controller_action_predispatch_install>
-        </events>
-    </install>
     <default>
-        <design>
-            <package>
-                <name>enterprise</name>
-            </package>
-            <theme>
-                <default>enterprise</default>
-            </theme>
-        </design>
         <admin>
             <security>
                 <session_cookie_lifetime>900</session_cookie_lifetime>
@@ -234,13 +211,4 @@
             </enterprise_logging>
         </admin>
     </default>
-    <stores>
-        <admin>
-            <design>
-                <theme>
-                    <default>enterprise</default>
-                </theme>
-            </design>
-        </admin>
-    </stores>
 </config>
