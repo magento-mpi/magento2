@@ -38,6 +38,9 @@ class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends 
             return $this;
         }
 
+        $creditmemo->setBaseCustomerBalanceTotalRefunded(0);
+        $creditmemo->setCustomerBalanceTotalRefunded(0);
+
         $order = $creditmemo->getOrder();
         if ($order->getBaseCustomerBalanceAmount() && $order->getBaseCustomerBalanceInvoiced() != 0) {
             $cbLeft = $order->getBaseCustomerBalanceInvoiced() - $order->getBaseCustomerBalanceRefunded();

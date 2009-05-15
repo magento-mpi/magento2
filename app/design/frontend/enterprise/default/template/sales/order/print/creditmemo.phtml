@@ -169,6 +169,14 @@
             <td class="a-right"><strong><?php echo $_order->formatPrice($_creditmemo->getTotalDue()) ?></strong></td>
         </tr>
         <?php endif; ?>
+        <?php if ($_creditmemo->getCustomerBalanceTotalRefunded() > 0): ?>
+        <tr>
+            <td class="a-right" colspan="6">
+                <?php echo Mage::helper('enterprise_giftcardaccount')->__('Refunded to Store Credit'); ?>
+            </td>
+            <td class="a-right"><?php echo $_order->formatPrice($_creditmemo->getCustomerBalanceTotalRefunded()) ?></td>
+        </tr>
+        <?php endif; ?>
     </tfoot>
     <?php $_items = $_creditmemo->getAllItems(); ?>
     <?php $_count = count($_items); ?>

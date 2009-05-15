@@ -100,6 +100,9 @@
             <td colspan="<?php echo $colspan; ?>" class="a-right"><strong><?php echo $this->__('Grand Total') ?></strong></td>
             <td class="a-right"><strong><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></strong></td>
         </tr>
+        <?php if ($_order->getCustomerBalanceTotalRefunded() > 0): ?>
+            <?php echo $this->getChildHtml('customerbalance_total_refunded'); ?>
+        <?php endif; ?>
     </tfoot>
     <?php $_items = $_order->getItemsCollection(); ?>
     <?php $_count = $_items->count(); ?>

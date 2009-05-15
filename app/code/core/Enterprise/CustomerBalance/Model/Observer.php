@@ -287,6 +287,11 @@ class Enterprise_CustomerBalance_Model_Observer
             $order->setCustomerBalanceRefunded($order->getCustomerBalanceRefunded() + $creditmemo->getCustomerBalanceAmount());
         }
 
+        if ($creditmemo->getBaseCustomerBalanceTotalRefunded()) {
+            $order->setBaseCustomerBalanceTotalRefunded($order->getBaseCustomerBalanceTotalRefunded() + $creditmemo->getBaseCustomerBalanceTotalRefunded());
+            $order->setCustomerBalanceTotalRefunded($order->getCustomerBalanceTotalRefunded() + $creditmemo->getCustomerBalanceTotalRefunded());
+        }
+
         if ($creditmemo->getBaseCustomerBalanceAmount() > 0 && $order->getCustomerId() && $creditmemo->getRefundCustomerBalance()) {
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
@@ -331,10 +336,22 @@ class Enterprise_CustomerBalance_Model_Observer
         $input = $request->getParam('creditmemo');
 
         if (isset($input['refund_customerbalance']) && $input['refund_customerbalance']) {
+            $baseAmount = $creditmemo->getBaseCustomerBalanceAmount();
+            $amount = $creditmemo->getCustomerBalanceAmount();
+
+            $creditmemo->setBaseCustomerBalanceTotalRefunded($creditmemo->getBaseCustomerBalanceTotalRefunded() + $baseAmount);
+            $creditmemo->setCustomerBalanceTotalRefunded($creditmemo->getCustomerBalanceTotalRefunded() + $amount);
+
             $creditmemo->setRefundCustomerBalance(true);
         }
 
         if (isset($input['refund_real_customerbalance']) && $input['refund_real_customerbalance']) {
+            $baseAmount = $creditmemo->getBaseGrandTotal();
+            $amount = $creditmemo->getGrandTotal();
+
+            $creditmemo->setBaseCustomerBalanceTotalRefunded($creditmemo->getBaseCustomerBalanceTotalRefunded() + $baseAmount);
+            $creditmemo->setCustomerBalanceTotalRefunded($creditmemo->getCustomerBalanceTotalRefunded() + $amount);
+
             $creditmemo->setRefundRealCustomerBalance(true);
             $creditmemo->setPaymentRefundDisallowed(true);
         }

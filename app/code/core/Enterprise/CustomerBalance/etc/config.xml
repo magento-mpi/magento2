@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerBalance>
-             <version>0.0.9</version>
+             <version>0.0.10</version>
         </Enterprise_CustomerBalance>
     </modules>
     <global>
@@ -248,6 +248,14 @@
                     <display_zero>0</display_zero>
                     <sort_order>560</sort_order>
                 </enterprise_customerbalance>
+
+                <enterprise_customerbalance_total_refunded translate="title">
+                    <title>Refunded to Store Credit</title>
+                    <source_field>customer_balance_total_refunded</source_field>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>700</sort_order>
+                </enterprise_customerbalance_total_refunded>
             </totals>
         </pdf>
     </global>

@@ -96,6 +96,12 @@
             <td colspan="3" align="right" style="padding:3px 9px"><strong><big><?php echo $this->__('Grand Total') ?></big></strong></td>
             <td align="right" style="padding:6px 9px"><strong><big><?php echo $_order->formatPrice($_creditmemo->getGrandTotal()) ?></big></strong></td>
         </tr>
+        <?php if ($_creditmemo->getCustomerBalanceTotalRefunded() > 0): ?>
+        <tr>
+            <td colspan="3" align="right" style="padding:3px 9px"><?php echo $this->__('Refunded to Store Credit') ?></td>
+            <td align="right" style="padding:3px 9px"><?php echo $_order->formatPrice(0.00 - $_creditmemo->getCustomerBalanceTotalRefunded()) ?></td>
+        </tr>
+        <?php endif; ?>
     </tfoot>
 </table>
 <?php endif; ?>

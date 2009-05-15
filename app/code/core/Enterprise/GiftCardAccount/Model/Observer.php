@@ -301,6 +301,12 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
         $input = $request->getParam('creditmemo');
 
         if (isset($input['refund_giftcardaccount']) && $input['refund_giftcardaccount']) {
+            $baseAmount = $creditmemo->getBaseGiftCardsAmount();
+            $amount = $creditmemo->getGiftCardsAmount();
+
+            $creditmemo->setBaseCustomerBalanceTotalRefunded($creditmemo->getBaseCustomerBalanceTotalRefunded() + $baseAmount);
+            $creditmemo->setCustomerBalanceTotalRefunded($creditmemo->getCustomerBalanceTotalRefunded() + $amount);
+
             $creditmemo->setRefundGiftCards(true);
         }
 
