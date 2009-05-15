@@ -377,7 +377,9 @@ abstract class Mage_Sales_Model_Order_Pdf_Abstract extends Varien_Object
         $totals = $this->_getTotalsList($source);
         foreach ($totals as $total) {
             $amount = $source->getDataUsingMethod($total['source_field']);
-            if ($amount > 0) {
+            $displayZero = (isset($total['display_zero']) ? $total['display_zero'] : 0);
+
+            if ($amount != 0 || $displayZero) {
                 $amount = $order->formatPriceTxt($amount);
 
                 if (isset($total['amount_prefix']) && $total['amount_prefix']) {
