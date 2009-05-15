@@ -195,7 +195,7 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session_quote')->addException(
                     $e,
-                    $this->__('Can not apply Gift Card, please try again later.')
+                    $this->__('Cannot apply Gift Card, please try again later.')
                 );
             }
         }
@@ -219,7 +219,7 @@ class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session_quote')->addException(
                     $e,
-                    $this->__('Can not remove Gift Card, please try again later.')
+                    $this->__('Cannot remove Gift Card, please try again later.')
                 );
             }
         }

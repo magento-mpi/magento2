@@ -64,7 +64,7 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
             } catch (Exception $e) {
                 Mage::getSingleton('customer/session')->addException(
                     $e,
-                    $this->__('Can not redeem Gift Card, please try again later.' . $e->getMessage())
+                    $this->__('Cannot redeem Gift Card, please try again later.' . $e->getMessage())
                 );
             }
             $this->_redirect('*/*/*');

@@ -59,7 +59,7 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
             } catch (Exception $e) {
                 Mage::getSingleton('checkout/session')->addException(
                     $e,
-                    $this->__('Can not apply Gift Card, please try again later.')
+                    $this->__('Cannot apply Gift Card, please try again later.')
                 );
             }
         }
@@ -83,7 +83,7 @@ class Enterprise_GiftCardAccount_CartController extends Mage_Core_Controller_Fro
             } catch (Exception $e) {
                 Mage::getSingleton('checkout/session')->addException(
                     $e,
-                    $this->__('Can not remove Gift Card, please try again later.')
+                    $this->__('Cannot remove Gift Card, please try again later.')
                 );
             }
             $this->_redirect('checkout/cart');
