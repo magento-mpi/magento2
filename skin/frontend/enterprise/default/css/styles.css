@@ -153,7 +153,7 @@ p.required { margin:0; padding:5px 0 0 0; text-align:right; width:620px; font-si
 .v-fix .validation-advice { display:block; width:12em; margin-right:-12em; position:relative; }
 
 /* Fieldset */
-.fieldset { font-size:12px; margin:0 0 16px; }
+.fieldset { font-size:12px; border:0; margin:0 0 16px; }
 .fieldset h3,
 .fieldset p { margin:0 0 1.5em; }
 .fieldset h3 { color:#000; }
@@ -248,7 +248,7 @@ a.back-link { color:#999; }
 .messages li.error-msg,
 .messages li.success-msg,
 .messages li.note-msg,
-.messages li.notice-msg { border-style:solid !important; border-width:1px !important; font-size:12px !important; /*  border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; */ }
+.messages li.notice-msg { border-style:solid !important; border-width:1px !important; font-size:12px !important; }
 p.error-msg { border-style:solid !important; padding:10px; border-width:1px !important; font-size:12px !important; margin:10px 0; }
 /* Error Message */
 .messages li.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }

@@ -1,0 +1,93 @@
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+.nav-bar { padding:0 7px 0 0; margin:0 31px 0 0; height:31px; background:url(images/bkg_nav.gif) repeat-x 0 -47px; }
+
+#nav { float:left; text-align:left; padding-left:34px; height:31px; background:url(images/bkg_nav.gif) no-repeat 0 0;   }
+
+/* All Levels */
+#nav li { position:relative; z-index:4; }
+#nav li.active { z-index:5; }
+#nav li.over { z-index:990; }
+/*#nav li.parent {}*/
+#nav li a { text-decoration:none; }
+#nav li a:hover { text-decoration:none; }
+#nav li a span { display:block; cursor:pointer; white-space:nowrap; }
+#nav li ul a span { white-space:normal; }
+
+/* 1st Level */
+#nav li { margin:0; padding:0 0 0 0; height:28px; float:left; }
+#nav li a { float:left; height:28px; line-height:28px; border-top:1px solid #c0c0c0; padding:0 0 0 10px; } 
+#nav li a,
+#nav li a span { background:url(images/bkg_nav-item-border.gif) no-repeat 100% 0; } 
+#nav li.first a { border-left:0; padding-left:10px; } 
+#nav li.last a { /* border-right:0;  */} 
+#nav li a span { font-weight:bold; padding:0 12px 0 0; float:left; }
+#nav li a { color:#333; font-size:13px; }
+#nav li a:hover { background-position:0 -60px; margin-left:-1px; height:29px; border:0; overflow:hidden; padding:0 0 0 11px; }
+#nav li a:hover span { background-position:100% -60px; padding:2px 12px 0 0; }
+#nav li.over a,
+#nav li.active a {  background-position:0 -60px; margin-left:-1px; height:29px; border:0; overflow:hidden; padding:0 0 0 11px; }
+#nav li.over a span,
+#nav li.active a span { background-position:100% -60px; padding:1px 12px 0 0; }
+
+#nav li.over a { position:relative; z-index:2; line-height:30px; height:31px; }
+#nav li.over a span { padding:1px 12px 0 0; }
+
+/* 2nd Level */
+#nav ul { position:absolute; width:13.5em; top:30px; left:-10000px; background:#fbfbfb; padding:5px 11px 10px; border:1px solid #aeaeae; border-top:0; }
+#nav ul li,
+#nav ul li a,
+#nav ul li a span { display:block; font-size:12px; float:none; background:none; height:auto !important; line-height:1.2 !important; font-weight:normal; text-transform:none; }
+#nav ul li { margin:0; padding:0; border-bottom:1px solid #e2e2e2; }
+#nav ul li.last { border-bottom:0; }
+#nav ul li a { padding:5px 4px !important; position:static!important; color:#444; }
+#nav ul li a span { padding:0 !important; }
+#nav ul li a:hover { color:#d02600; background:#fffdf6; }
+#nav ul li.active > a,
+#nav ul li.over > a { color:#444 }
+#nav ul li.parent { background-image:url(images/bkg_parent.gif); background-repeat:no-repeat; background-position:100% 50%;   }
+
+/* 3rd+ leven */
+#nav ul ul { top:7px; border-top:1px solid #aeaeae; padding-bottom:5px; }
+
+/* Show menu */
+#nav li.over > ul { left:-1px; }
+#nav li.over > ul li.over > ul { left:100px; }
+#nav li.over ul ul { left:-10000px; }
+
+/* Cursors */
+#nav li.parent a,
+#nav li.parent li.parent a,
+#nav li.parent li.parent li.parent a { cursor:default; }
+#nav li.parent li a,
+#nav li.parent li.parent li a,
+#nav li.parent li.parent li.parent li a { cursor:pointer; }
+#nav li.parent a span,
+#nav li.parent li.parent a span,
+#nav li.parent li.parent li.parent a span { cursor:default; }
+#nav li.parent li a span,
+#nav li.parent li.parent li a span,
+#nav li.parent li.parent li.parent li a span { cursor:pointer; }
+
+.nav-bar:after { content:"."; display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden;  }
