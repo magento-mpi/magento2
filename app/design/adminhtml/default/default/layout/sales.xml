@@ -115,7 +115,10 @@
                                     <action method="setSourceField"><value>subtotal</value></action>
                                     <action method="setLabel"><value>Subtotal</value></action>
                                 </block>
-                                <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                                <block type="adminhtml/sales_order_totals_item" name="tax" template="sales/order/totals/item.phtml">
+                                    <action method="setSourceField"><value>tax_amount</value></action>
+                                    <action method="setLabel"><value>Tax</value></action>
+                                </block>
                                 <block type="adminhtml/sales_order_totals_item" name="shipping" template="sales/order/totals/shipping.phtml" />
                                 <block type="adminhtml/sales_order_totals_item" name="discount" template="sales/order/totals/discount.phtml" />
                                 <block type="adminhtml/sales_order_totals_item" name="giftcert" template="sales/order/totals/item.phtml">
@@ -158,7 +161,10 @@
                         <action method="setSourceField"><value>subtotal</value></action>
                         <action method="setLabel"><value>Subtotal</value></action>
                     </block>
-                    <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                    <block type="adminhtml/sales_order_totals_item" name="tax" template="sales/order/totals/item.phtml">
+                        <action method="setSourceField"><value>tax_amount</value></action>
+                        <action method="setLabel"><value>Tax</value></action>
+                    </block>
                     <block type="adminhtml/sales_order_totals_item" name="shipping" template="sales/order/totals/shipping.phtml" />
                     <block type="adminhtml/sales_order_totals_item" name="discount" template="sales/order/totals/discount.phtml" />
                     <block type="adminhtml/sales_order_totals_item" name="giftcert" template="sales/order/totals/item.phtml">
@@ -212,7 +218,10 @@
                                 <action method="setSourceField"><value>subtotal</value></action>
                                 <action method="setLabel"><value>Subtotal</value></action>
                             </block>
-                            <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+                            <block type="adminhtml/sales_order_totals_item" name="subtotal" template="sales/order/totals/item.phtml">
+                                <action method="setSourceField"><value>tax_amount</value></action>
+                                <action method="setLabel"><value>Tax</value></action>
+                            </block>
                             <block type="adminhtml/sales_order_totals_item" name="shipping" template="sales/order/totals/shipping.phtml" />
                             <block type="adminhtml/sales_order_totals_item" name="discount" template="sales/order/totals/discount.phtml" />
                             <block type="adminhtml/sales_order_totals_item" name="giftcert" template="sales/order/totals/item.phtml">
