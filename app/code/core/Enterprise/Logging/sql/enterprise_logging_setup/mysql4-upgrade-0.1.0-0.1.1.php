@@ -32,10 +32,10 @@
  */
 
 $installer = $this;
-/* @var $installer Mage_Eav_Model_Entity_Setup */
+/* @var $installer Mage_Core_Model_Resource_Setup */
 $installer->startSetup();
 
-$installer->run("DROP TABLE IF EXISTS `enterprise_logging_user_log`");
+$installer->run("DROP TABLE IF EXISTS `{$this->getTable('enterprise_logging_user_log')}`");
 $installer->getConnection()->addColumn($this->getTable('enterprise_logging/event'), 'status', "char(15) NOT NULL DEFAULT 'success'");
 
 $installer->endSetup();

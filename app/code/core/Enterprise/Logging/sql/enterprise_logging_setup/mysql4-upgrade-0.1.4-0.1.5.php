@@ -26,7 +26,7 @@
 
 
 $installer = $this;
-/* @var $installer Mage_Eav_Model_Entity_Setup */
+/* @var $installer Mage_Core_Model_Resource_Setup */
 $installer->startSetup();
 
 $installer->getConnection()->changeColumn($this->getTable('enterprise_logging/event'), 'ip', 'ip', "bigint(20) NOT NULL default '0'");

@@ -60,7 +60,7 @@
             <enterprise_logging_setup>
                 <setup>
                     <module>Enterprise_Logging</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <class>Mage_Core_Model_Resource_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>
@@ -182,7 +182,7 @@
         <layout>
             <updates>
                 <events>
-                    <file>enterprise/events.xml</file>
+                    <file>enterprise/logging.xml</file>
                 </events>
             </updates>
         </layout>
