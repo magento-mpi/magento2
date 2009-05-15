@@ -954,15 +954,18 @@ class Mage_Core_Model_App
     {
         if (!$this->_cache) {
             $backend = strtolower((string)Mage::getConfig()->getNode('global/cache/backend'));
-            if (extension_loaded('apc') && ini_get('apc.enabled') && $backend=='apc') {
+            if (!$cachePrefix = (string)Mage::getConfig()->getNode('global/cache/prefix')) {
+                $cachePrefix = md5(Mage::getConfig()->getBaseDir());
+            }
+            if (extension_loaded('apc') && ini_get('apc.enabled') && $backend == 'apc') {
                 $backend = 'Apc';
                 $backendAttributes = array(
-                    'cache_prefix' => (string)Mage::getConfig()->getNode('global/cache/prefix')
+                    'cache_prefix' => $cachePrefix
                 );
             } elseif (extension_loaded('eaccelerator') && ini_get('eaccelerator.enable') && $backend=='eaccelerator') {
                 $backend = 'Eaccelerator';
                 $backendAttributes = array(
-                    'cache_prefix' => (string)Mage::getConfig()->getNode('global/cache/prefix')
+                    'cache_prefix' => $cachePrefix
                 );
             } elseif ('memcached' == $backend && extension_loaded('memcache')) {
                 $backend = 'Memcached';
