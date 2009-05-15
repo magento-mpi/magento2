@@ -336,9 +336,9 @@ class Enterprise_Logging_Model_Observer
      * Custom method for save staging
      */
     public function getSaveStagingAction($config, $success) {
-        $data = Mage::app()->getRequest()->getParam('staging');
-        $data = $data['websites'];
-        list($master_id, $date) = each($data);
+        //$data = Mage::app()->getRequest()->getParam('staging');
+        //$data = $data['websites'];
+        //list($master_id, $date) = each($data);
 
         $class = isset($config['model']) ? $config['model'] : '';
         $class = Mage::getConfig()->getModelClassName($class);
@@ -346,10 +346,12 @@ class Enterprise_Logging_Model_Observer
         $model = Mage::registry('saved_model_'.$action);
 
         $id = 0;
+        $master_id = 0;
         if ($model == null || !($model instanceof $class)) {
             $success = 0;
         } else {
             $id = $model->getId();
+            $master_id = $model->getMasterWebsiteId();
         }
         $info = sprintf("master-%s,staging_id-%s", $master_id, $id);
         return array(
