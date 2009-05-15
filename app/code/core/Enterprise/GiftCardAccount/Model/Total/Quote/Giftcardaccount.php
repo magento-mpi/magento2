@@ -130,7 +130,7 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
                 } else if ($model->getBalance() != $card['ba']) {
                     $card['ba'] = $model->getBalance();
                 } else {
-                    $card['a'] = $quote->getStore()->convertPrice($card['ba']);
+                    $card['a'] = $quote->getStore()->roundPrice($quote->getStore()->convertPrice($card['ba']));
                     $baseAmount += $card['ba'];
                     $amount += $card['a'];
                 }

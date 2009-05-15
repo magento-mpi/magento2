@@ -61,6 +61,9 @@ class Enterprise_GiftCardAccount_Model_Total_Creditmemo_Giftcardaccount extends 
             $creditmemo->setGiftCardsAmount($used);
         }
 
+        $creditmemo->setBaseCustomerBalanceReturnMax($creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseGiftCardsAmount());
+        $creditmemo->setCustomerBalanceReturnMax($creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getGiftCardsAmount());
+
         return $this;
     }
 }

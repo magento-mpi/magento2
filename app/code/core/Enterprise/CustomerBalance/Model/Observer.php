@@ -315,6 +315,24 @@ class Enterprise_CustomerBalance_Model_Observer
 
         $input = $request->getParam('creditmemo');
 
+        if (isset($input['refund_customerbalance_return'])) {
+            $amount = $input['refund_customerbalance_return'];
+            if (is_numeric($amount)) {
+                $amount = max(0, min($creditmemo->getBaseCustomerBalanceReturnMax(), $amount));
+                if ($amount) {
+                    $amount = $creditmemo->getStore()->roundPrice($amount);
+                    $creditmemo->setBaseCustomerBalanceTotalRefunded($amount);
+
+                    $amount = $creditmemo->getStore()->roundPrice(
+                        $amount*$creditmemo->getOrder()->getStoreToOrderRate()
+                    );
+                    $creditmemo->setCustomerBalanceTotalRefunded($amount);
+
+                    $creditmemo->setPaymentRefundDisallowed(true);
+                }
+            }
+        }
+
         if (isset($input['refund_customerbalance']) && $input['refund_customerbalance']) {
             $creditmemo->setRefundCustomerBalance(true);
         }

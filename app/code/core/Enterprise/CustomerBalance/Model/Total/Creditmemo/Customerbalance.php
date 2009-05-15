@@ -34,12 +34,15 @@ class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends 
      */
     public function collect(Mage_Sales_Model_Order_Creditmemo $creditmemo)
     {
+        $creditmemo->setBaseCustomerBalanceTotalRefunded(0);
+        $creditmemo->setCustomerBalanceTotalRefunded(0);
+
+        $creditmemo->setBaseCustomerBalanceReturnMax(0);
+        $creditmemo->setCustomerBalanceReturnMax(0);
+
         if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
             return $this;
         }
-
-        $creditmemo->setBaseCustomerBalanceTotalRefunded(0);
-        $creditmemo->setCustomerBalanceTotalRefunded(0);
 
         $order = $creditmemo->getOrder();
         if ($order->getBaseCustomerBalanceAmount() && $order->getBaseCustomerBalanceInvoiced() != 0) {
@@ -67,6 +70,12 @@ class Enterprise_CustomerBalance_Model_Total_Creditmemo_Customerbalance extends 
             $creditmemo->setBaseCustomerBalanceAmount($baseUsed);
             $creditmemo->setCustomerBalanceAmount($used);
         }
+
+        $creditmemo->setBaseCustomerBalanceReturnMax($creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseGrandTotal());
+        $creditmemo->setBaseCustomerBalanceReturnMax($creditmemo->getBaseCustomerBalanceReturnMax() + $creditmemo->getBaseCustomerBalanceAmount());
+
+        $creditmemo->setCustomerBalanceReturnMax($creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getGrandTotal());
+        $creditmemo->setCustomerBalanceReturnMax($creditmemo->getCustomerBalanceReturnMax() + $creditmemo->getCustomerBalanceAmount());
 
         return $this;
     }

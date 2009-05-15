@@ -143,7 +143,7 @@
         </reference>
     </adminhtml_sales_order_creditmemo_view>
 
-    <adminhtml_sales_order_creditmemo_new>
+    <!-- adminhtml_sales_order_creditmemo_new>
         <reference name="submit_before">
             <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_controls" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/controls.phtml" />
         </reference>
@@ -152,6 +152,18 @@
     <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="submit_before">
             <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_controls" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/controls.phtml" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_updateqty -->
+
+    <adminhtml_sales_order_creditmemo_new>
+        <reference name="submit_before">
+            <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_controls" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/refund.phtml" />
+        </reference>
+    </adminhtml_sales_order_creditmemo_new>
+
+    <adminhtml_sales_order_creditmemo_updateqty>
+        <reference name="submit_before">
+            <block type="enterprise_customerbalance/adminhtml_sales_order_creditmemo_controls" name="customerbalance" template="enterprise/customerbalance/sales/creditmemo/refund.phtml" />
         </reference>
     </adminhtml_sales_order_creditmemo_updateqty>
 </layout>

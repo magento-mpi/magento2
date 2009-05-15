@@ -99,7 +99,7 @@
         </reference>
     </adminhtml_sales_order_creditmemo_view>
 
-    <adminhtml_sales_order_creditmemo_new>
+    <!-- adminhtml_sales_order_creditmemo_new>
         <reference name="submit_before">
             <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
         </reference>
@@ -109,5 +109,5 @@
         <reference name="submit_before">
             <block type="enterprise_giftcardaccount/adminhtml_sales_order_creditmemo_controls" name="giftcardaccount" template="enterprise/giftcardaccount/sales/creditmemo/controls.phtml" />
         </reference>
-    </adminhtml_sales_order_creditmemo_updateqty>
+    </adminhtml_sales_order_creditmemo_updateqty -->
 </layout>

@@ -50,4 +50,17 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
         }
         return true;
     }
+
+    public function isRefundToCustomerBalanceAvailable()
+    {
+        if (Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getReturnValue()
+    {
+        return 0;
+    }
 }
