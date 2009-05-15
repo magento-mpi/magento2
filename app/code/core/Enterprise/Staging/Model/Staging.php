@@ -255,11 +255,12 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
 
             $event->saveOnProcessRun($this, $process, 'after');
         }
-        catch (Exception $e){
+        catch (Exception $e) {
             $this->_getResource()->rollBack();
             $event->saveOnProcessRun($this, $process, 'after', $e);
             Mage::throwException($e);
         }
+
         return $this;
     }
 
@@ -290,9 +291,30 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     {
         Mage::dispatchEvent($this->_eventPrefix.'_'.$process.'_process_run_after', array($this->_eventObject => $this, 'event' => $event));
 
-        $this->releaseCoreFlag();
         Mage::getConfig()->reinit();
         Mage::app()->reinitStores();
+
+        $needToRebuiltFlat = false;
+        switch ($process) {
+            case 'create':
+            case 'rollback':
+                $needToRebuiltFlat = true;
+                break;
+            case 'merge':
+                if (!$this->canUnschedule()) {
+                    $needToRebuiltFlat = true;
+                }
+                break;
+        }
+        if ($needToRebuiltFlat) {
+            if (Mage::helper('catalog/category_flat')->isRebuilt()) {
+                Mage::getResourceModel('catalog/category_flat')->rebuild();
+            }
+            if (Mage::helper('catalog/product_flat')->isBuilt()) {
+                Mage::getResourceModel('catalog/product_flat_indexer')->rebuild();
+            }
+        }
+        $this->releaseCoreFlag();
         return $this;
     }
 
@@ -459,7 +481,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     /**
      * Retrieve Mapper instance
      *
-     * @return Enterprise_Staging_Model_Staging_Mapper_Abstract
+     * @return Enterprise_Staging_Model_Staging_Mapper_Website
      */
     public function getMapperInstance()
     {

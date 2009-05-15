@@ -142,6 +142,7 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
                 ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
                 ->setCreatedAt(Mage::registry($event->getCode() . "_event_start_time"))
                 ->setStagingTablePrefix($tablePrefix)
+                ->setMap($staging->getMapperInstance()->serialize())
                 ->setMageVersion(Mage::getVersion())
                 ->setMageModulesVersion(serialize(Mage::getSingleton('enterprise_staging/staging_config')->getCoreResourcesVersion()));
             $this->save();
@@ -255,9 +256,9 @@ class Enterprise_Staging_Model_Staging_Backup extends Mage_Core_Model_Abstract
 
     public function restoreMap()
     {
-        $mergeMap = $this->getMergeMap();
-        if (!empty($mergeMap)) {
-            $this->getStaging()->getMapperInstance()->unserialize($mergeMap);
+        $map = $this->getMap();
+        if (!empty($map)) {
+            $this->getStaging()->getMapperInstance()->unserialize($map);
         }
         return $this;
     }

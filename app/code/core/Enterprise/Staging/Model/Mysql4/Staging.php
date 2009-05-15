@@ -321,7 +321,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
             $adapter = $this->getItemAdapterInstanse($stagingItem);
             $adapter->{$callback}($staging, $event);
             if ($ignoreExtends) {
-                return $this;
+                continue;
             }
             if ($stagingItem->extends) {
                 foreach ($stagingItem->extends->children() as $extendItem) {

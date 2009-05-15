@@ -110,7 +110,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
 
     public function restoreMap()
     {
-        $map = $this->getMergeMap();
+        $map = $this->getMap();
         if (!empty($map)) {
             $this->getStaging()->getMapperInstance()->unserialize($map);
         }
@@ -200,6 +200,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
             ->setName($eventStatusLabel)
             ->setStatus($eventStatus)
             ->setIsAdminNotified(false)
+            ->setMap($staging->getMapperInstance()->serialize())
             ->setComment($comment)
             ->setLog($exceptionMessage)
             ->save();

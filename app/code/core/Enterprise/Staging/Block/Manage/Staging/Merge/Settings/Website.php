@@ -68,7 +68,7 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
     /**
      * Retrieve currently edited staging object
      *
-     * @return Enterprise_Staging_Block_Manage_Staging
+     * @return Enterprise_Staging_Model_Staging
      */
     public function getStaging()
     {
@@ -95,7 +95,7 @@ class Enterprise_Staging_Block_Manage_Staging_Merge_Settings_Website extends Mag
     {
         $collection = Mage::getModel('core/website')
             ->getResourceCollection()
-            ->addFieldToFilter('website_id',array('neq'=>0));
+            ->addFieldToFilter('website_id',array('nin'=>array(0, $this->getStaging()->getStagingWebsiteId())));
 
         return $collection;
     }

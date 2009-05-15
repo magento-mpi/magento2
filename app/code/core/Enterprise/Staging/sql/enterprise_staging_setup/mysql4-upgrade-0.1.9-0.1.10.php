@@ -24,29 +24,15 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Staging_Model_Mysql4_Adapter_Item_Category extends Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
-{
-    /**
-     * List of table codes which shuldn't process if product item were not chosen
-     *
-     * @var array
-     */
-    protected $_ignoreIfProductNotChosen = array('category_product', 'category_product_index');
+$installer = $this;
+/* @var $installer Mage_Eav_Model_Entity_Setup */
+$installer->startSetup();
 
-    /**
-     * Create item table and records, run processes in website and store scopes
-     *
-     * @param string    $entityName
-     *
-     * @return Enterprise_Staging_Model_Staging_Adapter_Item_Abstract
-     */
-    protected function _createItem($entityName)
-    {
-        if (!$this->getStaging()->getMapperInstance()->hasStagingItem('product')) {
-            if (strpos($entityName, 'product') !== false) {
-                return $this;
-            }
-        }
-        return parent::_createItem($entityName);
-    }
-}
+$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging'), 'state');
+$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_event'), 'state');
+$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_backup'), 'state');
+$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_rollback'), 'state');
+
+$installer->getConnection()->changeColumn($this->getTable('enterprise_staging/staging_event'), 'merge_map', 'map', "text default ''");
+$installer->getConnection()->changeColumn($this->getTable('enterprise_staging/staging_backup'), 'merge_map', 'map', "text default ''");
+$installer->endSetup();

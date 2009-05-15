@@ -29,23 +29,25 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Config extends Enterprise_Sta
     /**
      * Prepare simple select by given parameters
      *
-     * @param mixed $fields
-     * @param string $table
+     * @param mixed  $table
+     * @param string $fields
      * @param string $where
      * @return string
      */
-    protected function _getSimpleSelect($fields, $table, $where = null)
+    protected function _getSimpleSelect($table, $fields, $where = null)
     {
         $_where = array();
         if (!is_null($where)) {
             $_where[] = $where;
         }
 
-        $itemXmlConfig = $this->getConfig();
-        if ($itemXmlConfig->ignore_nodes) {
-            foreach ($itemXmlConfig->ignore_nodes->children() as $node) {
-                $path = (string) $node->path;
-                $_where[] = "path NOT LIKE '%{$path}%'";
+        if ($this->getEvent()->getCode() !== 'rollback') {
+            $itemXmlConfig = $this->getConfig();
+            if ($itemXmlConfig->ignore_nodes) {
+                foreach ($itemXmlConfig->ignore_nodes->children() as $node) {
+                    $path = (string) $node->path;
+                    $_where[] = "path NOT LIKE '%{$path}%'";
+                }
             }
         }
         if (is_array($fields)) {

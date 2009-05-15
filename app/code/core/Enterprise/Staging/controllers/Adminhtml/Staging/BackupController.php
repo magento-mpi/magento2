@@ -229,7 +229,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
             $staging->getMapperInstance()->setRollbackMapData($mapData);
 
             if ($staging->getMapperInstance()->hasStagingItems()) {
-                $staging->setEventId($backup->getEventId());
+                $staging->getMapperInstance()->setBackupTablePrefix($backup->getStagingTablePrefix());
                 $staging->rollback();
                 $this->_getSession()->addSuccess($this->__('Master website successfully restored.'));
             } else {

@@ -70,8 +70,8 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
      * @var mixed
      */
     protected $_flatTables = array(
-        'category_flat' => true,
-        'product_flat'  => true
+        'catalog/category_flat' => true,
+        'catalog/product_flat'  => true
     );
 
     /**
@@ -275,15 +275,19 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
     /**
      * Create table
      *
-     * @param array $srcTableDescription
-     * @param string $targetTable
+     * @param string $tableName
+     * @param string $srcTableName
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    public function createTable($srcTableDescription, $targetTable)
+    public function createTable($tableName, $srcTableName)
     {
-        $srcTableDescription['table_name'] = $targetTable;
-        $sql = $this->_getCreateSql($srcTableDescription, null);
+        $srcTableDesc = $this->getTableProperties($srcTableName);
+        if (!$srcTableDesc) {
+            return $this;
+        }
+        $srcTableDesc['table_name'] = $this->getTable($tableName);
+        $sql = $this->_getCreateSql($srcTableDesc, null);
 
         try {
             $this->_getWriteAdapter()->query($sql);
@@ -297,24 +301,27 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
     /**
      * Check table for existing and create it if not
      *
-     * @param array     $srcTableDesc
-     * @param string    $targetTable
-     * @param string    $prefix
+     * @param string $tableName
+     * @param string $srcTableName
+     * @param string $prefix
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    protected function _checkCreateTable($srcTableDesc, $targetTable, $prefix)
+    protected function _checkCreateTable($tableName, $srcTableName, $prefix)
     {
-        $targetTableDesc = $this->getTableProperties($targetTable);
-        if (!$targetTableDesc) {
-            $srcTableDesc['table_name'] = $targetTable;
-            if (!empty($srcTableDesc['constraints'])) {
-                foreach($srcTableDesc['constraints'] as $constraint => $data) {
-                    $srcTableDesc['constraints'][$constraint]['fk_name'] = $prefix . $data['fk_name'];
+        $tableDesc = $this->getTableProperties($tableName);
+        if (!$tableDesc) {
+            $srcTableDesc = $this->getTableProperties($srcTableName);
+            if ($srcTableDesc) {
+                $srcTableDesc['table_name'] = $tableName;
+                if (!empty($srcTableDesc['constraints'])) {
+                    foreach($srcTableDesc['constraints'] as $constraint => $data) {
+                        $srcTableDesc['constraints'][$constraint]['fk_name'] = $prefix . $data['fk_name'];
+                    }
                 }
+                $sql = $this->_getCreateSql($srcTableDesc);
+                $this->_getWriteAdapter()->query($sql);
             }
-            $sql = $this->_getCreateSql($srcTableDesc);
-            $this->_getWriteAdapter()->query($sql);
         }
         return $this;
     }
@@ -467,12 +474,18 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
      * Retrieve table properties as array
      * fields, keys, constraints, engine, charset, create
      *
-     * @param string $table
+     * @param string $entityName
      * @param bool   $strongRestrict
      * @return array
      */
-    public function getTableProperties($table, $strongRestrict = false)
+    public function getTableProperties($entityName, $strongRestrict = false)
     {
+        if (strpos($entityName, '/') !== false) {
+            $table = $this->getTable($entityName);
+        } else {
+            $table = $entityName;
+        }
+
         if (!$this->tableExists($table)) {
             if ($strongRestrict) {
                 throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')
@@ -606,12 +619,13 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
     /**
      * Prepare simple select by given parameters
      *
-     * @param mixed $fields
-     * @param string $table
+     * @param mixed  $entityName
+     * @param mixed  $fields
      * @param string $where
+     *
      * @return string
      */
-    protected function _getSimpleSelect($fields, $table, $where = null)
+    protected function _getSimpleSelect($entityName, $fields, $where = null)
     {
         if (is_array($fields)) {
             $fields = $this->_prepareFields($fields);
@@ -621,7 +635,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
             $where = " WHERE " . $where;
         }
 
-        return "SELECT $fields FROM `{$table}` $where";
+        return "SELECT $fields FROM `".$this->getTable($entityName)."` $where";
     }
 
     /**
@@ -642,6 +656,70 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
             }
         }
         return implode(', ', $fields);
+    }
+
+    /**
+     * Delete rows by Unique fields
+     *
+     * @param string $type
+     * @param string $scope
+     * @param string $srcTable
+     * @param string $targetTable
+     * @param mixed  $masterIds
+     * @param mixed  $slaveIds
+     * @param mixed  $keys
+     * @param string $addidtionalWhereCondition
+     *
+     * @return value
+     */
+    protected function _deleteDataByKeys($type='UNIQUE', $scope='websites', $srcTable, $targetTable, $masterIds, $slaveIds, $keys, $addidtionalWhereCondition=null)
+    {
+        if (is_array($masterIds)) {
+            $masterWhere = " IN (" . implode(", ", $masterIds). ") ";
+        } else {
+            $masterWhere = " = " . $masterIds;
+        }
+        if (is_array($slaveIds)) {
+            $slaveWhere = " IN (" . implode(", ", $slaveIds). ") ";
+        } else {
+            $slaveWhere = " = " . $slaveIds;
+        }
+
+        foreach ($keys as $keyData) {
+            if ($keyData['type'] == $type) {
+                $_websiteFieldNameSql = array();
+                foreach ($keyData['fields'] as $field) {
+
+                    if ($field == 'website_id' || $field == 'store_id') {
+                        $_websiteFieldNameSql[] = " T1.`{$field}` $slaveWhere
+                            AND T2.`{$field}` $masterWhere ";
+                    } elseif ($field == 'scope_id') {
+                        $_websiteFieldNameSql[] = " T1.`scope` = '{$scope}' AND T1.`{$field}` $slaveWhere
+                            AND T2.`{$field}` $masterWhere ";
+                    } else { //website_ids is update data as rule, so it must be in backup.
+                        $_websiteFieldNameSql[] = "T1.`$field` = T2.`$field`";
+                    }
+                }
+
+                $sql = "DELETE T1.* FROM `{$targetTable}` as T1, `{$srcTable}` as T2 WHERE " . implode(" AND " , $_websiteFieldNameSql);
+                if (!empty($addidtionalWhereCondition)) {
+                    $addidtionalWhereCondition = str_replace(array($srcTable, $targetTable), array("T2" , "T1") , $addidtionalWhereCondition);
+                    $sql .= " AND " . $addidtionalWhereCondition;
+                }
+                return $sql;
+            }
+        }
+        return "";
+    }
+
+    public function getTable($entityName)
+    {
+        if (strpos($entityName, '/') !== false) {
+            $table = parent::getTable($entityName);
+        } else {
+            $table = $entityName;
+        }
+        return $table;
     }
 
     /**
