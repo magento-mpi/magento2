@@ -34,6 +34,13 @@
 class Mage_Core_Model_Config_Options extends Varien_Object
 {
     /**
+     * Flag cache for existing or already created directories
+     *
+     * @var array
+     */
+    protected $_dirExists = array();
+
+    /**
      * Initialize default values of the options
      */
     protected function _construct()
@@ -50,7 +57,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
         $this->_data['locale_dir']  = $appRoot.DS.'locale';
         $this->_data['media_dir']   = $root.DS.'media';
         $this->_data['skin_dir']    = $root.DS.'skin';
-        $this->_data['var_dir']     = $root.DS.'var';
+        $this->_data['var_dir']     = $this->getVarDir();
         $this->_data['tmp_dir']     = $this->_data['var_dir'].DS.'tmp';
         $this->_data['cache_dir']   = $this->_data['var_dir'].DS.'cache';
         $this->_data['log_dir']     = $this->_data['var_dir'].DS.'log';
@@ -132,10 +139,10 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     public function getVarDir()
     {
         //$dir = $this->getDataSetDefault('var_dir', $this->getBaseDir().DS.'var');
-        $dir = $this->_data['var_dir'];
-        if (!Mage::getConfig()->createDirIfNotExists($dir)) {
+        $dir = isset($this->_data['var_dir']) ? $this->_data['var_dir'] : $this->_data['base_dir'].DS.'var';
+        if (!$this->createDirIfNotExists($dir)) {
             $dir = $this->getSysTmpDir().DS.'magento'.DS.'var';
-            if (!Mage::getConfig()->createDirIfNotExists($dir)) {
+            if (!$this->createDirIfNotExists($dir)) {
                 throw new Mage_Core_Exception('Unable to find writable var_dir');
             }
         }
@@ -146,9 +153,9 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     {
         //$dir = $this->getDataSetDefault('tmp_dir', $this->getVarDir().DS.'tmp');
         $dir = $this->_data['tmp_dir'];
-        if (!Mage::getConfig()->createDirIfNotExists($dir)) {
+        if (!$this->createDirIfNotExists($dir)) {
             $dir = $this->getSysTmpDir().DS.'magento'.DS.'tmp';
-            if (!Mage::getConfig()->createDirIfNotExists($dir)) {
+            if (!$this->createDirIfNotExists($dir)) {
                 throw new Mage_Core_Exception('Unable to find writable tmp_dir');
             }
         }
@@ -159,7 +166,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     {
         //$dir = $this->getDataSetDefault('cache_dir', $this->getVarDir().DS.'cache');
         $dir = $this->_data['cache_dir'];
-        Mage::getConfig()->createDirIfNotExists($dir);
+        $this->createDirIfNotExists($dir);
         return $dir;
     }
 
@@ -167,7 +174,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     {
         //$dir = $this->getDataSetDefault('log_dir', $this->getVarDir().DS.'log');
         $dir = $this->_data['log_dir'];
-        Mage::getConfig()->createDirIfNotExists($dir);
+        $this->createDirIfNotExists($dir);
         return $dir;
     }
 
@@ -175,7 +182,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     {
         //$dir = $this->getDataSetDefault('session_dir', $this->getVarDir().DS.'session');
         $dir = $this->_data['session_dir'];
-        Mage::getConfig()->createDirIfNotExists($dir);
+        $this->createDirIfNotExists($dir);
         return $dir;
     }
 
@@ -183,7 +190,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     {
         //$dir = $this->getDataSetDefault('upload_dir', $this->getMediaDir().DS.'upload');
         $dir = $this->_data['upload_dir'];
-        Mage::getConfig()->createDirIfNotExists($dir);
+        $this->createDirIfNotExists($dir);
         return $dir;
     }
 
@@ -191,7 +198,28 @@ class Mage_Core_Model_Config_Options extends Varien_Object
     {
         //$dir = $this->getDataSetDefault('export_dir', $this->getVarDir().DS.'export');
         $dir = $this->_data['export_dir'];
-        Mage::getConfig()->createDirIfNotExists($dir);
+        $this->createDirIfNotExists($dir);
         return $dir;
+    }
+
+    public function createDirIfNotExists($dir)
+    {
+        if (!empty($this->_dirExists[$dir])) {
+            return true;
+        }
+        if (file_exists($dir)) {
+            if (!is_dir($dir)) {
+                return false;
+            }
+            if (!is_writable($dir)) {
+                return false;
+            }
+        } else {
+            if (!@mkdir($dir, 0777, true)) {
+                return false;
+            }
+        }
+        $this->_dirExists[$dir] = true;
+        return true;
     }
 }

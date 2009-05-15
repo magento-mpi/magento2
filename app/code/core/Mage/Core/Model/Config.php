@@ -847,26 +847,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     public function createDirIfNotExists($dir)
     {
-        if (!empty($this->_dirExists[$dir])) {
-            return true;
-        }
-        if (file_exists($dir)) {
-            if (!is_dir($dir)) {
-                return false;
-//                throw new Mage_Core_Exception($dir.' is not a directory');
-            }
-            if (!is_writable($dir)) {
-                return false;
-//                throw new Mage_Core_Exception($dir.' is not writable');
-            }
-        } else {
-            if (!@mkdir($dir, 0777, true)) {
-                return false;
-//                throw new Mage_Core_Exception('Unable to create '.$dir);
-            }
-        }
-        $this->_dirExists[$dir] = true;
-        return true;
+        return $this->getOptions()->createDirIfNotExists($dir);
     }
 
     /**
