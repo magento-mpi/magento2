@@ -82,7 +82,7 @@ final class Mage {
 
     public static function getVersion()
     {
-        return '1.3.x.10';
+        return '1.3.1.1';
     }
 
     /**
@@ -685,7 +685,7 @@ final class Mage {
     {
         $runDirUrl  = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
         $runDir     = rtrim(dirname($_SERVER['SCRIPT_FILENAME']), DS);
-        
+
         $baseUrl    = null;
         if (is_dir($runDir.'/'.$folder)) {
             $baseUrl = str_replace(DS, '/', $runDirUrl);
@@ -693,7 +693,7 @@ final class Mage {
             $runDirUrlArray = explode('/', $runDirUrl);
             $runDirArray = explode('/', $runDir);
             $count       = count($runDirArray);
-            
+
             for ($i=0; $i < $count; $i++) {
                 array_pop($runDirUrlArray);
                 array_pop($runDirArray);
