@@ -271,47 +271,27 @@ class Enterprise_CustomerBalance_Model_Observer
 
 
     /**
-     * Increase order customer_balance_refunded attribute based on created creditmemo
+     * Refund process
      * used for event: sales_order_creditmemo_save_after
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_CustomerBalance_Model_Observer
      */
-    public function increaseOrderRefundedAmount(Varien_Event_Observer $observer)
+    public function creditmemoSaveAfter(Varien_Event_Observer $observer)
     {
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
 
-        if ($creditmemo->getBaseCustomerBalanceAmount()) {
-            $order->setBaseCustomerBalanceRefunded($order->getBaseCustomerBalanceRefunded() + $creditmemo->getBaseCustomerBalanceAmount());
-            $order->setCustomerBalanceRefunded($order->getCustomerBalanceRefunded() + $creditmemo->getCustomerBalanceAmount());
-        }
-
         if ($creditmemo->getBaseCustomerBalanceTotalRefunded()) {
             $order->setBaseCustomerBalanceTotalRefunded($order->getBaseCustomerBalanceTotalRefunded() + $creditmemo->getBaseCustomerBalanceTotalRefunded());
             $order->setCustomerBalanceTotalRefunded($order->getCustomerBalanceTotalRefunded() + $creditmemo->getCustomerBalanceTotalRefunded());
-        }
-
-        if ($creditmemo->getBaseCustomerBalanceAmount() > 0 && $order->getCustomerId() && $creditmemo->getRefundCustomerBalance()) {
+            
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
             $balance = Mage::getModel('enterprise_customerbalance/balance')
                 ->setCustomerId($order->getCustomerId())
                 ->setWebsiteId($websiteId)
-                ->setAmountDelta($creditmemo->getBaseCustomerBalanceAmount())
-                ->setHistoryAction(Enterprise_CustomerBalance_Model_Balance_History::ACTION_REFUNDED)
-                ->setOrder($order)
-                ->setCreditMemo($creditmemo)
-                ->save();
-        }
-
-        if ($creditmemo->getBaseGrandTotal() > 0 && $order->getCustomerId() && $creditmemo->getRefundRealCustomerBalance()) {
-            $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
-
-            $balance = Mage::getModel('enterprise_customerbalance/balance')
-                ->setCustomerId($order->getCustomerId())
-                ->setWebsiteId($websiteId)
-                ->setAmountDelta($creditmemo->getBaseGrandTotal())
+                ->setAmountDelta($creditmemo->getBaseCustomerBalanceTotalRefunded())
                 ->setHistoryAction(Enterprise_CustomerBalance_Model_Balance_History::ACTION_REFUNDED)
                 ->setOrder($order)
                 ->setCreditMemo($creditmemo)
@@ -336,22 +316,10 @@ class Enterprise_CustomerBalance_Model_Observer
         $input = $request->getParam('creditmemo');
 
         if (isset($input['refund_customerbalance']) && $input['refund_customerbalance']) {
-            $baseAmount = $creditmemo->getBaseCustomerBalanceAmount();
-            $amount = $creditmemo->getCustomerBalanceAmount();
-
-            $creditmemo->setBaseCustomerBalanceTotalRefunded($creditmemo->getBaseCustomerBalanceTotalRefunded() + $baseAmount);
-            $creditmemo->setCustomerBalanceTotalRefunded($creditmemo->getCustomerBalanceTotalRefunded() + $amount);
-
             $creditmemo->setRefundCustomerBalance(true);
         }
 
         if (isset($input['refund_real_customerbalance']) && $input['refund_real_customerbalance']) {
-            $baseAmount = $creditmemo->getBaseGrandTotal();
-            $amount = $creditmemo->getGrandTotal();
-
-            $creditmemo->setBaseCustomerBalanceTotalRefunded($creditmemo->getBaseCustomerBalanceTotalRefunded() + $baseAmount);
-            $creditmemo->setCustomerBalanceTotalRefunded($creditmemo->getCustomerBalanceTotalRefunded() + $amount);
-
             $creditmemo->setRefundRealCustomerBalance(true);
             $creditmemo->setPaymentRefundDisallowed(true);
         }
@@ -381,6 +349,43 @@ class Enterprise_CustomerBalance_Model_Observer
 
         if ($order->getCustomerBalanceInvoiced() - $order->getCustomerBalanceRefunded() > 0) {
             $order->setForcedCanCreditmemo(true);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set refund amount to creditmemo
+     * used for event: sales_order_creditmemo_refund
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CustomerBalance_Model_Observer
+     */
+    public function refund(Varien_Event_Observer $observer)
+    {
+        $creditmemo = $observer->getEvent()->getCreditmemo();
+        $order = $creditmemo->getOrder();
+
+
+        if ($creditmemo->getRefundRealCustomerBalance() && $creditmemo->getBaseGrandTotal()) {
+            $baseAmount = $creditmemo->getBaseGrandTotal();
+            $amount = $creditmemo->getGrandTotal();
+
+            $creditmemo->setBaseCustomerBalanceTotalRefunded($creditmemo->getBaseCustomerBalanceTotalRefunded() + $baseAmount);
+            $creditmemo->setCustomerBalanceTotalRefunded($creditmemo->getCustomerBalanceTotalRefunded() + $amount);
+        }
+
+        if ($creditmemo->getBaseCustomerBalanceAmount()) {
+            if ($creditmemo->getRefundCustomerBalance()) {
+                $baseAmount = $creditmemo->getBaseCustomerBalanceAmount();
+                $amount = $creditmemo->getCustomerBalanceAmount();
+
+                $creditmemo->setBaseCustomerBalanceTotalRefunded($creditmemo->getBaseCustomerBalanceTotalRefunded() + $baseAmount);
+                $creditmemo->setCustomerBalanceTotalRefunded($creditmemo->getCustomerBalanceTotalRefunded() + $amount);
+            }
+
+            $order->setBaseCustomerBalanceRefunded($order->getBaseCustomerBalanceRefunded() + $creditmemo->getBaseCustomerBalanceAmount());
+            $order->setCustomerBalanceRefunded($order->getCustomerBalanceRefunded() + $creditmemo->getCustomerBalanceAmount());
         }
 
         return $this;

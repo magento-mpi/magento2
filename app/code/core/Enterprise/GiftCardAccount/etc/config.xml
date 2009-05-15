@@ -214,15 +214,15 @@
                 </observers>
             </sales_quote_merge_after>
 
-            <sales_order_creditmemo_save_after>
+            <sales_order_creditmemo_refund>
                 <observers>
                     <enterprise_giftcardaccount>
                         <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
-                        <method>increaseOrderRefundedAmount</method>
+                        <method>refund</method>
                     </enterprise_giftcardaccount>
                 </observers>
-            </sales_order_creditmemo_save_after>
+            </sales_order_creditmemo_refund>
 
             <adminhtml_sales_order_creditmemo_register_before>
                 <observers>
