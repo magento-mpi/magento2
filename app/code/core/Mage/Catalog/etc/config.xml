@@ -677,6 +677,15 @@
                     </catalog>
                 </observers>
             </customer_login>
+            <customer_logout>
+                <observers>
+                    <catalog>
+                        <type>model</type>
+                        <class>catalog/product_compare_item</class>
+                        <method>bindCustomerLogout</method>
+                    </catalog>
+                </observers>
+            </customer_logout>
             <sales_convert_quote_item_to_order_item>
                 <observers>
                     <catalog>
