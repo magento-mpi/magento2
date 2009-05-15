@@ -60,7 +60,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'header'    => Mage::helper('enterprise_customerbalance')->__('Website'),
             'index'     => 'website_id',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForGridFilter(),
+            'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
             'sortable'  => false,
             'width'     => 200,
         ));

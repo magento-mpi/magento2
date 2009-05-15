@@ -318,4 +318,15 @@ class Enterprise_AdminGws_Model_Models
         return $storeIds;
     }
 
+    /**
+     * Remove "All Store Views" information from CMS page or block model
+     *
+     * @param Varien_Object $model
+     */
+    public function cmsPageBlockLoadAfter($model)
+    {
+        if ($storeIds = $model->getData('store_id')) {
+            $model->setData('store_id', array_intersect($this->_helper->getStoreIds(), $storeIds));
+        }
+    }
 }

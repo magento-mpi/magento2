@@ -75,11 +75,11 @@ class Enterprise_AdminGws_Model_Collections
     }
 
     /**
-     * Limit CMS collections
+     * Limit a collection by allowed stores without admin
      *
      * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
      */
-    public function limitCms($collection)
+    public function addStoreFilterNoAdmin($collection)
     {
         $collection->addStoreFilter($this->_helper->getStoreIds(), false);
     }
@@ -204,5 +204,15 @@ class Enterprise_AdminGws_Model_Collections
     public function addStoreAttributeToFilter($collection)
     {
         $collection->addAttributeToFilter('store_id', array('in' => $this->_helper->getStoreIds()));
+    }
+
+    /**
+     * Filter checkout agreements collection by allowed stores
+     *
+     * @param Mage_Checkout_Model_Mysql4_Agreement_Collection $collection
+     */
+    public function limitCheckoutAgreements($collection)
+    {
+        $collection->setIsStoreFilterWithAdmin(false)->addStoreFilter($this->_helper->getStoreIds());
     }
 }

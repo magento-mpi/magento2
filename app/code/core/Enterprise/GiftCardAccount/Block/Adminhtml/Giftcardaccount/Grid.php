@@ -72,15 +72,13 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
                 'index' => 'code',
         ));
 
-        $websites = Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForGridFilter(true, true);
-
         $this->addColumn('website',
             array(
                 'header'    => Mage::helper('enterprise_giftcardaccount')->__('Website'),
                 'width'     => '100px',
                 'index'     => 'website_id',
                 'type'      => 'options',
-                'options'   => $websites,
+                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
         ));
 
         $this->addColumn('date_created',

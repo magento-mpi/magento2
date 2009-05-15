@@ -61,7 +61,7 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'index'    => 'website_id',
             'sortable' => false,
             'type'     => 'options',
-            'options'  => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForGridFilter(),
+            'options'  => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
         ));
 
         return parent::_prepareColumns();

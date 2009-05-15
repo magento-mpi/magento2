@@ -247,15 +247,23 @@ class Enterprise_AdminGws_Model_Observer
         if ($session->isLoggedIn()) {
             // load role with true websites and store groups
             Mage::helper('enterprise_admingws')->setRole(Mage::getSingleton('admin/session')->getUser()->getRole());
-            // reset websites/stores
-            Mage::app()->reinitStores();
 
             if (!Mage::helper('enterprise_admingws')->getIsAll()) {
+                // disable single store mode
+                Mage::app()->setIsSingleStoreModeAllowed(false);
+
+                // cleanup Mage::app() from disallowed stores
+                Mage::app()->reinitStores();
+
+                // completely block some admin menu items
                 foreach (Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES)->children() as $rule) {
                     $session->getAcl()->deny($session->getUser()->getAclRole(), $rule);
                 }
+                // cleanup dropdowns for forms/grids that are supposed to be built in future
+                Mage::getSingleton('adminhtml/system_store')->setIsAdminScopeAllowed(false)->reload();
             }
 
+            // inject into request predispatch to block disallowed actions
             $this->validateControllerPredispatch($observer);
         }
     }
@@ -396,18 +404,6 @@ class Enterprise_AdminGws_Model_Observer
                             $observer->getEvent()->getOptions()->getCategory()
                                 ->getPath())) {
             $observer->getEvent()->getOptions()->setIsAllowed(false);
-        }
-    }
-
-    /**
-     * Limit admin website in dropdowns
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function limitAdminWebsiteInDropdowns($observer)
-    {
-        if (!Mage::helper('enterprise_admingws')->getIsAll()) {
-            $observer->getEvent()->getOptions()->setDisable(true);
         }
     }
 
