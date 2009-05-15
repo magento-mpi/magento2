@@ -55,13 +55,15 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     }
 
     /**
-     * Check availability to display event block
+     * Check whether the block can be displayed
      *
-     * @return boolean
+     * @return bool
      */
     public function canDisplay()
     {
-        return ($this->helper('enterprise_catalogevent')->isEnabledEventLister()) && count($this->getEvents()) > 0;
+        return Mage::helper('enterprise_catalogevent')->isEnabled()
+            && Mage::getStoreConfigFlag('catalog/enterprise_catalogevent/lister_output')
+            && (count($this->getEvents()) > 0);
     }
 
     /**
@@ -88,7 +90,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
                     ->addVisibilityFilter()
                     ->addImageData()
                     ->addSortByStatus()
-                    ;
+                ;
 
                 $categories->addIdFilter(
                     $eventCollection->getColumnValues('category_id')
@@ -107,7 +109,6 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
                     $this->_events[] = $event;
                 }
             }
-
         }
 
         return $this->_events;
@@ -136,13 +137,49 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     }
 
     /**
-     * Retreive items number
+     * Get items number to show per page
      *
      * @return int
      */
-    public function getItemsNumber()
+    public function getPageSize()
     {
-        $configItemsNumber = $this->helper('enterprise_catalogevent')->getListerItemsNumber();
-        return ( $configItemsNumber > 0 ? $configItemsNumber : 4);
+        $pageSize = 0;
+        if ($this->hasData('limit')) {
+            $pageSize = (int)$this->_getData('limit');
+        }
+        else {
+            $pageSize = (int)Mage::getStoreConfig('catalog/enterprise_catalogevent/lister_widget_limit');
+        }
+        return max($pageSize, 1);
+    }
+
+    /**
+     * Get items number to scroll
+     *
+     * @return int
+     */
+    public function getScrollSize()
+    {
+        $scrollSize = 0;
+        if ($this->hasData('scroll')) {
+            $scrollSize = (int)$this->_getData('scroll');
+        }
+        else {
+            $scrollSize = (int)Mage::getStoreConfig('catalog/enterprise_catalogevent/lister_widget_scroll');
+        }
+        return  min(max($scrollSize, 1), $this->getPageSize());
+    }
+
+    /**
+     * Output content, if allowed
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if (!$this->canDisplay()) {
+            return '';
+        }
+        return parent::_toHtml();
     }
 }

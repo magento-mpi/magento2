@@ -46,7 +46,7 @@ Enterprise.TopCart= {
         this.element.observe('mouseout', this.onElementMouseOut);
         this.element.observe('mouseover', this.onElementMouseOver);
         this.elementHeader.observe('click', this.onElementMouseClick);
-     
+
     },
 
     handleMouseOut: function (evt) {
@@ -69,30 +69,30 @@ Enterprise.TopCart= {
         else {
             this.hideCart();
         }
-    },     
-     
+    },
+
     showCart: function (timePeriod) {
         this.container.parentNode.style.zIndex=992;
         new Effect.SlideDown(this.container.id, { duration: 0.5,
-            beforeStart: function(effect) {$( effect.element.id ).addClassName('process');}, 
-            afterFinish: function(effect) {$( effect.element.id ).removeClassName('process'); } 
+            beforeStart: function(effect) {$( effect.element.id ).addClassName('process');},
+            afterFinish: function(effect) {$( effect.element.id ).removeClassName('process'); }
             });
         $(this.elementHeader).addClassName('expanded');
         if(timePeriod) {
             this.timePeriod = timePeriod*1000;
             this.interval = setTimeout(this.hideCart.bind(this), this.timePeriod);
-        }        
+        }
     },
-     
+
     hideCart: function () {
 
-        if (!$(this.container.id).hasClassName('process') && $(this.elementHeader).hasClassName('expanded')) {     
+        if (!$(this.container.id).hasClassName('process') && $(this.elementHeader).hasClassName('expanded')) {
             new Effect.SlideUp(this.container.id, { duration: 0.5,
-                beforeStart: function(effect) {$( effect.element.id ).addClassName('process');}, 
+                beforeStart: function(effect) {$( effect.element.id ).addClassName('process');},
                 afterFinish: function(effect) {
                     $( effect.element.id ).removeClassName('process');
                     effect.element.parentNode.style.zIndex=1;
-                    } 
+                    }
                 });
         }
         if (this.interval !== null) {
@@ -112,7 +112,7 @@ Enterprise.Bundle = {
      swapReloadPrice: function () {
          Enterprise.Bundle.oldReloadPrice = Product.Bundle.prototype.reloadPrice;
          Product.Bundle.prototype.reloadPrice = Enterprise.Bundle.reloadPrice;
-         Product.Bundle.prototype.selection = Enterprise.Bundle.selection;         
+         Product.Bundle.prototype.selection = Enterprise.Bundle.selection;
      },
      reloadPrice: function () {
          var result = Enterprise.Bundle.oldReloadPrice.bind(this)();
@@ -129,7 +129,7 @@ Enterprise.Bundle = {
              this.optionTemplate = new Template($('bundle-summary-option-template').innerHTML, Enterprise.templatesPattern);
              this.optionMultiTemplate = new Template($('bundle-summary-option-multi-template').innerHTML, Enterprise.templatesPattern);
          }
-         
+
          if (this.summaryTemplate && $('bundle-summary')) {
              var summaryHTML = '';
              for (var option in this.config.options) {
@@ -143,13 +143,13 @@ Enterprise.Bundle = {
                             optionHTML += this.optionTemplate.evaluate(selection);
                         }
                     }
-                    
+
                     if (optionHTML.length > 0) {
                         summaryHTML += this.summaryTemplate.evaluate({label:this.config.options[option].title.escapeHTML(), options: optionHTML});
                     }
                 }
              }
-             
+
              $('bundle-summary').update(summaryHTML)
          }
          return result;
@@ -157,7 +157,7 @@ Enterprise.Bundle = {
      selection: function(optionId, selectionId) {
         if (selectionId == '' || selectionId == 'none') {
             return false;
-        }        
+        }
         var qty = null;
         if (this.config.options[optionId].selections[selectionId].customQty == 1 && !this.config['options'][optionId].isMulti) {
             if ($('bundle-option-' + optionId + '-qty-input')) {
@@ -168,12 +168,12 @@ Enterprise.Bundle = {
         } else {
             qty = this.config.options[optionId].selections[selectionId].qty;
         }
-        
+
         return {qty: qty, name: this.config.options[optionId].selections[selectionId].name.escapeHTML()};
      },
      start: function () {
         if (!$('bundle-product-wrapper').hasClassName('moving-now')) {
-            new Effect.Move(this.slider, { 
+            new Effect.Move(this.slider, {
                 x: -939, y: 0, mode: 'relative', duration: 1.5,
                 beforeStart: function (effect) {
                     $('bundle-product-wrapper').setStyle({height: $('productView').getHeight() + 'px'});
@@ -191,13 +191,13 @@ Enterprise.Bundle = {
      },
      end: function () {
         if (!$('bundle-product-wrapper').hasClassName('moving-now')) {
-            new Effect.Move(this.slider, { 
+            new Effect.Move(this.slider, {
                     x: 939, y: 0, mode: 'relative', duration: 1.5,
                     beforeStart: function (effect) {
                         $('bundle-product-wrapper').setStyle({height: $('options-container').getHeight() + 'px'});
-                        $('productView').show();                       
+                        $('productView').show();
                         $('bundle-product-wrapper').addClassName('moving-now');
-                    },                
+                    },
                     afterFinish: function (effect) {
                         $('bundle-product-wrapper').setStyle({height: 'auto'});
                         $('options-container').hide();
@@ -207,7 +207,7 @@ Enterprise.Bundle = {
                 });
         }
      }
-}; 
+};
 
 Enterprise.BundleSummary = {
     initialize: function () {
@@ -217,46 +217,46 @@ Enterprise.BundleSummary = {
         this.summaryStartY = this.summary.positionedOffset().top;
         this.summaryStartY = 61;
         this.summaryStartX = this.summary.positionedOffset().left;
-        this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);      
-        this.GetScroll = setInterval(this.onDocScroll, 50);   
+        this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);
+        this.GetScroll = setInterval(this.onDocScroll, 50);
     },
-    
+
     handleDocScroll: function () {
         if (this.currentOffsetTop == document.viewport.getScrollOffsets().top) {
             return;
         } else {
             this.currentOffsetTop = document.viewport.getScrollOffsets().top;
         }
-        
+
         if (this.currentEffect) {
             this.currentEffect.cancel();
             if (this.summaryContainer.viewportOffset().top < -60) {
-                this.currentEffect.start({ 
-                    x: this.summaryStartX, 
-                    y: -(this.summaryContainer.viewportOffset().top), 
+                this.currentEffect.start({
+                    x: this.summaryStartX,
+                    y: -(this.summaryContainer.viewportOffset().top),
                     mode: 'absolute'
                 });
             } else {
-                this.currentEffect.start({ 
+                this.currentEffect.start({
                     x: this.summaryStartX,
-                    y: this.summaryStartY, 
+                    y: this.summaryStartY,
                     mode: 'absolute'
                 });
             }
-            
+
             return;
         }
-        
+
         if (this.summaryContainer.viewportOffset().top < -60) {
               this.currentEffect = new Effect.Move(this.summary);
         } else {
              this.currentEffect = new Effect.Move(this.summary);
         }
     },
-    
+
     exitSummary: function () {
         clearInterval(this.GetScroll);
-    } 
+    }
 };
 
 Enterprise.Tabs = Class.create();
@@ -277,7 +277,7 @@ Object.extend(Enterprise.Tabs.prototype, {
     handleTabClick: function (evt) {
         this.activeTab = Event.findElement(evt, 'dt');
         this.select();
-    }, 
+    },
     select: function () {
         for (var i = 0, l = this.tabs.length; i < l; i ++) {
             if (this.tabs[i] == this.activeTab) {
@@ -309,19 +309,19 @@ Object.extend(Enterprise.Slider.prototype, {
             slideButtonInactiveCss: 'inactive',
             forwardButtonCss: 'forward',
             backwardButtonCss: 'backward',
-            pageSize: 2,
+            pageSize: 6,
+            scrollSize: 2,
             slideDuration: 1.0,
             slideDirection: 'horizontal',
             fadeEffect: true
         };
-        
+
         Object.extend(this.config, config || {});
-        
+
         this.items = this.container.select('.' + this.config.itemCss);
         this.isPlaying = false;
         this.isAbsolutized = false;
-        this.totalPages = Math.ceil(this.items.length / this.config.pageSize);
-        this.currentPage = 1;
+        this.offset = 0;
         this.onClick = this.handleClick.bindAsEventListener(this);
         this.sliderPanel = this.container.down('.' + this.config.panelCss);
         this.slider =  this.sliderPanel.down('.' + this.config.sliderCss);
@@ -341,7 +341,7 @@ Object.extend(Enterprise.Slider.prototype, {
         if (!element.hasClassName(this.config.slideButtonCss)) {
             element = element.up('.' + this.config.slideButtonCss);
         }
-        
+
         if (!element.hasClassName(this.config.slideButtonInactiveCss)) {
            element.hasClassName(this.config.forwardButtonCss) || this.backward();
            element.hasClassName(this.config.backwardButtonCss) || this.forward();
@@ -350,13 +350,21 @@ Object.extend(Enterprise.Slider.prototype, {
     },
     updateButtons: function () {
         var buttons = this.container.select('.' + this.config.slideButtonCss);
-        for (var i=0, l=buttons.length; i < l; i++) {
+        for (var i = 0, l = buttons.length; i < l; i++) {
             if (buttons[i].hasClassName(this.config.backwardButtonCss)) {
-                this.currentPage != 1 || buttons[i].addClassName(this.config.slideButtonInactiveCss);
-                this.currentPage == 1 || buttons[i].removeClassName(this.config.slideButtonInactiveCss);
+                if (this.offset <= 0) {
+                    buttons[i].addClassName(this.config.slideButtonInactiveCss);
+                }
+                else {
+                    buttons[i].removeClassName(this.config.slideButtonInactiveCss);
+                }
             } else if (buttons[i].hasClassName(this.config.forwardButtonCss)) {
-                this.currentPage < this.totalPages || buttons[i].addClassName(this.config.slideButtonInactiveCss);
-                this.currentPage == this.totalPages || buttons[i].removeClassName(this.config.slideButtonInactiveCss);
+                if (this.offset >= this.items.length - this.config.pageSize) {
+                    buttons[i].addClassName(this.config.slideButtonInactiveCss);
+                }
+                else {
+                    buttons[i].removeClassName(this.config.slideButtonInactiveCss);
+                }
             }
         }
     },
@@ -372,33 +380,31 @@ Object.extend(Enterprise.Slider.prototype, {
         }
     },
     forward: function () {
-        if (this.currentPage < this.totalPages) {
-            this.slide(this.currentPage + 1);
+        if (this.offset + this.config.pageSize <= this.items.length - 1) {
+            this.slide(true);
         }
     },
     backward: function () {
-        if (this.currentPage > 0) {
-            this.slide(this.currentPage - 1);
+        if (this.offset > 0) {
+            this.slide(false);
         }
     },
-    slide: function (page) {
-        
-        if (page == this.currentPage 
-            || this.isPlaying) {
+    slide: function (isForward) {
+
+        if (this.isPlaying) {
             return;
-        }       
+        }
         this.absolutize();
-        this.currentPage = page;
         this.effectConfig = {
             duration: this.config.slideDuration
         };
         if (this.config.slideDirection == 'horizontal') {
-            this.effectConfig.x = this.getSlidePosition(page).left;
+            this.effectConfig.x = this.getSlidePosition(isForward).left;
         } else {
-            this.effectConfig.y = this.getSlidePosition(page).top;
+            this.effectConfig.y = this.getSlidePosition(isForward).top;
         }
         this.start();
-        
+
     },
     start: function ()
     {
@@ -408,7 +414,7 @@ Object.extend(Enterprise.Slider.prototype, {
             this.move();
         }
     },
-    fadeIn: function () 
+    fadeIn: function ()
     {
         new Effect.Fade(this.slider, {
             from: 1.0,
@@ -418,11 +424,11 @@ Object.extend(Enterprise.Slider.prototype, {
             duration: 0.3
         });
     },
-    fadeOut: function () 
+    fadeOut: function ()
     {
         new Effect.Fade(this.slider, {
-                from: 0.5, 
-                to:1.0, 
+                from: 0.5,
+                to:1.0,
                 afterFinish: this.effectEnds.bind(this),
                 duration: 0.3
         });
@@ -435,7 +441,7 @@ Object.extend(Enterprise.Slider.prototype, {
             this.effectConfig.afterFinish = this.effectEnds.bind(this);
             this.effectConfig.beforeStart = this.effectStarts.bind(this);
         }
-        
+
         new Effect.Move(this.slider, this.effectConfig);
     },
     effectStarts: function () {
@@ -445,33 +451,30 @@ Object.extend(Enterprise.Slider.prototype, {
         this.isPlaying = false;
         this.updateButtons();
     },
-    getSlidePosition: function (page) {
-        var item = this.findItem(page * this.config.pageSize - this.config.pageSize, this.config.pageSize);
+    getSlidePosition: function (isForward) {
+        var targetOffset;
+        if (isForward) {
+            targetOffset = Math.min(this.items.length - this.config.pageSize, this.offset + this.config.scrollSize)
+        }
+        else {
+            targetOffset = Math.max(this.offset - this.config.scrollSize, 0);
+        }
+        this.offset = targetOffset;
+        var item = this.items[targetOffset];
         var itemOffset = {left:0, top:0};
-        
-        itemOffset.left = -(item.cumulativeOffset().left 
+
+        itemOffset.left = -(item.cumulativeOffset().left
                        -  this.slider.cumulativeOffset().left + this.slider.offsetLeft);
-        itemOffset.top = -(item.cumulativeOffset().top 
+        itemOffset.top = -(item.cumulativeOffset().top
                        -  this.slider.cumulativeOffset().top + this.slider.offsetTop);
         return itemOffset;
-    },
-    findItem: function (offset, total) {
-        var last = false;
-        
-        for (var i = 0, l = this.items.length; 
-             i <= offset && i + total <= l;
-             i ++) 
-        {
-             last = this.items[i];
-        }
-        return last;
     }
 });
 
 Enterprise.PopUpMenu = {
-    currentPopUp: null, 
+    currentPopUp: null,
     documentHandlerInitialized: false,
-    popUpZIndex: 994, 
+    popUpZIndex: 994,
     hideDelay: 2000,
     hideOnClick: true,
     hideInterval: null,
@@ -480,8 +483,8 @@ Enterprise.PopUpMenu = {
         if (!this.documentHandlerInitialized) {
             this.documentHandlerInitialized = true;
             Event.observe(
-                document.body, 
-                'click', 
+                document.body,
+                'click',
                 this.handleDocumentClick.bindAsEventListener(this)
             );
         }
@@ -509,27 +512,27 @@ Enterprise.PopUpMenu = {
         }
     },
     show: function (trigger) {
-        this.initializeDocumentHandler();        
-        
+        this.initializeDocumentHandler();
+
         var container = $(trigger).up('.switch-wrapper');
         if (!$('popId-' + container.id)) {
             return;
         }
-        
+
         if (this.currentPopUp !== null && $('popId-' + container.id) !== this.currentPopUp) {
             this.hide(true);
         } else if (this.currentPopUp !== null && this.currentPopUp === $('popId-' + container.id)) {
             this.hide();
             return;
         }
-        
+
         this.currentPopUp = $('popId-' + container.id);
         this.currentPopUp.container = container;
         this.currentPopUp.container.oldZIndex = this.currentPopUp.container.style.zIndex;
         this.currentPopUp.container.style.zIndex = this.popUpZIndex;
         new Effect.Appear(this.currentPopUp, { duration:0.3 });
-        
-        
+
+
         if (!this.currentPopUp.isHandled) {
             this.currentPopUp.observe('mouseover', this.handlePopUpOver.bindAsEventListener(this));
             this.currentPopUp.observe('mouseout', this.handlePopUpOut.bindAsEventListener(this));
@@ -559,7 +562,7 @@ Enterprise.PopUpMenu = {
         }
         if (delay) {
             this.hideTimeout = setTimeout(
-                this.hide.bind(this), 
+                this.hide.bind(this),
                 this.hideDelay * delay
             );
         }
@@ -569,7 +572,7 @@ Enterprise.PopUpMenu = {
 
 function popUpMenu(element) {
    Enterprise.PopUpMenu.show(element);
-} 
+}
 /*
 function popUpMenu(element,trigger) {
         var iDelay = 2000;
@@ -583,7 +586,7 @@ function popUpMenu(element,trigger) {
             clearTimeout(tId);
             document.onclick = null;
         }
-            
+
         sNativeId = 'popId-'+$(element).up(1).id;
         var el = $(sNativeId);
         el.id = sTempId;
@@ -594,32 +597,32 @@ function popUpMenu(element,trigger) {
             $(element).addClassName('list-opened');
             $(sTempId).getOffsetParent().style.zIndex = 994;
             new Effect.Appear (el, { duration:0.3 });
-            tId=setTimeout("hideElement()",2*iDelay);        
+            tId=setTimeout("hideElement()",2*iDelay);
         }
-        new_popup = 1;    
+        new_popup = 1;
         document.onclick = function() {
             if (!new_popup) {
                 hideElement();
                 document.onclick = null;
             }
-            new_popup = 0;    
+            new_popup = 0;
         }
-        
+
         el.onmouseout = function() {
-            if ($(sTempId)) {    
+            if ($(sTempId)) {
                 $(sTempId).addClassName('faded');
                 tId=setTimeout("hideElement()",iDelay);
             }
         }
-        
+
         el.onmouseover = function() {
-            if ($(sTempId)) {    
+            if ($(sTempId)) {
                 $(sTempId).removeClassName('faded');
                 clearTimeout(tId);
             }
         }
-        
-        hideElement = function() {    
+
+        hideElement = function() {
             //el.hide();
             new Effect.Fade (el, { duration:0.3 });
             $(element).removeClassName('list-opened');

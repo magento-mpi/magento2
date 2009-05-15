@@ -94,8 +94,8 @@
             <enterprise_catalogevent>
                 <enabled>1</enabled>
                 <lister_output>1</lister_output>
-                <lister_items_number_category>5</lister_items_number_category>
-                <lister_items_number_cms>5</lister_items_number_cms>
+                <lister_widget_limit>5</lister_widget_limit>
+                <lister_widget_scroll>2</lister_widget_scroll>
             </enterprise_catalogevent>
         </catalog>
     </default>
@@ -266,5 +266,5 @@
                 <run><model>enterprise_catalogevent/observer::applyEventStatus</model></run>
             </enterprise_catalogevent_apply_event_status>
         </jobs>
-	</crontab>
+    </crontab>
 </config>
