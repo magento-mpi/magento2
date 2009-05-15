@@ -1110,7 +1110,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function addAttributeToSort($attribute, $dir='asc')
     {
         if ($attribute == 'position') {
-            $this->getSelect()->order("{$attribute} {$dir}");
+            $this->getSelect()->order("cat_index_position {$dir}");
             // optimize if using cat index
             $filters = $this->_productLimitationFilters;
             if (isset($filters['category_id']) || isset($filters['visibility'])) {
@@ -1311,7 +1311,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $this->getSelect()->join(
                 array('cat_index' => $this->getTable('catalog/category_product_index')),
                 $joinCond,
-                array('position')
+                array('cat_index_position' => 'position')
             );
         }
 
