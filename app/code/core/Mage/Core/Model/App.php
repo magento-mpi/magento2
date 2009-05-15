@@ -178,6 +178,11 @@ class Mage_Core_Model_App
     protected $_isSingleStore;
 
     /**
+     * @var bool
+     */
+    protected $_isSingleStoreAllowed = true;
+
+    /**
      * Default store code
      *
      * @var string
@@ -407,7 +412,10 @@ class Mage_Core_Model_App
             ->initCache($this->getCache(), 'app', array(Mage_Core_Model_Store::CACHE_TAG))
             ->setLoadDefault(true);
 
-        $this->_isSingleStore = $storeCollection->count() < 3;
+        $this->_isSingleStore = false;
+        if ($this->_isSingleStoreAllowed) {
+            $this->_isSingleStore = $storeCollection->count() < 3;
+        }
 
         $websiteStores = array();
         $websiteGroups = array();
@@ -1305,5 +1313,17 @@ class Mage_Core_Model_App
     public function getUseSessionInUrl()
     {
         return $this->_useSessionInUrl;
+    }
+
+    /**
+     * Allow or disallow single store mode
+     *
+     * @param bool $value
+     * @return Mage_Core_Model_App
+     */
+    public function setIsSingleStoreModeAllowed($value)
+    {
+        $this->_isSingleStoreAllowed = (bool)$value;
+        return $this;
     }
 }

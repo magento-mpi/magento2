@@ -41,11 +41,6 @@ class Mage_Adminhtml_Model_System_Config_Source_Website
                 }
             }
         }
-        return $this->_cleanupOptions($this->_options);
-    }
-
-    protected function _cleanupOptions($options)
-    {
-        return $options;
+        return $this->_options;
     }
 }

@@ -245,9 +245,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
         $allowMove = $this->_isCategoryMoveable($node);
         $item['allowDrop'] = $allowMove;
         // disallow drag if it's first level and category is root of a store
-        $item['allowDrag'] = $allowMove && ($this->_allowNodesDrag()
-                                ? ($node->getLevel()==1 && $rootForStores) ? false : true
-                                : false);
+        $item['allowDrag'] = $allowMove && (($node->getLevel()==1 && $rootForStores) ? false : true);
 
         if ((int)$node->getChildrenCount()>0) {
             $item['children'] = array();
@@ -284,11 +282,6 @@ class Mage_Adminhtml_Block_Catalog_Category_Tree extends Mage_Adminhtml_Block_Ca
              $result .= ' (' . $node->getProductCount() . ')';
         }
         return $result;
-    }
-
-    protected function _allowNodesDrag()
-    {
-    	return true;
     }
 
     protected function _isCategoryMoveable($node)

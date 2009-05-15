@@ -57,10 +57,7 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Template
 
     public function getAddNewButtonHtml()
     {
-        if( $this->_enabledAddNewButton() ) {
-            return $this->getChildHtml('add_new_button');
-        }
-        return '';
+        return $this->getChildHtml('add_new_button');
     }
 
     public function getGridHtml()
@@ -75,10 +72,4 @@ class Mage_Adminhtml_Block_Catalog_Product extends Mage_Adminhtml_Block_Template
         }
         return true;
     }
-
-    protected function _enabledAddNewButton()
-    {
-        return true;
-    }
 }
-
