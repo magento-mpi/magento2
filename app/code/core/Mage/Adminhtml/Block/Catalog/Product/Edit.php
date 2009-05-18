@@ -72,32 +72,36 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
             );
         }
 
-        $this->setChild('reset_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Reset'),
-                    'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
-                ))
-        );
-
-        $this->setChild('save_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('catalog')->__('Save'),
-                    'onclick'   => 'productForm.submit()',
-                    'class' => 'save'
-                ))
-        );
-
-        if (!$this->getRequest()->getParam('popup')) {
-            $this->setChild('save_and_edit_button',
+        if (!$this->getProduct()->isReadonly()) {
+            $this->setChild('reset_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label'     => Mage::helper('catalog')->__('Save And Continue Edit'),
-                        'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
+                        'label'     => Mage::helper('catalog')->__('Reset'),
+                        'onclick'   => 'setLocation(\''.$this->getUrl('*/*/*', array('_current'=>true)).'\')'
+                    ))
+            );
+
+            $this->setChild('save_button',
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setData(array(
+                        'label'     => Mage::helper('catalog')->__('Save'),
+                        'onclick'   => 'productForm.submit()',
                         'class' => 'save'
                     ))
             );
+        }
+
+        if (!$this->getRequest()->getParam('popup')) {
+            if (!$this->getProduct()->isReadonly()) {
+                $this->setChild('save_and_edit_button',
+                    $this->getLayout()->createBlock('adminhtml/widget_button')
+                        ->setData(array(
+                            'label'     => Mage::helper('catalog')->__('Save And Continue Edit'),
+                            'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
+                            'class' => 'save'
+                        ))
+                );
+            }
             if ($this->getProduct()->isDeleteable()) {
                 $this->setChild('delete_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')

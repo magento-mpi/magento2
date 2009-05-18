@@ -66,6 +66,20 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     const STATE_CANCELED        = 'canceled';
     const STATE_HOLDED          = 'holded';
 
+    /**
+     * Order flags
+     */
+    const ACTION_FLAG_CANCEL = 'cancel';
+    const ACTION_FLAG_HOLD = 'hold';
+    const ACTION_FLAG_UNHOLD = 'unhold';
+    const ACTION_FLAG_EDIT = 'edit';
+    const ACTION_FLAG_CREDITMEMO = 'creditmemo';
+    const ACTION_FLAG_INVOICE = 'invoice';
+    const ACTION_FLAG_REORDER = 'reorder';
+    const ACTION_FLAG_SHIP = 'ship';
+    const ACTION_FLAG_COMMENT = 'comment';
+
+
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';
 
@@ -82,6 +96,13 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     protected $_baseCurrency = null;
 
     /**
+     * Array of action flags for canUnhold, canEdit, etc.
+     *
+     * @var array
+     */
+    protected $_actionFlag = array();
+
+    /**
      * Initialize resource model
      */
     protected function _construct()
@@ -95,6 +116,34 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         if (is_null($key)) {
             $this->_items = null;
         }
+        return $this;
+    }
+
+    /**
+     * Retrieve can flag for action (edit, unhold, etc..)
+     *
+     * @param string $action
+     * @return boolean|null
+     */
+    public function getActionFlag($action)
+    {
+        if (isset($this->_actionFlag[$action])) {
+            return $this->_actionFlag[$action];
+        }
+
+        return null;
+    }
+
+    /**
+     * Set can flag value for action (edit, unhold, etc...)
+     *
+     * @param string $action
+     * @param boolean $flag
+     * @return Mage_Sales_Model_Order
+     */
+    public function setActionFlag($action, $flag)
+    {
+        $this->_actionFlag[$action] = (boolean) $flag;
         return $this;
     }
 
@@ -148,6 +197,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return false;
         }
 
+        if ($this->getActionFlag(self::ACTION_FLAG_CANCEL) === false) {
+            return false;
+        }
+
         /**
          * Use only state for availability detect
          */
@@ -173,6 +226,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         if ($this->getState() === self::STATE_CANCELED ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED ) {
+            return false;
+        }
+
+        if ($this->getActionFlag(self::ACTION_FLAG_INVOICE) === false) {
             return false;
         }
 
@@ -212,6 +269,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return false;
         }
 
+        if ($this->getActionFlag(self::ACTION_FLAG_EDIT) === false) {
+            return false;
+        }
+
 
         return true;
     }
@@ -230,6 +291,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return false;
         }
 
+        if ($this->getActionFlag(self::ACTION_FLAG_HOLD) === false) {
+            return false;
+        }
+
         return true;
     }
 
@@ -240,7 +305,20 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canUnhold()
     {
+        if ($this->getActionFlag(self::ACTION_FLAG_UNHOLD) === false) {
+            return false;
+        }
+
         return $this->getState() === self::STATE_HOLDED;
+    }
+
+    public function canComment()
+    {
+        if ($this->getActionFlag(self::ACTION_FLAG_COMMENT) === false) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -255,6 +333,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         }
 
         if ($this->getIsVirtual()) {
+            return false;
+        }
+
+        if ($this->getActionFlag(self::ACTION_FLAG_SHIP) === false) {
             return false;
         }
 
@@ -288,6 +370,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         if (!$this->getPayment()->getMethodInstance()->canEdit()) {
             return false;
         }
+
+        if ($this->getActionFlag(self::ACTION_FLAG_EDIT) === false) {
+            return false;
+        }
+
         return true;
     }
 
@@ -318,6 +405,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
                     return false;
                 }
             }
+        }
+
+        if ($this->getActionFlag(self::ACTION_FLAG_REORDER) === false) {
+            return false;
         }
 
         return true;

@@ -52,6 +52,21 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     protected $_errors    = array();
     protected $_attributes;
 
+    /**
+     * Is model deleteable
+     *
+     * @var boolean
+     */
+    protected $_isDeleteable = true;
+
+    /**
+     * Is model readonly
+     *
+     * @var boolean
+     */
+    protected $_isReadonly = false;
+
+
     private static $_isConfirmationRequired;
 
     function _construct()
@@ -966,6 +981,50 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         $this->setOrigData();
         $this->_attributes = null;
 
+        return $this;
+    }
+
+    /**
+     * Checks model is deleteable
+     *
+     * @return boolean
+     */
+    public function isDeleteable()
+    {
+        return $this->_isDeleteable;
+    }
+
+    /**
+     * Set is deleteable flag
+     *
+     * @param boolean $value
+     * @return Mage_Customer_Model_Customer
+     */
+    public function setIsDeleteable($value)
+    {
+        $this->_isDeleteable = (boolean) $value;
+        return $this;
+    }
+
+    /**
+     * Checks model is readonly
+     *
+     * @return boolean
+     */
+    public function isReadonly()
+    {
+        return $this->_isReadonly;
+    }
+
+    /**
+     * Set is readonly flag
+     *
+     * @param boolean $value
+     * @return Mage_Customer_Model_Customer
+     */
+    public function setIsReadonly($value)
+    {
+        $this->_isReadonly = (boolean) $value;
         return $this;
     }
 }

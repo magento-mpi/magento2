@@ -64,6 +64,14 @@ abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
     protected $_isDeleteable = true;
 
     /**
+     * Is model readonly
+     *
+     * @var boolean
+     */
+    protected $_isReadonly = false;
+
+
+    /**
      * Lock attribute
      *
      * @param string $attributeCode
@@ -158,6 +166,8 @@ abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
             } elseif ($this->isLockedAttribute($key)) {
                 return $this;
             }
+        } elseif ($this->isReadonly()) {
+            return $this;
         }
 
         return parent::setData($key, $value);
@@ -176,9 +186,11 @@ abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
      */
     public function unsetData($key=null)
     {
-        if (!is_null($key) && $this->isLockedAttribute($key)) {
+        if ((!is_null($key) && $this->isLockedAttribute($key)) ||
+            $this->isReadonly()) {
             return $this;
         }
+
         return parent::unsetData($key);
     }
 
@@ -282,6 +294,28 @@ abstract class Mage_Catalog_Model_Abstract extends Mage_Core_Model_Abstract
     public function setIsDeleteable($value)
     {
         $this->_isDeleteable = (boolean) $value;
+        return $this;
+    }
+
+    /**
+     * Checks model is deleteable
+     *
+     * @return boolean
+     */
+    public function isReadonly()
+    {
+        return $this->_isReadonly;
+    }
+
+    /**
+     * Set is deleteable flag
+     *
+     * @param boolean $value
+     * @return Mage_Catalog_Model_Abstract
+     */
+    public function setIsReadonly($value)
+    {
+        $this->_isReadonly = (boolean) $value;
         return $this;
     }
 
