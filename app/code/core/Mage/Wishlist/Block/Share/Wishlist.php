@@ -82,7 +82,7 @@ class Mage_Wishlist_Block_Share_Wishlist extends Mage_Catalog_Block_Product_Abst
     public function getEscapedDescription($item)
     {
         if ($item->getDescription()) {
-            return $this->htmlEscape($item->getDescription());
+            return $this->htmlEscape($item->getWishlistItemDescription());
         }
         return '&nbsp;';
     }
