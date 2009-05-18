@@ -51,9 +51,22 @@ class Enterprise_AdminGws_Model_Models
      */
     public function cmsPageSaveBefore($model)
     {
-        $model->setData('stores', $this->_updateSavingStoreIds(
-            $model->getData('stores'), $model->getResource()->lookupStoreIds($model->getId()))
-        );
+        $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
+        $model->setData('stores', $this->_preventLoosingStoreIds($this->_updateSavingStoreIds(
+            $model->getData('stores'), $originalStoreIds
+        )));
+
+        if ($model->getId() && !$this->_helper->hasStoresAccess($originalStoreIds)) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot change this cms page')
+            );
+        }
+
+        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot add new cms pages')
+            );
+        }
     }
 
     /**
@@ -63,9 +76,22 @@ class Enterprise_AdminGws_Model_Models
      */
     public function cmsBlockSaveBefore($model)
     {
-        $model->setData('stores', $this->_updateSavingStoreIds(
-            $model->getData('stores'), $model->getResource()->lookupStoreIds($model->getId()))
-        );
+        $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
+        if ($model->getId() && !$this->_helper->hasStoresAccess($originalStoreIds)) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot change this cms block')
+            );
+        }
+
+        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot add new cms blocks')
+            );
+        }
+
+        $model->setData('stores', $this->_preventLoosingStoreIds($this->_updateSavingStoreIds(
+            $model->getData('stores'), $originalStoreIds
+        )));
     }
 
     /**
@@ -75,9 +101,23 @@ class Enterprise_AdminGws_Model_Models
      */
     public function pollSaveBefore($model)
     {
-        $model->setData('store_ids', $this->_updateSavingStoreIds(
-            $model->getData('store_ids'), $model->getResource()->lookupStoreIds($model->getId()))
-        );
+        $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
+
+        if ($model->getId() && !$this->_helper->hasStoresAccess($originalStoreIds)) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot change this poll')
+            );
+        }
+
+        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot add new polls')
+            );
+        }
+
+        $model->setData('store_ids', $this->_preventLoosingStoreIds($this->_updateSavingStoreIds(
+            $model->getData('store_ids'), $originalStoreIds
+        )));
     }
 
     /**
@@ -88,8 +128,20 @@ class Enterprise_AdminGws_Model_Models
      */
     public function ruleSaveBefore($model)
     {
-        $originalWebsiteIds = explode(',', $model->getOrigData('website_ids'));
-        $websiteIds = explode(',', $model->getData('website_ids'));
+        $originalWebsiteIds = $model->getOrigData('website_ids');
+        $websiteIds = $model->getData('website_ids');
+
+        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot add promotion rules')
+            );
+        }
+
+        if ($model->getId() && !$this->_helper->hasWebsitesAccess($websiteIds)) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot change this promotion rule')
+            );
+        }
 
         $updatedWebsiteIds = $this->_preventLoosingWebsiteIds(
             $this->_updateSavingWebsiteIds(
@@ -101,6 +153,25 @@ class Enterprise_AdminGws_Model_Models
     }
 
     /**
+     * Limit rule model on after load
+     *
+     * @param Mage_Rule_Model_Rule $model
+     * @return void
+     */
+    public function ruleLoadAfter($model)
+    {
+        $websiteIds = explode(',', $model->getData('website_ids'));
+        if (!$this->_helper->hasExclusiveAccess($websiteIds)) {
+            $model->setIsDeleteable(false);
+        }
+
+        if (!$this->_helper->getIsWebsiteLevel()) {
+            $model->setIsReadonly(true);
+        }
+    }
+
+
+    /**
      * Limit newsletter queue save
      *
      * @param Mage_Newsletter_Model_Queque $model
@@ -108,26 +179,22 @@ class Enterprise_AdminGws_Model_Models
      */
     public function newsletterQueueSaveBefore($model)
     {
+        $originalStores = $model->getResource()->getStores($model);
+        if ($model->getId() && !$this->_helper->hasStoresAccess($originalStores)) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot change this newsletter queue')
+            );
+        }
         if ($model->getSaveStoresFlag()) {
             $model->setStores(
                 $this->_preventLoosingStoreIds($this->_updateSavingStoreIds(
                     $model->getStores(),
-                    $model->getResource()->getStores($model)
+                    $originalStores
                 )
             ));
         }
     }
 
-    /**
-     * Validate customer before save
-     *
-     * @param Mage_Customer_Model_Customer $model
-     * @return void
-     */
-    public function customerSaveBefore($model)
-    {
-
-    }
 
     /**
      * Catalog product initialize after loading
@@ -139,6 +206,7 @@ class Enterprise_AdminGws_Model_Models
     {
         if (!$this->_helper->hasExclusiveAccess($model->getWebsiteIds())) {
             $model->unlockAttributes();
+
             $attributes = $model->getAttributes();
             foreach ($attributes as $attribute) {
                 /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
@@ -162,6 +230,9 @@ class Enterprise_AdminGws_Model_Models
             $model->setGiftCardReadonly(true);
             $model->setIsDeleteable(false);
             $model->setIsDuplicable(false);
+            if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
+                $model->setIsReadonly(true);
+            }
         } else {
             if (count($model->getWebsiteIds()) == 1) {
                 $model->setWebsitesReadonly(true);
@@ -169,6 +240,8 @@ class Enterprise_AdminGws_Model_Models
             }
         }
     }
+
+
 
     /**
      * Catalog product validate before saving
@@ -184,6 +257,17 @@ class Enterprise_AdminGws_Model_Models
         $model->setWebsiteIds($this->_preventLoosingWebsiteIds(
             $this->_updateSavingWebsiteIds($websiteIds, $origWebsiteIds)
         ));
+
+        if ($model->getId() &&
+            !$this->_helper->hasWebsitesAccess($origWebsiteIds)) {
+           Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot change this product')
+           );
+        } elseif (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot add new product')
+            );
+        }
 
     }
 
@@ -217,8 +301,9 @@ class Enterprise_AdminGws_Model_Models
         }
     }
 
+
     /**
-     * Customer validate before delete
+     * Validate customer before delete
      *
      * @param Mage_Customer_Model_Customer $model
      * @return void
@@ -228,6 +313,125 @@ class Enterprise_AdminGws_Model_Models
         if (!in_array($model->getWebsiteId(), $this->_helper->getWebsiteIds())) {
             Mage::throwException(
                 Mage::helper('enterprise_admingws')->__('You cannot delete this customer')
+            );
+        }
+    }
+
+    /**
+     * Validate rule before delete
+     *
+     * @param Mage_Rule_Model_Rule $model
+     * @return void
+     */
+    public function ruleDeleteBefore($model)
+    {
+        $originalWebsiteIds = $model->getOrigData('website_ids');
+        if (!$this->_helper->hasExclusiveAccess($originalWebsiteIds)) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot delete this promotion rule')
+            );
+        }
+    }
+
+    /**
+     * Validate cms page before delete
+     *
+     * @param Mage_Cms_Model_Page $model
+     * @return void
+     */
+    public function cmsPageDeleteBefore($model)
+    {
+        $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
+        if (!$this->_helper->hasExclusiveStoreAccess($originalStoreIds)) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot delete this cms page')
+            );
+        }
+    }
+
+
+    /**
+     * Validate cms page before delete
+     *
+     * @param Mage_Cms_Model_Page $model
+     * @return void
+     */
+    public function cmsBlockDeleteBefore($model)
+    {
+        $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
+        if (!$this->_helper->hasExclusiveStoreAccess($originalStoreIds)) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot delete this cms block')
+            );
+        }
+    }
+
+
+    /**
+     * Customer validate after load
+     *
+     * @param Mage_Customer_Model_Customer $model
+     * @return void
+     */
+    public function customerLoadAfter($model)
+    {
+        if (!$this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+            $model->setIsReadonly(true);
+            $model->setIsDeleteable(false);
+        }
+    }
+
+    /**
+     * Customer validate before save
+     *
+     * @param Mage_Customer_Model_Customer $model
+     * @return void
+     */
+    public function customerSaveBefore($model)
+    {
+        if ($model->getId() && !$this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot change this customer')
+            );
+        } elseif (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+            Mage::throwException(
+               Mage::helper('enterprise_admingws')->__('You cannot add new customers')
+            );
+        }
+    }
+
+    /**
+     * Order validate after load
+     *
+     * @param Mage_Sales_Model_Order $model
+     * @return void
+     */
+    public function salesOrderLoadAfter($model)
+    {
+        if (!in_array($model->getStore()->getWebsiteId(), $this->_helper->getWebsiteIds())) {
+            $model->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CANCEL, false)
+                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CREDITMEMO, false)
+                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_EDIT, false)
+                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_HOLD, false)
+                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_INVOICE, false)
+                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_REORDER, false)
+                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_SHIP, false)
+                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_UNHOLD, false)
+                ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_COMMENT, false);
+        }
+    }
+
+    /**
+     * Order validate before save
+     *
+     * @param Mage_Sales_Model_Order $model
+     * @return void
+     */
+    public function salesOrderBeforeSave($model)
+    {
+        if (!$this->_helper->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot create order in dissalowed store')
             );
         }
     }
@@ -253,6 +457,30 @@ class Enterprise_AdminGws_Model_Models
             }
             $model->setProductsReadonly(true);
             $model->setIsDeleteable(false);
+            if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
+                $model->setIsReadonly(true);
+            }
+        }
+    }
+
+
+
+    /**
+     * Catalog category initialize after loading
+     *
+     * @param Mage_Catalog_Model_Category $model
+     * @return void
+     */
+    public function catalogCategorySaveBefore($model)
+    {
+        if ((!$this->_helper->getIsWebsiteLevel() && !$model->getId())) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot add new categories')
+            );
+        } elseif ($model->getId() && !$this->_isCategoryAllowed($model)) {
+            Mage::throwException(
+                Mage::helper('enterprise_admingws')->__('You cannot change this category')
+            );
         }
     }
 
@@ -328,5 +556,27 @@ class Enterprise_AdminGws_Model_Models
         if ($storeIds = $model->getData('store_id')) {
             $model->setData('store_id', array_intersect($this->_helper->getStoreIds(), $storeIds));
         }
+
+
     }
+    /**
+     * Check whether specified category is allowed
+     *
+     * @param Mage_Catalog_Model_Category $category
+     * @return bool
+     */
+    protected function _isCategoryAllowed($category)
+    {
+        if (!$category->getId()) {
+            return false;
+        }
+        $categoryPath = $category->getPath();
+        foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
+            if ($categoryPath === $rootPath || 0 === strpos($categoryPath, "{$rootPath}/")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

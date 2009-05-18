@@ -131,7 +131,7 @@ class Enterprise_AdminGws_Model_Collections
      */
     public function limitPriceRules($collection)
     {
-        $collection->addWebsiteFilter($this->_helper->getWebsiteIds());
+        $collection->addWebsiteFilter($this->_helper->getRelevantWebsiteIds());
     }
 
     /**
@@ -155,6 +155,27 @@ class Enterprise_AdminGws_Model_Collections
     {
         $collection->addWebsiteFilter($this->_helper->getWebsiteIds());
     }
+
+    /**
+     * Limit store credit collection
+     *
+     * @param Enterprise_CustomerBalance_Model_Mysql4_Balance_Collection $collection
+     */
+    public function limitStoreCredits($collection)
+    {
+        $collection->addWebsitesFilter($this->_helper->getRelevantWebsiteIds());
+    }
+
+    /**
+     * Limit store credit collection
+     *
+     * @param Enterprise_CustomerBalance_Model_Mysql4_Balance_History_Collection $collection
+     */
+    public function limitStoreCreditsHistory($collection)
+    {
+        $collection->addWebsitesFilter($this->_helper->getRelevantWebsiteIds());
+    }
+
 
     /**
      * Limit Catalog events collection

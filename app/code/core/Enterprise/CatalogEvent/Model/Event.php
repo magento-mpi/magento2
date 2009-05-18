@@ -46,6 +46,8 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
 
     protected $_store = null;
 
+    protected $_isDeleteable = true;
+
     /**
      * Intialize model
      *

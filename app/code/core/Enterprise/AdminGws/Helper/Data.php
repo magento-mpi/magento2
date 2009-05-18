@@ -87,6 +87,26 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Checks whether GWS permissions on website level
+     *
+     * @return boolean
+     */
+    public function getIsWebsiteLevel()
+    {
+        return !empty($this->_roleWebsites);
+    }
+
+    /**
+     * Checks whether GWS permissions on store level
+     *
+     * @return boolean
+     */
+    public function getIsStoreLevel()
+    {
+        return empty($this->_roleWebsites);
+    }
+
+    /**
      * Get allowed store ids
      *
      * @return array
@@ -184,6 +204,10 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
             return true;
         }
 
+        if (!$this->getIsWebsiteLevel()) {
+            return false;
+        }
+
         if (!is_array($categoryPath)) {
             $categoryPath = explode('/', $categoryPath);
         }
@@ -230,6 +254,29 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
         return in_array($storeId, $this->_roleStores);
     }
 
+    /*
+     * Check whether specified store IDs is allowed
+     *
+     * @param array $storeIds
+     * @return bool
+     */
+    public function hasStoresAccess($storeIds)
+    {
+        return count(array_intersect($storeIds, $this->_roleStores)) > 0;
+    }
+
+    /*
+     * Check whether specified website IDs is allowed
+     *
+     * @param array $storeIds
+     * @return bool
+     */
+    public function hasWebsitesAccess($websiteIds)
+    {
+        return count(array_intersect($websiteIds, $this->_roleRelevantWebsites)) > 0;
+    }
+
+
     /**
      * Check whether website access is exlusive
      *
@@ -239,7 +286,21 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     public function hasExclusiveAccess($websiteIds)
     {
         return $this->getIsAll() ||
-               (count(array_intersect($this->getWebsiteIds(), $websiteIds)) === count($websiteIds) &&
-                count($this->getWebsiteIds()) > 0);
+               (count(array_intersect($this->_roleWebsites, $websiteIds)) === count($websiteIds) &&
+                $this->getIsWebsiteLevel());
+    }
+
+
+    /**
+     * Check whether store access is exlusive
+     *
+     * @param array $storeIds
+     * @return bool
+     */
+    public function hasExclusiveStoreAccess($storeIds)
+    {
+        return $this->getIsAll() ||
+               (count(array_intersect($this->_roleStores, $storeIds)) === count($storeIds) &&
+                $this->getIsWebsiteLevel());
     }
 }

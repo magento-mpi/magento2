@@ -332,14 +332,22 @@
                   <children>
                     <config>
                       <children>
-                        <giftcardaccount>
+                        <giftcardaccount translate="title" module="enterprise_giftcardaccount">
                           <title>Gift Card Accounts</title>
                         </giftcardaccount>
                       </children>
                     </config>
                   </children>
                 </system>
+                <customer>
+                  <children>
+                    <giftcardaccount  translate="title" module="enterprise_giftcardaccount">
+                        <title>Gift Card Accounts</title>
+                    </giftcardaccount>
+                  </children>
+                </customer>
               </children>
+              
             </admin>
           </resources>
         </acl>
@@ -348,12 +356,12 @@
         <menu>
             <customer>
                 <children>
-                    <enterprise_giftcardaccount translate="title" module="enterprise_giftcardaccount">
+                    <giftcardaccount translate="title" module="enterprise_giftcardaccount">
                         <title>Gift Card Accounts</title>
                         <action>adminhtml/giftcardaccount</action>
                         <resource>customer/giftcardaccount</resource>
                         <depends><module>Enterprise_GiftCardAccount</module></depends>
-                    </enterprise_giftcardaccount>
+                    </giftcardaccount>
                 </children>
              </customer>
         </menu>

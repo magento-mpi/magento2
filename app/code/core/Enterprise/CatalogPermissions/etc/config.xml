@@ -270,7 +270,7 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_category_tree_init_inactive_category_ids>
-            <catalog_product_collection_apply_cat_index>
+            <catalog_product_collection_apply_limitations_after>
                 <observers>
                     <enterprise_catalogpermissions>
                         <type>singleton</type>
@@ -278,7 +278,7 @@
                         <method>applyProductPermissionOnCollection</method>
                     </enterprise_catalogpermissions>
                 </observers>
-            </catalog_product_collection_apply_cat_index>
+            </catalog_product_collection_apply_limitations_after>
             <catalogindex_prepare_price_select>
                 <observers>
                     <enterprise_catalogpermissions>

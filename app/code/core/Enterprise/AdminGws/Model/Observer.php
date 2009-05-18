@@ -30,12 +30,15 @@
  */
 class Enterprise_AdminGws_Model_Observer
 {
-    const XML_PATH_ACL_DENY_RULES = 'adminhtml/enterprise/admingws/acl/deny';
+    const XML_PATH_ACL_DENY_RULES = 'adminhtml/enterprise/admingws/acl_deny';
     const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/enterprise/admingws/';
 
     const VALIDATE_COLLECTIONS = 'collections';
     const VALIDATE_MODELS = 'models';
     const VALIDATE_CONTROLLERS = 'controllers';
+
+    const ACL_WEBSITE_LEVEL = 'website_level';
+    const ACL_STORE_LEVEL = 'store_level';
 
     /**
      * @var Mage_Core_Model_Mysql4_Store_Group_Collection
@@ -256,8 +259,9 @@ class Enterprise_AdminGws_Model_Observer
                 Mage::app()->reinitStores();
 
                 // completely block some admin menu items
-                foreach (Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES)->children() as $rule) {
-                    $session->getAcl()->deny($session->getUser()->getAclRole(), $rule);
+                $this->_denyAclLevelRules(self::ACL_WEBSITE_LEVEL);
+                if (count(Mage::helper('enterprise_admingws')->getWebsiteIds()) === 0) {
+                    $this->_denyAclLevelRules(self::ACL_STORE_LEVEL);
                 }
                 // cleanup dropdowns for forms/grids that are supposed to be built in future
                 Mage::getSingleton('adminhtml/system_store')->setIsAdminScopeAllowed(false)->reload();
@@ -266,6 +270,23 @@ class Enterprise_AdminGws_Model_Observer
             // inject into request predispatch to block disallowed actions
             $this->validateControllerPredispatch($observer);
         }
+    }
+
+    /**
+     * Deny acl level rules.
+     *
+     * @param string $level
+     * @return Enterprise_AdminGws_Model_Observer
+     */
+    protected function _denyAclLevelRules($level)
+    {
+         /* @var $session Mage_Admin_Model_Session */
+        $session = Mage::getSingleton('admin/session');
+
+        foreach (Mage::getConfig()->getNode(self::XML_PATH_ACL_DENY_RULES . '/' . $level)->children() as $rule) {
+            $session->getAcl()->deny($session->getUser()->getAclRole(), $rule);
+        }
+        return $this;
     }
 
     /**

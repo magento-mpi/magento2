@@ -79,8 +79,19 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'title'    => Mage::helper('enterprise_customerbalance')->__('Send email notification from the following Store View'),
         ));
 
+        if ($customer->isReadonly()) {
+            if ($form->getElement('website_id')) {
+                $form->getElement('website_id')->setReadonly(true, true);
+            }
+            $form->getElement('store_id')->setReadonly(true, true);
+            $form->getElement('amount_delta')->setReadonly(true, true);
+            $form->getElement('notify_by_email')->setReadonly(true, true);
+        }
+
         $form->setValues($customer->getData());
         $this->setForm($form);
+
+
         return $this;
     }
 }

@@ -174,7 +174,61 @@ class Enterprise_AdminGws_Model_Controllers
     public function validateGiftCardAccount($controller)
     {
         $this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'generate'));
+        $id = $controller->getRequest()->getParam('id', false);
+        if (!$id && $controller->getRequest()->isPost()) {
+            $info = $controller->getRequest()->getPost('info');
+            if ($info && isset($info['giftcardaccount_id'])) {
+                $id = $info['giftcardaccount_id'];
+            }
+        }
+
+        if ($id) {
+            $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
+                ->load($id);
+
+            if (!in_array($model->getWebsiteId(), $this->_helper->getWebsiteIds())) {
+                $this->_forward();
+                return;
+            }
+        }
     }
+
+    /**
+     * Disallow saving catalog rules in disallowed scopes
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validatePromoCatalog($controller)
+    {
+        $this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'));
+
+        if (!$this->_isForwarded && ($id = $controller->getRequest()->getParam('id'))) {
+            $rule = Mage::getModel('catalogrule/rule')->load($id);
+            if (!$rule->getId() ||
+                !$this->_helper->hasWebsitesAccess($rule->getWebsiteIds())) {
+                $this->_forward();
+            }
+        }
+    }
+
+        /**
+     * Disallow saving quote rules in disallowed scopes
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validatePromoQuote($controller)
+    {
+        $this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'));
+
+        if (!$this->_isForwarded && ($id = $controller->getRequest()->getParam('id'))) {
+            $rule = Mage::getModel('salesrule/rule')->load($id);
+            if (!$rule->getId() ||
+                !$this->_helper->hasWebsitesAccess($rule->getOrigData('website_ids'))) {
+                $this->_forward();
+            }
+        }
+    }
+
 
     /**
      * Disallow saving categories in disallowed scopes
@@ -286,9 +340,7 @@ class Enterprise_AdminGws_Model_Controllers
             return $this->_forward();
         }
 
-
-
-        // check whether there is disallowed website in request?
+         // check whether there is disallowed website in request?
     }
 
 // TODO allow viewing sales information only from allowed websites
