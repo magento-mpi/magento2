@@ -26,13 +26,17 @@
 
 class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Notification_Toolbar
 {
-    protected $_available = null;
+    /**
+     * Is available flag
+     *
+     * @var bool
+     */
+    protected $_available;
 
-    protected $_httpsObjectUrl = 'https://widgets.magentocommerce.com/notificationPopup';
-    protected $_httpObjectUrl = 'http://widgets.magentocommerce.com/notificationPopup';
-
-    protected $_aclResourcePath = 'admin/system/adminnotification/show_toolbar';
-
+    /**
+     * Initialize block window
+     *
+     */
     protected function _construct()
     {
         parent::_construct();
@@ -80,7 +84,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
             return false;
         }
 
-        if (!$this->_isObjectReadable()) {
+        if (!$this->_getHelper()->isReadablePopupObject()) {
             $this->_available = false;
             return false;
         }
@@ -108,16 +112,17 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
      */
     public function getObjectUrl()
     {
-        if (!empty($_SERVER['HTTPS']) && ($_SERVER['HTTPS']!='off')) {
-            return $this->_httpsObjectUrl;
-        } else {
-            return $this->_httpObjectUrl;
-        }
+        return $this->_getHelper()->getPopupObjectUrl();
     }
 
+    /**
+     * Retrieve Last Notice object
+     *
+     * @return Mage_AdminNotification_Model_Inbox
+     */
     public function getLastNotice()
     {
-        return Mage::helper('adminnotification')->getLatestNotice();
+        return $this->_getHelper()->getLatestNotice();
     }
 
     /**
@@ -129,22 +134,11 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
     protected function _isAllowed()
     {
         if (!is_null($this->_aclResourcePath)) {
-            return Mage::getSingleton('admin/session')->isAllowed($this->_aclResourcePath);
-        } else {
+            return Mage::getSingleton('admin/session')
+                ->isAllowed('admin/system/adminnotification/show_toolbar');
+        }
+        else {
             return true;
         }
-    }
-
-    /**
-     * Check whether or not the remote flash file is available
-     *
-     * @return boolean
-     */
-    protected function _isObjectReadable()
-    {
-        if (@fopen($this->getObjectUrl() . '.swf', 'r')) {
-            return true;
-        }
-        return false;
     }
 }
