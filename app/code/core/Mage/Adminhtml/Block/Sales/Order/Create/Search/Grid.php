@@ -152,7 +152,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Search_Grid extends Mage_Adminhtml
         ));
 
         if($this->helper('giftmessage/message')->getIsMessagesAvailable(
-            'main', $this->getQuote(), $this->getStore()
+            'items', $this->getQuote(), $this->getStore()
         )) {
             $this->addColumn('giftmessage', array(
                 'filter'    => false,
