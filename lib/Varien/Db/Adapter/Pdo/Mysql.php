@@ -428,13 +428,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $this->dropForeignKey($tableName, $fkName);
 
         $sql = 'ALTER TABLE `'.$tableName.'` ADD CONSTRAINT `'.$fkName.'`'
-            . 'FOREIGN KEY (`'.$keyName.'`) REFERENCES `'.$refTableName.'` (`'.$refKeyName.'`)';
+            . ' FOREIGN KEY (`'.$keyName.'`) REFERENCES `'.$refTableName.'` (`'.$refKeyName.'`)';
         if (!is_null($onDelete)) {
             $sql .= ' ON DELETE ' . strtoupper($onDelete);
         }
         if (!is_null($onUpdate)) {
             $sql .= ' ON UPDATE ' . strtoupper($onUpdate);
         }
+
         $this->resetDescribesCache($tableName);
         return $this->raw_query($sql);
     }
@@ -614,7 +615,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             if ($row[$fieldKeyName] == 'PRIMARY') {
                 $indexType  = 'primary';
             }
-            elseif ($row[$fieldNonUnique] == 1) {
+            elseif ($row[$fieldNonUnique] == 0) {
                 $indexType  = 'unique';
             }
             elseif ($row[$fieldIndexType] == 'FULLTEXT') {

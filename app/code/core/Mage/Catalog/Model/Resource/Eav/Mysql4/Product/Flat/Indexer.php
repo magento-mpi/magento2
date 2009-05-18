@@ -492,6 +492,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
                 );
             }
 
+            foreach ($indexList as $indexName => $indexProp) {
+                if (isset($indexes[$indexName]) && ($indexes[$indexName]['type'] != $indexProp['type'])) {
+                    $dropIndexes[$indexName] = $indexProp;
+                    $addIndexes[$indexName] = $indexes[$indexName];
+                }
+            }
+
             if ($addColumns or $dropColumns or $addIndexes or $dropIndexes) {
                 $sql = "ALTER TABLE {$tableNameQuote}";
                 // drop columns
@@ -1041,6 +1048,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
             }
             $prev = $k;
         }
+        return false;
     }
 
     /**
