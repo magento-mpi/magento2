@@ -40,13 +40,14 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
      * ORIGINAL_PATH_INFO
      * @var string
      */
-    protected $_originalPathInfo = '';
-    protected $_storeCode = null;
-    protected $_requestString = '';
+    protected $_originalPathInfo= '';
+    protected $_storeCode       = null;
+    protected $_requestString   = '';
 
     protected $_route;
 
     protected $_directFrontNames = array();
+    protected $_controllerModule = null;
 
     public function __construct($uri = null)
     {
@@ -268,5 +269,27 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
             $_POST[$key] = $value;
         }
         return $this;
+    }
+
+    /**
+     * Specify module name where was found currently used controller
+     *
+     * @param   string $module
+     * @return  Mage_Core_Controller_Request_Http
+     */
+    public function setControllerModule($module)
+    {
+        $this->_controllerModule = $module;
+        return $this;
+    }
+
+    /**
+     * Get module name of currently used controller
+     *
+     * @return  string
+     */
+    public function getControllerModule()
+    {
+        return $this->_controllerModule;
     }
 }
