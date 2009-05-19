@@ -67,22 +67,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     public function newAction ()
     {
-        $this->loadLayout();
-        $this->_setActiveMenu('newsletter/template');
-        $this->_addBreadcrumb(Mage::helper('newsletter')->__('Newsletter Templates'), Mage::helper('newsletter')->__('Newsletter Templates'), $this->getUrl('*/*'));
-
-        if ($this->getRequest()->getParam('id')) {
-            $this->_addBreadcrumb(Mage::helper('newsletter')->__('Edit Template'), Mage::helper('newsletter')->__('Edit Newsletter Template'));
-        }
-        else {
-            $this->_addBreadcrumb(Mage::helper('newsletter')->__('New Template'), Mage::helper('newsletter')->__('Create Newsletter Template'));
-        }
-
-        $content = $this->getLayout()
-            ->createBlock('adminhtml/newsletter_template_edit', 'template_edit')
-            ->setEditMode((bool) $this->getRequest()->getParam('id'));
-        $this->_addContent($content);
-        $this->renderLayout();
+        $this->_forward('edit');
     }
 
     /**
@@ -91,7 +76,37 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
      */
     public function editAction ()
     {
-        $this->_forward('new');
+        $model = Mage::getModel('newsletter/template');
+        if ($id = $this->getRequest()->getParam('id')) {
+            $model->load($id);
+        }
+
+        Mage::register('_current_template', $model);
+
+        $this->loadLayout();
+        $this->_setActiveMenu('newsletter/template');
+
+        if ($model->getId()) {
+            $breadcrumbTitle = Mage::helper('newsletter')->__('Edit Template');
+            $breadcrumbLabel = $breadcrumbTitle;
+        }
+        else {
+            $breadcrumbTitle = Mage::helper('newsletter')->__('New Template');
+            $breadcrumbLabel = Mage::helper('newsletter')->__('Create Newsletter Template');
+        }
+
+        $this->_addBreadcrumb($breadcrumbLabel, $breadcrumbTitle);
+
+        // restore data
+        if ($values = $this->_getSession()->getData('newsletter_template_form_data', true)) {
+            $model->addData($values);
+        }
+
+        $content = $this->getLayout()
+            ->createBlock('adminhtml/newsletter_template_edit', 'template_edit')
+            ->setEditMode($model->getId() > 0);
+        $this->_addContent($content);
+        $this->renderLayout();
     }
 
     /**
@@ -108,7 +123,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
         }
 
         try {
-            $template
+            $template->addData($request->getParams())
                 ->setTemplateSubject($request->getParam('subject'))
                 ->setTemplateCode($request->getParam('code'))
                 ->setTemplateSenderEmail($request->getParam('sender_email'))
