@@ -133,7 +133,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
 
     public function getSysTmpDir()
     {
-        return (!empty($_ENV['TMP']) ? $_ENV['TMP'] : DS.'tmp');
+        return sys_get_temp_dir();
     }
 
     public function getVarDir()
@@ -211,7 +211,7 @@ class Mage_Core_Model_Config_Options extends Varien_Object
             if (!is_dir($dir)) {
                 return false;
             }
-            if (!is_writable($dir)) {
+            if (!is_dir_writeable($dir)) {
                 return false;
             }
         } else {
