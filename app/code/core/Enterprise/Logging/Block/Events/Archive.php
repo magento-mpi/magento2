@@ -43,4 +43,10 @@ class Enterprise_Logging_Block_Events_Archive extends Mage_Adminhtml_Block_Widge
     protected function _enabledAddNewButton() {
         return false;
     }
+
+    protected function _addButton($id, $data, $level = 0, $sortOrder = 100, $area = 'header')
+    {
+        return $this;
+    }
+
 }

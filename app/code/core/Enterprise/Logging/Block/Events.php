@@ -40,7 +40,13 @@ class Enterprise_Logging_Block_Events extends Mage_Adminhtml_Block_Widget_Grid_C
     /**
      * Overrided method, to disable add button
      */
-    protected function _enabledAddNewButton() {
+    protected function _enabledAddNewButton() 
+    {
         return false;
+    }
+
+    protected function _addButton($id, $data, $level = 0, $sortOrder = 100, $area = 'header')
+    {
+        return $this;
     }
 }
