@@ -50,29 +50,24 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
         if (isset($data['giftcard_code'])) {
             $code = $data['giftcard_code'];
             try {
-                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
-                    ->loadByCode($code)
-                    ->redeem();
+                if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+                    Mage::throwException($this->__('Redemption functionality is disabled.'));
+                }
+                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)->redeem();
                 Mage::getSingleton('customer/session')->addSuccess(
                     $this->__('Gift Card "%s" was redeemed successfully.', Mage::helper('core')->htmlEscape($code))
                 );
             } catch (Mage_Core_Exception $e) {
-                Mage::dispatchEvent('enterprise_giftcardaccount_redeem', array('status' => 'fail', 'code' => $code));
-                Mage::getSingleton('customer/session')->addError(
-                    $e->getMessage()
-                );
+                Mage::getSingleton('customer/session')->addError($e->getMessage());
             } catch (Exception $e) {
-                Mage::getSingleton('customer/session')->addException(
-                    $e,
-                    $this->__('Cannot redeem Gift Card, please try again later.' . $e->getMessage())
-                );
+                Mage::getSingleton('customer/session')->addException($e, $this->__('Cannot redeem Gift Card.'));
             }
             $this->_redirect('*/*/*');
-        } else {
-            $this->loadLayout();
-            $this->_initLayoutMessages('customer/session');
-            $this->loadLayoutUpdates();
-            $this->renderLayout();
+            return;
         }
+        $this->loadLayout();
+        $this->_initLayoutMessages('customer/session');
+        $this->loadLayoutUpdates();
+        $this->renderLayout();
     }
 }

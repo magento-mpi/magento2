@@ -61,7 +61,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         $this->addColumn('giftcardaccount_id',
             array(
                 'header'=> Mage::helper('enterprise_giftcardaccount')->__('ID'),
-                'width' => '50px',
+                'width' => 30,
                 'type'  => 'number',
                 'index' => 'giftcardaccount_id',
         ));
@@ -75,7 +75,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         $this->addColumn('website',
             array(
                 'header'    => Mage::helper('enterprise_giftcardaccount')->__('Website'),
-                'width'     => '100px',
+                'width'     => 100,
                 'index'     => 'website_id',
                 'type'      => 'options',
                 'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
@@ -84,7 +84,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         $this->addColumn('date_created',
             array(
                 'header'=> Mage::helper('enterprise_giftcardaccount')->__('Date Created'),
-                'width' => '120px',
+                'width' => 120,
                 'type'  => 'date',
                 'index' => 'date_created',
         ));
@@ -92,7 +92,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         $this->addColumn('date_expires',
             array(
                 'header'  => Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),
-                'width'   => '120px',
+                'width'   => 120,
                 'type'    => 'date',
                 'index'   => 'date_expires',
                 'default' => '--',
@@ -101,7 +101,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         $this->addColumn('status',
             array(
                 'header'    => Mage::helper('enterprise_giftcardaccount')->__('Active'),
-                'width'     => '50px',
+                'width'     => 50,
                 'align'     => 'center',
                 'index'     => 'status',
                 'type'      => 'options',
@@ -116,7 +116,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         $this->addColumn('state',
             array(
                 'header'    => Mage::helper('enterprise_giftcardaccount')->__('Status'),
-                'width'     => '100px',
+                'width'     => 100,
                 'align'     => 'center',
                 'index'     => 'state',
                 'type'      => 'options',
@@ -135,7 +135,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         $this->addColumn('action', array(
             'header'    => Mage::helper('enterprise_giftcardaccount')->__('Action'),
             'align'     => 'center',
-            'width'     => '10px',
+            'width'     => 20,
             'format'    => '<a href="'.$this->getUrl('*/*/edit/id/$giftcardaccount_id').'">'.Mage::helper('enterprise_giftcardaccount')->__('Edit').'</a>',
             'filter'    => false,
             'sortable'  => false,
@@ -149,10 +149,5 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
     public function getGridUrl()
     {
         return $this->getUrl('*/*/grid', array('_current'=>true));
-    }
-
-    public function getRowUrl($row)
-    {
-        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
     }
 }

@@ -157,7 +157,7 @@
                 <observers>
                     <enterprise_admingws>
                         <class>enterprise_admingws/observer</class>
-                        <method>validateModelBeforeSave</method>
+                        <method>validateModelSaveBefore</method>
                     </enterprise_admingws>
                 </observers>
             </model_save_before>
@@ -165,7 +165,7 @@
                 <observers>
                     <enterprise_admingws>
                         <class>enterprise_admingws/observer</class>
-                        <method>validateModelBeforeDelete</method>
+                        <method>validateModelDeleteBefore</method>
                     </enterprise_admingws>
                 </observers>
             </model_delete_before>
@@ -173,7 +173,7 @@
                 <observers>
                     <enterprise_admingws>
                         <class>enterprise_admingws/observer</class>
-                        <method>validateModelAfterLoad</method>
+                        <method>validateModelLoadAfter</method>
                     </enterprise_admingws>
                 </observers>
             </model_load_after>
@@ -181,8 +181,8 @@
                 <observers>
                     <enterprise_admingws>
                         <type>singleton</type>
-                        <class>enterprise_admingws/observer</class>
-                        <method>validateCatalogCategoryMoveable</method>
+                        <class>enterprise_admingws/models</class>
+                        <method>catalogCategoryIsMoveable</method>
                     </enterprise_admingws>
                 </observers>
             </adminhtml_catalog_category_tree_is_moveable>
@@ -190,8 +190,8 @@
                 <observers>
                     <enterprise_admingws>
                         <type>singleton</type>
-                        <class>enterprise_admingws/observer</class>
-                        <method>validateCatalogAddCategory</method>
+                        <class>enterprise_admingws/models</class>
+                        <method>catalogCategoryCanBeAdded</method>
                     </enterprise_admingws>
                 </observers>
             </adminhtml_catalog_category_tree_can_add_root_category>
@@ -199,8 +199,8 @@
                 <observers>
                     <enterprise_admingws>
                         <type>singleton</type>
-                        <class>enterprise_admingws/observer</class>
-                        <method>validateCatalogAddCategory</method>
+                        <class>enterprise_admingws/models</class>
+                        <method>catalogCategoryCanBeAdded</method>
                     </enterprise_admingws>
                 </observers>
             </adminhtml_catalog_category_tree_can_add_sub_category>
@@ -208,8 +208,8 @@
                 <observers>
                     <enterprise_admingws>
                         <type>singleton</type>
-                        <class>enterprise_admingws/observer</class>
-                        <method>validateCatalogCategoryMoveBefore</method>
+                        <class>enterprise_admingws/models</class>
+                        <method>catalogCategoryMoveBefore</method>
                     </enterprise_admingws>
                 </observers>
             </catalog_category_tree_move_before>
@@ -217,8 +217,8 @@
                 <observers>
                     <enterprise_admingws>
                         <type>singleton</type>
-                        <class>enterprise_admingws/observer</class>
-                        <method>validateCatalogPermissionsIsActiveCategory</method>
+                        <class>enterprise_admingws/models</class>
+                        <method>catalogCategoryIsCatalogPermissionsAllowed</method>
                     </enterprise_admingws>
                 </observers>
             </enterprise_catalog_permissions_is_allowed_category>
@@ -227,14 +227,16 @@
             <admingws>
                 <acl_deny>
                     <website_level>
-                        <attributes>admin/catalog/attributes</attributes>
+                        <!-- it is possible to disable entire ACL resource just if user has website-scope permissions -->
+                        <!--<attributes>admin/catalog/attributes</attributes>-->
                     </website_level>
                     <store_level>
-                        <giftcartaccaunt>admin/customer/giftcardaccount</giftcartaccaunt>
+                        <!-- the same, but if store-level permissions. Amplifies with website_level denies -->
                         <sales_order_create>admin/sales/order/actions/create</sales_order_create>
                     </store_level>
                 </acl_deny>
-                <collections>
+<!-- all callbacks support absoulute naming with factory_classname::method, for example enterprise_admingws/collections::limitStores -->
+                <collection_load_before>
                     <core__store_collection>limitStores</core__store_collection>
                     <core__website_collection>limitWebsites</core__website_collection>
                     <core__store_group_collection>limitStoreGroups</core__store_group_collection>
@@ -266,8 +268,8 @@
                     <newsletter__queue_collection>addStoreFilter</newsletter__queue_collection>
                     <core__design_collection>addStoreFilter</core__design_collection>
                     <dataflow__profile_collection>addStoreFilter</dataflow__profile_collection>
-                </collections>
-                <models_before_save>
+                </collection_load_before>
+                <model_save_before>
                     <cms__page>cmsPageSaveBefore</cms__page>
                     <cms__block>cmsBlockSaveBefore</cms__block>
                     <poll__poll>pollSaveBefore</poll__poll>
@@ -276,18 +278,18 @@
                     <newsletter__queue>newsletterQueueSaveBefore</newsletter__queue>
                     <catalog__product>catalogProductSaveBefore</catalog__product>
                     <catalog__category>catalogCategorySaveBefore</catalog__category>
-                    <customer__customer>customerSaveBefore</customer__customer>                    
-                </models_before_save>
-                <models_before_delete>
+                    <customer__customer>customerSaveBefore</customer__customer>
+                </model_save_before>
+                <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
                     <cms__block>cmsBlockDeleteBefore</cms__block>
                     <poll__poll>pollDeleteBefore</poll__poll>
-                    <rule__rule>ruleDeleteBefore</rule__rule>                                        
+                    <rule__rule>ruleDeleteBefore</rule__rule>
                     <catalog__product>catalogProductDeleteBefore</catalog__product>
                     <catalog__category>catalogCategoryDeleteBefore</catalog__category>
                     <customer__customer>customerDeleteBefore</customer__customer>
-                </models_before_delete>
-                <models_after_load>
+                </model_delete_before>
+                <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
                     <catalog__category>catalogCategoryLoadAfter</catalog__category>
                     <cms__page>cmsPageBlockLoadAfter</cms__page>
@@ -295,8 +297,8 @@
                     <customer__customer>customerLoadAfter</customer__customer>
                     <sales__order>salesOrderLoadAfter</sales__order>
                     <rule__rule>ruleLoadAfter</rule__rule>
-                </models_after_load>
-                <controllers>
+                </model_load_after>
+                <controller_predispatch>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__><!-- system config saving and browsing -->
                     <adminhtml__catalog_product__>validateCatalogProduct</adminhtml__catalog_product__><!-- catalog product submitting -->
                     <adminhtml__catalog_product__edit>validateCatalogProductEdit</adminhtml__catalog_product__edit><!-- catalog product viewing -->
@@ -312,9 +314,8 @@
                     <adminhtml__sales_order_create__>validateSalesOrderCreation</adminhtml__sales_order_create__><!-- catalog events viewing -->
                     <!-- submitting order status, invoice, shipment, creditmemo -->
                     <!-- order, invoice, shipment, creditmemo viewing -->
-                </controllers>
+                </controller_predispatch>
             </admingws>
         </enterprise>
     </adminhtml>
 </config>
-

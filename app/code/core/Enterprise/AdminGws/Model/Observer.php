@@ -33,10 +33,6 @@ class Enterprise_AdminGws_Model_Observer
     const XML_PATH_ACL_DENY_RULES = 'adminhtml/enterprise/admingws/acl_deny';
     const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/enterprise/admingws/';
 
-    const VALIDATE_COLLECTIONS = 'collections';
-    const VALIDATE_MODELS = 'models';
-    const VALIDATE_CONTROLLERS = 'controllers';
-
     const ACL_WEBSITE_LEVEL = 'website_level';
     const ACL_STORE_LEVEL = 'store_level';
 
@@ -300,10 +296,10 @@ class Enterprise_AdminGws_Model_Observer
             return;
         }
         $collection = $observer->getCollection();
-        if (!$callback = $this->_pickCallback('collections', $collection)) {
+        if (!$callback = $this->_pickCallback('collection_load_before', $collection)) {
             return;
         }
-        Mage::getSingleton('enterprise_admingws/collections')->$callback($collection);
+        $this->_invokeCallback($callback, 'enterprise_admingws/collections', $collection);
     }
 
     /**
@@ -311,16 +307,16 @@ class Enterprise_AdminGws_Model_Observer
      *
      * @param unknown_type $observer
      */
-    public function validateModelBeforeSave($observer)
+    public function validateModelSaveBefore($observer)
     {
         if (Mage::helper('enterprise_admingws')->getIsAll()) {
             return;
         }
         $model = $observer->getObject();
-        if (!$callback = $this->_pickCallback('models_before_save', $model)) {
+        if (!$callback = $this->_pickCallback('model_save_before', $model)) {
             return;
         }
-        Mage::getSingleton('enterprise_admingws/models')->$callback($model);
+        $this->_invokeCallback($callback, 'enterprise_admingws/models', $model);
     }
 
     /**
@@ -329,16 +325,16 @@ class Enterprise_AdminGws_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return void
      */
-    public function validateModelAfterLoad($observer)
+    public function validateModelLoadAfter($observer)
     {
         if (Mage::helper('enterprise_admingws')->getIsAll()) {
             return;
         }
         $model = $observer->getObject();
-        if (!$callback = $this->_pickCallback('models_after_load', $model)) {
+        if (!$callback = $this->_pickCallback('model_load_after', $model)) {
             return;
         }
-        Mage::getSingleton('enterprise_admingws/models')->$callback($model);
+        $this->_invokeCallback($callback, 'enterprise_admingws/models', $model);
     }
 
     /**
@@ -347,85 +343,17 @@ class Enterprise_AdminGws_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return void
      */
-    public function validateModelBeforeDelete($observer)
+    public function validateModelDeleteBefore($observer)
     {
         if (Mage::helper('enterprise_admingws')->getIsAll()) {
             return;
         }
 
         $model = $observer->getObject();
-        if (!$callback = $this->_pickCallback('models_before_delete', $model)) {
+        if (!$callback = $this->_pickCallback('model_delete_before', $model)) {
             return;
         }
-
-        Mage::getSingleton('enterprise_admingws/models')->$callback($model);
-    }
-
-
-    /**
-     * Validate category before move
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function validateCatalogCategoryMoveBefore($observer)
-    {
-        $parentCategory = $observer->getEvent()->getParent();
-        $currentCategory = $observer->getEvent()->getCategory();
-
-        foreach (array($parentCategory, $currentCategory) as $category) {
-            if (!Mage::helper('enterprise_admingws')->hasExclusiveCategoryAccess($category->getPath())) {
-                Mage::throwException(
-                    Mage::helper('enterprise_admingws')->__('You cannot move this category')
-                );
-            }
-        }
-    }
-
-    /**
-     * Validate category moveable
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function validateCatalogCategoryMoveable($observer)
-    {
-        $category = $observer->getEvent()->getOptions()->getCategory();
-        if (!Mage::helper('enterprise_admingws')
-                ->hasExclusiveCategoryAccess($category->getData('path'))) {
-
-            $observer->getEvent()->getOptions()->setIsMoveable(false);
-        }
-    }
-
-    /**
-     * Validate add new category action
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function validateCatalogAddCategory($observer)
-    {
-        if (!Mage::helper('enterprise_admingws')->getIsAll()) {
-            $observer->getEvent()->getOptions()->setIsAllow(false);
-        }
-    }
-
-
-    /**
-     * Validate category permissions tab
-     *
-     * @param Varien_Event_Observer $observer
-     * @return void
-     */
-    public function validateCatalogPermissionsIsActiveCategory($observer)
-    {
-        if (!Mage::helper('enterprise_admingws')->getIsAll()
-            && !Mage::helper('enterprise_admingws')->hasExclusiveCategoryAccess(
-                            $observer->getEvent()->getOptions()->getCategory()
-                                ->getPath())) {
-            $observer->getEvent()->getOptions()->setIsAllowed(false);
-        }
+        $this->_invokeCallback($callback, 'enterprise_admingws/models', $model);
     }
 
     /**
@@ -442,14 +370,14 @@ class Enterprise_AdminGws_Model_Observer
         // initialize controllers map
         if (null === $this->_controllersMap) {
             $this->_controllersMap = array('full' => array(), 'partial' => array());
-            foreach (Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . self::VALIDATE_CONTROLLERS)->children() as $actionName => $method) {
+            foreach (Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . 'controller_predispatch')->children() as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
                 $map = array('module' => $module, 'controller' => $controller, 'action' => $action, 'callback' => $method);
                 if ($action) {
-                    $this->_controllersMap['full'][$module][$controller][$action] = (string)$method;
+                    $this->_controllersMap['full'][$module][$controller][$action] = $this->_recognizeCallbackString((string)$method);
                 }
                 else {
-                    $this->_controllersMap['partial'][$module][$controller] = (string)$method;
+                    $this->_controllersMap['partial'][$module][$controller] = $this->_recognizeCallbackString((string)$method);
                 }
             }
         }
@@ -471,7 +399,7 @@ class Enterprise_AdminGws_Model_Observer
         }
 
         if ($callback) {
-            Mage::getSingleton('enterprise_admingws/controllers')->$callback($observer->getControllerAction());
+            $this->_invokeCallback($callback, 'enterprise_admingws/controllers', $observer->getControllerAction());
         }
     }
 
@@ -491,9 +419,9 @@ class Enterprise_AdminGws_Model_Observer
         // gather callbacks from mapper configuration
         if (!isset($this->_callbacks[$callbackGroup])) {
             $this->_callbacks[$callbackGroup] = array();
-            foreach ((array)Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup) as $className => $method) {
+            foreach ((array)Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup) as $className => $callback) {
                 $factoryClassName = str_replace('__', '/', $className);
-                if (self::VALIDATE_COLLECTIONS === $callbackGroup) {
+                if ('collection_load_before' === $callbackGroup) {
                     if (0 === strpos($factoryClassName, '_', 0)) {
                         $className = Mage::getConfig()->getModelClassName(substr($factoryClassName, 1));
                     }
@@ -505,7 +433,7 @@ class Enterprise_AdminGws_Model_Observer
                     $className = Mage::getConfig()->getModelClassName($factoryClassName);
                 }
                 if (class_exists($className)) {
-                    $this->_callbacks[$callbackGroup][$className] = $method;
+                    $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
                 }
             }
         }
@@ -514,19 +442,50 @@ class Enterprise_AdminGws_Model_Observer
          * Determine callback for current instance
          * Explicit class name has priority before inherited classes
          */
-        $callback = false;
+        $result = false;
         if (isset($this->_callbacks[$callbackGroup][$instanceClass])) {
-            $callback = $this->_callbacks[$callbackGroup][$instanceClass];
+            $result = $this->_callbacks[$callbackGroup][$instanceClass];
         }
         else {
-            foreach ($this->_callbacks[$callbackGroup] as $className => $method) {
+            foreach ($this->_callbacks[$callbackGroup] as $className => $callback) {
                 if ($instance instanceof $className) {
-                    $callback = $method;
+                    $result = $callback;
                     break;
                 }
             }
         }
-        return $callback;
+        return $result;
     }
 
+    /**
+     * Seek for factory class name in specified callback string
+     *
+     * @param string $callbackString
+     * @return string|array
+     */
+    protected function _recognizeCallbackString($callbackString)
+    {
+        if (preg_match('/^([^:]+?)::([^:]+?)$/', $callbackString, $matches)) {
+            array_shift($matches);
+            return $matches;
+        }
+        return $callbackString;
+    }
+
+    /**
+     * Invoke specified callback depending on whether it is a string or array
+     *
+     * @param string|array $callback
+     * @param string $defaultFactoryClassName
+     * @param object $passthroughObject
+     */
+    protected function _invokeCallback($callback, $defaultFactoryClassName, $passthroughObject)
+    {
+        $class  = $defaultFactoryClassName;
+        $method = $callback;
+        if (is_array($callback)) {
+            list($class, $method) = $callback;
+        }
+        Mage::getSingleton($class)->$method($passthroughObject);
+    }
 }
