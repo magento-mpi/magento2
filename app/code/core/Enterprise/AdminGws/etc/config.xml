@@ -279,6 +279,7 @@
                     <catalog__product>catalogProductSaveBefore</catalog__product>
                     <catalog__category>catalogCategorySaveBefore</catalog__category>
                     <customer__customer>customerSaveBefore</customer__customer>
+                    <enterprise_catalogevent__event>catalogEventSaveBefore</enterprise_catalogevent__event>
                 </model_save_before>
                 <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
@@ -288,9 +289,11 @@
                     <catalog__product>catalogProductDeleteBefore</catalog__product>
                     <catalog__category>catalogCategoryDeleteBefore</catalog__category>
                     <customer__customer>customerDeleteBefore</customer__customer>
+                    <enterprise_catalogevent__event>catalogEventDeleteBefore</enterprise_catalogevent__event>
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
+                    <enterprise_catalogevent__event>catalogEventLoadAfter</enterprise_catalogevent__event>
                     <catalog__category>catalogCategoryLoadAfter</catalog__category>
                     <cms__page>cmsPageBlockLoadAfter</cms__page>
                     <cms__block>cmsPageBlockLoadAfter</cms__block>

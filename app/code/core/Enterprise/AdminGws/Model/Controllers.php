@@ -290,7 +290,8 @@ class Enterprise_AdminGws_Model_Controllers
         // check whether attempting to create event for wrong category
         if ('new' === $this->_request->getActionName()) {
             $category = Mage::getModel('catalog/category')->load($this->_request->getParam('category_id'));
-            if (!$this->_isCategoryAllowed($category)) {
+            if (($this->_request->getParam('category_id') && !$this->_isCategoryAllowed($category)) ||
+                !$this->_helper->getIsWebsiteLevel()) {
                 return $this->_forward();
             }
         }
@@ -302,11 +303,6 @@ class Enterprise_AdminGws_Model_Controllers
                 return $this->_forward();
             }
         }
-
-        // disallow actions in wrong store scope
-        if ($this->_isDisallowedStoreInRequest()) {
-            return $this->_forward();
-        }
     }
 
     /**
@@ -316,6 +312,10 @@ class Enterprise_AdminGws_Model_Controllers
      */
     public function validateCatalogEventEdit($controller)
     {
+        if (!$this->_request->getParam('id') && $this->_helper->getIsWebsiteLevel()) {
+            return;
+        }
+
         // avoid viewing disallowed events
         $catalogEvent = Mage::getModel('enterprise_catalogevent/event')->load($this->_request->getParam('id'));
         $category     = Mage::getModel('catalog/category')->load($catalogEvent->getCategoryId());

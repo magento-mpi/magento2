@@ -81,6 +81,16 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit
             $this->_updateButton('back', 'label', $this->helper('enterprise_catalogevent')->__('Back to Category'));
         }
 
+        if ($this->getEvent()->isReadonly() && $this->getEvent()->getImageReadonly()) {
+            $this->_removeButton('save');
+            $this->_removeButton('reset');
+            $this->_removeButton('save_and_continue');
+        }
+
+        if (!$this->getEvent()->isDeleteable()) {
+            $this->_removeButton('delete');
+        }
+
         return $this;
     }
 

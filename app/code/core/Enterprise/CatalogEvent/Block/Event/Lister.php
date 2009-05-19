@@ -108,6 +108,8 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
                 foreach ($eventCollection as $event) {
                     $this->_events[] = $event;
                 }
+
+
             }
         }
 

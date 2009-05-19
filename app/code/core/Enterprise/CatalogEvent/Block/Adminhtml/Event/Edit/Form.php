@@ -210,9 +210,23 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             );
         }
 
+
+
         $form->setUseContainer(true);
         $form->setDataObject($this->getEvent());
         $this->setForm($form);
+
+        if ($this->getEvent()->isReadonly()) {
+            foreach ($fieldset->getElements() as $element) {
+                if ($element->getId() !== 'image') {
+                    $element->setReadonly(true, true);
+                }
+            }
+        }
+
+        if ($this->getEvent()->getImageReadonly()) {
+            $form->getElement('image')->setReadonly(true, true);
+        }
 
         return parent::_prepareForm();
     }

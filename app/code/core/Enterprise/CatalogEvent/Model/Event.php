@@ -46,7 +46,20 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
 
     protected $_store = null;
 
+
+    /**
+     * Is model deleteable
+     *
+     * @var boolean
+     */
     protected $_isDeleteable = true;
+
+    /**
+     * Is model readonly
+     *
+     * @var boolean
+     */
+    protected $_isReadonly = false;
 
     /**
      * Intialize model
@@ -242,6 +255,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
+        parent::_beforeSave();
         $dateChanged = false;
         $fieldTitles = array('date_start' => Mage::helper('enterprise_catalogevent')->__('Start Date') , 'date_end' => Mage::helper('enterprise_catalogevent')->__('End Date'));
         foreach (array('date_start' , 'date_end') as $dateType) {
@@ -261,7 +275,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
         if ($dateChanged) {
             $this->applyStatusByDates();
         }
-        parent::_beforeSave();
+        return $this;
     }
 
     /**
@@ -279,5 +293,50 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
         $date->set($dateTime, $format);
         $date->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
         return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+    }
+
+
+    /**
+     * Checks model is deleteable
+     *
+     * @return boolean
+     */
+    public function isDeleteable()
+    {
+        return $this->_isDeleteable;
+    }
+
+    /**
+     * Set is deleteable flag
+     *
+     * @param boolean $value
+     * @return Enterprise_CatalogEvent_Model_Event
+     */
+    public function setIsDeleteable($value)
+    {
+        $this->_isDeleteable = (boolean) $value;
+        return $this;
+    }
+
+    /**
+     * Checks model is readonly
+     *
+     * @return boolean
+     */
+    public function isReadonly()
+    {
+        return $this->_isReadonly;
+    }
+
+    /**
+     * Set is readonly flag
+     *
+     * @param boolean $value
+     * @return Enterprise_CatalogEvent_Model_Event
+     */
+    public function setIsReadonly($value)
+    {
+        $this->_isReadonly = (boolean) $value;
+        return $this;
     }
 }

@@ -437,6 +437,67 @@ class Enterprise_AdminGws_Model_Models
     }
 
     /**
+     * Validate catalog event save
+     *
+     * @param Enterprise_CatalogEvent_Model_Event $model
+     */
+    public function catalogEventSaveBefore($model)
+    {
+        if ((!$this->_helper->getIsWebsiteLevel() && !$model->getId())) {
+            $this->_throwSave();
+        } elseif ($model->getId()) {
+            $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
+            if (!$this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
+                foreach (array_keys($model->getData()) as $key) {
+                    if ($model->dataHasChangedFor($key) && $key !== 'image') {
+                         $model->setData($key, $model->getOrigData($key));
+                    }
+                }
+            }
+
+            foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
+                if (!($category->getPath() === $rootPath || 0 === strpos($category->getPath(), "{$rootPath}/"))) {
+                    $this->_throwSave();
+                }
+            }
+        }
+    }
+
+    /**
+     * Validate catalog event delete
+     *
+     * @param Enterprise_CatalogEvent_Model_Event $model
+     */
+    public function catalogEventDeleteBefore($model)
+    {
+        $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
+        if (!$this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
+            $this->_throwDelete();
+        }
+    }
+
+    /**
+     * Validate catalog event load
+     *
+     * @param Enterprise_CatalogEvent_Model_Event $model
+     */
+    public function catalogEventLoadAfter($model)
+    {
+        $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
+        if (!$this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
+            $model->setIsReadonly(true);
+            $model->setIsDeleteable(false);
+            $model->setImageReadonly(true);
+            if ($this->_helper->hasStoreAccess($model->getStoreId())) {
+                $model->setImageReadonly(false);
+            }
+        }
+    }
+
+
+
+
+    /**
      * Remove "All Store Views" information from CMS page or block model
      *
      * @param Varien_Object $model
