@@ -252,6 +252,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function saveAction()
     {
         $data = $this->getRequest()->getPost('staging');
+        $redirectBack = $this->getRequest()->getParam('back', false);
         if ($data) {
             $staging    = $this->_initStagingSave();
             if (!$staging) {
@@ -274,8 +275,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 $entryPoint = Mage::getSingleton('enterprise_staging/entry');
                 if ($entryPoint->isAutomatic()) {
                     if (!$entryPoint->canEntryPointBeCreated()) {
+                        $redirectBack = true;
                         Mage::throwException(Mage::helper('enterprise_staging')
-                            ->__('Please, make sure that folder %s is exists and writeable.', $entryPoint->getBaseFolder()));
+                            ->__('Please, make sure that folder %s is exists and is writeable.', $entryPoint->getBaseFolder()));
                     }
                 }
 
@@ -298,7 +300,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             }
         }
 
-        $this->_redirect('*/*/');
+        if ($redirectBack) {
+            $this->_redirect('*/*/edit', array('_current' => true));
+        } else {
+            $this->_redirect('*/*/');
+        }
     }
 
     /**
