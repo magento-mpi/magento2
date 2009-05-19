@@ -52,7 +52,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
 
         $this->addColumn('enterprise_invitation_id', array(
             'header'=> Mage::helper('enterprise_invitation')->__('ID'),
-            'width' => '80px',
+            'width' => 80,
             'align' => 'right',
             'type'  => 'text',
             'index' => 'invitation_id'
@@ -69,7 +69,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'index' => 'date',
             'type' => 'datetime',
             'gmtoffset' => true,
-            'width' => '150px'
+            'width' => 150
         ));
 
         $this->addColumn('signup_date', array(
@@ -77,7 +77,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'index' => 'signup_date',
             'type' => 'datetime',
             'gmtoffset' => true,
-            'width' => '150px'
+            'width' => 150
         ));
 
         $this->addColumn('status', array(
@@ -85,14 +85,14 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'index' => 'status',
             'type' => 'options',
             'options' => Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptions(),
-            'width' => '140px'
+            'width' => 140
         ));
 
         $this->addColumn('customer_id', array(
             'header' => Mage::helper('enterprise_invitation')->__('Inviter ID'),
             'index' => 'customer_id',
             'align' => 'right',
-            'width' => '80px'
+            'width' => 80
         ));
 
         $groups = Mage::getModel('customer/group')->getCollection()
@@ -105,19 +105,19 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'index' => 'group_id',
             'type'  => 'options',
             'options' => $groups,
-            'width' => '140px'
+            'width' => 140
         ));
 
         $this->addColumn('referral_id', array(
             'header' => Mage::helper('enterprise_invitation')->__('Invitee ID'),
             'index' => 'referral_id',
             'align' => 'right',
-            'width' => '80px'
+            'width' => 80
         ));
 
         $this->addColumn('actions', array(
             'header'    => $this->helper('enterprise_invitation')->__('Action'),
-            'width'     => '15px',
+            'width'     => 15,
             'sortable'  => false,
             'filter'    => false,
             'type'      => 'action',

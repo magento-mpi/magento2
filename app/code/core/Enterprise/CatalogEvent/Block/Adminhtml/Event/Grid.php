@@ -88,7 +88,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
             'index' => 'date_start',
             'type' => 'datetime',
             'filter_time' => true,
-            'width' => '150px'
+            'width' => 150
         ));
 
         $this->addColumn('date_end', array(
@@ -96,7 +96,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
             'index' => 'date_end',
             'type' => 'datetime',
             'filter_time' => true,
-            'width' => '150px'
+            'width' => 150
         ));
 
         $this->addColumn('status', array(
@@ -108,7 +108,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
                 Enterprise_CatalogEvent_Model_Event::STATUS_OPEN 	  => Mage::helper('enterprise_catalogevent')->__('Open'),
                 Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => Mage::helper('enterprise_catalogevent')->__('Closed')
             ),
-            'width' => '140px'
+            'width' => 140
         ));
 
         $this->addColumn('display_state', array(
@@ -132,7 +132,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
 
         $this->addColumn('actions', array(
             'header'    => $this->helper('enterprise_catalogevent')->__('Action'),
-            'width'     => '15px',
+            'width'     => 15,
             'sortable'  => false,
             'filter'    => false,
             'type'      => 'action',
