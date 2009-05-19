@@ -32,6 +32,8 @@
  */
 class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
+    protected $_map = array('fields' => array('invitee_email' => 'c.email', 'website_id' => 'w.website_id'));
+
     /**
      * Intialize collection
      *
@@ -63,6 +65,30 @@ class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core
     public function addStoreFilter($storeIds)
     {
         $this->getSelect()->where('main_table.store_id IN (?)', $storeIds);
+        return $this;
+    }
+
+    /**
+     * Join website ID
+     *
+     * @return Enterprise_Invitation_Model_Mysql4_Invitation_Collection
+     */
+    public function addWebsiteInformation()
+    {
+        $this->getSelect()->joinInner(array('w' => $this->getTable('core/store')), 'main_table.store_id = w.store_id', 'w.website_id');
+        return $this;
+    }
+
+    /**
+     * Join referrals information (email)
+     *
+     * @return Enterprise_Invitation_Model_Mysql4_Invitation_Collection
+     */
+    public function addInviteeInformation()
+    {
+        $this->getSelect()->joinLeft(array('c' => $this->getTable('customer/entity')),
+            'main_table.referral_id = c.entity_id', array('invitee_email' => 'c.email')
+        );
         return $this;
     }
 }

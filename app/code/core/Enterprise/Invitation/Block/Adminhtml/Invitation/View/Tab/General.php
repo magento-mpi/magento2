@@ -200,4 +200,26 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General
             return $this->helper('enterprise_invitation')->__('N/A');
         }
     }
+
+    /**
+     * Invitation website name getter
+     *
+     * @return string
+     */
+    public function getWebsiteName()
+    {
+        return Mage::app()->getStore($this->getInvitation()->getStoreId())
+            ->getWebsite()->getName();
+    }
+
+    /**
+     * Invitation store name getter
+     *
+     * @return string
+     */
+    public function getStoreName()
+    {
+        return Mage::app()->getStore($this->getInvitation()->getStoreId())
+            ->getName();
+    }
 }

@@ -36,6 +36,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
      * Initialize invitation from request
      *
      * @return Enterprise_Invitation_Model_Invitation
+     * @throws Mage_Core_Exception
      */
     protected function _initInvitation()
     {
@@ -43,6 +44,9 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
             $invitation = Mage::getModel('enterprise_invitation/invitation');
             $invitationCode = $this->getRequest()->getParam('invitation', false);
             $invitation->loadByInvitationCode($invitationCode);
+            if ($invitation->getId() && (Mage::app()->getWebsite()->getId() != Mage::app()->getStore($invitation->getStoreId())->getWebsite()->getId())) {
+                Mage::throwException(Mage::helper('enterprise_invitation')->__('This invitation is not valid.'));
+            }
             Mage::register('customer_invitation', $invitation);
             return $invitation;
         }
@@ -61,26 +65,25 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
         }
 
         if ((!Mage::helper('enterprise_invitation')->isEnabled()) ||
-            (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()))
-          {
+            (!Mage::helper('enterprise_invitation')->isRegistrationAllowed())) {
             $this->_redirect('customer/account/create');
             return;
         }
 
-        $invitation = $this->_initInvitation();
-        if (!$invitation->getId() && Mage::helper('enterprise_invitation')->getInvitationRequired()) {
-            $this->_getSession()->addError(Mage::helper('enterprise_invitation')->__('Registration only by invitation'));
-            $this->_redirect('customer/account/login');
-            return;
-        } elseif (!$invitation->getId()) {
-            $this->_getSession()->addError(Mage::helper('enterprise_invitation')->__('This invitation is not valid'));
-            $this->_redirect('customer/account/login');
+        try {
+            $invitation = $this->_initInvitation();
+            if (!$invitation->getId()) {
+                Mage::throwException(Mage::helper('enterprise_invitation')->__('This invitation is not valid.'));
+            }
+            $this->loadLayout();
+            $this->_initLayoutMessages('customer/session');
+            $this->renderLayout();
             return;
         }
-
-        $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
-        $this->renderLayout();
+        catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+        }
+        $this->_redirect('customer/account/login');
     }
 
     /**
@@ -101,47 +104,47 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
         }
 
         if ($this->getRequest()->isPost()) {
-            $invitation = $this->_initInvitation();
-            $errors = array();
-
-            $customer = Mage::getModel('customer/customer')->setId(null);
-
-            foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
-                if ($node->is('create') && ($value = $this->getRequest()->getParam($code)) !== null) {
-                    $customer->setData($code, $value);
-                }
-            }
-
-            if ($this->getRequest()->getParam('is_subscribed', false)) {
-                $customer->setIsSubscribed(1);
-            }
-
-            /**
-             * Initialize customer group id
-             */
-            $customer->getGroupId();
-
-            if ($this->getRequest()->getPost('create_address')) {
-                $address = Mage::getModel('customer/address')
-                    ->setData($this->getRequest()->getPost())
-                    ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                    ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false))
-                    ->setId(null);
-                $customer->addAddress($address);
-
-                $errors = $address->validate();
-                if (!is_array($errors)) {
-                    $errors = array();
-                }
-            }
-            if (!$invitation->getId() &&
-                Mage::helper('enterprise_invitation')->getInvitationRequired()) {
-                $errors[] = Mage::helper('enterprise_invitation')->__('Invalid invitation link');
-            } elseif ($invitation->getId() && $invitation->getGroupId()) {
-                $customer->setGroupId($invitation->getGroupId());
-            }
-
             try {
+                $invitation = $this->_initInvitation();
+                $errors = array();
+
+                $customer = Mage::getModel('customer/customer')->setId(null);
+
+                foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
+                    if ($node->is('create') && ($value = $this->getRequest()->getParam($code)) !== null) {
+                        $customer->setData($code, $value);
+                    }
+                }
+
+                if ($this->getRequest()->getParam('is_subscribed', false)) {
+                    $customer->setIsSubscribed(1);
+                }
+
+                /**
+                 * Initialize customer group id
+                 */
+                $customer->getGroupId();
+
+                if ($this->getRequest()->getPost('create_address')) {
+                    $address = Mage::getModel('customer/address')
+                        ->setData($this->getRequest()->getPost())
+                        ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
+                        ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false))
+                        ->setId(null);
+                    $customer->addAddress($address);
+
+                    $errors = $address->validate();
+                    if (!is_array($errors)) {
+                        $errors = array();
+                    }
+                }
+                if (!$invitation->getId() &&
+                    Mage::helper('enterprise_invitation')->getInvitationRequired()) {
+                    $errors[] = Mage::helper('enterprise_invitation')->__('Invalid invitation link');
+                } elseif ($invitation->getId() && $invitation->getGroupId()) {
+                    $customer->setGroupId($invitation->getGroupId());
+                }
+
                 $validationCustomer = $customer->validate();
                 if (is_array($validationCustomer)) {
                     $errors = array_merge($validationCustomer, $errors);
@@ -231,5 +234,4 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
     {
         return Mage::getSingleton('customer/session');
     }
-
 }

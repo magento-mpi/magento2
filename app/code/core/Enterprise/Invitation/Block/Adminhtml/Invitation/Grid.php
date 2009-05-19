@@ -41,7 +41,8 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection();
+        $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection()
+            ->addWebsiteInformation()->addInviteeInformation();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -49,7 +50,6 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
 
     protected function _prepareColumns()
     {
-
         $this->addColumn('enterprise_invitation_id', array(
             'header'=> Mage::helper('enterprise_invitation')->__('ID'),
             'width' => 80,
@@ -62,6 +62,13 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'header' => Mage::helper('enterprise_invitation')->__('Email'),
             'index' => 'email',
             'type'  => 'text'
+        ));
+
+        $this->addColumn('invitee', array(
+            'header' => Mage::helper('enterprise_invitation')->__('Invitee'),
+            'index'  => 'invitee_email',
+            'type'   => 'text',
+            'renderer' => 'enterprise_invitation/adminhtml_invitation_grid_column_invitee',
         ));
 
         $this->addColumn('date', array(
@@ -88,11 +95,12 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'width' => 140
         ));
 
-        $this->addColumn('customer_id', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Inviter ID'),
-            'index' => 'customer_id',
-            'align' => 'right',
-            'width' => 80
+        $this->addColumn('website_id', array(
+            'header'  => Mage::helper('enterprise_invitation')->__('Valid on Website'),
+            'index'   => 'website_id',
+            'type'    => 'options',
+            'options' => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+            'width'   => 150,
         ));
 
         $groups = Mage::getModel('customer/group')->getCollection()
@@ -106,27 +114,6 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'type'  => 'options',
             'options' => $groups,
             'width' => 140
-        ));
-
-        $this->addColumn('referral_id', array(
-            'header' => Mage::helper('enterprise_invitation')->__('Invitee ID'),
-            'index' => 'referral_id',
-            'align' => 'right',
-            'width' => 80
-        ));
-
-        $this->addColumn('actions', array(
-            'header'    => $this->helper('enterprise_invitation')->__('Action'),
-            'width'     => 15,
-            'sortable'  => false,
-            'filter'    => false,
-            'type'      => 'action',
-            'actions'   => array(
-                array(
-                    'url'       => $this->getUrl('*/*/view') . 'id/$invitation_id',
-                    'caption'   => $this->helper('enterprise_invitation')->__('View'),
-                ),
-            )
         ));
 
         return parent::_prepareColumns();
