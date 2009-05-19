@@ -225,12 +225,12 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
         $tabs = $observer->getEvent()->getTabs();
         /* @var $tabs Mage_Adminhtml_Block_Catalog_Category_Tabs */
 
-        if (Mage::helper('enterprise_catalogpermissions')->isAllowedCategory($tabs->getCategory())) {
+        //if (Mage::helper('enterprise_catalogpermissions')->isAllowedCategory($tabs->getCategory())) {
             $tabs->addTab(
                 'permissions',
                 'enterprise_catalogpermissions/adminhtml_catalog_category_tab_permissions'
             );
-        }
+        //}
 
         return $this;
     }

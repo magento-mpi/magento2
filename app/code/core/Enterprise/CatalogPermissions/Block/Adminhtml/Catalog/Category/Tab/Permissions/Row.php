@@ -45,7 +45,8 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         $this->setChild('delete_button', $this->getLayout()->createBlock('adminhtml/widget_button')
             ->addData(array(
                 //'label' => $this->helper('enterprise_catalogpermissions')->__('Remove Permission'),
-                'class' => 'delete',
+                'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
+                'disabled' => $this->isReadonly(),
                 'type'  => 'button',
                 'id'    => '{{html_id}}_delete_button'
             ))
@@ -62,6 +63,16 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function canEditWebsites()
     {
         return !Mage::app()->isSingleStoreMode();
+    }
+
+    /**
+     * Check is block readonly
+     *
+     * @return boolean
+     */
+    public function isReadonly()
+    {
+        return $this->getCategory()->getPermissionsReadonly();
     }
 
     public function getDefaultWebsiteId()

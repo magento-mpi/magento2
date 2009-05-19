@@ -31,6 +31,11 @@
  * @see Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row
  */
 ?>
+<?php if ($this->isReadonly()):?>
+<?php $_readonly = ' disabled="disabled"'; ?>
+<?php else: ?>
+<?php $_readonly = ''; ?>
+<?php endif;?>
 <div class="option-box permission-box" id="{{html_id}}">
     <?php if (!$this->canEditWebsites()): ?>
     <input type="hidden" value="<?php echo $this->getDefaultWebsiteId(); ?>" class="<?php echo $this->getFieldClassName('website'); ?>" name="general[permissions][{{index}}][website_id]"/>
@@ -54,7 +59,7 @@
         <tbody>
             <tr>
                  <?php if ($this->canEditWebsites()): ?>
-                 <td><select class="<?php echo $this->getFieldClassName('website_id'); ?> select is-unique required-entry" name="general[permissions][{{index}}][website_id]">
+                 <td><select <?php echo $_readonly;?> class="<?php echo $this->getFieldClassName('website_id'); ?> select is-unique required-entry" name="general[permissions][{{index}}][website_id]">
                     <option value=""><?php echo $this->helper('enterprise_catalogpermissions')->__('-- Please Select --');?></option>
                     <option value="-1"><?php echo $this->helper('enterprise_catalogpermissions')->__('All Websites');?></option>
                     <?php foreach ($this->getWebsiteCollection() as $_website): ?>
@@ -63,7 +68,7 @@
                  </select></td>
                  <?php endif; ?>
                  <td>
-                     <select class="<?php echo $this->getFieldClassName('customer_group_id'); ?> select is-unique required-entry" name="general[permissions][{{index}}][customer_group_id]">
+                     <select <?php echo $_readonly;?> class="<?php echo $this->getFieldClassName('customer_group_id'); ?> select is-unique required-entry" name="general[permissions][{{index}}][customer_group_id]">
                         <option value=""><?php echo $this->helper('enterprise_catalogpermissions')->__('-- Please Select --');?></option>
                         <option value="-1"><?php echo $this->helper('enterprise_catalogpermissions')->__('All Customer Groups');?></option>
                         <?php foreach ($this->getCustomerGroupCollection() as $_customerGroup): ?>
@@ -73,13 +78,13 @@
                  </td>
                 <?php foreach ($this->getGrants() as $_fieldId => $_label): ?>
                 <td>
-                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow" value="-1" {{<?php echo $_fieldId ?>_-1}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow">
+                    <input <?php echo $_readonly;?> type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow" value="-1" {{<?php echo $_fieldId ?>_-1}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow">
                         <?php echo $this->helper('enterprise_catalogpermissions')->__('Allow') ?>
                     </label><br />
-                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny" value="-2" {{<?php echo $_fieldId ?>_-2}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny">
+                    <input <?php echo $_readonly;?> type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny" value="-2" {{<?php echo $_fieldId ?>_-2}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny">
                         <?php echo $this->helper('enterprise_catalogpermissions')->__('Deny') ?>
                     </label><br />
-                    <input type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_default" value="0" {{<?php echo $_fieldId ?>_0}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_default">
+                    <input <?php echo $_readonly;?> type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_default" value="0" {{<?php echo $_fieldId ?>_0}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_default">
                         <?php echo $this->helper('enterprise_catalogpermissions')->__('Use parent') ?>
                     </label>
                 </td>

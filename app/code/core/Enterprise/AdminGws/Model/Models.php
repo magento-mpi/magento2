@@ -410,6 +410,7 @@ class Enterprise_AdminGws_Model_Models
                 }
             }
             $model->setProductsReadonly(true);
+            $model->setPermissionsReadonly(true);
             $model->setIsDeleteable(false);
             if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
                 $model->setIsReadonly(true);

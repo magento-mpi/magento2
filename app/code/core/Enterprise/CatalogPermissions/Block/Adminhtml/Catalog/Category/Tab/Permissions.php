@@ -54,8 +54,9 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         $this->setChild('add_button', $this->getLayout()->createBlock('adminhtml/widget_button')
             ->addData(array(
                 'label' => $this->helper('enterprise_catalogpermissions')->__('New Permission'),
-                'class' => 'add',
-                'type'  => 'button'
+                'class' => 'add' . ($this->isReadonly() ? ' disabled' : ''),
+                'type'  => 'button',
+                'disabled' => $this->isReadonly()
             ))
         );
 
@@ -144,5 +145,15 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
     public function getAddButtonHtml()
     {
         return $this->getChildHtml('add_button');
+    }
+
+    /**
+     * Check is block readonly
+     *
+     * @return boolean
+     */
+    public function isReadonly()
+    {
+        return $this->getCategory()->getPermissionsReadonly();
     }
 }
