@@ -61,22 +61,32 @@ class Mage_AmazonPayments_AspController extends Mage_Core_Controller_Front_Actio
     public function payAction()
     {
         $session = $this->getSession();
-        $session->setAmazonAspQuoteId($session->getQuoteId());
-        $session->setAmazonAspLastRealOrderId($session->getLastRealOrderId());
-        
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($session->getLastRealOrderId());
+        $quoteId = $session->getQuoteId();
+        $lastRealOrderId = $session->getLastRealOrderId();
+        if (is_null($quoteId) || is_null($lastRealOrderId)){
+            $this->_redirect('checkout/cart/');
+        } else {
+            $session->setAmazonAspQuoteId($quoteId);
+            $session->setAmazonAspLastRealOrderId($lastRealOrderId);
 
-        $payment = $this->getPayment(); 
-        $payment->setOrder($order);
-        
-        $payment->processEventRedirect();
-        Mage::register('amazonpayments_payment_asp', $payment); 
-        $this->loadLayout();
-        $this->renderLayout();
-        
-        $session->unsQuoteId();
-        $session->unsLastRealOrderId();
+            $order = Mage::getModel('sales/order');
+            $order->loadByIncrementId($lastRealOrderId);
+
+            $payment = $this->getPayment(); 
+            $payment->setOrder($order);
+            $payment->processEventRedirect();
+
+            Mage::register('amazonpayments_payment_asp', $payment); 
+            $this->loadLayout();
+            $this->renderLayout();
+
+            $quote = $session->getQuote();
+            $quote->setIsActive(false);
+            $quote->save();
+
+            $session->setQuoteId(null);
+            $session->setLastRealOrderId(null);
+        }
     }
     
     /**
