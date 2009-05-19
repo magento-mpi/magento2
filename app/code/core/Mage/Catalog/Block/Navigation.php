@@ -44,12 +44,17 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         ));
     }
 
+    /**
+     * Retrieve Key for caching block content
+     *
+     * @return string
+     */
     public function getCacheKey()
     {
-        $key = Mage::app()->getStore()->getId().'_CATALOG_NAVIGATION' . md5($this->getTemplate());
-        $key.=  md5($this->getCurrenCategoryKey());
-        $key.= Mage::getSingleton('customer/session')->getCustomerGroupId();
-        return $key;
+        return 'CATALOG_NAVIGATION_' . Mage::app()->getStore()->getId()
+            . '_' . Mage::getDesign()->getPackageName()
+            . '_' . Mage::getDesign()->getTheme('template')
+            . '_' . md5($this->getTemplate() . $this->getCurrenCategoryKey());
     }
 
     public function getCurrenCategoryKey()
