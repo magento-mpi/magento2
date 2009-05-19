@@ -47,7 +47,7 @@
     </global>
 
     <admin>
-        <routers>
+        <!--routers>
             <adminhtml>
                 <args>
                     <modules>
@@ -55,7 +55,7 @@
                     </modules>
                 </args>
             </adminhtml>
-        </routers>
+        </routers-->
     </admin>
 
     <adminhtml>
