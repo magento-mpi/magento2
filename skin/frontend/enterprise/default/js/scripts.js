@@ -27,6 +27,13 @@
 Validation.defaultOptions.immediate = true;
 Validation.defaultOptions.addClassNameToContainer = true;
 
+Event.observe(document, 'dom:loaded', function() {
+    var inputs = $$('ul.options-list input');
+    for (var i = 0, l = inputs.length; i < l; i ++) {
+        inputs[i].addClassName('change-container-classname');
+    }
+})
+
 if (!window.Enterprise) {
     window.Enterprise = {};
 }

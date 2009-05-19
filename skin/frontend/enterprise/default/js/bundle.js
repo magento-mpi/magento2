@@ -174,18 +174,6 @@ Product.Bundle.prototype = {
     },
 
     validationCallback: function (elmId, result){
-        if (typeof elmId == 'undefined') {
-            return;
-        }
-        var container = $(elmId).up('div.input-box');
-        if (typeof container != 'undefined') {
-            if (result == 'failed') {
-                container.removeClassName('validation-passed');
-                container.addClassName('validation-error');
-            } else {
-                container.removeClassName('validation-error');
-                container.addClassName('validation-passed');
-            }
-        }
+        
     }
 }
