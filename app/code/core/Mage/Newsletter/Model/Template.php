@@ -107,6 +107,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         $this->validate();
+        $this->getTemplateTextPreprocessed();
         return parent::_beforeSave();
     }
 
@@ -176,7 +177,7 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
      * @param bool $usePreprocess
      * @return string
      */
-    public function getProcessedTemplate(array $variables = array(), $usePreprocess=false)
+    public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
         $processor = Mage::getModel('core/email_template_filter');
 
@@ -340,11 +341,8 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
     public function getTemplateText()
     {
         if (!$this->getData('template_text') && !$this->getId()) {
-            $this->setData(
-               'template_text',
-               Mage::helper('newsletter')->__(
-                   '<!-- This tag is for unsubscribe link  --> Follow this link to unsubscribe <a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>'
-               )
+            $this->setData('template_text',
+                Mage::helper('newsletter')->__('<!-- This tag is for unsubscribe link  --> Follow this link to unsubscribe <a href="{{var subscriber.getUnsubscriptionLink()}}">{{var subscriber.getUnsubscriptionLink()}}</a>')
             );
         }
 
