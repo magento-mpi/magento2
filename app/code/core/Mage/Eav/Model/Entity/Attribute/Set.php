@@ -193,6 +193,9 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
                 if (!$attribute->getAttributeId()) {
                     continue;
                 }
+                if (!in_array($attribute->getAttributeId(), $attributeIds)) {
+                    continue;
+                }
                 if (is_numeric($setId)) {
                     $attributeSetInfo = $attribute->getAttributeSetInfo();
                     if (!is_array($attributeSetInfo)) {
