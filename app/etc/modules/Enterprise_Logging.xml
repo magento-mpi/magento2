@@ -34,7 +34,6 @@
                 <Mage_Adminhtml/>
                 <Mage_Sales/>
                 <Mage_Catalog/>
-                <Enterprise_Pci/>
             </depends>
         </Enterprise_Logging>
     </modules>

@@ -34,7 +34,6 @@
                 <Mage_Sales/>
                 <Mage_Checkout/>
                 <Enterprise_CustomerBalance/>
-                <Enterprise_Pci/>
             </depends>
         </Enterprise_GiftCardAccount>
     </modules>

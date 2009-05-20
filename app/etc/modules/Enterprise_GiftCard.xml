@@ -32,7 +32,6 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Catalog/>
-                <Enterprise_Pci/>
             </depends>
         </Enterprise_GiftCard>
     </modules>

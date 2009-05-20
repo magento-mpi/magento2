@@ -31,7 +31,6 @@
             <active>false</active>
             <codePool>core</codePool>
             <depends>
-                <Enterprise_Pci/>
                 <Mage_Cms/>
                 <Mage_Install/>
                 <Mage_Adminhtml/>

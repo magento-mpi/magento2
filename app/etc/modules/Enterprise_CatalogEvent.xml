@@ -36,7 +36,6 @@
                 <Mage_Cms/>
                 <Mage_Sales/>
                 <Mage_Checkout/>
-                <Enterprise_Pci/>
             </depends>
         </Enterprise_CatalogEvent>
     </modules>

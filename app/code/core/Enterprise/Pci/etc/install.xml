@@ -20,19 +20,17 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_CustomerBalance
+ * @package    Enterprise_Pci
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 -->
 <config>
-    <modules>
-        <Enterprise_CustomerBalance>
-            <active>false</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Customer/>
-            </depends>
-        </Enterprise_CustomerBalance>
-    </modules>
+    <check>
+        <php>
+            <extensions>
+                <mhash/>
+            </extensions>
+        </php>
+    </check>
 </config>

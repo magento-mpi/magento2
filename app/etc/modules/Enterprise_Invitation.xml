@@ -34,7 +34,6 @@
                 <Mage_Adminhtml/>
                 <Mage_Customer/>
                 <Enterprise_WebsiteRestriction/>
-                <Enterprise_Pci/>
             </depends>
         </Enterprise_Invitation>
     </modules>
