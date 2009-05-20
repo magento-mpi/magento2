@@ -401,7 +401,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
         $countSelect->from(null, $expr);
 
-        echo $countSelect;
+        return $countSelect;
     }
 
     /**
