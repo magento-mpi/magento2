@@ -141,9 +141,7 @@ class Enterprise_AdminGws_Model_Collections
      */
     public function limitOnlineCustomers($collection)
     {
-        if ($collection->getIsOnlineFilterUsed()) {
-            $collection->addVisitorStoreFilter($this->_helper->getStoreIds());
-        }
+        $collection->addWebsiteFilter($this->_helper->getRelevantWebsiteIds());
     }
 
     /**

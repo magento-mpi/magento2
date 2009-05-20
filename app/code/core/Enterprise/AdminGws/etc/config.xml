@@ -253,7 +253,7 @@
                     <enterprise_invitation__invitation_collection>addStoreFilter</enterprise_invitation__invitation_collection>
                     <catalogrule__rule_collection>limitPriceRules</catalogrule__rule_collection>
                     <salesrule__rule_collection>limitPriceRules</salesrule__rule_collection>
-                    <log__visitor_collection>limitOnlineCustomers</log__visitor_collection>
+                    <log__visitor_online_collection>limitOnlineCustomers</log__visitor_online_collection>
                     <enterprise_giftcardaccount__giftcardaccount_collection>limitGiftCardAccounts</enterprise_giftcardaccount__giftcardaccount_collection>
                     <enterprise_catalogevent__event_collection>limitCatalogEvents</enterprise_catalogevent__event_collection>
                     <catalog__category_collection>limitCatalogCategories</catalog__category_collection>
