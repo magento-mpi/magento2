@@ -87,7 +87,7 @@ class Mage_Log_Model_Mysql4_Visitor_Online_Collection extends Mage_Core_Model_My
             }
         }
 
-        $this->setFlag('has_customer_data');
+        $this->setFlag('has_customer_data', true);
         return $this;
     }
 
