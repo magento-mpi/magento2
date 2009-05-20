@@ -110,8 +110,9 @@ class Mage_CatalogSearch_Model_Fulltext_Observer
         }
 
         if ($showNotice) {
+            $url = Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_cache');
             Mage::getSingleton('adminhtml/session')->addNotice(
-                Mage::helper('catalogsearch')->__('Attribute setting change related with Search Index. Please run <a href="%s">Rebuild Search Index</a> process', Mage::getUrl('adminhtml/system_cache'))
+                Mage::helper('catalogsearch')->__('Attribute setting change related with Search Index. Please run <a href="%s">Rebuild Search Index</a> process', $url)
             );
         }
 
