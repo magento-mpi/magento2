@@ -148,13 +148,14 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             $now = Mage::app()->getLocale()->date()
                     ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
                     ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-
+            $notSentCustomerExists = 0;
             foreach ($emails as $email) {
                 $email = trim($email);
                 if (!empty($email)) {
                     if (Mage::getModel('customer/customer')->setWebsiteId(
                             Mage::app()->getStore($storeId)->getWebsiteId()
                         )->loadByEmail($email)->getId()) {
+                        $notSentCustomerExists ++;
                         continue;
                     }
                     try {
@@ -186,6 +187,14 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                     }
                 }
             }
+
+            if ($notSentCustomerExists > 0) {
+                $this->_getSession()->addNotice(
+                    Mage::helper('enterprise_invitation')->__('Invitations not sent to %d email(s) because accounts exist for them.', $notSentCustomerExists)
+                );
+            }
+
+
             $this->_getSession()->unsInvitationFormData();
         }
 
@@ -290,7 +299,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
         }
 
         try {
-            $this->_sendInvitationEmail($invitation);
+            $invitation->sendInvitationEmail();
             $invitation->setOrigData('status', '')
                 ->save();
             $this->_getSession()->addSuccess(
@@ -328,13 +337,10 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
         $collection->addFieldToFilter('invitation_id', array('in'=>$invitations))
             ->addFieldToFilter('status', Enterprise_Invitation_Model_Invitation::STATUS_SENT);
 
-        $now = Mage::app()->getLocale()->date()
-            ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
-            ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
         $amount = 0;
         foreach ($collection as $invitation) {
             try {
-                $this->_sendInvitationEmail($invitation);
+                $invitation->sendInvitationEmail();
                 $invitation->setOrigData('status', '');
                 $invitation->save();
                 $amount ++;
@@ -419,33 +425,5 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     {
         return Mage::helper('enterprise_invitation')->isEnabled() &&
                Mage::getSingleton('admin/session')->isAllowed('customer/enterprise_invitation');
-    }
-
-    /**
-     * Send Invitation email
-     *
-     * @param Portero_Invitation_Model_Invitation $invitation
-     * @return Portero_Invitation_Adminhtml_InvitationController
-     */
-    protected function _sendInvitationEmail($invitation)
-    {
-        $template = Mage::getStoreConfig('enterprise_invitation/email/template', $invitation->getStoreId());
-        $sender = Mage::getStoreConfig('enterprise_invitation/email/identity', $invitation->getStoreId());
-        $mail = Mage::getModel('core/email_template');
-        $mail->setDesignConfig(array('area'=>'frontend', 'store'=>$invitation->getStoreId()))
-             ->sendTransactional(
-                $template,
-                $sender,
-                $invitation->getEmail(),
-                null,
-                array(
-                    'url' => Mage::helper('enterprise_invitation')->getInvitationUrl($invitation),
-                    'allow_message' => Mage::getStoreConfigFlag('enterprise_invitation/general/allow_customer_message', $invitation->getStoreId()),
-                    'message' => htmlspecialchars($invitation->getMessage()),
-                    'store_name' => Mage::app()->getStore($invitation->getStoreId())->getName(),
-                )
-            );
-
-        return $this;
     }
 }

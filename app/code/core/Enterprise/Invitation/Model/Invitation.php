@@ -36,6 +36,9 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_CANCELED = 'canceled';
 
+    const XML_PATH_EMAIL_IDENTITY = 'enterprise_invitation/email/identity';
+    const XML_PATH_EMAIL_TEMPLATE = 'enterprise_invitation/email/template';
+
     /**
      * Intialize model
      *
@@ -69,6 +72,16 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         );
 
         return Mage::helper('core')->urlEncode($code);
+    }
+
+    /**
+     * Retrieve store of invitation
+     *
+     * @return Mage_Core_Model_Store
+     */
+    public function getStore()
+    {
+        return Mage::app()->getStore($this->getStoreId());
     }
 
     /**
@@ -140,5 +153,55 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         }
 
         return $this->getData('status_history_collection');
+    }
+
+    /**
+     * Send invitation email
+     *
+     * @return Enterprise_Invitation_Model_Invitation
+     */
+    public function sendInvitationEmail()
+    {
+        $url = Mage::helper('enterprise_invitation')->getInvitationUrl($this);
+
+        $template = $this->getStore()->getConfig(self::XML_PATH_EMAIL_TEMPLATE);
+        $sender = $this->getStore()->getConfig(self::XML_PATH_EMAIL_IDENTITY);
+
+        $mail = Mage::getModel('core/email_template');
+        $mail->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStore()->getId()))
+            ->sendTransactional(
+                $template,
+                $sender,
+                $this->getEmail(),
+                null,
+                array(
+                    'url'  => $url,
+                    'allow_message' => $this->getMessage() !== null,
+                    'message' => htmlspecialchars($this->getMessage()),
+                    'store_name' => $this->getStore()->getName(),
+                    'inviter_name' => $this->getInviter()->getName()
+                )
+            );
+
+        return $this;
+    }
+
+    /**
+     * Retrieve inviter
+     *
+     * @return Mage_Customer_Model_Customer
+     */
+    public function getInviter()
+    {
+        if (!$this->hasData('inviter')) {
+            $this->setData(
+                'inviter',
+                Mage::getModel('cusomer/customer')
+                    ->setWebsiteId($this->getStore()->getWebsiteId())
+                    ->load($this->getCustomerId())
+            );
+        }
+
+        return $this->_getData('inviter');
     }
 }

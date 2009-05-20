@@ -101,15 +101,15 @@
                 <script type="text/javascript">new Enterprise.Tabs('collateral-tabs')</script>
                 <?php if ($this->canEmailToFriend()): ?>
                     <p class="emailto-link"><a href="<?php echo $this->helper('catalog/product')->getEmailToFriendUrl($_product) ?>"><?php echo $this->__('Email to a Friend') ?></a></p>
-                <?php endif; ?> 
+                <?php endif; ?>
             </div>
-            <div class="clearer"></div>  
+            <div class="clearer"></div>
             <div class="no-display">
-                <?php echo $this->getChildHtml('relatedProducts') ?>  
+                <?php echo $this->getChildHtml('relatedProducts') ?>
             </div>
             <?php echo $this->getChildHtml('upsell_products') ?>
-            <?php echo $this->getChildHtml('productTagList') ?>            
-            <?php echo $this->getChildHtml('product_additional_data') ?> 
+            <?php echo $this->getChildHtml('productTagList') ?>
+            <?php echo $this->getChildHtml('product_additional_data') ?>
         </div>
         <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
         <fieldset class="no-display">
@@ -138,4 +138,5 @@
                     this.form.submit();
                 }
         }.bind(productAddToCartForm);
+        Enterprise.Bundle.initialize();
 </script>

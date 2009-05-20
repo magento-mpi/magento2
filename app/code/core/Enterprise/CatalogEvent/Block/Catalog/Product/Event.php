@@ -67,7 +67,6 @@ class Enterprise_CatalogEvent_Block_Catalog_Product_Event extends Enterprise_Cat
         return Mage::helper('enterprise_catalogevent')->isEnabled() &&
                $this->getProduct() &&
                $this->getEvent() &&
-               $this->getEvent()->getStatus() != Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED &&
                $this->getEvent()->canDisplayProductPage() &&
                !$this->getProduct()->getEventNoTicker();
     }
