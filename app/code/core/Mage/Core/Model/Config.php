@@ -155,6 +155,13 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_customEtcDir = null;
 
     /**
+     * Flag which allow to use modules from local code pool
+     * 
+     * @var bool
+     */
+    protected $_canUseLocalModules = null;
+
+    /**
      * Class construct
      *
      * @param mixed $sourceData
@@ -205,7 +212,6 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         $etcDir = $this->getOptions()->getEtcDir();
 
         $localConfigLoaded  = $this->loadFile($etcDir.DS.'local.xml');
-        $disableLocalModules= !$this->_canUseLocalModules();
 
         if (Mage::isInstalled()) {
             if ($this->_canUseCacheForInit()) {
@@ -219,33 +225,18 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             }
         }
 
-        $mergeConfig = new Mage_Core_Model_Config_Base();
-
         /**
          * Load base configuration data
          */
         $configFile = $etcDir.DS.'config.xml';
         $this->loadFile($configFile);
-        $this->_loadDeclaredModules($mergeConfig);
+        $this->_loadDeclaredModules();
 
         /**
          * Load modules configuration data
          */
         Varien_Profiler::start('config/load-modules');
-
-        $modules = $this->getNode('modules')->children();
-        foreach ($modules as $modName=>$module) {
-            if ($module->is('active')) {
-                if ($disableLocalModules && ('local' === (string)$module->codePool)) {
-                    continue;
-                }
-                $configFile = $this->getModuleDir('etc', $modName).DS.'config.xml';
-                if ($mergeConfig->loadFile($configFile)) {
-                    $this->extend($mergeConfig, true);
-                }
-            }
-        }
-
+        $this->loadModulesConfiguration('config.xml', $this);
         Varien_Profiler::stop('config/load-modules');
 
         /**
@@ -253,7 +244,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
          */
         Varien_Profiler::start('config/load-local');
 
-        $configFile = $etcDir.DS.'local.xml';
+        $mergeConfig = new Mage_Core_Model_Config_Base();
+        $configFile  = $etcDir.DS.'local.xml';
         if (is_readable($configFile)) {
             $mergeConfig->loadFile($configFile);
             $this->extend($mergeConfig);
@@ -307,6 +299,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     protected function _canUseLocalModules()
     {
+        if ($this->_canUseLocalModules !== null) {
+            return $this->_canUseLocalModules;
+        }
+
         $disableLocalModules = (string)$this->getNode('global/disable_local_modules');
         if (!empty($disableLocalModules)) {
             $disableLocalModules = (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
@@ -323,8 +319,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 Mage::registry('original_include_path')
             );
         }
-
-        return !$disableLocalModules;
+        $this->_canUseLocalModules = !$disableLocalModules;
+        return $this->_canUseLocalModules;
     }
 
     /**
@@ -608,10 +604,10 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     /**
      * Load declared modules configuration
      *
-     * @param   $mergeConfig
+     * @param   null $mergeConfig depricated
      * @return  Mage_Core_Model_Config
      */
-    protected function _loadDeclaredModules($mergeConfig)
+    protected function _loadDeclaredModules($mergeConfig = null)
     {
         $moduleFiles = $this->_getDeclaredModuleFiles();
         if (!$moduleFiles) {
@@ -713,6 +709,37 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         return $modules;
+    }
+
+    /**
+     * Iterate all active modules "etc" folders and combine data from
+     * specidied xml file name to one object
+     *
+     * @param   string $fileName
+     * @param   null|Mage_Core_Model_Config_Base $margeToObject
+     * @return  Mage_Core_Model_Config_Base
+     */
+    public function loadModulesConfiguration($fileName, $margeToObject = null)
+    {
+        $mergeConfig            = new Mage_Core_Model_Config_Base();
+        $disableLocalModules    = !$this->_canUseLocalModules();
+        
+        if ($margeToObject === null) {
+            $margeToObject = new Mage_Core_Model_Config_Base();
+        }
+        $modules = $this->getNode('modules')->children();
+        foreach ($modules as $modName=>$module) {
+            if ($module->is('active')) {
+                if ($disableLocalModules && ('local' === (string)$module->codePool)) {
+                    continue;
+                }
+                $configFile = $this->getModuleDir('etc', $modName).DS.$fileName;
+                if ($mergeConfig->loadFile($configFile)) {
+                    $margeToObject->extend($mergeConfig, true);
+                }
+            }
+        }
+        return $margeToObject;
     }
 
     /**
@@ -892,7 +919,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function loadEventObservers($area)
     {
-        if ($events = $this->getNode("$area/events")) {
+        $events = $this->getNode("$area/events");
+        if ($events) {
             $events = $events->children();
         }
         else {
@@ -1081,7 +1109,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceModelInstance($modelClass='', $constructArguments=array())
     {
-        if (!$factoryName = $this->_getResourceModelFactoryClassName($modelClass)) {
+        $factoryName = $this->_getResourceModelFactoryClassName($modelClass);
+        if (!$factoryName) {
             return false;
         }
         return $this->getModelInstance($factoryName, $constructArguments);
@@ -1263,7 +1292,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getFieldset($name, $root = 'global')
     {
-        if (!$rootNode = $this->getNode($root.'/fieldsets')) {
+        $rootNode = $this->getNode($root.'/fieldsets');
+        if (!$rootNode) {
             return null;
         }
         return $rootNode->$name ? $rootNode->$name->children() : null;
@@ -1310,7 +1340,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      */
     public function getResourceModelClassName($modelClass)
     {
-        if ($factoryName = $this->_getResourceModelFactoryClassName($modelClass)) {
+        $factoryName = $this->_getResourceModelFactoryClassName($modelClass);
+        if ($factoryName) {
             return $this->getModelClassName($factoryName);
         }
         return false;
