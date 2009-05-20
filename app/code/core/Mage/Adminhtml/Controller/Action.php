@@ -132,9 +132,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         $this->getLayout()->setArea('adminhtml');
 
         Mage::dispatchEvent('adminhtml_controller_action_predispatch_start', array());
-
         parent::preDispatch();
-
         $_isValidFormKey = true;
         $_isValidSecretKey = true;
         $_keyErrorMsg = '';
@@ -156,7 +154,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
                     'message' => $_keyErrorMsg
                 )));
             } else {
-                $this->_redirect('*/index/index');
+                $this->_redirect( Mage::getSingleton('admin/session')->getUser()->getStartupPageUrl() );
             }
             return $this;
         }
