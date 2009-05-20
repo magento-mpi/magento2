@@ -70,6 +70,7 @@
                                 <?php endif; ?>
                             </p>
                             <script>
+                            //<![CDATA[
                                 minAllowedAmount = <?php echo Mage::helper('core')->currency($_product->getOpenAmountMin(), false, false) ?>;
                                 maxAllowedAmount = <?php echo Mage::helper('core')->currency($_product->getOpenAmountMax(), false, false) ?>;
 
@@ -98,6 +99,7 @@
                                     if (maxAllowedAmount == 0) {return true;}
                                     return (parsePrice(v) <= maxAllowedAmount);
                                 });
+                            //]]>
                             </script>
                         <?php endif; ?>
                     </div>

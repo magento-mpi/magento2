@@ -132,7 +132,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                         }
                     }
                 }
-                
+
                 if (!is_null($sending)) {
                     if ($sending) {
                         Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_giftcardaccount')->__('Gift Card Account was successfully saved & sent'));
@@ -200,6 +200,9 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         $this->_redirect('*/*/');
     }
 
+    /**
+     * Render GCA grid
+     */
     public function gridAction()
     {
         $this->getResponse()->setBody(
@@ -208,6 +211,9 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         );
     }
 
+    /**
+     * Generate code pool
+     */
     public function generateAction()
     {
         try {
@@ -231,6 +237,9 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         return Mage::getSingleton('admin/session')->isAllowed('customer/giftcardaccount');
     }
 
+    /**
+     * Render GCA history grid
+     */
     public function gridHistoryAction()
     {
         $this->_initGca();
@@ -245,6 +254,11 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         );
     }
 
+    /**
+     * Load GCA from request
+     *
+     * @param string $idFieldName
+     */
     protected function _initGca($idFieldName = 'id')
     {
         $id = (int)$this->getRequest()->getParam($idFieldName);
@@ -253,5 +267,26 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
             $model->load($id);
         }
         Mage::register('current_giftcardaccount', $model);
+    }
+
+    /**
+     * Export GCA grid to MSXML
+     */
+    public function exportMsxmlAction()
+    {
+        $this->_prepareDownloadResponse('giftcardaccounts.xml',
+            $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_grid')
+                ->getExcel($this->__('Gift Card Accounts'))
+        );
+    }
+
+    /**
+     * Export GCA grid to CSV
+     */
+    public function exportCsvAction()
+    {
+        $this->_prepareDownloadResponse('giftcardaccounts.csv',
+            $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_grid')->getCsv()
+        );
     }
 }

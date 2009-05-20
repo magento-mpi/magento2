@@ -26,7 +26,9 @@
 
 class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
+    /**
+     * Set defaults
+     */
     public function __construct()
     {
         parent::__construct();
@@ -36,15 +38,24 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
         $this->setVarNameFilter('giftcardaccount_filter');
-
     }
 
+    /**
+     * Get store from request
+     *
+     * @return Mage_Core_Model_Store
+     */
     protected function _getStore()
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
         return Mage::app()->getStore($storeId);
     }
 
+    /**
+     * Instantiate and prepare collection
+     *
+     * @return Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid
+     */
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
@@ -56,6 +67,9 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
         return $this;
     }
 
+    /**
+     * Define grid columns
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('giftcardaccount_id',
@@ -142,12 +156,24 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
             'is_system' => true
         ));
 
-
         return parent::_prepareColumns();
     }
 
+    /**
+     * Define row click callback
+     */
     public function getGridUrl()
     {
         return $this->getUrl('*/*/grid', array('_current'=>true));
+    }
+
+    /**
+     * Invoke export features for grid
+     */
+    protected function _prepareGrid()
+    {
+        $this->addExportType('*/*/exportCsv', 'CSV');
+        $this->addExportType('*/*/exportMsxml', 'MSXML');
+        return parent::_prepareGrid();
     }
 }
