@@ -220,45 +220,80 @@ Enterprise.BundleSummary = {
     initialize: function () {
         this.summary = $('bundleSummary');
         this.summaryContainer = this.summary.up(0);
-
+        this.doNotCheck = false;
         this.summaryStartY = this.summary.positionedOffset().top;
         this.summaryStartY = 61;
         this.summaryStartX = this.summary.positionedOffset().left;
         this.onDocScroll = this.handleDocScroll.bindAsEventListener(this);
         this.GetScroll = setInterval(this.onDocScroll, 50);
+        this.onEffectEnds = this.effectEnds.bind(this);
     },
 
     handleDocScroll: function () {
-        if (this.currentOffsetTop == document.viewport.getScrollOffsets().top) {
+        if (this.currentOffsetTop == document.viewport.getScrollOffsets().top
+            && (this.checkOffset(null) == null)) {
             return;
         } else {
+            if (this.currentOffsetTop == document.viewport.getScrollOffsets().top) {
+                this.doNotCheck = true;
+            }
             this.currentOffsetTop = document.viewport.getScrollOffsets().top;
         }
 
         if (this.currentEffect) {
             this.currentEffect.cancel();
+            var topOffset = 0;
             if (this.summaryContainer.viewportOffset().top < -60) {
-                this.currentEffect.start({
-                    x: this.summaryStartX,
-                    y: -(this.summaryContainer.viewportOffset().top),
-                    mode: 'absolute'
-                });
+               topOffset =  -(this.summaryContainer.viewportOffset().top);
             } else {
-                this.currentEffect.start({
-                    x: this.summaryStartX,
-                    y: this.summaryStartY,
-                    mode: 'absolute'
-                });
+               topOffset = this.summaryStartY;
             }
-
+            
+            topOffset = this.checkOffset(topOffset);
+            if (topOffset === null) {
+                this.currentEffect = false;
+                return;
+            }
+            
+            this.currentEffect.start({
+                x: this.summaryStartX,
+                y: topOffset,
+                mode: 'absolute',
+                duration: 0.3,
+                afterFinish: this.onEffectEnds
+            });
+            
+            
+            
             return;
         }
 
-        if (this.summaryContainer.viewportOffset().top < -60) {
-              this.currentEffect = new Effect.Move(this.summary);
-        } else {
-             this.currentEffect = new Effect.Move(this.summary);
+        
+        this.currentEffect = new Effect.Move(this.summary);
+    },
+    
+    effectEnds: function () {
+        if (this.doNotCheck == true) {
+            this.doNotCheck = false;
         }
+    },
+    
+    checkOffset: function (offset) {
+        if (this.doNotCheck && offset === null) {
+            return null;
+        }
+        var dimensions = this.summary.getDimensions();
+        var parentDimensions = this.summary.up().getDimensions();
+        if ((offset !== null ? offset : this.summary.offsetTop) + dimensions.height >= parentDimensions.height) {
+            offset = parentDimensions.height - dimensions.height;
+        } else if (offset === null &&
+            this.currentOffsetTop > (this.summaryContainer.viewportOffset().top) &&
+            (this.currentOffsetTop - this.summaryContainer.viewportOffset().top) > this.summary.offsetTop) {
+            offset = this.currentOffsetTop - this.summaryContainer.viewportOffset().top;
+        }
+        
+        
+        return offset;
     },
 
     exitSummary: function () {

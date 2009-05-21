@@ -160,6 +160,11 @@ class Enterprise_AdminGws_Model_Models
     public function newsletterQueueSaveBefore($model)
     {
         $originalStores = $model->getResource()->getStores($model);
+        if (!$model->getId()) {
+            $model->setStores(array(current($this->_helper->getStoreIds())));
+            $model->setSaveStoresFlag(true);
+        }
+
         if ($model->getId() && !$this->_helper->hasStoresAccess($originalStores)) {
             $this->_throwSave();
         }
