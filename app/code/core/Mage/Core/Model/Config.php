@@ -156,7 +156,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
     /**
      * Flag which allow to use modules from local code pool
-     * 
+     *
      * @var bool
      */
     protected $_canUseLocalModules = null;
@@ -716,16 +716,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * specidied xml file name to one object
      *
      * @param   string $fileName
-     * @param   null|Mage_Core_Model_Config_Base $margeToObject
+     * @param   null|Mage_Core_Model_Config_Base $mergeToObject
      * @return  Mage_Core_Model_Config_Base
      */
-    public function loadModulesConfiguration($fileName, $margeToObject = null)
+    public function loadModulesConfiguration($fileName, $mergeToObject = null)
     {
         $mergeConfig            = new Mage_Core_Model_Config_Base();
         $disableLocalModules    = !$this->_canUseLocalModules();
-        
-        if ($margeToObject === null) {
-            $margeToObject = new Mage_Core_Model_Config_Base();
+
+        if ($mergeToObject === null) {
+            $mergeToObject = new Mage_Core_Model_Config_Base();
         }
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {
@@ -735,11 +735,11 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                 }
                 $configFile = $this->getModuleDir('etc', $modName).DS.$fileName;
                 if ($mergeConfig->loadFile($configFile)) {
-                    $margeToObject->extend($mergeConfig, true);
+                    $mergeToObject->extend($mergeConfig, true);
                 }
             }
         }
-        return $margeToObject;
+        return $mergeToObject;
     }
 
     /**
