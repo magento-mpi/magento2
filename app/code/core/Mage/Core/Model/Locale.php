@@ -760,9 +760,9 @@ class Mage_Core_Model_Locale
         }
 
         $result = false;
-        if ($dateFrom && $storeTimeStamp < $fromTimeStamp) {
+        if (!is_empty_date($dateFrom) && $storeTimeStamp < $fromTimeStamp) {
         }
-        elseif ($dateTo && $storeTimeStamp > $toTimeStamp) {
+        elseif (!is_empty_date($dateTo) && $storeTimeStamp > $toTimeStamp) {
         }
         else {
             $result = true;
