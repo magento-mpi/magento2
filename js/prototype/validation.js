@@ -241,7 +241,7 @@ Object.extend(Validation, {
         }
     },
     allowContainerClassName: function (elm) {
-        if (elm.type == 'radio' && elm.type == 'checkbox') {
+        if (elm.type == 'radio' || elm.type == 'checkbox') {
             return elm.hasClassName('change-container-classname');
         }
         
@@ -284,7 +284,7 @@ Object.extend(Validation, {
             if (Validation.defaultOptions.addClassNameToContainer && Validation.defaultOptions.containerClassName != '') {
                 var container = elm.up(Validation.defaultOptions.containerClassName);
                 if (container && !container.down('.validation-failed') && this.allowContainerClassName(elm)) {
-                    if (!Validation.get('IsEmpty').test(elm.value)) { 
+                    if (!Validation.get('IsEmpty').test(elm.value) || !this.isVisible(elm)) { 
                         container.addClassName('validation-passed');
                     } else {
                         container.removeClassName('validation-passed');
