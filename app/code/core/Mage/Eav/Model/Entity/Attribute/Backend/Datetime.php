@@ -30,7 +30,11 @@ class Mage_Eav_Model_Entity_Attribute_Backend_Datetime extends Mage_Eav_Model_En
     {
         $_formated = $object->getData($this->getAttribute()->getName() . '_is_formated');
         if (!$_formated) {
-            $value = $this->formatDate($object->getData($this->getAttribute()->getName()));
+            try {
+                $value = $this->formatDate($object->getData($this->getAttribute()->getName()));
+            } catch (Exception $e) {
+                throw new Exception("Invalid date.");
+            }
             $object->setData($this->getAttribute()->getName(), $value);
             $object->setData($this->getAttribute()->getName() . '_is_formated', true);
         }
