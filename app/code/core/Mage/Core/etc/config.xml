@@ -158,7 +158,7 @@
                 <exception_file>exception.log</exception_file>
             </log>
             <js>
-                <merge_files>0</merge_files>
+                <merge_files>1</merge_files>
                 <deprecation>0</deprecation>
             </js>
         </dev>
