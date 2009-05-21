@@ -71,6 +71,8 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
     protected $_canUseForMultishipping  = true;
     protected $_canSaveCc = false;
 
+    protected $_allowCurrencyCode = array('USD');
+
     /**
      * Fields that should be replaced in debug with '***'
      *
@@ -82,6 +84,20 @@ class Mage_Paygate_Model_Authorizenet extends Mage_Payment_Model_Method_Cc
                                                     'x_bank_name', 'x_bank_acct_num',
                                                     'x_bank_acct_type','x_bank_acct_name',
                                                     'x_echeck_type');
+
+    /**
+     * Check method for processing with base currency
+     *
+     * @param string $currencyCode
+     * @return boolean
+     */
+    public function canUseForCurrency($currencyCode)
+    {
+        if (!in_array($currencyCode, $this->_allowCurrencyCode)) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * Send authorize request to gateway
