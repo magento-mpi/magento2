@@ -24,33 +24,32 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract 
+class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    /**
-     * configuration
-     */
-    const   CONFIG_FILE = 'logging.xml';
     private $_config;
     private $_labels;
 
     public function loadConfig()
     {
-        if ( !($conf = Mage::app()->loadCache('actions_to_log')) ) {
-            $conf = $this->_getActionsConfigFromXml();
-            $result = Mage::app()->saveCache(serialize($conf), 'actions_to_log');
-        } else {
-            $conf = unserialize($conf);
-        }
-        $this->_config = $conf;
+        $actions = Mage::app()->loadCache('enterprise_logging_actions');
+        $labels  = Mage::app()->loadCache('enterprise_logging_labels');
 
-        if ( !($conf = Mage::app()->loadCache('actions_to_log_labels')) ) {
-            $conf = $this->_getLabelsConfigFromXml(); 
-            Mage::app()->saveCache(serialize($conf['list']), 'actions_to_log_labels');
-            $conf = $conf['list'];
-        } else {
-            $conf = unserialize($conf);
+        if (!($actions && $labels)) {
+            $config = new Varien_Simplexml_Config;
+            $config->loadString('<?xml version="1.0"?><logging></logging>');
+            Mage::getConfig()->loadModulesConfiguration('logging.xml', $config);
+
+            $this->_config = $config->getNode('actions')->asArray();
+            Mage::app()->saveCache(serialize($this->_config), 'enterprise_logging_actions');
+
+            $this->_labels = $config->getNode('labels')->asArray();
+            $this->_labels = $this->_labels['list'];
+            Mage::app()->saveCache(serialize($this->_labels), 'enterprise_logging_labels');
         }
-        $this->_labels = $conf;
+        else {
+            $this->_config = unserialize($actions);
+            $this->_labels = unserialize($labels);
+        }
     }
 
     /**
@@ -79,8 +78,8 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Return, previously stored in cache config
-     */ 
-    public function getConfig($action) 
+     */
+    public function getConfig($action)
     {
         if (!isset($this->_config)) {
             $this->loadConfig();
@@ -95,90 +94,24 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Get all labels
      */
-    public function getLabels() 
+    public function getLabels()
     {
         if (!isset($this->_labels)) {
             $this->loadConfig();
         }
+        asort($this->_labels);
         return $this->_labels;
     }
 
     /**
      * Get label for current event_code
      */
-    public function getLabel($code) 
+    public function getLabel($code)
     {
         if (!isset($this->_labels)) {
             $this->loadConfig();
         }
         $labelsconfig = $this->getLabels();
         return isset($labelsconfig[$code]) ? $labelsconfig[$code] : "";
-    }
-
-
-    /**
-     * Load actions from config
-     */
-    private function _getActionsConfigFromXml() 
-    {
-        $config = Mage::getConfig();
-        $modules = $config->getNode('modules')->children();
-
-        // check if local modules are disabled
-        $disableLocalModules = (string)$config->getNode('global/disable_local_modules');
-        $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
-        $conf = Mage::getModel('core/config');
-        $is_loaded = false;
-        foreach ($modules as $modName=>$module) {
-            if ($module->is('active')) {
-                if ($disableLocalModules && ('local' === (string)$module->codePool)) {
-                    continue;
-                }
-
-                $configFile = $config->getModuleDir('etc', $modName) . DS . self::CONFIG_FILE;
-                $logConfig = Mage::getModel('core/config_base');
-                if ($logConfig->loadFile($configFile) ) {
-                    if (!$is_loaded) {
-                        $conf->loadFile($configFile);
-                        $is_loaded = true;
-                    } else
-                        $conf->extend($logConfig, true);
-                } 
-            }
-        }
-        return $conf->getNode('actions')->asArray();
-    }
-
-    /**
-     * Load labels from configuration file
-     */
-    private function _getLabelsConfigFromXml() 
-    {
-        $config = Mage::getConfig();
-        $modules = $config->getNode('modules')->children();
-
-        // check if local modules are disabled
-        $disableLocalModules = (string)$config->getNode('global/disable_local_modules');
-        $disableLocalModules = !empty($disableLocalModules) && (('true' === $disableLocalModules) || ('1' === $disableLocalModules));
-        $conf = Mage::getModel('core/config');
-        $is_loaded = false;
-        foreach ($modules as $modName=>$module) {
-            if ($module->is('active')) {
-                if ($disableLocalModules && ('local' === (string)$module->codePool)) {
-                    continue;
-                }
-
-                $configFile = $config->getModuleDir('etc', $modName) . DS . self::CONFIG_FILE;
-                $logConfig = Mage::getModel('core/config_base');
-                if ($logConfig->loadFile($configFile) ) {
-                    if (!$is_loaded) {
-                        $conf->loadFile($configFile);
-                        $is_loaded = true;
-                    } else
-                        $conf->extend($logConfig, true);
-                } 
-            }
-        }
-        return $conf->getNode('labels')->asArray();
     }
 }
