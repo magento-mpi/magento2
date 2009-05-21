@@ -54,6 +54,7 @@ class Mage_Catalog_Block_Navigation extends Mage_Core_Block_Template
         return 'CATALOG_NAVIGATION_' . Mage::app()->getStore()->getId()
             . '_' . Mage::getDesign()->getPackageName()
             . '_' . Mage::getDesign()->getTheme('template')
+            . '_' . Mage::getSingleton('customer/session')->getCustomerGroupId()
             . '_' . md5($this->getTemplate() . $this->getCurrenCategoryKey());
     }
 
