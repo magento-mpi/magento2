@@ -119,11 +119,11 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
                     if (strlen($value)>0) {
                         if (in_array($attribute->getBackend()->getType(), array('varchar', 'text'))) {
                             $condition = array('like'=>'%'.$value.'%');
+                        } elseif ($attribute->getFrontendInput() == 'boolean') {
+                            $condition = array('in' => array('0','1'));
                         } else {
                             $condition = $value;
                         }
-                    } elseif ($attribute->getFrontendInput() == 'boolean') {
-                        $condition = array('in' => array(0,1));
                     }
                 }
             }
@@ -162,6 +162,7 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
      */
     protected function _addSearchCriteria($attribute, $value)
     {
+        mageDebugBacktrace();
         $name = $attribute->getFrontend()->getLabel();
 
         if (is_array($value) && (isset($value['from']) || isset($value['to']))){
