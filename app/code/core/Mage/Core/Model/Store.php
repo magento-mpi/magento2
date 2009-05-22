@@ -99,6 +99,11 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_isAdminSecure = null;
     protected $_isFrontSecure = null;
 
+    /**
+     * @var bool
+     */
+    private $_isReadOnly = false;
+
     protected function _construct()
     {
         $this->_init('core/store');
@@ -899,10 +904,17 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $this;
     }
 
-//    public function __destruct()
-//    {
-//        echo '<pre>';
-//        print_r($this->_configCache);
-//        echo '</pre>';
-//    }
+    /**
+     * Get/Set isReadOnly flag
+     *
+     * @param bool $value
+     * @return bool
+     */
+    public function isReadOnly($value = null)
+    {
+        if (null !== $value) {
+            $this->_isReadOnly = (bool)$value;
+        }
+        return $this->_isReadOnly;
+    }
 }

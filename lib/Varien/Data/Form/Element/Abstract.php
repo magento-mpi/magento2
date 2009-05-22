@@ -214,8 +214,14 @@ abstract class Varien_Data_Form_Element_Abstract extends Varien_Data_Form_Abstra
         if (in_array('disabled', $attributes) && !empty($this->_data['disabled'])) {
             $this->_data['disabled'] = 'disabled';
         }
+        else {
+            unset($this->_data['disabled']);
+        }
         if (in_array('checked', $attributes) && !empty($this->_data['checked'])) {
             $this->_data['checked'] = 'checked';
+        }
+        else {
+            unset($this->_data['checked']);
         }
         return parent::serialize($attributes, $valueSeparator, $fieldSeparator, $quote);
     }
