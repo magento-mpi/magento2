@@ -726,6 +726,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
 
         if ($mergeToObject === null) {
             $mergeToObject = new Mage_Core_Model_Config_Base();
+            $mergeToObject->loadString('<config/>');
         }
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {
