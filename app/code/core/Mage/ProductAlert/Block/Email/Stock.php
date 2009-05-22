@@ -52,10 +52,9 @@ class Mage_ProductAlert_Block_Email_Stock extends Mage_ProductAlert_Block_Email_
      */
     public function getProductUnsubscribeUrl($productId)
     {
-        return $this->getUrl('productalert/unsubscribe/stock', array(
-            'product' => $productId,
-            '_query'  => $this->_getStoreUrlParam()
-        ));
+        $params = $this->_getUrlParams();
+        $params['product'] = $productId;
+        return $this->getUrl('productalert/unsubscribe/stock', $params);
     }
 
     /**
@@ -65,8 +64,6 @@ class Mage_ProductAlert_Block_Email_Stock extends Mage_ProductAlert_Block_Email_
      */
     public function getUnsubscribeUrl()
     {
-        return $this->getUrl('productalert/unsubscribe/stockAll', array(
-            '_query'  => $this->_getStoreUrlParam()
-        ));
+        return $this->getUrl('productalert/unsubscribe/stockAll', $this->_getUrlParams());
     }
 }

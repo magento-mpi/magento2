@@ -124,18 +124,15 @@ abstract class Mage_ProductAlert_Block_Email_Abstract extends Mage_Core_Block_Te
     }
 
     /**
-     * Get store url param (GET)
+     * Get store url params
      *
      * @return string
      */
-    protected function _getStoreUrlParam()
+    protected function _getUrlParams()
     {
-        $store = $this->getStore();
-        if (!Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL, $store)) {
-            return array(
-                '___store' => $store->getCode()
-            );
-        }
-        return array();
+        return array(
+            '_store'        => $this->getStore(),
+            '_store_to_url' => true
+        );
     }
 }

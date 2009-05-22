@@ -97,7 +97,8 @@ class Mage_Core_Model_Url extends Varien_Object
      */
     protected $_reservedRouteParams = array(
         '_store', '_type', '_secure', '_forced_secure', '_use_rewrite', '_nosid',
-        '_absolute', '_current', '_direct', '_fragment', '_escape', '_query'
+        '_absolute', '_current', '_direct', '_fragment', '_escape', '_query',
+        '_store_to_url'
     );
 
     /**
@@ -511,6 +512,11 @@ class Mage_Core_Model_Url extends Varien_Object
             unset($data['_type']);
         }
 
+        if (isset($data['_store'])) {
+            $this->setStore($data['_store']);
+            unset($data['_store']);
+        }
+
         if (isset($data['_forced_secure'])) {
             $this->setSecure((bool)$data['_forced_secure']);
             $this->setSecureIsForced(true);
@@ -556,6 +562,13 @@ class Mage_Core_Model_Url extends Varien_Object
 
         if (isset($data['_use_rewrite'])) {
             unset($data['_use_rewrite']);
+        }
+
+        if (isset($data['_store_to_url']) && (bool)$data['_store_to_url'] === true) {
+            if (!Mage::getStoreConfig(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL, $this->getStore())) {
+                $this->setQueryParam('___store', $this->getStore()->getCode());
+            }
+            unset($data['_store_to_url']);
         }
 
         foreach ($data as $k=>$v) {

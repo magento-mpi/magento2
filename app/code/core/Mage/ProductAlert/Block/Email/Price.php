@@ -52,10 +52,9 @@ class Mage_ProductAlert_Block_Email_Price extends Mage_ProductAlert_Block_Email_
      */
     public function getProductUnsubscribeUrl($productId)
     {
-        return $this->getUrl('productalert/unsubscribe/price', array(
-            'product' => $productId,
-            '_query'  => $this->_getStoreUrlParam()
-        ));
+        $params = $this->_getUrlParams();
+        $params['product'] = $productId;
+        return $this->getUrl('productalert/unsubscribe/price', $params);
     }
 
     /**
@@ -65,8 +64,6 @@ class Mage_ProductAlert_Block_Email_Price extends Mage_ProductAlert_Block_Email_
      */
     public function getUnsubscribeUrl()
     {
-        return $this->getUrl('productalert/unsubscribe/priceAll', array(
-            '_query'  => $this->_getStoreUrlParam()
-        ));
+        return $this->getUrl('productalert/unsubscribe/priceAll', $this->_getUrlParams());
     }
 }
