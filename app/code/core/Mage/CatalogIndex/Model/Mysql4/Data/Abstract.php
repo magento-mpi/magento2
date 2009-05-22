@@ -219,7 +219,19 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Abstract extends Mage_Core_Model_Mysql
             ->getAttribute('catalog_product', $attributeCode);
         /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         $attributeTable = $attribute->getBackend()->getTable();
-        if ($attribute->isScopeGlobal()) {
+        if ($attribute->getBackendType() == 'static') {
+            $tableAlias = sprintf('t_%s', $attribute->getAttributeCode());
+            $joinCond   = join(' AND ', array(
+                sprintf('`%s`.`%s`=`%s`.`entity_id`', $table, $field, $tableAlias)
+            ));
+            $select
+                ->join(
+                    array($tableAlias => $attributeTable),
+                    $joinCond,
+                    array())
+                ->where(sprintf('%s.%s IN(?)', $tableAlias, $attribute->getAttributeCode()), $value);
+        }
+        elseif ($attribute->isScopeGlobal()) {
             $tableAlias = sprintf('t_%s', $attribute->getAttributeCode());
             $joinCond   = join(' AND ', array(
                 sprintf('`%s`.`%s`=`%s`.`entity_id`', $table, $field, $tableAlias),
