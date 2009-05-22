@@ -27,6 +27,7 @@
 <div class="page-title">
     <h2><?php echo Mage::helper('enterprise_invitation')->__('My Invitations'); ?></h2>
 </div>
+<div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php $_invitations = $this->getInvitationList(); ?>
 
 <?php

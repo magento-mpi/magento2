@@ -31,9 +31,9 @@
  */
 ?>
 
-<div id="<?php echo $this->getHtmlId(); ?>" class="events-slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo $this->getWidth()?>" <?php endif;?>>
+<div id="<?php echo $this->getHtmlId(); ?>" class="events-slider">
 <div class="slide-button backward">&laquo;</div>
-<div class="slider-panel"<?php if ($this->hasWidth()): ?> style="width:<?php echo $this->getWidth()?>" <?php endif;?>>
+<div class="slider-panel">
     <ul class="slider">
 <?php foreach ($this->getEvents() as $_event): ?>
 <?php $_category = $_event->getCategory(); ?>

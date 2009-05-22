@@ -371,6 +371,7 @@ Object.extend(Enterprise.Slider.prototype, {
             this.initializeHandlers.bind(this)
         );
         this.updateButtons();
+        this.initializeDimensions();
     },
     initializeHandlers: function (element) {
         if (element.hasClassName(this.config.forwardButtonCss) ||
@@ -410,6 +411,38 @@ Object.extend(Enterprise.Slider.prototype, {
             }
         }
     },
+    initializeDimensions: function () {
+        var firstItem = this.items.first();
+        if (this.config.slideDirection == 'horizontal') {
+            this.sliderPanel.setStyle({width: (firstItem.getDimensions().width * this.config.pageSize - parseInt(firstItem.getStyle('border-left-width'))  - parseInt(firstItem.getStyle('border-right-width'))) + 'px'});
+        } else {
+            this.sliderPanel.setStyle({height: (firstItem.getDimensions().height * this.config.pageSize - parseInt(firstItem.getStyle('border-top-width')) -  parseInt(firstItem.getStyle('border-bottom-width'))) + 'px'});
+        }
+        
+        var dimensions = this.sliderPanel.getDimensions();
+        
+        var sliderParent = this.sliderPanel.up();
+        /*
+        dimensions.height += parseInt(sliderParent.getStyle('padding-top'));
+        dimensions.height += parseInt(sliderParent.getStyle('padding-bottom'));
+        dimensions.width += parseInt(sliderParent.getStyle('padding-left'));
+        dimensions.width += parseInt(sliderParent.getStyle('padding-right'));
+    
+        if (sliderParent.down('.slide-button')) {
+            var buttonDimensions = sliderParent.down('.slide-button').getDimensions();
+            if (this.config.slideDirection == 'horizontal') {
+                dimensions.width += 2 * buttonDimensions.width;
+            } else {
+                dimensions.height += 2 * buttonDimensions.height;
+            }
+        }
+        */
+        sliderParent.setStyle({
+            width: dimensions.width + 'px',
+            height: dimensions.height + 'px'
+        });
+        return this;
+    },
     absolutize: function () {
         if (!this.isAbsolutized) {
             this.isAbsolutized = true;
@@ -418,9 +451,11 @@ Object.extend(Enterprise.Slider.prototype, {
                 height: dimensions.height + 'px',
                 width: dimensions.width + 'px'
             });
+            
             this.slider.absolutize();
         }
     },
+    
     forward: function () {
         if (this.offset + this.config.pageSize <= this.items.length - 1) {
             this.slide(true);
