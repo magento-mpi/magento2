@@ -84,7 +84,7 @@ class Mage_Install_Model_Config extends Varien_Simplexml_Config
 
         $items = (array) $this->getNode(self::XML_PATH_CHECK_WRITEABLE);
 
-        foreach ($items['items'] as $item) {
+        foreach ($items as $item) {
             $res['writeable'][] = (array) $item;
         }
 
