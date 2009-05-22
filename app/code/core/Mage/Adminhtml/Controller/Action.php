@@ -349,16 +349,6 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
     protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
         $this->_getSession()->setIsUrlNotice($this->getFlag('', self::FLAG_IS_URLS_CHECKED));
-
-        // Save original values for controller and action included in secret key Urls
-        $_urlModel = Mage::getSingleton('adminhtml/url');
-        if (!$_urlModel->getOriginalControllerName()) {
-            $_urlModel->setOriginalControllerName($this->getRequest()->getControllerName());
-        }
-        if (!$_urlModel->getOriginalActionName()) {
-            $_urlModel->setOriginalActionName($this->getRequest()->getActionName());
-        }
-
         return parent::_forward($action, $controller, $module, $params);
     }
 
@@ -385,10 +375,8 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             return true;
         }
 
-        $url = Mage::getSingleton('adminhtml/url');
-
         if (!($secretKey = $this->getRequest()->getParam(Mage_Adminhtml_Model_Url::SECRET_KEY_PARAM_NAME, null))
-            || $secretKey != $url->getSecretKey($url->getOriginalControllerName(), $url->getOriginalActionName())) {
+            || $secretKey != Mage::getSingleton('adminhtml/url')->getSecretKey()) {
             return false;
         }
         return true;
