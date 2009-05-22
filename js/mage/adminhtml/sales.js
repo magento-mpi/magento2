@@ -473,7 +473,8 @@ AdminOrder.prototype = {
         }
     },
 
-    itemChange : function(){
+    itemChange : function(event){
+        this.giftmessageOnItemChange(event);
         this.orderItemChanged = true;
     },
 
@@ -521,6 +522,22 @@ AdminOrder.prototype = {
 
     giftmessageFieldChange : function(){
         this.saveData(this.serializeData('order-giftmessage'));
+    },
+
+    giftmessageOnItemChange : function(event) {
+        var element = Event.element(event);
+        if(element.name.indexOf("giftmessage") != -1 && element.type == "checkbox" && !element.checked) {
+            var messages = $("order-giftmessage").select('textarea');
+            var name;
+            for(var i=0; i<messages.length; i++) {
+                name = messages[i].id.split("_");
+                if(name.length < 2) continue;
+                if (element.name.indexOf("[" + name[1] + "]") != -1 && messages[i].value != "") {
+                    alert("First, clean the Message field in Gift Message form");
+                    element.checked = true;
+                }
+            }
+        }
     },
 
     loadArea : function(area, indicator, params){
