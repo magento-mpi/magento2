@@ -27,13 +27,8 @@
 /**
  * Controllers AdminGws validator
  */
-class Enterprise_AdminGws_Model_Controllers
+class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Observer_Abstract
 {
-    /**
-     * @var Enterprise_AdminGws_Helper_Data
-     */
-    protected $_helper;
-
     /**
      * @var Mage_Core_Controller_Request_Http
      */
@@ -50,7 +45,7 @@ class Enterprise_AdminGws_Model_Controllers
      */
     public function __construct()
     {
-        $this->_helper  = Mage::helper('enterprise_admingws');
+        parent::__construct();
         $this->_request = Mage::app()->getRequest();
     }
 
@@ -205,13 +200,13 @@ class Enterprise_AdminGws_Model_Controllers
         if (!$this->_isForwarded && ($id = $controller->getRequest()->getParam('id'))) {
             $rule = Mage::getModel('catalogrule/rule')->load($id);
             if (!$rule->getId() ||
-                !$this->_helper->hasWebsitesAccess($rule->getWebsiteIds())) {
+                !$this->_helper->hasWebsiteAccess($rule->getWebsiteIds())) {
                 $this->_forward();
             }
         }
     }
 
-        /**
+    /**
      * Disallow saving quote rules in disallowed scopes
      *
      * @param Mage_Adminhtml_Controller_Action $controller
@@ -223,12 +218,11 @@ class Enterprise_AdminGws_Model_Controllers
         if (!$this->_isForwarded && ($id = $controller->getRequest()->getParam('id'))) {
             $rule = Mage::getModel('salesrule/rule')->load($id);
             if (!$rule->getId() ||
-                !$this->_helper->hasWebsitesAccess($rule->getOrigData('website_ids'))) {
+                !$this->_helper->hasWebsiteAccess($rule->getOrigData('website_ids'))) {
                 $this->_forward();
             }
         }
     }
-
 
     /**
      * Disallow saving categories in disallowed scopes
@@ -362,6 +356,85 @@ class Enterprise_AdminGws_Model_Controllers
         if ((!$this->_helper->getWebsiteIds()) && (in_array($this->_request->getActionName(), $denyActions)
                 || ($saveAction === $this->_request->getActionName() && 0 == $this->_request->getParam($idFieldName)))) {
             return $this->_forward();
+        }
+    }
+
+    /**
+     * Validate Manage Stores pages actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateSystemStore($controller)
+    {
+        // due to design of the original controller, need to run this check only once, on the first dispatch
+        if (Mage::registry('enterprise_admingws_system_store_matched')) {
+            return;
+        }
+        elseif (in_array($this->_request->getActionName(), array('save', 'newWebsite', 'newGroup', 'newStore', 'editWebsite', 'editGroup', 'editStore',
+            'deleteWebsite', 'deleteWebsitePost', 'deleteGroup', 'deleteGroupPost', 'deleteStore', 'deleteStorePost'
+            ))) {
+            Mage::register('enterprise_admingws_system_store_matched', true, true);
+        }
+
+        switch ($this->_request->getActionName()) {
+            case 'save':
+                $params = $this->_request->getParams();
+                if (isset($params['website'])) {
+                    return $this->_forward();
+                }
+                if (isset($params['store']) || isset($params['group'])) {
+                    if (!$this->_helper->getWebsiteIds()) {
+                        return $this->_forward();
+                    }
+                    // preventing saving stores/groups for wrong website is handled by their models
+                }
+                break;
+            case 'newWebsite':
+                return $this->_forward();
+                break;
+            case 'newGroup': // break intentionally omitted
+            case 'newStore':
+                if (!$this->_helper->getWebsiteIds()) {
+                    return $this->_forward();
+                }
+                break;
+            case 'editWebsite':
+                if (!$this->_helper->hasWebsiteAccess($this->_request->getParam('website_id'))) {
+                    return $this->_forward();
+                }
+                break;
+            case 'editGroup':
+                if (!$this->_helper->hasStoreGroupAccess($this->_request->getParam('group_id'))) {
+                    return $this->_forward();
+                }
+                break;
+            case 'editStore':
+                if (!$this->_helper->hasStoreAccess($this->_request->getParam('store_id'))) {
+                    return $this->_forward();
+                }
+                break;
+            case 'deleteWebsite': // break intentionally omitted
+            case 'deleteWebsitePost':
+                return $this->_forward();
+                break;
+            case 'deleteGroup': // break intentionally omitted
+            case 'deleteGroupPost':
+                if ($group = $this->_helper->getGroup($this->_request->getParam('item_id'))) {
+                    if ($this->_helper->hasWebsiteAccess($group->getWebsiteId(), true)) {
+                        return;
+                    }
+                }
+                return $this->_forward();
+                break;
+            case 'deleteStore': // break intentionally omitted
+            case 'deleteStorePost':
+                if ($store = Mage::app()->getStore($this->_request->getParam('item_id'))) {
+                    if ($this->_helper->hasWebsiteAccess($store->getWebsiteId(), true)) {
+                        return;
+                    }
+                }
+                return $this->_forward();
+                break;
         }
     }
 

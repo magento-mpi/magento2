@@ -28,22 +28,8 @@
  * Collections limiter model
  *
  */
-class Enterprise_AdminGws_Model_Collections
+class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Observer_Abstract
 {
-    /**
-     * @var Enterprise_AdminGws_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * Initialize helper
-     *
-     */
-    public function __construct()
-    {
-        $this->_helper = Mage::helper('enterprise_admingws');
-    }
-
     /**
      * Limit store views collection
      *

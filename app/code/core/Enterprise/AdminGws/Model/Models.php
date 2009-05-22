@@ -28,22 +28,8 @@
  * Models limiter
  *
  */
-class Enterprise_AdminGws_Model_Models
+class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observer_Abstract
 {
-    /**
-     * @var Enterprise_AdminGws_Helper_Data
-     */
-    protected $_helper;
-
-    /**
-     * Initialize helper
-     *
-     */
-    public function __construct()
-    {
-        $this->_helper = Mage::helper('enterprise_admingws');
-    }
-
     /**
      * Limit CMS page save
      *
@@ -56,7 +42,7 @@ class Enterprise_AdminGws_Model_Models
             $model->getData('stores'), $originalStoreIds
         )));
 
-        if ($model->getId() && !$this->_helper->hasStoresAccess($originalStoreIds)) {
+        if ($model->getId() && !$this->_helper->hasStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
 
@@ -73,7 +59,7 @@ class Enterprise_AdminGws_Model_Models
     public function cmsBlockSaveBefore($model)
     {
         $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
-        if ($model->getId() && !$this->_helper->hasStoresAccess($originalStoreIds)) {
+        if ($model->getId() && !$this->_helper->hasStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
 
@@ -95,7 +81,7 @@ class Enterprise_AdminGws_Model_Models
     {
         $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
 
-        if ($model->getId() && !$this->_helper->hasStoresAccess($originalStoreIds)) {
+        if ($model->getId() && !$this->_helper->hasStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
 
@@ -123,7 +109,7 @@ class Enterprise_AdminGws_Model_Models
             $this->_throwSave();
         }
 
-        if ($model->getId() && !$this->_helper->hasWebsitesAccess($websiteIds)) {
+        if ($model->getId() && !$this->_helper->hasWebsiteAccess($websiteIds)) {
             $this->_throwSave();
         }
 
@@ -165,7 +151,7 @@ class Enterprise_AdminGws_Model_Models
             $model->setSaveStoresFlag(true);
         }
 
-        if ($model->getId() && !$this->_helper->hasStoresAccess($originalStores)) {
+        if ($model->getId() && !$this->_helper->hasStoreAccess($originalStores)) {
             $this->_throwSave();
         }
         if ($model->getSaveStoresFlag()) {
@@ -240,7 +226,7 @@ class Enterprise_AdminGws_Model_Models
         ));
 
         if ($model->getId() &&
-            !$this->_helper->hasWebsitesAccess($origWebsiteIds)) {
+            !$this->_helper->hasWebsiteAccess($origWebsiteIds)) {
             $this->_throwSave();
         } elseif (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
             $this->_throwSave();
@@ -273,7 +259,6 @@ class Enterprise_AdminGws_Model_Models
             $this->_throwDelete();
         }
     }
-
 
     /**
      * Validate customer before delete
@@ -500,9 +485,6 @@ class Enterprise_AdminGws_Model_Models
         }
     }
 
-
-
-
     /**
      * Remove "All Store Views" information from CMS page or block model
      *
@@ -522,6 +504,9 @@ class Enterprise_AdminGws_Model_Models
      */
     public function catalogCategoryMoveBefore($observer)
     {
+        if ($this->_helper->getIsAll()) {
+            return;
+        }
         $parentCategory = $observer->getEvent()->getParent();
         $currentCategory = $observer->getEvent()->getCategory();
 
@@ -533,42 +518,124 @@ class Enterprise_AdminGws_Model_Models
     }
 
     /**
-     * Check whether category can be moved
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function catalogCategoryIsMoveable($observer)
-    {
-        $category = $observer->getEvent()->getOptions()->getCategory();
-        if (!$this->_helper->hasExclusiveCategoryAccess($category->getData('path'))) {
-            $observer->getEvent()->getOptions()->setIsMoveable(false);
-        }
-    }
-
-    /**
-     * Check whether category can be added
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function catalogCategoryCanBeAdded($observer)
-    {
-        if (!$this->_helper->getIsAll()) {
-            $observer->getEvent()->getOptions()->setIsAllow(false);
-        }
-    }
-
-
-    /**
      * Check whether catalog permissions can be edited per category
      *
      * @param Varien_Event_Observer $observer
      */
     public function catalogCategoryIsCatalogPermissionsAllowed($observer)
     {
-        if (!$this->_helper->getIsAll() && !$this->_helper->hasExclusiveCategoryAccess(
+        if ($this->_helper->getIsAll()) {
+            return;
+        }
+        if (!$this->_helper->hasExclusiveCategoryAccess(
             $observer->getEvent()->getOptions()->getCategory()->getPath())) {
             $observer->getEvent()->getOptions()->setIsAllowed(false);
         }
+    }
+
+    /**
+     * Make websites read-only
+     *
+     * @param Mage_Core_Model_Website $model
+     */
+    public function coreWebsiteLoadAfter($model)
+    {
+        $model->isReadOnly(true);
+    }
+
+    /**
+     * Disallow saving websites
+     *
+     * @param Mage_Core_Model_Website $model
+     */
+    public function coreWebsiteSaveBefore($model)
+    {
+        $this->_throwSave();
+    }
+
+    /**
+     * Disallow deleting websites
+     *
+     * @param Mage_Core_Model_Website $model
+     */
+    public function coreWebsiteDeleteBefore($model)
+    {
+        $this->_throwDelete();
+    }
+
+    /**
+     * Set store group or store read-only
+     *
+     * @param Mage_Core_Model_Store|Mage_Core_Model_Store_Group $model
+     */
+    public function coreStoreGroupLoadAfter($model)
+    {
+        if ($this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+            return;
+        }
+        $model->isReadOnly(true);
+    }
+
+    /**
+     * Disallow saving store group or store
+     *
+     * @param Mage_Core_Model_Store|Mage_Core_Model_Store_Group $model
+     */
+    public function coreStoreGroupSaveBefore($model)
+    {
+        if ($this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+            return;
+        }
+        $this->_throwSave();
+    }
+
+    /**
+     * Update role store group ids in helper and role
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function coreStoreGroupSaveAfter($observer)
+    {
+        if ($this->_helper->getIsAll()) {
+            return;
+        }
+        $model = $observer->getStoreGroup();
+        if ($model->getId() && !$this->_helper->hasStoreGroupAccess($model->getId())) {
+            $this->_helper->updateStoreGroupIds(array_unique(array_merge(
+                $this->_helper->getStoreGroupIds(), array($model->getId())
+            )));
+        }
+    }
+
+    /**
+     * Update role store ids in helper and role
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function coreStoreSaveAfter($observer)
+    {
+        if ($this->_helper->getIsAll()) {
+            return;
+        }
+        $model = $observer->getStoreGroup();
+        if ($model->getId() && !$this->_helper->hasStoreAccess($model->getId())) {
+            $this->_helper->updateStoreIds(array_unique(array_merge(
+                $this->_helper->getStoreIds(), array($model->getId())
+            )));
+        }
+    }
+
+    /**
+     * Disallow deleting store group or store
+     *
+     * @param Mage_Core_Model_Store|Mage_Core_Model_Store_Group $model
+     */
+    public function coreStoreGroupDeleteBefore($model)
+    {
+        if ($model->getId() && $this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+            return;
+        }
+        $this->_throwDelete();
     }
 
     /**

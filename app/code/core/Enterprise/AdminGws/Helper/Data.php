@@ -38,6 +38,10 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_disallowedWebsites    = array();
     protected $_disallowedStores      = array();
     protected $_allowedRootCategories = null;
+    /**
+     * @var Mage_Admin_Model_Roles
+     */
+    protected $_role;
 
     /**
      * Set ACL role and determine its limitations
@@ -47,6 +51,8 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     public function setRole($role)
     {
         if ($role) {
+            $this->_role = $role;
+
             // set role gws data
             $this->_roleWebsites = $role->getGwsWebsites();
             $this->_roleStoreGroups = $role->getGwsStoreGroups();
@@ -114,6 +120,16 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     public function getStoreIds()
     {
         return $this->_roleStores;
+    }
+
+    /**
+     * Get allowed store group ids
+     *
+     * @return array
+     */
+    public function getStoreGroupIds()
+    {
+        return $this->_roleStoreGroups;
     }
 
     /**
@@ -231,51 +247,49 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     /**
      * Check whether specified website ID is allowed
      *
-     * @param string $websiteId
+     * @param string|int|array $websiteId
      * @param bool $isExplicit
      * @return bool
      */
     public function hasWebsiteAccess($websiteId, $isExplicit = false)
     {
+        $websitesToCompare = $this->_roleRelevantWebsites;
         if ($isExplicit) {
-            return in_array($websiteId, $this->_roleWebsites);
+            $websitesToCompare = $this->_roleWebsites;
         }
-        return in_array($websiteId, $this->_roleRelevantWebsites);
+        if (is_array($websiteId)) {
+            count(array_intersect($websiteId, $websitesToCompare)) > 0;
+        }
+        return in_array($websiteId, $websitesToCompare);
     }
 
     /**
      * Check whether specified store ID is allowed
      *
-     * @param string $storeId
+     * @param string|int|array $storeId
      * @return bool
      */
     public function hasStoreAccess($storeId)
     {
+        if (is_array($storeId)) {
+            return count(array_intersect($storeId, $this->_roleStores)) > 0;
+        }
         return in_array($storeId, $this->_roleStores);
     }
 
-    /*
-     * Check whether specified store IDs is allowed
+    /**
+     * Check whether specified store group ID is allowed
      *
-     * @param array $storeIds
+     * @param string|int|array $storeGroupId
      * @return bool
      */
-    public function hasStoresAccess($storeIds)
+    public function hasStoreGroupAccess($storeGroupId)
     {
-        return count(array_intersect($storeIds, $this->_roleStores)) > 0;
+        if (is_array($storeGroupId)) {
+            return count(array_intersect($storeGroupId, $this->_roleStoreGroups)) > 0;
+        }
+        return in_array($storeGroupId, $this->_roleStoreGroups);
     }
-
-    /*
-     * Check whether specified website IDs is allowed
-     *
-     * @param array $storeIds
-     * @return bool
-     */
-    public function hasWebsitesAccess($websiteIds)
-    {
-        return count(array_intersect($websiteIds, $this->_roleRelevantWebsites)) > 0;
-    }
-
 
     /**
      * Check whether website access is exlusive
@@ -290,7 +304,6 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
                 $this->getIsWebsiteLevel());
     }
 
-
     /**
      * Check whether store access is exlusive
      *
@@ -302,5 +315,44 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
         return $this->getIsAll() ||
                (count(array_intersect($this->_roleStores, $storeIds)) === count($storeIds) &&
                 $this->getIsWebsiteLevel());
+    }
+
+    /**
+     * Set new store group ids
+     *
+     * @param array $newValues
+     */
+    public function updateStoreGroupIds($newValues)
+    {
+        $this->_roleStoreGroups = $newValues;
+        $this->_role->setGwsStoreGroups($newValues);
+    }
+
+    /**
+     * Set new store ids
+     *
+     * @param array $newValues
+     */
+    public function updateStoreIds($newValues)
+    {
+        $this->_roleStores = $newValues;
+        $this->_role->setGwsStores($newValues);
+    }
+
+    /**
+     * Find a store group by id
+     *
+     * @param int|string $findGroupId
+     * @return Mage_Core_Model_Store_Group|null
+     */
+    public function getGroup($findGroupId)
+    {
+        foreach (Mage::app()->getWebsites() as $website) {
+            foreach ($website->getGroups() as $groupId =>$group) {
+                if ($findGroupId == $groupId) {
+                    return $group;
+                }
+            }
+        }
     }
 }

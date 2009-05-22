@@ -28,7 +28,7 @@
  * Permissions observer
  *
  */
-class Enterprise_AdminGws_Model_Observer
+class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Observer_Abstract
 {
     const XML_PATH_ACL_DENY_RULES = 'adminhtml/enterprise/admingws/acl_deny';
     const XML_PATH_VALIDATE_CALLBACK = 'adminhtml/enterprise/admingws/';
@@ -134,8 +134,6 @@ class Enterprise_AdminGws_Model_Observer
         $object = $observer->getEvent()->getObject();
         $websiteIds    = $object->getGwsWebsites();
         $storeGroupIds = $object->getGwsStoreGroups();
-        /* @var $helper Enterprise_AdminGws_Helper_Data */
-        $helper = Mage::helper('enterprise_admingws');
 
         // validate specified data
         if ($object->getGwsIsAll() == 0 && empty($websiteIds) && empty($storeGroupIds)) {
@@ -154,8 +152,8 @@ class Enterprise_AdminGws_Model_Observer
                     Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong website ID: %d', $websiteId));
                 }
                 // prevent from granting disallowed websites
-                if (!$helper->getIsAll()) {
-                    if (!in_array($websiteId, $helper->getWebsiteIds())) {
+                if (!$this->_helper->getIsAll()) {
+                    if (!in_array($websiteId, $this->_helper->getWebsiteIds())) {
                         Mage::throwException(Mage::helper('enterprise_admingws')->__('Website "%s" is not allowed in your current permission scope.', Mage::app()->getWebsite($websiteId)->getName()));
                     }
                 }
@@ -245,9 +243,9 @@ class Enterprise_AdminGws_Model_Observer
 
         if ($session->isLoggedIn()) {
             // load role with true websites and store groups
-            Mage::helper('enterprise_admingws')->setRole(Mage::getSingleton('admin/session')->getUser()->getRole());
+            $this->_helper->setRole(Mage::getSingleton('admin/session')->getUser()->getRole());
 
-            if (!Mage::helper('enterprise_admingws')->getIsAll()) {
+            if (!$this->_helper->getIsAll()) {
                 // disable single store mode
                 Mage::app()->setIsSingleStoreModeAllowed(false);
 
@@ -256,7 +254,7 @@ class Enterprise_AdminGws_Model_Observer
 
                 // completely block some admin menu items
                 $this->_denyAclLevelRules(self::ACL_WEBSITE_LEVEL);
-                if (count(Mage::helper('enterprise_admingws')->getWebsiteIds()) === 0) {
+                if (count($this->_helper->getWebsiteIds()) === 0) {
                     $this->_denyAclLevelRules(self::ACL_STORE_LEVEL);
                 }
                 // cleanup dropdowns for forms/grids that are supposed to be built in future
@@ -292,7 +290,7 @@ class Enterprise_AdminGws_Model_Observer
      */
     public function limitCollection($observer)
     {
-        if (Mage::helper('enterprise_admingws')->getIsAll()) {
+        if ($this->_helper->getIsAll()) {
             return;
         }
         $collection = $observer->getCollection();
@@ -309,7 +307,7 @@ class Enterprise_AdminGws_Model_Observer
      */
     public function validateModelSaveBefore($observer)
     {
-        if (Mage::helper('enterprise_admingws')->getIsAll()) {
+        if ($this->_helper->getIsAll()) {
             return;
         }
         $model = $observer->getObject();
@@ -327,7 +325,7 @@ class Enterprise_AdminGws_Model_Observer
      */
     public function validateModelLoadAfter($observer)
     {
-        if (Mage::helper('enterprise_admingws')->getIsAll()) {
+        if ($this->_helper->getIsAll()) {
             return;
         }
         $model = $observer->getObject();
@@ -345,7 +343,7 @@ class Enterprise_AdminGws_Model_Observer
      */
     public function validateModelDeleteBefore($observer)
     {
-        if (Mage::helper('enterprise_admingws')->getIsAll()) {
+        if ($this->_helper->getIsAll()) {
             return;
         }
 
@@ -363,7 +361,7 @@ class Enterprise_AdminGws_Model_Observer
      */
     public function validateControllerPredispatch($observer)
     {
-        if (Mage::helper('enterprise_admingws')->getIsAll()) {
+        if ($this->_helper->getIsAll()) {
             return;
         }
 
@@ -404,6 +402,25 @@ class Enterprise_AdminGws_Model_Observer
     }
 
     /**
+     * Apply restrictions to misc blocks before html
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function restrictBlocks($observer)
+    {
+        if ($this->_helper->getIsAll()) {
+            return;
+        }
+        if (!$block = $observer->getBlock()) {
+            return;
+        }
+        if (!$callback = $this->_pickCallback('block_html_before', $block)) {
+            return;
+        }
+        $this->_invokeCallback($callback, 'enterprise_admingws/blocks', $observer); // the $observer is used intentionally
+    }
+
+    /**
      * Get a limiter callback for an instance from mappers configuration
      *
      * @param string $callbackGroup (collection, model)
@@ -421,16 +438,20 @@ class Enterprise_AdminGws_Model_Observer
             $this->_callbacks[$callbackGroup] = array();
             foreach ((array)Mage::getConfig()->getNode(self::XML_PATH_VALIDATE_CALLBACK . $callbackGroup) as $className => $callback) {
                 $factoryClassName = str_replace('__', '/', $className);
-                if ('collection_load_before' === $callbackGroup) {
-                    if (0 === strpos($factoryClassName, '_', 0)) {
-                        $className = Mage::getConfig()->getModelClassName(substr($factoryClassName, 1));
-                    }
-                    else {
-                        $className = Mage::getConfig()->getResourceModelClassName($factoryClassName);
-                    }
-                }
-                else {
-                    $className = Mage::getConfig()->getModelClassName($factoryClassName);
+                switch ($callbackGroup) {
+                    case 'collection_load_before':
+                        if (0 === strpos($factoryClassName, '_', 0)) {
+                            $className = Mage::getConfig()->getModelClassName(substr($factoryClassName, 1));
+                        }
+                        else {
+                            $className = Mage::getConfig()->getResourceModelClassName($factoryClassName);
+                        }
+                        break;
+                    case 'block_html_before':
+                        $className = Mage::getConfig()->getBlockClassName($factoryClassName);
+                        break;
+                    default:
+                        $className = Mage::getConfig()->getModelClassName($factoryClassName);
                 }
                 if (class_exists($className)) {
                     $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);

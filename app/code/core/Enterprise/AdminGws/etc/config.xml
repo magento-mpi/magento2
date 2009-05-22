@@ -180,8 +180,7 @@
             <adminhtml_catalog_category_tree_is_moveable>
                 <observers>
                     <enterprise_admingws>
-                        <type>singleton</type>
-                        <class>enterprise_admingws/models</class>
+                        <class>enterprise_admingws/blocks</class>
                         <method>catalogCategoryIsMoveable</method>
                     </enterprise_admingws>
                 </observers>
@@ -189,8 +188,7 @@
             <adminhtml_catalog_category_tree_can_add_root_category>
                 <observers>
                     <enterprise_admingws>
-                        <type>singleton</type>
-                        <class>enterprise_admingws/models</class>
+                        <class>enterprise_admingws/blocks</class>
                         <method>catalogCategoryCanBeAdded</method>
                     </enterprise_admingws>
                 </observers>
@@ -198,8 +196,7 @@
             <adminhtml_catalog_category_tree_can_add_sub_category>
                 <observers>
                     <enterprise_admingws>
-                        <type>singleton</type>
-                        <class>enterprise_admingws/models</class>
+                        <class>enterprise_admingws/blocks</class>
                         <method>catalogCategoryCanBeAdded</method>
                     </enterprise_admingws>
                 </observers>
@@ -207,7 +204,6 @@
             <catalog_category_tree_move_before>
                 <observers>
                     <enterprise_admingws>
-                        <type>singleton</type>
                         <class>enterprise_admingws/models</class>
                         <method>catalogCategoryMoveBefore</method>
                     </enterprise_admingws>
@@ -216,12 +212,27 @@
             <enterprise_catalog_permissions_is_allowed_category>
                 <observers>
                     <enterprise_admingws>
-                        <type>singleton</type>
                         <class>enterprise_admingws/models</class>
                         <method>catalogCategoryIsCatalogPermissionsAllowed</method>
                     </enterprise_admingws>
                 </observers>
             </enterprise_catalog_permissions_is_allowed_category>
+            <adminhtml_widget_container_html_before>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/observer</class>
+                        <method>restrictBlocks</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_widget_container_html_before>
+            <store_group_save_after>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/models</class>
+                        <method>coreStoreGroupSaveAfter</method>
+                    </enterprise_admingws>
+                </observers>
+            </store_group_save_after>
         </events>
         <enterprise>
             <admingws>
@@ -280,6 +291,9 @@
                     <catalog__category>catalogCategorySaveBefore</catalog__category>
                     <customer__customer>customerSaveBefore</customer__customer>
                     <enterprise_catalogevent__event>catalogEventSaveBefore</enterprise_catalogevent__event>
+                    <core__website>coreWebsiteSaveBefore</core__website>
+                    <core__store_group>coreStoreGroupSaveBefore</core__store_group>
+                    <core__store>coreStoreGroupSaveBefore</core__store><!-- same method as for store group -->
                 </model_save_before>
                 <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
@@ -290,6 +304,9 @@
                     <catalog__category>catalogCategoryDeleteBefore</catalog__category>
                     <customer__customer>customerDeleteBefore</customer__customer>
                     <enterprise_catalogevent__event>catalogEventDeleteBefore</enterprise_catalogevent__event>
+                    <core__website>coreWebsiteDeleteBefore</core__website>
+                    <core__store_group>coreStoreGroupDeleteBefore</core__store_group>
+                    <core__store>coreStoreGroupDeleteBefore</core__store><!-- same method as for store group -->
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
@@ -300,6 +317,9 @@
                     <customer__customer>customerLoadAfter</customer__customer>
                     <sales__order>salesOrderLoadAfter</sales__order>
                     <rule__rule>ruleLoadAfter</rule__rule>
+                    <core__website>coreWebsiteLoadAfter</core__website>
+                    <core__store_group>coreStoreGroupLoadAfter</core__store_group>
+                    <core__store>coreStoreGroupLoadAfter</core__store><!-- same method as for store group -->
                 </model_load_after>
                 <controller_predispatch>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__><!-- system config saving and browsing -->
@@ -315,9 +335,14 @@
                     <adminhtml__catalog_event__>validateCatalogEvents</adminhtml__catalog_event__><!-- catalog events creation, submiting -->
                     <adminhtml__catalog_event__edit>validateCatalogEventEdit</adminhtml__catalog_event__edit><!-- catalog events creation, submiting -->
                     <adminhtml__sales_order_create__>validateSalesOrderCreation</adminhtml__sales_order_create__><!-- catalog events viewing -->
+                    <adminhtml__system_store__>validateSystemStore</adminhtml__system_store__>
                     <!-- submitting order status, invoice, shipment, creditmemo -->
                     <!-- order, invoice, shipment, creditmemo viewing -->
                 </controller_predispatch>
+                <block_html_before>
+                    <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
+                    <adminhtml__system_store_store>widgetManageStores</adminhtml__system_store_store>
+                </block_html_before>
             </admingws>
         </enterprise>
     </adminhtml>
