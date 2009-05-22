@@ -113,7 +113,8 @@ class Mage_Compiler_Model_Process
                 $this->_copy($sourceFile, $targetFile, false);
             }
         } else {
-            if (strpos($source, '-') || !in_array(substr($source, strlen($source)-4, 4), array('.php'))) {
+            if (strpos(str_replace($this->_includeDir, '', $target), '-')
+                || !in_array(substr($source, strlen($source)-4, 4), array('.php'))) {
                 return $this;
             }
             copy($source, $target);
