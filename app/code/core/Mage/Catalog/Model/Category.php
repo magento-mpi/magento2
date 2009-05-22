@@ -59,6 +59,11 @@ class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
     protected $_eventObject     = 'category';
 
     /**
+     * Model cache tag for clear cache in after save and after delete
+     */
+    protected $_cacheTag        = self::CACHE_TAG;
+
+    /**
      * URL Model instance
      *
      * @var Mage_Core_Model_Url
