@@ -95,24 +95,26 @@ class Mage_AmazonPayments_AspController extends Mage_Core_Controller_Front_Actio
      * 
      */
     public function returnSuccessAction()
-    {   
+    {
         $session = $this->getSession();
-        
-        $order = Mage::getModel('sales/order');
-        $order->loadByIncrementId($session->getAmazonAspLastRealOrderId());
 
-        if ($order->isEmpty()) {
-            return false;
+        $orderId = $session->getAmazonAspLastRealOrderId();
+        $quoteId = $session->getAmazonAspQuoteId(true);
+
+        $order = Mage::getModel('sales/order');
+        $order->loadByIncrementId($orderId);
+
+        if ($order->isEmpty()) {            return false;
         }
-        
+
         $payment = $this->getPayment(); 
         $payment->setOrder($order);
         $payment->processEventReturnSuccess();
-        
-        $session->setQuoteId($session->getAmazonAspQuoteId(true));
+
+        $session->setQuoteId($quoteId);
         $session->getQuote()->setIsActive(false)->save();
-        $session->setLastRealOrderId($session->getAmazonAspLastRealOrderId(true));
-        
+        $session->setLastRealOrderId($orderId);
+
         $this->_redirect('checkout/onepage/success');
     }
 
