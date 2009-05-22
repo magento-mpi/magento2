@@ -144,7 +144,7 @@ textarea.validation-failed { background:#fff7f5 url(../images/bkg_input-failed.g
 span.validation-passed,
 div.validation-passed { background:url(../images/icon_ok.gif) 100% 2px no-repeat; padding-right:20px; }
 span.validation-error,
-div.validation-error { background:url(../images/icon_error.gif) 100% 3px no-repeat; padding-right:20px; }
+div.validation-error { background:url(../images/icon_error.gif) 100% 2px no-repeat; padding-right:20px; }
 .required em { color:#f15c22; margin-right:4px; }
 p.required { margin:0; padding:5px 0 0 0; text-align:right; width:620px; font-size:11px; color:#f02800; }
 .form-list .validation-advice { width:250px; margin-right:-250px; }
@@ -1109,11 +1109,14 @@ button.btn-cart span {}
 .product-options dd textarea { width:98%; height:8em; }
 .product-options dd select { width:100%; }
 .product-options .options-list {}
+.product-options .options-list li { vertical-align:middle; margin:0; padding:2px 0; line-height:1.315; }
 .product-options .options-list input.radio { float:left; margin:2px -18px 0 0; }
 .product-options .options-list input.checkbox { float:left; margin:2px -20px 0 0; }
 .product-options .options-list .label { display:block; margin-left:20px; }
 .product-options .validation-error .options-list,
-.product-options ul.validation-failed { padding:0 7px; }
+.product-options ul.validation-failed { padding:2px 1px!important; position:relative; z-index:2; top:-3px; left:-2px; margin-right:-2px; }
+.options-container-small .product-options .validation-error .options-list,
+.options-container-small .product-options ul.validation-failed { padding:0 1px!important; position:relative; z-index:2; top:-1px; left:-2px; margin-right:-2px; }
 .product-options li { margin:3px 0; }
 
 .product-view .product-options-bottom .product-pricing { clear:both; }

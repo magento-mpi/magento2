@@ -278,7 +278,7 @@ ul.tabs-horiz li a.active       { border-bottom:1px solid #fff; background:#fff;
 
 /* MESSAGES
 *******************************************************************************/
-.notification-global { padding:8px 11px 8px 30px; background:#fff9e9 url(images/error_msg_icon.gif) 11px 8px no-repeat; border:1px solid #eee2be; border-top:0; font-size:11px; line-height:16px; margin:0 27px -3px; color:#444; position:relative; }
+.notification-global { padding:5px 27px 5px 47px; background:#fff9e9 url(images/error_msg_icon.gif) 27px 5px no-repeat; border-bottom:1px solid #eee2be; font-size:11px; line-height:16px; margin:0 0 -3px; color:#444; position:relative; }
 .notification-global .label { color:#eb5e00; }
 .notification-global .clickable { cursor:pointer; }
 .notification-global span.critical { color:#d20000; }
@@ -492,8 +492,8 @@ td.divider              { font-size:1px; line-height:0; }
 *******************************************************************************/
 .wrapper { min-width:960px; }
 .wrapper-popup { min-width:750px; }
-.header { background:#fff url(images/bkg_nav.gif) no-repeat 100% 100%; text-align:right; }
-.middle { min-height:450px; background:url(images/simple_container_bg.gif) repeat-x #fff; padding:23px 0 0 0; margin:0 27px 0; }
+.header { background:url(images/header_top_bg.gif) repeat-x #425e66; text-align:right; }
+.middle { min-height:450px; background:url(images/simple_container_bg.gif) repeat-x #fff; padding:23px 27px 0 27px; }
 .middle-popup { border-bottom:3px solid #fff; background:url(images/middle_bg.gif) repeat-x 0 100% #fff; padding:0 0 0 0; background:yellow; }
 .container-collapsed { padding:1.8em 2.2em 1.8em 2em; padding-top:0; }
 .columns {background:url(images/side_col_bg.gif) repeat-y 217px 0; }
@@ -502,7 +502,7 @@ div.side-col { float:left; width:220px; margin-right:-220px; padding-bottom:25px
 div.main-col { margin-left:220px; min-height:450px; padding:0 0 25px 25px; }
 div.main-col-inner { float:left; /* Fixes some inner clears in the liquid main-col */ width:100%; }
 
-.footer { clear:both; background:#f8f8f8; padding:11px; margin:27px; border:1px solid #cfcfcf; font-size:.95em; text-align:center; }
+.footer { clear:both; background:url(images/footer_bg.gif) repeat-x #e6e6e6; padding:105px 2.8em 2.8em 2.8em; font-size:.95em; text-align:center; }
 .simple-container-popup { min-height:50px !important; padding:1.8em 2.3em 6em 2.3em; background:url(images/simple_container_bg.gif) repeat-x; }
 
 
@@ -514,13 +514,12 @@ div.main-col-inner { float:left; /* Fixes some inner clears in the liquid main-c
 /* HEADER & FOOTER
 *******************************************************************************/
 
-.logo                                   	{ float:left; margin:10px 20px 0 27px; height:50px; }
-.header-top                          { background:#fff; padding:0 0 11px; }
+.logo                                   	{ float:left; margin:10px 20px 11px 27px; height:32px; }
+.header-top                          { border-bottom:1px solid #5F767F; }
 
 /* Header right */
-.header-right                           { padding:21px 38px 0 15px; font-size:.95em; color:#444; }
-.header-right a { color:#1E75B4; }
-.header-right a:hover  { color:#D33911; }
+.header-right                           { padding:10px 25px 0 15px; font-size:.95em; color:#fff; }
+.header-right a, .header-right a:hover  { color:#fcce77; }
 .header-right .separator                { color:#999; }
 .header-right fieldset                  { display:inline; padding-left:10px; }
 .header-right fieldset input.input-text { width:18em; }
@@ -547,9 +546,7 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 
 /* Footer */
 .footer .bug-report                     { float:left; width:35%; text-align:left; }
-.footer .bug-report  a                   { display:inline-stack; display:inline-block; margin-bottom:11px; }
 .footer .legality                       { float:right; width:35%; min-height:19px; padding-left:22px; text-align:right; }
-.footer .legality  a                   { display:inline-stack; display:inline-block; margin-bottom:11px; }
 
 /* COLUMNS
 ********************************************************************************************/
@@ -1120,14 +1117,13 @@ ul.super-product-attributes { padding-left:15px; }
 .link-feed { background:url(images/icon_feed.gif) no-repeat left 2px; padding-left:18px; }
 
 #page-help-link {
-    line-height:28px;
-    padding-left:22px;
-    color:#818181;
-    float:right;
-    background:url(images/bkg_help.gif) no-repeat 0 .5em;
+    line-height:26px;
+    padding-left:20px;
+    color:#ebebff;
+    background:url(images/fam_help.gif) no-repeat 0 50%;
     }
 #page-help-link:link, #page-help-link:visited { text-decoration:none; }
-#page-help-link:hover { color:#d33911; }
+#page-help-link:hover { color:white; }
 
 
 
