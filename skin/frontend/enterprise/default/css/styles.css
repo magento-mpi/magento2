@@ -617,7 +617,7 @@ ul.disc li,
 
 .events-slider .slider-panel { position:relative; overflow:hidden; background:#d0c2b6; z-index:1; }
 .events-slider ul.slider { width:200000px; }
-.events-slider  ul.slider  li.slider-item { overflow:hidden; width:182px; height:386px; border:1px solid #d0c2b6; margin-right:-1px; background:#f5f5f5 url(../images/bkg_block.gif) repeat-x 0 0; }
+.events-slider  ul.slider  li.slider-item { overflow:hidden; width:182px; height:386px; border:1px solid #d0c2b6; margin-right:-1px; background:#f5f5f5 url(../images/bkg_block.gif) repeat-x 0 0; padding-left: 0px; }
 .events-slider ul.slider  li.slider-item .category-name { font:bold 16px georgia, san-serif; color:#43322a; display:block; padding:80px 10px 0; }
 .events-slider ul.slider  li.slider-item  .category-show { width:182px; height:241px; background:#fff;  overflow:hidden; text-align:center; display:block; text-decoration:none; }
 .events-slider ul.slider  li.slider-item  .no-event { height:401px; }
