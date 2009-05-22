@@ -412,11 +412,18 @@ Object.extend(Enterprise.Slider.prototype, {
         }
     },
     initializeDimensions: function () {
+        if ((this.config.slideDirection == 'horizontal' && this.sliderPanel.style.width) ||
+            (this.config.slideDirection != 'horizontal' && this.sliderPanel.style.height)) {
+            return this;
+        }
         var firstItem = this.items.first();
+        var offset = 0;
         if (this.config.slideDirection == 'horizontal') {
-            this.sliderPanel.setStyle({width: (firstItem.getDimensions().width * this.config.pageSize - parseInt(firstItem.getStyle('border-left-width'))  - parseInt(firstItem.getStyle('border-right-width'))) + 'px'});
+            offset = (parseInt(firstItem.getStyle('margin-left')) + parseInt(firstItem.getStyle('margin-right'))) * (this.config.pageSize - 1);
+            this.sliderPanel.setStyle({width: (firstItem.getDimensions().width * this.config.pageSize + offset) + 'px'});
         } else {
-            this.sliderPanel.setStyle({height: (firstItem.getDimensions().height * this.config.pageSize - parseInt(firstItem.getStyle('border-top-width')) -  parseInt(firstItem.getStyle('border-bottom-width'))) + 'px'});
+            offset = (parseInt(firstItem.getStyle('margin-bottom')) + parseInt(firstItem.getStyle('margin-top'))) * (this.config.pageSize - 1);
+            this.sliderPanel.setStyle({height: (firstItem.getDimensions().height * this.config.pageSize + offset) + 'px'});
         }
         
         var dimensions = this.sliderPanel.getDimensions();
