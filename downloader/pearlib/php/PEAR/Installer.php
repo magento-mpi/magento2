@@ -616,13 +616,15 @@ class PEAR_Installer extends PEAR_Downloader
                 /*
                  * Magento fix for custom set permissions in config.ini
                  */
-                $magedConfig = Maged_Controller::model('Config',true)->load();
-                if ($magedConfig->get('use_custom_permissions_mode') == '1'){ 
-                    if ($role->isExecutable() && $configMode = $magedConfig->get('chmod_file_mode_executable')) {
-                        $mode = $magedConfig;
-                    }
-                    if (!$role->isExecutable() && $configMode = $magedConfig->get('chmod_file_mode')) {
-                        $mode = $magedConfig;
+                if (class_exists('Maged_Controller',false)) {
+                    $magedConfig = Maged_Controller::model('Config',true)->load();
+                    if ($magedConfig->get('use_custom_permissions_mode') == '1'){ 
+                        if ($role->isExecutable() && $configMode = $magedConfig->get('chmod_file_mode_executable')) {
+                            $mode = $magedConfig;
+                        }
+                        if (!$role->isExecutable() && $configMode = $magedConfig->get('chmod_file_mode')) {
+                            $mode = $magedConfig;
+                        }
                     }
                 }
                 /*
