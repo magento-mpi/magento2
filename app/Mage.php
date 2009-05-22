@@ -28,27 +28,29 @@ define('DS', DIRECTORY_SEPARATOR);
 define('PS', PATH_SEPARATOR);
 define('BP', dirname(dirname(__FILE__)));
 
-/**
- * Error reporting
- */
-error_reporting(E_ALL | E_STRICT);
-
 Mage::register('original_include_path', get_include_path());
 
-/**
- * Set include path
- */
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'local';
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
-$paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
-$paths[] = BP . DS . 'lib';
+if (defined('COMPILER_INCLUDE_PATH')) {
+    $app_path = COMPILER_INCLUDE_PATH;
+    set_include_path($app_path . PS . Mage::registry('original_include_path'));
+    include_once "Mage_Core_functions.php";
+    include_once "Varien_Autoload.php";
+} else {
+    /**
+     * Set include path
+     */
+    $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'local';
+    $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'community';
+    $paths[] = BP . DS . 'app' . DS . 'code' . DS . 'core';
+    $paths[] = BP . DS . 'lib';
 
-$app_path = implode(PS, $paths);
+    $app_path = implode(PS, $paths);
+    set_include_path($app_path . PS . Mage::registry('original_include_path'));
+    include_once "Mage/Core/functions.php";
+    include_once "Varien/Autoload.php";
+}
 
-set_include_path($app_path . PS . Mage::registry('original_include_path'));
-
-include_once "Mage/Core/functions.php";
-include_once "Varien/Profiler.php";
+Varien_Autoload::register();
 
 /**
  * Main Mage hub class
@@ -466,7 +468,7 @@ final class Mage {
         catch (Mage_Core_Model_Store_Exception $e) {
             $baseUrl = self::getScriptSystemUrl('404');
             if (!headers_sent()) {
-                 header('Location: ' . rtrim($baseUrl, '/').'/404/');
+                header('Location: ' . rtrim($baseUrl, '/').'/404/');
             }
             else {
                 print '<script type="text/javascript">';
@@ -658,7 +660,7 @@ final class Mage {
 
             $baseUrl = self::getScriptSystemUrl('report', true);
             $reportUrl = rtrim($baseUrl, '/') . '/report/?id='
-                . $reportId . '&s=' . $storeCode;
+            . $reportId . '&s=' . $storeCode;
 
             if (!headers_sent()) {
                 header('Location: ' . $reportUrl);

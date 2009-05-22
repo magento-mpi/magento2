@@ -633,7 +633,7 @@ div.autocomplete ul li { padding:.5em .7em; min-height:32px; cursor:pointer; tex
 .head-order-date                { background-image:url(images/fam_calendar.gif); }
 .head-customer-sales-statistics { background-image:url(images/fam_money.gif); }
 .head-notification              { background-image:url(images/fam_folder_table.gif); }
-
+.head-compilation               {background-image:url(images/fam_package_go.gif);}
 
 
 

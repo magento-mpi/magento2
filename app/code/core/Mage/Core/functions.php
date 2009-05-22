@@ -24,9 +24,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-#error_log('========================'."\n", 3, 'var/log/magento.log');
-
-
 /**
  * Disable magic quotes in runtime if needed
  *
@@ -57,20 +54,18 @@ if (get_magic_quotes_gpc()) {
  * Class autoload
  *
  * @todo change to spl_autoload_register
+ * @deprecated
  * @param string $class
  */
 function __autoload($class)
 {
-    $classFile = uc_words($class, DIRECTORY_SEPARATOR).'.php';
-
-    //$a = explode('_', $class);
-    //Varien_Profiler::start('AUTOLOAD');
-    //Varien_Profiler::start('AUTOLOAD: '.$a[0]);
+    if (defined('COMPILER_INCLUDE_PATH')) {
+        $classFile = $class.'.php';
+    } else {
+        $classFile = uc_words($class, DIRECTORY_SEPARATOR).'.php';
+    }
 
     include($classFile);
-
-    //Varien_Profiler::stop('AUTOLOAD');
-    //Varien_Profiler::stop('AUTOLOAD: '.$a[0]);
 }
 
 /**
@@ -139,7 +134,11 @@ function is_empty_date($date)
 
 function mageFindClassFile($class)
 {
-    $classFile = uc_words($class, DS).'.php';
+    if (defined('COMPILER_INCLUDE_PATH')) {
+        $classFile = $class.'.php';
+    } else {
+        $classFile = uc_words($class, DIRECTORY_SEPARATOR).'.php';
+    }
     $found = false;
     foreach (explode(PS, get_include_path()) as $path) {
         $fileName = $path.DS.$classFile;
