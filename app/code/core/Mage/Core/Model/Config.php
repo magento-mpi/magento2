@@ -719,14 +719,16 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
      * @param   null|Mage_Core_Model_Config_Base $mergeToObject
      * @return  Mage_Core_Model_Config_Base
      */
-    public function loadModulesConfiguration($fileName, $mergeToObject = null)
+    public function loadModulesConfiguration($fileName, $mergeToObject = null, $mergeModel=null)
     {
-        $mergeConfig            = new Mage_Core_Model_Config_Base();
         $disableLocalModules    = !$this->_canUseLocalModules();
 
         if ($mergeToObject === null) {
             $mergeToObject = new Mage_Core_Model_Config_Base();
             $mergeToObject->loadString('<config/>');
+        }
+        if ($mergeModel === null) {
+            $mergeModel = new Mage_Core_Model_Config_Base();
         }
         $modules = $this->getNode('modules')->children();
         foreach ($modules as $modName=>$module) {
@@ -735,8 +737,8 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
                     continue;
                 }
                 $configFile = $this->getModuleDir('etc', $modName).DS.$fileName;
-                if ($mergeConfig->loadFile($configFile)) {
-                    $mergeToObject->extend($mergeConfig, true);
+                if ($mergeModel->loadFile($configFile)) {
+                    $mergeToObject->extend($mergeModel, true);
                 }
             }
         }
