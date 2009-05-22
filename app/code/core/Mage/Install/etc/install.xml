@@ -58,21 +58,21 @@
     <check>
         <filesystem>
             <writeable>
-                <items>
+                <app_etc>
                     <path>/app/etc</path>
                     <existence>1</existence>
                     <recursive>0</recursive>
-                </items>
-                <items>
+                </app_etc>
+                <var>
                     <path>/var</path>
                     <existence>1</existence>
                     <recursive>1</recursive>
-                </items>
-                <items>
+                </var>
+                <media>
                     <path>/media</path>
                     <existence>1</existence>
                     <recursive>1</recursive>
-                </items>
+                </media>
             </writeable>
         </filesystem>
         <php>
