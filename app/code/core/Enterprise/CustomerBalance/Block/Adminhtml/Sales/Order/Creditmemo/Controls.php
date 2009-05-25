@@ -61,6 +61,10 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
 
     public function getReturnValue()
     {
+        $max = Mage::registry('current_creditmemo')->getCustomerBalanceReturnMax();
+        if ($max) {
+            return $max;
+        }
         return 0;
     }
 }
