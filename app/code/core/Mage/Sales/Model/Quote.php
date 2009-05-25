@@ -39,7 +39,7 @@
 class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 {
     /**
-     * Checkout methods 
+     * Checkout methods
      */
     const CHECKOUT_METHOD_REGISTER = 'register';
     const CHECKOUT_METHOD_GUEST = 'guest';
@@ -319,16 +319,17 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
     /**
      * Return quote checkout method code
      *
+     * @param boolean $originalMethod if true return defined method from begining
      * @return string
      */
-    public function getCheckoutMethod()
+    public function getCheckoutMethod($originalMethod = false)
     {
-        if ($this->getCustomerId()) {
+        if ($this->getCustomerId() && !$originalMethod) {
             return self::CHECKOUT_METHOD_LOGIN_IN;
         }
         return $this->_getData('checkout_method');
     }
-    
+
     /**
      * Retrieve quote address collection
      *
