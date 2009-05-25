@@ -144,7 +144,7 @@ class Mage_Adminhtml_Newsletter_TemplateController extends Mage_Adminhtml_Contro
             $this->_redirect('*/*');
         }
         catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->_getSession()->addError(nl2br($e->getMessage()));
             $this->_getSession()->setData('newsletter_template_form_data',
                 $this->getRequest()->getParams());
         }
