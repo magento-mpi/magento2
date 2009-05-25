@@ -477,7 +477,7 @@
                             <block type="adminhtml/sales_order_create_search_grid" name="grid" />
                         </block>
                         <block type="adminhtml/sales_order_create_items" template="sales/order/create/items.phtml" name="items">
-                            <block type="adminhtml/sales_order_create_items_grid" template="sales/order/create/items/grid.phtml" name="grid">
+                            <block type="adminhtml/sales_order_create_items_grid" template="sales/order/create/items/grid.phtml" name="items_grid">
                                 <block type="adminhtml/sales_order_create_coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
                                     <block type="adminhtml/sales_order_create_coupons_form" template="sales/order/create/coupons/form.phtml" name="form" />
                                 </block>
@@ -536,7 +536,7 @@
                     <block type="adminhtml/sales_order_create_search_grid" name="grid" />
                 </block>
                 <block type="adminhtml/sales_order_create_items" template="sales/order/create/items.phtml" name="items">
-                    <block type="adminhtml/sales_order_create_items_grid" template="sales/order/create/items/grid.phtml" name="grid">
+                    <block type="adminhtml/sales_order_create_items_grid" template="sales/order/create/items/grid.phtml" name="items_grid">
                         <block type="adminhtml/sales_order_create_coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
                             <block type="adminhtml/sales_order_create_coupons_form" template="sales/order/create/coupons/form.phtml" name="form" />
                         </block>
@@ -629,7 +629,7 @@
     <adminhtml_sales_order_create_load_block_items>
         <reference name="content">
             <block type="adminhtml/sales_order_create_items" template="sales/order/create/items.phtml" name="items">
-                <block type="adminhtml/sales_order_create_items_grid" template="sales/order/create/items/grid.phtml" name="grid">
+                <block type="adminhtml/sales_order_create_items_grid" template="sales/order/create/items/grid.phtml" name="items_grid">
                     <block type="adminhtml/sales_order_create_coupons" template="sales/order/create/coupons/form.phtml" name="coupons">
                         <block type="adminhtml/sales_order_create_coupons_form" template="sales/order/create/coupons/form.phtml" name="form" />
                     </block>
