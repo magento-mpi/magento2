@@ -69,13 +69,25 @@
         </reference>
     </adminhtml_sales_order_create_load_block_billing_method>
 
+    <adminhtml_sales_order_create_load_block_items>
+        <reference name="items_grid">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
+        </reference>
+    </adminhtml_sales_order_create_load_block_items>
+
     <adminhtml_sales_order_create_load_block_data>
+        <reference name="items_grid">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
+        </reference>
         <reference name="billing_method">
             <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/payment.phtml" name="giftcardaccount" after="-" />
         </reference>
     </adminhtml_sales_order_create_load_block_data>
 
     <adminhtml_sales_order_create_index>
+        <reference name="items_grid">
+            <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
+        </reference>
         <reference name="billing_method">
             <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/payment.phtml" name="giftcardaccount" after="-" />
         </reference>
