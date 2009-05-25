@@ -639,7 +639,7 @@ class Mage_Core_Model_Url extends Varien_Object
                     self::$_encryptedSessionId = $session->getEncryptedSessionId();
                 }
                 $this->setQueryParam(
-                    Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM,
+                    $session->getSessionIdQueryParam(),
                     self::$_encryptedSessionId
                 );
             }
@@ -659,7 +659,7 @@ class Mage_Core_Model_Url extends Varien_Object
             self::$_encryptedSessionId = $session->getEncryptedSessionId();
         }
         $this->setQueryParam(
-            Mage_Core_Model_Session_Abstract::SESSION_ID_QUERY_PARAM,
+            $session->getSessionIdQueryParam(),
             self::$_encryptedSessionId
         );
         return $this;

@@ -312,8 +312,9 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     public function setSessionId($id=null)
     {
         if (is_null($id)) {
-            if (isset($_GET[self::SESSION_ID_QUERY_PARAM])) {
-                $id = $_GET[self::SESSION_ID_QUERY_PARAM];
+            $_queryParam = $this->getSessionIdQueryParam();
+            if (isset($_GET[$_queryParam])) {
+                $id = $_GET[$_queryParam];
                 /**
                  * No reason use crypt key for session
                  */
@@ -349,6 +350,10 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
 
     public function getSessionIdQueryParam()
     {
+        $_sessionName = $this->getSessionName();
+        if ($_sessionName && $queryParam = (string)Mage::getConfig()->getNode($_sessionName . '/session/query_param')) {
+            return $queryParam;
+        }
         return self::SESSION_ID_QUERY_PARAM;
     }
 
