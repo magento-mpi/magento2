@@ -489,6 +489,13 @@ abstract class Mage_Eav_Model_Entity_Abstract
         Mage::getSingleton('eav/entity_attribute_set')
             ->addSetInfo($this->getEntityType(), $attributes, $setId);
 
+        foreach ($attributes as $code => $attribute) {
+            /* @var $attribute Mage_Eav_Model_Entity_Attribute_Abstract */
+            if (!$attribute->isInSet($setId)) {
+                unset($attributes[$code]);
+            }
+        }
+
         $this->_sortingSetId = $setId;
         uasort($attributes, array($this, 'attributesCompare'));
         return $attributes;

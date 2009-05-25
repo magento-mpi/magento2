@@ -188,6 +188,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
         if ($attributeIds) {
             $setInfo = $this->_getResource()
                 ->getSetInfo($attributeIds, $setId);
+
             foreach ($attributes as $attribute) {
                 $attribute = $config->getAttribute($entityType, $attribute);
                 if (!$attribute->getAttributeId()) {
@@ -203,9 +204,6 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
                     }
                     if (isset($setInfo[$attribute->getAttributeId()][$setId])) {
                         $attributeSetInfo[$setId] = $setInfo[$attribute->getAttributeId()][$setId];
-                    }
-                    else {
-                        $attributeSetInfo[$setId] = array();
                     }
                     $attribute->setAttributeSetInfo($attributeSetInfo);
                 }
