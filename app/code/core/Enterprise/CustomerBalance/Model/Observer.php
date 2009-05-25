@@ -134,7 +134,7 @@ class Enterprise_CustomerBalance_Model_Observer
                 ->loadByCustomer()
                 ->getAmount();
 
-            if ($balance < $order->getBaseCustomerBalanceAmount()) {
+            if (($order->getBaseCustomerBalanceAmount() - $balance) >= 0.0001) {
                 Mage::throwException(Mage::helper('enterprise_customerbalance')->__("You don't have enough store credit to complete this order."));
             }
         }
