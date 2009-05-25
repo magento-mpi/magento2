@@ -85,10 +85,14 @@
                     <children>
                         <system>
                             <children>
-                                <compiler translate="title" module="compiler">
-                                    <title>Run Compilation Process</title>
-                                    <sort_order>0</sort_order>
-                                </compiler>
+                                <tools>
+                                    <children>
+                                        <compiler translate="title" module="compiler">
+                                            <title>Compilation</title>
+                                            <sort_order>0</sort_order>
+                                        </compiler>
+                                    </children>
+                                </tools>
                             </children>
                         </system>
                     </children>
@@ -107,11 +111,15 @@
         <menu>
             <system>
                 <children>
-                    <compiler translate="title" module="compiler">
-                        <title>Compilation</title>
-                        <sort_order>1000</sort_order>
-                        <action>compiler/process</action>
-                    </compiler>
+                    <tools>
+                        <children>
+                            <compiler translate="title" module="compiler">
+                                <title>Compilation</title>
+                                <sort_order>1000</sort_order>
+                                <action>compiler/process</action>
+                            </compiler>
+                        </children>
+                    </tools>
                 </children>
             </system>
         </menu>

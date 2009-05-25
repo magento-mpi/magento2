@@ -50,6 +50,7 @@ class Mage_Compiler_ProcessController extends Mage_Adminhtml_Controller_Action
     public function indexAction()
     {
         $this->loadLayout();
+        $this->_setActiveMenu('system/tools');
         $this->renderLayout();
     }
 
