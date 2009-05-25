@@ -24,7 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCard_Model_Source_Type extends Mage_Core_Model_Abstract
+class Enterprise_GiftCard_Model_Source_Type extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
     public function getAllOptions()
     {
@@ -56,5 +56,37 @@ class Enterprise_GiftCard_Model_Source_Type extends Mage_Core_Model_Abstract
             Enterprise_GiftCard_Model_Giftcard::TYPE_PHYSICAL => Mage::helper('enterprise_giftcard')->__('Physical'),
             Enterprise_GiftCard_Model_Giftcard::TYPE_COMBINED => Mage::helper('enterprise_giftcard')->__('Combined'),
         );
+    }
+
+    /**
+     * Retrieve Column(s) for Flat
+     *
+     * @return array
+     */
+    public function getFlatColums()
+    {
+        $columns = array(
+            $this->getAttribute()->getAttributeCode() => array(
+                'type'      => 'tinyint',
+                'unsigned'  => true,
+                'is_null'   => true,
+                'default'   => null,
+                'extra'     => null
+            )
+        );
+        return $columns;
+    }
+
+    /**
+     * Retrieve Select For Flat Attribute update
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
+     * @param int $store
+     * @return Varien_Db_Select|null
+     */
+    public function getFlatUpdateSelect($store)
+    {
+        return Mage::getResourceModel('eav/entity_attribute')
+            ->getFlatUpdateSelect($this->getAttribute(), $store);
     }
 }
