@@ -303,6 +303,7 @@ input.validation-failed, textarea.validation-failed { background:#fef0ed; border
 /* FORMS
 *******************************************************************************/
 select.countries option         { background-repeat:no-repeat; }
+.entry-edit .fieldset .tree li,
 .entry-edit .tree li            { margin:0; }
 
 

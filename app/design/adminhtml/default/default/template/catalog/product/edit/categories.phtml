@@ -28,10 +28,10 @@
     <div class="entry-edit-head">
         <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('catalog')->__('Product Categories') ?></h4>
     </div>
-    <fieldset id="grop_fields">
+    <div class="fieldset" id="grop_fields">
         <input type="hidden" name="category_ids" id="product_categories" value="<?php echo $this->getIdsString() ?>">
         <div id="product-categories" class="tree"></div>
-    </fieldset>
+    </div>
 </div>
 <?php if($this->getRootNode() && $this->getRootNode()->hasChildren()): ?>
 <script type="text/javascript">
