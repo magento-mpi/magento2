@@ -171,9 +171,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit extends Mage_Adminhtml_Block_Wid
     public function getSaveAndContinueUrl()
     {
         return $this->getUrl('*/*/save', array(
-            '_current'  => true,
-            'back'      => 'edit',
-            'tab'       => '{{tab_id}}'
+            '_current'   => true,
+            'back'       => 'edit',
+            'tab'        => '{{tab_id}}',
+            'active_tab' => null
         ));
     }
 

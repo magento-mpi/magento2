@@ -215,7 +215,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if (!Mage::app()->isSingleStoreMode() && ($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
             $switchBlock->setDefaultStoreName($this->__('Default Values'))
                 ->setWebsiteIds($product->getWebsiteIds())
-                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'store'=>null)));
+                ->setSwitchUrl($this->getUrl('*/*/*', array('_current'=>true, 'active_tab'=>null, 'tab' => null, 'store'=>null)));
         }
 
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
