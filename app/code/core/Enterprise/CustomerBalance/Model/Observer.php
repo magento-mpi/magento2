@@ -100,8 +100,11 @@ class Enterprise_CustomerBalance_Model_Observer
             ->loadByCustomer()
             ->getAmount();
 
-        $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
+        if ($input->getUseCustomerBalance() && $balance < $quote->getBaseCustomerBalanceAmountUsed()) {
+            Mage::throwException(Mage::helper('enterprise_customerbalance')->__("You don't have enough store credit to complete this order."));
+        }
 
+        $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
 
         $quote->setUseCustomerBalance($input->getUseCustomerBalance());
         if ($input->getUseCustomerBalance() && $balance >= $total) {

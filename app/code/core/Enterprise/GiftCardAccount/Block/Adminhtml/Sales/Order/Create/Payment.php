@@ -50,7 +50,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment exte
     public function isFullyPaid()
     {
         $quote = $this->_getOrderCreateModel()->getQuote();
-        if ($quote->getBaseGrandTotal() > 0 || $quote->getCustomerBalanceAmountUsed() > 0) {
+        if (!$quote->getGiftCardsAmount() || $quote->getBaseGrandTotal() > 0 || $quote->getCustomerBalanceAmountUsed() > 0) {
             return false;
         }
         
