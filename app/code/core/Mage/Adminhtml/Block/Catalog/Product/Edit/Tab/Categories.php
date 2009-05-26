@@ -99,7 +99,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
                 $rootId = Mage_Catalog_Model_Category::TREE_ROOT_ID;
             }
 
-            $ids = $this->getSelectedCategoriesPathIds();
+            $ids = $this->getSelectedCategoriesPathIds($rootId);
             $tree = Mage::getResourceSingleton('catalog/category_tree')
                 ->loadByIds($ids, false, false);
 
@@ -203,15 +203,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Categories extends Mage_Admi
     /**
      * Return distinct path ids of selected categories
      *
+     * @param int $rootId Root category Id for context
      * @return array
      */
-    public function getSelectedCategoriesPathIds()
+    public function getSelectedCategoriesPathIds($rootId = false)
     {
         $ids = array();
         $collection = Mage::getModel('catalog/category')->getCollection()
             ->addFieldToFilter('entity_id', array('in'=>$this->getCategoryIds()));
         foreach ($collection as $item) {
-            foreach (explode('/', $item->getPath()) as $id) {
+            if ($rootId && !in_array($rootId, $item->getPathIds())) {
+                continue;
+            }
+            foreach ($item->getPathIds() as $id) {
                 if (!in_array($id, $ids)) {
                     $ids[] = $id;
                 }
