@@ -104,6 +104,8 @@
                         <customer_account_loginPost/>
                         <customer_account_forgotpassword/>
                         <customer_account_forgotpasswordpost/>
+                        <customer_account_confirm/>
+                        <customer_account_confirmation/>
                     </generic>
                     <register>
                         <customer_account_create/>

@@ -32,37 +32,45 @@
  */
 class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminhtml_Block_Widget_Container
 {
-
+    /**
+     * Set header text, add some buttons
+     *
+     * @return Enterprise_Invitation_Block_Adminhtml_Invitation_View
+     */
     protected function _prepareLayout()
     {
-        $this->_headerText = Mage::helper('enterprise_invitation')->__(
-            'View Invitation for %s (ID: %s)',
-            $this->getInvitation()->getEmail(),
-            $this->getInvitation()->getId()
+        $invitation = $this->getInvitation();
+        $this->_headerText = Mage::helper('enterprise_invitation')->__('View Invitation for %s (ID: %s)',
+            $invitation->getEmail(), $invitation->getId()
         );
-
         $this->_addButton('back', array(
-                'label' => Mage::helper('enterprise_invitation')->__('Back'),
-                'onclick' => 'setLocation(\'' . $this->getUrl('*/*/') . '\')',
-                'class' => 'back',
+            'label' => Mage::helper('enterprise_invitation')->__('Back'),
+            'onclick' => "setLocation('{$this->getUrl('*/*/')}')",
+            'class' => 'back',
         ), -1);
-
-        if ($this->getInvitation()->getStatus() == 'sent') {
+        if ($invitation->canBeCanceled()) {
+            $massCancelUrl = $this->getUrl('*/*/massCancel', array('_query' => array('invitations' => array($invitation->getId()))));
             $this->_addButton('cancel', array(
-                    'label' => Mage::helper('enterprise_invitation')->__('Cancel'),
-                    'onclick' => 'deleteConfirm(\''. $this->jsQuoteEscape(
-                                Mage::helper('enterprise_invitation')->__('Are you sure you want to do this?')
-                            ) . '\', \'' . $this->getUrl('*/*/cancel', array('_current'=>true)) . '\' )',
-                    'class' => 'cancel'
-            ), -1);
-
-            $this->_addButton('resend', array(
-                    'label' => Mage::helper('enterprise_invitation')->__('Resend'),
-                    'onclick' => 'setLocation(\'' . $this->getUrl('*/*/resend', array('_current'=>true)) . '\')'
+                'label' => Mage::helper('enterprise_invitation')->__('Discard Invitation'),
+                'onclick' => 'deleteConfirm(\''. $this->jsQuoteEscape(
+                            Mage::helper('enterprise_invitation')->__('Are you sure you want to discard this invitation?')
+                        ) . '\', \'' . $massCancelUrl . '\' )',
+                'class' => 'cancel'
             ), -1);
         }
-
-
+        if ($invitation->canMessageBeUpdated()) {
+            $this->_addButton('save_message_button', array(
+                'label'   => $this->helper('enterprise_invitation')->__('Save Invitation Message'),
+                'onclick' => '$(\'invitation_elements\').submit()',
+            ), -1);
+        }
+        if ($invitation->canBeSent()) {
+            $massResendUrl = $this->getUrl('*/*/massResend', array('_query' => http_build_query(array('invitations' => array($invitation->getId())))));
+            $this->_addButton('resend', array(
+                'label' => Mage::helper('enterprise_invitation')->__('Send Invitation'),
+                'onclick' => "setLocation('{$massResendUrl}')",
+            ), -1);
+        }
 
         parent::_prepareLayout();
     }
@@ -70,7 +78,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminht
     /**
      * Return Invitation for view
      *
-     * @return Portero_Invitation_Model_Invitation
+     * @return Enterprise_Invitation_Model_Invitation
      */
     public function getInvitation()
     {
@@ -86,5 +94,4 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminht
     {
         return $this->getUrl('*/*/saveMessage', array('id'=>$this->getInvitation()->getId()));
     }
-
 }

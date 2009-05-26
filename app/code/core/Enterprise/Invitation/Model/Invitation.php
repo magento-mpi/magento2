@@ -32,176 +32,322 @@
  */
 class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
 {
-    const STATUS_SENT = 'sent';
+    const STATUS_NEW      = 'new';
+    const STATUS_SENT     = 'sent';
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_CANCELED = 'canceled';
 
     const XML_PATH_EMAIL_IDENTITY = 'enterprise_invitation/email/identity';
     const XML_PATH_EMAIL_TEMPLATE = 'enterprise_invitation/email/template';
 
+    const ERROR_STATUS          = 1;
+    const ERROR_INVALID_DATA    = 2;
+    const ERROR_CUSTOMER_EXISTS = 3;
+
+    private static $_customerExistsLookup = array();
+
     /**
-     * Intialize model
-     *
-     * @return void
-     **/
+     * Intialize resource
+     */
     protected function _construct()
     {
         $this->_init('enterprise_invitation/invitation');
     }
 
     /**
-     * Genrates protection code
+     * Store ID getter
      *
-     * @return string
+     * @return int
      */
-    public function generateCode()
+    public function getStoreId()
     {
-        $code = md5(microtime(true));
-        return $code;
+        if ($this->hasData('store_id')) {
+            return $this->_getData('store_id');
+        }
+        return Mage::app()->getStore()->getId();
     }
 
     /**
-     * Return encoded invitation code
-     *
-     * @return string
-     */
-    public function getInvitationCode()
-    {
-        $code = Mage::helper('core')->encrypt(
-            $this->getId() . ':' . $this->getProtectionCode()
-        );
-
-        return Mage::helper('core')->urlEncode($code);
-    }
-
-    /**
-     * Retrieve store of invitation
-     *
-     * @return Mage_Core_Model_Store
-     */
-    public function getStore()
-    {
-        return Mage::app()->getStore($this->getStoreId());
-    }
-
-    /**
-     * Load invitation by code generated with
-     * Enterprise_Invitation_Model_Invitation::getInvitationCode(),
-     * and check if invitation has status not equal to "sent".
+     * Load invitation by an encrypted code
      *
      * @param string $code
      * @return Enterprise_Invitation_Model_Invitation
+     * @throws Mage_Core_Exception
      */
-    public function loadByInvitationCode($code)
+    public function loadByEncryptedCode($code)
     {
-        $code = Mage::helper('core')->urlDecode($code);
-
-        $code = explode(':',
-            Mage::helper('core')->decrypt($code)
-        );
-
+        $code = explode(':', Mage::helper('core')->decrypt($code), 2);
         if (count($code) != 2) {
-             return $this;
+            Mage::throwException(Mage::helper('enterprise_invitation')->__('Invalid invitation code.'));
         }
-
-        $this->load($code[0]);
-
-        if ($this->getProtectionCode() != $code[1] ||
-            $this->getStatus() != self::STATUS_SENT) {
-            $this->unsetData();
-            $this->setOrigData();
+        list($id, $protectionCode) = $code;
+        $this->load($id);
+        if (!$this->getId() || $this->getProtectionCode() != $protectionCode) {
+            Mage::throwException(Mage::helper('enterprise_invitation')->__('Invalid invitation code.'));
         }
-
         return $this;
     }
 
+    /**
+     * Model before save
+     *
+     * @return Enterprise_Invitation_Model_Invitation
+     */
+    protected function _beforeSave()
+    {
+        if (!$this->getId()) {
+            // set initial data for new one
+            $this->addData(array(
+                'protection_code' => md5(microtime(true)),
+                'status'          => self::STATUS_NEW,
+                'date'            => $this->getResource()->formatDate(time()),
+                'store_id'        => $this->getStoreId(),
+            ));
+            $inviter = $this->getInviter();
+            if ($inviter) {
+                $this->setCustomerId($inviter->getId());
+            }
+            if (Mage::helper('enterprise_invitation')->getUseInviterGroup()) {
+                if ($inviter) {
+                    $this->setGroupId($inviter->getGroupId());
+                }
+                if (!$this->hasGroupId()) {
+                    throw new Mage_Core_Exception(Mage::helper('enterprise_invitation')->__('No customer group id specified.'), self::ERROR_INVALID_DATA);
+                }
+            }
+            else {
+                $this->unsetData('group_id');
+            }
+
+            if (!(int)$this->getStoreId()) {
+                throw new Mage_Core_Exception(Mage::helper('enterprise_invitation')->__('Wrong store specified.'), self::ERROR_INVALID_DATA);
+            }
+            $this->makeSureCustomerNotExists();
+        }
+        else {
+            if ($this->dataHasChangedFor('message') && !$this->canMessageBeUpdated()) {
+                throw new Mage_Core_Exception(Mage::helper('enterprise_invitation')->__('Message cannot be updated.', self::ERROR_STATUS));
+            }
+        }
+        return parent::_beforeSave();
+    }
 
     /**
-     * Handling status change on after save
+     * Update status history after save
      *
      * @return Enterprise_Invitation_Model_Invitation
      */
     protected function _afterSave()
     {
-        if ($this->dataHasChangedFor('status')) {
-            $now = Mage::app()->getLocale()->date()
-                    ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
-                    ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-
-            $statusHistory = Mage::getModel('enterprise_invitation/invitation_status_history');
-            $statusHistory->setInvitationId($this->getId())
-                ->setStatus($this->getStatus())
-                ->setDate($now)
-                ->save();
-        }
-
+        Mage::getModel('enterprise_invitation/invitation_history')
+            ->setInvitationId($this->getId())->setStatus($this->getStatus())
+            ->save();
         return parent::_afterSave();
-    }
-
-    /**
-     * Return status history collection
-     *
-     * @return Enterprise_Invitation_Model_Mysql4_Invitation_Status_History_Collection
-     */
-    public function getStatusHistoryCollection()
-    {
-        if (!$this->hasData('status_history_collection')) {
-            $collection = Mage::getModel('enterprise_invitation/invitation_status_history')
-                ->getCollection()
-                ->addFieldToFilter('invitation_id', $this->getId());
-            $this->setData('status_history_collection', $collection);
-        }
-
-        return $this->getData('status_history_collection');
     }
 
     /**
      * Send invitation email
      *
-     * @return Enterprise_Invitation_Model_Invitation
+     * @return bool
      */
     public function sendInvitationEmail()
     {
-        $url = Mage::helper('enterprise_invitation')->getInvitationUrl($this);
-
-        $template = $this->getStore()->getConfig(self::XML_PATH_EMAIL_TEMPLATE);
-        $sender = $this->getStore()->getConfig(self::XML_PATH_EMAIL_IDENTITY);
-
-        $mail = Mage::getModel('core/email_template');
-        $mail->setDesignConfig(array('area'=>'frontend', 'store'=>$this->getStore()->getId()))
+        $this->makeSureCanBeSent();
+        $store = Mage::app()->getStore($this->getStoreId());
+        $mail  = Mage::getModel('core/email_template');
+        $mail->setDesignConfig(array('area'=>'frontend', 'store' => $this->getStoreId()))
             ->sendTransactional(
-                $template,
-                $sender,
-                $this->getEmail(),
-                null,
-                array(
-                    'url'  => $url,
+                $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
+                $this->getEmail(), null, array(
+                    'url'           => Mage::helper('enterprise_invitation')->getInvitationUrl($this),
                     'allow_message' => $this->getMessage() !== null,
-                    'message' => htmlspecialchars($this->getMessage()),
-                    'store_name' => $this->getStore()->getName(),
-                    'inviter_name' => $this->getInviter()->getName()
-                )
-            );
-
-        return $this;
+                    'message'       => htmlspecialchars($this->getMessage()),
+                    'store_name'    => $store->getName(),
+                    'inviter_name'  => ($this->getInviter() ? $this->getInviter()->getName() : null)
+            ));
+        if ($mail->getSentSuccess()) {
+            $this->setStatus(self::STATUS_SENT)->setUpdateDate(true)->save();
+            return true;
+        }
+        return false;
     }
 
     /**
-     * Retrieve inviter
+     * Get an encrypted invitation code
+     *
+     * @return string
+     */
+    public function getEncryptedCode()
+    {
+        if (!$this->getId()) {
+            Mage::throwException(Mage::helper('enterprise_invitation')->__('Impossible to generate encrypted code.'));
+        }
+        return Mage::helper('core')->encrypt($this->getId() . ':' . $this->getProtectionCode());
+    }
+
+    /**
+     * Check and get customer if it was set
      *
      * @return Mage_Customer_Model_Customer
      */
     public function getInviter()
     {
-        if (!$this->hasData('inviter')) {
-            $this->setData(
-                'inviter',
-                Mage::getModel('cusomer/customer')
-                    ->setWebsiteId($this->getStore()->getWebsiteId())
-                    ->load($this->getCustomerId())
+        $inviter = $this->getCustomer();
+        if (!$inviter || !$inviter->getId()) {
+            $inviter = null;
+        }
+        return $inviter;
+    }
+
+    /**
+     * Check whether invitation can be sent
+     *
+     * @throws Mage_Core_Exception
+     */
+    public function makeSureCanBeSent()
+    {
+        if (!$this->getId()) {
+            throw new Mage_Core_Exception(Mage::helper('enterprise_invitation')->__('Invitation has no ID.'), self::ERROR_INVALID_DATA);
+        }
+        if ($this->getStatus() !== self::STATUS_NEW) {
+            throw new Mage_Core_Exception(
+                Mage::helper('enterprise_invitation')->__('Invitation with status "%s" cannot be sent.', $this->getStatus()), self::ERROR_STATUS
             );
         }
+        if (!$this->getEmail() || !Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+            throw new Mage_Core_Exception(Mage::helper('enterprise_invitation')->__('Invalid or empty invitation email.'), self::ERROR_INVALID_DATA);
+        }
+        $this->makeSureCustomerNotExists();
+    }
 
-        return $this->_getData('inviter');
+    /**
+     * Check whether customer with specified email exists
+     *
+     * @param string $email
+     * @param string $websiteId
+     * @throws Mage_Core_Exception
+     */
+    public function makeSureCustomerNotExists($email = null, $websiteId = null)
+    {
+        if (null === $websiteId) {
+            $websiteId = Mage::app()->getStore($this->getStoreId())->getWebsiteId();
+        }
+        if (!$websiteId) {
+            throw new Mage_Core_Exception(Mage::helper('enterprise_invitation')->__('Unable to determine proper website.'), self::ERROR_INVALID_DATA);
+        }
+        if (null === $email) {
+            $email = $this->getEmail();
+        }
+        if (!$email) {
+            throw new Mage_Core_Exception(Mage::helper('enterprise_invitation')->__('Email is not specified.'), self::ERROR_INVALID_DATA);
+        }
+
+        // lookup customer by specified email/website id
+        if (!isset(self::$_customerExistsLookup[$email]) || !isset(self::$_customerExistsLookup[$email][$websiteId])) {
+            $customer = Mage::getModel('customer/customer')->setWebsiteId($websiteId)->loadByEmail($email);
+            self::$_customerExistsLookup[$email][$websiteId] = ($customer->getId() ? $customer->getId() : false);
+        }
+        if (false === self::$_customerExistsLookup[$email][$websiteId]) {
+            return;
+        }
+        throw new Mage_Core_Exception(
+            Mage::helper('enterprise_invitation')->__('Customer with email "%s" already exists.', $customer->getEmail()), self::ERROR_CUSTOMER_EXISTS
+        );
+    }
+
+    /**
+     * Check whether this invitation can be accepted
+     *
+     * @param int|string $websiteId
+     * @throws Mage_Core_Exception
+     */
+    public function makeSureCanBeAccepted($websiteId = null)
+    {
+        $messageInvalid = Mage::helper('enterprise_invitation')->__('This invitation is not valid.');
+        if (!$this->getId()) {
+            throw new Mage_Core_Exception($messageInvalid, self::ERROR_STATUS);
+        }
+        if (!in_array($this->getStatus(), array(self::STATUS_NEW, self::STATUS_SENT))) {
+            throw new Mage_Core_Exception($messageInvalid, self::ERROR_STATUS);
+        }
+        if (null === $websiteId) {
+            $websiteId = Mage::app()->getWebsite()->getId();
+        }
+        if ($websiteId != Mage::app()->getStore($this->getStoreId())->getWebsite()->getId()) {
+            throw new Mage_Core_Exception($messageInvalid, self::ERROR_STATUS);
+        }
+    }
+
+    /**
+     * Check whether message can be updated
+     *
+     * @return bool
+     */
+    public function canMessageBeUpdated()
+    {
+        return (bool)(int)$this->getId() && $this->getStatus() === self::STATUS_NEW;
+    }
+
+    /**
+     * Check whether invitation can be cancelled
+     *
+     * @return bool
+     */
+    public function canBeCanceled()
+    {
+        return (bool)(int)$this->getId() && !in_array($this->getStatus(), array(self::STATUS_CANCELED, self::STATUS_ACCEPTED));
+    }
+
+    /**
+     * Check whether invitation can be sent. Will throw exception on invalid data.
+     *
+     * @return bool
+     * @throws Mage_Core_Exception
+     */
+    public function canBeSent()
+    {
+        try {
+            $this->makeSureCanBeSent();
+            return true;
+        }
+        catch (Mage_Core_Exception $e) {
+            if ($e->getCode() && $e->getCode() === self::ERROR_INVALID_DATA) {
+                throw $e;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Cancel the invitation
+     *
+     * @return Enterprise_Invitation_Model_Invitation
+     */
+    public function cancel()
+    {
+        if ($this->canBeCanceled()) {
+            $this->setStatus(self::STATUS_CANCELED)->save();
+        }
+        return $this;
+    }
+
+    /**
+     * Accept the invitation
+     *
+     * @param int|string $websiteId
+     * @param int $referralId
+     * @return Enterprise_Invitation_Model_Invitation
+     */
+    public function accept($websiteId, $referralId)
+    {
+        $this->makeSureCanBeAccepted($websiteId);
+        $this->setReferralId($referralId)
+            ->setStatus(self::STATUS_ACCEPTED)
+            ->setSignupDate($this->getResource()->formatDate(time()))
+            ->save();
+        if ($inviterId = $this->getCustomerId()) {
+            $this->getResource()->trackReferral($inviterId, $referralId);
+        }
+        return $this;
     }
 }

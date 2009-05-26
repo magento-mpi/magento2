@@ -25,32 +25,20 @@
  */
 
 /**
- * Invitation status history model
+ * Invitation status history collection
  *
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Model_Invitation_Status_History extends Mage_Core_Model_Abstract
+class Enterprise_Invitation_Model_Mysql4_Invitation_History_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     /**
-     * Initialize model
+     * Intialize collection
      *
      * @return void
      */
     protected function _construct()
     {
-        $this->_init('enterprise_invitation/invitation_status_history');
-    }
-
-    /**
-     * Return status text
-     *
-     * @return string
-     */
-    public function getStatusText()
-    {
-        return Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptionText(
-            $this->getStatus()
-        );
+        $this->_init('enterprise_invitation/invitation_history');
     }
 }

@@ -30,8 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid
-    extends Mage_Adminhtml_Block_Report_Grid
+class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid extends Mage_Adminhtml_Block_Report_Grid
 {
 
     /**
@@ -67,7 +66,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid
         ));
 
         $this->addColumn('canceled', array(
-            'header'    => Mage::helper('enterprise_invitation')->__('Canceled'),
+            'header'    => Mage::helper('enterprise_invitation')->__('Discarded'),
             'type'      =>'number',
             'index'     => 'canceled',
             'width'     => ''
@@ -83,7 +82,7 @@ class Enterprise_Invitation_Block_Adminhtml_Report_Invitation_General_Grid
         ));
 
         $this->addColumn('canceled_rate', array(
-            'header'    =>Mage::helper('enterprise_invitation')->__('Canceled Rate'),
+            'header'    =>Mage::helper('enterprise_invitation')->__('Discard Rate'),
             'index'     =>'canceled_rate',
             'type'      =>'number',
             'renderer'  => 'enterprise_invitation/adminhtml_grid_column_renderer_percent',

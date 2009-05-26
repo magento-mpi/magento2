@@ -25,20 +25,20 @@
  */
 
 /**
- * Invitation status history collection
+ * Invitation status history resource model
  *
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Model_Mysql4_Invitation_Status_History_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Invitation_Model_Mysql4_Invitation_History extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
-     * Intialize collection
+     * Intialize resource model
      *
      * @return void
      */
-    protected function _construct()
+    protected function _construct ()
     {
-        $this->_init('enterprise_invitation/invitation_status_history');
+        $this->_init('enterprise_invitation/invitation_history', 'history_id');
     }
 }

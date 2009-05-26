@@ -91,4 +91,27 @@ class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core
         );
         return $this;
     }
+
+    /**
+     * Filter collection by items that can be sent
+     *
+     * @return Enterprise_Invitation_Model_Mysql4_Invitation_Collection
+     */
+    public function addCanBeSentFilter()
+    {
+        return $this->addFieldToFilter('status', Enterprise_Invitation_Model_Invitation::STATUS_NEW);
+    }
+
+    /**
+     * Filter collection by items that can be cancelled
+     *
+     * @return Enterprise_Invitation_Model_Mysql4_Invitation_Collection
+     */
+    public function addCanBeCanceledFilter()
+    {
+        return $this->addFieldToFilter('status', array('nin' => array(
+            Enterprise_Invitation_Model_Invitation::STATUS_CANCELED,
+            Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED
+        )));
+    }
 }

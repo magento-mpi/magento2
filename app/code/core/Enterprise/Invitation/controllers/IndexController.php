@@ -41,8 +41,14 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
     {
         parent::preDispatch();
 
+        if (!Mage::helper('enterprise_invitation')->isEnabled()) {
+            $this->norouteAction();
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
+
         if (!Mage::getSingleton('customer/session')->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
 
@@ -52,80 +58,57 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
      */
     public function sendAction()
     {
-        if (!Mage::helper('enterprise_invitation')->isEnabled()) {
-            $this->norouteAction();
-            return;
-        }
         $data = $this->getRequest()->getPost();
         if ($data) {
-            $now = Mage::app()->getLocale()->date()
-                    ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
-                    ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-
-            $customer = Mage::getSingleton('customer/session')->getCustomerId();
-
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+            $message = null;
             if (Mage::helper('enterprise_invitation')->getUseInvitationMessage() && !empty($data['message'])) {
                 $message = $data['message'];
-            } else {
-                $message = null;
             }
-
-            if (Mage::helper('enterprise_invitation')->getUseInviterGroup()) {
-                $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
-            } else {
-                $customerGroup = Mage::getStoreConfig('customer/create_account/default_group');
-            }
-
-            $invPerSend = Mage::helper('enterprise_invitation')->getMaxInvitationAmountPerSend();
-            $sentAmount = 0;
-            $notSentCustomerExists = 0;
+            $invPerSend = Mage::helper('enterprise_invitation')->getMaxInvitationsPerSend();
+            $attempts = 0;
+            $sent     = 0;
+            $customerExists = 0;
             foreach ($data['email'] as $email) {
+                $attempts++;
                 if (!Zend_Validate::is($email, 'EmailAddress')) {
                     continue;
                 }
-                if (Mage::getModel('customer/customer')->setWebsiteId(
-                        Mage::app()->getWebsite()->getId()
-                    )->loadByEmail($email)->getId()) {
-                    $notSentCustomerExists++;
+                if ($attempts > $invPerSend) {
                     continue;
                 }
                 try {
-                    if ($sentAmount >= $invPerSend) {
-                        // If invatation amount left, stop sending.
-                        break;
+                    $invitation = Mage::getModel('enterprise_invitation/invitation')->setData(array(
+                        'email'    => $email,
+                        'customer' => $customer,
+                        'message'  => $message,
+                    ))->save();
+                    if ($invitation->sendInvitationEmail()) {
+                        Mage::getSingleton('customer/session')->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation for %s has been sent successfully.', $email));
+                        $sent++;
                     }
-                    // save invitation into db
-                    $invitation = Mage::getModel('enterprise_invitation/invitation');
-                    $code = $invitation->generateCode();
-                    $invitationData = array(
-                        'email' => $email,
-                        'date' => $now,
-                        'customer_id' => $customer,
-                        'group_id' => $customerGroup,
-                        'protection_code' => $code,
-                        'store_id' => Mage::app()->getStore()->getId(),
-                        'message' => $message,
-                        'status' => Enterprise_Invitation_Model_Invitation::STATUS_SENT
-                    );
-                    $invitation->setData($invitationData)->save();
+                    else {
+                        throw new Exception(''); // not Mage_Core_Exception intentionally
+                    }
 
-                    $invitation->sendInvitationEmail();
-
-                    Mage::getSingleton('customer/session')->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation for %s has been sent successfully.', $email));
-                    $sentAmount ++;
-                } catch (Mage_Core_Exception $e) {
-                    Mage::getSingleton('customer/session')->addError($e->getMessage());
-                } catch (Exception $e) {
-                    Mage::getSingleton('customer/session')->addError(Mage::helper('enterprise_invitation')->__('Email to %s was not sent for some reason. Please try again later.', $email));
+                }
+                catch (Mage_Core_Exception $e) {
+                    if (Enterprise_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
+                        $customerExists++;
+                    }
+                    else {
+                        Mage::getSingleton('customer/session')->addError($e->getMessage());
+                    }
+                }
+                catch (Exception $e) {
+                    Mage::getSingleton('customer/session')->addError(Mage::helper('enterprise_invitation')->__('Failed to send email to %s. Please try again later.', $email));
                 }
             }
-
-            if ($notSentCustomerExists > 0) {
+            if ($customerExists) {
                 Mage::getSingleton('customer/session')->addNotice(
-                    Mage::helper('enterprise_invitation')->__('Invitations not sent to %d email(s) because accounts exist for them.', $notSentCustomerExists)
+                    Mage::helper('enterprise_invitation')->__('Failed to send invitation(s) to %d email(s) because accounts exist for them.', $customerExists)
                 );
             }
-
             $this->_redirect('*/*/');
             return;
         }
@@ -134,20 +117,14 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
         $this->_initLayoutMessages('customer/session');
         $this->loadLayoutUpdates();
         $this->renderLayout();
-
     }
-
 
     /**
      * View invitation list in 'My Account' section
      *
-     **/
+     */
     public function indexAction()
     {
-        if (!Mage::helper('enterprise_invitation')->isEnabled()) {
-            $this->norouteAction();
-            return;
-        }
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->loadLayoutUpdates();

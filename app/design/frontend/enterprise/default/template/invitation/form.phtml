@@ -24,17 +24,21 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+<?php
+/**
+ * @see Mage_Core_Block_Template
+ */
+?>
 <div class="page-title">
     <h2><?php echo Mage::helper('enterprise_invitation')->__('Send Invitations') ?></h2>
 </div>
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
-<?php $_fieldAmount = (int) Mage::helper('enterprise_invitation')->getMaxInvitationAmountPerSend(); ?>
-<?php if ($_fieldAmount>0): ?>
+<?php if ($maxPerSend = (int)Mage::helper('enterprise_invitation')->getMaxInvitationsPerSend()): ?>
 <form id="invitationForm" action="" method="post">
     <fieldset class="fieldset">
-    <h3><?php echo Mage::helper('enterprise_invitation')->__('Sponsor your friends by entering their email addresses below'); ?></h3>
+    <h3><?php echo Mage::helper('enterprise_invitation')->__('Invite your friends by entering their email addresses below'); ?></h3>
         <ul class="form-list group-select">
-            <?php $_perRow = ceil($_fieldAmount/3); for($_index = 1; $_index <= $_fieldAmount; $_index ++): ?>
+            <?php $_perRow = ceil($maxPerSend/3); for($_index = 1; $_index <= $maxPerSend; $_index ++): ?>
             <li>
                 <label for="email_<?php echo $_index ?>"<?php if ($_index == 1) echo ' class="required"' ?>><?php if ($_index == 1) echo '<em>*</em>' ?><?php echo $_index; ?>:</label>
                 <div class="input-box">
@@ -56,7 +60,6 @@
     <div class="buttons-set form-buttons">
         <p class="back-link"><a href="<?php echo Mage::helper('enterprise_invitation')->getCustomerInvitationUrl() ?>" class="back-link">&laquo; <?php  echo Mage::helper('enterprise_invitation')->__('Back to Invitations') ?></a></p>
         <button class="button" type="submit"><span><span><?php echo Mage::helper('enterprise_invitation')->__('Send Invitations') ?></span></span></button>
-
     </div>
 
 </form>

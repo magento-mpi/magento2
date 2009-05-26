@@ -24,34 +24,77 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+require_once 'app/code/core/Mage/Customer/controllers/AccountController.php';
+
 /**
  * Invitation customer account frontend controller
  *
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Controller_Front_Action
+class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_AccountController
 {
+    /**
+     * Predispatch custom logic
+     *
+     * Bypassing direct parent predispatch
+     * Allowing only specific actions
+     * Checking whether invitation functionality is enabled
+     * Checking whether registration is allowed at all
+     * No way to logged in customers
+     */
+    public function preDispatch()
+    {
+        Mage_Core_Controller_Front_Action::preDispatch();
+
+        if (!preg_match('/^(create|createpost)/i', $this->getRequest()->getActionName())) {
+            $this->norouteAction();
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
+        if (!Mage::helper('enterprise_invitation')->isEnabled()) {
+            $this->norouteAction();
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
+        if (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()) {
+            $this->_redirect('customer/account/create');
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
+        if ($this->_getSession()->isLoggedIn()) {
+            $this->_redirect('customer/account/');
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            return;
+        }
+        return;
+    }
+
+    /**
+     * Hack real module name in order to make translations working correctly
+     *
+     * @return string
+     */
+    protected function _getRealModuleName()
+    {
+        return 'Mage_Customer';
+    }
+
     /**
      * Initialize invitation from request
      *
      * @return Enterprise_Invitation_Model_Invitation
-     * @throws Mage_Core_Exception
      */
     protected function _initInvitation()
     {
-        if (!Mage::registry('customer_invitation')) {
+        if (!Mage::registry('current_invitation')) {
             $invitation = Mage::getModel('enterprise_invitation/invitation');
-            $invitationCode = $this->getRequest()->getParam('invitation', false);
-            $invitation->loadByInvitationCode($invitationCode);
-            if ($invitation->getId() && (Mage::app()->getWebsite()->getId() != Mage::app()->getStore($invitation->getStoreId())->getWebsite()->getId())) {
-                Mage::throwException(Mage::helper('enterprise_invitation')->__('This invitation is not valid.'));
-            }
-            Mage::register('customer_invitation', $invitation);
-            return $invitation;
+            $invitation
+                ->loadByEncryptedCode(Mage::helper('core')->urlDecode($this->getRequest()->getParam('invitation', false)))
+                ->makeSureCanBeAccepted();
+            Mage::register('current_invitation', $invitation);
         }
-
-        return Mage::registry('customer_invitation');
+        return Mage::registry('current_invitation');
     }
 
     /**
@@ -59,22 +102,8 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
      */
     public function createAction()
     {
-        if ($this->_getSession()->isLoggedIn()) {
-            $this->_redirect('customer/account');
-            return;
-        }
-
-        if ((!Mage::helper('enterprise_invitation')->isEnabled()) ||
-            (!Mage::helper('enterprise_invitation')->isRegistrationAllowed())) {
-            $this->_redirect('customer/account/create');
-            return;
-        }
-
         try {
             $invitation = $this->_initInvitation();
-            if (!$invitation->getId()) {
-                Mage::throwException(Mage::helper('enterprise_invitation')->__('This invitation is not valid.'));
-            }
             $this->loadLayout();
             $this->_initLayoutMessages('customer/session');
             $this->renderLayout();
@@ -91,147 +120,54 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Core_Control
      */
     public function createPostAction()
     {
-        if ($this->_getSession()->isLoggedIn()) {
-            $this->_redirect('customer/account');
+        try {
+            $invitation = $this->_initInvitation();
+            $customer = Mage::getModel('customer/customer')
+                ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
+            Mage::register('current_customer', $customer);
+            if ($groupId = $invitation->getGroupId()) {
+                $customer->setGroupId($groupId);
+            }
+
+            $this->getRequest()->setModuleName('customer')->setControllerName('account');
+            parent::createPostAction();
+
+            if ($customerId = $customer->getId()) {
+                $invitation->accept(Mage::app()->getWebsite()->getId(), $customerId);
+            }
             return;
         }
-
-        if ((!Mage::helper('enterprise_invitation')->isEnabled())  ||
-            (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()))
-          {
-            $this->_redirect('customer/account/create');
-            return;
+        catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage())
+                ->setCustomerFormData($this->getRequest()->getPost());
         }
-
-        if ($this->getRequest()->isPost()) {
-            try {
-                $invitation = $this->_initInvitation();
-                $errors = array();
-
-                $customer = Mage::getModel('customer/customer')->setId(null);
-
-                foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
-                    if ($node->is('create') && ($value = $this->getRequest()->getParam($code)) !== null) {
-                        $customer->setData($code, $value);
-                    }
-                }
-
-                if ($this->getRequest()->getParam('is_subscribed', false)) {
-                    $customer->setIsSubscribed(1);
-                }
-
-                /**
-                 * Initialize customer group id
-                 */
-                $customer->getGroupId();
-
-                if ($this->getRequest()->getPost('create_address')) {
-                    $address = Mage::getModel('customer/address')
-                        ->setData($this->getRequest()->getPost())
-                        ->setIsDefaultBilling($this->getRequest()->getParam('default_billing', false))
-                        ->setIsDefaultShipping($this->getRequest()->getParam('default_shipping', false))
-                        ->setId(null);
-                    $customer->addAddress($address);
-
-                    $errors = $address->validate();
-                    if (!is_array($errors)) {
-                        $errors = array();
-                    }
-                }
-                if (!$invitation->getId() &&
-                    Mage::helper('enterprise_invitation')->getInvitationRequired()) {
-                    $errors[] = Mage::helper('enterprise_invitation')->__('Invalid invitation link');
-                } elseif ($invitation->getId() && $invitation->getGroupId()) {
-                    $customer->setGroupId($invitation->getGroupId());
-                }
-
-                $validationCustomer = $customer->validate();
-                if (is_array($validationCustomer)) {
-                    $errors = array_merge($validationCustomer, $errors);
-                }
-                $validationResult = count($errors) == 0;
-
-
-
-                if (true === $validationResult) {
-                    $customer->save();
-
-                    $now = Mage::app()->getLocale()->date()
-                        ->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE)
-                        ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
-
-                    $invitation->setReferralId($customer->getId())
-                        ->setSignupDate($now)
-                        ->setStatus(Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED)
-                        ->save();
-
-                    if ($customer->isConfirmationRequired()) {
-                        $customer->sendNewAccountEmail('confirmation', $this->_getSession()->getBeforeAuthUrl());
-                        $this->_getSession()->addSuccess(Mage::helper('customer')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.',
-                            Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail())
-                        ));
-                        $this->_redirectSuccess(Mage::getUrl('customer/account/index', array('_secure'=>true)));
-                        return;
-                    }
-                    else {
-                        $this->_getSession()->setCustomerAsLoggedIn($customer);
-                        $url = $this->_welcomeCustomer($customer);
-                        $this->_redirectSuccess($url);
-                        return;
-                    }
-                } else {
-                    $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
-                    if (is_array($errors)) {
-                        foreach ($errors as $errorMessage) {
-                            $this->_getSession()->addError($errorMessage);
-                        }
-                    }
-                    else {
-                        $this->_getSession()->addError(Mage::helper('customer')->__('Invalid customer data'));
-                    }
-                }
-            }
-            catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($e->getMessage())
-                    ->setCustomerFormData($this->getRequest()->getPost());
-            }
-            catch (Exception $e) {
-                $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
-                    ->addException($e, Mage::helper('customer')->__('Can\'t save customer'));
-            }
+        catch (Exception $e) {
+            $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
+                ->addException($e, Mage::helper('customer')->__('Can\'t save customer'));
         }
-
-        $this->_redirectError(Mage::getUrl('*/*/create', array('_current'=>true,'_secure'=>true)));
+        $this->_redirectError();
     }
 
     /**
-     * Add welcome message and send new account email.
-     * Returns success URL
+     * Make success redirect constant
      *
-     * @param Mage_Customer_Model_Customer $customer
-     * @param bool $isJustConfirmed
-     * @return string
+     * @param string $defaultUrl
+     * @return Enterprise_Invitation_Customer_AccountController
      */
-    protected function _welcomeCustomer(Mage_Customer_Model_Customer $customer, $isJustConfirmed = false)
+    protected function _redirectSuccess($defaultUrl)
     {
-        $this->_getSession()->addSuccess($this->__('Thank you for registering with %s', Mage::app()->getStore()->getName()));
-
-        $customer->sendNewAccountEmail($isJustConfirmed ? 'confirmed' : 'registered');
-
-        $successUrl = Mage::getUrl('customer/account/index', array('_secure'=>true));
-        if ($this->_getSession()->getBeforeAuthUrl()) {
-            $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
-        }
-        return $successUrl;
+        return $this->_redirect('customer/account/');
     }
 
     /**
-     * Retrieve customer session model object
+     * Make failure redirect constant
      *
-     * @return Mage_Customer_Model_Session
+     * @param string $defaultUrl
+     * @return Enterprise_Invitation_Customer_AccountController
      */
-    protected function _getSession()
+    protected function _redirectError($defaultUrl)
     {
-        return Mage::getSingleton('customer/session');
+        return $this->_redirect(Mage::getUrl('enterprise_invitation/account/create',
+            array('_current' => true, '_secure' => true)));
     }
 }

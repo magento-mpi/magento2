@@ -42,4 +42,17 @@ class Enterprise_Invitation_Model_Mysql4_Invitation extends Mage_Core_Model_Mysq
         $this->_init('enterprise_invitation/invitation', 'invitation_id');
     }
 
+    /**
+     * Save invitation tracking info
+     *
+     * @param int $inviterId
+     * @param int $referralId
+     */
+    public function trackReferral($inviterId, $referralId)
+    {
+        $inviterId  = (int)$inviterId;
+        $referralId = (int)$referralId;
+        $this->_getWriteAdapter()->query("REPLACE INTO {$this->getTable('enterprise_invitation/invitation_track')}
+            (inviter_id, referral_id) VALUES ({$inviterId}, {$referralId})");
+    }
 }

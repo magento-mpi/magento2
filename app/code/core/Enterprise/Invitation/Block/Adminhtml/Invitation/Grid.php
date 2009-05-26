@@ -32,6 +32,9 @@
  */
 class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Set defaults
+     */
     public function __construct()
     {
         parent::__construct();
@@ -39,6 +42,11 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         $this->setDefaultDir('DESC');
     }
 
+    /**
+     * Prepare collection
+     *
+     * @return Enterprise_Invitation_Block_Adminhtml_Invitation_Grid
+     */
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('enterprise_invitation/invitation')->getCollection()
@@ -48,6 +56,11 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         return parent::_prepareCollection();
     }
 
+    /**
+     * Prepare grid columns
+     *
+     * @return Enterprise_Invitation_Block_Adminhtml_Invitation_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('enterprise_invitation_id', array(
@@ -76,7 +89,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
             'index' => 'date',
             'type' => 'datetime',
             'gmtoffset' => true,
-            'width' => 150
+            'width' => 170
         ));
 
         $this->addColumn('signup_date', array(
@@ -119,24 +132,34 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         return parent::_prepareColumns();
     }
 
+    /**
+     * Prepare mass-actions
+     *
+     * @return Enterprise_Invitation_Block_Adminhtml_Invitation_Grid
+     */
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('invitation_id');
         $this->getMassactionBlock()->setFormFieldName('invitations');
         $this->getMassactionBlock()->addItem('cancel', array(
-                'label' => $this->helper('enterprise_invitation')->__('Cancel'),
+                'label' => $this->helper('enterprise_invitation')->__('Discard selected'),
                 'url' => $this->getUrl('*/*/massCancel'),
                 'confirm' => Mage::helper('enterprise_invitation')->__('Are you sure you want to do this?')
         ));
 
         $this->getMassactionBlock()->addItem('resend', array(
-                'label' => $this->helper('enterprise_invitation')->__('Resend'),
+                'label' => $this->helper('enterprise_invitation')->__('Send selected'),
                 'url' => $this->getUrl('*/*/massResend')
         ));
 
         return parent::_prepareMassaction();
     }
 
+    /**
+     * Row clock callback
+     *
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/view', array('id' => $row->getId()));

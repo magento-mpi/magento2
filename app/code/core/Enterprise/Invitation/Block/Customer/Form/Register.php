@@ -75,6 +75,6 @@ class Enterprise_Invitation_Block_Customer_Form_Register extends Mage_Customer_B
      */
     public function getCustomerInvitation()
     {
-        return Mage::registry('customer_invitation');
+        return Mage::registry('current_invitation');
     }
 }

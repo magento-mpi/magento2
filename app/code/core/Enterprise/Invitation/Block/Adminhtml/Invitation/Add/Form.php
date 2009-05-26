@@ -96,6 +96,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Add_Form extends Mage_Adm
 
         $form->setUseContainer(true);
         $this->setForm($form);
+        $form->setValues($this->_getSession()->getInvitationFormData());
 
         return parent::_prepareForm();
     }

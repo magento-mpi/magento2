@@ -47,7 +47,7 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return int
      */
-    public function getMaxInvitationAmountPerSend()
+    public function getMaxInvitationsPerSend()
     {
         return (int) Mage::getStoreConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND);
     }
@@ -112,14 +112,10 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getInvitationUrl($invitation)
     {
-        $params = array(
-            'invitation' => $invitation->getInvitationCode()
-        );
-
-        $urlModel = Mage::getModel('core/url');
-        $urlModel->setStore($invitation->getStoreId());
-
-        return $urlModel->getUrl('enterprise_invitation/customer_account/create', $params);
+        return Mage::getModel('core/url')->setStore($invitation->getStoreId())
+            ->getUrl('enterprise_invitation/customer_account/create', array(
+                'invitation' => Mage::helper('core')->urlEncode($invitation->getEncryptedCode())
+            ));
     }
 
     /**
@@ -131,7 +127,6 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return $this->_getUrl('enterprise_invitation/');
     }
-
 
     /**
      * Return invitation send form url

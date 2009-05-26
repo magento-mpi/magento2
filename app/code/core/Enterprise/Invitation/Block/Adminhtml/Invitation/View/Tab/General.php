@@ -30,45 +30,53 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General
-    extends Mage_Core_Block_Template
+class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mage_Core_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Set template
+     *
+     */
     protected function _construct()
     {
         $this->setTemplate('enterprise/invitation/view/tab/general.phtml');
     }
 
     /**
-     * Prepare layout
+     * Tab label getter
      *
-     * @return Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General
+     * @return string
      */
-    protected function _prepareLayout()
-    {
-        $this->setChild('save_message_button', $this->getLayout()->createBlock('adminhtml/widget_button', 'save_message_button', array(
-            'type' => 'submit',
-            'class' => 'save',
-            'label' => $this->helper('enterprise_invitation')->__('Save Invitation Message')
-        )));
-        return parent::_prepareLayout();
-    }
-
     public function getTabLabel()
     {
         return Mage::helper('enterprise_invitation')->__('General');
     }
 
+    /**
+     * Tab Title getter
+     *
+     * @return string
+     */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_invitation')->__('General');
+        return $this->getTabLabel();
     }
 
+    /**
+     * Check whether tab can be showed
+     *
+     * @return bool
+     */
     public function canShowTab()
     {
         return true;
     }
 
+    /**
+     * Check whether tab is hidden
+     *
+     * @return bool
+     */
     public function isHidden()
     {
         return false;
@@ -85,17 +93,13 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General
     }
 
     /**
-     * Checks availability to edit invitation message
+     * Check whether it is possible to edit invitation message
      *
-     * @return boolean
+     * @return bool
      */
     public function canEditMessage()
     {
-        if ($this->getInvitation()->getStatus() == Enterprise_Invitation_Model_Invitation::STATUS_SENT) {
-            return true;
-        }
-
-        return false;
+        return $this->getInvitation()->canMessageBeUpdated();
     }
 
     /**

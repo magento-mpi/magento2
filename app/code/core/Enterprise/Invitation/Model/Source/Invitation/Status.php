@@ -24,7 +24,6 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
  * Invitation status source
  *
@@ -41,9 +40,10 @@ class Enterprise_Invitation_Model_Source_Invitation_Status
     public function getOptions()
     {
         return array(
+            Enterprise_Invitation_Model_Invitation::STATUS_NEW  => Mage::helper('enterprise_invitation')->__('Not Sent'),
             Enterprise_Invitation_Model_Invitation::STATUS_SENT => Mage::helper('enterprise_invitation')->__('Sent'),
             Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED => Mage::helper('enterprise_invitation')->__('Accepted'),
-            Enterprise_Invitation_Model_Invitation::STATUS_CANCELED => Mage::helper('enterprise_invitation')->__('Canceled')
+            Enterprise_Invitation_Model_Invitation::STATUS_CANCELED => Mage::helper('enterprise_invitation')->__('Discarded')
         );
     }
 
@@ -59,13 +59,10 @@ class Enterprise_Invitation_Model_Source_Invitation_Status
         $result = array();
 
         if ($useEmpty) {
-            $result[] = array('value' => '',
-                              'label' => '');
+            $result[] = array('value' => '', 'label' => '');
         }
-
         foreach ($this->getOptions() as $value=>$label) {
-            $result[] = array('value' => $value,
-                              'label' => $label);
+            $result[] = array('value' => $value, 'label' => $label);
         }
 
         return $result;

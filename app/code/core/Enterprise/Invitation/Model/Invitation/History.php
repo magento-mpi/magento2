@@ -25,20 +25,43 @@
  */
 
 /**
- * Invitation status history resource model
+ * Invitation status history model
  *
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Model_Mysql4_Invitation_Status_History extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Invitation_Model_Invitation_History extends Mage_Core_Model_Abstract
 {
     /**
-     * Intialize resource model
+     * Initialize model
      *
      * @return void
      */
-    protected function _construct ()
+    protected function _construct()
     {
-        $this->_init('enterprise_invitation/invitation_status_history', 'history_id');
+        $this->_init('enterprise_invitation/invitation_history');
+    }
+
+    /**
+     * Return status text
+     *
+     * @return string
+     */
+    public function getStatusText()
+    {
+        return Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptionText(
+            $this->getStatus()
+        );
+    }
+
+    /**
+     * Set additional data before saving
+     *
+     * @return Enterprise_Invitation_Model_Invitation_History
+     */
+    protected function _beforeSave()
+    {
+        $this->setDate($this->getResource()->formatDate(time()));
+        return parent::_beforeSave();
     }
 }

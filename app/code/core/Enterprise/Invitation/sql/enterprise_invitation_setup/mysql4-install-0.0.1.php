@@ -51,7 +51,7 @@ CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation')}` (
 $fkName = $installer->getTable('enterprise_invitation/invitation');
 
 $installer->getConnection()->addConstraint(
-    strtoupper($fkName) . '_STORE',
+    'FK_INVITATION_STORE',
     $installer->getTable('enterprise_invitation/invitation'),
     'store_id',
     $installer->getTable('core_store'),
@@ -59,8 +59,8 @@ $installer->getConnection()->addConstraint(
 );
 
 $installer->run("
-DROP TABLE IF EXISTS `{$installer->getTable('enterprise_invitation/invitation_status_history')}`;
-CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation_status_history')}` (
+DROP TABLE IF EXISTS `{$installer->getTable('enterprise_invitation/invitation_history')}`;
+CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation_history')}` (
     `history_id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `invitation_id` INT UNSIGNED NOT NULL,
     `date` DATETIME NOT NULL,
@@ -69,11 +69,11 @@ CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation_status_his
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
-$fkName = $installer->getTable('enterprise_invitation/invitation_status_history');
+$fkName = $installer->getTable('enterprise_invitation/invitation_history');
 
 $installer->getConnection()->addConstraint(
-    strtoupper($fkName). '_INVITATION',
-    $installer->getTable('enterprise_invitation/invitation_status_history'),
+    'FK_INVITATION_HISTORY_INVITATION',
+    $installer->getTable('enterprise_invitation/invitation_history'),
     'invitation_id',
     $installer->getTable('enterprise_invitation/invitation'),
     'invitation_id'
