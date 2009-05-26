@@ -51,6 +51,6 @@ CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation_track')}` 
   KEY `FK_INVITATION_TRACK_REFERRAL` (`referral_id`),
   CONSTRAINT `FK_INVITATION_TRACK_INVITER` FOREIGN KEY (`inviter_id`) REFERENCES `{$tableCustomer}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_INVITATION_TRACK_REFERRAL` FOREIGN KEY (`referral_id`) REFERENCES `{$tableCustomer}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
-);");
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
 $installer->endSetup();
