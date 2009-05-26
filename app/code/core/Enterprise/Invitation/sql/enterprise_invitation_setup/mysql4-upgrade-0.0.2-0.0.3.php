@@ -47,6 +47,8 @@ CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation_track')}` 
   `inviter_id` int(10) unsigned NOT NULL DEFAULT 0,
   `referral_id` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`track_id`),
+  UNIQUE KEY `UNQ_INVITATION_TRACK_IDS` (`inviter_id`,`referral_id`),
+  KEY `FK_INVITATION_TRACK_REFERRAL` (`referral_id`),
   CONSTRAINT `FK_INVITATION_TRACK_INVITER` FOREIGN KEY (`inviter_id`) REFERENCES `{$tableCustomer}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_INVITATION_TRACK_REFERRAL` FOREIGN KEY (`referral_id`) REFERENCES `{$tableCustomer}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 );");

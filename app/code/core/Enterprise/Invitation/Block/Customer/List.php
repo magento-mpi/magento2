@@ -30,35 +30,22 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Customer_List extends Mage_Core_Block_Template
+class Enterprise_Invitation_Block_Customer_List extends Mage_Customer_Block_Account_Dashboard
 {
-    /**
-     * List of invitations
-     *
-     * @var Enterprise_Invitation_Model_Mysql4_Invitation_Collection
-     */
-    protected $_list = null;
-
-    const PARAM_NAME_REFERER_URL        = 'referer_url';
-    const PARAM_NAME_BASE64_URL         = 'r64';
-    const PARAM_NAME_URL_ENCODED        = 'uenc';
-
     /**
      * Return list of invitations
      *
      * @return Enterprise_Invitation_Model_Mysql4_Invitation_Collection
      */
-    public function getInvitationList()
+    public function getInvitationCollection()
     {
-        if (is_null($this->_list)) {
-            $customer = Mage::getSingleton('customer/session')->getCustomerId();
-
-            $this->_list = Mage::getModel('enterprise_invitation/invitation')
+        if (!$this->hasInvitationCollection()) {
+            $this->setData('invitation_collection', Mage::getModel('enterprise_invitation/invitation')
                 ->getCollection()
-                ->loadByCustomerId($customer);
+                ->loadByCustomerId(Mage::getSingleton('customer/session')->getCustomerId())
+            );
         }
-
-        return $this->_list;
+        return $this->_getData('invitation_collection');
     }
 
     /**
@@ -69,50 +56,7 @@ class Enterprise_Invitation_Block_Customer_List extends Mage_Core_Block_Template
      */
     public function getStatusText($invitation)
     {
-        return Mage::getSingleton('enterprise_invitation/source_invitation_status')->getOptionText($invitation->getStatus());
-    }
-
-    /**
-     * Check url to be used as internal
-     *
-     * @param   string $url
-     * @return  bool
-     */
-    protected function _isUrlInternal($url)
-    {
-        if (strpos($url, 'http') !== false) {
-            /**
-             * Url must start from base secure or base unsecure url
-             */
-            if ((strpos($url, Mage::app()->getStore()->getBaseUrl()) === 0)
-                || (strpos($url, Mage::app()->getStore()->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK, true)) === 0)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Identify referer url via all accepted methods (HTTP_REFERER, regular or base64-encoded request param)
-     *
-     * @return string
-     */
-    public function getBackUrl()
-    {
-        $refererUrl = $this->getRequest()->getServer('HTTP_REFERER');
-        if ($url = $this->getRequest()->getParam(self::PARAM_NAME_REFERER_URL)) {
-            $refererUrl = $url;
-        }
-        if ($url = $this->getRequest()->getParam(self::PARAM_NAME_BASE64_URL)) {
-            $refererUrl = Mage::helper('core')->urlDecode($url);
-        }
-        if ($url = $this->getRequest()->getParam(self::PARAM_NAME_URL_ENCODED)) {
-            $refererUrl = Mage::helper('core')->urlDecode($url);
-        }
-
-        if (!$this->_isUrlInternal($refererUrl)) {
-            $refererUrl = Mage::app()->getStore()->getBaseUrl();
-        }
-        return $refererUrl;
+        return Mage::getSingleton('enterprise_invitation/source_invitation_status')
+            ->getOptionText($invitation->getStatus());
     }
 }

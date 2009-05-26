@@ -26,17 +26,14 @@
 
 /**
  * Invitation config source for customer registration field
- *
- * @category   Enterprise
- * @package    Enterprise_Invitation
  */
 class Enterprise_Invitation_Model_Adminhtml_System_Config_Source_Boolean_Registration
 {
     public function toOptionArray()
     {
         return array(
-            1 => Mage::helper('enterprise_catalogpermissions')->__('By Invitation Only'),
-            0 => Mage::helper('enterprise_catalogpermissions')->__('Available to All')
+            1 => Mage::helper('enterprise_invitation')->__('By Invitation Only'),
+            0 => Mage::helper('enterprise_invitation')->__('Available to All')
         );
     }
 }

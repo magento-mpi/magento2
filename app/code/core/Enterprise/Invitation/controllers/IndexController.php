@@ -48,6 +48,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
         }
 
         if (!Mage::getSingleton('customer/session')->authenticate($this)) {
+            $this->getResponse()->setRedirect(Mage::helper('customer')->getLoginUrl());
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
     }
@@ -128,6 +129,9 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
         $this->loadLayout();
         $this->_initLayoutMessages('customer/session');
         $this->loadLayoutUpdates();
+        if ($block = $this->getLayout()->getBlock('invitations_list')) {
+            $block->setRefererUrl($this->_getRefererUrl());
+        }
         $this->renderLayout();
     }
 }

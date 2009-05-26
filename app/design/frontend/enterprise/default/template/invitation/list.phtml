@@ -40,7 +40,7 @@
     <a href="<?php echo $this->helper('enterprise_invitation')->getCustomerInvitationFormUrl(); ?>" class="button"><span><?php echo $this->__('Send Invitations') ?></span></a>
 </div>
 
-<?php if (count($this->getInvitationsList())): ?>
+<?php if (count($this->getInvitationCollection())): ?>
 
 <table class="data-table" id="invitations-list-table" cellpadding="0">
     <col />
@@ -57,7 +57,7 @@
     </thead>
     <tbody>
 
-    <?php foreach ($this->getInvitationsList() as $invitation): ?>
+    <?php foreach ($this->getInvitationCollection() as $invitation): ?>
         <tr>
             <td>
                 <?php echo $this->htmlEscape($invitation->getEmail()); ?>
