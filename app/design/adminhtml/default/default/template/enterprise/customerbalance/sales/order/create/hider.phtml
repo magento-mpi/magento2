@@ -25,11 +25,24 @@
  */
 ?>
 <?php if ($this->isFullyPaid()): ?>
-<script>
-    $('order-billing_method').select('dl').each(function(elem){
-        if (elem.class="payment-methods") {
-            elem.hide();
+<script language="javascript">
+    function hideAllPaymentMethods() {
+        if ($('order-billing_method')) {
+            $('order-billing_method').select('dl').each(function(elem){
+                if (elem.className=="payment-methods") {
+                    elem.select('input').each(function (e){
+                        if (e.name=='payment[method]') {
+                            if (e.value == 'free') {
+                                e.checked = true;
+                            } else {
+                                e.parentNode.hide();
+                            }
+                        }
+                    });
+                }
+            });
         }
-    });
+    }
+    hideAllPaymentMethods();
 </script>
 <?php endif; ?>

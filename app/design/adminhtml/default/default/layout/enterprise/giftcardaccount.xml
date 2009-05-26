@@ -85,6 +85,9 @@
     </adminhtml_sales_order_create_load_block_data>
 
     <adminhtml_sales_order_create_index>
+        <reference name="js">
+            <block type="adminhtml/template" template="enterprise/giftcardaccount/sales/order/create/js.phtml" name="giftcardaccount_js" />
+        </reference>
         <reference name="items_grid">
             <block type="enterprise_giftcardaccount/adminhtml_sales_order_create_payment" template="enterprise/giftcardaccount/sales/order/create/items.phtml" name="giftcardaccount" after="-" />
         </reference>

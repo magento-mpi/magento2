@@ -24,13 +24,17 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<br />
-<strong>Gift Cards</strong><br />
-<?php foreach ($this->getGiftCards() as $_card): ?>
-    <?php echo $_card; ?>
-    <button onclick="removeGiftCard('<?php echo $_card; ?>')" type="button" value="" class="button delete"><span><?php echo $this->__('Remove'); ?></span></button>
-    <br />
-<?php endforeach; ?>
-<br />
-<input id="giftcardaccount_add_input" type="text" name="payment[giftcard_code]" class="input-text">
-<button onclick="applyGiftCard()" type="button" value="" class="button add"><span><?php echo $this->__('Add Gift Card'); ?></span></button>
+<script language="javascript">
+    function removeGiftCard(code) {
+        var data = {};
+        data['giftcard_remove'] = code;
+        order.loadArea(['totals', 'billing_method', 'items'], true, data);
+    }
+
+    function applyGiftCard() {
+        var code = $('giftcardaccount_add_input').value;
+        var data = {};
+        data['giftcard_add'] = code;
+        order.loadArea(['totals', 'billing_method', 'items'], true, data);
+    }
+</script>
