@@ -389,6 +389,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         );
     }
 
+    /**
+     * Validate product
+     *
+     */
     public function validateAction()
     {
         $response = new Varien_Object();
@@ -399,8 +403,20 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             if ($productData && !isset($productData['stock_data']['use_config_manage_stock'])) {
                 $productData['stock_data']['use_config_manage_stock'] = 0;
             }
-            $product = Mage::getModel('catalog/product')
-                ->setId($this->getRequest()->getParam('id'))
+            $product = Mage::getModel('catalog/product');
+            if ($storeId = $this->getRequest()->getParam('store_id')) {
+                $product->setStoreId($storeId);
+            }
+            if ($setId = $this->getRequest()->getParam('set')) {
+                $product->setAttributeSetId($setId);
+            }
+            if ($typeId = $this->getRequest()->getParam('type')) {
+                $product->setTypeId($typeId);
+            }
+            if ($productId = $this->getRequest()->getParam('id')) {
+                $product->load($productId);
+            }
+            $product
                 ->addData($productData)
                 ->validate();
         }
