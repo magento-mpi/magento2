@@ -38,13 +38,13 @@ $installer->getConnection()->dropForeignKey(
     $installer->getTable('catalog/product_website'),
     'FK_CATAOLOG_PRODUCT_WEBSITE_WEBSITE'
 );
-$installer->getConnection()->dropKey(
-    $installer->getTable('catalog/product_website'),
-    'FK_CATAOLOG_PRODUCT_WEBSITE_WEBSITE'
-);
 $installer->getConnection()->dropForeignKey(
     $installer->getTable('catalog/product_website'),
     'FK_CATALOG_PRODUCT_WEBSITE_WEBSITE'
+);
+$installer->getConnection()->dropKey(
+    $installer->getTable('catalog/product_website'),
+    'FK_CATAOLOG_PRODUCT_WEBSITE_WEBSITE'
 );
 $installer->getConnection()->dropKey(
     $installer->getTable('catalog/product_website'),

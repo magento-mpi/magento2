@@ -493,6 +493,9 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function isConfirmationRequired()
     {
+        if ($this->maySkipConfirmation()) {
+            return false;
+        }
         if (null === self::$_isConfirmationRequired) {
             self::$_isConfirmationRequired = 1 == Mage::getStoreConfig(self::XML_PATH_IS_CONFIRM, ($this->getStoreId() ? $this->getStoreId() : null));
         }
@@ -1026,5 +1029,16 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         $this->_isReadonly = (boolean) $value;
         return $this;
+    }
+
+    /**
+     * Check whether confirmation may be skipped when registering using certain email address
+     *
+     * @return bool
+     */
+    public function maySkipConfirmation()
+    {
+        return $this->getId() && $this->hasSkipConfirmationIfEmail()
+            && strtolower($this->getSkipConfirmationIfEmail()) === strtolower($this->getEmail());
     }
 }
