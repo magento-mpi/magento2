@@ -493,7 +493,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     public function isConfirmationRequired()
     {
-        if ($this->maySkipConfirmation()) {
+        if ($this->canSkipConfirmation()) {
             return false;
         }
         if (null === self::$_isConfirmationRequired) {
@@ -606,7 +606,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         if (is_null($ids)) {
             $ids = array();
             if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
-            	$ids = $this->getStore()->getWebsite()->getStoresIds();
+                $ids = $this->getStore()->getWebsite()->getStoresIds();
             }
             else {
                 foreach (Mage::app()->getStores() as $store) {
@@ -629,7 +629,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         if (is_null($ids)) {
             $ids = array();
             if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
-            	$ids[] = $this->getWebsiteId();
+                $ids[] = $this->getWebsiteId();
             }
             else {
                 foreach (Mage::app()->getWebsites() as $website) {
@@ -1036,7 +1036,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      *
      * @return bool
      */
-    public function maySkipConfirmation()
+    public function canSkipConfirmation()
     {
         return $this->getId() && $this->hasSkipConfirmationIfEmail()
             && strtolower($this->getSkipConfirmationIfEmail()) === strtolower($this->getEmail());
