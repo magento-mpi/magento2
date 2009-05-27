@@ -206,39 +206,40 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         }
     }
 
-
-
     /**
      * Catalog product validate before saving
      *
      * @param Mage_Catalog_Model_Product $model
-     * @return void
      */
     public function catalogProductSaveBefore($model)
     {
+        // no creating products
+        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+            $this->_throwSave();
+        }
+
         $websiteIds     = $this->_helper->explodeIds($model->getWebsiteIds());
         $origWebsiteIds = $model->getResource()->getWebsiteIds($model);
 
+        // must assign to website
         $model->setWebsiteIds($this->_forceAssignToWebsite(
             $this->_updateSavingWebsiteIds($websiteIds, $origWebsiteIds)
         ));
 
-        if ($model->getId() && !$this->_helper->hasWebsiteAccess($origWebsiteIds)) {
-            $this->_throwSave();
-        } elseif (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+        // must not assign to wrong website
+        if ($model->getId() && !$this->_helper->hasWebsiteAccess($model->getWebsiteIds())) {
             $this->_throwSave();
         }
-
     }
 
     /**
      * Catalog product validate before delete
      *
      * @param Mage_Catalog_Model_Product $model
-     * @return void
      */
     public function catalogProductDeleteBefore($model)
     {
+        // deleting only in exclusive mode
         if (!$this->_helper->hasExclusiveAccess($model->getWebsiteIds())) {
             $this->_throwDelete();
         }
@@ -252,6 +253,12 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogCategoryDeleteBefore($model)
     {
+        // no deleting in store group level mode
+        if ($this->_helper->getIsStoreLevel()) {
+            $this->_throwDelete();
+        }
+
+        // no deleting category from disallowed path (no deleting root categories at all)
         if (!$this->_helper->hasExclusiveCategoryAccess($model->getPath())) {
             $this->_throwDelete();
         }
@@ -412,14 +419,16 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogCategorySaveBefore($model)
     {
-        if ((!$this->_helper->getIsWebsiteLevel() && !$model->getId())) {
+        // no adding categories
+        if (!$model->getId()) {
             $this->_throwSave();
-        } elseif ($model->getId()) {
-            $categoryPath = $category->getPath();
-            foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
-                if (!($categoryPath === $rootPath || 0 === strpos($categoryPath, "{$rootPath}/"))) {
-                    $this->_throwSave();
-                }
+        }
+
+        // no saving under disallowed root categories
+        $categoryPath = $category->getPath();
+        foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
+            if (!($categoryPath === $rootPath || 0 === strpos($categoryPath, "{$rootPath}/"))) {
+                $this->_throwSave();
             }
         }
     }
@@ -503,6 +512,9 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         if ($this->_helper->getIsAll()) {
             return;
+        }
+        if ($this->_helper->getIsStoreLevel()) {
+            $this->_throwSave();
         }
         $parentCategory = $observer->getEvent()->getParent();
         $currentCategory = $observer->getEvent()->getCategory();

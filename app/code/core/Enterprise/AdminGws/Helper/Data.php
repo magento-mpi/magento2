@@ -227,6 +227,9 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
         if (!is_array($categoryPath)) {
             $categoryPath = explode('/', $categoryPath);
         }
+        if (count($categoryPath) < 3) {
+            return false;
+        }
 
         if (count(array_intersect(
                 $categoryPath,
