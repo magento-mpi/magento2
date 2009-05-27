@@ -374,6 +374,73 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/callouts/',
         'app/design/frontend/default/modern/template/callouts/',
     ),
+    'Enterprise_AdminGws' => array(
+        'app/code/core/Enterprise/AdminGws/',
+        'app/design/adminhtml/default/default/layout/enterprise/admingws.xml',
+        'app/design/adminhtml/default/default/template/enterprise/admingws/',
+    ),
+    'Enterprise_CatalogEvent' => array(
+        'app/code/core/Enterprise/CatalogEvent/',
+        'app/design/frontend/enterprise/default/layout/catalogevent.xml',
+        'app/design/frontend/enterprise/default/template/catalogevent/',
+        'app/design/adminhtml/default/default/layout/enterprise/catalogevent.xml',
+        'app/design/adminhtml/default/default/template/enterprise/catalogevent/',
+    ),
+    'Enterprise_CatalogPermissions' => array(
+        'app/code/core/Enterprise/CatalogPermissions/',
+        'app/design/frontend/enterprise/default/layout/catalogpermissions.xml',
+        'app/design/adminhtml/default/default/layout/enterprise/catalogpermissions.xml',
+        'app/design/adminhtml/default/default/template/enterprise/catalogpermissions',
+    ),
+    'Enterprise_CustomerBalance' => array(
+        'app/code/core/Enterprise/CustomerBalance/',
+        'app/design/frontend/enterprise/default/layout/customerbalance.xml',
+        'app/design/frontend/enterprise/default/template/customerbalance/',
+        'app/design/adminhtml/default/default/layout/enterprise/customerbalance.xml',
+        'app/design/adminhtml/default/default/template/enterprise/customerbalance/',
+    ),
+    'Enterprise_Enterprise' => array(
+        'app/code/core/Enterprise/Enterprise/',
+    ),
+    'Enterprise_GiftCard' => array(
+        'app/code/core/Enterprise/GiftCard/',
+        'app/design/frontend/enterprise/default/layout/giftcard.xml',
+        'app/design/frontend/enterprise/default/template/giftcard/',
+        'app/design/adminhtml/default/default/layout/enterprise/giftcard.xml',
+        'app/design/adminhtml/default/default/template/enterprise/giftcard/',
+    ),
+    'Enterprise_GiftCardAccount' => array(
+        'app/code/core/Enterprise/GiftCardAccount/',
+        'app/design/frontend/enterprise/default/layout/giftcardaccount.xml',
+        'app/design/frontend/enterprise/default/template/giftcardaccount/',
+        'app/design/adminhtml/default/default/layout/enterprise/giftcardaccount.xml',
+        'app/design/adminhtml/default/default/template/enterprise/giftcardaccount/',
+    ),
+    'Enterprise_Invitation' => array(
+        'app/code/core/Enterprise/Invitation/',
+        'app/design/frontend/enterprise/default/layout/invitation.xml',
+        'app/design/frontend/enterprise/default/template/invitation/',
+        'app/design/adminhtml/default/default/layout/enterprise/invitation.xml',
+        'app/design/adminhtml/default/default/template/enterprise/invitation/',
+    ),
+    'Enterprise_Logging' => array(
+        'app/code/core/Enterprise/Logging/',
+        'app/design/adminhtml/default/default/layout/enterprise/logging.xml',
+        'app/design/adminhtml/default/default/template/enterprise/logging/',
+    ),
+    'Enterprise_Pci' => array(
+        'app/code/core/Enterprise/Pci/',
+        'app/design/adminhtml/default/default/layout/enterprise/pci.xml',
+    ),
+    'Enterprise_Staging' => array(
+        'app/code/core/Enterprise/Staging/',
+        'app/design/adminhtml/default/default/layout/enterprise/staging.xml',
+        'app/design/adminhtml/default/default/template/enterprise/staging/',
+    ),
+    'Enterprise_WebsiteRestriction' => array(
+        'app/code/core/Enterprise/WebsiteRestriction/',
+        'app/design/frontend/enterprise/default/layout/websiterestriction.xml',
+    ),
 );
 
 $CONFIG['helpers']  = array(
@@ -438,4 +505,16 @@ $CONFIG['helpers']  = array(
     'usa'               => 'Mage_Usa',
     'weee'              => 'Mage_Weee',
     'wishlist'          => 'Mage_Wishlist',
+    'enterprise_admingws'           => 'Enterprise_AdminGws',
+    'enterprise_catalogevent'       => 'Enterprise_CatalogEvent',
+    'enterprise_catalogpermissions' => 'Enterprise_CatalogPermissions',
+    'enterprise_customerbalance'    => 'Enterprise_CustomerBalance',
+    'enterprise_enterprise'         => 'Enterprise_Enterprise',
+    'enterprise_giftcard'           => 'Enterprise_GiftCard',
+    'enterprise_giftcardaccount'    => 'Enterprise_GiftCardAccount',
+    'enterprise_invitation'         => 'Enterprise_Invitation',
+    'enterprise_logging'            => 'Enterprise_Logging',
+    'enterprise_pci'                => 'Enterprise_Pci',
+    'enterprise_staging'            => 'Enterprise_Staging',
+    'enterprise_websiterestriction' => 'Enterprise_WebsiteRestriction',
 );
