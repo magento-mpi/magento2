@@ -103,16 +103,23 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function ruleSaveBefore($model)
     {
         $originalWebsiteIds = $model->getOrigData('website_ids');
+        if (empty($originalWebsiteIds)) {
+            $originalWebsiteIds = array();
+        }
         $websiteIds = $model->getData('website_ids');
+        if (empty($websiteIds)) {
+            $websiteIds = array();
+        }
+        elseif (!is_array($websiteIds)) {
+            $websiteIds = explode(',', $websiteIds);
+        }
 
         if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
             $this->_throwSave();
         }
-
         if ($model->getId() && !$this->_helper->hasWebsiteAccess($websiteIds)) {
             $this->_throwSave();
         }
-
         $model->setData('website_ids', implode(',', $this->_forceAssignToWebsite(
             $this->_updateSavingWebsiteIds($websiteIds, $originalWebsiteIds)
         )));
