@@ -195,13 +195,15 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Abstract extends Mage_Core_Model_Mysql
             ->from(array('product'=>$this->getTable('catalog/product')), $fields)
             ->joinLeft(array('c'=>"{$this->getTable('catalog/product')}_tier_price"), $condition, array())
             ->where('product.entity_id in (?)', $products);
-        if (Mage::helper('catalog')->isPriceGlobal()
-            || Mage::app()->getWebsite($website)->getBaseCurrencyCode() == Mage::app()->getBaseCurrencyCode())
+        if (Mage::helper('catalog')->isPriceGlobal())
         {
             $select->where('c.website_id=?', 0);
         }
+        elseif (Mage::app()->getWebsite($website)->getBaseCurrencyCode() != Mage::app()->getBaseCurrencyCode()) {
+            $select->where('c.website_id=?', $website);
+        }
         else {
-            $select->where('c.website_id = ?', $website);
+            $select->where('c.website_id IN(?)', array(0, $website));
         }
 
         return $this->_getReadAdapter()->fetchAll($select);
