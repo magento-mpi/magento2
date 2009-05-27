@@ -445,7 +445,9 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     public function loadAllAttributes($object=null)
     {
-        $attributeCodes = Mage::getSingleton('eav/config')->getEntityAttributeCodes($this->getEntityType(), $object);
+        $attributeCodes = Mage::getSingleton('eav/config')
+            ->getEntityAttributeCodes($this->getEntityType(), $object);
+
         /**
          * Check and init default attributes
          */
@@ -522,7 +524,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      * Check whether the attribute is Applicable to the object
      *
      * @param   Varien_Object $object
-     * @param   Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @param   Mage_Eav_Model_Entity_Attribute_Abstract $attribute
      * @return  boolean
      */
     protected function _isApplicableAttribute($object, $attribute)
@@ -713,7 +715,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      */
     public function validate($object)
     {
-        $this->loadAllAttributes();
+        $this->loadAllAttributes($object);
         $this->walkAttributes('backend/validate', array($object));
 
         return $this;
@@ -1265,7 +1267,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
 
         try {
             $this->_getWriteAdapter()->delete($this->getEntityTable(), $this->getEntityIdField()."=".$id);
-            $this->loadAllAttributes();
+            $this->loadAllAttributes($object);
             foreach ($this->getAttributesByTable() as $table=>$attributes) {
                 $this->_getWriteAdapter()->delete($table, $this->getEntityIdField()."=".$id);
             }

@@ -83,15 +83,27 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             $storeId = $object->getStoreId();
         }
 
+        $select = $this->_read->select()
+            ->from(array('default' => $table));
+        if ($setId = $object->getAttributeSetId()) {
+            $select->join(
+                array('set_table' => $this->getTable('eav/entity_attribute')),
+                'default.attribute_id=set_table.attribute_id AND '
+                    . 'set_table.attribute_set_id=' . intval($setId),
+                array()
+            );
+        }
+
         $joinCondition = 'main.attribute_id=default.attribute_id AND '
-            . $this->_read->quoteInto('main.store_id=? AND ', $storeId)
+            . $this->_read->quoteInto('main.store_id=? AND ', intval($storeId))
             . $this->_read->quoteInto('main.'.$this->getEntityIdField() . '=?', $object->getId());
 
-        $select = $this->_read->select()
-            ->from(array('default' => $table))
-            ->joinLeft(array('main' => $table), $joinCondition, array(
-                'store_value_id'=>'value_id',
-                'store_value'=>'value'
+        $select->joinLeft(
+            array('main' => $table),
+            $joinCondition,
+            array(
+                'store_value_id' => 'value_id',
+                'store_value'    => 'value'
             ))
             ->where('default.'.$this->getEntityIdField() . '=?', $object->getId())
             ->where('default.store_id=?', $this->getDefaultStoreId());
