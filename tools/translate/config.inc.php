@@ -96,6 +96,11 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/modern/template/cms/',
         'app/design/frontend/default/modern/layout/cms.xml',
     ),
+    'Mage_Compiler' => array(
+        'app/code/core/Mage/Compiler/',
+        'app/design/adminhtml/default/default/template/compiler/',
+        'app/design/adminhtml/default/default/layout/compiler.xml',
+    ),
     'Mage_Contacts' => array(
         'app/code/core/Mage/Contacts/',
         'app/design/frontend/default/default/template/contacts/',
@@ -369,7 +374,6 @@ $CONFIG['translates'] = array(
         'app/design/frontend/default/default/template/callouts/',
         'app/design/frontend/default/modern/template/callouts/',
     ),
-
 );
 
 $CONFIG['helpers']  = array(
@@ -385,6 +389,7 @@ $CONFIG['helpers']  = array(
     'checkout'          => 'Mage_Checkout',
     'chronopay'         => 'Mage_Chronopay',
     'cms'               => 'Mage_Cms',
+    'compiler'          => 'Mage_Compiler',
     'contacts'          => 'Mage_Contacts',
     'core'              => 'Mage_Core',
     'cron'              => 'Mage_Cron',
