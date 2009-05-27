@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Tab_Product extends Mage_Adminhtml_B
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('price')
             ->addStoreFilter($this->getRequest()->getParam('store'))
-            ->joinField('cat_index_position',
+            ->joinField('position',
                 'catalog/category_product',
                 'position',
                 'product_id=entity_id',

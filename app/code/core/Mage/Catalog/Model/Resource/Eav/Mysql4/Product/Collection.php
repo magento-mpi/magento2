@@ -1110,6 +1110,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
     public function addAttributeToSort($attribute, $dir='asc')
     {
         if ($attribute == 'position') {
+            if (isset($this->_joinFields[$attribute])) {
+                $this->getSelect()->order("{$attribute} {$dir}");
+                return $this;
+            }
             $this->getSelect()->order("cat_index_position {$dir}");
             // optimize if using cat index
             $filters = $this->_productLimitationFilters;
