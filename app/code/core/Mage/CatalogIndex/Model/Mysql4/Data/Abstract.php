@@ -130,6 +130,14 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Abstract extends Mage_Core_Model_Mysql
         // add status filter
         $this->_addAttributeFilter($select, 'status', 'l', $idField, $store,
             Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+        // add website filter
+        if ($websiteId = Mage::app()->getStore($store)->getWebsiteId()) {
+            $select->join(
+                array('w' => $this->getTable('catalog/product_website')),
+                "l.{$idField}=w.product_id AND w.website_id={$websiteId}",
+                array()
+            );
+        }
 
         $this->_setLinkSelect($select);
         $this->_prepareLinkFetchSelect($store, $table, $idField, $whereField, $id, $additionalWheres);
