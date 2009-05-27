@@ -96,8 +96,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateCatalogProduct($controller)
     {
-        $this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'duplicate'));
-        if ($this->_isForwarded) {
+        if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'duplicate'))) {
             return;
         }
 
@@ -168,7 +167,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateGiftCardAccount($controller)
     {
-        $this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'generate'));
+        if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'generate'))) {
+            return;
+        }
         $id = $controller->getRequest()->getParam('id', false);
         if (!$id && $controller->getRequest()->isPost()) {
             $info = $controller->getRequest()->getPost('info');
@@ -195,13 +196,13 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validatePromoCatalog($controller)
     {
-        $this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'));
-
-        if (!$this->_isForwarded && ($id = $controller->getRequest()->getParam('id'))) {
+        if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'))) {
+            return;
+        }
+        if ($id = $controller->getRequest()->getParam('id')) {
             $rule = Mage::getModel('catalogrule/rule')->load($id);
-            if (!$rule->getId() ||
-                !$this->_helper->hasWebsiteAccess($rule->getWebsiteIds())) {
-                $this->_forward();
+            if (!$rule->getId() || !$this->_helper->hasWebsiteAccess($rule->getWebsiteIds())) {
+                return $this->_forward();
             }
         }
     }
@@ -213,53 +214,49 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validatePromoQuote($controller)
     {
-        $this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'));
-
-        if (!$this->_isForwarded && ($id = $controller->getRequest()->getParam('id'))) {
+        if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'))) {
+            return;
+        }
+        if ($id = $controller->getRequest()->getParam('id')) {
             $rule = Mage::getModel('salesrule/rule')->load($id);
-            if (!$rule->getId() ||
-                !$this->_helper->hasWebsiteAccess($rule->getOrigData('website_ids'))) {
-                $this->_forward();
+            if (!$rule->getId() || !$this->_helper->hasWebsiteAccess($rule->getOrigData('website_ids'))) {
+                return $this->_forward();
             }
         }
     }
 
     /**
-     * Disallow saving categories in disallowed scopes
+     * Prevent viewing wrong categories and creation pages
      *
      * @param Mage_Adminhtml_Controller_Action $controller
      */
     public function validateCatalogCategories($controller)
     {
-        if (!in_array($controller->getRequest()->getActionName(), array('edit', 'add')) ||
-            $this->_helper->getIsAll()) {
-            return;
-        }
-
         $forward = false;
-
-        if ($controller->getRequest()->getActionName() == 'add' ||
-            !$controller->getRequest()->getParam('id')) {
-            $forward = true;
+        switch ($controller->getRequest()->getActionName()) {
+            case 'add':
+                $forward = true; // no adding categories
+                break;
+            case 'edit':
+                if (!$controller->getRequest()->getParam('id')) {
+                    $forward = true; // no adding categories
+                    break;
+                }
+                $category = Mage::getModel('catalog/category')->load($controller->getRequest()->getParam('id'));
+                if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
+                    $forward = true; // no viewing wrong categories
+                }
+                break;
         }
-
-        if (!$forward) {
-            $category = Mage::getModel('catalog/category')->load(
-                $controller->getRequest()->getParam('id')
-            );
-            if (!$category->getId() ||
-                !$this->_isCategoryAllowed($category)) {
-                $forward = true;
-            }
-        }
-
+        // forward to first allowed root category
         if ($forward) {
-            $categoryId = current(array_keys(
-                $this->_helper->getAllowedRootCategories()
-            ));
-            $controller->getRequest()->setParam('id', $categoryId);
-            $controller->getRequest()->setParam('clear', 1);
-            $this->_forward( $categoryId ? 'edit' : 'denied');
+            $firstRootId = current(array_keys($this->_helper->getAllowedRootCategories()));
+            if ($firstRootId) {
+                $controller->getRequest()->setParam('id', $firstRootId);
+                $controller->getRequest()->setParam('clear', 1);
+                return $this->_forward('edit');
+            }
+            $this->_forward();
         }
     }
 
@@ -340,13 +337,15 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 // TODO allow viewing sales information only from allowed websites
 
     /**
-     * Don't allow to create or save entity, if there is no website permissions
+     * Don't allow to create or delete entity, if there is no website permissions
+     *
+     * Returns false if disallowed
      *
      * @param Mage_Adminhtml_Controller_Action $controller (first param is reserved, don't remove it)
      * @param string|array $denyActions
      * @param string $saveAction
      * @param string $idFieldName
-     * @return null
+     * @return bool
      */
     public function validateNoWebsiteGeneric($controller = null, $denyActions = array('new', 'delete'), $saveAction = 'save', $idFieldName = 'id')
     {
@@ -355,8 +354,10 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         }
         if ((!$this->_helper->getWebsiteIds()) && (in_array($this->_request->getActionName(), $denyActions)
                 || ($saveAction === $this->_request->getActionName() && 0 == $this->_request->getParam($idFieldName)))) {
-            return $this->_forward();
+            $this->_forward();
+            return false;
         }
+        return true;
     }
 
     /**

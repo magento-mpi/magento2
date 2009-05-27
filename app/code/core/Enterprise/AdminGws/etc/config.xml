@@ -342,6 +342,8 @@
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
                     <adminhtml__system_store_store>widgetManageStores</adminhtml__system_store_store>
+                    <adminhtml__catalog_product>widgetProductGridContainer</adminhtml__catalog_product>
+                    <enterprise_catalogevent__adminhtml_event>widgetCatalogEventGridContainer</enterprise_catalogevent__adminhtml_event>
                 </block_html_before>
             </admingws>
         </enterprise>

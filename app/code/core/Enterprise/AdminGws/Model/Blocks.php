@@ -85,4 +85,28 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             $block->removeButton('add_store');
         }
     }
+
+    /**
+     * Restrict product grid container
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function widgetProductGridContainer($observer)
+    {
+        if (!$this->_helper->getWebsiteIds()) {
+            $observer->getBlock()->removeButton('add_new');
+        }
+    }
+
+    /**
+     * Restrict event grid container
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function widgetCatalogEventGridContainer($observer)
+    {
+        if (!$this->_helper->getWebsiteIds()) {
+            $observer->getBlock()->removeButton('add');
+        }
+    }
 }

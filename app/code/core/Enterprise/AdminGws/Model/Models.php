@@ -225,8 +225,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_updateSavingWebsiteIds($websiteIds, $origWebsiteIds)
         ));
 
-        if ($model->getId() &&
-            !$this->_helper->hasWebsiteAccess($origWebsiteIds)) {
+        if ($model->getId() && !$this->_helper->hasWebsiteAccess($origWebsiteIds)) {
             $this->_throwSave();
         } elseif (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
             $this->_throwSave();
