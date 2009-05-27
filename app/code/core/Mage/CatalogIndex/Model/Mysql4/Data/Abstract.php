@@ -194,9 +194,15 @@ class Mage_CatalogIndex_Model_Mysql4_Data_Abstract extends Mage_Core_Model_Mysql
         $select = $this->_getReadAdapter()->select()
             ->from(array('product'=>$this->getTable('catalog/product')), $fields)
             ->joinLeft(array('c'=>"{$this->getTable('catalog/product')}_tier_price"), $condition, array())
-            ->where('product.entity_id in (?)', $products)
-            ->where('(c.website_id = ?', $website)
-            ->orWhere('c.website_id = 0)');
+            ->where('product.entity_id in (?)', $products);
+        if (Mage::helper('catalog')->isPriceGlobal()
+            || Mage::app()->getWebsite($website)->getBaseCurrencyCode() == Mage::app()->getBaseCurrencyCode())
+        {
+            $select->where('c.website_id=?', 0);
+        }
+        else {
+            $select->where('c.website_id = ?', $website);
+        }
 
         return $this->_getReadAdapter()->fetchAll($select);
     }

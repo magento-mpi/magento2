@@ -114,6 +114,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 ->setWebsiteIds($configProduct->getWebsiteIds());
         }
 
+        $product->setData('_edit_mode', true);
+
         Mage::register('product', $product);
         Mage::register('current_product', $product);
         return $product;
