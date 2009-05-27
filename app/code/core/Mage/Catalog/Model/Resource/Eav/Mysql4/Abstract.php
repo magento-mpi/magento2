@@ -152,9 +152,28 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
             'value'         => $this->_prepareValueForSave($value, $attribute),
             'store_id'      => $this->getDefaultStoreId()
         );
-        $this->_getWriteAdapter()->insert($attribute->getBackend()->getTable(), $row);
+        $fields = array();
+        $values = array();
+        foreach ($row as $k => $v) {
+            $fields[] = $this->_getWriteAdapter()->quoteIdentifier('?', $k);
+            $values[] = $this->_getWriteAdapter()->quoteInto('?', $v);
+        }
+        $sql = sprintf('INSERT IGNORE INTO %s (%s) VALUES(%s)',
+            $this->_getWriteAdapter()->quoteIdentifier($attribute->getBackend()->getTable()),
+            join(',', array_keys($row)),
+            join(',', $values));
+        $this->_getWriteAdapter()->query($sql);
+        if (!$lastId = $this->_getWriteAdapter()->lastInsertId()) {
+            $select = $this->_getReadAdapter()->select()
+                ->from($attribute->getBackend()->getTable(), 'value_id')
+                ->where($entityIdField . '=?', $row[$entityIdField])
+                ->where('entity_type_id=?', $row['entity_type_id'])
+                ->where('attribute_id=?', $row['attribute_id'])
+                ->where('store_id=?', $row['store_id']);
+            $lastId = $select->query()->fetchColumn();
+        }
         if ($object->getStoreId() != $this->getDefaultStoreId()) {
-            $this->_updateAttribute($object, $attribute, $this->_getWriteAdapter()->lastInsertId(), $value);
+            $this->_updateAttribute($object, $attribute, $lastId, $value);
         }
         return $this;
     }

@@ -255,6 +255,9 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
             $rates          = $this->_getWebsiteRates();
             foreach ($websites as $website) {
                 /* @var $website Mage_Core_Model_Website */
+                if (!is_array($object->getWebsiteIds()) || !in_array($website->getId(), $object->getWebsiteIds())) {
+                    continue;
+                }
                 if ($rates[$website->getId()]['code'] != $baseCurrency) {
                     foreach ($prices as $data) {
                         $priceKey = join('-', array(
