@@ -258,7 +258,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
             $websitesToCompare = $this->_roleWebsites;
         }
         if (is_array($websiteId)) {
-            count(array_intersect($websiteId, $websitesToCompare)) > 0;
+            return count(array_intersect($websiteId, $websitesToCompare)) > 0;
         }
         return in_array($websiteId, $websitesToCompare);
     }
