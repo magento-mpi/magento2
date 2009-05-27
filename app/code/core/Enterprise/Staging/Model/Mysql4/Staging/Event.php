@@ -67,6 +67,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
         if ($user) {
             $object->setUserId($user->getId());
             $object->setUsername($user->getName());
+        } else {
+            $object->setUsername('CRON');
         }
 
         return parent::_beforeSave($object);

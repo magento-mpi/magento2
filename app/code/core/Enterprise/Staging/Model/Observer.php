@@ -150,44 +150,31 @@ class Enterprise_Staging_Model_Observer
     {
         try {
             $currentDate = Mage::getModel('core/date')->gmtDate();
-
-            $collection = Mage::getResourceModel('enterprise_staging/staging_event_collection');
-
+            $collection  = Mage::getResourceModel('enterprise_staging/staging_event_collection');
             $collection->addHoldedFilter();
 
             foreach ($collection as $event) {
-
                 if ($event->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED) {
-
                     $applyDate = $event->getMergeScheduleDate();
-
                     $stagingId = $event->getStagingId();
 
-                    if ($currentDate <= $applyDate) {
+                    if ($currentDate >= $applyDate) {
+                        $staging = $event->getStaging();
                         if ($stagingId){
-                            $staging = Mage::getModel('enterprise_staging/staging')->load($stagingId);
-
-                            $staging->setEventId($event->getId());
-
-                            $mapData = $event->getMergeMap();
-
-
+                            $mapData = $event->getMap();
                             if (!empty($mapData)) {
                                 $staging->getMapperInstance()->unserialize($mapData);
-
                                 if ($event->getIsBackuped() == true) {
+                                    $staging->setIsBackuped(1);
                                     $staging->backup();
                                 }
-
                                 $staging->merge();
                             }
                         }
                     }
                 }
             }
-        } catch (Enterprise_Staging_Exception $e) {
-            throw new Mage_Core_Exception(e);
-        }
+        } catch (Enterprise_Staging_Exception $e) {}
     }
 
     /**

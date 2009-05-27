@@ -460,15 +460,36 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             return $this;
         }
 
+        $config = Mage::getSingleton('enterprise_staging/staging_config');
+
         try {
+            $scheduleOriginDate = $event->getData('merge_schedule_date');
+
             $event->setData('merge_schedule_date', '0000-00-00 00:00:00');
-            $event->setData('status', Enterprise_Staging_Model_Staging_Config::STATUS_UPDATED);
-            $event->setData('comment', $this->__('Staging Website unschedule'));
             $event->save();
 
             $staging = $event->getStaging();
             $staging->updateAttribute('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
             $staging->updateAttribute('schedule_merge_event_id', '');
+
+            $event = Mage::getModel('enterprise_staging/staging_event');
+            $event->setStaging($staging);
+            $event->setData('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
+
+            $event->setData('comment', $this->__('Staging Website unschedule'));
+
+            $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
+            $eventStatusLabel = $config->getStatusLabel($eventStatus);
+
+            if (!empty($scheduleOriginDate)) {
+                $comment = "Unschedule scheduled merge (" . $scheduleOriginDate . ")";
+            }
+            $event->setCode(Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE)
+                ->setName($eventStatusLabel)
+                ->setStatus($eventStatus)
+                ->setIsAdminNotified(false)
+                ->setComment($comment)
+                ->save();
 
             $this->_getSession()->addSuccess($this->__('Staging was successfully unscheduled'));
         } catch (Exception $e) {

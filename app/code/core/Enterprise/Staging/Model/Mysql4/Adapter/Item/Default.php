@@ -600,7 +600,6 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         }
                         $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'website',$srcTable, $targetTable, $stagingWebsiteId, $masterWebsiteIds, $tableDestDesc['keys']);
                         if (!empty($destDeleteSql)) {
-                            //echo "ROLLBACK WEBSITE SCOPE (DELETE): $destDeleteSql<br /><br />";
                             $connection->query($destDeleteSql);
                         }
 
@@ -619,7 +618,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
 
                     $srcSelectSql = $this->_getSimpleSelect($srcTable, $fields, $_websiteFieldNameSql);
                     $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-                    //echo "ROLLBACK WEBSITE SCOPE (RESTORE): $destInsertSql<br /><br />";
+
                     $connection->query($destInsertSql);
                 }
             }
@@ -683,7 +682,6 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
 
                         $destDeleteSql = $this->_deleteDataByKeys('UNIQUE', 'store', $srcTable, $targetTable, $stagingStoreId, $masterStoreId, $tableDestDesc['keys']);
                         if (!empty($destDeleteSql)) {
-                            //echo "ROLLBACK STORE SCOPE (DELETE): $destDeleteSql<br /><br />";
                             $connection->query($destDeleteSql);
                         }
 
@@ -703,7 +701,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
 
                     $srcSelectSql = $this->_getSimpleSelect($srcTable, $_fields, "{$_storeFieldNameSql} = {$masterStoreId}");
                     $destInsertSql = sprintf($destInsertSql, $srcSelectSql);
-                    //echo "ROLLBACK STORE SCOPE (RESTORE): $destInsertSql<br /><br />";
+
                     $connection->query($destInsertSql);
                 }
             }

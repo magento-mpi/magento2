@@ -66,7 +66,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event_Collection extends Mage_Core
      */
     public function addHoldedFilter()
     {
-        $this->addFieldToFilter('main_table.status', 'holded');
+        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED);
 
         return $this;
     }

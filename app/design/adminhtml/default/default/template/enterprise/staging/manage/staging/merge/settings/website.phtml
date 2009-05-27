@@ -74,8 +74,14 @@
                     </span>
                     <span style="padding: 0px 20px 0px 20px;"><b><?php echo $this->__('or') ?></b></span>
                     <span class="hor-scroll">
+                        <span class="a-center">
+                            <button onclick="<?php echo $this->getJsObjectName() ?>.stagingMerge( {merge_later: 1} ); return false;" class="staging-mapper-add-website-btn button">
+                                <span><?php echo $this->__('Schedule Merge') ?></span>
+                            </button>
+                        </span>
                         <span>
-                            <input type="text" style="width: 120px;" class="schedule_merge_later input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/> <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/grid-cal.gif");?> "/>
+                            <img style="" title="Select Date" id="schedule_merge_later_trig" class="v-middle" alt="" src="<?php echo $this->getSkinUrl("images/grid-cal.gif");?> "/>
+                            <input type="text" style="width: 120px;" class="schedule_merge_later schedule_merge_empty input-text" title="Set Staging Merge Date" value="" id="schedule_merge_later" name="schedule_merge_later"/>
                             <script type="text/javascript">
                             //<![CDATA[
                                 Calendar.setup({
@@ -89,11 +95,7 @@
                             //]]>
                             </script>
                         </span>
-                        <span class="a-center">
-                            <button onclick="<?php echo $this->getJsObjectName() ?>.stagingMerge( {merge_later: 1} ); return false;" class="staging-mapper-add-website-btn button">
-                                <span><?php echo $this->__('Schedule Merge') ?></span>
-                            </button>
-                        </span>
+
                     </span>
             </div>
         </td>
@@ -191,38 +193,41 @@ stagingGrid.rows.each(function(row){<?php echo $this->getRowInitCallback() ?>(st
 <?php endif; ?>
 
 Validation.addAllThese([
-    ['schedule_merge_later_flag', '<?php echo Mage::helper('catalog')->__('Please set up merge date/time .') ?>', function(v) {
-                if ($('schedule_merge_later_flag').value == 1) {
-
-                    var dateV = $('schedule_merge_later').value;
-
-                    if (!dateV) {
-                        return false;
-                    }
-
-                    var mergeDate   = new Date(dateV);
-
-                    var currentTime  = new Date();
-
-                    if (v == '' || ((currentTime.getTime()+3600) >= mergeDate.getTime())) {
-                        return false;
-                    }
-                }
+    ['schedule_merge_later', '<?php echo Mage::helper('catalog')->__('Please set up merge date/time later then present date') ?>', function(v) {
+        if ($('schedule_merge_later_flag').value == 1) {
+            var dateV = $('schedule_merge_later').value;
+            if (!dateV) {
                 return true;
-            }],
-
+            }
+            var mergeDate   = new Date(dateV);
+            var currentTime = new Date();
+            if (v == '' || ((currentTime.getTime()+3600) >= mergeDate.getTime())) {
+                return false;
+            }
+        }
+        return true;
+    }],
+    ['schedule_merge_empty', '<?php echo Mage::helper('catalog')->__('Please set up merge date/time') ?>', function(v) {
+        if ($('schedule_merge_later_flag').value == 1) {
+            var dateV = $('schedule_merge_later').value;
+            if (!dateV) {
+                return false;
+            }
+        }
+        return true;
+    }],
     ['validate-select-website', 'Please select website', function(v, elem) {
-                if (elem.parentNode.parentNode.style.display != 'none') {
+        if (elem.parentNode.parentNode.style.display != 'none') {
 
-                }
-                return true;
-            }],
+        }
+        return true;
+    }],
     ['validate-select-store', 'Please select store view', function(v, elem) {
-                if (elem.parentNode.parentNode.style.display != 'none') {
-                    return ((v != "none") && (v != null) && (v.length != 0));
-                }
-                return true;
-            }]]);
+        if (elem.parentNode.parentNode.style.display != 'none') {
+            return ((v != "none") && (v != null) && (v.length != 0));
+        }
+        return true;
+    }]]);
 
 
 //]]>

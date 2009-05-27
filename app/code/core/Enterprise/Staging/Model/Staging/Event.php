@@ -168,7 +168,11 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
                 }
                 $this->setMergeMap($staging->getMapperInstance()->serialize());
                 if ($onState == 'after') {
-                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_MERGED;
+                    if ($staging->getIsMergeLater() == true) {
+                        $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
+                    } else {
+                        $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_MERGED;
+                    }
                 }
                 break;
             case 'rollback':
@@ -189,7 +193,7 @@ class Enterprise_Staging_Model_Staging_Event extends Mage_Core_Model_Abstract
 
         $comment = $eventStatusLabel;
         if (!empty($scheduleOriginDate)) {
-            $comment .= " scheduled to: " . $scheduleOriginDate;
+            $comment .= " (scheduled to: " . $scheduleOriginDate . ")";
         }
 
         $exceptionMessage = '';

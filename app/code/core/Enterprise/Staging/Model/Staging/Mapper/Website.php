@@ -212,9 +212,7 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         }
 
         $stagingItems = !empty($mapData['staging_items']) ? $mapData['staging_items'] : array();
-        if (!empty($stagingItems)) {
-            $this->addStagingItemsMap($stagingItems);
-        }
+        $this->addStagingItemsMap($stagingItems);
 
         return $this;
     }
