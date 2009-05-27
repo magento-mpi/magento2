@@ -53,14 +53,14 @@ class Enterprise_Staging_Model_Observer
             $modelEntity = $observer->getEvent()->getModelEntity();
             $website     = Mage::app()->getWebsite();
             if ($website->getIsStaging()) {
-                $_tableName = Mage::getSingleton('enterprise_staging/staging_config')->getStagingFrontendTableName($tableName, $modelEntity, $website);
+                $_tableName = Mage::getSingleton('enterprise_staging/staging_config')
+                    ->getStagingFrontendTableName($tableName, $modelEntity, $website);
                 if ($_tableName) {
                     $resource->setMappedTableName($tableName, $_tableName);
                 }
             }
         } catch (Enterprise_Staging_Exception $e) {
-            Mage::logException($e);
-            throw new Mage_Core_Exception(Mage::helper('enterprise_staging')->__('Can not run staging website'));
+            Mage::throwException(Mage::helper('enterprise_staging')->__('Can not run staging website'));
         }
     }
 

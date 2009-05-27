@@ -81,8 +81,8 @@
         </helpers>
         <enterprise>
             <staging>
-                <global_staging_table_prefix>s</global_staging_table_prefix>
-                <global_staging_backup_table_prefix>b</global_staging_backup_table_prefix>
+                <global_staging_table_prefix>s_</global_staging_table_prefix>
+                <global_staging_backup_table_prefix>b_</global_staging_backup_table_prefix>
                 <staging_items>
                     <config_data translate="label">
                         <module>Mage_Core</module>

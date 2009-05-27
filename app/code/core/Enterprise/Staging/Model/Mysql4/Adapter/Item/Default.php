@@ -125,7 +125,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     protected function _checkBackendTables($entityName)
     {
         $stagingTablePrefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix();
-        $targetTable        = $this->getStagingTableName($entityName, $stagingTablePrefix);
+        $targetTable        = $stagingTablePrefix . $this->getTable($entityName);
 
         if (!$this->tableExists($targetTable)) {
             $this->createTable($targetTable, $entityName);
