@@ -162,7 +162,6 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
      */
     protected function _addSearchCriteria($attribute, $value)
     {
-        mageDebugBacktrace();
         $name = $attribute->getFrontend()->getLabel();
 
         if (is_array($value) && (isset($value['from']) || isset($value['to']))){
