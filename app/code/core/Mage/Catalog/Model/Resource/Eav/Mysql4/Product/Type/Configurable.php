@@ -77,8 +77,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable extends M
     {
         $childrenIds = array();
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable(), array('product_id', 'parent_id'))
+            ->from(array('l' => $this->getMainTable()), array('product_id', 'parent_id'))
+            ->join(
+                array('e' => $this->getTable('catalog/product')),
+                'e.entity_id=l.product_id AND e.required_options=0',
+                array()
+            )
             ->where('parent_id=?', $parentId);
+
         foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
             $childrenIds[0][$row['product_id']] = $row['product_id'];
         }
