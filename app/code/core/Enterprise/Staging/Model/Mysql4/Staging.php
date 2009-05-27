@@ -110,13 +110,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     {
         $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), array('staging_website_id'))
             ->where("status = ?", Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
-
-        $result = $this->_getReadAdapter()->fetchOne($select);
-        if (is_array($result) && count($result) > 0) {
-            return $result;
-        } else {
-            return array();
-        }
+        return $this->_getReadAdapter()->fetchAll($select);
     }
 
     /**
