@@ -169,6 +169,8 @@ class Enterprise_Staging_Model_Observer
                                     $staging->backup();
                                 }
                                 $staging->merge();
+                                $staging->updateAttribute('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
+                                $staging->updateAttribute('schedule_merge_event_id', '');
                             }
                         }
                     }

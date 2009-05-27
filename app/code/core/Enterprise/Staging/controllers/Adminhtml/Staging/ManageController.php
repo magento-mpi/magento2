@@ -413,7 +413,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                     $date = Mage::getModel('core/date')->gmtDate(null, $schedulingDate);
                     $staging->setMergeSchedulingDate($date);
 
-                    $originDate = Mage::app()->getHelper('core')->formatDate($date, 'medium', true);
+                    $originDate = Mage::helper('core')->formatDate($date, 'medium', true);
                     $staging->setMergeSchedulingOriginDate($originDate);
                 } else {
                     if (!empty($mapData['backup'])) {
