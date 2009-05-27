@@ -129,6 +129,17 @@
             </modules>
         </translate>
     </adminhtml>
+    <install>
+        <translate>
+            <modules>
+                <Mage_Core>
+                    <files>
+                        <default>Mage_Core.csv</default>
+                    </files>
+                </Mage_Core>
+            </modules>
+        </translate>
+    </install>
 
     <default>
         <design>
