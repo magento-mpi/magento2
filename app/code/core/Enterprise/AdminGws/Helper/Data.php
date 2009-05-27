@@ -355,4 +355,21 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
             }
         }
     }
+
+    /**
+     * Transform comma-separeated ids string into array
+     *
+     * @param mixed $ids
+     * @return mixed
+     */
+    public function explodeIds($ids, $separator = ',')
+    {
+        if (empty($ids) && $ids !== 0 && $ids !== '0') {
+            return array();
+        }
+        if (!is_array($ids) && false !== strpos($ids, $separator)) {
+            return explode($separator, $ids);
+        }
+        return $ids;
+    }
 }

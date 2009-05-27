@@ -196,32 +196,39 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validatePromoCatalog($controller)
     {
-        if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'))) {
-            return;
-        }
-        if ($id = $controller->getRequest()->getParam('id')) {
-            $rule = Mage::getModel('catalogrule/rule')->load($id);
-            if (!$rule->getId() || !$this->_helper->hasWebsiteAccess($rule->getWebsiteIds())) {
-                return $this->_forward();
-            }
-        }
+        return $this->validatePromoQuote($controller, Mage::getModel('catalogrule/rule'));
     }
 
     /**
      * Disallow saving quote rules in disallowed scopes
      *
      * @param Mage_Adminhtml_Controller_Action $controller
+     * @param Mage_Core_Model_Abstract $model
      */
-    public function validatePromoQuote($controller)
+    public function validatePromoQuote($controller, $model = null)
     {
-        if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'))) {
+        if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'applyRules'), 'save', 'rule_id')) {
             return;
         }
-        if ($id = $controller->getRequest()->getParam('id')) {
-            $rule = Mage::getModel('salesrule/rule')->load($id);
-            if (!$rule->getId() || !$this->_helper->hasWebsiteAccess($rule->getOrigData('website_ids'))) {
-                return $this->_forward();
-            }
+        $request = $controller->getRequest();
+        if (null === $model) {
+            $model = Mage::getModel('salesrule/rule');
+        }
+        switch ($request->getActionName()) {
+            case 'edit': // also forwards from 'new'
+                $id = $request->getParam('id');
+                // break intentionally omitted
+            case 'save':
+                $id = $request->getParam('rule_id');
+                $model->load($id);
+                if (!$model->getId()) {
+                    return;
+                }
+                if (!$this->_helper->hasWebsiteAccess($this->_helper->explodeIds(
+                    $model->getOrigData('website_ids')))) {
+                    return $this->_forward();
+                }
+                break;
         }
     }
 

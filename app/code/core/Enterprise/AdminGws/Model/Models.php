@@ -102,17 +102,8 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function ruleSaveBefore($model)
     {
-        $originalWebsiteIds = $model->getOrigData('website_ids');
-        if (empty($originalWebsiteIds)) {
-            $originalWebsiteIds = array();
-        }
-        $websiteIds = $model->getData('website_ids');
-        if (empty($websiteIds)) {
-            $websiteIds = array();
-        }
-        elseif (!is_array($websiteIds)) {
-            $websiteIds = explode(',', $websiteIds);
-        }
+        $originalWebsiteIds = $this->_helper->explodeIds($model->getOrigData('website_ids'));
+        $websiteIds         = $this->_helper->explodeIds($model->getData('website_ids'));
 
         if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
             $this->_throwSave();
@@ -225,7 +216,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogProductSaveBefore($model)
     {
-        $websiteIds = $model->getWebsiteIds();
+        $websiteIds     = $this->_helper->explodeIds($model->getWebsiteIds());
         $origWebsiteIds = $model->getResource()->getWebsiteIds($model);
 
         $model->setWebsiteIds($this->_forceAssignToWebsite(
