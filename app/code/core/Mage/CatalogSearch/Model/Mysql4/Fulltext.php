@@ -245,7 +245,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $where[] = $this->_getWriteAdapter()->quoteInto('product_id IN(?)', $productId);
         }
 
-        $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+        $this->_getWriteAdapter()->delete($this->getMainTable(), join(' AND ', $where));
         return $this;
     }
 
@@ -279,7 +279,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                 $words = $stringHelper->splitWords($queryText, true, $query->getMaxQueryWords());
                 $likeI = 0;
                 foreach ($words as $word) {
-                    $like[] = '`data_index` LIKE :likew' . $likeI;
+                    $like[] = '`s`.`data_index` LIKE :likew' . $likeI;
                     $bind[':likew' . $likeI] = '%' . $word . '%';
                     $likeI ++;
                 }
@@ -289,15 +289,16 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             }
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_FULLTEXT
                 || $searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE) {
-                $fulltextCond = 'MATCH (`data_index`) AGAINST (:query IN BOOLEAN MODE)';
+                $fulltextCond = 'MATCH (`s`.`data_index`) AGAINST (:query IN BOOLEAN MODE)';
             }
             if ($searchType == Mage_CatalogSearch_Model_Fulltext::SEARCH_TYPE_COMBINE && $likeCond) {
                 $separateCond = ' OR ';
             }
 
             $sql = sprintf("REPLACE INTO `{$this->getTable('catalogsearch/result')}` "
-                . "(SELECT '%d', `product_id`, MATCH (`data_index`) AGAINST (:query IN BOOLEAN MODE) "
-                . "FROM `{$this->getMainTable()}` WHERE (%s%s%s) AND `store_id`='%d')",
+                . "(SELECT '%d', `s`.`product_id`, MATCH (`s`.`data_index`) AGAINST (:query IN BOOLEAN MODE) "
+                . "FROM `{$this->getMainTable()}` AS `s` INNER JOIN `{$this->getTable('catalog/product')}` AS `e`"
+                . "ON `e`.`entity_id`=`s`.`product_id` WHERE (%s%s%s) AND `s`.`store_id`='%d')",
                 $query->getId(),
                 $fulltextCond,
                 $separateCond,
