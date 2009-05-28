@@ -428,8 +428,18 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                             $notified = true
                         );
                     }
+
+                    $ipnCustomerNotified = true;
+                    if (!$order->getPaypalIpnCustomerNotified()) {
+                        $ipnCustomerNotified = false;
+                        $order->setPaypalIpnCustomerNotified(1);
+                    }
+
                     $order->save();
-                    $order->sendNewOrderEmail();
+
+                    if (!$ipnCustomerNotified) {
+                        $order->sendNewOrderEmail();
+                    }
 
                 }//else amount the same and there is order obj
                 //there are status added to order
