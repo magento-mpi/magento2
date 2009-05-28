@@ -354,30 +354,56 @@ abstract class Mage_Core_Controller_Varien_Action
 
     public function dispatch($action)
     {
-        $actionMethodName = $this->getActionMethodName($action);
+        try {
+            $actionMethodName = $this->getActionMethodName($action);
 
-        if (!is_callable(array($this, $actionMethodName))) {
-            $actionMethodName = 'norouteAction';
+            if (!is_callable(array($this, $actionMethodName))) {
+                $actionMethodName = 'norouteAction';
+            }
+
+            Varien_Profiler::start(self::PROFILER_KEY.'::predispatch');
+            $this->preDispatch();
+            Varien_Profiler::stop(self::PROFILER_KEY.'::predispatch');
+
+            if ($this->getRequest()->isDispatched()) {
+                /**
+                 * preDispatch() didn't change the action, so we can continue
+                 */
+                if (!$this->getFlag('', self::FLAG_NO_DISPATCH)) {
+                    $_profilerKey = self::PROFILER_KEY.'::'.$this->getFullActionName();
+
+                    Varien_Profiler::start($_profilerKey);
+                    $this->$actionMethodName();
+                    Varien_Profiler::stop($_profilerKey);
+
+                    Varien_Profiler::start(self::PROFILER_KEY.'::postdispatch');
+                    $this->postDispatch();
+                    Varien_Profiler::stop(self::PROFILER_KEY.'::postdispatch');
+                }
+            }
         }
-
-        Varien_Profiler::start(self::PROFILER_KEY.'::predispatch');
-        $this->preDispatch();
-        Varien_Profiler::stop(self::PROFILER_KEY.'::predispatch');
-
-        if ($this->getRequest()->isDispatched()) {
-            /**
-             * preDispatch() didn't change the action, so we can continue
-             */
-            if (!$this->getFlag('', self::FLAG_NO_DISPATCH)) {
-                $_profilerKey = self::PROFILER_KEY.'::'.$this->getFullActionName();
-
-                Varien_Profiler::start($_profilerKey);
-                $this->$actionMethodName();
-                Varien_Profiler::stop($_profilerKey);
-
-                Varien_Profiler::start(self::PROFILER_KEY.'::postdispatch');
-                $this->postDispatch();
-                Varien_Profiler::stop(self::PROFILER_KEY.'::postdispatch');
+        catch (Mage_Core_Controller_Varien_Exception $e) {
+            // set prepared flags
+            foreach ($e->getResultFlags() as $flagData) {
+                list($action, $flag, $value) = $flagData;
+                $this->setFlag($action, $flag, $value);
+            }
+            // call forward, redirect or an action
+            list($method, $parameters) = $e->getResultCallback();
+            switch ($method) {
+                case Mage_Core_Controller_Varien_Exception::RESULT_REDIRECT:
+                    list($path, $arguments) = $parameters;
+                    $this->_redirect($path, $arguments);
+                    break;
+                case Mage_Core_Controller_Varien_Exception::RESULT_FORWARD:
+                    list($action, $controller, $module, $params) = $parameters;
+                    $this->_forward($action, $controller, $module, $params);
+                    break;
+                default:
+                    $actionMethodName = $this->getActionMethodName($method);
+                    $this->getRequest()->setActionName($method);
+                    $this->$actionMethodName($method);
+                    break;
             }
         }
     }
