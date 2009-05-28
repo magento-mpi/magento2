@@ -287,8 +287,8 @@ class Mage_GoogleBase_Model_Service_Item extends Mage_GoogleBase_Model_Service
 
         $targetCountry = $this->getConfig()->getTargetCountry($this->getStoreId());
 
-        if ($object->getImageUrl()) {
-            $this->_setAttribute('image_link', $object->getImageUrl(), 'url');
+        if ($object->getData('image_url')) {
+            $this->_setAttribute('image_link', $object->getData('image_url'), 'url');
         }
 
         $this->_setAttribute('target_country', $targetCountry, 'text');
