@@ -61,13 +61,6 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
 
         $websiteMap = new Varien_Object($websiteMap);
 
-        $password = trim($websiteMap->getMasterPassword());
-        if ($password) {
-             if (Mage::helper('core/string')->strlen($password)<6) {
-                throw new Mage_Core_Exception(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
-            }
-        }
-
         $_storesMap = array();
         foreach ($stores as $masterStoreId => $storeMap) {
             if (isset($storeMap['use'])) {

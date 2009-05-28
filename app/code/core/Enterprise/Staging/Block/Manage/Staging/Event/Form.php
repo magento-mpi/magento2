@@ -35,7 +35,6 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
     {
         parent::__construct();
         $this->setFieldNameSuffix('event');
-        $this->helper = Mage::helper('enterprise_staging');
     }
 
     /**
@@ -47,58 +46,55 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
     {
         $form = new Varien_Data_Form();
 
-        $outputFormat = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-
         $fieldset = $form->addFieldset('event_fieldset',
             array('legend' => Mage::helper('enterprise_staging')->__('Staging Event Information')));
 
         $fieldset->addField('name', 'label', array(
-            'label'     => $this->helper->__('Staging Name'),
-            'title'     => $this->helper->__('Staging Name'),
+            'label'     => Mage::helper('enterprise_staging')->__('Staging Name'),
+            'title'     => Mage::helper('enterprise_staging')->__('Staging Name'),
             'name'      => 'name',
             'value'     => $this->getStagingName()
         ));
 
         $fieldset->addField('username', 'label', array(
-            'label'     => $this->helper->__('Username'),
-            'title'     => $this->helper->__('Username'),
+            'label'     => Mage::helper('enterprise_staging')->__('Username'),
+            'title'     => Mage::helper('enterprise_staging')->__('Username'),
             'name'      => 'username',
-            'value'     => Mage::getModel('admin/user')->load($this->getEvent()->getUserId())
-                ->getUsername()
+            'value'     => Mage::getModel('admin/user')->load($this->getEvent()->getUserId())->getUsername()
         ));
 
         $fieldset->addField('code', 'label', array(
-            'label'     => $this->helper->__('Event Code'),
-            'title'     => $this->helper->__('Event Code'),
+            'label'     => Mage::helper('enterprise_staging')->__('Event Code'),
+            'title'     => Mage::helper('enterprise_staging')->__('Event Code'),
             'name'      => 'code',
             'value'     => $this->getEvent()->getCode()
         ));
 
         $fieldset->addField('status', 'label', array(
-            'label'     => $this->helper->__('Event Status'),
-            'title'     => $this->helper->__('Event Status'),
+            'label'     => Mage::helper('enterprise_staging')->__('Event Status'),
+            'title'     => Mage::helper('enterprise_staging')->__('Event Status'),
             'name'      => 'status',
             'value'     => $this->getEvent()->getStatusLabel()
         ));
 
         $fieldset->addField('created_at', 'label', array(
-            'label'     => $this->helper->__('Created At'),
-            'title'     => $this->helper->__('Created At'),
+            'label'     => Mage::helper('enterprise_staging')->__('Created At'),
+            'title'     => Mage::helper('enterprise_staging')->__('Created At'),
             'name'      => 'created_at',
             'value'     => $this->formatDate($this->getEvent()->getCreatedAt(), 'medium' , true)
         ));
 
         $fieldset->addField('updated_at', 'label', array(
-            'label'     => $this->helper->__('Updated At'),
-            'title'     => $this->helper->__('Updated At'),
+            'label'     => Mage::helper('enterprise_staging')->__('Updated At'),
+            'title'     => Mage::helper('enterprise_staging')->__('Updated At'),
             'name'      => 'updated_at',
             'value'     => $this->formatDate($this->getEvent()->getUpdatedAt(), 'medium', true)
         ));
 
 
         $fieldset->addField('comment', 'label', array(
-            'label'     => $this->helper->__('Comments'),
-            'title'     => $this->helper->__('Comments'),
+            'label'     => Mage::helper('enterprise_staging')->__('Comments'),
+            'title'     => Mage::helper('enterprise_staging')->__('Comments'),
             'name'      => 'comment',
             'value'     => $this->getEvent()->getComment(),
             'readonly'  => true
@@ -106,8 +102,8 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
 
         if ($this->getEvent()->getMergeScheduleDate() !== '0000-00-00 00:00:00') {
             $fieldset->addField('merge_schedule_date', 'label', array(
-                'label'     => $this->helper->__('Schedule Date'),
-                'title'     => $this->helper->__('Schedule Date'),
+                'label'     => Mage::helper('enterprise_staging')->__('Schedule Date'),
+                'title'     => Mage::helper('enterprise_staging')->__('Schedule Date'),
                 'name'      => 'merge_schedule_date',
                 'value'     => $this->formatDate($this->getEvent()->getMergeScheduleDate(), 'medium', true)
             ));
@@ -131,7 +127,7 @@ class Enterprise_Staging_Block_Manage_Staging_Event_Form extends Mage_Adminhtml_
         if ($staging) {
             return $staging->getName();
         } else {
-            return $this->helper->__('Staging not longer exists');
+            return Mage::helper('enterprise_staging')->__('Staging not longer exists');
         }
     }
 

@@ -292,8 +292,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
         try {
             $this->_getWriteAdapter()->query($sql);
         } catch (Exception $e) {
-            throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')
-                ->__('Exception while SQL query: %s. Query: %s', $e->getMessage(), $sql));
+            throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Exception while SQL query: %s. Query: %s', $e->getMessage(), $sql));
         }
         return $this;
     }
@@ -488,8 +487,7 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
 
         if (!$this->tableExists($table)) {
             if ($strongRestrict) {
-                throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')
-                    ->__('Staging Table %s doesn\'t exists', $table));
+                throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Staging Table %s doesn\'t exists', $table));
             }
             return false;
         }

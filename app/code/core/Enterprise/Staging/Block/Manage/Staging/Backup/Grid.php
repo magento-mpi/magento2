@@ -96,7 +96,7 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Grid extends Mage_Adminhtml
             'header'    => Mage::helper('enterprise_staging')->__('Action'),
             'type'      => 'action',
             'getter'     => 'getId',
-            'width'     => '80px',
+            'width'     => 80,
             'filter'    => false,
             'sortable'  => false,
             'index'     => 'type',

@@ -58,7 +58,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Website extends Enterprise_Staging
             $password = trim($website->getMasterPassword());
             if ($password) {
                  if(Mage::helper('core/string')->strlen($password)<6){
-                    throw new Mage_Core_Exception(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                    throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
                 }
                 $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
             }
@@ -126,7 +126,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Website extends Enterprise_Staging
             $password = trim($website->getMasterPassword());
             if ($password) {
                  if(Mage::helper('core/string')->strlen($password)<6){
-                    Mage::throwException(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
+                    throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Password must have at least 6 characters. Leading or trailing spaces will be ignored.'));
                 }
                 $stagingWebsite->setData('master_password' , Mage::helper('core')->encrypt($password));
             }

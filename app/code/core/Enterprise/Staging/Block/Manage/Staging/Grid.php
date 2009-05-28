@@ -96,7 +96,7 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('base_url', array(
-            'width'     => '250px',
+            'width'     => 250,
             'header'    => 'Url',
             'index'     => 'base_url',
             'title'     => 'base_url',
@@ -108,7 +108,7 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('lastEvent', array(
-            'width'     => '250px',
+            'width'     => 250,
             'header'    => 'Latest Event',
             'index'     => 'lastEvent',
             'type'      => 'text',
@@ -117,14 +117,14 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('created_at', array(
-            'width'     => '100px',
+            'width'     => 100,
             'header'    => 'Created At',
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('updated_at', array(
-            'width'     => '100px',
+            'width'     => 100,
             'header'    => 'Updated At',
             'index'     => 'updated_at',
             'type'      => 'datetime',
@@ -134,7 +134,7 @@ class Enterprise_Staging_Block_Manage_Staging_Grid extends Mage_Adminhtml_Block_
             'header'    => Mage::helper('enterprise_staging')->__('Action'),
             'type'      => 'action',
             'getter'    => 'getId',
-            'width'     => '80px',
+            'width'     => 80,
             'filter'    => false,
             'sortable'  => false,
             'index'     => 'type',

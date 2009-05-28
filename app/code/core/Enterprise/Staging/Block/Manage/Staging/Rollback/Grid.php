@@ -149,7 +149,7 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Grid extends Mage_Adminht
             'index'     => 'itemCheckbox',
             'type'      => 'text',
             'truncate'  => 1000,
-            'width'     => '20px'
+            'width'     => 20
         ));
 
         $this->addColumn('name', array(

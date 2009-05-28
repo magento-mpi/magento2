@@ -53,8 +53,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Schedule extends Mage_Ad
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('general_fieldset',
-            array('legend' => Mage::helper('enterprise_staging')
-                ->__('Staging Merge Schedule Configuration')));
+            array('legend' => Mage::helper('enterprise_staging')->__('Staging Merge Schedule Configuration')));
 
         $element = $fieldset->addField('schedule_merge_later', 'date', array(
             'label'     => Mage::helper('enterprise_staging')->__('Set Staging Merge Date'),

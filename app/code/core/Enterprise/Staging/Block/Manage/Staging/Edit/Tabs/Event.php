@@ -56,8 +56,6 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
             array(
                 'long2ip' => 'enterprise_staging/widget_grid_column_renderer_ip'
         ));
-
-        $this->helper = Mage::helper('enterprise_staging');
     }
 
     /**
@@ -90,14 +88,14 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
     protected function _prepareColumns()
     {
         $this->addColumn('created_at', array(
-            'header'    => $this->helper->__('Event Date'),
+            'header'    => Mage::helper('enterprise_staging')->__('Event Date'),
             'index'     => 'created_at',
             'type'      => 'datetime',
-            'width'     => '150px'
+            'width'     => 150
         ));
 
         $this->addColumn('ip', array(
-            'header'    => $this->helper->__('IP'),
+            'header'    => Mage::helper('enterprise_staging')->__('IP'),
             'index'     => 'ip',
             'type'      => 'long2ip',
             'filter'    => 'enterprise_staging/widget_grid_column_filter_ip',
@@ -105,7 +103,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
         ));
 
         $this->addColumn('loginname', array(
-            'header'    => $this->helper->__('Username'),
+            'header'    => Mage::helper('enterprise_staging')->__('Username'),
             'index'     => 'loginname',
             'type'      => 'text',
             'sortable'  => false,
@@ -113,7 +111,7 @@ class Enterprise_Staging_Block_Manage_Staging_Edit_Tabs_Event extends Mage_Admin
         ));
 
         $this->addColumn('comment', array(
-            'header'    => $this->helper->__('Comment'),
+            'header'    => Mage::helper('enterprise_staging')->__('Comment'),
             'align'     => 'left',
             'index'     => 'comment',
             'type'      => 'text',

@@ -42,8 +42,6 @@ class Enterprise_Staging_Block_Manage_Staging_Rollback_Settings_Store extends Ma
     public function __construct()
     {
         parent::__construct();
-
-        $this->helper = Mage::helper('enterprise_staging');
     }
 
     /**

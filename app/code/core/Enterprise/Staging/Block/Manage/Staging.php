@@ -45,8 +45,8 @@ class Enterprise_Staging_Block_Manage_Staging extends Mage_Adminhtml_Block_Templ
         $this->setChild('add_new_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
-                    'label'     => Mage::helper('enterprise_staging')->__('Add Staging Website'),
-                    'onclick'   => "setLocation('".$this->getUrl('*/*/edit')."')",
+                    'label'   => Mage::helper('enterprise_staging')->__('Add Staging Website'),
+                    'onclick' => "setLocation('".$this->getUrl('*/*/edit')."')",
                     'class'   => 'add'
                     ))
                 );

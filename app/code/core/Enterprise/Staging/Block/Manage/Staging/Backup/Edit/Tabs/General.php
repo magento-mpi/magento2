@@ -45,7 +45,6 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
     {
         parent::__construct();
         $this->setFieldNameSuffix('staging_backup');
-        $this->helper = Mage::helper('enterprise_staging');
     }
 
     /**
@@ -58,29 +57,29 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('staging_backup_general_fieldset',
-            array('legend'=>Mage::helper('enterprise_staging')->__('Backup Main Information')));
+            array('legend' => Mage::helper('enterprise_staging')->__('Backup Main Information')));
 
         $fieldset->addField('name', 'label', array(
-            'label'     => $this->helper->__('Name'),
-            'title'     => $this->helper->__('Name'),
+            'label'     => Mage::helper('enterprise_staging')->__('Name'),
+            'title'     => Mage::helper('enterprise_staging')->__('Name'),
             'value'     => $this->getBackupName()
         ));
 
         $fieldset->addField('master_website', 'label', array(
-            'label'     => $this->helper->__('Master Website'),
-            'title'     => $this->helper->__('Master Website'),
+            'label'     => Mage::helper('enterprise_staging')->__('Master Website'),
+            'title'     => Mage::helper('enterprise_staging')->__('Master Website'),
             'value'     => $this->getMasterWebsiteName()
         ));
 
         $fieldset->addField('backupCreateAt', 'label', array(
-            'label'     => $this->helper->__('Created Date'),
-            'title'     => $this->helper->__('Created Date'),
+            'label'     => Mage::helper('enterprise_staging')->__('Created Date'),
+            'title'     => Mage::helper('enterprise_staging')->__('Created Date'),
             'value'     => $this->formatDate($this->getBackup()->getCreatedAt(), 'medium', true)
         ));
 
         $fieldset->addField('tablePrefix', 'label', array(
-            'label'     => $this->helper->__('Table Prefix'),
-            'title'     => $this->helper->__('Table Prefix'),
+            'label'     => Mage::helper('enterprise_staging')->__('Table Prefix'),
+            'title'     => Mage::helper('enterprise_staging')->__('Table Prefix'),
             'value'     => $this->getBackup()->getStagingTablePrefix()
         ));
 
@@ -105,10 +104,10 @@ class Enterprise_Staging_Block_Manage_Staging_Backup_Edit_Tabs_General extends M
             if ($masterWebsite) {
                 return $masterWebsite->getName();
             } else {
-                return $this->helper->__('No information');
+                return Mage::helper('enterprise_staging')->__('No information');
             }
         } else {
-            return $this->helper->__('No information');
+            return Mage::helper('enterprise_staging')->__('No information');
         }
     }
 
