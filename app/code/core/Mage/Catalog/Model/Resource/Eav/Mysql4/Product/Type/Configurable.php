@@ -85,6 +85,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable extends M
             )
             ->where('parent_id=?', $parentId);
 
+        $childrenIds = array(0 => array());
         foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
             $childrenIds[0][$row['product_id']] = $row['product_id'];
         }
