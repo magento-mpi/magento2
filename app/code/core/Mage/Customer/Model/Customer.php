@@ -606,7 +606,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         if (is_null($ids)) {
             $ids = array();
             if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
-                $ids = $this->getStore()->getWebsite()->getStoresIds();
+                $ids = $this->getStore()->getWebsite()->getStoreIds();
             }
             else {
                 foreach (Mage::app()->getStores() as $store) {
