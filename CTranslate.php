@@ -29,6 +29,7 @@ class Translate {
     static private $csv; # object of Varien_File_Csv_multy
     static private $parseData; # parsering data file "__()";
     static private $CONFIG; # data from config.inc.php
+    static private $allParseData=array(); 
     /**
      *Starting checking process
      *
@@ -152,7 +153,7 @@ class Translate {
      * @param   int $level - level of recursion
      * @return  none
      */
-    static protected function _callGenerate($file,  $path, $dir_en, $level=0)
+    static protected function _callGenerate($file,  $path, $dir_en, $level=0, $doSave=true)
     {
         static $files_name_changed = array();
         
@@ -171,17 +172,18 @@ class Translate {
                             $dirColl->useFilter(true);
                             $files = $dirColl->filesPaths();
                             for($a=0;$a<count($files);$a++){
-                                self::_parseFile($files[$a],self::$parseData);
+                                self::_parseFile($files[$a],self::$parseData,$file);
                             }
                         } else {
                             if(is_file($path_to_item)){
-                                self::_parseFile($path_to_item,self::$parseData);
+                                self::_parseFile($path_to_item,self::$parseData,$file);
                             } else {
                                 self::_error("Could not found specific module for file ".$file." in ".self::$CONFIG['paths']['mage']);
                             }
                         }
                     }
-                    
+
+                    /*
                     $dup = self::checkDuplicates(self::$parseData);
                     if(!file_exists($dir_en.$file.'.'.EXTENSION)){
                         fclose(fopen($dir_en.$file.'.'.EXTENSION, 'w'));
@@ -213,23 +215,87 @@ class Translate {
                         else 
                             array_push($csv_data,array($val,$val))	;
                     }
-                    
                     self::$csv -> saveData($dir_en.$file.'.'.EXTENSION,$csv_data);
                     array_push($files_name_changed,$file);
+                     */
+                    self::$allParseData = array_merge(self::$allParseData, self::$parseData);
+                    if ($doSave) self::_saveInBatchMode($dir_en);
                 } else {
                     print "Skip ".$file." (not found configuration for this module in config.inc.php\n";
                 }
             } else {
                 for($a=0;$a<count($file);$a++){
-                    self::_callGenerate($file[$a],$path,$dir_en,$level+1);					
+                    self::_callGenerate($file[$a],$path,$dir_en,$level+1,false);					
                 }
+                self::_saveInBatchMode($dir_en);
             }
         } else {
             foreach (self::$CONFIG['translates'] as $key=>$val){
-                self::_callGenerate($key,$path,$dir_en,$level+1);	
+                self::_callGenerate($key,$path,$dir_en,$level+1,false);
             }
+            self::_saveInBatchMode($dir_en);
         }
+        /*
         if(isset($files_name_changed) && $level==0){
+            print "Created files:\n";
+            foreach ($files_name_changed as $val){
+                print "\t".$val.".".EXTENSION."\n";
+            }
+            print "Created diffs:\n";
+            foreach ($files_name_changed as $val){
+                print "\t".$val.".changes.".EXTENSION."\n";
+            }
+
+        }
+         */
+    }
+    static protected function _saveInBatchMode($dir_en) 
+    {
+        static $files_name_changed = array();
+        $allUniqueArray = array();
+        $allModules = array();
+        foreach (self::$allParseData as $val){
+            if (!isset($allUniqueArray[$val['mod_name']])) $allUniqueArray[$val['mod_name']] = array();
+            array_push($allUniqueArray[$val['mod_name']],$val['value']);
+            if (!isset($parseDataByModule[$val['mod_name']])) $parseDataByModule[$val['mod_name']] = array();
+            array_push($parseDataByModule[$val['mod_name']],$val);
+            $allModules[$val['mod_name']] = true;
+        }
+        foreach( array_keys($allModules) as $__module ) {
+            $allUniqueArray[$__module] = array_unique($allUniqueArray[$__module]);
+            natcasesort($allUniqueArray[$__module]);
+            $parseData = $parseDataByModule[$__module];
+            $dup = self::checkDuplicates($parseData);
+            if(!file_exists($dir_en.$__module.'.'.EXTENSION)){
+                fclose(fopen($dir_en.$__module.'.'.EXTENSION, 'w'));
+            }
+            try{
+                $data_en = self::$csv -> getDataPairs($dir_en.$__module.'.'.EXTENSION);
+            } catch (Exception $e){
+                self::_error($e->getMessage());
+            }
+            $parse_data_arr = array();
+            foreach ($parseData as $key => $val){
+                $parse_data_arr[$val['value']]=array('line'=>$val['line'].' - '.$val['file']);
+            }
+            // swap missing <-> redundant when comparing generated files
+            $res = self::checkArray($data_en,$parse_data_arr,'redundant','missing');
+            $res['duplicate'] = $dup;
+            self::_output($__module,$res,$dir_en.$__module);
+        }
+        foreach ( $allUniqueArray as $file2save => $unique_array ) {
+            $csv_data = array();
+            foreach ($unique_array as $val){
+                if(isset($data_en[$val]['value'])){
+                    array_push($csv_data,array($val,$data_en[$val]['value']));
+                }
+                else 
+                    array_push($csv_data,array($val,$val))	;
+            }
+            array_push($files_name_changed,$file2save);
+            self::$csv -> saveData($dir_en.$file2save.'.'.EXTENSION,$csv_data);
+        }
+        if(isset($files_name_changed)){
             print "Created files:\n";
             foreach ($files_name_changed as $val){
                 print "\t".$val.".".EXTENSION."\n";
@@ -440,7 +506,7 @@ class Translate {
      * @param   array $data_arr - array of data
      * @return  none
      */
-    static public function parseXml($file,&$data_arr){
+    static public function parseXml($file,&$data_arr,$mod_name=null){
         $xml = new Varien_Simplexml_Config();
         $xml->loadFile($file,'SimpleXMLElement');
         $arr = $xml->getXpath("//*[@translate]");
@@ -455,7 +521,7 @@ class Translate {
                         $inc_arr['value']=(string)$val->$v;
                         $inc_arr['line']='';
                         $inc_arr['file']=$file;
-                        $inc_arr['mod_name'] = ''; 
+                        $inc_arr['mod_name'] = $mod_name; 
                         array_push($data_arr,$inc_arr);
                     }
                 }
@@ -470,6 +536,7 @@ class Translate {
      * @return  none
      */
     static public function parseTranslatingFiles($file,&$data_arr,$mod_name=null){
+        global $CONFIG;
         $line_num = 0;
         $f = @fopen($file,"r");
         if(!$f){
@@ -479,14 +546,17 @@ class Translate {
                 $line = fgets($f, 4096);
                 $line_num++;
                 $results = array();
-                preg_match_all('/__\([\s]*([\'|\\\"])(.*?[^\\\\])\\1.*?\)/',$line,$results,PREG_SET_ORDER);
+                preg_match_all('/(Mage::helper\s*\(\s*[\'"]([^\'"]*)[\'"]\s*\)\s*->\s*)?__\(\s*([\'"])(.*?[^\\\])\3.*?[),]/',$line,$results,PREG_SET_ORDER);
                 for($a=0;$a<count($results);$a++){
                     $inc_arr = array();
-                    if(isset($results[$a][2])){
-                        $inc_arr['value']=$results[$a][2];
+                    if(isset($results[$a][4])){
+                        $inc_arr['value']=preg_replace('/(?<!\\\)\\\\\'/', "'", $results[$a][4]);
                         $inc_arr['line']=$line_num;
                         $inc_arr['file']=$file;
-                        if($mod_name!==null)$inc_arr['mod_name'] = $mod_name;
+                        //if ( $results[$a][4] == 'Shipment #%s (%s)' ) {print_r($results);die();}
+                        if(!empty($results[$a][2])&&isset($CONFIG['helpers'][$results[$a][2]])){$inc_arr['mod_name'] = $CONFIG['helpers'][$results[$a][2]];}
+                        elseif(!empty($mod_name)){$inc_arr['mod_name'] = $mod_name;}
+                        else {$inc_arr['mod_name'] = $file;}
                         array_push($data_arr,$inc_arr);
                     }
                 }
@@ -503,7 +573,7 @@ class Translate {
     static protected function _parseFile($file,&$data_arr,$mod_name=null)
     {
         if(Varien_File_Object::getExt($file)==='xml'){
-            self::parseXml($file,&$data_arr);
+            self::parseXml($file,&$data_arr,$mod_name);
         } else {
             self::parseTranslatingFiles($file,&$data_arr,$mod_name);
         }
