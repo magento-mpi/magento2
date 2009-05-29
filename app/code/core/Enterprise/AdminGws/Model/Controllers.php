@@ -523,4 +523,135 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         }
         return false;
     }
+
+    public function validateSalesOrderViewAction($controller)
+    {
+        if ($id = $this->_request->getParam('order_id')) {
+            $object = Mage::getModel('sales/order')->load($id);
+            if ($object && $object->getId()) {
+                $store = $object->getStoreId();
+                if (!$this->_helper->hasStoreAccess($store)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function validateSalesOrderCreditmemoViewAction($controller)
+    {
+        if ($id = $this->_request->getParam('creditmemo_id')) {
+            $object = Mage::getModel('sales/order_creditmemo')->load($id);
+            if ($object && $object->getId()) {
+                $store = $object->getStoreId();
+                if (!$this->_helper->hasStoreAccess($store)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function validateSalesOrderInvoiceViewAction($controller)
+    {
+        if ($id = $this->_request->getParam('invoice_id')) {
+            $object = Mage::getModel('sales/order_invoice')->load($id);
+            if ($object && $object->getId()) {
+                $store = $object->getStoreId();
+                if (!$this->_helper->hasStoreAccess($store)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function validateSalesOrderShipmentViewAction($controller)
+    {
+        if ($id = $this->_request->getParam('shipment_id')) {
+            $object = Mage::getModel('sales/order_shipment')->load($id);
+            if ($object && $object->getId()) {
+                $store = $object->getStoreId();
+                if (!$this->_helper->hasStoreAccess($store)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function validateSalesOrderCreditmemoCreateAction($controller)
+    {
+        if ($id = $this->_request->getParam('order_id')) {
+            $className = 'sales/order';
+        } else if ($id = $this->_request->getParam('invoice_id')) {
+            $className = 'sales/order_invoice';
+        } else if ($id = $this->_request->getParam('creditmemo_id')) {
+            $className = 'sales/order_creditmemo';
+        } else {
+            return true;
+        }
+
+        if ($id) {
+            $object = Mage::getModel($className)->load($id);
+            if ($object && $object->getId()) {
+                $store = $object->getStoreId();
+                if (!$this->_helper->hasStoreAccess($store)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function validateSalesOrderInvoiceCreateAction($controller)
+    {
+        if ($id = $this->_request->getParam('order_id')) {
+            $className = 'sales/order';
+        } else if ($id = $this->_request->getParam('invoice_id')) {
+            $className = 'sales/order_invoice';
+        } else {
+            return true;
+        }
+
+        if ($id) {
+            $object = Mage::getModel($className)->load($id);
+            if ($object && $object->getId()) {
+                $store = $object->getStoreId();
+                if (!$this->_helper->hasStoreAccess($store)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function validateSalesOrderShipmentCreateAction($controller)
+    {
+        if ($id = $this->_request->getParam('order_id')) {
+            $className = 'sales/order';
+        } else if ($id = $this->_request->getParam('shipment_id')) {
+            $className = 'sales/order_invoice';
+        } else {
+            return true;
+        }
+
+        if ($id) {
+            $object = Mage::getModel($className)->load($id);
+            if ($object && $object->getId()) {
+                $store = $object->getStoreId();
+                if (!$this->_helper->hasStoreAccess($store)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }
