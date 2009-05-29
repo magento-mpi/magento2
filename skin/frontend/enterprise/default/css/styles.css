@@ -417,6 +417,14 @@ ul.disc li,
 .link-print { background:url(../images/icon_printer.gif) 0 1px no-repeat; padding:2px 0 2px 25px; white-space:nowrap; }
 
 .divider { margin:16px 0; background:#e7e7e7; font-size:0; line-height:0; height:1px; overflow:hidden; }
+
+/* Noscript Notice */
+.noscript { border:1px solid #cfcfcf; border-width:0 0 1px; background:#ffff90; font-size:12px; line-height:1.25; text-align:center; color:#2f2f2f; }
+.noscript .noscript-inner { width:940px; margin:0 auto; padding:12px 0 12px; background:url(../images/i_notice.gif) 20px 50% no-repeat; }
+.noscript p { margin:0; }
+
+/* Demo Notice */
+.demo-notice { margin:0; padding:6px 10px; background:#d75f07; font-size:12px; line-height:1.15; text-align:center; color:#fff; }
 /* ======================================================================================= */
 
 
@@ -1701,8 +1709,7 @@ button.btn-cart span {}
 .giftcard-redeem .input-box { margin-right:5px; }
 
 /* Gift card */
-
-.giftcardaccount { position:relative; z-index:1; paddin-top:1px; }
+.giftcardaccount { position:relative; z-index:1; padding-top:1px; }
 .giftcard-status .messages,
 .giftcardaccount .messages { margin-bottom:10px; }
 .giftcardaccount p { margin:15px 0; font-size:12px; }
