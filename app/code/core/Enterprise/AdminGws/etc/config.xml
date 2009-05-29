@@ -320,6 +320,7 @@
                     <core__website>coreWebsiteLoadAfter</core__website>
                     <core__store_group>coreStoreGroupLoadAfter</core__store_group>
                     <core__store>coreStoreGroupLoadAfter</core__store><!-- same method as for store group -->
+                    <core__url_rewrite>coreUrlRewriteLoadAfter</core__url_rewrite>
                 </model_load_after>
                 <controller_predispatch>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__><!-- system config saving and browsing -->
@@ -336,7 +337,7 @@
                     <adminhtml__catalog_event__edit>validateCatalogEventEdit</adminhtml__catalog_event__edit><!-- catalog events creation, submiting -->
                     <adminhtml__sales_order_create__>validateSalesOrderCreation</adminhtml__sales_order_create__><!-- catalog events viewing -->
                     <adminhtml__system_store__>validateSystemStore</adminhtml__system_store__>
-
+                    <adminhtml__urlrewrite__edit>validateUrlRewriteEdit</adminhtml__urlrewrite__edit>
                     <adminhtml__sales_order__view>validateSalesOrderViewAction</adminhtml__sales_order__view>
                     <adminhtml__sales_order_invoice__view>validateSalesOrderInvoiceViewAction</adminhtml__sales_order_invoice__view>
                     <adminhtml__sales_order_creditmemo__view>validateSalesOrderCreditmemoViewAction</adminhtml__sales_order_creditmemo__view>

@@ -169,6 +169,14 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogProductLoadAfter($model)
     {
+        if (!$model->getId()) {
+            return;
+        }
+
+        if (!$this->_helper->hasWebsiteAccess($model->getWebsiteIds())) {
+            $this->_throwLoad();
+        }
+
         if (!$this->_helper->hasExclusiveAccess($model->getWebsiteIds())) {
             $model->unlockAttributes();
 
@@ -215,6 +223,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         // no creating products
         if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+            $this->_throwSave();
+        }
+
+        // disallow saving in scope of wrong store
+        if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
             $this->_throwSave();
         }
 
@@ -392,6 +405,10 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogCategoryLoadAfter($model)
     {
+        if (!$model->getId()) {
+            return;
+        }
+
         if (!$this->_helper->hasExclusiveCategoryAccess($model->getPath())) {
             $model->unlockAttributes();
             $attributes = $model->getAttributes();
@@ -440,21 +457,24 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogEventSaveBefore($model)
     {
-        if ((!$this->_helper->getIsWebsiteLevel() && !$model->getId())) {
+        // save event only for exclusive categories
+        $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
+        if (!$category->getId()) {
             $this->_throwSave();
-        } elseif ($model->getId()) {
-            $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
+        }
+        foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
+            if (!($category->getPath() === $rootPath || 0 === strpos($category->getPath(), "{$rootPath}/"))) {
+                $this->_throwSave();
+            }
+        }
+
+        // in non-exclusive mode allow to change the image only
+        if ($model->getId()) {
             if (!$this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
                 foreach (array_keys($model->getData()) as $key) {
                     if ($model->dataHasChangedFor($key) && $key !== 'image') {
                          $model->setData($key, $model->getOrigData($key));
                     }
-                }
-            }
-
-            foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
-                if (!($category->getPath() === $rootPath || 0 === strpos($category->getPath(), "{$rootPath}/"))) {
-                    $this->_throwSave();
                 }
             }
         }
@@ -467,7 +487,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogEventDeleteBefore($model)
     {
+        // delete only in exclusive mode
         $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
+        if (!$category->getId()) {
+            $this->_throwDelete();
+        }
         if (!$this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
             $this->_throwDelete();
         }
@@ -648,6 +672,21 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Prevent loading disallowed urlrewrites
+     *
+     * @param Mage_Core_Model_Url_Rewrite $model
+     */
+    public function coreUrlRewriteLoadAfter($model)
+    {
+        if (!$model->getId()) {
+            return;
+        }
+        if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
+            $this->_throwLoad();
+        }
+    }
+
+    /**
      * Limit incoming store IDs to allowed and add disallowed original stores
      *
      * @param array $newIds
@@ -723,5 +762,15 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     private function _throwDelete()
     {
         Mage::throwException(Mage::helper('enterprise_admingws')->__('Not enough permissions to delete this item.'));
+    }
+
+    /**
+     * @throws Enterprise_AdminGws_Controller_Exception
+     */
+    private function _throwLoad()
+    {
+        throw new Enterprise_AdminGws_Controller_Exception(
+            Mage::helper('enterprise_admingws')->__('Not enough permissions to view this item.')
+        );
     }
 }

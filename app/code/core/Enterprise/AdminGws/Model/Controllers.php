@@ -99,16 +99,6 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'duplicate'))) {
             return;
         }
-
-        // allow saving only in allowed store scope
-        if ($storeId = $this->_request->getParam('store')) {
-            if ($store = Mage::app()->getStore($storeId)) {
-                if ($this->_helper->hasStoreAccess($store->getId())) {
-                    return;
-                }
-            }
-            $this->_forward();
-        }
     }
 
     /**
@@ -118,16 +108,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateCatalogProductEdit($controller)
     {
-        // avoid viewing disallowed product
-        $product = Mage::getModel('catalog/product')->load($this->_request->getParam('id'));
-        $productWebsiteIds = $product->getResource()->getWebsiteIds($product);
-        if ((!$product->getId()) || (count(array_diff($productWebsiteIds, $this->_helper->getRelevantWebsiteIds())) === count($productWebsiteIds))) {
-            return $this->_redirect($controller, '*/*/');
-        }
-
         // redirect from disallowed scope
         if ($this->_isDisallowedStoreInRequest()) {
-            return $this->_redirect($controller, array('*/*/*', 'id' => $product->getId()));
+            return $this->_redirect($controller, array('*/*/*', 'id' => $this->_request->getParam('id')));
         }
     }
 
@@ -290,14 +273,6 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $category = Mage::getModel('catalog/category')->load($this->_request->getParam('category_id'));
             if (($this->_request->getParam('category_id') && !$this->_isCategoryAllowed($category)) ||
                 !$this->_helper->getIsWebsiteLevel()) {
-                return $this->_forward();
-            }
-        }
-        // or to delete for wrong category
-        elseif ('delete' === $this->_request->getActionName()) {
-            $catalogEvent = Mage::getModel('enterprise_catalogevent/event')->load($this->_request->getParam('id'));
-            $category     = Mage::getModel('catalog/category')->load($catalogEvent->getCategoryId());
-            if (!$this->_isCategoryAllowed($category)) {
                 return $this->_forward();
             }
         }
