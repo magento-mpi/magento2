@@ -74,9 +74,9 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      * @return Enterprise_Invitation_Model_Invitation
      * @throws Mage_Core_Exception
      */
-    public function loadByEncryptedCode($code)
+    public function loadByInvitationCode($code)
     {
-        $code = explode(':', Mage::helper('core')->decrypt($code), 2);
+        $code = explode(':', $code, 2);
         if (count($code) != 2) {
             Mage::throwException(Mage::helper('enterprise_invitation')->__('Invalid invitation code.'));
         }
@@ -177,12 +177,12 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
      *
      * @return string
      */
-    public function getEncryptedCode()
+    public function getInvitationCode()
     {
         if (!$this->getId()) {
             Mage::throwException(Mage::helper('enterprise_invitation')->__('Impossible to generate encrypted code.'));
         }
-        return Mage::helper('core')->encrypt($this->getId() . ':' . $this->getProtectionCode());
+        return $this->getId() . ':' . $this->getProtectionCode();
     }
 
     /**

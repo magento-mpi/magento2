@@ -90,7 +90,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
         if (!Mage::registry('current_invitation')) {
             $invitation = Mage::getModel('enterprise_invitation/invitation');
             $invitation
-                ->loadByEncryptedCode(Mage::helper('core')->urlDecode($this->getRequest()->getParam('invitation', false)))
+                ->loadByInvitationCode(Mage::helper('core')->urlDecode($this->getRequest()->getParam('invitation', false)))
                 ->makeSureCanBeAccepted();
             Mage::register('current_invitation', $invitation);
         }
