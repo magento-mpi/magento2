@@ -62,13 +62,9 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
         $lifetime = (string)Mage::getConfig()->getNode('default/system/rotation/lifetime');
         $lifetime = (int)$lifetime;
         $table = $this->getTable('enterprise_logging/event');
-        /** 
-         * Be sure, that $outfile is reacheable for mysql user, and 
-         * security tools like SeLinux, or apparmor are disabled or allows 
-         * mysql to create $outfile
-         */
-        $query = sprintf("SELECT * FROM %s WHERE time + INTERVAL %s DAY < %s", $table, $lifetime, now());
-        $del_query = sprintf("DELETE FROM %s WHERE time + INTERVAL %s DAY < %s", $table, $lifetime, now());
+
+        $query = sprintf("SELECT * FROM %s WHERE time + INTERVAL %s DAY < '%s'", $table, $lifetime, now());
+        $del_query = sprintf("DELETE FROM %s WHERE time + INTERVAL %s DAY < '%s'", $table, $lifetime, now());
         $st = $this->_getConnection('write')->query($query);
         
         if ( !($firstline = $st->fetch()) ) {
