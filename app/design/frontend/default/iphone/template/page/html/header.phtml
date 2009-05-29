@@ -24,16 +24,6 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php
-/**
- * @see Mage_Page_Block_Html_Header
- */
-?>
-<?php if ($this->displayNoscriptNotice()): ?>
-    <noscript>
-        <p class="noscript-notice"><?php echo $this->__('We detected that your JavaScript seem to be disabled. You must have JavaScript enabled in your browser to utilize the functionality of this website.') ?></p>
-    </noscript>
-<?php endif; ?>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/search.js') ?>"></script>
 <?php echo $this->getChildHtml('topSearch') ?>
 <div class="header-top">

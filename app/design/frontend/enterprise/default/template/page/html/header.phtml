@@ -24,16 +24,6 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<?php
-/**
- * @see Mage_Page_Block_Html_Header
- */
-?>
-<?php if ($this->displayNoscriptNotice()): ?>
-    <noscript>
-        <p class="noscript-notice"><?php echo $this->__('We detected that your JavaScript seem to be disabled. You must have JavaScript enabled in your browser to utilize the functionality of this website.') ?></p>
-    </noscript>
-<?php endif; ?>
 <div class="header-container">
     <div class="header-panel">
         <div class="switches"><?php echo $this->getChildHtml('switches') ?></div>
