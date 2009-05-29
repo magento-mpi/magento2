@@ -37,7 +37,7 @@
       <action>save</action>
       <model>enterprise_staging/staging</model>
       <handler>enterprise_logging/observer::getsavestagingaction</handler>
-      <allow-multiply-models>1</allow-multiply-models>
+      <allow_model_repeat>1</allow_model_repeat>
     </staging_manage_save>
 
     <staging_manage_mergePost>
