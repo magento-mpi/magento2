@@ -301,6 +301,14 @@ a.error span,
 .validation-advice { clear:both; min-height:15px; margin:3px 0 0 9px; background:url(images/validation_advice_bg.gif) no-repeat 2px 1px; padding-left:16px; font-size:.95em; font-weight:bold; line-height:1.25em; }
 input.validation-failed, textarea.validation-failed { background:#fef0ed; border:1px dashed #d6340e; }
 
+/* Noscript Notice */
+.noscript { border:1px solid #000; border-width:0 0 1px; background:#ffff90; font-size:12px; line-height:1.25; text-align:center; color:#2f2f2f; }
+.noscript .noscript-inner { width:900px; margin:0 auto; padding:12px 0 12px; background:url(images/i_notice.gif) 20px 50% no-repeat; }
+.noscript p { margin:0; }
+
+/* For Demo store only */
+.demo-notice { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }
+
 
 /* FORMS
 *******************************************************************************/
@@ -416,7 +424,7 @@ button.save span    { background-image:url(images/save_btn_icon.gif); }
 
 button.disabled,
 button.disabled:hover,
-button.disabled:active { border-color:#777 #505050 #505050 #777; background:#919191 url(images/btn_bg-disabled.gif) 0 0 repeat-x; color:#fff; cursor:default; opacity:.8; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)" }
+button.disabled:active { border-color:#777 #505050 #505050 #777; background:#919191 url(images/btn_bg-disabled.gif) 0 0 repeat-x; color:#fff; cursor:default; opacity:.8; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)"; }
 button.add.disabled span { background-image:url(images/add_btn_icon-disabled.gif); }
 
 button.icon-btn { width:32px!important; }

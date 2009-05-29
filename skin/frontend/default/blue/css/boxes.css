@@ -1534,17 +1534,20 @@ table.print .price-incl-tax .price { display:inline; }
 .link-print { background:url(../images/icon_printer.gif) no-repeat 0 2px; padding-left:23px; }
 .link-feed { background:url(../images/icon_feed.png) no-repeat left center; padding-left:18px; line-height:1.15; }
 
-.noscript-notice { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }
-
-/* For Demo store only */
-.demo-notice { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }
-
 .order-access {padding-bottom:8px; }
 .order-info {border:solid 1px #D0CBC1; background:#DEE5E8; padding:4px 8px; }
 .order-info span { display:block; float:left; }
 .order-info ul { display:inline; }
 .order-info li { display:inline; padding-right:7px; padding-left:3px; }
 .order-info li.selected {font-weight:bold; background:url(../images/point-con.gif) no-repeat fixed center bottom; }
+
+/* Noscript Notice */
+.noscript { border:1px solid #000; border-width:0 0 1px; background:#ffff90; font-size:12px; line-height:1.25; text-align:center; color:#000; }
+.noscript .noscript-inner { width:950px; margin:0 auto; padding:12px 0 12px; background:url(../images/i_notice.gif) 20px 50% no-repeat; }
+.noscript p { margin:0; }
+
+/* For Demo store only */
+.demo-notice { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }
 
 /* Class: std - styles for admin-controlled content */
 .std ul,

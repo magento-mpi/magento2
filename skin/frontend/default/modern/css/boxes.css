@@ -1301,6 +1301,16 @@ table.print .price-incl-tax .price { display:inline; }
 .link-feed      { background:url(../images/icon_feed.gif) 0 50% no-repeat !important; padding-left:18px; line-height:1.15; }
 .link-base      { color:#444; }
 
+/* Noscript Notice */
+.noscript { border:1px solid #bbb; border-width:0 0 1px; background:#ffff90; font-size:12px; line-height:1.25; text-align:center; color:#444; }
+.noscript .noscript-inner { width:960px; margin:0 auto; padding:12px 0 12px; background:url(../images/i_notice.gif) 20px 50% no-repeat; }
+.noscript p { margin:0; }
+
+/* For Demo store only */
+.demo-notice    { margin:0; background-color:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1; text-align:center; }
+.demo-notice a  { color:#fff; text-decoration:underline; }
+.demo-notice a:hover { text-decoration:none; }
+
 /* Class: std - styles for admin-controlled content */
 .std ul,
 .std ol,
@@ -1324,10 +1334,3 @@ table.print .price-incl-tax .price { display:inline; }
 .std i,
 .std em { font-style:italic; }
 .std .a-top { text-align:right; }
-
-.noscript-notice    { margin:0; background-color:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1; text-align:center; }
-
-/* For Demo store only */
-.demo-notice    { margin:0; background-color:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1; text-align:center; }
-.demo-notice a  { color:#fff; text-decoration:underline; }
-.demo-notice a:hover { text-decoration:none; }
