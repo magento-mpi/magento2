@@ -1325,6 +1325,8 @@ table.print .price-incl-tax .price { display:inline; }
 .std em { font-style:italic; }
 .std .a-top { text-align:right; }
 
+.noscript-notice    { margin:0; background-color:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1; text-align:center; }
+
 /* For Demo store only */
 .demo-notice    { margin:0; background-color:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1; text-align:center; }
 .demo-notice a  { color:#fff; text-decoration:underline; }

@@ -442,7 +442,7 @@ abstract class Mage_Core_Controller_Varien_Action
 
         Mage::app()->loadArea($this->getLayout()->getArea());
 
-        if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT)) {
+        if ($this->getFlag('', self::FLAG_NO_COOKIES_REDIRECT) && Mage::getStoreConfig('web/browser_capabilities/cookies')) {
             $this->_forward('noCookies', 'index', 'core');
             return;
         }

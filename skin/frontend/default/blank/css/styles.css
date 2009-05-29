@@ -241,6 +241,8 @@ dd.even { background-color:#f6f6f6; }
 
 /* Misc */
 .link-rss { background:url(../images/icon_rss.gif) 0 1px no-repeat; padding-left:18px; white-space:nowrap; }
+.demo-notice {}
+.noscript-notice {}
 /* ======================================================================================= */
 
 

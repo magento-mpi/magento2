@@ -252,6 +252,12 @@
                 <use_http_x_forwarded_for>0</use_http_x_forwarded_for>
                 <use_http_user_agent>0</use_http_user_agent>
             </session>
+
+            <browser_capabilities>
+                <cookies>1</cookies>
+                <javascript>1</javascript>
+            </browser_capabilities>
+            
         </web>
 
         <admin>

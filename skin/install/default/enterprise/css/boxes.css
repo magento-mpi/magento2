@@ -360,6 +360,7 @@ h1#logo { float:left; width:202px; margin:3px 0 0 12px; }
 .link-remove { color:#646464 !important;}
 .link-print { adding-left:23px; }
 
+.noscript-notice { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }
 
 /* For Demo store only */
 .demo-notice { margin:0; background:#d75f07; padding:5px 10px 6px 10px; color:#fff; line-height:1em; text-align:center; }

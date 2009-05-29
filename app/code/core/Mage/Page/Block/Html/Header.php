@@ -74,4 +74,14 @@ class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
         return $this->_data['welcome'];
     }
 
+    /**
+     * Check if noscript notice should be displayed
+     *
+     * @return boolean
+     */
+    public function displayNoscriptNotice()
+    {
+        return Mage::getStoreConfig('web/browser_capabilities/javascript');
+    }
+
 }
