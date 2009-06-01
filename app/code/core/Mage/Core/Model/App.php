@@ -704,7 +704,8 @@ class Mage_Core_Model_App
     {
         foreach ($this->getWebsites() as $_website) {
             if ($_website->getIsDefault()) {
-                if ($_defaultStore = $this->getGroup($_website->getDefaultGroupId())->getDefaultStore()) {
+                $_defaultStore = $this->getGroup($_website->getDefaultGroupId())->getDefaultStore();
+                if ($_defaultStore) {
                     return $_defaultStore;
                 }
             }
@@ -954,7 +955,8 @@ class Mage_Core_Model_App
     {
         if (!$this->_cache) {
             $backend = strtolower((string)Mage::getConfig()->getNode('global/cache/backend'));
-            if (!$cachePrefix = (string)Mage::getConfig()->getNode('global/cache/prefix')) {
+            $cachePrefix = (string)Mage::getConfig()->getNode('global/cache/prefix');
+            if (!$cachePrefix) {
                 $cachePrefix = md5(Mage::getConfig()->getBaseDir());
             }
             if (extension_loaded('apc') && ini_get('apc.enabled') && $backend == 'apc') {
@@ -1001,13 +1003,18 @@ class Mage_Core_Model_App
             else {
                 $lifetime = 7200;
             }
-            $this->_cache = Zend_Cache::factory('Core', $backend,
+            $this->_cache = Zend_Cache::factory(
+                'Core',
+                $backend,
                 array(
                     'caching'                   => true,
                     'lifetime'                  => $lifetime,
                     'automatic_cleaning_factor' => 0,
                 ),
-                $backendAttributes
+                $backendAttributes,
+                false,
+                false,
+                true
             );
         }
         return $this->_cache;
@@ -1133,7 +1140,8 @@ class Mage_Core_Model_App
         //Mage::app()->saveCache(serialize($cacheData), 'use_cache', array(), null);
 
         $filename = $this->getUseCacheFilename();
-        if (!$fp = @fopen($filename, 'w')) {
+        $fp = @fopen($filename, 'w');
+        if (!$fp) {
             Mage::throwException($filename.' is not writable, unable to save cache settings');
         }
         @fwrite($fp, serialize($data));
@@ -1288,7 +1296,8 @@ class Mage_Core_Model_App
      */
     public function getAnyStoreView()
     {
-        if ($store = $this->getDefaultStoreView()) {
+        $store = $this->getDefaultStoreView();
+        if ($store) {
             return $store;
         }
         foreach ($this->getStores() as $store) {
