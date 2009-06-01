@@ -868,7 +868,7 @@ class Enterprise_Logging_Model_Observer
         $eventResource = Mage::getResourceModel('enterprise_logging/event');
         $rotate_frequence = (string)Mage::getConfig()->getNode('default/system/rotation/frequency');
         $interval = (int)$rotate_frequence * 60 * 60 * 24;
-        if (!$last_rotate || ($last_rotate > time() - $interval)) {
+        if (!$last_rotate || ($last_rotate < time() - $interval)) {
             $eventResource->rotate($interval);
             $flag->setFlagData(time());
             $flag->save();
