@@ -179,18 +179,14 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
 
         }
 
-        if ($item->getOrderItem()->getProductOptions()) {
-            $options = $item->getOrderItem()->getProductOptions();
+        // custom options
+        $options = $item->getOrderItem()->getProductOptions();
+        if ($options) {
             if (isset($options['options'])) {
                 foreach ($options['options'] as $option) {
                     $lines = array();
-                    $text = array();
-                    foreach (Mage::helper('core/string')->str_split(strip_tags($option['label']), 60, false, true) as $_option) {
-                        $text[] = $_option;
-                    }
-
                     $lines[][] = array(
-                        'text'  => $text,
+                        'text'  => Mage::helper('core/string')->str_split(strip_tags($option['label']), 70, true, true),
                         'font'  => 'italic',
                         'feed'  => $leftBound
                     );
@@ -200,7 +196,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
                         $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach (Mage::helper('core/string')->str_split($value, 55, true, true) as $_value) {
+                            foreach (Mage::helper('core/string')->str_split($value, 50, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }

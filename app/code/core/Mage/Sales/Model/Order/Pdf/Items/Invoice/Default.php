@@ -64,28 +64,6 @@ class Mage_Sales_Model_Order_Pdf_Items_Invoice_Default extends Mage_Sales_Model_
             'feed'  => 435
         );
 
-        if ($options = $this->getItemOptions()) {
-            foreach ($options as $option) {
-                // draw options label
-                $lines[][] = array(
-                    'text' => Mage::helper('core/string')->str_split(strip_tags($option['label']), 60, false, true),
-                    'font' => 'italic',
-                    'feed' => 35
-                );
-
-                if ($option['value']) {
-                    $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
-                    $values = explode(', ', $_printValue);
-                    foreach ($values as $value) {
-                        $lines[][] = array(
-                            'text' => Mage::helper('core/string')->str_split($value, 55, true, true),
-                            'feed' => 40
-                        );
-                    }
-                }
-            }
-        }
-
         // draw Price
         $lines[0][] = array(
             'text'  => $order->formatPriceTxt($item->getPrice()),
@@ -109,6 +87,30 @@ class Mage_Sales_Model_Order_Pdf_Items_Invoice_Default extends Mage_Sales_Model_
             'font'  => 'bold',
             'align' => 'right'
         );
+
+        // custom options
+        $options = $this->getItemOptions();
+        if ($options) {
+            foreach ($options as $option) {
+                // draw options label
+                $lines[][] = array(
+                    'text' => Mage::helper('core/string')->str_split(strip_tags($option['label']), 70, true, true),
+                    'font' => 'italic',
+                    'feed' => 35
+                );
+
+                if ($option['value']) {
+                    $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
+                    $values = explode(', ', $_printValue);
+                    foreach ($values as $value) {
+                        $lines[][] = array(
+                            'text' => Mage::helper('core/string')->str_split($value, 50, true, true),
+                            'feed' => 40
+                        );
+                    }
+                }
+            }
+        }
 
         $lineBlock = array(
             'lines'  => $lines,
