@@ -55,7 +55,8 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
             $x      = $leftBound;
             $line   = array();
 
-            if ($attributes = $this->getSelectionAttributes($_item)) {
+            $attributes = $this->getSelectionAttributes($_item);
+            if (is_array($attributes)) {
                 $optionId   = $attributes['option_id'];
             }
             else {
@@ -74,7 +75,7 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Creditmemo extends Mage_Bundle_Mod
                 if ($_prevOptionId != $attributes['option_id']) {
                     $line[0] = array(
                         'font'  => 'italic',
-                        'text'  => $attributes['option_label'],
+                        'text'  => Mage::helper('core/string')->str_split($attributes['option_label'],60, true, true),
                         'feed'  => $x
                     );
 
