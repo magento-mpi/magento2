@@ -338,6 +338,8 @@
                         var response = Ext.util.JSON.decode(o.responseText);
                         if( response.error ) {
                             $('messages').update(response.message);
+                        } else if( response.ajaxExpired && response.ajaxRedirect ){
+                            setLocation(response.ajaxRedirect);
                         } else if( response.url ){
                             setLocation(response.url);
                         } else if( response.message ) {
