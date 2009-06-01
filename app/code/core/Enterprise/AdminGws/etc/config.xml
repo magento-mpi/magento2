@@ -177,6 +177,14 @@
                     </enterprise_admingws>
                 </observers>
             </model_load_after>
+            <catalog_product_validate_after>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/models</class>
+                        <method>catalogProductValidateAfter</method>
+                    </enterprise_admingws>
+                </observers>
+            </catalog_product_validate_after>
             <adminhtml_catalog_category_tree_is_moveable>
                 <observers>
                     <enterprise_admingws>

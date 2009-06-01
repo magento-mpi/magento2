@@ -223,25 +223,53 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         // no creating products
         if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+
             $this->_throwSave();
         }
 
         // disallow saving in scope of wrong store
-        if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
+        if (($model->getId() || !$this->_helper->getIsWebsiteLevel()) &&
+            !$this->_helper->hasStoreAccess($model->getStoreId())) {
+
             $this->_throwSave();
+
         }
 
         $websiteIds     = $this->_helper->explodeIds($model->getWebsiteIds());
         $origWebsiteIds = $model->getResource()->getWebsiteIds($model);
 
-        // must assign to website
-        $model->setWebsiteIds($this->_forceAssignToWebsite(
-            $this->_updateSavingWebsiteIds($websiteIds, $origWebsiteIds)
-        ));
+        if ($this->_helper->getIsWebsiteLevel()) {
+            // must assign to website
+            $model->setWebsiteIds($this->_forceAssignToWebsite(
+                $this->_updateSavingWebsiteIds($websiteIds, $origWebsiteIds)
+            ));
+        }
 
         // must not assign to wrong website
         if ($model->getId() && !$this->_helper->hasWebsiteAccess($model->getWebsiteIds())) {
             $this->_throwSave();
+        }
+    }
+
+    /**
+     * Catalog product validate after
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Models
+     */
+    public function catalogProductValidateAfter(Varien_Event_Observer $observer)
+    {
+        if ($this->_helper->getIsAll()) {
+            return;
+        }
+
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = $observer->getEvent()->getProduct();
+
+        if (!$product->getId() && count($product->getWebsiteIds()) == 0) {
+            Mage::throwException(
+                $this->_helper->__('This item must be assigned to a website')
+            );
         }
     }
 
@@ -416,14 +444,14 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
                 /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
                 if ($attribute->isScopeGlobal() ||
                     ($attribute->isScopeWebsite() && count($this->_helper->getWebsiteIds())==0) ||
-                    !in_array($model->getStore()->getId(), $this->_helper->getStoreIds())) {
+                    !$this->_helper->hasStoreAccess($model->getResource()->getStoreId())) {
                     $model->lockAttribute($attribute->getAttributeCode());
                 }
             }
             $model->setProductsReadonly(true);
             $model->setPermissionsReadonly(true);
             $model->setIsDeleteable(false);
-            if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
+            if (!$this->_helper->hasStoreAccess($model->getResource()->getStoreId())) {
                 $model->setIsReadonly(true);
             }
         }
@@ -442,11 +470,20 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         }
 
         // no saving under disallowed root categories
-        $categoryPath = $category->getPath();
+        $categoryPath = $model->getPath();
+        $allowed = false;
         foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
             if (!($categoryPath === $rootPath || 0 === strpos($categoryPath, "{$rootPath}/"))) {
-                $this->_throwSave();
+                $allowed = true;
             }
+        }
+
+        if (!$allowed) {
+            $this->_throwSave();
+        }
+
+        if (!$this->_helper->hasStoreAccess($model->getResource()->getStoreId())) {
+            $this->_throwSave();
         }
     }
 
@@ -537,14 +574,12 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if ($this->_helper->getIsAll()) {
             return;
         }
-        if ($this->_helper->getIsStoreLevel()) {
-            $this->_throwSave();
-        }
+
         $parentCategory = $observer->getEvent()->getParent();
         $currentCategory = $observer->getEvent()->getCategory();
 
         foreach (array($parentCategory, $currentCategory) as $category) {
-            if (!$this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
+            if (!$this->_helper->hasExclusiveCategoryAccess($category->getData('path'))) {
                 $this->_throwSave();
             }
         }

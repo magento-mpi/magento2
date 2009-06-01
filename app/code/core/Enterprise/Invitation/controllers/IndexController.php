@@ -40,7 +40,6 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
-
         if (!Mage::helper('enterprise_invitation')->isEnabled()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
