@@ -377,15 +377,4 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     {
         return $this->_getData('entity_id');
     }
-
-    /**
-     * Validate attribute values
-     *
-     * @throws Exception
-     * @return bool|array
-     */
-    public function validate()
-    {
-        return true;
-    }
 }
