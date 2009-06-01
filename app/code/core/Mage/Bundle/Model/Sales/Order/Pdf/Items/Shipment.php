@@ -145,23 +145,23 @@ class Mage_Bundle_Model_Sales_Order_Pdf_Items_Shipment extends Mage_Bundle_Model
                         $text[] = $_option;
                     }
 
-                    $lines = array(array(
+                    $lines[][] = array(
                         'text'  => $text,
                         'font'  => 'italic',
                         'feed'  => 60
-                    ));
+                    );
 
                     if ($option['value']) {
                         $text = array();
                         $_printValue = isset($option['print_value']) ? $option['print_value'] : strip_tags($option['value']);
                         $values = explode(', ', $_printValue);
                         foreach ($values as $value) {
-                            foreach (Mage::helper('core/string')->str_split($value, 70, true, true) as $_value) {
+                            foreach (Mage::helper('core/string')->str_split($value, 55, true, true) as $_value) {
                                 $text[] = $_value;
                             }
                         }
 
-                        $lines[] = array(
+                        $lines[][] = array(
                             'text'  => $text,
                             'feed'  => 65
                         );
