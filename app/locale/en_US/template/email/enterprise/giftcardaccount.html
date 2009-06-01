@@ -19,10 +19,10 @@
                 <table cellspacing="0" cellpadding="0" border="0" width="650">
                     <tr>
                         <td valign="top">
-                            <p>Dear {{var name}},<br />
-                            You've been sent a gift card for use at {{var store_name}} and it is now ready to be used for purchases.</p>
+                            <p>Dear {{var name|escape}},<br />
+                            You've been sent a gift card for use at {{var store_name|escape}} and it is now ready to be used for purchases.</p>
 
-                            <p>The Gift Card code is {{var code}}.</p>
+                            <p>The Gift Card code is {{var code|escape}}.</p>
 
                             <p>The card has a balance of {{var balance}} that can be used at <a href="{{store url=""}}">{{store url=""}}</a></p>
 

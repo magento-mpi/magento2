@@ -161,7 +161,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
                 $this->getEmail(), null, array(
                     'url'           => Mage::helper('enterprise_invitation')->getInvitationUrl($this),
                     'allow_message' => $this->getMessage() !== null,
-                    'message'       => htmlspecialchars($this->getMessage()),
+                    'message'       => $this->getMessage(),
                     'store_name'    => $store->getName(),
                     'inviter_name'  => ($this->getInviter() ? $this->getInviter()->getName() : null)
             ));

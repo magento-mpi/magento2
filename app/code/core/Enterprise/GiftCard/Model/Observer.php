@@ -202,11 +202,11 @@ class Enterprise_GiftCard_Model_Observer extends Mage_Core_Model_Abstract
                         $balance = Mage::app()->getLocale()->currency(Mage::app()->getStore($order->getStoreId())->getBaseCurrencyCode())->toCurrency($amount);
 
                         $templateData = array(
-                            'name'                   => htmlspecialchars($item->getProductOptionByCode('giftcard_recipient_name')),
-                            'email'                  => htmlspecialchars($item->getProductOptionByCode('giftcard_recipient_email')),
-                            'sender_name_with_email' => htmlspecialchars($sender),
-                            'sender_name'            => htmlspecialchars($senderName),
-                            'gift_message'           => nl2br(htmlspecialchars($item->getProductOptionByCode('giftcard_message'))),
+                            'name'                   => $item->getProductOptionByCode('giftcard_recipient_name'),
+                            'email'                  => $item->getProductOptionByCode('giftcard_recipient_email'),
+                            'sender_name_with_email' => $sender,
+                            'sender_name'            => $senderName,
+                            'gift_message'           => $item->getProductOptionByCode('giftcard_message'),
                             'giftcards'              => $codeList->toHtml(),
                             'balance'                => $balance,
                             'is_multiple_codes'      => 1 < $goodCodes,

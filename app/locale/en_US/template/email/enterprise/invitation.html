@@ -19,12 +19,12 @@
                 <table cellspacing="0" cellpadding="0" border="0" width="650">
                     <tr>
                         <td valign="top">
-                            <p>Please accept this invitation to join {{var store_name}}</p>
-                            <p>{{var store_name}} offers limited time sales of products only to members.</p>
+                            <p>Please accept this invitation to join {{var store_name|escape}}</p>
+                            <p>{{var store_name|escape}} offers limited time sales of products only to members.</p>
 
                             <div>
-                            Please use the following link to create an account and view the deals {{if allow_message}} {{var message}} {{/if}}
-                            <a href="{{var url}}">{{var url}}</a>
+                            Please use the following link to create an account and view the deals {{if allow_message}} {{var message|escape|nl2br}} {{/if}}
+                            <a href="{{var url|escape}}">{{var url|escape}}</a>
                             </div>
 
                             <p>Thank you,</p>

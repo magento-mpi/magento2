@@ -19,8 +19,8 @@
                 <table cellspacing="0" cellpadding="0" border="0" width="650">
                     <tr>
                         <td valign="top">
-                        <p>Dear, {{var name}}<br />
-                        {{var sender_name_with_email}} has sent you a gift card for use at {{var store_name}} and it is now ready to be used for purchases.</p>
+                        <p>Dear, {{var name|escape}}<br />
+                        {{var sender_name_with_email|escape}} has sent you a gift card for use at {{var store_name|escape}} and it is now ready to be used for purchases.</p>
 
                         <div>The Gift Card code(s):
                         {{var giftcards}}
@@ -32,7 +32,7 @@
                         {{/if}}
 
                         <div>
-                        {{var gift_message}}
+                        {{var gift_message|escape|nl2br}}
                         </div>
 
                         <p>Thank you,</p>
