@@ -516,7 +516,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
     public function validateSalesOrderCreditmemoViewAction($controller)
     {
-        if ($id = $this->_request->getParam('creditmemo_id')) {
+        $id = $this->_request->getParam('creditmemo_id');
+        if (!$id) {
+            $id = $this->_request->getParam('id');
+        }
+        if ($id) {
             $object = Mage::getModel('sales/order_creditmemo')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
@@ -531,7 +535,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
     public function validateSalesOrderInvoiceViewAction($controller)
     {
-        if ($id = $this->_request->getParam('invoice_id')) {
+        $id = $this->_request->getParam('invoice_id');
+        if (!$id) {
+            $id = $this->_request->getParam('id');
+        }
+        if ($id) {
             $object = Mage::getModel('sales/order_invoice')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
@@ -546,7 +554,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
     public function validateSalesOrderShipmentViewAction($controller)
     {
-        if ($id = $this->_request->getParam('shipment_id')) {
+        $id = $this->_request->getParam('shipment_id');
+        if (!$id) {
+            $id = $this->_request->getParam('id');
+        }
+        if ($id) {
             $object = Mage::getModel('sales/order_shipment')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
@@ -612,7 +624,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if ($id = $this->_request->getParam('order_id')) {
             $className = 'sales/order';
         } else if ($id = $this->_request->getParam('shipment_id')) {
-            $className = 'sales/order_invoice';
+            $className = 'sales/order_shipment';
         } else {
             return true;
         }
@@ -628,5 +640,56 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             }
         }
         return true;
+    }
+
+    public function validateSalesOrderMassAction($controller)
+    {
+        if ($ids = $this->_request->getParam('order_ids', array())) {
+            if ($ids && is_array($ids)) {
+                foreach ($ids as $id) {
+                    $object = Mage::getModel('sales/order')->load($id);
+                    if ($object && $object->getId()) {
+                        $store = $object->getStoreId();
+                        if (!$this->_helper->hasStoreAccess($store)) {
+                            $this->_forward();
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public function validateSalesOrderEditStartAction($controller)
+    {
+        $id = $this->_request->getParam('order_id');
+        if ($id) {
+            $object = Mage::getModel('sales/order')->load($id);
+            if ($object && $object->getId()) {
+                $store = $object->getStoreId();
+                if (!$this->_helper->hasStoreAccess($store)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public function validateSalesOrderShipmentTrackAction($controller)
+    {
+        $id = $this->_request->getParam('track_id');
+        if ($id) {
+            $object = Mage::getModel('sales/order_shipment_track')->load($id);
+            if ($object && $object->getId()) {
+                $store = $object->getStoreId();
+                if (!$this->_helper->hasStoreAccess($store)) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return $this->validateSalesOrderShipmentCreateAction($controller);
     }
 }

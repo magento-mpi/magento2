@@ -346,19 +346,44 @@
                     <adminhtml__sales_order_create__>validateSalesOrderCreation</adminhtml__sales_order_create__><!-- catalog events viewing -->
                     <adminhtml__system_store__>validateSystemStore</adminhtml__system_store__>
                     <adminhtml__urlrewrite__edit>validateUrlRewriteEdit</adminhtml__urlrewrite__edit>
+
                     <adminhtml__sales_order__view>validateSalesOrderViewAction</adminhtml__sales_order__view>
-                    <adminhtml__sales_order_invoice__view>validateSalesOrderInvoiceViewAction</adminhtml__sales_order_invoice__view>
-                    <adminhtml__sales_order_creditmemo__view>validateSalesOrderCreditmemoViewAction</adminhtml__sales_order_creditmemo__view>
-                    <adminhtml__sales_order_shipment__view>validateSalesOrderShipmentViewAction</adminhtml__sales_order_shipment__view>
-
-                    <adminhtml__sales_order_creditmemo__new>validateSalesOrderCreditmemoCreateAction</adminhtml__sales_order_creditmemo__new>
-                    <adminhtml__sales_order_shipment__new>validateSalesOrderShipmentCreateAction</adminhtml__sales_order_shipment__new>
-                    <adminhtml__sales_order_invoice__new>validateSalesOrderInvoiceCreateAction</adminhtml__sales_order_invoice__new>
-
                     <adminhtml__sales_order__addComment>validateSalesOrderViewAction</adminhtml__sales_order__addComment>
-                    <adminhtml__sales_order_invoice__addComment>validateSalesOrderInvoiceViewAction</adminhtml__sales_order_invoice__addComment>
-                    <adminhtml__sales_order_shipment__addComment>validateSalesOrderShipmentViewAction</adminhtml__sales_order_shipment__addComment>
+                    <adminhtml__sales_order__cancel>validateSalesOrderViewAction</adminhtml__sales_order__cancel>
+                    <adminhtml__sales_order__hold>validateSalesOrderViewAction</adminhtml__sales_order__hold>
+                    <adminhtml__sales_order__unhold>validateSalesOrderViewAction</adminhtml__sales_order__unhold>
+                    <adminhtml__sales_order__invoices>validateSalesOrderViewAction</adminhtml__sales_order__invoices>
+                    <adminhtml__sales_order__shipments>validateSalesOrderViewAction</adminhtml__sales_order__shipments>
+                    <adminhtml__sales_order__creditmemos>validateSalesOrderViewAction</adminhtml__sales_order__creditmemos>
+                    <adminhtml__sales_order__commentsHistory>validateSalesOrderViewAction</adminhtml__sales_order__commentsHistory>
+
+                    <adminhtml__sales_order__massCancel>validateSalesOrderMassAction</adminhtml__sales_order__massCancel>
+                    <adminhtml__sales_order__massHold>validateSalesOrderMassAction</adminhtml__sales_order__massHold>
+                    <adminhtml__sales_order__massUnhold>validateSalesOrderMassAction</adminhtml__sales_order__massUnhold>
+                    <adminhtml__sales_order__pdfinvoices>validateSalesOrderMassAction</adminhtml__sales_order__pdfinvoices>
+                    <adminhtml__sales_order__pdfshipments>validateSalesOrderMassAction</adminhtml__sales_order__pdfshipments>
+                    <adminhtml__sales_order__pdfcreditmemos>validateSalesOrderMassAction</adminhtml__sales_order__pdfcreditmemos>
+                    <adminhtml__sales_order__pdfdocs>validateSalesOrderMassAction</adminhtml__sales_order__pdfdocs>
+
+                    <adminhtml__sales_order_edit__start>validateSalesOrderEditStartAction</adminhtml__sales_order_edit__start>
+
+                    <adminhtml__sales_order_creditmemo__view>validateSalesOrderCreditmemoViewAction</adminhtml__sales_order_creditmemo__view>
                     <adminhtml__sales_order_creditmemo__addComment>validateSalesOrderCreditmemoViewAction</adminhtml__sales_order_creditmemo__addComment>
+                    <adminhtml__sales_order_creditmemo__print>validateSalesOrderCreditmemoViewAction</adminhtml__sales_order_creditmemo__print>
+                    <adminhtml__sales_order_creditmemo__>validateSalesOrderCreditmemoCreateAction</adminhtml__sales_order_creditmemo__>
+
+                    <adminhtml__sales_order_invoice__view>validateSalesOrderInvoiceViewAction</adminhtml__sales_order_invoice__view>
+                    <adminhtml__sales_order_invoice__addComment>validateSalesOrderInvoiceViewAction</adminhtml__sales_order_invoice__addComment>
+                    <adminhtml__sales_order_invoice__print>validateSalesOrderInvoiceViewAction</adminhtml__sales_order_invoice__print>
+                    <adminhtml__sales_order_invoice__>validateSalesOrderInvoiceCreateAction</adminhtml__sales_order_invoice__>
+
+                    <adminhtml__sales_order_shipment__view>validateSalesOrderShipmentViewAction</adminhtml__sales_order_shipment__view>
+                    <adminhtml__sales_order_shipment__addComment>validateSalesOrderShipmentViewAction</adminhtml__sales_order_shipment__addComment>
+                    <adminhtml__sales_order_shipment__print>validateSalesOrderShipmentViewAction</adminhtml__sales_order_shipment__print>
+                    <adminhtml__sales_order_shipment__>validateSalesOrderShipmentCreateAction</adminhtml__sales_order_shipment__>
+
+                    <adminhtml__sales_order_shipment__removeTrack>validateSalesOrderShipmentTrackAction</adminhtml__sales_order_shipment__removeTrack>
+                    <adminhtml__sales_order_shipment__viewTrack>validateSalesOrderShipmentTrackAction</adminhtml__sales_order_shipment__viewTrack>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
