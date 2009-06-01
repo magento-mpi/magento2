@@ -374,7 +374,7 @@ final class Maged_Controller
     public function isWritable()
     {
         if (is_null($this->_writable)) {
-            $this->_writable = is_writable($this->getMageDir())
+            $this->_writable = is_writable($this->getMageDir() . DIRECTORY_SEPARATOR)
                 && is_writable($this->filepath())
                 && (!file_exists($this->filepath('config.ini') || is_writable($this->filepath('config.ini'))))
                 && (!file_exists($this->filepath('pearlib/config.ini') || is_writable($this->filepath('pearlib/pear.ini'))))
