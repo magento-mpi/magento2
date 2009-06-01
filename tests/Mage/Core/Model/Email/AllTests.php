@@ -25,22 +25,16 @@
  */
 
 if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/../PHPUnitTestInit.php';
+    require dirname(__FILE__) . '/../../../../PHPUnitTestInit.php';
     PHPUnitTestInit::runMe(__FILE__);
 }
 
-/**
- * All Mage tests
- *
- */
-class Mage_AllTests
+class Mage_Core_Model_Email_AllTests
 {
     public static function suite()
     {
-        $suite = new PHPUnit_Framework_TestSuite('Mage/AllTests');
-        $suite->addTest(Mage_Tag_AllTests::suite());
-        $suite->addTest(Mage_Core_AllTests::suite());
-        // $suite->addTest(Mage_..._AllTests::suite());
+        $suite = new PHPUnit_Framework_TestSuite('Mage/Core/Model/Email/AllTests');
+        $suite->addTest(Mage_Core_Model_Email_Template_AllTests::suite());
         return $suite;
     }
 }
