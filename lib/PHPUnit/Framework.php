@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Framework.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Framework.php 3400 2008-07-09 18:30:08Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -52,7 +52,8 @@ require 'PHPUnit/Framework/SelfDescribing.php';
 require 'PHPUnit/Framework/AssertionFailedError.php';
 require 'PHPUnit/Framework/Assert.php';
 require 'PHPUnit/Framework/Error.php';
-require 'PHPUnit/Framework/Notice.php';
+require 'PHPUnit/Framework/Error/Notice.php';
+require 'PHPUnit/Framework/Error/Warning.php';
 require 'PHPUnit/Framework/IncompleteTest.php';
 require 'PHPUnit/Framework/SkippedTest.php';
 require 'PHPUnit/Framework/Test.php';

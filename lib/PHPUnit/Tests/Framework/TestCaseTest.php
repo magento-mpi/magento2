@@ -39,26 +39,35 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: TestCaseTest.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: TestCaseTest.php 3481 2008-07-18 08:38:51Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
 
 require_once 'PHPUnit/Framework/TestCase.php';
 
-require_once '_files/Error.php';
-require_once '_files/Failure.php';
-require_once '_files/NoArgTestCaseTest.php';
-require_once '_files/SetupFailure.php';
-require_once '_files/Success.php';
-require_once '_files/TearDownFailure.php';
-require_once '_files/ThrowExceptionTestCase.php';
-require_once '_files/ThrowNoExceptionTestCase.php';
-require_once '_files/TornDown.php';
-require_once '_files/TornDown2.php';
-require_once '_files/TornDown3.php';
-require_once '_files/TornDown4.php';
-require_once '_files/WasRun.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'Error.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'Failure.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'NoArgTestCaseTest.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'SetupFailure.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'Success.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'TearDownFailure.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'ThrowExceptionTestCase.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'ThrowNoExceptionTestCase.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'TornDown.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'TornDown2.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'TornDown3.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'TornDown4.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'WasRun.php';
+
+$GLOBALS['a']  = 'a';
+$_ENV['b']     = 'b';
+$_POST['c']    = 'c';
+$_GET['d']     = 'd';
+$_COOKIE['e']  = 'e';
+$_SERVER['f']  = 'f';
+$_FILES['g']   = 'g';
+$_REQUEST['h'] = 'h';
 
 /**
  *
@@ -68,7 +77,7 @@ require_once '_files/WasRun.php';
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
@@ -129,8 +138,8 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
     {
         $fails = new TornDown2;
 
-		    $this->verifyError($fails);
-		    $this->assertTrue($fails->tornDown);
+        $this->verifyError($fails);
+        $this->assertTrue($fails->tornDown);
     }
 
     public function testSetupFails()
@@ -147,8 +156,8 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
     {
         $fails = new TornDown;
 
-		    $this->verifyError($fails);
-		    $this->assertTrue($fails->tornDown);
+        $this->verifyError($fails);
+        $this->assertTrue($fails->tornDown);
     }
 
     public function testTearDownFails()
@@ -160,8 +169,8 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
     {
         $fails = new TornDown3;
 
-		    $this->verifyError($fails);
-		    $this->assertFalse($fails->tornDown);
+        $this->verifyError($fails);
+        $this->assertFalse($fails->tornDown);
     }
 
     public function testWasRun()
@@ -203,6 +212,59 @@ class Framework_TestCaseTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, $result->errorCount());
         $this->assertEquals(1, count($result));
+    }
+
+    public function testGlobalsBackupPre()
+    {
+        global $a;
+
+        $this->assertEquals('a', $a);
+        $this->assertEquals('a', $GLOBALS['a']);
+        $this->assertEquals('b', $_ENV['b']);
+        $this->assertEquals('c', $_POST['c']);
+        $this->assertEquals('d', $_GET['d']);
+        $this->assertEquals('e', $_COOKIE['e']);
+        $this->assertEquals('f', $_SERVER['f']);
+        $this->assertEquals('g', $_FILES['g']);
+        $this->assertEquals('h', $_REQUEST['h']);
+
+        $GLOBALS['a']   = 'aa';
+        $GLOBALS['foo'] = 'bar';
+        $_ENV['b']      = 'bb';
+        $_POST['c']     = 'cc';
+        $_GET['d']      = 'dd';
+        $_COOKIE['e']   = 'ee';
+        $_SERVER['f']   = 'ff';
+        $_FILES['g']    = 'gg';
+        $_REQUEST['h']  = 'hh';
+
+        $this->assertEquals('aa', $a);
+        $this->assertEquals('aa', $GLOBALS['a']);
+        $this->assertEquals('bar', $GLOBALS['foo']);
+        $this->assertEquals('bb', $_ENV['b']);
+        $this->assertEquals('cc', $_POST['c']);
+        $this->assertEquals('dd', $_GET['d']);
+        $this->assertEquals('ee', $_COOKIE['e']);
+        $this->assertEquals('ff', $_SERVER['f']);
+        $this->assertEquals('gg', $_FILES['g']);
+        $this->assertEquals('hh', $_REQUEST['h']);
+    }
+
+    public function testGlobalsBackupPost()
+    {
+        global $a;
+
+        $this->assertEquals('a', $a);
+        $this->assertEquals('a', $GLOBALS['a']);
+        $this->assertEquals('b', $_ENV['b']);
+        $this->assertEquals('c', $_POST['c']);
+        $this->assertEquals('d', $_GET['d']);
+        $this->assertEquals('e', $_COOKIE['e']);
+        $this->assertEquals('f', $_SERVER['f']);
+        $this->assertEquals('g', $_FILES['g']);
+        $this->assertEquals('h', $_REQUEST['h']);
+
+        $this->assertArrayNotHasKey('foo', $GLOBALS);
     }
 
     protected function verifyError(PHPUnit_Framework_TestCase $test)

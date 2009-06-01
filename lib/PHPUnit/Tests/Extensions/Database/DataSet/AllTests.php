@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: AllTests.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: AllTests.php 3675 2008-08-31 07:11:10Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -48,17 +48,19 @@ require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Extensions_Database_Operation_AllTests::main');
-    chdir(dirname(dirname(__FILE__)));
-}
-
 require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'PHPUnit/Util/Filter.php';
 
-require_once 'Extensions/Database/DataSet/XmlDataSetsTest.php';
-require_once 'Extensions/Database/DataSet/FilterTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'CompositeDataSetTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'CsvDataSetTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'FilterTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PersistorTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'QueryDataSetTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'QueryTableTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ReplacementDataSetTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ReplacementTableTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'XmlDataSetsTest.php';
+
+PHPUnit_Util_Filter::$filterPHPUnit = FALSE;
 
 /**
  *
@@ -68,29 +70,27 @@ require_once 'Extensions/Database/DataSet/FilterTest.php';
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
 class Extensions_Database_DataSet_AllTests
 {
-    public static function main()
-    {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit_Extensions_Database_DataSet');
 
+        $suite->addTestSuite('Extensions_Database_DataSet_CompositeDataSetTest');
+        $suite->addTestSuite('Extensions_Database_DataSet_CsvDataSetTest');
+        $suite->addTestSuite('Extensions_Database_DataSet_FilterTest');
+        $suite->addTestSuite('Extensions_Database_DataSet_PersistorTest');
+        $suite->addTestSuite('Extensions_Database_DataSet_QueryDataSetTest');
+        $suite->addTestSuite('Extensions_Database_DataSet_QueryTableTest');
+        $suite->addTestSuite('Extensions_Database_DataSet_ReplacementDataSetTest');
+        $suite->addTestSuite('Extensions_Database_DataSet_ReplacementTableTest');
         $suite->addTestSuite('Extensions_Database_DataSet_XmlDataSetsTest');
-                $suite->addTestSuite('Extensions_Database_DataSet_FilterTest');
-        
+
         return $suite;
     }
-}
-
-if (PHPUnit_MAIN_METHOD == 'Extensions_Database_DataSet_AllTests::main') {
-    Extensions_Database_DataSet_AllTests::main();
 }
 ?>

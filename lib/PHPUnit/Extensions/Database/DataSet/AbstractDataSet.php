@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: AbstractDataSet.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: AbstractDataSet.php 3146 2008-06-08 07:56:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -59,7 +59,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -67,13 +67,13 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractDataSet implements PH
 {
 
     /**
-     * Creates an iterator over the tables in the data set. If $reverse is 
+     * Creates an iterator over the tables in the data set. If $reverse is
      * true a reverse iterator will be returned.
      *
      * @param bool $reverse
      * @return PHPUnit_Extensions_Database_DataSet_ITableIterator
      */
-    protected abstract function createIterator($reverse = false);
+    protected abstract function createIterator($reverse = FALSE);
 
     /**
      * Returns an array of table names contained in the dataset.
@@ -83,12 +83,12 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractDataSet implements PH
     public function getTableNames()
     {
         $tableNames = array();
-        
+
         foreach ($this->getIterator() as $table) {
             /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
             $tableNames[] = $table->getTableMetaData()->getTableName();
         }
-        
+
         return $tableNames;
     }
 
@@ -136,7 +136,7 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractDataSet implements PH
      */
     public function getReverseIterator()
     {
-        return $this->createIterator(true);
+        return $this->createIterator(TRUE);
     }
 
     /**
@@ -148,30 +148,30 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractDataSet implements PH
     {
         $thisTableNames = $this->getTableNames();
         $otherTableNames = $other->getTableNames();
-        
+
         sort($thisTableNames);
         sort($otherTableNames);
-        
+
         if ($thisTableNames != $otherTableNames) {
             throw new Exception("Expected following tables: " . implode(', ', $thisTableNames) . "; has columns: " . implode(', ', $otherTableNames));
         }
-        
+
         foreach ($thisTableNames as $tableName) {
             $this->getTable($tableName)->assertEquals($other->getTable($tableName));
         }
-        
+
         return TRUE;
     }
 
     public function __toString()
     {
         $iterator = $this->getIterator();
-        
+
         $dataSetString = '';
         foreach ($iterator as $table) {
             $dataSetString .= $table->__toString();
         }
-        
+
         return $dataSetString;
     }
 }

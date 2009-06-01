@@ -40,7 +40,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: IsType.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: IsType.php 3269 2008-06-27 18:39:05Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -62,28 +62,38 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
 class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
 {
+    const TYPE_ARRAY    = 'array';
+    const TYPE_BOOL     = 'bool';
+    const TYPE_FLOAT    = 'float';
+    const TYPE_INT      = 'int';
+    const TYPE_NULL     = 'null';
+    const TYPE_NUMERIC  = 'numeric';
+    const TYPE_OBJECT   = 'object';
+    const TYPE_RESOURCE = 'resource';
+    const TYPE_STRING   = 'string';
+
     protected $type;
 
     public function __construct($type)
     {
         switch ($type) {
-            case 'numeric':
-            case 'integer':
-            case 'int':
-            case 'float':
-            case 'string':
+            case 'array':
             case 'boolean':
             case 'bool':
+            case 'float':
+            case 'integer':
+            case 'int':
             case 'null':
-            case 'array':
+            case 'numeric':
             case 'object':
-            case 'resource': {
+            case 'resource':
+            case 'string': {
               break;
             }
 
@@ -155,7 +165,6 @@ class PHPUnit_Framework_Constraint_IsType extends PHPUnit_Framework_Constraint
      * Returns a string representation of the constraint.
      *
      * @return string
-     * @access public
      */
     public function toString()
     {

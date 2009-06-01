@@ -52,7 +52,7 @@ require_once 'PHPUnit/Extensions/Database/AbstractTester.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * This is the default implementation of the database tester. It receives its 
+ * This is the default implementation of the database tester. It receives its
  * connection object from the constructor.
  *
  * @category   Testing
@@ -60,7 +60,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */

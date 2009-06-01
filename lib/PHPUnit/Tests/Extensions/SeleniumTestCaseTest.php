@@ -40,7 +40,7 @@
  * @author     Sebastian Nohn <sebastian@nohn.net>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: SeleniumTestCaseTest.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: SeleniumTestCaseTest.php 3226 2008-06-16 08:19:20Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -56,7 +56,7 @@ require_once 'PHPUnit/Extensions/SeleniumTestCase.php';
  * @author     Sebastian Nohn <sebastian@nohn.net>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -64,15 +64,16 @@ class Extensions_SeleniumTestCaseTest extends PHPUnit_Extensions_SeleniumTestCas
 {
     public function setUp()
     {
-        if (!PHPUNIT_TESTSUITE_EXTENSION_SELENIUM_ENABLED) {
+        if (!isset($GLOBALS['PHPUNIT_TESTSUITE_EXTENSION_SELENIUM_ENABLED']) ||
+            !$GLOBALS['PHPUNIT_TESTSUITE_EXTENSION_SELENIUM_ENABLED']) {
             $this->markTestSkipped(
               'The Selenium tests are disabled.'
             );
         }
 
-        $this->setHost(PHPUNIT_TESTSUITE_EXTENSION_SELENIUM_HOST);
-        $this->setPort(PHPUNIT_TESTSUITE_EXTENSION_SELENIUM_PORT);
-        $this->setBrowser(PHPUNIT_TESTSUITE_EXTENSION_SELENIUM_BROWSER);
+        $this->setHost($GLOBALS['PHPUNIT_TESTSUITE_EXTENSION_SELENIUM_HOST']);
+        $this->setPort((int)$GLOBALS['PHPUNIT_TESTSUITE_EXTENSION_SELENIUM_PORT']);
+        $this->setBrowser($GLOBALS['PHPUNIT_TESTSUITE_EXTENSION_SELENIUM_BROWSER']);
         $this->setBrowserUrl('http://www.openqa.org/');
         $this->setTimeout(10000);
     }
@@ -139,7 +140,7 @@ class Extensions_SeleniumTestCaseTest extends PHPUnit_Extensions_SeleniumTestCas
             return;
         }
 
-        $this->fail();  
+        $this->fail();
     }
 
     public function testInPlaceEditor()
@@ -155,7 +156,7 @@ class Extensions_SeleniumTestCaseTest extends PHPUnit_Extensions_SeleniumTestCas
         $this->click('tobeedited');
         $this->click("//input[@class='editor_ok_button']");
         $this->assertVisible('tobeedited');
-#       $this->waitForText('tobeedited', 'Server received: To be edited');
+        //$this->waitForText('tobeedited', 'Server received: To be edited');
         // Workaround for not yet implemented waitForText
         sleep(1);
         $this->assertElementContainsText('tobeedited', 'Server received: To be edited');

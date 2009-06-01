@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: DefaultDataSet.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: DefaultDataSet.php 3146 2008-06-08 07:56:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -60,7 +60,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -95,13 +95,13 @@ class PHPUnit_Extensions_Database_DataSet_DefaultDataSet extends PHPUnit_Extensi
     }
 
     /**
-     * Creates an iterator over the tables in the data set. If $reverse is 
+     * Creates an iterator over the tables in the data set. If $reverse is
      * true a reverse iterator will be returned.
      *
      * @param bool $reverse
      * @return PHPUnit_Extensions_Database_DataSet_ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator($reverse = FALSE)
     {
         return new PHPUnit_Extensions_Database_DataSet_DefaultTableIterator($this->tables, $reverse);
     }

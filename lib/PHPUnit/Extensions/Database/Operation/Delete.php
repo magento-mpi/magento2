@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Delete.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Delete.php 2854 2008-04-24 08:34:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -47,7 +47,7 @@
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
-require_once 'PHPUnit/Extensions/Database/Operation/IDatabaseOperation.php';
+require_once 'PHPUnit/Extensions/Database/Operation/RowBased.php';
 require_once 'PHPUnit/Extensions/Database/Operation/Exception.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
@@ -60,7 +60,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -69,17 +69,19 @@ class PHPUnit_Extensions_Database_Operation_Delete extends PHPUnit_Extensions_Da
 
     protected $operationName = 'DELETE';
 
+    protected $iteratorDirection = self::ITERATOR_TYPE_REVERSE;
+
     protected function buildOperationQuery(PHPUnit_Extensions_Database_DataSet_ITableMetaData $databaseTableMetaData, PHPUnit_Extensions_Database_DataSet_ITable $table, PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection)
     {
         $keys = $databaseTableMetaData->getPrimaryKeys();
-        
+
         $whereStatement = 'WHERE ' . implode(' AND ', $this->buildPreparedColumnArray($keys, $connection));
-        
+
         $query = "
 			DELETE FROM {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}
 			{$whereStatement}
 		";
-        
+
         return $query;
     }
 
@@ -89,7 +91,7 @@ class PHPUnit_Extensions_Database_Operation_Delete extends PHPUnit_Extensions_Da
         foreach ($databaseTableMetaData->getPrimaryKeys() as $columnName) {
             $args[] = $table->getValue($row, $columnName);
         }
-        
+
         return $args;
     }
 }

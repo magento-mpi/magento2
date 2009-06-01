@@ -11,7 +11,7 @@
  *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: TestSuiteIterator.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: TestSuiteIterator.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.0
  */
@@ -56,7 +56,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.0
  */
@@ -64,13 +64,11 @@ class PHPUnit_Util_TestSuiteIterator implements RecursiveIterator
 {
     /**
      * @var    integer
-     * @access protected
      */
     protected $position;
 
     /**
      * @var    PHPUnit_Framework_Test[]
-     * @access protected
      */
     protected $tests;
 
@@ -78,7 +76,6 @@ class PHPUnit_Util_TestSuiteIterator implements RecursiveIterator
      * Constructor.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      */
     public function __construct(PHPUnit_Framework_TestSuite $testSuite)
     {
@@ -88,7 +85,6 @@ class PHPUnit_Util_TestSuiteIterator implements RecursiveIterator
     /**
      * Rewinds the Iterator to the first element.
      *
-     * @access public
      */
     public function rewind()
     {
@@ -99,7 +95,6 @@ class PHPUnit_Util_TestSuiteIterator implements RecursiveIterator
      * Checks if there is a current element after calls to rewind() or next().
      *
      * @return boolean
-     * @access public
      */
     public function valid()
     {
@@ -110,7 +105,6 @@ class PHPUnit_Util_TestSuiteIterator implements RecursiveIterator
      * Returns the key of the current element.
      *
      * @return integer
-     * @access public
      */
     public function key()
     {
@@ -121,7 +115,6 @@ class PHPUnit_Util_TestSuiteIterator implements RecursiveIterator
      * Returns the current element.
      *
      * @return PHPUnit_Framework_Test
-     * @access public
      */
     public function current()
     {
@@ -131,7 +124,6 @@ class PHPUnit_Util_TestSuiteIterator implements RecursiveIterator
     /**
      * Moves forward to next element.
      *
-     * @access public
      */
     public function next()
     {
@@ -142,7 +134,6 @@ class PHPUnit_Util_TestSuiteIterator implements RecursiveIterator
      * Returns the sub iterator for the current element.
      *
      * @return PHPUnit_Util_TestSuiteIterator
-     * @access public
      */
     public function getChildren()
     {
@@ -153,7 +144,6 @@ class PHPUnit_Util_TestSuiteIterator implements RecursiveIterator
      * Checks whether the current element has children.
      *
      * @return boolean
-     * @access public
      */
     public function hasChildren()
     {

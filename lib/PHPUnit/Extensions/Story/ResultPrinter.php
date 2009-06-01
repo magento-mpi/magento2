@@ -39,113 +39,71 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: TestSetup.php 2154 2008-01-17 11:19:53Z sb $
+ * @version    SVN: $Id: ResultPrinter.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 3.3.0
  */
 
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/Extensions/TestDecorator.php';
 require_once 'PHPUnit/Util/Filter.php';
+require_once 'PHPUnit/Util/Template.php';
+require_once 'PHPUnit/Util/TestDox/ResultPrinter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-trigger_error(
-  "Class PHPUnit_Extensions_TestSetup is deprecated. ".
-  "It will be removed in PHPUnit 3.3. ".
-  "Please use the new functionality in PHPUnit_Framework_TestSuite instead."
-);
-
 /**
- * A Decorator to set up and tear down additional fixture state.
- * Subclass TestSetup and insert it into your tests when you want
- * to set up additional state once before the tests are run.
+ * Base for Story result printers.
  *
  * @category   Testing
  * @package    PHPUnit
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.0.0
+ * @since      Class available since Release 3.3.0
  */
-class PHPUnit_Extensions_TestSetup extends PHPUnit_Extensions_TestDecorator
+class PHPUnit_Extensions_Story_ResultPrinter extends PHPUnit_Util_TestDox_ResultPrinter
 {
     /**
-     * Runs the decorated test and collects the
-     * result in a TestResult.
+     * A test ended.
      *
-     * @param  PHPUnit_Framework_TestResult $result
-     * @return PHPUnit_Framework_TestResult
-     * @throws InvalidArgumentException
-     * @access public
+     * @param  PHPUnit_Framework_Test $test
+     * @param  float                  $time
      */
-    public function run(PHPUnit_Framework_TestResult $result = NULL)
+    public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if ($result === NULL) {
-            $result = $this->createResult();
-        }
-
-        $this->setUp();
-        $this->copyFixtureToTest();
-        $this->basicRun($result);
-        $this->tearDown();
-
-        return $result;
-    }
-
-    /**
-     * Copies the fixture set up by setUp() to the test.
-     *
-     * @access private
-     * @since  Method available since Release 2.3.0
-     */
-    private function copyFixtureToTest()
-    {
-        $object = new ReflectionClass($this);
-
-        foreach ($object->getProperties() as $attribute) {
-            $name = $attribute->getName();
-
-            if ($name != 'test') {
-                $this->doCopyFixtureToTest($this->test, $name, $this->$name);
+        if ($test instanceof PHPUnit_Extensions_Story_TestCase ||
+            $test instanceof PHPUnit_Extensions_Story_SeleniumTestCase) {
+            if ($this->testStatus == PHPUnit_Runner_BaseTestRunner::STATUS_PASSED) {
+                $this->successful++;
+                $success = TRUE;
+            } else {
+                $success = FALSE;
             }
+
+            $this->onTest(
+              $this->currentTestMethodPrettified,
+              $success,
+              $test->getScenario()->getSteps()
+            );
         }
     }
 
     /**
-     * @access private
-     * @since  Method available since Release 2.3.0
      */
-    private function doCopyFixtureToTest($object, $name, &$value)
+    protected function doEndClass()
     {
-        if ($object instanceof PHPUnit_Framework_TestSuite) {
-            foreach ($object->tests() as $test) {
-                $this->doCopyFixtureToTest($test, $name, $value);
-            }
-        } else {
-            $object->$name =& $value;
-        }
+        $this->endClass($this->testClass);
     }
 
     /**
-     * Sets up the fixture. Override to set up additional fixture
-     * state.
+     * Handler for 'on test' event.
      *
-     * @access protected
+     * @param  string  $name
+     * @param  boolean $success
+     * @param  array   $steps
      */
-    protected function setUp()
-    {
-    }
-
-    /**
-     * Tears down the fixture. Override to tear down the additional
-     * fixture state.
-     *
-     * @access protected
-     */
-    protected function tearDown()
+    protected function onTest($name, $success = TRUE, array $steps = array())
     {
     }
 }

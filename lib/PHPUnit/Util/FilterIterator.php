@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: FilterIterator.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: FilterIterator.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -56,7 +56,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -65,14 +65,12 @@ class PHPUnit_Util_FilterIterator extends FilterIterator
 {
     /**
      * @var    string
-     * @access protected
      */
     protected $suffix;
 
     /**
      * @param  Iterator $iterator
      * @param  string   $suffix
-     * @access public
      */
     public function __construct(Iterator $iterator, $suffix = 'Test.php')
     {
@@ -82,7 +80,6 @@ class PHPUnit_Util_FilterIterator extends FilterIterator
 
     /**
      * @return boolean
-     * @access public
      */
     public function accept()
     {

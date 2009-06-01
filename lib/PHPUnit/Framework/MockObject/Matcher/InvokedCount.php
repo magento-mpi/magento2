@@ -40,7 +40,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: InvokedCount.php 2095 2008-01-14 17:14:34Z sb $
+ * @version    SVN: $Id: InvokedCount.php 2367 2008-02-07 08:29:51Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -64,7 +64,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -89,9 +89,9 @@ class PHPUnit_Framework_MockObject_Matcher_InvokedCount extends PHPUnit_Framewor
         $count = $this->getInvocationCount();
 
         if ($count > $this->expectedCount) {
-            $message = (string)$invocation;
+            $message = $invocation->toString();
 
-            switch ($this->expectedCount == 0) {
+            switch ($this->expectedCount) {
                 case 0: {
                     $message .= ' was not expected to be called.';
                 }

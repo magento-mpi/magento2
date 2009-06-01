@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: DataSetIsEqual.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: DataSetIsEqual.php 3307 2008-06-30 02:59:49Z mlively $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -58,7 +58,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -86,7 +86,7 @@ class PHPUnit_Extensions_Database_Constraint_DataSetIsEqual extends PHPUnit_Fram
     }
 
     /**
-     * Determines whether or not the given dataset matches the dataset used to 
+     * Determines whether or not the given dataset matches the dataset used to
      * create this constraint.
      *
      * @param PHPUnit_Extensions_Database_DataSet_IDataSet $other
@@ -107,41 +107,25 @@ class PHPUnit_Extensions_Database_Constraint_DataSetIsEqual extends PHPUnit_Fram
         }
     }
 
-    /**
-     * @param   mixed   $other The value passed to evaluate() which failed the
-     *                         constraint check.
-     * @param   string  $description A string with extra description of what was
-     *                               going on while the evaluation failed.
-     * @param   boolean $not Flag to indicate negation.
-     * @throws  PHPUnit_Framework_ExpectationFailedException
-     */
-    protected function failureDescription($other, $description, $not)
+    protected function customFailureDescription($other, $description, $not)
     {
-        $failureDescription = sprintf('Failed asserting that %s %s Reason: %s', 
-            $other->__toString(), 
-            $this->toString(), 
-            $this->failure_reason);
-        
-        if ($not) {
-            $failureDescription = self::negate($failureDescription);
-        }
-        
-        if (!empty($description)) {
-            $failureDescription = $description . "\n" . $failureDescription;
-        }
-        
-        return $failureDescription;
+        return sprintf(
+          'Failed asserting that actual %s %s Reason: %s',
+
+           $other->__toString(),
+           $this->toString(),
+           $this->failure_reason
+         );
     }
 
     /**
      * Returns a string representation of the constraint.
      *
      * @return string
-     * @access public
      */
     public function toString()
     {
-        return sprintf('is equal to %s', 
+        return sprintf('is equal to expected %s',
             $this->value->__toString());
     }
 }

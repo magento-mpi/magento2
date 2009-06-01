@@ -11,7 +11,7 @@
  *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Function.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Function.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -57,7 +57,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -86,7 +86,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * @param  string                              $scope
      * @param  ReflectionFunction|ReflectionMethod $function
      * @param  array                               $codeCoverage
-     * @access protected
      */
     protected function __construct($scope, $function, &$codeCoverage = array())
     {
@@ -115,8 +114,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * @param  ReflectionFunction|ReflectionMethod $function
      * @param  array                               $codeCoverage
      * @return PHPUnit_Util_Metrics_Method
-     * @access public
-     * @static
      */
     public static function factory($function, &$codeCoverage = array())
     {
@@ -141,7 +138,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
 
     /**
      * @param  array $codeCoverage
-     * @access public
      */
     public function setCoverage(array &$codeCoverage)
     {
@@ -155,7 +151,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Returns the function.
      *
      * @return ReflectionFunction
-     * @access public
      */
     public function getFunction()
     {
@@ -167,7 +162,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Alias for getFunction().
      *
      * @return ReflectionMethod
-     * @access public
      */
     public function getMethod()
     {
@@ -178,7 +172,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Returns the names of the classes this function or method depends on.
      *
      * @return array
-     * @access public
      */
     public function getDependencies()
     {
@@ -189,7 +182,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Lines of Code (LOC).
      *
      * @return int
-     * @access public
      */
     public function getLoc()
     {
@@ -200,7 +192,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Executable Lines of Code (ELOC).
      *
      * @return int
-     * @access public
      */
     public function getLocExecutable()
     {
@@ -211,7 +202,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Executed Lines of Code.
      *
      * @return int
-     * @access public
      */
     public function getLocExecuted()
     {
@@ -222,7 +212,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Number of Parameters.
      *
      * @return int
-     * @access public
      */
     public function getParameters()
     {
@@ -237,6 +226,7 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * following PHP keywords/statements this value gets incremented by one:
      *
      *   - if
+     *   - elseif
      *   - for
      *   - foreach
      *   - while
@@ -253,7 +243,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * block to an equivalent sequence of 'if' statements).
      *
      * @return integer
-     * @access public
      * @see    http://en.wikipedia.org/wiki/Cyclomatic_complexity
      */
     public function getCCN()
@@ -266,7 +255,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * method.
      *
      * @return float
-     * @access public
      * @see    http://www.artima.com/weblogs/viewpost.jsp?thread=210575
      */
     public function getCrapIndex()
@@ -278,7 +266,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Returns the Code Coverage for the method.
      *
      * @return float
-     * @access public
      */
     public function getCoverage()
     {
@@ -289,7 +276,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Returns the NPath Complexity for the method.
      *
      * @return integer
-     * @access public
      */
     public function getNPath()
     {
@@ -299,7 +285,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
     /**
      * Calculates the Cyclomatic Complexity Number (CCN) for the method.
      *
-     * @access protected
      */
     protected function calculateCCN()
     {
@@ -318,6 +303,7 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
 
             switch ($token) {
                 case T_IF:
+                case T_ELSEIF:
                 case T_FOR:
                 case T_FOREACH:
                 case T_WHILE:
@@ -337,7 +323,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
     /**
      * Calculates the NPath Complexity for the method.
      *
-     * @access protected
      */
     protected function calculateNPath()
     {
@@ -415,7 +400,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Calculates the Code Coverage for the method.
      *
      * @param  array $codeCoverage
-     * @access protected
      */
     protected function calculateCodeCoverage(&$codeCoverage)
     {
@@ -436,7 +420,6 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
      * Calculates the Change Risk Analysis and Predictions (CRAP) index for the
      * method.
      *
-     * @access public
      */
     protected function calculateCrapIndex()
     {
@@ -449,14 +432,13 @@ class PHPUnit_Util_Metrics_Function extends PHPUnit_Util_Metrics
         }
 
         else {
-            $this->crap = pow($this->ccn, 2) * (pow(1 - $this->coverage/100, 3) + $this->ccn);
+            $this->crap = pow($this->ccn, 2) * pow(1 - $this->coverage/100, 3) + $this->ccn;
         }
     }
 
     /**
      * Calculates the dependencies for this function or method.
      *
-     * @access public
      */
     protected function calculateDependencies()
     {

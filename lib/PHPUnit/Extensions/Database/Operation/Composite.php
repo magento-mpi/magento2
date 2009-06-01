@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Composite.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Composite.php 2854 2008-04-24 08:34:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -53,9 +53,9 @@ require_once 'PHPUnit/Extensions/Database/Operation/Exception.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * This class facilitates combining database operations. To create a composite 
- * operation pass an array of classes that implement 
- * PHPUnit_Extensions_Database_Operation_IDatabaseOperation and they will be 
+ * This class facilitates combining database operations. To create a composite
+ * operation pass an array of classes that implement
+ * PHPUnit_Extensions_Database_Operation_IDatabaseOperation and they will be
  * executed in that order against all data sets.
  *
  * @category   Testing
@@ -63,7 +63,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */

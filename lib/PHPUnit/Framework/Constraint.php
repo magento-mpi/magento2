@@ -40,7 +40,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Constraint.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Constraint.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -61,7 +61,7 @@ if (!class_exists('PHPUnit_Framework_Constraint', FALSE)) {
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Interface available since Release 3.0.0
  */
@@ -73,7 +73,6 @@ abstract class PHPUnit_Framework_Constraint implements PHPUnit_Framework_SelfDes
      *
      * @param mixed $other Value or object to evaluate.
      * @return bool
-     * @abstract
      */
     abstract public function evaluate($other);
 
@@ -98,12 +97,18 @@ abstract class PHPUnit_Framework_Constraint implements PHPUnit_Framework_SelfDes
 
     protected function failureDescription($other, $description, $not)
     {
-        $failureDescription = sprintf(
-          'Failed asserting that %s %s.',
-
-           PHPUnit_Util_Type::toString($other),
-           $this->toString()
+        $failureDescription = $this->customFailureDescription(
+          $other, $description, $not
         );
+
+        if ($failureDescription === NULL) {
+            $failureDescription = sprintf(
+              'Failed asserting that %s %s.',
+
+               PHPUnit_Util_Type::toString($other),
+               $this->toString()
+            );
+        }
 
         if ($not) {
             $failureDescription = self::negate($failureDescription);
@@ -114,6 +119,10 @@ abstract class PHPUnit_Framework_Constraint implements PHPUnit_Framework_SelfDes
         }
 
         return $failureDescription;
+    }
+
+    protected function customFailureDescription($other, $description, $not)
+    {
     }
 
     public static function negate($string)
@@ -145,6 +154,7 @@ require_once 'PHPUnit/Framework/Constraint/ArrayHasKey.php';
 require_once 'PHPUnit/Framework/Constraint/Attribute.php';
 require_once 'PHPUnit/Framework/Constraint/ClassHasAttribute.php';
 require_once 'PHPUnit/Framework/Constraint/ClassHasStaticAttribute.php';
+require_once 'PHPUnit/Framework/Constraint/IsFalse.php';
 require_once 'PHPUnit/Framework/Constraint/FileExists.php';
 require_once 'PHPUnit/Framework/Constraint/GreaterThan.php';
 require_once 'PHPUnit/Framework/Constraint/IsAnything.php';
@@ -154,11 +164,13 @@ require_once 'PHPUnit/Framework/Constraint/IsInstanceOf.php';
 require_once 'PHPUnit/Framework/Constraint/IsType.php';
 require_once 'PHPUnit/Framework/Constraint/LessThan.php';
 require_once 'PHPUnit/Framework/Constraint/Not.php';
+require_once 'PHPUnit/Framework/Constraint/IsNull.php';
 require_once 'PHPUnit/Framework/Constraint/ObjectHasAttribute.php';
 require_once 'PHPUnit/Framework/Constraint/Or.php';
 require_once 'PHPUnit/Framework/Constraint/PCREMatch.php';
 require_once 'PHPUnit/Framework/Constraint/StringContains.php';
 require_once 'PHPUnit/Framework/Constraint/TraversableContains.php';
 require_once 'PHPUnit/Framework/Constraint/TraversableContainsOnly.php';
+require_once 'PHPUnit/Framework/Constraint/IsTrue.php';
 require_once 'PHPUnit/Framework/Constraint/Xor.php';
 ?>

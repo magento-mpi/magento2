@@ -11,7 +11,7 @@
  *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Class.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Class.php 3945 2008-11-04 19:12:23Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.0
  */
@@ -56,7 +56,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.0
  */
@@ -69,8 +69,6 @@ class PHPUnit_Util_Class
     /**
      * Starts the collection of loaded classes.
      *
-     * @access public
-     * @static
      */
     public static function collectStart()
     {
@@ -82,8 +80,6 @@ class PHPUnit_Util_Class
      * returns the names of the loaded classes.
      *
      * @return array
-     * @access public
-     * @static
      */
     public static function collectEnd()
     {
@@ -97,8 +93,6 @@ class PHPUnit_Util_Class
      * returns the names of the files that declare the loaded classes.
      *
      * @return array
-     * @access public
-     * @static
      */
     public static function collectEndAsFiles()
     {
@@ -129,8 +123,6 @@ class PHPUnit_Util_Class
      * @param  string  $commonPath
      * @param  boolean $clearCache
      * @return array
-     * @access public
-     * @static
      */
     public static function getClassesInFile($filename, $commonPath = '', $clearCache = FALSE)
     {
@@ -174,9 +166,7 @@ class PHPUnit_Util_Class
      * @param  string  $commonPath
      * @param  boolean $clearCache
      * @return array
-     * @access public
-     * @static
-     * @since  Class available since Release 3.2.0
+     * @since  Method available since Release 3.2.0
      * @todo   Find a better place for this method.
      */
     public static function getFunctionsInFile($filename, $commonPath = '', $clearCache = FALSE)
@@ -216,21 +206,34 @@ class PHPUnit_Util_Class
      * Returns the class hierarchy for a given class.
      *
      * @param  string  $className
+     * @param  boolean $asReflectionObjects
      * @return array
-     * @access public
-     * @static
      */
-    public static function getHierarchy($className)
+    public static function getHierarchy($className, $asReflectionObjects = FALSE)
     {
-        $classes = array($className);
+        if ($asReflectionObjects) {
+            $classes = array(new ReflectionClass($className));
+        } else {
+            $classes = array($className);
+        }
+
         $done    = FALSE;
 
         while (!$done) {
-            $class  = new ReflectionClass($classes[count($classes)-1]);
+            if ($asReflectionObjects) {
+                $class = new ReflectionClass($classes[count($classes)-1]->getName());
+            } else {
+                $class = new ReflectionClass($classes[count($classes)-1]);
+            }
+
             $parent = $class->getParentClass();
 
             if ($parent !== FALSE) {
-                $classes[] = $parent->getName();
+                if ($asReflectionObjects) {
+                    $classes[] = $parent;
+                } else {
+                    $classes[] = $parent->getName();
+                }
             } else {
                 $done = TRUE;
             }
@@ -240,13 +243,36 @@ class PHPUnit_Util_Class
     }
 
     /**
+     * Returns the signature of a function.
+     *
+     * @param  ReflectionFunction $function
+     * @return string
+     * @since  Method available since Release 3.3.2
+     * @todo   Find a better place for this method.
+     */
+    public static function getFunctionSignature(ReflectionFunction $function)
+    {
+        if ($function->returnsReference()) {
+            $reference = '&';
+        } else {
+            $reference = '';
+        }
+
+        return sprintf(
+          'function %s%s(%s)',
+
+          $reference,
+          $function->getName(),
+          self::getMethodParameters($function)
+        );
+    }
+
+    /**
      * Returns the signature of a method.
      *
-     * @param  ReflectionClass $method
+     * @param  ReflectionMethod $method
      * @return string
-     * @access public
-     * @static
-     * @since  Class available since Release 3.2.0
+     * @since  Method available since Release 3.2.0
      */
     public static function getMethodSignature(ReflectionMethod $method)
     {
@@ -283,15 +309,13 @@ class PHPUnit_Util_Class
     }
 
     /**
-     * Returns the parameters of a method.
+     * Returns the parameters of a function or method.
      *
-     * @param  ReflectionClass $method
+     * @param  ReflectionFunction|ReflectionMethod $method
      * @return string
-     * @access public
-     * @static
-     * @since  Class available since Release 3.2.0
+     * @since  Method available since Release 3.2.0
      */
-    public static function getMethodParameters(ReflectionMethod $method)
+    public static function getMethodParameters($method)
     {
         $parameters = array();
 
@@ -322,6 +346,10 @@ class PHPUnit_Util_Class
                 $default = ' = ' . var_export($value, TRUE);
             }
 
+            else if ($parameter->isOptional()) {
+                $default = ' = null';
+            }
+
             $ref = '';
 
             if ($parameter->isPassedByReference()) {
@@ -340,8 +368,6 @@ class PHPUnit_Util_Class
      * @param  string  $className
      * @param  string  $methodName
      * @return mixed
-     * @access public
-     * @static
      */
     public static function getMethodSource($className, $methodName)
     {
@@ -356,8 +382,10 @@ class PHPUnit_Util_Class
         if (file_exists($filename)) {
             $file   = file($filename);
             $result = '';
+            $start  = $function->getStartLine() - 1;
+            $end    = $function->getEndLine() - 1;
 
-            for ($line = $function->getStartLine() - 1; $line <= $function->getEndLine() - 1; $line++) {
+            for ($line = $start; $line <= $end; $line++) {
                 $result .= $file[$line];
             }
 
@@ -372,17 +400,22 @@ class PHPUnit_Util_Class
      *
      * @param  string $className
      * @return array
-     * @access public
-     * @static
      */
     public static function getPackageInformation($className)
     {
         $result = array(
+          'namespace'   => '',
           'fullPackage' => '',
           'category'    => '',
           'package'     => '',
           'subpackage'  => ''
         );
+
+        if (strpos($className, ':') !== FALSE) {
+            $result['namespace'] = self::arrayToName(
+              explode('\\', $className), '\\'
+            );
+        }
 
         $class      = new ReflectionClass($className);
         $docComment = $class->getDocComment();
@@ -402,13 +435,30 @@ class PHPUnit_Util_Class
         }
 
         if (empty($result['fullPackage'])) {
-            $tmp = explode('_', $className);
+            $result['fullPackage'] = self::arrayToName(
+              explode('_', str_replace('\\', '_', $className)), '.'
+            );
+        }
 
-            if (count($tmp) > 1) {
-                unset($tmp[count($tmp)-1]);
+        return $result;
+    }
 
-                $result['fullPackage'] = join('.', $tmp);
-            }
+    /**
+     * Returns the package information of a user-defined class.
+     *
+     * @param  array $parts
+     * @param  string $join
+     * @return string
+     * @since  Method available since Release 3.2.12
+     */
+    protected static function arrayToName(array $parts, $join)
+    {
+        $result = '';
+
+        if (count($parts) > 1) {
+            array_pop($parts);
+
+            $result = join($join, $parts);
         }
 
         return $result;

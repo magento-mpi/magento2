@@ -40,7 +40,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Array.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Array.php 2846 2008-04-24 02:11:37Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -59,7 +59,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -69,48 +69,74 @@ class PHPUnit_Framework_ComparisonFailure_Array extends PHPUnit_Framework_Compar
      * Returns a string describing the difference between the expected and the
      * actual array.
      *
-     * @note Diffing is only done for one level.
+     * @return string
      */
     public function toString()
     {
         if ($this->hasDiff()) {
-            return $this->diff(
-              print_r($this->expected, TRUE),
-              print_r($this->actual, TRUE)
+            $diff = $this->diff(
+              print_r($this->expected, TRUE), print_r($this->actual, TRUE)
             );
+
+            if (!empty($diff)) {
+                return $diff;
+            }
         }
+
+        // Fallback: Either diff is not available or the print_r() output for
+        // the expected and the actual array are equal (but the arrays are not).
 
         $expectedOnly = array();
         $actualOnly   = array();
         $diff         = '';
 
-        foreach($this->expected as $expectedKey => $expectedValue) {
+        foreach ($this->expected as $expectedKey => $expectedValue) {
             if (!array_key_exists($expectedKey, $this->actual)) {
                 $expectedOnly[] = $expectedKey;
                 continue;
             }
 
-            if ($expectedValue === $this->actual[$expectedKey]) continue;
+            if ($expectedValue === $this->actual[$expectedKey]) {
+                continue;
+            }
 
-            $diffObject = PHPUnit_Framework_ComparisonFailure::diffIdentical($expectedValue, $this->actual[$expectedKey], $this->message . "array key <{$expectedKey}>: ");
+            $diffObject = PHPUnit_Framework_ComparisonFailure::diffIdentical(
+              $expectedValue,
+              $this->actual[$expectedKey],
+              sprintf(
+                '%sarray key %s: ',
+
+                $this->message,
+                PHPUnit_Util_Type::toString($expectedKey)
+              )
+            );
+
             $diff .= $diffObject->toString() . "\n";
         }
 
-        foreach($this->actual as $actualKey => $actualValue) {
+        foreach ($this->actual as $actualKey => $actualValue) {
             if (!array_key_exists($actualKey, $this->expected)) {
                 $actualOnly[] = $actualKey;
                 continue;
             }
         }
 
-        foreach($expectedOnly as $expectedKey) {
-            $expectedValue = $this->expected[$expectedKey];
-            $diff .= "array key <{$expectedKey}>: only in expected <{$expectedValue}>\n";
+        foreach ($expectedOnly as $expectedKey) {
+            $diff .= sprintf(
+              "array key %s: only in expected %s\n",
+
+              PHPUnit_Util_Type::toString($expectedKey),
+              PHPUnit_Util_Type::toString($this->expected[$expectedKey])
+            );
         }
 
-        foreach($actualOnly as $actualKey) {
-            $actualValue = $this->actual[$actualKey];
-            $diff .= "array key <{$actualKey}>: only in actual <{$actualValue}>\n";
+        foreach ($actualOnly as $actualKey) {
+            $diff .= sprintf(
+              "array key %s: only in expected %s\n",
+
+              PHPUnit_Util_Type::toString($actualKey),
+              PHPUnit_Util_Type::toString($this->actual[$actualKey])
+            );
         }
 
         return $diff;

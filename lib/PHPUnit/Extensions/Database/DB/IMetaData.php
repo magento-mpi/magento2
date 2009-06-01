@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: IMetaData.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: IMetaData.php 2854 2008-04-24 08:34:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -57,7 +57,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -72,7 +72,7 @@ interface PHPUnit_Extensions_Database_DB_IMetaData
     public function getTableNames();
 
     /**
-     * Returns an array containing the names of all the columns in the 
+     * Returns an array containing the names of all the columns in the
      * $tableName table,
      *
      * @param string $tableName
@@ -81,7 +81,7 @@ interface PHPUnit_Extensions_Database_DB_IMetaData
     public function getTableColumns($tableName);
 
     /**
-     * Returns an array containing the names of all the primary key columns in 
+     * Returns an array containing the names of all the primary key columns in
      * the $tableName table.
      *
      * @param string $tableName
@@ -91,7 +91,7 @@ interface PHPUnit_Extensions_Database_DB_IMetaData
 
     /**
      * Returns the name of the default schema.
-     * 
+     *
      * @return string
      */
     public function getSchema();
@@ -104,5 +104,11 @@ interface PHPUnit_Extensions_Database_DB_IMetaData
      */
     public function quoteSchemaObject($object);
 
+    /**
+     * Returns true if the rdbms allows cascading
+     *
+     * @return bool
+     */
+    public function allowsCascading();
 }
 ?>

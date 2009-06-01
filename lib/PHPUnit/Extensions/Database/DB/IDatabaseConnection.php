@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: IDatabaseConnection.php 2165 2008-01-17 16:04:38Z sb $
+ * @version    SVN: $Id: IDatabaseConnection.php 3850 2008-10-15 15:43:40Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -57,7 +57,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -70,14 +70,14 @@ interface PHPUnit_Extensions_Database_DB_IDatabaseConnection
     public function close();
 
     /**
-     * Creates a dataset containing the specified table names. If no table 
-     * names are specified then it will created a dataset over the entire 
+     * Creates a dataset containing the specified table names. If no table
+     * names are specified then it will created a dataset over the entire
      * database.
      *
      * @param array $tableNames
      * @return PHPUnit_Extensions_Database_DataSet_IDataSet
      */
-    public function createDataSet(Array $tableNames = null);
+    public function createDataSet(Array $tableNames = NULL);
 
     /**
      * Creates a table with the result of the specified SQL statement.
@@ -96,14 +96,22 @@ interface PHPUnit_Extensions_Database_DB_IDatabaseConnection
     public function getConnection();
 
     /**
-     * Returns the number of rows in the given table. You can specify an 
+     * Returns a database metadata object that can be used to retrieve table
+     * meta data from the database.
+     *
+     * @return PHPUnit_Extensions_Database_DB_IMetaData
+     */
+    public function getMetaData();
+
+    /**
+     * Returns the number of rows in the given table. You can specify an
      * optional where clause to return a subset of the table.
      *
      * @param string $tableName
      * @param string $whereClause
      * @param int
      */
-    public function getRowCount($tableName, $whereClause = null);
+    public function getRowCount($tableName, $whereClause = NULL);
 
     /**
      * Returns the schema for the connection.
@@ -119,5 +127,19 @@ interface PHPUnit_Extensions_Database_DB_IDatabaseConnection
      * @return string
      */
     public function quoteSchemaObject($object);
+
+    /**
+     * Returns the command used to truncate a table.
+     *
+     * @return string
+     */
+    public function getTruncateCommand();
+
+    /**
+     * Returns true if the connection allows cascading
+     *
+     * @return bool
+     */
+    public function allowsCascading();
 }
 ?>

@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: NamePrettifier.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: NamePrettifier.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
@@ -56,7 +56,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
@@ -64,19 +64,16 @@ class PHPUnit_Util_TestDox_NamePrettifier
 {
     /**
      * @var    string
-     * @access protected
      */
     protected $prefix = 'Test';
 
     /**
      * @var    string
-     * @access protected
      */
     protected $suffix = 'Test';
 
     /**
      * @var    array
-     * @access protected
      */
     protected $strings = array();
 
@@ -85,7 +82,6 @@ class PHPUnit_Util_TestDox_NamePrettifier
      *
      * @param  string  $testClassName
      * @return string
-     * @access public
      */
     public function prettifyTestClass($testClassName)
     {
@@ -109,7 +105,6 @@ class PHPUnit_Util_TestDox_NamePrettifier
      *
      * @param  string  $testMethodName
      * @return string
-     * @access public
      */
     public function prettifyTestMethod($testMethodName)
     {
@@ -166,7 +161,6 @@ class PHPUnit_Util_TestDox_NamePrettifier
      * Sets the prefix of test names.
      *
      * @param  string  $prefix
-     * @access public
      */
     public function setPrefix($prefix)
     {
@@ -177,7 +171,6 @@ class PHPUnit_Util_TestDox_NamePrettifier
      * Sets the suffix of test names.
      *
      * @param  string  $prefix
-     * @access public
      */
     public function setSuffix($suffix)
     {

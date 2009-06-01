@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: TestCase.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: TestCase.php 3620 2008-08-25 05:22:20Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -56,7 +56,7 @@ require_once 'PHPUnit/Extensions/Database/Constraint/DataSetIsEqual.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * A TestCase extension that provides functionality for testing and asserting 
+ * A TestCase extension that provides functionality for testing and asserting
  * against a real database.
  *
  * @category   Testing
@@ -64,7 +64,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -94,8 +94,8 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
     protected abstract function getConnection();
 
     /**
-     * Gets the IDatabaseTester for this testCase. If the IDatabaseTester is 
-     * not set yet, this method calls newDatabaseTester() to obtain a new 
+     * Gets the IDatabaseTester for this testCase. If the IDatabaseTester is
+     * not set yet, this method calls newDatabaseTester() to obtain a new
      * instance.
      *
      * @return PHPUnit_Extensions_Database_ITester
@@ -105,7 +105,7 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
         if (empty($this->databaseTester)) {
             $this->databaseTester = $this->newDatabaseTester();
         }
-        
+
         return $this->databaseTester;
     }
 
@@ -147,7 +147,7 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
     }
 
     /**
-     * Creates a new DefaultDatabaseConnection using the given PDO connection 
+     * Creates a new DefaultDatabaseConnection using the given PDO connection
      * and database schema name.
      *
      * @param PDO $connection
@@ -156,9 +156,9 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
      */
     protected function createDefaultDBConnection(PDO $connection, $schema)
     {
-    	return new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection($connection, $schema);
+        return new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection($connection, $schema);
     }
-    
+
     /**
      * Creates a new FlatXmlDataSet with the given $xmlFile. (absolute path.)
      *
@@ -168,9 +168,9 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
     protected function createFlatXMLDataSet($xmlFile)
     {
         require_once 'PHPUnit/Extensions/Database/DataSet/FlatXmlDataSet.php';
-    	return new PHPUnit_Extensions_Database_DataSet_FlatXmlDataSet($xmlFile);
+        return new PHPUnit_Extensions_Database_DataSet_FlatXmlDataSet($xmlFile);
     }
-    
+
     /**
      * Creates a new XMLDataSet with the given $xmlFile. (absolute path.)
      *
@@ -180,11 +180,11 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
     protected function createXMLDataSet($xmlFile)
     {
         require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
-    	return new PHPUnit_Extensions_Database_DataSet_XmlDataSet($xmlFile);
+        return new PHPUnit_Extensions_Database_DataSet_XmlDataSet($xmlFile);
     }
-    
+
     /**
-     * Returns an operation factory instance that can be used to instantiate 
+     * Returns an operation factory instance that can be used to instantiate
      * new operations.
      *
      * @return PHPUnit_Extensions_Database_Operation_Factory
@@ -192,16 +192,16 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
     protected function getOperations()
     {
         require_once 'PHPUnit/Extensions/Database/Operation/Factory.php';
-    	return new PHPUnit_Extensions_Database_Operation_Factory();
+        return new PHPUnit_Extensions_Database_Operation_Factory();
     }
-    
+
     /**
      * Performs operation returned by getSetUpOperation().
      */
     protected function setUp()
     {
         parent::setUp();
-        
+
         $this->getDatabaseTester()->setSetUpOperation($this->getSetUpOperation());
         $this->getDatabaseTester()->setDataSet($this->getDataSet());
         $this->getDatabaseTester()->onSetUp();
@@ -215,6 +215,12 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
         $this->getDatabaseTester()->setTearDownOperation($this->getTearDownOperation());
         $this->getDatabaseTester()->setDataSet($this->getDataSet());
         $this->getDatabaseTester()->onTearDown();
+
+        /**
+         * Destroy the tester after the test is run to keep DB connections
+         * from piling up.
+         */
+        $this->databaseTester = NULL;
     }
 
     /**
@@ -227,7 +233,7 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
     public static function assertTablesEqual(PHPUnit_Extensions_Database_DataSet_ITable $expected, PHPUnit_Extensions_Database_DataSet_ITable $actual, $message = '')
     {
         $constraint = new PHPUnit_Extensions_Database_Constraint_TableIsEqual($expected);
-        
+
         self::assertThat($actual, $constraint, $message);
     }
 
@@ -241,7 +247,7 @@ abstract class PHPUnit_Extensions_Database_TestCase extends PHPUnit_Framework_Te
     public static function assertDataSetsEqual(PHPUnit_Extensions_Database_DataSet_IDataSet $expected, PHPUnit_Extensions_Database_DataSet_IDataSet $actual, $message = '')
     {
         $constraint = new PHPUnit_Extensions_Database_Constraint_DataSetIsEqual($expected);
-        
+
         self::assertThat($actual, $constraint, $message);
     }
 }

@@ -39,24 +39,22 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: AllTests.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: AllTests.php 4140 2008-11-25 17:51:13Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
 
 require_once 'PHPUnit/Util/Filter.php';
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Util_AllTests::main');
-    chdir(dirname(dirname(__FILE__)));
-}
-
 require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
 
-require_once 'Util/Log/AllTests.php';
-require_once 'Util/TestDox/AllTests.php';
-require_once 'Util/TimerTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestDox' . DIRECTORY_SEPARATOR . 'AllTests.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ConfigurationTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TimerTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'XMLTest.php';
+
+PHPUnit_Util_Filter::$filterPHPUnit = FALSE;
 
 /**
  *
@@ -66,46 +64,23 @@ require_once 'Util/TimerTest.php';
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
 class Util_AllTests
 {
-    public static function main()
-    {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
     public static function suite()
     {
-        if (!defined('PHPUNIT_TESTSUITE_WHITELIST_PREPARED')) {
-            PHPUnit_Util_Filter::addDirectoryToWhitelist(
-              dirname(dirname(dirname(__FILE__)))
-            );
-
-            PHPUnit_Util_Filter::removeDirectoryFromWhitelist(
-              dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'Samples'
-            );
-
-            PHPUnit_Util_Filter::removeDirectoryFromWhitelist(
-              dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'Tests'
-            );
-
-            define('PHPUNIT_TESTSUITE_WHITELIST_PREPARED', TRUE);
-        }
-
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit_Util');
 
-        $suite->addTest(Util_Log_AllTests::suite());
         $suite->addTest(Util_TestDox_AllTests::suite());
+        $suite->addTestSuite('Util_ConfigurationTest');
+        $suite->addTestSuite('Util_TestTest');
         $suite->addTestSuite('Util_TimerTest');
+        $suite->addTestSuite('Util_XMLTest');
 
         return $suite;
     }
-}
-
-if (PHPUnit_MAIN_METHOD == 'Util_AllTests::main') {
-    Util_AllTests::main();
 }
 ?>

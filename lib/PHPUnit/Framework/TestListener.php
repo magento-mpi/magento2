@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: TestListener.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: TestListener.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
@@ -59,7 +59,7 @@ if (!interface_exists('PHPUnit_Framework_TestListener', FALSE)) {
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Interface available since Release 2.0.0
  */
@@ -71,7 +71,6 @@ interface PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time);
 
@@ -81,7 +80,6 @@ interface PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test                 $test
      * @param  PHPUnit_Framework_AssertionFailedError $e
      * @param  float                                  $time
-     * @access public
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time);
 
@@ -91,7 +89,6 @@ interface PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time);
 
@@ -101,7 +98,6 @@ interface PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      * @since  Method available since Release 3.0.0
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time);
@@ -110,7 +106,6 @@ interface PHPUnit_Framework_TestListener
      * A test suite started.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite);
@@ -119,7 +114,6 @@ interface PHPUnit_Framework_TestListener
      * A test suite ended.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite);
@@ -128,7 +122,6 @@ interface PHPUnit_Framework_TestListener
      * A test started.
      *
      * @param  PHPUnit_Framework_Test $test
-     * @access public
      */
     public function startTest(PHPUnit_Framework_Test $test);
 
@@ -137,7 +130,6 @@ interface PHPUnit_Framework_TestListener
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  float                  $time
-     * @access public
      */
     public function endTest(PHPUnit_Framework_Test $test, $time);
 }

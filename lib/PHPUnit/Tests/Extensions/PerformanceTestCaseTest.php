@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: PerformanceTestCaseTest.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: PerformanceTestCaseTest.php 3620 2008-08-25 05:22:20Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
@@ -48,7 +48,7 @@ require_once 'PHPUnit/Framework/AssertionFailedError.php';
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'PHPUnit/Framework/TestResult.php';
 
-require_once '_files/Sleep.php';
+require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'SleepTest.php';
 
 /**
  *
@@ -58,7 +58,7 @@ require_once '_files/Sleep.php';
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
@@ -66,7 +66,7 @@ class Extensions_PerformanceTestCaseTest extends PHPUnit_Framework_TestCase
 {
     public function testDoesNotExceedMaxRunningTime()
     {
-        $test = new Sleep('testSleepTwoSeconds');
+        $test = new SleepTest('testSleepTwoSeconds');
         $test->setMaxRunningTime(3);
 
         $result = $test->run();
@@ -75,7 +75,7 @@ class Extensions_PerformanceTestCaseTest extends PHPUnit_Framework_TestCase
 
     public function testExceedsMaxRunningTime()
     {
-        $test = new Sleep('testSleepTwoSeconds');
+        $test = new SleepTest('testSleepTwoSeconds');
         $test->setMaxRunningTime(1);
 
         $result = $test->run();

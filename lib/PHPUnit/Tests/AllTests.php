@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: AllTests.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: AllTests.php 3837 2008-10-13 03:45:32Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
@@ -50,18 +50,15 @@ require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'AllTests::main');
-    chdir(dirname(__FILE__));
-}
-
 require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'PHPUnit/Extensions/PhptTestSuite.php';
 
-require_once 'Framework/AllTests.php';
-require_once 'Extensions/AllTests.php';
-require_once 'Runner/AllTests.php';
-require_once 'Util/AllTests.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Framework' . DIRECTORY_SEPARATOR . 'AllTests.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Extensions' . DIRECTORY_SEPARATOR . 'AllTests.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Runner' . DIRECTORY_SEPARATOR . 'AllTests.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Util' . DIRECTORY_SEPARATOR . 'AllTests.php';
+
+PHPUnit_Util_Filter::$filterPHPUnit = FALSE;
 
 /**
  *
@@ -71,17 +68,12 @@ require_once 'Util/AllTests.php';
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
 class AllTests
 {
-    public static function main()
-    {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
@@ -90,18 +82,10 @@ class AllTests
         $suite->addTest(Extensions_AllTests::suite());
         $suite->addTest(Runner_AllTests::suite());
         $suite->addTest(Util_AllTests::suite());
+        $suite->addTest(new PHPUnit_Extensions_PhptTestSuite(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Regression'));
+        $suite->addTest(new PHPUnit_Extensions_PhptTestSuite(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TextUI'));
 
         return $suite;
     }
-}
-
-if (is_readable(dirname(__FILE__) . '/TestConfiguration.php')) {
-    require_once 'TestConfiguration.php';
-} else {
-    require_once 'TestConfiguration.php.dist';
-}
-
-if (PHPUnit_MAIN_METHOD == 'AllTests::main') {
-    AllTests::main();
 }
 ?>

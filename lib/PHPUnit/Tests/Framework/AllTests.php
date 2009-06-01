@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: AllTests.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: AllTests.php 3671 2008-08-31 06:52:54Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
@@ -48,23 +48,19 @@ require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Framework_AllTests::main');
-    chdir(dirname(dirname(__FILE__)));
-}
-
 require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'PHPUnit/Util/Filter.php';
 
-require_once 'Framework/AssertTest.php';
-require_once 'Framework/ComparisonFailureTest.php';
-require_once 'Framework/ConstraintTest.php';
-require_once 'Framework/MockObjectTest.php';
-require_once 'Framework/SuiteTest.php';
-require_once 'Framework/TestCaseTest.php';
-require_once 'Framework/TestImplementorTest.php';
-require_once 'Framework/TestListenerTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'AssertTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ComparisonFailureTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'ConstraintTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'MockObjectTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'SuiteTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestCaseTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestFailureTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestImplementorTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'TestListenerTest.php';
+
+PHPUnit_Util_Filter::$filterPHPUnit = FALSE;
 
 /**
  *
@@ -74,17 +70,12 @@ require_once 'Framework/TestListenerTest.php';
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
 class Framework_AllTests
 {
-    public static function main()
-    {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit_Framework');
@@ -95,14 +86,11 @@ class Framework_AllTests
         $suite->addTestSuite('Framework_MockObjectTest');
         $suite->addTestSuite('Framework_SuiteTest');
         $suite->addTestSuite('Framework_TestCaseTest');
+        $suite->addTestSuite('Framework_TestFailureTest');
         $suite->addTestSuite('Framework_TestImplementorTest');
         $suite->addTestSuite('Framework_TestListenerTest');
 
         return $suite;
     }
-}
-
-if (PHPUnit_MAIN_METHOD == 'Framework_AllTests::main') {
-    Framework_AllTests::main();
 }
 ?>

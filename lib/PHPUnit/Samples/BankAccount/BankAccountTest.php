@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: BankAccountTest.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: BankAccountTest.php 3642 2008-08-27 06:21:08Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
@@ -55,7 +55,7 @@ require_once 'BankAccount.php';
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.3.0
  */
@@ -70,6 +70,8 @@ class BankAccountTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers BankAccount::getBalance
+     * @group balanceIsInitiallyZero
+     * @group specification
      */
     public function testBalanceIsInitiallyZero()
     {
@@ -78,6 +80,8 @@ class BankAccountTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers BankAccount::withdrawMoney
+     * @group balanceCannotBecomeNegative
+     * @group specification
      */
     public function testBalanceCannotBecomeNegative()
     {
@@ -96,6 +100,8 @@ class BankAccountTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers BankAccount::depositMoney
+     * @group balanceCannotBecomeNegative
+     * @group specification
      */
     public function testBalanceCannotBecomeNegative2()
     {
@@ -116,6 +122,7 @@ class BankAccountTest extends PHPUnit_Framework_TestCase
      * @covers BankAccount::getBalance
      * @covers BankAccount::depositMoney
      * @covers BankAccount::withdrawMoney
+     * @group balanceCannotBecomeNegative
      */
 /*
     public function testDepositWithdrawMoney()

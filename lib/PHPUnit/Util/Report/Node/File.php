@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: File.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: File.php 4027 2008-11-14 14:29:19Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -59,7 +59,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -67,81 +67,78 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
 {
     /**
      * @var    array
-     * @access protected
      */
     protected $codeLines;
 
     /**
      * @var    array
-     * @access protected
      */
     protected $codeLinesFillup = array();
 
     /**
      * @var    array
-     * @access protected
      */
     protected $executedLines;
 
     /**
      * @var    boolean
-     * @access protected
      */
     protected $yui = TRUE;
 
     /**
      * @var    boolean
-     * @access protected
      */
     protected $highlight = FALSE;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numExecutableLines = 0;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numExecutedLines = 0;
 
     /**
      * @var    array
-     * @access protected
      */
     protected $classes = array();
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numClasses = 0;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numCalledClasses = 0;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numMethods = 0;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numCalledMethods = 0;
 
     /**
      * @var    string
-     * @access protected
      */
     protected $yuiPanelJS = '';
+
+    /**
+     * @var    array
+     */
+    protected $startLines = array();
+
+    /**
+     * @var    array
+     */
+    protected $endLines = array();
 
     /**
      * Constructor.
@@ -152,7 +149,6 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * @param  boolean                  $yui
      * @param  boolean                  $highlight
      * @throws RuntimeException
-     * @access public
      */
     public function __construct($name, PHPUnit_Util_Report_Node $parent = NULL, array $executedLines, $yui = TRUE, $highlight = FALSE)
     {
@@ -176,7 +172,6 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * Returns the classes of this node.
      *
      * @return array
-     * @access public
      */
     public function getClasses()
     {
@@ -187,7 +182,6 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * Returns the number of executable lines.
      *
      * @return integer
-     * @access public
      */
     public function getNumExecutableLines()
     {
@@ -198,7 +192,6 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * Returns the number of executed lines.
      *
      * @return integer
-     * @access public
      */
     public function getNumExecutedLines()
     {
@@ -209,7 +202,6 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * Returns the number of classes.
      *
      * @return integer
-     * @access public
      */
     public function getNumClasses()
     {
@@ -221,7 +213,6 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * has been called at least once.
      *
      * @return integer
-     * @access public
      */
     public function getNumCalledClasses()
     {
@@ -232,7 +223,6 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * Returns the number of methods.
      *
      * @return integer
-     * @access public
      */
     public function getNumMethods()
     {
@@ -243,7 +233,6 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * Returns the number of methods that has been called at least once.
      *
      * @return integer
-     * @access public
      */
     public function getNumCalledMethods()
     {
@@ -256,12 +245,10 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * @param string  $target
      * @param string  $title
      * @param string  $charset
-     * @param boolean $highlight
      * @param integer $lowUpperBound
      * @param integer $highLowerBound
-     * @access public
      */
-    public function render($target, $title, $charset = 'ISO-8859-1', $highlight = FALSE, $lowUpperBound = 35, $highLowerBound = 70)
+    public function render($target, $title, $charset = 'ISO-8859-1', $lowUpperBound = 35, $highLowerBound = 70)
     {
         if ($this->yui) {
             $template = new PHPUnit_Util_Template(
@@ -305,7 +292,8 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
                     $count    = sprintf('%8d', $numTests);
 
                     if ($this->yui) {
-                        $buffer = '';
+                        $buffer  = '';
+                        $testCSS = '';
 
                         foreach ($this->executedLines[$i] as $test) {
                             if (!isset($test->__liHtml)) {
@@ -348,7 +336,7 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
                                   '<li%s>%s</li>',
 
                                   $testCSS,
-                                  $testName
+                                  htmlspecialchars($testName)
                                 );
                             }
 
@@ -460,8 +448,18 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
             );
 
             foreach ($classData['methods'] as $methodName => $methodData) {
-                $numCalledMethods     = $methodData['executedLines'] > 0 ? 1  : 0;
+                $numCalledMethods     = $methodData['executedLines'] > 0 ?   1 : 0;
                 $calledMethodsPercent = $numCalledMethods == 1           ? 100 : 0;
+
+                if ($className == '*') {
+                    $signature = PHPUnit_Util_Class::getFunctionSignature(
+                      new ReflectionFunction($methodName)
+                    );
+                } else {
+                    $signature = PHPUnit_Util_Class::getMethodSignature(
+                      new ReflectionMethod($className, $methodName)
+                    );
+                }
 
                 $items .= $this->doRenderItem(
                   array(
@@ -469,9 +467,7 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
                       '&nbsp;<a href="#%d">%s</a>',
 
                       $methodData['startLine'],
-                      PHPUnit_Util_Class::getMethodSignature(
-                        new ReflectionMethod($className, $methodName)
-                      )
+                      $signature
                     ),
                     'numClasses'           => '',
                     'numCalledClasses'     => '',
@@ -505,79 +501,39 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
 
         $cleanId = PHPUnit_Util_Filesystem::getSafeFilename($this->getId());
         $template->renderTo($target . $cleanId . '.html');
+
+        $this->yuiPanelJS    = '';
+        $this->executedLines = array();
     }
 
     /**
      * Calculates coverage statistics for the file.
      *
-     * @access protected
      */
     protected function calculateStatistics()
     {
-        $classes = PHPUnit_Util_Class::getClassesInFile($this->getPath());
-
-        $startLines = array();
-        $endLines   = array();
-
-        foreach ($classes as $class) {
-            if (!$class->isInterface()) {
-                $className      = $class->getName();
-                $classStartLine = $class->getStartLine();
-                $classEndLine   = $class->getEndLine();
-
-                $this->classes[$className] = array(
-                  'methods'         => array(),
-                  'startLine'       => $classStartLine,
-                  'executableLines' => 0,
-                  'executedLines'   => 0
-                );
-
-                $startLines[$classStartLine] = &$this->classes[$className];
-                $endLines[$classEndLine]     = &$this->classes[$className];
-
-                foreach ($class->getMethods() as $method) {
-                    if (!$method->isAbstract() &&
-                        $method->getDeclaringClass()->getName() == $className) {
-                        $methodName      = $method->getName();
-                        $methodStartLine = $method->getStartLine();
-                        $methodEndLine   = $method->getEndLine();
-
-                        $this->classes[$className]['methods'][$methodName] = array(
-                          'startLine'       => $methodStartLine,
-                          'executableLines' => 0,
-                          'executedLines'   => 0
-                        );
-
-                        $startLines[$methodStartLine] = &$this->classes[$className]['methods'][$methodName];
-                        $endLines[$methodEndLine]     = &$this->classes[$className]['methods'][$methodName];
-
-                        $this->numMethods++;
-                    }
-                }
-
-                $this->numClasses++;
-            }
-        }
+        $this->processClasses();
+        $this->processFunctions();
 
         $ignoreStart = -1;
         $lineNumber  = 1;
 
         foreach ($this->codeLines as $line) {
-            if (isset($startLines[$lineNumber])) {
+            if (isset($this->startLines[$lineNumber])) {
                 // Start line of a class.
-                if (isset($startLines[$lineNumber]['methods'])) {
-                    $currentClass = &$startLines[$lineNumber];
+                if (isset($this->startLines[$lineNumber]['methods'])) {
+                    $currentClass = &$this->startLines[$lineNumber];
                 }
 
                 // Start line of a method.
                 else {
-                    $currentMethod = &$startLines[$lineNumber];
+                    $currentMethod = &$this->startLines[$lineNumber];
                 }
             }
 
             if (strpos($line, '@codeCoverageIgnore') !== FALSE) {
                 if (strpos($line, '@codeCoverageIgnoreStart') !== FALSE) {
-                    $ignoreStart = $line;
+                    $ignoreStart = $lineNumber;
                 }
 
                 else if (strpos($line, '@codeCoverageIgnoreEnd') !== FALSE) {
@@ -614,7 +570,7 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
 
                     $this->numExecutableLines++;
 
-                    if ($ignoreStart != -1 && $line > $ignoreStart) {
+                    if ($ignoreStart != -1 && $lineNumber > $ignoreStart) {
                         if (isset($currentClass)) {
                             $currentClass['executedLines']++;
                         }
@@ -628,9 +584,9 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
                 }
             }
 
-            if (isset($endLines[$lineNumber])) {
+            if (isset($this->endLines[$lineNumber])) {
                 // End line of a class.
-                if (isset($endLines[$lineNumber]['methods'])) {
+                if (isset($this->endLines[$lineNumber]['methods'])) {
                     unset($currentClass);
                 }
 
@@ -661,7 +617,6 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
      * @author Sebastian Bergmann <sb@sebastian-bergmann.de>
      * @param  string  $file
      * @return array
-     * @access protected
      */
     protected function loadFile($file)
     {
@@ -681,6 +636,7 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
         }
 
         if (!$this->highlight) {
+            unset($lines[count($lines)-1]);
             return $lines;
         }
 
@@ -698,7 +654,7 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
                       htmlspecialchars($token)
                     );
 
-                    $stringFlag = !$stringFlag;   
+                    $stringFlag = !$stringFlag;
                 } else {
                     $result[$i] .= sprintf(
                       '<span class="keyword">%s</span>',
@@ -721,7 +677,7 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
             if ($value === "\n") {
                 $result[++$i] = '';
             } else {
-                $lines = explode("\n", $value);              
+                $lines = explode("\n", $value);
 
                 foreach ($lines as $jj => $line) {
                     $line = trim($line);
@@ -837,6 +793,82 @@ class PHPUnit_Util_Report_Node_File extends PHPUnit_Util_Report_Node
         unset($result[count($result)-1]);
 
         return $result;
+    }
+
+    protected function processClasses()
+    {
+        $classes = PHPUnit_Util_Class::getClassesInFile($this->getPath());
+
+        foreach ($classes as $class) {
+            if (!$class->isInterface()) {
+                $className      = $class->getName();
+                $classStartLine = $class->getStartLine();
+                $classEndLine   = $class->getEndLine();
+
+                $this->classes[$className] = array(
+                  'methods'         => array(),
+                  'startLine'       => $classStartLine,
+                  'executableLines' => 0,
+                  'executedLines'   => 0
+                );
+
+                $this->startLines[$classStartLine] = &$this->classes[$className];
+                $this->endLines[$classEndLine]     = &$this->classes[$className];
+
+                foreach ($class->getMethods() as $method) {
+                    if (!$method->isAbstract() &&
+                        $method->getDeclaringClass()->getName() == $className) {
+                        $methodName      = $method->getName();
+                        $methodStartLine = $method->getStartLine();
+                        $methodEndLine   = $method->getEndLine();
+
+                        $this->classes[$className]['methods'][$methodName] = array(
+                          'startLine'       => $methodStartLine,
+                          'executableLines' => 0,
+                          'executedLines'   => 0
+                        );
+
+                        $this->startLines[$methodStartLine] = &$this->classes[$className]['methods'][$methodName];
+                        $this->endLines[$methodEndLine]     = &$this->classes[$className]['methods'][$methodName];
+
+                        $this->numMethods++;
+                    }
+                }
+
+                $this->numClasses++;
+            }
+        }
+    }
+
+    protected function processFunctions()
+    {
+        $functions = PHPUnit_Util_Class::getFunctionsInFile($this->getPath());
+
+        if (count($functions) > 0 && !isset($this->classes['*'])) {
+            $this->classes['*'] = array(
+              'methods'         => array(),
+              'startLine'       => 0,
+              'executableLines' => 0,
+              'executedLines'   => 0
+            );
+        }
+
+        foreach ($functions as $function) {
+            $functionName      = $function->getName();
+            $functionStartLine = $function->getStartLine();
+            $functionEndLine   = $function->getEndLine();
+
+            $this->classes['*']['methods'][$functionName] = array(
+              'startLine'       => $functionStartLine,
+              'executableLines' => 0,
+              'executedLines'   => 0
+            );
+
+            $this->startLines[$functionStartLine] = &$this->classes['*']['methods'][$functionName];
+            $this->endLines[$functionEndLine]     = &$this->classes['*']['methods'][$functionName];
+
+            $this->numMethods++;
+        }
     }
 }
 ?>

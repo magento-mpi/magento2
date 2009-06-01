@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Template.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Template.php 3733 2008-09-04 11:13:45Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -56,7 +56,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -64,19 +64,16 @@ class PHPUnit_Util_Template
 {
     /**
      * @var    string
-     * @access protected
      */
     protected static $date = '';
 
     /**
      * @var    string
-     * @access protected
      */
     protected $template = '';
 
     /**
      * @var    array
-     * @access protected
      */
     protected $values = array();
 
@@ -85,9 +82,9 @@ class PHPUnit_Util_Template
      *
      * @param  string $file
      * @throws InvalidArgumentException
-     * @access public
      */
-    public function __construct($file = '') {
+    public function __construct($file = '')
+    {
         $this->setFile($file);
     }
 
@@ -96,12 +93,20 @@ class PHPUnit_Util_Template
      *
      * @param  string $file
      * @throws InvalidArgumentException
-     * @access public
      */
-    public function setFile($file) {
-        if ($file != '' && file_exists($file)) {
+    public function setFile($file)
+    {
+        $distFile = $file . '.dist';
+
+        if (file_exists($file)) {
             $this->template = file_get_contents($file);
-        } else {
+        }
+
+        else if (file_exists($distFile)) {
+            $this->template = file_get_contents($distFile);
+        }
+
+        else {
             throw new InvalidArgumentException(
               'Template file could not be loaded.'
             );
@@ -113,9 +118,9 @@ class PHPUnit_Util_Template
      *
      * @param  array   $values
      * @param  boolean $merge
-     * @access public
      */
-    public function setVar(array $values, $merge = TRUE) {
+    public function setVar(array $values, $merge = TRUE)
+    {
         if (!$merge || empty($this->values)) {
             $this->values = $values;
         } else {
@@ -127,9 +132,9 @@ class PHPUnit_Util_Template
      * Renders the template and returns the result.
      *
      * @return string
-     * @access public
      */
-    public function render() {
+    public function render()
+    {
         $keys = array();
 
         foreach ($this->values as $key => $value) {
@@ -143,10 +148,12 @@ class PHPUnit_Util_Template
      * Renders the template and writes the result to a file.
      *
      * @param string $target
-     * @access public
      */
-    public function renderTo($target) {
-        if ($fp = @fopen($target, 'wt')) {
+    public function renderTo($target)
+    {
+        $fp = @fopen($target, 'wt');
+
+        if ($fp) {
             fwrite($fp, $this->render());
             fclose($fp);
         } else {
@@ -158,10 +165,10 @@ class PHPUnit_Util_Template
      * Returns the cached result of date('D M j G:i:s T Y').
      *
      * @return string
-     * @access public
      * @since  Method available since Release 3.0.1
      */
-    public static function getDate() {
+    public static function getDate()
+    {
         if (self::$date == '') {
             self::$date = date('D M j G:i:s T Y');
         }

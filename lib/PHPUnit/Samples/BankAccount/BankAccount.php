@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: BankAccount.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: BankAccount.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
@@ -54,7 +54,7 @@ class BankAccountException extends RuntimeException {}
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.3.0
  */
@@ -64,7 +64,6 @@ class BankAccount
      * The bank account's balance.
      *
      * @var    float
-     * @access protected
      */
     protected $balance = 0;
 
@@ -72,7 +71,6 @@ class BankAccount
      * Returns the bank account's balance.
      *
      * @return float
-     * @access public
      */
     public function getBalance()
     {
@@ -84,7 +82,6 @@ class BankAccount
      *
      * @param  float $balance
      * @throws BankAccountException
-     * @access protected
      */
     protected function setBalance($balance)
     {
@@ -100,7 +97,6 @@ class BankAccount
      *
      * @param  float $balance
      * @throws BankAccountException
-     * @access public
      */
     public function depositMoney($balance)
     {
@@ -114,7 +110,6 @@ class BankAccount
      *
      * @param  float $balance
      * @throws BankAccountException
-     * @access public
      */
     public function withdrawMoney($balance)
     {

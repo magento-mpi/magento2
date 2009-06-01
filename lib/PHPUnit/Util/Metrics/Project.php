@@ -11,7 +11,7 @@
  *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
@@ -39,12 +39,10 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Project.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Project.php 3404 2008-07-09 22:08:08Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
-
-@include_once 'Image/GraphViz.php';
 
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Metrics.php';
@@ -59,7 +57,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -99,7 +97,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * @param  boolean $cpd
      * @param  integer $cpdMinLines
      * @param  integer $cpdMinMatches
-     * @access public
      */
     public function __construct(Array $files, &$codeCoverage = array(), $cpd = FALSE, $cpdMinLines = 5, $cpdMinMatches = 70)
     {
@@ -169,7 +166,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the classes of this project.
      *
      * @return array
-     * @access public
      */
     public function getClasses()
     {
@@ -181,7 +177,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      *
      * @param  string $className
      * @return ReflectionClass
-     * @access public
      */
     public function getClass($className)
     {
@@ -192,7 +187,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the dependencies between the classes of this project.
      *
      * @return array
-     * @access public
      */
     public function getDependencies()
     {
@@ -204,45 +198,45 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * as GraphViz/DOT markup.
      *
      * @return Image_GraphViz
-     * @access public
      * @since  Method available since Release 3.2.2
      */
     public function getDependenciesAsDOT()
     {
-        if (class_exists('Image_GraphViz', FALSE)) {
-            $graph = new Image_GraphViz(
-              TRUE,
-              array(
-                'overlap'  => 'scale',
-                'splines'  => 'true',
-                'sep'      => '.1',
-                'fontsize' => '8'
-              )
-            );
+        if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('Image/GraphViz.php')) {
+            require_once 'Image/GraphViz.php';
+        } else {
+            throw new RuntimeException('Image_GraphViz is not available.');
+        }
 
-            foreach (array_keys($this->dependencies) as $className) {
-                $graph->addNode($className);
-            }
+        $graph = new Image_GraphViz(
+          TRUE,
+          array(
+            'overlap'  => 'scale',
+            'splines'  => 'true',
+            'sep'      => '.1',
+            'fontsize' => '8'
+          )
+        );
 
-            foreach ($this->dependencies as $from => $dependencies) {
-                foreach ($dependencies as $to => $flag) {
-                    if ($flag === 1) {
-                        $graph->addEdge(array($from => $to));
-                    }
+        foreach (array_keys($this->dependencies) as $className) {
+            $graph->addNode($className);
+        }
+
+        foreach ($this->dependencies as $from => $dependencies) {
+            foreach ($dependencies as $to => $flag) {
+                if ($flag === 1) {
+                    $graph->addEdge(array($from => $to));
                 }
             }
-
-            return $graph;
-        } else {
-            throw new RuntimeException;
         }
+
+        return $graph;
     }
 
     /**
      * Returns the duplicates found by the Copy & Paste Detection (CPD).
      *
      * @return array
-     * @access public
      */
     public function getDuplicates()
     {
@@ -253,7 +247,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the files of this project.
      *
      * @return array
-     * @access public
      */
     public function getFiles()
     {
@@ -265,7 +258,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      *
      * @param  string $className
      * @return ReflectionClass
-     * @access public
      */
     public function getFile($filename)
     {
@@ -276,7 +268,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Functions.
      *
      * @return array
-     * @access public
      */
     public function getFunctions()
     {
@@ -288,7 +279,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      *
      * @param  string $functionName
      * @return ReflectionClass
-     * @access public
      */
     public function getFunction($functionName)
     {
@@ -299,7 +289,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the Number of Classes (CLS) for the project.
      *
      * @return integer
-     * @access public
      * @see    http://www.aivosto.com/project/help/pm-oo-misc.html
      */
     public function getCLS()
@@ -311,7 +300,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the Number of Abstract Classes (CLSa) for the project.
      *
      * @return integer
-     * @access public
      * @see    http://www.aivosto.com/project/help/pm-oo-misc.html
      */
     public function getCLSa()
@@ -323,7 +311,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the Number of Concrete Classes (CLSc) for the project.
      *
      * @return integer
-     * @access public
      * @see    http://www.aivosto.com/project/help/pm-oo-misc.html
      */
     public function getCLSc()
@@ -335,7 +322,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the Number of Root Classes (ROOTS) for the project.
      *
      * @return integer
-     * @access public
      * @see    http://www.aivosto.com/project/help/pm-oo-misc.html
      */
     public function getRoots()
@@ -347,7 +333,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the Number of Leaf Classes (LEAFS) for the project.
      *
      * @return integer
-     * @access public
      * @see    http://www.aivosto.com/project/help/pm-oo-misc.html
      */
     public function getLeafs()
@@ -359,7 +344,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the Number of Interfaces (INTERFS) for the project.
      *
      * @return integer
-     * @access public
      * @see    http://www.aivosto.com/project/help/pm-oo-misc.html
      */
     public function getInterfs()
@@ -371,7 +355,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      * Returns the Maximum Depth of Intheritance Tree (maxDIT) for the project.
      *
      * @return integer
-     * @access public
      * @see    http://www.aivosto.com/project/help/pm-oo-misc.html
      */
     public function getMaxDit()
@@ -384,7 +367,6 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
      *
      * @param  integer $minLines
      * @param  integer $minMatches
-     * @access protected
      * @author Johann-Peter Hartmann <johann-peter.hartmann@mayflower.de>
      */
     protected function copyPasteDetection($minLines, $minMatches)
@@ -442,13 +424,18 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
                         }
                     } else {
                         if ($found) {
-                            if ($line + 1 - $firstLine > $minLines) {
+                            $fileA      = $this->cpdHashes[$firstHash][0];
+                            $firstLineA = $this->cpdHashes[$firstHash][1];
+
+                            if ($line + 1 - $firstLine > $minLines &&
+                                ($fileA->getPath() != $file->getPath() ||
+                                 $firstLineA       != $firstLine)) {
                                 $this->cpdDuplicates[] = array(
-                                  'fileA'      => $this->cpdHashes[$firstHash][0],
-                                  'firstLineA' => $this->cpdHashes[$firstHash][1],
+                                  'fileA'      => $fileA,
+                                  'firstLineA' => $firstLineA,
                                   'fileB'      => $file,
                                   'firstLineB' => $firstLine,
-                                  'numLines'   => $line + 1 - $firstLine,
+                                  'numLines'   => $line    + 1 - $firstLine,
                                   'numTokens'  => $tokenNr + 1 - $firstToken
                                 );
                             }
@@ -466,13 +453,18 @@ class PHPUnit_Util_Metrics_Project extends PHPUnit_Util_Metrics
             }
 
             if ($found) {
-                if ($line + 1 - $firstLine > $minLines) {
+                $fileA      = $this->cpdHashes[$firstHash][0];
+                $firstLineA = $this->cpdHashes[$firstHash][1];
+
+                if ($line + 1 - $firstLine > $minLines &&
+                    ($fileA->getPath() != $file->getPath() ||
+                     $firstLineA       != $firstLine)) {
                     $this->cpdDuplicates[] = array(
-                      'fileA'      => $this->cpdHashes[$firstHash][0],
-                      'firstLineA' => $this->cpdHashes[$firstHash][1],
+                      'fileA'      => $fileA,
+                      'firstLineA' => $firstLineA,
                       'fileB'      => $file,
                       'firstLineB' => $firstLine,
-                      'numLines'   => $line + 1 - $firstLine,
+                      'numLines'   => $line    + 1 - $firstLine,
                       'numTokens'  => $tokenNr + 1 - $firstToken
                     );
                 }

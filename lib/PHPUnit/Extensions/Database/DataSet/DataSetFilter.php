@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: DataSetFilter.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: DataSetFilter.php 3146 2008-06-08 07:56:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -53,7 +53,7 @@ require_once 'PHPUnit/Extensions/Database/DataSet/TableFilter.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * A dataset decorator that allows filtering out tables and table columns from 
+ * A dataset decorator that allows filtering out tables and table columns from
  * results.
  *
  * @category   Testing
@@ -61,7 +61,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -87,11 +87,11 @@ class PHPUnit_Extensions_Database_DataSet_DataSetFilter extends PHPUnit_Extensio
     protected $excludeColumns;
 
     /**
-     * Creates a new filtered data set. 
-     * 
-     * The $exclude tables should be an associative array using table names as 
-     * the key and an array of column names to exclude for the value. If you 
-     * would like to exclude a full table set the value of the table's entry 
+     * Creates a new filtered data set.
+     *
+     * The $exclude tables should be an associative array using table names as
+     * the key and an array of column names to exclude for the value. If you
+     * would like to exclude a full table set the value of the table's entry
      * to the special string '*'.
      *
      * @param PHPUnit_Extensions_Database_DataSet_IDataSet $originalDataSet
@@ -101,7 +101,7 @@ class PHPUnit_Extensions_Database_DataSet_DataSetFilter extends PHPUnit_Extensio
     {
         $this->originalDataSet = $originalDataSet;
         $this->excludeTables = $excludeTables;
-        
+
         foreach ($this->excludeTables as $tableName => $values) {
             if (is_array($values)) {
                 $this->excludeColumns[$tableName] = $values;
@@ -114,21 +114,21 @@ class PHPUnit_Extensions_Database_DataSet_DataSetFilter extends PHPUnit_Extensio
     }
 
     /**
-     * Creates an iterator over the tables in the data set. If $reverse is 
+     * Creates an iterator over the tables in the data set. If $reverse is
      * true a reverse iterator will be returned.
      *
      * @param bool $reverse
      * @return PHPUnit_Extensions_Database_DataSet_ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator($reverse = FALSE)
     {
         $original_tables = $this->originalDataSet->getIterator($reverse);
         $new_tables = array();
-        
+
         foreach ($original_tables as $table) {
             /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
             $tableName = $table->getTableMetaData()->getTableName();
-            
+
             if (in_array($tableName, $this->excludeTables)) {
                 continue;
             } elseif (array_key_exists($tableName, $this->excludeColumns)) {
@@ -137,7 +137,7 @@ class PHPUnit_Extensions_Database_DataSet_DataSetFilter extends PHPUnit_Extensio
                 $new_tables[] = $table;
             }
         }
-        
+
         return new PHPUnit_Extensions_Database_DataSet_DefaultTableIterator($new_tables);
     }
 }

@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Filesystem.php 2050 2008-01-09 14:54:58Z sb $
+ * @version    SVN: $Id: Filesystem.php 3284 2008-06-28 10:09:12Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -56,24 +56,53 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  * @abstract
  */
 class PHPUnit_Util_Filesystem
 {
+    protected static $buffer = array();
+
+    /**
+     * Starts the collection of loaded files.
+     *
+     * @since  Method available since Release 3.3.0
+     */
+    public static function collectStart()
+    {
+        self::$buffer = get_included_files();
+    }
+
+    /**
+     * Stops the collection of loaded files and
+     * returns the names of the loaded files.
+     *
+     * @return array
+     * @since  Method available since Release 3.3.0
+     */
+    public static function collectEnd()
+    {
+        return array_values(
+          array_diff(get_included_files(), self::$buffer)
+        );
+    }
+
     /**
      * Wrapper for file_exists() that searches the include_path.
      *
      * @param  string $file
      * @return mixed
-     * @access public
-     * @static
      * @author Mattis Stordalen Flister <mattis@xait.no>
      * @since  Method available since Release 3.2.9
      */
-    public static function fileExistsInIncludePath($file) {
+    public static function fileExistsInIncludePath($file)
+    {
+        if (file_exists($file)) {
+            return realpath($file);
+        }
+
         $paths = explode(PATH_SEPARATOR, get_include_path());
 
         foreach ($paths as $path) {
@@ -92,8 +121,6 @@ class PHPUnit_Util_Filesystem
      *
      * @param  array $paths
      * @return string
-     * @access public
-     * @static
      * @since  Method available since Release 3.1.0
      */
     public static function getCommonPath(array $paths)
@@ -142,19 +169,145 @@ class PHPUnit_Util_Filesystem
     }
 
     /**
+     * @param  string $directory
+     * @return string
+     * @throws RuntimeException
+     * @since  Method available since Release 3.3.0
+     */
+    public static function getDirectory($directory)
+    {
+        if (substr($directory, -1, 1) != DIRECTORY_SEPARATOR) {
+            $directory .= DIRECTORY_SEPARATOR;
+        }
+
+        if (is_dir($directory) || mkdir($directory, 0777, TRUE)) {
+            return $directory;
+        } else {
+            throw new RuntimeException(
+              sprintf(
+                'Directory "%s" does not exist.',
+                $directory
+              )
+            );
+        }
+    }
+
+    /**
      * Returns a filesystem safe version of the passed filename.
      * This function does not operate on full paths, just filenames.
      *
      * @param  string $filename
      * @return string
-     * @access public
-     * @static
      * @author Michael Lively Jr. <m@digitalsandwich.com>
      */
     public static function getSafeFilename($filename)
     {
         /* characters allowed: A-Z, a-z, 0-9, _ and . */
         return preg_replace('#[^\w.]#', '_', $filename);
+    }
+
+    /**
+     * Reduces the paths by cutting the longest common start path.
+     *
+     * For instance,
+     *
+     * <code>
+     * Array
+     * (
+     *     [/home/sb/PHPUnit/Samples/Money/Money.php] => Array
+     *         (
+     *             ...
+     *         )
+     *
+     *     [/home/sb/PHPUnit/Samples/Money/MoneyBag.php] => Array
+     *         (
+     *             ...
+     *         )
+     * )
+     * </code>
+     *
+     * is reduced to
+     *
+     * <code>
+     * Array
+     * (
+     *     [Money.php] => Array
+     *         (
+     *             ...
+     *         )
+     *
+     *     [MoneyBag.php] => Array
+     *         (
+     *             ...
+     *         )
+     * )
+     * </code>
+     *
+     * @param  array $files
+     * @return string
+     * @since  Method available since Release 3.3.0
+     */
+    public static function reducePaths(&$files)
+    {
+        if (empty($files)) {
+            return '.';
+        }
+
+        $commonPath = '';
+        $paths      = array_keys($files);
+
+        if (count($files) == 1) {
+            $commonPath                 = dirname($paths[0]);
+            $files[basename($paths[0])] = $files[$paths[0]];
+
+            unset($files[$paths[0]]);
+
+            return $commonPath;
+        }
+
+        $max = count($paths);
+
+        for ($i = 0; $i < $max; $i++) {
+            $paths[$i] = explode(DIRECTORY_SEPARATOR, $paths[$i]);
+
+            if (empty($paths[$i][0])) {
+                $paths[$i][0] = DIRECTORY_SEPARATOR;
+            }
+        }
+
+        $done = FALSE;
+        $max  = count($paths);
+
+        while (!$done) {
+            for ($i = 0; $i < $max - 1; $i++) {
+                if (!isset($paths[$i][0]) ||
+                    !isset($paths[$i+1][0]) ||
+                    $paths[$i][0] != $paths[$i+1][0]) {
+                    $done = TRUE;
+                    break;
+                }
+            }
+
+            if (!$done) {
+                $commonPath .= $paths[0][0] . (($paths[0][0] != DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '');
+
+                for ($i = 0; $i < $max; $i++) {
+                    array_shift($paths[$i]);
+                }
+            }
+        }
+
+        $original = array_keys($files);
+        $max      = count($original);
+
+        for ($i = 0; $i < $max; $i++) {
+            $files[join('/', $paths[$i])] = $files[$original[$i]];
+            unset($files[$original[$i]]);
+        }
+
+        ksort($files);
+
+        return $commonPath;
     }
 }
 ?>

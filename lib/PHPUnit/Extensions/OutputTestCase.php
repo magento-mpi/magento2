@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: OutputTestCase.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: OutputTestCase.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -57,7 +57,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -65,31 +65,26 @@ abstract class PHPUnit_Extensions_OutputTestCase extends PHPUnit_Framework_TestC
 {
     /**
      * @var    string
-     * @access protected
      */
     protected $expectedRegex = NULL;
 
     /**
      * @var    string
-     * @access protected
      */
     protected $expectedString = NULL;
 
     /**
      * @var    string
-     * @access protected
      */
     protected $output = '';
 
     /**
      * @var    mixed
-     * @access protected
      */
     protected $outputCallback = FALSE;
 
     /**
      * @return bool
-     * @access public
      */
     public function setOutputCallback($callback)
     {
@@ -105,7 +100,6 @@ abstract class PHPUnit_Extensions_OutputTestCase extends PHPUnit_Framework_TestC
 
     /**
      * @return string
-     * @access public
      */
     public function normalizeOutput($buffer)
     {
@@ -114,7 +108,6 @@ abstract class PHPUnit_Extensions_OutputTestCase extends PHPUnit_Framework_TestC
 
     /**
      * @return string
-     * @access public
      */
     public function getActualOutput()
     {
@@ -123,7 +116,6 @@ abstract class PHPUnit_Extensions_OutputTestCase extends PHPUnit_Framework_TestC
 
     /**
      * @return string
-     * @access public
      */
     public function expectedRegex()
     {
@@ -132,7 +124,6 @@ abstract class PHPUnit_Extensions_OutputTestCase extends PHPUnit_Framework_TestC
 
     /**
      * @param  string  $expectedRegex
-     * @access public
      */
     public function expectOutputRegex($expectedRegex)
     {
@@ -147,7 +138,6 @@ abstract class PHPUnit_Extensions_OutputTestCase extends PHPUnit_Framework_TestC
 
     /**
      * @return string
-     * @access public
      */
     public function expectedString()
     {
@@ -156,7 +146,6 @@ abstract class PHPUnit_Extensions_OutputTestCase extends PHPUnit_Framework_TestC
 
     /**
      * @param  string  $expectedString
-     * @access public
      */
     public function expectOutputString($expectedString)
     {
@@ -170,7 +159,6 @@ abstract class PHPUnit_Extensions_OutputTestCase extends PHPUnit_Framework_TestC
     }
 
     /**
-     * @access protected
      */
     protected function runTest()
     {

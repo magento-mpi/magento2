@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: TestFailure.php 2161 2008-01-17 15:41:39Z sb $
+ * @version    SVN: $Id: TestFailure.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
@@ -59,7 +59,7 @@ if (!class_exists('PHPUnit_Framework_TestFailure', FALSE)) {
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
@@ -67,13 +67,11 @@ class PHPUnit_Framework_TestFailure
 {
     /**
      * @var    PHPUnit_Framework_Test
-     * @access protected
      */
     protected $failedTest;
 
     /**
      * @var    Exception
-     * @access protected
      */
     protected $thrownException;
 
@@ -82,7 +80,6 @@ class PHPUnit_Framework_TestFailure
      *
      * @param  PHPUnit_Framework_Test $failedTest
      * @param  Exception               $thrownException
-     * @access public
      */
     public function __construct(PHPUnit_Framework_Test $failedTest, Exception $thrownException)
     {
@@ -94,7 +91,6 @@ class PHPUnit_Framework_TestFailure
      * Returns a short description of the failure.
      *
      * @return string
-     * @access public
      */
     public function toString()
     {
@@ -111,7 +107,6 @@ class PHPUnit_Framework_TestFailure
      *
      * @param  bool $verbose
      * @return string
-     * @access public
      * @since  Method available since Release 3.2.0
      */
     public function toStringVerbose($verbose = FALSE)
@@ -125,8 +120,6 @@ class PHPUnit_Framework_TestFailure
      * @param  Exception $e
      * @param  bool      $verbose
      * @return string
-     * @access public
-     * @static
      * @since  Method available since Release 3.2.0
      */
     public static function exceptionToString(Exception $e, $verbose = FALSE)
@@ -134,17 +127,25 @@ class PHPUnit_Framework_TestFailure
         if ($e instanceof PHPUnit_Framework_SelfDescribing) {
             if ($e instanceof PHPUnit_Framework_ExpectationFailedException) {
                 $comparisonFailure = $e->getComparisonFailure();
+                $description       = $e->getDescription();
+                $message           = $e->getCustomMessage();
+
+                if ($message == '') {
+                    $buffer = '';
+                } else {
+                    $buffer = $message . "\n";
+                }
 
                 if ($comparisonFailure !== NULL) {
                     if ($comparisonFailure->identical()) {
                         if ($comparisonFailure instanceof PHPUnit_Framework_ComparisonFailure_Object) {
-                            $buffer = "Failed asserting that two variables reference the same object.\n";
+                            $buffer .= "Failed asserting that two variables reference the same object.\n";
                         } else {
-                            $buffer = $comparisonFailure->toString() . "\n";
+                            $buffer .= $comparisonFailure->toString() . "\n";
                         }
                     } else {
                         if ($comparisonFailure instanceof PHPUnit_Framework_ComparisonFailure_Scalar) {
-                            $buffer = sprintf(
+                            $buffer .= sprintf(
                               "Failed asserting that %s matches expected value %s.\n",
 
                               PHPUnit_Util_Type::toString($comparisonFailure->getActual()),
@@ -155,7 +156,7 @@ class PHPUnit_Framework_TestFailure
                         else if ($comparisonFailure instanceof PHPUnit_Framework_ComparisonFailure_Array ||
                                  $comparisonFailure instanceof PHPUnit_Framework_ComparisonFailure_Object ||
                                  $comparisonFailure instanceof PHPUnit_Framework_ComparisonFailure_String) {
-                            $buffer = sprintf(
+                            $buffer .= sprintf(
                               "Failed asserting that two %ss are equal.\n%s\n",
 
                               strtolower(substr(get_class($comparisonFailure), 36)),
@@ -167,17 +168,20 @@ class PHPUnit_Framework_TestFailure
                            !$comparisonFailure instanceof PHPUnit_Framework_ComparisonFailure_Array &&
                            !$comparisonFailure instanceof PHPUnit_Framework_ComparisonFailure_Object &&
                            !$comparisonFailure instanceof PHPUnit_Framework_ComparisonFailure_String) {
-                            $buffer = $comparisonFailure->toString() . "\n";
+                            $buffer .= $comparisonFailure->toString() . "\n";
                         }
                     }
                 } else {
-                    $buffer = $e->toString();
+                    $buffer .= $e->toString();
+                    $equal   = $buffer == $description;
 
                     if (!empty($buffer)) {
                         $buffer .= "\n";
                     }
 
-                    $buffer .= $e->getDescription() . "\n";
+                    if (!$equal) {
+                        $buffer .= $description . "\n";
+                    }
                 }
             }
 
@@ -205,7 +209,6 @@ class PHPUnit_Framework_TestFailure
      * Gets the failed test.
      *
      * @return Test
-     * @access public
      */
     public function failedTest()
     {
@@ -216,7 +219,6 @@ class PHPUnit_Framework_TestFailure
      * Gets the thrown exception.
      *
      * @return Exception
-     * @access public
      */
     public function thrownException()
     {
@@ -227,7 +229,6 @@ class PHPUnit_Framework_TestFailure
      * Returns the exception's message.
      *
      * @return string
-     * @access public
      */
     public function exceptionMessage()
     {
@@ -239,7 +240,6 @@ class PHPUnit_Framework_TestFailure
      * is of type AssertionFailedError.
      *
      * @return boolean
-     * @access public
      */
     public function isFailure()
     {

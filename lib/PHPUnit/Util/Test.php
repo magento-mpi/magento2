@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Test.php 1997 2007-12-27 05:07:58Z sb $
+ * @version    SVN: $Id: Test.php 4140 2008-11-25 17:51:13Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -56,18 +56,21 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
 class PHPUnit_Util_Test
 {
+    const REGEX_COVERS             = '/@covers[\s]+([\!<>\:\.\w]+)([\s]+<extended>)?/';
+    const REGEX_DATA_PROVIDER      = '/@dataProvider\s+([a-zA-Z0-9._:-\\\]+)/';
+    const REGEX_EXPECTED_EXCEPTION = '(@expectedException\s+([:.\w\\\]+)(?:[\t ]+(\S*))?(?:[\t ]+(\S*))?\s*$)m';
+    const REGEX_GROUP              = '/@group\s+([a-zA-Z0-9._-]+)/';
+
     /**
      * @param  PHPUnit_Framework_Test $test
      * @param  boolean                $asString
      * @return mixed
-     * @access public
-     * @static
      */
     public static function describe(PHPUnit_Framework_Test $test, $asString = TRUE)
     {
@@ -98,8 +101,6 @@ class PHPUnit_Util_Test
      * @param  PHPUnit_Framework_Test       $test
      * @param  PHPUnit_Framework_TestResult $result
      * @return mixed
-     * @access public
-     * @static
      */
     public static function lookupResult(PHPUnit_Framework_Test $test, PHPUnit_Framework_TestResult $result)
     {
@@ -138,38 +139,42 @@ class PHPUnit_Util_Test
      * @param  string $className
      * @param  string $methodName
      * @return array
-     * @access public
-     * @static
      * @since  Method available since Release 3.2.0
      */
     public static function getLinesToBeCovered($className, $methodName)
     {
         $result = array();
+        $codeToCoverList = array();
+
+        if (($pos = strpos($methodName, ' ')) !== FALSE) {
+            $methodName = substr($methodName, 0, $pos);
+        }
 
         try {
             $class      = new ReflectionClass($className);
             $method     = new ReflectionMethod($className, $methodName);
             $docComment = $class->getDocComment() . $method->getDocComment();
 
-            if (preg_match_all('/@covers[\s]+([\:\.\w]+)/', $docComment, $matches)) {
-                foreach ($matches[1] as $method) {
-                    if (strpos($method, '::') !== FALSE) {
-                        list($className, $methodName) = explode('::', $method);
+            if (preg_match_all(self::REGEX_COVERS, $docComment, $matches)) {
+                foreach ($matches[1] as $i => $method) {
+                    $codeToCoverList = array_merge(
+                        $codeToCoverList,
+                        self::resolveCoversToReflectionObjects($method, !empty($matches[2][$i]))
+                    );
+                }
 
-                        $_method   = new ReflectionMethod($className, $methodName);
-                        $fileName  = $_method->getFileName();
-                        $startLine = $_method->getStartLine();
-                        $endLine   = $_method->getEndLine();
+                foreach ($codeToCoverList as $codeToCover) {
+                    $fileName  = $codeToCover->getFileName();
+                    $startLine = $codeToCover->getStartLine();
+                    $endLine   = $codeToCover->getEndLine();
 
-                        if (!isset($result[$fileName])) {
-                            $result[$fileName] = array();
-                        }
-
-                        $result[$fileName] = array_merge(
-                          $result[$fileName],
-                          range($startLine, $endLine)
-                        );
+                    if (!isset($result[$fileName])) {
+                        $result[$fileName] = array();
                     }
+
+                    $result[$fileName] = array_unique(
+                      array_merge($result[$fileName], range($startLine, $endLine))
+                    );
                 }
             }
         }
@@ -181,21 +186,47 @@ class PHPUnit_Util_Test
     }
 
     /**
+     * Returns the expected exception for a test.
+     *
+     * @param  string $docComment
+     * @return array
+     * @since  Method available since Release 3.3.6
+     */
+    public static function getExpectedException($docComment)
+    {
+        if (preg_match(self::REGEX_EXPECTED_EXCEPTION, $docComment, $matches)) {
+            $class   = $matches[1];
+            $code    = 0;
+            $message = '';
+
+            if (isset($matches[2])) {
+                $message = trim($matches[2]);
+            }
+
+            if (isset($matches[3])) {
+                $code = (int)$matches[3];
+            }
+
+            return array(
+              'class' => $class, 'code' => $code, 'message' => $message
+            );
+        }
+
+        return FALSE;
+    }
+
+    /**
      * Returns the groups for a test class or method.
      *
-     * @param  Reflector $reflector
-     * @param  array     $groups
+     * @param  string $docComment
+     * @param  array  $groups
      * @return array
-     * @access public
-     * @static
      * @since  Method available since Release 3.2.0
      */
-    public static function getGroups(Reflector $reflector, array $groups = array())
+    public static function getGroups($docComment, array $groups = array())
     {
-        $docComment = $reflector->getDocComment();
-
-        if (preg_match_all('/@group[\s]+([\.\w]+)/', $docComment, $matches)) {
-            $groups = array_merge($groups, $matches[1]);
+        if (preg_match_all(self::REGEX_GROUP, $docComment, $matches)) {
+            $groups = array_unique(array_merge($groups, $matches[1]));
         }
 
         return $groups;
@@ -206,37 +237,129 @@ class PHPUnit_Util_Test
      *
      * @param  string $className
      * @param  string $methodName
+     * @param  string $docComment
      * @return array
-     * @access public
-     * @static
      * @since  Method available since Release 3.2.0
      */
-    public static function getProvidedData($className, $methodName)
+    public static function getProvidedData($className, $methodName, $docComment)
     {
-        $method     = new ReflectionMethod($className, $methodName);
-        $docComment = $method->getDocComment();
-
-        if (preg_match('/@dataProvider[\s]+([:\.\w]+)/', $docComment, $matches)) {
+        if (preg_match(self::REGEX_DATA_PROVIDER, $docComment, $matches)) {
             try {
-                $dataProvider           = explode('::', $matches[1]);
-                $dataProviderMethodName = array_pop($dataProvider);
+                $dataProviderMethodNameNamespace = explode('\\', $matches[1]);
+                $leaf                            = explode('::', array_pop($dataProviderMethodNameNamespace));
+                $dataProviderMethodName          = array_pop($leaf);
 
-                if (!empty($dataProvider)) {
-                    $dataProviderClassName = join('::', $dataProvider);
+                if (!empty($dataProviderMethodNameNamespace)) {
+                    $dataProviderMethodNameNamespace = join('\\', $dataProviderMethodNameNamespace) . '\\';
+                } else {
+                    $dataProviderMethodNameNamespace = '';
+                }
+
+                if (!empty($leaf)) {
+                    $dataProviderClassName = $dataProviderMethodNameNamespace . array_pop($leaf);
                 } else {
                     $dataProviderClassName = $className;
                 }
 
-                $dataProviderMethod = new ReflectionMethod(
-                  $dataProviderClassName, $dataProviderMethodName
+                $dataProviderClass  = new ReflectionClass($dataProviderClassName);
+                $dataProviderMethod = $dataProviderClass->getMethod(
+                  $dataProviderMethodName
                 );
 
-                return $dataProviderMethod->invoke(NULL);
+                if ($dataProviderMethod->isStatic()) {
+                    $object = NULL;
+                } else {
+                    $object = $dataProviderClass->newInstance();
+                }
+
+                if ($dataProviderMethod->getNumberOfParameters() == 0) {
+                    return $dataProviderMethod->invoke($object);
+                } else {
+                    return $dataProviderMethod->invoke($object, $methodName);
+                }
             }
 
             catch (ReflectionException $e) {
             }
         }
+    }
+
+    /**
+     * Returns the files and lines a test method wants to cover.
+     *
+     * @param  string  $method
+     * @param  boolean $extended
+     * @return array
+     * @since  Method available since Release 3.3.0
+     */
+    private static function resolveCoversToReflectionObjects($method, $extended)
+    {
+        $codeToCoverList = array();
+
+        if (strpos($method, '::') !== FALSE) {
+            list($className, $methodName) = explode('::', $method);
+
+            if ($methodName{0} == '<') {
+                $classes = array($className);
+
+                if ($extended) {
+                    $classes += class_implements($className);
+                    $classes += class_parents($className);
+                }
+
+                foreach ($classes as $className)
+                {
+                    $class   = new ReflectionClass($className);
+                    $methods = $class->getMethods();
+                    $inverse = isset($methodName{1}) && $methodName{1} == '!';
+
+                    if (strpos($methodName, 'protected')) {
+                        $visibility = 'isProtected';
+                    }
+
+                    else if (strpos($methodName, 'private')) {
+                        $visibility = 'isPrivate';
+                    }
+
+                    else if (strpos($methodName, 'public')) {
+                        $visibility = 'isPublic';
+                    }
+
+                    foreach ($methods as $method) {
+                        if ($inverse && !$method->$visibility()) {
+                            $codeToCoverList[] = $method;
+                        }
+
+                        else if (!$inverse && $method->$visibility()) {
+                            $codeToCoverList[] = $method;
+                        }
+                    }
+                }
+            } else {
+                $classes = array($className);
+
+                if ($extended) {
+                    $classes += class_parents($className);
+                }
+
+                foreach ($classes as $className) {
+                    $codeToCoverList[] = new ReflectionMethod($className, $methodName);
+                }
+            }
+        } else {
+            $classes = array($method);
+
+            if ($extended) {
+                $classes += class_implements($method);
+                $classes += class_parents($method);
+            }
+
+            foreach ($classes as $className) {
+                $codeToCoverList[] = new ReflectionClass($className);
+            }
+        }
+
+        return $codeToCoverList;
     }
 }
 ?>

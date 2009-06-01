@@ -51,7 +51,7 @@ require_once 'PHPUnit/Extensions/Database/DB/IMetaData.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * Provides a basic constructor for all meta data classes and a factory for 
+ * Provides a basic constructor for all meta data classes and a factory for
  * generating the appropriate meta data class.
  *
  * @category   Testing
@@ -59,13 +59,14 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
 abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extensions_Database_DB_IMetaData
 {
     protected static $metaDataClassMap = array(
+        'pgsql'  => 'PHPUnit_Extensions_Database_DB_MetaData_PgSQL',
         'mysql'  => 'PHPUnit_Extensions_Database_DB_MetaData_MySQL',
         'oci'    => 'PHPUnit_Extensions_Database_DB_MetaData_Oci',
         'sqlite' => 'PHPUnit_Extensions_Database_DB_MetaData_Sqlite'
@@ -73,14 +74,14 @@ abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extens
 
     /**
      * The PDO connection used to retreive database meta data
-     * 
+     *
      * @var PDO
      */
     protected $pdo;
 
     /**
      * The default schema name for the meta data object.
-     * 
+     *
      * @var string
      */
     protected $schema;
@@ -91,7 +92,12 @@ abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extens
     protected $schemaObjectQuoteChar = '"';
 
     /**
-     * Creates a new database meta data object using the given pdo connection 
+     * The command used to perform a TRUNCATE operation.
+     */
+    protected $truncateCommand = 'TRUNCATE';
+
+    /**
+     * Creates a new database meta data object using the given pdo connection
      * and schema name.
      *
      * @param PDO $pdo
@@ -104,7 +110,7 @@ abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extens
     }
 
     /**
-     * Creates a meta data object based on the driver of given $pdo object and 
+     * Creates a meta data object based on the driver of given $pdo object and
      * $schema name.
      *
      * @param PDO $pdo
@@ -116,7 +122,7 @@ abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extens
         $driverName = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
         if (isset(self::$metaDataClassMap[$driverName])) {
             $className = self::$metaDataClassMap[$driverName];
-            
+
             if ($className instanceof ReflectionClass) {
                 return $className->newInstance($pdo, $schema);
             } else {
@@ -128,11 +134,11 @@ abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extens
     }
 
     /**
-     * Validates and registers the given $className with the given $pdoDriver. 
-     * It should be noted that this function will not attempt to include / 
-     * require the file. The $pdoDriver can be determined by the value of the 
+     * Validates and registers the given $className with the given $pdoDriver.
+     * It should be noted that this function will not attempt to include /
+     * require the file. The $pdoDriver can be determined by the value of the
      * PDO::ATTR_DRIVER_NAME attribute for a pdo object.
-     * 
+     *
      * A reflection of the $className is returned.
      *
      * @param string $className
@@ -144,7 +150,7 @@ abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extens
         if (!class_exists($className)) {
             throw new Exception("Specified class for {$pdoDriver} driver ({$className}) does not exist.");
         }
-        
+
         $reflection = new ReflectionClass($className);
         if ($reflection->isSubclassOf('PHPUnit_Extensions_Database_DB_MetaData')) {
             return self::$metaDataClassMap[$pdoDriver] = $reflection;
@@ -171,19 +177,39 @@ abstract class PHPUnit_Extensions_Database_DB_MetaData implements PHPUnit_Extens
      */
     public function quoteSchemaObject($object)
     {
-    	return $this->schemaObjectQuoteChar.
-		str_replace($this->schemaObjectQuoteChar, $this->schemaObjectQuoteChar.$this->schemaObjectQuoteChar, $object).
-		$this->schemaObjectQuoteChar;
+        return $this->schemaObjectQuoteChar.
+        str_replace($this->schemaObjectQuoteChar, $this->schemaObjectQuoteChar.$this->schemaObjectQuoteChar, $object).
+        $this->schemaObjectQuoteChar;
+    }
+
+    /**
+     * Returns the command for the database to truncate a table.
+     *
+     * @return string
+     */
+    public function getTruncateCommand()
+    {
+        return $this->truncateCommand;
+    }
+
+    /**
+     * Returns true if the rdbms allows cascading
+     *
+     * @return bool
+     */
+    public function allowsCascading()
+    {
+        return FALSE;
     }
 }
 
 /**
- * I am not sure why these requires can't go above the class, but when they do 
- * the classes can't find the PHPUnit_Extensions_Database_DB_MetaData 
+ * I am not sure why these requires can't go above the class, but when they do
+ * the classes can't find the PHPUnit_Extensions_Database_DB_MetaData
  * class.
  */
 require_once 'PHPUnit/Extensions/Database/DB/MetaData/Sqlite.php';
 require_once 'PHPUnit/Extensions/Database/DB/MetaData/InformationSchema.php';
 require_once 'PHPUnit/Extensions/Database/DB/MetaData/MySQL.php';
-
+require_once 'PHPUnit/Extensions/Database/DB/MetaData/PgSQL.php';
 ?>

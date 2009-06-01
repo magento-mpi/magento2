@@ -40,7 +40,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Object.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Object.php 2841 2008-04-23 21:07:37Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -59,7 +59,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -69,16 +69,22 @@ class PHPUnit_Framework_ComparisonFailure_Object extends PHPUnit_Framework_Compa
      * Returns a string describing the difference between the expected and the
      * actual object.
      *
-     * @note Diffing is only done for one level.
+     * @return string
      */
     public function toString()
     {
         if ($this->hasDiff()) {
-            return $this->diff(
-              print_r($this->expected, TRUE),
-              print_r($this->actual, TRUE)
+            $diff = $this->diff(
+              print_r($this->expected, TRUE), print_r($this->actual, TRUE)
             );
+
+            if (!empty($diff)) {
+                return $diff;
+            }
         }
+
+        // Fallback: Either diff is not available or the print_r() output for
+        // the expected and the actual object are equal (but the objects are not).
 
         $expectedClass = get_class($this->expected);
         $actualClass   = get_class($this->actual);

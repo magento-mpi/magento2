@@ -36,37 +36,44 @@
  *
  * @category   Testing
  * @package    PHPUnit
+ * @author     Mattis Stordalen Flister <mattis@xait.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Sleep.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: When.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 3.3.0
  */
 
+require_once 'PHPUnit/Extensions/Story/Step.php';
 require_once 'PHPUnit/Util/Filter.php';
 
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
-
-require_once 'PHPUnit/Extensions/PerformanceTestCase.php';
+PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- *
+ * A "When" step.
  *
  * @category   Testing
  * @package    PHPUnit
+ * @author     Mattis Stordalen Flister <mattis@xait.no>
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.0.0
+ * @since      Class available since Release 3.3.0
+ * @abstract
  */
-class Sleep extends PHPUnit_Extensions_PerformanceTestCase
+class PHPUnit_Extensions_Story_When extends PHPUnit_Extensions_Story_Step
 {
-    public function testSleepTwoSeconds()
+    /**
+     * Returns this step's name.
+     *
+     * @return string
+     */
+    public function getName()
     {
-        sleep(2);
+        return 'When';
     }
 }
 ?>

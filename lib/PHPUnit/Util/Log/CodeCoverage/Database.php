@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Database.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Database.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.4
  */
@@ -54,14 +54,14 @@ require_once 'PHPUnit/Util/Filter.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * 
+ *
  *
  * @category   Testing
  * @package    PHPUnit
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.4
  */
@@ -69,7 +69,6 @@ class PHPUnit_Util_Log_CodeCoverage_Database
 {
     /**
      * @var    PDO
-     * @access protected
      */
     protected $dbh;
 
@@ -78,7 +77,6 @@ class PHPUnit_Util_Log_CodeCoverage_Database
      *
      * @param  PDO $dbh
      * @throws PDOException
-     * @access public
      */
     public function __construct(PDO $dbh)
     {
@@ -92,11 +90,10 @@ class PHPUnit_Util_Log_CodeCoverage_Database
      * @param  integer                      $runId
      * @param  integer                      $revision
      * @param  string                       $commonPath
-     * @access public
      */
     public function storeCodeCoverage(PHPUnit_Framework_TestResult $result, $runId, $revision, $commonPath = '')
     {
-        $codeCoverage   = $result->getCodeCoverageInformation(FALSE, TRUE);
+        $codeCoverage   = $result->getCodeCoverageInformation(FALSE);
         $summary        = PHPUnit_Util_CodeCoverage::getSummary($codeCoverage);
         $files          = array_keys($summary);
         $projectMetrics = new PHPUnit_Util_Metrics_Project($files, $summary);
@@ -199,7 +196,15 @@ class PHPUnit_Util_Log_CodeCoverage_Database
                 $i = 1;
 
                 foreach ($lines as $line) {
-                    $covered = isset($summary[$file][$i]) ? 1 : 0;
+                    $covered = 0;
+
+                    if (isset($summary[$file][$i])) {
+                        if (is_int($summary[$file][$i])) {
+                            $covered = $summary[$file][$i];
+                        } else {
+                            $covered = 1;
+                        }
+                    }
 
                     $stmt->bindParam(':fileId', $fileId, PDO::PARAM_INT);
                     $stmt->bindParam(':lineNumber', $i, PDO::PARAM_INT);
@@ -273,7 +278,7 @@ class PHPUnit_Util_Log_CodeCoverage_Database
                            metrics_class_varsnp, metrics_class_varsi,
                            metrics_class_wmc, metrics_class_wmcnp, metrics_class_wmci)
                      VALUES(:runId, :classId, :coverage, :loc, :locExecutable,
-                            :locExecuted, :aif, :ahf, :cis, :csz, :dit, :impl, 
+                            :locExecuted, :aif, :ahf, :cis, :csz, :dit, :impl,
                             :mif, :mhf, :noc, :pf, :vars, :varsnp, :varsi,
                             :wmc, :wmcnp, :wmci);'
             );
@@ -498,6 +503,7 @@ class PHPUnit_Util_Log_CodeCoverage_Database
                 $stmt->execute();
 
                 $methodId = (int)$stmt->fetchColumn();
+                $stmt->closeCursor();
 
                 $stmt2->bindParam(':methodId', $methodId, PDO::PARAM_INT);
                 $stmt2->bindParam(':testId', $test->__db_id, PDO::PARAM_INT);
@@ -567,7 +573,8 @@ class PHPUnit_Util_Log_CodeCoverage_Database
                     $stmt2->bindParam(':revision', $revision, PDO::PARAM_INT);
                     $stmt2->execute();
 
-                    $parentClassId = (int)$stmt->fetchColumn();
+                    $parentClassId = (int)$stmt2->fetchColumn();
+                    $stmt2->closeCursor();
                 }
 
                 if ($parentClassId > 0) {

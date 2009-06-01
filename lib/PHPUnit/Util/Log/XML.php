@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: XML.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: XML.php 3773 2008-09-09 10:17:53Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
@@ -48,19 +48,21 @@ require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Class.php';
 require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/Printer.php';
+require_once 'PHPUnit/Util/XML.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * A TestListener that generates an XML-based logfile
- * of the test execution.
+ * A TestListener that generates a logfile of the test execution in XML markup.
+ *
+ * The XML markup used is the same as the one that is used by the JUnit Ant task.
  *
  * @category   Testing
  * @package    PHPUnit
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
@@ -68,73 +70,66 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
 {
     /**
      * @var    DOMDocument
-     * @access protected
      */
     protected $document;
 
     /**
      * @var    DOMElement
-     * @access protected
      */
     protected $root;
 
     /**
      * @var    boolean
-     * @access protected
      */
-    protected $logIncompleteSkipeed = FALSE;
+    protected $logIncompleteSkipped = FALSE;
 
     /**
      * @var    boolean
-     * @access protected
      */
     protected $writeDocument = TRUE;
 
     /**
      * @var    DOMElement[]
-     * @access protected
      */
     protected $testSuites = array();
 
     /**
      * @var    integer[]
-     * @access protected
      */
     protected $testSuiteTests = array(0);
 
     /**
      * @var    integer[]
-     * @access protected
+     */
+    protected $testSuiteAssertions = array(0);
+
+    /**
+     * @var    integer[]
      */
     protected $testSuiteErrors = array(0);
 
     /**
      * @var    integer[]
-     * @access protected
      */
     protected $testSuiteFailures = array(0);
 
     /**
      * @var    integer[]
-     * @access protected
      */
     protected $testSuiteTimes = array(0);
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $testSuiteLevel = 0;
 
     /**
      * @var    DOMElement
-     * @access protected
      */
     protected $currentTestCase = NULL;
 
     /**
      * @var    boolean
-     * @access protected
      */
     protected $attachCurrentTestCase = TRUE;
 
@@ -143,7 +138,6 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
      *
      * @param  mixed   $out
      * @param  boolean $logIncompleteSkipped
-     * @access public
      */
     public function __construct($out = NULL, $logIncompleteSkipped = FALSE)
     {
@@ -161,7 +155,6 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
     /**
      * Flush buffer and close output.
      *
-     * @access public
      */
     public function flush()
     {
@@ -178,13 +171,9 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
-        $error = $this->document->createElement('error');
-        $error->setAttribute('type', get_class($e));
-
         if ($test instanceof PHPUnit_Framework_SelfDescribing) {
             $buffer = $test->toString() . "\n";
         } else {
@@ -194,11 +183,16 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
         $buffer .= PHPUnit_Framework_TestFailure::exceptionToString($e) . "\n" .
                    PHPUnit_Util_Filter::getFilteredStacktrace($e, FALSE);
 
-        $error->appendChild(
-          $this->document->createCDATASection(
-            utf8_encode($buffer)
+        $error = $this->document->createElement(
+          'error',
+          htmlspecialchars(
+            PHPUnit_Util_XML::convertToUtf8($buffer),
+            ENT_COMPAT,
+            'UTF-8'
           )
         );
+
+        $error->setAttribute('type', get_class($e));
 
         $this->currentTestCase->appendChild($error);
 
@@ -211,31 +205,34 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @param  PHPUnit_Framework_Test                 $test
      * @param  PHPUnit_Framework_AssertionFailedError $e
      * @param  float                                  $time
-     * @access public
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
-        $failure = $this->document->createElement('failure');
-        $failure->setAttribute('type', get_class($e));
+        if (!$test instanceof PHPUnit_Framework_Warning) {
+            if ($test instanceof PHPUnit_Framework_SelfDescribing) {
+                $buffer = $test->toString() . "\n";
+            } else {
+                $buffer = '';
+            }
 
-        if ($test instanceof PHPUnit_Framework_SelfDescribing) {
-            $buffer = $test->toString() . "\n";
-        } else {
-            $buffer = '';
+            $buffer .= PHPUnit_Framework_TestFailure::exceptionToString($e) . "\n" .
+                       PHPUnit_Util_Filter::getFilteredStacktrace($e, FALSE);
+
+            $failure = $this->document->createElement(
+              'failure',
+              htmlspecialchars(
+                PHPUnit_Util_XML::convertToUtf8($buffer),
+                ENT_COMPAT,
+                'UTF-8'
+              )
+            );
+
+            $failure->setAttribute('type', get_class($e));
+
+            $this->currentTestCase->appendChild($failure);
+
+            $this->testSuiteFailures[$this->testSuiteLevel]++;
         }
-
-        $buffer .= PHPUnit_Framework_TestFailure::exceptionToString($e) . "\n" .
-                   PHPUnit_Util_Filter::getFilteredStacktrace($e, FALSE);
-
-        $failure->appendChild(
-          $this->document->createCDATASection(
-            utf8_encode($buffer)
-          )
-        );
-
-        $this->currentTestCase->appendChild($failure);
-
-        $this->testSuiteFailures[$this->testSuiteLevel]++;
     }
 
     /**
@@ -244,22 +241,23 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
         if ($this->logIncompleteSkipped) {
-            $error = $this->document->createElement('error');
-            $error->setAttribute('type', get_class($e));
-
-            $error->appendChild(
-              $this->document->createCDATASection(
-                utf8_encode(
+            $error = $this->document->createElement(
+              'error',
+              htmlspecialchars(
+                PHPUnit_Util_XML::convertToUtf8(
                   "Incomplete Test\n" .
                   PHPUnit_Util_Filter::getFilteredStacktrace($e, FALSE)
-                )
+                ),
+                ENT_COMPAT,
+                'UTF-8'
               )
             );
+
+            $error->setAttribute('type', get_class($e));
 
             $this->currentTestCase->appendChild($error);
 
@@ -275,23 +273,24 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      * @since  Method available since Release 3.0.0
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
         if ($this->logIncompleteSkipped) {
-            $error = $this->document->createElement('error');
-            $error->setAttribute('type', get_class($e));
-
-            $error->appendChild(
-              $this->document->createCDATASection(
-                utf8_encode(
+            $error = $this->document->createElement(
+              'error',
+              htmlspecialchars(
+                PHPUnit_Util_XML::convertToUtf8(
                   "Skipped Test\n" .
                   PHPUnit_Util_Filter::getFilteredStacktrace($e, FALSE)
-                )
+                ),
+                ENT_COMPAT,
+                'UTF-8'
               )
             );
+
+            $error->setAttribute('type', get_class($e));
 
             $this->currentTestCase->appendChild($error);
 
@@ -305,7 +304,6 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * A testsuite started.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
@@ -322,6 +320,14 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
                 $packageInformation = PHPUnit_Util_Class::getPackageInformation(
                   $suite->getName()
                 );
+
+                if (!empty($packageInformation['namespace'])) {
+                    $testSuite->setAttribute('namespace', $packageInformation['namespace']);
+                }
+
+                if (!empty($packageInformation['fullPackage'])) {
+                    $testSuite->setAttribute('fullPackage', $packageInformation['fullPackage']);
+                }
 
                 if (!empty($packageInformation['category'])) {
                     $testSuite->setAttribute('category', $packageInformation['category']);
@@ -347,32 +353,34 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
         }
 
         $this->testSuiteLevel++;
-        $this->testSuites[$this->testSuiteLevel]        = $testSuite;
-        $this->testSuiteTests[$this->testSuiteLevel]    = 0;
-        $this->testSuiteErrors[$this->testSuiteLevel]   = 0;
-        $this->testSuiteFailures[$this->testSuiteLevel] = 0;
-        $this->testSuiteTimes[$this->testSuiteLevel]    = 0;
+        $this->testSuites[$this->testSuiteLevel]          = $testSuite;
+        $this->testSuiteTests[$this->testSuiteLevel]      = 0;
+        $this->testSuiteAssertions[$this->testSuiteLevel] = 0;
+        $this->testSuiteErrors[$this->testSuiteLevel]     = 0;
+        $this->testSuiteFailures[$this->testSuiteLevel]   = 0;
+        $this->testSuiteTimes[$this->testSuiteLevel]      = 0;
     }
 
     /**
      * A testsuite ended.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
         $this->testSuites[$this->testSuiteLevel]->setAttribute('tests', $this->testSuiteTests[$this->testSuiteLevel]);
+        $this->testSuites[$this->testSuiteLevel]->setAttribute('assertions', $this->testSuiteAssertions[$this->testSuiteLevel]);
         $this->testSuites[$this->testSuiteLevel]->setAttribute('failures', $this->testSuiteFailures[$this->testSuiteLevel]);
         $this->testSuites[$this->testSuiteLevel]->setAttribute('errors', $this->testSuiteErrors[$this->testSuiteLevel]);
         $this->testSuites[$this->testSuiteLevel]->setAttribute('time', sprintf('%F', $this->testSuiteTimes[$this->testSuiteLevel]));
 
         if ($this->testSuiteLevel > 1) {
-            $this->testSuiteTests[$this->testSuiteLevel - 1]    += $this->testSuiteTests[$this->testSuiteLevel];
-            $this->testSuiteErrors[$this->testSuiteLevel - 1]   += $this->testSuiteErrors[$this->testSuiteLevel];
-            $this->testSuiteFailures[$this->testSuiteLevel - 1] += $this->testSuiteFailures[$this->testSuiteLevel];
-            $this->testSuiteTimes[$this->testSuiteLevel - 1]    += $this->testSuiteTimes[$this->testSuiteLevel];
+            $this->testSuiteTests[$this->testSuiteLevel - 1]      += $this->testSuiteTests[$this->testSuiteLevel];
+            $this->testSuiteAssertions[$this->testSuiteLevel - 1] += $this->testSuiteAssertions[$this->testSuiteLevel];
+            $this->testSuiteErrors[$this->testSuiteLevel - 1]     += $this->testSuiteErrors[$this->testSuiteLevel];
+            $this->testSuiteFailures[$this->testSuiteLevel - 1]   += $this->testSuiteFailures[$this->testSuiteLevel];
+            $this->testSuiteTimes[$this->testSuiteLevel - 1]      += $this->testSuiteTimes[$this->testSuiteLevel];
         }
 
         $this->testSuiteLevel--;
@@ -382,23 +390,28 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * A test started.
      *
      * @param  PHPUnit_Framework_Test $test
-     * @access public
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        $testCase = $this->document->createElement('testcase');
-        $testCase->setAttribute('name', $test->getName());
+        if (!$test instanceof PHPUnit_Framework_Warning) {
+            $testCase = $this->document->createElement('testcase');
+            $testCase->setAttribute('name', $test->getName());
 
-        if ($test instanceof PHPUnit_Framework_TestCase) {
-            $class  = new ReflectionClass($test);
-            $method = $class->getMethod($test->getName());
+            if ($test instanceof PHPUnit_Framework_TestCase) {
+                $class      = new ReflectionClass($test);
+                $methodName = $test->getName();
 
-            $testCase->setAttribute('class', $class->getName());
-            $testCase->setAttribute('file', $class->getFileName());
-            $testCase->setAttribute('line', $method->getStartLine());
+                if ($class->hasMethod($methodName)) {
+                    $method = $class->getMethod($test->getName());
+
+                    $testCase->setAttribute('class', $class->getName());
+                    $testCase->setAttribute('file', $class->getFileName());
+                    $testCase->setAttribute('line', $method->getStartLine());
+                }
+            }
+
+            $this->currentTestCase = $testCase;
         }
-
-        $this->currentTestCase = $testCase;
     }
 
     /**
@@ -406,30 +419,37 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  float                  $time
-     * @access public
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if ($this->attachCurrentTestCase) {
-            $this->currentTestCase->setAttribute('time', sprintf('%F', $time));
+        if (!$test instanceof PHPUnit_Framework_Warning) {
+            if ($this->attachCurrentTestCase) {
+                if ($test instanceof PHPUnit_Framework_TestCase) {
+                    $numAssertions = $test->getNumAssertions();
+                    $this->testSuiteAssertions[$this->testSuiteLevel] += $numAssertions;
 
-            $this->testSuites[$this->testSuiteLevel]->appendChild(
-              $this->currentTestCase
-            );
+                    $this->currentTestCase->setAttribute('assertions', $numAssertions);
+                }
 
-            $this->testSuiteTests[$this->testSuiteLevel]++;
-            $this->testSuiteTimes[$this->testSuiteLevel] += $time;
+                $this->currentTestCase->setAttribute('time', sprintf('%F', $time));
+
+                $this->testSuites[$this->testSuiteLevel]->appendChild(
+                  $this->currentTestCase
+                );
+
+                $this->testSuiteTests[$this->testSuiteLevel]++;
+                $this->testSuiteTimes[$this->testSuiteLevel] += $time;
+            }
         }
 
-        $this->currentTestCase       = NULL;
         $this->attachCurrentTestCase = TRUE;
+        $this->currentTestCase       = NULL;
     }
 
     /**
      * Returns the XML as a string.
      *
      * @return string
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function getXML()
@@ -445,7 +465,6 @@ class PHPUnit_Util_Log_XML extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * PHPUnit with Phing.
      *
      * @return string
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function setWriteDocument($flag)

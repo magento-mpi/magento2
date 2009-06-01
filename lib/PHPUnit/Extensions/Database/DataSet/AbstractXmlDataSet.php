@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: AbstractXmlDataSet.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: AbstractXmlDataSet.php 3146 2008-06-08 07:56:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -62,7 +62,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -90,20 +90,20 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractXmlDataSet extends PH
             throw new InvalidArgumentException("Could not find xml file: {$xmlFile}");
         }
         $this->xmlFileContents = @simplexml_load_file($xmlFile);
-        
+
         if ($this->xmlFileContents === FALSE) {
             throw new InvalidArgumentException("File is not valid xml: {$xmlFile}");
         }
-        
+
         $tableColumns = array();
         $tableValues = array();
-        
+
         $this->getTableInfo($tableColumns, $tableValues);
         $this->createTables($tableColumns, $tableValues);
     }
 
     /**
-     * Reads the simple xml object and creates the appropriate tables and meta 
+     * Reads the simple xml object and creates the appropriate tables and meta
      * data for this dataset.
      */
     protected abstract function getTableInfo(Array &$tableColumns, Array &$tableValues);
@@ -119,7 +119,7 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractXmlDataSet extends PH
     }
 
     /**
-     * Returns the table with the matching name. If the table does not exist 
+     * Returns the table with the matching name. If the table does not exist
      * an empty one is created.
      *
      * @param string $tableName
@@ -131,18 +131,18 @@ abstract class PHPUnit_Extensions_Database_DataSet_AbstractXmlDataSet extends PH
             $tableMetaData = new PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData($tableName, $tableColumns);
             $this->tables[$tableName] = new PHPUnit_Extensions_Database_DataSet_DefaultTable($tableMetaData);
         }
-        
+
         return $this->tables[$tableName];
     }
 
     /**
-     * Creates an iterator over the tables in the data set. If $reverse is 
+     * Creates an iterator over the tables in the data set. If $reverse is
      * true a reverse iterator will be returned.
      *
      * @param bool $reverse
      * @return PHPUnit_Extensions_Database_DataSet_ITableIterator
      */
-    protected function createIterator($reverse = false)
+    protected function createIterator($reverse = FALSE)
     {
         return new PHPUnit_Extensions_Database_DataSet_DefaultTableIterator($this->tables, $reverse);
     }

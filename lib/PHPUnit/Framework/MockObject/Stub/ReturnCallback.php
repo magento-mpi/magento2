@@ -39,35 +39,64 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: ExceptionTestCase.php 2152 2008-01-17 11:17:12Z sb $
+ * @version    SVN: $Id: ReturnCallback.php 3581 2008-08-21 16:04:53Z sb $
  * @link       http://www.phpunit.de/
- * @since      File available since Release 2.0.0
+ * @since      File available since Release 3.3.0
  */
 
-require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
+require_once 'PHPUnit/Framework/MockObject/Invocation.php';
+require_once 'PHPUnit/Framework/MockObject/Stub.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-trigger_error(
-  "Class PHPUnit_Extensions_ExceptionTestCase is deprecated. ".
-  "It will be removed in PHPUnit 3.3. ".
-  "The functionality has been merged into PHPUnit_Framework_TestCase."
-);
-
 /**
- * A TestCase that expects a specified Exception to be thrown.
+ *
  *
  * @category   Testing
  * @package    PHPUnit
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
- * @since      Class available since Release 2.0.0
+ * @since      Class available since Release 3.3.0
  */
-abstract class PHPUnit_Extensions_ExceptionTestCase extends PHPUnit_Framework_TestCase
+class PHPUnit_Framework_MockObject_Stub_ReturnCallback implements PHPUnit_Framework_MockObject_Stub
 {
+    protected $callback;
+
+    public function __construct($callback)
+    {
+        $this->callback = $callback;
+    }
+
+    public function invoke(PHPUnit_Framework_MockObject_Invocation $invocation)
+    {
+        return call_user_func_array($this->callback, $invocation->parameters);
+    }
+
+    public function toString()
+    {
+        if (is_array($this->callback)) {
+            if (is_object($this->callback[0])) {
+                $class = get_class($this->callback[0]);
+                $type  = '->';
+            } else {
+                $class = $this->callback[0];
+                $type  = '::';
+            }
+
+            return sprintf(
+              'return result of user defined callback %s%s%s() with the passed arguments',
+
+              $class,
+              $type,
+              $this->callback[1]
+            );
+        } else {
+            return 'return result of user defined callback ' . $this->callback . ' with the passed arguments';
+        }
+    }
 }
 ?>

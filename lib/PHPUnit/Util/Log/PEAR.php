@@ -39,12 +39,10 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: PEAR.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: PEAR.php 3284 2008-06-28 10:09:12Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.3.0
  */
-
-@include_once 'Log.php';
 
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
@@ -59,7 +57,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
@@ -69,7 +67,6 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      * Log.
      *
      * @var    Log
-     * @access protected
      */
     protected $log;
 
@@ -85,11 +82,20 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      * @param array  $conf      A hash containing any additional configuration
      *                          information that a subclass might need.
      * @param int $maxLevel     Maximum priority level at which to log.
-     * @access public
      */
     public function __construct($type, $name = '', $ident = '', $conf = array(), $maxLevel = PEAR_LOG_DEBUG)
     {
-        $this->log = Log::factory($type, $name, $ident, $conf, $maxLevel);
+        if (PHPUnit_Util_Filesystem::fileExistsInIncludePath('Log.php')) {
+            PHPUnit_Util_Filesystem::collectStart();
+            require_once 'Log.php';
+            $this->log = Log::factory($type, $name, $ident, $conf, $maxLevel);
+
+            foreach (PHPUnit_Util_Filesystem::collectEnd() as $blacklistedFile) {
+                PHPUnit_Util_Filter::addFileToFilter($blacklistedFile, 'PHPUNIT');
+            }
+        } else {
+            throw new RuntimeException('Log is not available.');
+        }
     }
 
     /**
@@ -98,7 +104,6 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -118,7 +123,6 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test                 $test
      * @param  PHPUnit_Framework_AssertionFailedError $e
      * @param  float                                  $time
-     * @access public
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
@@ -138,7 +142,6 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -158,7 +161,6 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      * @since  Method available since Release 3.0.0
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
@@ -177,7 +179,6 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      * A test suite started.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
@@ -195,7 +196,6 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      * A test suite ended.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
@@ -213,7 +213,6 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      * A test started.
      *
      * @param  PHPUnit_Framework_Test $test
-     * @access public
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
@@ -231,7 +230,6 @@ class PHPUnit_Util_Log_PEAR implements PHPUnit_Framework_TestListener
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  float                  $time
-     * @access public
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {

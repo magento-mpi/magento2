@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: BaseTestRunner.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: BaseTestRunner.php 3913 2008-10-29 05:50:30Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
@@ -58,7 +58,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  * @abstract
@@ -78,7 +78,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -91,7 +90,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * @param  PHPUnit_Framework_Test                 $test
      * @param  PHPUnit_Framework_AssertionFailedError $e
      * @param  float                                  $time
-     * @access public
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
@@ -104,7 +102,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -117,7 +114,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      * @since  Method available since Release 3.0.0
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
@@ -129,7 +125,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * A testsuite started.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
@@ -140,7 +135,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * A testsuite ended.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      * @since  Method available since Release 2.2.0
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
@@ -151,7 +145,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * A test started.
      *
      * @param  PHPUnit_Framework_Test  $test
-     * @access public
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
@@ -163,7 +156,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  float                  $time
-     * @access public
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
@@ -174,7 +166,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * Returns the loader to be used.
      *
      * @return PHPUnit_Runner_TestSuiteLoader
-     * @access public
      */
     public function getLoader()
     {
@@ -190,10 +181,20 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * @param  string  $suiteClassFile
      * @param  boolean $syntaxCheck
      * @return PHPUnit_Framework_Test
-     * @access public
      */
     public function getTest($suiteClassName, $suiteClassFile = '', $syntaxCheck = TRUE)
     {
+        if (is_dir($suiteClassName) && !is_file($suiteClassName . '.php') && empty($suiteClassFile)) {
+            $testCollector = new PHPUnit_Runner_IncludePathTestCollector(
+              array($suiteClassName)
+            );
+
+            $suite = new PHPUnit_Framework_TestSuite($suiteClassName);
+            $suite->addTestFiles($testCollector->collectTests(), $syntaxCheck);
+
+            return $suite;
+        }
+
         try {
             $testClass = $this->loadSuiteClass(
               $suiteClassName, $suiteClassFile, $syntaxCheck
@@ -247,8 +248,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * a test suite.
      *
      * @param  string  $message
-     * @access protected
-     * @abstract
      */
     abstract protected function runFailed($message);
 
@@ -259,7 +258,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * @param  string  $suiteClassFile
      * @param  boolean $syntaxCheck
      * @return ReflectionClass
-     * @access protected
      */
     protected function loadSuiteClass($suiteClassName, $suiteClassFile = '', $syntaxCheck = TRUE)
     {
@@ -275,7 +273,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
     /**
      * Clears the status message.
      *
-     * @access protected
      */
     protected function clearStatus()
     {
@@ -285,8 +282,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * A test started.
      *
      * @param  string  $testName
-     * @access public
-     * @abstract
      */
     abstract public function testStarted($testName);
 
@@ -294,8 +289,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * A test ended.
      *
      * @param  string  $testName
-     * @access public
-     * @abstract
      */
     abstract public function testEnded($testName);
 
@@ -305,8 +298,6 @@ abstract class PHPUnit_Runner_BaseTestRunner implements PHPUnit_Framework_TestLi
      * @param  integer                                 $status
      * @param  PHPUnit_Framework_Test                 $test
      * @param  PHPUnit_Framework_AssertionFailedError $e
-     * @access public
-     * @abstract
      */
     abstract public function testFailed($status, PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e);
 }

@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Exception.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Exception.php 3146 2008-06-08 07:56:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -50,8 +50,8 @@ require_once 'PHPUnit/Util/Filter.php';
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
 /**
- * Thrown for exceptions encountered with database operations. Provides 
- * information regarding which operations failed and the query (if any) it 
+ * Thrown for exceptions encountered with database operations. Provides
+ * information regarding which operations failed and the query (if any) it
  * failed on.
  *
  * @category   Testing
@@ -59,7 +59,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -101,7 +101,7 @@ class PHPUnit_Extensions_Database_Operation_Exception extends RuntimeException
      */
     public function __construct($operation, $current_query, $current_args, $current_table, $error)
     {
-        parent::__construct("{$operation} operation failed on query: {$current_query} using args: " . print_r($current_args, true) . " [{$error}]");
+        parent::__construct("{$operation} operation failed on query: {$current_query} using args: " . print_r($current_args, TRUE) . " [{$error}]");
         $this->operation = $operation;
         $this->preparedQuery = $current_query;
         $this->preparedArgs = $current_args;

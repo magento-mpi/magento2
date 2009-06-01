@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: DeleteAll.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: DeleteAll.php 2854 2008-04-24 08:34:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -60,7 +60,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -69,13 +69,13 @@ class PHPUnit_Extensions_Database_Operation_DeleteAll implements PHPUnit_Extensi
 
     public function execute(PHPUnit_Extensions_Database_DB_IDatabaseConnection $connection, PHPUnit_Extensions_Database_DataSet_IDataSet $dataSet)
     {
-        foreach ($dataSet as $table) {
+        foreach ($dataSet->getReverseIterator() as $table) {
             /* @var $table PHPUnit_Extensions_Database_DataSet_ITable */
-            
+
             $query = "
                 DELETE FROM {$connection->quoteSchemaObject($table->getTableMetaData()->getTableName())}
             ";
-            
+
             try {
                 $connection->getConnection()->query($query);
             } catch (PDOException $e) {

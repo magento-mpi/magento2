@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: TableIterator.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: TableIterator.php 3168 2008-06-08 22:26:06Z mlively $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -59,7 +59,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -74,9 +74,9 @@ class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions
     protected $tableNames;
 
     /**
-     * If this property is true then the tables will be iterated in reverse 
+     * If this property is true then the tables will be iterated in reverse
      * order.
-     * 
+     *
      * @var bool
      */
     protected $reverse;
@@ -88,12 +88,12 @@ class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions
      */
     protected $dataSet;
 
-    public function __construct($tableNames, PHPUnit_Extensions_Database_DB_DataSet $dataSet, $reverse = false)
+    public function __construct($tableNames, PHPUnit_Extensions_Database_DB_DataSet $dataSet, $reverse = FALSE)
     {
         $this->tableNames = $tableNames;
         $this->dataSet = $dataSet;
         $this->reverse = $reverse;
-        
+
         $this->rewind();
     }
 
@@ -104,7 +104,7 @@ class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions
      */
     public function getTable()
     {
-        $this->current();
+        return $this->current();
     }
 
     /**
@@ -114,7 +114,7 @@ class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions
      */
     public function getTableMetaData()
     {
-        $this->current()->getTableMetaData();
+        return $this->current()->getTableMetaData();
     }
 
     /**
@@ -165,12 +165,12 @@ class PHPUnit_Extensions_Database_DB_TableIterator implements PHPUnit_Extensions
 
     /**
      * Returns true if the current index is valid
-     * 
+     *
      * @return bool
      */
     public function valid()
     {
-        return (current($this->tableNames) !== false);
+        return (current($this->tableNames) !== FALSE);
     }
 }
 ?>

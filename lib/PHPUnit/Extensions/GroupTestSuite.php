@@ -39,23 +39,26 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Notice.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: GroupTestSuite.php 4140 2008-11-25 17:51:13Z sb $
  * @link       http://www.phpunit.de/
- * @since      File available since Release 3.1.0
+ * @since      File available since Release 3.3.0
  */
 
+require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
-if (!class_exists('PHPUnit_Framework_Notice', FALSE)) {
-
 /**
- * Wrapper for PHP notices.
- * You can disable notice-to-exception conversion by setting
+ * We have a TestSuite object A.
+ * In TestSuite object A we have Tests tagged with @group.
+ * We want a TestSuite object B that contains TestSuite objects C, D, ...
+ * for the Tests tagged with @group C, @group D, ...
+ * Running the Tests from TestSuite object B results in Tests tagged with both
+ * @group C and @group D in TestSuite object A to be run twice .
  *
  * <code>
- * PHPUnit_Framework_Notice::$enabled = FALSE;
+ * $suite = new PHPUnit_Extensions_GroupTestSuite($A, array('C', 'D'));
  * </code>
  *
  * @category   Testing
@@ -63,14 +66,45 @@ if (!class_exists('PHPUnit_Framework_Notice', FALSE)) {
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
- * @since      Class available since Release 3.1.0
+ * @since      Class available since Release 3.3.0
  */
-class PHPUnit_Framework_Notice extends PHPUnit_Framework_Error
+class PHPUnit_Extensions_GroupTestSuite extends PHPUnit_Framework_TestSuite
 {
-    public static $enabled = TRUE;
-}
+    public function __construct(PHPUnit_Framework_TestSuite $suite, array $groups)
+    {
+        $groupSuites = array();
+        $name        = $suite->getName();
 
+        foreach ($groups as $group) {
+            $groupSuites[$group] = new PHPUnit_Framework_TestSuite($name . ' - ' . $group);
+            $this->addTest($groupSuites[$group]);
+        }
+
+        $tests = new RecursiveIteratorIterator(
+          new PHPUnit_Util_TestSuiteIterator($suite),
+          RecursiveIteratorIterator::LEAVES_ONLY
+        );
+
+        foreach ($tests as $test) {
+            if ($test instanceof PHPUnit_Framework_TestCase) {
+                $class  = new ReflectionClass($test);
+                $method = $class->getMethod($test->getName(FALSE));
+
+                $testGroups = PHPUnit_Util_Test::getGroups(
+                  $method->getDocComment(), PHPUnit_Util_Test::getGroups($class)
+                );
+
+                foreach ($groups as $group) {
+                    foreach ($testGroups as $testGroup) {
+                        if ($group == $testGroup) {
+                            $groupSuites[$group]->addTest($test);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 ?>

@@ -107,13 +107,18 @@ td.tableHead
 }
 
 /* Directory view/File view (all): filename entry format */
-td.coverFile
+td.coverItem, td.coverDirectory, td.coverFile
 {
   text-align: left;
   padding-left: 10px;
   padding-right: 20px;
   background-color: #d3d7cf;
   font-family: monospace;
+}
+
+td.coverDirectory
+{
+  font-weight: bold;
 }
 
 /* Directory view/File view (all): bar-graph entry format*/
@@ -128,6 +133,28 @@ td.coverBar
 td.coverBarOutline
 {
   background-color: #2e3436;
+}
+
+/* Directory view/File view (all): percentage entry for files with
+no coverage rate */
+td.coverPerNone
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #d3d7cf;
+  font-weight: bold;
+}
+
+/* Directory view/File view (all): line count entry for files with
+no coverage rate */
+td.coverNumNone
+{
+  text-align: right;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: #d3d7cf;
+  white-space: nowrap;
 }
 
 /* Directory view/File view (all): percentage entry for files with

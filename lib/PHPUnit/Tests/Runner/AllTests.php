@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: AllTests.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: AllTests.php 3671 2008-08-31 06:52:54Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
@@ -48,16 +48,11 @@ require_once 'PHPUnit/Util/Filter.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Runner_AllTests::main');
-    chdir(dirname(dirname(__FILE__)));
-}
-
 require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'PHPUnit/Util/Filter.php';
 
-require_once 'Runner/BaseTestRunnerTest.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'BaseTestRunnerTest.php';
+
+PHPUnit_Util_Filter::$filterPHPUnit = FALSE;
 
 /**
  *
@@ -67,17 +62,12 @@ require_once 'Runner/BaseTestRunnerTest.php';
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
 class Runner_AllTests
 {
-    public static function main()
-    {
-        PHPUnit_TextUI_TestRunner::run(self::suite());
-    }
-
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit_Runner');
@@ -86,9 +76,5 @@ class Runner_AllTests
 
         return $suite;
     }
-}
-
-if (PHPUnit_MAIN_METHOD == 'Runner_AllTests::main') {
-    Runner_AllTests::main();
 }
 ?>

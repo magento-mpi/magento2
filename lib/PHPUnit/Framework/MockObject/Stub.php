@@ -40,7 +40,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Stub.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Stub.php 3439 2008-07-12 19:19:13Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -63,7 +63,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Interface available since Release 3.0.0
  */
@@ -85,4 +85,6 @@ require_once 'PHPUnit/Framework/MockObject/Stub/ConsecutiveCalls.php';
 require_once 'PHPUnit/Framework/MockObject/Stub/Exception.php';
 require_once 'PHPUnit/Framework/MockObject/Stub/MatcherCollection.php';
 require_once 'PHPUnit/Framework/MockObject/Stub/Return.php';
+require_once 'PHPUnit/Framework/MockObject/Stub/ReturnArgument.php';
+require_once 'PHPUnit/Framework/MockObject/Stub/ReturnCallback.php';
 ?>

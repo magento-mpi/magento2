@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Table.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Table.php 2854 2008-04-24 08:34:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -59,7 +59,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -75,7 +75,7 @@ class PHPUnit_Extensions_Database_DB_Table extends PHPUnit_Extensions_Database_D
     public function __construct(PHPUnit_Extensions_Database_DataSet_ITableMetaData $tableMetaData, PHPUnit_Extensions_Database_DB_IDatabaseConnection $databaseConnection)
     {
         $this->setTableMetaData($tableMetaData);
-        
+
         $pdoStatement = $databaseConnection->getConnection()->prepare(PHPUnit_Extensions_Database_DB_DataSet::buildTableSelect($tableMetaData));
         $pdoStatement->execute();
         $this->data = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);

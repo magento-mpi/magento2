@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: TAP.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: TAP.php 3932 2008-11-04 05:42:25Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -60,7 +60,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -68,15 +68,31 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
 {
     /**
      * @var    integer
-     * @access protected
      */
     protected $testNumber = 0;
 
     /**
+     * @var    integer
+     */
+    protected $testSuiteLevel = 0;
+
+    /**
      * @var    boolean
-     * @access protected
      */
     protected $testSuccessful = TRUE;
+
+    /**
+     * Constructor.
+     *
+     * @param  mixed $out
+     * @throws InvalidArgumentException
+     * @since  Method available since Release 3.3.4
+     */
+    public function __construct($out = NULL)
+    {
+        parent::__construct($out);
+        $this->write("TAP version 13\n");
+    }
 
     /**
      * An error occurred.
@@ -84,7 +100,6 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addError(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -97,7 +112,6 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @param  PHPUnit_Framework_Test                 $test
      * @param  PHPUnit_Framework_AssertionFailedError $e
      * @param  float                                  $time
-     * @access public
      */
     public function addFailure(PHPUnit_Framework_Test $test, PHPUnit_Framework_AssertionFailedError $e, $time)
     {
@@ -110,7 +124,6 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      */
     public function addIncompleteTest(PHPUnit_Framework_Test $test, Exception $e, $time)
     {
@@ -123,7 +136,6 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @param  PHPUnit_Framework_Test $test
      * @param  Exception              $e
      * @param  float                  $time
-     * @access public
      * @since  Method available since Release 3.0.0
      */
     public function addSkippedTest(PHPUnit_Framework_Test $test, Exception $e, $time)
@@ -144,51 +156,30 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * A testsuite started.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        if ($this->testNumber == 0) {
-            $this->write(
-              sprintf(
-                "1..%d\n",
-
-                count($suite)
-              )
-            );
-        }
-
-        $this->write(
-          sprintf(
-            "# TestSuite \"%s\" started.\n",
-
-            $suite->getName()
-          )
-        );
+        $this->testSuiteLevel++;
     }
 
     /**
      * A testsuite ended.
      *
      * @param  PHPUnit_Framework_TestSuite $suite
-     * @access public
      */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        $this->write(
-          sprintf(
-            "# TestSuite \"%s\" ended.\n",
+        $this->testSuiteLevel--;
 
-            $suite->getName()
-          )
-        );
+        if ($this->testSuiteLevel == 0) {
+            $this->write(sprintf("1..%d\n", $this->testNumber));
+        }
     }
 
     /**
      * A test started.
      *
      * @param  PHPUnit_Framework_Test $test
-     * @access public
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
@@ -201,7 +192,6 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      *
      * @param  PHPUnit_Framework_Test $test
      * @param  float                  $time
-     * @access public
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
@@ -221,7 +211,6 @@ class PHPUnit_Util_Log_TAP extends PHPUnit_Util_Printer implements PHPUnit_Frame
      * @param  PHPUnit_Framework_Test $test
      * @param  string                 $prefix
      * @param  string                 $directive
-     * @access protected
      */
     protected function writeNotOk(PHPUnit_Framework_Test $test, $prefix = '', $directive = '')
     {

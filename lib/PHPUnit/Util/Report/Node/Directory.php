@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Directory.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Directory.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -60,7 +60,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -68,61 +68,51 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
 {
     /**
      * @var    PHPUnit_Util_Report_Node[]
-     * @access protected
      */
     protected $children = array();
 
     /**
      * @var    PHPUnit_Util_Report_Node_Directory[]
-     * @access protected
      */
     protected $directories = array();
 
     /**
      * @var    PHPUnit_Util_Report_Node_File[]
-     * @access protected
      */
     protected $files = array();
 
     /**
      * @var    array
-     * @access protected
      */
     protected $classes;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numExecutableLines = -1;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numExecutedLines = -1;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numClasses = -1;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numCalledClasses = -1;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numMethods = -1;
 
     /**
      * @var    integer
-     * @access protected
      */
     protected $numCalledMethods = -1;
 
@@ -130,7 +120,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * Adds a new directory.
      *
      * @return PHPUnit_Util_Report_Node_Directory
-     * @access public
      */
     public function addDirectory($name)
     {
@@ -151,7 +140,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * @param  boolean $highlight
      * @return PHPUnit_Util_Report_Node_File
      * @throws RuntimeException
-     * @access public
      */
     public function addFile($name, array $lines, $yui, $highlight)
     {
@@ -172,7 +160,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * Returns the directories in this directory.
      *
      * @return
-     * @access public
      */
     public function getDirectories()
     {
@@ -183,7 +170,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * Returns the files in this directory.
      *
      * @return
-     * @access public
      */
     public function getFiles()
     {
@@ -194,7 +180,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * Returns the classes of this node.
      *
      * @return array
-     * @access public
      */
     public function getClasses()
     {
@@ -213,7 +198,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * Returns the number of executable lines.
      *
      * @return integer
-     * @access public
      */
     public function getNumExecutableLines()
     {
@@ -232,7 +216,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * Returns the number of executed lines.
      *
      * @return integer
-     * @access public
      */
     public function getNumExecutedLines()
     {
@@ -251,7 +234,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * Returns the number of classes.
      *
      * @return integer
-     * @access public
      */
     public function getNumClasses()
     {
@@ -271,7 +253,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * has been called at least once.
      *
      * @return integer
-     * @access public
      */
     public function getNumCalledClasses()
     {
@@ -290,7 +271,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * Returns the number of methods.
      *
      * @return integer
-     * @access public
      */
     public function getNumMethods()
     {
@@ -309,7 +289,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * Returns the number of methods that has been called at least once.
      *
      * @return integer
-     * @access public
      */
     public function getNumCalledMethods()
     {
@@ -330,34 +309,32 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
      * @param string  $target
      * @param string  $title
      * @param string  $charset
-     * @param boolean $highlight
      * @param integer $lowUpperBound
      * @param integer $highLowerBound
-     * @access public
      */
-    public function render($target, $title, $charset = 'ISO-8859-1', $highlight = FALSE, $lowUpperBound = 35, $highLowerBound = 70)
+    public function render($target, $title, $charset = 'ISO-8859-1', $lowUpperBound = 35, $highLowerBound = 70)
     {
         $this->doRender(
-          $target, $title, $charset, $highlight, $lowUpperBound, $highLowerBound
+          $target, $title, $charset, $lowUpperBound, $highLowerBound
         );
 
         foreach ($this->children as $child) {
             $child->render(
-              $target, $title, $charset, $highlight, $lowUpperBound, $highLowerBound
+              $target, $title, $charset, $lowUpperBound, $highLowerBound
             );
         }
+
+        $this->children = array();
     }
 
     /**
      * @param string  $target
      * @param string  $title
      * @param string  $charset
-     * @param boolean $highlight
      * @param integer $lowUpperBound
      * @param integer $highLowerBound
-     * @access protected
      */
-    protected function doRender($target, $title, $charset, $highlight, $lowUpperBound, $highLowerBound)
+    protected function doRender($target, $title, $charset, $lowUpperBound, $highLowerBound)
     {
         $cleanId = PHPUnit_Util_Filesystem::getSafeFilename($this->getId());
         $file    = $target . $cleanId . '.html';
@@ -367,24 +344,6 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
         );
 
         $this->setTemplateVars($template, $title, $charset);
-
-        $totalClassesPercent = $this->getCalledClassesPercent();
-
-        list($totalClassesColor, $totalClassesLevel) = $this->getColorLevel(
-          $totalClassesPercent, $lowUpperBound, $highLowerBound
-        );
-
-        $totalMethodsPercent = $this->getCalledMethodsPercent();
-
-        list($totalMethodsColor, $totalMethodsLevel) = $this->getColorLevel(
-          $totalMethodsPercent, $lowUpperBound, $highLowerBound
-        );
-
-        $totalLinesPercent = $this->getLineExecutedPercent();
-
-        list($totalLinesColor, $totalLinesLevel) = $this->getColorLevel(
-          $totalLinesPercent, $lowUpperBound, $highLowerBound
-        );
 
         $template->setVar(
           array(
@@ -396,31 +355,37 @@ class PHPUnit_Util_Report_Node_Directory extends PHPUnit_Util_Report_Node
         );
 
         $template->renderTo($file);
+
+        $this->directories = array();
+        $this->files       = array();
     }
 
     /**
+     * @param  float  $lowUpperBound
+     * @param  float  $highLowerBound
      * @return string
-     * @access protected
      */
     protected function renderItems($lowUpperBound, $highLowerBound)
     {
-        $items  = $this->doRenderItems($this->directories, $lowUpperBound, $highLowerBound);
-        $items .= $this->doRenderItems($this->files, $lowUpperBound, $highLowerBound);
+        $items  = $this->doRenderItems($this->directories, $lowUpperBound, $highLowerBound, 'coverDirectory');
+        $items .= $this->doRenderItems($this->files, $lowUpperBound, $highLowerBound, 'coverFile');
 
         return $items;
     }
 
     /**
-     * @param  array    $items
+     * @param  array  $items
+     * @param  float  $lowUpperBound
+     * @param  float  $highLowerBound
+     * @param  string $itemClass
      * @return string
-     * @access protected
      */
-    protected function doRenderItems(array $items, $lowUpperBound, $highLowerBound)
+    protected function doRenderItems(array $items, $lowUpperBound, $highLowerBound, $itemClass)
     {
         $result = '';
 
         foreach ($items as $item) {
-            $result .= $this->doRenderItemObject($item, $lowUpperBound, $highLowerBound);
+            $result .= $this->doRenderItemObject($item, $lowUpperBound, $highLowerBound, NULL, $itemClass);
         }
 
         return $result;

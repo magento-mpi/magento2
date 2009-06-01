@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: FlatXmlDataSet.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: FlatXmlDataSet.php 3312 2008-06-30 04:52:51Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -48,6 +48,7 @@ require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/Util/Filter.php';
 
 require_once 'PHPUnit/Extensions/Database/DataSet/AbstractXmlDataSet.php';
+require_once 'PHPUnit/Extensions/Database/DataSet/Persistors/FlatXml.php';
 
 PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
 
@@ -59,7 +60,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -69,25 +70,41 @@ class PHPUnit_Extensions_Database_DataSet_FlatXmlDataSet extends PHPUnit_Extensi
     protected function getTableInfo(Array &$tableColumns, Array &$tableValues)
     {
         if ($this->xmlFileContents->getName() != 'dataset') {
-            throw new Exception("The root element of a flat xml file must be called <dataset>");
+            throw new Exception("The root element of a flat xml data set file must be called <dataset>");
         }
-        
+
         foreach ($this->xmlFileContents->children() as $row) {
             $tableName = $row->getName();
-            
+
             if (!isset($tableColumns[$tableName])) {
                 $tableColumns[$tableName] = array();
+                $tableValues[$tableName] = array();
             }
-            
+
             $values = array();
             foreach ($row->attributes() as $name => $value) {
                 if (!in_array($name, $tableColumns[$tableName])) {
                     $tableColumns[$tableName][] = $name;
                 }
-                
+
                 $values[$name] = $value;
             }
-            $tableValues[$tableName][] = $values;
+
+            if (count($values)) {
+                $tableValues[$tableName][] = $values;
+            }
+        }
+    }
+
+    public static function write(PHPUnit_Extensions_Database_DataSet_IDataSet $dataset, $filename)
+    {
+        $pers = new PHPUnit_Extensions_Database_DataSet_Persistors_FlatXml();
+        $pers->setFileName($filename);
+
+        try {
+            $pers->write($dataset);
+        } catch (RuntimeException $e) {
+            throw new RuntimeException(__METHOD__ . ' called with an unwritable file.');
         }
     }
 }

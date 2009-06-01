@@ -39,14 +39,15 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Report.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Report.php 4219 2008-12-10 08:56:57Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
 
 require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Util/CodeCoverage.php';
+require_once 'PHPUnit/Util/Filter.php';
+require_once 'PHPUnit/Util/Filesystem.php';
 require_once 'PHPUnit/Util/Report/Node/Directory.php';
 require_once 'PHPUnit/Util/Report/Node/File.php';
 
@@ -60,7 +61,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  * @abstract
@@ -79,11 +80,11 @@ abstract class PHPUnit_Util_Report
      * @param  boolean                      $highlight
      * @param  integer                      $lowUpperBound
      * @param  integer                      $highLowerBound
-     * @access public
-     * @static
      */
     public static function render(PHPUnit_Framework_TestResult $result, $target, $charset = 'ISO-8859-1', $yui = TRUE, $highlight = FALSE, $lowUpperBound = 35, $highLowerBound = 70)
     {
+        $target = PHPUnit_Util_Filesystem::getDirectory($target);
+
         self::$templatePath = sprintf(
           '%s%sReport%sTemplate%s',
 
@@ -95,19 +96,30 @@ abstract class PHPUnit_Util_Report
 
         $codeCoverageInformation = $result->getCodeCoverageInformation();
         $files                   = PHPUnit_Util_CodeCoverage::getSummary($codeCoverageInformation);
-        $commonPath              = self::reducePaths($files);
+        $commonPath              = PHPUnit_Util_Filesystem::reducePaths($files);
         $items                   = self::buildDirectoryStructure($files);
+
+        unset($codeCoverageInformation);
+
+        $topTestSuite = $result->topTestSuite();
+
+        if ($topTestSuite instanceof PHPUnit_Framework_TestSuite) {
+            $name = $topTestSuite->getName();
+        }
+
+        unset($result);
 
         $root = new PHPUnit_Util_Report_Node_Directory($commonPath, NULL);
 
         self::addItems($root, $items, $files, $yui, $highlight);
         self::copyFiles($target);
 
+        PHPUnit_Util_CodeCoverage::clearSummary();
+
         $root->render(
           $target,
-          $result->topTestSuite()->getName(),
+          $name,
           $charset,
-          $highlight,
           $lowUpperBound,
           $highLowerBound
         );
@@ -119,8 +131,6 @@ abstract class PHPUnit_Util_Report
      * @param  array   $files
      * @param  boolean $yui
      * @param  boolean $highlight
-     * @access protected
-     * @static
      */
     protected static function addItems(PHPUnit_Util_Report_Node_Directory $root, array $items, array $files, $yui, $highlight)
     {
@@ -184,8 +194,6 @@ abstract class PHPUnit_Util_Report
      *
      * @param  array $files
      * @return array
-     * @access protected
-     * @static
      */
     protected static function buildDirectoryStructure($files)
     {
@@ -213,115 +221,7 @@ abstract class PHPUnit_Util_Report
     }
 
     /**
-     * Reduces the paths by cutting the longest common start path.
-     *
-     * For instance,
-     *
-     * <code>
-     * Array
-     * (
-     *     [/home/sb/PHPUnit/Samples/Money/Money.php] => Array
-     *         (
-     *             ...
-     *         )
-     *
-     *     [/home/sb/PHPUnit/Samples/Money/MoneyBag.php] => Array
-     *         (
-     *             ...
-     *         )
-     * )
-     * </code>
-     *
-     * is reduced to
-     *
-     * <code>
-     * Array
-     * (
-     *     [Money.php] => Array
-     *         (
-     *             ...
-     *         )
-     *
-     *     [MoneyBag.php] => Array
-     *         (
-     *             ...
-     *         )
-     * )
-     * </code>
-     *
-     * @param  array $files
-     * @return string
-     * @access protected
-     * @static
-     */
-    protected static function reducePaths(&$files)
-    {
-        if (empty($files)) {
-            return '.';
-        }
-
-        $commonPath = '';
-        $paths      = array_keys($files);
-
-        if (count($files) == 1) {
-            $commonPath                 = dirname($paths[0]);
-            $files[basename($paths[0])] = $files[$paths[0]];
-
-            unset($files[$paths[0]]);
-
-            return $commonPath;
-        }
-
-        $max = count($paths);
-
-        for ($i = 0; $i < $max; $i++) {
-            $paths[$i] = explode(DIRECTORY_SEPARATOR, $paths[$i]);
-
-            if (empty($paths[$i][0])) {
-                $paths[$i][0] = DIRECTORY_SEPARATOR;
-            }
-        }
-
-        $done = FALSE;
-
-        $max = count($paths);
-
-        while (!$done) {
-            for ($i = 0; $i < $max - 1; $i++) {
-                if (!isset($paths[$i][0]) ||
-                    !isset($paths[$i+1][0]) ||
-                    $paths[$i][0] != $paths[$i+1][0]) {
-                    $done = TRUE;
-                    break;
-                }
-            }
-
-            if (!$done) {
-                $commonPath .= $paths[0][0] . (($paths[0][0] != DIRECTORY_SEPARATOR) ? DIRECTORY_SEPARATOR : '');
-
-                for ($i = 0; $i < $max; $i++) {
-                    array_shift($paths[$i]);
-                }
-            }
-        }
-
-        $original = array_keys($files);
-        $max      = count($original);
-
-        for ($i = 0; $i < $max; $i++) {
-            $files[join('/', $paths[$i])] = $files[$original[$i]];
-            unset($files[$original[$i]]);
-        }
-
-        ksort($files);
-
-        return $commonPath;
-    }
-
-    /**
      * @param  string $target
-     * @access protected
-     * @static
      */
     protected static function copyFiles($target)
     {

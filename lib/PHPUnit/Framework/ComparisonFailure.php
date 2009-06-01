@@ -40,7 +40,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: ComparisonFailure.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: ComparisonFailure.php 2854 2008-04-24 08:34:46Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
@@ -62,7 +62,7 @@ if (!class_exists('PHPUnit_Framework_ComparisonFailure', FALSE)) {
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.0.0
  */
@@ -206,8 +206,8 @@ abstract class PHPUnit_Framework_ComparisonFailure extends PHPUnit_Framework_Ass
         $buffer = shell_exec(
           sprintf(
             'diff -u %s %s',
-            $expectedFile,
-            $actualFile
+            escapeshellarg($expectedFile),
+            escapeshellarg($actualFile)
           )
         );
 
@@ -220,10 +220,10 @@ abstract class PHPUnit_Framework_ComparisonFailure extends PHPUnit_Framework_Ass
             $buffer[0] = "--- Expected";
             $buffer[1] = "+++ Actual";
 
-            return implode("\n", $buffer);
+            $buffer = implode("\n", $buffer);
         }
 
-        return '';
+        return $buffer;
     }
 
     public static function hasDiff()
@@ -240,18 +240,24 @@ abstract class PHPUnit_Framework_ComparisonFailure extends PHPUnit_Framework_Ass
             }
 
             if (isset($_ENV['PATH'])) {
-                $paths = explode(PATH_SEPARATOR, $_ENV['PATH']);
+                $var = $_ENV['PATH'];
             }
 
             else if (isset($_ENV['Path'])) {
-                $paths = explode(PATH_SEPARATOR, $_ENV['Path']);
+                $var = $_ENV['Path'];
             }
 
             else if (isset($_SERVER['PATH'])) {
-                $paths = explode(PATH_SEPARATOR, $_SERVER['PATH']);
+                $var = $_SERVER['PATH'];
             }
 
-            else {
+            else if (isset($_SERVER['Path'])) {
+                $var = $_SERVER['Path'];
+            }
+
+            if (isset($var)) {
+                $paths = explode(PATH_SEPARATOR, $var);
+            } else {
                 $paths = array();
             }
 

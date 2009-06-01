@@ -39,9 +39,9 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: XML.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: Clover.php 3196 2008-06-10 13:54:46Z sb $
  * @link       http://www.phpunit.de/
- * @since      File available since Release 3.1.4
+ * @since      File available since Release 3.3.0
  */
 
 require_once 'PHPUnit/Runner/Version.php';
@@ -63,40 +63,39 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.4
  */
-class PHPUnit_Util_Log_CodeCoverage_XML extends PHPUnit_Util_Printer
+class PHPUnit_Util_Log_CodeCoverage_XML_Clover extends PHPUnit_Util_Printer
 {
     /**
      * @param  PHPUnit_Framework_TestResult $result
-     * @access public
      * @todo   Count conditionals.
      */
     public function process(PHPUnit_Framework_TestResult $result)
     {
+        $time = time();
+
         $document = new DOMDocument('1.0', 'UTF-8');
         $document->formatOutput = TRUE;
 
         $coverage = $document->createElement('coverage');
-        $coverage->setAttribute('generated', time());
+        $coverage->setAttribute('generated', $time);
         $coverage->setAttribute('phpunit', PHPUnit_Runner_Version::id());
         $document->appendChild($coverage);
 
         $project = $document->createElement('project');
         $project->setAttribute('name', $result->topTestSuite()->getName());
-        $project->setAttribute('timestamp', time());
+        $project->setAttribute('timestamp', $time);
         $coverage->appendChild($project);
 
-        $codeCoverageInformation = $result->getCodeCoverageInformation();
-        $files                   = PHPUnit_Util_CodeCoverage::getSummary($codeCoverageInformation);
-
+        $codeCoverageInformation    = $result->getCodeCoverageInformation();
+        $files                      = PHPUnit_Util_CodeCoverage::getSummary($codeCoverageInformation);
+        $packages                   = array();
         $projectFiles               = 0;
         $projectLoc                 = 0;
         $projectNcloc               = 0;
-        $projectLinesExecutable     = 0;
-        $projectLinesExecuted       = 0;
         $projectClasses             = 0;
         $projectMethods             = 0;
         $projectCoveredMethods      = 0;
@@ -119,14 +118,25 @@ class PHPUnit_Util_Log_CodeCoverage_XML extends PHPUnit_Util_Printer
             $file = $document->createElement('file');
             $file->setAttribute('name', $filename);
 
-            $classes = PHPUnit_Util_Class::getClassesInFile($filename);
-            $lines   = array();
+            $namespace = 'global';
+            $classes   = PHPUnit_Util_Class::getClassesInFile($filename);
+            $lines     = array();
 
             foreach ($classes as $class) {
-                $methods    = $class->getMethods();
-                $numMethods = 0;
+                if ($class->isInterface()) {
+                    continue;
+                }
+
+                $className          = $class->getName();
+                $methods            = $class->getMethods();
+                $packageInformation = PHPUnit_Util_Class::getPackageInformation($className);
+                $numMethods         = 0;
                 $fileClasses++;
                 $projectClasses++;
+
+                if (!empty($packageInformation['namespace'])) {
+                    $namespace = $packageInformation['namespace'];
+                }
 
                 $classConditionals        = 0;
                 $classCoveredConditionals = 0;
@@ -137,57 +147,74 @@ class PHPUnit_Util_Log_CodeCoverage_XML extends PHPUnit_Util_Printer
                 foreach ($methods as $method) {
                     if ($method->getDeclaringClass()->getName() == $class->getName()) {
                         $startLine = $method->getStartLine();
-                        $numMethods++;
-                        $fileMethods++;
-                        $projectMethods++;
+                        $endLine   = $method->getEndLine();
+                        $tests     = array();
 
-                        if ($startLine) {
-                            $endLine = $method->getEndLine();
-                            $tests   = array();
+                        for ($i = $startLine; $i <= $endLine; $i++) {
+                            if (isset($files[$filename][$i])) {
+                                if (is_array($files[$filename][$i])) {
+                                    foreach ($files[$filename][$i] as $_test) {
+                                        $add = TRUE;
 
-                            for ($i = $startLine; $i <= $endLine; $i++) {
-                                if (isset($files[$filename][$i])) {
-                                    if (is_array($files[$filename][$i])) {
-                                        foreach ($files[$filename][$i] as $_test) {
-                                            $add = TRUE;
-
-                                            foreach ($tests as $test) {
-                                                if ($test === $_test) {
-                                                    $add = FALSE;
-                                                    break;
-                                                }
-                                            }
-
-                                            if ($add) {
-                                                $tests[] = $_test;
+                                        foreach ($tests as $test) {
+                                            if ($test === $_test) {
+                                                $add = FALSE;
+                                                break;
                                             }
                                         }
 
-                                        $classCoveredStatements++;
+                                        if ($add) {
+                                            $tests[] = $_test;
+                                        }
                                     }
 
-                                    $classStatements++;
+                                    $classCoveredStatements++;
                                 }
-                            }
 
-                            $count = count($tests);
-
-                            $lines[$startLine] = array(
-                              'count' => $count,
-                              'type' => 'method'
-                            );
-
-                            if ($count > 0) {
-                                $classCoveredMethods++;
-                                $fileCoveredMethods++;
-                                $projectCoveredMethods++;
+                                $classStatements++;
                             }
                         }
+
+                        $count = count($tests);
+
+                        $lines[$startLine] = array(
+                          'count' => $count,
+                          'type' => 'method'
+                        );
+
+                        if ($count > 0) {
+                            $classCoveredMethods++;
+                            $fileCoveredMethods++;
+                            $projectCoveredMethods++;
+                        }
+
+                        $classStatements--;
+                        $numMethods++;
+                        $fileMethods++;
+                        $projectMethods++;
                     }
                 }
 
                 $classXML = $document->createElement('class');
-                $classXML->setAttribute('name', $class->getName());
+                $classXML->setAttribute('name', $className);
+                $classXML->setAttribute('namespace', $namespace);
+
+                if (!empty($packageInformation['fullPackage'])) {
+                    $classXML->setAttribute('fullPackage', $packageInformation['fullPackage']);
+                }
+
+                if (!empty($packageInformation['category'])) {
+                    $classXML->setAttribute('category', $packageInformation['category']);
+                }
+
+                if (!empty($packageInformation['package'])) {
+                    $classXML->setAttribute('package', $packageInformation['package']);
+                }
+
+                if (!empty($packageInformation['subpackage'])) {
+                    $classXML->setAttribute('subpackage', $packageInformation['subpackage']);
+                }
+
                 $file->appendChild($classXML);
 
                 $classMetricsXML = $document->createElement('metrics');
@@ -200,9 +227,6 @@ class PHPUnit_Util_Log_CodeCoverage_XML extends PHPUnit_Util_Printer
                 $classMetricsXML->setAttribute('elements', $classConditionals + $classStatements + $numMethods);
                 $classMetricsXML->setAttribute('coveredelements', $classCoveredConditionals + $classCoveredStatements + $classCoveredMethods);
                 $classXML->appendChild($classMetricsXML);
-
-                $fileStatements += $classStatements;
-                $fileCoveredStatements += $classCoveredStatements;
             }
 
             foreach ($data as $_line => $_data) {
@@ -232,21 +256,25 @@ class PHPUnit_Util_Log_CodeCoverage_XML extends PHPUnit_Util_Printer
                 $line->setAttribute('type', $_data['type']);
                 $line->setAttribute('count', $_data['count']);
 
+                if ($_data['type'] == 'stmt') {
+                    if ($_data['count'] != 0) {
+                        $fileCoveredStatements++;
+                    }
+
+                    $fileStatements++;
+                }
+
                 $file->appendChild($line);
             }
 
             if (file_exists($filename)) {
-                $fileMetrics         = PHPUnit_Util_Metrics_File::factory($filename, $files);
-                $fileLoc             = $fileMetrics->getLoc();
-                $fileNcloc           = $fileMetrics->getNcloc();
-                $fileLinesExecutable = $fileMetrics->getLocExecutable();
-                $fileLinesExecuted   = $fileMetrics->getLocExecuted();
+                $fileMetrics = PHPUnit_Util_Metrics_File::factory($filename, $files);
+                $fileLoc     = $fileMetrics->getLoc();
+                $fileNcloc   = $fileMetrics->getNcloc();
 
                 $fileMetricsXML = $document->createElement('metrics');
                 $fileMetricsXML->setAttribute('loc', $fileLoc);
                 $fileMetricsXML->setAttribute('ncloc', $fileNcloc);
-                $fileMetricsXML->setAttribute('executablelines', $fileLinesExecutable);
-                $fileMetricsXML->setAttribute('executedlines', $fileLinesExecuted);
                 $fileMetricsXML->setAttribute('classes', $fileClasses);
                 $fileMetricsXML->setAttribute('methods', $fileMethods);
                 $fileMetricsXML->setAttribute('coveredmethods', $fileCoveredMethods);
@@ -258,12 +286,21 @@ class PHPUnit_Util_Log_CodeCoverage_XML extends PHPUnit_Util_Printer
                 $fileMetricsXML->setAttribute('coveredelements', $fileCoveredConditionals + $fileCoveredStatements + $fileCoveredMethods);
 
                 $file->appendChild($fileMetricsXML);
-                $project->appendChild($file);
+
+                if ($namespace == 'global') {
+                    $project->appendChild($file);
+                } else {
+                    if (!isset($packages[$namespace])) {
+                        $packages[$namespace] = $document->createElement('package');
+                        $packages[$namespace]->setAttribute('name', $namespace);
+                        $project->appendChild($packages[$namespace]);
+                    }
+
+                    $packages[$namespace]->appendChild($file);
+                }
 
                 $projectLoc               += $fileLoc;
                 $projectNcloc             += $fileNcloc;
-                $projectLinesExecutable   += $fileLinesExecutable;
-                $projectLinesExecuted     += $fileLinesExecuted;
                 $projectStatements        += $fileStatements;
                 $projectCoveredStatements += $fileCoveredStatements;
             }
@@ -273,8 +310,6 @@ class PHPUnit_Util_Log_CodeCoverage_XML extends PHPUnit_Util_Printer
         $projectMetricsXML->setAttribute('files', $projectFiles);
         $projectMetricsXML->setAttribute('loc', $projectLoc);
         $projectMetricsXML->setAttribute('ncloc', $projectNcloc);
-        $projectMetricsXML->setAttribute('executablelines', $projectLinesExecutable);
-        $projectMetricsXML->setAttribute('executedlines', $projectLinesExecuted);
         $projectMetricsXML->setAttribute('classes', $projectClasses);
         $projectMetricsXML->setAttribute('methods', $projectMethods);
         $projectMetricsXML->setAttribute('coveredmethods', $projectCoveredMethods);

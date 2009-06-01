@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: ExpectationFailedException.php 2108 2008-01-15 09:10:37Z sb $
+ * @version    SVN: $Id: ExpectationFailedException.php 2399 2008-02-10 08:06:28Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.0.0
  */
@@ -63,7 +63,7 @@ if (!class_exists('PHPUnit_Framework_ExpectationFailedException', FALSE)) {
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.0.0
  */
@@ -71,11 +71,13 @@ class PHPUnit_Framework_ExpectationFailedException extends PHPUnit_Framework_Ass
 {
     protected $comparisonFailure;
     protected $description;
+    protected $customMessage;
 
     public function __construct($description, PHPUnit_Framework_ComparisonFailure $comparisonFailure = NULL, $message = '')
     {
         $this->description       = $description;
         $this->comparisonFailure = $comparisonFailure;
+        $this->customMessage     = $message;
 
         if (!empty($message)) {
             $description .= "\n" . $message;
@@ -92,6 +94,11 @@ class PHPUnit_Framework_ExpectationFailedException extends PHPUnit_Framework_Ass
     public function getDescription()
     {
         return $this->description;
+    }
+
+    public function getCustomMessage()
+    {
+        return $this->customMessage;
     }
 }
 

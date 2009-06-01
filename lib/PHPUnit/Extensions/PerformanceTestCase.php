@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: PerformanceTestCase.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: PerformanceTestCase.php 3164 2008-06-08 12:22:29Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.1.0
  */
@@ -59,7 +59,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 2.1.0
  */
@@ -67,12 +67,10 @@ abstract class PHPUnit_Extensions_PerformanceTestCase extends PHPUnit_Framework_
 {
     /**
      * @var    integer
-     * @access protected
      */
     protected $maxRunningTime = 0;
 
     /**
-     * @access protected
      */
     protected function runTest()
     {
@@ -96,7 +94,6 @@ abstract class PHPUnit_Extensions_PerformanceTestCase extends PHPUnit_Framework_
     /**
      * @param  integer $maxRunningTime
      * @throws InvalidArgumentException
-     * @access public
      * @since  Method available since Release 2.3.0
      */
     public function setMaxRunningTime($maxRunningTime)
@@ -111,7 +108,6 @@ abstract class PHPUnit_Extensions_PerformanceTestCase extends PHPUnit_Framework_
 
     /**
      * @return integer
-     * @access public
      * @since  Method available since Release 2.3.0
      */
     public function getMaxRunningTime()

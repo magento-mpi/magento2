@@ -39,7 +39,7 @@
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: AbstractTable.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: AbstractTable.php 3675 2008-08-31 07:11:10Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.2.0
  */
@@ -59,7 +59,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -82,6 +82,7 @@ class PHPUnit_Extensions_Database_DataSet_AbstractTable implements PHPUnit_Exten
      * Sets the metadata for this table.
      *
      * @param PHPUnit_Extensions_Database_DataSet_ITableMetaData $tableMetaData
+     * @deprecated
      */
     protected function setTableMetaData(PHPUnit_Extensions_Database_DataSet_ITableMetaData $tableMetaData)
     {
@@ -123,7 +124,26 @@ class PHPUnit_Extensions_Database_DataSet_AbstractTable implements PHPUnit_Exten
             if (!in_array($column, $this->getTableMetaData()->getColumns()) || $this->getRowCount() <= $row) {
                 throw new InvalidArgumentException("The given row ({$row}) and column ({$column}) do not exist in table {$this->getTableMetaData()->getTableName()}");
             } else {
-                return null;
+                return NULL;
+            }
+        }
+    }
+
+    /**
+     * Returns the an associative array keyed by columns for the given row.
+     *
+     * @param int $row
+     * @return array
+     */
+    public function getRow($row)
+    {
+        if (isset($this->data[$row])) {
+            return $this->data[$row];
+        } else {
+            if ($this->getRowCount() <= $row) {
+                throw new InvalidArgumentException("The given row ({$row}) does not exist in table {$this->getTableMetaData()->getTableName()}");
+            } else {
+                return NULL;
             }
         }
     }
@@ -137,13 +157,13 @@ class PHPUnit_Extensions_Database_DataSet_AbstractTable implements PHPUnit_Exten
     {
         $thisMetaData = $this->getTableMetaData();
         $otherMetaData = $other->getTableMetaData();
-        
+
         $thisMetaData->assertEquals($otherMetaData);
-        
+
         if ($this->getRowCount() != $other->getRowCount()) {
             throw new Exception("Expected row count of {$this->getRowCount()}, has a row count of {$other->getRowCount()}");
         }
-        
+
         $columns = $thisMetaData->getColumns();
         for ($i = 0; $i < $this->getRowCount(); $i++) {
             foreach ($columns as $columnName) {
@@ -152,33 +172,33 @@ class PHPUnit_Extensions_Database_DataSet_AbstractTable implements PHPUnit_Exten
                 }
             }
         }
-        
+
         return TRUE;
     }
 
     public function __toString()
     {
         $columns = $this->getTableMetaData()->getColumns();
-        
+
         $lineSeperator = str_repeat('+----------------------', count($columns)) . "+\n";
         $lineLength = strlen($lineSeperator) - 1;
-        
+
         $tableString = $lineSeperator;
         $tableString .= '| ' . str_pad($this->getTableMetaData()->getTableName(), $lineLength - 4, ' ', STR_PAD_RIGHT) . " |\n";
         $tableString .= $lineSeperator;
         $tableString .= $this->rowToString($columns);
         $tableString .= $lineSeperator;
-        
+
         for ($i = 0; $i < $this->getRowCount(); $i++) {
             $values = array();
             foreach ($columns as $columnName) {
                 $values[] = $this->getValue($i, $columnName);
             }
-            
+
             $tableString .= $this->rowToString($values);
             $tableString .= $lineSeperator;
         }
-        
+
         return "\n" . $tableString . "\n";
     }
 
@@ -191,7 +211,7 @@ class PHPUnit_Extensions_Database_DataSet_AbstractTable implements PHPUnit_Exten
             }
             $rowString .= '| ' . str_pad(substr($value, 0, 20), 20, ' ', STR_PAD_BOTH) . ' ';
         }
-        
+
         return $rowString . "|\n";
     }
 }

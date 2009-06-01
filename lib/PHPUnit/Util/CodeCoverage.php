@@ -11,7 +11,7 @@
  *
  *   * Redistributions of source code must retain the above copyright
  *     notice, this list of conditions and the following disclaimer.
- * 
+ *
  *   * Redistributions in binary form must reproduce the above copyright
  *     notice, this list of conditions and the following disclaimer in
  *     the documentation and/or other materials provided with the
@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: CodeCoverage.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id: CodeCoverage.php 4370 2008-12-23 16:43:42Z sb $
  * @link       http://www.phpunit.de/
  * @since      File available since Release 3.1.0
  */
@@ -56,7 +56,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.1.0
  * @abstract
@@ -71,8 +71,6 @@ abstract class PHPUnit_Util_CodeCoverage
      *
      * @param  array $data
      * @return array
-     * @access public
-     * @static
      */
     public static function getCoveredFiles(array &$data)
     {
@@ -99,14 +97,12 @@ abstract class PHPUnit_Util_CodeCoverage
      * @param  string  $line
      * @param  boolean $clear
      * @return array
-     * @access public
-     * @static
      */
     public static function getCoveringTests(array &$data, $file, $line, $clear = FALSE)
     {
         if (empty(self::$lineToTestMap) || $clear) {
             foreach ($data as $test) {
-                foreach ($test['files'] as $_file => $lines) {
+                foreach (self::bitStringToCodeCoverage($test['files'], 1) as $_file => $lines) {
                     foreach ($lines as $_line => $flag) {
                         if ($flag > 0) {
                             if (!isset(self::$lineToTestMap[$_file][$_line])) {
@@ -143,8 +139,6 @@ abstract class PHPUnit_Util_CodeCoverage
      * @param  array $data
      * @param  boolean $clear
      * @return array
-     * @access public
-     * @static
      */
     public static function getSummary(array &$data, $clear = FALSE)
     {
@@ -152,6 +146,32 @@ abstract class PHPUnit_Util_CodeCoverage
             $isFileCache = array();
 
             foreach ($data as $test) {
+                if (isset($test['dead'])) {
+                    $deadCode       = self::bitStringToCodeCoverage($test['dead'], -2);
+                    $executableCode = self::bitStringToCodeCoverage($test['executable'], -1);
+                    $executedCode   = self::bitStringToCodeCoverage($test['files'], 1);
+                    $keys           = array_merge(array_keys($deadCode), array_keys($executableCode), array_keys($executedCode));
+                    $tmp            = array();
+
+                    foreach ($keys as $file) {
+                        $tmp[$file] = array();
+
+                        if (isset($executedCode[$file])) {
+                            $tmp[$file] += $executedCode[$file];
+                        }
+
+                        if (isset($executableCode[$file])) {
+                            $tmp[$file] += $executableCode[$file];
+                        }
+
+                        if (isset($deadCode[$file])) {
+                            $tmp[$file] += $deadCode[$file];
+                        }
+                    }
+
+                    $test['files'] = $tmp;
+                }
+
                 foreach ($test['files'] as $file => $lines) {
                     if (!isset($isFileCache[$file])) {
                         $isFileCache[$file] = self::isFile($file);
@@ -197,11 +217,10 @@ abstract class PHPUnit_Util_CodeCoverage
      * @param  integer $startLine
      * @param  integer $endLine
      * @return array
-     * @access public
-     * @static
      * @since  Method available since Release 3.2.0
      */
-    public static function getStatistics(array &$data, $filename, $startLine = 1, $endLine = FALSE) {
+    public static function getStatistics(array &$data, $filename, $startLine = 1, $endLine = FALSE)
+    {
         $coverage      = 0;
         $locExecutable = 0;
         $locExecuted   = 0;
@@ -212,12 +231,12 @@ abstract class PHPUnit_Util_CodeCoverage
             }
 
             foreach ($data[$filename] as $line => $_data) {
-                if ($line >= $startLine && $line <= $endLine) {
+                if ($line >= $startLine && $line < $endLine) {
                     if (is_array($_data)) {
                         $locExecutable++;
                         $locExecuted++;
                     }
-                    
+
                     else if ($_data == -1) {
                         $locExecutable++;
                     }
@@ -226,6 +245,8 @@ abstract class PHPUnit_Util_CodeCoverage
 
             if ($locExecutable > 0) {
                 $coverage = ($locExecuted / $locExecutable) * 100;
+            } else {
+                $coverage = 100;
             }
         }
 
@@ -240,16 +261,104 @@ abstract class PHPUnit_Util_CodeCoverage
     /**
      * @param  string $file
      * @return boolean
-     * @access protected
-     * @static
      */
-    protected static function isFile($file)
+    public static function isFile($file)
     {
-        if (strpos($file, 'eval()\'d code') || strpos($file, 'runtime-created function') || strpos($file, 'assert code')) {
+        if (strpos($file, 'eval()\'d code') ||
+            strpos($file, 'runtime-created function') ||
+            strpos($file, 'assert code') ||
+            strpos($file, 'regexp code')) {
             return FALSE;
         }
 
         return TRUE;
+    }
+
+    /**
+     *
+     *
+     * @since  Method available since Release 3.3.0
+     */
+    public static function clearSummary()
+    {
+        self::$summary = array();
+    }
+
+    /**
+     *
+     *
+     * @param  array $data
+     * @param  array $requiredStatus
+     * @return array
+     * @since  Method available since Release 3.3.0
+     */
+    public static function codeCoverageToBitString(array $data, array $requiredStatus)
+    {
+        $result = array();
+
+        foreach ($data as $file => $coverage) {
+            if (empty($coverage)) {
+                continue;
+            }
+
+            $maxLine = max(array_keys($coverage));
+
+            if ($maxLine == 0) {
+                $bitArray = array();
+            } else {
+                $bitArray = array_fill(0, ceil($maxLine / 8), 0);
+            }
+
+            foreach ($coverage as $line => $status) {
+                if (!in_array($status, $requiredStatus)) {
+                    continue;
+                }
+
+                $line--;
+
+                $i             = ($line - ($line % 8)) / 8;
+                $bitArray[$i] |= 0x01 << ($line % 8);
+            }
+
+            if (isset($line)) {
+                $result[$file] = implode('', array_map('chr', $bitArray));
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     *
+     *
+     * @since  Method available since Release 3.3.0
+     */
+    public static function bitStringToCodeCoverage($strings, $status)
+    {
+        $result = array();
+
+        foreach ($strings as $file => $string) {
+            if (is_array($string)) {
+                return $strings;
+            }
+
+            $data   = array();
+            $length = strlen($string);
+
+            for ($i = 0; $i < $length; $i++) {
+                $ord = ord($string{$i});
+
+                for ($j = 0; $j < 8; $j++) {
+                    if ($ord & (0x01 << $j)) {
+                        $data[$i * 8 + $j + 1] = $status;
+                    }
+                }
+            }
+
+            $result[$file] = $data;
+        }
+
+        return $result;
     }
 }
 ?>

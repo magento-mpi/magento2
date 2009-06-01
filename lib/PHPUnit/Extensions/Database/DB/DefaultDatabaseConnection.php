@@ -63,13 +63,12 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2008 Mike Lively <m@digitalsandwich.com>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
 class PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection implements PHPUnit_Extensions_Database_DB_IDatabaseConnection
 {
-
     /**
      * @var PDO
      */
@@ -82,7 +81,7 @@ class PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection implements PHPUni
 
     /**
      * The metadata object used to retrieve table meta data from the database.
-     * 
+     *
      * @var PHPUnit_Extensions_Database_DB_IMetaData
      */
     protected $metaData;
@@ -98,7 +97,7 @@ class PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection implements PHPUni
         $this->connection = $connection;
         $this->metaData = PHPUnit_Extensions_Database_DB_MetaData::createMetaData($connection, $schema);
         $this->schema = $schema;
-        
+
         $connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -111,7 +110,7 @@ class PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection implements PHPUni
     }
 
     /**
-     * Returns a database metadata object that can be used to retrieve table 
+     * Returns a database metadata object that can be used to retrieve table
      * meta data from the database.
      *
      * @return PHPUnit_Extensions_Database_DB_IMetaData
@@ -132,15 +131,15 @@ class PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection implements PHPUni
     }
 
     /**
-     * Creates a dataset containing the specified table names. If no table 
-     * names are specified then it will created a dataset over the entire 
+     * Creates a dataset containing the specified table names. If no table
+     * names are specified then it will created a dataset over the entire
      * database.
      *
      * @param array $tableNames
      * @return PHPUnit_Extensions_Database_DataSet_IDataSet
      * @todo Implement the filtered data set.
      */
-    public function createDataSet(Array $tableNames = null)
+    public function createDataSet(Array $tableNames = NULL)
     {
         if (empty($tableNames)) {
             return new PHPUnit_Extensions_Database_DB_DataSet($this);
@@ -158,18 +157,17 @@ class PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection implements PHPUni
      */
     public function createQueryTable($resultName, $sql)
     {
-        $statement = $this->connection->query($sql);
-        return new PHPUnit_Extensions_Database_DB_ResultSetTable($resultName, $statement);
+        return new PHPUnit_Extensions_Database_DataSet_QueryTable($resultName, $sql, $this);
     }
 
     /**
-     * Returns this connection database configuration 
+     * Returns this connection database configuration
      *
      * @return PHPUnit_Extensions_Database_Database_DatabaseConfig
      */
     public function getConfig()
     {
-    
+
     }
 
     /**
@@ -183,17 +181,17 @@ class PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection implements PHPUni
     }
 
     /**
-     * Returns the number of rows in the given table. You can specify an 
+     * Returns the number of rows in the given table. You can specify an
      * optional where clause to return a subset of the table.
      *
      * @param string $tableName
      * @param string $whereClause
      * @param int
      */
-    public function getRowCount($tableName, $whereClause = null)
+    public function getRowCount($tableName, $whereClause = NULL)
     {
         $query = "SELECT COUNT(*) FROM {$tableName}";
-        
+
         if (isset($whereClause)) {
             $query .= " WHERE {$whereClause}";
         }
@@ -207,8 +205,27 @@ class PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection implements PHPUni
      */
     public function quoteSchemaObject($object)
     {
-    	return $this->getMetaData()->quoteSchemaObject($object);
+        return $this->getMetaData()->quoteSchemaObject($object);
     }
 
+    /**
+     * Returns the command used to truncate a table.
+     *
+     * @return string
+     */
+    public function getTruncateCommand()
+    {
+        return $this->getMetaData()->getTruncateCommand();
+    }
+
+    /**
+     * Returns true if the connection allows cascading
+     *
+     * @return bool
+     */
+    public function allowsCascading()
+    {
+        return $this->getMetaData()->allowsCascading();
+    }
 }
 ?>

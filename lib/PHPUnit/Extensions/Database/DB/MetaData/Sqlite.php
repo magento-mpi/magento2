@@ -58,7 +58,7 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @author     Mike Lively <m@digitalsandwich.com>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    Release: 3.2.9
+ * @version    Release: 3.3.9
  * @link       http://www.phpunit.de/
  * @since      Class available since Release 3.2.0
  */
@@ -69,6 +69,7 @@ class PHPUnit_Extensions_Database_DB_MetaData_Sqlite extends PHPUnit_Extensions_
 
     protected $keys = array();
 
+    protected $truncateCommand = 'DELETE FROM';
     /**
      * Returns an array containing the names of all the tables in the database.
      *
@@ -77,25 +78,25 @@ class PHPUnit_Extensions_Database_DB_MetaData_Sqlite extends PHPUnit_Extensions_
     public function getTableNames()
     {
         $query = "
-            SELECT name 
+            SELECT name
             FROM sqlite_master
-            WHERE 
-                type='table' AND 
+            WHERE
+                type='table' AND
                 name <> 'sqlite_sequence'
             ORDER BY name
         ";
-        
+
         $result = $this->pdo->query($query);
-        
+
         while ($tableName = $result->fetchColumn(0)) {
             $tableNames[] = $tableName;
         }
-        
+
         return $tableNames;
     }
 
     /**
-     * Returns an array containing the names of all the columns in the 
+     * Returns an array containing the names of all the columns in the
      * $tableName table,
      *
      * @param string $tableName
@@ -106,12 +107,12 @@ class PHPUnit_Extensions_Database_DB_MetaData_Sqlite extends PHPUnit_Extensions_
         if (!isset($this->columns[$tableName])) {
             $this->loadColumnInfo($tableName);
         }
-        
+
         return $this->columns[$tableName];
     }
 
     /**
-     * Returns an array containing the names of all the primary key columns in 
+     * Returns an array containing the names of all the primary key columns in
      * the $tableName table.
      *
      * @param string $tableName
@@ -122,7 +123,7 @@ class PHPUnit_Extensions_Database_DB_MetaData_Sqlite extends PHPUnit_Extensions_
         if (!isset($this->keys[$tableName])) {
             $this->loadColumnInfo($tableName);
         }
-        
+
         return $this->keys[$tableName];
     }
 
@@ -135,13 +136,13 @@ class PHPUnit_Extensions_Database_DB_MetaData_Sqlite extends PHPUnit_Extensions_
     {
         $query = "PRAGMA table_info('{$tableName}')";
         $statement = $this->pdo->query($query);
-        
+
         /* @var $statement PDOStatement */
         $this->columns[$tableName] = array();
         $this->keys[$tableName] = array();
         while ($columnData = $statement->fetch(PDO::FETCH_NUM)) {
             $this->columns[$tableName][] = $columnData[1];
-            
+
             if ($columnData[5] == 1) {
                 $this->keys[$tableName][] = $columnData[1];
             }
