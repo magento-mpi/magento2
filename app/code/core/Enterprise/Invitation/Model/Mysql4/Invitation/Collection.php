@@ -32,7 +32,11 @@
  */
 class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    protected $_map = array('fields' => array('invitee_email' => 'c.email', 'website_id' => 'w.website_id'));
+    protected $_map = array('fields' => array(
+        'invitee_email'    => 'c.email',
+        'website_id'       => 'w.website_id',
+        'invitation_email' => 'main_table.email'
+    ));
 
     /**
      * Intialize collection
@@ -42,6 +46,19 @@ class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core
     protected function _construct()
     {
         $this->_init('enterprise_invitation/invitation');
+    }
+
+    /**
+     * Instantiate select object
+     *
+     * @return Enterprise_Invitation_Model_Mysql4_Invitation_Collection
+     */
+    protected function _initSelect()
+    {
+        $this->getSelect()->from(array('main_table' => $this->getResource()->getMainTable()),
+            array('*', 'invitation_email' => 'email',)
+        );
+        return $this;
     }
 
     /**
@@ -75,7 +92,8 @@ class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core
      */
     public function addWebsiteInformation()
     {
-        $this->getSelect()->joinInner(array('w' => $this->getTable('core/store')), 'main_table.store_id = w.store_id', 'w.website_id');
+        $this->getSelect()
+            ->joinInner(array('w' => $this->getTable('core/store')), 'main_table.store_id = w.store_id', 'w.website_id');
         return $this;
     }
 

@@ -73,7 +73,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
 
         $this->addColumn('email', array(
             'header' => Mage::helper('enterprise_invitation')->__('Email'),
-            'index' => 'email',
+            'index' => 'invitation_email',
             'type'  => 'text'
         ));
 
