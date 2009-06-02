@@ -24,6 +24,10 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customerbalance controller for My Account
+ *
+ */
 class Enterprise_CustomerBalance_InfoController extends Mage_Core_Controller_Front_Action
 {
     /**

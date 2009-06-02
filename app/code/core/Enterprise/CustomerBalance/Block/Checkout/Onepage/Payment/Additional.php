@@ -24,31 +24,57 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customer balance as an additional payment option during checkout
+ *
+ */
 class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends Mage_Core_Block_Template
 {
+    /**
+     * @var Enterprise_CustomerBalance_Model_Balance
+     */
     protected $_balanceModel = null;
 
+    /**
+     * Get quote instance
+     *
+     * @return Mage_Sales_Model_Quote
+     */
     protected function _getQuote()
     {
         return Mage::getSingleton('checkout/session')->getQuote();
     }
 
+    /**
+     * Get balance instance
+     *
+     * @return Enterprise_CustomerBalance_Model_Balance
+     */
     protected function _getBalanceModel()
     {
         if (is_null($this->_balanceModel)) {
             $this->_balanceModel = Mage::getModel('enterprise_customerbalance/balance')
-                ->setCustomerId($this->_getCustomer()->getId())
-                ->setWebsiteId(Mage::app()->getWebsite()->getId())
+                ->setCustomer($this->_getCustomer())
                 ->loadByCustomer();
         }
         return $this->_balanceModel;
     }
 
+    /**
+     * Get customer instance
+     *
+     * @return Mage_Customer_Model_Customer
+     */
     protected function _getCustomer()
     {
         return Mage::getSingleton('customer/session')->getCustomer();
     }
 
+    /**
+     * Check whether customer balance is allowed as additional payment option
+     *
+     * @return bool
+     */
     public function isAllowed()
     {
         if (!$this->_getCustomer()->getId()) {
@@ -66,6 +92,11 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
         return true;
     }
 
+    /**
+     * Get balance amount
+     *
+     * @return float
+     */
     public function getBalance()
     {
         if (!$this->_getCustomer()->getId()) {
@@ -74,6 +105,11 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
         return $this->_getBalanceModel()->getAmount();
     }
 
+    /**
+     * Get balance amount to be charged
+     *
+     * @return float
+     */
     public function getAmountToCharge()
     {
         if ($this->isCustomerBalanceUsed()) {
@@ -83,13 +119,22 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
         return min($this->getBalance(), $this->_getQuote()->getBaseGrandTotal());
     }
 
+    /**
+     * Check whether customer balance is used in current quote
+     *
+     * @return bool
+     */
     public function isCustomerBalanceUsed() {
         return $this->_getQuote()->getUseCustomerBalance();
     }
 
-    public function isFullyPaidAfterApplication() {
-        $total = $this->_getQuote()->getBaseGrandTotal() + $this->_getQuote()->getBaseCustomerBalanceAmountUsed();
-
-        return ($this->getBalance() >= $total);
+    /**
+     * Check whether customer balance fully covers quote
+     *
+     * @return bool
+     */
+    public function isFullyPaidAfterApplication()
+    {
+        return $this->_getBalanceModel()->isFulAmountCovered($this->_getQuote());
     }
 }

@@ -192,7 +192,7 @@ class Enterprise_CustomerBalance_Model_Observer
         $payment = $quote->getPayment();
         $store = Mage::app()->getStore($quote->getStoreId());
 
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled($store)) {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
             return $this;
         }
 
@@ -288,7 +288,7 @@ class Enterprise_CustomerBalance_Model_Observer
         if ($creditmemo->getBaseCustomerBalanceTotalRefunded()) {
             $order->setBaseCustomerBalanceTotalRefunded($order->getBaseCustomerBalanceTotalRefunded() + $creditmemo->getBaseCustomerBalanceTotalRefunded());
             $order->setCustomerBalanceTotalRefunded($order->getCustomerBalanceTotalRefunded() + $creditmemo->getCustomerBalanceTotalRefunded());
-            
+
             $websiteId = Mage::app()->getStore($order->getStoreId())->getWebsiteId();
 
             $balance = Mage::getModel('enterprise_customerbalance/balance')

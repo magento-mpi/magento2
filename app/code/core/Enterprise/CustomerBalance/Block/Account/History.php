@@ -24,8 +24,17 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customer balance history block
+ *
+ */
 class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_Template
 {
+    /**
+     * Balance history action names
+     *
+     * @var array
+     */
     protected $_actionNames = null;
 
     /**
@@ -67,7 +76,7 @@ class Enterprise_CustomerBalance_Block_Account_History extends Mage_Core_Block_T
     public function getActionNames()
     {
         if (is_null($this->_actionNames)) {
-            $this->_actionNames = Mage::getModel('enterprise_customerbalance/balance_history')->getActionNamesArray();
+            $this->_actionNames = Mage::getSingleton('enterprise_customerbalance/balance_history')->getActionNamesArray();
         }
         return $this->_actionNames;
     }

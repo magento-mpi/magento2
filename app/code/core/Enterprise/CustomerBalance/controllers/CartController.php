@@ -24,6 +24,10 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customer balance controller for shopping cart
+ *
+ */
 class Enterprise_CustomerBalance_CartController extends Mage_Core_Controller_Front_Action
 {
     /**
@@ -54,12 +58,12 @@ class Enterprise_CustomerBalance_CartController extends Mage_Core_Controller_Fro
         $quote = Mage::getSingleton('checkout/session')->getQuote();
         if ($quote->getUseCustomerBalance()) {
             Mage::getSingleton('checkout/session')->addSuccess(
-                $this->__('Store Credit payment was successfully removed from your shopping cart.') 
+                $this->__('Store Credit payment was successfully removed from your shopping cart.')
             );
             $quote->setUseCustomerBalance(false)->collectTotals()->save();
         } else {
             Mage::getSingleton('checkout/session')->addError(
-                $this->__('Store Credit payment is not being used in your shopping cart.') 
+                $this->__('Store Credit payment is not being used in your shopping cart.')
             );
         }
 

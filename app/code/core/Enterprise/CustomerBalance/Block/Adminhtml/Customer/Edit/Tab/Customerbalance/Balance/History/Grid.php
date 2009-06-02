@@ -24,10 +24,21 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid extends Mage_Adminhtml_Block_Widget_Grid
+/**
+ * Customer balance history grid
+ */
+class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
+    extends Mage_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * @var Enterprise_CustomerBalance_Model_Mysql4_Balance_Collection
+     */
     protected $_collection;
 
+    /**
+     * Initialize some params
+     *
+     */
     public function __construct()
     {
         parent::__construct();
@@ -36,6 +47,11 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         $this->setDefaultSort('updated_at');
     }
 
+    /**
+     * Prepare grid collection
+     *
+     * @return Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
+     */
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('enterprise_customerbalance/balance_history')
@@ -46,6 +62,11 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         return parent::_prepareCollection();
     }
 
+    /**
+     * Prepare grid columns
+     *
+     * @return Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance_History_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('updated_at', array(
@@ -115,6 +136,11 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
         return parent::_prepareColumns();
     }
 
+    /**
+     * Row click callback
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
         return $this->getUrl('*/*/gridHistory', array('_current'=> true));

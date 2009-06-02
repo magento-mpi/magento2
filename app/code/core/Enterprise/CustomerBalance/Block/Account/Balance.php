@@ -24,6 +24,10 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customer balance block
+ *
+ */
 class Enterprise_CustomerBalance_Block_Account_Balance extends Mage_Core_Block_Template
 {
     /**
@@ -40,7 +44,6 @@ class Enterprise_CustomerBalance_Block_Account_Balance extends Mage_Core_Block_T
 
         $model = Mage::getModel('enterprise_customerbalance/balance')
             ->setCustomerId($customerId)
-            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
             ->loadByCustomer();
 
         return $model->getAmount();

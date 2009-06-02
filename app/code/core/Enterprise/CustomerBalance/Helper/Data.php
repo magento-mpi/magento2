@@ -35,8 +35,8 @@ class Enterprise_CustomerBalance_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return bool
      */
-    public function isEnabled($store = null)
+    public function isEnabled()
     {
-        return Mage::getStoreConfig('customer/enterprise_customerbalance/is_enabled', $store) == 1;
+        return Mage::getStoreConfig('customer/enterprise_customerbalance/is_enabled') == 1;
     }
 }

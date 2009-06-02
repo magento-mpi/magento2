@@ -24,13 +24,26 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Balance history collection
+ *
+ */
 class Enterprise_CustomerBalance_Model_Mysql4_Balance_History_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
+    /**
+     * Initialize resource
+     *
+     */
     protected function _construct()
     {
         $this->_init('enterprise_customerbalance/balance_history');
     }
 
+    /**
+     * Instantiate select joined to balance
+     *
+     * @return Enterprise_CustomerBalance_Model_Mysql4_Balance_History_Collection
+     */
     protected function _initSelect()
     {
         parent::_initSelect();
@@ -41,6 +54,12 @@ class Enterprise_CustomerBalance_Model_Mysql4_Balance_History_Collection extends
         return $this;
     }
 
+    /**
+     * Filter collection by specified websites
+     *
+     * @param array|int $websiteIds
+     * @return Enterprise_CustomerBalance_Model_Mysql4_Balance_History_Collection
+     */
     public function addWebsitesFilter($websiteIds)
     {
         $this->getSelect()->where(

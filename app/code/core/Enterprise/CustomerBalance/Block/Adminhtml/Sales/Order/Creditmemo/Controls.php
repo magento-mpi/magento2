@@ -24,9 +24,18 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Refund to customer balance functionality block
+ *
+ */
 class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
  extends Mage_Core_Block_Template
 {
+    /**
+     * Check whether refund to customerbalance is available
+     *
+     * @return bool
+     */
     public function canRefundToCustomerBalance()
     {
         if (!Mage::registry('current_creditmemo')->getCustomerBalanceAmount()) {
@@ -39,6 +48,11 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
         return true;
     }
 
+    /**
+     * Check whether real amount can be refunded to customer balance
+     *
+     * @return bool
+     */
     public function canRefundMoneyToCustomerBalance()
     {
         if (!Mage::registry('current_creditmemo')->getGrandTotal()) {
@@ -51,14 +65,11 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Creditmemo_Controls
         return true;
     }
 
-    public function isRefundToCustomerBalanceAvailable()
-    {
-        if (Mage::registry('current_creditmemo')->getOrder()->getCustomerIsGuest()) {
-            return false;
-        }
-        return true;
-    }
-
+    /**
+     * Prepopulate amount to be refunded to customerbalance
+     *
+     * @return float
+     */
     public function getReturnValue()
     {
         $max = Mage::registry('current_creditmemo')->getCustomerBalanceReturnMax();

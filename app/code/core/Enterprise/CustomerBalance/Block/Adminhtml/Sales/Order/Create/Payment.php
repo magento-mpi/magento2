@@ -24,9 +24,18 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customer balance block for order creation page
+ *
+ */
 class Enterprise_CustomerBalance_Block_Adminhtml_Sales_Order_Create_Payment
 extends Mage_Core_Block_Template
 {
+    /**
+     * @var Enterprise_CustomerBalance_Model_Balance
+     */
+    protected $_balanceInstance;
+
     /**
      * Retrieve order create model
      *
@@ -37,44 +46,70 @@ extends Mage_Core_Block_Template
         return Mage::getSingleton('adminhtml/sales_order_create');
     }
 
+    /**
+     * Format value as price
+     *
+     * @param numeric $value
+     * @return string
+     */
     public function formatPrice($value)
     {
         return Mage::getSingleton('adminhtml/session_quote')->getStore()->formatPrice($value);
     }
 
+    /**
+     * Balance getter
+     *
+     * @return float
+     */
     public function getBalance()
     {
-        $quote = $this->_getOrderCreateModel()->getQuote();
-        $store = Mage::app()->getStore($quote->getStoreId());
-
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled($store)) {
-            return false;
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            return 0.0;
         }
-        if (!$quote->getCustomerId()) {
-            return false;
-        }
-
-        $balance = Mage::getModel('enterprise_customerbalance/balance')
-            ->setCustomerId($quote->getCustomerId())
-            ->setWebsiteId($store->getWebsiteId())
-            ->loadByCustomer()
-            ->getAmount();
-
-        return $balance;
+        return $this->_getBalanceInstance()->getAmount();
     }
 
+    /**
+     * Check whether quote uses customer balance
+     *
+     * @return bool
+     */
     public function getUseCustomerBalance()
     {
         return $this->_getOrderCreateModel()->getQuote()->getUseCustomerBalance();
     }
 
+    /**
+     * Check whether customer balance fully covers quote
+     *
+     * @return bool
+     */
     public function isFullyPaid()
     {
-        $quote = $this->_getOrderCreateModel()->getQuote();
-        $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
-        if ($this->getBalance() >= $total && $quote->getUseCustomerBalance()) {
-            return true;
+        return $this->_getBalanceInstance()->isFulAmountCovered($this->_getOrderCreateModel()->getQuote());
+    }
+
+    /**
+     * Instantiate/load balance and return it
+     *
+     * @return Enterprise_CustomerBalance_Model_Balance
+     * @throws Mage_Core_Exception
+     */
+    protected function _getBalanceInstance()
+    {
+        if (!$this->_balanceInstance) {
+            $quote = $this->_getOrderCreateModel()->getQuote();
+            if (!$quote || !$quote->getCustomerId() || !$quote->getStoreId()) {
+                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('No valid quote set.'));
+            }
+
+            $store = Mage::app()->getStore($quote->getStoreId());
+            $this->_balanceInstance = Mage::getModel('enterprise_customerbalance/balance')
+                ->setCustomerId($quote->getCustomerId())
+                ->setWebsiteId($store->getWebsiteId())
+                ->loadByCustomer();
         }
-        return false;
+        return $this->_balanceInstance;
     }
 }

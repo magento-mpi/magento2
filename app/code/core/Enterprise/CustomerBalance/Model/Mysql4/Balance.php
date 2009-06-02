@@ -24,13 +24,28 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customerbalance resource model
+ *
+ */
 class Enterprise_CustomerBalance_Model_Mysql4_Balance extends Mage_Core_Model_Mysql4_Abstract
 {
+    /**
+     * Initialize table name and primary key name
+     *
+     */
     protected function _construct()
     {
         $this->_init('enterprise_customerbalance/balance', 'balance_id');
     }
 
+    /**
+     * Load customer balance data by specified customer id and website id
+     *
+     * @param Enterprise_CustomerBalance_Model_Balance $object
+     * @param int $customerId
+     * @param int $websiteId
+     */
     public function loadByCustomerAndWebsiteIds($object, $customerId, $websiteId)
     {
         if ($data = $this->getReadConnection()->fetchRow($this->getReadConnection()->select()

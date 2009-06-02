@@ -24,15 +24,32 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customer balance model
+ *
+ */
 class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
 {
-	protected $_customer;
+    /**
+     * @var Mage_Customer_Model_Customer
+     */
+    protected $_customer;
 
+    /**
+     * Initialize resource
+     *
+     */
     protected function _construct()
     {
         $this->_init('enterprise_customerbalance/balance');
     }
 
+    /**
+     * Check whether customer should have one balance only
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @return bool
+     */
     public function shouldCustomerHaveOneBalance($customer)
     {
         if (0 == $customer->getWebsiteId()) {
@@ -41,11 +58,23 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         return Mage::getSingleton('customer/config_share')->isWebsiteScope();
     }
 
+    /**
+     * Get balance amount
+     *
+     * @return float
+     */
     public function getAmount()
     {
         return (float)$this->getData('amount');
     }
 
+    /**
+     * Load balance by customer
+     * Website id should either be set or not admin
+     *
+     * @return Enterprise_CustomerBalance_Model_Balance
+     * @throws Mage_Core_Exception
+     */
     public function loadByCustomer()
     {
         $this->_ensureCustomer();
@@ -53,12 +82,23 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             $websiteId = $this->getWebsiteId();
         }
         else {
-            $websiteId = $this->getCustomer()->getWebsiteId();
+            if (Mage::app()->getStore()->isAdmin()) {
+                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Website ID must be set.'));
+            }
+            $websiteId = Mage::app()->getStore()->getWebsiteId();
         }
         $this->getResource()->loadByCustomerAndWebsiteIds($this, $this->getCustomerId(), $websiteId);
         return $this;
     }
 
+    /**
+     * Specify whether email notification should be sent
+     *
+     * @param bool $shouldNotify
+     * @param int $storeId
+     * @return Enterprise_CustomerBalance_Model_Balance
+     * @throws Mage_Core_Exception
+     */
     public function setNotifyByEmail($shouldNotify, $storeId = null)
     {
         $this->setData('notify_by_email', $shouldNotify);
@@ -72,6 +112,11 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
 
     }
 
+    /**
+     * Validate before saving
+     *
+     * @return Enterprise_CustomerBalance_Model_Balance
+     */
     protected function _beforeSave()
     {
         $this->_ensureCustomer();
@@ -107,6 +152,11 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         return parent::_beforeSave();
     }
 
+    /**
+     * Update history after saving
+     *
+     * @return Enterprise_CustomerBalance_Model_Balance
+     */
     protected function _afterSave()
     {
         parent::_afterSave();
@@ -121,6 +171,11 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Make sure proper customer information is set. Load customer if required
+     *
+     * @throws Mage_Core_Exception
+     */
     protected function _ensureCustomer()
     {
         if ($this->getCustomer() && $this->getCustomer()->getId()) {
@@ -137,6 +192,11 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         }
     }
 
+    /**
+     * Validate & adjust amount change
+     *
+     * @return float
+     */
     protected function _prepareAmountDelta()
     {
         $result = 0;
@@ -159,5 +219,17 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
             $this->setAmount($this->getAmount() + $result);
         }
         return $result;
+    }
+
+    /**
+     * Check whether balance completely covers specified quote
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @return bool
+     */
+    public function isFulAmountCovered(Mage_Sales_Model_Quote $quote)
+    {
+        return $this->getAmount() >=
+            ((float)$quote->getBaseGrandTotal() + (float)$quote->getBaseCustomerBalanceAmountUsed());
     }
 }

@@ -25,7 +25,7 @@
  */
 ?>
 
-<?php if ($this->isRefundToCustomerBalanceAvailable()): ?>
+<?php if ($this->canRefundToCustomerBalance()): ?>
     <p>
         <label for="creditmemo_customerbalance_return_enable"><?php echo Mage::helper('enterprise_customerbalance')->__('Refund to Store Credit') ?></label>
         <input type="hidden" name="creditmemo[refund_customerbalance_return_enable]" value="0">

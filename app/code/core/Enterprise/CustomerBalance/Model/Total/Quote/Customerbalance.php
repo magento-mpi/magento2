@@ -59,8 +59,10 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Mage_
         $baseBalance = $balance = 0;
         if ($quote->getCustomer()->getId()) {
             if ($quote->getUseCustomerBalance()) {
+                $store = Mage::app()->getStore($quote->getStoreId());
                 $baseBalance = Mage::getModel('enterprise_customerbalance/balance')
                     ->setCustomer($quote->getCustomer())
+                    ->setWebsiteId($store->getWebsiteId())
                     ->loadByCustomer()
                     ->getAmount();
                 $balance = $quote->getStore()->convertPrice($baseBalance);

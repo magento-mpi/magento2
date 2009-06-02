@@ -24,6 +24,10 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customerbalance history model
+ *
+ */
 class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_Abstract
 {
     const ACTION_UPDATED  = 1;
@@ -31,12 +35,21 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
     const ACTION_USED     = 3;
     const ACTION_REFUNDED = 4;
 
+    /**
+     * Initialize resource
+     *
+     */
     protected function _construct()
     {
         $this->_init('enterprise_customerbalance/balance_history');
     }
 
-    public static function getActionNamesArray()
+    /**
+     * Available action names getter
+     *
+     * @return array
+     */
+    public function getActionNamesArray()
     {
         return array(
             self::ACTION_CREATED  => Mage::helper('enterprise_customerbalance')->__('Created'),
@@ -46,6 +59,11 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
         );
     }
 
+    /**
+     * Validate balance history before saving
+     *
+     * @return Enterprise_CustomerBalance_Model_Balance_History
+     */
     protected function _beforeSave()
     {
         $balance = $this->getBalanceModel();
@@ -97,6 +115,11 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
         return parent::_beforeSave();
     }
 
+    /**
+     * Send balance update if required
+     *
+     * @return Enterprise_CustomerBalance_Model_Balance_History
+     */
     protected function _afterSave()
     {
         parent::_afterSave();
@@ -123,6 +146,11 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
         return $this;
     }
 
+    /**
+     * Validate order model for balance update
+     *
+     * @param Mage_Sales_Model_Order $model
+     */
     protected function _checkBalanceModelOrder($model)
     {
         if ((!$model->getOrder()) || !$model->getOrder()->getIncrementId()) {

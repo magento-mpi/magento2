@@ -29,7 +29,9 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
     public function getOneBalanceTotal()
     {
         $customer = Mage::registry('current_customer');
-        $balance = Mage::getModel('enterprise_customerbalance/balance')->setCustomer($customer)->loadByCustomer();
+        $balance = Mage::getModel('enterprise_customerbalance/balance')
+            ->setCustomer($customer)->setWebsiteId($customer->getWebsiteId())
+            ->loadByCustomer();
         return Mage::app()->getLocale()->currency(Mage::app()->getWebsite($customer->getWebsiteId())->getBaseCurrencyCode())
             ->toCurrency($balance->getAmount());
     }
