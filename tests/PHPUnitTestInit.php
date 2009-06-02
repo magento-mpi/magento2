@@ -2,7 +2,7 @@
 if (!defined('_IS_INCLUDED')) {
     define('_IS_INCLUDED', 1);
     // setup include path and autoloader
-    require realpath(dirname(__FILE__) . '/../app/Mage.php');
+    require realpath(dirname(__FILE__) . '/Mage.php');
     set_include_path(get_include_path() . PS . dirname(__FILE__));
 
     // prevent error "headers already sent" for controllers
