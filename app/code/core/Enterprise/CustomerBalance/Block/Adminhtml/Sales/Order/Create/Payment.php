@@ -64,7 +64,7 @@ extends Mage_Core_Block_Template
      */
     public function getBalance()
     {
-        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled() || !$this->_getBalanceInstance()) {
             return 0.0;
         }
         return $this->_getBalanceInstance()->getAmount();
@@ -87,21 +87,23 @@ extends Mage_Core_Block_Template
      */
     public function isFullyPaid()
     {
+        if (!$this->_getBalanceInstance()) {
+            return false;
+        }
         return $this->_getBalanceInstance()->isFulAmountCovered($this->_getOrderCreateModel()->getQuote());
     }
 
     /**
      * Instantiate/load balance and return it
      *
-     * @return Enterprise_CustomerBalance_Model_Balance
-     * @throws Mage_Core_Exception
+     * @return Enterprise_CustomerBalance_Model_Balance|false
      */
     protected function _getBalanceInstance()
     {
         if (!$this->_balanceInstance) {
             $quote = $this->_getOrderCreateModel()->getQuote();
             if (!$quote || !$quote->getCustomerId() || !$quote->getStoreId()) {
-                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('No valid quote set.'));
+                return false;
             }
 
             $store = Mage::app()->getStore($quote->getStoreId());
