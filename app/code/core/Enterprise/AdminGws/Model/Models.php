@@ -134,7 +134,6 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         }
     }
 
-
     /**
      * Limit newsletter queue save
      *
@@ -159,7 +158,6 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             )));
         }
     }
-
 
     /**
      * Catalog product initialize after loading
@@ -718,6 +716,46 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         }
         if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
             $this->_throwLoad();
+        }
+    }
+
+    /**
+     * Check whether order may be saved
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function salesOrderSaveBefore($model)
+    {
+        $this->_salesEntitySaveBefore(Mage::app()->getStore($model->getStoreId())->getWebsiteId());
+    }
+
+    /**
+     * Check whether order entity may be saved
+     *
+     * Invoice, shipment, creditmemo (address & item?)
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function salesOrderEntitySaveBefore($model)
+    {
+        $this->_salesEntitySaveBefore(
+            Mage::app()->getStore($model->getOrder()->getStoreId())->getWebsiteId()
+        );
+    }
+
+    /**
+     * Generic sales entity before save logic
+     *
+     * @param int $websiteId
+     */
+    protected function _salesEntitySaveBefore($websiteId)
+    {
+        if ($this->_helper->getIsStoreLevel()) {
+            $this->_throwSave();
+        }
+
+        if (!$this->_helper->hasWebsiteAccess($websiteId, true)) {
+            $this->_throwSave();
         }
     }
 

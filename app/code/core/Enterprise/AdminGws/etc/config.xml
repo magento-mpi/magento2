@@ -294,6 +294,9 @@
                     <poll__poll>pollSaveBefore</poll__poll>
                     <rule__rule>ruleSaveBefore</rule__rule>
                     <sales__order>salesOrderSaveBefore</sales__order>
+                    <sales__order_invoice>salesOrderEntitySaveBefore</sales__order_invoice>
+                    <sales__order_shipment>salesOrderEntitySaveBefore</sales__order_shipment>
+                    <sales__order_creditmemo>salesOrderEntitySaveBefore</sales__order_creditmemo>
                     <newsletter__queue>newsletterQueueSaveBefore</newsletter__queue>
                     <catalog__product>catalogProductSaveBefore</catalog__product>
                     <catalog__category>catalogCategorySaveBefore</catalog__category>
