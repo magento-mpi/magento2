@@ -499,6 +499,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return false;
     }
 
+    /**
+     * Validate Order view actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderViewAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
@@ -514,6 +519,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Creditmemo view actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderCreditmemoViewAction($controller)
     {
         $id = $this->_request->getParam('creditmemo_id');
@@ -533,6 +543,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Invoice view actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderInvoiceViewAction($controller)
     {
         $id = $this->_request->getParam('invoice_id');
@@ -552,6 +567,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Shipment view actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderShipmentViewAction($controller)
     {
         $id = $this->_request->getParam('shipment_id');
@@ -571,6 +591,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Creditmemo creation actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderCreditmemoCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
@@ -596,6 +621,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Invoice creation actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderInvoiceCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
@@ -619,6 +649,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Shipment creation actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderShipmentCreateAction($controller)
     {
         if ($id = $this->_request->getParam('order_id')) {
@@ -642,6 +677,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Order mass actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderMassAction($controller)
     {
         if ($ids = $this->_request->getParam('order_ids', array())) {
@@ -661,6 +701,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Order edit action
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderEditStartAction($controller)
     {
         $id = $this->_request->getParam('order_id');
@@ -677,6 +722,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         return true;
     }
 
+    /**
+     * Validate Shipment tracking actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
     public function validateSalesOrderShipmentTrackAction($controller)
     {
         $id = $this->_request->getParam('track_id');
@@ -691,5 +741,48 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             }
         }
         return $this->validateSalesOrderShipmentCreateAction($controller);
+    }
+
+    /**
+     * Validate Terms and Conditions management edit action
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateCheckoutAgreementEditAction($controller)
+    {
+        $id = $this->_request->getParam('id');
+        if ($id) {
+            $object = Mage::getModel('checkout/agreement')->load($id);
+            if ($object && $object->getId()) {
+                $stores = $object->getStoreId();
+                foreach ($stores as $store) {
+                    if ($store == 0 || !$this->_helper->hasStoreAccess($store)) {
+                        $this->_forward();
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Validate URL Rewrite Management edit action
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateUrlRewriteEditAction($controller)
+    {
+        $id = $this->_request->getParam('id');
+        if ($id) {
+            $object = Mage::getModel('core/url_rewrite')->load($id);
+            if ($object && $object->getId()) {
+                if (!$this->_helper->hasStoreAccess($object->getStoreId())) {
+                    $this->_forward();
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

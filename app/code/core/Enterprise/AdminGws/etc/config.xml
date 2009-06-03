@@ -345,7 +345,7 @@
                     <adminhtml__catalog_event__edit>validateCatalogEventEdit</adminhtml__catalog_event__edit><!-- catalog events creation, submiting -->
                     <adminhtml__sales_order_create__>validateSalesOrderCreation</adminhtml__sales_order_create__><!-- catalog events viewing -->
                     <adminhtml__system_store__>validateSystemStore</adminhtml__system_store__>
-                    <adminhtml__urlrewrite__edit>validateUrlRewriteEdit</adminhtml__urlrewrite__edit>
+                    <adminhtml__urlrewrite__edit>validateUrlRewriteEditAction</adminhtml__urlrewrite__edit>
 
                     <adminhtml__sales_order__view>validateSalesOrderViewAction</adminhtml__sales_order__view>
                     <adminhtml__sales_order__addComment>validateSalesOrderViewAction</adminhtml__sales_order__addComment>
@@ -384,6 +384,8 @@
 
                     <adminhtml__sales_order_shipment__removeTrack>validateSalesOrderShipmentTrackAction</adminhtml__sales_order_shipment__removeTrack>
                     <adminhtml__sales_order_shipment__viewTrack>validateSalesOrderShipmentTrackAction</adminhtml__sales_order_shipment__viewTrack>
+
+                    <adminhtml__checkout_agreement__edit>validateCheckoutAgreementEditAction</adminhtml__checkout_agreement__edit>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
