@@ -597,7 +597,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                 ->joinLeft(
                     array('i' => $indexTable),
                     'e.entity_id=i.product_id AND i.category_id=' . (int)$categoryId
-                        . ' AND i.is_parent=0 AND i.store_id=' . (int) $storeId,
+                        . ' AND i.store_id=' . (int) $storeId,
                     array())
                 ->joinInner(
                     array('pw' => $this->getTable('catalog/product_website')),
