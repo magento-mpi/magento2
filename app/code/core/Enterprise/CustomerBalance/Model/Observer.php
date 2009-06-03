@@ -102,6 +102,7 @@ class Enterprise_CustomerBalance_Model_Observer
 
         if ($input->getUseCustomerBalance() && $balance < $quote->getBaseCustomerBalanceAmountUsed()) {
             Mage::throwException(Mage::helper('enterprise_customerbalance')->__("You don't have enough store credit to complete this order."));
+            
         }
 
         $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
@@ -138,6 +139,11 @@ class Enterprise_CustomerBalance_Model_Observer
                 ->getAmount();
 
             if (($order->getBaseCustomerBalanceAmount() - $balance) >= 0.0001) {
+                Mage::getSingleton('checkout/type_onepage')
+                    ->getCheckout()
+                    ->setUpdateSection('payment-method')
+                    ->setGotoSection('payment');
+
                 Mage::throwException(Mage::helper('enterprise_customerbalance')->__("You don't have enough store credit to complete this order."));
             }
         }
