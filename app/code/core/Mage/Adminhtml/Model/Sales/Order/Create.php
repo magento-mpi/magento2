@@ -1177,8 +1177,16 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 ->setDefaultBilling($billingAddress->getId())
                 ->setDefaultShipping($shippingAddress->getId());
         }
-        else {
-            $customer = $this->getSession()->getCustomer();
+        elseif (($customer = $this->getSession()->getCustomer())        	&& $customer->getId()
+        	&& !$this->getSession()->getCustomer(true,true)->getId()) 
+        	{
+        	$customer = clone $customer;
+        	$customer->setStore($this->getSession()->getStore())
+        		->save();
+        	$this->getSession()->setCustomer($customer);
+        	$customer->addData($this->getData('account'));
+        }
+        else {            $customer = $this->getSession()->getCustomer();
             $customer->addData($this->getData('account'));
         }
         $this->getQuote()->setCustomer($customer);

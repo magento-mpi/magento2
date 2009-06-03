@@ -132,6 +132,18 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
                 $address->setParentId($customer->getId())
                     ->setStoreId($customer->getStoreId())
                     ->save();
+                if ($address->getIsPrimaryBilling() 
+                	&& $address->getId()!=$customer->getData('default_billing')) 
+                {
+                	$customer->setData('default_billing', $address->getId());
+                	$this->saveAttribute($customer, 'default_billing');
+                }
+            	if ($address->getIsPrimaryShipping() 
+                	&& $address->getId()!=$customer->getData('default_shipping')) 
+                {
+                	$customer->setData('default_shipping', $address->getId());
+                	$this->saveAttribute($customer, 'default_shipping');
+                }
             }
         }
         return $this;
