@@ -169,16 +169,22 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items extends Mage_Admi
         ));
     }
 
-    public function canReturnToStock($item=null) 
+    public function canReturnToStock() 
     {
-    	/*
         $canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
         if (Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
             return false;
         }
-        */
+    }
+    
+    /**
+     * Whether to show 'Return to stock' column in creaditmemo grid
+     * @return bool 
+     */
+    public function canReturnItemsToStock() 
+    {
     	if (is_null($this->_canReturnToStock)) {
     		if ($this->_canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
     			$canReturnToStock = false;

@@ -443,16 +443,22 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
     /**
      * CREDITMEMO
      */
-
-    public function canReturnToStock($item=null) {
-    	/*
+    
+    public function canReturnToStock() {
         $canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
         if (Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT)) {
             return true;
         } else {
             return false;
         }
-        */
+    }
+    
+    /**
+     * Whether to show 'Return to stock' checkbox for item
+     * @param Mage_Sales_Model_Order_Creditmemo_Item $item
+     * @return bool
+     */
+    public function canReturnItemToStock($item=null) {
     	$canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
     	if (!is_null($item)) {
     		if (!$item->hasCanReturnToStock()) {
@@ -468,7 +474,13 @@ class  Mage_Adminhtml_Block_Sales_Items_Abstract extends Mage_Adminhtml_Block_Te
     	}
     	return $canReturnToStock;
     }
-    public function canParentReturnToStock($item=null) {
+    /**
+     * Whether to show 'Return to stock' column for item parent 
+     * @param Mage_Sales_Model_Order_Creditmemo_Item $item
+     * @return bool
+     */
+    public function canParentReturnToStock($item = null) 
+    {
     	$canReturnToStock = Mage::getStoreConfig(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_CAN_SUBTRACT);
     	if (!is_null($item)) {
     		if ( $item->getCreditmemo()->getOrder()->hasCanReturnToStock() ) {
