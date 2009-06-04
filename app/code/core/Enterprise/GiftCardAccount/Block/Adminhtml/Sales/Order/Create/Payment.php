@@ -47,6 +47,19 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Sales_Order_Create_Payment exte
         return $result;
     }
 
+    /**
+     * Check whether quote uses gift cards
+     *
+     * @return bool
+     */
+    public function isUsed()
+    {
+        $quote = $this->_getOrderCreateModel()->getQuote();
+
+        return ($quote->getGiftCardsAmount() > 0);
+    }
+
+
     public function isFullyPaid()
     {
         $quote = $this->_getOrderCreateModel()->getQuote();

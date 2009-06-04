@@ -43,6 +43,8 @@
             });
         }
     }
-    hideAllPaymentMethods();
+    <?php if ($this->isUsed()): ?>
+        hideAllPaymentMethods();
+    <?php endif; ?>
 </script>
 <?php endif; ?>

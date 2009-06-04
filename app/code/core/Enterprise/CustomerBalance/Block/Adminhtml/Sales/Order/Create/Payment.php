@@ -94,6 +94,16 @@ extends Mage_Core_Block_Template
     }
 
     /**
+     * Check whether quote uses customer balance
+     *
+     * @return bool
+     */
+    public function isUsed()
+    {
+        return $this->getUseCustomerBalance();
+    }
+
+    /**
      * Instantiate/load balance and return it
      *
      * @return Enterprise_CustomerBalance_Model_Balance|false
