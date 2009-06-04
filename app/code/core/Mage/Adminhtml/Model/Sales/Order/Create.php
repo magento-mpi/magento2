@@ -1132,9 +1132,24 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             if (!$this->getQuote()->getShippingAddress()->getShippingMethod()) {
                 $errors[] = Mage::helper('adminhtml')->__('Shipping method must be specified');
             }
+        }
 
-            if (!$this->getQuote()->getPayment()->getMethod()) {
-                $errors[] = Mage::helper('adminhtml')->__('Payment method must be specified');
+        if (!$this->getQuote()->getPayment()->getMethod()) {
+            $errors[] = Mage::helper('adminhtml')->__('Payment method must be specified');
+        } else {
+            $method = $this->getQuote()->getPayment()->getMethodInstance();
+            if (!$method) {
+                $errors[] = Mage::helper('adminhtml')->__('Payment method instance is not available');
+            } else {
+                if (!$method->isAvailable()) {
+                    $errors[] = Mage::helper('adminhtml')->__('Payment method is not available');
+                } else {
+                    try {
+                        $method->validate();
+                    } catch (Mage_Core_Exception $e) {
+                        $errors[] = $e->getMessage();
+                    }
+                }
             }
         }
 
@@ -1178,7 +1193,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                 ->setDefaultShipping($shippingAddress->getId());
         }
         elseif (($customer = $this->getSession()->getCustomer())        	&& $customer->getId()
-        	&& !$this->getSession()->getCustomer(true,true)->getId()) 
+        	&& !$this->getSession()->getCustomer(true,true)->getId())
         	{
         	$customer = clone $customer;
         	$customer->setStore($this->getSession()->getStore())
