@@ -832,4 +832,33 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         }
         return true;
     }
+
+    /**
+     * Validate Attribute management actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateCatalogProductAttributeActions($controller)
+    {
+        if (!$this->_helper->getIsAll()) {
+            $this->_forward();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Validate Attribute creation action
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateCatalogProductAttributeCreateAction($controller)
+    {
+        if (!$this->_helper->getIsAll() && !$this->_request->getParam('attribute_id')) {
+            $this->_forward();
+            return false;
+        }
+
+        return true;
+    }
 }

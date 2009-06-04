@@ -109,4 +109,39 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             $observer->getBlock()->removeButton('add');
         }
     }
+
+    /**
+     * Remove product attribute add button
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removeCatalogProductAttributeAddButton($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('add');
+    }
+
+    /**
+     * Remove product attribute save buttons
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removeCatalogProductAttributeSaveButtons($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('save');
+        $observer->getEvent()->getBlock()->removeButton('save_and_edit_button');        
+    }
+
+    /**
+     * Remove product attribute create button on product edit page
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function disallowCreateAttributeButtonDisplay($observer)
+    {
+        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+            return;
+        }
+
+        $observer->getEvent()->getBlock()->setCanShow(false);
+    }
 }

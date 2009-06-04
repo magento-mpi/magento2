@@ -744,6 +744,26 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Disallow attribute save method when role scope is not 'all'
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function catalogEntityAttributeSaveBefore($model)
+    {
+        $this->_throwSave();
+    }
+
+    /**
+     * Disallow attribute delete method when role scope is not 'all'
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function catalogEntityAttributeDeleteBefore($model)
+    {
+        $this->_throwDelete();
+    }
+
+    /**
      * Generic sales entity before save logic
      *
      * @param int $websiteId
@@ -842,7 +862,8 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     private function _throwLoad()
     {
-        throw new Enterprise_AdminGws_Controller_Exception(
+        throw Mage::exception(
+            'Enterprise_AdminGws_Controller',
             Mage::helper('enterprise_admingws')->__('Not enough permissions to view this item.')
         );
     }

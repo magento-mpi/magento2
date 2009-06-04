@@ -241,6 +241,14 @@
                     </enterprise_admingws>
                 </observers>
             </store_group_save_after>
+            <adminhtml_catalog_product_edit_tab_attributes_create_html_before>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/blocks</class>
+                        <method>disallowCreateAttributeButtonDisplay</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_catalog_product_edit_tab_attributes_create_html_before>
         </events>
         <enterprise>
             <admingws>
@@ -310,6 +318,7 @@
                     <core__website>coreWebsiteSaveBefore</core__website>
                     <core__store_group>coreStoreGroupSaveBefore</core__store_group>
                     <core__store>coreStoreGroupSaveBefore</core__store><!-- same method as for store group -->
+                    <catalog__entity_attribute>catalogEntityAttributeSaveBefore</catalog__entity_attribute>
                 </model_save_before>
                 <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
@@ -323,6 +332,7 @@
                     <core__website>coreWebsiteDeleteBefore</core__website>
                     <core__store_group>coreStoreGroupDeleteBefore</core__store_group>
                     <core__store>coreStoreGroupDeleteBefore</core__store><!-- same method as for store group -->
+                    <catalog__entity_attribute>catalogEntityAttributeDeleteBefore</catalog__entity_attribute>
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
@@ -403,12 +413,18 @@
                     <adminhtml__permissions_role__editrolegrid>validateAdminRoleAction</adminhtml__permissions_role__editrolegrid>
                     <adminhtml__permissions_role__saverole>validateAdminRoleAction</adminhtml__permissions_role__saverole>
                     <adminhtml__permissions_role__delete>validateAdminRoleAction</adminhtml__permissions_role__delete>
+
+                    <adminhtml__catalog_product_attribute__delete>validateCatalogProductAttributeActions</adminhtml__catalog_product_attribute__delete>
+                    <adminhtml__catalog_product_attribute__save>validateCatalogProductAttributeActions</adminhtml__catalog_product_attribute__save>
+                    <adminhtml__catalog_product_attribute__edit>validateCatalogProductAttributeCreateAction</adminhtml__catalog_product_attribute__edit>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
                     <adminhtml__system_store_store>widgetManageStores</adminhtml__system_store_store>
                     <adminhtml__catalog_product>widgetProductGridContainer</adminhtml__catalog_product>
                     <enterprise_catalogevent__adminhtml_event>widgetCatalogEventGridContainer</enterprise_catalogevent__adminhtml_event>
+                    <adminhtml__catalog_product_attribute>removeCatalogProductAttributeAddButton</adminhtml__catalog_product_attribute>
+                    <adminhtml__catalog_product_attribute_edit>removeCatalogProductAttributeSaveButtons</adminhtml__catalog_product_attribute_edit>
                 </block_html_before>
             </admingws>
         </enterprise>
