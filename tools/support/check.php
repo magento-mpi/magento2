@@ -33,7 +33,7 @@ $isWritten   = false;
 $fileRef     = "./var/checksum.{$version}.ref";
 $refResult   = false;
 $diff        = false;
-$error       = false;
+$error       = array();
 
 try {
     if (file_exists($fileLocal)) {
@@ -42,12 +42,9 @@ try {
     else {
         $localResult = getCheckSum();
         $isWritten = @file_put_contents($fileLocal, serialize($localResult));
-    }
-    if (!is_writeable('./var')) {
-        $error = 'Please make folder ./var writeable.';
-    }
-    else {
-
+        if (!$isWritten) {
+            $error[] = "Failed to write into {$fileLocal}";
+        }
     }
     if (!file_exists($fileRef)) {
         throw new Exception("Please put reference checksum to {$fileRef}");
@@ -56,7 +53,7 @@ try {
     $diff = array_diff_assoc($localResult, $refResult);
 }
 catch (Exception $e) {
-    $error = $e->getMessage();
+    $error[] = $e->getMessage();
 }
 
 header('Content-Type: text/plain; charset=UTF-8');
@@ -66,10 +63,10 @@ Reference checksum: %s
 Diff:               %s\n",
     (false !== $localResult ? 'OK, ' . ($isWritten ? "has been scanned and written to {$fileLocal}" : "has been read from {$fileLocal}. To scan again, remove it.") : 'N/A'),
     (false !== $refResult ? $fileRef : 'N/A'),
-    (false !== $diff ? ($diff ? "\n" . implode("\n", array_keys($diff)) : 'all files match reference.' ) : 'N/A')
+    (false !== $diff ? ($diff ? "\n" . implode("\n", array_keys($diff)) : 'local result matches reference completely.' ) : 'N/A')
 );
 if ($error) {
-    print "\n{$error}";
+    print "\n" . implode("\n", $error);
 }
 
 exit;
