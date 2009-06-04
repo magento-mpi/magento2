@@ -371,7 +371,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
         if (empty($ids) && $ids !== 0 && $ids !== '0') {
             return array();
         }
-        if (!is_array($ids) && false !== strpos($ids, $separator)) {
+        if (!is_array($ids)) {
             return explode($separator, $ids);
         }
         return $ids;

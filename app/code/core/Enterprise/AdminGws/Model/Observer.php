@@ -139,6 +139,12 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if ($object->getGwsIsAll() == 0 && empty($websiteIds) && empty($storeGroupIds)) {
             Mage::throwException(Mage::helper('enterprise_admingws')->__('Specify at least one website or one store group.'));
         }
+        if (!$this->_helper->getIsAll()) {
+            if ($object->getGwsIsAll()) {
+                Mage::throwException(Mage::helper('enterprise_admingws')->__("You can't set Role Scope to All because you have limited scope access."));
+            }
+        }
+
         if (empty($websiteIds)) {
             $websiteIds = array();
         }

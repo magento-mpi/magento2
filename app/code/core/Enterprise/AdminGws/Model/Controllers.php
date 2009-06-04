@@ -785,4 +785,51 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         }
         return true;
     }
+
+    /**
+     * Validate Admin User management actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateAdminUserAction($controller)
+    {
+        $id = $this->_request->getParam('user_id');
+        if ($id) {
+            $limited = Mage::getResourceModel('enterprise_admingws/collections')
+                ->getUsersOutsideLimitedScope(
+                    $this->_helper->getIsAll(),
+                    $this->_helper->getWebsiteIds(),
+                    $this->_helper->getStoreGroupIds()
+                );
+
+            if (in_array($id, $limited)) {
+                $this->_forward();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Validate Admin Role management actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateAdminRoleAction($controller)
+    {
+        $id = $this->_request->getParam('rid', $this->_request->getParam('role_id'));
+        if ($id) {
+            $limited = Mage::getResourceModel('enterprise_admingws/collections')
+                ->getRolesOutsideLimitedScope(
+                    $this->_helper->getIsAll(),
+                    $this->_helper->getWebsiteIds(),
+                    $this->_helper->getStoreGroupIds()
+                );
+            if (in_array($id, $limited)) {
+                $this->_forward();
+                return false;
+            }
+        }
+        return true;
+    }
 }

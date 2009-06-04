@@ -220,4 +220,38 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     {
         $collection->setIsStoreFilterWithAdmin(false)->addStoreFilter($this->_helper->getStoreIds());
     }
+
+
+    /**
+     * Filter admin roles collection by allowed stores
+     *
+     * @param Mage_Admin_Model_Mysql4_Roles_Collection $collection
+     */
+    public function limitAdminPermissionRoles($collection)
+    {
+        $limited = Mage::getResourceModel('enterprise_admingws/collections')
+            ->getRolesOutsideLimitedScope(
+                $this->_helper->getIsAll(),
+                $this->_helper->getWebsiteIds(),
+                $this->_helper->getStoreGroupIds()
+            );
+
+        $collection->addFieldToFilter('role_id', array('nin' => $limited));
+    }
+
+    /**
+     * Filter admin users collection by allowed stores
+     *
+     * @param Mage_Admin_Model_Mysql4_Users_Collection $collection
+     */
+    public function limitAdminPermissionUsers($collection)
+    {
+        $limited = Mage::getResourceModel('enterprise_admingws/collections')
+            ->getUsersOutsideLimitedScope(
+                $this->_helper->getIsAll(),
+                $this->_helper->getWebsiteIds(),
+                $this->_helper->getStoreGroupIds()
+            );
+        $collection->addFieldToFilter('user_id', array('nin' => $limited));
+    }
 }

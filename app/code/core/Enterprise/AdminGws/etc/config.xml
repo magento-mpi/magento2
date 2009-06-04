@@ -287,6 +287,11 @@
                     <newsletter__queue_collection>addStoreFilter</newsletter__queue_collection>
                     <core__design_collection>addStoreFilter</core__design_collection>
                     <dataflow__profile_collection>addStoreFilter</dataflow__profile_collection>
+                    <admin__roles_collection>limitAdminPermissionRoles</admin__roles_collection>
+                    <admin__role_collection>limitAdminPermissionRoles</admin__role_collection>
+                    <admin__roles_collection>limitAdminPermissionRoles</admin__roles_collection>
+                    <admin__user_collection>limitAdminPermissionUsers</admin__user_collection>
+                    <admin__roles_user_collection>limitAdminPermissionUsers</admin__roles_user_collection>
                 </collection_load_before>
                 <model_save_before>
                     <cms__page>cmsPageSaveBefore</cms__page>
@@ -389,6 +394,15 @@
                     <adminhtml__sales_order_shipment__viewTrack>validateSalesOrderShipmentTrackAction</adminhtml__sales_order_shipment__viewTrack>
 
                     <adminhtml__checkout_agreement__edit>validateCheckoutAgreementEditAction</adminhtml__checkout_agreement__edit>
+
+                    <adminhtml__permissions_user__edit>validateAdminUserAction</adminhtml__permissions_user__edit>
+                    <adminhtml__permissions_user__save>validateAdminUserAction</adminhtml__permissions_user__save>
+                    <adminhtml__permissions_user__delete>validateAdminUserAction</adminhtml__permissions_user__delete>
+
+                    <adminhtml__permissions_role__editrole>validateAdminRoleAction</adminhtml__permissions_role__editrole>
+                    <adminhtml__permissions_role__editrolegrid>validateAdminRoleAction</adminhtml__permissions_role__editrolegrid>
+                    <adminhtml__permissions_role__saverole>validateAdminRoleAction</adminhtml__permissions_role__saverole>
+                    <adminhtml__permissions_role__delete>validateAdminRoleAction</adminhtml__permissions_role__delete>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
