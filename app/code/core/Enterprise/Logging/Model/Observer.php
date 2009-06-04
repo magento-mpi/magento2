@@ -39,7 +39,6 @@
 
 class Enterprise_Logging_Model_Observer
 {
-
     /**
      * Pre dispatch observer
      */
@@ -71,14 +70,14 @@ class Enterprise_Logging_Model_Observer
                 $denied = explode(',', $act);
             }
             if (in_array($action, $denied)) {
-                $denied_that_left = array();
+                $deniedThatLeft = array();
                 foreach ($denied as $d) {
                     if ($action != $d) {
-                        $denied_that_left[] = $d;
+                        $deniedThatLeft[] = $d;
                     }
                 }
-                if (count($denied_that_left)) {
-                    Mage::getSingleton('admin/session')->setSkipLoggingAction(implode(',', $denied_that_left));
+                if (count($deniedThatLeft)) {
+                    Mage::getSingleton('admin/session')->setSkipLoggingAction(implode(',', $deniedThatLeft));
                 } else {
                     Mage::getSingleton('admin/session')->setSkipLoggingAction(false);
                 }
@@ -206,23 +205,24 @@ class Enterprise_Logging_Model_Observer
             $ip = $_SERVER['REMOTE_ADDR'];
             $username = null;
             if (Mage::getSingleton('admin/session')->isLoggedIn()) {
-                $user_id = Mage::getSingleton('admin/session')->getUser()->getId();
+                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
                 $username = Mage::getSingleton('admin/session')->getUser()->getUsername();
             } else {
-                $user_id = 0;
+                $userId = 0;
             }
 
             foreach ($actions as $action) {
-                $success = $this->getSuccess($action);
-                $info = $this->getInfo($action, $success);
+                $errors  = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
+                $isError = (is_array($errors) && count($errors) > 0);
+                $info = $this->getInfo($action, $isError);
                 if (!$info) {
                     continue;
                 }
                 $singleton = Mage::getModel('enterprise_logging/event')
                   ->setIp($ip)
                   ->setUser($username)
-                  ->setUserId($user_id)
-                  ->setSuccess($success)
+                  ->setUserId($userId)
+                  ->setSuccess(!$isError)
                   ->setFullaction($action)
                   ->setInfo($info)
                   ->setTime(time())
@@ -294,10 +294,10 @@ class Enterprise_Logging_Model_Observer
      */
     public function getMergePostStagingAction($config, $success) {
         $request = Mage::app()->getRequest();
-        $staging_id = $request->getParam('id');
+        $stagingId = $request->getParam('id');
         $data = $request->getParam('map');
         $data = $data['websites'];
-        $to = 0; 
+        $to = 0;
         foreach ($data['to'] as $element) {
             if ($element) {
                 $to = $element;
@@ -305,7 +305,7 @@ class Enterprise_Logging_Model_Observer
             }
         }
         $from = $data['from'][0];
-        $info = sprintf("staging_id-%s,from-%s,to-%s", $staging_id, $from, $to);
+        $info = sprintf("staging_id-%s,from-%s,to-%s", $stagingId, $from, $to);
         if ($schedule = $request->getParam('schedule_merge_later')) {
             $info .= ", scheduled to ".$schedule;
         }
@@ -321,9 +321,9 @@ class Enterprise_Logging_Model_Observer
      */
     public function getRollbackStagingAction($config, $success) {
         $request = Mage::app()->getRequest();
-        $backup_id = $request->getParam('backup_id');
-        $staging_id = $request->getParam('staging_id');
-        $info = sprintf("backup_id-%s, staging_id-%s", $backup_id, $staging_id);
+        $backupId = $request->getParam('backup_id');
+        $stagingId = $request->getParam('staging_id');
+        $info = sprintf("backup_id-%s, staging_id-%s", $backupId, $stagingId);
 
         return array(
             'event_code' => $config['event'],
@@ -338,7 +338,7 @@ class Enterprise_Logging_Model_Observer
     public function getSaveStagingAction($config, $success) {
         //$data = Mage::app()->getRequest()->getParam('staging');
         //$data = $data['websites'];
-        //list($master_id, $date) = each($data);
+        //list($masterId, $date) = each($data);
 
         $class = isset($config['model']) ? $config['model'] : '';
         $class = Mage::getConfig()->getModelClassName($class);
@@ -346,14 +346,14 @@ class Enterprise_Logging_Model_Observer
         $model = Mage::registry('saved_model_'.$action);
 
         $id = 0;
-        $master_id = 0;
+        $masterId = 0;
         if ($model == null || !($model instanceof $class)) {
             $success = 0;
         } else {
             $id = $model->getId();
-            $master_id = $model->getMasterWebsiteId();
+            $masterId = $model->getMasterWebsiteId();
         }
-        $info = sprintf("master-%s,staging_id-%s", $master_id, $id);
+        $info = sprintf("master-%s,staging_id-%s", $masterId, $id);
         return array(
             'event_code' => $config['event'],
             'event_action' => $config['action'],
@@ -455,7 +455,7 @@ class Enterprise_Logging_Model_Observer
         }
         return false;
     }
-    
+
     /**
      * Custom switcher for tax_class_save, to distinguish product and customer tax classes
      */
@@ -580,8 +580,8 @@ class Enterprise_Logging_Model_Observer
              * Comma-separated actions to be skipped next time. If no settings in config, set action by replacing
              * '_save' to '_edit'. Replace occures in only action ending with '_save'.
              */
-            $action_to_skip = (isset($config['skip_on_back']) ? $config['skip_on_back'] : preg_replace('%save$%', 'edit', $action));
-            Mage::getSingleton('admin/session')->setSkipLoggingAction($action_to_skip);
+            $actionToSkip = (isset($config['skip_on_back']) ? $config['skip_on_back'] : preg_replace('%save$%', 'edit', $action));
+            Mage::getSingleton('admin/session')->setSkipLoggingAction($actionToSkip);
         }
         return array(
             'event_code' => $code,
@@ -669,8 +669,7 @@ class Enterprise_Logging_Model_Observer
      * Get info manager. It decides what handler (save, view, delete or custom) will process
      * an action on post-dispatch
      */
-
-    public function getInfo($action, $success)
+    public function getInfo($action, $isError)
     {
         $config = Mage::helper('enterprise_logging')->getConfig($action);
         if (isset($config['handler'])) {
@@ -680,18 +679,17 @@ class Enterprise_Logging_Model_Observer
                 $method = $m[2];
                 $object = Mage::getModel($m[1]);
             }
-            return $object->$method($config, $success);
+            return $object->$method($config, !$isError);
         }
         if (in_array($config['action'], array('view', 'save', 'delete', 'massUpdate'))) {
             $method = sprintf("get%sactioninfo", $config['action']);
-            return $this->$method($config, $success);
+            return $this->$method($config, !$isError);
         }
     }
 
     /**
      * special handler for myaccount action
      */
-
     public function viewMyAccount($config, $success)
     {
         $code = $config['event'];
@@ -819,8 +817,8 @@ class Enterprise_Logging_Model_Observer
         if (!$enabled) {
             return;
         }
-        $user_id = 0;
-        $username = $observer->getUserName(); 
+        $userId = 0;
+        $username = $observer->getUserName();
         $message = $username;
 
         $e = $observer->getException();
@@ -845,33 +843,18 @@ class Enterprise_Logging_Model_Observer
     }
 
     /**
-     * checks if there were errors in session during request. If so returns fals
-     *
-     * @param string action
-     * @return boolean
-     */
-    public function getSuccess($action)
-    {
-        $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
-        return !(is_array($errors) && count($errors) > 0);
-    }
-
-    /**
      * Rotate logs cron task
      */
     public function rotateLogs()
     {
-        $flag = Mage::getModel('enterprise_logging/flag');
-        $flag->loadSelf();
-        $last_rotate = $flag->getFlagData();
-
-        $eventResource = Mage::getResourceModel('enterprise_logging/event');
-        $rotate_frequence = (string)Mage::getConfig()->getNode('default/system/rotation/frequency');
-        $interval = (int)$rotate_frequence * 60 * 60 * 24;
-        if (!$last_rotate || ($last_rotate < time() - $interval)) {
-            $eventResource->rotate($interval);
-            $flag->setFlagData(time());
-            $flag->save();
+        $lastRotationFlag = Mage::getModel('enterprise_logging/flag')->loadSelf();
+        $lastRotationTime = $lastRotationFlag->getFlagData();
+        $rotationFrequency = 3600 * 24 * (int)Mage::getConfig()->getNode('default/system/rotation/frequency');
+        if (!$lastRotationTime || ($lastRotationTime < time() - $rotationFrequency)) {
+            Mage::getResourceModel('enterprise_logging/event')->rotate(
+                3600 * 24 *(int)Mage::getConfig()->getNode('default/system/rotation/lifetime')
+            );
         }
+        $lastRotationFlag->setFlagData(time())->save();
     }
 }

@@ -135,7 +135,7 @@
             <system>
                 <children>
                     <enterprise_logging translate="title" module="enterprise_logging">
-                        <title>Admin Logging</title>
+                        <title>Admin Actions Log</title>
                         <sort_order>71</sort_order>
                         <depends><module>Enterprise_Logging</module></depends>
                         <children>

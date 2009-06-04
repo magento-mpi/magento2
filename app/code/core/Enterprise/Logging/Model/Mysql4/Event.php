@@ -24,7 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract 
+class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract
 {
     protected $_users;
     protected $_actions;
@@ -32,7 +32,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
    /**
     * Constructor
     */
-    protected function _construct() 
+    protected function _construct()
     {
         $this->_init('enterprise_logging/event', 'log_id');
     }
@@ -47,43 +47,50 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     }
 
     /**
-     * Rotate function
+     * Rotate logs - get from database and pump to CSV-file
+     *
+     * @param int $lifetime
      */
-    public function rotate($interval)
+    public function rotate($lifetime)
     {
-        $path = Mage::getModel('enterprise_logging/logs')->getBasePath();
-        $dir = $path . DS . date("Y") . DS . date("m");
-        $outfile = sprintf("%s%s%s.csv",  $dir, DS, date("Ymdh"));
+        try {
+            $this->beginTransaction();
 
-        $file = new Varien_Io_File();
-        $file->setAllowCreateFolders(true);
-        $file->createDestinationDir($dir);
+            // make sure folder for dump file will exist
+            $path = Mage::getModel('enterprise_logging/logs')->getBasePath();
+            $dir = $path . DS . date('Y') . DS . date('m');
+            $file = new Varien_Io_File();
+            $file->setAllowCreateFolders(true);
+            $file->createDestinationDir($dir);
 
-        $lifetime = (string)Mage::getConfig()->getNode('default/system/rotation/lifetime');
-        $lifetime = (int)$lifetime;
-        $table = $this->getTable('enterprise_logging/event');
+            $table = $this->getTable('enterprise_logging/event');
 
-        $query = sprintf("SELECT * FROM %s WHERE time + INTERVAL %s DAY < '%s'", $table, $lifetime, now());
-        $del_query = sprintf("DELETE FROM %s WHERE time + INTERVAL %s DAY < '%s'", $table, $lifetime, now());
-        $st = $this->_getConnection('write')->query($query);
-        
-        if ( !($firstline = $st->fetch()) ) {
-            return;
+            // get the latest log entry required to the moment
+            $clearBefore = $this->formatDate(time() - $lifetime);
+            $latestLogEntry = $this->_getWriteAdapter()->fetchOne("SELECT log_id FROM {$table}
+                WHERE `time` < '{$clearBefore}' ORDER BY 1 DESC LIMIT 1");
+            if (!$latestLogEntry) {
+                return;
+            }
+
+            // dump all records before this log entry into a CSV-file
+            $csv = fopen(sprintf("%s%s%s.csv",  $dir, DS, date("Ymdh")), 'w');
+            foreach ($this->_getWriteAdapter()->fetchAll("SELECT *, INET_NTOA(ip)
+                FROM {$table} WHERE log_id <= {$latestLogEntry}") as $row) {
+                fputcsv($csv, $row);
+            }
+            fclose($csv);
+            $this->_getWriteAdapter()->query("DELETE FROM {$table} WHERE log_id <= {$latestLogEntry}");
+            $this->commit();
+        } catch (Exception $e) {
+            $this->rollBack();
         }
-
-        $f = fopen($outfile, "w");
-        fputcsv($f, $firstline);
-        while ($row = $st->fetch()) {
-            fputcsv($f, $row);
-        }
-        fclose($f);
-        $this->_getConnection('write')->query($del_query);
     }
 
     /**
      * Get list of actions presented in event table
      */
-    public function getActions() 
+    public function getActions()
     {
         if (!$this->_actions) {
             $query = "SELECT DISTINCT action FROM ".$this->getTable('enterprise_logging/event');
@@ -95,7 +102,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
                     $u = new Varien_Object();
                     $u->setId($action['action']);
                     $u->setName($action['action']);
-                    $this->_actions[] = $u; 
+                    $this->_actions[] = $u;
                 }
             }
         }
@@ -105,7 +112,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     /**
      * Get list of users presented in event table
      */
-    public function getUsers() 
+    public function getUsers()
     {
         if (!$this->_users) {
             $query = "SELECT DISTINCT user FROM ".$this->getTable('enterprise_logging/event');
@@ -117,7 +124,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
                     $u = new Varien_Object();
                     $u->setId($user['user']);
                     $u->setUsername($user['user']);
-                    $this->_users[] = $u; 
+                    $this->_users[] = $u;
                 }
             }
         }
