@@ -163,7 +163,8 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
                     'url'           => Mage::helper('enterprise_invitation')->getInvitationUrl($this),
-                    'allow_message' => $this->getMessage() !== null,
+                    'allow_message' => Mage::app()->getStore()->isAdmin()
+                        || Mage::helper('enterprise_invitation')->isInvitationMessageAllowed(),
                     'message'       => $this->getMessage(),
                     'store_name'    => $store->getName(),
                     'inviter_name'  => ($this->getInviter() ? $this->getInviter()->getName() : null)
@@ -276,7 +277,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         if (null === $websiteId) {
             $websiteId = Mage::app()->getWebsite()->getId();
         }
-        if ($websiteId != Mage::app()->getStore($this->getStoreId())->getWebsite()->getId()) {
+        if ($websiteId != Mage::app()->getStore($this->getStoreId())->getWebsiteId()) {
             throw new Mage_Core_Exception($messageInvalid, self::ERROR_STATUS);
         }
     }
@@ -352,5 +353,23 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             $this->getResource()->trackReferral($inviterId, $referralId);
         }
         return $this;
+    }
+
+    /**
+     * Check whether invitation can be accepted
+     *
+     * @param int $websiteId
+     * @return bool
+     */
+    public function canBeAccepted($websiteId = null)
+    {
+        try {
+            $this->makeSureCanBeAccepted($websiteId);
+            return true;
+        }
+        catch (Mage_Core_Exception $e) {
+            // intentionally jammed
+        }
+        return false;
     }
 }

@@ -46,7 +46,7 @@
                 </div>
             </li>
             <?php endfor; ?>
-        <?php if (Mage::helper('enterprise_invitation')->getUseInvitationMessage()): ?>
+        <?php if (Mage::helper('enterprise_invitation')->isInvitationMessageAllowed()): ?>
             <li>
                 <label for="message"><?php echo Mage::helper('enterprise_invitation')->__('Message');?>: </label>
                 <div class="input-box">

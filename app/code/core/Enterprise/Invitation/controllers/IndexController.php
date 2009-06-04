@@ -61,10 +61,6 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
         $data = $this->getRequest()->getPost();
         if ($data) {
             $customer = Mage::getSingleton('customer/session')->getCustomer();
-            $message = null;
-            if (Mage::helper('enterprise_invitation')->getUseInvitationMessage() && !empty($data['message'])) {
-                $message = $data['message'];
-            }
             $invPerSend = Mage::helper('enterprise_invitation')->getMaxInvitationsPerSend();
             $attempts = 0;
             $sent     = 0;
@@ -81,7 +77,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
                     $invitation = Mage::getModel('enterprise_invitation/invitation')->setData(array(
                         'email'    => $email,
                         'customer' => $customer,
-                        'message'  => $message,
+                        'message'  => (isset($data['message']) ? $data['message'] : ''),
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
                         Mage::getSingleton('customer/session')->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation for %s has been sent successfully.', $email));
@@ -106,7 +102,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
             }
             if ($customerExists) {
                 Mage::getSingleton('customer/session')->addNotice(
-                    Mage::helper('enterprise_invitation')->__('Failed to send invitation(s) to %d email(s) because accounts exist for them.', $customerExists)
+                    Mage::helper('enterprise_invitation')->__('%d invitation(s) were not sent, because there are customer accounts already exist for specified email addresses.', $customerExists)
                 );
             }
             $this->_redirect('*/*/');

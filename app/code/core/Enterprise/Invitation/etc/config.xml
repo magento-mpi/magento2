@@ -250,6 +250,9 @@
                 </observers>
             </customer_registration_is_allowed>
         </events>
+        <secure_url>
+            <invitation_customer_account>/invitation/customer_account</invitation_customer_account>
+        </secure_url>
     </frontend>
     <default>
         <admin>

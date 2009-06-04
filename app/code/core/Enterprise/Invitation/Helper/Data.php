@@ -74,11 +74,11 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Return config value for use same group as inviter
+     * Check whether invitations allow to set custom message
      *
-     * @return boolean
+     * @return bool
      */
-    public function getUseInvitationMessage()
+    public function isInvitationMessageAllowed()
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_USE_INVITATION_MESSAGE);
     }
@@ -167,5 +167,4 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
     }
-
 }

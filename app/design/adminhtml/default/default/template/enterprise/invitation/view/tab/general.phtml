@@ -94,8 +94,13 @@
             </tr>
             <tr>
                 <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Invitation Url'); ?></label></td>
-                <?php $_url = $this->helper('enterprise_invitation')->getInvitationUrl($this->getInvitation()); ?>
-                <td><strong><a href="<?php echo $_url ?>" target="_blank"><?php  echo $this->helper('enterprise_invitation')->__('Link'); ?></a></strong></td>
+                <td>
+                    <strong>
+                    <?php if ($url = $this->getInvitationUrl()): ?>
+                        <a href="<?php echo $url ?>" target="_blank"><?php  echo $this->helper('enterprise_invitation')->__('Link'); ?></a>
+                    <?php else: echo $this->helper('enterprise_invitation')->__('N/A'); endif; ?>
+                    </strong>
+                </td>
             </tr>
             </table>
         </div>

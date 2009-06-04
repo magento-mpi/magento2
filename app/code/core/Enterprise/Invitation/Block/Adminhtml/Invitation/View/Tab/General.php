@@ -226,4 +226,18 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
         return Mage::app()->getStore($this->getInvitation()->getStoreId())
             ->getName();
     }
+
+    /**
+     * Get invitation URL in case if it can be accepted
+     *
+     * @return string|false
+     */
+    public function getInvitationUrl()
+    {
+        if (!$this->getInvitation()->canBeAccepted(
+            Mage::app()->getStore($this->getInvitation()->getStoreId())->getWebsiteId())) {
+            return false;
+        }
+        return Mage::helper('enterprise_invitation')->getInvitationUrl($this->getInvitation());
+    }
 }
