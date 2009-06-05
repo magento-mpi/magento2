@@ -25,7 +25,7 @@
  */
 ?>
 <?php if ($this->getBalance()): ?>
-    <input id="p_method_use_customerbalance" value="1" type="checkbox" name="payment[use_customer_balance]" title="<?php echo $this->__('Store Credit') ?>" onclick="" <?php if ($this->getUseCustomerBalance()): ?>checked<?php endif; ?> />
+    <input id="p_method_use_customerbalance" value="1" type="checkbox" title="<?php echo $this->__('Store Credit') ?>" onclick="" <?php if ($this->getUseCustomerBalance()): ?>checked<?php endif; ?> />
     <label for="p_method_use_customerbalance"><?php echo $this->__('Use Store Credit (%s available)', $this->formatPrice($this->getBalance())) ?></label>
     <script language="javascript">
         function toggleUseCustomerBalance()
