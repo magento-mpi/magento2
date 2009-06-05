@@ -121,6 +121,7 @@ button.button span span {
     height:20px;
     }
 a.button { line-height:21px; }
+a.button { line-height:20px; }
 .button:active { bottom:-1px; right:-1px; position:relative; z-index:2; }
 button.button:active span span { margin:0; }
 button.btn-small span { font-size:11px; line-height:14px; padding:1px 9px 0; }
@@ -456,6 +457,9 @@ ul.disc li,
 
 #invitation-send-link { background:url(../images/bkg_sep.gif) no-repeat 100% 50%; padding:0 6px 0 0px; margin:0 4px 0 0; font-weight:bold; }
 #invitation-send-link a { background:url(../images/bkg_invitation-link.gif) no-repeat 3px 6px; padding-left:23px; display:inline-block; }
+
+#invitation-send-link a, x:-moz-any-link { background-position:3px -2px; }/* FireFox 2 fix */
+#invitation-send-link a, x:-moz-any-link, x:default { background-position:3px 6px; }/* FireFox 3 restore */
 
 .header-panel { text-align:center;  z-index:994; background:#fff url(../images/bkg_header-panel-bg.gif) repeat-x 0 100%; /* border-bottom:1px solid #c8c8c8; */ /* height:28px; */ line-height:28px; padding:0 0 0 11px; }
 .header-panel .welcome-msg { font-weight:bold; display:inline; float:left; line-height:28px; margin-right:5px; }
