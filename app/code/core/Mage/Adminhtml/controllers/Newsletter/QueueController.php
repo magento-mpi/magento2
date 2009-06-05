@@ -189,14 +189,13 @@ class Mage_Adminhtml_Newsletter_QueueController extends Mage_Adminhtml_Controlle
                 $template->preprocess();
                 $queue = Mage::getModel('newsletter/queue')
                     ->setTemplateId($template->getId())
-                    ->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER)
-                    ->save();
+                    ->setQueueStatus(Mage_Newsletter_Model_Queue::STATUS_NEVER);
                 $template->save();
-                $this->getRequest()->setParam('id', $queue->getId());
             }
-
-            $queue = Mage::getSingleton('newsletter/queue')
-                ->load($this->getRequest()->getParam('id'));
+            else {
+                $queue = Mage::getSingleton('newsletter/queue')
+                    ->load($this->getRequest()->getParam('id'));
+            }
 
             if (!in_array($queue->getQueueStatus(),
                           array(Mage_Newsletter_Model_Queue::STATUS_NEVER,
