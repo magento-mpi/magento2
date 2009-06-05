@@ -254,4 +254,16 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
             );
         $collection->addFieldToFilter('user_id', array('nin' => $limited));
     }
+
+    /**
+     * Filter sales collection by allowed stores
+     *
+     * @param Varien_Event_Observer $collection
+     */
+    public function addSalesSaleCollectionStoreFilter($observer)
+    {
+        $collection = $observer->getEvent()->getCollection();
+
+        $this->addStoreFilter($collection);
+    }
 }
