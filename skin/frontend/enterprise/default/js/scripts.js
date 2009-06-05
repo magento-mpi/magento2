@@ -371,7 +371,8 @@ Object.extend(Enterprise.Slider.prototype, {
             this.initializeHandlers.bind(this)
         );
         this.updateButtons();
-        this.initializeDimensions();
+        
+        document.observe('dom:loaded', this.initializeDimensions.bindAsEventListener(this));
     },
     initializeHandlers: function (element) {
         if (element.hasClassName(this.config.forwardButtonCss) ||

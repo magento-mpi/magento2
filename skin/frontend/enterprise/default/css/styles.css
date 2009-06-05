@@ -633,7 +633,7 @@ ul.disc li,
 .events-slider .slide-button { float:left; display:inline; }
 .events-slider .event { position:relative; z-index:1;  }
 
-.events-slider .slider-panel { position:relative; overflow:hidden; background:#d0c2b6; z-index:1; }
+.events-slider .slider-panel { position:relative; overflow:hidden; background:#d0c2b6; z-index:1; width: 0px;}
 .events-slider ul.slider {
     width:200000px;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)"!important;
