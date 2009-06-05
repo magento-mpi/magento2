@@ -49,6 +49,7 @@ class Enterprise_AdminGws_Model_Mysql4_Collections extends Mage_Core_Model_Mysql
                     'gws_store_groups'
                 )
             );
+            $select->where('parent_id = ?', 0);
             $roles = $this->_getReadAdapter()->fetchAll($select);
 
             foreach ($roles as $role) {
@@ -56,11 +57,34 @@ class Enterprise_AdminGws_Model_Mysql4_Collections extends Mage_Core_Model_Mysql
                 $roleWebsites = Mage::helper('enterprise_admingws')->explodeIds($role['gws_websites']);
 
                 $hasAllPermissions = ($role['gws_is_all'] == 1);
-                $hasDisallowedWebsites = (array_diff($allowedWebsites, $roleWebsites));
-                $hasDisallowedStoreGroups = (array_diff($allowedStoreGroups, $roleStoreGroups));
 
-                if ($hasAllPermissions || $hasDisallowedWebsites || $hasDisallowedStoreGroups) {
+                if ($hasAllPermissions) {
                     $result[] = $role['role_id'];
+                    continue;
+                }
+
+                if ($allowedWebsites) {
+                    foreach ($roleWebsites as $website) {
+                        if (!in_array($website, $allowedWebsites)) {
+                            $result[] = $role['role_id'];
+                            continue 2;
+                        }
+                    }
+                } else if ($roleWebsites) {
+                    $result[] = $role['role_id'];
+                    continue;
+                }
+
+                if ($allowedStoreGroups) {
+                    foreach ($roleStoreGroups as $group) {
+                        if (!in_array($group, $allowedStoreGroups)) {
+                            $result[] = $role['role_id'];
+                            continue 2;
+                        }
+                    }
+                } else if ($roleStoreGroups) {
+                    $result[] = $role['role_id'];
+                    continue;
                 }
             }
         }
