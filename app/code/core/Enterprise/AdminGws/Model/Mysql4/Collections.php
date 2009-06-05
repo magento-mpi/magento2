@@ -30,11 +30,23 @@
  */
 class Enterprise_AdminGws_Model_Mysql4_Collections extends Mage_Core_Model_Mysql4_Abstract
 {
+    /**
+     * Class construction & resource initialization
+     *
+     */
     protected function _construct()
     {
         $this->_init('admin/role', 'role_id');
     }
 
+    /**
+     * Retreive role ids that has higher/other gws roles
+     *
+     * @param int $isAll
+     * @param array $allowedWebsites
+     * @param array $allowedStoreGroups
+     * @return array
+     */
     public function getRolesOutsideLimitedScope($isAll, $allowedWebsites, $allowedStoreGroups)
     {
         $result = array();
@@ -92,7 +104,15 @@ class Enterprise_AdminGws_Model_Mysql4_Collections extends Mage_Core_Model_Mysql
         return $result;
     }
 
-    
+
+    /**
+     * Retreive user ids that has higher/other gws roles
+     *
+     * @param int $isAll
+     * @param array $allowedWebsites
+     * @param array $allowedStoreGroups
+     * @return array
+     */
     public function getUsersOutsideLimitedScope($isAll, $allowedWebsites, $allowedStoreGroups)
     {
         $result = array();
