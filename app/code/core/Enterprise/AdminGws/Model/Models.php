@@ -764,6 +764,66 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Disallow attribute set save method when role scope is not 'all'
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function eavEntityAttributeSetSaveBefore($model)
+    {
+        $this->_throwSave();
+    }
+
+    /**
+     * Disallow attribute set delete method when role scope is not 'all'
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function eavEntityAttributeSetDeleteBefore($model)
+    {
+        $this->_throwDelete();
+    }
+
+    /**
+     * Disallow attribute option delete method when role scope is not 'all'
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function eavEntityAttributeOptionDeleteBefore($model)
+    {
+        $this->_throwDelete();
+    }
+
+    /**
+     * Disallow attribute group delete method when role scope is not 'all'
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function eavEntityAttributeGroupDeleteBefore($model)
+    {
+        $this->_throwDelete();
+    }
+
+    /**
+     * Disallow attribute group save method when role scope is not 'all'
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function eavEntityAttributeGroupSaveBefore($model)
+    {
+        $this->_throwSave();
+    }
+
+    /**
+     * Disallow attribute option save method when role scope is not 'all'
+     *
+     * @param Mage_Sales_Model_Abstract $model
+     */
+    public function eavEntityAttributeOptionSaveBefore($model)
+    {
+        $this->_throwSave();
+    }
+
+    /**
      * Generic sales entity before save logic
      *
      * @param int $websiteId

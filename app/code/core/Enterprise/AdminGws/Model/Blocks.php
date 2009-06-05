@@ -128,7 +128,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     public function removeCatalogProductAttributeSaveButtons($observer)
     {
         $observer->getEvent()->getBlock()->removeButton('save');
-        $observer->getEvent()->getBlock()->removeButton('save_and_edit_button');        
+        $observer->getEvent()->getBlock()->removeButton('save_and_edit_button');
     }
 
     /**
@@ -143,5 +143,43 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         }
 
         $observer->getEvent()->getBlock()->setCanShow(false);
+    }
+
+    /**
+     * Remove attribute set management buttons on attribute set edit page
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removeAttributeSetControls($observer)
+    {
+        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+            return;
+        }
+
+        $block = $observer->getEvent()->getBlock();
+
+        $block->unsetChild('add_group_button');
+        $block->unsetChild('delete_group_button');
+        $block->unsetChild('save_button');
+        $block->unsetChild('delete_button');
+        $block->unsetChild('rename_button');
+
+        $block->setIsReadOnly(true);
+    }
+
+    /**
+     * Remove attribute set creation button on attribute set listing page
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removeAddNewAttributeSetButton($observer)
+    {
+        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+            return;
+        }
+
+        $block = $observer->getEvent()->getBlock();
+
+        $block->unsetChild('addButton');
     }
 }

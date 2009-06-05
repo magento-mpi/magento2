@@ -861,4 +861,16 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         return true;
     }
+
+
+    /**
+     * Validate Attribute set creation, deletion and saving actions
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateAttributeSetActions($controller)
+    {
+        $this->_forward();
+        return false;
+    }
 }

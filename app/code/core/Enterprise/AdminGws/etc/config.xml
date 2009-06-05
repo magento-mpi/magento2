@@ -249,6 +249,22 @@
                     </enterprise_admingws>
                 </observers>
             </adminhtml_catalog_product_edit_tab_attributes_create_html_before>
+            <adminhtml_catalog_product_attribute_set_main_html_before>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/blocks</class>
+                        <method>removeAttributeSetControls</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_catalog_product_attribute_set_main_html_before>
+            <adminhtml_catalog_product_attribute_set_toolbar_main_html_before>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/blocks</class>
+                        <method>removeAddNewAttributeSetButton</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_catalog_product_attribute_set_toolbar_main_html_before>
         </events>
         <enterprise>
             <admingws>
@@ -319,6 +335,9 @@
                     <core__store_group>coreStoreGroupSaveBefore</core__store_group>
                     <core__store>coreStoreGroupSaveBefore</core__store><!-- same method as for store group -->
                     <catalog__entity_attribute>catalogEntityAttributeSaveBefore</catalog__entity_attribute>
+                    <eav__entity_attribute_set>eavEntityAttributeSetSaveBefore</eav__entity_attribute_set>
+                    <eav__entity_attribute_group>eavEntityAttributeGroupSaveBefore</eav__entity_attribute_group>
+                    <eav__entity_attribute_option>eavEntityAttributeOptionSaveBefore</eav__entity_attribute_option>
                 </model_save_before>
                 <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
@@ -333,6 +352,9 @@
                     <core__store_group>coreStoreGroupDeleteBefore</core__store_group>
                     <core__store>coreStoreGroupDeleteBefore</core__store><!-- same method as for store group -->
                     <catalog__entity_attribute>catalogEntityAttributeDeleteBefore</catalog__entity_attribute>
+                    <eav__entity_attribute_set>eavEntityAttributeSetDeleteBefore</eav__entity_attribute_set>
+                    <eav__entity_attribute_group>eavEntityAttributeGroupDeleteBefore</eav__entity_attribute_group>
+                    <eav__entity_attribute_option>eavEntityAttributeOptionDeleteBefore</eav__entity_attribute_option>
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
@@ -417,6 +439,10 @@
                     <adminhtml__catalog_product_attribute__delete>validateCatalogProductAttributeActions</adminhtml__catalog_product_attribute__delete>
                     <adminhtml__catalog_product_attribute__save>validateCatalogProductAttributeActions</adminhtml__catalog_product_attribute__save>
                     <adminhtml__catalog_product_attribute__edit>validateCatalogProductAttributeCreateAction</adminhtml__catalog_product_attribute__edit>
+
+                    <adminhtml__catalog_product_set__add>validateAttributeSetActions</adminhtml__catalog_product_set__add>
+                    <adminhtml__catalog_product_set__save>validateAttributeSetActions</adminhtml__catalog_product_set__save>
+                    <adminhtml__catalog_product_set__delete>validateAttributeSetActions</adminhtml__catalog_product_set__delete>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
