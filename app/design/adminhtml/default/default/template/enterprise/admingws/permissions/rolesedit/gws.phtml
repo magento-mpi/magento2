@@ -107,6 +107,7 @@
         var gwsController = Class.create();
         gwsController.prototype = {
             isClick : true,
+            disallowedStores : <?php echo $this->getDisallowedStoreGroupsJson() ?>,
 
             initialize : function() {
                 this.websites = [];
@@ -142,12 +143,18 @@
             disableStores : function(isDisabled) {
                 for (var k = 0; k < this.stores.length; k++) {
                     var storeCheckbox = this.stores[k];
-                    storeCheckbox.disabled = isDisabled;
-                    if (isDisabled) {
-                        storeCheckbox.checked = storeCheckbox.__website.checked;
+                    if (this.disallowedStores[storeCheckbox.value]) {
+                        storeCheckbox.disabled = true;
+                        storeCheckbox.checked  = false;
                     }
-                    else if (this.isClick) {
-                        storeCheckbox.checked = false;
+                    else {
+                        storeCheckbox.disabled = isDisabled;
+                        if (isDisabled) {
+                            storeCheckbox.checked = storeCheckbox.__website.checked;
+                        }
+                        else if (this.isClick) {
+                            storeCheckbox.checked = false;
+                        }
                     }
                 }
             },

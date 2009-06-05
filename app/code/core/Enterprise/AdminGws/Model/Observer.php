@@ -141,7 +141,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         }
         if (!$this->_helper->getIsAll()) {
             if ($object->getGwsIsAll()) {
-                Mage::throwException(Mage::helper('enterprise_admingws')->__("You can't set Role Scope to All because you have limited scope access."));
+                Mage::throwException(Mage::helper('enterprise_admingws')->__('Not enough permissions to set All Scopes to a Role.'));
             }
         }
 
@@ -157,9 +157,9 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                 if (!in_array($websiteId, $allWebsiteIds)) {
                     Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong website ID: %d', $websiteId));
                 }
-                // prevent from granting disallowed websites
+                // prevent granting disallowed websites
                 if (!$this->_helper->getIsAll()) {
-                    if (!in_array($websiteId, $this->_helper->getWebsiteIds())) {
+                    if (!$this->_helper->hasWebsiteAccess($websiteId, true)) {
                         Mage::throwException(Mage::helper('enterprise_admingws')->__('Website "%s" is not allowed in your current permission scope.', Mage::app()->getWebsite($websiteId)->getName()));
                     }
                 }
@@ -179,6 +179,10 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             foreach ($storeGroupIds as $storeGroupId) {
                 if (!array($storeGroupId, $allStoreGroups)) {
                     Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong store ID: %d', $storeGroupId));
+                }
+                // prevent granting disallowed store group
+                if (count(array_diff($storeGroupIds, $this->_helper->getStoreGroupIds()))) {
+                    Mage::throwException(Mage::helper('enterprise_admingws')->__('Not enough permissions to save specified Combination of Store Scopes.'));
                 }
             }
         }

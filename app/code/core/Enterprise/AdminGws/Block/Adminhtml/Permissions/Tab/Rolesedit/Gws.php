@@ -67,4 +67,23 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
     {
         return Mage::helper('enterprise_admingws')->getIsAll();
     }
+
+    /**
+     * Gather disallowed store group ids and return them as Json
+     *
+     * @return string
+     */
+    public function getDisallowedStoreGroupsJson()
+    {
+        $result = array();
+        foreach (Mage::app()->getWebsites() as $website) {
+            foreach ($website->getGroups() as $group) {
+                $groupId = $group->getId();
+                if (!Mage::helper('enterprise_admingws')->hasStoreGroupAccess($groupId)) {
+                    $result[$groupId] = $groupId;
+                }
+            }
+        }
+        return Zend_Json::encode($result);
+    }
 }
