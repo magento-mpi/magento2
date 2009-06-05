@@ -37,9 +37,14 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
      */
     public function getGwsIsAll()
     {
+        if (!$this->canAssignGwsAll()) {
+            return false;
+        }
+
         if (!Mage::registry('current_role')->getId()) {
             return true;
         }
+
         return Mage::registry('current_role')->getGwsIsAll();
     }
 
@@ -51,5 +56,15 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
     public function getRole()
     {
         return Mage::registry('current_role');
+    }
+
+    /**
+     * Check an ability to create 'no website restriction' roles
+     *
+     * @return bool
+     */
+    public function canAssignGwsAll()
+    {
+        return Mage::helper('enterprise_admingws')->getIsAll();
     }
 }
