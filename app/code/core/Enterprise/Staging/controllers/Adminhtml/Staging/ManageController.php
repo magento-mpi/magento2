@@ -354,7 +354,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         }
 
         if (!$staging->canMerge()) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Staging Website "%s" can not be merged at this moment', $staging->getName()));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Staging Website "%s" cannot be merged at this moment', $staging->getName()));
             $this->_redirect('*/*/');
             return $this;
         }

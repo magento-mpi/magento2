@@ -60,7 +60,7 @@ class Enterprise_Staging_Model_Observer
                 }
             }
         } catch (Enterprise_Staging_Exception $e) {
-            Mage::throwException(Mage::helper('enterprise_staging')->__('Can not run staging website'));
+            Mage::throwException(Mage::helper('enterprise_staging')->__('Cannot run staging website'));
         }
     }
 

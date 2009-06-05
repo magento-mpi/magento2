@@ -529,28 +529,11 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
         $tableProp['create_sql'] = $result["Create Table"];
 
         // collect keys
-        $regExp  = '#(PRIMARY|UNIQUE|FULLTEXT|FOREIGN)?\sKEY\s+(`[^`]+` )?(\([^\)]+\))#';
-        $matches = array();
-        preg_match_all($regExp, $tableProp['create_sql'], $matches, PREG_SET_ORDER);
-
-        foreach ($matches as $match) {
-            if (isset($match[1]) && $match[1] == 'PRIMARY') {
-                $keyName = 'PRIMARY';
-            } elseif (isset($match[1]) && $match[1] == 'FOREIGN') {
-                continue;
-            } else {
-                $keyName = substr($match[2], 1, -2);
-            }
-            $fields = $fieldsMatches = array();
-            preg_match_all("#`([^`]+)`#", $match[3], $fieldsMatches, PREG_SET_ORDER);
-            foreach ($fieldsMatches as $field) {
-                $fields[] = $field[1];
-            }
-
-            $tableProp['keys'][strtoupper($keyName)] = array(
-                'type'   => !empty($match[1]) ? $match[1] : 'INDEX',
+        foreach ($this->_getWriteAdapter()->getIndexList($table) as $keyName => $key) {
+            $tableProp['keys'][$keyName] = array(
+                'type'   => $key['INDEX_TYPE'],
                 'name'   => $keyName,
-                'fields' => $fields
+                'fields' => $key['fields']
             );
         }
 
