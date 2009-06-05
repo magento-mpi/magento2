@@ -138,24 +138,29 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      * Limit newsletter queue save
      *
      * @param Mage_Newsletter_Model_Queque $model
-     * @return void
      */
     public function newsletterQueueSaveBefore($model)
     {
-        $originalStores = $model->getResource()->getStores($model);
-        if (!$model->getId()) {
-            $model->setStores(array(current($this->_helper->getStoreIds())));
-            $model->setSaveStoresFlag(true);
+        // force to assign to SV
+        $storeIds = $model->getStores();
+        if (!$storeIds || !$this->_helper->hasStoreAccess($storeIds)) {
+            Mage::throwException(Mage::helper('enterprise_admingws')->__('Please assign this entity to a store view.'));
         }
 
-        if ($model->getId() && !$this->_helper->hasStoreAccess($originalStores)) {
-            $this->_throwSave();
-        }
-        if ($model->getSaveStoresFlag()) {
-            $model->setStores(
-                $this->_forceAssignToStore($this->_updateSavingStoreIds(
-                    $model->getStores(), $originalStores
-            )));
+        // make sure disallowed store ids won't be modified
+        $originalStores = $model->getResource()->getStores($model);
+        $model->setStores($this->_updateSavingStoreIds($storeIds, $originalStores));
+    }
+
+    /**
+     * Prevent loading disallowed queue
+     *
+     * @param Mage_Newsletter_Model_Queque $model
+     */
+    public function newsletterQueueLoadAfter($model)
+    {
+        if (!$this->_helper->hasStoreAccess($model->getStores())) {
+            $this->_throwLoad();
         }
     }
 
