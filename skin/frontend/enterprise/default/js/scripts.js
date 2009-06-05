@@ -372,7 +372,7 @@ Object.extend(Enterprise.Slider.prototype, {
         );
         this.updateButtons();
         
-        document.observe('dom:loaded', this.initializeDimensions.bindAsEventListener(this));
+        Event.observe(window, 'load', this.initializeDimensions.bind(this));
     },
     initializeHandlers: function (element) {
         if (element.hasClassName(this.config.forwardButtonCss) ||
