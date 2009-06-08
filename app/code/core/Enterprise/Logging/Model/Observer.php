@@ -51,7 +51,6 @@ class Enterprise_Logging_Model_Observer
         } else {
             return;
         }
-
         if (!Mage::helper('enterprise_logging')->isActive($action)) {
             return;
         }
@@ -163,37 +162,6 @@ class Enterprise_Logging_Model_Observer
     }
 
     /**
-     * Special after-save handler for invitation.
-     * We have a lot of invitations saved (one per each email).
-     * This method creates model stub and puts all ids into it
-     * separated by ','
-     */
-
-    public function invitationAfterSave($model, $conf)
-    {
-        if ($model instanceof Enterprise_Invitation_Model_Invitation) {
-            if ($obj = Mage::registry('saved_model_invitation_save')) {
-                $ids = $obj->getId();
-                $ids .= ", ".$model->getId();
-                /**
-                 * Add one more id to list. This trick allows use
-                 * standart post-dispatch observer.
-                 */
-                $obj->setId($ids);
-                Mage::unregister('saved_model_invitation_save');
-                Mage::register('saved_model_invitation_save', $obj);
-            } else {
-                /**
-                 * Create 'stub' model.
-                 */
-                $ids = Mage::getModel('enterprise_invitation/invitation');
-                $ids->setId($model->getId());
-                Mage::register('saved_model_invitation_save', $ids);
-            }
-        }
-    }
-
-    /**
      * Post-dispatch observer
      */
     public function catchActionEnd($observer)
@@ -238,20 +206,7 @@ class Enterprise_Logging_Model_Observer
 
     protected function _checkSpecialActions($action)
     {
-        if ($action == 'customer_save') {
-            $request = Mage::app()->getRequest();
-            $data = $request->getParam('customerbalance');
-            if (isset($data['amount_delta']) && $data['amount_delta'] != '') {
-                $actions = Mage::registry('enterprise_logged_actions');
-                if (!is_array($actions)) {
-                    $actions = array($actions);
-                }
-                $actions[] = 'customerbalance_save';
-                Mage::unregister('enterprise_logged_actions');
-                Mage::register('enterprise_logged_actions', $actions);
-            }
-        } else if ($action == 'system_store_save') {
-
+        if ($action == 'system_store_save') {
             $postData = Mage::app()->getRequest()->getPost();
             switch ($postData['store_type']) {
             case 'website':
@@ -277,89 +232,16 @@ class Enterprise_Logging_Model_Observer
             }
         } else {
             $conf = Mage::helper('enterprise_logging')->getConfig($action);
-            if (isset($conf['special-action-handler'])) {
+            if (isset($conf['special_action_handler'])) {
                 $object = $this;
-                $method = $config['special-action-handler'];
-                if (preg_match("%^(.*?)::(.*?)$%", $config['special-action-handler'], $m)) {
+                $method = $conf['special_action_handler'];
+                if (preg_match("%^(.*?)::(.*?)$%", $conf['special_action_handler'], $m)) {
                     $method = $m[2];
                     $object = Mage::getModel($m[1]);
                 }
                 $object->$method($action);
             }
         }
-    }
-
-    /**
-     * Custom method for staging mergePost
-     */
-    public function getMergePostStagingAction($config, $success) {
-        $request = Mage::app()->getRequest();
-        $stagingId = $request->getParam('id');
-        $data = $request->getParam('map');
-        $data = $data['websites'];
-        $to = 0;
-        foreach ($data['to'] as $element) {
-            if ($element) {
-                $to = $element;
-                break;
-            }
-        }
-        $from = $data['from'][0];
-        $info = sprintf("staging_id-%s,from-%s,to-%s", $stagingId, $from, $to);
-        if ($schedule = $request->getParam('schedule_merge_later')) {
-            $info .= ", scheduled to ".$schedule;
-        }
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => $info,
-        );
-    }
-
-    /**
-     * Custom method for rollback staging
-     */
-    public function getRollbackStagingAction($config, $success) {
-        $request = Mage::app()->getRequest();
-        $backupId = $request->getParam('backup_id');
-        $stagingId = $request->getParam('staging_id');
-        $info = sprintf("backup_id-%s, staging_id-%s", $backupId, $stagingId);
-
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => $info,
-        );
-    }
-
-    /**
-     * Custom method for save staging
-     */
-    public function getSaveStagingAction($config, $success) {
-        //$data = Mage::app()->getRequest()->getParam('staging');
-        //$data = $data['websites'];
-        //list($masterId, $date) = each($data);
-
-        $class = isset($config['model']) ? $config['model'] : '';
-        $class = Mage::getConfig()->getModelClassName($class);
-        $action = $config['base_action'];
-        $model = Mage::registry('saved_model_'.$action);
-
-        $id = 0;
-        $masterId = 0;
-        if ($model == null || !($model instanceof $class)) {
-            $success = 0;
-        } else {
-            $id = $model->getId();
-            $masterId = $model->getMasterWebsiteId();
-        }
-        $info = sprintf("master-%s,staging_id-%s", $masterId, $id);
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => $info,
-            'event_status' => $success
-        );
     }
 
     /**
@@ -371,18 +253,6 @@ class Enterprise_Logging_Model_Observer
             'event_code' => $config['event'],
             'event_action' => $config['action'],
             'event_message' => Mage::app()->getRequest()->getParam('id')
-        );
-    }
-
-    /**
-     * Custom handler for pci encryption key change
-     */
-    public function getPciKeyChangeAction($config, $success)
-    {
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => Mage::app()->getRequest()->getParam('crypt_key')
         );
     }
 
@@ -736,24 +606,6 @@ class Enterprise_Logging_Model_Observer
             'event_action' => $act,
             'event_message' => '-',
             'event_status' => $success
-        );
-    }
-
-    /**
-     * special handler for invitation cancel.
-     */
-    public function cancelInvitation($config, $success)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-        $id = isset($config['id'])? $config['id'] : 'id';
-
-        $id = Mage::app()->getRequest()->getParam($id);
-        Mage::getSingleton('admin/session')->setSkipLoggingAction($config['skip_action']);
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => $id,
         );
     }
 

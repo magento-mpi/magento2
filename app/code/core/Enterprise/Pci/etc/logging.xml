@@ -30,7 +30,7 @@
     <crypt_key_save>
       <event>pci</event>
       <action>key_change</action>
-      <handler>enterprise_logging/observer::getpcikeychangeaction</handler>
+      <handler>enterprise_pci/observer::loggingkeychangeafter</handler>
     </crypt_key_save>
 
     <locks_massUnlock>

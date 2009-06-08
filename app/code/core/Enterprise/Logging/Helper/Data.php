@@ -34,7 +34,7 @@ class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
         $actions = Mage::app()->loadCache('enterprise_logging_actions');
         $labels  = Mage::app()->loadCache('enterprise_logging_labels');
 
-        if (!($actions && $labels)) {
+        if (true || !($actions && $labels)) {
             $config = new Varien_Simplexml_Config;
             $config->loadString('<?xml version="1.0"?><logging></logging>');
             Mage::getConfig()->loadModulesConfiguration('logging.xml', $config);

@@ -257,4 +257,86 @@ class Enterprise_Staging_Model_Observer
             return $this;
         }
     }
+
+    /**
+     * Custom method for staging mergePost
+     *
+     * @param array $config
+     * @return array - even data
+     */
+    public function loggingMergeAfter($config) {
+        $request = Mage::app()->getRequest();
+        $stagingId = $request->getParam('id');
+        $data = $request->getParam('map');
+        $data = $data['websites'];
+        $to = 0;
+        foreach ($data['to'] as $element) {
+            if ($element) {
+                $to = $element;
+                break;
+            }
+        }
+        $from = $data['from'][0];
+        $info = sprintf("staging_id-%s,from-%s,to-%s", $stagingId, $from, $to);
+        if ($schedule = $request->getParam('schedule_merge_later')) {
+            $info .= ", scheduled to ".$schedule;
+        }
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => $info,
+        );
+    }
+
+    /**
+     * Custom method for rollback staging
+     *
+     * @param array $config - action configuration
+     *
+     * @return array - event data
+     */
+    public function loggingRollbackAfter($config) {
+        $request = Mage::app()->getRequest();
+        $backupId = $request->getParam('backup_id');
+        $stagingId = $request->getParam('staging_id');
+        $info = sprintf("backup_id-%s, staging_id-%s", $backupId, $stagingId);
+
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => $info,
+        );
+    }
+
+    /**
+     * Custom method for save staging
+     *
+     * @param array $config - action configuration
+     * @param bool  $succes - success indicator
+     *
+     * @return array - event data
+     */
+    public function loggingStagingSaveAfter($config, $success) {
+        $class = isset($config['model']) ? $config['model'] : '';
+        $class = Mage::getConfig()->getModelClassName($class);
+        $action = $config['base_action'];
+        $model = Mage::registry('saved_model_'.$action);
+
+        $id = 0;
+        $masterId = 0;
+        if ($model == null || !($model instanceof $class)) {
+            $success = 0;
+        } else {
+            $id = $model->getId();
+            $masterId = $model->getMasterWebsiteId();
+        }
+        $info = sprintf("master-%s,staging_id-%s", $masterId, $id);
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => $info,
+            'event_status' => $success
+        );
+    }
+    
 }

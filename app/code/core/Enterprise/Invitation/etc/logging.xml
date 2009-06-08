@@ -36,15 +36,22 @@
       <event>invitations</event>
       <action>save</action>
       <model>enterprise_invitation/invitation</model>
-      <after_save_handler>enterprise_logging/observer::invitationaftersave</after_save_handler>
+      <after_save_handler>enterprise_invitation/observer::logginginvitationsaveafter</after_save_handler>
     </invitation_save>
 
     <invitation_cancel>
       <event>invitations</event>
       <action>cancel</action>
-      <handler>cancelinvitation</handler>
+      <handler>enterprise_invitation/observer::logginginvitationcancel</handler>
       <skip_action>invitation_view</skip_action>
     </invitation_cancel>
+
+    <invitation_massCancel>
+      <event>invitations</event>
+      <action>massCancel</action>
+      <handler>enterprise_invitation/observer::logginginvitationmasscancel</handler>
+      <skip_action>invitation_view</skip_action>
+    </invitation_massCancel>
   </actions>
 
   <labels>

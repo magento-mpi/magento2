@@ -36,20 +36,20 @@
       <event>staging</event>
       <action>save</action>
       <model>enterprise_staging/staging</model>
-      <handler>enterprise_logging/observer::getsavestagingaction</handler>
+      <handler>enterprise_staging/observer::loggingstagingsaveafter</handler>
       <allow_model_repeat>1</allow_model_repeat>
     </staging_manage_save>
 
     <staging_manage_mergePost>
       <event>staging</event>
       <action>mergePost</action>
-      <handler>enterprise_logging/observer::getmergepoststagingaction</handler>
+      <handler>enterprise_staging/observer::loggingmergeafter</handler>
     </staging_manage_mergePost>
 
     <staging_backup_rollbackPost>
       <event>staging</event>
       <action>rollback</action>
-      <handler>enterprise_logging/observer::getrollbackstagingaction</handler>
+      <handler>enterprise_staging/observer::loggingrollbackafter</handler>
     </staging_backup_rollbackPost>
 
     <staging_backup_backupDelete>

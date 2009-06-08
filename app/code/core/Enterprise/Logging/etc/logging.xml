@@ -285,6 +285,7 @@
         <event>customers</event>
         <action>save</action>
         <model>customer/customer</model>
+        <special_action_handler>enterprise_customerbalance/observer::predispatchpreparelogging</special_action_handler>
     </customer_save>
 
     <customer_validate>

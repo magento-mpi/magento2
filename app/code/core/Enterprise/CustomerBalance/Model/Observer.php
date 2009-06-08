@@ -418,4 +418,23 @@ class Enterprise_CustomerBalance_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Defined in Logging/etc/logging.xml - special handler for setting second action for customerBalance change
+     *
+     * @param string action
+     */
+    public function predispatchPrepareLogging($action) {
+        $request = Mage::app()->getRequest();
+        $data = $request->getParam('customerbalance');
+        if (isset($data['amount_delta']) && $data['amount_delta'] != '') {
+            $actions = Mage::registry('enterprise_logged_actions');
+            if (!is_array($actions)) {
+                $actions = array($actions);
+            }
+            $actions[] = 'customerbalance_save';
+            Mage::unregister('enterprise_logged_actions');
+            Mage::register('enterprise_logged_actions', $actions);
+        }
+    }
 }

@@ -59,4 +59,79 @@ class Enterprise_Invitation_Model_Observer
             $result->setIsAllowed(!Mage::helper('enterprise_invitation')->getInvitationRequired());
         }
     }
+
+    /**
+     * special handler for invitation cancel.
+     *
+     * @param array $config - event config
+     */
+    public function loggingInvitationCancel($config)
+    {
+        $code = $config['event'];
+        $act = $config['action'];
+        $id = isset($config['id'])? $config['id'] : 'id';
+
+        $id = Mage::app()->getRequest()->getParam($id);
+        Mage::getSingleton('admin/session')->setSkipLoggingAction($config['skip_action']);
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => $id,
+        );
+    }
+
+
+    /**
+     * special handler for invitation massCancel.
+     *
+     * @param array $config - event config
+     */
+    public function loggingInvitationMassCancel($config)
+    {
+        $code = $config['event'];
+        $act = $config['action'];
+        $id = isset($config['id'])? $config['id'] : 'id';
+
+        $id = Mage::app()->getRequest()->getParam('invitations');
+        if (is_array($id))
+            $id = implode(", ", $id);
+        return array(
+            'event_code' => $code,
+            'event_action' => $act,
+            'event_message' => $id,
+        );
+    }
+
+    /**
+     * Special after-save handler for invitation.
+     * We have a lot of invitations saved (one per each email).
+     * This method creates model stub and puts all ids into it
+     * separated by ','
+     * 
+     * @param Mage_Core_Model_Abstract $model
+     */
+    public function loggingInvitationSaveAfter($model)
+    {
+        if ($model instanceof Enterprise_Invitation_Model_Invitation) {
+            if ($obj = Mage::registry('saved_model_invitation_save')) {
+                $ids = $obj->getId();
+                $ids .= ", ".$model->getId();
+                /**
+                 * Add one more id to list. This trick allows use
+                 * standart post-dispatch observer.
+                 */
+                $obj->setId($ids);
+                Mage::unregister('saved_model_invitation_save');
+                Mage::register('saved_model_invitation_save', $obj);
+            } else {
+                /**
+                 * Create 'stub' model.
+                 */
+                $ids = Mage::getModel('enterprise_invitation/invitation');
+                $ids->setId($model->getId());
+                Mage::register('saved_model_invitation_save', $ids);
+            }
+        }
+    }
+
 }

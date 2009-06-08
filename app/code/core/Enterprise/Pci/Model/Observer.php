@@ -257,4 +257,20 @@ class Enterprise_Pci_Model_Observer
     {
         return (bool)(int)Mage::getStoreConfig('admin/security/password_is_forced');
     }
+
+    /**
+     * Custom handler for pci encryption key change
+     *
+     * @param array config - action config
+     * @return array - event data
+     */
+    public function loggingKeyChangeAfter($config)
+    {
+        return array(
+            'event_code' => $config['event'],
+            'event_action' => $config['action'],
+            'event_message' => Mage::app()->getRequest()->getParam('crypt_key')
+        );
+    }
+
 }
