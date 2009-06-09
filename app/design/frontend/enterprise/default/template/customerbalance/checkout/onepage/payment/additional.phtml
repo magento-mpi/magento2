@@ -24,6 +24,11 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+<?php
+/**
+ * @see Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional
+ */
+?>
 <?php if ($this->isAllowed()): ?>
     <div class="checkout-onepage-payment-additional-customerbalance" id="customerbalance_placer">
         <input type="hidden" name="payment[use_customer_balance]" value="0" />
@@ -95,12 +100,12 @@
                     }
                 }
             }
+        }
 
-            if ($('use_customer_balance').checked) {
-                $('checkout-payment-method-load').hide();
-            } else {
-                $('checkout-payment-method-load').show();
-            }
+        if ($('use_customer_balance').checked) {
+            $('checkout-payment-method-load').hide();
+        } else {
+            $('checkout-payment-method-load').show();
         }
     }
 
