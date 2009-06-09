@@ -1141,7 +1141,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             if (!$method) {
                 $errors[] = Mage::helper('adminhtml')->__('Payment method instance is not available');
             } else {
-                if (!$method->isAvailable()) {
+                if (!$method->isAvailable($this->getQuote())) {
                     $errors[] = Mage::helper('adminhtml')->__('Payment method is not available');
                 } else {
                     try {
