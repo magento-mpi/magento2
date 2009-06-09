@@ -268,12 +268,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
 
         /* @var $product Mage_Catalog_Model_Product */
         $product = $observer->getEvent()->getProduct();
-
-        if (!$product->getId() && count($product->getWebsiteIds()) == 0) {
-            Mage::throwException(
-                $this->_helper->__('This item must be assigned to a website')
-            );
-        }
+        $this->_forceAssignToWebsite($product->getWebsiteIds());
     }
 
     /**
