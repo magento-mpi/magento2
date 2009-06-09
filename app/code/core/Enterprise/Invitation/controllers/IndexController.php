@@ -102,7 +102,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
             }
             if ($customerExists) {
                 Mage::getSingleton('customer/session')->addNotice(
-                    Mage::helper('enterprise_invitation')->__('%d invitation(s) were not sent, because there are customer accounts already exist for specified email addresses.', $customerExists)
+                    Mage::helper('enterprise_invitation')->__('%d invitation(s) were not sent, because customer accounts already exist for specified email addresses.', $customerExists)
                 );
             }
             $this->_redirect('*/*/');

@@ -153,7 +153,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                 $this->_getSession()->addError(Mage::helper('enterprise_invitation')->__('Failed to send %1$d of %2$d invitation(s).', $failedCount, count($emails)));
             }
             if ($customerExistsCount) {
-                $this->_getSession()->addNotice(Mage::helper('enterprise_invitation')->__('%d invitation(s) were not sent, because there are customer accounts already exist for specified email addresses.', $customerExistsCount));
+                $this->_getSession()->addNotice(Mage::helper('enterprise_invitation')->__('%d invitation(s) were not sent, because customer accounts already exist for specified email addresses.', $customerExistsCount));
             }
             $this->_getSession()->unsInvitationFormData();
             $this->_redirect('*/*/');
