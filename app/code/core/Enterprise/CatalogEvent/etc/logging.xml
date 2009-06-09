@@ -45,7 +45,7 @@
     </actions>
 
   <labels>
-      <list>
+      <list translate="catalogevents">
           <catalogevents>Catalog Events</catalogevents>
       </list>
   </labels>

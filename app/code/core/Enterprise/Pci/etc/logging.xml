@@ -40,7 +40,7 @@
     </locks_massUnlock>
   </actions>
   <labels>
-      <list>
+      <list translate="pci">
           <pci>Pci</pci>
       </list>
   </labels>

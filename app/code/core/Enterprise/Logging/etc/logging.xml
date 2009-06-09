@@ -934,7 +934,7 @@
 </actions>
 
 <labels>
-    <list>
+    <list translate="adminlogging products categories urlrewrites attributes attributesets catalogsearch catalogtags catalogratings reviews adminlogin cmspages cmsblocks cmspolls customers reports systemconfiguration customergroups promocatalog promoquote systemaccount orders orderstatus invoices shipments creditmemos api adminlogin websites  stores storeviews customertaxclasses  producttaxclasses producttaxclasses taxrules taxrates newsletterqueue newslettertemplate newsletterproblem newslettersubscriber">
         <adminlogging>Admin Actions Log</adminlogging>
         <products>Catalog Products</products>
         <categories>Catalog Categories</categories>
@@ -959,12 +959,12 @@
         <orders>Sales Orders</orders>
         <orderstatus>Sales Order Status</orderstatus>
         <invoices>Sales Invoices</invoices>
-        <shipments>Sales Shipments</shipments>
+        <shipments>Sales Shipments</shipments>  
         <creditmemos>Sales Creditmemos</creditmemos>
         <api>Webservices Api</api>
         <adminlogin>Admin Login</adminlogin>
         <websites>Manage Websites</websites>
-        <stores>Manage Store Views</stores>
+        <stores>Manage Store Views</stores> 
         <storeviews>Manage Stores</storeviews>
         <customertaxclasses>Customer Tax Classes</customertaxclasses>
         <producttaxclasses>Catalog Product Tax Classes</producttaxclasses>

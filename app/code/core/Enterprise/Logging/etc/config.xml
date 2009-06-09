@@ -291,7 +291,7 @@
             </enterprise_logging>
         </admin>
         <system>
-            <rotation>
+            <rotation translate="frequency">
                 <frequency>Daily</frequency>
                 <lifetime>60</lifetime>
             </rotation>

@@ -46,7 +46,7 @@
   </actions>
 
   <labels>
-      <list>
+      <list translate="giftaccount">
         <giftaccount>Gift Card Accounts</giftaccount>
       </list>
   </labels>

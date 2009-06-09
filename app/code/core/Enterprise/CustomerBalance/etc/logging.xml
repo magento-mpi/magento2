@@ -41,7 +41,7 @@
   </actions>
 
   <labels>
-      <list>
+      <list translate="customerbalance">
           <customerbalance>Customer Balance</customerbalance>
       </list>
   </labels>

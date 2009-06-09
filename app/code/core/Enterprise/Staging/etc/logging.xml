@@ -59,7 +59,7 @@
   </actions>
 
   <labels>
-      <list>
+      <list translate="staging">
           <staging>Staging</staging>
       </list>
   </labels>

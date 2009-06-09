@@ -55,7 +55,7 @@
   </actions>
 
   <labels>
-      <list>
+      <list translate="invitations">
           <invitations>Invitations</invitations>
       </list>
   </labels>
