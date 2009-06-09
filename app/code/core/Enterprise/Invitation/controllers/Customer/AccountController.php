@@ -35,6 +35,13 @@ require_once 'app/code/core/Mage/Customer/controllers/AccountController.php';
 class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_AccountController
 {
     /**
+     * Action list where need check enabled cookie
+     *
+     * @var array
+     */
+    protected $_cookieCheckActions = array('createPost');
+
+    /**
      * Predispatch custom logic
      *
      * Bypassing direct parent predispatch

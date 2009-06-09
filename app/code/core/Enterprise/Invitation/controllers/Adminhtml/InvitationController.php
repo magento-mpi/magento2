@@ -102,7 +102,7 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                     unset($emails[$key]);
                 }
                 else {
-                    $email[$key] = $email;
+                    $emails[$key] = $email;
                 }
             }
             if (empty($emails)) {
