@@ -146,7 +146,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
     public function canCapture()
     {
-        return true;
+        return false;
     }
 
     public function getOrderPlaceRedirectUrl()
