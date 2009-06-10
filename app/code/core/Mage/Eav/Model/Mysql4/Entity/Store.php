@@ -42,9 +42,7 @@ class Mage_Eav_Model_Mysql4_Entity_Store extends Mage_Core_Model_Mysql4_Abstract
      */
     public function loadByEntityStore(Mage_Core_Model_Abstract $object, $entityTypeId, $storeId)
     {
-        $read = $this->_getReadAdapter();
-
-        $this->_getWriteAdapter()->beginTransaction();
+        $read = $this->_getWriteAdapter();
 
         $select = $read->select()->from($this->getMainTable())
             ->forUpdate(true)
