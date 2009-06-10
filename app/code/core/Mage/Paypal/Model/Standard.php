@@ -419,7 +419,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                                ->addObject($invoice->getOrder())
                                ->save();
                            $order->setState(
-                               Mage_Sales_Model_Order::STATE_PROCESSING, $newOrderStatus,
+                               Mage_Sales_Model_Order::STATE_COMPLETE, true,
                                Mage::helper('paypal')->__('Invoice #%s created', $invoice->getIncrementId()),
                                $notified = true
                            );
