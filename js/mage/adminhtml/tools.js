@@ -195,7 +195,7 @@ if (!navigator.appVersion.match('MSIE 6.')) {
         }
 
         if (!header) {
-;            return
+            return;
         }
         header_offset = Element.cumulativeOffset(header)[1];
         var buttons = $$('.content-buttons')[0];
@@ -226,7 +226,7 @@ if (!navigator.appVersion.match('MSIE 6.')) {
         createTopButtonToolbarToggle();
         floatingTopButtonToolbarToggle();
     }
-    
+
     function floatingTopButtonToolbarToggle() {
 
         if (!header || !header_copy || !header_copy.parentNode) {
