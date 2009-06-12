@@ -1338,4 +1338,34 @@ class Mage_Core_Model_App
         $this->_isSingleStoreAllowed = (bool)$value;
         return $this;
     }
+
+    /**
+     * Prepare array of store groups
+     * can be filtered to contain default store group or not by $withDefault flag
+     * depending on flag $codeKey array keys can be group id or group code
+     *
+     * @param bool $withDefault
+     * @param bool $codeKey
+     * @return array
+     */
+    public function getGroups($withDefault = false, $codeKey = false)
+    {
+        $groups = array();
+        if (is_array($this->_groups)) {
+            foreach ($this->_groups as $group) {
+                if (!$withDefault && $group->getId() == 0) {
+                    continue;
+                }
+                if ($codeKey) {
+                    $groups[$group->getCode()] = $group;
+                }
+                else {
+                    $groups[$group->getId()] = $group;
+                }
+            }
+        }
+
+        return $groups;
+    }
+
 }
