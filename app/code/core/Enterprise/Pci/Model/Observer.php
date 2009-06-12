@@ -264,13 +264,8 @@ class Enterprise_Pci_Model_Observer
      * @param array config - action config
      * @return array - event data
      */
-    public function loggingKeyChangeAfter($config)
+    public function postDispatchLoggingKeyChange($config, $eventModel)
     {
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => Mage::app()->getRequest()->getParam('crypt_key')
-        );
+        return $model->setInfo('');
     }
-
 }

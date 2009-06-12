@@ -26,28 +26,19 @@
  */
 -->
 <logging>
-    <actions>
-        <catalog_event_edit>
-            <event>catalogevents</event>
-            <action>view</action>
-        </catalog_event_edit>
-
-        <catalog_event_save>
-            <event>catalogevents</event>
-            <action>save</action>
-            <model>enterprise_catalogevent/event</model>
-        </catalog_event_save>
-
-        <catalog_event_delete>
-            <event>catalogevents</event>
-            <action>delete</action>
-        </catalog_event_delete>
-    </actions>
-
-  <labels>
-      <list translate="catalogevents">
-          <catalogevents>Catalog Events</catalogevents>
-      </list>
-  </labels>
+    <enterprise_catalogevent translate="label">
+        <label>Catalog Events</label>
+        <events>
+            <adminhtml_catalog_event_edit>
+                <action>view</action>
+            </adminhtml_catalog_event_edit>
+            <adminhtml_catalog_event_save>
+                <action>save</action>
+                <model>enterprise_catalogevent/event</model>
+            </adminhtml_catalog_event_save>
+            <adminhtml_catalog_event_delete>
+                <action>delete</action>
+            </adminhtml_catalog_event_delete>
+        </events>
+    </enterprise_catalogevent>
 </logging>
-

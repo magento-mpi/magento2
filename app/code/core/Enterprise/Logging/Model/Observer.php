@@ -40,18 +40,34 @@
 class Enterprise_Logging_Model_Observer
 {
     /**
-     * Pre dispatch observer
+     * Handler model for pre/postdispatches
+     *
+     * @var Enterprise_Logging_Model_Handler_Controller
      */
-    public function catchActionStart($observer)
+    protected $_controllerActionsHandler;
+
+    /**
+     * Handler for models afterSave
+     *
+     * @var Enterprise_Logging_Model_Handler_Models
+     */
+    protected $_modelsHandler;
+
+    public function __construct()
     {
-        $contr = $observer->getControllerAction();
-        $action = $contr->getFullActionName();
-        if (preg_match("%^adminhtml_(.*?)$%", $action, $m)) {
-            $action = $m[1];
-        } else {
-            return;
-        }
-        if (!Mage::helper('enterprise_logging')->isActive($action)) {
+        $this->_controllerActionsHandler = Mage::getModel('enterprise_logging/handler_controllers');
+        $this->_modelsHandler = Mage::getModel('enterprise_logging/handler_models');
+    }
+
+    /**
+     * Mark actions for logging, if required
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function controllerPredispatch($observer)
+    {
+        $fullActionName = $observer->getControllerAction()->getFullActionName();
+        if (!Mage::helper('enterprise_logging')->isActive($fullActionName)) {
             return;
         }
 
@@ -62,16 +78,16 @@ class Enterprise_Logging_Model_Observer
          * like customer balance, when customer balance ajax tab loaded after
          * customer page.
          */
-        if ($act = Mage::getSingleton('admin/session')->getSkipLoggingAction()) {
-            if (is_array($act)) {
-                $denied = $act;
+        if ($action = Mage::getSingleton('admin/session')->getSkipLoggingAction()) {
+            if (is_array($action)) {
+                $denied = $action;
             } else {
-                $denied = explode(',', $act);
+                $denied = explode(',', $action);
             }
-            if (in_array($action, $denied)) {
+            if (in_array($fullActionName, $denied)) {
                 $deniedThatLeft = array();
                 foreach ($denied as $d) {
-                    if ($action != $d) {
+                    if ($fullActionName != $d) {
                         $deniedThatLeft[] = $d;
                     }
                 }
@@ -83,142 +99,23 @@ class Enterprise_Logging_Model_Observer
                 return;
             }
         }
-        /**
-         * Register action in global.
-         */
-        Mage::register('enterprise_logged_actions', $action);
 
-        /**
-         *  Currently used for only customerbalance actions.
-         */
-        $this->_checkSpecialActions($action);
-    }
+        // register full action name as to be logged (TODO: implement as ->expect() in controllerActionsHandler
+        Mage::register('enterprise_logged_actions', $fullActionName);
 
-    /**
-     * Model after save observer. Checks if the model has class defined
-     * in logging.xml <model> node.
-     *
-     * If so, save model in register. It is neccessary to get entity_id
-     * on post dispatch for all saving actions including creation.
-     *
-     * Supports custom observer, from
-     * <after_save_handler> node.
-     */
-
-    public function catchModelAfterSave($observer)
-    {
-        if (!Mage::registry('enterprise_logged_actions')) {
-            return;
-        }
-
-        $model = $observer->getObject();
-        $actions = Mage::registry('enterprise_logged_actions');
-        if (!is_array($actions)) {
-            $actions = array($actions);
-        }
-        /**
-         * List all saved actions to check if we need save current model for some.
-         */
-        foreach ($actions as $action) {
-            $conf = Mage::helper('enterprise_logging')->getConfig($action);
-            if (isset($conf['after_save_handler'])) {
-                /**
-                 * Load custom handler from config
-                 */
-                $method = $conf['after_save_handler'];
-                $object = $this;
-                if (preg_match("%^(.*?)::(.*?)$%", $conf['after_save_handler'], $m)) {
-                    $method = $m[2];
-                    $object = Mage::getModel($m[1]);
-                }
-                return $object->$method($model, $conf);
-            } else {
-                /**
-                 * Check if model has to be saved. Using deprecated in php5.2 'is_a' which should
-                 * be restored in php 5.3. So you may remove '@' if you use php 5.3 or higher.
-                 */
-                if ($conf && isset($conf['model']) && ($class = Mage::getConfig()->getModelClassName($conf['model'])) && ($model instanceof $class)) {
-                    if (isset($conf['allow_model_repeat']) && $conf['allow_model_repeat']) {
-                        if (!Mage::registry('saved_model_'.$action)) {
-                            Mage::register('saved_model_'.$action, $model);
-                        }
-                    } else {
-                        Mage::register('saved_model_'.$action, $model);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Orders status history update handler
-     */
-
-    public function addCommentSave($model, $conf)
-    {
-        if ( ($model instanceof Mage_Sales_Model_Order_Status_History) && !Mage::registry('saved_model_sales_order_addComment')) {
-            Mage::register('saved_model_sales_order_addComment', $model);
-        }
-    }
-
-    /**
-     * Post-dispatch observer
-     */
-    public function catchActionEnd($observer)
-    {
-        if ($actions = Mage::registry('enterprise_logged_actions')) {
-            if (!is_array($actions)) {
-                $actions = array($actions);
-            }
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $username = null;
-            if (Mage::getSingleton('admin/session')->isLoggedIn()) {
-                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-                $username = Mage::getSingleton('admin/session')->getUser()->getUsername();
-            } else {
-                $userId = 0;
-            }
-
-            foreach ($actions as $action) {
-                $errors  = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
-                $isError = (is_array($errors) && count($errors) > 0);
-                $info = $this->getInfo($action, $isError);
-                if (!$info) {
-                    continue;
-                }
-                $singleton = Mage::getModel('enterprise_logging/event')
-                  ->setIp($ip)
-                  ->setUser($username)
-                  ->setUserId($userId)
-                  ->setSuccess(!$isError)
-                  ->setFullaction($action)
-                  ->setInfo($info)
-                  ->setTime(time())
-                  ->save();
-            }
-            Mage::unregister('enterprise_logged_actions');
-        }
-    }
-
-    /**
-     * Check for customer balance actions
-     */
-
-    protected function _checkSpecialActions($action)
-    {
-        if ($action == 'system_store_save') {
+        if ($fullActionName == 'adminhtml_system_store_save') { // TODO: move into controllerActionsHandler
             $postData = Mage::app()->getRequest()->getPost();
-            switch ($postData['store_type']) {
+            switch ($postData['store_type']) { // bug here
             case 'website':
                 Mage::unregister('enterprise_logged_actions');
-                Mage::register('enterprise_logged_actions', 'system_website_save');
+                Mage::register('enterprise_logged_actions', 'adminhtml_system_website_save');
                 break;
             case 'group':
                 Mage::unregister('enterprise_logged_actions');
-                Mage::register('enterprise_logged_actions', 'system_storeview_save');
+                Mage::register('enterprise_logged_actions', 'adminhtml_system_storeview_save');
                 break;
             }
-        } else if ($action == 'sales_order_invoice_save') {
+        } else if ($fullActionName == 'adminhtml_sales_order_invoice_save') { // TODO: move into controllerActionsHandler
             $request = Mage::app()->getRequest();
             $data = $request->getParam('invoice');
             if (isset($data['do_shipment']) && $data['do_shipment'] == 1) {
@@ -226,476 +123,154 @@ class Enterprise_Logging_Model_Observer
                 if (!is_array($actions)) {
                     $actions = array($actions);
                 }
-                $actions[] = 'sales_order_shipment_save';
+                $actions[] = 'adminhtml_sales_order_shipment_save';
                 Mage::unregister('enterprise_logged_actions');
                 Mage::register('enterprise_logged_actions', $actions);
             }
         } else {
-            $conf = Mage::helper('enterprise_logging')->getConfig($action);
-            if (isset($conf['special_action_handler'])) {
-                $object = $this;
-                $method = $conf['special_action_handler'];
-                if (preg_match("%^(.*?)::(.*?)$%", $conf['special_action_handler'], $m)) {
-                    $method = $m[2];
-                    $object = Mage::getModel($m[1]);
+            $specialHandler = (string)Mage::helper('enterprise_logging')->getConfig($fullActionName)->special_action_handler;
+            if ($specialHandler) {
+                $this->_invokeModel($specialHandler, $fullActionName, $this->_controllerActionsHandler);
+            }
+        }
+    }
+
+    /**
+     * Model after save observer. Checks if the model has class defined
+     * in logging.xml <model> node.
+     *
+     * If so, save the model in registry. Later, postDispatch handler will attempt to get saved model entity id
+     *
+     * Supports custom observer, from <after_save_handler> node.
+     *
+     * @param Varien_Event_Observer
+     */
+    public function modelSaveAfter($observer)
+    {
+        $fullActionNames = Mage::registry('enterprise_logged_actions');
+        if (!$fullActionNames) {
+            return;
+        }
+        if (!is_array($fullActionNames)) {
+            $fullActionNames = array($fullActionNames);
+        }
+
+        $model = $observer->getObject();
+        // list all saved actions to check if we need save current model for some.
+        foreach ($fullActionNames as $fullActionName) {
+            $config = Mage::helper('enterprise_logging')->getConfig($fullActionName);
+            $afterSaveHandler = (string)$config->model_save_after;
+            if (!$afterSaveHandler) {
+                $afterSaveHandler = 'saveAfterGeneric';
+            }
+            return $this->_invokeModel($afterSaveHandler, array($model, $config), $this->_modelsHandler);
+        }
+    }
+
+    /**
+     * Log marked actions
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function controllerPostdispatch($observer)
+    {
+        if ($fullActionNames = Mage::registry('enterprise_logged_actions')) {
+            if (!is_array($fullActionNames)) {
+                $fullActionNames = array($fullActionNames);
+            }
+            $username = null;
+            $userId   = 0;
+            if (Mage::getSingleton('admin/session')->isLoggedIn()) {
+                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+                $username = Mage::getSingleton('admin/session')->getUser()->getUsername();
+            }
+
+            foreach ($fullActionNames as $fullActionName) {
+                $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
+                $config = Mage::helper('enterprise_logging')->getConfig($fullActionName);
+
+                // invoke a handler before to decide whether to save model
+                $callback = false;
+                if ($config->post_dispatch) {
+                    $callback = (string)$config->post_dispatch;
                 }
-                $object->$method($action);
+                elseif (in_array((string)$config->action, array('view', 'save', 'delete', 'massUpdate'))) {
+                    $callback = sprintf('postDispatchGeneric%s', ucfirst($config->action));
+                }
+                if ($callback) {
+                    $loggingEvent = Mage::getModel('enterprise_logging/event')->setData(array(
+                        'ip'         => $_SERVER['REMOTE_ADDR'],
+                        'user'       => $username,
+                        'user_id'    => $userId,
+                        'is_success' => !(is_array($errors) && count($errors) > 0),
+                        'fullaction' => $fullActionName,
+                        'event_code' => $config->getParent()->getParent()->getName(),
+                        'action'     => (string)$config->action,
+                    ));
+                    // handler should return non-empty value in order to save model
+                    if ($this->_invokeModel($callback, array($config, $loggingEvent), $this->_controllerActionsHandler)) {
+                        $loggingEvent->save();
+                    }
+                }
             }
+            Mage::unregister('enterprise_logged_actions');
         }
     }
 
     /**
-     * Custom handler for category move
-     */
-    public function categoryMoveHandler($config, $success)
-    {
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => Mage::app()->getRequest()->getParam('id')
-        );
-    }
-
-    /**
-     * Custom handler for global search
-     */
-    public function getGlobalSearchAction($config, $success)
-    {
-        return array(
-            'event_code'    => $config['event'],
-            'event_action'  => $config['action'],
-            'event_message' => Mage::app()->getRequest()->getParam('query')
-        );
-    }
-
-    /**
-     * Custom handler for catalog price rules apply
-     */
-    public function promocatalogApply($config, $success) {
-        $request = Mage::app()->getRequest();
-        $message = $request->getParam('rule_id') ? $request->getParam('rule_id') : 'all rules';
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => $message
-        );
-    }
-
-    /**
-     * Custom handler for customer validation fail's action
-     */
-    public function getCustomerValidateAction($config, $success) {
-        $out = json_decode(Mage::app()->getResponse()->getBody());
-        if ( !empty($out->error)) {
-            $id = Mage::app()->getRequest()->getParam('id');
-            return array(
-                'event_code' => $config['event'],
-                'event_action' => $config['action'],
-                'event_message' => $id == 0 ? '-' : $id,
-                'event_status'  => 0
-            );
-        }
-        return false;
-    }
-
-
-    /**
-     * Custom handler for poll save fail's action
-     */
-    public function getPollValidationAction($config, $success) {
-        $out = json_decode(Mage::app()->getResponse()->getBody());
-        if ( !empty($out->error)) {
-            $id = Mage::app()->getRequest()->getParam('id');
-            return array(
-                'event_code' => $config['event'],
-                'event_action' => $config['action'],
-                'event_message' => $id == 0 ? '-' : $id,
-                'event_status'  => 0
-            );
-        } else {
-            $poll = Mage::registry('saved_model_poll_validate');
-            if ($poll && $poll->getId()) {
-                return array(
-                    'event_code' => $config['event'],
-                    'event_action' => $config['action'],
-                    'event_message' => $poll->getId(),
-                    'event_status'  => 1
-                );
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Custom switcher for tax_class_save, to distinguish product and customer tax classes
-     */
-    public function getTaxClassSaveActionInfo($config, $success)
-    {
-        if (Mage::app()->getRequest()->getParam('class_type') == 'PRODUCT') {
-            $config['event'] = 'producttaxclasses';
-        }
-        return $this->getSaveActionInfo($config, $success);
-    }
-
-    /**
-     * Custom tax import handler
-     */
-    public function getTaxRatesImportAction($config, $success)
-    {
-        if (!Mage::app()->getRequest()->isPost()) {
-            return false;
-        }
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => "tax rates import"
-        );
-    }
-
-    /**
-     * Common view-actions handler
-     */
-
-    public function getViewActionInfo($config, $success)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-        $id = isset($config['id'])? $config['id'] : 'id';
-        $id = Mage::app()->getRequest()->getParam($id);
-        if (!$id && isset($config['default']))
-            $id = $config['default'];
-
-        /**
-         * Skip if no id
-         */
-        if ($id === false || $id === null) {
-            return false;
-        }
-        if ($id === 0 && isset($config['skip_zero_id']) && $config['skip_zero_id'])
-            return false;
-
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => $id,
-        );
-    }
-
-    /**
-     * Common delete-actions handler
-     */
-
-    public function getDeleteActionInfo($config, $success)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-        $id = isset($config['id'])? $config['id'] : 'id';
-
-        $id = Mage::app()->getRequest()->getParam($id);
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => $id,
-        );
-    }
-
-    /**
-     * Common save-action handler
-     */
-
-    public function getSaveActionInfo($config, $success)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-        $id = isset($config['id'])? $config['id'] : 'id';
-        $class = isset($config['model']) ? $config['model'] : '';
-        $class = Mage::getConfig()->getModelClassName($class);
-
-        $action = $config['base_action'];
-
-
-        $request = Mage::app()->getRequest();
-
-        $model = Mage::registry('saved_model_'.$action);
-
-        /**
-         * Here is where actual id for logging is taken. If no model given in registry, or model type
-         * does not corresponds config value, or 'use_request' node is set in config - take id from
-         * request.
-         * If no 'use_request' param set that mean that save was not successfull so, fail an event
-         *
-         */
-        if ($model == null || !($model instanceof $class) || (isset($config['use_request']) && $config['use_request'])) {
-            $id = Mage::app()->getRequest()->getParam($id);
-            /**
-             * Fail event, if there is no custom force to request
-             */
-            if (!isset($config['use_request']) || !$config['use_request'])
-                $success = 0;
-        } else {
-            $id = $model->getId();
-        }
-
-        if ( ($id === false) && isset($config['skip_on_empty_id']) && $config['skip_on_empty_id']) {
-            return false;
-        }
-
-        /**
-         * Set actions to skip. We use 'back' and '_continue' params to make redirect after save.
-         * We could also force some action skipping in some cases (when no special params in request)
-         */
-
-        if ($success && ($request->getParam('back') || $request->getParam('_continue') || isset($config['force_skip']))) {
-            /**
-             * Comma-separated actions to be skipped next time. If no settings in config, set action by replacing
-             * '_save' to '_edit'. Replace occures in only action ending with '_save'.
-             */
-            $actionToSkip = (isset($config['skip_on_back']) ? $config['skip_on_back'] : preg_replace('%save$%', 'edit', $action));
-            Mage::getSingleton('admin/session')->setSkipLoggingAction($actionToSkip);
-        }
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => $id,
-            'event_status' => $success
-        );
-    }
-
-    /**
-     * Common mass-update handler
-     */
-
-    public function getMassUpdateActionInfo($config, $success)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-        $id = isset($config['id'])? $config['id'] : 'id';
-        $ids = Mage::app()->getRequest()->getParam($id);
-        if (is_array($ids))
-            $ids = implode(", ", $ids);
-
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => $ids,
-        );
-    }
-
-
-    /**
-     * Mass-update product attributes
-     */
-
-    public function getProductMassAttributeUpdateAction($config, $success)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-        $ids = implode(", ", Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds());
-
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => $ids,
-        );
-    }
-
-
-    /**
-     * Handler for reports
-     */
-    public function getReport($config)
-    {
-        return array(
-            'event_code' => 'reports',
-            'event_action' => 'view',
-            'event_message' => substr($config['base_action'], 7)
-        );
-    }
-
-    /**
-     * Handler for forgotpassword
-     */
-    public function getForgotpasswordAction($config, $success)
-    {
-        if (Mage::app()->getRequest()->isPost()) {
-            $type = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType();
-            $success = ($type != 'error');
-            if ($model = Mage::registry('saved_model_index_forgotpassword')) {
-                $id = $model->getId();
-            } else {
-                $id = Mage::app()->getRequest()->getParam('email');
-            }
-            return array(
-                'event_code' => 'adminlogin',
-                'event_action' => 'forgotpassword',
-                'event_message' => $id,
-                'event_status' => $success
-            );
-        }
-        return false;
-    }
-
-    /**
-     * Get info manager. It decides what handler (save, view, delete or custom) will process
-     * an action on post-dispatch
-     */
-    public function getInfo($action, $isError)
-    {
-        $config = Mage::helper('enterprise_logging')->getConfig($action);
-        if (isset($config['handler'])) {
-            $method = $config['handler'];
-            $object = $this;
-            if (preg_match("%^(.*?)::(.*?)$%", $config['handler'], $m)) {
-                $method = $m[2];
-                $object = Mage::getModel($m[1]);
-            }
-            return $object->$method($config, !$isError);
-        }
-        if (in_array($config['action'], array('view', 'save', 'delete', 'massUpdate'))) {
-            $method = sprintf("get%sactioninfo", $config['action']);
-            return $this->$method($config, !$isError);
-        }
-    }
-
-    /**
-     * special handler for myaccount action
-     */
-    public function viewMyAccount($config, $success)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => '-',
-            'event_status' => $success
-        );
-    }
-
-
-    /**
-     * special handler for adminlogging action
-     */
-
-    public function viewAdminLogs($config, $success)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => '-',
-            'event_status' => $success
-        );
-    }
-
-    /**
-     * special handler for myaccount action
-     */
-
-    public function saveMyAccount($config, $success)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-        if ($success) {
-            Mage::getSingleton('admin/session')->setSkipLoggingAction('system_account_index');
-        }
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => '-',
-            'event_status' => $success
-        );
-    }
-
-    /**
-     * special handler for newsletterunsubscribe
-     */
-    public function getNewsletterUnsubscribeAction($config, $success) {
-        $code = $config['event'];
-        $act = $config['action'];
-
-        $id = Mage::app()->getRequest()->getParam('subscriber');
-        if (is_array($id))
-            $id = implode(", ", $id);
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => $id,
-        );
-    }
-
-    /**
-     * Store event after success login. Event throwed by Admin/Model/Session
+     * Log successful admin sign in
      *
-     * @param Varien_Object $observer
-     *
+     * @param Varien_Event_Observer $observer
      */
-    public function catchLoginSuccess($observer)
+    public function adminSessionLoginSuccess($observer)
     {
-        $node = Mage::getConfig()->getNode('default/admin/enterprise_logging/adminlogin');
-        $enabled = ( (string)$node == '1' ? true : false);
-        if (!$enabled) {
+        $this->_logAdminLogin($observer->getUser()->getUsername(), $observer->getUser()->getId());
+    }
+
+    /**
+     * Log failure of sign in
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function adminSessionLoginFailed($observer)
+    {
+        $eventModel = $this->_logAdminLogin($observer->getUserName());
+
+        if (class_exists('Enterprise_Pci_Model_Observer', false) && $eventModel) {
+            $exception = $observer->getException();
+            if ($exception->getCode() == Enterprise_Pci_Model_Observer::ADMIN_USER_LOCKED) {
+                $eventModel->setInfo(Mage::helper('enterprise_logging')->__('User is locked'))->save();
+            }
+        }
+    }
+
+    /**
+     * Log sign in attempt
+     *
+     * @param string $username
+     * @param int $userId
+     * @return Enterprise_Logging_Model_Event
+     */
+    protected function _logAdminLogin($username, $userId = 0)
+    {
+        $eventCode = 'admin_login';
+        if (!Mage::helper('enterprise_logging')->isActive($eventCode, true)) {
             return;
         }
-
-        $event = Mage::getSingleton('enterprise_logging/event');
-        $event->setIp($_SERVER['REMOTE_ADDR'])
-            ->setUserId($observer->getUser()->getId())
-            ->setEventCode('adminlogin')
-            ->setFullaction('admin_login')
-            ->setInfo(
-                array(
-                    'event_code' => 'adminlogin',
-                    'event_message' => $observer->getUser()->getUsername(),
-                    'event_action' => 'login',
-                    'event_status' => 1
-                ))
-            ->setTime(time())
-            ->save();
+        $request = Mage::app()->getRequest();
+        return Mage::getSingleton('enterprise_logging/event')->setData(array(
+            'ip'         => $_SERVER['REMOTE_ADDR'],
+            'user'       => $username,
+            'user_id'    => $userId,
+            'is_success' => (bool)$userId,
+            'fullaction' => "{$request->getRouteName()}_{$request->getControllerName()}_{$request->getActionName()}",
+            'event_code' => $eventCode,
+            'action'     => 'login',
+        ))->save();
     }
 
     /**
-     * Store event after login fail. Event throwed by Admin/Model/Session
-     *
-     * @param Varien_Object $observer
-     *
-     */
-    public function catchLoginFail($observer)
-    {
-        $node = Mage::getConfig()->getNode('default/admin/enterprise_logging/adminlogin');
-        $enabled = ( (string)$node == '1' ? true : false);
-        if (!$enabled) {
-            return;
-        }
-        $userId = 0;
-        $username = $observer->getUserName();
-        $message = $username;
-
-        $e = $observer->getException();
-        if ($e->getCode() == Enterprise_Pci_Model_Observer::ADMIN_USER_LOCKED) {
-            $message = "locked";
-        }
-        $event = Mage::getSingleton('enterprise_logging/event');
-        $event->setIp($_SERVER['REMOTE_ADDR'])
-            ->setUserId(0)
-            ->setUser($username)
-            ->setEventCode('adminlogin')
-            ->setFullaction('admin_login')
-            ->setInfo(
-                array(
-                    'event_code' => 'adminlogin',
-                    'event_message' => $message,
-                    'event_action' => 'login',
-                    'event_status' => 0
-                ))
-            ->setTime(time())
-            ->save();
-    }
-
-    /**
-     * Rotate logs cron task
+     * Cron job for logs rotation
      */
     public function rotateLogs()
     {
@@ -708,5 +283,35 @@ class Enterprise_Logging_Model_Observer
             );
         }
         $lastRotationFlag->setFlagData(time())->save();
+    }
+
+    /**
+     * Invoke a model/singleton by specified string
+     *
+     * @param string $invokeString
+     * @param mixed $callbackParams
+     * @param object $defaultObject
+     * @param bool $isSingleton
+     * @return mixed
+     */
+    protected function _invokeModel($invokeString, $callbackParams = array(), $defaultObject = null, $isSingleton = true)
+    {
+        if (null === $defaultObject) {
+            $defaultObject = $this;
+        }
+        $object = $defaultObject;
+        $method = $invokeString;
+        if (preg_match("/^(.*?)::(.*?)$/", $invokeString, $matches)) {
+            list(, $factoryModelName, $method) = $matches;
+            if ($isSingleton) {
+                $object = Mage::getSingleton($factoryModelName);
+            } else {
+                $object = Mage::getModel($factoryModelName);
+            }
+        }
+        if (!is_array($callbackParams)) {
+            $callbackParams = array($callbackParams);
+        }
+        return call_user_func_array(array($object, $method), $callbackParams);
     }
 }

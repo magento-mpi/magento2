@@ -329,7 +329,7 @@
     <default>
         <admin>
             <enterprise_logging>
-                <customerbalance>1</customerbalance>
+                <enterprise_customerbalance>1</enterprise_customerbalance>
             </enterprise_logging>
         </admin>
         <customer>

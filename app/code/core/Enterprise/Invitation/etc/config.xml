@@ -257,7 +257,7 @@
     <default>
         <admin>
             <enterprise_logging>
-                <invitations>1</invitations>
+                <enterprise_invitation>1</enterprise_invitation>
             </enterprise_logging>
         </admin>
         <enterprise_invitation>

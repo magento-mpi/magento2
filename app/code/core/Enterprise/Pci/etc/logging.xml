@@ -26,22 +26,22 @@
  */
 -->
 <logging>
-  <actions>
-    <crypt_key_save>
-      <event>pci</event>
-      <action>key_change</action>
-      <handler>enterprise_pci/observer::loggingkeychangeafter</handler>
-    </crypt_key_save>
-
-    <locks_massUnlock>
-      <event>pci</event>
-      <action>massUpdate</action>
-      <id>unlock</id>
-    </locks_massUnlock>
-  </actions>
-  <labels>
-      <list translate="pci">
-          <pci>Pci</pci>
-      </list>
-  </labels>
+    <enterprise_pci_crypt translate="label">
+        <label>Encryption Key Change</label>
+        <events>
+            <adminhtml_crypt_key_save>
+                <action>key_change</action>
+                <post_dispatch>enterprise_pci/observer::postDispatchLoggingKeyChange</post_dispatch>
+            </adminhtml_crypt_key_save>
+        </events>
+    </enterprise_pci_crypt>
+    <enterprise_pci_locks translate="label">
+        <label>Admin Accounts Locks</label>
+        <events>
+            <adminhtml_locks_massUnlock>
+                <action>massUpdate</action>
+                <id>unlock</id>
+            </adminhtml_locks_massUnlock>
+        </events>
+    </enterprise_pci_locks>
 </logging>

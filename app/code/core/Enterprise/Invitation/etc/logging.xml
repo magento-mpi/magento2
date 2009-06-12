@@ -26,37 +26,23 @@
  */
 -->
 <logging>
-  <actions>
-    <invitation_view>
-      <event>invitations</event>
-      <action>view</action>
-    </invitation_view>
+    <enterprise_invitation translate="label">
+        <label>Customer Invitations</label>
+        <events>
+            <adminhtml_invitation_view>
+                <action>view</action>
+            </adminhtml_invitation_view>
 
-    <invitation_save>
-      <event>invitations</event>
-      <action>save</action>
-      <model>enterprise_invitation/invitation</model>
-      <after_save_handler>enterprise_invitation/observer::logginginvitationsaveafter</after_save_handler>
-    </invitation_save>
+            <adminhtml_invitation_save>
+                <action>save</action>
+                <model>enterprise_invitation/invitation</model>
+                <model_save_after>enterprise_invitation/observer::loggingInvitationSaveAfter</model_save_after>
+            </adminhtml_invitation_save>
 
-    <invitation_cancel>
-      <event>invitations</event>
-      <action>cancel</action>
-      <handler>enterprise_invitation/observer::logginginvitationcancel</handler>
-      <skip_action>invitation_view</skip_action>
-    </invitation_cancel>
-
-    <invitation_massCancel>
-      <event>invitations</event>
-      <action>massCancel</action>
-      <handler>enterprise_invitation/observer::logginginvitationmasscancel</handler>
-      <skip_action>invitation_view</skip_action>
-    </invitation_massCancel>
-  </actions>
-
-  <labels>
-      <list translate="invitations">
-          <invitations>Invitations</invitations>
-      </list>
-  </labels>
+            <adminhtml_invitation_massCancel>
+                <action>massCancel</action>
+                <post_dispatch>enterprise_invitation/observer::postDispatchLoggingInvitationMassCancel</post_dispatch>
+            </adminhtml_invitation_massCancel>
+        </events>
+    </enterprise_invitation>
 </logging>

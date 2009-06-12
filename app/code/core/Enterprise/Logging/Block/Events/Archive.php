@@ -24,29 +24,29 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Block_Events_Archive extends Mage_Adminhtml_Block_Widget_Grid_Container
+/**
+ * Admin Actions Log grid container
+ *
+ */
+class Enterprise_Logging_Block_Events_Archive extends Mage_Adminhtml_Block_Widget_Container
 {
     /**
-     * Constructor
+     * Header text getter
+     *
+     * @return string
      */
-    public function __construct()
+    public function getHeaderText()
     {
-        $this->_headerText = Mage::helper('enterprise_logging')->__('View backups');
-        $this->_blockGroup = 'enterprise_logging';
-        $this->_controller = 'events_archive';
-        parent::__construct();
+        return Mage::helper('enterprise_logging')->__('Admin Actions Log Archive');
     }
 
     /**
-     * Overrided method, to disable add button
+     * Grid contents getter
+     *
+     * @return string
      */
-    protected function _enabledAddNewButton() {
-        return false;
-    }
-
-    protected function _addButton($id, $data, $level = 0, $sortOrder = 100, $area = 'header')
+    public function getGridHtml()
     {
-        return $this;
+        return $this->getChildHtml();
     }
-
 }

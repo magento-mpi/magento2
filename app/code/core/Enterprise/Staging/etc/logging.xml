@@ -26,41 +26,33 @@
  */
 -->
 <logging>
-  <actions>
-    <staging_manage_edit>
-      <event>staging</event>
-      <action>view</action>
-    </staging_manage_edit>
+    <enterprise_staging translate="label">
+        <label>Content Staging</label>
+        <events>
+            <adminhtml_staging_manage_edit>
+                <action>view</action>
+            </adminhtml_staging_manage_edit>
 
-    <staging_manage_save>
-      <event>staging</event>
-      <action>save</action>
-      <model>enterprise_staging/staging</model>
-      <handler>enterprise_staging/observer::loggingstagingsaveafter</handler>
-      <allow_model_repeat>1</allow_model_repeat>
-    </staging_manage_save>
+            <adminhtml_staging_manage_save>
+                <action>save</action>
+                <model>enterprise_staging/staging</model>
+                <handler>enterprise_staging/observer::postDispatchLoggingStagingSaveAfter</handler>
+                <allow_model_repeat>1</allow_model_repeat>
+            </adminhtml_staging_manage_save>
 
-    <staging_manage_mergePost>
-      <event>staging</event>
-      <action>mergePost</action>
-      <handler>enterprise_staging/observer::loggingmergeafter</handler>
-    </staging_manage_mergePost>
+            <adminhtml_staging_manage_mergePost>
+                <action>mergePost</action>
+                <post_dispatch>enterprise_staging/observer::postDispatchLoggingMerge</post_dispatch>
+            </adminhtml_staging_manage_mergePost>
 
-    <staging_backup_rollbackPost>
-      <event>staging</event>
-      <action>rollback</action>
-      <handler>enterprise_staging/observer::loggingrollbackafter</handler>
-    </staging_backup_rollbackPost>
+            <adminhtml_staging_backup_rollbackPost>
+                <action>rollback</action>
+                <post_dispatch>enterprise_staging/observer::postDispatchLoggingRollback</post_dispatch>
+            </adminhtml_staging_backup_rollbackPost>
 
-    <staging_backup_backupDelete>
-      <event>staging</event>
-      <action>delete</action>
-    </staging_backup_backupDelete>
-  </actions>
-
-  <labels>
-      <list translate="staging">
-          <staging>Staging</staging>
-      </list>
-  </labels>
+            <adminhtml_staging_backup_backupDelete>
+                <action>delete</action>
+            </adminhtml_staging_backup_backupDelete>
+        </events>
+    </enterprise_staging>
 </logging>

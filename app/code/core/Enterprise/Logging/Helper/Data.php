@@ -24,94 +24,130 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Logging helper
+ *
+ */
 class Enterprise_Logging_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    private $_config;
-    private $_labels;
-
-    public function loadConfig()
-    {
-        $actions = Mage::app()->loadCache('enterprise_logging_actions');
-        $labels  = Mage::app()->loadCache('enterprise_logging_labels');
-
-        if (true || !($actions && $labels)) {
-            $config = new Varien_Simplexml_Config;
-            $config->loadString('<?xml version="1.0"?><logging></logging>');
-            Mage::getConfig()->loadModulesConfiguration('logging.xml', $config);
-
-            $this->_config = $config->getNode('actions')->asArray();
-            Mage::app()->saveCache(serialize($this->_config), 'enterprise_logging_actions');
-
-            $this->_labels = $config->getNode('labels')->asArray();
-            $this->_labels = $this->_labels['list'];
-            Mage::app()->saveCache(serialize($this->_labels), 'enterprise_logging_labels');
-        }
-        else {
-            $this->_config = unserialize($actions);
-            $this->_labels = unserialize($labels);
-        }
-    }
-
     /**
-     * Filter if we need to log this action
+     * logging.xml merged config
      *
-     * @param string action - fullActionName with removed 'adminhtml_' prefix
+     * @var Varien_Simplexml_Config
      */
-    public function isActive($action)
-    {
-        if (!isset($this->_config)) {
-            $this->loadConfig();
-        }
-        $current = isset($this->_config[$action]) ? $this->_config[$action] : false;
-        if (!$current) {
-            return false;
-        }
+    protected $_config;
 
-        $code = $current['event'];
-        /**
-         * Note that /default/logging/enabled/products - is an indicator if the products should be logged
-         * but /enterprise/logging/event/products - is a node where event info stored.
-         */
-        $node = Mage::getConfig()->getNode('default/admin/enterprise_logging/' . $code);
-        return ( (string)$node == '1' ? true : false);
+    /**
+     * Translated and sorted labels
+     *
+     * @var array
+     */
+    private $_labels = array();
+
+    /**
+     * Load config from cache or merged from logging.xml files
+     *
+     */
+    public function __construct()
+    {
+        if (!$this->_config) {
+            $configXml = Mage::app()->loadCache('enterprise_logging_config');
+            if ($configXml) {
+                $this->_config = new Varien_Simplexml_Config($configXml);
+            } else {
+                $config = new Varien_Simplexml_Config;
+                $config->loadString('<?xml version="1.0"?><logging></logging>');
+                Mage::getConfig()->loadModulesConfiguration('logging.xml', $config);
+                $this->_config = $config;
+                Mage::app()->saveCache($config->getXmlString(), 'enterprise_logging_config',
+                    array(Mage_Core_Model_Config::CACHE_TAG));
+            }
+        }
     }
 
     /**
-     * Return, previously stored in cache config
+     * Check whether specified full action name or event group should be logged
+     *
+     * @param string $reference
+     * @param bool $isGroup
      */
-    public function getConfig($action)
+    public function isActive($reference, $isGroup = false)
     {
-        if (!isset($this->_config)) {
-            $this->loadConfig();
+        if ($isGroup) {
+            return Mage::getStoreConfig("admin/enterprise_logging/{$reference}");
         }
-        if (!isset($this->_config[$action])) {
-            return null;
+        foreach ($this->_getNodesByFullActionName($reference) as $action) {
+            /* @var $action Varien_Simplexml_Element */
+            if (Mage::getStoreConfigFlag("admin/enterprise_logging/{$action->getParent()->getParent()->getName()}")) {
+                return true;
+            }
         }
-        $this->_config[$action]['base_action'] = $action;
-        return $this->_config[$action];
+        return false;
     }
 
     /**
-     * Get all labels
+     * Get configuration for specified full action name
+     *
+     * @param string $fullActionName
+     * @return Varien_Simplexml_Element|false
+     */
+    public function getConfig($fullActionName)
+    {
+        foreach ($this->_getNodesByFullActionName($fullActionName) as $actionConfig) {
+            return $actionConfig;
+        }
+        return false;
+    }
+
+    /**
+     * Get all labels translated and sorted ASC
+     *
+     * @return array
      */
     public function getLabels()
     {
-        if (!isset($this->_labels)) {
-            $this->loadConfig();
+        if (!$this->_labels) {
+            foreach ($this->_config->getXpath('/logging/*/label') as $labelNode) {
+                $helperName = $labelNode->getParent()->getAttribute('module');
+                if (!$helperName) {
+                    $helperName = 'enterprise_logging';
+                }
+                $this->_labels[$labelNode->getParent()->getName()] = Mage::helper($helperName)->__((string)$labelNode);
+            }
+            asort($this->_labels);
         }
-        asort($this->_labels);
         return $this->_labels;
     }
 
     /**
-     * Get label for current event_code
+     * Get label for specified event group code
+     *
+     * @return string
      */
-    public function getLabel($code)
+    public function getLabel($groupCode)
     {
-        if (!isset($this->_labels)) {
-            $this->loadConfig();
+        $this->getLabels();
+        if (isset($this->_labels[$groupCode])) {
+            return $this->_labels[$groupCode];
         }
-        $labelsconfig = $this->getLabels();
-        return isset($labelsconfig[$code]) ? $labelsconfig[$code] : "";
+        return '';
+    }
+
+    /**
+     * Lookup configuration nodes by full action name
+     *
+     * @param string $fullActionName
+     * @return array
+     */
+    protected function _getNodesByFullActionName($fullActionName)
+    {
+        if (!$fullActionName) {
+            return array();
+        }
+        $actionNodes = $this->_config->getXpath("/logging/*/events/{$fullActionName}[1]");
+        if ($actionNodes) {
+            return $actionNodes;
+        }
+        return array();
     }
 }

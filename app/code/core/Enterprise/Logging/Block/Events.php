@@ -31,7 +31,7 @@ class Enterprise_Logging_Block_Events extends Mage_Adminhtml_Block_Widget_Grid_C
      */
     public function __construct()
     {
-        $this->_headerText = Mage::helper('enterprise_logging')->__('View Admin logs');
+        $this->_headerText = Mage::helper('enterprise_logging')->__('Admin Actions Log');
         $this->_blockGroup = 'enterprise_logging';
         $this->_controller = 'events';
         parent::__construct();
@@ -40,7 +40,7 @@ class Enterprise_Logging_Block_Events extends Mage_Adminhtml_Block_Widget_Grid_C
     /**
      * Overrided method, to disable add button
      */
-    protected function _enabledAddNewButton() 
+    protected function _enabledAddNewButton()
     {
         return false;
     }

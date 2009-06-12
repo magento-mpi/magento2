@@ -24,32 +24,13 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
-{
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->_init('enterprise_logging/event');
-    }
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer->startSetup();
 
-    /**
-     * Set some data automatically before saving model
-     *
-     * @return Enterprise_Logging_Model_Event
-     */
-    protected function _beforeSave()
-    {
-        if (!$this->getId()) {
-            $this->setStatus($this->getIsSuccess() ? 'success' : 'fail');
-            if (!$this->getUser() && $id = $this->getUserId()) {
-                $this->setUser(Mage::getModel('admin/user')->load($id)->getUserName());
-            }
-            if (!$this->hasTime()) {
-                $this->setTime(time());
-            }
-        }
-        return parent::_beforeSave();
-    }
-}
+$installer->run("DELETE FROM {$installer->getTable('core_config_data')} WHERE `path` LIKE 'admin/enterprise_logging/%'");
+$installer->getConnection()->changeColumn($installer->getTable('enterprise_logging/event'),
+    'event_code', 'event_code', 'varchar(100) NOT NULL DEFAULT \'\''
+);
+
+$installer->endSetup();

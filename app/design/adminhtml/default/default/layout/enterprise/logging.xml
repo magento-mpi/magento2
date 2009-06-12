@@ -35,7 +35,9 @@
 
     <adminhtml_events_log>
         <reference name="content">
-            <block type="enterprise_logging/events_archive"  name="enterprise_logging_events_archive_grid" />
+            <block type="enterprise_logging/events_archive" name="enterprise_logging_events_archive" template="widget/grid/container.phtml">
+                <block type="enterprise_logging/events_archive_grid" name="enterprise_logging_events_archive_grid"/>
+            </block>
         </reference>
     </adminhtml_events_log>
 

@@ -24,11 +24,14 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Admin Actions Log Archive grid
+ *
+ */
 class Enterprise_Logging_Block_Events_Archive_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
     /**
-     * constructor
+     * Initialize default sorting and html ID
      */
     protected function _construct()
     {
@@ -39,7 +42,9 @@ class Enterprise_Logging_Block_Events_Archive_Grid extends Mage_Adminhtml_Block_
     }
 
     /**
-     * Init logs collection
+     * Prepare grid collection
+     *
+     * @return Enterprise_Logging_Block_Events_Archive_Grid
      */
     protected function _prepareCollection()
     {
@@ -49,7 +54,9 @@ class Enterprise_Logging_Block_Events_Archive_Grid extends Mage_Adminhtml_Block_
     }
 
     /**
-     * Configuration of grid
+     * Prepare grid columns
+     *
+     * @return Enterprise_Logging_Block_Events_Archive_Grid
      */
     protected function _prepareColumns()
     {
@@ -63,20 +70,21 @@ class Enterprise_Logging_Block_Events_Archive_Grid extends Mage_Adminhtml_Block_
 
         $this->addColumn('date', array(
             'header'    => Mage::helper('enterprise_logging')->__('Date'),
-            'type'      => 'datetime',
+            'type'      => 'date',
             'index'     => 'date',
             'sortable'  => false
         ));
 
-        return $this;
+        return parent::_prepareColumns();
     }
 
     /**
-     * return grid url
+     * Row click callback URL
+     *
+     * @return string
      */
-    public function getGridUrl() 
+    public function getGridUrl()
     {
-         return $this->getUrl('adminhtml/events/loggrid', array('_current'=>true));
+        return $this->getUrl('adminhtml/events/loggrid', array('_current'=>true));
     }
-
 }

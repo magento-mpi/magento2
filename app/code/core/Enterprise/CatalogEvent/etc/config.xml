@@ -86,7 +86,7 @@
     <default>
         <admin>
             <enterprise_logging>
-                <catalogevents>1</catalogevents>
+                <enterprise_catalogevent>1</enterprise_catalogevent>
             </enterprise_logging>
         </admin>
 

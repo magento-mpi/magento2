@@ -259,14 +259,15 @@ class Enterprise_Staging_Model_Observer
     }
 
     /**
-     * Custom method for staging mergePost
+     * Staging merge logger
      *
-     * @param array $config
-     * @return array - even data
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
      */
-    public function loggingMergeAfter($config) {
+    public function postDispatchLoggingMerge($config, $eventModel)
+    {
         $request = Mage::app()->getRequest();
-        $stagingId = $request->getParam('id');
         $data = $request->getParam('map');
         $data = $data['websites'];
         $to = 0;
@@ -277,66 +278,45 @@ class Enterprise_Staging_Model_Observer
             }
         }
         $from = $data['from'][0];
-        $info = sprintf("staging_id-%s,from-%s,to-%s", $stagingId, $from, $to);
+        $info = Mage::helper('enterprise_staging')->__('From %s, To %s', $from, $to);
         if ($schedule = $request->getParam('schedule_merge_later')) {
-            $info .= ", scheduled to ".$schedule;
+            $info .= ', ' . Mage::helper('enterprise_staging')->__('scheduled to %s', $schedule);
         }
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => $info,
+        return $eventModel->setInfo($info);
+    }
+
+    /**
+     * Staging rollback logger
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchLoggingRollback($config, $eventModel)
+    {
+        return $eventModel->setInfo(
+            Mage::helper('enterprise_staging')->__('Backup ID %d', Mage::app()->getRequest()->getParam('backup_id'))
         );
     }
 
     /**
-     * Custom method for rollback staging
+     * Staging save logger
      *
-     * @param array $config - action configuration
-     *
-     * @return array - event data
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
      */
-    public function loggingRollbackAfter($config) {
-        $request = Mage::app()->getRequest();
-        $backupId = $request->getParam('backup_id');
-        $stagingId = $request->getParam('staging_id');
-        $info = sprintf("backup_id-%s, staging_id-%s", $backupId, $stagingId);
+    public function postDispatchLoggingStagingSaveAfter($config, $eventModel)
+    {
+        $class = Mage::getConfig()->getModelClassName((string)$config->model);
+        $model = Mage::registry("enterprise_logging_saved_model_{$config->getName()}");
 
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => $info,
-        );
-    }
-
-    /**
-     * Custom method for save staging
-     *
-     * @param array $config - action configuration
-     * @param bool  $succes - success indicator
-     *
-     * @return array - event data
-     */
-    public function loggingStagingSaveAfter($config, $success) {
-        $class = isset($config['model']) ? $config['model'] : '';
-        $class = Mage::getConfig()->getModelClassName($class);
-        $action = $config['base_action'];
-        $model = Mage::registry('saved_model_'.$action);
-
-        $id = 0;
-        $masterId = 0;
+        $websiteId = 0;
         if ($model == null || !($model instanceof $class)) {
-            $success = 0;
+            $eventModel->setIsSuccess(false);
         } else {
-            $id = $model->getId();
-            $masterId = $model->getMasterWebsiteId();
+            $websiteId = $model->getMasterWebsiteId();
         }
-        $info = sprintf("master-%s,staging_id-%s", $masterId, $id);
-        return array(
-            'event_code' => $config['event'],
-            'event_action' => $config['action'],
-            'event_message' => $info,
-            'event_status' => $success
-        );
+        return $eventModel->setInfo(Mage::helper('enterprise_staging')->__('Website ID: %d', $websiteId));
     }
-    
 }

@@ -347,7 +347,6 @@
                   </children>
                 </customer>
               </children>
-              
             </admin>
           </resources>
         </acl>
@@ -370,7 +369,7 @@
     <default>
         <admin>
             <enterprise_logging>
-                <giftaccount>1</giftaccount>
+                <enterprise_giftcardaccount>1</enterprise_giftcardaccount>
             </enterprise_logging>
         </admin>
         <giftcard>

@@ -61,45 +61,13 @@ class Enterprise_Invitation_Model_Observer
     }
 
     /**
-     * special handler for invitation cancel.
-     *
-     * @param array $config - event config
-     */
-    public function loggingInvitationCancel($config)
-    {
-        $code = $config['event'];
-        $act = $config['action'];
-        $id = isset($config['id'])? $config['id'] : 'id';
-
-        $id = Mage::app()->getRequest()->getParam($id);
-        Mage::getSingleton('admin/session')->setSkipLoggingAction($config['skip_action']);
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => $id,
-        );
-    }
-
-
-    /**
      * special handler for invitation massCancel.
      *
      * @param array $config - event config
      */
-    public function loggingInvitationMassCancel($config)
+    public function postDispatchLoggingInvitationMassCancel($config, $eventModel)
     {
-        $code = $config['event'];
-        $act = $config['action'];
-        $id = isset($config['id'])? $config['id'] : 'id';
-
-        $id = Mage::app()->getRequest()->getParam('invitations');
-        if (is_array($id))
-            $id = implode(", ", $id);
-        return array(
-            'event_code' => $code,
-            'event_action' => $act,
-            'event_message' => $id,
-        );
+        return $eventModel->setInfo(implode(', ', Mage::app()->getRequest()->getParam('invitations')));
     }
 
     /**
@@ -107,13 +75,14 @@ class Enterprise_Invitation_Model_Observer
      * We have a lot of invitations saved (one per each email).
      * This method creates model stub and puts all ids into it
      * separated by ','
-     * 
-     * @param Mage_Core_Model_Abstract $model
+     *
+     * @param Enterprise_Invitation_Model_Invitation $model
+     * @param Varien_SimpleXml_Element
      */
-    public function loggingInvitationSaveAfter($model)
+    public function loggingInvitationSaveAfter($model, $config)
     {
         if ($model instanceof Enterprise_Invitation_Model_Invitation) {
-            if ($obj = Mage::registry('saved_model_invitation_save')) {
+            if ($obj = Mage::registry('enterprise_logging_saved_model_adminhtml_invitation_save')) {
                 $ids = $obj->getId();
                 $ids .= ", ".$model->getId();
                 /**
@@ -121,17 +90,16 @@ class Enterprise_Invitation_Model_Observer
                  * standart post-dispatch observer.
                  */
                 $obj->setId($ids);
-                Mage::unregister('saved_model_invitation_save');
-                Mage::register('saved_model_invitation_save', $obj);
+                Mage::unregister('enterprise_logging_saved_model_adminhtml_invitation_save');
+                Mage::register('enterprise_logging_saved_model_adminhtml_invitation_save', $obj);
             } else {
                 /**
                  * Create 'stub' model.
                  */
-                $ids = Mage::getModel('enterprise_invitation/invitation');
-                $ids->setId($model->getId());
-                Mage::register('saved_model_invitation_save', $ids);
+                $stub = Mage::getModel('enterprise_invitation/invitation');
+                $stub->setId($model->getId());
+                Mage::register('enterprise_logging_saved_model_adminhtml_invitation_save', $stub);
             }
         }
     }
-
 }

@@ -26,28 +26,22 @@
  */
 -->
 <logging>
-  <actions>
-    <giftcardaccount_edit>
-      <event>giftaccount</event>
-      <action>view</action>
-    </giftcardaccount_edit>
+    <enterprise_giftcardaccount translate="label">
+        <label>Gift Card Accounts</label>
+        <events>
+            <adminhtml_giftcardaccount_edit>
+                <action>view</action>
+            </adminhtml_giftcardaccount_edit>
 
-    <giftcardaccount_save>
-      <event>giftaccount</event>
-      <action>save</action>
-      <model>enterprise_giftcardaccount/giftcardaccount</model>
-      <allow_model_repeat>1</allow_model_repeat>
-    </giftcardaccount_save>
+            <adminhtml_giftcardaccount_save>
+                <action>save</action>
+                <model>enterprise_giftcardaccount/giftcardaccount</model>
+                <allow_model_repeat>1</allow_model_repeat>
+            </adminhtml_giftcardaccount_save>
 
-    <giftcardaccount_delete>
-      <event>giftaccount</event>
-      <action>delete</action>
-    </giftcardaccount_delete>
-  </actions>
-
-  <labels>
-      <list translate="giftaccount">
-        <giftaccount>Gift Card Accounts</giftaccount>
-      </list>
-  </labels>
+            <adminhtml_giftcardaccount_delete>
+                <action>delete</action>
+            </adminhtml_giftcardaccount_delete>
+        </events>
+    </enterprise_giftcardaccount>
 </logging>

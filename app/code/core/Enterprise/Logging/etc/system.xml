@@ -65,273 +65,256 @@
                     <label>Admin Actions Logging</label>
                     <show_in_default>1</show_in_default>
                     <sort_order>500</sort_order>
+                    <sort_fields>
+                        <by>label</by>
+                    </sort_fields>
                     <fields>
-                        <adminlogging translate="label">
-                            <label>Admin Actions Log</label>
+                        <admin_login translate="label">
+                            <label>Admin Sign In</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
-                        </adminlogging>
-                        <products translate="label">
-                            <label>Catalog Products</label>
+                        </admin_login>
+                        <adminhtml_permission_roles translate="label">
+                            <label>Admin Permission Roles</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
-                        </products>
-                        <categories translate="label">
-                            <label>Catalog Categories</label>
+                        </adminhtml_permission_roles>
+                        <adminhtml_permission_users translate="label">
+                            <label>Admin Permission Users</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
-                        </categories>
-                        <urlrewrites translate="label">
-                            <label>Url Rewrites</label>
+                        </adminhtml_permission_users>
+                        <adminhtml_system_account translate="label">
+                            <label>Admin My Account</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>430</sort_order>
                             <show_in_default>1</show_in_default>
-                        </urlrewrites>
-                        <attributes translate="label">
+                        </adminhtml_system_account>
+                        <adminhtml_system_config translate="label">
+                            <label>System Configuration</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </adminhtml_system_config>
+                        <adminhtml_system_store_groups translate="label">
+                            <label>Manage Stores</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </adminhtml_system_store_groups>
+                        <adminhtml_system_stores translate="label">
+                            <label>Manage Store Views</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </adminhtml_system_stores>
+                        <adminhtml_system_websites translate="label">
+                            <label>Manage Websites</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </adminhtml_system_websites>
+                        <api_roles translate="label">
+                            <label>Webservices Api Roles</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </api_roles>
+                        <api_users translate="label">
+                            <label>Webservices Api Users</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </api_users>
+                        <catalog_attributes translate="label">
                             <label>Catalog Attributes</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
-                        </attributes>
-                        <attributesets translate="label">
+                        </catalog_attributes>
+                        <catalog_attributesets translate="label">
                             <label>Catalog Attribute Sets</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
-                        </attributesets>
+                        </catalog_attributesets>
+                        <catalog_categories translate="label">
+                            <label>Catalog Categories</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </catalog_categories>
+                        <catalog_products translate="label">
+                            <label>Catalog Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </catalog_products>
+                        <catalogrule translate="label">
+                            <label>Catalog Price Rules</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </catalogrule>
                         <catalogsearch translate="label">
                             <label>Catalog Search</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
                         </catalogsearch>
-                        <catalogtags translate="label">
-                            <label>Catalog Tags</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>140</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </catalogtags>
-                        <catalogratings translate="label">
-                            <label>Catalog Ratings</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>110</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </catalogratings>
-                        <reviews translate="label">
-                            <label>Catalog Reviews</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>120</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </reviews>
-                        <adminlogin translate="label">
-                            <label>Admin Sign In</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </adminlogin>
-                        <cmspages translate="label">
-                            <label>CMS Pages</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>160</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </cmspages>
-                        <cmsblocks translate="label">
+                        <cms_blocks translate="label">
                             <label>CMS Blocks</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>150</sort_order>
                             <show_in_default>1</show_in_default>
-                        </cmsblocks>
-                        <cmspolls translate="label">
-                            <label>CMS Polls</label>
+                        </cms_blocks>
+                        <cms_pages translate="label">
+                            <label>CMS Pages</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>170</sort_order>
                             <show_in_default>1</show_in_default>
-                        </cmspolls>
-                        <customers translate="label">
+                        </cms_pages>
+                        <core_urlrewrites translate="label">
+                            <label>Url Rewrites</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </core_urlrewrites>
+                        <customer_groups translate="label">
+                            <label>Customer Groups</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </customer_groups>
+                        <customer translate="label">
                             <label>Customers</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>220</sort_order>
                             <show_in_default>1</show_in_default>
-                        </customers>
+                        </customer>
+                        <enterprise_logging translate="label">
+                            <label>Admin Actions Log</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </enterprise_logging>
+                        <newsletter_problem translate="label">
+                            <label>Newsletter Problem Reports</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </newsletter_problem>
+                        <newsletter_queue translate="label">
+                            <label>Newsletter Queue</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </newsletter_queue>
+                        <newsletter_subscribers translate="label">
+                            <label>Newsletter Subscribers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </newsletter_subscribers>
+                        <newsletter_templates translate="label">
+                            <label>Newsletter Templates</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </newsletter_templates>
+                        <poll translate="label">
+                            <label>CMS Polls</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </poll>
+                        <rating translate="label">
+                            <label>Catalog Ratings</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </rating>
                         <reports translate="label">
                             <label>Reports</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>330</sort_order>
                             <show_in_default>1</show_in_default>
                         </reports>
-                        <systemconfiguration translate="label">
-                            <label>System Configuration</label>
+                        <review translate="label">
+                            <label>Catalog Reviews</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>400</sort_order>
                             <show_in_default>1</show_in_default>
-                        </systemconfiguration>
-                        <customergroups translate="label">
-                            <label>Customer Groups</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>200</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </customergroups>
-                        <promoquote translate="label">
-                            <label>Shopping Cart Price Rules</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>390</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </promoquote>
-                        <promocatalog translate="label">
-                            <label>Catalog Price Rules</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </promocatalog>
-                        <systemaccount translate="label">
-                            <label>Admin My Account</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </systemaccount>
-                        <orders translate="label">
-                            <label>Sales Orders</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>370</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </orders>
-                        <orderstatus translate="label">
-                            <label>Sales Order Status</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>360</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </orderstatus>
-                        <invoices translate="label">
-                            <label>Sales Invoices</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>350</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </invoices>
-                        <shipments translate="label">
-                            <label>Sales Shipments</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>380</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </shipments>
-                        <creditmemos translate="label">
+                        </review>
+                        <sales_creditmemos translate="label">
                             <label>Sales Creditmemos</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>340</sort_order>
                             <show_in_default>1</show_in_default>
-                        </creditmemos>
-                        <api translate="label">
-                            <label>Webservices Api</label>
+                        </sales_creditmemos>
+                        <sales_invoices translate="label">
+                            <label>Sales Invoices</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>440</sort_order>
                             <show_in_default>1</show_in_default>
-                        </api>
-                        <websites translate="label">
-                            <label>Manage Websites</label>
+                        </sales_invoices>
+                        <sales_order_status translate="label">
+                            <label>Sales Order Status</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>270</sort_order>
                             <show_in_default>1</show_in_default>
-                        </websites>
-                        <stores translate="label">
-                            <label>Manage Stores</label>
+                        </sales_order_status>
+                        <sales_orders translate="label">
+                            <label>Sales Orders</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>260</sort_order>
                             <show_in_default>1</show_in_default>
-                        </stores>
-                        <storeviews translate="label">
-                            <label>Manage Store Views</label>
+                        </sales_orders>
+                        <sales_shipments translate="label">
+                            <label>Sales Shipments</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>250</sort_order>
                             <show_in_default>1</show_in_default>
-                        </storeviews>
-                        <customertaxclasses translate="label">
+                        </sales_shipments>
+                        <salesrule translate="label">
+                            <label>Shopping Cart Price Rules</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </salesrule>
+                        <tag translate="label">
+                            <label>Catalog Tags</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                        </tag>
+                        <tax_customer_tax_classes translate="label">
                             <label>Customer Tax Classes</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>210</sort_order>
                             <show_in_default>1</show_in_default>
-                        </customertaxclasses>
-                        <producttaxclasses translate="label">
+                        </tax_customer_tax_classes>
+                        <tax_product_tax_classes translate="label">
                             <label>Catalog Product Tax Classes</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>90</sort_order>
                             <show_in_default>1</show_in_default>
-                        </producttaxclasses>
-                        <taxrules translate="label">
-                            <label>Tax Rules</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>420</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </taxrules>
-                        <taxrates translate="label">
+                        </tax_product_tax_classes>
+                        <tax_rates translate="label">
                             <label>Tax Rates</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>410</sort_order>
                             <show_in_default>1</show_in_default>
-                        </taxrates>
-                        <newsletterqueue translate="label">
-                            <label>Newsletter Queue</label>
+                        </tax_rates>
+                        <tax_rules translate="label">
+                            <label>Tax Rules</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>290</sort_order>
                             <show_in_default>1</show_in_default>
-                        </newsletterqueue>
-                        <newslettertemplate translate="label">
-                            <label>Newsletter Templates</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>310</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </newslettertemplate>
-                        <newslettersubscriber translate="label">
-                            <label>Newsletter Subscribers</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>300</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </newslettersubscriber>
-                        <newsletterproblem translate="label">
-                            <label>Newsletter Problems</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>280</sort_order>
-                            <show_in_default>1</show_in_default>
-                        </newsletterproblem>
+                        </tax_rules>
                     </fields>
                 </enterprise_logging>
             </groups>

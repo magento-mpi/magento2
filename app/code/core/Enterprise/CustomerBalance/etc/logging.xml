@@ -26,23 +26,18 @@
  */
 -->
 <logging>
-  <actions>
-    <customerbalance_form>
-      <event>customerbalance</event>
-      <action>view</action>
-    </customerbalance_form>
+    <enterprise_customerbalance translate="label">
+        <label>Store Credit</label>
+        <events>
+            <adminhtml_customerbalance_form>
+                <action>view</action>
+            </adminhtml_customerbalance_form>
 
-    <customerbalance_save>
-      <event>customerbalance</event>
-      <action>save</action>
-      <model>customer/customer</model>
-      <skip_on_back>customerbalance_form,customer_edit</skip_on_back>
-    </customerbalance_save>
-  </actions>
-
-  <labels>
-      <list translate="customerbalance">
-          <customerbalance>Customer Balance</customerbalance>
-      </list>
-  </labels>
+            <adminhtml_customerbalance_save>
+                <action>save</action>
+                <model>customer/customer</model>
+                <skip_on_back>adminhtml_customerbalance_form,adminhtml_customer_edit</skip_on_back>
+            </adminhtml_customerbalance_save>
+        </events>
+    </enterprise_customerbalance>
 </logging>

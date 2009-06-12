@@ -388,7 +388,7 @@
         </general>
         <admin>
             <enterprise_logging>
-                <staging>1</staging>
+                <enterprise_staging>1</enterprise_staging>
             </enterprise_logging>
         </admin>
     </default>

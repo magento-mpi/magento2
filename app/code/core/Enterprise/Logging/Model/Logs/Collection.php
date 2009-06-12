@@ -48,7 +48,7 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
         $result = array();
         foreach ($files as $file) {
             $file = preg_replace('/^' . preg_quote($baseDir . DS, '/') . '/',  '', $file);
-            $names = explode('/', $file);
+            $names = explode(DS, $file);
             $date = sprintf("%s-%s-%s", $names[0], $names[1], substr($names[2], 6, 2));
 
             $result[] = array(
@@ -111,7 +111,7 @@ class Enterprise_Logging_Model_Logs_Collection extends Varien_Data_Collection
         }
     }
 
-    /** 
+    /**
      * Load files from disk
      */
     public function loadData($printQuery = false, $logQuery = false)
