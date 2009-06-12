@@ -292,4 +292,32 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     {
         return $this->_controllerModule;
     }
+
+    /**
+     * Retrieve the module name
+     *
+     * @return string
+     */
+    public function getModuleName()
+    {
+        return $this->_module;
+    }
+    /**
+     * Retrieve the controller name
+     *
+     * @return string
+     */
+    public function getControllerName()
+    {
+        return $this->_controller;
+    }
+    /**
+     * Retrieve the action name
+     *
+     * @return string
+     */
+    public function getActionName()
+    {
+        return $this->_action;
+    }
 }
