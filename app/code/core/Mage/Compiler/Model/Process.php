@@ -158,7 +158,6 @@ class Mage_Compiler_Model_Process
             $relPath = str_replace($basePath, '', $path);
             $relPath = trim($relPath, DS);
             $arrDirs = explode(DS, $relPath);
-            
             $destPath = $this->_includeDir;
             foreach ($arrDirs as $dir) {
                 $destPath.= DS.$dir;
@@ -431,7 +430,7 @@ class Mage_Compiler_Model_Process
     public function validate()
     {
         $result = array();
-        if (!is_writeable($this->_compileDir)) {
+        if (!is_writeable($this->_includeDir)) {
             $result[] = Mage::helper('compiler')->__('Directory "%s" must be writeable', $this->_includeDir);
         }
         $file = $this->_compileDir.DS.'config.php';
