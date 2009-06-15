@@ -197,7 +197,7 @@
                 <observers>
                     <enterprise_admingws>
                         <class>enterprise_admingws/blocks</class>
-                        <method>catalogCategoryCanBeAdded</method>
+                        <method>catalogRootCategoryCanBeAdded</method>
                     </enterprise_admingws>
                 </observers>
             </adminhtml_catalog_category_tree_can_add_root_category>

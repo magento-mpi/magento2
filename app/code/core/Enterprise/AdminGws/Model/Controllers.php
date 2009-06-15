@@ -225,19 +225,32 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $forward = false;
         switch ($controller->getRequest()->getActionName()) {
             case 'add':
-                $forward = true; // no adding categories
+                /**
+                 * adding is not allowed from begining if user has scope specified permissions
+                 */
+                $forward = true;
+                $parentId = $controller->getRequest()->getParam('parent');
+                if ($parentId) {
+                    $forward = !$this->_validateCatalogSubCategoryAddPermission($parentId);
+                }
                 break;
             case 'edit':
                 if (!$controller->getRequest()->getParam('id')) {
-                    $forward = true; // no adding categories
-                    break;
-                }
-                $category = Mage::getModel('catalog/category')->load($controller->getRequest()->getParam('id'));
-                if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
-                    $forward = true; // no viewing wrong categories
+                    $parentId = $controller->getRequest()->getParam('parent');
+                    if ($parentId) {
+                        $forward = !$this->_validateCatalogSubCategoryAddPermission($parentId);
+                    } else {
+                        $forward = true; // no adding root categories
+                    }
+                } else {
+                    $category = Mage::getModel('catalog/category')->load($controller->getRequest()->getParam('id'));
+                    if (!$category->getId() || !$this->_isCategoryAllowed($category)) {
+                        $forward = true; // no viewing wrong categories
+                    }
                 }
                 break;
         }
+
         // forward to first allowed root category
         if ($forward) {
             $firstRootId = current(array_keys($this->_helper->getAllowedRootCategories()));
@@ -871,6 +884,28 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateAttributeSetActions($controller)
     {
         $this->_forward();
+        return false;
+    }
+
+    /**
+     * Validate permission for adding new sub category to specified parent id
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    protected function _validateCatalogSubCategoryAddPermission($categoryId)
+    {
+        $category = Mage::getModel('catalog/category')->load($categoryId);
+        if ($category->getId()) {
+            /**
+             * viewing for parent category allowed and
+             * user has exclusive access to root category
+             * so we can allow user to add sub category
+             */
+            if ($this->_isCategoryAllowed($category) && $this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
+                return true;
+            }
+        }
+
         return false;
     }
 }

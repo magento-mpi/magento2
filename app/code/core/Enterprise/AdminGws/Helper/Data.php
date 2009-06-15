@@ -30,14 +30,40 @@
  */
 class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    protected $_roleIsAll             = true;
-    protected $_roleWebsites          = array();
-    protected $_roleRelevantWebsites  = array();
-    protected $_roleStoreGroups       = array();
-    protected $_roleStores            = array();
-    protected $_disallowedWebsites    = array();
-    protected $_disallowedStores      = array();
-    protected $_allowedRootCategories = null;
+    protected $_roleIsAll               = true;
+    protected $_roleWebsiteIds          = array();
+    protected $_roleRelevantWebsiteIds  = array();
+    protected $_roleStoreGroupIds       = array();
+    protected $_roleStoreIds            = array();
+
+    protected $_disallowedWebsiteIds    = array();
+    protected $_disallowedStores        = array();
+    protected $_disallowedStoreIds      = array();
+    protected $_disallowedStoreGroupIds = array();
+    protected $_disallowedStoreGroups   = array();
+
+    /**
+     * Storage for categories which are used in allowed store groups
+     *
+     * @var array
+     */
+    protected $_allowedRootCategories;
+
+    /**
+     * Storage for categories which are not used in
+     * disallowed store groups
+     *
+     * @var array
+     */
+    protected $_exclusiveRootCategories;
+
+    /**
+     * Storage for exclusive checked categories
+     * using category path as key
+     * @var array
+     */
+    protected $_exclusiveAccessToCategory = array();
+
     /**
      * @var Mage_Admin_Model_Roles
      */
@@ -54,21 +80,27 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
             $this->_role = $role;
 
             // set role gws data
-            $this->_roleWebsites = $role->getGwsWebsites();
-            $this->_roleStoreGroups = $role->getGwsStoreGroups();
-            $this->_roleStores = $role->getGwsStores();
-            $this->_roleRelevantWebsites = $role->getGwsRelevantWebsites();
+            $this->_roleWebsiteIds = $role->getGwsWebsites();
+            $this->_roleStoreGroupIds = $role->getGwsStoreGroups();
+            $this->_roleStoreIds = $role->getGwsStores();
+            $this->_roleRelevantWebsiteIds = $role->getGwsRelevantWebsites();
 
             // find role disallowed data
             foreach (Mage::app()->getWebsites(true) as $websiteId => $website) {
-                if (!in_array($websiteId, $this->_roleRelevantWebsites)) {
-                    $this->_disallowedWebsites[] = $websiteId;
+                if (!in_array($websiteId, $this->_roleRelevantWebsiteIds)) {
+                    $this->_disallowedWebsiteIds[] = $websiteId;
                 }
             }
             foreach (Mage::app()->getStores(true) as $storeId => $store) {
-                if (!in_array($storeId, $this->_roleStores)) {
+                if (!in_array($storeId, $this->_roleStoreIds)) {
                     $this->_disallowedStores[] = $store;
-
+                    $this->_disallowedStoreIds[] = $storeId;
+                }
+            }
+            foreach (Mage::app()->getGroups(true) as $groupId => $group) {
+                if (!in_array($groupId, $this->_roleStoreGroupIds)) {
+                    $this->_disallowedStoreGroups[] = $group;
+                    $this->_disallowedStoreGroupIds[] = $groupId;
                 }
             }
 
@@ -99,7 +131,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getIsWebsiteLevel()
     {
-        return !empty($this->_roleWebsites);
+        return !empty($this->_roleWebsiteIds);
     }
 
     /**
@@ -109,7 +141,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getIsStoreLevel()
     {
-        return empty($this->_roleWebsites);
+        return empty($this->_roleWebsiteIds);
     }
 
     /**
@@ -119,7 +151,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getStoreIds()
     {
-        return $this->_roleStores;
+        return $this->_roleStoreIds;
     }
 
     /**
@@ -129,7 +161,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getStoreGroupIds()
     {
-        return $this->_roleStoreGroups;
+        return $this->_roleStoreGroupIds;
     }
 
     /**
@@ -139,7 +171,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getWebsiteIds()
     {
-        return $this->_roleWebsites;
+        return $this->_roleWebsiteIds;
     }
 
     /**
@@ -149,7 +181,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getRelevantWebsiteIds()
     {
-        return $this->_roleRelevantWebsites;
+        return $this->_roleRelevantWebsiteIds;
     }
 
     /**
@@ -159,7 +191,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getDisallowedWebsiteIds()
     {
-        return $this->_disallowedWebsites;
+        return $this->_disallowedWebsiteIds;
     }
 
     /**
@@ -197,10 +229,12 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if ((!$this->_roleIsAll) && (null === $this->_allowedRootCategories)) {
             $this->_allowedRootCategories = array();
+
             $categoryIds = array();
-            foreach ($this->_roleStoreGroups as $groupId) {
-                $categoryIds[] = Mage::app()->getGroup($groupId)->getRootCategoryId();
+            foreach ($this->_roleStoreGroupIds as $groupId) {
+                $categoryIds[] = $this->getGroup($groupId)->getRootCategoryId();
             }
+
             foreach (Mage::getResourceModel('catalog/category_collection')->addIdFilter($categoryIds) as $category) {
                 $this->_allowedRootCategories[$category->getId()] = $category->getPath();
             }
@@ -209,43 +243,59 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Check exclusive category access
+     * Get root categories that are allowed in current permissions scope
+     *
+     * @return array
+     */
+    public function getExclusiveRootCategories()
+    {
+        if ((!$this->_roleIsAll) && (null === $this->_exclusiveRootCategories)) {
+            $this->_exclusiveRootCategories = $this->getAllowedRootCategories();
+            foreach ($this->_disallowedStoreGroups as $group) {
+                $_catId = $group->getRootCategoryId();
+
+                $pos = array_search($_catId, array_keys($this->_exclusiveRootCategories));
+                if ($pos !== FALSE) {
+                    unset($this->_exclusiveRootCategories[$_catId]);
+                }
+            }
+        }
+        return $this->_exclusiveRootCategories;
+    }
+
+    /**
+     * Check if current user have exclusive access to specified category (by path)
      *
      * @param string $categoryPath
      * @return boolean
      */
     public function hasExclusiveCategoryAccess($categoryPath)
     {
-        if ($this->getIsAll()) {
-            return true;
-        }
+        if (!isset($this->_exclusiveAccessToCategory[$categoryPath])) {
+            /**
+             * By default we grand permissions for category
+             */
+            $result = true;
 
-        if (!$this->getIsWebsiteLevel()) {
-            return false;
-        }
+            if (!$this->getIsAll()) {
+                $categoryPathArray = explode('/', $categoryPath);
+                if (count($categoryPathArray) < 2) {
+                    //not grand access if category is root
+                    $result = false;
+                } else {
+                    if (count(array_intersect(
+                            $categoryPathArray,
+                            array_keys($this->getExclusiveRootCategories())
+                        )) == 0) {
+                        $result = false;
 
-        if (!is_array($categoryPath)) {
-            $categoryPath = explode('/', $categoryPath);
-        }
-
-        if (count($categoryPath) < 2) {
-            return false;
-        }
-
-        if (count(array_intersect(
-                $categoryPath,
-                array_keys($this->getAllowedRootCategories())
-            )) == 0) {
-            return false;
-        }
-
-        foreach ($this->getDisallowedStores() as $store) {
-            if (in_array($store->getRootCategoryId(), $categoryPath)) {
-                return false;
+                    }
+                }
             }
+            $this->_exclusiveAccessToCategory[$categoryPath] = $result;
         }
 
-        return true;
+        return $this->_exclusiveAccessToCategory[$categoryPath];
     }
 
     /**
@@ -257,9 +307,9 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function hasWebsiteAccess($websiteId, $isExplicit = false)
     {
-        $websitesToCompare = $this->_roleRelevantWebsites;
+        $websitesToCompare = $this->_roleRelevantWebsiteIds;
         if ($isExplicit) {
-            $websitesToCompare = $this->_roleWebsites;
+            $websitesToCompare = $this->_roleWebsiteIds;
         }
         if (is_array($websiteId)) {
             return count(array_intersect($websiteId, $websitesToCompare)) > 0;
@@ -276,9 +326,9 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     public function hasStoreAccess($storeId)
     {
         if (is_array($storeId)) {
-            return count(array_intersect($storeId, $this->_roleStores)) > 0;
+            return count(array_intersect($storeId, $this->_roleStoreIds)) > 0;
         }
-        return in_array($storeId, $this->_roleStores);
+        return in_array($storeId, $this->_roleStoreIds);
     }
 
     /**
@@ -290,9 +340,9 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     public function hasStoreGroupAccess($storeGroupId)
     {
         if (is_array($storeGroupId)) {
-            return count(array_intersect($storeGroupId, $this->_roleStoreGroups)) > 0;
+            return count(array_intersect($storeGroupId, $this->_roleStoreGroupIds)) > 0;
         }
-        return in_array($storeGroupId, $this->_roleStoreGroups);
+        return in_array($storeGroupId, $this->_roleStoreGroupIds);
     }
 
     /**
@@ -304,7 +354,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     public function hasExclusiveAccess($websiteIds)
     {
         return $this->getIsAll() ||
-               (count(array_intersect($this->_roleWebsites, $websiteIds)) === count($websiteIds) &&
+               (count(array_intersect($this->_roleWebsiteIds, $websiteIds)) === count($websiteIds) &&
                 $this->getIsWebsiteLevel());
     }
 
@@ -317,7 +367,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
     public function hasExclusiveStoreAccess($storeIds)
     {
         return $this->getIsAll() ||
-               (count(array_intersect($this->_roleStores, $storeIds)) === count($storeIds) &&
+               (count(array_intersect($this->_roleStoreIds, $storeIds)) === count($storeIds) &&
                 $this->getIsWebsiteLevel());
     }
 
@@ -328,7 +378,7 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function updateStoreGroupIds($newValues)
     {
-        $this->_roleStoreGroups = $newValues;
+        $this->_roleStoreGroupIds = $newValues;
         $this->_role->setGwsStoreGroups($newValues);
     }
 
@@ -339,23 +389,23 @@ class Enterprise_AdminGws_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function updateStoreIds($newValues)
     {
-        $this->_roleStores = $newValues;
+        $this->_roleStoreIds = $newValues;
         $this->_role->setGwsStores($newValues);
     }
 
     /**
      * Find a store group by id
+     * Note: For case when we can't Mage::app()->getGroup() bc it will try to load
+     * store group in case store group is not preloaded
      *
      * @param int|string $findGroupId
      * @return Mage_Core_Model_Store_Group|null
      */
     public function getGroup($findGroupId)
     {
-        foreach (Mage::app()->getWebsites() as $website) {
-            foreach ($website->getGroups() as $groupId =>$group) {
-                if ($findGroupId == $groupId) {
-                    return $group;
-                }
+        foreach (Mage::app()->getGroups() as $groupId =>$group) {
+            if ($findGroupId == $groupId) {
+                return $group;
             }
         }
     }

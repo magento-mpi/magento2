@@ -47,7 +47,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Check whether category can be added
+     * Check whether sub category can be added
      *
      * @param Varien_Event_Observer $observer
      */
@@ -56,6 +56,33 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         if ($this->_helper->getIsAll()) { // because observer is passed through directly
             return;
         }
+
+        /**
+         * If admin user has exclusive access to current category
+         * he can add sub categories to it
+         */
+        $categoryPath = $observer->getEvent()->getCategory()->getPath();
+
+        if ($this->_helper->hasExclusiveCategoryAccess($categoryPath)) {
+            $observer->getEvent()->getOptions()->setIsAllow(true);
+        } else {
+            $observer->getEvent()->getOptions()->setIsAllow(false);
+        }
+    }
+
+    /**
+     * Check whether root category can be added
+     * Note: only user with full access can add root categories
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function catalogRootCategoryCanBeAdded($observer)
+    {
+        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+            return;
+        }
+
+        //if user has website or store restrictions he can't add root category
         $observer->getEvent()->getOptions()->setIsAllow(false);
     }
 

@@ -462,17 +462,24 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogCategorySaveBefore($model)
     {
-        // no adding categories
         if (!$model->getId()) {
-            $this->_throwSave();
+            return;
         }
 
         // no saving under disallowed root categories
         $categoryPath = $model->getPath();
         $allowed = false;
         foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
-            if (!($categoryPath === $rootPath || 0 === strpos($categoryPath, "{$rootPath}/"))) {
-                $allowed = true;
+            if ($categoryPath != $rootPath) {
+                if (0 === strpos($categoryPath, "{$rootPath}/")) {
+                    if ($this->_helper->hasExclusiveCategoryAccess($categoryPath)) {
+                        $allowed = true;
+                    }
+                }
+            } else {
+                if ($this->_helper->hasExclusiveCategoryAccess($rootPath)) {
+                    $allowed = true;
+                }
             }
         }
 
@@ -480,7 +487,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        if (!$this->_helper->hasStoreAccess($model->getResource()->getStoreId())) {
+        if (!$this->_helper->hasStoreAccess($model->getStoreIds())) {
             $this->_throwSave();
         }
     }
