@@ -272,11 +272,11 @@ p.required {
 
 
 /********************** Content */
-.license-text { padding:10px; color:#444; margin:-5px; background:#fefdf9; }
-.license-text font {  font:12px/1.35 Arial, Helvetica, sans-serif!important;  }
+.license-text { font:12px/1.35 Arial, Helvetica, sans-serif!important; text-align:justify; padding:10px; color:#444; margin:-5px; background:#fefdf9; }
 .license-text ol { margin:.7em 0 .7em 20px; list-style-type:decimal; }
 .license-text ol li { margin:.7em 0; }
-.license-text li p { }
+.license-text li p {}
+.license-text span.u { text-decoration:underline; }
 
 
 /********************** Side block */
