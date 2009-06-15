@@ -345,7 +345,6 @@ class Mage_Core_Controller_Request_Http extends Zend_Controller_Request_Http
     {
         return $this->_action;
     }
-}
 
     /**
      * Get route name used in request (ignore rewrite)
