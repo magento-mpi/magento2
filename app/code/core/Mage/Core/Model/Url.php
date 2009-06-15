@@ -342,7 +342,7 @@ class Mage_Core_Model_Url extends Varien_Object
 
         $route = array_shift($a);
         if ('*'===$route) {
-            $route = $this->getRequest()->getRouteName();
+            $route = $this->getRequest()->getRequestedRouteName();
         }
         $this->setRouteName($route);
         $routePath = $route.'/';
@@ -350,7 +350,7 @@ class Mage_Core_Model_Url extends Varien_Object
         if (!empty($a)) {
             $controller = array_shift($a);
             if ('*'===$controller) {
-                $controller = $this->getRequest()->getControllerName();
+                $controller = $this->getRequest()->getRequestedControllerName();
             }
             $this->setControllerName($controller);
             $routePath .= $controller.'/';
@@ -359,7 +359,7 @@ class Mage_Core_Model_Url extends Varien_Object
         if (!empty($a)) {
             $action = array_shift($a);
             if ('*'===$action) {
-                $action = $this->getRequest()->getActionName();
+                $action = $this->getRequest()->getRequestedActionName();
             }
             $this->setActionName($action);
             $routePath .= $action.'/';
