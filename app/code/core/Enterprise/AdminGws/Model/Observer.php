@@ -222,8 +222,8 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     public function copyWebsiteCopyPermissions($observer)
     {
-        $oldWebsiteId = (string)$observer->getOldWebsiteId();
-        $newWebsiteId = (string)$observer->getNewWebsiteId();
+        $oldWebsiteId = (string)$observer->getEvent()->getOldWebsiteId();
+        $newWebsiteId = (string)$observer->getEvent()->getNewWebsiteId();
         $roles = Mage::getResourceSingleton('admin/roles_collection');
         foreach ($roles as $role) {
             $shouldRoleBeUpdated = false;
@@ -303,7 +303,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if ($this->_role->getIsAll()) {
             return;
         }
-        $collection = $observer->getCollection();
+        $collection = $observer->getEvent()->getCollection();
         if (!$callback = $this->_pickCallback('collection_load_before', $collection)) {
             return;
         }
@@ -320,7 +320,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if ($this->_role->getIsAll()) {
             return;
         }
-        $model = $observer->getObject();
+        $model = $observer->getEvent()->getObject();
         if (!$callback = $this->_pickCallback('model_save_before', $model)) {
             return;
         }
@@ -338,7 +338,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if ($this->_role->getIsAll()) {
             return;
         }
-        $model = $observer->getObject();
+        $model = $observer->getEvent()->getObject();
         if (!$callback = $this->_pickCallback('model_load_after', $model)) {
             return;
         }
@@ -357,7 +357,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
             return;
         }
 
-        $model = $observer->getObject();
+        $model = $observer->getEvent()->getObject();
         if (!$callback = $this->_pickCallback('model_delete_before', $model)) {
             return;
         }
@@ -407,7 +407,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         }
 
         if ($callback) {
-            $this->_invokeCallback($callback, 'enterprise_admingws/controllers', $observer->getControllerAction());
+            $this->_invokeCallback($callback, 'enterprise_admingws/controllers', $observer->getEvent()->getControllerAction());
         }
     }
 
@@ -421,7 +421,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if ($this->_role->getIsAll()) {
             return;
         }
-        if (!$block = $observer->getBlock()) {
+        if (!$block = $observer->getEvent()->getBlock()) {
             return;
         }
         if (!$callback = $this->_pickCallback('block_html_before', $block)) {

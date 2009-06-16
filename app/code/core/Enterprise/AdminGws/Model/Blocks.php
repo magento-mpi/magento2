@@ -105,7 +105,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function widgetManageStores($observer)
     {
-        $block = $observer->getBlock();
+        $block = $observer->getEvent()->getBlock();
         $block->removeButton('add');
         if (!$this->_role->getWebsiteIds()) {
             $block->removeButton('add_group');
@@ -121,7 +121,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     public function widgetProductGridContainer($observer)
     {
         if (!$this->_role->getWebsiteIds()) {
-            $observer->getBlock()->removeButton('add_new');
+            $observer->getEvent()->getBlock()->removeButton('add_new');
         }
     }
 
@@ -133,7 +133,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     public function widgetCatalogEventGridContainer($observer)
     {
         if (!$this->_role->getWebsiteIds()) {
-            $observer->getBlock()->removeButton('add');
+            $observer->getEvent()->getBlock()->removeButton('add');
         }
     }
 

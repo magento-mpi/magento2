@@ -672,7 +672,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if ($this->_role->getIsAll()) {
             return;
         }
-        $model = $observer->getStoreGroup();
+        $model = $observer->getEvent()->getStoreGroup();
         if ($model->getId() && !$this->_role->hasStoreGroupAccess($model->getId())) {
             $this->_role->setStoreGroupIds(array_unique(array_merge(
                 $this->_role->getStoreGroupIds(), array($model->getId())
@@ -690,7 +690,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if ($this->_role->getIsAll()) {
             return;
         }
-        $model = $observer->getStoreGroup();
+        $model = $observer->getEvent()->getStoreGroup();
         if ($model->getId() && !$this->_role->hasStoreAccess($model->getId())) {
             $this->_role->setStoreIds(array_unique(array_merge(
                 $this->_role->getStoreIds(), array($model->getId())
