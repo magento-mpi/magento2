@@ -60,8 +60,8 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminht
         }
         if ($invitation->canMessageBeUpdated()) {
             $this->_addButton('save_message_button', array(
-                'label'   => $this->helper('enterprise_invitation')->__('Save Invitation Message'),
-                'onclick' => '$(\'invitation_elements\').submit()',
+                'label'   => $this->helper('enterprise_invitation')->__('Save Invitation'),
+                'onclick' => 'invitationForm.submit()',
             ), -1);
         }
         if ($invitation->canBeSent()) {
@@ -92,6 +92,6 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View extends Mage_Adminht
      */
     public function getSaveMessageUrl()
     {
-        return $this->getUrl('*/*/saveMessage', array('id'=>$this->getInvitation()->getId()));
+        return $this->getUrl('*/*/saveInvitation', array('id'=>$this->getInvitation()->getId()));
     }
 }

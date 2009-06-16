@@ -166,16 +166,24 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     }
 
     /**
-     * Invitation save message action
+     * Edit invitation's information
      */
-    public function saveMessageAction()
+    public function saveInvitationAction()
     {
         try {
             $this->_initInvitation();
             if ($this->getRequest()->isPost()) {
+                $email = $this->getRequest()->getParam('email');
+                if (!Zend_Validate::is($email, 'EmailAddress')) {
+                    Mage::throwException(Mage::helper('enterprise_invitation')->__('Invalid email entered.'));
+                }
+
                 Mage::registry('current_invitation')
-                    ->setMessage($this->getRequest()->getParam('message'))->save();
-                $this->_getSession()->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation message was successfully saved.'));
+                    ->setMessage($this->getRequest()->getParam('message'))
+                    ->setEmail($email)
+                    ->save();
+
+                $this->_getSession()->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation was successfully saved.'));
             }
         }
         catch (Mage_Core_Exception $e) {

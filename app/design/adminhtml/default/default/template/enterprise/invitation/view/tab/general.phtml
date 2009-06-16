@@ -63,8 +63,8 @@
                 </td>
             </tr>
             <tr>
-                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Email'); ?></label></td>
-                <td><strong><?php echo $this->htmlEscape($this->getInvitation()->getEmail()) ?></strong></td>
+                <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Email'); ?><span class="required">*</span></label></td>
+                <td><input type="text" class="required-entry input-text validate-email" name="email" value="<?php echo $this->getInvitation()->getEmail() ?>" /></td>
             </tr>
             <tr>
                 <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Status'); ?></label></td>
