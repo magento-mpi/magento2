@@ -52,7 +52,9 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_View_Accordion extends Mage_Adminht
             // count cart items
             $cartItemsCount = Mage::getModel('sales/quote')
                 ->setWebsite($website)->loadByCustomer($customer)
-                ->getItemsCollection(false)->getSize();
+                ->getItemsCollection(false)
+                ->addFieldToFilter('parent_item_id', array('null' => true))
+                ->getSize();
             // prepare title for cart
             $title = Mage::helper('customer')->__('Shopping Cart - %d item(s)', $cartItemsCount);
             if (count($customer->getSharedWebsiteIds()) > 1) {
