@@ -37,7 +37,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitStores($collection)
     {
-        $collection->addIdFilter(array_merge($this->_helper->getStoreIds(), array(0)));
+        $collection->addIdFilter(array_merge($this->_role->getStoreIds(), array(0)));
     }
 
     /**
@@ -47,7 +47,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitWebsites($collection)
     {
-        $collection->addIdFilter(array_merge($this->_helper->getRelevantWebsiteIds(), array(0)));
+        $collection->addIdFilter(array_merge($this->_role->getRelevantWebsiteIds(), array(0)));
     }
 
     /**
@@ -57,7 +57,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitStoreGroups($collection)
     {
-        $collection->addWebsiteFilter(array_merge($this->_helper->getRelevantWebsiteIds(), array(0)));
+        $collection->addWebsiteFilter(array_merge($this->_role->getRelevantWebsiteIds(), array(0)));
     }
 
     /**
@@ -67,7 +67,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function addStoreFilterNoAdmin($collection)
     {
-        $collection->addStoreFilter($this->_helper->getStoreIds(), false);
+        $collection->addStoreFilter($this->_role->getStoreIds(), false);
     }
 
     /**
@@ -77,7 +77,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function addStoreFilter($collection)
     {
-        $collection->addStoreFilter($this->_helper->getStoreIds());
+        $collection->addStoreFilter($this->_role->getStoreIds());
     }
 
     /**
@@ -87,7 +87,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitProducts($collection)
     {
-        $collection->addWebsiteFilter($this->_helper->getRelevantWebsiteIds());
+        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
     }
 
     /**
@@ -97,7 +97,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitCustomers($collection)
     {
-        $collection->addAttributeToFilter('website_id', array('website_id' => array('in' => $this->_helper->getRelevantWebsiteIds())));
+        $collection->addAttributeToFilter('website_id', array('website_id' => array('in' => $this->_role->getRelevantWebsiteIds())));
     }
 
     /**
@@ -107,7 +107,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitReviews($collection)
     {
-        $collection->addStoreFilter($this->_helper->getStoreIds());
+        $collection->addStoreFilter($this->_role->getStoreIds());
     }
 
     /**
@@ -117,7 +117,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitPriceRules($collection)
     {
-        $collection->addWebsiteFilter($this->_helper->getRelevantWebsiteIds());
+        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
     }
 
     /**
@@ -127,7 +127,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitOnlineCustomers($collection)
     {
-        $collection->addWebsiteFilter($this->_helper->getRelevantWebsiteIds());
+        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
     }
 
     /**
@@ -137,7 +137,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitGiftCardAccounts($collection)
     {
-        $collection->addWebsiteFilter($this->_helper->getWebsiteIds());
+        $collection->addWebsiteFilter($this->_role->getWebsiteIds());
     }
 
     /**
@@ -147,7 +147,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitStoreCredits($collection)
     {
-        $collection->addWebsitesFilter($this->_helper->getRelevantWebsiteIds());
+        $collection->addWebsitesFilter($this->_role->getRelevantWebsiteIds());
     }
 
     /**
@@ -157,7 +157,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitStoreCreditsHistory($collection)
     {
-        $collection->addWebsitesFilter($this->_helper->getRelevantWebsiteIds());
+        $collection->addWebsitesFilter($this->_role->getRelevantWebsiteIds());
     }
 
 
@@ -168,7 +168,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitCatalogEvents($collection)
     {
-        $collection->capByCategoryPaths($this->_helper->getAllowedRootCategories());
+        $collection->capByCategoryPaths($this->_role->getAllowedRootCategories());
     }
 
     /**
@@ -178,7 +178,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitCatalogCategories($collection)
     {
-        $collection->addPathsFilter($this->_helper->getAllowedRootCategories());
+        $collection->addPathsFilter($this->_role->getAllowedRootCategories());
     }
 
     /**
@@ -188,7 +188,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitCoreUrlRewrites($collection)
     {
-        $collection->addStoreFilter($this->_helper->getStoreIds(), false);
+        $collection->addStoreFilter($this->_role->getStoreIds(), false);
     }
 
     /**
@@ -198,7 +198,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitRatings($collection)
     {
-        $collection->setStoreFilter($this->_helper->getStoreIds());
+        $collection->setStoreFilter($this->_role->getStoreIds());
     }
 
     /**
@@ -208,7 +208,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function addStoreAttributeToFilter($collection)
     {
-        $collection->addAttributeToFilter('store_id', array('in' => $this->_helper->getStoreIds()));
+        $collection->addAttributeToFilter('store_id', array('in' => $this->_role->getStoreIds()));
     }
 
     /**
@@ -218,7 +218,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitCheckoutAgreements($collection)
     {
-        $collection->setIsStoreFilterWithAdmin(false)->addStoreFilter($this->_helper->getStoreIds());
+        $collection->setIsStoreFilterWithAdmin(false)->addStoreFilter($this->_role->getStoreIds());
     }
 
 
@@ -231,9 +231,9 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     {
         $limited = Mage::getResourceModel('enterprise_admingws/collections')
             ->getRolesOutsideLimitedScope(
-                $this->_helper->getIsAll(),
-                $this->_helper->getWebsiteIds(),
-                $this->_helper->getStoreGroupIds()
+                $this->_role->getIsAll(),
+                $this->_role->getWebsiteIds(),
+                $this->_role->getStoreGroupIds()
             );
 
         $collection->addFieldToFilter('role_id', array('nin' => $limited));
@@ -248,9 +248,9 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
     {
         $limited = Mage::getResourceModel('enterprise_admingws/collections')
             ->getUsersOutsideLimitedScope(
-                $this->_helper->getIsAll(),
-                $this->_helper->getWebsiteIds(),
-                $this->_helper->getStoreGroupIds()
+                $this->_role->getIsAll(),
+                $this->_role->getWebsiteIds(),
+                $this->_role->getStoreGroupIds()
             );
         $collection->addFieldToFilter('user_id', array('nin' => $limited));
     }

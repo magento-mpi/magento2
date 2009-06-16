@@ -42,11 +42,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $model->getData('stores'), $originalStoreIds
         )));
 
-        if ($model->getId() && !$this->_helper->hasStoreAccess($originalStoreIds)) {
+        if ($model->getId() && !$this->_role->hasStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
 
-        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
         }
     }
@@ -59,11 +59,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function cmsBlockSaveBefore($model)
     {
         $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
-        if ($model->getId() && !$this->_helper->hasStoreAccess($originalStoreIds)) {
+        if ($model->getId() && !$this->_role->hasStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
 
-        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
         }
 
@@ -81,11 +81,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
 
-        if ($model->getId() && !$this->_helper->hasStoreAccess($originalStoreIds)) {
+        if ($model->getId() && !$this->_role->hasStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
 
-        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
         }
 
@@ -102,13 +102,13 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function ruleSaveBefore($model)
     {
-        $originalWebsiteIds = $this->_helper->explodeIds($model->getOrigData('website_ids'));
-        $websiteIds         = $this->_helper->explodeIds($model->getData('website_ids'));
+        $originalWebsiteIds = $this->_role->explodeIds($model->getOrigData('website_ids'));
+        $websiteIds         = $this->_role->explodeIds($model->getData('website_ids'));
 
-        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
         }
-        if ($model->getId() && !$this->_helper->hasWebsiteAccess($websiteIds)) {
+        if ($model->getId() && !$this->_role->hasWebsiteAccess($websiteIds)) {
             $this->_throwSave();
         }
         $model->setData('website_ids', implode(',', $this->_forceAssignToWebsite(
@@ -125,11 +125,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function ruleLoadAfter($model)
     {
         $websiteIds = explode(',', $model->getData('website_ids'));
-        if (!$this->_helper->hasExclusiveAccess($websiteIds)) {
+        if (!$this->_role->hasExclusiveAccess($websiteIds)) {
             $model->setIsDeleteable(false);
         }
 
-        if (!$this->_helper->getIsWebsiteLevel()) {
+        if (!$this->_role->getIsWebsiteLevel()) {
             $model->setIsReadonly(true);
         }
     }
@@ -143,7 +143,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         // force to assign to SV
         $storeIds = $model->getStores();
-        if (!$storeIds || !$this->_helper->hasStoreAccess($storeIds)) {
+        if (!$storeIds || !$this->_role->hasStoreAccess($storeIds)) {
             Mage::throwException(Mage::helper('enterprise_admingws')->__('Please assign this entity to a store view.'));
         }
 
@@ -159,7 +159,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function newsletterQueueLoadAfter($model)
     {
-        if (!$this->_helper->hasStoreAccess($model->getStores())) {
+        if (!$this->_role->hasStoreAccess($model->getStores())) {
             $this->_throwLoad();
         }
     }
@@ -176,19 +176,19 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             return;
         }
 
-        if (!$this->_helper->hasWebsiteAccess($model->getWebsiteIds())) {
+        if (!$this->_role->hasWebsiteAccess($model->getWebsiteIds())) {
             $this->_throwLoad();
         }
 
-        if (!$this->_helper->hasExclusiveAccess($model->getWebsiteIds())) {
+        if (!$this->_role->hasExclusiveAccess($model->getWebsiteIds())) {
             $model->unlockAttributes();
 
             $attributes = $model->getAttributes();
             foreach ($attributes as $attribute) {
                 /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
                 if ($attribute->isScopeGlobal() ||
-                    ($attribute->isScopeWebsite() && count($this->_helper->getWebsiteIds())==0) ||
-                    !in_array($model->getStore()->getId(), $this->_helper->getStoreIds())) {
+                    ($attribute->isScopeWebsite() && count($this->_role->getWebsiteIds())==0) ||
+                    !in_array($model->getStore()->getId(), $this->_role->getStoreIds())) {
                     $model->lockAttribute($attribute->getAttributeCode());
                 }
             }
@@ -206,7 +206,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $model->setGiftCardReadonly(true);
             $model->setIsDeleteable(false);
             $model->setIsDuplicable(false);
-            if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
+            if (!$this->_role->hasStoreAccess($model->getStoreId())) {
                 $model->setIsReadonly(true);
             }
         } else {
@@ -225,23 +225,23 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function catalogProductSaveBefore($model)
     {
         // no creating products
-        if (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
 
             $this->_throwSave();
         }
 
         // disallow saving in scope of wrong store
-        if (($model->getId() || !$this->_helper->getIsWebsiteLevel()) &&
-            !$this->_helper->hasStoreAccess($model->getStoreId())) {
+        if (($model->getId() || !$this->_role->getIsWebsiteLevel()) &&
+            !$this->_role->hasStoreAccess($model->getStoreId())) {
 
             $this->_throwSave();
 
         }
 
-        $websiteIds     = $this->_helper->explodeIds($model->getWebsiteIds());
+        $websiteIds     = $this->_role->explodeIds($model->getWebsiteIds());
         $origWebsiteIds = $model->getResource()->getWebsiteIds($model);
 
-        if ($this->_helper->getIsWebsiteLevel()) {
+        if ($this->_role->getIsWebsiteLevel()) {
             // must assign to website
             $model->setWebsiteIds($this->_forceAssignToWebsite(
                 $this->_updateSavingWebsiteIds($websiteIds, $origWebsiteIds)
@@ -249,7 +249,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         }
 
         // must not assign to wrong website
-        if ($model->getId() && !$this->_helper->hasWebsiteAccess($model->getWebsiteIds())) {
+        if ($model->getId() && !$this->_role->hasWebsiteAccess($model->getWebsiteIds())) {
             $this->_throwSave();
         }
     }
@@ -262,7 +262,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogProductValidateAfter(Varien_Event_Observer $observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
 
@@ -279,7 +279,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function catalogProductDeleteBefore($model)
     {
         // deleting only in exclusive mode
-        if (!$this->_helper->hasExclusiveAccess($model->getWebsiteIds())) {
+        if (!$this->_role->hasExclusiveAccess($model->getWebsiteIds())) {
             $this->_throwDelete();
         }
     }
@@ -293,12 +293,12 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function catalogCategoryDeleteBefore($model)
     {
         // no deleting in store group level mode
-        if ($this->_helper->getIsStoreLevel()) {
+        if ($this->_role->getIsStoreLevel()) {
             $this->_throwDelete();
         }
 
         // no deleting category from disallowed path (no deleting root categories at all)
-        if (!$this->_helper->hasExclusiveCategoryAccess($model->getPath())) {
+        if (!$this->_role->hasExclusiveCategoryAccess($model->getPath())) {
             $this->_throwDelete();
         }
     }
@@ -311,7 +311,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function customerDeleteBefore($model)
     {
-        if (!in_array($model->getWebsiteId(), $this->_helper->getWebsiteIds())) {
+        if (!in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
             $this->_throwDelete();
         }
     }
@@ -325,7 +325,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function ruleDeleteBefore($model)
     {
         $originalWebsiteIds = $model->getOrigData('website_ids');
-        if (!$this->_helper->hasExclusiveAccess($originalWebsiteIds)) {
+        if (!$this->_role->hasExclusiveAccess($originalWebsiteIds)) {
             $this->_throwDelete();
         }
     }
@@ -339,7 +339,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function cmsPageDeleteBefore($model)
     {
         $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
-        if (!$this->_helper->hasExclusiveStoreAccess($originalStoreIds)) {
+        if (!$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
             $this->_throwDelete();
         }
     }
@@ -353,7 +353,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function cmsBlockDeleteBefore($model)
     {
         $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
-        if (!$this->_helper->hasExclusiveStoreAccess($originalStoreIds)) {
+        if (!$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
             $this->_throwDelete();
         }
     }
@@ -366,7 +366,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function customerLoadAfter($model)
     {
-        if (!$this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+        if (!$this->_role->hasWebsiteAccess($model->getWebsiteId(), true)) {
             $model->setIsReadonly(true);
             $model->setIsDeleteable(false);
         }
@@ -380,9 +380,9 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function customerSaveBefore($model)
     {
-        if ($model->getId() && !$this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+        if ($model->getId() && !$this->_role->hasWebsiteAccess($model->getWebsiteId(), true)) {
             $this->_throwSave();
-        } elseif (!$model->getId() && !$this->_helper->getIsWebsiteLevel()) {
+        } elseif (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
         }
     }
@@ -395,7 +395,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function salesOrderLoadAfter($model)
     {
-        if (!in_array($model->getStore()->getWebsiteId(), $this->_helper->getWebsiteIds())) {
+        if (!in_array($model->getStore()->getWebsiteId(), $this->_role->getWebsiteIds())) {
             $model->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CANCEL, false)
                 ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_CREDITMEMO, false)
                 ->setActionFlag(Mage_Sales_Model_Order::ACTION_FLAG_EDIT, false)
@@ -416,7 +416,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function salesOrderBeforeSave($model)
     {
-        if (!$this->_helper->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
+        if (!$this->_role->hasWebsiteAccess($model->getStore()->getWebsiteId(), true)) {
             Mage::throwException(
                 Mage::helper('enterprise_admingws')->__('You cannot create order in dissalowed store')
             );
@@ -435,21 +435,21 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             return;
         }
 
-        if (!$this->_helper->hasExclusiveCategoryAccess($model->getPath())) {
+        if (!$this->_role->hasExclusiveCategoryAccess($model->getPath())) {
             $model->unlockAttributes();
             $attributes = $model->getAttributes();
             foreach ($attributes as $attribute) {
                 /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
                 if ($attribute->isScopeGlobal() ||
-                    ($attribute->isScopeWebsite() && count($this->_helper->getWebsiteIds())==0) ||
-                    !$this->_helper->hasStoreAccess($model->getResource()->getStoreId())) {
+                    ($attribute->isScopeWebsite() && count($this->_role->getWebsiteIds())==0) ||
+                    !$this->_role->hasStoreAccess($model->getResource()->getStoreId())) {
                     $model->lockAttribute($attribute->getAttributeCode());
                 }
             }
             $model->setProductsReadonly(true);
             $model->setPermissionsReadonly(true);
             $model->setIsDeleteable(false);
-            if (!$this->_helper->hasStoreAccess($model->getResource()->getStoreId())) {
+            if (!$this->_role->hasStoreAccess($model->getResource()->getStoreId())) {
                 $model->setIsReadonly(true);
             }
         }
@@ -469,15 +469,15 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         // no saving under disallowed root categories
         $categoryPath = $model->getPath();
         $allowed = false;
-        foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
+        foreach ($this->_role->getAllowedRootCategories() as $rootPath) {
             if ($categoryPath != $rootPath) {
                 if (0 === strpos($categoryPath, "{$rootPath}/")) {
-                    if ($this->_helper->hasExclusiveCategoryAccess($categoryPath)) {
+                    if ($this->_role->hasExclusiveCategoryAccess($categoryPath)) {
                         $allowed = true;
                     }
                 }
             } else {
-                if ($this->_helper->hasExclusiveCategoryAccess($rootPath)) {
+                if ($this->_role->hasExclusiveCategoryAccess($rootPath)) {
                     $allowed = true;
                 }
             }
@@ -487,7 +487,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        if (!$this->_helper->hasStoreAccess($model->getStoreIds())) {
+        if (!$this->_role->hasStoreAccess($model->getStoreIds())) {
             $this->_throwSave();
         }
     }
@@ -504,7 +504,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if (!$category->getId()) {
             $this->_throwSave();
         }
-        foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
+        foreach ($this->_role->getAllowedRootCategories() as $rootPath) {
             if (!($category->getPath() === $rootPath || 0 === strpos($category->getPath(), "{$rootPath}/"))) {
                 $this->_throwSave();
             }
@@ -512,7 +512,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
 
         // in non-exclusive mode allow to change the image only
         if ($model->getId()) {
-            if (!$this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
+            if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
                 foreach (array_keys($model->getData()) as $key) {
                     if ($model->dataHasChangedFor($key) && $key !== 'image') {
                          $model->setData($key, $model->getOrigData($key));
@@ -534,7 +534,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if (!$category->getId()) {
             $this->_throwDelete();
         }
-        if (!$this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
+        if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
             $this->_throwDelete();
         }
     }
@@ -547,11 +547,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function catalogEventLoadAfter($model)
     {
         $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
-        if (!$this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
+        if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
             $model->setIsReadonly(true);
             $model->setIsDeleteable(false);
             $model->setImageReadonly(true);
-            if ($this->_helper->hasStoreAccess($model->getStoreId())) {
+            if ($this->_role->hasStoreAccess($model->getStoreId())) {
                 $model->setImageReadonly(false);
             }
         }
@@ -565,7 +565,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function cmsPageBlockLoadAfter($model)
     {
         if ($storeIds = $model->getData('store_id')) {
-            $model->setData('store_id', array_intersect($this->_helper->getStoreIds(), $storeIds));
+            $model->setData('store_id', array_intersect($this->_role->getStoreIds(), $storeIds));
         }
     }
 
@@ -576,7 +576,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogCategoryMoveBefore($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
 
@@ -584,7 +584,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         $currentCategory = $observer->getEvent()->getCategory();
 
         foreach (array($parentCategory, $currentCategory) as $category) {
-            if (!$this->_helper->hasExclusiveCategoryAccess($category->getData('path'))) {
+            if (!$this->_role->hasExclusiveCategoryAccess($category->getData('path'))) {
                 $this->_throwSave();
             }
         }
@@ -597,10 +597,10 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogCategoryIsCatalogPermissionsAllowed($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
-        if (!$this->_helper->hasExclusiveCategoryAccess(
+        if (!$this->_role->hasExclusiveCategoryAccess(
             $observer->getEvent()->getOptions()->getCategory()->getPath())) {
             $observer->getEvent()->getOptions()->setIsAllowed(false);
         }
@@ -643,7 +643,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function coreStoreGroupLoadAfter($model)
     {
-        if ($this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+        if ($this->_role->hasWebsiteAccess($model->getWebsiteId(), true)) {
             return;
         }
         $model->isReadOnly(true);
@@ -656,7 +656,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function coreStoreGroupSaveBefore($model)
     {
-        if ($this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+        if ($this->_role->hasWebsiteAccess($model->getWebsiteId(), true)) {
             return;
         }
         $this->_throwSave();
@@ -669,13 +669,13 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function coreStoreGroupSaveAfter($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
         $model = $observer->getStoreGroup();
-        if ($model->getId() && !$this->_helper->hasStoreGroupAccess($model->getId())) {
-            $this->_helper->updateStoreGroupIds(array_unique(array_merge(
-                $this->_helper->getStoreGroupIds(), array($model->getId())
+        if ($model->getId() && !$this->_role->hasStoreGroupAccess($model->getId())) {
+            $this->_role->setStoreGroupIds(array_unique(array_merge(
+                $this->_role->getStoreGroupIds(), array($model->getId())
             )));
         }
     }
@@ -687,13 +687,13 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function coreStoreSaveAfter($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
         $model = $observer->getStoreGroup();
-        if ($model->getId() && !$this->_helper->hasStoreAccess($model->getId())) {
-            $this->_helper->updateStoreIds(array_unique(array_merge(
-                $this->_helper->getStoreIds(), array($model->getId())
+        if ($model->getId() && !$this->_role->hasStoreAccess($model->getId())) {
+            $this->_role->setStoreIds(array_unique(array_merge(
+                $this->_role->getStoreIds(), array($model->getId())
             )));
         }
     }
@@ -705,7 +705,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function coreStoreGroupDeleteBefore($model)
     {
-        if ($model->getId() && $this->_helper->hasWebsiteAccess($model->getWebsiteId(), true)) {
+        if ($model->getId() && $this->_role->hasWebsiteAccess($model->getWebsiteId(), true)) {
             return;
         }
         $this->_throwDelete();
@@ -721,7 +721,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if (!$model->getId()) {
             return;
         }
-        if (!$this->_helper->hasStoreAccess($model->getStoreId())) {
+        if (!$this->_role->hasStoreAccess($model->getStoreId())) {
             $this->_throwLoad();
         }
     }
@@ -837,11 +837,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     protected function _salesEntitySaveBefore($websiteId)
     {
-        if ($this->_helper->getIsStoreLevel()) {
+        if ($this->_role->getIsStoreLevel()) {
             $this->_throwSave();
         }
 
-        if (!$this->_helper->hasWebsiteAccess($websiteId, true)) {
+        if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
             $this->_throwSave();
         }
     }
@@ -856,8 +856,8 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     protected function _updateSavingStoreIds($newIds, $origIds)
     {
         return array_unique(array_merge(
-            array_intersect($newIds, $this->_helper->getStoreIds()),
-            array_intersect($origIds, $this->_helper->getDisallowedStoreIds())
+            array_intersect($newIds, $this->_role->getStoreIds()),
+            array_intersect($origIds, $this->_role->getDisallowedStoreIds())
         ));
     }
 
@@ -871,8 +871,8 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     protected function _updateSavingWebsiteIds($newIds, $origIds)
     {
         return array_unique(array_merge(
-            array_intersect($newIds, $this->_helper->getWebsiteIds()),
-            array_intersect($origIds, $this->_helper->getDisallowedWebsiteIds())
+            array_intersect($newIds, $this->_role->getWebsiteIds()),
+            array_intersect($origIds, $this->_role->getDisallowedWebsiteIds())
         ));
     }
 
@@ -885,8 +885,8 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     protected function _forceAssignToWebsite($websiteIds)
     {
-        if (count(array_intersect($websiteIds, $this->_helper->getWebsiteIds())) === 0 &&
-            count($this->_helper->getWebsiteIds())) {
+        if (count(array_intersect($websiteIds, $this->_role->getWebsiteIds())) === 0 &&
+            count($this->_role->getWebsiteIds())) {
             Mage::throwException(Mage::helper('enterprise_admingws')->__('This item must be assigned to a website.'));
         }
         return $websiteIds;
@@ -901,8 +901,8 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     protected function _forceAssignToStore($storeIds)
     {
-        if (count(array_intersect($storeIds, $this->_helper->getStoreIds())) === 0 &&
-            count($this->_helper->getStoreIds())) {
+        if (count(array_intersect($storeIds, $this->_role->getStoreIds())) === 0 &&
+            count($this->_role->getStoreIds())) {
             Mage::throwException(Mage::helper('enterprise_admingws')->__('This item must be assigned to a store view.'));
         }
         return $storeIds;

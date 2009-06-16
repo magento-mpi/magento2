@@ -31,9 +31,9 @@
 class Enterprise_AdminGws_Model_Observer_Abstract
 {
     /**
-     * @var Enterprise_AdminGws_Helper_Data
+     * @var Enterprise_AdminGws_Model_Role
      */
-    protected $_helper;
+    protected $_role;
 
     /**
      * Initialize helper
@@ -41,6 +41,6 @@ class Enterprise_AdminGws_Model_Observer_Abstract
      */
     public function __construct()
     {
-        $this->_helper = Mage::helper('enterprise_admingws');
+        $this->_role = Mage::getSingleton('enterprise_admingws/role');
     }
 }

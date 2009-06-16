@@ -225,14 +225,14 @@
                     </enterprise_admingws>
                 </observers>
             </enterprise_catalog_permissions_is_allowed_category>
-            <adminhtml_widget_container_html_before>
+            <adminhtml_block_html_before>
                 <observers>
                     <enterprise_admingws>
                         <class>enterprise_admingws/observer</class>
                         <method>restrictBlocks</method>
                     </enterprise_admingws>
                 </observers>
-            </adminhtml_widget_container_html_before>
+            </adminhtml_block_html_before>
             <store_group_save_after>
                 <observers>
                     <enterprise_admingws>
@@ -460,6 +460,7 @@
                     <enterprise_catalogevent__adminhtml_event>widgetCatalogEventGridContainer</enterprise_catalogevent__adminhtml_event>
                     <adminhtml__catalog_product_attribute>removeCatalogProductAttributeAddButton</adminhtml__catalog_product_attribute>
                     <adminhtml__catalog_product_attribute_edit>removeCatalogProductAttributeSaveButtons</adminhtml__catalog_product_attribute_edit>
+                    <adminhtml__catalog_category_edit_form>widgetCatalogEventCategoryEditButtons</adminhtml__catalog_category_edit_form>
                 </block_html_before>
             </admingws>
         </enterprise>

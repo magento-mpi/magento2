@@ -139,7 +139,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
         if ($object->getGwsIsAll() == 0 && empty($websiteIds) && empty($storeGroupIds)) {
             Mage::throwException(Mage::helper('enterprise_admingws')->__('Specify at least one website or one store group.'));
         }
-        if (!$this->_helper->getIsAll()) {
+        if (!$this->_role->getIsAll()) {
             if ($object->getGwsIsAll()) {
                 Mage::throwException(Mage::helper('enterprise_admingws')->__('Not enough permissions to set All Scopes to a Role.'));
             }
@@ -158,8 +158,8 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                     Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong website ID: %d', $websiteId));
                 }
                 // prevent granting disallowed websites
-                if (!$this->_helper->getIsAll()) {
-                    if (!$this->_helper->hasWebsiteAccess($websiteId, true)) {
+                if (!$this->_role->getIsAll()) {
+                    if (!$this->_role->hasWebsiteAccess($websiteId, true)) {
                         Mage::throwException(Mage::helper('enterprise_admingws')->__('Website "%s" is not allowed in your current permission scope.', Mage::app()->getWebsite($websiteId)->getName()));
                     }
                 }
@@ -181,7 +181,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                     Mage::throwException(Mage::helper('enterprise_admingws')->__('Wrong store ID: %d', $storeGroupId));
                 }
                 // prevent granting disallowed store group
-                if (count(array_diff($storeGroupIds, $this->_helper->getStoreGroupIds()))) {
+                if (count(array_diff($storeGroupIds, $this->_role->getStoreGroupIds()))) {
                     Mage::throwException(Mage::helper('enterprise_admingws')->__('Not enough permissions to save specified Combination of Store Scopes.'));
                 }
             }
@@ -253,9 +253,9 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
 
         if ($session->isLoggedIn()) {
             // load role with true websites and store groups
-            $this->_helper->setRole(Mage::getSingleton('admin/session')->getUser()->getRole());
+            $this->_role->setAdminRole($session->getUser()->getRole());
 
-            if (!$this->_helper->getIsAll()) {
+            if (!$this->_role->getIsAll()) {
                 // disable single store mode
                 Mage::app()->setIsSingleStoreModeAllowed(false);
 
@@ -264,7 +264,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
 
                 // completely block some admin menu items
                 $this->_denyAclLevelRules(self::ACL_WEBSITE_LEVEL);
-                if (count($this->_helper->getWebsiteIds()) === 0) {
+                if (count($this->_role->getWebsiteIds()) === 0) {
                     $this->_denyAclLevelRules(self::ACL_STORE_LEVEL);
                 }
                 // cleanup dropdowns for forms/grids that are supposed to be built in future
@@ -300,7 +300,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     public function limitCollection($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
         $collection = $observer->getCollection();
@@ -317,7 +317,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     public function validateModelSaveBefore($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
         $model = $observer->getObject();
@@ -335,7 +335,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     public function validateModelLoadAfter($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
         $model = $observer->getObject();
@@ -353,7 +353,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     public function validateModelDeleteBefore($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
 
@@ -371,7 +371,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     public function validateControllerPredispatch($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
 
@@ -418,7 +418,7 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
      */
     public function restrictBlocks($observer)
     {
-        if ($this->_helper->getIsAll()) {
+        if ($this->_role->getIsAll()) {
             return;
         }
         if (!$block = $observer->getBlock()) {
@@ -463,9 +463,21 @@ class Enterprise_AdminGws_Model_Observer extends Enterprise_AdminGws_Model_Obser
                     default:
                         $className = Mage::getConfig()->getModelClassName($factoryClassName);
                 }
-                if (class_exists($className)) {
-                    $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
-                }
+
+                /*
+                 * Second parameter passed as FALSE to prevent usage of __autoload function
+                 * which will result in not including new class file and search only by already included
+                 *
+                 * Note: Commented bc in case of Models this will result in not working
+                 * observers for those models. In first call of this function observers for models will be not
+                 * added into _callbacks bc their class are not loaded (included) yeat.
+                 *
+                 * So in result there will be garbage (non existing classes) in _callbacks
+                 * but it will be initialized faster without __autoload calls.
+                 */
+                //if (class_exists($className, false)) {
+                $this->_callbacks[$callbackGroup][$className] = $this->_recognizeCallbackString($callback);
+                //}
             }
         }
 

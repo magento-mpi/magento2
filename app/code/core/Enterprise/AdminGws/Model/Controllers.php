@@ -59,7 +59,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         // allow specific store view scope
         if ($storeCode = $this->_request->getParam('store')) {
             if ($store = Mage::app()->getStore($storeCode)) {
-                if ($this->_helper->hasStoreAccess($store->getId())) {
+                if ($this->_role->hasStoreAccess($store->getId())) {
                     return;
                 }
             }
@@ -68,7 +68,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         elseif ($websiteCode = $this->_request->getParam('website')) {
             try {
                 if ($website = Mage::app()->getWebsite($websiteCode)) {
-                    if ($this->_helper->hasWebsiteAccess($website->getId(), true)) {
+                    if ($this->_role->hasWebsiteAccess($website->getId(), true)) {
                         return;
                     }
                 }
@@ -79,7 +79,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         }
 
         // redirect to first allowed website or store scope
-        if ($this->_helper->getWebsiteIds()) {
+        if ($this->_role->getWebsiteIds()) {
             return $this->_redirect($controller, Mage::getSingleton('adminhtml/url')->getUrl('adminhtml/system_config/edit',
                 array('website' => Mage::app()->getAnyStoreView()->getWebsite()->getCode()))
             );
@@ -122,7 +122,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateCustomerEdit($controller)
     {
         $customer = Mage::getModel('customer/customer')->load($this->_request->getParam('id'));
-        if ($customer->getId() && !in_array($customer->getWebsiteId(), $this->_helper->getRelevantWebsiteIds())) {
+        if ($customer->getId() && !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
         }
     }
@@ -138,7 +138,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return $this->_forward();
         }
         $customer = Mage::getModel('customer/customer')->load($id);
-        if ((!$customer->getId()) || !in_array($customer->getWebsiteId(), $this->_helper->getRelevantWebsiteIds())) {
+        if ((!$customer->getId()) || !in_array($customer->getWebsiteId(), $this->_role->getRelevantWebsiteIds())) {
             return $this->_forward();
         }
     }
@@ -165,7 +165,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
                 ->load($id);
 
-            if (!in_array($model->getWebsiteId(), $this->_helper->getWebsiteIds())) {
+            if (!in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
                 $this->_forward();
                 return;
             }
@@ -207,7 +207,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 if (!$model->getId()) {
                     return;
                 }
-                if (!$this->_helper->hasWebsiteAccess($this->_helper->explodeIds(
+                if (!$this->_role->hasWebsiteAccess($this->_role->explodeIds(
                     $model->getOrigData('website_ids')))) {
                     return $this->_forward();
                 }
@@ -253,7 +253,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         // forward to first allowed root category
         if ($forward) {
-            $firstRootId = current(array_keys($this->_helper->getAllowedRootCategories()));
+            $firstRootId = current(array_keys($this->_role->getAllowedRootCategories()));
             if ($firstRootId) {
                 $controller->getRequest()->setParam('id', $firstRootId);
                 $controller->getRequest()->setParam('clear', 1);
@@ -285,7 +285,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if ('new' === $this->_request->getActionName()) {
             $category = Mage::getModel('catalog/category')->load($this->_request->getParam('category_id'));
             if (($this->_request->getParam('category_id') && !$this->_isCategoryAllowed($category)) ||
-                !$this->_helper->getIsWebsiteLevel()) {
+                !$this->_role->getIsWebsiteLevel()) {
                 return $this->_forward();
             }
         }
@@ -298,7 +298,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateCatalogEventEdit($controller)
     {
-        if (!$this->_request->getParam('id') && $this->_helper->getIsWebsiteLevel()) {
+        if (!$this->_request->getParam('id') && $this->_role->getIsWebsiteLevel()) {
             return;
         }
 
@@ -322,7 +322,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateSalesOrderCreation($controller)
     {
-        if (!$this->_helper->getWebsiteIds()) {
+        if (!$this->_role->getWebsiteIds()) {
             return $this->_forward();
         }
 
@@ -347,7 +347,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if (!is_array($denyActions)) {
             $denyActions = array($denyActions);
         }
-        if ((!$this->_helper->getWebsiteIds()) && (in_array($this->_request->getActionName(), $denyActions)
+        if ((!$this->_role->getWebsiteIds()) && (in_array($this->_request->getActionName(), $denyActions)
                 || ($saveAction === $this->_request->getActionName() && 0 == $this->_request->getParam($idFieldName)))) {
             $this->_forward();
             return false;
@@ -379,7 +379,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                     return $this->_forward();
                 }
                 if (isset($params['store']) || isset($params['group'])) {
-                    if (!$this->_helper->getWebsiteIds()) {
+                    if (!$this->_role->getWebsiteIds()) {
                         return $this->_forward();
                     }
                     // preventing saving stores/groups for wrong website is handled by their models
@@ -390,22 +390,22 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 break;
             case 'newGroup': // break intentionally omitted
             case 'newStore':
-                if (!$this->_helper->getWebsiteIds()) {
+                if (!$this->_role->getWebsiteIds()) {
                     return $this->_forward();
                 }
                 break;
             case 'editWebsite':
-                if (!$this->_helper->hasWebsiteAccess($this->_request->getParam('website_id'))) {
+                if (!$this->_role->hasWebsiteAccess($this->_request->getParam('website_id'))) {
                     return $this->_forward();
                 }
                 break;
             case 'editGroup':
-                if (!$this->_helper->hasStoreGroupAccess($this->_request->getParam('group_id'))) {
+                if (!$this->_role->hasStoreGroupAccess($this->_request->getParam('group_id'))) {
                     return $this->_forward();
                 }
                 break;
             case 'editStore':
-                if (!$this->_helper->hasStoreAccess($this->_request->getParam('store_id'))) {
+                if (!$this->_role->hasStoreAccess($this->_request->getParam('store_id'))) {
                     return $this->_forward();
                 }
                 break;
@@ -415,8 +415,8 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 break;
             case 'deleteGroup': // break intentionally omitted
             case 'deleteGroupPost':
-                if ($group = $this->_helper->getGroup($this->_request->getParam('item_id'))) {
-                    if ($this->_helper->hasWebsiteAccess($group->getWebsiteId(), true)) {
+                if ($group = $this->_role->getGroup($this->_request->getParam('item_id'))) {
+                    if ($this->_role->hasWebsiteAccess($group->getWebsiteId(), true)) {
                         return;
                     }
                 }
@@ -425,7 +425,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             case 'deleteStore': // break intentionally omitted
             case 'deleteStorePost':
                 if ($store = Mage::app()->getStore($this->_request->getParam('item_id'))) {
-                    if ($this->_helper->hasWebsiteAccess($store->getWebsiteId(), true)) {
+                    if ($this->_role->hasWebsiteAccess($store->getWebsiteId(), true)) {
                         return;
                     }
                 }
@@ -489,7 +489,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     protected function _isDisallowedStoreInRequest($idFieldName = 'store')
     {
         $store = Mage::app()->getStore($this->_request->getParam($idFieldName), 0);
-        return ($store->isAdmin() ? false : !$this->_helper->hasStoreAccess($store->getId()));
+        return ($store->isAdmin() ? false : !$this->_role->hasStoreAccess($store->getId()));
     }
 
     /**
@@ -504,7 +504,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return false;
         }
         $categoryPath = $category->getPath();
-        foreach ($this->_helper->getAllowedRootCategories() as $rootPath) {
+        foreach ($this->_role->getAllowedRootCategories() as $rootPath) {
             if ($categoryPath === $rootPath || 0 === strpos($categoryPath, "{$rootPath}/")) {
                 return true;
             }
@@ -523,7 +523,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $object = Mage::getModel('sales/order')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
-                if (!$this->_helper->hasStoreAccess($store)) {
+                if (!$this->_role->hasStoreAccess($store)) {
                     $this->_forward();
                     return false;
                 }
@@ -547,7 +547,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $object = Mage::getModel('sales/order_creditmemo')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
-                if (!$this->_helper->hasStoreAccess($store)) {
+                if (!$this->_role->hasStoreAccess($store)) {
                     $this->_forward();
                     return false;
                 }
@@ -571,7 +571,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $object = Mage::getModel('sales/order_invoice')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
-                if (!$this->_helper->hasStoreAccess($store)) {
+                if (!$this->_role->hasStoreAccess($store)) {
                     $this->_forward();
                     return false;
                 }
@@ -595,7 +595,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $object = Mage::getModel('sales/order_shipment')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
-                if (!$this->_helper->hasStoreAccess($store)) {
+                if (!$this->_role->hasStoreAccess($store)) {
                     $this->_forward();
                     return false;
                 }
@@ -625,7 +625,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $object = Mage::getModel($className)->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
-                if (!$this->_helper->hasStoreAccess($store)) {
+                if (!$this->_role->hasStoreAccess($store)) {
                     $this->_forward();
                     return false;
                 }
@@ -653,7 +653,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $object = Mage::getModel($className)->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
-                if (!$this->_helper->hasStoreAccess($store)) {
+                if (!$this->_role->hasStoreAccess($store)) {
                     $this->_forward();
                     return false;
                 }
@@ -681,7 +681,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $object = Mage::getModel($className)->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
-                if (!$this->_helper->hasStoreAccess($store)) {
+                if (!$this->_role->hasStoreAccess($store)) {
                     $this->_forward();
                     return false;
                 }
@@ -703,7 +703,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                     $object = Mage::getModel('sales/order')->load($id);
                     if ($object && $object->getId()) {
                         $store = $object->getStoreId();
-                        if (!$this->_helper->hasStoreAccess($store)) {
+                        if (!$this->_role->hasStoreAccess($store)) {
                             $this->_forward();
                             return false;
                         }
@@ -726,7 +726,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $object = Mage::getModel('sales/order')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
-                if (!$this->_helper->hasStoreAccess($store)) {
+                if (!$this->_role->hasStoreAccess($store)) {
                     $this->_forward();
                     return false;
                 }
@@ -747,7 +747,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             $object = Mage::getModel('sales/order_shipment_track')->load($id);
             if ($object && $object->getId()) {
                 $store = $object->getStoreId();
-                if (!$this->_helper->hasStoreAccess($store)) {
+                if (!$this->_role->hasStoreAccess($store)) {
                     $this->_forward();
                     return false;
                 }
@@ -769,7 +769,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             if ($object && $object->getId()) {
                 $stores = $object->getStoreId();
                 foreach ($stores as $store) {
-                    if ($store == 0 || !$this->_helper->hasStoreAccess($store)) {
+                    if ($store == 0 || !$this->_role->hasStoreAccess($store)) {
                         $this->_forward();
                         return false;
                     }
@@ -790,7 +790,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if ($id) {
             $object = Mage::getModel('core/url_rewrite')->load($id);
             if ($object && $object->getId()) {
-                if (!$this->_helper->hasStoreAccess($object->getStoreId())) {
+                if (!$this->_role->hasStoreAccess($object->getStoreId())) {
                     $this->_forward();
                     return false;
                 }
@@ -810,9 +810,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if ($id) {
             $limited = Mage::getResourceModel('enterprise_admingws/collections')
                 ->getUsersOutsideLimitedScope(
-                    $this->_helper->getIsAll(),
-                    $this->_helper->getWebsiteIds(),
-                    $this->_helper->getStoreGroupIds()
+                    $this->_role->getIsAll(),
+                    $this->_role->getWebsiteIds(),
+                    $this->_role->getStoreGroupIds()
                 );
 
             if (in_array($id, $limited)) {
@@ -834,9 +834,9 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         if ($id) {
             $limited = Mage::getResourceModel('enterprise_admingws/collections')
                 ->getRolesOutsideLimitedScope(
-                    $this->_helper->getIsAll(),
-                    $this->_helper->getWebsiteIds(),
-                    $this->_helper->getStoreGroupIds()
+                    $this->_role->getIsAll(),
+                    $this->_role->getWebsiteIds(),
+                    $this->_role->getStoreGroupIds()
                 );
             if (in_array($id, $limited)) {
                 $this->_forward();
@@ -853,7 +853,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateCatalogProductAttributeActions($controller)
     {
-        if (!$this->_helper->getIsAll()) {
+        if (!$this->_role->getIsAll()) {
             $this->_forward();
             return false;
         }
@@ -867,7 +867,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateCatalogProductAttributeCreateAction($controller)
     {
-        if (!$this->_helper->getIsAll() && !$this->_request->getParam('attribute_id')) {
+        if (!$this->_role->getIsAll() && !$this->_request->getParam('attribute_id')) {
             $this->_forward();
             return false;
         }
@@ -901,7 +901,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
              * user has exclusive access to root category
              * so we can allow user to add sub category
              */
-            if ($this->_isCategoryAllowed($category) && $this->_helper->hasExclusiveCategoryAccess($category->getPath())) {
+            if ($this->_isCategoryAllowed($category) && $this->_role->hasExclusiveCategoryAccess($category->getPath())) {
                 return true;
             }
         }

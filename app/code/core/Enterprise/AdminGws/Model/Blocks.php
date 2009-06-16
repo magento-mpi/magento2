@@ -37,11 +37,11 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogCategoryIsMoveable($observer)
     {
-        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
             return;
         }
         $category = $observer->getEvent()->getOptions()->getCategory();
-        if (!$this->_helper->hasExclusiveCategoryAccess($category->getData('path'))) {
+        if (!$this->_role->hasExclusiveCategoryAccess($category->getData('path'))) {
             $observer->getEvent()->getOptions()->setIsMoveable(false);
         }
     }
@@ -53,7 +53,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogCategoryCanBeAdded($observer)
     {
-        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
             return;
         }
 
@@ -63,7 +63,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
          */
         $categoryPath = $observer->getEvent()->getCategory()->getPath();
 
-        if ($this->_helper->hasExclusiveCategoryAccess($categoryPath)) {
+        if ($this->_role->hasExclusiveCategoryAccess($categoryPath)) {
             $observer->getEvent()->getOptions()->setIsAllow(true);
         } else {
             $observer->getEvent()->getOptions()->setIsAllow(false);
@@ -78,7 +78,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogRootCategoryCanBeAdded($observer)
     {
-        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
             return;
         }
 
@@ -93,7 +93,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function widgetCustomerGridContainer($observer)
     {
-        if (!$this->_helper->getWebsiteIds()) {
+        if (!$this->_role->getWebsiteIds()) {
             $observer->getBlock()->removeButton('add');
         }
     }
@@ -107,7 +107,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     {
         $block = $observer->getBlock();
         $block->removeButton('add');
-        if (!$this->_helper->getWebsiteIds()) {
+        if (!$this->_role->getWebsiteIds()) {
             $block->removeButton('add_group');
             $block->removeButton('add_store');
         }
@@ -120,7 +120,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function widgetProductGridContainer($observer)
     {
-        if (!$this->_helper->getWebsiteIds()) {
+        if (!$this->_role->getWebsiteIds()) {
             $observer->getBlock()->removeButton('add_new');
         }
     }
@@ -132,7 +132,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function widgetCatalogEventGridContainer($observer)
     {
-        if (!$this->_helper->getWebsiteIds()) {
+        if (!$this->_role->getWebsiteIds()) {
             $observer->getBlock()->removeButton('add');
         }
     }
@@ -165,7 +165,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function disallowCreateAttributeButtonDisplay($observer)
     {
-        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
             return;
         }
 
@@ -179,7 +179,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeAttributeSetControls($observer)
     {
-        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
             return;
         }
 
@@ -201,7 +201,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeAddNewAttributeSetButton($observer)
     {
-        if ($this->_helper->getIsAll()) { // because observer is passed through directly
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
             return;
         }
 
@@ -209,4 +209,25 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
 
         $block->unsetChild('addButton');
     }
+
+    public function widgetCatalogEventCategoryEditButtons($observer)
+    {
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
+            return;
+        }
+        $block = $observer->getEvent()->getBlock();
+        /* @var $block Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons */
+        if ($block) {
+            $category = $block->getCategory();
+            if ($category) {
+                if ($this->_role->hasExclusiveCategoryAccess($category->getPath())) {
+                    return;
+                }
+            }
+
+            $block->removeAdditionalButton('add_event')
+                ->removeAdditionalButton('edit_event');
+        }
+    }
+
 }
