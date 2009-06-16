@@ -160,6 +160,24 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
     }
 
     /**
+     * Prepare mass action options for this grid
+     */
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('giftcardaccount_id');
+        $this->getMassactionBlock()->setFormFieldName('giftcardaccount');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'=> Mage::helper('enterprise_giftcardaccount')->__('Delete'),
+             'url'  => $this->getUrl('*/*/massDelete'),
+             'confirm' => Mage::helper('enterprise_giftcardaccount')->__('Are you sure you want to delete these gift card accounts?')
+        ));
+
+        return $this;
+    }
+
+
+    /**
      * Define row click callback
      */
     public function getGridUrl()

@@ -289,4 +289,29 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
             $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_grid')->getCsv()
         );
     }
+
+    /**
+     * Delete gift card accounts specified using grid massaction
+     */
+    public function massDeleteAction()
+    {
+        $ids = $this->getRequest()->getParam('giftcardaccount');
+        if (!is_array($ids)) {
+            $this->_getSession()->addError($this->__('Please select gift card account(s)'));
+        } else {
+            try {
+                foreach ($ids as $id) {
+                    $model = Mage::getSingleton('enterprise_giftcardaccount/giftcardaccount')->load($id);
+                    $model->delete();
+                }
+
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d record(s) were successfully deleted', count($ids))
+                );
+            } catch (Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/index');
+    }
 }

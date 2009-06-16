@@ -57,7 +57,9 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                     ->toString(Varien_Date::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);
-            $this->_defineCode();
+            if (!$this->hasCode()) {
+                $this->_defineCode();
+            }
             $this->setIsNew(true);
         } else {
             if ($this->getOrigData('balance') != $this->getBalance()) {
