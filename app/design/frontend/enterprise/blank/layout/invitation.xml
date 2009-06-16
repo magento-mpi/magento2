@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design
+ * @package    enterprise_default
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+-->
+<layout version="0.1.0">
+    <customer_logged_in>
+        <reference name="account.links">
+            <action ifconfig="enterprise_invitation/general/enabled" method="addLink" translate="label title" module="enterprise_invitation"><label>Send Invitations</label><url helper="enterprise_invitation/data/getCustomerInvitationFormUrl" /><title>Send Invitations</title><prepare /><urlParams /><position>1</position><li>id="invitation-send-link"</li></action>
+        </reference>
+    </customer_logged_in>
+    
+    <enterprise_invitation_index_send>
+        <update handle="customer_account"/>
+        <reference name="customer_account_navigation">
+            <action method="setActive"><path>enterprise_invitation/index/index</path></action>
+        </reference>
+        <reference name="content">
+            <block type="core/template" name="invitationForm" template="invitation/form.phtml"/>
+        </reference>
+    </enterprise_invitation_index_send>
+
+    <enterprise_invitation_index_index>
+        <update handle="customer_account"/>
+        
+        <reference name="content">
+            <block type="enterprise_invitation/customer_list" name="invitations_list" template="invitation/list.phtml"/>
+        </reference>
+    </enterprise_invitation_index_index>
+
+    <customer_account>
+        <reference name="customer_account_navigation" >
+            <action  ifconfig="enterprise_invitation/general/enabled" method="addLink" translate="label" module="enterprise_invitation"><name>invitations</name><path>enterprise_invitation/</path><label>My Invitations</label></action>
+        </reference>
+    </customer_account>
+    
+    <enterprise_invitation_customer_account_create>
+        <update handle="customer_account_create" />
+        <reference name="content">
+            <remove name="customer_form_register" />
+            <block type="enterprise_invitation/customer_form_register" name="customer_form_register_invitation" template="customer/form/register.phtml"/>
+        </reference>
+    </enterprise_invitation_customer_account_create>
+</layout>
