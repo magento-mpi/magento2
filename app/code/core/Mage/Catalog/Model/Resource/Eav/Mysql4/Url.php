@@ -20,7 +20,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
@@ -29,7 +29,7 @@
  *
  * @category   Mage
  * @package    Mage_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_Abstract
 {
@@ -791,100 +791,57 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $this;
     }
 
+    /**
+     * Retrieve rewrites and visibility by store
+     *
+     * Input array format:
+     * product_id as key and store_id as value
+     *
+     * Output array format (product_id as key)
+     * store_id     int; store id
+     * visibility   int; visibility for store
+     * url_rewrite  string; rewrite URL for store
+     *
+     * @param array $products
+     * @return array
+     */
+    public function getRewriteByProductStore(array $products)
+    {
+        $result = array();
 
-//    protected $_rewrite = array();
-//    protected $_catRoots = array();
-//
-//    public function addCategoryToRewrite($category)
-//    {
-//        $a = array('refresh'=>true);
-//        if (is_object($category)) {
-//            $a['path'] = $category->getPath();
-//            $this->_rewrite[0]['category'][$category->getId()] = $a;
-//        } elseif (is_numeric($category)) {
-//            $this->_rewrite[0]['category'][$category] = $a;
-//        }
-//        return $this;
-//    }
-//
-//    public function addProductToRewrite($product)
-//    {
-//        $a = array('refresh'=>true);
-//        if (is_object($product)) {
-//            $this->_rewrite[0]['product'][$product->getId()] = $a;
-//        } else {
-//            $this->_rewrite[0]['product'][$product] = $a;
-//        }
-//        return $this;
-//    }
-//
-//    protected function _getCategoryRootsByStore()
-//    {
-//        if (!$this->_catRoots) {
-//            $res = Mage::getSingleton('core/resource');
-//            /* @var $res Mage_Core_Model_Resource */
-//            $read = $res->getConnection('core_read');
-//            /* @var $read Zend_Db_Adapter_Abstract */
-//            $select = $read->select()->from(array(
-//                        's' => $res->getTableName('core/store'),
-//                        'g' => $res->getTableName('core/store_group'),
-//                        'c' => $res->getTableName('catalog/category'),
-//                    ), array('s.store_id', 'g.category_root_id'=>'category_id', 'c.path'))
-//                ->where('s.group_id=g.group_id and c.entity_id=g.category_root_id');
-//            $categories = $read->fetchAll($select);
-//            $this->_catRoots = array();
-//            foreach ($categories as $c) {
-//                $this->_catRoots[$c['store_id']] = $c;
-//            }
-//        }
-//        return $this->_catRoots;
-//    }
-//
-//    protected function _loadCategories()
-//    {
-//        if (empty($this->_rewrite[0]['category'])) {
-//            return;
-//        }
-//        $res = Mage::getSingleton('core/resource');
-//        /* @var $res Mage_Core_Model_Resource */
-//        $read = $res->getConnection('core_read');
-//        /* @var $read Zend_Db_Adapter_Abstract */
-//
-//        // first load categories that don't have path
-//        $req1 = array();
-//        foreach ($this->_rewrite[0]['category'] as $cId=>$rData) {
-//            if (empty($rData['path'])) {
-//                $req1[] = $cId;
-//            }
-//        }
-//        $select = $read->select()->from(array(
-//            'c' => $res->getTableName('catalog/category'),
-//            'url_key' => $res->getTableName('catalog/category').'_varchar',
-//            'url_path' => $res->getTableName('catalog/category').'_varchar',
-//        ), array('c.entity_id'=>'category_id', 'c.path', 'url_path.value'=>'url_path'))
-//        // now load all required categories (children)
-//        $req2 = array();
-//        foreach ($this->_rewrite[0]['category'] as $cId=>$rData) {
-//            $req2[] = "path like ''";
-//            foreach ($this->_getCategoryRootsByStore() as $storeId=>$c) {
-//                $this->_rewrite[$storeId]['category']
-//            }
-//        }
-//        $collection = Mage::getModel('catalog/category')->getCollection()
-//            ->;
-//    }
-//
-//    protected function _loadProducts()
-//    {
-//        if (empty($this->_rewrite[0]['product'])) {
-//            return;
-//        }
-//    }
-//
-//    public function commitRewrites()
-//    {
-//        $this->_loadCategories();
-//        $this->_loadProducts();
-//
-//    }
+        if (empty($products)) {
+            return $result;
+        }
+
+        $select = $this->_getReadAdapter()->select()
+            ->from(
+                array('i' => $this->getTable('catalog/category_product_index')),
+                array('product_id', 'store_id', 'visibility'))
+            ->joinLeft(
+                array('r' => $this->getMainTable()),
+                'i.product_id = r.product_id AND i.store_id=r.store_id AND r.category_id IS NULL',
+                array('request_path')
+            );
+        foreach ($products as $productId => $storeId) {
+            $catId = Mage::app()->getStore($storeId)->getRootCategoryId();
+            $cond  = join(' AND ', array(
+                $this->_getReadAdapter()->quoteInto('i.product_id=?', $productId),
+                $this->_getReadAdapter()->quoteInto('i.store_id=?', $storeId),
+                $this->_getReadAdapter()->quoteInto('i.category_id=?', $catId),
+            ));
+
+            $select->orWhere($cond);
+        }
+
+        $query = $this->_getReadAdapter()->query($select);
+        while ($row = $query->fetch()) {
+            $result[$row['product_id']] = array(
+                'store_id'      => $row['store_id'],
+                'visibility'    => $row['visibility'],
+                'url_rewrite'   => $row['request_path'],
+            );
+        }
+
+        return $result;
+    }
 }

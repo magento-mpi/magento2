@@ -23,6 +23,7 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+/* @var $this Mage_Reports_Block_Product_Viewed */
 ?>
 <?php
 /**
@@ -38,8 +39,8 @@
     <?php $i=0; foreach ($_products as $_product): ?>
         <?php if ($i>5): continue; endif; ?>
         <td>
-            <a class="product-image" href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(80, 77) ?>" width="80" height="77" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
-            <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
+            <a class="product-image" href="<?php echo $this->getProductUrl($_product) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(80, 77) ?>" width="80" height="77" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
+            <h3 class="product-name"><a href="<?php echo $this->getProductUrl($_product) ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
             <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
             <?php echo $this->getPriceHtml($_product, true, '-home-viewed') ?>
             <?php if($_product->isSaleable()): ?>
@@ -51,7 +52,7 @@
                 <?php if ($this->helper('wishlist')->isAllow()) : ?>
                     <li><a href="<?php echo $this->getAddToWishlistUrl($_product) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
                 <?php endif; ?>
-                <?php if($_compareUrl=$this->getAddToCompareUrl($_product)): ?>
+                <?php if ($_compareUrl = $this->getAddToCompareUrl($_product)): ?>
                     <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
                 <?php endif; ?>
             </ul>

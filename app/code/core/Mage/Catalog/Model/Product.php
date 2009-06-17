@@ -1060,16 +1060,41 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
     }
 
+    /**
+     * Retrieve visible statuses
+     *
+     * @return array
+     */
+    public function getVisibleStatuses()
+    {
+        return Mage::getSingleton('catalog/product_status')->getVisibleStatusIds();
+    }
+
+    /**
+     * Check Product visilbe in catalog
+     *
+     * @return bool
+     */
     public function isVisibleInCatalog()
     {
         return in_array($this->getStatus(), $this->getVisibleInCatalogStatuses());
     }
 
+    /**
+     * Retrieve visible in site visibilities
+     *
+     * @return array
+     */
     public function getVisibleInSiteVisibilities()
     {
         return Mage::getSingleton('catalog/product_visibility')->getVisibleInSiteIds();
     }
 
+    /**
+     * Check Product visible in site
+     *
+     * @return bool
+     */
     public function isVisibleInSiteVisibility()
     {
         return in_array($this->getVisibility(), $this->getVisibleInSiteVisibilities());
@@ -1161,14 +1186,25 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     }
 
     /**
-     * Get product url
+     * Retrieve Product URL
      *
      * @param  bool $useSid
      * @return string
      */
-    public function getProductUrl($useSid = true)
+    public function getProductUrl($useSid = null)
     {
         return $this->getUrlModel()->getProductUrl($this, $useSid);
+    }
+
+    /**
+     * Retrieve URL in current store
+     *
+     * @param array $params the route params
+     * @return string
+     */
+    public function getUrlInStore($params = array())
+    {
+        return $this->getUrlModel()->getUrlInStore($this, $params);
     }
 
     public function formatUrlKey($str)

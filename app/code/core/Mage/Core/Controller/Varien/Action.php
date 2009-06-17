@@ -434,6 +434,7 @@ abstract class Mage_Core_Controller_Varien_Action
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
             $namespace   = $this->getLayout()->getArea();
             $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions);
+            $checkCookie = $checkCookie && !$this->getRequest()->getParam('nocookie', false);
             if ($checkCookie && !Mage::getSingleton('core/cookie')->get($namespace)) {
                 $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
             }

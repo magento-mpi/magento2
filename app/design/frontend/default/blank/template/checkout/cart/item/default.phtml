@@ -27,9 +27,15 @@
 <?php $_item = $this->getItem()?>
 <tr>
     <td class="a-center"><a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove item')?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" alt="<?php echo $this->__('Remove item')?>" /></a></td>
-    <td><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->htmlEscape($this->getProductName()) ?>"><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a></td>
+    <td><?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>"><?php endif;?>
+        <img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" width="75" />
+    <?php if ($this->hasProductUrl()):?></a><?php endif;?></td>
     <td>
-        <h3 class="product-name"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></h3>
+        <h3 class="product-name"><?php if ($this->hasProductUrl()):?>
+        <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a>
+        <?php else: ?>
+        <?php echo $this->getProductName() ?>
+        <?php endif; ?></h3>
         <?php if ($_options = $this->getOptionList()):?>
         <dl class="item-options">
             <?php foreach ($_options as $_option) : ?>

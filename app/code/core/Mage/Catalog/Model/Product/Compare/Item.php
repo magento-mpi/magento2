@@ -44,6 +44,21 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Set current store before save
+     *
+     * @return Mage_Catalog_Model_Product_Compare_Item
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        if (!$this->hasStoreId()) {
+            $this->setStoreId(Mage::app()->getStore()->getId());
+        }
+
+        return $this;
+    }
+
+    /**
      * Add customer data from customer object
      *
      * @param Mage_Customer_Model_Customer $customer
@@ -120,29 +135,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
      */
     public function bindCustomerLogin()
     {
-        $customer = Mage::getSingleton('customer/session')->getCustomer();
-        $visitorItemCollection = Mage::getResourceModel('catalog/product_compare_item_collection')
-            ->setObject('catalog/product_compare_item')
-            ->setVisitorId(Mage::getSingleton('log/visitor')->getId())
-            ->load();
-
-        $customerItemCollection = $this->getResourceCollection()
-            ->setCustomerId($customer->getId())
-            ->useProductItem(true)
-            ->load();
-
-        $customerProductIds = $customerItemCollection->getProductIds();
-
-        foreach ($visitorItemCollection as $item) {
-            if (in_array($item->getProductId(), $customerProductIds)) {
-                $item->delete();
-            }
-            else {
-                $item->setCustomerId($customer->getId())
-                    ->setVisitorId(0)
-                    ->save();
-            }
-        }
+        $this->_getResource()->updateCustomerFromVisitor($this);
 
         Mage::helper('catalog/product_compare')->calculate();
         return $this;
@@ -156,7 +149,7 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
      */
     public function bindCustomerLogout(Varien_Event_Observer $observer)
     {
-        Mage::getSingleton('log/visitor')->setCatalogCompareItemsCount(0);
+        Mage::helper('catalog/product_compare')->calculate(true);
         return $this;
     }
 
@@ -169,5 +162,25 @@ class Mage_Catalog_Model_Product_Compare_Item extends Mage_Core_Model_Abstract
     {
         $this->_getResource()->clean($this);
         return $this;
+    }
+
+    /**
+     * Retrieve Customer Id if loggined
+     *
+     * @return int
+     */
+    public function getCustomerId()
+    {
+        return Mage::getSingleton('customer/session')->getCustomerId();
+    }
+
+    /**
+     * Retrieve Visitor Id
+     *
+     * @return int
+     */
+    public function getVisitorId()
+    {
+        return Mage::getSingleton('log/visitor')->getId();
     }
 }

@@ -1193,4 +1193,70 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             $engine);
         return $this->raw_query($sql);
     }
+
+    /**
+     * Inserts a table row with specified data.
+     *
+     * @param mixed $table The table to insert data into.
+     * @param array $bind Column-value pairs.
+     * @param arrat $fields update fields pairs or values
+     * @return int The number of affected rows.
+     */
+    public function insertOnDuplicate($table, array $bind, array $fields = array())
+    {
+        // extract and quote col names from the array keys
+        $cols = array();
+        $vals = array();
+        foreach ($bind as $col => $val) {
+            $cols[] = $this->quoteIdentifier($col, true);
+            if ($val instanceof Zend_Db_Expr) {
+                $vals[] = $val->__toString();
+                unset($bind[$col]);
+            } else {
+                $vals[] = '?';
+            }
+        }
+
+        $updateFields = array();
+        if (empty($fields)) {
+            $fields = array_keys($bind);
+        }
+        foreach ($fields as $k => $v) {
+            $field = $value = null;
+            if (!is_numeric($k)) {
+                $field = $this->quoteIdentifier($k);
+                if ($v instanceof Zend_Db_Expr) {
+                    $value = $v->__toString();
+                }
+                else if (is_string($v)) {
+                    $value = 'VALUES('.$this->quoteIdentifier($v).')';
+                }
+                else if (is_numeric($v)) {
+                    $value = $this->quoteInto('?', $v);
+                }
+            }
+            else if (is_string($v)) {
+                $field = $this->quoteIdentifier($v);
+                $value = 'VALUES('.$field.')';
+            }
+
+            if ($field && $value) {
+                $updateFields[] = "{$field}={$value}";
+            }
+        }
+
+        // build the statement
+        $sql = "INSERT INTO "
+             . $this->quoteIdentifier($table, true)
+             . ' (' . implode(', ', $cols) . ') '
+             . 'VALUES (' . implode(', ', $vals) . ')';
+         if ($updateFields) {
+             $sql .= " ON DUPLICATE KEY UPDATE " . join(', ', $updateFields);
+         }
+
+        // execute the statement and return the number of affected rows
+        $stmt = $this->query($sql, array_values($bind));
+        $result = $stmt->rowCount();
+        return $result;
+    }
 }

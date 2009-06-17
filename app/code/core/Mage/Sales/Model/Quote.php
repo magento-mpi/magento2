@@ -726,13 +726,18 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
      * @param   Mage_Catalog_Model_Product $product
      * @return  Mage_Sales_Model_Quote_Item
      */
-    protected function _addCatalogProduct(Mage_Catalog_Model_Product $product, $qty=1)
+    protected function _addCatalogProduct(Mage_Catalog_Model_Product $product, $qty = 1)
     {
-
         $item = $this->getItemByProduct($product);
         if (!$item) {
             $item = Mage::getModel('sales/quote_item');
             $item->setQuote($this);
+            if (Mage::app()->getStore()->isAdmin()) {
+                $item->setStoreId($this->getStore()->getId());
+            }
+            else {
+                $item->setStoreId(Mage::app()->getStore()->getId());
+            }
         }
 
         /**
