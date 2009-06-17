@@ -55,7 +55,7 @@ class Mage_Downloadable_Model_Sales_Order_Pdf_Items_Invoice extends Mage_Downloa
         // draw SKU
         $lines[0][] = array(
             'text'  => Mage::helper('core/string')->str_split($this->getSku($item), 25),
-            'feed'  => 240
+            'feed'  => 255
         );
 
         // draw QTY
