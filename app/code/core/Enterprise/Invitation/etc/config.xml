@@ -255,11 +255,6 @@
         </secure_url>
     </frontend>
     <default>
-        <admin>
-            <enterprise_logging>
-                <enterprise_invitation>1</enterprise_invitation>
-            </enterprise_logging>
-        </admin>
         <enterprise_invitation>
             <email>
                 <identity>general</identity>

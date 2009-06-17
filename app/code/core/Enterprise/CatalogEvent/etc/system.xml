@@ -75,19 +75,5 @@
                 </enterprise_catalogevent>
             </groups>
         </catalog>
-        <admin>
-            <groups>
-                <enterprise_logging>
-                    <fields>
-                        <enterprise_catalogevent>
-                            <label>Catalog Events</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <show_in_default>1</show_in_default>
-                        </enterprise_catalogevent>
-                    </fields>
-                </enterprise_logging>
-            </groups>
-        </admin>
     </sections>
 </config>

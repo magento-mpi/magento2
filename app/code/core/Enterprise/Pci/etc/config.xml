@@ -206,10 +206,6 @@
                 <password_lifetime>90</password_lifetime>
                 <password_is_forced>1</password_is_forced>
             </security>
-            <enterprise_logging>
-                <enterprise_pci_crypt>1</enterprise_pci_crypt>
-                <enterprise_pci_locks>1</enterprise_pci_locks>
-            </enterprise_logging>
         </admin>
     </default>
 </config>

@@ -367,11 +367,6 @@
     </adminhtml>
 
     <default>
-        <admin>
-            <enterprise_logging>
-                <enterprise_giftcardaccount>1</enterprise_giftcardaccount>
-            </enterprise_logging>
-        </admin>
         <giftcard>
             <giftcardaccount_email>
                 <identity>general</identity>

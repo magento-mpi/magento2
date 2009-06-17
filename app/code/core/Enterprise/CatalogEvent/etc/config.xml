@@ -84,12 +84,6 @@
         </fieldsets>
     </global>
     <default>
-        <admin>
-            <enterprise_logging>
-                <enterprise_catalogevent>1</enterprise_catalogevent>
-            </enterprise_logging>
-        </admin>
-
         <catalog>
             <enterprise_catalogevent>
                 <enabled>1</enabled>

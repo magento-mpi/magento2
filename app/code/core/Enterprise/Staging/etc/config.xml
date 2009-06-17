@@ -386,10 +386,5 @@
                 <block_frontend_stub>service-unavialable</block_frontend_stub>
             </content_staging>
         </general>
-        <admin>
-            <enterprise_logging>
-                <enterprise_staging>1</enterprise_staging>
-            </enterprise_logging>
-        </admin>
     </default>
 </config>

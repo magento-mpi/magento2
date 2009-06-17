@@ -36,14 +36,16 @@ class Enterprise_Logging_Model_Config
      *
      * @var Varien_Simplexml_Config
      */
-    protected $_config;
+    protected $_xmlConfig;
 
     /**
      * Translated and sorted labels
      *
      * @var array
      */
-    private $_labels = array();
+    protected $_labels = array();
+
+    protected $_systemConfigValues = null;
 
     /**
      * Load config from cache or merged from logging.xml files
@@ -52,15 +54,37 @@ class Enterprise_Logging_Model_Config
     {
         $configXml = Mage::app()->loadCache('enterprise_logging_config');
         if ($configXml) {
-            $this->_config = new Varien_Simplexml_Config($configXml);
+            $this->_xmlConfig = new Varien_Simplexml_Config($configXml);
         } else {
             $config = new Varien_Simplexml_Config;
             $config->loadString('<?xml version="1.0"?><logging></logging>');
             Mage::getConfig()->loadModulesConfiguration('logging.xml', $config);
-            $this->_config = $config;
+            $this->_xmlConfig = $config;
             Mage::app()->saveCache($config->getXmlString(), 'enterprise_logging_config',
                 array(Mage_Core_Model_Config::CACHE_TAG));
         }
+    }
+
+    /**
+     * Current system config values getter
+     *
+     * @return array
+     */
+    public function getSystemConfigValues()
+    {
+        if (null === $this->_systemConfigValues) {
+            $this->_systemConfigValues = Mage::getStoreConfig('admin/enterprise_logging/actions');
+            if (null === $this->_systemConfigValues) {
+                $this->_systemConfigValues = array();
+                foreach ($this->getLabels() as $key => $label) {
+                    $this->_systemConfigValues[$key] = 1;
+                }
+            }
+            else {
+                $this->_systemConfigValues = unserialize($this->_systemConfigValues);
+            }
+        }
+        return $this->_systemConfigValues;
     }
 
     /**
@@ -71,15 +95,19 @@ class Enterprise_Logging_Model_Config
      */
     public function isActive($reference, $isGroup = false)
     {
-        if ($isGroup) {
-            return Mage::getStoreConfig("admin/enterprise_logging/{$reference}");
-        }
-        foreach ($this->_getNodesByFullActionName($reference) as $action) {
-            /* @var $action Varien_Simplexml_Element */
-            if (Mage::getStoreConfigFlag("admin/enterprise_logging/{$action->getParent()->getParent()->getName()}")) {
-                return true;
+        if (!$isGroup) {
+            foreach ($this->_getNodesByFullActionName($reference) as $action) {
+                $reference = $action->getParent()->getParent()->getName();
+                $isGroup   = true;
+                break;
             }
         }
+
+        if ($isGroup) {
+            $this->getSystemConfigValues();
+            return isset($this->_systemConfigValues[$reference]);
+        }
+
         return false;
     }
 
@@ -105,7 +133,7 @@ class Enterprise_Logging_Model_Config
     public function getLabels()
     {
         if (!$this->_labels) {
-            foreach ($this->_config->getXpath('/logging/*/label') as $labelNode) {
+            foreach ($this->_xmlConfig->getXpath('/logging/*/label') as $labelNode) {
                 $helperName = $labelNode->getParent()->getAttribute('module');
                 if (!$helperName) {
                     $helperName = 'enterprise_logging';
@@ -128,7 +156,7 @@ class Enterprise_Logging_Model_Config
         if (!$fullActionName) {
             return array();
         }
-        $actionNodes = $this->_config->getXpath("/logging/*/actions/{$fullActionName}[1]");
+        $actionNodes = $this->_xmlConfig->getXpath("/logging/*/actions/{$fullActionName}[1]");
         if ($actionNodes) {
             return $actionNodes;
         }

@@ -58,22 +58,6 @@
                         </password_is_forced>
                     </fields>
                 </security>
-                <enterprise_logging>
-                    <fields>
-                        <enterprise_pci_crypt translate="label">
-                            <label>Encryption Key Change</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <show_in_default>1</show_in_default>
-                        </enterprise_pci_crypt>
-                        <enterprise_pci_locks>
-                            <label>Admin Accounts Locks</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <show_in_default>1</show_in_default>
-                        </enterprise_pci_locks>
-                    </fields>
-                </enterprise_logging>
             </groups>
         </admin>
     </sections>

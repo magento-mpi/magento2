@@ -203,51 +203,6 @@
     </admin>
 
     <default>
-        <admin>
-            <enterprise_logging>
-                <admin_login>1</admin_login>
-                <adminhtml_permission_roles>1</adminhtml_permission_roles>
-                <adminhtml_permission_users>1</adminhtml_permission_users>
-                <adminhtml_system_account>1</adminhtml_system_account>
-                <adminhtml_system_config>1</adminhtml_system_config>
-                <adminhtml_system_store_groups>1</adminhtml_system_store_groups>
-                <adminhtml_system_stores>1</adminhtml_system_stores>
-                <adminhtml_system_websites>1</adminhtml_system_websites>
-                <api_roles>1</api_roles>
-                <api_users>1</api_users>
-                <catalog_attributes>1</catalog_attributes>
-                <catalog_attributesets>1</catalog_attributesets>
-                <catalog_categories>1</catalog_categories>
-                <catalog_products>1</catalog_products>
-                <catalogrule>1</catalogrule>
-                <catalogsearch>1</catalogsearch>
-                <cms_blocks>1</cms_blocks>
-                <cms_pages>1</cms_pages>
-                <core_urlrewrites>1</core_urlrewrites>
-                <customer_groups>1</customer_groups>
-                <customer>1</customer>
-                <enterprise_logging>1</enterprise_logging>
-                <newsletter_problem>1</newsletter_problem>
-                <newsletter_queue>1</newsletter_queue>
-                <newsletter_subscribers>1</newsletter_subscribers>
-                <newsletter_templates>1</newsletter_templates>
-                <poll>1</poll>
-                <rating>1</rating>
-                <reports>1</reports>
-                <review>1</review>
-                <sales_creditmemos>1</sales_creditmemos>
-                <sales_invoices>1</sales_invoices>
-                <sales_order_status>1</sales_order_status>
-                <sales_orders>1</sales_orders>
-                <sales_shipments>1</sales_shipments>
-                <salesrule>1</salesrule>
-                <tag>1</tag>
-                <tax_customer_tax_classes>1</tax_customer_tax_classes>
-                <tax_product_tax_classes>1</tax_product_tax_classes>
-                <tax_rates>1</tax_rates>
-                <tax_rules>1</tax_rules>
-            </enterprise_logging>
-        </admin>
         <system>
             <rotation translate="frequency">
                 <frequency>1</frequency>
