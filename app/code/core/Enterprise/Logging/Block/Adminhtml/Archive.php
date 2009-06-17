@@ -24,29 +24,29 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Block_Events_Grid_Filter_Event extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+/**
+ * Admin Actions Log grid container
+ *
+ */
+class Enterprise_Logging_Block_Adminhtml_Archive extends Mage_Adminhtml_Block_Widget_Container
 {
     /**
-     * Load labels from logging.xml
+     * Header text getter
+     *
+     * @return string
      */
-    protected function _getOptions()
+    public function getHeaderText()
     {
-        $options = array(array(
-            'value' => '',
-            'label' => Mage::helper('enterprise_logging')->__('All Events')
-        ));
-        $labels = Mage::helper('enterprise_logging')->getLabels();
-        foreach($labels as $code => $label) {
-            $options[] = array('value' => $code, 'label' => $label);
-        }
-        return $options;
+        return Mage::helper('enterprise_logging')->__('Admin Actions Log Archive');
     }
 
     /**
-     * returns value
+     * Grid contents getter
+     *
+     * @return string
      */
-    public function getCondition()
+    public function getGridHtml()
     {
-        return $this->getValue();
+        return $this->getChildHtml();
     }
 }

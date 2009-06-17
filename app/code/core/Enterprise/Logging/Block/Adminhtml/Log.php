@@ -24,25 +24,28 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Block_Events_Grid_Filter_User extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+/**
+ * Log grid container
+ */
+class Enterprise_Logging_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget_Container
 {
     /**
-     * Build options list for filter
+     * Header text getter
+     *
+     * @return string
      */
-    public function _getOptions() {
-        $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All users')));
-        $resource = Mage::getResourceModel('enterprise_logging/event');
-        $collection = $resource->getUsers();
-        foreach($collection as $user)
-          $options[] = array('value' => $user->getId(), 'label' => $user->getUsername());
-        return $options;
+    public function getHeaderText()
+    {
+        return Mage::helper('enterprise_logging')->__('Admin Actions Log');
     }
 
     /**
-     * returns condition
+     * Grid contents getter
+     *
+     * @return string
      */
-    public function getCondition()
+    public function getGridHtml()
     {
-    	return $this->getValue();
+        return $this->getChildHtml();
     }
 }

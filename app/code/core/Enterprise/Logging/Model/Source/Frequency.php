@@ -24,16 +24,26 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Block_Events_Grid_Renderer_User extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+ /**
+  * Source model for logging frequency
+  */
+class Enterprise_Logging_Model_Source_Frequency
 {
-    /**
-     * Render username from username column, not user_id
-     * We must use user_id, for 'index' in grid, to make 
-     * filter work.
-     */
-    public function render(Varien_Object $row)
+    public function toOptionArray()
     {
-    	return $row->getData('username');
+        return array(
+            array(
+                'value' => 1,
+                'label' => Mage::helper('enterprise_logging')->__('Daily')
+            ),
+            array(
+                'value' => 7,
+                'label' => Mage::helper('enterprise_logging')->__('Weekly')
+            ),
+            array(
+                'value' => 30,
+                'label' => Mage::helper('enterprise_logging')->__('Monthly')
+            ),
+        );
     }
-
 }

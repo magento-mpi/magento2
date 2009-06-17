@@ -44,7 +44,9 @@ class Enterprise_Logging_Model_Handler_Models
     public function saveAfterGeneric($model, $config)
     {
         $fullActionName = $config->getName();
-        if ($config->model && ($className = Mage::getConfig()->getModelClassName((string)$config->model)) && ($model instanceof $className)) {
+        if ($config->expected_model
+            && ($className = Mage::getConfig()->getModelClassName((string)$config->expected_model))
+            && ($model instanceof $className)) {
             if ((string)$config->allow_model_repeat != 0) {
                 if (!Mage::registry("enterprise_logging_saved_model_{$fullActionName}")) {
                     Mage::register("enterprise_logging_saved_model_{$fullActionName}", $model);

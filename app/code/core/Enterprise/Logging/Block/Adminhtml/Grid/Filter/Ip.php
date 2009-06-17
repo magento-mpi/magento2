@@ -24,14 +24,22 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Block_Events_Grid_Filter_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text
+/**
+ * Ip-address grid filter
+ */
+class Enterprise_Logging_Block_Adminhtml_Grid_Filter_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text
 {
     /**
-     * ip filter method
+     * Collection condition filter getter
+     *
+     * @return array
      */
     public function getCondition()
     {
-        $ip = $this->getValue();
-    	return ip2long($ip);
+        $value = $this->getValue();
+        if (preg_match('/^(\d+\.){3}\d+$/', $value)) {
+            return ip2long($value);
+        }
+        return array('field_expr' => 'INET_NTOA(#?)', 'like' => "%{$this->_escapeValue($value)}%");
     }
 }

@@ -28,20 +28,20 @@
 <logging>
     <enterprise_giftcardaccount translate="label">
         <label>Gift Card Accounts</label>
-        <events>
+        <actions>
             <adminhtml_giftcardaccount_edit>
                 <action>view</action>
             </adminhtml_giftcardaccount_edit>
 
             <adminhtml_giftcardaccount_save>
                 <action>save</action>
-                <model>enterprise_giftcardaccount/giftcardaccount</model>
+                <expected_model>enterprise_giftcardaccount/giftcardaccount</expected_model>
                 <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_giftcardaccount_save>
 
             <adminhtml_giftcardaccount_delete>
                 <action>delete</action>
             </adminhtml_giftcardaccount_delete>
-        </events>
+        </actions>
     </enterprise_giftcardaccount>
 </logging>

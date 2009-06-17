@@ -36,7 +36,6 @@
  * 5) Set data to event.
  *
  */
-
 class Enterprise_Logging_Model_Observer
 {
     /**
@@ -67,7 +66,7 @@ class Enterprise_Logging_Model_Observer
     public function controllerPredispatch($observer)
     {
         $fullActionName = $observer->getControllerAction()->getFullActionName();
-        if (!Mage::helper('enterprise_logging')->isActive($fullActionName)) {
+        if (!Mage::getSingleton('enterprise_logging/config')->isActive($fullActionName)) {
             return;
         }
 
@@ -128,7 +127,8 @@ class Enterprise_Logging_Model_Observer
                 Mage::register('enterprise_logged_actions', $actions);
             }
         } else {
-            $specialHandler = (string)Mage::helper('enterprise_logging')->getConfig($fullActionName)->special_action_handler;
+            $specialHandler = (string)Mage::getSingleton('enterprise_logging/config')
+                ->getNode($fullActionName)->special_action_handler;
             if ($specialHandler) {
                 $this->_invokeModel($specialHandler, $fullActionName, $this->_controllerActionsHandler);
             }
@@ -158,7 +158,7 @@ class Enterprise_Logging_Model_Observer
         $model = $observer->getObject();
         // list all saved actions to check if we need save current model for some.
         foreach ($fullActionNames as $fullActionName) {
-            $config = Mage::helper('enterprise_logging')->getConfig($fullActionName);
+            $config = Mage::getSingleton('enterprise_logging/config')->getNode($fullActionName);
             $afterSaveHandler = (string)$config->model_save_after;
             if (!$afterSaveHandler) {
                 $afterSaveHandler = 'saveAfterGeneric';
@@ -187,7 +187,7 @@ class Enterprise_Logging_Model_Observer
 
             foreach ($fullActionNames as $fullActionName) {
                 $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
-                $config = Mage::helper('enterprise_logging')->getConfig($fullActionName);
+                $config = Mage::getSingleton('enterprise_logging/config')->getNode($fullActionName);
 
                 // invoke a handler before to decide whether to save model
                 $callback = false;
@@ -254,7 +254,7 @@ class Enterprise_Logging_Model_Observer
     protected function _logAdminLogin($username, $userId = 0)
     {
         $eventCode = 'admin_login';
-        if (!Mage::helper('enterprise_logging')->isActive($eventCode, true)) {
+        if (!Mage::getSingleton('enterprise_logging/config')->isActive($eventCode, true)) {
             return;
         }
         $request = Mage::app()->getRequest();

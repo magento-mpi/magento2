@@ -24,8 +24,14 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Logging event model
+ */
 class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
 {
+    const RESULT_SUCCESS = 'success';
+    const RESULT_FAILURE = 'failure';
+
     /**
      * Constructor
      */
@@ -42,7 +48,7 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            $this->setStatus($this->getIsSuccess() ? 'success' : 'fail');
+            $this->setStatus($this->getIsSuccess() ? self::RESULT_SUCCESS : self::RESULT_FAILURE);
             if (!$this->getUser() && $id = $this->getUserId()) {
                 $this->setUser(Mage::getModel('admin/user')->load($id)->getUserName());
             }

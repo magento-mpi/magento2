@@ -24,29 +24,38 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Block_Events extends Mage_Adminhtml_Block_Widget_Grid_Container
+/**
+ * Archive files collection
+ */
+class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection_Filesystem
 {
     /**
-     * Constructor
+     * Filenames regex filter
+     *
+     * @var string
+     */
+    protected $_allowedFilesMask = '/^[a-z0-9\.\-\_]+\.csv$/i';
+
+    /**
+     * Set target dir for scanning
      */
     public function __construct()
     {
-        $this->_headerText = Mage::helper('enterprise_logging')->__('Admin Actions Log');
-        $this->_blockGroup = 'enterprise_logging';
-        $this->_controller = 'events';
         parent::__construct();
+        $this->addTargetDir(Mage::getModel('enterprise_logging/archive')->getBasePath());
     }
 
     /**
-     * Overrided method, to disable add button
+     * Row generator - adds 'time' column as Zend_Date object
+     *
+     * @param string $filename
+     * @return array
      */
-    protected function _enabledAddNewButton()
+    protected function _generateRow($filename)
     {
-        return false;
-    }
-
-    protected function _addButton($id, $data, $level = 0, $sortOrder = 100, $area = 'header')
-    {
-        return $this;
+        $row = parent::_generateRow($filename);
+        $date = new Zend_Date(str_replace('.csv', '', $row['basename']), 'yyyyMMddHH');
+        $row['time'] = $date;
+        return $row;
     }
 }

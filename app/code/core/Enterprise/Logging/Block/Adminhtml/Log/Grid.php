@@ -24,7 +24,10 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_Grid
+/**
+ * Admin Actions Log Grid
+ */
+class Enterprise_Logging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Constructor
@@ -33,29 +36,19 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
     {
         parent::__construct();
 
-        $this->setId('enterpriseLoggerEventsGrid');
+        $this->setId('loggingLogGrid');
         $this->setDefaultSort('time');
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
-
-        $this->setTemplate('enterprise/logging/events/grid.phtml');
-
-        $this->setRowClickCallback('importFileRowClick');
-        $this->setColumnRenderers(
-            array(
-                'eventlabel' => 'enterprise_logging/events_grid_renderer_eventlabel'
-            ));
     }
 
     /**
      * PrepareCollection method.
      */
-
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_logging/event_collection');
-        $this->setCollection($collection);
+        $this->setCollection(Mage::getResourceModel('enterprise_logging/event_collection'));
         return parent::_prepareCollection();
     }
 
@@ -64,7 +57,7 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
      */
     public function getGridUrl()
     {
-         return $this->getUrl('adminhtml/events/grid', array('_current'=>true));
+        return $this->getUrl('*/*/grid', array('_current' => true));
     }
 
     /**
@@ -73,68 +66,80 @@ class Enterprise_Logging_Block_Events_Grid extends Mage_Adminhtml_Block_Widget_G
     protected function _prepareColumns()
     {
         $this->addColumn('time', array(
-            'header'    => 'Time',
+            'header'    => Mage::helper('enterprise_logging')->__('Time'),
             'index'     => 'time',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('ip', array(
-            'header'    => 'IP-address',
+            'header'    => Mage::helper('enterprise_logging')->__('IP-address'),
             'index'     => 'ip',
             'type'      => 'text',
-            'filter'    => 'enterprise_logging/events_grid_filter_ip',
+            'filter'    => 'enterprise_logging/adminhtml_grid_filter_ip',
+            'renderer'  => 'adminhtml/widget_grid_column_renderer_ip',
             'sortable'  => false
         ));
 
+        $allUsers = array();
+        foreach(Mage::getResourceSingleton('enterprise_logging/event')->getAllFieldValues('user') as $username) {
+            $allUsers[$username] = $username;
+        }
         $this->addColumn('user', array(
-            'header'    => 'User',
+            'header'    => Mage::helper('enterprise_logging')->__('Username'),
             'index'     => 'user',
-            'type'      => 'text',
+            'type'      => 'options',
             'sortable'  => false,
-            'filter'    => 'enterprise_logging/events_grid_filter_user',
+            'options'   => $allUsers,
         ));
 
         $this->addColumn('event', array(
-            'header'    => 'Event',
+            'header'    => Mage::helper('enterprise_logging')->__('Action Group'),
             'index'     => 'event_code',
-            'type'      => 'eventlabel',
+            'type'      => 'options',
             'sortable'  => false,
-            'filter'    => 'enterprise_logging/events_grid_filter_event',
+            'options'   => Mage::getSingleton('enterprise_logging/config')->getLabels(),
         ));
 
+        $actions = array();
+        foreach (Mage::getResourceSingleton('enterprise_logging/event')->getAllFieldValues('action') as $action) {
+            $actions[$action] = $action;
+        }
         $this->addColumn('action', array(
-            'header'    => 'Action',
+            'header'    => Mage::helper('enterprise_logging')->__('Action'),
             'index'     => 'action',
-            'type'      => 'text',
-            'filter'    => 'enterprise_logging/events_grid_filter_action',
+            'type'      => 'options',
+            'options'   => $actions,
             'sortable'  => false,
         ));
 
         $this->addColumn('status', array(
-            'header'    => 'Result',
+            'header'    => Mage::helper('enterprise_logging')->__('Result'),
             'index'     => 'status',
             'sortable'  => false,
-            'type'      => 'text',
-            'filter'    => 'enterprise_logging/events_grid_filter_status',
-                         ));
+            'type'      => 'options',
+            'options'   => array(
+                Enterprise_Logging_Model_Event::RESULT_SUCCESS => Mage::helper('enterprise_logging')->__('Success'),
+                Enterprise_Logging_Model_Event::RESULT_FAILURE => Mage::helper('enterprise_logging')->__('Failure'),
+            ),
+        ));
 
         $this->addColumn('fullaction', array(
-            'header' => 'Action Path',
-            'index'  => 'fullaction',
+            'header'   => Mage::helper('enterprise_logging')->__('Full Action Name'),
+            'index'    => 'fullaction',
             'sortable' => false,
-            'type'  => 'text'
+            'type'     => 'text'
         ));
 
         $this->addColumn('info', array(
-            'header'    => 'Identifier',
+            'header'    => Mage::helper('enterprise_logging')->__('Identifier'),
             'index'     => 'info',
             'type'      => 'text',
             'sortable'  => false,
             'filter'    => 'adminhtml/widget_grid_column_filter_text'
         ));
 
-        $this->addExportType('*/*/exportCsv', Mage::helper('enterprise_logging')->__('CSV'));
-        $this->addExportType('*/*/exportXml', Mage::helper('enterprise_logging')->__('XML'));
+        $this->addExportType('*/*/exportCsv', 'CSV');
+        $this->addExportType('*/*/exportXml', 'MSXML');
         return $this;
     }
 }

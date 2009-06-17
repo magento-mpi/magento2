@@ -28,14 +28,14 @@
 <logging>
     <enterprise_invitation translate="label">
         <label>Customer Invitations</label>
-        <events>
+        <actions>
             <adminhtml_invitation_view>
                 <action>view</action>
             </adminhtml_invitation_view>
 
             <adminhtml_invitation_save>
                 <action>save</action>
-                <model>enterprise_invitation/invitation</model>
+                <expected_model>enterprise_invitation/invitation</expected_model>
                 <model_save_after>enterprise_invitation/observer::loggingInvitationSaveAfter</model_save_after>
             </adminhtml_invitation_save>
 
@@ -43,6 +43,6 @@
                 <action>massCancel</action>
                 <post_dispatch>enterprise_invitation/observer::postDispatchLoggingInvitationMassCancel</post_dispatch>
             </adminhtml_invitation_massCancel>
-        </events>
+        </actions>
     </enterprise_invitation>
 </logging>

@@ -136,13 +136,13 @@
                             <events>
                                 <title>Report</title>
                                 <sort_order>1</sort_order>
-                                <action>adminhtml/events</action>
+                                <action>adminhtml/logging</action>
                                 <depends><module>Enterprise_Logging</module></depends>
                             </events>
                             <backups translate="title">
                                 <title>Archive</title>
                                 <sort_order>2</sort_order>
-                                <action>adminhtml/events/log</action>
+                                <action>adminhtml/logging/archive</action>
                                 <depends><module>Enterprise_Logging</module></depends>
                             </backups>
                         </children>
@@ -172,7 +172,6 @@
                 </admin>
             </resources>
         </acl>
-
         <layout>
             <updates>
                 <events>
@@ -180,46 +179,6 @@
                 </events>
             </updates>
         </layout>
-        <enterprise>
-            <logging>
-                <frequency>
-                    <daily translate="label" module="enterprise_logging">>
-                        <label>Daily</label>
-                        <value>1</value>
-                    </daily>
-                    <weekly translate="label" module="enterprise_logging">
-                        <label>Weekly</label>
-                        <value>7</value>
-                    </weekly>
-                    <monthly translate="label" module="enterprise_logging">
-                        <label>Monthly</label>
-                        <value>30</value>
-                    </monthly>
-                </frequency>
-                <lifetime>
-                    <oneday translate="label" module="enterprise_logging">
-                        <label>One Day</label>
-                        <value>1</value>
-                    </oneday>
-                    <week translate="label" module="enterprise_logging">
-                        <label>One Week</label>
-                        <value>7</value>
-                    </week>
-                    <month translate="label" module="enterprise_logging">
-                        <label>30 days</label>
-                        <value>30</value>
-                    </month>
-                    <twomonth translate="label" module="enterprise_logging">
-                        <label>60 days</label>
-                        <value>60</value>
-                    </twomonth>
-                    <quartal translate="label" module="enterprise_logging">
-                        <label>90 days</label>
-                        <value>90</value>
-                    </quartal>
-                </lifetime>
-            </logging>
-        </enterprise>
         <translate>
             <modules>
                 <Enterprise_Logging>
@@ -291,7 +250,7 @@
         </admin>
         <system>
             <rotation translate="frequency">
-                <frequency>Daily</frequency>
+                <frequency>1</frequency>
                 <lifetime>60</lifetime>
             </rotation>
         </system>

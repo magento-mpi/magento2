@@ -26,9 +26,6 @@
 
 class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract
 {
-    protected $_users;
-    protected $_actions;
-
    /**
     * Constructor
     */
@@ -57,11 +54,8 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
             $this->beginTransaction();
 
             // make sure folder for dump file will exist
-            $path = Mage::getModel('enterprise_logging/logs')->getBasePath();
-            $dir = $path . DS . date('Y') . DS . date('m');
-            $file = new Varien_Io_File();
-            $file->setAllowCreateFolders(true);
-            $file->createDestinationDir($dir);
+            $archive = Mage::getModel('enterprise_logging/archive');
+            $archive->createNew();
 
             $table = $this->getTable('enterprise_logging/event');
 
@@ -74,7 +68,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
             }
 
             // dump all records before this log entry into a CSV-file
-            $csv = fopen(sprintf("%s%s%s.csv",  $dir, DS, date("Ymdh")), 'w');
+            $csv = fopen($archive->getFilename(), 'w');
             foreach ($this->_getWriteAdapter()->fetchAll("SELECT *, INET_NTOA(ip)
                 FROM {$table} WHERE log_id <= {$latestLogEntry}") as $row) {
                 fputcsv($csv, $row);
@@ -88,46 +82,17 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     }
 
     /**
-     * Get list of actions presented in event table
+     * Select all values of specified field from main table
+     *
+     * @param string $field
+     * @param bool $order
+     * @return array
      */
-    public function getActions()
+    public function getAllFieldValues($field, $order = true)
     {
-        if (!$this->_actions) {
-            $query = "SELECT DISTINCT action FROM ".$this->getTable('enterprise_logging/event');
-            $st = $this->_getConnection('read')->query($query);
-            $actions = $st->fetchAll();
-            $this->_actions = array();
-            if ($actions) {
-                foreach($actions as $action) {
-                    $u = new Varien_Object();
-                    $u->setId($action['action']);
-                    $u->setName($action['action']);
-                    $this->_actions[] = $u;
-                }
-            }
-        }
-        return $this->_actions;
-    }
-
-    /**
-     * Get list of users presented in event table
-     */
-    public function getUsers()
-    {
-        if (!$this->_users) {
-            $query = "SELECT DISTINCT user FROM ".$this->getTable('enterprise_logging/event');
-            $st = $this->_getConnection('read')->query($query);
-            $users = $st->fetchAll();
-            $this->_users = array();
-            if ($users) {
-                foreach($users as $user) {
-                    $u = new Varien_Object();
-                    $u->setId($user['user']);
-                    $u->setUsername($user['user']);
-                    $this->_users[] = $u;
-                }
-            }
-        }
-        return $this->_users;
+        return $this->_getReadAdapter()->fetchCol("SELECT DISTINCT
+            {$this->_getReadAdapter()->quoteIdentifier($field)} FROM {$this->getMainTable()}"
+            . (null !== $order ? ' ORDER BY 1' . ($order ? '' : ' DESC') : '')
+        );
     }
 }

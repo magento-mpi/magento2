@@ -28,16 +28,17 @@
  * Admin Actions Log Archive grid
  *
  */
-class Enterprise_Logging_Block_Events_Archive_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Logging_Block_Adminhtml_Archive_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize default sorting and html ID
      */
     protected function _construct()
     {
+        $this->setId('loggingArchiveGrid');
+        $this->setDefaultSort('basename');
+        $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
-        $this->setId('logsGrid');
-        $this->setDefaultSort('filename', 'desc');
         $this->setUseAjax(true);
     }
 
@@ -48,8 +49,7 @@ class Enterprise_Logging_Block_Events_Archive_Grid extends Mage_Adminhtml_Block_
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getSingleton('enterprise_logging/logs_collection');
-        $this->setCollection($collection);
+        $this->setCollection(Mage::getSingleton('enterprise_logging/archive_collection'));
         return parent::_prepareCollection();
     }
 
@@ -60,19 +60,18 @@ class Enterprise_Logging_Block_Events_Archive_Grid extends Mage_Adminhtml_Block_
      */
     protected function _prepareColumns()
     {
-        $gridUrl = $this->getUrl('*/*/');
+        $downloadUrl = $this->getUrl('*/*/download');
 
         $this->addColumn('download', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Download'),
-            'format'    => '<a href="' . $gridUrl .'download/?name=$filename">$filename</a>',
-            'index'     => 'filename',
+            'header'    => Mage::helper('enterprise_logging')->__('Archive File'),
+            'format'    => '<a href="' . $downloadUrl .'basename/$basename/">$basename</a>',
+            'index'     => 'basename',
         ));
 
         $this->addColumn('date', array(
             'header'    => Mage::helper('enterprise_logging')->__('Date'),
             'type'      => 'date',
-            'index'     => 'date',
-            'sortable'  => false
+            'index'     => 'time',
         ));
 
         return parent::_prepareColumns();
@@ -85,6 +84,6 @@ class Enterprise_Logging_Block_Events_Archive_Grid extends Mage_Adminhtml_Block_
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/events/loggrid', array('_current'=>true));
+        return $this->getUrl('*/*/archiveGrid', array('_current' => true));
     }
 }

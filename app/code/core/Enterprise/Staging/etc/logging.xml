@@ -28,14 +28,14 @@
 <logging>
     <enterprise_staging translate="label">
         <label>Content Staging</label>
-        <events>
+        <actions>
             <adminhtml_staging_manage_edit>
                 <action>view</action>
             </adminhtml_staging_manage_edit>
 
             <adminhtml_staging_manage_save>
                 <action>save</action>
-                <model>enterprise_staging/staging</model>
+                <expected_model>enterprise_staging/staging</expected_model>
                 <handler>enterprise_staging/observer::postDispatchLoggingStagingSaveAfter</handler>
                 <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_staging_manage_save>
@@ -53,6 +53,6 @@
             <adminhtml_staging_backup_backupDelete>
                 <action>delete</action>
             </adminhtml_staging_backup_backupDelete>
-        </events>
+        </actions>
     </enterprise_staging>
 </logging>

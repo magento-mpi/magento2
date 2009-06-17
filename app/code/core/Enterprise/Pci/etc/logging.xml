@@ -28,20 +28,20 @@
 <logging>
     <enterprise_pci_crypt translate="label">
         <label>Encryption Key Change</label>
-        <events>
+        <actions>
             <adminhtml_crypt_key_save>
                 <action>key_change</action>
                 <post_dispatch>enterprise_pci/observer::postDispatchLoggingKeyChange</post_dispatch>
             </adminhtml_crypt_key_save>
-        </events>
+        </actions>
     </enterprise_pci_crypt>
     <enterprise_pci_locks translate="label">
         <label>Admin Accounts Locks</label>
-        <events>
+        <actions>
             <adminhtml_locks_massUnlock>
                 <action>massUpdate</action>
                 <id>unlock</id>
             </adminhtml_locks_massUnlock>
-        </events>
+        </actions>
     </enterprise_pci_locks>
 </logging>

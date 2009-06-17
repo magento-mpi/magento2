@@ -28,16 +28,16 @@
 <logging>
     <enterprise_customerbalance translate="label">
         <label>Store Credit</label>
-        <events>
+        <actions>
             <adminhtml_customerbalance_form>
                 <action>view</action>
             </adminhtml_customerbalance_form>
 
             <adminhtml_customerbalance_save>
                 <action>save</action>
-                <model>customer/customer</model>
+                <expected_model>customer/customer</expected_model>
                 <skip_on_back>adminhtml_customerbalance_form,adminhtml_customer_edit</skip_on_back>
             </adminhtml_customerbalance_save>
-        </events>
+        </actions>
     </enterprise_customerbalance>
 </logging>

@@ -27,18 +27,27 @@
 -->
 
 <layout>
-    <adminhtml_events_index>
+    <adminhtml_logging_index>
         <reference name="content">
-            <block type="enterprise_logging/events"  name="enterprise_logging_events" />
-        </reference>
-    </adminhtml_events_index>
-
-    <adminhtml_events_log>
-        <reference name="content">
-            <block type="enterprise_logging/events_archive" name="enterprise_logging_events_archive" template="widget/grid/container.phtml">
-                <block type="enterprise_logging/events_archive_grid" name="enterprise_logging_events_archive_grid"/>
+            <block type="enterprise_logging/adminhtml_log" name="enterprise.logging.log" template="widget/grid/container.phtml">
+                <block type="enterprise_logging/adminhtml_log_grid" name="enterprise.logging.log.grid"/>
             </block>
         </reference>
-    </adminhtml_events_log>
+    </adminhtml_logging_index>
 
+    <adminhtml_logging_grid>
+        <block type="enterprise_logging/adminhtml_log_grid" name="root"/>
+    </adminhtml_logging_grid>
+
+    <adminhtml_logging_archive>
+        <reference name="content">
+            <block type="enterprise_logging/adminhtml_archive" name="enterprise.logging.archive" template="widget/grid/container.phtml">
+                <block type="enterprise_logging/adminhtml_archive_grid" name="enterprise.logging.archive.grid"/>
+            </block>
+        </reference>
+    </adminhtml_logging_archive>
+
+    <adminhtml_logging_archivegrid>
+        <block type="enterprise_logging/adminhtml_archive_grid" name="root"/>
+    </adminhtml_logging_archivegrid>
 </layout>

@@ -24,14 +24,14 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Log items collection
+ */
 class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_Mysql4_Collection_Abstract 
 {
-    private $_ipLoaded = false;
-
     /**
-     * Constructor
+     * Initialize resource
      */
-
     protected function _construct() 
     {
         $this->_init('enterprise_logging/event');
@@ -44,24 +44,6 @@ class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_
      */
     public function getSelectCountSql()
     {
-        $countSelect = parent::getSelectCountSql();
-        $countSelect->resetJoinLeft();
-        return $countSelect;
-    }
-
-    /**
-     * Load method. Joins admin_user table to retrieve username
-     */
-    public function load($printQuery = false, $logQuery = false) 
-    {
-        parent::load($printQuery, $logQuery);
-        if (!$this->_ipLoaded) {
-            if ($this->_items) {
-                foreach ($this->_items as $item) {
-                    $item->setIp(long2ip($item->getIp()));
-                }
-            }
-            $this->_ipLoaded = true;
-        }
+        return parent::getSelectCountSql()->resetJoinLeft();
     }
 }

@@ -88,7 +88,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchGenericSave($config, $eventModel)
     {
-        $class   = Mage::getConfig()->getModelClassName($config->model ? (string)$config->model : '');
+        $class   = Mage::getConfig()->getModelClassName($config->expected_model ? (string)$config->expected_model : '');
         $model   = Mage::registry("enterprise_logging_saved_model_{$config->getName()}");
         $request = Mage::app()->getRequest();
 
