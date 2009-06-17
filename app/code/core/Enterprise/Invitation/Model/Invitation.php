@@ -166,7 +166,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
                     'allow_message' => Mage::app()->getStore()->isAdmin()
                         || Mage::helper('enterprise_invitation')->isInvitationMessageAllowed(),
                     'message'       => $this->getMessage(),
-                    'store_name'    => $store->getName(),
+                    'store_name'    => $store->getGroup()->getName(),
                     'inviter_name'  => ($this->getInviter() ? $this->getInviter()->getName() : null)
             ));
         if ($mail->getSentSuccess()) {
