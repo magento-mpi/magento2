@@ -29,9 +29,12 @@ $installer = $this;
 
 $installer->startSetup();
 
+$tableInvitation        = $installer->getTable('enterprise_invitation/invitation');
+$tableInvitationHistory = $installer->getTable('enterprise_invitation/invitation_history');
+
 $installer->run("
-DROP TABLE IF EXISTS `{$installer->getTable('enterprise_invitation/invitation')}`;
-CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation')}` (
+DROP TABLE IF EXISTS `{$tableInvitation}`;
+CREATE TABLE `{$tableInvitation}` (
     `invitation_id` INT UNSIGNED  NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     `customer_id` INT( 10 ) UNSIGNED DEFAULT NULL ,
     `date` DATETIME NOT NULL ,
@@ -48,19 +51,13 @@ CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation')}` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
-$fkName = $installer->getTable('enterprise_invitation/invitation');
-
 $installer->getConnection()->addConstraint(
-    'FK_INVITATION_STORE',
-    $installer->getTable('enterprise_invitation/invitation'),
-    'store_id',
-    $installer->getTable('core_store'),
-    'store_id'
+    'FK_INVITATION_STORE', $tableInvitation, 'store_id', $installer->getTable('core_store'), 'store_id'
 );
 
 $installer->run("
-DROP TABLE IF EXISTS `{$installer->getTable('enterprise_invitation/invitation_history')}`;
-CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation_history')}` (
+DROP TABLE IF EXISTS `{$tableInvitationHistory}`;
+CREATE TABLE `{$tableInvitationHistory}` (
     `history_id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `invitation_id` INT UNSIGNED NOT NULL,
     `date` DATETIME NOT NULL,
@@ -69,14 +66,8 @@ CREATE TABLE `{$installer->getTable('enterprise_invitation/invitation_history')}
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 
-$fkName = $installer->getTable('enterprise_invitation/invitation_history');
-
 $installer->getConnection()->addConstraint(
-    'FK_INVITATION_HISTORY_INVITATION',
-    $installer->getTable('enterprise_invitation/invitation_history'),
-    'invitation_id',
-    $installer->getTable('enterprise_invitation/invitation'),
-    'invitation_id'
+    'FK_INVITATION_HISTORY_INVITATION', $tableInvitationHistory, 'invitation_id', $tableInvitation, 'invitation_id'
 );
 
 $installer->endSetup();

@@ -33,7 +33,7 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Source_Boolean_Group
     {
         return array(
             1 => Mage::helper('enterprise_invitation')->__('Same as Inviter'),
-            0 => Mage::helper('enterprise_invitation')->__('System Configuration Default')
+            0 => Mage::helper('enterprise_invitation')->__('Default Customer Group from System Configuration')
         );
     }
 }
