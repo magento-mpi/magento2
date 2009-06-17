@@ -114,7 +114,8 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getModel('core/url')->setStore($invitation->getStoreId())
             ->getUrl('enterprise_invitation/customer_account/create', array(
-                'invitation' => Mage::helper('core')->urlEncode($invitation->getInvitationCode())
+                'invitation' => Mage::helper('core')->urlEncode($invitation->getInvitationCode()),
+                '_store_to_url' => true
             ));
     }
 
