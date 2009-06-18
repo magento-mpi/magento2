@@ -49,7 +49,8 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getMaxInvitationsPerSend()
     {
-        return (int) Mage::getStoreConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND);
+        $max = (int)Mage::getStoreConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND);
+        return ($max < 1 ? 1 : $max);
     }
 
     /**

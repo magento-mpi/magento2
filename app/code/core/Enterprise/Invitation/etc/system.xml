@@ -112,7 +112,6 @@
                         <max_invitation_amount_per_send translate="label">
                             <label>Max Invitations Allowed to be Sent at One Time</label>
                             <frontend_type>text</frontend_type>
-                            <backend_model>enterprise_invitation/adminhtml_system_config_backend_limited</backend_model>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
