@@ -112,8 +112,8 @@ class Varien_Data_Collection_Filesystem extends Varien_Data_Collection
      *
      * @var array
      */
-    private $_collectedDirs  = array();
-    private $_collectedFiles = array();
+    protected $_collectedDirs  = array();
+    protected $_collectedFiles = array();
 
     /**
      * Allowed dirs mask setter
@@ -249,7 +249,9 @@ class Varien_Data_Collection_Filesystem extends Varien_Data_Collection
                         $this->_collectedFiles[] = $item;
                     }
                 }
-                $this->_collectRecursive($item);
+                if ($this->_collectRecursively) {
+                    $this->_collectRecursive($item);
+                }
             }
             elseif ($this->_collectFiles && is_file($item)
                 && (!$this->_allowedFilesMask || preg_match($this->_allowedFilesMask, basename($item)))
@@ -299,7 +301,9 @@ class Varien_Data_Collection_Filesystem extends Varien_Data_Collection
             }
             $item = new $this->_itemObjectClass();
             $this->addItem($item->addData($row));
-            $item->setId($cnt);
+            if (!$item->hasId()) {
+                $item->setId($cnt);
+            }
         }
 
         return $this;
