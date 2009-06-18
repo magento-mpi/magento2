@@ -35,7 +35,8 @@ class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core
     protected $_map = array('fields' => array(
         'invitee_email'    => 'c.email',
         'website_id'       => 'w.website_id',
-        'invitation_email' => 'main_table.email'
+        'invitation_email' => 'main_table.email',
+        'invitee_group_id' => 'main_table.group_id'
     ));
 
     /**
