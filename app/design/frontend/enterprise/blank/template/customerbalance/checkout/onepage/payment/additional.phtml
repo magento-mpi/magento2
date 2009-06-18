@@ -100,10 +100,11 @@
                     }
                 }
             }
-        }
-
-        if ($('use_customer_balance').checked) {
-            $('checkout-payment-method-load').hide();
+            if ($('use_customer_balance').checked) {
+                $('checkout-payment-method-load').hide();
+            } else {
+                $('checkout-payment-method-load').show();
+            }
         } else {
             $('checkout-payment-method-load').show();
         }
