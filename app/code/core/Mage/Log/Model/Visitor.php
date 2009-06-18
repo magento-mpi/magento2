@@ -63,18 +63,21 @@ class Mage_Log_Model_Visitor extends Mage_Core_Model_Abstract
      */
     public function initServerData()
     {
+        /* @var $stringHelper Mage_Core_Helper_String */
+        $stringHelper = Mage::helper('core/string');
+
         $s = $_SERVER;
         $this->addData(array(
-            'server_addr'       => empty($s['SERVER_ADDR']) ? '' : ip2long($s['SERVER_ADDR']),
-            'remote_addr'       => empty($s['REMOTE_ADDR']) ? '' : ip2long($s['REMOTE_ADDR']),
-            'http_secure'       => Mage::app()->getStore()->isCurrentlySecure(),
-            'http_host'         => empty($s['HTTP_HOST']) ? '' : $s['HTTP_HOST'],
-            'http_user_agent'   => empty($s['HTTP_USER_AGENT']) ? '' : $s['HTTP_USER_AGENT'],
-            'http_accept_language'=> empty($s['HTTP_ACCEPT_LANGUAGE']) ? '' : $s['HTTP_ACCEPT_LANGUAGE'],
-            'http_accept_charset'=> empty($s['HTTP_ACCEPT_CHARSET']) ? '' : $s['HTTP_ACCEPT_CHARSET'],
-            'request_uri'       => empty($s['REQUEST_URI']) ? '' : $s['REQUEST_URI'],
-            'session_id'        => $this->_getSession()->getSessionId(),
-            'http_referer'      => empty($s['HTTP_REFERER']) ? '' : $s['HTTP_REFERER'],
+            'server_addr'           => empty($s['SERVER_ADDR']) ? '' : ip2long($s['SERVER_ADDR']),
+            'remote_addr'           => empty($s['REMOTE_ADDR']) ? '' : ip2long($s['REMOTE_ADDR']),
+            'http_secure'           => Mage::app()->getStore()->isCurrentlySecure(),
+            'http_host'             => empty($s['HTTP_HOST']) ? '' : $s['HTTP_HOST'],
+            'http_user_agent'       => empty($s['HTTP_USER_AGENT']) ? '' : $stringHelper->cleanString($s['HTTP_USER_AGENT']),
+            'http_accept_language'  => empty($s['HTTP_ACCEPT_LANGUAGE']) ? '' : $stringHelper->cleanString($s['HTTP_ACCEPT_LANGUAGE']),
+            'http_accept_charset'   => empty($s['HTTP_ACCEPT_CHARSET']) ? '' : $stringHelper->cleanString($s['HTTP_ACCEPT_CHARSET']),
+            'request_uri'           => empty($s['REQUEST_URI']) ? '' : $stringHelper->cleanString($s['REQUEST_URI']),
+            'session_id'            => $this->_getSession()->getSessionId(),
+            'http_referer'          => empty($s['HTTP_REFERER']) ? '' : $stringHelper->cleanString($s['HTTP_REFERER']),
         ));
 
         return $this;
