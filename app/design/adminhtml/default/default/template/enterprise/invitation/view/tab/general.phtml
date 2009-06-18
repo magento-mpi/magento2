@@ -86,7 +86,7 @@
             </tr>
             <tr>
                 <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Invitee Group'); ?></label></td>
-                <td><strong><?php echo $this->getCustomerGroupCode($this->getInvitation()->getGroupId()) ?></strong></td>
+                <td><strong><?php echo $this->getCustomerGroupCode($this->getInvitation()->getGroupId(), true) ?></strong></td>
             </tr>
             <tr>
                 <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Signed Up At'); ?></label></td>

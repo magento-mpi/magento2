@@ -192,16 +192,24 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
 
     /**
      * Return customer group code by group id
+     * If $configUsed passed as true then result will be default string
+     * instead of N/A sign
      *
+     * @param int $groupId
+     * @param bool $configUsed
      * @return string
      */
-    public function getCustomerGroupCode($groupId)
+    public function getCustomerGroupCode($groupId, $configUsed = false)
     {
         $group = $this->getCustomerGroupCollection()->getItemById($groupId);
         if ($group) {
             return $group->getCustomerGroupCode();
         } else {
-            return $this->helper('enterprise_invitation')->__('N/A');
+            if ($configUsed) {
+                return $this->helper('enterprise_invitation')->__('Default from System Configuration');
+            } else {
+                return $this->helper('enterprise_invitation')->__('N/A');
+            }
         }
     }
 
