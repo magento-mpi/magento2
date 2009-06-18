@@ -189,25 +189,36 @@ class Enterprise_Logging_Model_Observer
                 $errors = Mage::getModel('adminhtml/session')->getMessages()->getErrors();
                 $config = Mage::getSingleton('enterprise_logging/config')->getNode($fullActionName);
 
-                // invoke a handler before to decide whether to save model
+                // prepare event data
+                $loggingEvent = Mage::getModel('enterprise_logging/event')->setData(array(
+                    'ip'         => $_SERVER['REMOTE_ADDR'],
+                    'user'       => $username,
+                    'user_id'    => $userId,
+                    'is_success' => !(is_array($errors) && count($errors) > 0),
+                    'fullaction' => $fullActionName,
+                ));
+
+                // attempt to pick a callback for saving model
                 $callback = false;
-                if ($config->post_dispatch) {
+                if (!$config) {
+                    // log an error
+                    $loggingEvent->addData(array(
+                        'event_code' => 'unknown_action',
+                        'action'     => 'error',
+                    ))->save();
+                }
+                elseif ($config->post_dispatch) {
                     $callback = (string)$config->post_dispatch;
                 }
                 elseif (in_array((string)$config->action, array('view', 'save', 'delete', 'massUpdate'))) {
                     $callback = sprintf('postDispatchGeneric%s', ucfirst($config->action));
                 }
                 if ($callback) {
-                    $loggingEvent = Mage::getModel('enterprise_logging/event')->setData(array(
-                        'ip'         => $_SERVER['REMOTE_ADDR'],
-                        'user'       => $username,
-                        'user_id'    => $userId,
-                        'is_success' => !(is_array($errors) && count($errors) > 0),
-                        'fullaction' => $fullActionName,
+                    $loggingEvent->addData(array(
                         'event_code' => $config->getParent()->getParent()->getName(),
                         'action'     => (string)$config->action,
                     ));
-                    // handler should return non-empty value in order to save model
+                    // callback should return non-empty value in order to save model
                     if ($this->_invokeModel($callback, array($config, $loggingEvent), $this->_controllerActionsHandler)) {
                         $loggingEvent->save();
                     }

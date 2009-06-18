@@ -432,7 +432,7 @@ class Enterprise_CustomerBalance_Model_Observer
             if (!is_array($actions)) {
                 $actions = array($actions);
             }
-            $actions[] = 'customerbalance_save';
+            $actions[] = 'adminhtml_customerbalance_save';
             Mage::unregister('enterprise_logged_actions');
             Mage::register('enterprise_logged_actions', $actions);
         }
