@@ -124,6 +124,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_Grid extends Mage_Adminht
         $this->addColumn('group_id', array(
             'header' => Mage::helper('enterprise_invitation')->__('Invitee Group'),
             'index' => 'group_id',
+            'filter_index' => 'main_table.group_id',
             'type'  => 'options',
             'options' => $groups,
             'width' => 140
