@@ -202,7 +202,16 @@
                     </enterprise_invitation>
                 </children>
             </report>
-         </menu>
+        </menu>
+        <translate>
+            <modules>
+                <Enterprise_Invitation>
+                    <files>
+                        <default>Enterprise_Invitation.csv</default>
+                    </files>
+                </Enterprise_Invitation>
+            </modules>
+        </translate>
     </adminhtml>
     <frontend>
         <enterprise>

@@ -121,6 +121,15 @@
                 </enterprise_websiterestriction>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Enterprise_WebsiteRestriction>
+                    <files>
+                        <default>Enterprise_WebsiteRestriction.csv</default>
+                    </files>
+                </Enterprise_WebsiteRestriction>
+            </modules>
+        </translate>
     </frontend>
     <default>
         <general>

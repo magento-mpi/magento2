@@ -325,6 +325,15 @@
                 </observers>
             </adminhtml_customer_prepare_save>
         </events>
+        <translate>
+            <modules>
+                <Enterprise_CustomerBalance>
+                    <files>
+                        <default>Enterprise_CustomerBalance.csv</default>
+                    </files>
+                </Enterprise_CustomerBalance>
+            </modules>
+        </translate>        
     </adminhtml>
     <default>
         <customer>

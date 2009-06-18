@@ -369,6 +369,15 @@
                 </enterprise_catalogpermissions>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Enterprise_CatalogPermissions>
+                    <files>
+                        <default>Enterprise_CatalogPermissions.csv</default>
+                    </files>
+                </Enterprise_CatalogPermissions>
+            </modules>
+        </translate>        
     </frontend>
     <default>
         <enterprise_catalogpermissions>

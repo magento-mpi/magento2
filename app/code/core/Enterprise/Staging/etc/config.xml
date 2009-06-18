@@ -326,6 +326,15 @@
                 </observers>
             </website_delete_after>
         </events>
+        <translate>
+            <modules>
+                <Enterprise_Staging>
+                     <files>
+                          <default>Enterprise_Staging.csv</default>
+                     </files>
+                </Enterprise_Staging>
+            </modules>
+        </translate>        
     </adminhtml>
     <frontend>
         <routers>
@@ -357,6 +366,15 @@
                 </observers>
             </websiterestriction_frontend>
         </events>
+        <translate>
+            <modules>
+                <Enterprise_Staging>
+                     <files>
+                          <default>Enterprise_Staging.csv</default>
+                     </files>
+                </Enterprise_Staging>
+            </modules>
+        </translate>         
     </frontend>
     <admin>
         <routers>

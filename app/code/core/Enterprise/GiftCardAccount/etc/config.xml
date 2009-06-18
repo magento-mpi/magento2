@@ -113,6 +113,7 @@
                 </totals>
             </order_creditmemo>
         </sales>
+        
         <enterprise>
             <giftcardaccount>
                 <separator>-</separator>
@@ -122,8 +123,7 @@
                     <num>0123456789</num>
                 </charset>
             </giftcardaccount>
-        </enterprise>
-        <events>
+        </enterprise><events>
             <enterprise_giftcardaccount_save_after>
                 <observers>
                     <enterprise_giftcardaccount_save_after>
@@ -364,6 +364,15 @@
                 </children>
              </customer>
         </menu>
+        <translate>
+            <modules>
+                <Enterprise_GiftCardAccount>
+                    <files>
+                        <default>Enterprise_GiftCardAccount.csv</default>
+                    </files>
+                </Enterprise_GiftCardAccount>
+            </modules>
+        </translate>        
     </adminhtml>
 
     <default>

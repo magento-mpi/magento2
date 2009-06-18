@@ -186,6 +186,15 @@
                 </attributes>
             </collection>
         </product>
+        <translate>
+            <modules>
+                <Enterprise_GiftCard>
+                    <files>
+                        <default>Enterprise_GiftCard.csv</default>
+                    </files>
+                </Enterprise_GiftCard>
+            </modules>
+        </translate>        
     </frontend>
     <adminhtml>
         <layout>
@@ -214,6 +223,15 @@
             </admin>
           </resources>
         </acl>
+        <translate>
+            <modules>
+                <Enterprise_GiftCard>
+                    <files>
+                        <default>Enterprise_GiftCard.csv</default>
+                    </files>
+                </Enterprise_GiftCard>
+            </modules>
+        </translate>         
     </adminhtml>
     <default>
         <giftcard>
