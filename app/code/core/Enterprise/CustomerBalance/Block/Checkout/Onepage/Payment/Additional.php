@@ -55,8 +55,13 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
         if (is_null($this->_balanceModel)) {
             $this->_balanceModel = Mage::getModel('enterprise_customerbalance/balance')
                 ->setCustomer($this->_getCustomer())
-                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
-                ->loadByCustomer();
+                ->setWebsiteId(Mage::app()->getStore()->getWebsiteId());
+
+            //load customer balance for customer in case we have
+            //registered customer and this is not guest checkout
+            if ($this->_getCustomer()->getId()) {
+                $this->_balanceModel->loadByCustomer();
+            }
         }
         return $this->_balanceModel;
     }
