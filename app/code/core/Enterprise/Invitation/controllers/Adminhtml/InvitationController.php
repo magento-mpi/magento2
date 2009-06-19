@@ -56,6 +56,8 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
             Mage::throwException(Mage::helper('enterprise_invitation')->__('Invitation not found.'));
         }
         Mage::register('current_invitation', $invitation);
+
+        return $invitation;
     }
 
     /**
@@ -171,17 +173,26 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
     public function saveInvitationAction()
     {
         try {
-            $this->_initInvitation();
+            $invitation = $this->_initInvitation();
+
             if ($this->getRequest()->isPost()) {
                 $email = $this->getRequest()->getParam('email');
-                if (!Zend_Validate::is($email, 'EmailAddress')) {
-                    Mage::throwException(Mage::helper('enterprise_invitation')->__('Invalid email entered.'));
+
+                $invitation->setMessage($this->getRequest()->getParam('message'))
+                    ->setEmail($email);
+
+                $result = $invitation->validate();
+                //checking if there was validation
+                if (is_array($result) && !empty($result)) {
+                    foreach ($result as $message) {
+                        $this->_getSession()->addError($message);
+                    }
+                    $this->_redirect('*/*/view', array('_current' => true));
+                    return $this;
                 }
 
-                Mage::registry('current_invitation')
-                    ->setMessage($this->getRequest()->getParam('message'))
-                    ->setEmail($email)
-                    ->save();
+                //If there was no validation errors trying to save
+                $invitation->save();
 
                 $this->_getSession()->addSuccess(Mage::helper('enterprise_invitation')->__('Invitation was successfully saved.'));
             }

@@ -372,4 +372,27 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         }
         return false;
     }
+
+    /**
+     * Validating invitation's parameters
+     *
+     * Returns true or array of errors
+     *
+     * @return mixed
+     */
+    public function validate()
+    {
+        $errors = array();
+
+        if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+            $errors[] = Mage::helper('enterprise_invitation')->__("Invalid invitation email.");
+        }
+
+        if (!empty($errors)) {
+            return $errors;
+        }
+
+        return true;
+    }
+
 }
