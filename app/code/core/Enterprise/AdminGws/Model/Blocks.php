@@ -94,7 +94,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     public function widgetCustomerGridContainer($observer)
     {
         if (!$this->_role->getWebsiteIds()) {
-            $observer->getBlock()->removeButton('add');
+            $observer->getEvent()->getBlock()->removeButton('add');
         }
     }
 

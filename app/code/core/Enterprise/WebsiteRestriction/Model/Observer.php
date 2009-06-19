@@ -38,7 +38,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
     public function restrictWebsite($observer)
     {
         /* @var $controller Mage_Core_Controller_Front_Action */
-        $controller = $observer->getControllerAction();
+        $controller = $observer->getEvent()->getControllerAction();
 
         if (!Mage::app()->getStore()->isAdmin()) {
             $dispatchResult = new Varien_Object(array('should_proceed' => true));
@@ -123,7 +123,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
      */
     public function restrictCustomersRegistration($observer)
     {
-        $result = $observer->getResult();
+        $result = $observer->getEvent()->getResult();
         if ((!Mage::app()->getStore()->isAdmin()) && $result->getIsAllowed()) {
             $result->setIsAllowed((!(bool)(int)Mage::getStoreConfig('general/restriction/is_active'))
                 || (Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER === (int)Mage::getStoreConfig('general/restriction/mode'))
@@ -142,7 +142,7 @@ class Enterprise_WebsiteRestriction_Model_Observer
             Enterprise_WebsiteRestriction_Model_Mode::ALLOW_REGISTER,
             Enterprise_WebsiteRestriction_Model_Mode::ALLOW_LOGIN
             ), true)) {
-            $observer->getLayout()->getUpdate()->addHandle('restriction_privatesales_mode');
+            $observer->getEvent()->getLayout()->getUpdate()->addHandle('restriction_privatesales_mode');
         }
     }
 }

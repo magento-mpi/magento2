@@ -218,7 +218,7 @@ class Enterprise_Staging_Model_Observer
      */
     public function takeFrontendDown($observer)
     {
-        $result = $observer->getResult();
+        $result = $observer->getEvent()->getResult();
         if ($result->getShouldProceed() && (bool)Mage::getStoreConfig('general/content_staging/block_frontend')) {
 
             $currentSiteId = Mage::app()->getWebsite()->getId();
@@ -242,7 +242,7 @@ class Enterprise_Staging_Model_Observer
             if ($isNeedToDisable===true) {
                 // take the frontend down
 
-                $controller = $observer->getController();
+                $controller = $observer->getEvent()->getController();
 
                 if ($controller->getFullActionName() !== 'staging_index_stub') {
                     $controller->getRequest()

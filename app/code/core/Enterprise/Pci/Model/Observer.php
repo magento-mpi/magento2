@@ -41,10 +41,10 @@ class Enterprise_Pci_Model_Observer
      */
     public function adminAuthenticate($observer)
     {
-        $password = $observer->getPassword();
-        $user     = $observer->getUser();
+        $password = $observer->getEvent()->getPassword();
+        $user     = $observer->getEvent()->getUser();
         $resource = Mage::getResourceSingleton('enterprise_pci/admin_user');
-        $authResult = $observer->getResult();
+        $authResult = $observer->getEvent()->getResult();
 
         // update locking information regardless whether user locked or not
         if ((!$authResult) && ($user->getId())) {
@@ -124,8 +124,8 @@ class Enterprise_Pci_Model_Observer
      */
     public function upgradeApiKey($observer)
     {
-        $apiKey = $observer->getApiKey();
-        $model  = $observer->getModel();
+        $apiKey = $observer->getEvent()->getApiKey();
+        $model  = $observer->getEvent()->getModel();
         if (!Mage::helper('core')->getEncryptor()->validateHashByVersion($apiKey, $model->getApiKey())) {
             Mage::getModel('acl/user')->load($model->getId())->setNewApiKey($apiKey)->save();
         }
@@ -138,8 +138,8 @@ class Enterprise_Pci_Model_Observer
      */
     public function upgradeCustomerPassword($observer)
     {
-        $password = $observer->getPassword();
-        $model    = $observer->getModel();
+        $password = $observer->getEvent()->getPassword();
+        $model    = $observer->getEvent()->getModel();
         if (!Mage::helper('core')->getEncryptor()->validateHashByVersion($password, $model->getPassword())) {
             $model->changePassword($password, false);
         }
@@ -157,7 +157,7 @@ class Enterprise_Pci_Model_Observer
     public function checkAdminPasswordChange($observer)
     {
         /* @var $user Mage_Admin_Model_User */
-        $user = $observer->getObject();
+        $user = $observer->getEvent()->getObject();
         $password = ($user->getNewPassword() ? $user->getNewPassword() : $user->getPassword());
         if ($password && !$user->getForceNewPassword()) {
             // validate password syntax
@@ -190,7 +190,7 @@ class Enterprise_Pci_Model_Observer
     public function trackAdminNewPassword($observer)
     {
         /* @var $user Mage_Admin_Model_User */
-        $user = $observer->getObject();
+        $user = $observer->getEvent()->getObject();
         if ($user->getId()) {
             $password = $user->getNewPassword();
             $passwordLifetime = $this->getAdminPasswordLifetime();
@@ -238,7 +238,7 @@ class Enterprise_Pci_Model_Observer
         if (!$session->isLoggedIn()) {
             return;
         }
-        $controller = $observer->getControllerAction();
+        $controller = $observer->getEvent()->getControllerAction();
         if (Mage::getSingleton('admin/session')->getPciAdminUserIsPasswordExpired()) {
             if (!in_array($controller->getFullActionName(), array('adminhtml_system_account_index', 'adminhtml_system_account_save', 'adminhtml_index_logout'))) {
                 $controller->getResponse()->setRedirect(Mage::getUrl('adminhtml/system_account/'));
