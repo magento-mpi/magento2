@@ -85,17 +85,22 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
         $websiteStores = array();
         foreach (Mage::app()->getWebsites() as $websiteId => $website) {
             $websiteStores[$websiteId] = array();
-            foreach ($website->getStores() as $storeId => $store) {
-                $websiteStores[$websiteId][] = array(
-                    'name' => $store->getName(),
-                    'id'   => $storeId,
+            foreach ($website->getGroups() as $groupId => $group) {
+                $websiteStores[$websiteId][$groupId] = array(
+                    'name' => $group->getName()
                 );
+                foreach ($group->getStores() as $storeId => $store) {
+                    $websiteStores[$websiteId][$groupId]['stores'][] = array(
+                        'id'   => $storeId,    
+                        'name' => $store->getName(),
+                    );
+                }
             }
-        }        
+        }
+        
         $websiteStores = Zend_Json::encode($websiteStores);
 
-        $result = '<script language="javascript">';
-
+        $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";
         $result .= "Event.observe('_infowebsite_id', 'change', setCurrentStores);";
         $result .= "setCurrentStores();";
@@ -103,24 +108,27 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             var wSel = $("_infowebsite_id");
             var sSel = $("_sendstore_id");
 
-            sSel.options.length = 0;
+            sSel.innerHTML = "";
             var website = wSel.options[wSel.selectedIndex].value;
             if (websiteStores[website]) {
-                for (i=0;i<websiteStores[website].length;i++) {
-                    option = new Option();
-                    option.value = websiteStores[website][i]["id"];
-                    option.text = websiteStores[website][i]["name"];
-
-                    try {
-                        sSel.add(option, null);
-                    } catch (e) {
-                        sSel.add(option);
+                groups = websiteStores[website];
+                for (groupKey in groups) {
+                    group = groups[groupKey];
+                    optionGroup = document.createElement("OPTGROUP");
+                    optionGroup.label = group["name"];  
+                    sSel.appendChild(optionGroup);
+                    
+                    stores = group["stores"];
+                    for (i=0; i < stores.length; i++) {
+                        option = new Option();
+                        option.value = stores[i]["id"];
+                        option.text = stores[i]["name"];
+                        optionGroup.appendChild(option);  
                     }
-                }
+                }                 
             }
-        }';
-
-        $result .= '</script>';
+        }
+        //]]></script>';
 
         return $result;
     }
