@@ -39,15 +39,23 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
                 'name'          => $website->getName(),
                 'website_id'    => $websiteId,
                 'currency_code' => $website->getBaseCurrencyCode(),
-                'stores'        => array()
+                'groups'        => array()
             );
-            foreach ($website->getStores() as $storeId => $store) {
-                $result[$websiteId]['stores'][$storeId] = array(
-                    'name'     => $store->getName(),
-                    'store_id' => $storeId,
+
+            foreach ($website->getGroups() as $groupId => $group) {
+                $result[$websiteId]['groups'][$groupId] = array(
+                    'name' => $group->getName()
                 );
+
+                foreach ($group->getStores() as $storeId => $store) {
+                    $result[$websiteId]['groups'][$groupId]['stores'][] = array(
+                        'name'     => $store->getName(),
+                        'store_id' => $storeId,
+                    );
+                }
             }
         }
+
         return Zend_Json::encode($result);
     }
 }

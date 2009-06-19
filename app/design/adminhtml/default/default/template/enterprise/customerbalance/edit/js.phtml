@@ -33,18 +33,23 @@ function updateEmailWebsites()
     selectedWebsite = $('<?php echo $this->getPrefix() ?>website_id') ? $('<?php echo $this->getPrefix() ?>website_id').value : '<?php echo $this->getCustomerWebsite() ?>';
     allowedWebsites = eval(<?php echo $this->getWebsitesJson()?>);
 
-    while(emailWebsites.options.length > 0) {
-        emailWebsites.remove(0);
-    }
-
-    for( website in allowedWebsites ) {
-        var objOption = document.createElement('option');
-        if( allowedWebsites[website].website_id && allowedWebsites[website].website_id == selectedWebsite ) {
-            for( store in allowedWebsites[website].stores ) {
-                var objOption = document.createElement('option');
-                objOption.innerHTML = allowedWebsites[website].stores[store].name;
-                objOption.value = allowedWebsites[website].stores[store].store_id;
-                emailWebsites.appendChild(objOption);
+    emailWebsites.innerHTML = '';
+    for(websiteKey in allowedWebsites) {
+        website = allowedWebsites[websiteKey];
+        if( website.website_id && website.website_id == selectedWebsite ) {            
+            groups = website["groups"];
+            for (groupKey in groups) {
+                group = groups[groupKey];
+                optionGroup = document.createElement("OPTGROUP");
+                optionGroup.label = group["name"]; 
+                emailWebsites.appendChild(optionGroup);
+                stores = group["stores"];
+                for (i=0; i < stores.length; i++) {
+                    option = new Option();
+                    option.value = stores[i]["store_id"];
+                    option.text = stores[i]["name"];
+                    optionGroup.appendChild(option);  
+                }
             }
         }
     }
