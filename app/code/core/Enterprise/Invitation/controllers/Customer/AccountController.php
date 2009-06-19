@@ -64,17 +64,13 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
-        if (!Mage::helper('enterprise_invitation')->isRegistrationAllowed()) {
-            $this->_redirect('customer/account/create');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
-        }
         if ($this->_getSession()->isLoggedIn()) {
             $this->_redirect('customer/account/');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
-        return;
+
+        return $this;
     }
 
     /**
@@ -129,14 +125,15 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
     {
         try {
             $invitation = $this->_initInvitation();
+
             $customer = Mage::getModel('customer/customer')
                 ->setId(null)->setSkipConfirmationIfEmail($invitation->getEmail());
             Mage::register('current_customer', $customer);
+
             if ($groupId = $invitation->getGroupId()) {
                 $customer->setGroupId($groupId);
             }
 
-            $this->getRequest()->setModuleName('customer')->setControllerName('account');
             parent::createPostAction();
 
             if ($customerId = $customer->getId()) {
@@ -145,14 +142,37 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
             return;
         }
         catch (Mage_Core_Exception $e) {
-            $this->_getSession()->addError($e->getMessage())
-                ->setCustomerFormData($this->getRequest()->getPost());
+            $_definedErrorCodes = array(
+                Enterprise_Invitation_Model_Invitation::ERROR_CUSTOMER_EXISTS,
+                Enterprise_Invitation_Model_Invitation::ERROR_INVALID_DATA
+            );
+            if (in_array($e->getCode(), $_definedErrorCodes)) {
+                $this->_getSession()->addError($e->getMessage())
+                    ->setCustomerFormData($this->getRequest()->getPost());
+            } else {
+                if (Mage::helper('customer')->isRegistrationAllowed()) {
+                    $this->_getSession()->addError(
+                        Mage::helper('enterprise_invitation')->__('Your invitation is not valid. Please create an account.')
+                    );
+                    $this->_redirect('customer/account/create');
+                    return;
+                } else {
+                    $this->_getSession()->addError(
+                        Mage::helper('enterprise_invitation')->__('Your invitation is not valid. Please contact us at %s.', Mage::getStoreConfig('trans_email/ident_support/email'))
+                    );
+                    $this->_redirect('customer/account/login');
+                    return;
+                }
+            }
         }
         catch (Exception $e) {
             $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
                 ->addException($e, Mage::helper('customer')->__('Can\'t save customer'));
         }
+
         $this->_redirectError('');
+
+        return $this;
     }
 
     /**
@@ -174,7 +194,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
      */
     protected function _redirectError($defaultUrl)
     {
-        return $this->_redirect(Mage::getUrl('enterprise_invitation/account/create',
-            array('_current' => true, '_secure' => true)));
+        return $this->_redirect('enterprise_invitation/customer_account/create',
+            array('_current' => true, '_secure' => true));
     }
 }
