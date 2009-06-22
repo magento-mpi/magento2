@@ -677,6 +677,7 @@ class Mage_Bundle_Model_Mysql4_Price_Index extends Mage_Core_Model_Mysql4_Abstra
         $productId, $priceType, $basePrice, $priceData, $priceIndex, $website, $group)
     {
         $minPrice = $maxPrice = $basePrice;
+        $optPrice = 0;
 
         foreach ($options as $option) {
             $optionPrices = array();
@@ -728,6 +729,9 @@ class Mage_Bundle_Model_Mysql4_Price_Index extends Mage_Core_Model_Mysql4_Abstra
                 if ($option['required']) {
                     $minPrice += min($optionPrices);
                 }
+                else {
+                    $optPrice = $optPrice && $optPrice < min($optionPrices) ? $optPrice : min($optionPrices);
+                }
                 if (in_array($option['type'], array('multi', 'checkbox'))) {
                     $maxPrice += array_sum($optionPrices);
                 }
@@ -735,6 +739,10 @@ class Mage_Bundle_Model_Mysql4_Price_Index extends Mage_Core_Model_Mysql4_Abstra
                     $maxPrice += max($optionPrices);
                 }
             }
+        }
+
+        if ($minPrice == 0) {
+            $minPrice = $optPrice;
         }
         return array($minPrice, $maxPrice);
     }
