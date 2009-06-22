@@ -69,7 +69,7 @@ class Mage_Chronopay_Model_Gateway extends Mage_Payment_Model_Method_Cc
      */
     protected function _getIp ()
     {
-        return $_SERVER['REMOTE_ADDR'];
+        return Mage::helper('core/http')->getRemoteAddr();
     }
 
     /**

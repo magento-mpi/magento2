@@ -60,8 +60,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Event extends Mage_Core_Model_Mysq
             $object->setUpdatedAt($value);
         }
 
-        $ip = Mage::app()->getRequest()->getServer('REMOTE_ADDR');
-        $object->setIp(ip2long($ip));
+        $ip = Mage::helper('core/http')->getRemoteAddr(true);
+        $object->setIp($ip);
 
         $user = Mage::getSingleton('admin/session')->getUser();
         if ($user) {

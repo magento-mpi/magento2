@@ -191,7 +191,7 @@ class Enterprise_Logging_Model_Observer
 
                 // prepare event data
                 $loggingEvent = Mage::getModel('enterprise_logging/event')->setData(array(
-                    'ip'         => $_SERVER['REMOTE_ADDR'],
+                    'ip'         => Mage::helper('core/http')->getRemoteAddr(),
                     'user'       => $username,
                     'user_id'    => $userId,
                     'is_success' => !(is_array($errors) && count($errors) > 0),
@@ -270,7 +270,7 @@ class Enterprise_Logging_Model_Observer
         }
         $request = Mage::app()->getRequest();
         return Mage::getSingleton('enterprise_logging/event')->setData(array(
-            'ip'         => $_SERVER['REMOTE_ADDR'],
+            'ip'         => Mage::helper('core/http')->getRemoteAddr(),
             'user'       => $username,
             'user_id'    => $userId,
             'is_success' => (bool)$userId,
