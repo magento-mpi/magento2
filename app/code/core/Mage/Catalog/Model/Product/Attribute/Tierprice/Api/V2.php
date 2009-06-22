@@ -42,7 +42,6 @@ class Mage_Catalog_Model_Product_Attribute_Tierprice_Api_V2 extends Mage_Catalog
      */
     public function update($productId, $tierPrices)
     {
-        Mage::log($tierPrices);
         $product = $this->_initProduct($productId);
         if (!is_array($tierPrices)) {
             $this->_fault('data_invalid', Mage::helper('catalog')->__('Invalid Tier Prices'));
