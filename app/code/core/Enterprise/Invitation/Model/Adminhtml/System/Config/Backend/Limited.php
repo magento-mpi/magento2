@@ -52,14 +52,13 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Limited
             $value = (int)$this->getOldValue();
             if ($value < 1) {
                 $value = 1;
-            }
 
+            }
             $this->setValue($value);
             Mage::getSingleton('adminhtml/session')->addNotice(
                 Mage::helper('enterprise_invitation')->__('Invalid value used for "%s" parameter. Previous value saved.', $parameter)
             );
         }
-
         return $this;
     }
 }
