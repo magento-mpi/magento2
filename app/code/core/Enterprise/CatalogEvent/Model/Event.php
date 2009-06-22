@@ -279,6 +279,23 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Validates data for event
+     */
+    public function validate() 
+    {
+        $format = Mage_Core_Model_Locale::FORMAT_TYPE_SHORT;
+        $dateStartUnixTime = strtotime($this->_convertDateTime($this->getData('date_start'), $format));
+        $dateEndUnixTime   = strtotime($this->_convertDateTime($this->getData('date_end'), $format));
+        $dateIsOk = $dateEndUnixTime > $dateStartUnixTime;
+        if ($dateIsOk) {
+            return true;
+        }
+        else {
+            return array(Mage::helper('enterprise_catalogevent')->__("End Date should be greater than Start Date"));
+        }
+    }
+
+    /**
      * Converts given date to internal date format in UTC
      *
      * @param  string $dateTime

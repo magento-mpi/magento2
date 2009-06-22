@@ -167,7 +167,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
 
 
         if ($sessionData = Mage::getSingleton('adminhtml/session')->getEventData(true)) {
-            $form->setValues($sessionData);
+            $form->setValues($sessionData['catalogevent']);
         } else {
             $form->setValues($this->getEvent()->getData());
         }

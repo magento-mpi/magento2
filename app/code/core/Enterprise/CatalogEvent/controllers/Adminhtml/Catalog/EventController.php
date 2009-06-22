@@ -83,8 +83,6 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
 
         Mage::register('enterprise_catalogevent_event', $event);
 
-
-
         $this->_initAction();
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         if (($switchBlock = $this->getLayout()->getBlock('store_switcher'))) {
@@ -133,10 +131,17 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             $isUploaded = false;
         }
 
-
+        $validateResult = $event->validate();
+        if ($validateResult !== true) {
+            foreach ($validateResult as $errorMessage) {
+                $this->_getSession()->addError($errorMessage);
+            }
+            $this->_getSession()->setEventData($this->getRequest()->getPost());
+            $this->_redirect('*/*/edit', array('_current'=>true));
+            return;
+        }
 
         try {
-
             if ($data->getData('image/is_default')) {
                 $event->setImage(null);
             } elseif ($data->getData('image/delete')) {
