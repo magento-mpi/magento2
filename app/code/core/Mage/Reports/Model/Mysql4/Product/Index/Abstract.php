@@ -90,6 +90,28 @@ abstract class Mage_Reports_Model_Mysql4_Product_Index_Abstract extends Mage_Cor
     }
 
     /**
+     * Purge visitor data by customer (logout)
+     *
+     * @param Mage_Reports_Model_Product_Index_Abstract $object
+     * @return Mage_Reports_Model_Mysql4_Product_Index_Abstract
+     */
+    public function purgeVisitorByCustomer(Mage_Reports_Model_Product_Index_Abstract $object)
+    {
+        if (!$object->getCustomerId()) {
+            return $this;
+        }
+
+        $where  = $this->_getWriteAdapter()->quoteInto('customer_id=?', $object->getCustomerId());
+        $bind   = array(
+            'visitor_id' => 0,
+        );
+
+        $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
+
+        return $this;
+    }
+
+    /**
      * Save Product Index data (forsed save)
      *
      * @param Mage_Reports_Model_Product_Index_Abstract $object
@@ -98,5 +120,36 @@ abstract class Mage_Reports_Model_Mysql4_Product_Index_Abstract extends Mage_Cor
     public function save(Mage_Core_Model_Abstract $object)
     {
         return $this->forsedSave($object);
+    }
+
+    /**
+     * Clean index (visitor)
+     *
+     * @return Mage_Reports_Model_Mysql4_Product_Index_Abstract
+     */
+    public function clean()
+    {
+        while (true) {
+            $select = $this->_getReadAdapter()->select()
+                ->from(array('main_table' => $this->getMainTable()), array($this->getIdFieldName()))
+                ->joinLeft(
+                    array('visitor_table' => $this->getTable('log/visitor')),
+                    'main_table.visitor_id = visitor_table.visitor_id',
+                    array())
+                ->where('main_table.visitor_id > 0')
+                ->where('visitor_table.visitor_id IS NULL')
+                ->limit(100);
+            $indexIds = $this->_getReadAdapter()->fetchCol($select);
+
+            if (!$indexIds) {
+                break;
+            }
+
+            $this->_getWriteAdapter()->delete(
+                $this->getMainTable(),
+                $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . ' IN(?)', $indexIds)
+            );
+        }
+        return $this;
     }
 }

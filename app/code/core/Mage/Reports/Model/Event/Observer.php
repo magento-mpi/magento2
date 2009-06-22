@@ -99,6 +99,23 @@ class Mage_Reports_Model_Event_Observer
     }
 
     /**
+     * Customer logout processing
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Reports_Model_Event_Observer
+     */
+    public function customerLogout(Varien_Event_Observer $observer)
+    {
+        Mage::getModel('reports/product_index_compared')
+            ->purgeVisitorByCustomer()
+            ->calculate();
+        Mage::getModel('reports/product_index_viewed')
+            ->purgeVisitorByCustomer()
+            ->calculate();
+        return $this;
+    }
+
+    /**
      * View Catalog Product action
      *
      * @param Varien_Event_Observer $observer
@@ -231,9 +248,12 @@ class Mage_Reports_Model_Event_Observer
      */
     public function eventClean(Varien_Event_Observer $observer)
     {
-        $event = Mage::getModel('reports/event');
         /* @var $event Mage_Reports_Model_Event */
+        $event = Mage::getModel('reports/event');
         $event->clean();
+
+        Mage::getModel('reports/product_index_compared')->clean();
+        Mage::getModel('reports/product_index_viewed')->clean();
 
         return $this;
     }

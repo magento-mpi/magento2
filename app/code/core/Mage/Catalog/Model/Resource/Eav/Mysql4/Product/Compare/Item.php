@@ -57,14 +57,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item extends Mage_C
             $productId = $product->getId();
         }
         else {
-            $productId = (int) $product;
+            $productId = (int)$product;
         }
 
         $select = $read->select()->from($this->getMainTable())
-            ->where('product_id=?',  $productId)
-            ->where('visitor_id=?',  $object->getVisitorId());
+            ->where('product_id=?',  $productId);
+
         if ($object->getCustomerId()) {
             $select->where('customer_id=?', $object->getCustomerId());
+        }
+        else {
+            $select->where('visitor_id=?', $object->getVisitorId());
         }
 
         $data = $read->fetchRow($select);
@@ -99,10 +102,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item extends Mage_C
     /**
      * Clean compare table
      *
-     * @param Mage_Catalog_Model_Product_Compare_Item $object
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item
      */
-    public function clean($object)
+    public function clean()
     {
         while (true) {
             $select = $this->_getReadAdapter()->select()
@@ -111,7 +113,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item extends Mage_C
                     array('visitor_table' => $this->getTable('log/visitor')),
                     '`visitor_table`.`visitor_id`=`compare_table`.`visitor_id` AND `compare_table`.`customer_id` IS NULL',
                     array())
-                ->where('compare_table.visitor_id>?',0)
+                ->where('compare_table.visitor_id>?', 0)
                 ->where('`visitor_table`.`visitor_id` IS NULL')
                 ->limit(100);
             $itemIds = $this->_getReadAdapter()->fetchCol($select);
@@ -125,6 +127,28 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item extends Mage_C
                 $this->_getWriteAdapter()->quoteInto('catalog_compare_item_id IN(?)', $itemIds)
             );
         }
+
+        return $this;
+    }
+
+    /**
+     * Purge visitor data after customer logout
+     *
+     * @param Mage_Catalog_Model_Product_Compare_Item $object
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item
+     */
+    public function purgeVisitorByCustomer($object)
+    {
+        if (!$object->getCustomerId()) {
+            return $this;
+        }
+
+        $where  = $this->_getWriteAdapter()->quoteInto('customer_id=?', $object->getCustomerId());
+        $bind   = array(
+            'visitor_id' => 0,
+        );
+
+        $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
 
         return $this;
     }

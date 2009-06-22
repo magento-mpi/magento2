@@ -397,6 +397,15 @@
                     </reports>
                 </observers>
             </customer_login>
+            <customer_logout>
+                <observers>
+                    <reports>
+                        <type>singleton</type>
+                        <class>reports/event_observer</class>
+                        <method>customerLogout</method>
+                    </reports>
+                </observers>
+            </customer_logout>
             <catalog_controller_product_view>
                 <observers>
                     <reports>

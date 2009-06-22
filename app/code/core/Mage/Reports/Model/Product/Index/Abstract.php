@@ -133,6 +133,17 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model
     }
 
     /**
+     * Purge visitor data by customer (logout)
+     *
+     * @return Mage_Reports_Model_Product_Index_Abstract
+     */
+    public function purgeVisitorByCustomer()
+    {
+        $this->_getResource()->purgeVisitorByCustomer($this);
+        return $this;
+    }
+
+    /**
      * Retrieve Reports Session instance
      *
      * @return Mage_Reports_Model_Session
@@ -194,5 +205,16 @@ abstract class Mage_Reports_Model_Product_Index_Abstract extends Mage_Core_Model
         }
 
         return $this->_getSession()->getData($this->_countCacheKey);
+    }
+
+    /**
+     * Clean index (visitors)
+     *
+     * @return Mage_Reports_Model_Product_Index_Abstract
+     */
+    public function clean()
+    {
+        $this->_getResource()->clean($this);
+        return $this;
     }
 }
