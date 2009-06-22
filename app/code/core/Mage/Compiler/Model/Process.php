@@ -430,8 +430,8 @@ class Mage_Compiler_Model_Process
     public function validate()
     {
         $result = array();
-        if (!is_writeable($this->_includeDir)) {
-            $result[] = Mage::helper('compiler')->__('Directory "%s" must be writeable', $this->_includeDir);
+        if (!is_writeable($this->_compileDir)) {
+            $result[] = Mage::helper('compiler')->__('Directory "%s" must be writeable', $this->_compileDir);
         }
         $file = $this->_compileDir.DS.'config.php';
         if (!is_writeable($file)) {
