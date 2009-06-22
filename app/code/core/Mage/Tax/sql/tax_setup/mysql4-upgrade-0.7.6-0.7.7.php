@@ -24,8 +24,9 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/* @var $installer Mage_Tax_Model_Mysql4_Setup */
 $installer = $this;
-/* @var $installer Mage_Core_Model_Resource_Setup  */
+
 
 $installer->startSetup();
 
@@ -86,8 +87,7 @@ $installer->getConnection()->addConstraint('FK_TAX_CALCULATION_CTC', $installer-
 $installer->getConnection()->addConstraint('FK_TAX_CALCULATION_PTC', $installer->getTable('tax_calculation'), 'product_tax_class_id', $installer->getTable('tax_class'), 'class_id');
 
 
-$this->convertOldTaxData();
-
+$installer->convertOldTaxData();
 
 $installer->run("
 DROP TABLE `{$installer->getTable('tax_rule')}`;
@@ -95,6 +95,5 @@ DROP TABLE `{$installer->getTable('tax_rate_type')}`;
 DROP TABLE `{$installer->getTable('tax_rate_data')}`;
 DROP TABLE `{$installer->getTable('tax_rate')}`;
 ");
-
 
 $installer->endSetup();

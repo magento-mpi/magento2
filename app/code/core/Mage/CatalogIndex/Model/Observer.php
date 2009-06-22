@@ -269,6 +269,9 @@ class Mage_CatalogIndex_Model_Observer extends Mage_Core_Model_Abstract
     public function catalogCategorySaveAfter(Varien_Event_Observer $observer)
     {
         $category = $observer->getEvent()->getCategory();
+        if ($category->getInitialSetupFlag()) {
+            return $this;
+        }
         $tags = array(
             Mage_Catalog_Model_Category::CACHE_TAG.':'.$category->getPath()
         );
