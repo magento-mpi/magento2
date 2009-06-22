@@ -384,8 +384,24 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         ))));
     }
 
+    /**
+    * Build response for refresh input element 'path' in form
+    */
+    public function refreshPathAction()
+    {
+        if ($id = (int) $this->getRequest()->getParam('id')) {
+            $category = Mage::getModel('catalog/category')->load($id);
+            $this->getResponse()->setBody(
+                Zend_Json::encode(array(
+                   'id' => $id,
+                   'path' => $category->getPath(),
+                ))
+            );
+        }     
+    }
+    
     protected function _isAllowed()
     {
-	    return Mage::getSingleton('admin/session')->isAllowed('catalog/categories');
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/categories');
     }
 }
