@@ -59,7 +59,7 @@ class Enterprise_Invitation_Customer_AccountController extends Mage_Customer_Acc
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
         }
-        if (!Mage::helper('enterprise_invitation')->isEnabled()) {
+        if (!Mage::getSingleton('enterprise_invitation/config')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;

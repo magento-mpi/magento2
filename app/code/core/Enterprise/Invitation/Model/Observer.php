@@ -39,6 +39,13 @@ class Enterprise_Invitation_Model_Observer
      */
     protected $_flagInCustomerRegistration = false;
 
+    protected $_config;
+
+    public function __construct()
+    {
+        $this->_config = Mage::getSingleton('enterprise_invitation/config');
+    }
+
     /**
      * Observe customer registration for invitations
      *
@@ -46,7 +53,7 @@ class Enterprise_Invitation_Model_Observer
      */
     public function restrictCustomerRegistration(Varien_Event_Observer $observer)
     {
-        if (! Mage::helper('enterprise_invitation')->isEnabled()) {
+        if (!$this->_config->isEnabledOnFront()) {
             return;
         }
 
@@ -56,7 +63,7 @@ class Enterprise_Invitation_Model_Observer
             Mage::helper('enterprise_invitation')->isRegistrationAllowed(false);
         } else {
             Mage::helper('enterprise_invitation')->isRegistrationAllowed(true);
-            $result->setIsAllowed(!Mage::helper('enterprise_invitation')->getInvitationRequired());
+            $result->setIsAllowed(!$this->_config->getInvitationRequired());
         }
     }
 

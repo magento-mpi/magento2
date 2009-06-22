@@ -271,6 +271,7 @@
             </email>
             <general>
                 <enabled>1</enabled>
+                <enabled_on_front>1</enabled_on_front>
                 <registration_use_inviter_group>1</registration_use_inviter_group>
                 <registration_required_invitation>0</registration_required_invitation>
                 <max_invitation_amount_per_send>5</max_invitation_amount_per_send>

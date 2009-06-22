@@ -32,66 +32,51 @@
  */
 class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_ENABLED = 'enterprise_invitation/general/enabled';
-
-    const XML_PATH_USE_INVITATION_MESSAGE = 'enterprise_invitation/general/allow_customer_message';
-    const XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND = 'enterprise_invitation/general/max_invitation_amount_per_send';
-
-    const XML_PATH_REGISTRATION_REQUIRED_INVITATION = 'enterprise_invitation/general/registration_required_invitation';
-    const XML_PATH_REGISTRATION_USE_INVITER_GROUP = 'enterprise_invitation/general/registration_use_inviter_group';
-
     protected $_isRegistrationAllowed = null;
 
     /**
-     * Return max Invitation amount per send by config
+     * Return max Invitation amount per send by config.
+     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
      *
      * @return int
      */
     public function getMaxInvitationsPerSend()
     {
-        $max = (int)Mage::getStoreConfig(self::XML_PATH_MAX_INVITATION_AMOUNT_PER_SEND);
-        return ($max < 1 ? 1 : $max);
+        return Mage::getSingleton('enterprise_invitation/config')->getMaxInvitationsPerSend();
     }
 
     /**
      * Return config value for required cutomer registration by invitation
+     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
      *
      * @return boolean
      */
     public function getInvitationRequired()
     {
-        return Mage::getStoreConfig(self::XML_PATH_REGISTRATION_REQUIRED_INVITATION);
+        return Mage::getSingleton('enterprise_invitation/config')->getInvitationRequired();
     }
 
 
     /**
      * Return config value for use same group as inviter
+     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
      *
      * @return boolean
      */
     public function getUseInviterGroup()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_REGISTRATION_USE_INVITER_GROUP);
+        return Mage::getSingleton('enterprise_invitation/config')->getUseInviterGroup();
     }
 
     /**
      * Check whether invitations allow to set custom message
+     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
      *
      * @return bool
      */
     public function isInvitationMessageAllowed()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_USE_INVITATION_MESSAGE);
-    }
-
-    /**
-     * Get customer session
-     *
-     * @return Mage_Customer_Model_Session
-     */
-    protected function _getCustomerSession()
-    {
-        return Mage::getSingleton('customer/session');
+        return Mage::getSingleton('enterprise_invitation/config')->isInvitationMessageAllowed();
     }
 
     /**
@@ -162,11 +147,12 @@ class Enterprise_Invitation_Helper_Data extends Mage_Core_Helper_Abstract
 
     /**
      * Retrieve configuration for availability of invitations
+     * Depricated. Config model 'enterprise_invitation/config' should be used directly.
      *
      * @return boolean
      */
     public function isEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_ENABLED);
+        return Mage::getSingleton('enterprise_invitation/config')->isEnabled();
     }
 }

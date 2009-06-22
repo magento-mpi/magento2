@@ -40,7 +40,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!Mage::helper('enterprise_invitation')->isEnabled()) {
+        if (!Mage::getSingleton('enterprise_invitation/config')->isEnabledOnFront()) {
             $this->norouteAction();
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             return;
@@ -61,7 +61,7 @@ class Enterprise_Invitation_IndexController extends Mage_Core_Controller_Front_A
         $data = $this->getRequest()->getPost();
         if ($data) {
             $customer = Mage::getSingleton('customer/session')->getCustomer();
-            $invPerSend = Mage::helper('enterprise_invitation')->getMaxInvitationsPerSend();
+            $invPerSend = Mage::getSingleton('enterprise_invitation/config')->getMaxInvitationsPerSend();
             $attempts = 0;
             $sent     = 0;
             $customerExists = 0;
