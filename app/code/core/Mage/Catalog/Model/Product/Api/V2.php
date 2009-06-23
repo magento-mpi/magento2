@@ -34,7 +34,7 @@
 class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
 {
 
-        /**
+    /**
      * Retrieve list of products with basic info (id, sku, type, set, name)
      *
      * @param array $filters
@@ -77,16 +77,22 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         }
 
         $result = array();
-
+/*<element name="product_id" type="xsd:string" />
+                    <element name="sku" type="xsd:string" />
+                    <element name="name" type="xsd:string" />
+                    <element name="set" type="xsd:string" />
+                    <element name="type" type="xsd:string" />
+                    <element name="category_ids" type="typens:ArrayOfString" />
+                    <element name="website_ids" type="typens:ArrayOfString" />*/
         foreach ($collection as $product) {
-//            $result[] = $product->getData();
-            $result[] = array( // Basic product data
+            $result[] = array(
                 'product_id' => $product->getId(),
                 'sku'        => $product->getSku(),
                 'name'       => $product->getName(),
                 'set'        => $product->getAttributeSetId(),
                 'type'       => $product->getTypeId(),
-                'category_ids'       => $product->getCategoryIds()
+                'category_ids' => $product->getCategoryIds(),
+                'website_ids'  => $product->getWebsiteIds()
             );
         }
 
