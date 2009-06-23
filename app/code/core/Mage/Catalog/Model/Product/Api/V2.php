@@ -77,13 +77,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         }
 
         $result = array();
-/*<element name="product_id" type="xsd:string" />
-                    <element name="sku" type="xsd:string" />
-                    <element name="name" type="xsd:string" />
-                    <element name="set" type="xsd:string" />
-                    <element name="type" type="xsd:string" />
-                    <element name="category_ids" type="typens:ArrayOfString" />
-                    <element name="website_ids" type="typens:ArrayOfString" />*/
+
         foreach ($collection as $product) {
             $result[] = array(
                 'product_id' => $product->getId(),
