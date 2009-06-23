@@ -142,14 +142,17 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
                 'label' => Mage::helper('catalog')->__('Price')
             ),
             array(
-                'value' => 'gallery',
-                'label' => Mage::helper('catalog')->__('Gallery')
-            ),
-            array(
                 'value' => 'media_image',
                 'label' => Mage::helper('catalog')->__('Media Image')
             ),
         );
+
+        if ($model->getFrontendInput() == 'gallery') {
+            $inputTypes[] = array(
+                'value' => 'gallery',
+                'label' => Mage::helper('catalog')->__('Gallery')
+            );
+        }
 
         $response = new Varien_Object();
         $response->setTypes(array());
