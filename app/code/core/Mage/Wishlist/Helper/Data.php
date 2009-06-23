@@ -243,7 +243,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function isAllow()
     {
-        if (Mage::getStoreConfig('wishlist/general/active')) {
+        if ($this->isModuleOutputEnabled() && Mage::getStoreConfig('wishlist/general/active')) {
             return true;
         }
         return false;
