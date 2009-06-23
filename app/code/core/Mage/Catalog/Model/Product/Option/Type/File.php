@@ -216,7 +216,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                         $option->getTitle()
                     );
                 } elseif ($errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG
-                    || $errorCode == Zend_Validate_File_ImageSize::WIDTH_TOO_BIG)
+                    || $errorCode == Zend_Validate_File_ImageSize::HEIGHT_TOO_BIG)
                 {
                     $errors[] = Mage::helper('catalog')->__("Maximum allowed image size for '%s' is %sx%s px.",
                         $option->getTitle(),
