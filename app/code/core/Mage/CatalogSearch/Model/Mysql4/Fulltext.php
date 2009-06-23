@@ -48,6 +48,13 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
     protected $_separator = ' ';
 
     /**
+     * Array of Zend_Date objects per store
+     *
+     * @var array
+     */
+    protected $_dates = array();
+
+    /**
      * Product Type Instances cache
      *
      * @var array
@@ -101,6 +108,8 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             'int'       => array_keys($this->_getSearchableAttributes('int')),
             'varchar'   => array_keys($this->_getSearchableAttributes('varchar')),
             'text'      => array_keys($this->_getSearchableAttributes('text')),
+            'decimal'   => array_keys($this->_getSearchableAttributes('decimal')),
+            'datetime'  => array_keys($this->_getSearchableAttributes('datetime')),
         );
 
         // status and visibility filter
@@ -545,6 +554,12 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $attribute->setStoreId($storeId);
             $value = $attribute->getSource()->getOptionText($value);
         }
+        if ($attribute->getBackendType() == 'datetime') {
+            $value = $this->_getStoreDate($storeId, $value);
+        }
+        if ($attribute->getFrontend()->getInputType() == 'price') {
+            $value = Mage::app()->getStore($storeId)->roundPrice($value);
+        }
 
         if (is_array($value)) {
             $value = implode($this->_separator, $value);
@@ -598,5 +613,32 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         }
 
         return $this;
+    }
+
+    /**
+     * Retrieve Date value for store
+     *
+     * @param int $storeId
+     * @param string $date
+     * @return string
+     */
+    protected function _getStoreDate($storeId, $date = null)
+    {
+        if (!isset($this->_dates[$storeId])) {
+            $timezone = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_TIMEZONE, $storeId);
+            $locale   = Mage::getStoreConfig(Mage_Core_Model_Locale::XML_PATH_DEFAULT_LOCALE, $storeId);
+            $locale   = new Zend_Locale($locale);
+
+            $dateObj = new Zend_Date(null, null, $locale);
+            $dateObj->setTimezone($timezone);
+            $this->_dates[$storeId] = array($dateObj, $locale->getTranslation(null, 'date', $locale));
+        }
+
+        if (!is_empty_date($date)) {
+            list($dateObj, $format) = $this->_dates[$storeId];
+            $dateObj->setDate($date, Varien_Date::DATETIME_INTERNAL_FORMAT);
+            return $dateObj->toString($format);
+        }
+        return null;
     }
 }
