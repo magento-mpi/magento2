@@ -234,8 +234,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                             $address->setCollectShippingRates(true)->collectTotals();
                             $billingAddress->setCollectShippingRates(true)->collectTotals();
 
-                            $taxAmount = $address->getTaxAmount();
-                            $taxAmount += $billingAddress->getTaxAmount();
+                            $taxAmount = $address->getBaseTaxAmount();
+                            $taxAmount += $billingAddress->getBaseTaxAmount();
 
                             $result->setTaxDetails($taxAmount);
                         }
@@ -250,8 +250,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
                 $address->setCollectShippingRates(true)->collectTotals();
                 $billingAddress->setCollectShippingRates(true)->collectTotals();
 
-                $taxAmount = $address->getTaxAmount();
-                $taxAmount += $billingAddress->getTaxAmount();
+                $taxAmount = $address->getBaseTaxAmount();
+                $taxAmount += $billingAddress->getBaseTaxAmount();
 
                 $result = new GoogleResult($addressId);
                 $result->setTaxDetails($taxAmount);
