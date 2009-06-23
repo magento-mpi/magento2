@@ -280,6 +280,8 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
 
     /**
      * Validates data for event
+     * @returns boolean|array - returns true if validation passed successfully. Array with error
+     * description otherwise
      */
     public function validate() 
     {
