@@ -278,7 +278,7 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
         // IMPORT GOOGLE ORDER DATA INTO QUOTE
 
         $quoteId = $this->getData('root/shopping-cart/merchant-private-data/quote-id/VALUE');
-        $quote = Mage::getModel('sales/quote')->load($quoteId);
+        $quote = Mage::getModel('sales/quote')->load($quoteId)->setIsActive(true);
 //
 //        $quoteItems = $quote->getItemsCollection();
 //        foreach ($this->getData('root/shopping-cart/items') as $item) {
@@ -372,6 +372,8 @@ class Mage_GoogleCheckout_Model_Api_Xml_Callback extends Mage_GoogleCheckout_Mod
             ->setLastOrderId($order->getId())
             ->setLastSuccessQuoteId($quote->getId())
             ->setLastRealOrderId($order->getIncrementId());
+
+        $quote->setIsActive(false)->save();
 
         if ($emailAllowed) {
             Mage::getModel('newsletter/subscriber')->subscribe($order->getCustomerEmail());
