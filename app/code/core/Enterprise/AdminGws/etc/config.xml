@@ -458,6 +458,7 @@
                     <adminhtml__system_store_store>widgetManageStores</adminhtml__system_store_store>
                     <adminhtml__catalog_product>widgetProductGridContainer</adminhtml__catalog_product>
                     <enterprise_catalogevent__adminhtml_event>widgetCatalogEventGridContainer</enterprise_catalogevent__adminhtml_event>
+                    <enterprise_catalogevent__adminhtml_event_edit_form>restrictCountdownTicker</enterprise_catalogevent__adminhtml_event_edit_form>
                     <adminhtml__catalog_product_attribute>removeCatalogProductAttributeAddButton</adminhtml__catalog_product_attribute>
                     <adminhtml__catalog_product_attribute_edit>removeCatalogProductAttributeSaveButtons</adminhtml__catalog_product_attribute_edit>
                     <adminhtml__catalog_category_edit_form>widgetCatalogEventCategoryEditButtons</adminhtml__catalog_category_edit_form>

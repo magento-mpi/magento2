@@ -190,13 +190,6 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             $form->getElement('date_end')->setValue($date);
         }
 
-        if (is_array($form->getElement('display_state_array')->getValue())) {
-            $form->getElement('display_state_array')->setValue(array_merge(
-                  array((string) 0), // Work around for checkbox checked bug
-                  $form->getElement('display_state_array')->getValue()
-            ));
-        }
-
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
                 '<a href="' . Mage::helper('adminhtml')->getUrl('adminhtml/catalog_category/edit',

@@ -230,4 +230,24 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         }
     }
 
+    /**
+     * Disables "Display Countdown Ticker On" checkboxes if user have not enouch rights 
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function restrictCountdownTicker($observer)
+    {
+        if ($this->_role->getIsAll()) {
+            return;
+        }
+        $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
+        $category = Mage::getModel('catalog/category')->load($categoryId);
+        $allowedCategoryEdit = $this->_role->hasExclusiveCategoryAccess($category->getPath());
+        if ($allowedCategoryEdit) {
+            $element = $observer->getEvent()->getBlock()->getForm()
+                       ->getElement('display_state_array');
+            $element->setDisabled( array(Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE,
+                                         Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE));
+        }
+    }
 }
