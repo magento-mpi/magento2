@@ -31,9 +31,20 @@
  */
 class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
 {
-    protected $_rates = array();
-    protected $_ctc = array();
-    protected $_ptc = array();
+    const CALC_PRICE_EXCL_TAX_DISCOUNT_ON_EXCL      = '0_0_0';
+    const CALC_PRICE_EXCL_TAX_DISCOUNT_ON_INCL      = '0_0_1';
+    const CALC_PRICE_EXCL_TAX_AFTER_DISCOUNT_ON_EXCL= '0_1_1';
+    const CALC_PRICE_INCL_TAX_DISCOUNT_ON_EXCL      = '1_0_0';
+    const CALC_PRICE_INCL_TAX_DISCOUNT_ON_INCL      = '1_0_1';
+    const CALC_PRICE_INCL_TAX_AFTER_DISCOUNT_ON_INCL= '1_1_1';
+
+    const CALC_UNIT_BASE    = 'UNIT_BASE_CALCULATION';
+    const CALC_ROW_BASE     = 'ROW_BASE_CALCULATION';
+    const CALC_TOTAL_BASE   = 'TOTAL_BASE_CALCULATION';
+
+    protected $_rates   = array();
+    protected $_ctc     = array();
+    protected $_ptc     = array();
 
     protected $_rateCache = array();
     protected $_rateCalculationProcess = array();
@@ -43,28 +54,52 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         $this->_init('tax/calculation');
     }
 
+    /**
+     * Delete calculation settings by rule id
+     *
+     * @param   int $ruleId
+     * @return  Mage_Tax_Model_Calculation
+     */
     public function deleteByRuleId($ruleId)
     {
-        $this->getResource()->deleteByRuleId($ruleId);
+        $this->_getResource()->deleteByRuleId($ruleId);
         return $this;
     }
 
+    /**
+     * Get calculation rates by rule id
+     *
+     * @param   int $ruleId
+     * @return  array
+     */
     public function getRates($ruleId)
     {
         if (!isset($this->_rates[$ruleId])) {
-            $this->_rates[$ruleId] = $this->getResource()->getDistinct('tax_calculation_rate_id', $ruleId);
+            $this->_rates[$ruleId] = $this->_getResource()->getDistinct('tax_calculation_rate_id', $ruleId);
         }
         return $this->_rates[$ruleId];
     }
 
+    /**
+     * Get allowed customer tax classes by rule id
+     *
+     * @param   int $ruleId
+     * @return  array
+     */
     public function getCustomerTaxClasses($ruleId)
     {
         if (!isset($this->_ctc[$ruleId])) {
-            $this->_ctc[$ruleId] = $this->getResource()->getDistinct('customer_tax_class_id', $ruleId);
+            $this->_ctc[$ruleId] = $this->_getResource()->getDistinct('customer_tax_class_id', $ruleId);
         }
         return $this->_ctc[$ruleId];
     }
 
+    /**
+     * Get allowed product tax classes by rule id
+     *
+     * @param   int $ruleId
+     * @return  array
+     */
     public function getProductTaxClasses($ruleId)
     {
         if (!isset($this->_ptc[$ruleId])) {
@@ -89,13 +124,21 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         return array($process);
     }
 
+    /**
+     * Get calculation tax rate by specific request
+     * 
+     * @param   Varien_Object $request
+     * @return  float
+     */
     public function getRate($request)
     {
         if (!$request->getCountryId() || !$request->getCustomerClassId() || !$request->getProductClassId()) {
             return 0;
         }
 
-        $cacheKey = "{$request->getProductClassId()}|{$request->getCustomerClassId()}|{$request->getCountryId()}|{$request->getRegionId()}|{$request->getPostcode()}";
+        $cacheKey = $request->getProductClassId() . '|' . $request->getCustomerClassId() . '|'
+            . $request->getCountryId() . '|' . $request->getRegionId() . '|' . $request->getPostcode();
+
         if (!isset($this->_rateCache[$cacheKey])) {
             $this->unsRateValue();
             $this->unsCalculationProcess();
@@ -113,6 +156,15 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         return $this->_rateCache[$cacheKey];
     }
 
+    /**
+     * Get request object for getting tax rate
+     *
+     * @param   null|Varien_Object $shippingAddress
+     * @param   null|Varien_Object $billingAddress
+     * @param   null|int $customerTaxClass
+     * @param   null|int $store
+     * @return  Varien_Object
+     */
     public function getRateRequest($shippingAddress = null, $billingAddress = null, $customerTaxClass = null, $store = null)
     {
         $address = new Varien_Object();
@@ -202,9 +254,18 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         return $this->_getRates($request, 'customer_class_id', 'CUSTOMER');
     }
 
+    /**
+     * Get information about tax rates applied to request
+     *
+     * @param   Varien_Object $request
+     * @return  array
+     */
     public function getAppliedRates($request)
     {
-        $cacheKey = "{$request->getStore()->getId()}|{$request->getProductClassId()}|{$request->getCustomerClassId()}|{$request->getCountryId()}|{$request->getRegionId()}|{$request->getPostcode()}";
+        $cacheKey = $request->getStore()->getId() . '|' . $request->getProductClassId() . '|'
+            . $request->getCustomerClassId() . '|' . $request->getCountryId() . '|'
+            . $request->getRegionId() . '|' . $request->getPostcode();
+
         if (!isset($this->_rateCalculationProcess[$cacheKey])) {
             $this->_rateCalculationProcess[$cacheKey] = $this->_getResource()->getCalculationProcess($request);
         }
@@ -224,5 +285,62 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
     public function getRatesByCustomerAndProductTaxClasses($customerTaxClass, $productTaxClass)
     {
         return $this->getResource()->getRatesByCustomerTaxClass($customerTaxClass, $productTaxClass);
+    }
+
+    /**
+     * Calculate rated tax abount based on price and tax rate.
+     * If you are using price including tax $priceIncludeTax should be true.
+     * $taxRate can't be more than 1 (if it is not percent)
+     *
+     * @param   float $price
+     * @param   float $taxRate 
+     * @param   boolean $priceIncludeTax
+     * @return  float
+     */
+    public function calcTaxAmount($price, $taxRate, $priceIncludeTax=false, $round=true)
+    {
+        /**
+         * $taxRate can be more than 1 if somebody use tax percent
+         */
+        if ($taxRate>1) {
+            $taxRate = $taxRate/100;
+        }
+
+        if ($priceIncludeTax) {
+            $amount = $price*(1-1/(1+$taxRate));
+        } else {
+            $amount = $price*$taxRate;
+        }
+
+        if ($round) {
+            return $this->round($amount);
+        } else {
+            return $amount;
+        }
+    }
+
+    /**
+     * Truncate number to specified precision
+     *
+     * @param   float $price
+     * @param   int $precision
+     * @return  float
+     */
+    public function truncate($price, $precision=4)
+    {
+        $exp = pow(10,$precision);
+        $price = floor($price*$exp)/$exp;
+        return $price;
+    }
+
+    /**
+     * Round tax amount
+     *
+     * @param   float $price
+     * @return  float
+     */
+    public function round($price)
+    {
+        return Mage::app()->getStore()->roundPrice($price);
     }
 }

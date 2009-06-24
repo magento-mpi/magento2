@@ -412,8 +412,6 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     $product->unsSkipCheckRequiredOption();
                     $newItem->checkData();
                     $newItem->setQty($qty);
-                    $this->getQuote()->collectTotals()
-                        ->save();
                     break;
                 case 'cart':
                     if (($cart = $this->getCustomerCart()) && is_null($item->getOptionByCode('additional_options'))) {

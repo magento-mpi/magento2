@@ -53,10 +53,7 @@
                             <block type="adminhtml/sales_order_totals_item" name="due" template="sales/order/totals/due.phtml" />
                         </block>
                         <block type="adminhtml/sales_order_totals_item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                            <block type="adminhtml/sales_order_totals_item" name="subtotal" template="sales/order/totals/item.phtml">
-                                <action method="setSourceField"><value>subtotal</value></action>
-                                <action method="setLabel"><value>Subtotal</value></action>
-                            </block>
+                            <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                             <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
                             <block type="adminhtml/sales_order_totals_item" name="shipping" template="sales/order/totals/shipping.phtml" />
                             <block type="adminhtml/sales_order_totals_item" name="discount" template="sales/order/totals/discount.phtml" />
@@ -111,10 +108,7 @@
                                 <block type="adminhtml/sales_order_totals_item" name="due" template="sales/order/totals/due.phtml" />
                             </block>
                             <block type="adminhtml/sales_order_totals_item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                                <block type="adminhtml/sales_order_totals_item" name="subtotal" template="sales/order/totals/item.phtml">
-                                    <action method="setSourceField"><value>subtotal</value></action>
-                                    <action method="setLabel"><value>Subtotal</value></action>
-                                </block>
+                                <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                                 <block type="adminhtml/sales_order_totals_item" name="tax" template="sales/order/totals/item.phtml">
                                     <action method="setSourceField"><value>tax_amount</value></action>
                                     <action method="setLabel"><value>Tax</value></action>
@@ -157,10 +151,7 @@
                     <block type="adminhtml/sales_order_totals_item" name="due" template="sales/order/totals/due.phtml" />
                 </block>
                 <block type="adminhtml/sales_order_totals_item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                    <block type="adminhtml/sales_order_totals_item" name="subtotal" template="sales/order/totals/item.phtml">
-                        <action method="setSourceField"><value>subtotal</value></action>
-                        <action method="setLabel"><value>Subtotal</value></action>
-                    </block>
+                    <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                     <block type="adminhtml/sales_order_totals_item" name="tax" template="sales/order/totals/item.phtml">
                         <action method="setSourceField"><value>tax_amount</value></action>
                         <action method="setLabel"><value>Tax</value></action>
@@ -214,11 +205,8 @@
                             <block type="adminhtml/sales_order_totals_item" name="due" template="sales/order/totals/due.phtml" />
                         </block>
                         <block type="adminhtml/sales_order_totals_item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                            <block type="adminhtml/sales_order_totals_item" name="subtotal" template="sales/order/totals/item.phtml">
-                                <action method="setSourceField"><value>subtotal</value></action>
-                                <action method="setLabel"><value>Subtotal</value></action>
-                            </block>
-                            <block type="adminhtml/sales_order_totals_item" name="subtotal" template="sales/order/totals/item.phtml">
+                            <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
+                            <block type="adminhtml/sales_order_totals_item" name="tax" template="sales/order/totals/item.phtml">
                                 <action method="setSourceField"><value>tax_amount</value></action>
                                 <action method="setLabel"><value>Tax</value></action>
                             </block>
@@ -315,10 +303,7 @@
                                 </block>
                             </block>
                             <block type="adminhtml/sales_order_totals_item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                                <block type="adminhtml/sales_order_totals_item" name="subtotal" template="sales/order/totals/item.phtml">
-                                    <action method="setSourceField"><value>subtotal</value></action>
-                                    <action method="setLabel"><value>Subtotal</value></action>
-                                </block>
+                                <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                                 <block type="adminhtml/sales_order_totals_item" name="tax" template="sales/order/totals/item.phtml">
                                     <action method="setSourceField"><value>tax_amount</value></action>
                                     <action method="setLabel"><value>Tax</value></action>
@@ -353,10 +338,7 @@
                     </block>
                 </block>
                 <block type="adminhtml/sales_order_totals_item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                    <block type="adminhtml/sales_order_totals_item" name="subtotal" template="sales/order/totals/item.phtml">
-                        <action method="setSourceField"><value>subtotal</value></action>
-                        <action method="setLabel"><value>Subtotal</value></action>
-                    </block>
+                    <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                     <block type="adminhtml/sales_order_totals_item" name="tax" template="sales/order/totals/item.phtml">
                         <action method="setSourceField"><value>tax_amount</value></action>
                         <action method="setLabel"><value>Tax</value></action>
@@ -404,10 +386,7 @@
                             <block type="adminhtml/sales_order_totals_item" name="due" template="sales/order/totals/due.phtml" />
                         </block>
                         <block type="adminhtml/sales_order_totals_item" name="sales.order.view.totals.main" as="main" template="sales/order/totals/main.phtml">
-                            <block type="adminhtml/sales_order_totals_item" name="subtotal" template="sales/order/totals/item.phtml">
-                                <action method="setSourceField"><value>subtotal</value></action>
-                                <action method="setLabel"><value>Subtotal</value></action>
-                            </block>
+                            <block type="adminhtml/sales_order_totals_subtotal" name="subtotal" template="sales/order/totals/subtotal.phtml" />
                             <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
                             <block type="adminhtml/sales_order_totals_item" name="shipping" template="sales/order/totals/shipping.phtml" />
                             <block type="adminhtml/sales_order_totals_item" name="discount" template="sales/order/totals/discount.phtml" />

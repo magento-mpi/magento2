@@ -117,6 +117,30 @@
                 </observers>
             </catalog_product_collection_load_after>
         </events>
+        <sales>
+            <quote>
+                <totals>
+                    <tax>
+                        <class>tax/sales_total_quote</class>
+                        <after>subtotal,shipping</after>
+                        <before>grand_total</before>
+                        <renderer>checkout/total_tax</renderer>
+                        <admin_renderer>adminhtml/sales_order_create_totals_tax</admin_renderer>
+                    </tax>
+                    <subtotal>
+                        <renderer>tax/checkout_subtotal</renderer>
+                        <admin_renderer>adminhtml/sales_order_create_totals_subtotal</admin_renderer>
+                    </subtotal>
+                </totals>
+            </quote>
+        </sales>
+        <pdf>
+            <totals>
+                <subtotal translate="title">
+                    <model>tax/sales_pdf_subtotal</model>
+                </subtotal>
+            </totals>
+        </pdf>
     </global>
     <adminhtml>
         <menu>
@@ -229,6 +253,7 @@
                 <shipping_tax_class></shipping_tax_class>
             </classes>
             <calculation>
+                <algorithm>TOTAL_BASE_CALCULATION</algorithm>
                 <apply_after_discount>0</apply_after_discount>
                 <discount_tax>0</discount_tax>
                 <based_on>shipping</based_on>
@@ -243,6 +268,7 @@
                 <postcode>*</postcode>
             </defaults>
             <display>
+                <subtotal>1</subtotal>
                 <column_in_summary>1</column_in_summary>
                 <type>1</type>
                 <full_summary>0</full_summary>

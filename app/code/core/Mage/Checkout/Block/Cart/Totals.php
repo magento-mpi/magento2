@@ -28,7 +28,6 @@ class Mage_Checkout_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Abstract
 {
     protected $_totalRenderers;
     protected $_defaultRenderer = 'checkout/total_default';
-
     protected $_totals = null;
 
     public function getTotals()
@@ -72,18 +71,22 @@ class Mage_Checkout_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Abstract
             ->toHtml();
     }
 
+    /**
+     * Render totals html for specific totals area (footer, body)
+     *
+     * @param   null|string $area
+     * @param   int $colspan
+     * @return  string
+     */
     public function renderTotals($area = null, $colspan = 1)
     {
         $html = '';
-
         foreach($this->getTotals() as $total) {
             if ($total->getArea() != $area && $area != -1) {
                 continue;
             }
-
             $html .= $this->renderTotal($total, $area, $colspan);
         }
-
         return $html;
     }
 }

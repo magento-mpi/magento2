@@ -157,4 +157,18 @@ class Mage_Sales_Model_Order_Creditmemo_Item extends Mage_Core_Model_Abstract
         $this->setBaseRowTotal($this->getCreditmemo()->getStore()->roundPrice($baseRowTotal));
         return $this;
     }
+
+    /**
+     * Checking if the item is last
+     *
+     * @return bool
+     */
+    public function isLast()
+    {
+        if ($this->getQty() == $this->getOrderItem()->getQtyToRefund()) {
+            return true;
+        }
+        return false;
+    }
+
 }

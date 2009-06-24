@@ -34,7 +34,13 @@ class Mage_Checkout_Block_Total_Default extends Mage_Core_Block_Template
 {
     protected $_template = 'checkout/total/default.phtml';
 
-    protected function _construct(){
+    protected function _construct()
+    {
         $this->setTemplate($this->_template);
+    }
+
+    public function getStyle()
+    {
+        return $this->getTotal()->getStyle();
     }
 }

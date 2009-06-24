@@ -92,11 +92,25 @@
           </tr>
       </thead>
       <tfoot>
-        <?php if ((float) $_creditmemo->getSubtotal()): ?>
-        <tr>
-            <td colspan="6" class="a-right"><?php echo $this->__('Subtotal') ?></td>
-            <td class="last a-right"><?php echo $_order->formatPrice($_creditmemo->getSubtotal()) ?></td>
-        </tr>
+        <?php if ($this->helper('tax')->displaySubtotalBothPrices($_order->getStore()) && ((float) $_creditmemo->getSubtotal())): ?>
+            <tr>
+                <td colspan="6" class="a-right"><?php echo Mage::helper('tax')->__('Subtotal (Excl. Tax)')?></td>
+                <td class="last a-right"><?php echo $_order->formatPrice($_creditmemo->getSubtotal()) ?></td>
+            </tr>
+            <tr>
+                <td colspan="6" class="a-right"><?php echo Mage::helper('tax')->__('Subtotal (Incl. Tax)')?></td>
+                <td class="last a-right"><?php echo $_order->formatPrice($_creditmemo->getSubtotal()+$_creditmemo->getTaxAmount()) ?></td>
+            </tr>
+        <?php elseif ($this->helper('tax')->displaySubtotalInclTax($_order->getStore())):?>
+            <tr>
+                <td colspan="6" class="a-right"><?php echo $this->__('Subtotal')?></td>
+                <td class="last a-right"><?php echo $_order->formatPrice($_creditmemo->getSubtotal()+$_creditmemo->getTaxAmount()) ?></td>
+            </tr>
+        <?php else : ?>
+            <tr>
+                <td colspan="6" class="a-right"><?php echo $this->__('Subtotal')?></td>
+                <td class="last a-right"><?php echo $_order->formatPrice($_creditmemo->getSubtotal()) ?></td>
+            </tr>
         <?php endif; ?>
         <?php if ((float) $_creditmemo->getTaxAmount()): ?>
         <tr>

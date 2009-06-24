@@ -32,8 +32,13 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     const PRICE_CONVERSION_PLUS = 1;
     const PRICE_CONVERSION_MINUS = 2;
 
-
-
+    /**
+     * Tax configuration object
+     *
+     * @var Mage_Tax_Model_Config
+     */
+    protected $_config      = null;
+    protected $_calculator  = null;
     protected $_displayTaxColumn;
     protected $_taxData;
     protected $_priceIncludesTax;
@@ -42,6 +47,31 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_priceDisplayType;
     protected $_shippingPriceDisplayType;
 
+    public function  __construct() 
+    {
+        $this->_config = Mage::getSingleton('tax/config');
+    }
+
+    /**
+     * Get tax calculation object
+     *
+     * @return  Mage_Tac_Model_Calculation
+     */
+    public function getCalculator()
+    {
+        if ($this->_calculator === null) {
+            $this->_calculator = Mage::getSingleton('tax/calculation');
+        }
+        return $this->_calculator;
+    }
+
+    /**
+     * Get product price including store convertion rate
+     *
+     * @param   Mage_Catalog_Model_Product $product
+     * @param   null|string $format
+     * @return  float|string
+     */
     public function getProductPrice($product, $format=null)
     {
         try {
@@ -218,6 +248,39 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Check if we need display price include and exclude tax for subtotal
+     *
+     * @param mixed $store
+     * @return bool
+     */
+    public function displaySubtotalBothPrices($store = null)
+    {
+        return $this->_config->displaySubtotalBoth($store);
+    }
+
+    /**
+     * Check if we need display price include tax for subtotal
+     *
+     * @param mixed $store
+     * @return bool
+     */
+    public function displaySubtotalInclTax($store = null)
+    {
+        return $this->_config->displaySubtotalIncludingTax($store);
+    }
+
+    /**
+     * Check if we need display price exclude tax for subtotal
+     *
+     * @param mixed $store
+     * @return bool
+     */
+    public function displaySubtotalExclTax($store = null)
+    {
+        return $this->_config->displaySubtotalExcludingTax($store);
+    }
+
+    /**
      * Check if need display tax column in for shopping cart/order items
      *
      * @param   mixed $store
@@ -373,7 +436,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         if ($type) {
             return $price * (1+($percent/100));
         } else {
-            return $price - ($price/(100+$percent)*$percent);
+            return $price/(1+$percent/100);
         }
     }
 
@@ -421,9 +484,12 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
 
     public function getShippingTaxClass($store)
     {
-        return (int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_SHIPPING_TAX_CLASS, $store);
+        return $this->_config->getShippingTaxClass($store);
     }
 
+    /**
+     * @deprecated
+     */
     public function getShippingPrice($price, $includingTax = null, $shippingAddress = null, $ctc = null, $store = null){
         $pseudoProduct = new Varien_Object();
         $pseudoProduct->setTaxClassId($this->getShippingTaxClass($store));
@@ -502,6 +568,12 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
             array());
     }
 
+    /**
+     * Get configuration setting "Apply Discount On Prices Including Tax" value
+     *
+     * @param   null|int $store
+     * @return  0|1
+     */
     public function discountTax($store=null)
     {
         return ((int)Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_DISCOUNT_TAX, $store) == 1);
@@ -512,11 +584,58 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store);
     }
 
-    public function applyTaxOnCustomPrice($store = null) {
-        return ((int) Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store) == 0);
+    public function applyTaxOnCustomPrice($store = null)
+    {
+        return ((int) Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_APPLY_ON, $store) == 0);
     }
 
-    public function applyTaxOnOriginalPrice($store = null) {
-        return ((int) Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_BASED_ON, $store) == 1);
+    public function applyTaxOnOriginalPrice($store = null)
+    {
+        return ((int) Mage::getStoreConfig(Mage_Tax_Model_Config::CONFIG_XML_PATH_APPLY_ON, $store) == 1);
+    }
+
+    /**
+     * Get taxes/discounts calculation sequence.
+     * This sequence depends on "Catalog price include tax", "Apply Tax After Discount"
+     * and "Apply Discount On Prices Including Tax" configuration options.
+     *
+     * @param   null|int|string|Mage_Core_Model_Store $store
+     * @return  string
+     */
+    public function getCalculationSequence($store=null)
+    {
+        if ($this->priceIncludesTax($store)) {
+            if ($this->applyTaxAfterDiscount($store)) {
+                $seq = Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_AFTER_DISCOUNT_ON_INCL;
+            } else {
+                if ($this->discountTax($store)) {
+                    $seq = Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_DISCOUNT_ON_INCL;
+                } else {
+                    $seq = Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_DISCOUNT_ON_EXCL;
+                }
+            }
+        } else {
+            if ($this->applyTaxAfterDiscount($store)) {
+                $seq = Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_AFTER_DISCOUNT_ON_EXCL;
+            } else {
+                if ($this->discountTax($store)) {
+                    $seq = Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_DISCOUNT_ON_INCL;
+                } else {
+                    $seq = Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_DISCOUNT_ON_EXCL;
+                }
+            }
+        }
+        return $seq;
+    }
+
+    /**
+     * Get tax caclulation algorithm code
+     *
+     * @param   null|int $store
+     * @return  string
+     */
+    public function getCalculationAgorithm($store=null)
+    {
+        return $this->_config->getAlgorithm($store);
     }
 }

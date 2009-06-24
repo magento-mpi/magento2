@@ -914,9 +914,6 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             $address->setSubtotal(0);
             $address->setBaseSubtotal(0);
 
-            $address->setSubtotalWithDiscount(0);
-            $address->setBaseSubtotalWithDiscount(0);
-
             $address->setGrandTotal(0);
             $address->setBaseGrandTotal(0);
 

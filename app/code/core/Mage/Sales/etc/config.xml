@@ -499,23 +499,11 @@
                         <class>sales/quote_address_total_subtotal</class>
                         <before>grand_total</before>
                     </subtotal>
-                    <discount>
-                        <class>sales/quote_address_total_discount</class>
-                        <after>subtotal</after>
-                        <before>grand_total,shipping</before>
-                    </discount>
                     <shipping>
                         <class>sales/quote_address_total_shipping</class>
-                        <after>subtotal,discount</after>
+                        <after>subtotal,freeshipping</after>
                         <before>grand_total</before>
                     </shipping>
-                    <tax>
-                        <class>sales/quote_address_total_tax</class>
-                        <after>subtotal,shipping</after>
-                        <before>grand_total</before>
-                        <renderer>checkout/total_tax</renderer>
-                        <admin_renderer>adminhtml/sales_order_create_totals_tax</admin_renderer>
-                    </tax>
                     <grand_total>
                         <class>sales/quote_address_total_grand</class>
                         <after>subtotal</after>
@@ -685,21 +673,21 @@
                     <source_field>adjustment_positive</source_field>
                     <font_size>7</font_size>
                     <display_zero>0</display_zero>
-                    <sort_order>100</sort_order>
+                    <sort_order>500</sort_order>
                 </adjustment_positive>
                 <adjustment_negative translate="title">
                     <title>Adjustment Fee</title>
                     <source_field>adjustment_negative</source_field>
                     <font_size>7</font_size>
                     <display_zero>0</display_zero>
-                    <sort_order>500</sort_order>
+                    <sort_order>600</sort_order>
                 </adjustment_negative>
                 <grand_total translate="title">
                     <title>Grand Total</title>
                     <source_field>grand_total</source_field>
                     <font_size>8</font_size>
                     <display_zero>1</display_zero>
-                    <sort_order>600</sort_order>
+                    <sort_order>700</sort_order>
                 </grand_total>
             </totals>
         </pdf>

@@ -84,10 +84,26 @@
         <?php $colspan = 4; ?>
         <tfoot>
             <?php if($_invoice->getSubtotal() != $_invoice->getGrandTotal()): ?>
-            <tr>
-                <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Order Subtotal') ?></td>
-                <td class="a-right"><?php echo $_order->formatPrice($_invoice->getSubtotal()) ?></td>
-            </tr>
+            <?php if ($this->helper('tax')->displaySubtotalBothPrices($_order->getStore())): ?>
+                <tr>
+                    <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo Mage::helper('tax')->__('Subtotal (Excl. Tax)')?></td>
+                    <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getSubtotal()) ?></td>
+                </tr>
+                <tr>
+                    <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo Mage::helper('tax')->__('Subtotal (Incl. Tax)')?></td>
+                    <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getSubtotal()+$_invoice->getTaxAmount()) ?></td>
+                </tr>
+            <?php elseif ($this->helper('tax')->displaySubtotalInclTax($_order->getStore())):?>
+                <tr>
+                    <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Subtotal')?></td>
+                    <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getSubtotal()+$_invoice->getTaxAmount()) ?></td>
+                </tr>
+            <?php else : ?>
+                <tr>
+                    <td colspan="<?php echo $colspan; ?>" class="a-right"><?php echo $this->__('Subtotal')?></td>
+                    <td class="last a-right"><?php echo $_order->formatPrice($_invoice->getSubtotal()) ?></td>
+                </tr>
+            <?php endif; ?>
             <?php endif; ?>
             <?php if ($_invoice->getDiscountAmount() > 0): ?>
             <tr>

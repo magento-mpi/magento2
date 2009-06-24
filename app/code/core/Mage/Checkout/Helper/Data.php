@@ -116,11 +116,8 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
         } else {
             $store = $item->getQuote()->getStore();
         }
-        if (!Mage::helper('tax')->applyTaxAfterDiscount($store) and $item->getTaxBeforeDiscount()) {
-            $tax = $item->getTaxBeforeDiscount();
-        } else {
-            $tax = $item->getTaxAmount();
-        }
+        
+        $tax = $item->getTaxAmount();
         return $item->getRowTotal() + $tax;
     }
 

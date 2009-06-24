@@ -76,15 +76,6 @@
         </resources>
 
         <events>
-            <sales_quote_address_discount_item>
-                <observers>
-                    <salesrule>
-                        <type>singleton</type>
-                        <class>salesrule/observer</class>
-                        <method>sales_quote_address_discount_item</method>
-                    </salesrule>
-                </observers>
-            </sales_quote_address_discount_item>
             <sales_order_place_after>
                 <observers>
                     <salesrule>
@@ -95,6 +86,22 @@
                 </observers>
             </sales_order_place_after>
         </events>
+        <sales>
+            <quote>
+                <totals>
+                    <freeshipping>
+                        <class>salesrule/quote_freeshipping</class>
+                        <after>subtotal</after>
+                        <before>grand_total</before>
+                    </freeshipping>
+                    <discount>
+                        <class>salesrule/quote_discount</class>
+                        <after>subtotal</after>
+                        <before>grand_total</before>
+                    </discount>
+                </totals>
+            </quote>
+        </sales>
     </global>
     <adminhtml>
         <menu>
