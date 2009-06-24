@@ -58,7 +58,6 @@ class Mage_GoogleCheckout_RedirectController extends Mage_Core_Controller_Front_
         $baseCurrency = $session->getQuote()->getBaseCurrencyCode();
         $currency = Mage::app()->getStore($session->getQuote()->getStoreId())->getBaseCurrency();
         $session->getQuote()
-            ->setForcedCurrency($currency)
             ->collectTotals()
             ->save();
 
