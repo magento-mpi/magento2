@@ -102,8 +102,8 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function ruleSaveBefore($model)
     {
-        $originalWebsiteIds = $this->_role->explodeIds($model->getOrigData('website_ids'));
-        $websiteIds         = $this->_role->explodeIds($model->getData('website_ids'));
+        $originalWebsiteIds = Mage::helper('enterprise_admingws')->explodeIds($model->getOrigData('website_ids'));
+        $websiteIds         = Mage::helper('enterprise_admingws')->explodeIds($model->getData('website_ids'));
 
         if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
@@ -180,7 +180,10 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwLoad();
         }
 
+        //var_dump($this->_role->hasExclusiveAccess($model->getWebsiteIds()));
+        //echo "|";
         if (!$this->_role->hasExclusiveAccess($model->getWebsiteIds())) {
+            //echo "here?";
             $model->unlockAttributes();
 
             $attributes = $model->getAttributes();
@@ -210,7 +213,13 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
                 $model->setIsReadonly(true);
             }
         } else {
-            if (count($model->getWebsiteIds()) == 1) {
+            /*
+             * We should check here amount of websites to which admin user assigned
+             * and not to those product itself. So if admin user assigned
+             * only to one website we will disable ability to unassign product
+             * from this one website
+             */
+            if (count($this->_role->getWebsiteIds()) == 1) {
                 $model->setWebsitesReadonly(true);
                 $model->lockAttribute('website_ids');
             }
@@ -226,19 +235,16 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         // no creating products
         if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
-
             $this->_throwSave();
         }
 
         // disallow saving in scope of wrong store
         if (($model->getId() || !$this->_role->getIsWebsiteLevel()) &&
-            !$this->_role->hasStoreAccess($model->getStoreId())) {
-
+            !$this->_role->hasStoreAccess($model->getStoreIds())) {
             $this->_throwSave();
-
         }
 
-        $websiteIds     = $this->_role->explodeIds($model->getWebsiteIds());
+        $websiteIds     = Mage::helper('enterprise_admingws')->explodeIds($model->getWebsiteIds());
         $origWebsiteIds = $model->getResource()->getWebsiteIds($model);
 
         if ($this->_role->getIsWebsiteLevel()) {

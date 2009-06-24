@@ -394,7 +394,7 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
     public function hasExclusiveAccess($websiteIds)
     {
         return $this->getIsAll() ||
-               (count(array_intersect($this->getWebsiteIds(), $websiteIds)) === count($websiteIds) &&
+            (count(array_intersect($this->getWebsiteIds(), $websiteIds)) === count($websiteIds) &&
                 $this->getIsWebsiteLevel());
     }
 

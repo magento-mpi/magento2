@@ -207,7 +207,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
                 if (!$model->getId()) {
                     return;
                 }
-                if (!$this->_role->hasWebsiteAccess($this->_role->explodeIds(
+                if (!$this->_role->hasWebsiteAccess(Mage::helper('enterprise_admingws')->explodeIds(
                     $model->getOrigData('website_ids')))) {
                     return $this->_forward();
                 }
