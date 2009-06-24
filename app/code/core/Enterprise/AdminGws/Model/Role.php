@@ -427,5 +427,4 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
             }
         }
     }
-
 }
