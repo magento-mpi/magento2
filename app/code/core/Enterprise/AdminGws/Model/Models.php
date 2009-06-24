@@ -238,7 +238,9 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        // disallow saving in scope of wrong store
+        // Disallow saving in scope of wrong store.
+        // Checking store_ids bc we should check exclusive product rights on
+        // all assigned stores not only on current one.
         if (($model->getId() || !$this->_role->getIsWebsiteLevel()) &&
             !$this->_role->hasStoreAccess($model->getStoreIds())) {
             $this->_throwSave();
