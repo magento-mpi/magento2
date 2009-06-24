@@ -25,7 +25,7 @@
  */
 
 /**
- * Custmer addresses forms
+ * Customer addresses forms
  *
  * @category   Mage
  * @package    Mage_Adminhtml
