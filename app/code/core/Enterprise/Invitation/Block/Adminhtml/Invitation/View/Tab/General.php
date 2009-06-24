@@ -248,4 +248,15 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
         }
         return Mage::helper('enterprise_invitation')->getInvitationUrl($this->getInvitation());
     }
+    
+    /**
+     * Checks if this invitation was sent by admin
+     *
+     * @return boolean - true if this invitation was sent by admin, false otherwise
+     */
+    public function isInvitedByAdmin()
+    {
+        $invitedByAdmin = ($this->getInvitation()->getCustomerId() == null);
+        return $invitedByAdmin;
+    }
 }

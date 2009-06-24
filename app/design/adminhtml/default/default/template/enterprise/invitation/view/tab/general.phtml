@@ -181,6 +181,11 @@
         <div class="entry-edit-head">
             <h4 class="icon-head head-invitation"><?php echo $this->helper('enterprise_invitation')->__('Inviter Information') ?></h4>
         </div>
+        <?php if ($this->isInvitedByAdmin()): ?>
+        <div class="fieldset">
+            <?php echo $this->helper('enterprise_invitation')->__('Admin'); ?>
+        </div>
+        <?php else: ?>
         <div class="fieldset">
             <table cellspacing="0" class="form-list">
             <tr>
@@ -239,6 +244,7 @@
             </tr>
             </table>
         </div>
+        <?php endif; ?>
     </div>
 </div>
 <div class="clear"></div>
