@@ -26,7 +26,7 @@
 
 /**
  * osCommerce import edit block
- * 
+ *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -40,6 +40,19 @@ class Mage_Oscommerce_Block_Adminhtml_Import_Edit extends Mage_Adminhtml_Block_W
         $this->_controller = 'adminhtml_import';
         $this->_updateButton('save', 'label', Mage::helper('oscommerce')->__('Save Profile'));
         $this->_updateButton('delete', 'label', Mage::helper('oscommerce')->__('Delete Profile'));
+        $this->_addButton('save_and_edit_button',
+                    array(
+                    'label'     => Mage::helper('oscommerce')->__('Save And Continue Edit'),
+                    'onclick'   => 'saveAndContinueEdit()',
+                    'class'     => 'save'
+                ), 100
+
+            );
+        $this->_formScripts[] = "
+			function saveAndContinueEdit(){
+                editForm.submit($('edit_form').action+'continue/back/');
+            }
+        ";
         parent::__construct();
     }
 
