@@ -36,6 +36,7 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
     const XML_CONFIG_CODE_SUFFIX = 'giftcard/giftcardaccount_general/code_suffix';
     const XML_CONFIG_CODE_SPLIT  = 'giftcard/giftcardaccount_general/code_split';
     const XML_CONFIG_POOL_SIZE   = 'giftcard/giftcardaccount_general/pool_size';
+    const XML_CONFIG_POOL_TRESHOLD = 'giftcard/giftcardaccount_general/pool_treshold';
 
     const XML_CHARSET_NODE      = 'global/enterprise/giftcardaccount/charset/%s';
     const XML_CHARSET_SEPARATOR = 'global/enterprise/giftcardaccount/separator';
@@ -65,6 +66,21 @@ class Enterprise_GiftCardAccount_Model_Pool extends Enterprise_GiftCardAccount_M
             } while ($this->getResource()->exists($code));
 
             $this->getResource()->saveCode($code);
+        }
+        return $this;
+    }
+    
+    /**
+     * Checks pool treshold and call codes generation in case if free codes count is less than treshold value
+     * 
+     * @return Enterprise_GiftCardAccount_Model_Pool
+     */
+    public function applyCodesGeneration()
+    {
+        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $treshold = $website->getConfig(self::XML_CONFIG_POOL_TRESHOLD);
+        if ($this->getPoolUsageInfo()->getFree() < $treshold) {
+            $this->generatePool();
         }
         return $this;
     }

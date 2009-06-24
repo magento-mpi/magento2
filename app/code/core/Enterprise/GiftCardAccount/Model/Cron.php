@@ -24,7 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Cron extends Mage_Core_Model_Abstract
+class Enterprise_GiftCardAccount_Model_Cron
 {
     /**
      * Update Gift Card Account states by cron

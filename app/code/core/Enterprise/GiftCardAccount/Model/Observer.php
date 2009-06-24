@@ -24,7 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_GiftCardAccount_Model_Observer extends Mage_Core_Model_Abstract
+class Enterprise_GiftCardAccount_Model_Observer
 {
     /**
      * Charge all gift cards applied to the order

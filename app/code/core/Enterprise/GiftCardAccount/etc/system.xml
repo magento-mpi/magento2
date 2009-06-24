@@ -121,10 +121,18 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pool_size>
+                        <pool_treshold translate="label comment">
+                            <label>Code Pool Treshold</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </pool_treshold>
                         <generate translate="label comment">
                             <label></label>
                             <frontend_model>enterprise_giftcardaccount/adminhtml_system_config_generate</frontend_model>
-                            <sort_order>7</sort_order>
+                            <sort_order>8</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
