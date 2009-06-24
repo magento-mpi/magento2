@@ -57,16 +57,21 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             return;
         }
 
-        /**
-         * If admin user has exclusive access to current category
-         * he can add sub categories to it
+        $category = $observer->getEvent()->getCategory();
+        /*
+         * we can do checking only if we have current category
          */
-        $categoryPath = $observer->getEvent()->getCategory()->getPath();
-
-        if ($this->_role->hasExclusiveCategoryAccess($categoryPath)) {
-            $observer->getEvent()->getOptions()->setIsAllow(true);
-        } else {
-            $observer->getEvent()->getOptions()->setIsAllow(false);
+        if ($category) {
+            $categoryPath = $category->getPath();
+            /*
+             * If admin user has exclusive access to current category
+             * he can add sub categories to it
+             */
+            if ($this->_role->hasExclusiveCategoryAccess($categoryPath)) {
+                $observer->getEvent()->getOptions()->setIsAllow(true);
+            } else {
+                $observer->getEvent()->getOptions()->setIsAllow(false);
+            }
         }
     }
 
@@ -231,7 +236,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Disables "Display Countdown Ticker On" checkboxes if user have not enouch rights 
+     * Disables "Display Countdown Ticker On" checkboxes if user have not enouch rights
      *
      * @param Varien_Event_Observer $observer
      */
