@@ -155,8 +155,16 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
             $this->getSession()->setReordered($order->getId());
         }
 
+        /**
+         * Check if we edit quest order
+         */
         $this->getSession()->setCurrencyId($order->getOrderCurrencyCode());
-        $this->getSession()->setCustomerId($order->getCustomerId());
+        if ($order->getCustomerId()) {
+            $this->getSession()->setCustomerId($order->getCustomerId());
+        } else {
+            $this->getSession()->setCustomerId(false);
+        }
+        
         $this->getSession()->setStoreId($order->getStoreId());
 
         foreach ($order->getItemsCollection(
