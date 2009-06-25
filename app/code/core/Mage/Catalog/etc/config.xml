@@ -586,7 +586,7 @@
                         </children>
                     </attributes>
                     <urlrewrite translate="title" module="catalog">
-                        <title>Url Rewrite Management</title>
+                        <title>URL Rewrite Management</title>
                         <action>adminhtml/urlrewrite/index</action>
                     </urlrewrite>
                 </children>
