@@ -40,7 +40,11 @@ class Enterprise_CatalogEvent_Model_Observer
      * @var array
      */
     protected $_eventsToCategories = null;
+    
+    
     /**
+     * @deprecated - logic moved to Event->load() and Collection _afterLoad() methods
+     * 
      * Applies event status by cron
      *
      * @return void

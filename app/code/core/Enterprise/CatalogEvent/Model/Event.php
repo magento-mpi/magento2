@@ -358,4 +358,32 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
         $this->_isReadonly = (boolean) $value;
         return $this;
     }
+
+    /**
+     * Providing check of status and closes event (with saving into DB) if event is outdated
+     */
+    public function closeIfOutdated()
+    {
+        $originalStatus = $this->getStatus();
+        if ($originalStatus == self::STATUS_OPEN || $originalStatus == self::STATUS_UPCOMING) {
+            $this->applyStatusByDates();
+            if ($this->getStatus != $originalStatus) {
+                $this->save();
+            }
+        }
+    }
+
+    /**
+     * Overriden load method
+     *
+     * @param   integer $id
+     * @return  Mage_Core_Model_Abstract
+     */
+    public function load($id, $field=null)
+    {
+        $event = parent::load($id, $field);
+        $this->closeIfOutdated();
+        return $event;
+    }
+
 }

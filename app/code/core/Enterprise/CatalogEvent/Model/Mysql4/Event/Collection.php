@@ -188,4 +188,19 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
         }
         return $this;
     }
+
+    /**
+     * Overriden _afterLoad() implementation
+     *
+     * @return  Varien_Data_Collection_Db
+     */    
+    protected function _afterLoad()
+    {
+        $events = parent::_afterLoad();
+        foreach ($events->_items as $event) {
+            $event->closeIfOutdated();
+        }
+        return $this;
+    }
+
 }

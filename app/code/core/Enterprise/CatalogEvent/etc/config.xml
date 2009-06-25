@@ -253,12 +253,4 @@
             </resources>
          </acl>
     </adminhtml>
-    <crontab>
-        <jobs>
-            <enterprise_catalogevent_apply_event_status>
-                <schedule><cron_expr>* * * * *</cron_expr></schedule>
-                <run><model>enterprise_catalogevent/observer::applyEventStatus</model></run>
-            </enterprise_catalogevent_apply_event_status>
-        </jobs>
-    </crontab>
 </config>
