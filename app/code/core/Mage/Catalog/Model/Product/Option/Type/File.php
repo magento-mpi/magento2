@@ -176,7 +176,7 @@ class Mage_Catalog_Model_Product_Option_Type_File extends Mage_Catalog_Model_Pro
                 'target' => $fileFullPath,
                 'overwrite' => true
             ));
-            if (!$upload->receive()) {
+            if (!$upload->receive($file)) {
                 $this->setIsValid(false);
                 Mage::throwException(Mage::helper('catalog')->__("File upload failed"));
             }
