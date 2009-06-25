@@ -641,7 +641,7 @@ final class Mage {
         }
         else {
             self::getConfig()->createDirIfNotExists(self::getBaseDir('var') . DS . 'report');
-            $reportId   = intval(microtime(true) * rand(100, 1000));
+            $reportId   = abs(intval(microtime(true) * rand(100, 1000)));
             $reportFile = self::getBaseDir('var') . DS . 'report' . DS . $reportId;
             $reportData = array(
                 !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
