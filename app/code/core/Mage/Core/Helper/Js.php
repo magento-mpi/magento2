@@ -174,6 +174,14 @@ class Mage_Core_Helper_Js extends Mage_Core_Helper_Abstract
 	            'Your order can not be completed at this time as there is no payment methods available for it.' =>
 	                $this->__('Your order can not be completed at this time as there is no payment methods available for it.'),
 	            'Please specify payment method.' => $this->__('Please specify payment method.'),
+                'Credit card number doesn\'t match credit card type' => $this->__('Credit card number doesn\'t match credit card type'),    
+                'Card type doesn\'t match credit card number' => $this->__('Card type doesn\'t match credit card number'),
+                'Please enter a valid credit card verification number.' => $this->__('Please enter a valid credit card verification number.'),
+                'Please use only letters (a-z or A-Z), numbers (0-9) or underscore(_) in this field, first character should be a letter.' => 
+                    $this->__('Please use only letters (a-z or A-Z), numbers (0-9) or underscore(_) in this field, first character should be a letter.'),
+                'Please input a valid CSS-length. For example 100px or 77pt or 20em or .5ex or 50%' => $this->__('Please input a valid CSS-length. For example 100px or 77pt or 20em or .5ex or 50%'),
+                'Maximum length exceeded.' => $this->__('Maximum length exceeded.'),
+
 	
 	//Mage_Rule
 	
