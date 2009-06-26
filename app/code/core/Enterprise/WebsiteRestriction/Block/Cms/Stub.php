@@ -28,35 +28,39 @@
  * Stub block that outputs a raw CMS-page
  *
  */
-class Enterprise_WebsiteRestriction_Block_Cms_Stub extends Mage_Core_Block_Abstract
+class Enterprise_WebsiteRestriction_Block_Cms_Stub extends Mage_Cms_Block_Page
 {
     /**
-     * Set page identifier and load the page model at once
+     * Retrieve page from registry if it is not there try to laod it by indetifier
      *
-     * @param string $pageIdentifier
-     * @return Enterprise_WebsiteRestriction_Block_Cms_Page
+     * @return Mage_Cms_Model_Page
      */
-    public function setPageIdentifier($pageIdentifier)
+
+    public function getPage()
     {
-        $page = Mage::getModel('cms/page')->load($pageIdentifier, 'identifier');
-        $this->setData('page_identifier', $pageIdentifier)->setData('page_model', $page);
+        if (!$this->hasData('page')) {
+            $page = Mage::registry('restriction_landing_page');
+            if (!$page) {
+                $page = Mage::getModel('cms/page')
+                    ->load($this->getPageIdentifier(), 'identifier');
+            }
+            $this->setData('page', $page);
+        }
+        return $this->getData('page');
+    }
+
+    protected function _prepareLayout()
+    {
+        $page = $this->getPage();
+
+        if ($root = $this->getLayout()->getBlock('root')) {
+            $root->addBodyClass('cms-'.$page->getIdentifier());
+        }
+
         if ($head = $this->getLayout()->getBlock('head')) {
             $head->setTitle($page->getTitle());
             $head->setKeywords($page->getMetaKeywords());
             $head->setDescription($page->getMetaDescription());
         }
-        return $this;
-    }
-
-    /**
-     * Render the CMS page raw content
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $html = $this->getPageModel()->getContent();
-        $html = $this->getMessagesBlock()->getGroupedHtml() . $html;
-        return $html;
     }
 }

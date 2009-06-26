@@ -31,17 +31,79 @@
 class Enterprise_WebsiteRestriction_IndexController extends Mage_Core_Controller_Front_Action
 {
     protected $_stubPageIdentifier = 'general/restriction/cms_page';
-    protected $_layoutUpdate       = 'restriction_index_stub';
+
+    protected $_cacheKey;
 
     /**
-     * Display a raw CMS-page
+     * Prefix for cache id
+     */
+    protected $_cacheKeyPrefix = 'RESTRICTION_LANGING_PAGE_';
+
+    /**
+     * Depricated, full action name used instead
+     */
+    protected $_layoutUpdate = 'restriction_index_stub';
+
+    /**
+     * Cache  will be ralted on configuration and website
+     *
+     * @var unknown_type
+     */
+    protected $_cacheTags = array(Mage_Core_Model_Website::CACHE_TAG,
+        Mage_Core_Model_Config::CACHE_TAG);
+
+    protected function _construct()
+    {
+        $this->_cacheKey = $this->_cacheKeyPrefix . Mage::app()->getWebsite()->getId();
+    }
+
+    /**
+     * Display a pre-cached CMS-page if we have such or generate new one
      *
      */
     public function stubAction()
     {
-        $this->loadLayout($this->_layoutUpdate);
-        $this->getLayout()->getBlock('cms_page')
-            ->setPageIdentifier(Mage::getStoreConfig($this->_stubPageIdentifier));
-        $this->renderLayout();
+        $cachedData = Mage::app()->loadCache($this->_cacheKey);
+        if ($cachedData) {
+            $this->getResponse()->setBody($cachedData);
+        } else {
+            /**
+             * Generating page and save it to cache
+             */
+            $page = Mage::getModel('cms/page')
+                ->load(Mage::getStoreConfig($this->_stubPageIdentifier), 'identifier');
+
+            Mage::register('restriction_landing_page', $page);
+
+            if ($page->getCustomTheme()) {
+                if (Mage::app()->getLocale()->IsStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())) {
+                    list($package, $theme) = explode('/', $page->getCustomTheme());
+                    Mage::getSingleton('core/design_package')
+                        ->setPackageName($package)
+                        ->setTheme($theme);
+                }
+            }
+
+            $this->addActionLayoutHandles();
+
+            if ($page->getRootTemplate()) {
+                $this->getLayout()->helper('page/layout')
+                    ->applyHandle($page->getRootTemplate());
+            }
+
+            $this->loadLayoutUpdates();
+
+            $this->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
+            $this->generateLayoutXml()->generateLayoutBlocks();
+
+            if ($page->getRootTemplate()) {
+                $this->getLayout()->helper('page/layout')
+                    ->applyTemplate($page->getRootTemplate());
+            }
+
+            $this->renderLayout();
+
+            Mage::app()->saveCache($this->getResponse()->getBody(), $this->_cacheKey, $this->_cacheTags);
+        }
     }
 }

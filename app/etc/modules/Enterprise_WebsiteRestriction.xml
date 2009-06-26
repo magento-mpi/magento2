@@ -33,6 +33,7 @@
             <depends>
                 <Mage_Core/>
                 <Mage_Customer/>
+                <Mage_Cms />
             </depends>
         </Enterprise_WebsiteRestriction>
     </modules>
