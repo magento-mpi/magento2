@@ -65,7 +65,11 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             if ($this->getOrigData('balance') != $this->getBalance()) {
                 if ($this->getBalance() > 0) {
                     $this->setState(self::STATE_AVAILABLE);
-                } else {
+                }
+                elseif ($this->getIsRedeemable())  {
+                    $this->setState(self::STATE_REDEEMED);
+                }
+                else {
                     $this->setState(self::STATE_USED);
                 }
             }
