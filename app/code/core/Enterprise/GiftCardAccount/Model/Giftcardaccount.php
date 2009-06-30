@@ -385,7 +385,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
      */
     public function redeem($customerId = null)
     {
-        if ($this->isValid()) {
+        if ($this->isValid(true, true, true, true)) {
             if ($this->getIsRedeemable() != self::REDEEMABLE) {
                 Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('This Gift Card cannot be redeemed.'));
             }
