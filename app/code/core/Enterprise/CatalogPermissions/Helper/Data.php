@@ -40,6 +40,9 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
     const XML_PATH_DENY_CATALOG_SEARCH = 'enterprise_catalogpermissions/general/deny_catalog_search';
     const XML_PATH_LANDING_PAGE = 'enterprise_catalogpermissions/general/restricted_landing_page';
 
+    const GRANT_ALL             = 1;
+    const GRANT_CUSTOMER_GROUP  = 2;
+    const GRANT_NONE            = 0;
 
     /**
      * Retrieve config value for permission enabled
@@ -142,7 +145,7 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
      */
     protected function _getIsAllowedGrant($configPath, $storeId = null, $customerGroupId = null)
     {
-        if (Mage::getStoreConfig($configPath, $storeId) == 2) {
+        if (Mage::getStoreConfig($configPath, $storeId) == self::GRANT_CUSTOMER_GROUP) {
             $groups = trim(Mage::getStoreConfig($configPath . '_groups', $storeId));
 
             if ($groups === '') {
@@ -161,6 +164,6 @@ class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstrac
             );
         }
 
-        return Mage::getStoreConfig($configPath) == 1;
+        return Mage::getStoreConfig($configPath) == self::GRANT_ALL;
     }
 }

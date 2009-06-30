@@ -63,6 +63,11 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         return parent::_prepareLayout();
     }
 
+    /**
+     * Retrieve block config as JSON
+     *
+     * @return string
+     */
     public function getConfigJson()
     {
         $config = array(
@@ -76,6 +81,16 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
                 $config['permissions']['permission' . $permission->getId()] = $permission->getData();
             }
         }
+
+        $config['single_mode']  = Mage::app()->isSingleStoreMode();
+        $config['website_id']   = Mage::app()->getStore(true)->getWebsiteId();
+        $config['parent_vals']  = $this->getParentPermissions();
+
+        $config['use_parent_allow'] = Mage::helper('enterprise_catalogpermissions')->__('(Allow)');
+        $config['use_parent_deny'] = Mage::helper('enterprise_catalogpermissions')->__('(Deny)');
+        //$config['use_parent_config'] = Mage::helper('enterprise_catalogpermissions')->__('(Config)');
+        $config['use_parent_config'] = '';
+
         return Zend_Json::encode($config);
     }
 
@@ -95,6 +110,65 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         }
 
         return $this->getData('permisssion_collection');
+    }
+
+    /**
+     * Retrieve Use Parent permissions per website and customer group
+     *
+     * @return array
+     */
+    public function getParentPermissions()
+    {
+        $categoryId = null;
+        if ($this->getCategoryId()) {
+            $categoryId = $this->getCategory()->getParentId();
+        }
+        // parent category
+        else if ($this->getRequest()->getParam('parent')) {
+            $categoryId = $this->getRequest()->getParam('parent');
+        }
+
+        $parent = array();
+        if ($categoryId) {
+            $index  = Mage::getModel('enterprise_catalogpermissions/permission_index')
+                ->getIndexForCategory($categoryId, null, null);
+            foreach ($index as $row) {
+                $parent[$row['website_id'].'_'.$row['customer_group_id']] = array(
+                    'category'  => $row['grant_catalog_category_view'],
+                    'product'   => $row['grant_catalog_product_price'],
+                    'checkout'  => $row['grant_checkout_items']
+                );
+            }
+        }
+
+        $websites = Mage::app()->getWebsites(false);
+        $groups   = Mage::getModel('customer/group')->getCollection()->getAllIds();
+
+        /* @var $helper Enterprise_CatalogPermissions_Helper_Data */
+        $helper   = Mage::helper('enterprise_catalogpermissions');
+
+        foreach ($groups as $groupId) {
+            foreach ($websites as $website) {
+                /* @var $website Mage_Core_Model_Website */
+                $websiteId = $website->getId();
+                if (!isset($parent[$websiteId . '_' . $groupId])) {
+                    $store = $website->getDefaultStore();
+                    $category = $helper->isAllowedCategoryView($store, $groupId);
+                    $product  = $helper->isAllowedProductPrice($store, $groupId);
+                    $checkout = $helper->isAllowedCheckoutItems($store, $groupId);
+
+                    $allow = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
+                    $deny  = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
+
+                    $parent[$websiteId . '_' . $groupId] = array(
+                        'category'  => $category ? $allow : $deny,
+                        'product'   => $product ? $allow : $deny,
+                        'checkout'  => $checkout ? $allow : $deny
+                    );
+                }
+            }
+        }
+        return $parent;
     }
 
     /**

@@ -586,14 +586,14 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
 
 
     /**
-     * Retrive permission index for category or categories with specified customer group and website id
+     * Retrieve permission index for category or categories with specified customer group and website id
      *
      * @param int|array $categoryId
      * @param int $customerGroupId
      * @param int $websiteId
      * @return array
      */
-    public function getIndexForCategory($categoryId, $customerGroupId, $websiteId)
+    public function getIndexForCategory($categoryId, $customerGroupId = null, $websiteId = null)
     {
         if (!is_array($categoryId)) {
             $categoryId = array($categoryId);
@@ -601,9 +601,13 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
 
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
-            ->where('category_id IN(?)', $categoryId)
-            ->where('customer_group_id = ?', $customerGroupId)
-            ->where('website_id = ?', $websiteId);
+            ->where('category_id IN(?)', $categoryId);
+        if (!is_null($customerGroupId)) {
+            $select->where('customer_group_id = ?', $customerGroupId);
+        }
+        if (!is_null($websiteId)) {
+            $select->where('website_id = ?', $websiteId);
+        }
 
         return $this->_getReadAdapter()->fetchAssoc($select);
     }

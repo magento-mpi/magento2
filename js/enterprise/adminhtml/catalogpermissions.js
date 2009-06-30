@@ -39,6 +39,7 @@
          this.items = this.container.down('.items');
          this.onAddButton = this.handleAddButton.bindAsEventListener(this);
          this.onDeleteButton = this.handleDeleteButton.bindAsEventListener(this);
+         this.onChangeWebsiteGroup = this.handleWebsiteGroupChange.bindAsEventListener(this);
          this.onFieldChange = this.handleUpdatePermission.bindAsEventListener(this);
          this.addButton.observe('click', this.onAddButton);
          this.index = 1;
@@ -121,7 +122,6 @@
              });
         }
         
-        
         var fields = row.select('input', 'select', 'textarea');
         for (i = 0, l = fields.length; i < l; i ++) {
             fields[i].observe('change', this.onFieldChange);
@@ -135,7 +135,16 @@
             }
         }
         
+        if (websiteSelect = row.down('select.website-id-value')) {
+            websiteSelect.observe('change', this.onChangeWebsiteGroup);
+        }
+        if (groupSelect = row.down('select.customer-group-id-value')) {
+            groupSelect.observe('change', this.onChangeWebsiteGroup);
+        }
+        
         row.down('button.delete').observe('click', this.onDeleteButton);
+        
+        this.modifyParentValue(row);
     },
     
     handleAddButton: function (evt) {
@@ -240,5 +249,55 @@
         for (var i=0, l=fields.length; i < l; i++) {
             Validation.validate(fields[i]);
         }
+    },
+    modifyParentValue : function(row) {
+        var websiteId, groupId;
+        if (websiteSelect = row.down('select.website-id-value')) {
+            websiteId = websiteSelect.value;
+        }
+        else if (this.config['single_mode']) {
+            websiteId = this.config['website_id'];
+        }
+        if (!websiteId) {
+            websiteId = -1;
+        }
+        if (groupSelect = row.down('select.customer-group-id-value')) {
+            groupId = groupSelect.value;
+        }
+        if (groupId == '') {
+            groupId = -1;
+        }
+        var parentVals = this.config['parent_vals'][websiteId+'_'+groupId];
+        if (typeof parentVals == 'undefined') {
+            parentVals = {'category':0,'product':0,'checkout':0};
+        }
+        
+        var grants = {
+            'grant_catalog_category_view' : 'category',
+            'grant_catalog_product_price' : 'product',
+            'grant_checkout_items'        : 'checkout'
+        };
+        
+        for(key in grants) {
+            var val = parentVals[grants[key]];
+            switch (val) {
+            case '-1':
+                var text = this.config['use_parent_allow'];
+                break;
+            case '-2':
+                var text = this.config['use_parent_deny'];
+                break;
+
+            default:
+                var text = this.config['use_parent_config'];
+                break;
+            }
+            
+            row.down('span.'+key).innerHTML = text;
+        }
+    },
+    handleWebsiteGroupChange: function(e) {
+        var row = $(Event.element(e)).up('.permission-box');
+        this.modifyParentValue(row);
     }
  })

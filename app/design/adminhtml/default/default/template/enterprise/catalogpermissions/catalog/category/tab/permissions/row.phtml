@@ -86,6 +86,7 @@
                     </label><br />
                     <input <?php echo $_readonly;?> type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_default" value="0" {{<?php echo $_fieldId ?>_0}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_default">
                         <?php echo $this->helper('enterprise_catalogpermissions')->__('Use parent') ?>
+                        <span class="permissions-use-parent <?php echo $_fieldId?>"></span>
                     </label>
                 </td>
                 <?php endforeach; ?>
