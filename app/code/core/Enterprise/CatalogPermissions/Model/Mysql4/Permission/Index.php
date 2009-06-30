@@ -801,6 +801,42 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                     ->where('permission_index_product.grant_catalog_category_view != -2
                              OR permission_index_product.grant_catalog_category_view IS NULL');
             }
+
+            /*
+             * Checking if passed collection has link model attached
+             */
+            if (method_exists($collection, 'getLinkModel')){
+                $linkTypeId = $collection->getLinkModel()->getLinkTypeId();
+                $linkTypeIds = array(
+                    Mage_Catalog_Model_Product_Link::LINK_TYPE_CROSSSELL,
+                    Mage_Catalog_Model_Product_Link::LINK_TYPE_UPSELL
+                );
+
+                /*
+                 * If collection has appropriate link type (cross-sell or up-sell) we need to
+                 * limit products by permissions (display price and add to cart)
+                 */
+                if (in_array($linkTypeId, $linkTypeIds)) {
+
+                    if (!Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice()) {
+                        $collection->getSelect()
+                            ->where('permission_index_product.grant_catalog_product_price = -1');
+                    } else {
+                        $collection->getSelect()
+                            ->where('permission_index_product.grant_catalog_product_price != -2
+                                     OR permission_index_product.grant_catalog_product_price IS NULL');
+                    }
+
+                    if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCheckoutItems()) {
+                        $collection->getSelect()
+                            ->where('permission_index_product.grant_checkout_items = -1');
+                    } else {
+                        $collection->getSelect()
+                            ->where('permission_index_product.grant_checkout_items != -2
+                                     OR permission_index_product.grant_checkout_items IS NULL');
+                    }
+                }
+            }
         }
 
         return $this;
