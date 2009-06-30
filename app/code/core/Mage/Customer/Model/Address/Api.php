@@ -34,7 +34,7 @@
 class Mage_Customer_Model_Address_Api extends Mage_Customer_Model_Api_Resource
 {
     protected $_mapAttributes = array(
-        'customer_id' => 'entity_id'
+        'customer_address_id' => 'entity_id'
     );
 
     public function __construct()
