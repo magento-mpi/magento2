@@ -145,9 +145,8 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
      */
     public function getPageSize()
     {
-        $pageSize = 0;
-        if ($this->hasData('limit')) {
-            $pageSize = (int)$this->_getData('limit');
+        if ($this->hasData('limit') && is_numeric($this->getData('limit'))) {
+            $pageSize = (int) $this->_getData('limit');
         }
         else {
             $pageSize = (int)Mage::getStoreConfig('catalog/enterprise_catalogevent/lister_widget_limit');
@@ -162,9 +161,8 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
      */
     public function getScrollSize()
     {
-        $scrollSize = 0;
-        if ($this->hasData('scroll')) {
-            $scrollSize = (int)$this->_getData('scroll');
+        if ($this->hasData('scroll') && is_numeric($this->getData('scroll'))) {
+            $scrollSize = (int) $this->_getData('scroll');
         }
         else {
             $scrollSize = (int)Mage::getStoreConfig('catalog/enterprise_catalogevent/lister_widget_scroll');
