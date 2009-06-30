@@ -194,6 +194,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
             'state'             => $a->getRegionCode(),
             'country'           => $a->getCountry(),
             'zip'               => $a->getPostcode(),
+            'bn'                => 'Varien_Cart_WPS_US'
         );
 
         $logoUrl = Mage::getStoreConfig('paypal/wps/logo_url');
