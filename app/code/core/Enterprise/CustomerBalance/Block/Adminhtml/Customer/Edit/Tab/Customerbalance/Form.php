@@ -79,6 +79,13 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             'title'    => Mage::helper('enterprise_customerbalance')->__('Send email notification from the following Store View'),
         ));
 
+        $fieldset->addField('comment', 'text', array(
+            'name'     => 'comment',
+            'label'    => Mage::helper('enterprise_customerbalance')->__('Comment'),
+            'title'    => Mage::helper('enterprise_customerbalance')->__('Comment'),
+            'comment'  => Mage::helper('enterprise_customerbalance')->__('Comment'),
+        ));
+
         if ($customer->isReadonly()) {
             if ($form->getElement('website_id')) {
                 $form->getElement('website_id')->setReadonly(true, true);

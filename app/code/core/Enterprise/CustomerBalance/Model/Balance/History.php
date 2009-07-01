@@ -86,7 +86,11 @@ class Enterprise_CustomerBalance_Model_Balance_History extends Mage_Core_Model_A
                 if (!$balance->getUpdatedActionAdditionalInfo()) {
                     if ($user = Mage::getSingleton('admin/session')->getUser()) {
                         if ($user->getUsername()) {
-                            $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('By admin: %s.', $user->getUsername()));
+                            if (!trim($balance->getComment())){
+                                $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('By admin: %s.', $user->getUsername()));
+                            }else{
+                                $this->setAdditionalInfo(Mage::helper('enterprise_customerbalance')->__('By admin: %1$s. (%2$s)', $user->getUsername(), $balance->getComment()));
+                            }
                         }
                     }
                 } else {

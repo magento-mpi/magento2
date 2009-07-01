@@ -65,6 +65,7 @@ class Enterprise_CustomerBalance_Model_Observer
                     ->setCustomer($observer->getCustomer())
                     ->setWebsiteId(isset($data['website_id']) ? $data['website_id'] : $observer->getCustomer()->getWebsiteId())
                     ->setAmountDelta($data['amount_delta'])
+                    ->setComment($data['comment'])
                 ;
                 if (isset($data['notify_by_email']) && isset($data['store_id'])) {
                     $balance->setNotifyByEmail(true, $data['store_id']);
@@ -102,7 +103,7 @@ class Enterprise_CustomerBalance_Model_Observer
 
         if ($input->getUseCustomerBalance() && $balance < $quote->getBaseCustomerBalanceAmountUsed()) {
             Mage::throwException(Mage::helper('enterprise_customerbalance')->__("You don't have enough store credit to complete this order."));
-            
+
         }
 
         $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
