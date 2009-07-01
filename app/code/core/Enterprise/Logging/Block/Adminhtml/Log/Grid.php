@@ -88,6 +88,14 @@ class Enterprise_Logging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
             'filter'    => 'enterprise_logging/events_grid_filter_user'
         ));
 
+        $this->addColumn('user_id', array(
+            'header'    => Mage::helper('enterprise_logging')->__('User Id'),
+            'index'     => 'user_id',
+            'type'      => 'int',
+            'sortable'  => true,
+            'filter'    => 'adminhtml/widget_grid_column_filter_text'
+        ));
+
         $this->addColumn('event', array(
             'header'    => Mage::helper('enterprise_logging')->__('Action Group'),
             'index'     => 'event_code',
