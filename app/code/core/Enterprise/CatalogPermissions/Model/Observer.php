@@ -540,6 +540,12 @@ class Enterprise_CatalogPermissions_Model_Observer
         return Mage::app()->getStore()->getWebsiteId();
     }
 
+    /**
+     * Apply catalog permissions on product RSS feeds
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CatalogPermissions_Model_Observer
+     */
     public function checkIfProductAllowedInRss(Varien_Event_Observer $observer)
     {
         if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
@@ -550,7 +556,7 @@ class Enterprise_CatalogPermissions_Model_Observer
          * If product already disallowed we don't do checks
          */
         if (!$observer->getEvent()->getProduct()->getAllowedInRss()) {
-            return;
+            return $this;
         }
 
         $row = $observer->getEvent()->getRow();
@@ -581,6 +587,8 @@ class Enterprise_CatalogPermissions_Model_Observer
         }
 
         $observer->getEvent()->getProduct()->setAllowedInRss($result);
+
+        return $this;
     }
 
 }
