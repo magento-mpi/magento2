@@ -79,14 +79,18 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
             $this->setDateExpires(date('Y-m-d', strtotime("now +{$this->getLifetime()}days")));
         } else {
             if ($this->getDateExpires()) {
-                $this->setDateExpires(
-                    Mage::app()->getLocale()->date(
-                        $this->getDateExpires(),
-                        Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
-                        null,
-                        false
-                    )->toString(Varien_Date::DATE_INTERNAL_FORMAT)
-                );
+                $expirationDate =  Mage::app()->getLocale()->date(
+                    $this->getDateExpires(), 
+                    Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+                    null, false);
+                $currentDate = Mage::app()->getLocale()->date(
+                    null,
+                    Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+                    null, false);
+                if ($this->getState() == self::STATE_AVAILABLE && $expirationDate < $currentDate) {
+                    Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Expiration date can not be in the past'));
+                }
+                $this->setDateExpires($expirationDate->toString(Varien_Date::DATE_INTERNAL_FORMAT));
             } else {
                 $this->setDateExpires(null);
             }
@@ -99,6 +103,9 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         if (!$this->hasHistoryAction() && $this->getOrigData('balance') != $this->getBalance()) {
             $this->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_UPDATED)
                 ->setBalanceDelta($this->getBalance() - $this->getOrigData('balance'));
+        }
+        if ($this->getBalance() < 0) {
+            Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Balance can not be less than zero'));
         }
     }
 
