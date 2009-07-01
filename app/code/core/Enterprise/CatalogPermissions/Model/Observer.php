@@ -539,4 +539,48 @@ class Enterprise_CatalogPermissions_Model_Observer
     {
         return Mage::app()->getStore()->getWebsiteId();
     }
+
+    public function checkIfProductAllowedInRss(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+
+        /*
+         * If product already disallowed we don't do checks
+         */
+        if (!$observer->getEvent()->getProduct()->getAllowedInRss()) {
+            return;
+        }
+
+        $row = $observer->getEvent()->getRow();
+
+        $result = true;
+
+        /*
+         * If there is no permissions for this
+         * product then we will use configuration default
+         */
+        if (!array_key_exists('grant_catalog_product_price', $row)) {
+            $row['grant_catalog_product_price'] = null;
+        }
+
+        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice()) {
+            if ($row['grant_catalog_product_price'] == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+        } else {
+            if ($row['grant_catalog_product_price'] != Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY
+                    || is_null($row['grant_catalog_product_price'])) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+        }
+
+        $observer->getEvent()->getProduct()->setAllowedInRss($result);
+    }
+
 }

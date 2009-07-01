@@ -306,7 +306,6 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </catalog_controller_product_init_after>
-            
             <review_controller_product_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
@@ -361,6 +360,33 @@
                     </enterprise_catalogpermissions>
                 </observers>
             </controller_action_layout_load_before>
+            <rss_catalog_new_xml_callback>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>checkIfProductAllowedInRss</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </rss_catalog_new_xml_callback>
+            <rss_catalog_special_xml_callback>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>checkIfProductAllowedInRss</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </rss_catalog_special_xml_callback>
+            <rss_catalog_tagged_item_xml_callback>
+                <observers>
+                    <enterprise_catalogpermissions>
+                        <type>singleton</type>
+                        <class>enterprise_catalogpermissions/observer</class>
+                        <method>checkIfProductAllowedInRss</method>
+                    </enterprise_catalogpermissions>
+                </observers>
+            </rss_catalog_tagged_item_xml_callback>
         </events>
         <layout>
             <updates>
@@ -377,7 +403,7 @@
                     </files>
                 </Enterprise_CatalogPermissions>
             </modules>
-        </translate>        
+        </translate>
     </frontend>
     <default>
         <enterprise_catalogpermissions>
