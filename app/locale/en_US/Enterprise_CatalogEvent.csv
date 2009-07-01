@@ -19,6 +19,7 @@
 "Enable Catalog Event Widget","Enable Catalog Event Widget"
 "Enable Catalog Events Functionality","Enable Catalog Events Functionality"
 "End Date","End Date"
+"End Date should be greater than Start Date","End Date should be greater than Start Date"
 "Ends On","Ends On"
 "Event for selected category","Event for selected category"
 "Event was successfully deleted.","Event was successfully deleted."
