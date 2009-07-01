@@ -80,16 +80,12 @@ class Enterprise_Logging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
             'sortable'  => false
         ));
 
-        $allUsers = array();
-        foreach(Mage::getResourceSingleton('enterprise_logging/event')->getAllFieldValues('user') as $username) {
-            $allUsers[$username] = $username;
-        }
         $this->addColumn('user', array(
             'header'    => Mage::helper('enterprise_logging')->__('Username'),
             'index'     => 'user',
-            'type'      => 'options',
+            'type'      => 'text',
             'sortable'  => false,
-            'options'   => $allUsers,
+            'filter'    => 'enterprise_logging/events_grid_filter_user'
         ));
 
         $this->addColumn('event', array(

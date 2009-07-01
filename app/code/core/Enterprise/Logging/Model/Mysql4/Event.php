@@ -95,4 +95,18 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
             . (null !== $order ? ' ORDER BY 1' . ($order ? '' : ' DESC') : '')
         );
     }
+    
+    /**
+     * Retrieves list of administrators for events filter
+     */
+    public function getUserNames()
+    {
+        $query = $this->_getConnection('read')->select();
+        $query  ->distinct()
+                ->from(array('admins' => $this->getTable('admin/user')), 'username')
+                ->joinInner(array('events' => $this->getTable('enterprise_logging/event')),
+                            'admins.username = events.user', array());
+        return $this->_getReadAdapter()->fetchCol($query);
+    }
+    
 }
