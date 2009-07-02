@@ -824,12 +824,13 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
                     $indexType  = 'index';
                 }
 
-                if (isset($indexList[$row[$fieldKeyName]])) {
+                $upperKeyName = strtoupper($row[$fieldKeyName]);
+                if (isset($indexList[$upperKeyName])) {
                     $indexList[$row[$fieldKeyName]]['fields'][] = $row[$fieldColumn]; // for compatible
                     $indexList[$row[$fieldKeyName]]['COLUMNS_LIST'][] = $row[$fieldColumn];
                 }
                 else {
-                    $indexList[strtoupper($row[$fieldKeyName])] = array(
+                    $indexList[$upperKeyName] = array(
                         'SCHEMA_NAME'   => $schemaName,
                         'TABLE_NAME'    => $tableName,
                         'KEY_NAME'      => $row[$fieldKeyName],
