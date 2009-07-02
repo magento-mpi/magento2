@@ -28,9 +28,11 @@ $installer = $this;
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer->startSetup();
 
-$installer->getConnection()->addColumn($this->getTable('enterprise_logging/event'), 'user_id', "int(11) NULL DEFAULT NULL AFTER `user`");
+$tableLog = $this->getTable('enterprise_logging/event');
+$tableUser = $this->getTable('admin/user');
 
-$installer->getConnection()->addConstraint('FK_LOGGING_EVENT', $this->getTable('enterprise_logging/event'), 'user_id',
-                                           $installer->getTable('admin_user'), 'user_id', 'SET NULL');
+$installer->getConnection()->dropColumn($tableLog, 'user_id');
+$installer->getConnection()->addColumn($tableLog, 'user_id', "mediumint(9) unsigned NULL DEFAULT NULL AFTER `user`");
+$installer->getConnection()->addConstraint('FK_LOGGING_EVENT_USER', $tableLog, 'user_id', $tableUser, 'user_id', 'SET NULL');
 
 $installer->endSetup();
