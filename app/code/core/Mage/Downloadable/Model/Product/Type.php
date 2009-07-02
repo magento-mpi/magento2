@@ -222,7 +222,8 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                             ->setLinkType($linkItem['type'])
                             ->setProductId($product->getId())
                             ->setStoreId($product->getStoreId())
-                            ->setWebsiteId($product->getStore()->getWebsiteId());
+                            ->setWebsiteId($product->getStore()->getWebsiteId())
+                            ->setProductWebsiteIds($product->getWebsiteIds());
                         if (null === $linkModel->getPrice()) {
                             $linkModel->setPrice(0);
                         }
