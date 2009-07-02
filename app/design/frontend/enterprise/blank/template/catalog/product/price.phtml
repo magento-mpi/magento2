@@ -35,6 +35,7 @@
 
 <?php $_product = $this->getProduct() ?>
 <?php $_id = $_product->getId() ?>
+<?php if ($_product->getCanShowPrice() !== false):?>
 
 <?php $_weeeSeparator = ''; ?>
 
@@ -112,7 +113,7 @@
                         <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_weeeTaxAttribute->getAmount(), true, true); ?>
                         </small>
                     </span>
-                    <br />        
+                    <br />
                 <?php endforeach; ?>
                 <span class="price-including-tax">
                     <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax:') ?></span>
@@ -159,7 +160,7 @@
                         <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_weeeTaxAttribute->getAmount(), true, true); ?>
                         </small>
                     </span>
-                    <br />        
+                    <br />
                 <?php endforeach; ?>
                 <span class="regular-price" id="product-price-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>"><?php echo Mage::helper('core')->currency($_price+$_weeeTaxAmount,true,true) ?></span>
             <?php else: ?>
@@ -262,7 +263,7 @@
                         <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('core')->currency($_weeeTaxAttribute->getAmount(), true, true); ?>
                         </small>
                     </span>
-                    <br />        
+                    <br />
                 <?php endforeach; ?>
                 <span class="price-including-tax">
                     <span class="label"><?php echo Mage::helper('tax')->__('Incl. Tax:') ?></span>
@@ -342,3 +343,6 @@
         </div>
     <?php endif; /* if ($this->getDisplayMinimalPrice() && $_minimalPrice): */ ?>
 <?php endif; /* if (!$_product->isGrouped()): */ ?>
+<?php else: ?>
+<?php //echo $this->helper('catalog')->__('Price is not available');?>
+<?php endif; /* if (!$_product->getCanShowPrice()): */?>

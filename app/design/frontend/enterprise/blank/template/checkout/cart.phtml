@@ -90,9 +90,9 @@
                     <tr>
                         <td colspan="50" class="a-right">
                             <?php if($this->getContinueShoppingUrl()): ?>
-                                <button type="button" class="button" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><?php echo $this->__('Continue Shopping') ?></span></button>
+                                <button type="button" class="button" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
                             <?php endif; ?>
-                            <button type="submit" class="button"><span><?php echo $this->__('Update Shopping Cart') ?></span></button>
+                            <button type="submit" class="button"><span><span><?php echo $this->__('Update Shopping Cart') ?></span></span></button>
                         </td>
                     </tr>
                 </tfoot>
@@ -111,6 +111,7 @@
         </div>
         <div class="col-2">
             <?php echo $this->getChildHtml('coupon') ?>
+            <?php echo $this->getChildHtml('giftcards') ?>
             <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
         </div>
     </div>

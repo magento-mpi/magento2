@@ -49,6 +49,7 @@
             <div class="btn-close"><a href="#" id="payment-tool-tip-close"><img src="<?php echo $this->getSkinUrl('images/btn_window_close.gif') ?>" alt="<?php echo $this->__('Close') ?>" title="<?php echo $this->__('Close') ?>" /></a></div>
             <div class="tool-tip-content"><img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" title="<?php echo $this->__('Card Verification Number Visual Reference') ?>" /></div>
         </div>
+        <?php echo $this->getChildHtml('payment_methods_before') ?>
         <!-- Payment methods forms list -->
         <dl class="sp-methods">
         <?php
@@ -71,12 +72,13 @@
             <?php endif; ?>
         <?php endforeach; ?>
         </dl>
+        <?php echo $this->getChildHtml('payment_methods_after') ?>        
         <?php echo $this->getChildHtml('checkout_billing_items') ?>
     </div>
 </fieldset>
 <div class="buttons-set">
     <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Shipping Information') ?></a>
-    <button type="submit" class="button"><span><?php echo $this->__('Continue to Review Your Order') ?></span></button>
+    <button type="submit" class="button"><span><span><?php echo $this->__('Continue to Review Your Order') ?></span></span></button>
 </div>
 </form>
 <script type="text/javascript">

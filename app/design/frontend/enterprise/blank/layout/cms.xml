@@ -49,7 +49,7 @@ Default layout, loads most of the pages
             </block>
         </reference>
     </cms_page>
-    
+  
 
     <cms_index_defaultindex>
         <remove name="right"/>
@@ -75,4 +75,5 @@ Default layout, loads most of the pages
         </reference>
     </cms_index_defaultnoroute>
 
+        
 </layout>

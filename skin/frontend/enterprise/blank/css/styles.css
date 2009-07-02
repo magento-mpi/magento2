@@ -28,7 +28,7 @@
 .page-popup { padding:20px; text-align:left; }
 .main { margin:10px 0; }
 
-/* Base Columns */ 
+/* Base Columns */
 .col-left { float:left; width:230px; border:1px solid #ddd; padding:5px 5px 0; }
 .col-main { float:left; width:736px; border:1px solid #ddd; padding:5px; }
 .col-right { float:right; width:230px; border:1px solid #ddd; padding:5px 5px 0; }
@@ -72,9 +72,44 @@ textarea { overflow:auto; }
 input.radio { margin-right:3px; }
 input.checkbox { margin-right:3px; }
 input.qty { width:2.5em !important; }
+
 button.button::-moz-focus-inner { padding:0; border:0; } /* FF Fix */
-button.button { overflow:visible; width:auto; border:0; padding:0 0 0 12px; background:url(../images/bkg_button.gif) 0 50% no-repeat; cursor:pointer; -webkit-border-fit:lines; /* <- Safari & Google Chrome Fix */ }
-button.button span { float:left; padding:0 12px 0 0; background:url(../images/bkg_button.gif) 100% 50% no-repeat; font:bold 12px/21px Arial, Helvetica, sans-serif; text-align:center; white-space:nowrap; color:#fff; }
+button.button { -webkit-border-fit:lines; } /* <- Safari & Google Chrome Fix */
+
+button.button { border:0; padding:0; margin:0; background:transparent; /* line-height:21px; */ overflow:visible; cursor:pointer; vertical-align:middle; }
+
+a.button,
+button.button span,
+a.button span,
+button.button span span { background-color:transparent; background-image:url(../images/bkg_button.gif); background-repeat:no-repeat; }
+
+a.button,
+button.button span {
+    border:0;
+    padding:0 0 0 12px; margin:0;
+    cursor:pointer;
+    background-position:0 0;
+    display:-moz-inline-stack;
+    display:inline-block;
+    color:#c73615;
+    height:21px;
+    text-decoration:none!important;
+    }
+a.button span,
+button.button span span {
+    padding:0 12px 0 0;
+    background-position:100% 0;
+    display:-moz-inline-block;
+    display:inline-block;
+    white-space:nowrap;
+    font:bold 12px/21px Arial, Helvetica, sans-serif;
+    height:21px;
+    text-align:center;
+    color:#fff;
+    }
+
+a.button { line-height:21px; }
+    
 button.disabled {}
 button.disabled span {}
 /* Input & Textarea stretched for 100% */
@@ -141,7 +176,7 @@ p.required { font-size:10px; text-align:right; }
 .note-msg,
 .notice-msg { border-color:#fcd344; background-color:#fafaec; background-image:url(../images/note_msg_icon.gif); color:#3d6611; }
 
-/* BreadCrumbs */ 
+/* BreadCrumbs */
 .breadcrumbs { padding:10px; margin:0 0 10px; border:1px solid #ddd; }
 .breadcrumbs li { display:inline; }
 
@@ -154,7 +189,7 @@ p.required { font-size:10px; text-align:right; }
 .title-buttons h5,
 .title-buttons h6 { float:left; }
 
-/* Pager */ 
+/* Pager */
 .pager { border:1px solid #ddd; padding:5px; margin:5px 0; text-align:center; }
 .pager .amount { float:left; }
 .pager .limiter { float:right; }
@@ -163,13 +198,13 @@ p.required { font-size:10px; text-align:right; }
 .pager .pages li { display:inline; }
 .pager .pages .current {}
 
-/* Sorter */ 
+/* Sorter */
 .sorter { border:1px solid #ddd; padding:5px; margin:5px 0; }
 .sorter .view-mode { float:left; }
 .sorter .sort-by { float:right; }
 .sorter .link-feed {}
 
-/* Data Table */ 
+/* Data Table */
 .data-table { width:100%; }
 .data-table th { padding:5px; border:1px solid #ddd; font-weight:bold; white-space:nowrap; }
 .data-table td { padding:5px; border:1px solid #ddd; }
@@ -253,7 +288,7 @@ dd.even { background-color:#f6f6f6; }
 
 
 /* Header ================================================================================ */
-.logo { float:left; width:200px; height:63px; overflow:hidden; } 
+.logo { float:left; width:200px; height:63px; overflow:hidden; }
 .header-container {}
 .header { padding:10px; border:1px solid #ddd; }
 .header .logo { background-position:0 0; background-repeat:no-repeat; text-indent:-999em; }
@@ -754,6 +789,93 @@ a.minimal-price-link .price { font-weight:normal; }
 .page-print .price-excl-tax .price,
 .page-print .price-incl-tax .price { display:inline; }
 /* ======================================================================================= */
+
+/* Catalog Events ============================================================================= */
+
+/* Block: Events */
+
+.event { background-color:#fbf4de; border-bottom:1px solid #e2d4c7; width:182px; position:static; height:144px; text-align:center; }
+.event .status { font-weight:normal; font-size:16px; display:block; padding:19px 0 0; margin:0 0 0px; text-align:center; color:#cf3a00; }
+.event .event-ticker { color:#cf3a00; height:55px; }
+.event .event-ticker span { font-size:32px; line-height:40px; height:40px; padding-bottom:10px; background-image:url(../images/bkg_ticker.gif); background-repeat:no-repeat; display:inline-block; }
+
+.event .event-ticker span.days { background-position:50% 3px; }
+.event .event-ticker span.hour { background-position:50% -56px; }
+.event .event-ticker span.minute { background-position:50% -115px; }
+.event .event-ticker span.second { background-position:50% -174px; }
+.event .event-ticker span.delimiter { background:none; }
+
+.event  .event-dates { font-size:14px; color:#555; height:51px; padding-top:4px; }
+.event  .event-dates .date-part { font-weight:bold; }
+.event  .event-dates .time-part { font-size:12px; }
+
+/* Open event */
+
+.open .event-button {}
+
+/* Upcoming event */
+
+.upcoming { background:#f6f6f6; }
+.upcoming .status { color:#333; }
+.upcoming .event-button  {}
+
+/* Closed event */
+
+.closed { background:#494949; }
+.closed  .status,
+.closed  .event-dates { color:#e2d4c7 }
+.closed  .event-button {  }
+
+/* Top event ticker container */
+
+.event-container { border:1px solid #ddd; margin:10px 0; height:59px; }
+.event-container .event { background-color:transparent; background-repeat:no-repeat; background-position:50% 100%; padding-top:5px; height:52px; line-height:50px; text-align:center; width:auto; position:relative; z-index:2; border-bottom:0 !important; }
+.event-container .container { display:inline; margin:0; padding:0; background:none; }
+.event-container .status { display:inline; margin:0 10px 0 0; background:none; font-size:22px; }
+.event-container .event-ticker { display:inline; font-size:28px; height:auto; }
+.event-container .event-ticker span { line-height:50px; height:50px; padding:0; }
+
+.event-container .event .event-ticker span.days { background-position:50% 4px; }
+.event-container .event .event-ticker span.hour { background-position:50% -55px; }
+.event-container .event .event-ticker span.minute { background-position:50% -114px; }
+.event-container .event .event-ticker span.second { background-position:50% -173px; }
+
+.event-container .event-dates { display:inline; font-size:22px; height:auto; }
+.event-container .event-dates .time-part { font-size:14px; }
+.event-container .event-dates div,
+.event-container .event-dates p { display:inline; }
+
+.container-open { background:#f7d4b6; }
+.container-open .open { height:54px; }
+
+.container-upcoming { background:#eee; }
+.container-upcoming .upcoming {} 
+
+.container-closed { background:#9f958c }
+
+/* Catalog Events Lister  */
+
+.events-slider { position:relative; background:#d6d6d6; clear:both; margin:0 0 0; z-index:2; padding:10px 11px 20px; }
+.events-slider .slider-panel,
+.events-slider ul.slider  li.slider-item,
+.events-slider .slide-button { float:left; display:inline; }
+.events-slider .event { position:relative; z-index:1;  }
+
+.events-slider .slider-panel { position:relative; overflow:hidden; background:#f6f6f6; z-index:1; width: 0px;}
+.events-slider ul.slider {
+    width:200000px;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)"!important;
+    }
+.events-slider  ul.slider  li.slider-item { overflow:hidden; width:182px; height:386px; border:1px solid #f6f6f6; margin-right:-1px; background:#f5f5f5; padding-left: 0px; }
+.events-slider ul.slider  li.slider-item .category-name { font:bold 16px georgia, san-serif; display:block; padding:80px 10px 0; }
+.events-slider ul.slider  li.slider-item  .category-show { width:182px; height:241px; background:#fff; overflow:hidden; text-align:center; display:block; text-decoration:none; }
+.events-slider ul.slider  li.slider-item  .no-event { height:401px; }
+
+.events-slider .slide-button { background:url(../images/bkg_slide-button.gif) no-repeat 0 0; position:absolute; text-indent:-999em; cursor:pointer; top:105px; width:28px; height:28px; z-index:2; overflow:hidden; }
+.events-slider .backward { left:-19px; }
+.events-slider .forward { right:-19px; background-position:0 -40px; }
+.events-slider .inactive { cursor:default; display:none; }
+
 
 
 /* Footer ================================================================================ */

@@ -36,7 +36,7 @@
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 
 <div class="buttons-set">
-    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a></p>
+    <a class="back-link" href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
     <a href="<?php echo $this->helper('enterprise_invitation')->getCustomerInvitationFormUrl(); ?>" class="button"><span><?php echo $this->__('Send Invitations') ?></span></a>
 </div>
 

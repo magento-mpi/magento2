@@ -36,7 +36,7 @@ if ($_product->getPriceType() == 1) {
     }
 }
 ?>
-
+<?php if ($_product->getCanShowPrice() !== false):?>
 <div class="price-box">
     <p class="price-as-configured">
         <span class="price-label"><?php echo $this->helper('bundle')->__('Price as configured') ?>:</span>
@@ -54,7 +54,7 @@ if ($_product->getPriceType() == 1) {
                         <?php else: ?>
                             <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
                         <?php endif; ?>
-                        
+
                         <?php echo $_weeeSeparator; ?>
                         <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('core')->currency($amount, true, true); ?>
                         <?php $_weeeSeparator = ' + '; ?>
@@ -76,7 +76,7 @@ if ($_product->getPriceType() == 1) {
                     <?php else: ?>
                         <?php $amount = $_weeeTaxAttribute->getAmount(); ?>
                     <?php endif; ?>
-                    
+
                     <?php echo $_weeeSeparator; ?>
                     <?php echo $_weeeTaxAttribute->getName(); ?>: <?php echo Mage::helper('core')->currency($amount, true, true); ?>
                     <?php $_weeeSeparator = ' + '; ?>
@@ -86,6 +86,7 @@ if ($_product->getPriceType() == 1) {
     <?php endif; ?>
     </p>
 </div>
+<?php endif; ?>
 <?php if($_product->isSaleable()): ?>
 <script type="text/javascript">
 bundle.reloadPrice();

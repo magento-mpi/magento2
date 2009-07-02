@@ -47,6 +47,7 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>varien/menu.js</script></action>
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>mage/cookies.js</script></action>
+                <action method="addItem"><type>skin_js</type><name>js/scripts.js</name></action>
                 <action method="addCss"><stylesheet>css/reset.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/clears.css</stylesheet></action>
@@ -65,6 +66,7 @@ Default layout, loads most of the pages
                 <block type="page/template_links" name="top.links" as="topLinks"/>
                 <block type="page/switch" name="store_language" as="store_language" template="page/switch/languages.phtml"/>
                 <block type="core/text_list" name="top.menu" as="topMenu"/>
+                <block type="core/text_list" name="top.container" as="topContainer"/>
             </block>
 
             <block type="page/html_breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
@@ -88,7 +90,6 @@ Default layout, loads most of the pages
 
         <block type="core/profiler" output="toHtml"/>
     </default>
-    
 
     <print>
         <!-- Mage_Page -->
@@ -99,6 +100,7 @@ Default layout, loads most of the pages
                 <action method="addJs"><script>mage/translate.js</script></action>
                 <action method="addJs"><script>prototype/validation.js</script></action>
                 <action method="addJs"><script>varien/js.js</script></action>
+                <action method="addItem"><type>skin_js</type><name>js/scripts.js</name></action>
 
                 <action method="addCss"><stylesheet>css/reset.css</stylesheet></action>
                 <action method="addCss"><stylesheet>css/styles.css</stylesheet></action>
@@ -107,7 +109,7 @@ Default layout, loads most of the pages
                 <action method="addItem"><type>skin_css</type><name>css/styles-ie.css</name><params/><if>lt IE 8</if></action>
 
                 <action method="addItem"><type>js</type><name>lib/ds-sleight.js</name><params/><if>lt IE 7</if></action>
-                <action method="addItem"><type>js</type><name>varien/iehover-fix.js</name><params/><if>lt IE 7</if></action>
+                <!--<action method="addItem"><type>skin_js</type><name>js/iehover-fix.js</name><params/><if>lt IE 7</if></action>-->
 
                 <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
             </block>
@@ -116,46 +118,45 @@ Default layout, loads most of the pages
 
         </block>
     </print>
-    
-    <!-- Custom page layout handles -->
+
+     <!-- Custom page layout handles -->
     <page_empty>
         <reference name="root">
             <action method="setTemplate"><template>page/one-column.phtml</template></action>
             <!-- Mark root page block that template is applied -->
-            <action method="setIsHandle"><applied>1</applied></action> 
+            <action method="setIsHandle"><applied>1</applied></action>
         </reference>
     </page_empty>
-    
+
     <page_one_column>
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
             <!-- Mark root page block that template is applied -->
-            <action method="setIsHandle"><applied>1</applied></action> 
+            <action method="setIsHandle"><applied>1</applied></action>
         </reference>
     </page_one_column>
-    
+
     <page_two_columns_left>
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
             <!-- Mark root page block that template is applied -->
-            <action method="setIsHandle"><applied>1</applied></action> 
+            <action method="setIsHandle"><applied>1</applied></action>
         </reference>
     </page_two_columns_left>
-    
+
     <page_two_columns_right>
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
             <!-- Mark root page block that template is applied -->
-            <action method="setIsHandle"><applied>1</applied></action> 
+            <action method="setIsHandle"><applied>1</applied></action>
         </reference>
     </page_two_columns_right>
-    
+
     <page_three_columns>
         <reference name="root">
             <action method="setTemplate"><template>page/3columns.phtml</template></action>
             <!-- Mark root page block that template is applied -->
-            <action method="setIsHandle"><applied>1</applied></action> 
+            <action method="setIsHandle"><applied>1</applied></action>
         </reference>
     </page_three_columns>
-
 </layout>

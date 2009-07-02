@@ -33,4 +33,7 @@
         <?php echo $this->getChildHtml('store_language') ?>
     </div>
     <?php echo $this->getChildHtml('topMenu') ?>
+    <?php if($topContainer = $this->getChildHtml('topContainer')): ?>
+          <?php echo $topContainer; ?>
+    <?php endif; ?>    
 </div>

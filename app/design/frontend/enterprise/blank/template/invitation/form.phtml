@@ -35,21 +35,21 @@
 <div id="messages"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
 <?php if ($maxPerSend = (int)Mage::helper('enterprise_invitation')->getMaxInvitationsPerSend()): ?>
 <form id="invitationForm" action="" method="post">
-    <fieldset class="fieldset">
+    <fieldset>
     <h3><?php echo Mage::helper('enterprise_invitation')->__('Invite your friends by entering their email addresses below'); ?></h3>
         <ul class="form-list group-select">
             <?php $_perRow = ceil($maxPerSend/3); for($_index = 1; $_index <= $maxPerSend; $_index ++): ?>
             <li>
-                <label for="email_<?php echo $_index ?>"<?php if ($_index == 1) echo ' class="required"' ?>><?php if ($_index == 1) echo '<em>*</em>' ?><?php echo $_index; ?>:</label>
                 <div class="input-box">
+                    <label for="email_<?php echo $_index ?>"><?php echo $_index; ?><?php if ($_index == 1) echo ' <span class="required">*</span>' ?>:</label><br />
                     <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo Mage::helper('enterprise_invitation')->__('Email') ?>" value="" class="<?php if ($_index == 1): ?>required-entry <?php endif;?>input-text validate-email" type="text" />
                 </div>
             </li>
             <?php endfor; ?>
         <?php if (Mage::helper('enterprise_invitation')->isInvitationMessageAllowed()): ?>
             <li>
-                <label for="message"><?php echo Mage::helper('enterprise_invitation')->__('Message');?>: </label>
                 <div class="input-box">
+                    <label for="message"><?php echo Mage::helper('enterprise_invitation')->__('Message');?>: </label><br />
                     <textarea tabindex="<?php echo $_index+1 ?>" name="message" id="message" title="<?php echo Mage::helper('enterprise_invitation')->__('Message') ?>"  class="input-text" rows="5"></textarea>
                 </div>
             </li>
@@ -57,8 +57,8 @@
         <?php endif;?>
     </fieldset>
    <p class="required"><?php echo Mage::helper('enterprise_invitation')->__('* Required Fields') ?></p>
-    <div class="buttons-set form-buttons">
-        <p class="back-link"><a href="<?php echo Mage::helper('enterprise_invitation')->getCustomerInvitationUrl() ?>" class="back-link">&laquo; <?php  echo Mage::helper('enterprise_invitation')->__('Back to Invitations') ?></a></p>
+    <div class="buttons-set">
+        <a class="back-link" href="<?php echo Mage::helper('enterprise_invitation')->getCustomerInvitationUrl() ?>" class="back-link">&laquo; <?php  echo Mage::helper('enterprise_invitation')->__('Back to Invitations') ?></a>
         <button class="button" type="submit"><span><span><?php echo Mage::helper('enterprise_invitation')->__('Send Invitations') ?></span></span></button>
     </div>
 

@@ -33,11 +33,13 @@
 ?>
 <?php $_product = $this->getProduct() ?>
 <?php $_associatedProducts = $this->getAssociatedProducts() ?>
-<?php if($_product->isSaleable() && count($_associatedProducts)): ?>
-    <p class="availability"><?php echo $this->__('Availability') ?>: <span class="in-stock"><?php echo $this->__('In stock') ?></span></p>
+<?php if($_product->getIsSalable() && count($_associatedProducts)): ?>
+    <p class="availability in-stock"><?php echo $this->__('Availability') ?>: <span><?php echo $this->__('In stock') ?></span></p>
 <?php else: ?>
     <p class="availability"><?php echo $this->__('Availability') ?>: <span class="out-of-stock"><?php echo $this->__('Out of stock') ?></span></p>
 <?php endif; ?>
+<?php echo $this->getChildHtml('alert_urls_grouped') ?>
+<div class="groped-product-type">
 <table class="data-table grouped-items" id="super-product-table">
     <col />
     <col />
