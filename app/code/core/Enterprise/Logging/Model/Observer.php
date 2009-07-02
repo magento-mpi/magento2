@@ -179,7 +179,7 @@ class Enterprise_Logging_Model_Observer
                 $fullActionNames = array($fullActionNames);
             }
             $username = null;
-            $userId   = 0;
+            $userId   = null;
             if (Mage::getSingleton('admin/session')->isLoggedIn()) {
                 $userId = Mage::getSingleton('admin/session')->getUser()->getId();
                 $username = Mage::getSingleton('admin/session')->getUser()->getUsername();
@@ -262,7 +262,7 @@ class Enterprise_Logging_Model_Observer
      * @param int $userId
      * @return Enterprise_Logging_Model_Event
      */
-    protected function _logAdminLogin($username, $userId = 0)
+    protected function _logAdminLogin($username, $userId = null)
     {
         $eventCode = 'admin_login';
         if (!Mage::getSingleton('enterprise_logging/config')->isActive($eventCode, true)) {
