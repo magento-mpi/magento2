@@ -24,15 +24,15 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<form id="search_mini_form" action="<?php echo $this->helper('catalogSearch')->getResultUrl() ?>" method="get">
+<form id="search_mini_form" action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
 <fieldset class="form-search">
     <legend><?php echo $this->__('Search Site') ?></legend>
-    <label for="search"><?php echo $this->__('Search site:') ?></label><input id="search" type="text" class="input-text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogSearch')->getEscapedQueryText() ?>" />&nbsp;<button type="submit" class="button" title="<?php echo $this->__('Go') ?>"><span><span><?php echo $this->__('Go') ?></span></span></button><a href="<?php echo Mage::helper('catalogsearch')->getAdvancedSearchUrl(); ?>"><?php echo $this->__('Advanced Search'); ?></a>
+    <label for="search"><?php echo $this->__('Search site:') ?></label><input id="search" type="text" class="input-text" name="<?php echo $this->helper('catalogsearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogsearch')->getEscapedQueryText() ?>" />&nbsp;<button type="submit" class="button" title="<?php echo $this->__('Go') ?>"><span><span><?php echo $this->__('Go') ?></span></span></button><a href="<?php echo Mage::helper('catalogsearch')->getAdvancedSearchUrl(); ?>"><?php echo $this->__('Advanced Search'); ?></a>
     <div id="search_autocomplete" class="search-autocomplete"></div>
     <script type="text/javascript">
     //<![CDATA[
         var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->__('Enter search keyword') ?>');
-        searchForm.initAutocomplete('<?php echo $this->helper('catalogSearch')->getSuggestUrl() ?>', 'search_autocomplete');
+        searchForm.initAutocomplete('<?php echo $this->helper('catalogsearch')->getSuggestUrl() ?>', 'search_autocomplete');
     //]]>
     </script>
 </fieldset>

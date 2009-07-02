@@ -25,16 +25,16 @@
  */
 ?>
 <div class="mini-search">
-<form id="search_mini_form" action="<?php echo $this->helper('catalogSearch')->getResultUrl() ?>" method="get">
+<form id="search_mini_form" action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
     <fieldset>
         <legend><?php echo $this->__('Search Site') ?></legend>
-            <input id="search" type="text" class="input-text" name="<?php echo $this->helper('catalogSearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogSearch')->getEscapedQueryText() ?>" />
+            <input id="search" type="text" class="input-text" name="<?php echo $this->helper('catalogsearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogsearch')->getEscapedQueryText() ?>" />
             <input type="image" src="<?php echo $this->getSkinUrl('images/btn_go.gif') ?>" alt="<?php echo $this->__('Go') ?>" />
             <div id="search_autocomplete" class="search-autocomplete"></div>
             <script type="text/javascript">
             //<![CDATA[
-                var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->helper('catalogSearch')->__('Search entire store here...') ?>');
-                searchForm.initAutocomplete('<?php echo $this->helper('catalogSearch')->getSuggestUrl() ?>', 'search_autocomplete');
+                var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo $this->helper('catalogsearch')->__('Search entire store here...') ?>');
+                searchForm.initAutocomplete('<?php echo $this->helper('catalogsearch')->getSuggestUrl() ?>', 'search_autocomplete');
             //]]>
             </script>
     </fieldset>
