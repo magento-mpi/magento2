@@ -30,7 +30,7 @@ $installer->startSetup();
 
 $installer->getConnection()->addColumn($this->getTable('enterprise_logging/event'), 'user_id', "int(11) NULL DEFAULT NULL AFTER `user`");
 
-$installer->run("ALTER TABLE {$installer->getTable('enterprise_logging_event')} ADD KEY `FK_LOGGING_USER_ID` ( `user_id` ) ,
-ADD CONSTRAINT `FK_LOGGING_USER_ID` FOREIGN KEY ( user_id ) REFERENCES {$installer->getTable('admin_user')}( `user_id` ) ON DELETE CASCADE ON UPDATE CASCADE;");
+$installer->getConnection()->addConstraint('FK_LOGGING_EVENT', $this->getTable('enterprise_logging/event'), 'user_id',
+                                           $installer->getTable('admin_user'), 'user_id', 'SET NULL');
 
 $installer->endSetup();
