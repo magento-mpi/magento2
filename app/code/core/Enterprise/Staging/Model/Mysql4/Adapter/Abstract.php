@@ -48,23 +48,6 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
     protected $_config;
 
     /**
-     * Table list, exclude from copying
-     *
-     * @var mixed
-     */
-    protected $_excludeList = array(
-        'core_store',
-        'core_website',
-        'eav_attribute',
-        'eav_attribute_set',
-        'eav_entity_type',
-        'cms_page',
-        'cms_block',
-        'catalog_product_bundle_option_value',
-        'downloadable_sample_title'
-    );
-
-    /**
      * Flat type table list
      *
      * @var mixed
@@ -277,23 +260,63 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
      *
      * @param string $tableName
      * @param string $srcTableName
+     * @param bool $isFlat
      *
      * @return Enterprise_Staging_Model_Staging_Adapter_Abstract
      */
-    public function createTable($tableName, $srcTableName)
+    public function createTable($tableName, $srcTableName, $isFlat = false)
     {
         $srcTableDesc = $this->getTableProperties($srcTableName);
         if (!$srcTableDesc) {
             return $this;
         }
         $srcTableDesc['table_name'] = $this->getTable($tableName);
-        $sql = $this->_getCreateSql($srcTableDesc, null);
+        $srcTableDesc['src_table_name'] = $this->getTable($srcTableName);
+        $sql = $this->_getCreateSql($srcTableDesc, $isFlat);
 
         try {
             $this->_getWriteAdapter()->query($sql);
         } catch (Exception $e) {
-            throw new Enterprise_Staging_Exception(Mage::helper('enterprise_staging')->__('Exception while SQL query: %s. Query: %s', $e->getMessage(), $sql));
+            $message = Mage::helper('enterprise_staging')->__('Exception while SQL query: %s. Query: %s', $e->getMessage(), $sql);
+            throw new Enterprise_Staging_Exception($message);
         }
+        return $this;
+    }
+
+    /**
+     * Clone Table data
+     *
+     * @param string $sourceTableName
+     * @param string $targetTableName
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Abstract
+     */
+    public function cloneTable($sourceTableName, $targetTableName)
+    {
+        // validate tables
+        $sourceDesc = $this->getTableProperties($sourceTableName);
+        $targetDesc = $this->getTableProperties($targetTableName);
+
+        $diff = array_diff_key($sourceDesc['fields'], $targetDesc['fields']);
+        if ($diff) {
+            $message = Mage::helper('enterprise_staging')->__('Staging Table "%s" and Master Tables "%s" has different fields',
+                $targetTableName, $sourceTableName);
+            throw new Enterprise_Staging_Exception($message);
+        }
+
+        /* @var $select Varien_Db_Select */
+        $fields = array_keys($sourceDesc['fields']);
+        $select = $this->_getWriteAdapter()->select()
+            ->from(array('s' => $sourceTableName), $fields);
+        $sql = $select->insertFromSelect($targetTableName, $fields);
+
+        try {
+            $this->_getWriteAdapter()->query($sql);
+        }
+        catch (Zend_Db_Exception $e) {
+            $message = Mage::helper('enterprise_staging')->__('Exception while SQL query: %s. Query: %s', $e->getMessage(), $sql);
+            throw new Enterprise_Staging_Exception($message);
+        }
+
         return $this;
     }
 
@@ -313,8 +336,9 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
             $srcTableDesc = $this->getTableProperties($srcTableName);
             if ($srcTableDesc) {
                 $srcTableDesc['table_name'] = $tableName;
+                $srcTableDesc['src_table_name'] = $srcTableName;
                 if (!empty($srcTableDesc['constraints'])) {
-                    foreach($srcTableDesc['constraints'] as $constraint => $data) {
+                    foreach ($srcTableDesc['constraints'] as $constraint => $data) {
                         $srcTableDesc['constraints'][$constraint]['fk_name'] = $prefix . $data['fk_name'];
                     }
                 }
@@ -329,9 +353,10 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
      * Get create table sql
      *
      * @param  mixed  $tableDescription
+     * @param bool $isFlat
      * @return string
      */
-    protected function _getCreateSql($tableDescription)
+    protected function _getCreateSql($tableDescription, $isFlat = false)
     {
         $_sql = "CREATE TABLE IF NOT EXISTS `{$tableDescription['table_name']}`\n";
 
@@ -346,7 +371,12 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
             $rows[] = $this->_getKeySql($key);
         }
         foreach ($tableDescription['constraints'] as $key) {
-            $rows[] = $this->_getConstraintSql($key);
+            if ($isFlat) {
+                $rows[] = $this->_getFlatConstraintSql($key, $tableDescription);
+            }
+            else {
+                $rows[] = $this->_getConstraintSql($key);
+            }
         }
         $rows = implode(",\n", $rows);
         $_sql .= " ({$rows})";
@@ -423,15 +453,43 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
         foreach ($key['fields'] as $field) {
             $fields[] = "`{$field}`";
         }
-        $fields = implode(',',$fields);
+        $fields = implode(',', $fields);
         $_keySql .= "($fields)";
         return $_keySql;
     }
 
     /**
-     * Get sql FOREIGN KEY list
+     * Retrieve SQL fragment for FOREIGN KEY
      *
-     * @param  mixed  $key
+     * @param array $properties the foreign key properties
+     * @param array $table      the table properties
+     * @return string
+     */
+    protected function _getFlatConstraintSql(array $properties, array $table)
+    {
+        $masterStoreId = explode('_', $table['src_table_name']);
+        $masterStoreId = end($masterStoreId);
+        $targetStoreId = explode('_', $table['table_name']);
+        $targetStoreId = end($targetStoreId);
+
+        $properties['fk_name'] = preg_replace('#_('.$masterStoreId.')(_)?#',
+            '_'.$targetStoreId.'\\2', $properties['fk_name']);
+
+        $tpl = ' CONSTRAINT `%s` FOREIGN KEY (`%s`) REFERENCES `%s` (`%s`)%s%s';
+        return sprintf($tpl,
+            $properties['fk_name'],
+            $properties['pri_field'],
+            $properties['ref_table'],
+            $properties['ref_field'],
+            ($properties['on_delete'] ? ' ON DELETE ' . $properties['on_delete'] : ''),
+            ($properties['on_update'] ? ' ON UPDATE ' . $properties['on_update'] : '')
+        );
+    }
+
+    /**
+     * Retrieve SQL FOREIGN KEY list
+     *
+     * @param mixed $key
      * @return string
      */
     protected function _getConstraintSql($key)
@@ -464,7 +522,8 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
             $prefix = 'S_';
         }
 
-        $_keySql = " CONSTRAINT `{$prefix}{$key['fk_name']}` FOREIGN KEY (`{$key['pri_field']}`) REFERENCES {$_refTable} (`{$key['ref_field']}`) {$onDelete} {$onUpdate}";
+        $_keySql = " CONSTRAINT `{$prefix}{$key['fk_name']}` FOREIGN KEY (`{$key['pri_field']}`) "
+            . "REFERENCES {$_refTable} (`{$key['ref_field']}`) {$onDelete} {$onUpdate}";
 
         return $_keySql;
     }
@@ -682,9 +741,9 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
                     }
                 }
 
-                $sql = "DELETE T1.* FROM `{$targetTable}` as T1, `{$srcTable}` as T2 WHERE " . implode(" AND " , $_websiteFieldNameSql);
+                $sql = "DELETE T1.* FROM `{$targetTable}` as T1, `{$srcTable}` as T2 WHERE " . implode(" AND ", $_websiteFieldNameSql);
                 if (!empty($addidtionalWhereCondition)) {
-                    $addidtionalWhereCondition = str_replace(array($srcTable, $targetTable), array("T2" , "T1") , $addidtionalWhereCondition);
+                    $addidtionalWhereCondition = str_replace(array($srcTable, $targetTable), array("T2", "T1") , $addidtionalWhereCondition);
                     $sql .= " AND " . $addidtionalWhereCondition;
                 }
                 return $sql;
@@ -693,6 +752,12 @@ abstract class Enterprise_Staging_Model_Mysql4_Adapter_Abstract extends Mage_Cor
         return "";
     }
 
+    /**
+     * Retrieve table name for the entity
+     *
+     * @param string $entityName
+     * @return string
+     */
     public function getTable($entityName)
     {
         if (strpos($entityName, '/') !== false) {

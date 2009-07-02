@@ -116,6 +116,44 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     }
 
     /**
+     * Validate and run callback method for flat item
+     *
+     * @param string $entityName
+     * @param string $callbackMethod
+     */
+    protected function _itemFlatRun($entityName, $callbackMethod)
+    {
+        $helper   = Mage::helper($entityName);
+        $resource = Mage::getResourceModel($entityName);
+
+        if ($helper->isBuilt()) {
+            $staging    = $this->getStaging();
+            $websites   = $staging->getMapperInstance()->getWebsites();
+            $callback   = $callbackMethod . 'Flat';
+
+            if (!empty($websites)) {
+                foreach ($websites as $website) {
+                    $stores = $website->getStores();
+                    foreach ($stores as $store) {
+                        $masterStoreId  = (int)$store->getMasterStoreId();
+                        $stagingStoreId = (int)$store->getStagingStoreId();
+                        if (!$masterStoreId || !$stagingStoreId) {
+                            continue;
+                        }
+
+                        $this->$callback($store, $resource);
+                    }
+                }
+            }
+        }
+
+        // set processed tables flag
+        $this->_processedTables[$entityName] = $entityName;
+
+        return $this;
+    }
+
+    /**
      * Check Staging backend tables to exist
      *
      * @param string  $entityName
@@ -167,6 +205,96 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         }
 
         $this->_processedTables[$entityName] = $this->_getStagingTableName($entityName);
+        return $this;
+    }
+
+    /**
+     * Create item table and records for flat tables
+     *
+     * @param Varien_Object $store
+     * @param Mage_Core_Model_Mysql4_Abstract $resource
+     * @throws Enterprise_Staging_Exception
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    protected function _createItemFlat(Varien_Object $store, $resource)
+    {
+        $sourceStoreId  = (int)$store->getMasterStoreId();
+        $targetStoreId  = (int)$store->getStagingStoreId();
+
+        $sourceTable    = $resource->setStoreId($sourceStoreId)->getMainTable();
+        $targetTable    = $resource->setStoreId($targetStoreId)->getMainTable();
+
+        $this->_copyFlatTable($sourceTable, $targetTable, false);
+
+        return $this;
+    }
+
+    /**
+     * Copy table and records process
+     *
+     * @param string $sourceTableName
+     * @param string $targetTableName
+     * @param bool $create              create table if does not exists flag
+     * @throws Enterprise_Staging_Exception
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    protected function _copyFlatTable($sourceTableName, $targetTableName, $create = false)
+    {
+        $sourceTableDesc = $this->getTableProperties($sourceTableName);
+        if (!$sourceTableDesc) {
+            return $this;
+        }
+
+        if ($create) {
+            $this->createTable($targetTableName, $sourceTableName, true);
+        }
+        $this->cloneTable($sourceTableName, $targetTableName);
+
+        return $this;
+    }
+
+    /**
+     * Backup process (empty function)
+     *
+     * @param Varien_Object $store
+     * @param Mage_Core_Model_Mysql4_Abstract $resource
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    protected function _backupItemFlat(Varien_Object $store, $resource)
+    {
+        return $this;
+    }
+
+    /**
+     * Merge item records for flat tables
+     *
+     * @param Varien_Object $store
+     * @param Mage_Core_Model_Mysql4_Abstract $resource
+     * @throws Enterprise_Staging_Exception
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    protected function _mergeItemFlat(Varien_Object $store, $resource)
+    {
+        $sourceStoreId  = (int)$store->getStagingStoreId();
+        $targetStoreId  = (int)$store->getMasterStoreId();
+
+        $sourceTable    = $resource->setStoreId($sourceStoreId)->getMainTable();
+        $targetTable    = $resource->setStoreId($targetStoreId)->getMainTable();
+
+        $this->_copyFlatTable($sourceTable, $targetTable, true);
+
+        return $this;
+    }
+
+    /**
+     * Rollback process (empty function)
+     *
+     * @param Varien_Object $store
+     * @param Mage_Core_Model_Mysql4_Abstract $resource
+     * @return Enterprise_Staging_Model_Mysql4_Adapter_Item_Default
+     */
+    protected function _rollbackItemFlat(Varien_Object $store, $resource)
+    {
         return $this;
     }
 
@@ -581,7 +709,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                         $_websiteFieldNameSql = "`{$srcTable}`.`scope` = 'websites' AND `{$srcTable}`.`scope_id` IN (" . implode(", ", $masterWebsiteIds). ")";
                     } elseif (in_array('website_ids', $fields)) {
                         $whereFields = array();
-                        foreach($masterWebsiteIds AS $webId) {
+                        foreach ($masterWebsiteIds AS $webId) {
                             $whereFields[] = "FIND_IN_SET($webId, `{$srcTable}`.`website_ids`)";
                         }
                         $_websiteFieldNameSql = implode(" OR " , $whereFields);
@@ -821,19 +949,9 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
                     $this->{$callbackMethod}($_srcTable);
                 }
                 continue;
-            } elseif (isset($this->_flatTables[$entityName])) {
-//                if ('category_flat' == $table) {
-//                    if (!Mage::helper('catalog/category_flat')->isEnabled()) {
-//                        continue;
-//                    }
-//                    $this->{$callbackMethod}($entityName);
-//                } elseif ('product_flat' == $table) {
-//                    if (!Mage::helper('catalog/product_flat')->isBuilt()) {
-//                        continue;
-//                    }
-//                    $this->{$callbackMethod}($entityName);
-//                }
-                // skip main flat type "prefix" table
+            }
+            else if (isset($this->_flatTables[$entityName])) {
+                $this->_itemFlatRun($entityName, $callbackMethod);
                 continue;
             }
             $this->{$callbackMethod}($entityName);
