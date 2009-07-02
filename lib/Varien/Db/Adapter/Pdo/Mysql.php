@@ -826,8 +826,8 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
                 $upperKeyName = strtoupper($row[$fieldKeyName]);
                 if (isset($indexList[$upperKeyName])) {
-                    $indexList[$row[$fieldKeyName]]['fields'][] = $row[$fieldColumn]; // for compatible
-                    $indexList[$row[$fieldKeyName]]['COLUMNS_LIST'][] = $row[$fieldColumn];
+                    $indexList[$upperKeyName]['fields'][] = $row[$fieldColumn]; // for compatible
+                    $indexList[$upperKeyName]['COLUMNS_LIST'][] = $row[$fieldColumn];
                 }
                 else {
                     $indexList[$upperKeyName] = array(
