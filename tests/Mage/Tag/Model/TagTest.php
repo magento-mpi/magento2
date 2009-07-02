@@ -24,10 +24,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/../../../PHPUnitTestInit.php';
-    PHPUnitTestInit::runMe(__FILE__);
-}
 
 /**
  * DESCRIPTION
@@ -335,7 +331,7 @@ class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
      *  @param    int $tagId
      *  @param    int $productId
      *  @param    Mage_Customer_Model_Customer $customer
-     *  @return	  Mage_Tag_Model_Tag_Relation
+     *  @return   Mage_Tag_Model_Tag_Relation
      */
     protected function _createRelation ($tagId, $productId, $customerId)
     {
@@ -353,7 +349,7 @@ class Mage_Tag_Model_TagTest extends PHPUnit_Framework_TestCase
      *  Returns tag summary infoo
      *
      *  @param    int $tagId
-     *  @return	  array
+     *  @return   array
      */
     protected function _getSummary ($tagId)
     {

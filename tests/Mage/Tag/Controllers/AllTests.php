@@ -24,10 +24,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/../../../PHPUnitTestInit.php';
-    PHPUnitTestInit::runMe(__FILE__);
-}
 
 /**
  * All tests for Tag controllers
@@ -38,10 +34,10 @@ class Mage_Tag_Controllers_AllTests
     public static function suite()
     {
         $suite = new PHPUnit_Framework_TestSuite('Mage/Tag/Controllers/AllTests');
-        $suite->addTestSuite('Mage_Tag_Controllers_CustomerTest');
-        $suite->addTestSuite('Mage_Tag_Controllers_IndexTest');
-        $suite->addTestSuite('Mage_Tag_Controllers_ListTest');
-        $suite->addTestSuite('Mage_Tag_Controllers_ProductTest');
+//        $suite->addTestSuite('Mage_Tag_Controllers_CustomerTest');
+//        $suite->addTestSuite('Mage_Tag_Controllers_IndexTest');
+//        $suite->addTestSuite('Mage_Tag_Controllers_ListTest');
+//        $suite->addTestSuite('Mage_Tag_Controllers_ProductTest');
         return $suite;
     }
 }
