@@ -367,7 +367,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
         $originalStatus = $this->getStatus();
         if ($originalStatus == self::STATUS_OPEN || $originalStatus == self::STATUS_UPCOMING) {
             $this->applyStatusByDates();
-            if ($this->getStatus != $originalStatus) {
+            if ($this->getStatus() != $originalStatus) {
                 $this->save();
             }
         }
