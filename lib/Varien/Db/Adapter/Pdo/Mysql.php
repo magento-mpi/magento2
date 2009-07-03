@@ -189,6 +189,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
     /**
      * Creates a PDO object and connects to the database.
+     *
      */
     protected function _connect()
     {
@@ -203,7 +204,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         if (strpos($this->_config['host'], '/')!==false) {
             $this->_config['unix_socket'] = $this->_config['host'];
             unset($this->_config['host']);
-        } elseif (strpos($this->_config['host'], ':')!==false) {
+        } else if (strpos($this->_config['host'], ':')!==false) {
             list($this->_config['host'], $this->_config['port']) = explode(':', $this->_config['host']);
         }
 
@@ -221,6 +222,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
     }
 
+    /**
+     * Run RAW Query
+     *
+     * @param string $sql
+     * @return Zend_Db_Statement_Interface
+     */
     public function raw_query($sql)
     {
         do {
@@ -241,6 +248,13 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         return $result;
     }
 
+    /**
+     * Run RAW query and Fetch First row
+     *
+     * @param string $sql
+     * @param string|int $field
+     * @return mixed
+     */
     public function raw_fetchRow($sql, $field=null)
     {
         if (!$result = $this->raw_query($sql)) {
@@ -287,6 +301,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         return $result;
     }
 
+    /**
+     * Callback function for prepare Query Bind RegExp
+     *
+     * @param array $matches
+     * @return string
+     */
     public function proccessBindCallback($matches)
     {
         if (isset($matches[6]) && (
@@ -368,7 +388,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             if (($part==="'" || $part==='"') && ($i===0 || $parts[$i-1]!=='\\')) {
                 if ($q===false) {
                     $q = $part;
-                } elseif ($q===$part) {
+                } else if ($q===$part) {
                     $q = false;
                 }
             }
@@ -376,14 +396,14 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             // single line comments
             if (($part==='//' || $part==='--') && ($i===0 || $parts[$i-1]==="\n")) {
                 $c = $part;
-            } elseif ($part==="\n" && ($c==='//' || $c==='--')) {
+            } else if ($part==="\n" && ($c==='//' || $c==='--')) {
                 $c = false;
             }
 
             // multi line comments
             if ($part==='/*' && $c===false) {
                 $c = '/*';
-            } elseif ($part==='*/' && $c==='/*') {
+            } else if ($part==='*/' && $c==='/*') {
                 $c = false;
             }
 
@@ -481,7 +501,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
                 . " WHERE `r`.`{$refColumnName}` IS NULL";
             $this->raw_query($sql);
         }
-        elseif (strtoupper($onDelete) == 'SET NULL') {
+        else if (strtoupper($onDelete) == 'SET NULL') {
             $sql = "UPDATE `{$tableName}` AS `p`"
                 . " LEFT JOIN `{$refTableName}` AS `r`"
                 . " ON `p`.`{$columnName}` = `r`.`{$refColumnName}`"
@@ -813,10 +833,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
                 if ($row[$fieldKeyName] == 'PRIMARY') {
                     $indexType  = 'primary';
                 }
-                elseif ($row[$fieldNonUnique] == 0) {
+                else if ($row[$fieldNonUnique] == 0) {
                     $indexType  = 'unique';
                 }
-                elseif ($row[$fieldIndexType] == 'FULLTEXT') {
+                else if ($row[$fieldIndexType] == 'FULLTEXT') {
                     $indexType  = 'fulltext';
                 }
                 else {
@@ -985,8 +1005,12 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     }
 
     /**
-     * Start debug timer
+     * Logging debug information
      *
+     * @param int $type
+     * @param string $sql
+     * @param array $bind
+     * @param Zend_Db_Statement_Pdo $result
      * @return Varien_Db_Adapter_Pdo_Mysql
      */
     protected function _debugStat($type, $sql, $bind = array(), $result = null)
@@ -1183,7 +1207,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      *
      * @param string $tableName
      * @param string $engine
-     * @param string $type
+     * @param string $schemaName
      * @return mixed
      */
     public function changeTableEngine($tableName, $engine, $schemaName = null)
