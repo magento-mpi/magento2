@@ -26,20 +26,23 @@
 
 
 /**
- * Sendfriend log resource collection
+ * Sendfriend Observer
  *
  * @category    Mage
  * @package     Mage_Sendfriend
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Sendfriend_Model_Mysql4_Sendfriend_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Sendfriend_Model_Observer
 {
     /**
-     * Init resource collection
+     * Register Sendfriend Model in global registry
      *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Sendfriend_Model_Observer
      */
-    protected function _construct()
+    public function register(Varien_Event_Observer $observer)
     {
-        $this->_init('sendfriend/sendfriend');
+        Mage::getModel('sendfriend/sendfriend')->register();
+        return $this;
     }
 }
