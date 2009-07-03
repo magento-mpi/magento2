@@ -42,7 +42,10 @@ class Enterprise_Logging_Model_Archive_Collection extends Varien_Data_Collection
     public function __construct()
     {
         parent::__construct();
-        $this->addTargetDir(Mage::getModel('enterprise_logging/archive')->getBasePath());
+        $basePath = Mage::getModel('enterprise_logging/archive')->getBasePath();
+        $file = new Varien_Io_File();
+        $file->setAllowCreateFolders(true)->createDestinationDir($basePath);
+        $this->addTargetDir($basePath);
     }
 
     /**
