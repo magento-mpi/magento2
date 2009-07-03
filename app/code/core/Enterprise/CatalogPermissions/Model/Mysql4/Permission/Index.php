@@ -284,9 +284,9 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                  store.website_id = permission_index.website_id',
                 array(
                     'customer_group_id',
-                    'grant_catalog_category_view' => 'MAX(IF(permission_index.grant_catalog_category_view = 0, NULL, permission_index.grant_catalog_category_view))',
-                    'grant_catalog_product_price' => 'MAX(IF(permission_index.grant_catalog_product_price = 0, NULL, permission_index.grant_catalog_product_price))',
-                    'grant_checkout_items' => 'MAX(IF(permission_index.grant_checkout_items = 0, NULL, permission_index.grant_checkout_items))'
+                    'grant_catalog_category_view' => 'MAX(IF(permission_index.grant_catalog_category_view = ' .  Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT . ', NULL, permission_index.grant_catalog_category_view))',
+                    'grant_catalog_product_price' => 'MAX(IF(permission_index.grant_catalog_product_price = ' .  Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT . ', NULL, permission_index.grant_catalog_product_price))',
+                    'grant_checkout_items' => 'MAX(IF(permission_index.grant_checkout_items = ' .  Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT . ', NULL, permission_index.grant_checkout_items))'
                 )
             )->group('category_product_index.category_id')
             ->where('category_product_index.is_parent = ?', 1);
@@ -315,9 +315,9 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             )->columns(
                 array(
                     'customer_group_id',
-                    'grant_catalog_category_view' => 'MAX(IF(permission_index_product.grant_catalog_category_view = 0, NULL, permission_index_product.grant_catalog_category_view))',
-                    'grant_catalog_product_price' => 'MAX(IF(permission_index_product.grant_catalog_product_price = 0, NULL, permission_index_product.grant_catalog_product_price))',
-                    'grant_checkout_items' => 'MAX(IF(permission_index_product.grant_checkout_items = 0, NULL, permission_index_product.grant_checkout_items))'
+                    'grant_catalog_category_view' => 'MAX(IF(permission_index_product.grant_catalog_category_view = ' .  Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT . ', NULL, permission_index_product.grant_catalog_category_view))',
+                    'grant_catalog_product_price' => 'MAX(IF(permission_index_product.grant_catalog_product_price = ' .  Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT . ', NULL, permission_index_product.grant_catalog_product_price))',
+                    'grant_checkout_items' => 'MAX(IF(permission_index_product.grant_checkout_items = ' .  Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT . ', NULL, permission_index_product.grant_checkout_items))'
                 ),
                 'permission_index_product'
            )->group(array(
@@ -407,9 +407,9 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 array(
                     'category_id' => new Zend_Db_Expr('NULL'),
                     'customer_group_id',
-                    'grant_catalog_category_view' => 'MAX(IF(permission_index_product.grant_catalog_category_view = 0, NULL, permission_index_product.grant_catalog_category_view))',
-                    'grant_catalog_product_price' => 'MAX(IF(permission_index_product.grant_catalog_product_price = 0, NULL, permission_index_product.grant_catalog_product_price))',
-                    'grant_checkout_items' => 'MAX(IF(permission_index_product.grant_checkout_items = 0, NULL, permission_index_product.grant_checkout_items))',
+                    'grant_catalog_category_view' => 'MAX(IF(permission_index_product.grant_catalog_category_view = ' .  Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT . ', NULL, permission_index_product.grant_catalog_category_view))',
+                    'grant_catalog_product_price' => 'MAX(IF(permission_index_product.grant_catalog_product_price = ' .  Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT . ', NULL, permission_index_product.grant_catalog_product_price))',
+                    'grant_checkout_items' => 'MAX(IF(permission_index_product.grant_checkout_items = ' .  Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT . ', NULL, permission_index_product.grant_checkout_items))',
                     'is_config' => new Zend_Db_Expr('1')
                 ),
                 'permission_index_product'
@@ -541,7 +541,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             foreach (array_keys($this->_permissionCache[$path]) as $uniqKey) {
                 if (isset($this->_permissionCache[$parentPath][$uniqKey])) {
                     foreach ($this->_grantsInheritance as $grant => $inheritance) {
-                        if ($this->_permissionCache[$path][$uniqKey][$grant] == 0) {
+                        if ($this->_permissionCache[$path][$uniqKey][$grant] == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT) {
                             $this->_permissionCache[$path][$uniqKey][$grant] = $this->_permissionCache[$parentPath][$uniqKey][$grant];
                         } else {
                             $value = $this->_permissionCache[$parentPath][$uniqKey][$grant];
@@ -561,7 +561,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                             $this->_permissionCache[$path][$uniqKey][$grant] = $value;
                         }
 
-                        if ($this->_permissionCache[$path][$uniqKey][$grant] == 0) {
+                        if ($this->_permissionCache[$path][$uniqKey][$grant] == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT) {
                             $this->_permissionCache[$path][$uniqKey][$grant] = null;
                         }
 
@@ -628,10 +628,10 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
 
         if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
             $select
-                ->where('grant_catalog_category_view = -1');
+                ->where('grant_catalog_category_view = ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
         } else {
             $select
-                ->where('grant_catalog_category_view = -2');
+                ->where('grant_catalog_category_view = ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
         }
 
         $restrictedCatIds = $this->_getReadAdapter()->fetchCol($select);
@@ -676,9 +676,9 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
         }
 
         if (!Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice()) {
-            $select->where('permission_index_product.grant_catalog_product_price = -1');
+            $select->where('permission_index_product.grant_catalog_product_price = ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
         } else {
-            $select->where('permission_index_product.grant_catalog_product_price != -2
+            $select->where('permission_index_product.grant_catalog_product_price != ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY . '
                      OR permission_index_product.grant_catalog_product_price IS NULL');
         }
 
@@ -712,10 +712,10 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
 
         if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
             $collection->getProductCountSelect()
-                ->where('permission_index_product_count.grant_catalog_category_view = -1');
+                ->where('permission_index_product_count.grant_catalog_category_view = ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
         } else {
             $collection->getProductCountSelect()
-                ->where('permission_index_product_count.grant_catalog_category_view != -2
+                ->where('permission_index_product_count.grant_catalog_category_view != ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY . '
                          OR permission_index_product_count.grant_catalog_category_view IS NULL');
         }
 
@@ -748,10 +748,10 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
 
         if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
             $collection->getSelect()
-                ->where('permission_index.grant_catalog_category_view = -1');
+                ->where('permission_index.grant_catalog_category_view = ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
         } else {
             $collection->getSelect()
-                ->where('permission_index.grant_catalog_category_view != -2');
+                ->where('permission_index.grant_catalog_category_view != ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY);
         }
 
         return $this;
@@ -799,10 +799,10 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 );
             if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView()) {
                 $collection->getSelect()
-                    ->where('permission_index_product.grant_catalog_category_view = -1');
+                    ->where('permission_index_product.grant_catalog_category_view = ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
             } else {
                 $collection->getSelect()
-                    ->where('permission_index_product.grant_catalog_category_view != -2
+                    ->where('permission_index_product.grant_catalog_category_view != ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY . '
                              OR permission_index_product.grant_catalog_category_view IS NULL');
             }
 
@@ -824,19 +824,19 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
 
                     if (!Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice()) {
                         $collection->getSelect()
-                            ->where('permission_index_product.grant_catalog_product_price = -1');
+                            ->where('permission_index_product.grant_catalog_product_price = ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
                     } else {
                         $collection->getSelect()
-                            ->where('permission_index_product.grant_catalog_product_price != -2
+                            ->where('permission_index_product.grant_catalog_product_price != ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY . '
                                      OR permission_index_product.grant_catalog_product_price IS NULL');
                     }
 
                     if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCheckoutItems()) {
                         $collection->getSelect()
-                            ->where('permission_index_product.grant_checkout_items = -1');
+                            ->where('permission_index_product.grant_checkout_items = ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW);
                     } else {
                         $collection->getSelect()
-                            ->where('permission_index_product.grant_checkout_items != -2
+                            ->where('permission_index_product.grant_checkout_items != ' . Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY . '
                                      OR permission_index_product.grant_checkout_items IS NULL');
                     }
                 }
