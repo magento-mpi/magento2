@@ -45,7 +45,7 @@ class Enterprise_Invitation_Model_Adminhtml_System_Config_Backend_Limited
     {
         parent::_beforeSave();
 
-        if ((int)$this->getValue() < 0) {
+        if ((int)$this->getValue() <= 0) {
             $parameter = Mage::helper('enterprise_invitation')->__('Max Invitations Allowed to be Sent at One Time');
 
             //if even old value is not valid we will have to you '1'
