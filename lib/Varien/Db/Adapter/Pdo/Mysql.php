@@ -273,10 +273,9 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             if (strpos($sql, ':') !== false || strpos($sql, '?') !== false) {
                 $this->_bindParams = $bind;
                 $sql = preg_replace_callback('#(([\'"])((\\2)|((.*?[^\\\\])\\2)))#', array($this, 'proccessBindCallback'), $sql);
+                Varien_Exception::processPcreError();
                 $bind = $this->_bindParams;
             }
-
-
 
             $result = parent::query($sql, $bind);
         }
