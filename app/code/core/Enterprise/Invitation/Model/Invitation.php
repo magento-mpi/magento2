@@ -255,7 +255,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
             return;
         }
         throw new Mage_Core_Exception(
-            Mage::helper('enterprise_invitation')->__('Customer with email "%s" already exists.', $customer->getEmail()), self::ERROR_CUSTOMER_EXISTS
+            Mage::helper('enterprise_invitation')->__('Customer with email "%s" already exists.', $email), self::ERROR_CUSTOMER_EXISTS
         );
     }
 
