@@ -72,12 +72,9 @@ class Mage_CatalogInventory_Model_Stock extends Mage_Core_Model_Abstract
             ->joinStockStatus($productCollection->getStoreId())
             ->load();
         foreach ($items as $item) {
-            foreach($productCollection as $product){
-                if($product->getId()==$item->getProductId()){
-                    if($product instanceof Mage_Catalog_Model_Product) {
-                        $item->assignProduct($product);
-                    }
-                }
+            $product = $productCollection->getItemById($item->getProductId());
+            if ($product instanceof Mage_Catalog_Model_Product) {
+                $item->assignProduct($product);
             }
         }
         return $this;
