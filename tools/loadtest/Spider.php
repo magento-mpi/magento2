@@ -378,11 +378,11 @@ class LoadTest_Url
                 $cookies = $this->getResponse()->getHeaders()->getSetCookie();
             }
             foreach ($cookies as $cookie) {
-                foreach (split('; ', $cookie) as $cookieString) {
+                foreach (explode('; ', $cookie) as $cookieString) {
                     if (empty($cookieString)) {
                         continue;
                     }
-                    $cookieData = split('=', trim($cookieString, ';'));
+                    $cookieData = explode('=', trim($cookieString, ';'));
                     if ($cookieData[0] == 'path') {
                         continue;
                     }
