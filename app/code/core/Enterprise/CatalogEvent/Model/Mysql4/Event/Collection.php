@@ -198,7 +198,7 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
     {
         $events = parent::_afterLoad();
         foreach ($events->_items as $event) {
-            $event->closeIfOutdated();
+            $event->updateStatus();
         }
         return $this;
     }

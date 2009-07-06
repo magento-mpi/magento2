@@ -360,9 +360,9 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Providing check of status and closes event (with saving into DB) if event is outdated
+     * Providing check of status and updates it (with saving into DB) if status changed 
      */
-    public function closeIfOutdated()
+    public function updateStatus()
     {
         $originalStatus = $this->getStatus();
         if ($originalStatus == self::STATUS_OPEN || $originalStatus == self::STATUS_UPCOMING) {
