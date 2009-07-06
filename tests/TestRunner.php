@@ -25,119 +25,87 @@
  */
 
 require_once 'Mage.php';
+require_once 'TestCase.php';
+require_once 'TestSuite.php';
+
 Mage::app();
 
-$runner = new TestRunner();
+$runner = new Mage_TestRunner();
 $runner->runTests();
 
 /**
  * Test runner for available UnitTests
  */
-class TestRunner
+class Mage_TestRunner
 {
-	private $skipDirs = array('.', '..', '/.', '/..', '.svn');
-	private $defaultTestFolders = array(
-	           'Enterprise', 'functional', 'integration', 'Mage', 
-	           'magento-connect', 'modules', 'selenium', 'WebService', 'webservices');	
+    protected $_baseTestFolders = array('bugs', 'functional', 'integration',
+        'lib','modules', 'selenium', 'webservices');
 
     /**
-     * Main entry, run tests 
+     * Main entry, run tests
      *
      */
-	public function runTests()
-	{
-		$startingFolders = $this->processCommandLineArgs();
-		$phpFiles = array();
-		foreach ($startingFolders as $startingFolder) {
-            $phpFiles += $this->obtainPhpFiles($startingFolder);			
-		}
-		$suite = new PHPUnit_Framework_TestSuite();
-		foreach ($phpFiles as $phpFile) {
-            $className = $this->getClassNameFromPath($phpFile);
-            $classNameEnding = substr($className, strlen($className)-4);
-    		if (class_exists($className) && $classNameEnding == 'Test') {
-                $suite->addTestSuite($className);
-    		}
+    public function runTests()
+    {
+        $phpFiles = array();
+        foreach ($this->_baseTestFolders as $startingFolder) {
+            $phpFiles = array_merge($phpFiles, $this->obtainPhpFiles($startingFolder));
         }
-		PHPUnit_TextUI_TestRunner::run($suite);
-	}
-	
-	/**
-	 * Function for processing command-line arguments  
-	 *
-	 * @return array - list of folders/files from command line in which UnitTests should be searched/runned 
-	 */
-	private function processCommandLineArgs() 
-	{
-		global $argv; 
-		if (in_array('-h', $argv)) {
-			$this->showHelp();
-			exit(0);
-		}	
-		else if (sizeof($argv) == 1) {
-			return $this->defaultTestFolders;
-		}
-		else if (sizeof($argv) > 1) {
-			return array_slice($argv, 1);
-		} 
-		else {
-			exit("Script should be launched from command line\n");
-		}
-	}
-	
-	/**
-	 * Recourse function for fetching all php-files 
-	 *
-	 * @param string $startPath - start path to search
-	 * @param array $phpFiles - array where fonded php-files stored
-	 * @return list of php-files with UnitTests
-	 */
-	private function obtainPhpFiles($startPath, $phpFiles = array()) 
-	{
-    	if (is_file($startPath)) {
-			$filePieces = explode('.', $startPath);
-			if ($filePieces[sizeof($filePieces)-1] == 'php') {
-                $phpFiles[] = $startPath; 
-			}
-		}
-		else if (is_dir($startPath)) {
-            $dirEntries = scandir($startPath);
-            foreach ($dirEntries as $entry) {
-                if (!in_array($entry, $this->skipDirs)) {
-                    $phpFiles += $this->obtainPhpFiles("$startPath/$entry", $phpFiles);                		
-                }
-			}
-		}
-		else {
-			exit("Can't process resouce $startPath\n");
-		}
-        return $phpFiles;
-	}
 
-	/**
-	 * Obtains class stored into UnitTest file 
-	 *
-	 * @param string $sourcePath - full path to UnitTest file (relatively "test" folder)
-	 * @return string - class name stored into file
-	 */
-	private function getClassNameFromPath($sourcePath)
-	{
-		$fileNameNoExtension = str_replace('.php', '', $sourcePath);
-		$className = str_replace('/', '_', $fileNameNoExtension);
-		return $className; 
-	}
+        $suite = new Mage_TestSuite();
+        foreach ($phpFiles as $phpFile) {
+            $className = $this->getClassNameFromPath($phpFile);
+            $classNameEnding = substr($className, strlen($className) - 4);
+            if (class_exists($className) && $classNameEnding == 'Test') {
+                $suite->addTestSuite($className);
+            }
+        }
+
+        PHPUnit_TextUI_TestRunner::run($suite);
+    }
 
     /**
-    * Prints script usage info
-    * 
-    */	
-    private function showHelp() {
-        echo "\nCommand-line script for launching UnitTests
-Usage: php TestRunner.php [space-separated list of foders/php-files]
-
-Example: php TestRunner.php Enterprise/Invitation Mage/Core/Model/Email/Template/FilterTest.php
-All TestCases inside \"Enterprise/Invitation\" and all it subfolders + \"FilterTest.php\" will be run\n";
+     * Recourse function for fetching all php-files
+     *
+     * @param string $startPath - start path to search
+     * @param array $phpFiles - array where fonded php-files stored
+     * @return array list of php-files with UnitTests
+     */
+    protected function obtainPhpFiles($startPath)
+    {
+        $phpFiles = array();
+        if (is_file($startPath)) {
+            $extension = pathinfo($startPath, PATHINFO_EXTENSION);
+            if ($extension == 'php') {
+                $phpFiles[] = $startPath;
+            }
+        }
+        else if (is_dir($startPath)) {
+            $dirEntries = scandir($startPath);
+            foreach ($dirEntries as $entry) {
+                if (strpos($entry, '.') === 0) {
+                    continue;
+                }
+                $path = $startPath . DS . $entry;
+                $phpFiles = array_merge($phpFiles, $this->obtainPhpFiles($path));
+            }
+        }
+        else {
+            exit("Can't process resource $startPath\n");
+        }
+        return $phpFiles;
     }
-	
-	
-}	
+
+    /**
+     * Obtains class stored into UnitTest file
+     *
+     * @param string $sourcePath - full path to UnitTest file (relatively "test" folder)
+     * @return string - class name stored into file
+     */
+    protected function getClassNameFromPath($sourcePath)
+    {
+        $fileNameNoExtension = str_replace('.php', '', $sourcePath);
+        $className = str_replace('/', '_', $fileNameNoExtension);
+        return $className;
+    }
+}
