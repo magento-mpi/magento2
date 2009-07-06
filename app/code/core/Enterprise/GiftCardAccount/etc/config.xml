@@ -386,7 +386,7 @@
                 <code_format>alphanum</code_format>
                 <code_split>0</code_split>
                 <pool_size>1000</pool_size>
-                <pool_treshold>100</pool_treshold>
+                <pool_threshold>100</pool_threshold>
             </giftcardaccount_general>
         </giftcard>
         <sales>

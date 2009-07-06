@@ -121,14 +121,14 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pool_size>
-                        <pool_treshold translate="label comment">
-                            <label>Code Pool Treshold</label>
+                        <pool_threshold translate="label comment">
+                            <label>Low Code Pool Threshold</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </pool_treshold>
+                        </pool_threshold>
                         <generate translate="label comment">
                             <label></label>
                             <frontend_model>enterprise_giftcardaccount/adminhtml_system_config_generate</frontend_model>
