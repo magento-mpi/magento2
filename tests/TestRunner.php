@@ -49,12 +49,12 @@ class Mage_TestRunner
     {
         $phpFiles = array();
         foreach ($this->_baseTestFolders as $startingFolder) {
-            $phpFiles = array_merge($phpFiles, $this->obtainPhpFiles($startingFolder));
+            $phpFiles = array_merge($phpFiles, $this->_obtainPhpFiles($startingFolder));
         }
 
         $suite = new Mage_TestSuite();
         foreach ($phpFiles as $phpFile) {
-            $className = $this->getClassNameFromPath($phpFile);
+            $className = $this->_getClassNameFromPath($phpFile);
             $classNameEnding = substr($className, strlen($className) - 4);
             if (class_exists($className) && $classNameEnding == 'Test') {
                 $suite->addTestSuite($className);
@@ -71,7 +71,7 @@ class Mage_TestRunner
      * @param array $phpFiles - array where fonded php-files stored
      * @return array list of php-files with UnitTests
      */
-    protected function obtainPhpFiles($startPath)
+    protected function _obtainPhpFiles($startPath)
     {
         $phpFiles = array();
         if (is_file($startPath)) {
@@ -87,7 +87,7 @@ class Mage_TestRunner
                     continue;
                 }
                 $path = $startPath . DS . $entry;
-                $phpFiles = array_merge($phpFiles, $this->obtainPhpFiles($path));
+                $phpFiles = array_merge($phpFiles, $this->_obtainPhpFiles($path));
             }
         }
         else {
@@ -102,7 +102,7 @@ class Mage_TestRunner
      * @param string $sourcePath - full path to UnitTest file (relatively "test" folder)
      * @return string - class name stored into file
      */
-    protected function getClassNameFromPath($sourcePath)
+    protected function _getClassNameFromPath($sourcePath)
     {
         $fileNameNoExtension = str_replace('.php', '', $sourcePath);
         $className = str_replace('/', '_', $fileNameNoExtension);
