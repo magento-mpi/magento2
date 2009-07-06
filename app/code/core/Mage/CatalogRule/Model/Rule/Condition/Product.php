@@ -358,7 +358,7 @@ class Mage_CatalogRule_Model_Rule_Condition_Product extends Mage_Rule_Model_Cond
             if (!strlen($value)) {
                 $value = array();
             } else {
-                $value = split(',', $value);
+                $value = explode(',', $value);
             }
             return $this->validateAttribute($value);
         }

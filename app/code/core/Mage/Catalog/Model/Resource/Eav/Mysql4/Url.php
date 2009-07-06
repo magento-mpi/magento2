@@ -499,7 +499,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     protected function _prepareCategoryParentId(Varien_Object $category)
     {
         if ($category->getPath() != $category->getId()) {
-            $split = split('/', $category->getPath());
+            $split = explode('/', $category->getPath());
             $category->setParentId($split[(count($split) - 2)]);
         }
         else {
@@ -707,7 +707,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         while ($row = $query->fetch()) {
             $product = new Varien_Object($row);
             $product->setIdFieldName('entity_id');
-            $product->setCategoryIds(split(',', $product->getCategoryIds()));
+            $product->setCategoryIds(explode(',', $product->getCategoryIds()));
             $products[$product->getId()] = $product;
             $lastEntityId = $product->getId();
         }

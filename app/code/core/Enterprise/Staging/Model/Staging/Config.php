@@ -317,7 +317,7 @@ class Enterprise_Staging_Model_Staging_Config
             $staging->checkFrontend();
         }
 
-        list($model, $entity) = split("[/]" , $modelEntity, 2);
+        list($model, $entity) = explode('/' , $modelEntity, 2);
         if (!$model){
             return false;
         }

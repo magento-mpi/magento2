@@ -35,7 +35,7 @@ $fieldList = array(
 
 // make these attributes not applicable to gift card products
 foreach ($fieldList as $field) {
-    $applyTo = split(',', $installer->getAttribute('catalog_product', $field, 'apply_to'));
+    $applyTo = explode(',', $installer->getAttribute('catalog_product', $field, 'apply_to'));
     if (in_array('giftcard', $applyTo)) {
         foreach ($applyTo as $k=>$v) {
             if ($v == 'giftcard') {

@@ -433,7 +433,7 @@ class Mage_LoadTest_Model_Renderer_Catalog extends Mage_LoadTest_Model_Renderer_
         $backendModel   = '';
 
         if ($type == 'select' || $type == 'multiselect') {
-            $split = split(',', $this->getData($type));
+            $split = explode(',', $this->getData($type));
             if (isset($split[0]) && isset($split[1]) && isset($split[2])) {
                 $count = $split[0];
                 $minCount = $split[1];
