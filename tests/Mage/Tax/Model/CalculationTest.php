@@ -1,6 +1,6 @@
 <?php
 
-class Mage_Tax_Model_CalculationTest extends Mage_PHPUnit_TestCase
+class Mage_Tax_Model_CalculationTest extends PHPUnit_Framework_TestCase
 {
     protected $_calculator;
 

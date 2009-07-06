@@ -23,11 +23,7 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/../../PHPUnitTestInit.php';
-    PHPUnitTestInit::runMe(__FILE__);
 
-}
 class WebService_Directory_CountryTest extends WebService_TestCase_Abstract
 {
     /**

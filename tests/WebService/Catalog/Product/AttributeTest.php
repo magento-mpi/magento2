@@ -24,11 +24,6 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-if (!defined('_IS_INCLUDED')) {
-    require dirname(__FILE__) . '/../../../PHPUnitTestInit.php';
-    PHPUnitTestInit::runMe(__FILE__);
-}
-
 class WebService_Catalog_Product_AttributeTest extends WebService_TestCase_Abstract
 {
     /**
