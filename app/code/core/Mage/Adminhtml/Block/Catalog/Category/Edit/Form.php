@@ -75,11 +75,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
         }
 
         if (!$this->getCategory()->isReadonly()) {
+            $resetPath = $this->getCategory()->getId() ? '*/*/edit' : '*/*/add';
             $this->setChild('reset_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
                         'label'     => Mage::helper('catalog')->__('Reset'),
-                        'onclick'   => "categoryReset('".$this->getUrl('*/*/edit', array('_current'=>true))."',true)"
+                        'onclick'   => "categoryReset('".$this->getUrl($resetPath, array('_current'=>true))."',true)"
                     ))
             );
         }
@@ -198,7 +199,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
         $params = array_merge($params, $args);
         return $this->getUrl('*/*/refreshPath', $params);
     }
-        
+
     public function getProductsJson()
     {
         $products = $this->getCategory()->getProductsPosition();
