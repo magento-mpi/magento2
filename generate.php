@@ -297,7 +297,7 @@ function xmlFindTranslate($xmlNode, &$translate, $module = null, $xPath = array(
         $attributes = $node->attributes();
         if (isset($attributes['translate'])) {
             $module = isset($attributes['module']) ? (string)$attributes['module'] : $module;
-            $translateNodes = split(' ', $attributes['translate']);
+            $translateNodes = explode(' ', $attributes['translate']);
 
             foreach ($translateNodes as $nodeName) {
                 if (!(string)$node->$nodeName) {
