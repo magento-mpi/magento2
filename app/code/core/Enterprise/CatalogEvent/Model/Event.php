@@ -382,7 +382,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     public function load($id, $field=null)
     {
         $event = parent::load($id, $field);
-        $this->closeIfOutdated();
+        $this->updateStatus();
         return $event;
     }
 
