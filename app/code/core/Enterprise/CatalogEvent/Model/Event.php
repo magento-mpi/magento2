@@ -226,9 +226,9 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
             $timeStart = $this->_getResource()->mktime($this->getDateStart()); // Date already in gmt, no conversion
             $timeEnd = $this->_getResource()->mktime($this->getDateEnd()); // Date already in gmt, no conversion
             $timeNow = gmdate('U');
-            if ($timeStart <= $timeNow && ($timeEnd + 60 /* seconds */) >= $timeNow) {
+            if ($timeStart <= $timeNow && $timeEnd >= $timeNow) {
                 $this->setStatus(self::STATUS_OPEN);
-            } elseif ($timeNow > ($timeEnd + 60 /* seconds */)) {
+            } elseif ($timeNow > $timeEnd) {
                 $this->setStatus(self::STATUS_CLOSED);
             } else {
                 $this->setStatus(self::STATUS_UPCOMING);

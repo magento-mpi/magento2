@@ -37,6 +37,11 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
     protected $_categoryDataAdded = false;
 
     /**
+    * Flag which marking that collection should not contain "Closed" events
+    */ 
+    protected $_skipClosed = false;
+
+    /**
      * Intialize collection
      *
      * @return void
@@ -77,6 +82,7 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
      */
     public function addVisibilityFilter()
     {
+        $this->_skipClosed = true;
         $this->addFieldToFilter('status', array(
             'nin' => Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED
         ));
@@ -199,7 +205,20 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
         $events = parent::_afterLoad();
         foreach ($events->_items as $event) {
             $event->updateStatus();
+            if ($this->_skipClosed && $event->getStatus() == Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED) {
+                $this->removeItemByKey($event->getId());
+            }
         }
+        return $this;
+    }
+
+    /**
+     * Reset collection
+     */    
+    protected function _reset() 
+    {
+        parent::_reset();
+        $this->_skipClosed = false;
         return $this;
     }
 
