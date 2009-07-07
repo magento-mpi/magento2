@@ -68,6 +68,11 @@
                 </observers>
             </controller_action_predispatch_install>
         </events>
+        <design>
+            <theme>
+                <default>enterprise</default>
+            </theme>
+        </design>
     </install>
     <!-- default design package/theme on frontend -->
     <default>
@@ -87,6 +92,15 @@
             </footer>
         </design>
     </default>
+    <adminhtml>
+        <layout>
+            <updates>
+                <enterprise_adminhtml>
+                    <file>enterprise/adminhtml.xml</file>
+                </enterprise_adminhtml>
+            </updates>
+        </layout>
+    </adminhtml>
     <!-- default theme in admin -->
     <stores>
         <admin>
