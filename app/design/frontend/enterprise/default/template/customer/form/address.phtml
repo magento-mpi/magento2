@@ -122,7 +122,7 @@
                     </span>
                     <label for="primary_<?php echo $code ?>"><?php echo $this->__("Use as My Primary %s Address", ucfirst($type['name'])) ?></label>
                 <?php endif ?>
-                </li>               
+                </li>
             <?php endforeach ?>
         </ul>
     </fieldset>
@@ -136,6 +136,6 @@
 //<![CDATA[
     var dataForm = new VarienForm('form-validate', true);
     //dataForm.setElementsRelation('country', 'state', '<?php echo $this->getUrl('directory/json/childRegion') ?>');
-    new RegionUpdater('country', 'region', 'region_id', countryRegions);
+    new RegionUpdater('country', 'region', 'region_id', countryRegions, undefined, <?php echo $this->helper('directory')->getCountriesWithOptionalZipJson() ?>);
 //]]>
 </script>

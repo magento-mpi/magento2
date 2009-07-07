@@ -47,23 +47,23 @@
                     <label for="billing:company"><?php echo $this->__('Company') ?></label>
                     <span class="input-box">
                         <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text" /></span>
-                </li>    
+                </li>
         <?php if(!$this->isCustomerLoggedIn()): ?>
                 <li>
                     <label for="billing:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
                     <span class="input-box">
                         <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->htmlEscape($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" /></span>
-                </li>        
+                </li>
         <?php endif ?>
                 <li>
                     <label for="billing:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
                     <span class="input-box">
                         <input type="text" title="<?php echo $this->__('Street Address') ?>" name="billing[street][]" id="billing:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="input-text required-entry" /></span>
-                </li>                            
+                </li>
     <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
                 <li class="add-field">
                     <span class="input-box">
-                        <input type="text" title="<?php echo $this->__('Street Address '.$_i) ?>" name="billing[street][]" id="billing:street<?php echo $_i?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text" /></span>    
+                        <input type="text" title="<?php echo $this->__('Street Address '.$_i) ?>" name="billing[street][]" id="billing:street<?php echo $_i?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text" /></span>
                 </li>
     <?php endfor ?>
                 <li class="fields">
@@ -113,7 +113,7 @@
                 <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
                 <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
                 <?php if ($_dob->isEnabled() || $_taxvat->isEnabled() ): ?>
-                <li class="fields">                
+                <li class="fields">
                     <?php if ($_dob->isEnabled()): ?>
                     <div class="field">
                         <?php echo $_dob->setDate($this->getQuote()->getCustomerDob())
@@ -159,8 +159,8 @@
             <span class="input-box">
                 <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> onclick="$('shipping:same_as_billing').checked = true;" class="radio" /></span>
             <label for="billing:use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label>
-        </li>    
-        <li class="form-element">    
+        </li>
+        <li class="form-element">
             <span class="input-box">
                 <input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> onclick="$('shipping:same_as_billing').checked = false;" class="radio" /></span>
             <label for="billing:use_for_shipping_no"><?php echo $this->__('Ship to different address') ?></label>
@@ -187,6 +187,6 @@
     //billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?php echo $this->getUrl('directory/json/childRegion') ?>', '<?php echo $this->__('Select State/Province...') ?>');
     $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
 
-    var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions);
+    var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions, undefined, <?php echo $this->helper('directory')->getCountriesWithOptionalZipJson() ?>);
 //]]>
 </script>
