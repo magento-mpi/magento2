@@ -82,7 +82,7 @@ final class Mage {
 
     static private $_isDeveloperMode = false;
 
-    public static $headersSentThrowsException = true;
+    public static $headersSentThrowsException = false;
 
     public static function getVersion()
     {

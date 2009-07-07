@@ -24,44 +24,47 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+require_once 'PHPUnit/Framework.php';
+
 require_once 'Mage.php';
 require_once 'TestCase.php';
 require_once 'TestSuite.php';
 
-Mage::app();
-
-$runner = new Mage_TestRunner();
-$runner->runTests();
+AllTests::r
 
 /**
  * Test runner for available UnitTests
  */
-class Mage_TestRunner
+class AllTests extends Mage_TestSuite
 {
-    protected $_baseTestFolders = array('bugs', 'functional', 'integration',
-        'lib','modules', 'selenium', 'webservices');
+    /**
+     * Base Scan folders contains Test
+     *
+     * @var array
+     */
+    protected static $_baseTestFolders = array('bugs', 'functional',
+        'integration', 'lib','modules', 'selenium', 'webservices');
 
     /**
-     * Main entry, run tests
+     * Retrieve Basic Suite
      *
+     * @return Mage_TestSuite
      */
-    public function runTests()
+    public static function suite()
     {
         $phpFiles = array();
-        foreach ($this->_baseTestFolders as $startingFolder) {
-            $phpFiles = array_merge($phpFiles, $this->_obtainPhpFiles($startingFolder));
+        foreach (self::$_baseTestFolders as $startingFolder) {
+            $phpFiles = array_merge($phpFiles, self::_obtainPhpFiles($startingFolder));
         }
 
         $suite = new Mage_TestSuite();
         foreach ($phpFiles as $phpFile) {
-            $className = $this->_getClassNameFromPath($phpFile);
-            $classNameEnding = substr($className, strlen($className) - 4);
-            if (class_exists($className) && $classNameEnding == 'Test') {
-                $suite->addTestSuite($className);
+            if (strpos($phpFile, 'Test.php') !== false) {
+                $suite->addTestFile($phpFile);
             }
         }
 
-        PHPUnit_TextUI_TestRunner::run($suite);
+        return $suite;
     }
 
     /**
@@ -71,7 +74,7 @@ class Mage_TestRunner
      * @param array $phpFiles - array where fonded php-files stored
      * @return array list of php-files with UnitTests
      */
-    protected function _obtainPhpFiles($startPath)
+    protected static function _obtainPhpFiles($startPath)
     {
         $phpFiles = array();
         if (is_file($startPath)) {
@@ -87,7 +90,7 @@ class Mage_TestRunner
                     continue;
                 }
                 $path = $startPath . DS . $entry;
-                $phpFiles = array_merge($phpFiles, $this->_obtainPhpFiles($path));
+                $phpFiles = array_merge($phpFiles, self::_obtainPhpFiles($path));
             }
         }
         else {
@@ -97,15 +100,25 @@ class Mage_TestRunner
     }
 
     /**
-     * Obtains class stored into UnitTest file
+     * Initialize application
      *
-     * @param string $sourcePath - full path to UnitTest file (relatively "test" folder)
-     * @return string - class name stored into file
      */
-    protected function _getClassNameFromPath($sourcePath)
+    public static function run()
     {
-        $fileNameNoExtension = str_replace('.php', '', $sourcePath);
-        $className = str_replace('/', '_', $fileNameNoExtension);
-        return $className;
+        $serFileOld = BP . 'app/etc/use_cache.ser';
+        $serFileNew = BP . 'app/etc/use_cache.bac';
+        $serFileEnv = BP . 'tests/use_cache.ser';
+
+        if (file_exists($serFileOld)) {
+            rename($serFileOld, $serFileNew);
+        }
+        copy($serFileEnv, $serFileOld);
+
+        Mage::app();
+
+        unlink($serFileOld);
+        if (file_exists($serFileNew)) {
+            rename($serFileNew, $serFileOld);
+        }
     }
 }

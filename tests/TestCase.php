@@ -35,6 +35,39 @@
 class Mage_TestCase extends PHPUnit_Framework_TestCase
 {
     /**
+     * Run Controller Action
+     *
+     * @param string $path
+     * @return Mage_Core_Controller_Response_Http
+     */
+    protected function _runControllerAction($path)
+    {
+        session_id(md5(time()));
+        $_SESSION = array();
+
+        $controller = Mage::app()->getFrontController();
+        $routers    = $controller->getRouters();
+        $request    = $controller->getRequest();
+
+        $request->setPathInfo($path)->setDispatched(false);
+
+        $i = 0;
+        while (!$request->isDispatched() && $i++ < 100) {
+            foreach ($routers as $router) {
+                if ($router->match($controller->getRequest())) {
+                    break;
+                }
+            }
+        }
+
+        if ($i > 100) {
+            throw new Exception('Front controller reached 100 router match iterations');
+        }
+
+        return $controller->getResponse();
+    }
+
+    /**
      * Returns a mock object for the specified class.
      *
      * @param  string  $className
