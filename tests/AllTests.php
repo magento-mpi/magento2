@@ -30,8 +30,6 @@ require_once 'Mage.php';
 require_once 'TestCase.php';
 require_once 'TestSuite.php';
 
-AllTests::r
-
 /**
  * Test runner for available UnitTests
  */
@@ -103,11 +101,11 @@ class AllTests extends Mage_TestSuite
      * Initialize application
      *
      */
-    public static function run()
+    public static function runApp()
     {
-        $serFileOld = BP . 'app/etc/use_cache.ser';
-        $serFileNew = BP . 'app/etc/use_cache.bac';
-        $serFileEnv = BP . 'tests/use_cache.ser';
+        $serFileOld = BP . DS . 'app' . DS . 'etc' . DS . 'use_cache.ser';
+        $serFileNew = BP . DS . 'app' . DS . 'etc' . DS . 'use_cache.bac';
+        $serFileEnv = BP . DS . 'tests' . DS . 'use_cache.ser';
 
         if (file_exists($serFileOld)) {
             rename($serFileOld, $serFileNew);
@@ -122,3 +120,5 @@ class AllTests extends Mage_TestSuite
         }
     }
 }
+
+AllTests::runApp();

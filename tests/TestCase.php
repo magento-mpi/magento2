@@ -88,4 +88,22 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
         return $this->getMock($className, $methods, $arguments, $mockClassName,
             $callOriginalConstructor, $callOriginalClone, $callAutoload);
     }
+
+    /**
+     * Obtain model object instance for tests
+     *
+     * @param string $model name
+     * @return object
+     */
+    protected function _getModelInstance($model = '')
+    {
+        if (!empty($model) && $model) {
+            /* check for existing model */
+            return Mage::getModel($model);
+        }
+        else {
+            /* do something here */
+            return new stdClass();
+        }
+    }
 }
