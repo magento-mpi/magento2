@@ -439,9 +439,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
             $sql = sprintf('ALTER TABLE %s DROP FOREIGN KEY %s',
                 $this->quoteIdentifier($this->_getTableName($tableName, $schemaName)),
                 $this->quoteIdentifier($foreignKeys[strtoupper($foreignKey)]['FK_NAME']));
-//            echo '<pre>';
-//            var_dump($tableName, $schemaName, $foreignKey, $foreignKeys, $sql);
-//            echo '</pre>';
 
             $this->resetDdlCache($tableName, $schemaName);
 
@@ -1280,6 +1277,56 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
         // execute the statement and return the number of affected rows
         $stmt = $this->query($sql, array_values($bind));
+        $result = $stmt->rowCount();
+        return $result;
+    }
+
+    /**
+     * Inserts a table multiply rows with specified data.
+     *
+     * @param mixed $table The table to insert data into.
+     * @param array $data Column-value pairs or array of Column-value pairs.
+     * @return int The number of affected rows.
+     */
+    public function insertMultiple($table, array $data)
+    {
+        $row = reset($data);
+        // support insert syntaxes
+        if (!is_array($row)) {
+            return $this->insert($table, $data);
+        }
+
+        // validate data array
+        $cols = array_keys($row);
+        $vals = array();
+        $bind = array();
+
+        foreach ($data as $row) {
+            $line = array();
+            if (array_diff($cols, array_keys($row))) {
+                throw new Varien_Exception('Invalid data for insert');
+            }
+            foreach ($cols as $field) {
+                $value = $row[$field];
+                if ($value instanceof Zend_Db_Expr) {
+                    $line[] = $value->__toString();
+                }
+                else {
+                    $line[] = '?';
+                    $bind[] = $value;
+                }
+            }
+            $vals[] = sprintf('(%s)', join(',', $line));
+        }
+
+        // build the statement
+        array_map(array($this, 'quoteIdentifier'), $cols);
+        $sql = sprintf("INSERT INTO %s (%s) VALUES%s",
+            $this->quoteIdentifier($table, true),
+            implode(',', $cols), implode(', ', $vals));
+
+        // execute the statement and return the number of affected rows
+        $stmt = $this->query($sql, $bind);
         $result = $stmt->rowCount();
         return $result;
     }
