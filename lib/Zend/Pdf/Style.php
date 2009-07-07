@@ -19,17 +19,17 @@
 
 
 /** Zend_Pdf_Color */
-#require_once 'Zend/Pdf/Color.php';
+require_once 'Zend/Pdf/Color.php';
 
 
 /** Zend_Pdf_Element_Numeric */
-#require_once 'Zend/Pdf/Element/Numeric.php';
+require_once 'Zend/Pdf/Element/Numeric.php';
 
 /** Zend_Pdf_Element_Array */
-#require_once 'Zend/Pdf/Element/Array.php';
+require_once 'Zend/Pdf/Element/Array.php';
 
 /** Zend_Pdf_Resource_Font */
-#require_once 'Zend/Pdf/Resource/Font.php';
+require_once 'Zend/Pdf/Resource/Font.php';
 
 
 /**
@@ -217,7 +217,7 @@ class Zend_Pdf_Style
      */
     public function getLineWidth()
     {
-        $this->_lineWidth->value;
+        return $this->_lineWidth->value;
     }
 
     /**

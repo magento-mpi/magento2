@@ -18,18 +18,18 @@
  * @subpackage Zend_OpenId_Provider
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Provider.php 12507 2008-11-10 16:29:09Z matthew $
+ * @version    $Id: Provider.php 13522 2009-01-06 16:35:55Z thomas $
  */
 
 /**
  * @see Zend_OpenId
  */
-#require_once "Zend/OpenId.php";
+require_once "Zend/OpenId.php";
 
 /**
  * @see Zend_OpenId_Extension
  */
-#require_once "Zend/OpenId/Extension.php";
+require_once "Zend/OpenId/Extension.php";
 
 /**
  * OpenID provider (server) implementation
@@ -123,13 +123,13 @@ class Zend_OpenId_Provider
         }
         $this->_trustUrl = $trustUrl;
         if ($user === null) {
-            #require_once "Zend/OpenId/Provider/User/Session.php";
+            require_once "Zend/OpenId/Provider/User/Session.php";
             $this->_user = new Zend_OpenId_Provider_User_Session();
         } else {
             $this->_user = $user;
         }
         if ($storage === null) {
-            #require_once "Zend/OpenId/Provider/Storage/File.php";
+            require_once "Zend/OpenId/Provider/Storage/File.php";
             $this->_storage = new Zend_OpenId_Provider_Storage_File();
         } else {
             $this->_storage = $storage;
@@ -603,7 +603,7 @@ class Zend_OpenId_Provider
         if ($trusted === false) {
             $ret['openid.mode'] = 'cancel';
             return $ret;
-        } else if (is_null($trusted)) {
+        } else if ($trusted === null) {
             /* Redirect to Server Trust Screen */
             $params2 = array();
             foreach ($params as $key => $val) {

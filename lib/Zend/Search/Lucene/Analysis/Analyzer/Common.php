@@ -21,7 +21,7 @@
 
 
 /** Zend_Search_Lucene_Analysis_Analyzer */
-#require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
+require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
 
 
 /**
@@ -69,7 +69,7 @@ abstract class Zend_Search_Lucene_Analysis_Analyzer_Common extends Zend_Search_L
             $token = $filter->normalize($token);
 
             // resulting token can be null if the filter removes it
-            if (is_null($token)) {
+            if ($token === null) {
                 return null;
             }
         }

@@ -16,13 +16,8 @@
  * @package   Zend_Uri
  * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Uri.php 12037 2008-10-20 18:54:44Z shahar $
+ * @version   $Id: Uri.php 15577 2009-05-14 12:43:34Z matthew $
  */
-
-/**
- * @see Zend_Loader
- */
-#require_once 'Zend/Loader.php';
 
 /**
  * Abstract class for all Zend_Uri handlers
@@ -99,13 +94,13 @@ abstract class Zend_Uri
         $schemeSpecific = isset($uri[1]) === true ? $uri[1] : '';
 
         if (strlen($scheme) === 0) {
-            #require_once 'Zend/Uri/Exception.php';
+            require_once 'Zend/Uri/Exception.php';
             throw new Zend_Uri_Exception('An empty string was supplied for the scheme');
         }
 
         // Security check: $scheme is used to load a class file, so only alphanumerics are allowed.
         if (ctype_alnum($scheme) === false) {
-            #require_once 'Zend/Uri/Exception.php';
+            require_once 'Zend/Uri/Exception.php';
             throw new Zend_Uri_Exception('Illegal scheme supplied, only alphanumeric characters are permitted');
         }
 
@@ -123,12 +118,15 @@ abstract class Zend_Uri
             case 'mailto':
                 // TODO
             default:
-                #require_once 'Zend/Uri/Exception.php';
+                require_once 'Zend/Uri/Exception.php';
                 throw new Zend_Uri_Exception("Scheme \"$scheme\" is not supported");
                 break;
         }
 
-        #Zend_Loader::loadClass($className);
+        if (!class_exists($className)) {
+            require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass($className);
+        }
         $schemeHandler = new $className($scheme, $schemeSpecific);
 
         return $schemeHandler;

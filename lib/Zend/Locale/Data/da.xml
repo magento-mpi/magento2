@@ -2798,7 +2798,6 @@
 			<currency type="TRY">
 				<displayName>Ny tyrkisk lire</displayName>
 				<displayName count="other">Tyrkiske lira</displayName>
-				<symbol>YTL</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>Dollar fra Trinidad og Tobago</displayName>

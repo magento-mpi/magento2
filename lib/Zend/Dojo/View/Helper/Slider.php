@@ -17,11 +17,11 @@
  * @subpackage View
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Slider.php 12387 2008-11-07 21:03:34Z matthew $
+ * @version    $Id: Slider.php 13657 2009-01-15 23:36:35Z matthew $
  */
 
 /** Zend_Dojo_View_Helper_Dijit */
-#require_once 'Zend/Dojo/View/Helper/Dijit.php';
+require_once 'Zend/Dojo/View/Helper/Dijit.php';
 
 /**
  * Abstract class for Dojo Slider dijits
@@ -71,7 +71,7 @@ abstract class Zend_Dojo_View_Helper_Slider extends Zend_Dojo_View_Helper_Dijit
 
         foreach ($this->_requiredParams as $param) {
             if (!array_key_exists($param, $params)) {
-                #require_once 'Zend/Dojo/View/Exception.php';
+                require_once 'Zend/Dojo/View/Exception.php';
                 throw new Zend_Dojo_View_Exception('prepareSlider() requires minimally the "minimum", "maximum", and "discreteValues" parameters');
             }
         }
@@ -128,7 +128,7 @@ abstract class Zend_Dojo_View_Helper_Slider extends Zend_Dojo_View_Helper_Dijit
                 }
                 break;
             default:
-                #require_once 'Zend/Dojo/View/Exception.php';
+                require_once 'Zend/Dojo/View/Exception.php';
                 throw new Zend_Dojo_View_Exception('Invalid slider type; slider must be horizontal or vertical');
         }
 
@@ -216,7 +216,19 @@ abstract class Zend_Dojo_View_Helper_Slider extends Zend_Dojo_View_Helper_Dijit
 
         $labelList = $this->_prepareLabelsList($id, $labelsParams, $labelsAttribs, $labels);
 
-        return $this->_createLayoutContainer($id, $labelList, $containerParams, $containerAttribs, $dijit);
+        $dijit = 'dijit.form.' . ucfirst($this->_sliderType) . 'Rule';
+        $containerAttribs['id'] = $id;
+        $containerAttribs = $this->_prepareDijit($containerAttribs, $containerParams, 'layout', $dijit);
+        $containerHtml = '<div' . $this->_htmlAttribs($containerAttribs) . "></div>\n";
+
+        switch ($position) {
+            case 'topDecoration':
+            case 'leftDecoration':
+                return $labelList . $containerHtml;
+            case 'bottomDecoration':
+            case 'rightDecoration':
+                return $containerHtml . $labelList;
+        }
     }
 
     /**

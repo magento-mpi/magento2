@@ -20,22 +20,22 @@
  */
 
 /** Zend_Wildfire_Channel_Interface */
-#require_once 'Zend/Wildfire/Channel/Interface.php';
+require_once 'Zend/Wildfire/Channel/Interface.php';
 
 /** Zend_Controller_Request_Abstract */
-#require_once('Zend/Controller/Request/Abstract.php');
+require_once('Zend/Controller/Request/Abstract.php');
 
 /** Zend_Controller_Response_Abstract */
-#require_once('Zend/Controller/Response/Abstract.php');
+require_once('Zend/Controller/Response/Abstract.php');
 
 /** Zend_Controller_Plugin_Abstract */
-#require_once 'Zend/Controller/Plugin/Abstract.php';
+require_once 'Zend/Controller/Plugin/Abstract.php';
 
 /** Zend_Wildfire_Protocol_JsonStream */
-#require_once 'Zend/Wildfire/Protocol/JsonStream.php';
+require_once 'Zend/Wildfire/Protocol/JsonStream.php';
 
 /** Zend_Controller_Front **/
-#require_once 'Zend/Controller/Front.php';
+require_once 'Zend/Controller/Front.php';
 
 /**
  * Implements communication via HTTP request and response headers for Wildfire Protocols.
@@ -81,24 +81,30 @@ class Zend_Wildfire_Channel_HttpHeaders extends Zend_Controller_Plugin_Abstract 
      */
     public static function init($class = null)
     {
-        if (self::$_instance!==null) {
-            #require_once 'Zend/Wildfire/Exception.php';
+        if (self::$_instance !== null) {
+            require_once 'Zend/Wildfire/Exception.php';
             throw new Zend_Wildfire_Exception('Singleton instance of Zend_Wildfire_Channel_HttpHeaders already exists!');
         }
-        if ($class!==null) {
+        if ($class !== null) {
             if (!is_string($class)) {
-                #require_once 'Zend/Wildfire/Exception.php';
+                require_once 'Zend/Wildfire/Exception.php';
                 throw new Zend_Wildfire_Exception('Third argument is not a class string');
             }
-            #Zend_Loader::loadClass($class);
+
+            if (!class_exists($class)) {
+                require_once 'Zend/Loader.php';
+                Zend_Loader::loadClass($class);
+            }
+
             self::$_instance = new $class();
+
             if (!self::$_instance instanceof Zend_Wildfire_Channel_HttpHeaders) {
                 self::$_instance = null;
-                #require_once 'Zend/Wildfire/Exception.php';
+                require_once 'Zend/Wildfire/Exception.php';
                 throw new Zend_Wildfire_Exception('Invalid class to third argument. Must be subclass of Zend_Wildfire_Channel_HttpHeaders.');
             }
         } else {
-          self::$_instance = new self();
+            self::$_instance = new self();
         }
 
         return self::$_instance;
@@ -161,7 +167,7 @@ class Zend_Wildfire_Channel_HttpHeaders extends Zend_Controller_Plugin_Abstract 
             case Zend_Wildfire_Protocol_JsonStream::PROTOCOL_URI;
                 return new Zend_Wildfire_Protocol_JsonStream();
         }
-        #require_once 'Zend/Wildfire/Exception.php';
+        require_once 'Zend/Wildfire/Exception.php';
         throw new Zend_Wildfire_Exception('Tyring to initialize unknown protocol for URI "'.$uri.'".');
     }
 
@@ -226,10 +232,43 @@ class Zend_Wildfire_Channel_HttpHeaders extends Zend_Controller_Plugin_Abstract 
     /**
      * Determine if channel is ready.
      *
+     * The channel is ready as long as the request and response objects are initialized,
+     * can send headers and the FirePHP header exists in the User-Agent.
+     * 
+     * If the header does not exist in the User-Agent, no appropriate client
+     * is making this request and the messages should not be sent.
+     * 
+     * A timing issue arises when messages are logged before the request/response
+     * objects are initialized. In this case we do not yet know if the client
+     * will be able to accept the messages. If we consequently indicate that
+     * the channel is not ready, these messages will be dropped which is in
+     * most cases not the intended behaviour. The intent is to send them at the
+     * end of the request when the request/response objects will be available
+     * for sure.
+     * 
+     * If the request/response objects are not yet initialized we assume if messages are
+     * logged, the client will be able to receive them. As soon as the request/response
+     * objects are availoable and a message is logged this assumption is challenged.
+     * If the client cannot accept the messages any further messages are dropped
+     * and messages sent prior are kept but discarded when the channel is finally
+     * flushed at the end of the request.
+     * 
+     * When the channel is flushed the $forceCheckRequest option is used to force
+     * a check of the request/response objects. This is the last verification to ensure
+     * messages are only sent when the client can accept them.
+     * 
+     * @param boolean $forceCheckRequest OPTIONAL Set to TRUE if the request must be checked
      * @return boolean Returns TRUE if channel is ready.
      */
-    public function isReady()
+    public function isReady($forceCheckRequest=false)
     {
+        if (!$forceCheckRequest
+            && !$this->_request
+            && !$this->_response) {
+        
+            return true;
+        }
+
         return ($this->getResponse()->canSendHeaders() &&
                 preg_match_all('/\s?FirePHP\/([\.|\d]*)\s?/si',
                                $this->getRequest()->getHeader('User-Agent'),$m));
@@ -263,7 +302,7 @@ class Zend_Wildfire_Channel_HttpHeaders extends Zend_Controller_Plugin_Abstract 
             $this->setRequest($controller->getRequest());
         }
         if (!$this->_request) {
-            #require_once 'Zend/Wildfire/Exception.php';
+            require_once 'Zend/Wildfire/Exception.php';
             throw new Zend_Wildfire_Exception('Request objects not initialized.');
         }
         return $this->_request;
@@ -284,7 +323,7 @@ class Zend_Wildfire_Channel_HttpHeaders extends Zend_Controller_Plugin_Abstract 
             }
         }
         if (!$this->_response) {
-            #require_once 'Zend/Wildfire/Exception.php';
+            require_once 'Zend/Wildfire/Exception.php';
             throw new Zend_Wildfire_Exception('Response objects not initialized.');
         }
         return $this->_response;

@@ -20,6 +20,8 @@
  * @version    $Id$
  */
 
+require_once "Abstract.php";
+
 class Zend_Soap_Wsdl_Strategy_DefaultComplexType extends Zend_Soap_Wsdl_Strategy_Abstract
 {
     /**
@@ -31,7 +33,7 @@ class Zend_Soap_Wsdl_Strategy_DefaultComplexType extends Zend_Soap_Wsdl_Strategy
     public function addComplexType($type)
     {
         if(!class_exists($type)) {
-            #require_once "Zend/Soap/Wsdl/Exception.php";
+            require_once "Zend/Soap/Wsdl/Exception.php";
             throw new Zend_Soap_Wsdl_Exception(sprintf(
                 "Cannot add a complex type %s that is not an object or where ".
                 "class could not be found in 'DefaultComplexType' strategy.", $type
@@ -47,7 +49,7 @@ class Zend_Soap_Wsdl_Strategy_DefaultComplexType extends Zend_Soap_Wsdl_Strategy
         $all = $dom->createElement('xsd:all');
 
         foreach ($class->getProperties() as $property) {
-            if (preg_match_all('/@var\s+([^\s]+)/m', $property->getDocComment(), $matches)) {
+            if ($property->isPublic() && preg_match_all('/@var\s+([^\s]+)/m', $property->getDocComment(), $matches)) {
 
                 /**
                  * @todo check if 'xsd:element' must be used here (it may not be compatible with using 'complexType'

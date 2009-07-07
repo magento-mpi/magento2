@@ -17,24 +17,24 @@
  * @package    Zend_Feed
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Builder.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Builder.php 15382 2009-05-07 13:28:14Z alexander $
  */
 
 
 /**
  * @see Zend_Feed_Builder_Interface
  */
-#require_once 'Zend/Feed/Builder/Interface.php';
+require_once 'Zend/Feed/Builder/Interface.php';
 
 /**
  * @see Zend_Feed_Builder_Header
  */
-#require_once 'Zend/Feed/Builder/Header.php';
+require_once 'Zend/Feed/Builder/Header.php';
 
 /**
  * @see Zend_Feed_Builder_Entry
  */
-#require_once 'Zend/Feed/Builder/Entry.php';
+require_once 'Zend/Feed/Builder/Entry.php';
 
 
 /**
@@ -220,7 +220,7 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                 /**
                  * @see Zend_Feed_Builder_Exception
                  */
-                #require_once 'Zend/Feed/Builder/Exception.php';
+                require_once 'Zend/Feed/Builder/Exception.php';
                 throw new Zend_Feed_Builder_Exception("$mandatory key is missing");
             }
         }
@@ -268,7 +268,7 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                     /**
                      * @see Zend_Feed_Builder_Exception
                      */
-                    #require_once 'Zend/Feed/Builder/Exception.php';
+                    require_once 'Zend/Feed/Builder/Exception.php';
                     throw new Zend_Feed_Builder_Exception("you have to define $mandatory property of your cloud");
                 }
             }
@@ -282,7 +282,7 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                     /**
                      * @see Zend_Feed_Builder_Exception
                      */
-                    #require_once 'Zend/Feed/Builder/Exception.php';
+                    require_once 'Zend/Feed/Builder/Exception.php';
                     throw new Zend_Feed_Builder_Exception("you have to define $mandatory property of your textInput");
                 }
             }
@@ -349,11 +349,14 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                     /**
                      * @see Zend_Feed_Builder_Exception
                      */
-                    #require_once 'Zend/Feed/Builder/Exception.php';
+                    require_once 'Zend/Feed/Builder/Exception.php';
                     throw new Zend_Feed_Builder_Exception("$mandatory key is missing");
                 }
             }
             $entry = new Zend_Feed_Builder_Entry($row['title'], $row['link'], $row['description']);
+            if (isset($row['author'])) {
+                $entry->setAuthor($row['author']);
+            }
             if (isset($row['guid'])) {
                 $entry->setId($row['guid']);
             }
@@ -376,7 +379,7 @@ class Zend_Feed_Builder implements Zend_Feed_Builder_Interface
                         /**
                          * @see Zend_Feed_Builder_Exception
                          */
-                        #require_once 'Zend/Feed/Builder/Exception.php';
+                        require_once 'Zend/Feed/Builder/Exception.php';
                         throw new Zend_Feed_Builder_Exception("$mandatory key of source property is missing");
                     }
                 }

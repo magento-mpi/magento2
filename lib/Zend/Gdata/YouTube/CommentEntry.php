@@ -23,7 +23,7 @@
 /**
  * @see Zend_Gdata_Media_Feed
  */
-#require_once 'Zend/Gdata/Media/Feed.php';
+require_once 'Zend/Gdata/Media/Feed.php';
 
 /**
  * The YouTube comments flavor of an Atom Entry 
@@ -43,5 +43,16 @@ class Zend_Gdata_YouTube_CommentEntry extends Zend_Gdata_Entry
      * @var string
      */
     protected $_entryClassName = 'Zend_Gdata_YouTube_CommentEntry';
+
+    /**
+     * Constructs a new Zend_Gdata_YouTube_CommentEntry object.
+     * @param DOMElement $element (optional) The DOMElement on which to
+     * base this object.
+     */
+    public function __construct($element = null)
+    {
+        $this->registerAllNamespaces(Zend_Gdata_YouTube::$namespaces);
+        parent::__construct($element);
+    }
 
 }

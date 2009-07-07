@@ -22,12 +22,12 @@
 /**
  * Zend_Mime
  */
-#require_once 'Zend/Mime.php';
+require_once 'Zend/Mime.php';
 
 /**
  * Zend_Mime_Part
  */
-#require_once 'Zend/Mime/Part.php';
+require_once 'Zend/Mime/Part.php';
 
 
 /**
@@ -241,18 +241,17 @@ class Zend_Mime_Message
      */
     public static function createFromMessage($message, $boundary, $EOL = Zend_Mime::LINEEND)
     {
-        #require_once 'Zend/Mime/Decode.php';
+        require_once 'Zend/Mime/Decode.php';
         $parts = Zend_Mime_Decode::splitMessageStruct($message, $boundary, $EOL);
 
         $res = new self();
         foreach ($parts as $part) {
             // now we build a new MimePart for the current Message Part:
-            $newPart = new Zend_Mime_Part($part);
+            $newPart = new Zend_Mime_Part($part['body']);
             foreach ($part['header'] as $key => $value) {
                 /**
                  * @todo check for characterset and filename
                  */
-                // list($key, $value) = $header;
                 switch(strtolower($key)) {
                     case 'content-type':
                         $newPart->type = $value;

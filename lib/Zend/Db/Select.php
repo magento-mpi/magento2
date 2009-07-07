@@ -24,12 +24,12 @@
 /**
  * @see Zend_Db_Adapter_Abstract
  */
-#require_once 'Zend/Db/Adapter/Abstract.php';
+require_once 'Zend/Db/Adapter/Abstract.php';
 
 /**
  * @see Zend_Db_Expr
  */
-#require_once 'Zend/Db/Expr.php';
+require_once 'Zend/Db/Expr.php';
 
 
 /**
@@ -80,6 +80,13 @@ class Zend_Db_Select
     const SQL_ON         = 'ON';
     const SQL_ASC        = 'ASC';
     const SQL_DESC       = 'DESC';
+
+    /**
+     * Bind variables for query
+     *
+     * @var array
+     */
+    protected $_bind = array();
 
     /**
      * Zend_Db_Adapter_Abstract object.
@@ -160,6 +167,29 @@ class Zend_Db_Select
     }
 
     /**
+     * Get bind variables
+     *
+     * @return array
+     */
+    public function getBind()
+    {
+    	return $this->_bind;
+    }
+
+    /**
+     * Set bind variables
+     *
+     * @param mixed $bind
+     * @return Zend_Db_Select
+     */
+    public function bind($bind)
+    {
+    	$this->_bind = $bind;
+
+    	return $this;
+    }
+
+    /**
      * Makes the query SELECT DISTINCT.
      *
      * @param bool $flag Whether or not the SELECT is DISTINCT (default true).
@@ -220,7 +250,7 @@ class Zend_Db_Select
             /**
              * @see Zend_Db_Select_Exception
              */
-            #require_once 'Zend/Db/Select/Exception.php';
+            require_once 'Zend/Db/Select/Exception.php';
             throw new Zend_Db_Select_Exception("No table has been specified for the FROM clause");
         }
 
@@ -245,7 +275,7 @@ class Zend_Db_Select
         }
 
         if (!in_array($type, self::$_unionTypes)) {
-            #require_once 'Zend/Db/Select/Exception.php';
+            require_once 'Zend/Db/Select/Exception.php';
             throw new Zend_Db_Select_Exception("Invalid union type '{$type}'");
         }
 
@@ -622,7 +652,7 @@ class Zend_Db_Select
     {
         $part = strtolower($part);
         if (!array_key_exists($part, $this->_parts)) {
-            #require_once 'Zend/Db/Select/Exception.php';
+            require_once 'Zend/Db/Select/Exception.php';
             throw new Zend_Db_Select_Exception("Invalid Select part '$part'");
         }
         return $this->_parts[$part];
@@ -632,10 +662,15 @@ class Zend_Db_Select
      * Executes the current select object and returns the result
      *
      * @param integer $fetchMode OPTIONAL
+     * @param  mixed  $bind An array of data to bind to the placeholders.
      * @return PDO_Statement|Zend_Db_Statement
      */
-    public function query($fetchMode = null)
+    public function query($fetchMode = null, $bind = array())
     {
+        if (!empty($bind)) {
+            $this->bind($bind);
+        }
+
         $stmt = $this->_adapter->query($this);
         if ($fetchMode == null) {
             $fetchMode = $this->_adapter->getFetchMode();
@@ -710,12 +745,12 @@ class Zend_Db_Select
             /**
              * @see Zend_Db_Select_Exception
              */
-            #require_once 'Zend/Db/Select/Exception.php';
+            require_once 'Zend/Db/Select/Exception.php';
             throw new Zend_Db_Select_Exception("Invalid join type '$type'");
         }
 
         if (count($this->_parts[self::UNION])) {
-            #require_once 'Zend/Db/Select/Exception.php';
+            require_once 'Zend/Db/Select/Exception.php';
             throw new Zend_Db_Select_Exception("Invalid use of table with " . self::SQL_UNION);
         }
 
@@ -730,7 +765,7 @@ class Zend_Db_Select
                     $correlationName = $_correlationName;
                 } else {
                     // We assume just an array of identifiers, with no correlation name
-                    $tableName = $name;
+                    $tableName = $_tableName;
                     $correlationName = $this->_uniqueCorrelation($tableName);
                 }
                 break;
@@ -756,7 +791,7 @@ class Zend_Db_Select
                 /**
                  * @see Zend_Db_Select_Exception
                  */
-                #require_once 'Zend/Db/Select/Exception.php';
+                require_once 'Zend/Db/Select/Exception.php';
                 throw new Zend_Db_Select_Exception("You cannot define a correlation name '$correlationName' more than once");
             }
 
@@ -802,7 +837,7 @@ class Zend_Db_Select
     public function _joinUsing($type, $name, $cond, $cols = '*', $schema = null)
     {
         if (empty($this->_parts[self::FROM])) {
-            #require_once 'Zend/Db/Select/Exception.php';
+            require_once 'Zend/Db/Select/Exception.php';
             throw new Zend_Db_Select_Exception("You can only perform a joinUsing after specifying a FROM table");
         }
 
@@ -887,7 +922,7 @@ class Zend_Db_Select
     protected function _where($condition, $value = null, $type = null, $bool = true)
     {
         if (count($this->_parts[self::UNION])) {
-            #require_once 'Zend/Db/Select/Exception.php';
+            require_once 'Zend/Db/Select/Exception.php';
             throw new Zend_Db_Select_Exception("Invalid use of where clause with " . self::SQL_UNION);
         }
 
@@ -1202,11 +1237,11 @@ class Zend_Db_Select
             if ($type) {
                 $type .= ' join';
                 if (!in_array($type, self::$_joinTypes)) {
-                    #require_once 'Zend/Db/Select/Exception.php';
+                    require_once 'Zend/Db/Select/Exception.php';
                     throw new Zend_Db_Select_Exception("Unrecognized method '$method()'");
                 }
                 if (in_array($type, array(self::CROSS_JOIN, self::NATURAL_JOIN))) {
-                    #require_once 'Zend/Db/Select/Exception.php';
+                    require_once 'Zend/Db/Select/Exception.php';
                     throw new Zend_Db_Select_Exception("Cannot perform a joinUsing with method '$method()'");
                 }
             } else {
@@ -1216,7 +1251,7 @@ class Zend_Db_Select
             return call_user_func_array(array($this, '_joinUsing'), $args);
         }
 
-        #require_once 'Zend/Db/Select/Exception.php';
+        require_once 'Zend/Db/Select/Exception.php';
         throw new Zend_Db_Select_Exception("Unrecognized method '$method()'");
     }
 
@@ -1233,7 +1268,7 @@ class Zend_Db_Select
             trigger_error($e->getMessage(), E_USER_WARNING);
             $sql = '';
         }
-        return $sql;
+        return (string)$sql;
     }
 
 }

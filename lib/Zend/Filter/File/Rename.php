@@ -22,7 +22,7 @@
 /**
  * @see Zend_Filter_Interface
  */
-#require_once 'Zend/Filter/Interface.php';
+require_once 'Zend/Filter/Interface.php';
 
 /**
  * @category   Zend
@@ -58,7 +58,7 @@ class Zend_Filter_File_Rename implements Zend_Filter_Interface
         } elseif (is_string($options)) {
             $options = array('target' => $options);
         } elseif (!is_array($options)) {
-            #require_once 'Zend/Filter/Exception.php';
+            require_once 'Zend/Filter/Exception.php';
             throw new Zend_Filter_Exception('Invalid options argument provided to filter');
         }
 
@@ -123,7 +123,7 @@ class Zend_Filter_File_Rename implements Zend_Filter_Interface
         if (is_string($options)) {
             $options = array('target' => $options);
         } elseif (!is_array($options)) {
-            #require_once 'Zend/Filter/Exception.php';
+            require_once 'Zend/Filter/Exception.php';
             throw new Zend_Filter_Exception ('Invalid options to rename filter provided');
         }
 
@@ -133,15 +133,14 @@ class Zend_Filter_File_Rename implements Zend_Filter_Interface
     }
 
     /**
-     * Defined by Zend_Filter_Interface
+     * Returns only the new filename without moving it
+     * But existing files will be erased when the overwrite option is true
      *
-     * Renames the file $value to the new name set before
-     * Returns the file $value, removing all but digit characters
-     *
-     * @param  string $value Full path of file to change
-     * @return string The new filename which has been set, or false when there were errors
+     * @param  string  $value  Full path of file to change
+     * @param  boolean $source Return internal informations
+     * @return string The new filename which has been set
      */
-    public function filter($value)
+    public function getNewName($value, $source = false)
     {
         $file = $this->_getFileName($value);
         if ($file['source'] == $file['target']) {
@@ -152,13 +151,37 @@ class Zend_Filter_File_Rename implements Zend_Filter_Interface
             return $value;
         }
 
-        if (($file['overwrite'] == true) and (file_exists($file['target']))) {
+        if (($file['overwrite'] == true) && (file_exists($file['target']))) {
             unlink($file['target']);
         }
 
         if (file_exists($file['target'])) {
-            #require_once 'Zend/Filter/Exception.php';
+            require_once 'Zend/Filter/Exception.php';
             throw new Zend_Filter_Exception(sprintf("File '%s' could not be renamed. It already exists.", $value));
+        }
+
+        if ($source) {
+            return $file;
+        }
+
+        return $file['target'];
+    }
+
+    /**
+     * Defined by Zend_Filter_Interface
+     *
+     * Renames the file $value to the new name set before
+     * Returns the file $value, removing all but digit characters
+     *
+     * @param  string $value Full path of file to change
+     * @throws Zend_Filter_Exception
+     * @return string The new filename which has been set, or false when there were errors
+     */
+    public function filter($value)
+    {
+        $file   = $this->getNewName($value, true);
+        if (is_string($file)) {
+            return $file;
         }
 
         $result = rename($file['source'], $file['target']);
@@ -167,7 +190,7 @@ class Zend_Filter_File_Rename implements Zend_Filter_Interface
             return $file['target'];
         }
 
-        #require_once 'Zend/Filter/Exception.php';
+        require_once 'Zend/Filter/Exception.php';
         throw new Zend_Filter_Exception(sprintf("File '%s' could not be renamed. An error occured while processing the file.", $value));
     }
 

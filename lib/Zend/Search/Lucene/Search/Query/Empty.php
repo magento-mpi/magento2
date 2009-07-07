@@ -21,10 +21,10 @@
 
 
 /** Zend_Search_Lucene_Search_Query */
-#require_once 'Zend/Search/Lucene/Search/Query.php';
+require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /** Zend_Search_Lucene_Search_Weight_Empty */
-#require_once 'Zend/Search/Lucene/Search/Weight/Empty.php';
+require_once 'Zend/Search/Lucene/Search/Weight/Empty.php';
 
 
 /**
@@ -117,12 +117,11 @@ class Zend_Search_Lucene_Search_Query_Empty extends Zend_Search_Lucene_Search_Qu
     }
 
     /**
-     * Highlight query terms
+     * Query specific matches highlighting
      *
-     * @param integer &$colorIndex
-     * @param Zend_Search_Lucene_Document_Html $doc
+     * @param Zend_Search_Lucene_Search_Highlighter_Interface $highlighter  Highlighter object (also contains doc for highlighting)
      */
-    public function highlightMatchesDOM(Zend_Search_Lucene_Document_Html $doc, &$colorIndex)
+    protected function _highlightMatches(Zend_Search_Lucene_Search_Highlighter_Interface $highlighter)
     {
         // Do nothing
     }

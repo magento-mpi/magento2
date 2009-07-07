@@ -3882,7 +3882,6 @@
 				<displayName count="many">Новых турецких лир</displayName>
 				<displayName count="one">Новая турецкая лира</displayName>
 				<displayName count="other">новых турецких лир</displayName>
-				<symbol>YTL</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>Доллар Тринидада и Тобаго</displayName>

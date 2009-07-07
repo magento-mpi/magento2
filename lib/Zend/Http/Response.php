@@ -16,7 +16,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Response
- * @version    $Id: Response.php 12519 2008-11-10 18:41:24Z alexander $
+ * @version    $Id: Response.php 16024 2009-06-12 15:44:56Z doctorrock83 $
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -152,7 +152,7 @@ class Zend_Http_Response
     {
         // Make sure the response code is valid and set it
         if (self::responseCodeAsText($code) === null) {
-            #require_once 'Zend/Http/Exception.php';
+            require_once 'Zend/Http/Exception.php';
             throw new Zend_Http_Exception("{$code} is not a valid HTTP response code");
         }
 
@@ -160,7 +160,7 @@ class Zend_Http_Response
 
         // Make sure we got valid headers and set them
         if (! is_array($headers)) {
-            #require_once 'Zend/Http/Exception.php';
+            require_once 'Zend/Http/Exception.php';
             throw new Zend_Http_Exception('No valid headers were passed');
     }
 
@@ -176,7 +176,7 @@ class Zend_Http_Response
 
         // Set the HTTP version
         if (! preg_match('|^\d\.\d$|', $version)) {
-            #require_once 'Zend/Http/Exception.php';
+            require_once 'Zend/Http/Exception.php';
             throw new Zend_Http_Exception("Invalid HTTP response version: $version");
         }
 
@@ -398,6 +398,16 @@ class Zend_Http_Response
     }
 
     /**
+     * Implements magic __toString()
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->asString();
+    }
+
+    /**
      * A convenience function that returns a text representation of
      * HTTP response codes. Returns 'Unknown' for unknown codes.
      * Returns array of all codes, if $code is not specified.
@@ -483,11 +493,11 @@ class Zend_Http_Response
     public static function extractHeaders($response_str)
     {
         $headers = array();
-
+        
         // First, split body and headers
         $parts = preg_split('|(?:\r?\n){2}|m', $response_str, 2);
         if (! $parts[0]) return $headers;
-
+        
         // Split headers part to lines
         $lines = explode("\n", $parts[0]);
         unset($parts);
@@ -535,7 +545,7 @@ class Zend_Http_Response
     public static function extractBody($response_str)
     {
         $parts = preg_split('|(?:\r?\n){2}|m', $response_str, 2);
-        if (isset($parts[1])) {
+        if (isset($parts[1])) { 
             return $parts[1];
         }
         return '';
@@ -550,8 +560,13 @@ class Zend_Http_Response
     public static function decodeChunkedBody($body)
     {
         $decBody = '';
+        
+        while (trim($body)) {
+            if (! preg_match("/^([\da-fA-F]+)[^\r\n]*\r\n/sm", $body, $m)) {
+                require_once 'Zend/Http/Exception.php';
+                throw new Zend_Http_Exception("Error parsing body - doesn't seem to be a chunked message");
+            }
 
-        while (preg_match("/^([\da-fA-F]+)[^\r\n]*\r\n/sm", trim($body), $m)) {
             $length = hexdec(trim($m[1]));
             $cut = strlen($m[0]);
 
@@ -573,9 +588,9 @@ class Zend_Http_Response
     public static function decodeGzip($body)
     {
         if (! function_exists('gzinflate')) {
-            #require_once 'Zend/Http/Exception.php';
-            throw new Zend_Http_Exception('Unable to decode gzipped response ' .
-                'body: perhaps the zlib extension is not loaded?');
+            require_once 'Zend/Http/Exception.php';
+            throw new Zend_Http_Exception('Unable to decode gzipped response ' . 
+                'body: perhaps the zlib extension is not loaded?'); 
         }
 
         return gzinflate(substr($body, 10));
@@ -592,9 +607,9 @@ class Zend_Http_Response
     public static function decodeDeflate($body)
     {
         if (! function_exists('gzuncompress')) {
-            #require_once 'Zend/Http/Exception.php';
-            throw new Zend_Http_Exception('Unable to decode deflated response ' .
-                'body: perhaps the zlib extension is not loaded?');
+            require_once 'Zend/Http/Exception.php';
+            throw new Zend_Http_Exception('Unable to decode deflated response ' . 
+                'body: perhaps the zlib extension is not loaded?'); 
         }
 
         return gzuncompress($body);

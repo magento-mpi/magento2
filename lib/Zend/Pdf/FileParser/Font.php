@@ -19,7 +19,7 @@
  */
 
 /** Zend_Pdf_FileParser */
-#require_once 'Zend/Pdf/FileParser.php';
+require_once 'Zend/Pdf/FileParser.php';
 
 /**
  * Abstract helper class for {@link Zend_Pdf_Font} that parses font files.
@@ -174,7 +174,7 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
      */
     public function __set($property, $value)
     {
-        if (is_null($value)) {
+        if ($value === null) {
             unset($this->_fontProperties[$property]);
         } else {
             $this->_fontProperties[$property] = $value;
@@ -203,7 +203,9 @@ abstract class Zend_Pdf_FileParser_Font extends Zend_Pdf_FileParser
             $message = array_shift($args);
             $message = vsprintf($message, $args);
         }
-        Zend_Log::log($message, Zend_Log::LEVEL_DEBUG, 'ZF');
+
+        $logger = new Zend_Log();
+        $logger->log($message, Zend_Log::DEBUG);
     }
 
 }

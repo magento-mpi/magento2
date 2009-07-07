@@ -3037,7 +3037,6 @@
 				<displayName count="few">nowe liry tureckie</displayName>
 				<displayName count="one">nowa lira turecka</displayName>
 				<displayName count="other">nowych lir tureckich</displayName>
-				<symbol>YTL</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>dolar Trynidadu i Tobago</displayName>

@@ -2891,7 +2891,6 @@
 			</currency>
 			<currency type="TRY">
 				<displayName>Нова турска лира</displayName>
-				<symbol>YTL</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>Тринидат и Тобаго - долар</displayName>

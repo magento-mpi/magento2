@@ -3673,7 +3673,6 @@
 				<displayName>Nieuwe Turkse lire</displayName>
 				<displayName count="one">Turkse lira</displayName>
 				<displayName count="other">Turkse lira</displayName>
-				<symbol>YTL</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>Trinidad en Tobago-dollar</displayName>

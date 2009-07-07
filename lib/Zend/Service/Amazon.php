@@ -18,7 +18,7 @@
  * @subpackage Amazon
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Amazon.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Amazon.php 13551 2009-01-08 14:27:42Z beberlei $
  */
 
 
@@ -75,14 +75,14 @@ class Zend_Service_Amazon
             /**
              * @see Zend_Service_Exception
              */
-            #require_once 'Zend/Service/Exception.php';
+            require_once 'Zend/Service/Exception.php';
             throw new Zend_Service_Exception("Unknown country code: $countryCode");
         }
 
         /**
          * @see Zend_Rest_Client
          */
-        #require_once 'Zend/Rest/Client.php';
+        require_once 'Zend/Rest/Client.php';
         $this->_rest = new Zend_Rest_Client($this->_baseUriList[$countryCode]);
     }
 
@@ -106,7 +106,7 @@ class Zend_Service_Amazon
             /**
              * @see Zend_Service_Exception
              */
-            #require_once 'Zend/Service/Exception.php';
+            require_once 'Zend/Service/Exception.php';
             throw new Zend_Service_Exception('An error occurred sending request. Status code: '
                                            . $response->getStatus());
         }
@@ -118,7 +118,7 @@ class Zend_Service_Amazon
         /**
          * @see Zend_Service_Amazon_ResultSet
          */
-        #require_once 'Zend/Service/Amazon/ResultSet.php';
+        require_once 'Zend/Service/Amazon/ResultSet.php';
         return new Zend_Service_Amazon_ResultSet($dom);
     }
 
@@ -144,7 +144,7 @@ class Zend_Service_Amazon
             /**
              * @see Zend_Service_Exception
              */
-            #require_once 'Zend/Service/Exception.php';
+            require_once 'Zend/Service/Exception.php';
             throw new Zend_Service_Exception('An error occurred sending request. Status code: '
                                            . $response->getStatus());
         }
@@ -160,14 +160,14 @@ class Zend_Service_Amazon
             /**
              * @see Zend_Service_Amazon_Item
              */
-            #require_once 'Zend/Service/Amazon/Item.php';
+            require_once 'Zend/Service/Amazon/Item.php';
             return new Zend_Service_Amazon_Item($items->item(0));
         }
 
         /**
          * @see Zend_Service_Amazon_ResultSet
          */
-        #require_once 'Zend/Service/Amazon/ResultSet.php';
+        require_once 'Zend/Service/Amazon/ResultSet.php';
         return new Zend_Service_Amazon_ResultSet($dom);
     }
 
@@ -228,11 +228,16 @@ class Zend_Service_Amazon
             $code = $xpath->query('//az:Error/az:Code/text()')->item(0)->data;
             $message = $xpath->query('//az:Error/az:Message/text()')->item(0)->data;
 
-            /**
-             * @see Zend_Service_Exception
-             */
-            #require_once 'Zend/Service/Exception.php';
-            throw new Zend_Service_Exception("$message ($code)");
+            switch($code) {
+                case 'AWS.ECommerceService.NoExactMatches':
+                    break;
+                default:
+                    /**
+                     * @see Zend_Service_Exception
+                     */
+                    require_once 'Zend/Service/Exception.php';
+                    throw new Zend_Service_Exception("$message ($code)");
+            }
         }
     }
 }

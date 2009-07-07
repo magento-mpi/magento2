@@ -16,7 +16,7 @@
  * @package    Zend_Registry
  * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Registry.php 12065 2008-10-21 20:56:32Z doctorrock83 $
+ * @version    $Id: Registry.php 15577 2009-05-14 12:43:34Z matthew $
  */
 
 /**
@@ -66,7 +66,7 @@ class Zend_Registry extends ArrayObject
     public static function setInstance(Zend_Registry $registry)
     {
         if (self::$_registry !== null) {
-            #require_once 'Zend/Exception.php';
+            require_once 'Zend/Exception.php';
             throw new Zend_Exception('Registry is already initialized');
         }
 
@@ -97,20 +97,22 @@ class Zend_Registry extends ArrayObject
     public static function setClassName($registryClassName = 'Zend_Registry')
     {
         if (self::$_registry !== null) {
-            #require_once 'Zend/Exception.php';
+            require_once 'Zend/Exception.php';
             throw new Zend_Exception('Registry is already initialized');
         }
 
         if (!is_string($registryClassName)) {
-            #require_once 'Zend/Exception.php';
+            require_once 'Zend/Exception.php';
             throw new Zend_Exception("Argument is not a class name");
         }
 
         /**
          * @see Zend_Loader
          */
-        #require_once 'Zend/Loader.php';
-        #Zend_Loader::loadClass($registryClassName);
+        if (!class_exists($registryClassName)) {
+            require_once 'Zend/Loader.php';
+            Zend_Loader::loadClass($registryClassName);
+        }
 
         self::$_registryClassName = $registryClassName;
     }
@@ -141,7 +143,7 @@ class Zend_Registry extends ArrayObject
         $instance = self::getInstance();
 
         if (!$instance->offsetExists($index)) {
-            #require_once 'Zend/Exception.php';
+            require_once 'Zend/Exception.php';
             throw new Zend_Exception("No entry is registered for key '$index'");
         }
 

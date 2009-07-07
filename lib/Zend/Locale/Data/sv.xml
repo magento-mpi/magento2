@@ -4160,7 +4160,6 @@
 				<displayName>ny turkisk lira</displayName>
 				<displayName count="one">turkisk lira</displayName>
 				<displayName count="other">turkiska lire</displayName>
-				<symbol>YTL</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>Trinidad ochTobago-dollar</displayName>
