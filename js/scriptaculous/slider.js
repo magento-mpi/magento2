@@ -83,7 +83,7 @@ Control.Slider = Class.create({
 
     this.track.observe("mousedown", this.eventMouseDown);
     document.observe("mouseup", this.eventMouseUp);
-    document.observe("mousemove", this.eventMouseMove);
+    this.track.parentNode.parentNode.observe("mousemove", this.eventMouseMove);
 
     this.initialized = true;
   },
@@ -91,7 +91,7 @@ Control.Slider = Class.create({
     var slider = this;
     Event.stopObserving(this.track, "mousedown", this.eventMouseDown);
     Event.stopObserving(document, "mouseup", this.eventMouseUp);
-    Event.stopObserving(document, "mousemove", this.eventMouseMove);
+    Event.stopObserving(this.track.parentNode.parentNode, "mousemove", this.eventMouseMove);
     this.handles.each( function(h) {
       Event.stopObserving(h, "mousedown", slider.eventMouseDown);
     });

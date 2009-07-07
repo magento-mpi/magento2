@@ -136,7 +136,7 @@ var Draggables = {
       this.eventKeypress  = this.keyPress.bindAsEventListener(this);
 
       Event.observe(document, "mouseup", this.eventMouseUp);
-      Event.observe(document, "mousemove", this.eventMouseMove);
+      Event.observe(draggable.element, "mousemove", this.eventMouseMove);
       Event.observe(document, "keypress", this.eventKeypress);
     }
     this.drags.push(draggable);
@@ -146,7 +146,7 @@ var Draggables = {
     this.drags = this.drags.reject(function(d) { return d==draggable });
     if(this.drags.length == 0) {
       Event.stopObserving(document, "mouseup", this.eventMouseUp);
-      Event.stopObserving(document, "mousemove", this.eventMouseMove);
+      Event.stopObserving(draggable.element, "mousemove", this.eventMouseMove);
       Event.stopObserving(document, "keypress", this.eventKeypress);
     }
   },
