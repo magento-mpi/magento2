@@ -3847,6 +3847,7 @@
 			<currency type="TRY">
 				<displayName>új török líra</displayName>
 				<displayName count="other">Török líra</displayName>
+				<symbol>YTL</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>Trinidad és tobagoi dollár</displayName>

@@ -3582,11 +3582,11 @@
 			</currency>
 			<currency type="ROL">
 				<displayName>ルーマニア 旧レイ</displayName>
-				<symbol choice="true">0#Old lei|1#Old leu|1</symbol>
+				<symbol choice="true">0≤Old lei|1≤Old leu|1</symbol>
 			</currency>
 			<currency type="RON">
 				<displayName>ルーマニア レイ</displayName>
-				<symbol choice="true">0#lei|1#leu|1</symbol>
+				<symbol choice="true">0≤lei|1≤leu|1</symbol>
 			</currency>
 			<currency type="RSD">
 				<displayName>ディナール (セルビア)</displayName>
@@ -3699,6 +3699,7 @@
 			</currency>
 			<currency type="TRY">
 				<displayName>新トルコリラ</displayName>
+				<symbol>YTL</symbol>
 			</currency>
 			<currency type="TTD">
 				<displayName>トリニダードトバゴ ドル</displayName>
