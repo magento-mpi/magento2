@@ -202,6 +202,10 @@
     //billingForm.setElementsRelation('billing:country_id', 'billing:region', '<?php echo $this->getUrl('directory/json/childRegion') ?>', '<?php echo $this->__('Select State/Province...') ?>');
     $('billing-address-select') && billing.newAddress(!$('billing-address-select').value);
 
-    var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions);
+    var zipOptions = {};
+    zipOptions.input_el = "billing:postcode";
+    zipOptions.label_el = $("billing:postcode").up(1).down('label > span.required');
+    zipOptions.optional_countries = <?php echo $this->helper('directory')->getCountriesWithOptionalZipJson() ?>;
+    var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions, undefined, zipOptions);
 //-->
 </script>

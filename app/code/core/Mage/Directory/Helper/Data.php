@@ -111,4 +111,28 @@ class Mage_Directory_Helper_Data extends Mage_Core_Helper_Abstract
         $converted = $this->_currencyCache[$from]->convert($amount, $to);
         return $converted;
     }
+
+    /**
+     * Return ISO2 country codes, which have optional Zip/Postal pre-configured
+     *
+     * @param mixed $storeId Store
+     * @return array
+     */
+    public function getCountriesWithOptionalZip($storeId = null)
+    {
+        $value = Mage::getStoreConfig('general/country/optional_zip_countries', $storeId);
+        return preg_split('/\,/', $value, 0, PREG_SPLIT_NO_EMPTY);
+    }
+
+    /**
+     * Same as getCountriesWithOptionalZip() but result is json-encoded
+     *
+     * @see getCountriesWithOptionalZip
+     * @param mixed $storeId Store
+     * @return string
+     */
+    public function getCountriesWithOptionalZipJson($storeId = null)
+    {
+        return Zend_Json::encode($this->getCountriesWithOptionalZip($storeId));
+    }
 }

@@ -568,7 +568,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
 
         $this->removeAllShippingRates();
 
-        if (!$this->getCountryId() && !$this->getPostcode()) {
+        $havingOptionalZip = Mage::helper('directory')->getCountriesWithOptionalZip();
+        $postcodeValid = $this->getPostcode() || in_array($this->getCountryId(), $havingOptionalZip);
+        if (!$this->getCountryId() && !$postcodeValid) {
             return $this;
         }
 

@@ -181,6 +181,10 @@
 <script type="text/javascript">
     var dataForm = new VarienForm('form-validate', true);
     <?php if($this->getShowAddressFields()): ?>
-    new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>);
+    var zipOptions = {};
+    zipOptions.input_el = "zip";
+    zipOptions.label_el = $("zip").up(1).down('label > span.required');
+    zipOptions.optional_countries = <?php echo $this->helper('directory')->getCountriesWithOptionalZipJson() ?>;
+    new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, zipOptions);
     <?php endif ?>
 </script>
