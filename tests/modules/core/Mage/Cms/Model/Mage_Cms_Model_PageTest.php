@@ -29,41 +29,21 @@
  * Template filter model test case
  *
  */
-class Mage_Cms_Model_BlockTest extends Mage_TestCase
+class Mage_Cms_Model_PageTest extends Mage_TestCase
 {
     /**
      * Test of block model init
      *
      * @group CmsBlock
      */
-    public function testCmsModelBlockInit()
+    public function testCmsModelPageLoad()
     {
-//        $mock = $this->_getMockModel('cms/block', array('_init'));
-//        var_dump(get_class_methods($mock));
-//        $mock->__construct();
-//
-//        $mock->expects($this->once())
-//            ->method('_init')
-//            ->with($this->equalTo('cms/block'));
-
-//        echo get_class($mock);
-
-//        Mage::$factoryMocks['model']['cms/block'] = array(
-//            $this,
-//            array('_init'),
-//            array(),
-//            '',
-//            true,
-//            true,
-//            true
-//        );
-//        $stub = Mage::getModel('cms/block');
-//
-//        //echo get_class($stub);
-//
-//        $stub->expects($this->once())
-//             ->method('_init')
-//             ->with($this->equalTo('cms/block'));
-//        $this->_getModelInstance('cms/block');
+        $mock = $this->_getMockModel('cms/page', array('noRoutePage'));
+        $mock->expects($this->once())
+            ->method('noRoutePage');
+        $mock->load(null);
     }
 }
+
+
+/* EoF Mage_Cms_Model_PageTest.php */

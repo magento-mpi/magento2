@@ -35,6 +35,44 @@
 class Mage_TestCase extends PHPUnit_Framework_TestCase
 {
     /**
+     * Constructs a test case with the given name.
+     *
+     * @param  string $name
+     * @param  array  $data
+     * @param  string $dataName
+     */
+    public function __construct($name = null, array $data = array(), $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+        $this->_construct();
+    }
+
+    /**
+     * Additional TestCase initialize
+     *
+     * @return Mage_TestCase
+     */
+    protected function _construct()
+    {
+        return $this;
+    }
+
+    /**
+     * Initialize session (emulate session start)
+     *
+     * @return Mage_TestCase
+     */
+    protected function _initSession()
+    {
+        if (!is_array($_SESSION)) {
+            session_id(md5(time()));
+            $_SESSION = array();
+        }
+
+        return $this;
+    }
+
+    /**
      * Run Controller Action
      *
      * @param string $path
@@ -42,14 +80,19 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
      */
     protected function _runControllerAction($path)
     {
-        session_id(md5(time()));
-        $_SESSION = array();
+        $this->_initSession();
 
         $controller = Mage::app()->getFrontController();
         $routers    = $controller->getRouters();
         $request    = $controller->getRequest();
 
+        $request->setControllerModule(null)
+            ->setControllerName(null)
+            ->setActionName(null);
         $request->setPathInfo($path)->setDispatched(false);
+
+        $controller->getResponse()->clearAllHeaders();
+        $controller->getResponse()->clearBody();
 
         $i = 0;
         while (!$request->isDispatched() && $i++ < 100) {
@@ -90,6 +133,40 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Retrieve Model as Mock object
+     *
+     * @param string $model
+     * @param unknown_type $methods
+     * @param unknown_type $arguments
+     * @param unknown_type $mockClassName
+     * @param unknown_type $callOriginalConstructor
+     * @param unknown_type $callOriginalClone
+     * @param unknown_type $callAutoload
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _getMockModel($model, $methods = array(),
+        $arguments = array(), $mockClassName = '',
+        $callOriginalConstructor = true, $callOriginalClone = true,
+        $callAutoload = true)
+    {
+        Mage::$factoryMocks['model'][$model] = array(
+            $this,
+            $methods,
+            $arguments,
+            $mockClassName,
+            $callOriginalConstructor,
+            $callOriginalClone,
+            $callAutoload
+        );
+
+        $object = Mage::getModel($model);
+
+        unset(Mage::$factoryMocks['model'][$model]);
+
+        return $object;
+    }
+
+    /**
      * Obtain model object instance for tests
      *
      * @param string $model name
@@ -105,5 +182,24 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
             /* do something here */
             return new stdClass();
         }
+    }
+
+    /**
+     * Retrieve Header value By Name
+     *
+     * @param array $headers
+     * @param string $name
+     * @param string $default
+     * @return string
+     */
+    protected function _getHeaderByName(array $headers, $name, $default = null)
+    {
+        foreach ($headers as $header) {
+            if ($header['name'] == $name) {
+                $default = $header['value'];
+                break;
+            }
+        }
+        return $default;
     }
 }

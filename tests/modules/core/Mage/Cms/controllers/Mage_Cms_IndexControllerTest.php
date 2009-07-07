@@ -59,17 +59,18 @@ class Mage_Cms_IndexControllerTest extends Mage_TestCase
     /**
      * Tests Mage_Cms_IndexController->defaultIndexAction()
      *
+     * @param string $action
      */
-    public function testDefaultIndexAction ()
+    public function testDefaultIndexAction($action = 'cms/index/defaultIndex')
     {
-        // TODO Auto-generated Mage_Cms_IndexControllerTest->testDefaultIndexAction()
-        $this->markTestIncomplete("defaultIndexAction test not implemented");
-        $this->Mage_Cms_IndexController->defaultIndexAction(/* parameters */);
+        $response = $this->_runControllerAction($action);
+        $this->assertEquals($this->_getHeaderByName($response->getHeaders(), 'Status'),
+            '404 File not found');
     }
     /**
      * Tests Mage_Cms_IndexController->defaultNoCookiesAction()
      */
-    public function testDefaultNoCookiesAction ()
+    public function testDefaultNoCookiesAction()
     {
         // TODO Auto-generated Mage_Cms_IndexControllerTest->testDefaultNoCookiesAction()
         $this->markTestIncomplete("defaultNoCookiesAction test not implemented");
@@ -78,7 +79,7 @@ class Mage_Cms_IndexControllerTest extends Mage_TestCase
     /**
      * Tests Mage_Cms_IndexController->defaultNoRouteAction()
      */
-    public function testDefaultNoRouteAction ()
+    public function testDefaultNoRouteAction()
     {
         // TODO Auto-generated Mage_Cms_IndexControllerTest->testDefaultNoRouteAction()
         $this->markTestIncomplete("defaultNoRouteAction test not implemented");
@@ -87,15 +88,37 @@ class Mage_Cms_IndexControllerTest extends Mage_TestCase
     /**
      * Tests Mage_Cms_IndexController->indexAction()
      */
-    public function testIndexAction ()
+    public function testIndexAction()
     {
-        $response = $this->_runControllerAction('/cms/index/index/');
-        //var_dump($response->getBody());
-//var_dump($_SESSION);
+        $collection = Mage::getModel('cms/page')
+            ->getCollection()
+            ->addStoreFilter(Mage::app()->getStore())
+            ->addFieldToFilter('is_active', 1)
+            ->setPageSize(1)
+            ->setCurPage(2);
+        /* @var $page Mage_Cms_Model_Page */
+        $page = $collection->getFirstItem();
 
-        // TODO Auto-generated Mage_Cms_IndexControllerTest->testIndexAction()
-        $this->markTestIncomplete("indexAction test not implemented");
-        $this->Mage_Cms_IndexController->indexAction(/* parameters */);
+        // reset cms page helper singleton
+        Mage::getSingleton('cms/page')
+            ->setData(array());
+        // modify config on first exists page
+        Mage::app()->getStore()->setConfig(
+            Mage_Cms_Helper_Page::XML_PATH_HOME_PAGE,
+            $page->getId());
+
+        $response = $this->_runControllerAction('cms/index/index');
+
+        $this->assertContains($page->getTitle(), $response->getBody(), 'We don\'t have title :(');
+
+        // reset cms page helper singleton
+        Mage::getSingleton('cms/page')->setData(array());
+        // modify config to not exists page
+        Mage::app()->getStore()->setConfig(
+            Mage_Cms_Helper_Page::XML_PATH_HOME_PAGE, -1);
+
+        // check forward to default page
+        $this->testDefaultIndexAction('cms/index/index');
     }
     /**
      * Tests Mage_Cms_IndexController->noCookiesAction()

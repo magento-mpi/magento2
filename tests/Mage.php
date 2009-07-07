@@ -325,7 +325,7 @@ final class Mage {
             /* @var $testCaseInstance PHPUnit_Framework_TestCase */
             list($testCaseInstance, $methods, $args, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload)
                 = $mockProperties;
-            $mockInstance = $testCaseInstance->getMock(
+            $mockInstance = $testCaseInstance->getPublicMock(
                 Mage::getConfig()->getModelClassName($modelClass),
                 $methods, $arguments, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload
             );
