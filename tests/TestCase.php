@@ -29,7 +29,7 @@
  * Mage Basic PHPUnit TestCase
  *
  * @category    Mage
- * @package     Mage_Core
+ * @package     Mage_Tests
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_TestCase extends PHPUnit_Framework_TestCase
@@ -136,12 +136,12 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
      * Retrieve Model as Mock object
      *
      * @param string $model
-     * @param unknown_type $methods
-     * @param unknown_type $arguments
-     * @param unknown_type $mockClassName
-     * @param unknown_type $callOriginalConstructor
-     * @param unknown_type $callOriginalClone
-     * @param unknown_type $callAutoload
+     * @param array $methods
+     * @param array $arguments
+     * @param string $mockClassName
+     * @param bool $callOriginalConstructor
+     * @param bool $callOriginalClone
+     * @param bool $callAutoload
      * @return Mage_Core_Model_Abstract
      */
     protected function _getMockModel($model, $methods = array(),
@@ -167,24 +167,6 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Obtain model object instance for tests
-     *
-     * @param string $model name
-     * @return object
-     */
-    protected function _getModelInstance($model = '')
-    {
-        if (!empty($model) && $model) {
-            /* check for existing model */
-            return Mage::getModel($model);
-        }
-        else {
-            /* do something here */
-            return new stdClass();
-        }
-    }
-
-    /**
      * Retrieve Header value By Name
      *
      * @param array $headers
@@ -201,5 +183,15 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
             }
         }
         return $default;
+    }
+
+    /**
+     * Retrieve DB Adapter instance for Test
+     *
+     * @return Mage_DbAdapter
+     */
+    protected function _getDbAdapter()
+    {
+        return Mage::registry('_dbadapter');
     }
 }

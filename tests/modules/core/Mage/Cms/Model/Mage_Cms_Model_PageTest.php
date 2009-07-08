@@ -43,6 +43,42 @@ class Mage_Cms_Model_PageTest extends Mage_TestCase
             ->method('noRoutePage');
         $mock->load(null);
     }
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->_getDbAdapter()->begin();
+        $this->_getDbAdapter()->loadFixture('cms');
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+        $this->_getDbAdapter()->rollback();
+    }
+
+    public function testCheckIdentifier()
+    {
+        $pageFixtureRow = $this->_getDbAdapter()->getTableRow('cms_page', 1);
+        $pageStoreFixtureRow = $this->_getDbAdapter()
+            ->getTableRow('cms_page_store', 7);
+
+        $page = Mage::getModel('cms/page');
+        $res  = $page->checkIdentifier($pageFixtureRow->getIdentifier(),
+            $pageStoreFixtureRow->getStoreId());
+
+        $this->assertEquals($pageFixtureRow->getPageId(), $res,
+            'Invalid Check Identifier for valid page and store id');
+
+        $res  = $page->checkIdentifier('-', 0);
+        $this->assertFalse($res);
+    }
+
+    public function testNoRoute()
+    {
+
+    }
 }
 
 

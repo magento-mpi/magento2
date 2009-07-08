@@ -34,4 +34,38 @@
  */
 class Mage_TestSuite extends PHPUnit_Framework_TestSuite
 {
+    /**
+     * Retrieve DB Adapter instance for Test
+     *
+     * @return Mage_DbAdapter
+     */
+    protected function _getDbAdapter()
+    {
+        return Mage::registry('_dbadapter');
+    }
+
+    /**
+     * Setup Test Suite and begin transaction
+     *
+     */
+    public function setUp()
+    {
+        $this->_getDbAdapter()->begin();
+        parent::setUp();
+
+        if (!is_array($_SESSION)) {
+            session_id(md5(time()));
+            $_SESSION = array();
+        }
+    }
+
+    /**
+     * Tear down Test Suite and rollback transaction
+     *
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+        $this->_getDbAdapter()->rollback();
+    }
 }

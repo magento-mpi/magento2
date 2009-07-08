@@ -28,6 +28,7 @@ require_once 'PHPUnit/Framework.php';
 
 require_once 'Mage.php';
 require_once 'TestCase.php';
+require_once 'DbAdapter.php';
 require_once 'TestSuite.php';
 
 /**
@@ -113,6 +114,7 @@ class AllTests extends Mage_TestSuite
         copy($serFileEnv, $serFileOld);
 
         Mage::app();
+        Mage::register('_dbadapter', new Mage_DbAdapter());
 
         unlink($serFileOld);
         if (file_exists($serFileNew)) {
@@ -122,3 +124,11 @@ class AllTests extends Mage_TestSuite
 }
 
 AllTests::runApp();
+
+//Mage::registry('_dbadapter')->generateFixture('cms', array(
+//    'cms_page',
+//    'cms_page_store',
+//    'cms_block',
+//    'cms_block_store'
+//));
+

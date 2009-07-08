@@ -38,6 +38,10 @@ class Mage_Cms_Model_BlockTest extends Mage_TestCase
      */
     public function testCmsModelBlockInit()
     {
+
+
+
+
 //        $mock = $this->_getMockModel('cms/block', array('_init'));
 //        var_dump(get_class_methods($mock));
 //        $mock->__construct();
