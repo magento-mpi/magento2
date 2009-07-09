@@ -371,6 +371,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     /**
      * Get store identifiers where category is presented
      *
+     * @deprecated after 1.3.2.2 moved to model
      * @param   Mage_Catalog_Model_Category $category
      * @return  array
      */
