@@ -525,59 +525,41 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
     protected function _getStaticColumns()
     {
         $columns = array();
-        $columns['entity_id'] = array(
-            'type' => 'int(10)',
-            'is_unsigned' => true,
-            'is_null' => false,
-            'default' => false
-        );
+        $columnsToSkip = array('entity_type_id', 'attribute_set_id');
+        $describe = $this->_getWriteAdapter()->describeTable($this->getTable('catalog/category'));
+        foreach ($describe as $column) {
+            if (in_array($column['COLUMN_NAME'], $columnsToSkip)) {
+                continue;
+            }
+            $_type = '';
+            $_is_unsigned = '';
+            switch ($column['DATA_TYPE']) {
+                case 'smallint':
+                case 'int':
+                    $_type = $column['DATA_TYPE'] . '(11)';
+                    $_is_unsigned = (bool)$column['UNSIGNED'];
+                    break;
+                case 'varchar':
+                    $_type = $column['DATA_TYPE'] . '(' . $column['LENGTH'] . ')';
+                    $_is_unsigned = null;
+                    break;
+                case 'datetime':
+                    $_type = $column['DATA_TYPE'];
+                    $_is_unsigned = null;
+                    break;
+            }
+            $columns[$column['COLUMN_NAME']] = array(
+                'type' => $_type,
+                'is_unsigned' => $_is_unsigned,
+                'is_null' => $column['NULLABLE'],
+                'default' => ($column['DEFAULT'] === null ? false : $column['DEFAULT'])
+            );
+        }
         $columns['store_id'] = array(
             'type' => 'smallint(5)',
             'is_unsigned' => true,
             'is_null' => false,
             'default' => '0'
-        );
-        $columns['parent_id'] = array(
-            'type' => 'int(10)',
-            'is_unsigned' => true,
-            'is_null' => false,
-            'default' => '0'
-        );
-        $columns['path'] = array(
-            'type' => 'varchar(255)',
-            'is_unsigned' => null,
-            'is_null' => false,
-            'default' => ''
-        );
-        $columns['level'] = array(
-            'type' => 'int(11)',
-            'is_unsigned' => null,
-            'is_null' => false,
-            'default' => '0'
-        );
-        $columns['position'] = array(
-            'type' => 'int(11)',
-            'is_unsigned' => null,
-            'is_null' => false,
-            'default' => '0'
-        );
-        $columns['children_count'] = array(
-            'type' => 'int(11)',
-            'is_unsigned' => null,
-            'is_null' => false,
-            'default' => '0'
-        );
-        $columns['created_at'] = array(
-            'type' => 'datetime',
-            'is_unsigned' => null,
-            'is_null' => false,
-            'default' => '0000-00-00 00:00:00'
-        );
-        $columns['updated_at'] = array(
-            'type' => 'datetime',
-            'is_unsigned' => null,
-            'is_null' => false,
-            'default' => '0000-00-00 00:00:00'
         );
         return $columns;
     }
