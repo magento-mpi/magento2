@@ -159,24 +159,13 @@ class Enterprise_Pci_Model_Observer
         /* @var $user Mage_Admin_Model_User */
         $user = $observer->getEvent()->getObject();
         $password = ($user->getNewPassword() ? $user->getNewPassword() : $user->getPassword());
-        if ($password && !$user->getForceNewPassword()) {
-            // validate password syntax
-            $passwordLength = 7;
-            if (Mage::helper('core/string')->strlen($password) < $passwordLength) {
-                Mage::throwException(Mage::helper('enterprise_pci')->__('Password must be at least of %d characters.', $passwordLength));
-            }
-            if (!preg_match('/[a-z]/iu', $password) || !preg_match('/[0-9]/u', $password)) {
-                Mage::throwException(Mage::helper('enterprise_pci')->__('Password must include both numeric and alphabetic characters.'));
-            }
-
-            if ($user->getId()) {
-                // check whether password was used before
-                $resource     = Mage::getResourceSingleton('enterprise_pci/admin_user');
-                $passwordHash = Mage::helper('core')->getHash($password, false);
-                foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
-                    if ($passwordHash === $oldPasswordHash) {
-                        Mage::throwException(Mage::helper('enterprise_pci')->__('This password was used earlier, try another one.'));
-                    }
+        if ($password && !$user->getForceNewPassword() && $user->getId()) {
+            // check whether password was used before
+            $resource     = Mage::getResourceSingleton('enterprise_pci/admin_user');
+            $passwordHash = Mage::helper('core')->getHash($password, false);
+            foreach ($resource->getOldPasswords($user) as $oldPasswordHash) {
+                if ($passwordHash === $oldPasswordHash) {
+                    Mage::throwException(Mage::helper('enterprise_pci')->__('This password was used earlier, try another one.'));
                 }
             }
         }
