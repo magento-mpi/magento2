@@ -36,6 +36,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     const XML_PATH_FORGOT_EMAIL_TEMPLATE    = 'admin/emails/forgot_email_template';
     const XML_PATH_FORGOT_EMAIL_IDENTITY    = 'admin/emails/forgot_email_identity';
     const XML_PATH_STARTUP_PAGE             = 'admin/startup/page';
+    const MIN_PASSWORD_LENGTH = 7;
 
     protected $_eventPrefix = 'admin_user';
 
@@ -61,6 +62,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function save()
     {
+        $this->validatePassword($this->getPassword());
         $this->_beforeSave();
         $data = array(
             'firstname' => $this->getFirstname(),
@@ -377,6 +379,24 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             }
         }
         return $this->findFirstAvailableMenu();
+    }
+
+    /**
+    * Checks password syntax
+    * 
+    * @param string $password - password to validate
+    * @throws Mage_Core_Exception
+    */
+    public function validatePassword($password) 
+    {
+        if (Mage::helper('core/string')->strlen($password) < self::MIN_PASSWORD_LENGTH) {
+            $message = Mage::helper('adminhtml')->__('Password must be at least of %d characters.', self::MIN_PASSWORD_LENGTH);
+            Mage::throwException($message);
+            }
+        if (!preg_match('/[a-z]/iu', $password) || !preg_match('/[0-9]/u', $password)) {
+            $message = Mage::helper('adminhtml')->__('Password must include both numeric and alphabetic characters.');
+            Mage::throwException($message);
+        }
     }
 
 }
