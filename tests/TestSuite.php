@@ -53,7 +53,7 @@ class Mage_TestSuite extends PHPUnit_Framework_TestSuite
         $this->_getDbAdapter()->begin();
         parent::setUp();
 
-        if (!is_array($_SESSION)) {
+        if (!isset($_SESSION) || !is_array($_SESSION)) {
             session_id(md5(time()));
             $_SESSION = array();
         }
