@@ -585,7 +585,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
      */
     public function helper($name)
     {
-        $helper = Mage::app()->getHelper($name);
+        $helper = Mage::helper($name);
         if (!$helper) {
             return false;
         }
