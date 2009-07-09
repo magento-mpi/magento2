@@ -380,13 +380,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             return array();
         }
 
-        $nodePath = $this->_getTree()
-            ->getNodeById($category->getId())
-                ->getPath();
-
         $nodes = array();
-        foreach ($nodePath as $node) {
-            $nodes[] = $node->getId();
+        foreach ($category->getPathIds() as $id) {
+            $nodes[] = $id;
         }
 
         $stores = array();
