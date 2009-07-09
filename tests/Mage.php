@@ -321,21 +321,9 @@ final class Mage {
     public static function getModel($modelClass='', $arguments=array())
     {
         if (isset(self::$factoryMocks['model']) && isset(self::$factoryMocks['model'][$modelClass])) {
-            $mockProperties = self::$factoryMocks['model'][$modelClass];
-            /* @var $testCaseInstance PHPUnit_Framework_TestCase */
-            list($testCaseInstance, $methods, $args, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload)
-                = $mockProperties;
-            $mockInstance = $testCaseInstance->getPublicMock(
-                Mage::getConfig()->getModelClassName($modelClass),
-                $methods, $arguments, $mockClassName, $callOriginalConstructor, $callOriginalClone, $callAutoload
-            );
-            if (isset($mockProperties['expects'])) {
-                $mockInstance->expects($mockProperties['expects'])
-                    ->method($mockProperties['method']);
-            }
-            return $mockInstance;
+            $modelInstance = clone self::$factoryMocks['model'][$modelClass];
+            return $modelInstance;
         }
-
         return Mage::getConfig()->getModelInstance($modelClass, $arguments);
     }
 
@@ -403,6 +391,7 @@ final class Mage {
      */
     public static function helper($name)
     {
+
         return Mage::app()->getHelper($name);
     }
 

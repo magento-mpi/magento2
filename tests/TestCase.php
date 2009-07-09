@@ -111,9 +111,10 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Returns a mock object for the specified class.
+     * Returns a mock object for the specified model
+     * Every subsequent Mage::getModel() call will return mocked model as well
      *
-     * @param  string  $className
+     * @param  string  $modelName
      * @param  array   $methods
      * @param  array   $arguments
      * @param  string  $mockClassName
@@ -121,49 +122,14 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
      * @param  boolean $callOriginalClone
      * @param  boolean $callAutoload
      * @return object
-     * @since  Method available since Release 3.0.0
      */
-    public function getPublicMock($className, $methods = array(),
-        array $arguments = array(), $mockClassName = '',
-        $callOriginalConstructor = true, $callOriginalClone = true,
-        $callAutoload = true)
+    public function getModelMock($modelName)
     {
-        return $this->getMock($className, $methods, $arguments, $mockClassName,
-            $callOriginalConstructor, $callOriginalClone, $callAutoload);
-    }
-
-    /**
-     * Retrieve Model as Mock object
-     *
-     * @param string $model
-     * @param array $methods
-     * @param array $arguments
-     * @param string $mockClassName
-     * @param bool $callOriginalConstructor
-     * @param bool $callOriginalClone
-     * @param bool $callAutoload
-     * @return Mage_Core_Model_Abstract
-     */
-    protected function _getMockModel($model, $methods = array(),
-        $arguments = array(), $mockClassName = '',
-        $callOriginalConstructor = true, $callOriginalClone = true,
-        $callAutoload = true)
-    {
-        Mage::$factoryMocks['model'][$model] = array(
-            $this,
-            $methods,
-            $arguments,
-            $mockClassName,
-            $callOriginalConstructor,
-            $callOriginalClone,
-            $callAutoload
-        );
-
-        $object = Mage::getModel($model);
-
-        unset(Mage::$factoryMocks['model'][$model]);
-
-        return $object;
+        $args = func_get_args();
+        $model = $args[0];
+        $args[0] = Mage::getConfig()->getModelClassName($args[0]);
+        Mage::$factoryMocks['model'][$model] = call_user_func_array(array($this, 'getMock'), $args);
+        return Mage::$factoryMocks['model'][$model];
     }
 
     /**
