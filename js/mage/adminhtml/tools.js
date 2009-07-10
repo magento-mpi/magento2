@@ -211,12 +211,7 @@ if (!navigator.appVersion.match('MSIE 6.')) {
 
         header_copy = document.createElement('div');
         header_copy.appendChild(header.cloneNode(true));
-        /*
-         * document.body.appendChild(header_copy);
-         * generete error in IE7+  
-         * Cause of the error : http://support.microsoft.com/default.aspx/kb/927917
-         */
-        document.body.insertBefore(header_copy, document.body.lastChild)  
+        document.body.insertBefore(header_copy, document.body.lastChild)
         $(header_copy).addClassName('content-header-floating');
         if ($(header_copy).down('.content-buttons-placeholder')) {
             $(header_copy).down('.content-buttons-placeholder').remove();
