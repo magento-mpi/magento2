@@ -246,6 +246,15 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                 }
             }
 
+            /**
+             * Process "Use Config Settings" checkboxes
+             */
+            if ($useConfig = $this->getRequest()->getPost('use_config')) {
+                foreach ($useConfig as $attributeCode) {
+                    $category->setData($attributeCode, null);
+                }
+            }
+
             $category->setAttributeSetId($category->getDefaultAttributeSetId());
 
             if (isset($data['category_products']) &&
@@ -397,9 +406,9 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
                    'path' => $category->getPath(),
                 ))
             );
-        }     
+        }
     }
-    
+
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/categories');
