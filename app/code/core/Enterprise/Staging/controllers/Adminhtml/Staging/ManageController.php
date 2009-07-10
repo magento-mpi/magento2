@@ -221,7 +221,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 if ($entryPoint->isAutomatic()) {
                     if (!$entryPoint->canEntryPointBeCreated()) {
                         $redirectBack = true;
-                        Mage::throwException(Mage::helper('enterprise_staging')->__('Please, make sure that folder %s is exists and is writeable.', $entryPoint->getBaseFolder()));
+                        Mage::throwException(Mage::helper('enterprise_staging')->__('Please, make sure that folder %s exists and is writeable.', $entryPoint->getBaseFolder()));
                     }
                 }
 
