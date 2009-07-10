@@ -156,4 +156,20 @@ abstract class Mage_TestCase extends PHPUnit_Framework_TestCase
     {
         return Mage::registry('_dbadapter');
     }
+
+    /**
+     * Default test case teardown logic
+     * Please make sure you call parent::tearDown() in your test cases
+     */
+    protected function tearDown()
+    {
+        /*
+         * Clean Mage mocks
+         * There's no way to inject it into runBare()
+         */
+        Mage::$factoryMocks = array();
+
+        parent::tearDown();
+    }
+
 }
