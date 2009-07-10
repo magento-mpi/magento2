@@ -36,7 +36,7 @@ Enterprise.Staging.Mapper.prototype = {
     mapKeys                 : null,
     addWebsiteMapRow        : null,
     canMerge                : false,
-    initialize : function(containerId, url, pageVar, sortVar, dirVar, filterVar, mergeForm, stores)
+    initialize : function(containerId, url, pageVar, sortVar, dirVar, filterVar, mergeForm, stores, websiteId)
     {
         this.formId = mergeForm;
         this.mergeForm = new varienForm(this.formId);
@@ -457,7 +457,8 @@ Enterprise.Staging.Form.prototype = {
     proceedIterator         : 0,
     countOfError            : 0,
     totalItems              : 0,
-    initialize : function(containerId, formId, validationUrl, config, items)
+    fieldSuffix             : 0,
+    initialize : function(containerId, formId, validationUrl, config, items, fieldSuffix)
     {
         this.containerId    = containerId;
 
@@ -472,6 +473,8 @@ Enterprise.Staging.Form.prototype = {
         this.totalItems     = this.items.size();
 
         this.proceedItems   = new $H();
+
+        this.fieldSuffix   = fieldSuffix;
 
         var itemTemplate = this.getInnerElement('item_template');
         if (itemTemplate) {
@@ -496,6 +499,9 @@ Enterprise.Staging.Form.prototype = {
             );
         }
         this.createBtn = document.getElementsByClassName('create')[0];
+
+        $('staging_website_visibility_' + this.fieldSuffix).observe('change', this.frontendAuthenticationCallback);
+
     },
 
     addItem : function(key, item)
@@ -529,6 +535,23 @@ Enterprise.Staging.Form.prototype = {
     submit : function()
     {
         this.form.submit();
+    },
+
+    frontendAuthenticationCallback: function(event)
+    {
+        var element = Event.element(event);
+        parts = element.id.split('_');
+        if (element.value == 'require_http_auth') {
+            $('staging_website_master_login_' + parts[3]).addClassName('required-entry');
+            $('staging_website_master_login_' + parts[3]).up('tr').show();
+            $('staging_website_master_password_' + parts[3]).addClassName('required-entry');
+            $('staging_website_master_password_' + parts[3]).up('tr').show();
+        } else {
+            $('staging_website_master_login_' + parts[3]).removeClassName('required-entry');
+            $('staging_website_master_login_' + parts[3]).up('tr').hide();
+            $('staging_website_master_password_' + parts[3]).removeClassName('required-entry');
+            $('staging_website_master_password_' + parts[3]).up('tr').hide();
+        }
     }
 };
 

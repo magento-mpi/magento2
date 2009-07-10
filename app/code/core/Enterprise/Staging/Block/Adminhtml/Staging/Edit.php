@@ -286,4 +286,20 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
     {
         return addslashes(htmlspecialchars($this->getRequest()->getParam('tab')));
     }
+
+    /**
+     * Retrieve master website id
+     * if master website is not available return 0
+     *
+     * @return mixed
+     */
+    public function getMasterWebsiteId()
+    {
+        $website = $this->getStaging()->getMasterWebsite();
+        if ($website) {
+            return $website->getId();
+        }
+
+        return 0;
+    }
 }

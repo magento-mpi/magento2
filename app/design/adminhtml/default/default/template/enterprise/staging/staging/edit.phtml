@@ -82,6 +82,6 @@ Validation.addAllThese([
     }]
 ]);
 
-var <?php echo $this->getEditFormJsObject(); ?> = new Enterprise.Staging.Form('enterprise_staging', 'enterprise_staging_form', '<?php echo $this->getValidationUrl() ?>', {}, {});
+var <?php echo $this->getEditFormJsObject(); ?> = new Enterprise.Staging.Form('enterprise_staging', 'enterprise_staging_form', '<?php echo $this->getValidationUrl() ?>', {}, {}, <?php echo $this->getMasterWebsiteId()?>);
 //]]>
 </script>
