@@ -123,6 +123,13 @@ final class Mage
     public static $headersSentThrowsException   = true;
 
     /**
+     * Is installed flag
+     *
+     * @var bool
+     */
+    static private $_isInstalled;
+
+    /**
      * Retrieve current Magento version
      *
      * @return string
@@ -605,8 +612,7 @@ final class Mage
      */
     public static function isInstalled($options = array())
     {
-        $isInstalled = self::registry('_is_installed');
-        if ($isInstalled === null) {
+        if (self::$_isInstalled === null) {
             self::setRoot();
 
             if (is_string($options)) {
@@ -620,18 +626,17 @@ final class Mage
             }
             $localConfigFile = self::getRoot() . DS . $etcDir . DS . 'local.xml';
 
-            $isInstalled = false;
+            self::$_isInstalled = false;
 
             if (is_readable($localConfigFile)) {
                 $localConfig = simplexml_load_file($localConfigFile);
                 date_default_timezone_set('UTC');
                 if (($date = $localConfig->global->install->date) && strtotime($date)) {
-                    $isInstalled = true;
+                    self::$_isInstalled = true;
                 }
             }
-            self::register('_is_installed', $isInstalled);
         }
-        return $isInstalled;
+        return self::$_isInstalled;
     }
 
     /**
