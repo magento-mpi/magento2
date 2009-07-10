@@ -19,21 +19,14 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Giftcert
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @package    Mage_Sales
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+$this->startSetup();
+$this->removeAttribute('order', 'giftcert_code');
+$this->removeAttribute('order', 'giftcert_amount');
+$this->removeAttribute('order', 'base_giftcert_amount');
+$this->endSetup();
 
-class Mage_Giftcert_Model_Entity_Quote_Address_Attribute_Frontend_Giftcert
-    extends Mage_Sales_Model_Entity_Quote_Address_Attribute_Frontend
-{
-    public function fetchTotals(Mage_Sales_Model_Quote_Address $address)
-    {
-        $amount = $address->getGiftcertAmount();
-        if ($amount) {
-            $address->addTotal(array('code'=>'giftcert', 'title'=>Mage::helper('giftcert')->__('Gift Certificate').' ('.$address->getGiftcertCode().')', 'value'=>-$amount, 'output'=>true));
-        }
-        return $this;
-    }
-}
