@@ -178,8 +178,8 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
                             'label' => Mage::helper('enterprise_staging')->__('Secure Base Url'),
                             'name'  => "websites[{$_id}][base_secure_url]",
                             'value' => '',
-                            'class' => 'validate-url',
-                            'note'  => Mage::helper('enterprise_staging')->__("Please make sure that Base URL ends with '/' (slash), e.g. http://yourdomain/magento/"),
+                            'class' => 'validate-secure-url',
+                            'note'  => Mage::helper('enterprise_staging')->__("Please make sure that Base URL ends with '/' (slash), e.g. https://yourdomain/magento/"),
                             'required' => true
                         )
                     );

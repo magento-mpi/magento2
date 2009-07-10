@@ -104,7 +104,7 @@ class Enterprise_Staging_Block_Adminhtml_Widget_Grid_Column_Renderer_Action exte
             $title = substr($title, 0, $this->getColumn()->getLength()) . '...';
         }
 
-        return '<a href="'.$href.'" target="_blank">'.$title.'</a>';
+        return '<a href="'.$href.'" target="_blank" title="'.$href.'">'.$title.'</a>';
     }
 
     protected function _validateAction(Varien_Object $row, $action)
