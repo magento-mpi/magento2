@@ -29,16 +29,20 @@
 <layout>
     <adminhtml_staging_manage_index>
         <reference name="content">
-            <block type="enterprise_staging/manage_staging"  name="enterprise_staging_manage_staging" /> 
+            <block type="enterprise_staging/adminhtml_staging"  name="enterprise_staging" />
         </reference>
     </adminhtml_staging_manage_index>
-    
+
+    <adminhtml_staging_manage_new>
+        <update handle="adminhtml_staging_manage_edit" />
+    </adminhtml_staging_manage_new>
+
     <adminhtml_staging_manage_edit>
         <reference name="content">
-            <block type="enterprise_staging/manage_staging_edit"  name="enterprise_staging_manage_staging_edit" />
+            <block type="enterprise_staging/adminhtml_staging_edit"  name="enterprise_staging_edit" />
         </reference>
         <reference name="left">
-            <block type="enterprise_staging/manage_staging_edit_tabs" name="enterprise_staging_manage_staging_edit_tabs"></block>
+            <block type="enterprise_staging/adminhtml_staging_edit_tabs" name="enterprise_staging_edit_tabs"></block>
         </reference>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
@@ -47,50 +51,50 @@
 
     <adminhtml_staging_manage_merge>
         <reference name="content">
-            <block type="enterprise_staging/manage_staging_merge"  name="enterprise_staging_manage_staging_merge">
-                <action method="addMergeSettingsBlockType"><type>website</type><block>enterprise_staging/manage_staging_merge_settings_website</block><template>enterprise/staging/manage/staging/merge/settings/website.phtml</template></action>
+            <block type="enterprise_staging/adminhtml_staging_merge"  name="enterprise_staging_merge">
+                <action method="addMergeSettingsBlockType"><type>website</type><block>enterprise_staging/adminhtml_staging_merge_settings_website</block><template>enterprise/staging/staging/merge/settings/website.phtml</template></action>
             </block>
         </reference>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
     </adminhtml_staging_manage_merge>
-    
-    <adminhtml_staging_manage_event>
-        <reference name="content">
-            <block type="enterprise_staging/manage_staging_event"  name="enterprise_staging_manage_staging_event" template="enterprise/staging/manage/staging/event.phtml" />
-        </reference>
-    </adminhtml_staging_manage_event>
-    
+
     <adminhtml_staging_backup_index>
         <reference name="content">
-            <block type="enterprise_staging/manage_staging_backup"  name="enterprise_staging_manage_staging_backup" template="enterprise/staging/manage/staging/backup.phtml" />
+            <block type="enterprise_staging/adminhtml_backup"  name="enterprise_staging_backup" />
         </reference>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
     </adminhtml_staging_backup_index>
-    
+
     <adminhtml_staging_backup_edit>
         <reference name="content">
-            <block type="enterprise_staging/manage_staging_backup_edit"  name="enterprise_staging_manage_staging_backup_edit" />
+            <block type="enterprise_staging/adminhtml_backup_edit"  name="enterprise_staging_backup_edit" />
         </reference>
         <reference name="left">
-            <block type="enterprise_staging/manage_staging_backup_edit_tabs" name="enterprise_staging_manage_staging_backup_edit_tabs"></block>
+            <block type="enterprise_staging/adminhtml_backup_edit_tabs" name="enterprise_staging_backup_edit_tabs"></block>
         </reference>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
         </reference>
     </adminhtml_staging_backup_edit>
-    
-    <adminhtml_staging_backup_rollback>
+
+    <adminhtml_staging_log_index>
         <reference name="content">
-            <block type="enterprise_staging/manage_staging_rollback"  name="enterprise_staging_manage_staging_rollback">
-                <action method="addRollbackSettingsBlockType"><type>website</type><block>enterprise_staging/manage_staging_rollback_settings_website</block><template>enterprise/staging/manage/staging/rollback/settings/website.phtml</template></action>
+            <block type="enterprise_staging/adminhtml_log"  name="enterprise_staging_log" />
+        </reference>
+    </adminhtml_staging_log_index>
+
+    <adminhtml_staging_log_view>
+        <reference name="content">
+            <block type="enterprise_staging/adminhtml_log_view"  name="enterprise_staging_log_view">
+                <action method="addInformationRenderer"><type>default</type><block>enterprise_staging/adminhtml_log_view_information_default</block><template>enterprise/staging/log/information/default.phtml</template></action>
+                <action method="addInformationRenderer"><type>create</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/staging.phtml</template></action>
+                <action method="addInformationRenderer"><type>merge</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/staging.phtml</template></action>
+                <action method="addInformationRenderer"><type>rollback</type><block>enterprise_staging/adminhtml_log_view_information_rollback</block><template>enterprise/staging/log/information/rollback.phtml</template></action>
             </block>
         </reference>
-        <reference name="head">
-            <action method="addJs"><script>enterprise/adminhtml/staging.js</script></action>
-        </reference>
-    </adminhtml_staging_backup_rollback>
+    </adminhtml_staging_log_view>
 </layout>

@@ -85,8 +85,10 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Website extends Enterprise_Staging
 
             $this->_saveSystemConfig($staging, $stagingWebsite, $entryPoint);
 
-            $staging->updateAttribute('master_website_id', $masterWebsiteId);
-            $staging->updateAttribute('staging_website_id', $stagingWebsiteId);
+            $staging->setMasterWebsiteId($masterWebsiteId)
+                ->setStagingWebsiteId($stagingWebsiteId)
+                ->setDontRunStagingProccess(true)
+                ->save();
 
             Mage::dispatchEvent('staging_website_create_after', array(
                 'old_website_id' => $masterWebsiteId, 'new_website_id' => $stagingWebsiteId)

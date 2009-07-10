@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Staging>
-             <version>0.1.10</version>
+             <version>0.1.11</version>
         </Enterprise_Staging>
     </modules>
     <global>
@@ -42,9 +42,8 @@
                 <entities>
                     <staging><table>enterprise_staging</table></staging>
                     <staging_item><table>enterprise_staging_item</table></staging_item>
-                    <staging_event><table>enterprise_staging_event</table></staging_event>
-                    <staging_backup><table>enterprise_staging_backup</table></staging_backup>
-                    <staging_rollback><table>enterprise_staging_rollback</table></staging_rollback>
+                    <staging_action><table>enterprise_staging_action</table></staging_action>
+                    <staging_log><table>enterprise_staging_log</table></staging_log>
                 </entities>
             </enterprise_staging_mysql4>
         </models>
@@ -253,20 +252,24 @@
             <system>
                 <children>
                     <enterprise_staging translate="title">
-                        <title>Staging Environments</title>
+                        <title>Content Staging</title>
                         <sort_order>21</sort_order>
-                        <action>adminhtml/staging_manage</action>
                         <children>
                             <staging_grid>
                                 <title>Staging Websites</title>
-                                 <sort_order>10</sort_order>
-                                 <action>adminhtml/staging_manage/index</action>
+                                <sort_order>10</sort_order>
+                                <action>adminhtml/staging_manage/index</action>
                             </staging_grid>
                             <staging_backup>
                                 <title>Backups</title>
-                                 <sort_order>20</sort_order>
-                                 <action>adminhtml/staging_backup/index</action>
+                                <sort_order>20</sort_order>
+                                <action>adminhtml/staging_backup/index</action>
                             </staging_backup>
+                            <staging_log>
+                                <title>Log</title>
+                                <sort_order>30</sort_order>
+                                <action>adminhtml/staging_log/index</action>
+                            </staging_log>
                         </children>
                     </enterprise_staging>
                 </children>
@@ -279,7 +282,7 @@
                         <system>
                             <children>
                                 <enterprise_staging translate="title">
-                                    <title>Staging Environments</title>
+                                    <title>Content Staging</title>
                                     <sort_order>21</sort_order>
                                     <children>
                                         <staging_grid>
@@ -292,6 +295,11 @@
                                              <sort_order>20</sort_order>
                                              <action>adminhtml/staging_backup/index</action>
                                         </staging_backup>
+                                        <staging_log>
+                                            <title>Log</title>
+                                             <sort_order>30</sort_order>
+                                             <action>adminhtml/staging_log/index</action>
+                                        </staging_log>
                                     </children>
                                 </enterprise_staging>
                                 <config>
@@ -334,7 +342,7 @@
                      </files>
                 </Enterprise_Staging>
             </modules>
-        </translate>        
+        </translate>
     </adminhtml>
     <frontend>
         <routers>
@@ -374,7 +382,7 @@
                      </files>
                 </Enterprise_Staging>
             </modules>
-        </translate>         
+        </translate>
     </frontend>
     <admin>
         <routers>

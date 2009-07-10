@@ -333,7 +333,7 @@ class Enterprise_Staging_Model_Staging_Config
     }
 
     /**
-     * Check in staging config ig need to modify src table name
+     * Check in staging config if need to modify src table name
      *
      * @param string $model
      * @param string $tableName

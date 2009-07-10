@@ -219,7 +219,8 @@ table.actions td                { vertical-align:top; }
 tr.dynamic-grid td,
 tr.dynamic-grid th { padding:2px 10px 2px 0; width:auto; }
 tr.dynamic-grid input.input-text { width:154px; }
-
+.available { color:#080; font-weight:bold; }
+.not-available { color:#800; }
 
 
 
@@ -524,7 +525,7 @@ div.main-col-inner { float:left; /* Fixes some inner clears in the liquid main-c
 /* HEADER & FOOTER
 *******************************************************************************/
 
-.logo                                   	{ float:left; margin:10px 20px 11px 27px; height:32px; }
+.logo                                       { float:left; margin:10px 20px 11px 27px; height:32px; }
 .header-top                          { border-bottom:1px solid #5F767F; }
 
 /* Header right */

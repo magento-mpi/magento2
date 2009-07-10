@@ -67,36 +67,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     }
 
     /**
-     * Initialize staging event from request parameters
-     *
-     * @return Enterprise_Staging_Model_Staging_Event
-     */
-    protected function _initEvent($eventId = null)
-    {
-        if (is_null($eventId)) {
-            $eventId  = (int) $this->getRequest()->getParam('id');
-        }
-        $event = Mage::getModel('enterprise_staging/staging_event');
-        if ($eventId) {
-            $event->load($eventId);
-            if (!$event->getId()) {
-                return false;
-            }
-        }
-
-        $stagingId = $event->getStagingId();
-        if ($stagingId) {
-            $this->_initStaging($stagingId);
-        }
-
-        $event->restoreMap();
-
-        Mage::register('staging_event', $event);
-
-        return $event;
-    }
-
-    /**
      * View Stagings Grid
      *
      */
@@ -105,6 +75,14 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $this->loadLayout();
         $this->_setActiveMenu('system');
         $this->renderLayout();
+    }
+
+    /**
+     * Create new staging
+     */
+    public function newAction()
+    {
+        $this->_forward('edit');
     }
 
     /**
@@ -164,39 +142,6 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 ->setStaging($staging)
                 ->toHtml()
         );
-    }
-
-    /**
-     * Staging Event view action
-     *
-     */
-    public function eventAction()
-    {
-        $event = $this->_initEvent();
-        if (!$event) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect Id'));
-            $this->_redirect('*/*');
-            return $this;
-        }
-        $this->loadLayout();
-        $this->_setActiveMenu('system');
-        $this->renderLayout();
-    }
-
-    /**
-     * Event grid for AJAX request
-     */
-    public function eventGridAction()
-    {
-        $staging = $this->_initStaging();
-        if ($staging) {
-            $this->getResponse()->setBody(
-                $this->getLayout()
-                    ->createBlock('enterprise_staging/manage_staging_edit_tabs_event')
-                    ->setStaging($staging)
-                    ->toHtml()
-            );
-        }
     }
 
     /**
@@ -321,18 +266,42 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             return $this;
         }
 
-        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
-        $staging->save();
+        $redirectBack = false;
 
-        $lastEvent  = $staging->getEventsCollection()->getFirstItem();
-        $status     = Enterprise_Staging_Model_Staging_Config::STATUS_FAIL;
-        $comment    = Mage::helper('enterprise_staging')->__('Reset status after fail action (%s)', $lastEvent->getComment());
-        $lastEvent
-            ->setStatus($status)
-            ->setComment($comment)
-            ->save();
+        try {
+            $status = Enterprise_Staging_Model_Staging_Config::STATUS_FAIL;
+            $statusLabel = Mage::getSingleton('enterprise_staging/staging_config')
+                ->getStatusLabel($status);
 
-        $staging->releaseCoreFlag();
+            $comment    = Mage::helper('enterprise_staging')->__('Reset status after failed merge.');
+
+            $log = Mage::getModel('enterprise_staging/staging_log')
+                ->setCode('merge')
+                ->setStagingId($staging->getId())
+                ->setName($statusLabel)
+                ->setStatus($status)
+                ->setIsAdminNotified(false)
+                ->setMap($staging->getMapperInstance()->serialize())
+                ->setComment($comment)
+                ->setStagingWebsiteId($staging->getMasterWebsiteId())
+                ->setMasterWebsiteId($staging->getStagingWebsiteId())
+                ->save();
+
+            $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                ->setMergeSchedulingDate('')
+                ->setDontRunStagingProccess(true)
+                ->save();
+
+            $staging->releaseCoreFlag();
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/');
+            return $this;
+        } catch (Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/');
+            return $this;
+        }
 
         $this->_redirect('*/*/edit', array(
             'id' => $staging->getId()
@@ -413,6 +382,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
 
                     $originDate = Mage::helper('core')->formatDate($date, 'medium', true);
                     $staging->setMergeSchedulingOriginDate($originDate);
+
+                    $staging->setMergeSchedulingMap(
+                        $staging->getMapperInstance()->serialize()
+                    );
+
                 } else {
                     if (!empty($mapData['backup'])) {
                         // run create database backup
@@ -421,6 +395,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 }
 
                 $staging->merge();
+
+                $staging->setDontRunStagingProccess(true)
+                    ->save();
 
                 if ($isMergeLater && !empty($schedulingDate)) {
                     $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('Staging website successfully scheduled to merge.'));
@@ -449,10 +426,14 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         }
     }
 
+    /**
+     * Unscheduling merge action
+     */
     public function unscheduleAction()
     {
-        $event = $this->_initEvent();
-        if (!$event) {
+        $staging = $this->_initStaging();
+
+        if (!$staging) {
             $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Incorrect Id'));
             $this->_redirect('*/*/');
             return $this;
@@ -461,37 +442,40 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $config = Mage::getSingleton('enterprise_staging/staging_config');
 
         try {
-            $scheduleOriginDate = $event->getData('merge_schedule_date');
+            $log = Mage::getModel('enterprise_staging/staging_log');
+            $log->setStaging($staging);
+            $log->setStagingId($staging->getId());
+            $log->setData('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
 
-            $event->setData('merge_schedule_date', '0000-00-00 00:00:00');
-            $event->save();
+            $log->setData('comment', Mage::helper('enterprise_staging')->__('Staging Website unschedule'));
 
-            $staging = $event->getStaging();
-            $staging->updateAttribute('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
-            $staging->updateAttribute('schedule_merge_event_id', '');
+            $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
+            $statusLabel = $config->getStatusLabel($status);
 
-            $event = Mage::getModel('enterprise_staging/staging_event');
-            $event->setStaging($staging);
-            $event->setData('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
-
-            $event->setData('comment', Mage::helper('enterprise_staging')->__('Staging Website unschedule'));
-
-            $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
-            $eventStatusLabel = $config->getStatusLabel($eventStatus);
-
-            if (!empty($scheduleOriginDate)) {
-                $comment = "Unschedule scheduled merge (" . $scheduleOriginDate . ")";
+            $mergeSchedulingDate = $staging->getMergeSchedulingDate();
+            if (!empty($mergeSchedulingDate)) {
+                $comment = Mage::helper('enterprise_staging')->__('Unschedule scheduled merge') . " (" . $mergeSchedulingDate . ")";
             }
-            $event->setCode(Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE)
-                ->setName($eventStatusLabel)
-                ->setStatus($eventStatus)
+
+            $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                ->setMergeSchedulingDate('')
+                ->setMergeSchedulingMap('')
+                ->setDontRunStagingProccess(true)
+                ->save();
+
+            $log->setCode(Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE)
+                ->setName(Mage::helper('enterprise_staging')->__('Unschedule scheduled merge'))
+                ->setStatus($status)
                 ->setIsAdminNotified(false)
                 ->setComment($comment)
+                ->setMap($staging->getMapperInstance()->serialize())
+                ->setStagingWebsiteId($staging->getMasterWebsiteId())
+                ->setMasterWebsiteId($staging->getStagingWebsiteId())
                 ->save();
 
             $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('Staging was successfully unscheduled'));
         } catch (Exception $e) {
-            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Failed to unschedule merge'));
+            $this->_getSession()->addError($e->getMessage(). Mage::helper('enterprise_staging')->__('Failed to unschedule merge'));
         }
 
         $this->_redirect('*/*/');

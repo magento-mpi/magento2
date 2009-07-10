@@ -41,28 +41,25 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
             $backupId  = (int) $this->getRequest()->getParam('id');
         }
 
-        $backup = Mage::getModel('enterprise_staging/staging_backup');
         if ($backupId) {
-            $backup->load($backupId);
-        }
+            $backup = Mage::getModel('enterprise_staging/staging_action')
+                ->load($backupId);
+            if ($backup->getId()) {
+                $stagingId = $backup->getStagingId();
+                if ($stagingId) {
+                    $this->_initStaging($stagingId);
+                }
 
-        $eventId = $backup->getEventId();
-        if ($eventId) {
-            $this->_initEvent($eventId);
-        } else {
-            $stagingId = $backup->getStagingId();
-            if ($stagingId) {
-                $this->_initStaging($stagingId);
+                if ($backup->getId()) {
+                    $backup->restoreMap();
+                }
+
+                Mage::register('staging_backup', $backup);
+
+                return $backup;
             }
         }
-
-        if ($backup->getId()) {
-            $backup->restoreMap();
-        }
-
-        Mage::register('staging_backup', $backup);
-
-        return $backup;
+        return false;
     }
 
     /**
@@ -126,7 +123,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         if (is_array($backupDeleteIds)) {
             foreach ($backupDeleteIds as $backupId) {
                 if (!empty($backupId)) {
-                    $backup = Mage::getModel('enterprise_staging/staging_backup')
+                    $backup = Mage::getModel('enterprise_staging/staging_action')
                         ->load($backupId);
                     if ($backup->getId()) {
                         try{
@@ -171,41 +168,6 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
     }
 
     /**
-     * Staging grid for AJAX request
-     */
-    public function rollbackGridAction()
-    {
-        $backupId = $this->getRequest()->getParam('id');
-
-        $backup = $this->_initBackup($backupId);
-
-        $staging = $backup->getStaging();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_backup_edit_tabs_rollback')
-                ->setStaging($staging)
-                ->setBackup($backup)
-                ->toHtml()
-        );
-    }
-
-    /**
-     * Rollback view action
-     *
-     */
-    public function rollbackAction()
-    {
-        $this->_initBackup();
-
-        $this->loadLayout();
-
-        $this->_setActiveMenu('system/enterprise_staging');
-
-        $this->renderLayout();
-    }
-
-    /**
      * Process rollback Action
      *
      */
@@ -215,7 +177,9 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         $backupId       = $this->getRequest()->getPost('backup_id');
         $backup         = $this->_initBackup();
         $staging        = $backup->getStaging();
-        $mapData        = $this->getRequest()->getPost('map');
+        $mapDataRaw        = $this->getRequest()->getPost('map');
+
+        $mapData = array('staging_items' => array_flip($mapDataRaw));
 
         if (!$staging->checkCoreFlag()) {
             $this->_getSession()->addError($this->__('Cannot perform rollback operation, because reindexing process or another staging operation is running'));

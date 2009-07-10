@@ -18,32 +18,12 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Enterprise
- * @package    Enterprise_Staging
+ * @category   design
+ * @package    default_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
-
-/**
- * Staging item model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
-{
-    /**
-     * constructor
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_staging/staging_item');
-    }
-
-    public function loadFromXmlStagingItem($xmlItem)
-    {
-        $this->setData('code', (string) $xmlItem->getName());
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-        return $this;
-    }
-}
+?>
+<div class="entry-edit">
+    default
+</div>

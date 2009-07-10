@@ -173,9 +173,9 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
         $items = $this->getData('staging_items');
 
         foreach ($items as $item) {
-        	if ($itemCode == $item->getName()) {
-        	    return true;
-        	}
+            if ($itemCode == $item->getName()) {
+                return true;
+            }
         }
         return false;
     }

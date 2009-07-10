@@ -24,26 +24,14 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Staging item model
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Block_Adminhtml_Widget_Grid_Column_Filter_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Text
 {
     /**
-     * constructor
+     * ip filter method
      */
-    protected function _construct()
+    public function getCondition()
     {
-        $this->_init('enterprise_staging/staging_item');
-    }
-
-    public function loadFromXmlStagingItem($xmlItem)
-    {
-        $this->setData('code', (string) $xmlItem->getName());
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-        return $this;
+        $ip = $this->getValue();
+        return ip2long($ip);
     }
 }

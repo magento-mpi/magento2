@@ -48,6 +48,27 @@ class Enterprise_Staging_Model_Mysql4_Staging_Collection extends Mage_Core_Model
     }
 
     /**
+     * Joining last log comment
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Collection
+     */
+    public function addLastLogComment()
+    {
+        $subSelect = clone $this->getSelect();
+
+        $subSelect->reset();
+
+        $subSelect->from(array('log' => $this->getTable('enterprise_staging/staging_log')), 'comment')
+            ->where('`log`.`staging_id` = `main_table`.`staging_id`')
+            ->order('log_id DESC')
+            ->limit(1);
+
+       $this->getSelect()->from('', array('last_comment' => new Zend_Db_Expr('(' . $subSelect . ')')));
+
+       return $this;
+    }
+
+    /**
      * Convert items array to array for select options
      *
      * array(

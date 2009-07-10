@@ -38,7 +38,7 @@ Enterprise.Staging.Mapper.prototype = {
     canMerge                : false,
     initialize : function(containerId, url, pageVar, sortVar, dirVar, filterVar, mergeForm, stores)
     {
-        this.formId = mergeForm; 
+        this.formId = mergeForm;
         this.mergeForm = new varienForm(this.formId);
         this.containerId            = containerId;
         this.tableContainerId       = this.containerId + '_table';
@@ -58,10 +58,18 @@ Enterprise.Staging.Mapper.prototype = {
             this.getInnerElement('website_template').innerHTML,
             this.templatePattern
         );
+
+        //removing template bc we don't need its inputs data in post
+        this.getInnerElement('website_template').remove();
+
         this.storeRowTemplate = new Template(
             this.getInnerElement('store_template').innerHTML,
             this.templatePattern
         );
+
+        //removing template bc we don't need its inputs data in post
+        this.getInnerElement('store_template').remove();
+
         this.storeAddBtnTemplate = new Template(
             this.getInnerElement('store_add_btn_template').innerHTML,
             this.templatePattern
@@ -89,7 +97,7 @@ Enterprise.Staging.Mapper.prototype = {
             var websiteRow = this.tableRowsContainer.lastChild;
             websiteRow.id = 'website-map-' + this.websiteIncrement;
             websiteRow.incrementId = this.websiteIncrement;
-            
+
             websiteRow.stores = new $H();
 
             var fromElement           = $(websiteRow).select('.staging-mapper-website-from')[0];
@@ -174,7 +182,7 @@ Enterprise.Staging.Mapper.prototype = {
 
             addNewRow.storeIncrementId++;
 
-            this.disableBtn(addNewRow.btn);   
+            this.disableBtn(addNewRow.btn);
         } catch (Error) {
             console.log(Error);
         }
@@ -254,7 +262,7 @@ Enterprise.Staging.Mapper.prototype = {
         } else {
             $('schedule_merge_later_flag').value = '';
         }
-        
+
         if (!this.mergeForm.validator.validate()){
             return false;
         }
@@ -267,18 +275,18 @@ Enterprise.Staging.Mapper.prototype = {
             alert('Please, select websites to map');
             return;
         }
-        
+
         if (!this.mergeForm.validator.validate()){
             return false;
         }
-        
+
         var container = $('schedule_config_container');
         if (container && Prototype.Browser.IE) {
             var middle = parseInt(document.body.clientHeight/2)+document.body.scrollTop;
             container.style.position = 'absolute';
             container.style.top = middle;
         }
-        
+
         container.style.visibility = '';
         container.show();
     },
@@ -299,11 +307,11 @@ selectWebsiteMap = function(event)
 {
     var element = Event.element(event);
     element = $(element);
-    
+
     if (!element.parentRow || !element.mapper) {
        return;
     }
-    
+
     var showStoreViewAddBtn = removeStore = false;
     var addStoreMapBtn   = element.parentRow.addStoreMapRow.btn;
 
@@ -319,11 +327,11 @@ selectWebsiteMap = function(event)
         element.parentRow.fromWebsite = fromElement.value;
         fromElement.prevValue   = fromElement.value;
     }
-    
+
     var toElement     = element.parentRow.toElement;
     if (toElement) {
         element.parentRow.toWebsite = toElement.value;
-        
+
         toElement.prevValue     = toElement.value;
     }
 
@@ -338,13 +346,13 @@ selectWebsiteMap = function(event)
     } else {
         element.mapper.canMerge = false;
     }
-    
+
     if (removeStore) {
         // remove all stores related to website
         this.tableContainer.select('.'+element.parentRow.id+'-store').each(function(row){row.remove();});
         element.parentRow.stores = new $H();
     }
-    
+
     if (showStoreViewAddBtn) {
         element.mapper.enableBtn(addStoreMapBtn);
     } else {
@@ -355,29 +363,29 @@ selectStoreMap = function(event)
 {
     var element = Event.element(event);
     element = $(element);
-    
+
     var btn = element.parentRow.addNewRow.btn;
-    
+
     if (!element.parentRow || !element.mapper) {
        return;
     }
-    
+
     var fromElement = element.parentRow.fromElement;
-    
+
     var toElement = element.parentRow.toElement;
-    
+
     if (!fromElement || !toElement) {
-    	return;
+        return;
     }
-    
+
     var websiteRow = fromElement.websiteRow;
-    
+
     if (fromElement == element) {
-    	processFromStoreElement(element, toElement);
+        processFromStoreElement(element, toElement);
     } else {
-    	processToStoreElement(fromElement, element);
+        processToStoreElement(fromElement, element);
     }
-    
+
     if (fromElement.value && toElement.value) {
         element.mapper.enableBtn(btn);
         var currentMappedStores = websiteRow.stores.get(toElement.value);
@@ -390,47 +398,47 @@ selectStoreMap = function(event)
 
 processToStoreElement = function(fromElement, toElement)
 {
-	var btn = toElement.parentRow.addNewRow.btn;
-	
-	var websiteRow = fromElement.websiteRow;
-	
-	if (toElement.value) {
-		var currentMappedStores = websiteRow.stores.get(toElement.value);
-	    if (!currentMappedStores) {
-	    	currentMappedStores = new $H();
-	    	websiteRow.stores.set(toElement.value, currentMappedStores);
-	    } else {
-	    	if (toElement.prevValue) {
-	    		toElement.value = toElement.prevValue;
-	    	} else {
-	    		toElement.value = '';
-	    	}
-	    	alert('Please, select an another store view to map.');
-	        return;
-	    }
-	}
-	
-	if (toElement.prevValue) {
-    	websiteRow.stores.unset(toElement.prevValue);
-	}
-	
+    var btn = toElement.parentRow.addNewRow.btn;
+
+    var websiteRow = fromElement.websiteRow;
+
+    if (toElement.value) {
+        var currentMappedStores = websiteRow.stores.get(toElement.value);
+        if (!currentMappedStores) {
+            currentMappedStores = new $H();
+            websiteRow.stores.set(toElement.value, currentMappedStores);
+        } else {
+            if (toElement.prevValue) {
+                toElement.value = toElement.prevValue;
+            } else {
+                toElement.value = '';
+            }
+            alert('Please, select an another store view to map.');
+            return;
+        }
+    }
+
+    if (toElement.prevValue) {
+        websiteRow.stores.unset(toElement.prevValue);
+    }
+
     toElement.parentRow.toStore = toElement.value;
     toElement.prevValue         = toElement.value;
 }
 
 processFromStoreElement = function(fromElement, toElement)
 {
-	var btn = fromElement.parentRow.addNewRow.btn;
-    
+    var btn = fromElement.parentRow.addNewRow.btn;
+
     var websiteRow = fromElement.websiteRow;
 
     if (toElement.value) {
-    	var currentMappedStores = websiteRow.stores.get(toElement.value);
-    	currentMappedStores.set(fromElement.value, true);
-	    if (fromElement.prevValue) {
-	    	currentMappedStores.unset(fromElement.prevValue);
-			websiteRow.stores.set(toElement.value, currentMappedStores);
-		}
+        var currentMappedStores = websiteRow.stores.get(toElement.value);
+        currentMappedStores.set(fromElement.value, true);
+        if (fromElement.prevValue) {
+            currentMappedStores.unset(fromElement.prevValue);
+            websiteRow.stores.set(toElement.value, currentMappedStores);
+        }
     }
     fromElement.parentRow.fromStore = fromElement.value;
     fromElement.prevValue           = fromElement.value;
@@ -452,17 +460,17 @@ Enterprise.Staging.Form.prototype = {
     initialize : function(containerId, formId, validationUrl, config, items)
     {
         this.containerId    = containerId;
-    
+
         this.config         = config;
 
         this.formId         = formId;
 
         this.form           =  new varienForm(this.formId, validationUrl);
-        
+
         this.items          = new $H(items);
-        
+
         this.totalItems     = this.items.size();
-        
+
         this.proceedItems   = new $H();
 
         var itemTemplate = this.getInnerElement('item_template');
@@ -472,7 +480,7 @@ Enterprise.Staging.Form.prototype = {
                 this.templatePattern
             );
         }
-        
+
         var messageTemplate = this.getInnerElement('proceed_message_template');
         if (messageTemplate) {
             this.proceedMessageTemplate     = new Template(
@@ -489,35 +497,35 @@ Enterprise.Staging.Form.prototype = {
         }
         this.createBtn = document.getElementsByClassName('create')[0];
     },
-    
+
     addItem : function(key, item)
     {
         this.items.add(key, item);
     },
-    
+
     runCreate : function()
     {
         this.submit();
     },
-    
-    getInnerElement: function(elementName) 
+
+    getInnerElement: function(elementName)
     {
         return $(this.containerId + '_' + elementName);
     },
-    
-    setSettings : function(urlTemplate, websiteElement, setElement, typeElement) 
+
+    setSettings : function(urlTemplate, websiteElement, setElement, typeElement)
     {
         var urlTemplate = new Template(urlTemplate, stagingTemplateSyntax);
         setLocation(urlTemplate.evaluate({websites: $F(websiteElement), set: $F(setElement), type: $F(typeElement)}));
     },
-    
+
     saveAndContinueEdit : function(urlTemplate)
     {
         var urlTemplate = new Template(urlTemplate, this.templatePattern);
         var url = urlTemplate.evaluate({tab_id: this.activeTab.id});
         this.form.submit(url);
     },
-    
+
     submit : function()
     {
         this.form.submit();

@@ -25,25 +25,33 @@
  */
 
 /**
- * Staging item model
+ * Staging History Item View
+ *
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Rollback extends Enterprise_Staging_Block_Adminhtml_Log_View_Information_Default
 {
-    /**
-     * constructor
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_staging/staging_item');
-    }
+    protected $_websites;
 
-    public function loadFromXmlStagingItem($xmlItem)
+    /**
+     * Retrieve target website on wich backup was rollbacked
+     * Returns array bc in map there is array of websites so there will no
+     * problems in some cases in map will be several websites
+     *
+     * @return array
+     */
+    public function getTargetWebsites()
     {
-        $this->setData('code', (string) $xmlItem->getName());
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-        return $this;
+        $_websites = array();
+        foreach ($this->_mapper->getWebsites() as $stagingWebsiteId => $masterWebsite) {
+            foreach ($masterWebsite as $id) {
+                $_website = Mage::app()->getWebsite($id);
+                if ($_website) {
+                    $_websites[] = $_website;
+                }
+            }
+        }
+        return $_websites;
     }
 }

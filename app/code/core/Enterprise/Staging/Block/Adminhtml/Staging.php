@@ -25,25 +25,22 @@
  */
 
 /**
- * Staging item model
+ * Staging manage stagings block
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Block_Adminhtml_Staging extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    /**
-     * constructor
-     */
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('enterprise_staging/staging_item');
+        $this->_blockGroup = 'enterprise_staging';
+        $this->_controller = 'adminhtml_staging';
+        $this->_headerText = Mage::helper('enterprise_staging')->__('Staging Websites');
+        $this->_addButtonLabel = Mage::helper('enterprise_giftcardaccount')->__('Add Staging Website');
+        parent::__construct();
     }
 
-    public function loadFromXmlStagingItem($xmlItem)
-    {
-        $this->setData('code', (string) $xmlItem->getName());
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-        return $this;
+    public function getHeaderCssClass() {
+        return 'icon-head head-staging';
     }
 }

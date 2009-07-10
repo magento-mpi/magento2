@@ -25,25 +25,23 @@
  */
 
 /**
- * Staging item model
+ * Staging log history
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Block_Adminhtml_Log extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    /**
-     * constructor
-     */
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('enterprise_staging/staging_item');
+        $this->_blockGroup = 'enterprise_staging';
+        $this->_controller = 'adminhtml_log';
+        $this->_headerText = Mage::helper('enterprise_staging')->__('Log');
+        parent::__construct();
+
+        $this->_removeButton('add');
     }
 
-    public function loadFromXmlStagingItem($xmlItem)
-    {
-        $this->setData('code', (string) $xmlItem->getName());
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-        return $this;
+    public function getHeaderCssClass() {
+        return 'icon-head head-staging-log';
     }
 }

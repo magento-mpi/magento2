@@ -25,25 +25,21 @@
  */
 
 /**
- * Staging item model
+ * Staging history tab
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Staging_Model_Staging_Item extends Mage_Core_Model_Abstract
+class Enterprise_Staging_Block_Adminhtml_Widget_Grid_Column_Renderer_Ip extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
-     * constructor
+     * replacing ip from long to 4-digits value.
+     *
+     * @param Varien_Object row   row with 'ip' item
+     *
+     * @return string - replaced ip value.
      */
-    protected function _construct()
+    public function render(Varien_Object $row)
     {
-        $this->_init('enterprise_staging/staging_item');
-    }
-
-    public function loadFromXmlStagingItem($xmlItem)
-    {
-        $this->setData('code', (string) $xmlItem->getName());
-        $name = Mage::helper('enterprise_staging')->__((string) $xmlItem->label);
-        $this->setData('name', $name);
-        return $this;
+        return long2ip($row->getData($this->getColumn()->getIndex()));
     }
 }

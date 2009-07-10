@@ -120,7 +120,8 @@ class Enterprise_Staging_Model_Observer
      */
     protected function _checkHttpAuth()
     {
-        $website     = Mage::app()->getWebsite();
+        $website = Mage::app()->getWebsite();
+
         try {
             if (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW'])) {
                 throw new Exception('Staging Website is Unauthorized.');
@@ -150,29 +151,25 @@ class Enterprise_Staging_Model_Observer
     {
         try {
             $currentDate = Mage::getModel('core/date')->gmtDate();
-            $collection  = Mage::getResourceModel('enterprise_staging/staging_event_collection');
-            $collection->addHoldedFilter();
+            $collection  = Mage::getResourceModel('enterprise_staging/staging_collection')
+                ->addFieldToFilter('status', Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED);
 
-            foreach ($collection as $event) {
-                if ($event->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED) {
-                    $applyDate = $event->getMergeScheduleDate();
-                    $stagingId = $event->getStagingId();
-
-                    if ($currentDate >= $applyDate) {
-                        $staging = $event->getStaging();
-                        if ($stagingId){
-                            $mapData = $event->getMap();
-                            if (!empty($mapData)) {
-                                $staging->getMapperInstance()->unserialize($mapData);
-                                if ($event->getIsBackuped() == true) {
-                                    $staging->setIsBackuped(1);
-                                    $staging->backup();
-                                }
-                                $staging->merge();
-                                $staging->updateAttribute('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
-                                $staging->updateAttribute('schedule_merge_event_id', '');
-                            }
+            foreach ($collection as $staging) {
+                $applyDate = $staging->getMergeSchedulingDate();
+                if ($currentDate >= $applyDate) {
+                    $mapData = $staging->getMergeSchedulingMap();
+                    if (!empty($mapData)) {
+                        $staging->getMapperInstance()->unserialize($mapData);
+                        if ($staging->getIsBackuped() == true) {
+                            $staging->backup();
                         }
+                        $staging->merge();
+
+                        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                            ->setMergeSchedulingDate('')
+                            ->setMergeSchedulingMap('')
+                            ->setDontRunStagingProccess(true)
+                            ->save();
                     }
                 }
             }
@@ -189,9 +186,7 @@ class Enterprise_Staging_Model_Observer
     {
         try {
             $website = $observer->getEvent()->getWebsite();
-
             $websiteId = $website->getId();
-
             $_website = Mage::app()->getWebsite($websiteId);
 
             if (!$_website || !$_website->getIsStaging()) {
@@ -200,10 +195,12 @@ class Enterprise_Staging_Model_Observer
 
             $collection = Mage::getResourceModel('enterprise_staging/staging_collection')
                 ->addStagingWebsiteToFilter($_website->getId());
+
             foreach ($collection as $staging) {
                 Mage::dispatchEvent('enterprise_staging_controller_staging_delete', array('staging'=>$staging));
                 $staging->delete();
             }
+
         } catch (Exception $e) {
 
         }

@@ -78,7 +78,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         $errors = array();
         $result = $this->_getResource()->validate($this);
         if (!empty($result)) {
-        	$errors[] = $result;
+            $errors[] = $result;
         }
         if (empty($errors)) {
             return true;
@@ -238,26 +238,26 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function stagingProcessRun($process)
     {
-        $event = Mage::getModel('enterprise_staging/staging_event')
+        $log = Mage::getModel('enterprise_staging/staging_log')
             ->saveOnProcessRun($this, $process, 'before');
 
         $method = $process.'Run';
 
         $this->_getResource()->beginTransaction();
         try {
-            $this->_beforeStagingProcessRun($process, $event);
+            $this->_beforeStagingProcessRun($process, $log);
 
-            $this->_getResource()->{$method}($this, $event);
+            $this->_getResource()->{$method}($this, $log);
 
-            $this->_afterStagingProcessRun($process, $event);
+            $this->_afterStagingProcessRun($process, $log);
 
             $this->_getResource()->commit();
 
-            $event->saveOnProcessRun($this, $process, 'after');
+            $log->saveOnProcessRun($this, $process, 'after');
         }
         catch (Exception $e) {
             $this->_getResource()->rollBack();
-            $event->saveOnProcessRun($this, $process, 'after', $e);
+            $log->saveOnProcessRun($this, $process, 'after', $e);
             Mage::throwException($e);
         }
 
@@ -268,14 +268,16 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      * Processing staging before process run data
      *
      * @param  string $process
-     * @param  Enterprise_Staging_Model_Staging_Event $event
+     * @param  Enterprise_Staging_Model_Staging_Log $log
      *
      * @return Enterprise_Staging_Model_Staging
      */
-    protected function _beforeStagingProcessRun($process, $event)
+    protected function _beforeStagingProcessRun($process, $log)
     {
         $this->setCoreFlag();
-        Mage::dispatchEvent($this->_eventPrefix.'_'.$process.'_process_run_before', array($this->_eventObject => $this, 'event' => $event));
+
+        Mage::dispatchEvent($this->_eventPrefix.'_'.$process.'_process_run_before', array($this->_eventObject => $this, 'event' => $log));
+
         return $this;
     }
 
@@ -283,13 +285,13 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      * Perform staging after process run data
      *
      * @param  string $process
-     * @param  Enterprise_Staging_Model_Staging_Event $event
+     * @param  Enterprise_Staging_Model_Staging_Log $event
      *
      * @return Enterprise_Staging_Model_Staging
      */
-    protected function _afterStagingProcessRun($process, $event)
+    protected function _afterStagingProcessRun($process, $log)
     {
-        Mage::dispatchEvent($this->_eventPrefix.'_'.$process.'_process_run_after', array($this->_eventObject => $this, 'event' => $event));
+        Mage::dispatchEvent($this->_eventPrefix.'_'.$process.'_process_run_after', array($this->_eventObject => $this, 'event' => $log));
 
         Mage::getConfig()->reinit();
         Mage::app()->reinitStores();
@@ -343,7 +345,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function create()
     {
-        if ($this->checkCoreFlag()) {
+        if ($this->checkCoreFlag() && !$this->getDontRunStagingProccess()) {
             $this->stagingProcessRun('create');
         }
         return $this;
@@ -356,7 +358,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function update()
     {
-        if ($this->checkCoreFlag()) {
+        if ($this->checkCoreFlag() && !$this->getDontRunStagingProccess()) {
             $this->stagingProcessRun('update');
         }
         return $this;
@@ -369,7 +371,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function merge()
     {
-        if ($this->checkCoreFlag()) {
+        if ($this->checkCoreFlag() && !$this->getDontRunStagingProccess()) {
             $this->stagingProcessRun('merge');
         }
         return $this;
@@ -382,7 +384,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function backup()
     {
-        if ($this->checkCoreFlag()) {
+        if ($this->checkCoreFlag() && !$this->getDontRunStagingProccess()) {
             $this->stagingProcessRun('backup');
         }
         return $this;
@@ -395,7 +397,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function rollback()
     {
-        if ($this->checkCoreFlag()) {
+        if ($this->checkCoreFlag() && !$this->getDontRunStagingProccess()) {
             $this->stagingProcessRun('rollback');
         }
         return $this;
@@ -423,77 +425,36 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         if ($this->getStagingWebsite()) {
             $this->getStagingWebsite()->delete();
         }
-        foreach ($this->getEventsCollection() as $event) {
-            $event->delete();
+
+        foreach ($this->getLogsCollection() as $log) {
+            $log->delete();
         }
+
         parent::_afterDelete();
         return $this;
     }
 
     /**
-     * Add event
-     *
-     * @param   string  $code
-     * @param   string  $name
-     * @param   string  $status
-     * @param   string  $comments
-     * @param   boolean $isAdminNotified
-     *
-     * @return  object  Enterprise_Staging_Model_Staging
-     */
-    public function addEvent($code, $name, $status, $comment='', $log='', $isAdminNotified = false)
-    {
-        $event = Mage::getModel('enterprise_staging/staging_event')
-            ->setStagingId($this->getId())
-            ->setCode($code)
-            ->setName($name)
-            ->setStatus($status)
-            ->setDate(Mage::getModel('core/date')->gmtDate())
-            ->setIsAdminNotified($isAdminNotified)
-            ->setComment($comment)
-            ->setLog($log)
-            ->setMergeMap($this->getMapperInstance()->serialize())
-            ->setIsBackuped($this->getMapperInstance()->getIsBackupped())
-            ->setStaging($this);
-        $this->addEventToHistory($event);
-        return $this;
-    }
-
-    /**
-     * Add event to collection
-     *
-     * @param   string  $event
-     * @return  object  Enterprise_Staging_Model_Staging
-     */
-    public function addEventToHistory(Enterprise_Staging_Model_Staging_Event $event)
-    {
-        if (!$event->getId()) {
-            $this->getEventsCollection()->addItem($event);
-        }
-        return $this;
-    }
-
-    /**
-     * Retrieve event collection
+     * Retrieve history log collection
      *
      * @param boolean $reload
-     * @return Enterprise_Staging_Model_Mysql4_Staging_Event_Collection
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
      */
-    public function getEventsCollection($reload=false)
+    public function getLogCollection($reload=false)
     {
-        if (is_null($this->_eventsCollection) || $reload) {
-            $this->_eventsCollection = Mage::getResourceModel('enterprise_staging/staging_event_collection')
+        if (is_null($this->_logCollection) || $reload) {
+            $this->_logCollection = Mage::getResourceModel('enterprise_staging/staging_log_collection')
                 ->setStagingFilter($this->getId())
                 ->setOrder('created_at', 'desc')
-                ->setOrder('event_id', 'desc');
+                ->setOrder('log_id', 'desc');
 
             if ($this->getId()) {
-                foreach ($this->_eventsCollection as $event) {
-                    $event->setStaging($this);
+                foreach ($this->_logCollection as $log) {
+                    $log->setStaging($this);
                 }
             }
         }
-        return $this->_eventsCollection;
+        return $this->_logCollection;
     }
 
     /**
@@ -558,10 +519,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function canResetStatus()
     {
-        if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING) {
-            return true;
-        }
-        return false;
+        return $this->isStatusProcessing();
     }
 
     /**
@@ -575,6 +533,9 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
             return false;
         }
         if (!$this->checkCoreFlag()) {
+            return false;
+        }
+        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING)) {
             return false;
         }
         if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)) {
@@ -591,7 +552,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function canUnschedule()
     {
         if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
-            && $this->getScheduleMergeEventId()) {
+            && $this->getMergeSchedulingDate()) {
             return true;
         }
         return false;
@@ -607,17 +568,6 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     public function updateAttribute($attribute, $value)
     {
         return $this->getResource()->updateAttribute($this, $attribute, $value);
-    }
-
-    /**
-     * Save event in event history list
-     *
-     * @return Enterprise_Staging_Model_Staging
-     */
-    public function saveEventHistory()
-    {
-        $this->getResource()->saveEvents($this);
-        return $this;
     }
 
     /**

@@ -49,17 +49,6 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
         return $this;
     }
 
-    public function saveEvents($staging)
-    {
-        foreach ($staging->getEventsCollection() as $event) {
-            if (!$event->getId()) {
-                $event->save();
-            }
-        }
-
-        return $this;
-    }
-
     public function saveItems($staging)
     {
         foreach ($staging->getItemsCollection() as $item) {
@@ -133,20 +122,6 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Create Staging Website with all relatives
      *
@@ -202,7 +177,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     {
         $this->_processStagingItemsCallback('backupRun', $staging, $event);
 
-        Mage::getModel('enterprise_staging/staging_backup')->saveOnBackupRun($staging, $event);
+        Mage::getModel('enterprise_staging/staging_action')->saveOnBackupRun($staging, $event);
 
         return $this;
     }
@@ -237,9 +212,6 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     public function rollbackRun($staging, $event = null)
     {
         $this->_processStagingItemsCallback('rollbackRun', $staging, $event, true);
-
-        Mage::getModel('enterprise_staging/staging_rollback')->saveOnRollbackRun($staging, $event);
-
         return $this;
     }
 
@@ -247,7 +219,6 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
      * Run validate backend tables for frontend usage within Staging Website navigation
      *
      * @param   object Enterprise_Staging_Model_Staging $staging
-     *
      * @return  Enterprise_Staging_Model_Staging_Action_Run
      */
     public function checkfrontendRun($staging)
