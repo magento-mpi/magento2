@@ -109,6 +109,16 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
     }
 
     /**
+     * Retrieve routers collection
+     *
+     * @return array
+     */
+    public function getRouters()
+    {
+        return $this->_routers;
+    }
+
+    /**
      * Init Fron Controller
      *
      * @return Mage_Core_Controller_Varien_Front
@@ -241,7 +251,7 @@ class Mage_Core_Controller_Varien_Front extends Varien_Object
             $to   = $this->_processRewriteUrl($to);
 
             $pathInfo = preg_replace($from, $to, $request->getPathInfo());
-            
+
             if (isset($rewrite->complete)) {
                 $request->setPathInfo($pathInfo);
             } else {
