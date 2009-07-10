@@ -1,34 +1,10 @@
 <?php
-/**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category   Mage
- * @package    Mage_Core
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
 
 require_once 'PHPUnit/Framework.php';
 
 require_once 'Mage.php';
-require_once 'TestCase.php';
 require_once 'DbAdapter.php';
+require_once 'TestCase.php';
 require_once 'TestSuite.php';
 
 /**
@@ -37,7 +13,7 @@ require_once 'TestSuite.php';
 class AllTests extends Mage_TestSuite
 {
     /**
-     * Base Scan folders contains Test
+     * Base Scan folders contains TestCases and TestSuits
      *
      * @var array
      */
@@ -45,57 +21,22 @@ class AllTests extends Mage_TestSuite
         'integration', 'lib','modules', 'selenium', 'webservices');
 
     /**
-     * Retrieve Basic Suite
+     * Retrieve Main Suite
      *
      * @return Mage_TestSuite
      */
     public static function suite()
     {
-        $phpFiles = array();
-        foreach (self::$_baseTestFolders as $startingFolder) {
-            $phpFiles = array_merge($phpFiles, self::_obtainPhpFiles($startingFolder));
-        }
+        // initialize application before collect tests
+        self::runApp();
 
-        $suite = new Mage_TestSuite();
-        foreach ($phpFiles as $phpFile) {
-            if (strpos($phpFile, 'Test.php') !== false) {
-                $suite->addTestFile($phpFile);
-            }
+        $suite = new Mage_TestSuite('Magento ver. ' . Mage::getVersion());
+        foreach (self::$_baseTestFolders as $folder) {
+            $path = dirname(__FILE__) . DS . $folder;
+            self::_findTests($suite, $path);
         }
 
         return $suite;
-    }
-
-    /**
-     * Recourse function for fetching all php-files
-     *
-     * @param string $startPath - start path to search
-     * @param array $phpFiles - array where fonded php-files stored
-     * @return array list of php-files with UnitTests
-     */
-    protected static function _obtainPhpFiles($startPath)
-    {
-        $phpFiles = array();
-        if (is_file($startPath)) {
-            $extension = pathinfo($startPath, PATHINFO_EXTENSION);
-            if ($extension == 'php') {
-                $phpFiles[] = $startPath;
-            }
-        }
-        else if (is_dir($startPath)) {
-            $dirEntries = scandir($startPath);
-            foreach ($dirEntries as $entry) {
-                if (strpos($entry, '.') === 0) {
-                    continue;
-                }
-                $path = $startPath . DS . $entry;
-                $phpFiles = array_merge($phpFiles, self::_obtainPhpFiles($path));
-            }
-        }
-        else {
-            exit("Can't process resource $startPath\n");
-        }
-        return $phpFiles;
     }
 
     /**
@@ -104,6 +45,12 @@ class AllTests extends Mage_TestSuite
      */
     public static function runApp()
     {
+        // emulate session_start process
+        if (!isset($_SESSION) || !is_array($_SESSION)) {
+            $_SESSION = array();
+        }
+
+        // disable cache
         $serFileOld = BP . DS . 'app' . DS . 'etc' . DS . 'use_cache.ser';
         $serFileNew = BP . DS . 'app' . DS . 'etc' . DS . 'use_cache.bac';
         $serFileEnv = BP . DS . 'tests' . DS . 'use_cache.ser';
@@ -114,21 +61,14 @@ class AllTests extends Mage_TestSuite
         copy($serFileEnv, $serFileOld);
 
         Mage::app();
+
+        // register db adapter for fixtures
         Mage::register('_dbadapter', new Mage_DbAdapter());
 
+        // restore original cache settings
         unlink($serFileOld);
         if (file_exists($serFileNew)) {
             rename($serFileNew, $serFileOld);
         }
     }
 }
-
-AllTests::runApp();
-
-//Mage::registry('_dbadapter')->generateFixture('cms', array(
-//    'cms_page',
-//    'cms_page_store',
-//    'cms_block',
-//    'cms_block_store'
-//));
-

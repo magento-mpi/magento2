@@ -1,38 +1,10 @@
 <?php
 /**
- * Magento
+ * Abstract Magento PHPUnit TestCase
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    Mage
- * @package     Mage_Core
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-
-
-/**
- * Mage Basic PHPUnit TestCase
- *
- * @category    Mage
- * @package     Mage_Tests
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_TestCase extends PHPUnit_Framework_TestCase
+abstract class Mage_TestCase extends PHPUnit_Framework_TestCase
 {
     /**
      * Constructs a test case with the given name.
@@ -130,6 +102,30 @@ class Mage_TestCase extends PHPUnit_Framework_TestCase
         $args[0] = Mage::getConfig()->getModelClassName($args[0]);
         Mage::$factoryMocks['model'][$model] = call_user_func_array(array($this, 'getMock'), $args);
         return Mage::$factoryMocks['model'][$model];
+    }
+
+    /**
+     * Retrieve a mock object for the specified helper
+     * Every subsequent Mage::helper() call will return mocked model as well
+     *
+     * @param  string  $modelName
+     * @param  array   $methods
+     * @param  array   $arguments
+     * @param  string  $mockClassName
+     * @param  boolean $callOriginalConstructor
+     * @param  boolean $callOriginalClone
+     * @param  boolean $callAutoload
+     * @return object
+     */
+    public function getHelper($helper)
+    {
+        $args = func_get_args();
+        if (strpos($helper, '/') === false) {
+            $helper .= '/data';
+        }
+        $args[0] = Mage::getConfig()->getHelperClassName($helper);
+        Mage::$factoryMocks['helper'][$helper] = call_user_func_array(array($this, 'getMock'), $args);
+        return Mage::$factoryMocks['helper'][$helper];
     }
 
     /**

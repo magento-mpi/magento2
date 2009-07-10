@@ -86,7 +86,7 @@ final class Mage {
 
     public static function getVersion()
     {
-        return '1.3.2.1';
+        return '1.3.2.2';
     }
 
     public static $factoryMocks = array();
@@ -140,8 +140,11 @@ final class Mage {
      * @param string $key
      * @return mixed
      */
-    public static function registry($key)
+    public static function registry($key = null)
     {
+        if (is_null($key)) {
+            return self::$_registry;
+        }
         if (isset(self::$_registry[$key])) {
             return self::$_registry[$key];
         }

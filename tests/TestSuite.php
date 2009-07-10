@@ -1,71 +1,77 @@
 <?php
 /**
- * Magento
+ * Default Magento TestSuite
  *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magentocommerce.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magentocommerce.com for more information.
- *
- * @category    Mage
- * @package     Mage_Core
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-
-
-/**
- * Mage Global TestSuite
- *
- * @category    Mage
- * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_TestSuite extends PHPUnit_Framework_TestSuite
 {
     /**
-     * Retrieve DB Adapter instance for Test
+     * The pattern for TestSuite files
      *
-     * @return Mage_DbAdapter
+     * @var string
      */
-    protected function _getDbAdapter()
-    {
-        return Mage::registry('_dbadapter');
-    }
+    protected static $_suiteFileMask = '*TestSuite.php';
 
     /**
-     * Setup Test Suite and begin transaction
+     * The pattern for TestCase files
      *
+     * @var string
      */
-    public function setUp()
-    {
-        $this->_getDbAdapter()->begin();
-        parent::setUp();
+    protected static $_caseFileMask = '*Test.php';
 
-        if (!isset($_SESSION) || !is_array($_SESSION)) {
-            session_id(md5(time()));
-            $_SESSION = array();
+    /**
+     * Find TestSuites and TestCases by path and add to Base TestSuite
+     *
+     * If found TestSuite in path, add TestSuite only
+     *
+     * @param PHPUnit_Framework_TestSuite $suite
+     * @param string $path
+     */
+    protected static function _findTests(PHPUnit_Framework_TestSuite $suite, $path, $ignoreSuit = false)
+    {
+        // check exists TestSuite
+        $path = rtrim($path, DS) . DS;
+        if (!$ignoreSuit) {
+            $suits = glob($path . self::$_suiteFileMask);
+            if (count($suits) > 0) {
+                foreach ($suits as $suitFile) {
+                    $suitClassName = basename($suitFile, '.php');
+                    include_once $suitFile;
+                    $suite->addTestSuite($suitClassName);
+                }
+                return;
+            }
         }
+
+        // processing current directories
+        $dirs = glob($path . '*', GLOB_ONLYDIR);
+        foreach ($dirs as $dirPath) {
+            self::_findTests($suite, $dirPath);
+        }
+
+        // find and add test cases
+        $cases = glob($path . self::$_caseFileMask);
+        $suite->addTestFiles($cases);
     }
 
     /**
-     * Tear down Test Suite and rollback transaction
+     * Check is Module Enable in Magento
      *
+     * @param string $name
+     * @return bool
      */
-    public function tearDown()
+    protected static function _isModuleEnable($name)
     {
-        parent::tearDown();
-        $this->_getDbAdapter()->rollback();
+        $node = Mage::getConfig()->getNode('modules/' . $name);
+        if (!$node) {
+            return false;
+        }
+
+        if ((string)$node->active != 'true') {
+            return false;
+        }
+
+        return Mage::helper('core')->isModuleOutputEnabled((string)$node->codePool);
     }
 }
