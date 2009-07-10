@@ -25,40 +25,26 @@
  */
 
 /**
- * Data helper for dashboard
+ * Dashboard Month-To-Date Day starts Field Renderer
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Adminhtml_Helper_Dashboard_Data extends Mage_Core_Helper_Data
+class Mage_Adminhtml_Block_Report_Config_Form_Field_MtdStart extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-    protected $_locale = null;
-    protected $_stores = null;
 
-    public function getStores()
+    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        if(!$this->_stores) {
-            $this->_stores = Mage::app()->getStore()->getResourceCollection()->load();
+        $_days = array();
+        for ($i = 1; $i <= 31; $i++) {
+            $_days[$i] = $i < 10 ? '0'.$i : $i;
         }
 
-        return $this->_stores;
-    }
+        $_daysHtml = $element->setStyle('width:50px;')
+            ->setValues($_days)
+            ->getElementHtml();
 
-    public function countStores()
-    {
-        return sizeof($this->_stores->getItems());
-    }
-
-    public function getDatePeriods()
-    {
-        return array(
-            '24h'=>$this->__('Last 24 hours'),
-            '7d'=>$this->__('Last 7 days'),
-		    '1m'=>$this->__('Month-To-Date'),
-		    '1y'=>$this->__('YTD'),
-		    '2y'=>$this->__('2YTD')
-        );
+        return $_daysHtml;
     }
 }

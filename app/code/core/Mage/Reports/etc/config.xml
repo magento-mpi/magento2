@@ -356,6 +356,17 @@
                                 </search>
                             </children>
                         </report>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <reports translate="title" module="reports">
+                                            <title>Reports</title>
+                                        </reports>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
                     </children>
                 </admin>
             </resources>
@@ -472,7 +483,7 @@
         </events>
     </frontend>
 
-     <default>
+    <default>
         <catalog>
             <recently_products>
                 <scope>website</scope>
@@ -480,5 +491,11 @@
                 <compared_count>5</compared_count>
             </recently_products>
         </catalog>
+        <reports>
+            <dashboard>
+                <ytd_start>1,1</ytd_start>
+                <mtd_start>1</mtd_start>
+            </dashboard>
+        </reports>
     </default>
 </config>
