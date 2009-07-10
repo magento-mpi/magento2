@@ -172,4 +172,73 @@ abstract class Mage_TestCase extends PHPUnit_Framework_TestCase
         parent::tearDown();
     }
 
+    /**
+     * Asserts that an object is a model
+     *
+     * @param  boolean $condition
+     * @param  string  $message
+     * @throws PHPUnit_Framework_AssertionFailedError
+     */
+    public function assertIsMageModel($object, $message = '')
+    {
+        self::assertThat($object, self::isMageModel(), $message);
+    }
+
+    /**
+     * Asserts that an object is a resource model
+     *
+     * @param  boolean $condition
+     * @param  string  $message
+     * @throws PHPUnit_Framework_AssertionFailedError
+     */
+    public function assertIsMageResourceModel($object, $message = '')
+    {
+        self::assertThat($object, self::isMageResourceModel(), $message);
+    }
+
+    /**
+     * Asserts that an object is a resource collection
+     *
+     * @param  boolean $condition
+     * @param  string  $message
+     * @throws PHPUnit_Framework_AssertionFailedError
+     */
+    public function assertIsMageResourceCollection($object, $message = '')
+    {
+        self::assertThat($object, self::isMageResourceCollection(), $message);
+    }
+
+    /**
+     * Returns a Mage_Constraint_IsModel matcher object.
+     *
+     * @return Mage_Test_Constraint_IsMageModel
+     * @since  Method available since Release 3.3.0
+     */
+    public static function isMageModel()
+    {
+        return new Mage_Test_Constraint_IsMageModel;
+    }
+
+    /**
+     * Returns a Mage_Constraint_IsMageResourceModel matcher object.
+     *
+     * @return Mage_Test_Constraint_IsMageResourceModel
+     * @since  Method available since Release 3.3.0
+     */
+    public static function isMageResourceModel()
+    {
+        return new Mage_Test_Constraint_IsMageResourceModel;
+    }
+
+    /**
+     * Returns a Mage_Constraint_IsMageResourceCollection matcher object.
+     *
+     * @return Mage_Test_Constraint_IsMageResourceCollection
+     * @since  Method available since Release 3.3.0
+     */
+    public static function isMageResourceCollection()
+    {
+        return new Mage_Test_Constraint_IsMageResourceCollection;
+    }
+
 }

@@ -4,6 +4,7 @@ require_once 'PHPUnit/Framework.php';
 
 require_once 'Mage.php';
 require_once 'DbAdapter.php';
+require_once 'TestConstraints.php';
 require_once 'TestCase.php';
 require_once 'TestSuite.php';
 
