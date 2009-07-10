@@ -466,9 +466,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
                     Mage::throwException(Mage::helper('core')->__('Invalid block type: %s', $block));
                 }
             }
-            $fileName = mageFindClassFile($block);
-            if ($fileName!==false) {
-                //include_once ($fileName);
+            if (class_exists($block, false) || mageFindClassFile($block)) {
                 $block = new $block($attributes);
             }
         }
