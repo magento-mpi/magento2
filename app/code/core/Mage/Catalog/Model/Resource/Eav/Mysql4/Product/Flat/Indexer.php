@@ -614,7 +614,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
                 }
                 // add indexes
                 foreach ($addIndexes as $indexName => $indexProp) {
-                    $sql .= sprintf(' ADD %s',
+                    $sql .= sprintf(' ADD %s,',
                         $this->_sqlIndexDefinition($indexName, $indexProp));
                 }
                 $sql = rtrim($sql, ",");
