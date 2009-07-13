@@ -179,6 +179,7 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
             }
             unset($productData->additional_attributes);
         }
+
         foreach ($product->getTypeInstance(true)->getEditableAttributes($product) as $attribute) {
             $_attrCode = $attribute->getAttributeCode();
             if ($this->_isAllowedAttribute($attribute)
@@ -288,7 +289,11 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
         }
 
         if (property_exists($productData, 'stock_data') && is_array($productData->stock_data)) {
-            $product->setStockData($productData->stock_data);
+            $_stockData = array();
+            foreach ($productData->stock_data as $_attribute) {
+                $_stockData[$_attribute->key] = $_attribute->value;
+            }
+            $product->setStockData($_stockData);
         }
     }
 
