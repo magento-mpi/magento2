@@ -3,6 +3,7 @@
 require_once 'PHPUnit/Framework.php';
 
 require_once 'Mage.php';
+require_once 'Fixture.php';
 require_once 'DbAdapter.php';
 require_once 'TestConstraints.php';
 require_once 'TestCase.php';
@@ -65,6 +66,7 @@ class AllTests extends Mage_TestSuite
 
         // register db adapter for fixtures
         Mage::register('_dbadapter', new Mage_DbAdapter());
+        Mage::register('_fixture', new Mage_Fixture());
 
         // restore original cache settings
         unlink($serFileOld);

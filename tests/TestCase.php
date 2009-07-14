@@ -117,7 +117,7 @@ abstract class Mage_TestCase extends PHPUnit_Framework_TestCase
      * @param  boolean $callAutoload
      * @return object
      */
-    public function getHelper($helper)
+    public function getHelperMock($helper)
     {
         $args = func_get_args();
         if (strpos($helper, '/') === false) {
@@ -158,6 +158,16 @@ abstract class Mage_TestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Retrieve Fixture instance
+     *
+     * @return Mage_Fixture
+     */
+    protected function _getFixture()
+    {
+        return Mage::registry('_fixture');
+    }
+
+    /**
      * Default test case teardown logic
      * Please make sure you call parent::tearDown() in your test cases
      */
@@ -168,6 +178,7 @@ abstract class Mage_TestCase extends PHPUnit_Framework_TestCase
          * There's no way to inject it into runBare()
          */
         Mage::$factoryMocks = array();
+        $this->_getFixture()->rollbackConfig();
 
         parent::tearDown();
     }

@@ -131,6 +131,7 @@ class Mage_Cms_IndexControllerTest extends Mage_TestCase
     }
     /**
      * Tests Mage_Cms_IndexController->noRouteAction()
+     *
      */
     public function testNoRouteAction ()
     {

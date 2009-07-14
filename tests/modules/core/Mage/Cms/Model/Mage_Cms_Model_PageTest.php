@@ -38,7 +38,7 @@ class Mage_Cms_Model_PageTest extends Mage_TestCase
      */
     public function testCmsModelPageLoad()
     {
-        $mock = $this->_getMockModel('cms/page', array('noRoutePage'));
+        $mock = $this->getModelMock('cms/page', array('noRoutePage'));
         $mock->expects($this->once())
             ->method('noRoutePage');
         $mock->load(null);
@@ -49,7 +49,7 @@ class Mage_Cms_Model_PageTest extends Mage_TestCase
         parent::setUp();
 
         $this->_getDbAdapter()->begin();
-        $this->_getDbAdapter()->loadFixture('cms');
+//        $this->_getDbAdapter()->loadFixture('cms');
     }
 
     public function tearDown()
@@ -58,7 +58,7 @@ class Mage_Cms_Model_PageTest extends Mage_TestCase
         $this->_getDbAdapter()->rollback();
     }
 
-    public function testCheckIdentifier()
+    public function testCheckIdentifierWithFixture()
     {
         $pageFixtureRow = $this->_getDbAdapter()->getTableRow('cms_page', 1);
         $pageStoreFixtureRow = $this->_getDbAdapter()
@@ -75,9 +75,34 @@ class Mage_Cms_Model_PageTest extends Mage_TestCase
         $this->assertFalse($res);
     }
 
-    public function testNoRoute()
+    public function testNoRoutePage()
     {
+        $mock = $this->getModelMock('cms/page', array('load'));
+        $mock->expects($this->once())
+            ->method('load')
+            ->with(Mage_Cms_Model_Page::NOROUTE_PAGE_ID, 'page_id');
 
+        Mage::getModel('cms/page')->noRoutePage();
+    }
+
+    /**
+     * Test for checkIdentifier with mocks
+     */
+    public function testCheckIdentifierWithMock()
+    {
+        $class = Mage::getConfig()->getResourceModelClassName('cms/page');
+        $resource = $this->getMock($class, array('checkIdentifier'));
+
+        $mock = $this->getModelMock('cms/page', array('_getResource'));
+        $mock->expects($this->once())
+            ->method('_getResource')
+            ->will($this->returnValue($resource));
+
+        $resource->expects($this->once())
+            ->method('checkIdentifier')
+            ->with(1,1);
+
+        $mock->checkIdentifier(1, 1);
     }
 }
 
