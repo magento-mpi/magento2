@@ -160,10 +160,8 @@ class Mage_Core_Model_Translate_Inline
 #echo __METHOD__;
 
         if ($this->getIsAjaxRequest()) {
-            $quoteHtml = '\"';
             $quotePatern = '\\\\"';
         } else {
-            $quoteHtml = '"';
             $quotePatern = '"';
         }
 
@@ -217,10 +215,8 @@ class Mage_Core_Model_Translate_Inline
 #echo __METHOD__;
 
         if ($this->getIsAjaxRequest()) {
-            $quoteHtml = '\"';
             $quotePatern = '\\\\"';
         } else {
-            $quoteHtml = '"';
             $quotePatern = '"';
         }
 
@@ -266,7 +262,7 @@ class Mage_Core_Model_Translate_Inline
                 switch ($tag) {
                     case 'script': case 'title':
                         $tagHtml .= '<span class="translate-inline-'.$tag
-                            .'" translate='.$quoteHtml.'['.join(',',$trArr).']'.$quoteHtml.'>'.strtoupper($tag).'</span>';
+                            .'" translate="['.join(',',$trArr).']">'.strtoupper($tag).'</span>';
                         break;
                 }
                 $this->_content = substr_replace($this->_content, $tagHtml, $tagMatch[0][1], $tagLength);
@@ -288,7 +284,7 @@ class Mage_Core_Model_Translate_Inline
                         }
 
                         $this->_content = substr_replace($this->_content,
-                            ' translate='.$quoteHtml.'['.join(',',$trArr).']'.$quoteHtml, $start, $len);
+                            ' translate="['.join(',',$trArr).']"', $start, $len);
                         break;
                 }
             }
@@ -305,12 +301,6 @@ class Mage_Core_Model_Translate_Inline
 #echo "<xmp>".$this->_content."</xmp><hr/>";
 #exit;
 
-        if ($this->getIsAjaxRequest()) {
-            $quoteHtml = '\"';
-        } else {
-            $quoteHtml = '"';
-        }
-
         $next = 0;
         while (preg_match('#('.$this->_tokenRegex.')#',
             $this->_content, $m, PREG_OFFSET_CAPTURE, $next)) {
@@ -322,7 +312,7 @@ class Mage_Core_Model_Translate_Inline
                 .'location:\'Text\','
                 .'scope:\''.$this->_escape($m[5][0]).'\'}';
 
-            $spanHtml = '<span translate='.$quoteHtml.'['.$tr.']'.$quoteHtml.'>'.$m[2][0].'</span>';
+            $spanHtml = '<span translate="['.$tr.']">'.$m[2][0].'</span>';
 
             $this->_content = substr_replace($this->_content, $spanHtml, $m[0][1], strlen($m[0][0]));
             $next = $m[0][1];
