@@ -288,6 +288,10 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
             $product->setWebsiteIds($productData->websites);
         }
 
+        if (Mage::app()->isSingleStoreMode()) {
+            $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
+        }
+
         if (property_exists($productData, 'stock_data') && is_array($productData->stock_data)) {
             $_stockData = array();
             foreach ($productData->stock_data as $_attribute) {

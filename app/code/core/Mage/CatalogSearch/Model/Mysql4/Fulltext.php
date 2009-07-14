@@ -191,13 +191,13 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         $entityType = $this->getEavConfig()->getEntityType('catalog_product');
         $store      = Mage::app()->getStore($storeId);
 
-        $select = $this->_getReadAdapter()->select()
+        $select = $this->_getWriteAdapter()->select()
             ->from(
                 array('e' => $this->getTable('catalog/product')),
                 array_merge(array('entity_id', 'type_id'), $staticFields))
             ->joinInner(
                 array('website' => $this->getTable('catalog/product_website')),
-                $this->_getReadAdapter()->quoteInto('website.product_id=e.entity_id AND website.website_id=?', $store->getWebsiteId()),
+                $this->_getWriteAdapter()->quoteInto('website.product_id=e.entity_id AND website.website_id=?', $store->getWebsiteId()),
                 array()
             );
 
@@ -208,8 +208,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         $select->where('e.entity_id>?', $lastProductId)
             ->limit($limit)
             ->order('e.entity_id');
-
-        return $this->_getReadAdapter()->fetchAll($select);
+        return $this->_getWriteAdapter()->fetchAll($select);
     }
 
     /**
@@ -346,15 +345,15 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $entity     = $entityType->getEntity();
 
             $whereCond  = array(
-                $this->_getReadAdapter()->quoteInto('is_searchable=?', 1),
-                $this->_getReadAdapter()->quoteInto('attribute_code IN(?)', array('status', 'visibility'))
+                $this->_getWriteAdapter()->quoteInto('is_searchable=?', 1),
+                $this->_getWriteAdapter()->quoteInto('attribute_code IN(?)', array('status', 'visibility'))
             );
 
-            $select = $this->_getReadAdapter()->select()
+            $select = $this->_getWriteAdapter()->select()
                 ->from($this->getTable('eav/attribute'))
                 ->where('entity_type_id=?', $entityType->getEntityTypeId())
                 ->where(join(' OR ', $whereCond));
-            $attributesData = $this->_getReadAdapter()->fetchAll($select);
+            $attributesData = $this->_getWriteAdapter()->fetchAll($select);
             $this->getEavConfig()->importAttributesData($entityType, $attributesData);
             foreach ($attributesData as $attributeData) {
                 $attributeCode = $attributeData['attribute_code'];
@@ -416,13 +415,13 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
         foreach ($atributeTypes as $backendType => $attributeIds) {
             if ($attributeIds) {
                 $tableName = $this->getTable('catalog/product') . '_' . $backendType;
-                $selects[] = $this->_getReadAdapter()->select()
+                $selects[] = $this->_getWriteAdapter()->select()
                     ->from(
                         array('t_default' => $tableName),
                         array('entity_id', 'attribute_id'))
                     ->joinLeft(
                         array('t_store' => $tableName),
-                        $this->_getReadAdapter()->quoteInto("t_default.entity_id=t_store.entity_id AND t_default.attribute_id=t_store.attribute_id AND t_store.store_id=?", $storeId),
+                        $this->_getWriteAdapter()->quoteInto("t_default.entity_id=t_store.entity_id AND t_default.attribute_id=t_store.attribute_id AND t_store.store_id=?", $storeId),
                         array('value'=>'IFNULL(t_store.value, t_default.value)'))
                     ->where('t_default.store_id=?', 0)
                     ->where('t_default.attribute_id IN(?)', $attributeIds)
@@ -432,7 +431,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
 
         if ($selects) {
             $select = '('.join(')UNION(', $selects).')';
-            $query = $this->_getReadAdapter()->query($select);
+            $query = $this->_getWriteAdapter()->query($select);
             while ($row = $query->fetch()) {
                 $result[$row['entity_id']][$row['attribute_id']] = $row['value'];
             }
