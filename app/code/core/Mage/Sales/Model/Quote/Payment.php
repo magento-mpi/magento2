@@ -124,14 +124,9 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
      */
     public function getCheckoutRedirectUrl()
     {
-        try {
-            $method = $this->getMethodInstance();
-            if ($method) {
-                return $method->getCheckoutRedirectUrl();
-            }
-        }
-        catch (Mage_Core_Exception $e) {
-            // intentionally jam core exceptions
+        $method = $this->getMethodInstance();
+        if ($method) {
+            return $method->getCheckoutRedirectUrl();
         }
         return '';
     }
@@ -143,14 +138,9 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
      */
     public function getOrderPlaceRedirectUrl()
     {
-        try {
-            $method = $this->getMethodInstance();
-            if ($method) {
-                return $method->getOrderPlaceRedirectUrl();
-            }
-        }
-        catch (Mage_Core_Exception $e) {
-            // intentionally jam core exceptions
+        $method = $this->getMethodInstance();
+        if ($method) {
+            return $method->getOrderPlaceRedirectUrl();
         }
         return '';
     }

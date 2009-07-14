@@ -396,6 +396,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $result['error'] = $e->getMessage();
         }
         catch (Exception $e) {
+            Mage::logException($e);
             $result['error'] = $this->__('Unable to set Payment Method.');
         }
         $this->getResponse()->setBody(Zend_Json::encode($result));
