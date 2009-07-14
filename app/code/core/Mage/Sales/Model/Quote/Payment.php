@@ -117,17 +117,41 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
         return parent::_beforeSave();
     }
 
+    /**
+     * Checkout redirect URL getter
+     *
+     * @return string
+     */
     public function getCheckoutRedirectUrl()
     {
-        $method = $this->getMethodInstance();
-
-        return $method ? $method->getCheckoutRedirectUrl() : false;
+        try {
+            $method = $this->getMethodInstance();
+            if ($method) {
+                return $method->getCheckoutRedirectUrl();
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            // intentionally jam core exceptions
+        }
+        return '';
     }
 
+    /**
+     * Checkout order place redirect URL getter
+     *
+     * @return string
+     */
     public function getOrderPlaceRedirectUrl()
     {
-        $method = $this->getMethodInstance();
-
-        return $method ? $method->getOrderPlaceRedirectUrl() : false;
+        try {
+            $method = $this->getMethodInstance();
+            if ($method) {
+                return $method->getOrderPlaceRedirectUrl();
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            // intentionally jam core exceptions
+        }
+        return '';
     }
 }
