@@ -129,9 +129,14 @@ class Mage_Sales_Model_Quote_Address_Total_Collector
     {
         $configArray = $this->_modelsConfig;
         uasort($configArray, array($this, '_sortConfig'));
+        
         foreach ($configArray as $code => $info) {
             $this->_collectors[$code] = $this->_models[$code];
         }
+//        echo '<pre>';
+//        print_r(array_keys($this->_collectors));
+//        echo '</pre>';
+        
         return $this;
     }
 
@@ -146,12 +151,13 @@ class Mage_Sales_Model_Quote_Address_Total_Collector
     {
         $aCode = $a['_code'];
         $bCode = $b['_code'];
-        if (in_array($aCode, $b['before']) || in_array($bCode, $a['after'])) {
-            return 1;
-        } elseif (in_array($aCode, $b['after']) || in_array($bCode, $a['before'])) {
-            return -1;
+        if (in_array($aCode, $b['after']) || in_array($bCode, $a['before'])) {
+            $res = -1;
+        } else {
+            $res = 1;
         }
-        return 0;
+//        echo $aCode . ' :: ' . $bCode . ' == ' . $res . '<br>';
+        return $res;
     }
 
     /**

@@ -62,28 +62,7 @@
 <script type="text/javascript">decorateTable('shopping-cart-table')</script>
 </form>
 <div class="shopping-cart-totals">
-    <table cellspacing="0" id="shopping-cart-totals-table" align="right">
-        <tfoot>
-        <?php foreach($this->getTotals() as $total): ?>
-            <?php if($total->getArea()=='footer'): ?>
-            <tr>
-                <td><strong><?php echo $total->getTitle() ?></strong></td>
-                <td class="nowrap"><strong><?php echo $this->helper('checkout')->formatPrice($total->getValue()) ?></strong></td>
-            </tr>
-            <?php endif ?>
-        <?php endforeach ?>
-        </tfoot>
-        <tbody>
-        <?php foreach($this->getTotals() as $total): ?>
-            <?php if(!$total->getArea()): ?>
-            <tr>
-                <td style="<?php echo $total->getStyle() ?>"><?php echo $total->getTitle() ?></td>
-                <td style="<?php echo $total->getStyle() ?>"><?php echo $this->helper('checkout')->formatPrice($total->getValue()) ?></td>
-            </tr>
-            <?php endif ?>
-        <?php endforeach ?>
-        </tbody>
-    </table>
+    <?php echo $this->getChildHtml('totals'); ?>
     <script type="text/javascript">decorateTable('shopping-cart-totals-table')</script>
 </div>
 <div class="clear"></div>

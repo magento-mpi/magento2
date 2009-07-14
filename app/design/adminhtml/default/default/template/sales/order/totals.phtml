@@ -24,11 +24,36 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php $_source = $this->getSource(); ?>
+<?php /*$_source = $this->getSource(); ?>
 <?php $this->setPriceDataObject($_source) ?>
 <?php if ($_source): ?>
 <table cellspacing="0" width="100%">
     <?php echo $this->getChildHtml('main'); ?>
     <?php echo $this->getChildHtml('footer'); ?>
 </table>
-<?php endif; ?>
+<?php endif;*/ ?>
+<table cellspacing="0" width="100%">
+<?php foreach ($this->getTotals() as $_code => $_total): ?>
+    <?php if ($_total->getBlockName()): ?>
+        <?php echo $this->getChildHtml($_total->getBlockName(), false); ?>
+    <?php else:?>
+    <tr class="<?php echo $_code?>">
+        <td <?php echo $this->getLabelProperties()?> class="label">
+            <?php if ($_total->getStrong()):?>
+            <strong><?php echo $_total->getLabel()?></strong>
+            <?php else:?>
+            <?php echo $_total->getLabel()?>
+            <?php endif?>
+        </td>
+        <?php if ($_total->getStrong()):?>
+        <td <?php echo $this->getValueProperties()?> class="emph">
+            <strong><?php echo $this->formatValue($_total) ?></strong>
+        <?php else:?>
+        <td <?php echo $this->getValueProperties()?>>
+            <?php echo $this->formatValue($_total) ?>
+        <?php endif?>
+        </td>
+    </tr>
+    <?php endif?>
+<?php endforeach?>
+</table>

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage
+ * @package    Mage_Tax
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -42,10 +42,18 @@ class Mage_Tax_Model_Sales_Pdf_Subtotal extends Mage_Sales_Model_Order_Pdf_Total
         $store = $this->getOrder()->getStore();
         $helper= Mage::helper('tax');
         $amount = $this->getOrder()->formatPriceTxt($this->getAmount());
-        $amountInclTax = $this->getOrder()->formatPriceTxt($this->getAmount()+$this->getSource()->getTaxAmount());
+        if ($this->getSource()->getSubtotalInclTax()) {
+            $amountInclTax = $this->getSource()->getSubtotalInclTax();
+        } else {
+            $amountInclTax = $this->getAmount()
+                +$this->getSource()->getTaxAmount()
+                -$this->getSource()->getShippingTaxAmount();
+        }
+        
+        $amountInclTax = $this->getOrder()->formatPriceTxt($amountInclTax);
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
         
-        if ($helper->displaySubtotalBothPrices($store)) {
+        if ($helper->displaySalesSubtotalBoth($store)) {
             $totals = array(
                 array(
                     'amount'    => $this->getAmountPrefix().$amount,
@@ -58,7 +66,7 @@ class Mage_Tax_Model_Sales_Pdf_Subtotal extends Mage_Sales_Model_Order_Pdf_Total
                     'font_size' => $fontSize
                 ),
             );
-        } elseif ($helper->displaySubtotalInclTax($store)) {
+        } elseif ($helper->displaySalesSubtotalInclTax($store)) {
             $totals = array(array(
                 'amount'    => $this->getAmountPrefix().$amountInclTax,
                 'label'     => Mage::helper('sales')->__($this->getTitle()) . ':',

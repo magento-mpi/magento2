@@ -190,14 +190,9 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
             }
 
             if (isset($data['shipping_amount'])) {
-                $creditmemo->setShippingAmount($data['shipping_amount']);
+                $creditmemo->setBaseShippingAmount((float)$data['shipping_amount']);
             } elseif ($invoice) {
-                $creditmemo->setShippingAmount($invoice->getShippingAmount());
-            }
-            else {
-                $creditmemo->setShippingAmount(
-                    $order->getBaseShippingAmount()-$order->getBaseShippingRefunded()
-                );
+                $creditmemo->setBaseShippingAmount($invoice->getBaseShippingAmount());
             }
 
             if (isset($data['adjustment_positive'])) {

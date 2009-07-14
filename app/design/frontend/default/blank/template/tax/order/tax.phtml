@@ -24,22 +24,27 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php $_order = $this->getOrder(); ?>
-<?php $_fullInfo = $_order->getFullTaxInfo(); ?>
+<?php
+    $_order  = $this->getOrder();
+    $_source = $this->getSource();
+    $_fullInfo = $_source->getFullTaxInfo();
+    global $taxIter; $taxIter++;
+?>
+<?php  ?>
 
-<?php global $taxIter; $taxIter++; ?>
-<?php if ($this->helper('tax')->displayFullSummary()): ?>
+<?php if ($this->displayFullSummary()): ?>
 <?php $isTop = 1; ?>
     <?php if ($_fullInfo) foreach ($_fullInfo as $info): ?>
         <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
-        <?php $percent = $info['percent']; ?>
-        <?php $amount = $info['amount']; ?>
-        <?php $rates = $info['rates']; ?>
-        <?php $isFirst = 1; ?>
-
+        <?php
+            $percent    = $info['percent'];
+            $amount     = $info['amount'];
+            $rates      = $info['rates'];
+            $isFirst    = 1;
+        ?>
         <?php foreach ($rates as $rate): ?>
-        <tr class="tax-details-<?php echo $taxIter; ?> tax-details<?php if ($isTop): echo ' tax-details-first'; endif; ?>" style="display:none;">
-            <td class="a-right" colspan="4">
+        <tr class="tax-details-<?php echo $taxIter; ?> tax-details<?php if ($isTop): echo ' tax-details-first'; endif; ?>"<?php if (!$this->getIsPlaneMode()):?> style="display:none;"<?php endif;?>>
+            <td <?php echo $this->getLabelProperties()?>>
                 <?php echo $rate['title']; ?>
                 <?php if ($rate['percent']): ?>
                     (<?php echo $rate['percent']; ?>%)
@@ -47,7 +52,7 @@
                 <br />
             </td>
             <?php if ($isFirst): ?>
-                <td class="a-right" rowspan="<?php echo count($rates); ?>">
+                <td <?php echo $this->getValueProperties()?> rowspan="<?php echo count($rates); ?>">
                     <?php echo $_order->formatPrice($amount); ?>
                 </td>
             <?php endif; ?>
@@ -57,13 +62,20 @@
         <?php endforeach; ?>
     <?php endforeach; ?>
 <?php endif;?>
-<tr<?php if ($this->helper('tax')->displayFullSummary()): ?> class="tax-total" onclick="expandDetails(this, '.tax-details-<?php echo $taxIter;?>')"<?php endif; ?>>
-    <td class="a-right" colspan="4">
-        <?php if ($this->helper('tax')->displayFullSummary()): ?>
+
+<?php if ($this->displayFullSummary() && $_fullInfo && !$this->getIsPlaneMode()): ?>
+<tr class="tax-total" onclick="expandDetails(this, '.tax-details-<?php echo $taxIter;?>')">
+<?php elseif ($this->displayFullSummary() && $_fullInfo && $this->getIsPlaneMode()): ?>
+<tr class="show-details">
+<?php else: ?>
+<tr>
+<?php endif; ?>
+    <td <?php echo $this->getLabelProperties()?>>
+        <?php if ($this->displayFullSummary()): ?>
             <div class="tax-collapse"><?php echo $this->__('Tax'); ?></div>
         <?php else: ?>
             <?php echo $this->__('Tax'); ?>
         <?php endif;?>
     </td>
-    <td class="a-right"><?php echo $_order->formatPrice($_order->getTaxAmount()) ?></td>
+    <td <?php echo $this->getValueProperties()?>><?php echo $_order->formatPrice($_source->getTaxAmount()) ?></td>
 </tr>

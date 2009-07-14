@@ -101,7 +101,15 @@
                                     </td>
                                     <td class="v-top">
                                         <?php if($_rate=$this->getShippingAddressRate($_address)): ?>
-                                        <p><?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodTitle() ?>) - <?php echo $_rate->getPrice() ?></p>
+                                        <p>
+                                            <?php echo $_rate->getCarrierTitle() ?> (<?php echo $_rate->getMethodTitle() ?>) -
+                                            <?php $_excl = $this->getShippingPriceExclTax($_address); ?>
+                                            <?php $_incl = $this->getShippingPriceInclTax($_address); ?>
+
+                                            <?php echo $_excl; ?>
+                                            <?php if ($this->helper('tax')->displayShippingBothPrices() && $_incl != $_excl): ?>
+                                                (<?php echo $this->__('Incl. Tax'); ?> <?php echo $_incl; ?>)
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -140,12 +148,7 @@
                                 <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
-                                <?php foreach ($this->getShippingAddressTotals($_address) as $_total): ?>
-                                    <tr>
-                                        <td colspan="3" class="a-right"><?php echo $_total->getTitle() ?></td>
-                                        <td class="a-right"><strong><?php echo $this->helper('checkout')->formatPrice($_total->getValue()) ?></strong></td>
-                                    </tr>
-                                <?php endforeach; ?>
+                                <?php echo $this->renderTotals($this->getShippingAddressTotals($_address), 3); ?>
                                 </tfoot>
                             </table>
                             <script type="text/javascript">decorateTable('overview-table-<?php echo $_address->getId() ?>')</script>

@@ -78,48 +78,7 @@
         </tr>
     </tbody>
     <tfoot>
-        <?php if ($this->helper('tax')->displaySubtotalBothPrices($_order->getStore())): ?>
-            <tr>
-                <td colspan="4" class="a-right"><?php echo Mage::helper('tax')->__('Subtotal (Excl. Tax)')?></td>
-                <td class="last a-right"><?php echo $_order->formatPrice($_order->getSubtotal()) ?></td>
-            </tr>
-            <tr>
-                <td colspan="4" class="a-right"><?php echo Mage::helper('tax')->__('Subtotal (Incl. Tax)')?></td>
-                <td class="last a-right"><?php echo $_order->formatPrice($_order->getSubtotal()+$_order->getTaxAmount()) ?></td>
-            </tr>
-        <?php elseif ($this->helper('tax')->displaySubtotalInclTax($_order->getStore())):?>
-            <tr>
-                <td colspan="4" class="a-right"><?php echo $this->__('Order Subtotal')?></td>
-                <td class="last a-right"><?php echo $_order->formatPrice($_order->getSubtotal()+$_order->getTaxAmount()) ?></td>
-            </tr>
-        <?php else : ?>
-            <tr>
-                <td colspan="4" class="a-right"><?php echo $this->__('Order Subtotal')?></td>
-                <td class="last a-right"><?php echo $_order->formatPrice($_order->getSubtotal()) ?></td>
-            </tr>
-        <?php endif; ?>
-        <?php if ($_order->getDiscountAmount() > 0): ?>
-        <tr>
-            <td colspan="4" class="a-right"><?php echo $this->__('Discount :') ?></td>
-            <td class="last a-right"><?php echo $_order->formatPrice(0.00 - $_order->getDiscountAmount()) ?></td>
-        </tr>
-        <?php endif; ?>
-        <?php if ($_order->getTaxAmount() > 0): ?>
-        <tr>
-            <td colspan="4" class="a-right"><?php echo $this->__('Tax') ?></td>
-            <td class="last a-right"><?php echo $_order->formatPrice($_order->getTaxAmount()) ?></td>
-        </tr>
-        <?php endif; ?>
-        <?php if ($_order->getShippingAmount()*1 || $_order->getShippingDescription()): ?>
-        <tr>
-            <td colspan="4" class="a-right"><?php echo $this->__('Shipping & Handling') ?></td>
-            <td class="last a-right"><?php echo $_order->formatPrice($_order->getShippingAmount()) ?></td>
-        </tr>
-        <?php endif; ?>
-        <tr>
-            <td colspan="4" class="a-right"><?php echo $this->__('Grand Total') ?></td>
-            <td class="last a-right"><?php echo $_order->formatPrice($_order->getGrandTotal()) ?></td>
-        </tr>
+        <?php echo $this->getChildHtml('order_totals') ?>
     </tfoot>
 </table>
 <script type="text/javascript">window.print();</script>

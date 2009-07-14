@@ -608,6 +608,9 @@
                     <subtotal>
                         <class>sales/order_creditmemo_total_subtotal</class>
                     </subtotal>
+                    <shipping>
+                        <class>sales/order_creditmemo_total_shipping</class>
+                    </shipping>
                     <tax>
                         <class>sales/order_creditmemo_total_tax</class>
                     </tax>
@@ -648,13 +651,6 @@
                     <display_zero>0</display_zero>
                     <sort_order>200</sort_order>
                 </discount>
-                <tax translate="title">
-                    <title>Tax</title>
-                    <source_field>tax_amount</source_field>
-                    <font_size>7</font_size>
-                    <display_zero>0</display_zero>
-                    <sort_order>300</sort_order>
-                </tax>
                 <shipping translate="title">
                     <title>Shipping &amp; Handling</title>
                     <source_field>shipping_amount</source_field>

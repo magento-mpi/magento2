@@ -49,7 +49,6 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         parent::collect($address);
-
         $quote = $address->getQuote();
         $store = Mage::app()->getStore($quote->getStoreId());
 
@@ -57,7 +56,7 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
         if (!count($items)) {
             return $this;
         }
-        
+
         $eventArgs = array(
             'website_id'        => $store->getWebsiteId(),
             'customer_group_id' => $quote->getCustomerGroupId(),
@@ -65,7 +64,8 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
         );
 
         $this->_calculator->init($store->getWebsiteId(), $quote->getCustomerGroupId(), $quote->getCouponCode());
-
+        $address->setDiscountDescription(array());
+        
         foreach ($items as $item) {
             if ($item->getNoDiscount()) {
                 $item->setDiscountAmount(0);
@@ -95,6 +95,19 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
                 }
             }
         }
+
+        /**
+         * Process shipping amount discount
+         */
+        $address->setShippingDiscountAmount(0);
+        $address->setBaseShippingDiscountAmount(0);
+        if ($address->getShippingAmount()) {
+            $this->_calculator->processShippingAmount($address);
+            $this->_addAmount(-$address->getShippingDiscountAmount());
+            $this->_addBaseAmount(-$address->getBaseShippingDiscountAmount());
+        }
+
+        $this->_calculator->prepareDescription($address);
         return $this;
     }
 
@@ -120,11 +133,13 @@ class Mage_SalesRule_Model_Quote_Discount extends Mage_Sales_Model_Quote_Address
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
         $amount = $address->getDiscountAmount();
+        
         if ($amount!=0) {
-            $title = Mage::helper('sales')->__('Discount');
-            $code = $address->getCouponCode();
-            if ($code) {
-                $title = Mage::helper('sales')->__('Discount (%s)', $code);
+            $description = $address->getDiscountDescription();
+            if ($description) {
+                $title = Mage::helper('sales')->__('Discount (%s)', $description);
+            } else {
+                $title = Mage::helper('sales')->__('Discount');
             }
             $address->addTotal(array(
                 'code'  => $this->getCode(),

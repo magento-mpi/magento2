@@ -169,8 +169,16 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
                 }
 
                 $block->setDataUsingMethod($k, $v);
-                $layout->addOutputBlock($blockName);
             }
+        }
+
+        /**
+         * Add output method for first block
+         */
+        $allBlocks = $layout->getAllBlocks();
+        $firstBlock = reset($allBlocks);
+        if ($firstBlock) {
+            $layout->addOutputBlock($firstBlock->getNameInLayout());
         }
 
         $layout->setDirectOutput(false);

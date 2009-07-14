@@ -23,14 +23,19 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+/**
+ * @var $this Mage_Tax_Block_Checkout_Tax
+ * @see Mage_Tax_Block_Checkout_Tax
+ */
 ?>
-<?php $_order = $this->getOrder(); ?>
-<?php $_fullInfo = $_order->getFullTaxInfo(); ?>
-
+<?php
+    $_value = $this->getTotal()->getValue();
+    $_style = $this->getTotal()->getStyle();
+?>
 <?php global $taxIter; $taxIter++; ?>
-<?php if ($this->helper('tax')->displayFullSummary()): ?>
+<?php if ($this->helper('tax')->displayFullSummary() && $_value!=0): ?>
 <?php $isTop = 1; ?>
-    <?php if ($_fullInfo) foreach ($_fullInfo as $info): ?>
+    <?php foreach ($this->getTotal()->getFullInfo() as $info): ?>
         <?php if (isset($info['hidden']) && $info['hidden']) continue; ?>
         <?php $percent = $info['percent']; ?>
         <?php $amount = $info['amount']; ?>
@@ -39,7 +44,7 @@
 
         <?php foreach ($rates as $rate): ?>
         <tr class="tax-details-<?php echo $taxIter; ?> tax-details<?php if ($isTop): echo ' tax-details-first'; endif; ?>" style="display:none;">
-            <td class="a-right" colspan="4">
+            <td class="a-right" style="<?php echo $_style ?>" colspan="<?php echo $this->getColspan(); ?>">
                 <?php echo $rate['title']; ?>
                 <?php if ($rate['percent']): ?>
                     (<?php echo $rate['percent']; ?>%)
@@ -47,8 +52,8 @@
                 <br />
             </td>
             <?php if ($isFirst): ?>
-                <td class="a-right" rowspan="<?php echo count($rates); ?>">
-                    <?php echo $_order->formatPrice($amount); ?>
+                <td style="<?php echo $_style ?>" class="a-right" rowspan="<?php echo count($rates); ?>">
+                    <?php echo $this->helper('checkout')->formatPrice($amount); ?>
                 </td>
             <?php endif; ?>
         </tr>
@@ -57,13 +62,13 @@
         <?php endforeach; ?>
     <?php endforeach; ?>
 <?php endif;?>
-<tr<?php if ($this->helper('tax')->displayFullSummary()): ?> class="tax-total" onclick="expandDetails(this, '.tax-details-<?php echo $taxIter;?>')"<?php endif; ?>>
-    <td class="a-right" colspan="4">
+<tr <?php if ($this->helper('tax')->displayFullSummary() && $_value!=0): ?> class="tax-total" onclick="expandDetails(this, '.tax-details-<?php echo $taxIter;?>')"<?php endif; ?>>
+    <td style="<?php echo $_style ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
         <?php if ($this->helper('tax')->displayFullSummary()): ?>
-            <div class="tax-collapse"><?php echo $this->__('Tax'); ?></div>
+            <div class="tax-collapse"><?php echo $this->getTotal()->getTitle() ?></div>
         <?php else: ?>
-            <?php echo $this->__('Tax'); ?>
+            <?php echo $this->getTotal()->getTitle() ?>
         <?php endif;?>
     </td>
-    <td class="a-right"><?php echo $_order->formatPrice($_order->getTaxAmount()) ?></td>
+    <td style="<?php echo $_style ?>" class="a-right"><?php echo $this->helper('checkout')->formatPrice($_value) ?></td>
 </tr>

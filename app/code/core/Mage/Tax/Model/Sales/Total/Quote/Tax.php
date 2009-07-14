@@ -27,7 +27,7 @@
 /**
  * Tax totals calculation model
  */
-class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
     /**
      * Tax module helper
@@ -104,7 +104,7 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
         /**
          * Subtract taxes from subtotal amount if prices include tax
          */
-        if ($this->_helper->priceIncludesTax($store)) {
+        if ($this->_config->priceIncludesTax($store)) {
             $subtotal       = $address->getTotalAmount('subtotal') - $address->getTotalAmount('tax');
             $baseSubtotal   = $address->getBaseTotalAmount('subtotal') - $address->getBaseTotalAmount('tax');
             $address->setTotalAmount('subtotal', $subtotal);
@@ -129,6 +129,20 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
         $shippingTaxClass   = $this->_config->getShippingTaxClass($store);
         $shippingAmount     = $address->getShippingAmount();
         $baseShippingAmount = $address->getBaseShippingAmount();
+        $shippingDiscountAmount = $address->getShippingDiscountAmount();
+        $baseShippingDiscountAmount = $address->getBaseShippingDiscountAmount();
+
+        /**
+         * Subtract discount before calculate tax amount
+         */
+        if ($this->_config->applyTaxAfterDiscount($store)) {
+            $calcAmount     = $shippingAmount - $shippingDiscountAmount;
+            $baseCalcAmount = $baseShippingAmount - $baseShippingDiscountAmount;
+        } else {
+            $calcAmount     = $shippingAmount;
+            $baseCalcAmount = $baseShippingAmount;
+        }
+
         $shippingTax      = 0;
         $shippingBaseTax  = 0;
 
@@ -136,18 +150,26 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
             $taxRateRequest->setProductClassId($shippingTaxClass);
             $rate = $this->_calculator->getRate($taxRateRequest);
             if ($rate) {
-                if ($this->_helper->shippingPriceIncludesTax()) {
-                    $shippingTax    = $this->_calculator->calcTaxAmount($shippingAmount, $rate, true);
-                    $shippingBaseTax= $this->_calculator->calcTaxAmount($baseShippingAmount, $rate, true);
+                if ($this->_config->shippingPriceIncludesTax() && !$this->_config->getNeedUseShippingExcludeTax()) {
+                    $shippingTax    = $this->_calculator->calcTaxAmount($calcAmount, $rate, true);
+                    $shippingBaseTax= $this->_calculator->calcTaxAmount($baseCalcAmount, $rate, true);
                     $shippingAmount-= $shippingTax;
                     $baseShippingAmount-=$shippingBaseTax;
                 } else {
-                    $shippingTax    = $this->_calculator->calcTaxAmount($shippingAmount, $rate);
-                    $shippingBaseTax= $this->_calculator->calcTaxAmount($baseShippingAmount, $rate);
+                    $shippingTax    = $this->_calculator->calcTaxAmount($calcAmount, $rate);
+                    $shippingBaseTax= $this->_calculator->calcTaxAmount($baseCalcAmount, $rate);
                 }
 
                 $address->setTotalAmount('shipping', $shippingAmount);
                 $address->setBaseTotalAmount('shipping', $baseShippingAmount);
+
+                /**
+                 * Provide additional attributes for apply discount on price include tax
+                 */
+                if ($this->_config->discountTax($store)) {
+                    $address->setShippingAmountForDiscount($shippingAmount+$shippingTax);
+                    $address->setBaseShippingAmountForDiscount($baseShippingAmount+$shippingBaseTax);
+                }
 
                 $this->_addAmount($shippingTax);
                 $this->_addBaseAmount($shippingBaseTax);
@@ -156,11 +178,8 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
                 $this->_saveAppliedTaxes($address, $applied, $shippingTax, $shippingBaseTax, $rate);
             }
         }
-
-        if (!$this->_helper->shippingPriceIncludesTax()) {
-            $address->setShippingTaxAmount($shippingTax);
-            $address->setBaseShippingTaxAmount($shippingBaseTax);
-        }
+        $address->setShippingTaxAmount($shippingTax);
+        $address->setBaseShippingTaxAmount($shippingBaseTax);
 
         return $this;
     }
@@ -222,10 +241,10 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
     protected function _calcUnitTaxAmount(Mage_Sales_Model_Quote_Item_Abstract $item, $rate)
     {
         $store              = $item->getStore();
-        $price              = $item->getCalculationPrice();
-        $basePrice          = $item->getBaseCalculationPrice();
-        $origPrice          = $item->getOriginalPrice();
-        $baseOrigPrice      = $item->getBaseOriginalPrice();
+        $price              = $store->roundPrice($item->getCalculationPrice());
+        $basePrice          = $store->roundPrice($item->getBaseCalculationPrice());
+        $origPrice          = $store->roundPrice($item->getOriginalPrice());
+        $baseOrigPrice      = $store->roundPrice($item->getBaseOriginalPrice());
         $discountAmount     = $item->getDiscountAmount();
         $baseDiscountAmount = $item->getBaseDiscountAmount();
         $qty                = $item->getTotalQty();
@@ -233,9 +252,9 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
         $item->setTaxPercent($rate);
         $rate = $rate/100;
 
-        $calculationSequence = $this->_helper->getCalculationSequence($store);
+        $calculationSequence = $this->_config->getCalculationSequence($store);
         switch ($calculationSequence) {
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_DISCOUNT_ON_EXCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
                 $unitTax            = $this->_calculator->calcTaxAmount($price, $rate);
                 $baseUnitTax        = $this->_calculator->calcTaxAmount($basePrice, $rate);
                 $unitOrigTax        = $this->_calculator->calcTaxAmount($origPrice, $rate);
@@ -245,7 +264,7 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
                 $priceExclTax       = $price;
                 $basePriceExclTax   = $basePrice;
                 break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_DISCOUNT_ON_INCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $unitTax            = $this->_calculator->calcTaxAmount($price, $rate);
                 $baseUnitTax        = $this->_calculator->calcTaxAmount($basePrice, $rate);
                 $unitOrigTax        = $this->_calculator->calcTaxAmount($origPrice, $rate);
@@ -257,7 +276,8 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
                 $item->setDiscountCalculationPrice($priceInclTax);
                 $item->setBaseDiscountCalculationPrice($basePriceInclTax);
                 break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_AFTER_DISCOUNT_ON_EXCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 $unitTax            = $this->_calculator->calcTaxAmount($price-$discountAmount/$qty, $rate);
                 $baseUnitTax        = $this->_calculator->calcTaxAmount($basePrice-$baseDiscountAmount/$qty, $rate);
                 $unitOrigTax        = $this->_calculator->calcTaxAmount($origPrice-$discountAmount/$qty, $rate);
@@ -266,45 +286,6 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
                 $basePriceInclTax   = $basePrice+$baseUnitTax;
                 $priceExclTax       = $price;
                 $basePriceExclTax   = $basePrice;
-                break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_DISCOUNT_ON_EXCL:
-                $unitTax            = $this->_calculator->calcTaxAmount($price, $rate, true);
-                $baseUnitTax        = $this->_calculator->calcTaxAmount($basePrice, $rate, true);
-                $unitOrigTax        = $this->_calculator->calcTaxAmount($origPrice, $rate, true);
-                $baseUnitOrigTax    = $this->_calculator->calcTaxAmount($baseOrigPrice, $rate, true);
-                $priceInclTax       = $price;
-                $basePriceInclTax   = $basePrice;
-                $priceExclTax       = $price-$unitTax;
-                $basePriceExclTax   = $basePrice-$baseUnitTax;
-                $item->setDiscountCalculationPrice($priceExclTax);
-                $item->setBaseDiscountCalculationPrice($basePriceExclTax);
-                break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_DISCOUNT_ON_INCL:
-                $unitTax            = $this->_calculator->calcTaxAmount($price, $rate, true);
-                $baseUnitTax        = $this->_calculator->calcTaxAmount($basePrice, $rate, true);
-                $unitOrigTax        = $this->_calculator->calcTaxAmount($origPrice, $rate, true);
-                $baseUnitOrigTax    = $this->_calculator->calcTaxAmount($baseOrigPrice, $rate, true);
-                $priceInclTax       = $price;
-                $basePriceInclTax   = $basePrice;
-                $priceExclTax       = $price-$unitTax;
-                $basePriceExclTax   = $basePrice-$baseUnitTax;
-                /**
-                 * Specify discount calculation price
-                 */
-                $item->setDiscountCalculationPrice($priceInclTax);
-                $item->setBaseDiscountCalculationPrice($basePriceExclTax);
-                break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_AFTER_DISCOUNT_ON_INCL:
-                $unitTax            = $this->_calculator->calcTaxAmount($price-$discountAmount/$qty, $rate, true);
-                $baseUnitTax        = $this->_calculator->calcTaxAmount($basePrice-$baseDiscountAmount/$qty, $rate, true);
-                $unitOrigTax        = $this->_calculator->calcTaxAmount($origPrice-$discountAmount/$qty, $rate, true);
-                $baseUnitOrigTax    = $this->_calculator->calcTaxAmount($baseOrigPrice-$baseDiscountAmount/$qty, $rate, true);
-                $priceInclTax       = $price;
-                $basePriceInclTax   = $basePrice;
-                $priceExclTax       = $price-$unitTax;
-                $basePriceExclTax   = $basePrice-$baseUnitTax;
-                break;
-            default:
                 break;
         }
 
@@ -316,17 +297,11 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
             $totalBaseTax   = $store->roundPrice($qty*$baseUnitTax);
         } else {
             $totalTax       = $store->roundPrice($qty*$unitOrigTax);
-            $totalBaseTax   = $store->roundPrice($qty*$unitOrigTax);
+            $totalBaseTax   = $store->roundPrice($qty*$baseUnitOrigTax);
         }
 
         $item->setTaxAmount($totalTax);
         $item->setBaseTaxAmount($totalBaseTax);
-        
-        $item->setCalculationPrice($priceExclTax);
-        $item->setBaseCalculationPrice($basePriceExclTax);
-        $item->setRowTotal($priceExclTax*$qty);
-        $item->setBaseRowTotal($basePriceExclTax*$qty);
-
         return $this;
     }
 
@@ -402,75 +377,31 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
 
         $calculationSequence = $this->_helper->getCalculationSequence($store);
         switch ($calculationSequence) {
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_DISCOUNT_ON_EXCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate);
-                $subtotalInclTax    = $subtotal+$rowTax;
-                $baseSubtotalInclTax= $baseSubtotal+$baseRowTax;
-                $subtotalExclTax    = $subtotal;
-                $baseSubtotalExclTax= $baseSubtotal;
+            case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
+                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, false, false);
+                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, false, false);
+                $calcTotal          = $subtotal;
+                $baseCalcTotal      = $baseSubtotal;
                 break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_DISCOUNT_ON_INCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate);
-                $subtotalInclTax    = $subtotal+$rowTax;
-                $baseSubtotalInclTax= $baseSubtotal+$baseRowTax;
-                $subtotalExclTax    = $subtotal;
-                $baseSubtotalExclTax= $baseSubtotal;
-                $item->setDiscountCalculationPrice($subtotalInclTax/$qty);
-                $item->setBaseDiscountCalculationPrice($subtotalInclTax/$qty);
+            case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
+                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, false, false);
+                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, false, false);
+                $calcTotal          = $subtotal;
+                $baseCalcTotal      = $baseSubtotal;
+                $item->setDiscountCalculationPrice(($subtotal+$rowTax)/$qty);
+                $item->setBaseDiscountCalculationPrice(($baseSubtotal+$baseRowTax)/$qty);
                 break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_AFTER_DISCOUNT_ON_EXCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal-$discountAmount, $rate);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal-$baseDiscountAmount, $rate);
-                $subtotalInclTax    = $subtotal+$rowTax;
-                $baseSubtotalInclTax= $baseSubtotal+$baseRowTax;
-                $subtotalExclTax    = $subtotal;
-                $baseSubtotalExclTax= $baseSubtotal;
-                break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_DISCOUNT_ON_EXCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, true);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, true);
-                $subtotalInclTax    = $subtotal;
-                $baseSubtotalInclTax= $baseSubtotal;
-                $subtotalExclTax    = $subtotal-$rowTax;
-                $baseSubtotalExclTax= $baseSubtotal-$baseRowTax;
-                $item->setDiscountCalculationPrice($subtotalExclTax/$qty);
-                $item->setBaseDiscountCalculationPrice($baseSubtotalExclTax/$qty);
-                break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_DISCOUNT_ON_INCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, true);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, true);
-                $subtotalInclTax    = $subtotal;
-                $baseSubtotalInclTax= $baseSubtotal;
-                $subtotalExclTax    = $subtotal-$rowTax;
-                $baseSubtotalExclTax= $baseSubtotal-$baseRowTax;
-                /**
-                 * Specify discount calculation price
-                 */
-                $item->setDiscountCalculationPrice($item->getCalculationPrice());
-                $item->setBaseDiscountCalculationPrice($item->getBaseCalculationPrice());
-                break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_AFTER_DISCOUNT_ON_INCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal-$discountAmount, $rate, true);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal-$baseDiscountAmount, $rate, true);
-                $subtotalInclTax    = $subtotal;
-                $baseSubtotalInclTax= $baseSubtotal;
-                $subtotalExclTax    = $subtotal-$rowTax;
-                $baseSubtotalExclTax= $baseSubtotal-$baseRowTax;
-                break;
-            default:
+            case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
+                $rowTax             = $this->_calculator->calcTaxAmount($subtotal-$discountAmount, $rate, false, false);
+                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal-$baseDiscountAmount, $rate, false, false);
+                $calcTotal          = $subtotal-$discountAmount;
+                $baseCalcTotal      = $baseSubtotal-$baseDiscountAmount;
                 break;
         }
 
         $item->setTaxAmount($rowTax);
         $item->setBaseTaxAmount($baseRowTax);
-
-        $item->setCalculationPrice($store->roundPrice($subtotalExclTax/$qty));
-        $item->setBaseCalculationPrice($store->roundPrice($baseSubtotalExclTax/$qty));
-        $item->setRowTotal($subtotalExclTax);
-        $item->setBaseRowTotal($baseSubtotalExclTax);
-
         return $this;
     }
 
@@ -562,15 +493,14 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
         }
 
         $calculationSequence = $this->_helper->getCalculationSequence($store);
-        $includeTax = false;
         switch ($calculationSequence) {
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_DISCOUNT_ON_EXCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
                 $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, false, false);
                 $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, false, false);
                 $calcTotal          = $subtotal;
                 $baseCalcTotal      = $baseSubtotal;
                 break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_DISCOUNT_ON_INCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, false, false);
                 $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, false, false);
                 $calcTotal          = $subtotal;
@@ -578,41 +508,12 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
                 $item->setDiscountCalculationPrice(($subtotal+$rowTax)/$qty);
                 $item->setBaseDiscountCalculationPrice(($baseSubtotal+$baseRowTax)/$qty);
                 break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_AFTER_DISCOUNT_ON_EXCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
                 $rowTax             = $this->_calculator->calcTaxAmount($subtotal-$discountAmount, $rate, false, false);
                 $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal-$baseDiscountAmount, $rate, false, false);
                 $calcTotal          = $subtotal-$discountAmount;
                 $baseCalcTotal      = $baseSubtotal-$baseDiscountAmount;
-                break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_DISCOUNT_ON_EXCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, true, false);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, true, false);
-                $calcTotal          = $subtotal;
-                $baseCalcTotal      = $baseSubtotal;
-                $includeTax = true;
-                $item->setDiscountCalculationPrice(($subtotal-$rowTax)/$qty);
-                $item->setBaseDiscountCalculationPrice(($baseSubtotal-$baseRowTax)/$qty);
-                break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_DISCOUNT_ON_INCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, true, false);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, true, false);
-                $calcTotal          = $subtotal;
-                $baseCalcTotal      = $baseSubtotal;
-                /**
-                 * Specify discount calculation price
-                 */
-                $item->setDiscountCalculationPrice($item->getCalculationPrice());
-                $item->setBaseDiscountCalculationPrice($item->getBaseCalculationPrice());
-                $includeTax = true;
-                break;
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_AFTER_DISCOUNT_ON_INCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal-$discountAmount, $rate, true, false);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal-$baseDiscountAmount, $rate, true, false);
-                $calcTotal          = $subtotal-$discountAmount;
-                $baseCalcTotal      = $baseSubtotal-$baseDiscountAmount;
-                $includeTax = true;
-                break;
-            default:
                 break;
         }
 
@@ -622,8 +523,8 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
         $delta      = isset($this->_roundingDeltas[$rateKey]) ? $this->_roundingDeltas[$rateKey] : 0;
         $baseDelta  = isset($this->_baseRoundingDeltas[$rateKey]) ? $this->_baseRoundingDeltas[$rateKey] : 0;
 
-        $rowTax+= $delta;
-        $baseRowTax+=$baseDelta;
+        $rowTax     += $delta;
+        $baseRowTax += $baseDelta;
 
         $this->_roundingDeltas[$rateKey]     = $rowTax - $this->_calculator->round($rowTax);
         $this->_baseRoundingDeltas[$rateKey] = $baseRowTax - $this->_calculator->round($baseRowTax);
@@ -631,20 +532,6 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
         $baseRowTax = $this->_calculator->round($baseRowTax);
         $item->setTaxAmount($rowTax);
         $item->setBaseTaxAmount($baseRowTax);
-
-        if ($includeTax) {
-            $subtotalExclTax    = $subtotal-$rowTax;
-            $baseSubtotalExclTax= $baseSubtotal-$baseRowTax;
-        } else {
-            $subtotalExclTax    = $subtotal;
-            $baseSubtotalExclTax= $baseSubtotal;
-        }
-
-        $item->setCalculationPrice($store->roundPrice($subtotalExclTax/$qty));
-        $item->setBaseCalculationPrice($store->roundPrice($baseSubtotalExclTax/$qty));
-        $item->setRowTotal($subtotalExclTax);
-        $item->setBaseRowTotal($baseSubtotalExclTax);
-
 
         $taxGroups[$rateKey]['totals'][]        = $calcTotal;
         $taxGroups[$rateKey]['base_totals'][]   = $baseCalcTotal;
@@ -667,8 +554,8 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
             $rowTotal               += $child->getRowTotal();
             $baseRowTotal           += $child->getBaseRowTotal();
         }
-        $item->setCalculationPrice($calculationPrice);
-        $item->setBaseCalculationPrice($baseCalculationPrice);
+        $item->setOriginalPrice($calculationPrice);
+        $item->setPrice($baseCalculationPrice);
         $item->setTaxAmount($rowTaxAmount);
         $item->setBaseTaxAmount($baseRowTaxAmount);
         $item->setRowTotal($rowTotal);
@@ -735,13 +622,15 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
         $applied = $address->getAppliedTaxes();
         $store = $address->getQuote()->getStore();
         $amount = $address->getTaxAmount();
-
-        if (($amount!=0) || ($this->_helper->displayZeroTax($store))) {
+        $area = $this->_config->displayCartTaxWithGrandTotal($store) ? 'taxes' : null;
+        
+        if (($amount!=0) || ($this->_config->displayCartZeroTax($store))) {
             $address->addTotal(array(
                 'code'      => $this->getCode(),
                 'title'     => Mage::helper('tax')->__('Tax'),
                 'full_info' => $applied ? $applied : array(),
-                'value'     => $amount
+                'value'     => $amount,
+                'area'      => $area
             ));
         }
 
@@ -749,12 +638,18 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
         /**
          * Modify subtotal
          */
-        if ($this->_config->displaySubtotalBoth($store) || $this->_config->displaySubtotalIncludingTax($store)) {
+        if ($this->_config->displayCartSubtotalBoth($store) || $this->_config->displayCartSubtotalInclTax($store)) {
+            if ($address->getSubtotalInclTax()) {
+                $subtotalInclTax = $address->getSubtotalInclTax();
+            } else {
+                $subtotalInclTax = $address->getSubtotal()+$address->getTaxAmount()-$address->getShippingTaxAmount();
+            }
+
             $address->addTotal(array(
                 'code'      => 'subtotal',
                 'title'     => Mage::helper('sales')->__('Subtotal'),
-                'value'     => $address->getSubtotal()+$address->getTaxAmount(),
-                'value_incl_tax' => $address->getSubtotal()+$address->getTaxAmount(),
+                'value'     => $subtotalInclTax,
+                'value_incl_tax' => $subtotalInclTax,
                 'value_excl_tax' => $address->getSubtotal(),
             ));
         }
@@ -774,8 +669,7 @@ class Mage_Tax_Model_Sales_Total_Quote extends Mage_Sales_Model_Quote_Address_To
     {
         $calculationSequence = $this->_helper->getCalculationSequence($store);
          switch ($calculationSequence) {
-            case Mage_Tax_Model_Calculation::CALC_PRICE_EXCL_TAX_DISCOUNT_ON_INCL:
-            case Mage_Tax_Model_Calculation::CALC_PRICE_INCL_TAX_DISCOUNT_ON_EXCL:
+            case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $config['before'][] = 'discount';
                 break;
             default:

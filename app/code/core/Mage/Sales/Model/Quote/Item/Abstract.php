@@ -299,6 +299,18 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     }
 
     /**
+     * Set original price to item (calculation price will be refreshed too)
+     *
+     * @param   float $price
+     * @return  Mage_Sales_Model_Quote_Item_Abstract
+     */
+    public function setOriginalPrice($price)
+    {
+        $this->setCalculationPrice(null);
+        return $this->setData('original_price', $price);
+    }
+
+    /**
      * Get Original item price (got from product) in base website currency
      *
      * @return float
@@ -330,13 +342,14 @@ abstract class Mage_Sales_Model_Quote_Item_Abstract extends Mage_Core_Model_Abst
     }
 
     /**
-     * Specify item price
+     * Specify item price (base calculation price will be refreshed too)
      *
      * @param   float $value
      * @return  Mage_Sales_Model_Quote_Item_Abstract
      */
     public function setPrice($value)
     {
+        $this->setBaseCalculationPrice(null);
         return $this->setData('price', $value);
     }
 

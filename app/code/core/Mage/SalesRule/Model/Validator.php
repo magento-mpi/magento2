@@ -187,7 +187,6 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                     $address->setFreeShipping(true);
                     break;
             }
-
             if ($rule->getStopRulesProcessing()) {
                 break;
             }
@@ -354,12 +353,92 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
             if ($rule->getCouponCode() && ( strtolower($rule->getCouponCode()) == strtolower($this->getCouponCode()))) {
                 $address->setCouponCode($this->getCouponCode());
             }
-
+            $this->_addDiscountDescription($address, $rule);
             if ($rule->getStopRulesProcessing()) {
                 break;
             }
         }
         $item->setAppliedRuleIds(join(',',$appliedRuleIds));
+        $address->setAppliedRuleIds($this->mergeIds($address->getAppliedRuleIds(), $appliedRuleIds));
+        $quote->setAppliedRuleIds($this->mergeIds($quote->getAppliedRuleIds(), $appliedRuleIds));
+        return $this;
+    }
+
+    /**
+     * Apply discounts to shipping amount
+     *
+     * @param   Mage_Sales_Model_Quote_Address $address
+     * @return  Mage_SalesRule_Model_Validator
+     */
+    public function processShippingAmount(Mage_Sales_Model_Quote_Address $address)
+    {
+        $shippingAmount     = $address->getShippingAmountForDiscount();
+        if ($shippingAmount!==null) {
+            $baseShippingAmount = $address->getBaseShippingAmountForDiscount();
+        } else {
+            $shippingAmount     = $address->getShippingAmount();
+            $baseShippingAmount = $address->getBaseShippingAmount();
+        }
+        $quote              = $address->getQuote();
+        $appliedRuleIds = array();
+        foreach ($this->_getRules() as $rule) {
+            /* @var $rule Mage_SalesRule_Model_Rule */
+            if (!$rule->getApplyToShipping() || !$this->_canProcessRule($rule, $address)) {
+                continue;
+            }
+            
+            $discountAmount = 0;
+            $baseDiscountAmount = 0;
+            $rulePercent = min(100, $rule->getDiscountAmount());
+            switch ($rule->getSimpleAction()) {
+                case 'to_percent':
+                    $rulePercent = max(0, 100-$rule->getDiscountAmount());
+                case 'by_percent':
+                    $discountAmount    = ($shippingAmount - $address->getShippingDiscountAmount()) * $rulePercent/100;
+                    $baseDiscountAmount= ($baseShippingAmount - $address->getBaseShippingDiscountAmount()) * $rulePercent/100;
+                    $discountPercent = min(100, $address->getShippingDiscountPercent()+$rulePercent);
+                    $address->setShippingDiscountPercent($discountPercent);
+                    break;
+                case 'to_fixed':
+                    $quoteAmount = $quote->getStore()->convertPrice($rule->getDiscountAmount());
+                    $discountAmount    = $shippingAmount-$quoteAmount;
+                    $baseDiscountAmount= $baseShippingAmount-$rule->getDiscountAmount();
+                    break;
+                case 'by_fixed':
+                    $quoteAmount        = $quote->getStore()->convertPrice($rule->getDiscountAmount());
+                    $discountAmount     = $quoteAmount;
+                    $baseDiscountAmount = $rule->getDiscountAmount();
+                    break;
+
+                case 'cart_fixed':
+                    $cartRules = $address->getCartFixedRules();
+                    if (!isset($cartRules[$rule->getId()])) {
+                        $cartRules[$rule->getId()] = $rule->getDiscountAmount();
+                    }
+                    if ($cartRules[$rule->getId()] > 0) {
+                        $quoteAmount        = $quote->getStore()->convertPrice($cartRules[$rule->getId()]);
+                        $discountAmount     = min($shippingAmount, $quoteAmount);
+                        $baseDiscountAmount = min($baseShippingAmount, $cartRules[$rule->getId()]);
+                        $cartRules[$rule->getId()] -= $baseDiscountAmount;
+                    }
+                    $address->setCartFixedRules($cartRules);
+                    break;
+            }
+
+            $discountAmount     = min($address->getShippingDiscountAmount()+$discountAmount, $shippingAmount);
+            $baseDiscountAmount = min($address->getBaseShippingDiscountAmount()+$baseDiscountAmount, $baseShippingAmount);
+            $address->setShippingDiscountAmount($discountAmount);
+            $address->setBaseShippingDiscountAmount($baseDiscountAmount);
+            $appliedRuleIds[$rule->getRuleId()] = $rule->getRuleId();
+
+            if ($rule->getCouponCode() && ( strtolower($rule->getCouponCode()) == strtolower($this->getCouponCode()))) {
+                $address->setCouponCode($this->getCouponCode());
+            }
+            $this->_addDiscountDescription($address, $rule);
+            if ($rule->getStopRulesProcessing()) {
+                break;
+            }
+        }
         $address->setAppliedRuleIds($this->mergeIds($address->getAppliedRuleIds(), $appliedRuleIds));
         $quote->setAppliedRuleIds($this->mergeIds($quote->getAppliedRuleIds(), $appliedRuleIds));
         return $this;
@@ -378,5 +457,50 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
            $a = implode(',', $a);
         }
         return $a;
+    }
+
+    /**
+     * Add rule discount description label to address object
+     *
+     * @param   Mage_Sales_Model_Quote_Address $address
+     * @param   Mage_SalesRule_Model_Rule $rule
+     * @return  Mage_SalesRule_Model_Validator
+     */
+    protected function _addDiscountDescription($address, $rule)
+    {
+        $description = $address->getDiscountDescriptionArray();
+        $ruleLabel = $rule->getStoreLabel($address->getQuote()->getStore());
+        $label = '';
+        if ($ruleLabel) {
+            $label = $ruleLabel;
+        } elseif ($rule->getCouponCode()) {
+            $label = $rule->getCouponCode();
+        }
+        
+        if (!empty($label)) {
+            $description[$rule->getId()] = $label;
+        }
+        $address->setDiscountDescriptionArray($description);
+        return $this;
+    }
+
+    /**
+     * Convert address discount description array to string
+     *
+     * @param Mage_Sales_Model_Quote_Address $address
+     * @param string $separator
+     * @return Mage_SalesRule_Model_Validator
+     */
+    public function prepareDescription($address, $separator=', ')
+    {
+        $description = $address->getDiscountDescriptionArray();
+
+        if (is_array($description) && !empty($description)) {
+            $description = implode($separator, $description);
+        } else {
+            $description = '';
+        }
+        $address->setDiscountDescription($description);
+        return $this;
     }
 }

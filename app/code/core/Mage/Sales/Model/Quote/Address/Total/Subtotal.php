@@ -97,8 +97,7 @@ class Mage_Sales_Model_Quote_Address_Total_Subtotal extends Mage_Sales_Model_Quo
             );
             $item->setPrice($finalPrice);
             $item->calcRowTotal();
-        }
-        else if (!$quoteItem->getParentItem()) {
+        } else if (!$quoteItem->getParentItem()) {
             $finalPrice = $product->getFinalPrice($quoteItem->getQty());
             $item->setPrice($finalPrice);
             $item->calcRowTotal();

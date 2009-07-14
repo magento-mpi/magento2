@@ -29,7 +29,7 @@
     $_order   = $this->getOrder();
     $this->setPriceDataObject($_source);
 ?>
-<?php if ($this->helper('tax')->displaySubtotalBothPrices($_order->getStore())): ?>
+<?php if ($this->helper('tax')->displaySalesSubtotalBoth($_order->getStore())): ?>
     <tr>
         <td class="label">
             <?php echo Mage::helper('tax')->__('Subtotal (Excl. Tax)')?>
@@ -42,7 +42,7 @@
         </td>
         <td><?php echo $this->displaySubtotalInclTax() ?></td>
     </tr>
-<?php elseif ($this->helper('tax')->displaySubtotalInclTax($_order->getStore())):?>
+<?php elseif ($this->helper('tax')->displaySalesSubtotalInclTax($_order->getStore())):?>
     <tr>
         <td class="label">
             <?php echo Mage::helper('sales')->__('Subtotal') ?>

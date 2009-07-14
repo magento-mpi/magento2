@@ -36,6 +36,6 @@ class Mage_Tax_Block_Checkout_Subtotal extends Mage_Checkout_Block_Total_Default
 
     public function displayBoth()
     {
-        return Mage::getSingleton('tax/config')->displaySubtotalBoth();
+        return Mage::getSingleton('tax/config')->displayCartSubtotalBoth($this->getStore());
     }
 }
