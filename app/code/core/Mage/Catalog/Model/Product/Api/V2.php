@@ -292,10 +292,10 @@ class Mage_Catalog_Model_Product_Api_V2 extends Mage_Catalog_Model_Product_Api
             $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
         }
 
-        if (property_exists($productData, 'stock_data') && is_array($productData->stock_data)) {
+        if (property_exists($productData, 'stock_data')) {
             $_stockData = array();
-            foreach ($productData->stock_data as $_attribute) {
-                $_stockData[$_attribute->key] = $_attribute->value;
+            foreach ($productData->stock_data as $key => $value) {
+                $_stockData[$key] = $value;
             }
             $product->setStockData($_stockData);
         }
