@@ -29,10 +29,5 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging'), 'state');
-$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_event'), 'state');
-$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_backup'), 'state');
-$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_rollback'), 'state');
 
-$installer->getConnection()->changeColumn($this->getTable('enterprise_staging/staging_event'), 'merge_map', 'map', "text default ''");
-$installer->getConnection()->changeColumn($this->getTable('enterprise_staging/staging_backup'), 'merge_map', 'map', "text default ''");
 $installer->endSetup();

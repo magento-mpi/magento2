@@ -28,6 +28,4 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 
-$installer->getConnection()->dropForeignKey($installer->getTable('enterprise_staging/staging_event'), 'FK_ENTERPRISE_STAGING_EVENT_ID');
-
 $installer->endSetup();

@@ -27,5 +27,4 @@
 $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
-$installer->getConnection()->changeColumn($this->getTable('enterprise_staging/staging_event'), 'ip', 'ip', "bigint(20) NOT NULL default '0'");
 $installer->endSetup();

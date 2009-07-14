@@ -28,39 +28,4 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 
-$installer->getConnection()->addColumn($this->getTable('enterprise_staging/staging_backup'), 'staging_website_id', "smallint(5) unsigned default NULL");
-$installer->getConnection()->addColumn($this->getTable('enterprise_staging/staging_event'), 'staging_website_id', "smallint(5) unsigned default NULL");
-
-$installer->getConnection()->addColumn($this->getTable('enterprise_staging/staging_backup'), 'master_website_id', "smallint(5) unsigned default NULL");
-$installer->getConnection()->addColumn($this->getTable('enterprise_staging/staging_event'), 'master_website_id', "smallint(5) unsigned default NULL");
-$installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_BACKUP_MASTER_WEBSITE',
-    $this->getTable('enterprise_staging/staging_backup'),
-    'master_website_id',
-    $installer->getTable('core/website'),
-    'website_id',
-    'SET NULL'
-);
-$installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_BACKUP_STAGING_WEBSITE',
-    $this->getTable('enterprise_staging/staging_backup'),
-    'staging_website_id',
-    $installer->getTable('core/website'),
-    'website_id',
-    'SET NULL'
-);
-$installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_EVENT_MASTER_WEBSITE',
-    $this->getTable('enterprise_staging/staging_event'),
-    'master_website_id',
-    $installer->getTable('core/website'),
-    'website_id'
-);
-$installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_EVENT_STAGING_WEBSITE',
-    $this->getTable('enterprise_staging/staging_event'),
-    'staging_website_id',
-    $installer->getTable('core/website'),
-    'website_id'
-);
 $installer->endSetup();

@@ -36,6 +36,7 @@ $stagingTable = $this->getTable('enterprise_staging/staging');
 
 $eventTable = $this->getTable('enterprise_staging_event');
 $backupTable = $this->getTable('enterprise_staging_backup');
+$rollbackTable = $installer->getTable('enterprise_staging_rollback');
 
 /**
  * CREATE NEW TABLES
@@ -127,55 +128,64 @@ $installer->getConnection()->addColumn($stagingTable, 'merge_scheduling_map', 't
  * DATA OPERATIONS
  */
 
-$installer->getConnection()->query("UPDATE `" . $stagingTable . "` as s, `" . $eventTable . "` as e
-    SET `s`.`merge_scheduling_date` = `e`.`merge_schedule_date`,
-        s.`merge_scheduling_map` = `e`.`map`
-         WHERE `e`.`event_id` = `s`.`schedule_merge_event_id`");
+$tables = $installer->getConnection()->listTables();
 
-$installer->getConnection()->query("
-INSERT INTO `" . $actionTable . "`
-    (`type`,
-    `staging_id`,
-    `name`,
-    `status`,
-    `created_at`,
-    `updated_at`,
-    `staging_table_prefix`,
-    `map`,
-    `mage_version`,
-    `mage_modules_version`,
-    `staging_website_id`,
-    `master_website_id`)
-SELECT 'backup', `staging_id`, `name`, `status`, `created_at`, `updated_at`,
-    `staging_table_prefix`, `map`, `mage_version`, `mage_modules_version`, `staging_website_id`, `master_website_id`
-    FROM `" . $backupTable . "`
-");
+if (in_array($eventTable, $tables)) {
+    $installer->getConnection()->query("UPDATE `" . $stagingTable . "` as s, `" . $eventTable . "` as e
+        SET `s`.`merge_scheduling_date` = `e`.`merge_schedule_date`,
+            s.`merge_scheduling_map` = `e`.`map`
+             WHERE `e`.`event_id` = `s`.`schedule_merge_event_id`");
+}
 
-$installer->getConnection()->query("
-INSERT INTO `" . $logTable . "`
-(`staging_id`,
-  `ip`,
-  `code`,
-  `name`,
-  `status`,
-  `is_backuped`,
-  `created_at`,
-  `user_id`,
-  `username`,
-  `is_admin_notified`,
-  `comment`,
-  `log`,
-  `map`,
-  `staging_website_id`,
-  `master_website_id`)
-SELECT  `staging_id`, `ip`, `code`, `name`, `status`, `is_backuped`, `created_at`, `user_id`,
-    `username`, `is_admin_notified`, `comment`, `log`, `map`,
-    IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_BACKUP . "', 0, IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE . "' OR `code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK . "',`master_website_id`,`staging_website_id`)),
-    IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK . "', 0, IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE . "', `staging_website_id`,`master_website_id`))
-FROM `" . $eventTable . "`
-");
+if (in_array($backupTable,  $tables)) {
+    $installer->getConnection()->query("
+    INSERT INTO `" . $actionTable . "`
+        (`type`,
+        `staging_id`,
+        `name`,
+        `status`,
+        `created_at`,
+        `updated_at`,
+        `staging_table_prefix`,
+        `map`,
+        `mage_version`,
+        `mage_modules_version`,
+        `staging_website_id`,
+        `master_website_id`)
+    SELECT 'backup', `staging_id`, `name`, `status`, `created_at`, `updated_at`,
+        `staging_table_prefix`, `map`, `mage_version`, `mage_modules_version`, `staging_website_id`, `master_website_id`
+        FROM `" . $backupTable . "`
+    ");
+}
 
-$installer->getConnection()->query("DROP TABLE `" . $backupTable . "`");
-$installer->getConnection()->query("DROP TABLE `" . $eventTable . "`");
-$installer->getConnection()->query("DROP TABLE `" . $installer->getTable('enterprise_staging_rollback') . "`");
+if (in_array($eventTable, $tables)) {
+    $installer->getConnection()->query("
+    INSERT INTO `" . $logTable . "`
+    (`staging_id`,
+      `ip`,
+      `code`,
+      `name`,
+      `status`,
+      `is_backuped`,
+      `created_at`,
+      `user_id`,
+      `username`,
+      `is_admin_notified`,
+      `comment`,
+      `log`,
+      `map`,
+      `staging_website_id`,
+      `master_website_id`)
+    SELECT  `staging_id`, `ip`, `code`, `name`, `status`, `is_backuped`, `created_at`, `user_id`,
+        `username`, `is_admin_notified`, `comment`, `log`, `map`,
+        IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_BACKUP . "', 0, IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE . "' OR `code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK . "',`master_website_id`,`staging_website_id`)),
+        IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK . "', 0, IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE . "', `staging_website_id`,`master_website_id`))
+    FROM `" . $eventTable . "`
+    ");
+}
+
+$installer->getConnection()->query("DROP TABLE IF EXISTS `" . $backupTable . "`");
+$installer->getConnection()->query("DROP TABLE IF EXISTS `" . $eventTable . "`");
+$installer->getConnection()->query("DROP TABLE IF EXISTS `" . $rollbackTable . "`");
+
 $installer->getConnection()->dropColumn($stagingTable, 'schedule_merge_event_id');
