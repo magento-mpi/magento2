@@ -971,11 +971,20 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
 
     /**
      * Get all quote totals (sorted by priority)
+     * Metchod process quote states isVirtual and isMultiShipping
      *
      * @return array
      */
     public function getTotals()
     {
+        /**
+         * If quote is virtual we are using totals of billing address because
+         * all items assigned to it
+         */
+        if ($this->isVirtual()) {
+            return $this->getBillingAddress()->getTotals();
+        }
+        
         $totals = $this->getShippingAddress()->getTotals();
         foreach ($this->getBillingAddress()->getTotals() as $code => $total) {
             if (isset($totals[$code])) {
