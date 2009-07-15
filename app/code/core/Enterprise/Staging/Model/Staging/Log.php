@@ -150,7 +150,7 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
         }
 
         if ($currentStatus != Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED) {
-            $staging->setStatus($status);
+            $staging->updateAttribute('status', $status);
         }
 
         $this->setSaveThrowException($exception);

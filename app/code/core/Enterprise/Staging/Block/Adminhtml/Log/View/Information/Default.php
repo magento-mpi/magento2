@@ -64,11 +64,15 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Default extends Ma
         if (!$this->_items) {
             $stagingItems = $this->_mapper->getStagingItems();
             $items = array();
-            foreach ($stagingItems as $code => $item) {
-                $items[$code] = array(
-                    'code' => $code,
-                    'label' => (string)$item->label
-                );
+            if ($stagingItems) {
+                foreach ($stagingItems as $code => $item) {
+                    $items[$code] = array(
+                        'code' => $code,
+                        'label' => (string)$item->label
+                    );
+                }
+            } else {
+                $items = $this->__('No information available.');
             }
             $this->_items = $items;
         }

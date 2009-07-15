@@ -55,7 +55,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
                 Enterprise_Staging_Model_Staging_Config::PROCESS_CREATE,
                 Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE,
                 Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK)))
-            ->addFieldToFilter('status', array('neq' => Enterprise_Staging_Model_Staging_Config::STATUS_FAIL));
+            ;//->addFieldToFilter('status', array('neq' => Enterprise_Staging_Model_Staging_Config::STATUS_FAIL));
 
         $this->setCollection($collection);
 
