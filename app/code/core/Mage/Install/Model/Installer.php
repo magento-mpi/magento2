@@ -205,10 +205,11 @@ class Mage_Install_Model_Installer extends Varien_Object
     }
 
     /**
-     * Create admin user
+     * Create admin user.
+     * Returns TRUE or array of error messages.
      *
      * @param array $data
-     * @return Mage_Install_Model_Installer
+     * @return mixed
      */
     public function createAdministrator($data)
     {
@@ -220,7 +221,20 @@ class Mage_Install_Model_Installer extends Varien_Object
 
         $user = Mage::getModel('admin/user')
             ->load($data['username'], 'username');
-        $user->addData($data)->save();
+        $user->addData($data);
+
+        $result = $user->validate();
+        if (is_array($result)) {
+            foreach ($result as $error) {
+                $this->getDataModel()->addError($error);
+            }
+            return $result;
+        }
+
+        //run time flag to force saving entered password
+        $user->setForceNewPassword(true);
+
+        $user->save();
         $user->setRoleIds(array(1))->saveRelations();
 
         /*Mage::getModel("permissions/user")->setRoleId(1)
@@ -228,7 +242,7 @@ class Mage_Install_Model_Installer extends Varien_Object
             ->setFirstname($user->getFirstname())
             ->add();*/
 
-        return $this;
+        return true;
     }
 
     /**

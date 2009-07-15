@@ -62,7 +62,6 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
      */
     public function save()
     {
-        $this->validatePassword($this->getPassword());
         $this->_beforeSave();
         $data = array(
             'firstname' => $this->getFirstname(),
@@ -382,21 +381,33 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     }
 
     /**
-    * Checks password syntax
-    * 
-    * @param string $password - password to validate
-    * @throws Mage_Core_Exception
-    */
-    public function validatePassword($password) 
+     * Validate user attribute values.
+     * Returns TRUE or array of errors.
+     *
+     * @return mixed
+     */
+    public function validate()
     {
-        if (Mage::helper('core/string')->strlen($password) < self::MIN_PASSWORD_LENGTH) {
-            $message = Mage::helper('adminhtml')->__('Password must be at least of %d characters.', self::MIN_PASSWORD_LENGTH);
-            Mage::throwException($message);
+        $errors = array();
+
+        if ($this->hasNewPassword()) {
+            if (Mage::helper('core/string')->strlen($this->getNewPassword()) < self::MIN_PASSWORD_LENGTH) {
+                $errors[] = Mage::helper('adminhtml')->__('Password must be at least of %d characters.', self::MIN_PASSWORD_LENGTH);
             }
-        if (!preg_match('/[a-z]/iu', $password) || !preg_match('/[0-9]/u', $password)) {
-            $message = Mage::helper('adminhtml')->__('Password must include both numeric and alphabetic characters.');
-            Mage::throwException($message);
+
+            if (!preg_match('/[a-z]/iu', $this->getNewPassword()) || !preg_match('/[0-9]/u', $this->getNewPassword())) {
+                $errors[] = Mage::helper('adminhtml')->__('Password must include both numeric and alphabetic characters.');
+            }
+
+            if ($this->hasPasswordConfirmation() && $this->getNewPassword() != $this->getPasswordConfirmation()) {
+                $errors[] = Mage::helper('adminhtml')->__('Password confirmation must be same as password.');
+            }
         }
+
+        if (empty($errors)) {
+            return true;
+        }
+        return $errors;
     }
 
 }

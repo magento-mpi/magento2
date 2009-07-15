@@ -308,7 +308,7 @@ class Mage_Install_Model_Installer_Console extends Mage_Install_Model_Installer_
             'lastname'          => $this->_args['admin_lastname'],
             'email'             => $this->_args['admin_email'],
             'username'          => $this->_args['admin_username'],
-            'password'          => $this->_args['admin_password'],
+            'new_password'          => $this->_args['admin_password'],
         ));
 
         return $this;

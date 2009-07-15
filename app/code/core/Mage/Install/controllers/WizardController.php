@@ -385,8 +385,15 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $encryptionKey  = $this->getRequest()->getPost('encryption_key');
 
         try {
-            $this->_getInstaller()->createAdministrator($adminData)
-                ->installEnryptionKey($encryptionKey);
+            $result = $this->_getInstaller()->createAdministrator($adminData);
+            //if returned value is array then it contains errors
+            if (is_array($result)) {
+                Mage::getSingleton('install/session')->setAdminData($adminData);
+                $this->getResponse()->setRedirect($step->getUrl());
+                return false;
+            }
+
+            $this->_getInstaller()->installEnryptionKey($encryptionKey);
         }
         catch (Exception $e){
             Mage::getSingleton('install/session')
