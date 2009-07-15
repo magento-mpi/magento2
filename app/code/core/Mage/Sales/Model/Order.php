@@ -1528,8 +1528,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             } else {
                 if (isset($qtys[$orderItem->getId()])) {
                     $qty = $qtys[$orderItem->getId()];
-                } else {
+                } elseif (!count($qtys)) {
                     $qty = $orderItem->getQtyToInvoice();
+                } else {
+                    continue;
                 }
             }
 
@@ -1564,8 +1566,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             } else {
                 if (isset($qtys[$orderItem->getId()])) {
                     $qty = $qtys[$orderItem->getId()];
-                } else {
+                } elseif (!count($qtys)) {
                     $qty = $orderItem->getQtyToShip();
+                } else {
+                    continue;
                 }
             }
 
