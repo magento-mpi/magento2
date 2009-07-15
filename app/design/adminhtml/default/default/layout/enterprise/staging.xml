@@ -69,6 +69,11 @@
         </reference>
     </adminhtml_staging_backup_index>
 
+    <adminhtml_staging_backup_grid>
+        <remove name="root" />
+        <block type="enterprise_staging/adminhtml_backup_grid" output="toHtml" name="enterprise_staging_backup" />
+    </adminhtml_staging_backup_grid>
+
     <adminhtml_staging_backup_edit>
         <reference name="content">
             <block type="enterprise_staging/adminhtml_backup_edit"  name="enterprise_staging_backup_edit" />

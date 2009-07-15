@@ -103,14 +103,10 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
      */
     public function gridAction()
     {
-        $staging = $this->_initStaging();
+        $staging = $this->_initBackup();
 
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_backup_grid')
-                ->setStaging($staging)
-                ->toHtml()
-        );
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
