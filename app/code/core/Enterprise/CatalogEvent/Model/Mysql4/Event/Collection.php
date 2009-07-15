@@ -33,23 +33,26 @@
  */
 class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-
+    /**
+     * Whether category data was added to collection
+     *
+     * @var bool
+     */
     protected $_categoryDataAdded = false;
 
     /**
-    * Flag which marking that collection should not contain "Closed" events
-    */ 
+     * Whether collection should dispose of the closed events
+     *
+     * @var bool
+     */
     protected $_skipClosed = false;
 
     /**
      * Intialize collection
-     *
-     * @return void
      */
     protected function _construct()
     {
         $this->_init('enterprise_catalogevent/event');
-
     }
 
     /**
@@ -214,12 +217,12 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
 
     /**
      * Reset collection
+     *
+     * @return Enterprise_CatalogEvent_Model_Mysql4_Event_Collection
      */    
     protected function _reset() 
     {
-        parent::_reset();
         $this->_skipClosed = false;
-        return $this;
+        return parent::_reset();
     }
-
 }
