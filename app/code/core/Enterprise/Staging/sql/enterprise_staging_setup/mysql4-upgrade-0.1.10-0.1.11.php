@@ -61,20 +61,20 @@ CREATE TABLE IF NOT EXISTS `" . $actionTable . "` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Actions';
 ");
 
-$installer->getConnection()->addKey($actionTable, 'IDX_ENTERPRISE_STAGING_ACTION_STAGING_ID', 'staging_id');
-$installer->getConnection()->addKey($actionTable, 'IDX_ENTERPRISE_STAGING_ACTION_STATUS', 'status');
-$installer->getConnection()->addKey($actionTable, 'IDX_ENTERPRISE_STAGING_ACTION_VERSION', 'mage_version');
-$installer->getConnection()->addKey($actionTable, 'FK_ENTERPRISE_STAGING_ACTION_MASTER_WEBSITE', 'master_website_id');
-$installer->getConnection()->addKey($actionTable, 'FK_ENTERPRISE_STAGING_ACTION_STAGING_WEBSITE', 'staging_website_id');
-$installer->getConnection()->addKey($actionTable, 'IDX_ENTERPRISE_STAGING_ACTION_TYPE', 'type');
+$installer->getConnection()->addKey($actionTable, 'IDX_STAGING_ACTION_STAGING_ID', 'staging_id');
+$installer->getConnection()->addKey($actionTable, 'IDX_STAGING_ACTION_STATUS', 'status');
+$installer->getConnection()->addKey($actionTable, 'IDX_STAGING_ACTION_VERSION', 'mage_version');
+$installer->getConnection()->addKey($actionTable, 'FK_STAGING_ACTION_MASTER_WEBSITE', 'master_website_id');
+$installer->getConnection()->addKey($actionTable, 'FK_STAGING_ACTION_STAGING_WEBSITE', 'staging_website_id');
+$installer->getConnection()->addKey($actionTable, 'IDX_STAGING_ACTION_TYPE', 'type');
 
 $installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_ACTION_MASTER_WEBSITE', $actionTable, 'master_website_id',
+    'FK_STAGING_ACTION_MASTER_WEBSITE', $actionTable, 'master_website_id',
     $installer->getTable('core/website'), 'website_id', 'SET NULL', 'CASCADE'
 );
 
 $installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_ACTION_STAGING_WEBSITE', $actionTable, 'staging_website_id',
+    'FK_STAGING_ACTION_STAGING_WEBSITE', $actionTable, 'staging_website_id',
     $installer->getTable('core/website'), 'website_id', 'SET NULL', 'CASCADE'
 );
 
@@ -100,20 +100,20 @@ CREATE TABLE IF NOT EXISTS `" . $logTable . "` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Staging Log History';
 ");
 
-$installer->getConnection()->addKey($logTable, 'IDX_ENTERPRISE_STAGING_LOG_STAGING_ID', 'staging_id');
-$installer->getConnection()->addKey($logTable, 'IDX_ENTERPRISE_STAGING_LOG_STATUS', 'status');
-$installer->getConnection()->addKey($logTable, 'IDX_ENTERPRISE_STAGING_LOG_IS_BACKUPED', 'is_backuped');
-$installer->getConnection()->addKey($logTable, 'IDX_ENTERPRISE_STAGING_LOG_NOTIFY', 'is_admin_notified');
-$installer->getConnection()->addKey($logTable, 'FK_ENTERPRISE_STAGING_LOG_MASTER_WEBSITE', 'master_website_id');
-$installer->getConnection()->addKey($logTable, 'FK_ENTERPRISE_STAGING_LOG_STAGING_WEBSITE', 'staging_website_id');
+$installer->getConnection()->addKey($logTable, 'IDX_STAGING_LOG_STAGING_ID', 'staging_id');
+$installer->getConnection()->addKey($logTable, 'IDX_STAGING_LOG_STATUS', 'status');
+$installer->getConnection()->addKey($logTable, 'IDX_STAGING_LOG_IS_BACKUPED', 'is_backuped');
+$installer->getConnection()->addKey($logTable, 'IDX_STAGING_LOG_NOTIFY', 'is_admin_notified');
+$installer->getConnection()->addKey($logTable, 'FK_STAGING_LOG_MASTER_WEBSITE', 'master_website_id');
+$installer->getConnection()->addKey($logTable, 'FK_STAGING_LOG_STAGING_WEBSITE', 'staging_website_id');
 
 $installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_LOG_MASTER_WEBSITE', $actionTable, 'master_website_id',
+    'FK_STAGING_LOG_MASTER_WEBSITE', $actionTable, 'master_website_id',
     $installer->getTable('core/website'), 'website_id', 'CASCADE', 'CASCADE'
 );
 
 $installer->getConnection()->addConstraint(
-    'FK_ENTERPRISE_STAGING_LOG_STAGING_WEBSITE', $actionTable, 'staging_website_id',
+    'FK_STAGING_LOG_STAGING_WEBSITE', $actionTable, 'staging_website_id',
     $installer->getTable('core/website'), 'website_id', 'CASCADE', 'CASCADE'
 );
 
