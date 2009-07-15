@@ -24,32 +24,13 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * User column filter for Event Log grid
- */
-class Enterprise_Logging_Block_Events_Grid_Filter_User extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
-{
-    /**
-     * Build filter options list
-     *
-     * @return array
-     */
-    public function _getOptions() 
-    {
-        $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All Users')));
-        foreach(Mage::getResourceModel('enterprise_logging/event')->getUserNames() as $username) {
-            $options[] = array('value' => $username, 'label' => $username);
-        }
-        return $options;
-    }
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer->startSetup();
 
-    /**
-     * Filter condition getter
-     *
-     * @string
-     */
-    public function getCondition()
-    {
-        return $this->getValue();
-    }
-}
+$tableLog = $this->getTable('enterprise_logging/event');
+
+$installer->getConnection()->changeColumn($tableLog, 'user', 'user', 'varchar(40) NOT NULL DEFAULT \'\'');
+$installer->getConnection()->addKey($tableLog, 'IDX_LOGGING_EVENT_USERNAME', 'user');
+
+$installer->endSetup();

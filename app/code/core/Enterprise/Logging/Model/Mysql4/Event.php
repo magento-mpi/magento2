@@ -97,16 +97,19 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
     }
     
     /**
-     * Retrieves list of administrators for events filter
+     * Get all admin usernames that are currently in event log table
+     *
+     * Possible SQL-performance issue
+     *
+     * @return array
      */
     public function getUserNames()
     {
-        $query = $this->_getConnection('read')->select();
-        $query  ->distinct()
-                ->from(array('admins' => $this->getTable('admin/user')), 'username')
-                ->joinInner(array('events' => $this->getTable('enterprise_logging/event')),
-                            'admins.username = events.user', array());
-        return $this->_getReadAdapter()->fetchCol($query);
+        $select = $this->_getReadAdapter()->select()
+            ->distinct()
+            ->from(array('admins' => $this->getTable('admin/user')), 'username')
+            ->joinInner(array('events' => $this->getTable('enterprise_logging/event')),
+                'admins.username = events.user', array());
+        return $this->_getReadAdapter()->fetchCol($select);
     }
-    
 }
