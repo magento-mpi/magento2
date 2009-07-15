@@ -224,7 +224,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         $sourceTable    = $resource->setStoreId($sourceStoreId)->getMainTable();
         $targetTable    = $resource->setStoreId($targetStoreId)->getMainTable();
 
-        $this->_copyFlatTable($sourceTable, $targetTable, false);
+        $this->_copyFlatTable($sourceTable, $targetTable, true);
 
         return $this;
     }
@@ -281,7 +281,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
         $sourceTable    = $resource->setStoreId($sourceStoreId)->getMainTable();
         $targetTable    = $resource->setStoreId($targetStoreId)->getMainTable();
 
-        $this->_copyFlatTable($sourceTable, $targetTable, true);
+        $this->_copyFlatTable($sourceTable, $targetTable, false);
 
         return $this;
     }

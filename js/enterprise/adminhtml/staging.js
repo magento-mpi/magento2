@@ -501,6 +501,7 @@ Enterprise.Staging.Form.prototype = {
         this.createBtn = document.getElementsByClassName('create')[0];
 
         $('staging_website_visibility_' + this.fieldSuffix).observe('change', this.frontendAuthenticationCallback);
+        this.frontendAuthenticationCallback($('staging_website_visibility_' + this.fieldSuffix));
 
     },
 
@@ -540,6 +541,9 @@ Enterprise.Staging.Form.prototype = {
     frontendAuthenticationCallback: function(event)
     {
         var element = Event.element(event);
+        if (!element) {
+            element = event;
+        }
         parts = element.id.split('_');
         if (element.value == 'require_http_auth') {
             $('staging_website_master_login_' + parts[3]).addClassName('required-entry');
