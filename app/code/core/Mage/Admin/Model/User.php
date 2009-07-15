@@ -390,6 +390,22 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     {
         $errors = array();
 
+        if (!Zend_Validate::is($this->getUsername(), 'NotEmpty')) {
+            $errors[] = Mage::helper('adminhtml')->__('User Name is required field.');
+        }
+
+        if (!Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
+            $errors[] = Mage::helper('adminhtml')->__('First Name is required field.');
+        }
+
+        if (!Zend_Validate::is($this->getLastname(), 'NotEmpty')) {
+            $errors[] = Mage::helper('adminhtml')->__('Last Name is required field.');
+        }
+
+        if (!Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
+            $errors[] = Mage::helper('adminhtml')->__('Please enter a valid email.');
+        }
+
         if ($this->hasNewPassword()) {
             if (Mage::helper('core/string')->strlen($this->getNewPassword()) < self::MIN_PASSWORD_LENGTH) {
                 $errors[] = Mage::helper('adminhtml')->__('Password must be at least of %d characters.', self::MIN_PASSWORD_LENGTH);
@@ -402,6 +418,10 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             if ($this->hasPasswordConfirmation() && $this->getNewPassword() != $this->getPasswordConfirmation()) {
                 $errors[] = Mage::helper('adminhtml')->__('Password confirmation must be same as password.');
             }
+        }
+
+        if ($this->userExists()) {
+            $errors[] = Mage::helper('adminhtml')->__('User with the same User Name or Email aleady exists');
         }
 
         if (empty($errors)) {

@@ -384,18 +384,30 @@ class Mage_Install_WizardController extends Mage_Install_Controller_Action
         $adminData      = $this->getRequest()->getPost('admin');
         $encryptionKey  = $this->getRequest()->getPost('encryption_key');
 
-        try {
-            $result = $this->_getInstaller()->createAdministrator($adminData);
-            //if returned value is array then it contains errors
-            if (is_array($result)) {
-                Mage::getSingleton('install/session')->setAdminData($adminData);
-                $this->getResponse()->setRedirect($step->getUrl());
-                return false;
-            }
+        $errors = array();
 
-            $this->_getInstaller()->installEnryptionKey($encryptionKey);
+        //preparing admin user model with data and validate it
+        $user = $this->_getInstaller()->validateAndPrepareAdministrator($adminData);
+        if (is_array($user)) {
+            $errors = $user;
         }
-        catch (Exception $e){
+
+        //checking if valid encryption key was entered
+        $result = $this->_getInstaller()->validateEncryptionKey($encryptionKey);
+        if (is_array($result)) {
+            $errors = array_merge($errors, $result);
+        }
+
+        if (!empty($errors)) {
+            Mage::getSingleton('install/session')->setAdminData($adminData);
+            $this->getResponse()->setRedirect($step->getUrl());
+            return false;
+        }
+
+        try {
+            $this->_getInstaller()->createAdministrator($user);
+            $this->_getInstaller()->installEnryptionKey($encryptionKey);
+        } catch (Exception $e){
             Mage::getSingleton('install/session')
                 ->setAdminData($adminData)
                 ->addError($e->getMessage());

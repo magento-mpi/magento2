@@ -84,6 +84,17 @@ class Mage_Adminhtml_Permissions_UserController extends Mage_Adminhtml_Controlle
         if ($data = $this->getRequest()->getPost()) {
             $model = Mage::getModel('admin/user');
             $model->setData($data);
+
+            $result = $model->validate();
+            if (is_array($result)) {
+                Mage::getSingleton('adminhtml/session')->setUserData($data);
+                foreach ($result as $message) {
+                    Mage::getSingleton('adminhtml/session')->addError($message);
+                }
+                $this->_redirect('*/*/edit', array('_current' => true));
+                return $this;
+            }
+
             try {
                 $model->save();
                 if ( $uRoles = $this->getRequest()->getParam('roles', false) ) {
