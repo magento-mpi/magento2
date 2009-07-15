@@ -90,7 +90,7 @@
                 <totals>
                     <giftcardaccount>
                         <class>enterprise_giftcardaccount/total_quote_giftcardaccount</class>
-                        <after>subtotal,shipping,tax,discount</after>
+                        <after>subtotal,shipping,tax,discount,weee</after>
                         <before>customerbalance,grand_total</before>
                         <renderer>enterprise_giftcardaccount/checkout_cart_total</renderer>
                     </giftcardaccount>
