@@ -148,11 +148,11 @@
                         <renderer>tax/checkout_tax</renderer>
                         <admin_renderer>adminhtml/sales_order_create_totals_tax</admin_renderer>
                     </tax>
-                    <tax_discount>
+                    <!--<tax_discount>
                         <class>tax/sales_total_quote_discount</class>
                         <after>tax,discount</after>
                         <before>grand_total</before>
-                    </tax_discount>
+                    </tax_discount>-->
                     <subtotal>
                         <renderer>tax/checkout_subtotal</renderer>
                         <admin_renderer>adminhtml/sales_order_create_totals_subtotal</admin_renderer>
