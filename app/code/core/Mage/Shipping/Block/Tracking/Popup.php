@@ -182,7 +182,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
     public function formatDeliveryDate($date)
     {
         $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
-        return Mage::app()->getLocale()->date(strtotime($date), Zend_Date::TIMESTAMP, null, false, true)
+        return Mage::app()->getLocale()->date(strtotime($date), Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }
 
@@ -199,7 +199,7 @@ class Mage_Shipping_Block_Tracking_Popup extends Mage_Core_Block_Template
             $time = $date . ' ' . $time;
         }
         $format = Mage::app()->getLocale()->getTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
-        return Mage::app()->getLocale()->date(strtotime($time), Zend_Date::TIMESTAMP, null, false, true)
+        return Mage::app()->getLocale()->date(strtotime($time), Zend_Date::TIMESTAMP, null, false)
             ->toString($format);
     }
 
