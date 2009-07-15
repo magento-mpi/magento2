@@ -151,6 +151,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $rewrite;
     }
 
+    /**
+     * Prepare rewrites for condition
+     *
+     * @param int $storeId
+     * @param int|array $categoryIds
+     * @param int|array $productIds
+     * @return array
+     */
     public function prepareRewrites($storeId, $categoryIds = null, $productIds = null)
     {
         $rewrites = array();
@@ -185,7 +193,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Save rewrite url
+     * Save rewrite URL
      *
      * @param array $rewriteData
      * @param Varien_Object $rewriteObject
@@ -537,6 +545,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $stores;
     }
 
+    /**
+     * Retrieve categories objects
+     *
+     * @param int|array $categoryIds
+     * @param int $storeId
+     * @param string $path
+     * @return array
+     */
     protected function _getCategories($categoryIds, $storeId = null, $path = null)
     {
         $isActiveAttribute = Mage::getModel('eav/entity_attribute')->loadByCode('catalog_category', 'is_active');
@@ -592,6 +608,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $categories;
     }
 
+    /**
+     * Retrieve category data object
+     *
+     * @param int $categoryId
+     * @param int $storeId
+     * @return Varien_Object
+     */
     public function getCategory($categoryId, $storeId)
     {
         if (!$categoryId || !$storeId) {
@@ -605,6 +628,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return false;
     }
 
+    /**
+     * Retrieve categories data objects by ids
+     *
+     * @param int|array $categoryIds
+     * @param int $storeId
+     * @return array
+     */
     public function getCategories($categoryIds, $storeId)
     {
         if (!$categoryIds || !$storeId) {
@@ -614,6 +644,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $this->_getCategories($categoryIds, $storeId);
     }
 
+    /**
+     * Retrieve category childs data objects
+     *
+     * @param Varien_Object $category
+     * @return Varien_Object
+     */
     public function loadCategoryChilds(Varien_Object $category)
     {
         if (is_null($category->getId()) || is_null($category->getStoreId())) {
@@ -643,6 +679,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $category;
     }
 
+    /**
+     * Retrieve category parent path
+     *
+     * @param Varien_Object $category
+     * @return string
+     */
     public function getCategoryParentPath(Varien_Object $category)
     {
         $store = Mage::app()->getStore($category->getStoreId());
@@ -658,6 +700,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         }
     }
 
+    /**
+     * Retrieve product ids by category
+     *
+     * @param Varien_Object|int $category
+     * @return array
+     */
     public function getProductIdsByCategory($category)
     {
         $productIds = array();
@@ -679,6 +727,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $productIds;
     }
 
+    /**
+     * Retrieve Product data objects
+     *
+     * @param int|array $productIds
+     * @param int $storeId
+     * @param int $entityId
+     * @param int $lastEntityId
+     * @return array
+     */
     protected function _getProducts($productIds = null, $storeId, $entityId = 0, &$lastEntityId)
     {
         $products = array();
@@ -690,7 +747,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             }
         }
         $select = $this->_getWriteAdapter()->select()
-            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id', 'category_ids'))
+            ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'))
             ->join(
                 array('w' => $this->getTable('catalog/product_website')),
                 $this->_getWriteAdapter()->quoteInto('e.entity_id=w.product_id AND w.website_id=?', $websiteId),
@@ -703,11 +760,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             $select->where('e.entity_id IN(?)', $productIds);
         }
 
-        $query = $this->_getWriteAdapter()->query((string)$select);
+        $query = $this->_getWriteAdapter()->query($select);
         while ($row = $query->fetch()) {
             $product = new Varien_Object($row);
             $product->setIdFieldName('entity_id');
-            $product->setCategoryIds(explode(',', $product->getCategoryIds()));
+            $product->setCategoryIds(array());
             $products[$product->getId()] = $product;
             $lastEntityId = $product->getId();
         }
@@ -715,6 +772,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         unset($query);
 
         if ($products) {
+            $select = $this->_getReadAdapter()->select()
+                ->from(
+                    $this->getTable('catalog/category_product'),
+                    array('product_id', 'category_id'))
+                ->where('product_id IN(?)', array_keys($products));
+            $categories = $this->_getReadAdapter()->fetchPairs($select);
+            foreach ($categories as $productId => $categoryId) {
+                $categoryIds = $products[$productId]->getCategoryIds();
+                $categoryIds[] = $categoryId;
+                $products[$productId]->setCategoryIds($categoryIds);
+            }
+
             foreach (array('name', 'url_key', 'url_path') as $attributeCode) {
                 $attributes = $this->_getProductAttribute($attributeCode, array_keys($products), $storeId);
                 foreach ($attributes as $productId => $attributeValue) {
@@ -726,6 +795,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $products;
     }
 
+    /**
+     * Retrieve Product data object
+     *
+     * @param int $productId
+     * @param int $storeId
+     * @return Varien_Object
+     */
     public function getProduct($productId, $storeId)
     {
         $lastId   = 0;
@@ -736,11 +812,25 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return false;
     }
 
+    /**
+     * Retrieve Product data obects for store
+     *
+     * @param int $storeId
+     * @param int $lastEntityId
+     * @return array
+     */
     public function getProductsByStore($storeId, &$lastEntityId)
     {
         return $this->_getProducts(null, $storeId, $lastEntityId, $lastEntityId);
     }
 
+    /**
+     * Retrieve Product data objects in category
+     *
+     * @param Varien_Object $category
+     * @param int $lastEntityId
+     * @return array
+     */
     public function getProductsByCategory(Varien_Object $category, &$lastEntityId)
     {
         $productIds = $this->getProductIdsByCategory($category);
@@ -750,6 +840,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         return $this->_getProducts($productIds, $category->getStoreId(), $lastEntityId, $lastEntityId);
     }
 
+    /**
+     * Remove unused rewrite URLs
+     *
+     * @param int $storeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
+     */
     public function clearCategoryProduct($storeId)
     {
         $select = $this->_getWriteAdapter()->select()
@@ -771,6 +867,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
             $where = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . ' IN(?)', $rewriteIds);
             $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         }
+
+        return $this;
     }
 
     /**

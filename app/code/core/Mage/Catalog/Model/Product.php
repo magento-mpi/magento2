@@ -290,40 +290,38 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $category;
     }
 
+    /**
+     * Set assigned category IDs array to product
+     *
+     * @param array|string $ids
+     * @return Mage_Catalog_Model_Product
+     */
     public function setCategoryIds($ids)
     {
         if (is_string($ids)) {
             $ids = explode(',', $ids);
-        } elseif (!is_array($ids)) {
+        }
+        elseif (!is_array($ids)) {
             Mage::throwException(Mage::helper('catalog')->__('Invalid category IDs'));
         }
-        foreach ($ids as $i=>$v) {
+        foreach ($ids as $i => $v) {
             if (empty($v)) {
                 unset($ids[$i]);
             }
         }
+
         $this->setData('category_ids', $ids);
         return $this;
     }
 
+    /**
+     * Retrieve assigned category Ids
+     *
+     * @return array
+     */
     public function getCategoryIds()
     {
-        if ($this->hasData('category_ids')) {
-            $ids = $this->_getData('category_ids');
-            if (!is_array($ids)) {
-                $wasLocked = false;
-                if ($this->isLockedAttribute('category_ids')) {
-                    $this->unlockAttribute('category_ids');
-                    $wasLocked = true;
-                }
-
-                $ids = !empty($ids) ? explode(',', $ids) : array();
-                $this->setData('category_ids', $ids);
-                if ($wasLocked) {
-                    $this->lockAttribute('category_ids');
-                }
-            }
-        } else {
+        if (!$this->hasData('category_ids')) {
             $wasLocked = false;
             if ($this->isLockedAttribute('category_ids')) {
                 $this->unlockAttribute('category_ids');
@@ -334,6 +332,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                 $this->lockAttribute('category_ids');
             }
         }
+
         return $this->_getData('category_ids');
     }
 
@@ -344,7 +343,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getCategoryCollection()
     {
-        return $this->getResource()->getCategoryCollection($this);
+        return $this->_getResource()->getCategoryCollection($this);
     }
 
     /**
@@ -529,6 +528,16 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             }
         }
         return $this;
+    }
+
+    /**
+     * Retrieve resource instance wrapper
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product
+     */
+    protected function _getResource()
+    {
+        return parent::_getResource();
     }
 
     /**
@@ -1467,25 +1476,15 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         return $this->_getResource()->canBeShowInCategory($this, $categoryId);
     }
 
-
+    /**
+     * Retrieve category ids where product is available
+     *
+     * @return array
+     */
     public function getAvailableInCategories()
     {
-        $allCategories = array();
-        if (is_null($this->getData('_available_in_categories'))) {
-            $assigned = $this->getCategoryIds();
-            foreach ($assigned as $one) {
-                $allCategories[] = $one;
-                $anchors = Mage::getModel('catalog/category')->load($one)->getAnchorsAbove();
-                foreach ($anchors as $anchor) {
-                    $allCategories[] = $anchor;
-                }
-            }
-
-            $this->setData('_available_in_categories', $allCategories);
-        }
-        return $this->getData('_available_in_categories');
+        return $this->_getResource()->getAvailableInCategories($this);
     }
-
 
     /**
      * Retrieve default attribute set id
