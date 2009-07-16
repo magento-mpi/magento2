@@ -33,9 +33,14 @@ class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Mage_Core_B
      */
     public function getOrder()
     {
-        return Mage::registry('current_order');
+        return $this->getParentBlock()->getOrder();
     }
 
+    public function getSource()
+    {
+        return $this->getParentBlock()->getSource();
+    }
+    
     /**
      * Retreive gift cards applied to current order
      *
@@ -44,6 +49,10 @@ class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Mage_Core_B
     public function getGiftCards()
     {
         $result = array();
+        $source = $this->getSource();
+        if (!($source instanceof Mage_Sales_Model_Order)) {
+            return $result;
+        }
         $cards = Mage::helper('enterprise_giftcardaccount')->getCards($this->getOrder());
         foreach ($cards as $card) {
             $obj = new Varien_Object();
@@ -54,5 +63,31 @@ class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Mage_Core_B
             $result[] = $obj;
         }
         return $result;
+    }
+
+    /**
+     * Initialize giftcard order total
+     *
+     * @return Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards
+     */
+    public function initTotals()
+    {
+        $total = new Varien_Object(array(
+            'code'      => $this->getNameInLayout(),
+            'block_name'=> $this->getNameInLayout(),
+            'area'      => $this->getArea()
+        ));
+        $this->getParentBlock()->addTotalBefore($total, 'grand_total');
+        return $this;
+    }
+
+    public function getLabelProperties()
+    {
+        return $this->getParentBlock()->getLabelProperties();
+    }
+
+    public function getValueProperties()
+    {
+        return $this->getParentBlock()->getValueProperties();
     }
 }

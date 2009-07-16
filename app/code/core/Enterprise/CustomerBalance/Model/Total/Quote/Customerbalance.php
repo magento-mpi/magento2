@@ -29,9 +29,9 @@ class Enterprise_CustomerBalance_Model_Total_Quote_Customerbalance extends Mage_
 {
     /**
      * Init total model, set total code
-     *
      */
-    public function __construct(){
+    public function __construct()
+    {
         $this->setCode('customerbalance');
     }
 

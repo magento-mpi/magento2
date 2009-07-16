@@ -29,9 +29,9 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
 {
     /**
      * Init total model, set total code
-     *
      */
-    public function __construct(){
+    public function __construct()
+    {
         $this->setCode('giftcardaccount');
     }
 
@@ -43,7 +43,8 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
         $this->_collectQuoteGiftCards($address->getQuote());
-        $baseAmountLeft = $address->getQuote()->getBaseGiftCardsAmount()-$address->getQuote()->getBaseGiftCardsAmountUsed();
+        $baseAmountLeft = $address->getQuote()->getBaseGiftCardsAmount()
+            - $address->getQuote()->getBaseGiftCardsAmountUsed();
         $amountLeft = $address->getQuote()->getGiftCardsAmount()-$address->getQuote()->getGiftCardsAmountUsed();
 
         $baseTotalUsed = $totalUsed = $baseUsed = $used = $skipped = $baseSaved = $saved = 0;
@@ -135,7 +136,6 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
                     $amount += $card['a'];
                 }
             }
-
             Mage::helper('enterprise_giftcardaccount')->setCards($quote, $cards);
 
             $quote->setBaseGiftCardsAmount($baseAmount);

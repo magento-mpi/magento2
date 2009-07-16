@@ -24,12 +24,15 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<?php $_order = $this->getOrder(); ?>
-<?php if ($_order->getCustomerBalanceTotalRefunded()): ?>
+<?php 
+    $_order  = $this->getOrder();
+    $_source = $this->getSource();
+?>
+<?php if ($_source->getCustomerBalanceTotalRefunded()): ?>
 <tr>
-    <td class="a-right" colspan="4">
+    <td <?php echo $this->getLabelProperties()?>>
         <?php echo Mage::helper('enterprise_giftcardaccount')->__('Refunded to Store Credit'); ?>
     </td>
-    <td class="a-right"><?php echo $_order->formatPrice($_order->getCustomerBalanceTotalRefunded()) ?></td>
+    <td <?php echo $this->getValueProperties()?>><?php echo $_order->formatPrice($_source->getCustomerBalanceTotalRefunded()) ?></td>
 </tr>
 <?php endif; ?>
