@@ -136,7 +136,7 @@ final class Mage
      */
     public static function getVersion()
     {
-        return '1.3.2.3';
+        return '1.4.0.0-Alpha';
     }
 
     /**
