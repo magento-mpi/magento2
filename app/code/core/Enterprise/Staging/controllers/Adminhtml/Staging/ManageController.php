@@ -136,12 +136,9 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
     public function gridAction()
     {
         $staging = $this->_initStaging();
-        $this->getResponse()->setBody(
-            $this->getLayout()
-                ->createBlock('enterprise_staging/manage_staging_grid')
-                ->setStaging($staging)
-                ->toHtml()
-        );
+
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -239,7 +236,8 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 $this->_getSession()->addError($e->getMessage());
                 $staging->releaseCoreFlag();
             } catch (Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->_getSession()->addError(Mage::helper('enterprise_staging')->_('Error while saving staging data. Please review log and try again.'));
+                Mage::logException($e);
                 $staging->releaseCoreFlag();
             }
         }

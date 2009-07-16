@@ -33,6 +33,11 @@
         </reference>
     </adminhtml_staging_manage_index>
 
+    <adminhtml_staging_manage_grid>
+        <remove name="root" />
+        <block type="enterprise_staging/adminhtml_staging_grid" output="toHtml" name="enterprise_staging_grid" />
+    </adminhtml_staging_manage_grid>
+
     <adminhtml_staging_manage_new>
         <update handle="adminhtml_staging_manage_edit" />
     </adminhtml_staging_manage_new>
