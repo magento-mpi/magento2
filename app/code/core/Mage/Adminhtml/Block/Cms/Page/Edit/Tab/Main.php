@@ -32,7 +32,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
+    extends Mage_Adminhtml_Block_Widget_Form
+    implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
 
     protected function _prepareForm()
@@ -46,19 +48,19 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
         $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('cms')->__('General Information'),'class'=>'fieldset-wide'));
 
         if ($model->getPageId()) {
-        	$fieldset->addField('page_id', 'hidden', array(
+            $fieldset->addField('page_id', 'hidden', array(
                 'name' => 'page_id',
             ));
         }
 
-    	$fieldset->addField('title', 'text', array(
+        $fieldset->addField('title', 'text', array(
             'name'      => 'title',
             'label'     => Mage::helper('cms')->__('Page Title'),
             'title'     => Mage::helper('cms')->__('Page Title'),
             'required'  => true,
         ));
 
-    	$fieldset->addField('identifier', 'text', array(
+        $fieldset->addField('identifier', 'text', array(
             'name'      => 'identifier',
             'label'     => Mage::helper('cms')->__('SEF URL Identifier'),
             'title'     => Mage::helper('cms')->__('SEF URL Identifier'),
@@ -87,7 +89,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             $model->setStoreId(Mage::app()->getStore(true)->getId());
         }
 
-    	$fieldset->addField('is_active', 'select', array(
+        $fieldset->addField('is_active', 'select', array(
             'label'     => Mage::helper('cms')->__('Status'),
             'title'     => Mage::helper('cms')->__('Page Status'),
             'name'      => 'is_active',
@@ -98,7 +100,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
             ),
         ));
 
-    	$fieldset->addField('content', 'editor', array(
+        $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
             'label'     => Mage::helper('cms')->__('Content'),
             'title'     => Mage::helper('cms')->__('Content'),
@@ -112,5 +114,45 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main extends Mage_Adminhtml_Block_W
         $this->setForm($form);
 
         return parent::_prepareForm();
+    }
+
+    /**
+     * Prepare label for tab
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('cms')->__('General Information');
+    }
+
+    /**
+     * Prepare title for tab
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return Mage::helper('cms')->__('General Information');
+    }
+
+    /**
+     * Returns status flag about this tab can be showen or not
+     *
+     * @return true
+     */
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    /**
+     * Returns status flag about this tab hidden or not
+     *
+     * @return true
+     */
+    public function isHidden()
+    {
+        return false;
     }
 }

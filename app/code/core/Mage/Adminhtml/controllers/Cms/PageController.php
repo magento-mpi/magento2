@@ -56,9 +56,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page'))
-            ->renderLayout();
+        $this->_initAction();
+        $this->renderLayout();
     }
 
     /**
@@ -81,14 +80,14 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
         // 2. Initial checking
         if ($id) {
-            $model->load($id);/*die('<br>#stop');*/
+            $model->load($id);
             if (! $model->getId()) {
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('cms')->__('This page no longer exists'));
                 $this->_redirect('*/*/');
                 return;
             }
         }
-//print '<pre>';var_dump($model->getData());
+
         // 3. Set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
         if (! empty($data)) {
@@ -100,9 +99,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
 
         // 5. Build edit form
         $this->_initAction()
-            ->_addBreadcrumb($id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'), $id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/cms_page_edit')->setData('action', $this->getUrl('*/cms_page/save')))
-            ->_addLeft($this->getLayout()->createBlock('adminhtml/cms_page_edit_tabs'));
+            ->_addBreadcrumb($id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'), $id ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'));
 
         if (Mage::app()->getConfig()->getModuleConfig('Mage_GoogleOptimizer')->is('active', true)
             && Mage::helper('googleoptimizer')->isOptimizerActiveForCms()) {
@@ -209,6 +206,16 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('cms/page');
+        switch ($this->getRequest()->getActionName()) {
+            case 'save':
+                return Mage::getSingleton('admin/session')->isAllowed('cms/page/save');
+                break;
+            case 'delete':
+                return Mage::getSingleton('admin/session')->isAllowed('cms/page/delete');
+                break;
+            default:
+                return Mage::getSingleton('admin/session')->isAllowed('cms/page');
+                break;
+        }
     }
 }

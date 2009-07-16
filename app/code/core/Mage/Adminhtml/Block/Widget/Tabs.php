@@ -349,4 +349,24 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
         }
         return $result;
     }
+
+    /**
+     * Set tab property by tab's identifier
+     *
+     * @param string $tab
+     * @param string $key
+     * @param mixed $value
+     * @return Mage_Adminhtml_Block_Widget_Tabs
+     */
+    public function setTabData($tab, $key, $value)
+    {
+        if (isset($this->_tabs[$tab]) && $this->_tabs[$tab] instanceof Varien_Object) {
+            if ($key == 'url') {
+                $value = $this->getUrl($value, array('_current' => true, '_use_rewrite' => true));
+            }
+            $this->_tabs[$tab]->setData($key, $value);
+        }
+
+        return $this;
+    }
 }

@@ -31,7 +31,9 @@
  * @package     Mage_GoogleOptimizer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
+    extends Mage_Adminhtml_Block_Widget_Form
+    implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     protected function _prepareForm()
     {
@@ -174,5 +176,45 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer ext
             $googleOptimizer = $this->getCmsPage()->getGoogleOptimizerScripts();
         }
         return $googleOptimizer;
+    }
+
+    /**
+     * Prepare label for tab
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('googleoptimizer')->__('Page View Optimization');
+    }
+
+    /**
+     * Prepare title for tab
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return Mage::helper('googleoptimizer')->__('Page View Optimization');
+    }
+
+    /**
+     * Returns status flag about this tab can be showen or not
+     *
+     * @return true
+     */
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    /**
+     * Returns status flag about this tab hidden or not
+     *
+     * @return true
+     */
+    public function isHidden()
+    {
+        return false;
     }
 }

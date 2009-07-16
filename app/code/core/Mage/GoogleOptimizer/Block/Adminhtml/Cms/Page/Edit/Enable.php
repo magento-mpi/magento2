@@ -19,26 +19,39 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Adminhtml
+ * @package    Mage_GoogleOptimizer
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Admin page left menu
+ * Tool block to add new tab for cms page edit tab control
  *
- * @category   Mage
- * @package    Mage_Adminhtml
+ * @category    Mage
+ * @package     Mage_GoogleOptimizer
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Cms_Page_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Enable extends Mage_Adminhtml_Block_Template
 {
-
-    public function __construct()
+    /**
+     * Utility method to add google optimizer tab to cms page edit page
+     * in case it enabled in system. Uses as parameters tab container name,
+     * new tab name and tab block type.
+     *
+     * @param $container
+     * @param $name
+     * @param $block
+     * @return Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Enable
+     */
+    public function ifGoogleOptiomizerEnabled($container, $name, $block)
     {
-        parent::__construct();
-        $this->setId('page_tabs');
-        $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('cms')->__('Page Information'));
+        if (Mage::helper('googleoptimizer')->isOptimizerActiveForCms()) {
+            $containerBlock = $this->getLayout()->getBlock($container);
+            if ($containerBlock) {
+                $containerBlock->addTab($name, $block);
+            }
+        }
+
+        return $this;
     }
 }
