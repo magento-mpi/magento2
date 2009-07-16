@@ -192,11 +192,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
 
     /**
      * Load categories product count
-     *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
      */
     protected function _loadProductCount()
     {
+        if ($this->isLoaded()) {
+            return;
+        }
         $this->loadProductCount($this->_items, true, true);
     }
 
