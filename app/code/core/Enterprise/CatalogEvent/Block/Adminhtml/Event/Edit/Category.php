@@ -66,7 +66,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Category extends Mage_A
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
         if ($asJson) {
-            return Zend_Json::encode($result);
+            return Mage::helper('core')->jsonEncode($result);
         }
         return $result;
     }

@@ -135,6 +135,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             $result[$id] = $website->getBaseCurrencyCode();
         }
 
-        return Zend_Json::encode($result);
+        return Mage::helper('core')->jsonEncode($result);
     }
 }

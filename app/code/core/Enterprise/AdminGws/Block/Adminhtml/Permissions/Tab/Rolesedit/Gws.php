@@ -84,6 +84,6 @@ class Enterprise_AdminGws_Block_Adminhtml_Permissions_Tab_Rolesedit_Gws extends 
                 }
             }
         }
-        return Zend_Json::encode($result);
+        return Mage::helper('core')->jsonEncode($result);
     }
 }

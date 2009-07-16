@@ -141,7 +141,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Merge_Settings_Website extends 
         if (!$stores) {
             return '{}';
         } else {
-            return Zend_Json::encode($stores);
+            return Mage::helper('core')->jsonEncode($stores);
         }
     }
 

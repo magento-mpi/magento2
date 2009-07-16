@@ -56,6 +56,6 @@ class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalan
             }
         }
 
-        return Zend_Json::encode($result);
+        return Mage::helper('core')->jsonEncode($result);
     }
 }

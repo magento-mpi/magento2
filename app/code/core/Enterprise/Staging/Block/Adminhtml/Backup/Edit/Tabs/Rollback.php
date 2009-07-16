@@ -139,7 +139,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback extends Mage_
         if (!$stores) {
             return '{}';
         } else {
-            return Zend_Json::encode($stores);
+            return Mage::helper('core')->jsonEncode($stores);
         }
     }
 

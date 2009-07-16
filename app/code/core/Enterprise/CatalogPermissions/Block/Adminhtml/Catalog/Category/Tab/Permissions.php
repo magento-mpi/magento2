@@ -91,7 +91,7 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         //$config['use_parent_config'] = Mage::helper('enterprise_catalogpermissions')->__('(Config)');
         $config['use_parent_config'] = '';
 
-        return Zend_Json::encode($config);
+        return Mage::helper('core')->jsonEncode($config);
     }
 
     /**

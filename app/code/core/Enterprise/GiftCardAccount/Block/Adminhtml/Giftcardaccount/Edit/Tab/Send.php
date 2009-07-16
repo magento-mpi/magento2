@@ -91,14 +91,14 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
                 );
                 foreach ($group->getStores() as $storeId => $store) {
                     $websiteStores[$websiteId][$groupId]['stores'][] = array(
-                        'id'   => $storeId,    
+                        'id'   => $storeId,
                         'name' => $store->getName(),
                     );
                 }
             }
         }
-        
-        $websiteStores = Zend_Json::encode($websiteStores);
+
+        $websiteStores = Mage::helper('core')->jsonEncode($websiteStores);
 
         $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";
@@ -115,17 +115,17 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
                 for (groupKey in groups) {
                     group = groups[groupKey];
                     optionGroup = document.createElement("OPTGROUP");
-                    optionGroup.label = group["name"];  
+                    optionGroup.label = group["name"];
                     sSel.appendChild(optionGroup);
-                    
+
                     stores = group["stores"];
                     for (i=0; i < stores.length; i++) {
                         option = new Option();
                         option.value = stores[i]["id"];
                         option.text = stores[i]["name"];
-                        optionGroup.appendChild(option);  
+                        optionGroup.appendChild(option);
                     }
-                }                 
+                }
             }
         }
         //]]></script>';
