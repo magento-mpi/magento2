@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Enterprise>
-             <version>0.0.1</version>
+             <version>0.0.2</version>
         </Enterprise_Enterprise>
     </modules>
     <global>
@@ -91,6 +91,11 @@
                 <copyright>&amp;copy; 2009 Magento Enterprise Edition Demo Store. All Rights Reserved.</copyright>
             </footer>
         </design>
+        <system>
+            <adminnotification>
+                <feed_url>notifications.magentocommerce.com/enterprise/notifications-feed</feed_url>
+            </adminnotification>
+        </system>
     </default>
     <adminhtml>
         <layout>

@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -24,19 +23,12 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<config>
-    <modules>
-        <Enterprise_Enterprise>
-            <active>false</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Cms/>
-                <Mage_Install/>
-                <Mage_Adminhtml/>
-                <Mage_Admin/>
-                <Mage_AdminNotification/>
-            </depends>
-        </Enterprise_Enterprise>
-    </modules>
-</config>
+
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer = $this;
+$installer->startSetup();
+
+$installer->run("TRUNCATE `{$installer->getTable('adminnotification/inbox')}`");
+
+$installer->endSetup();
+
