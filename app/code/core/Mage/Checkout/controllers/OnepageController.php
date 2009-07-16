@@ -388,14 +388,14 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             if ($redirectUrl) {
                 $result['redirect'] = $redirectUrl;
             }
-        }
-        catch (Mage_Payment_Exception $e) {
+        } catch (Mage_Payment_Exception $e) {
             if ($e->getFields()) {
                 $result['fields'] = $e->getFields();
             }
             $result['error'] = $e->getMessage();
-        }
-        catch (Exception $e) {
+        } catch (Mage_Core_Exception $e) {
+            $result['error'] = $e->getMessage();
+        } catch (Exception $e) {
             Mage::logException($e);
             $result['error'] = $this->__('Unable to set Payment Method.');
         }

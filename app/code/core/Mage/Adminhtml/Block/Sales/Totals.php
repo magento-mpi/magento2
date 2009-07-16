@@ -94,7 +94,8 @@ class Mage_Adminhtml_Block_Sales_Totals extends Mage_Sales_Block_Order_Totals
             'strong'    => true,
             'value'     => $this->getSource()->getGrandTotal(),
             'base_value'=> $this->getSource()->getBaseGrandTotal(),
-            'label'     => $this->helper('sales')->__('Grand Total')
+            'label'     => $this->helper('sales')->__('Grand Total'),
+            'area'      => 'footer'
         ));
 
         return $this;

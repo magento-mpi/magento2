@@ -619,11 +619,14 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
      */
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
-        $applied = $address->getAppliedTaxes();
-        $store = $address->getQuote()->getStore();
+        $applied= $address->getAppliedTaxes();
+        $store  = $address->getQuote()->getStore();
         $amount = $address->getTaxAmount();
-        $area = $this->_config->displayCartTaxWithGrandTotal($store) ? 'taxes' : null;
-        
+        $area   = null;
+        if ($this->_config->displayCartTaxWithGrandTotal($store) && $address->getGrandTotal()) {
+            $area = 'taxes';
+        }
+
         if (($amount!=0) || ($this->_config->displayCartZeroTax($store))) {
             $address->addTotal(array(
                 'code'      => $this->getCode(),

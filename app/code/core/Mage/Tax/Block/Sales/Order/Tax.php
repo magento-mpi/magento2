@@ -79,8 +79,8 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
         
         $store = $this->getStore();
         $allowTax = ($this->_source->getTaxAmount() > 0) || ($this->_config->displaySalesZeroTax($store));
-        
-        if ($allowTax && !$this->_config->displaySalesTaxWithGrandTotal($store)) {
+        $grandTotal = (float) $this->_source->getGrandTotal();
+        if (!$grandTotal || ($allowTax && !$this->_config->displaySalesTaxWithGrandTotal($store))) {
             $this->_addTax();
         }
 
@@ -183,7 +183,7 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
             $baseShippingIncl = $baseShipping + $this->_source->getBaseShippingTaxAmount();
 
             $totalExcl = new Varien_Object(array(
-                'code'      => 'shipping_excl',
+                'code'      => 'shipping',
                 'value'     => $shipping,
                 'base_value'=> $baseShipping,
                 'label'     => $this->__('Shipping & Handling (Excl.Tax)')
@@ -195,7 +195,7 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
                 'label'     => $this->__('Shipping & Handling (Incl.Tax)')
             ));
             $parent->addTotal($totalExcl, 'shipping');
-            $parent->addTotal($totalIncl, 'shipping_excl');
+            $parent->addTotal($totalIncl, 'shipping');
             $parent->removeTotal('shipping');
         } elseif ($this->_config->displaySalesShippingInclTax($store)) {
             $shippingIncl = $this->_source->getShippingAmount()
@@ -227,7 +227,7 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
         $store  = $this->getStore();
         $parent = $this->getParentBlock();
         $grandototal = $parent->getTotal('grand_total');
-        if (!$grandototal) {
+        if (!$grandototal || !(float)$this->_source->getGrandTotal()) {
             return $this;
         }
 
@@ -239,7 +239,7 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
             $grandtotalExcl     = max($grandtotalExcl, 0);
             $baseGrandtotalExcl = max($baseGrandtotalExcl, 0);
             $totalExcl = new Varien_Object(array(
-                'code'      => 'grand_total_excl',
+                'code'      => 'grand_total',
                 'strong'    => true,
                 'value'     => $grandtotalExcl,
                 'base_value'=> $baseGrandtotalExcl,
@@ -253,7 +253,7 @@ class Mage_Tax_Block_Sales_Order_Tax extends Mage_Core_Block_Template
                 'label'     => $this->__('Grand Total (Incl.Tax)')
             ));
             $parent->addTotal($totalExcl, 'grand_total');
-            $this->_addTax('grand_total_excl');
+            $this->_addTax('grand_total');
             $parent->addTotal($totalIncl, 'tax');
             $parent->removeTotal('grand_total');
         }

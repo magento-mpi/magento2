@@ -66,11 +66,13 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
     }
 
     /**
-     * Import data
+     * Import data array to payment method object,
+     * Method calls quote totals collect because payment method availability
+     * can be related to quote totals
      *
-     * @param array $data
-     * @throws Mage_Core_Exception
-     * @return Mage_Sales_Model_Quote_Payment
+     * @param   array $data
+     * @throws  Mage_Core_Exception
+     * @return  Mage_Sales_Model_Quote_Payment
      */
     public function importData(array $data)
     {
@@ -86,6 +88,12 @@ class Mage_Sales_Model_Quote_Payment extends Mage_Payment_Model_Info
         $this->setMethod($data->getMethod());
         $method = $this->getMethodInstance();
 
+        /**
+         * Payment avalability related with quote totals.
+         * We have recollect quote totals before checking
+         */
+        $this->getQuote()->collectTotals();
+        
         if (!$method->isAvailable($this->getQuote())) {
             Mage::throwException(Mage::helper('sales')->__('Requested Payment Method is not available'));
         }

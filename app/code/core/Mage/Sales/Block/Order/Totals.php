@@ -154,7 +154,7 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
     }
 
     /**
-     * Add new total to totals array
+     * Add new total to totals array after specific total or before last total by default
      *
      * @param   Varien_Object $total
      * @param   null|string|last|first $after
@@ -191,6 +191,44 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
         return $this;
     }
 
+    /**
+     * Add new total to totals array before specific total or after first total by default
+     *
+     * @param   Varien_Object $total
+     * @param   null|string $after
+     * @return  Mage_Sales_Block_Order_Totals
+     */
+    public function addTotalBefore(Varien_Object $total, $before=null)
+    {
+        if ($before !== null) {
+            if (isset($this->_totals[$before])) {
+                $totals = array();
+                foreach ($this->_totals as $code => $item) {
+                    if ($code == $before) {
+                        $totals[$total->getCode()] = $total;
+                    }
+                    $totals[$code] = $item;
+                }
+                $this->_totals = $totals;
+                return $this;
+            } 
+        }
+        $totals = array();
+        $first = array_shift($this->_totals);
+        $totals[$first->getCode()] = $first;
+        $totals[$total->getCode()] = $total;
+        foreach ($this->_totals as $code => $item) {
+            $totals[$code] = $item;
+        }
+        $this->_totals = $totals;
+        return $this;
+    }
+
+    /**
+     * Get Total object by code
+     *
+     * @@return Varien_Object
+     */
     public function getTotal($code)
     {
         if (isset($this->_totals[$code])) {
@@ -232,9 +270,21 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
      *
      * @return array
      */
-    public function getTotals()
+    public function getTotals($area=null)
     {
-        return $this->_totals;
+        $totals = array();
+        if ($area === null) {
+            $totals = $this->_totals;
+        } else {
+            $area = (string)$area;
+            foreach ($this->_totals as $total) {
+                $totalArea = (string) $total->getArea();
+                if ($totalArea == $area) {
+                    $totals[] = $total;
+                }
+            }
+        } 
+        return $totals;
     }
 
     /**
