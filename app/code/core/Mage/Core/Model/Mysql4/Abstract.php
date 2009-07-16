@@ -364,7 +364,8 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
             if ($this->_isPkAutoIncrement) {
                 $this->_getWriteAdapter()->update($this->getMainTable(), $this->_prepareDataForSave($object), $condition);
             } else {
-                $select = $this->_getWriteAdapter()->select($this->getMainTable(), array($this->getIdFieldName()))
+                $select = $this->_getWriteAdapter()->select()
+                    ->from($this->getMainTable(), array($this->getIdFieldName()))
                     ->where($condition);
                 if ($this->_getWriteAdapter()->fetchOne($select) !== false) {
                     $this->_getWriteAdapter()->update($this->getMainTable(), $this->_prepareDataForSave($object), $condition);
