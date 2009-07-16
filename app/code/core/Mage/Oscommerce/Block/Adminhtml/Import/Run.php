@@ -114,7 +114,7 @@ var maxRows = 0;
 var savedRows = 0;
 var totalRecords = {"categories":0,"products":0,"customers":0,"orders":0};
 var totalImportedRecords = {"categories":0,"products":0,"customers":0,"orders":0};
-var config= '.Zend_Json::encode($batchConfig).';
+var config= '.Mage::helper('core')->jsonEncode($batchConfig).';
 </script>
 <script type="text/javascript">
 function addImportData(data) {
@@ -257,7 +257,7 @@ String.prototype.ucFirst = function () {
                                     'from'        => ($i > 0 ? $i * $maxRows:$i),
                                     'is_done'     => ($i == $page - 1)?true:false
                                 );
-                                echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
+                                echo '<script type="text/javascript">addImportData('.Mage::helper('core')->jsonEncode($data).')</script>';
                             }
 
 //                        if ($importType=='categories') {
@@ -267,7 +267,7 @@ String.prototype.ucFirst = function () {
 //                                'page'        => 'all',
 //                                'is_done'     => true
 //                            );
-//                            echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
+//                            echo '<script type="text/javascript">addImportData('.Mage::helper('core')->jsonEncode($data).')</script>';
 //
 //                        } else {
 //                            $page =  floor($totalRecord/$maxRows) + 1;
@@ -278,7 +278,7 @@ String.prototype.ucFirst = function () {
 //                                    'from'        => ($i > 0 ? $i * $maxRows:$i),
 //                                    'is_done'     => ($i == $page - 1)?true:false
 //                                );
-//                                echo '<script type="text/javascript">addImportData('.Zend_Json::encode($data).')</script>';
+//                                echo '<script type="text/javascript">addImportData('.Mage::helper('core')->jsonEncode($data).')</script>';
 //                            }
 //                        }
                     }

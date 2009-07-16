@@ -340,7 +340,7 @@ class Mage_Core_Model_Layout extends Varien_Simplexml_Config
             if (isset($node['json'])) {
                 $json = explode(' ', (string)$node['json']);
                 foreach ($json as $arg) {
-                    $args[$arg] = Zend_Json::decode($args[$arg]);
+                    $args[$arg] = Mage::helper('core')->jsonDecode($args[$arg]);
                 }
             }
 

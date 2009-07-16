@@ -290,14 +290,14 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Zend_Json::encode($response);
+            $response = Mage::helper('core')->jsonEncode($response);
         }
         catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Can not update item qty')
             );
-            $response = Zend_Json::encode($response);
+            $response = Mage::helper('core')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }
@@ -430,14 +430,14 @@ class Mage_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Con
                 'error'     => true,
                 'message'   => $e->getMessage()
             );
-            $response = Zend_Json::encode($response);
+            $response = Mage::helper('core')->jsonEncode($response);
         }
         catch (Exception $e) {
             $response = array(
                 'error'     => true,
                 'message'   => $this->__('Can not add new comment.')
             );
-            $response = Zend_Json::encode($response);
+            $response = Mage::helper('core')->jsonEncode($response);
         }
         $this->getResponse()->setBody($response);
     }

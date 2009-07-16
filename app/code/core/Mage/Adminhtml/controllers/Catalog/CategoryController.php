@@ -379,7 +379,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
 
         $block = $this->getLayout()->createBlock('adminhtml/catalog_category_tree');
         $root  = $block->getRoot();
-        $this->getResponse()->setBody(Zend_Json::encode(array(
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array(
             'data' => $block->getTree(),
             'parameters' => array(
                 'text'        => $block->buildNodeName($root),
@@ -401,7 +401,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         if ($id = (int) $this->getRequest()->getParam('id')) {
             $category = Mage::getModel('catalog/category')->load($id);
             $this->getResponse()->setBody(
-                Zend_Json::encode(array(
+                Mage::helper('core')->jsonEncode(array(
                    'id' => $id,
                    'path' => $category->getPath(),
                 ))

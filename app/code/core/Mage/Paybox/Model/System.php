@@ -181,7 +181,7 @@ class Mage_Paybox_Model_System extends Mage_Payment_Model_Method_Abstract
      */
     public function getJsonCartTypes()
     {
-        return Zend_Json::encode($this->_getCartTypes());
+        return Mage::helper('core')->jsonEncode($this->_getCartTypes());
     }
 
     /**

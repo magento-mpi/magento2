@@ -144,7 +144,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
             $this->setFlag('', self::FLAG_NO_POST_DISPATCH, true);
             if ($this->getRequest()->getQuery('isAjax', false) || $this->getRequest()->getQuery('ajax', false)) {
-                $this->getResponse()->setBody(Zend_Json::encode(array(
+                $this->getResponse()->setBody(Mage::helper('core')->jsonEncode(array(
                     'error' => true,
                     'message' => $_keyErrorMsg
                 )));

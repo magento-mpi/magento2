@@ -223,7 +223,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
 	        'savedRows' => $importModel->getResource()->getSaveRows(),
 	        'errors'    => ( $errors ? $errors: array())
         );
-        $this->getResponse()->setBody(Zend_Json::encode($result));
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
     public function runAction()
@@ -389,7 +389,7 @@ class Mage_Oscommerce_Adminhtml_ImportController extends Mage_Adminhtml_Controll
 			        'error'    => true,
 			        'messages' => $html
 		        );
-        		$this->getResponse()->setBody(Zend_Json::encode($result));
+        		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
             } else {
         		$this->getResponse()->setBody($html);
             }

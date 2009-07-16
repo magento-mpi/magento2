@@ -47,7 +47,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_priceDisplayType;
     protected $_shippingPriceDisplayType;
 
-    public function  __construct() 
+    public function  __construct()
     {
         $this->_config = Mage::getSingleton('tax/config');
     }
@@ -320,7 +320,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPriceFormat($store = null)
     {
-        return Zend_Json::encode(Mage::app()->getLocale()->getJsPriceFormat());
+        return Mage::helper('core')->jsonEncode(Mage::app()->getLocale()->getJsPriceFormat());
     }
 
     /**
@@ -342,7 +342,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
             $result["value_{$class}"] = $rate;
         }
 
-        return Zend_Json::encode($result);
+        return Mage::helper('core')->jsonEncode($result);
     }
 
     /**

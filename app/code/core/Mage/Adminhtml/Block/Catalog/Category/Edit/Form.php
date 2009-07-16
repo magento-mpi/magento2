@@ -204,7 +204,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Edit_Form extends Mage_Adminhtml_Blo
     {
         $products = $this->getCategory()->getProductsPosition();
         if (!empty($products)) {
-            return Zend_Json::encode($products);
+            return Mage::helper('core')->jsonEncode($products);
         }
         return '{}';
     }

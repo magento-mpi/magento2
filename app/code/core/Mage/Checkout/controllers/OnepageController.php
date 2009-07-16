@@ -75,7 +75,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $this->_ajaxRedirectResponse();
             return true;
         }
-        Mage::getSingleton('core/translate_inline')->setIsAjaxRequest(true);
+
         return false;
     }
 
@@ -253,7 +253,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
         if ($this->getRequest()->isPost()) {
             $method = $this->getRequest()->getPost('method');
             $result = $this->getOnepage()->saveCheckoutMethod($method);
-            $this->getResponse()->setBody(Zend_Json::encode($result));
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
         }
     }
 
@@ -296,7 +296,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
                 }
             }
 
-            $this->getResponse()->setBody(Zend_Json::encode($result));
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
         }
     }
 
@@ -322,7 +322,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
 //            $result['shipping_methods_html'] = $this->getLayout()->getBlock('root')->toHtml();
 //            $result['shipping_methods_html'] = $this->_getShippingMethodsHtml();
 
-            $this->getResponse()->setBody(Zend_Json::encode($result));
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
         }
     }
 
@@ -339,7 +339,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             */
             if(!$result) {
                 Mage::dispatchEvent('checkout_controller_onepage_save_shipping_method', array('request'=>$this->getRequest(), 'quote'=>$this->getOnepage()->getQuote()));
-                $this->getResponse()->setBody(Zend_Json::encode($result));
+                $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 
                 $result['goto_section'] = 'payment';
                 $result['update_section'] = array(
@@ -349,7 +349,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
 
 //                $result['payment_methods_html'] = $this->_getPaymentMethodsHtml();
             }
-            $this->getResponse()->setBody(Zend_Json::encode($result));
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
         }
 
     }
@@ -399,7 +399,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             Mage::logException($e);
             $result['error'] = $this->__('Unable to set Payment Method.');
         }
-        $this->getResponse()->setBody(Zend_Json::encode($result));
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
     public function saveOrderAction()
@@ -416,7 +416,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
                     $result['success'] = false;
                     $result['error'] = true;
                     $result['error_messages'] = $this->__('Please agree to all Terms and Conditions before placing the order.');
-                    $this->getResponse()->setBody(Zend_Json::encode($result));
+                    $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
                     return;
                 }
             }
@@ -470,7 +470,7 @@ class Mage_Checkout_OnepageController extends Mage_Checkout_Controller_Action
             $result['redirect'] = $redirectUrl;
         }
 
-        $this->getResponse()->setBody(Zend_Json::encode($result));
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
 }

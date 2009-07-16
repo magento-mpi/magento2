@@ -217,7 +217,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
             $items[] = $item;
         }
 
-        return Zend_Json::encode($items);
+        return Mage::helper('core')->jsonEncode($items);
     }
 
     /**
@@ -274,7 +274,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
             );
         }
 
-        return Zend_Json::encode($items);
+        return Mage::helper('core')->jsonEncode($items);
     }
 
     /**
