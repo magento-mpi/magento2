@@ -190,6 +190,9 @@ ul.add-row .btn-remove,
 .form-alt .input-box { width:496px; margin-top:5px; padding-bottom:11px; }
 .form-alt .input-text { width:480px; }
 
+.inner-form { margin:10px 0 5px; padding:10px 0 0; border:1px dashed #d1d1d1; border-width:1px; background:#f7f7f7; }
+.inner-form .form-alt label { padding-left:5px; }
+
 /* Date Of Birth */
 .form-list .customer-dob label { float:none; width:auto; padding:0; font-size:11px; font-weight:normal; color:#777; }
 .form-list .customer-dob .input-box { float:left; width:auto; margin-right:8px; }
@@ -1563,15 +1566,19 @@ button.btn-cart span {}
 .multiple-checkout .grand-total { font-weight:normal; font-size:18px; color:#cd3800; text-align:right; display:block; margin:10px 0 15px; }
 .multiple-checkout .grand-total .price-label { font-weight:normal; }
 .multiple-checkout .grand-total .price { font-weight:bold; }
+.multiple-checkout .sp-methods  { font-size:12px; }
+.multiple-checkout .checkout-multishipping-payment-customerbalance  { font-size:12px; margin-bottom:7px; }
 
 
 /********** < Common Checkout Styles */
 /* Shipping and Payment methods */
 .sp-methods dt { font-weight:bold; margin-bottom:5px; }
 .sp-methods .price { font-weight:bold; }
-.sp-methods .form-list { padding-left:20px; }
+.sp-methods .form-list { padding-left:20px; margin:15px 0; }
 .sp-methods .form-list .input-text { width:250px; }
 .sp-methods .form-list select { width:256px; }
+.sp-methods .form-list label { width:155px; }
+
 
 .sp-methods select.month { width:150px; margin-right:10px; }
 .sp-methods select.year { width:96px; }
@@ -1580,6 +1587,7 @@ button.btn-cart span {}
 .sp-methods .radio,
 .sp-methods .checkbox {}
 .sp-methods .v-fix .validation-advice { margin-right:-250px; position:relative; z-index:1; width:250px; }
+.sp-methods .adv-container { padding-left:170px; }
 
 .please-wait { float:right; z-index:99; position:absolute; top:50%; left:50%; margin:-34px 0 0 -90px; display:block; border:5px solid #f3b66f; font-size:12px; color:#f18200; font-weight:bold; background:#fff; padding:20px; white-space:nowrap; }
 .cvv-what-is-this { cursor:help; margin-left:5px; }
