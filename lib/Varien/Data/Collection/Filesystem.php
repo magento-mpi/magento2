@@ -174,7 +174,7 @@ class Varien_Data_Collection_Filesystem extends Varien_Data_Collection
      */
     public function setCollectFiles($value)
     {
-        $this->_collectDirs = (bool)$value;
+        $this->_collectFiles = (bool)$value;
         return $this;
     }
 
