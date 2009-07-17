@@ -168,14 +168,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
     }
 
     /**
-     * Enter description here...
+     * Load collection
      *
-     * @param boolean $printQuery
-     * @param boolean $logQuery
+     * @param bool $printQuery
+     * @param bool $logQuery
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
      */
     public function load($printQuery = false, $logQuery = false)
     {
+        if ($this->isLoaded()) {
+            return $this;
+        }
+
         if ($this->_loadWithProductCount) {
             $this->addAttributeToSelect('all_children');
             $this->addAttributeToSelect('is_anchor');
@@ -195,9 +199,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection extends Mage_Ca
      */
     protected function _loadProductCount()
     {
-        if ($this->isLoaded()) {
-            return;
-        }
         $this->loadProductCount($this->_items, true, true);
     }
 
