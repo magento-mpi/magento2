@@ -70,11 +70,11 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
     {
         $form = new Varien_Data_Form(
             array(
-                'id' => 'edit_form',
+                'id'     => 'edit_form',
                 'action' => $this->getActionUrl(),
                 'method' => 'post',
                 'field_name_suffix' => 'catalogevent',
-                'enctype' => 'multipart/form-data'
+                'enctype'=> 'multipart/form-data'
             )
         );
 
@@ -84,7 +84,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
         $fieldset = $form->addFieldset('general_fieldset',
             array(
                 'legend' => Mage::helper('enterprise_catalogevent')->__('Catalog Event Information'),
-                'class' => 'fieldset-wide'
+                'class'  => 'fieldset-wide'
             )
         );
 
@@ -96,7 +96,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
 
         $fieldset->addField('category_name', 'note',
             array(
-                'id' => 'category_span',
+                'id'    => 'category_span',
                 'label' => Mage::helper('enterprise_catalogevent')->__('Category')
             )
         );
@@ -108,20 +108,22 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
         $fieldset->addField('date_start', 'date',
             array(
 
-                'label' => Mage::helper('enterprise_catalogevent')->__('Start Date'),
-                'name' => 'date_start',
-                'required' => true, 'time' => true,
-                'image' => $this->getSkinUrl('images/grid-cal.gif'),
-                'format' => $dateFormatIso
+                'label'        => Mage::helper('enterprise_catalogevent')->__('Start Date'),
+                'name'         => 'date_start',
+                'required'     => true, 'time' => true,
+                'image'        => $this->getSkinUrl('images/grid-cal.gif'),
+                'format'       => $dateFormatIso,
+                'input_format' => $dateFormatIso
             ));
 
         $fieldset->addField('date_end', 'date',
             array(
-                'label' => Mage::helper('enterprise_catalogevent')->__('End Date'),
-                'name' => 'date_end', 'required' => true,
-                'time' => true,
-                'image' => $this->getSkinUrl('images/grid-cal.gif'),
-                'format' => $dateFormatIso
+                'label'        => Mage::helper('enterprise_catalogevent')->__('End Date'),
+                'name'         => 'date_end', 'required' => true,
+                'time'         => true,
+                'image'        => $this->getSkinUrl('images/grid-cal.gif'),
+                'format'       => $dateFormatIso,
+                'input_format' => $dateFormatIso
             ));
 
         $fieldset->addField('image', 'image',
@@ -148,27 +150,26 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
 
         $fieldset->addField('display_state_array', 'checkboxes',
             array(
-                'label' => Mage::helper('enterprise_catalogevent')->__('Display Countdown Ticker On'),
-                'name' => 'display_state[]',
+                'label'  => Mage::helper('enterprise_catalogevent')->__('Display Countdown Ticker On'),
+                'name'   => 'display_state[]',
                 'values' => array(
                     Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => Mage::helper('enterprise_catalogevent')->__('Category Page'),
                     Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE => Mage::helper('enterprise_catalogevent')->__('Product Page')
                 )
             ));
 
-
         if ($this->getEvent()->getId()) {
             $fieldset->addField('status', 'note',
                 array(
                     'label' => Mage::helper('enterprise_catalogevent')->__('Status'),
-                    'text' => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING])
+                    'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING])
             ));
         }
-
-
-        if ($sessionData = Mage::getSingleton('adminhtml/session')->getEventData(true)) {
+        $sessionData = Mage::getSingleton('adminhtml/session')->getEventData(true);
+        if ($sessionData && isset($sessionData['catalogevent'])) {
             $form->setValues($sessionData['catalogevent']);
-        } else {
+        }
+        else {
             $form->setValues($this->getEvent()->getData());
         }
 
@@ -202,7 +203,11 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
                 . '">' . $currentCategory->getName() . '</a>'
             );
         }
-
+        if (!$this->getEvent()->getId() 
+                 && $sessionData && isset($sessionData['catalogevent'])
+                 && isset($sessionData['catalogevent']['display_state'])) {
+            $form->getElement('display_state_array')->setChecked($sessionData['catalogevent']['display_state']);
+        }
 
 
         $form->setUseContainer(true);
@@ -220,7 +225,6 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
         if ($this->getEvent()->getImageReadonly()) {
             $form->getElement('image')->setReadonly(true, true);
         }
-
         return parent::_prepareForm();
     }
 
