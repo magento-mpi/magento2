@@ -460,4 +460,22 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
 
         return $sql;
     }
+
+    /**
+     * Add period filter by created_at attribute
+     *
+     * @param string $period
+     * @return Mage_Reports_Model_Mysql4_Order_Collection
+     */
+    public function addCreateAtPeriodFilter($period)
+    {
+        list($from, $to) = $this->getDateRange($period, 0, 0, true);
+
+        $this->addAttributeToFilter('created_at', array(
+            'from'  => $from->toString(Varien_Date::DATETIME_INTERNAL_FORMAT),
+            'to'    => $to->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
+        ));
+
+        return $this;
+    }
 }
