@@ -231,11 +231,13 @@ class Varien_Data_Collection_Filesystem extends Varien_Data_Collection
             $dir = array($dir);
         }
         foreach ($dir as $folder) {
-            foreach (glob($folder . DIRECTORY_SEPARATOR . '*') as $node) {
-                $collectedResult[] = $node;
+            if ($nodes = glob($folder . DIRECTORY_SEPARATOR . '*')) {
+                foreach ($nodes as $node) {
+                    $collectedResult[] = $node;
+                }
             }
         }
-        if (!is_array($collectedResult)) {
+        if (empty($collectedResult)) {
             return;
         }
 
