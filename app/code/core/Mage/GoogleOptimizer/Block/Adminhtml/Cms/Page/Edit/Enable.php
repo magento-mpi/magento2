@@ -34,21 +34,44 @@
 class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Enable extends Mage_Adminhtml_Block_Template
 {
     /**
-     * Utility method to add google optimizer tab to cms page edit page
-     * in case it enabled in system. Uses as parameters tab container name,
-     * new tab name and tab block type.
+     * Utility method to call method of specified block
+     * in case google optimizer enabled for cms in the system.
+     * Uses as parameters block name, method name and params for method.
      *
-     * @param $container
-     * @param $name
-     * @param $block
+     * @param string $name
+     * @param string $method
+     * @param array $params
      * @return Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Enable
      */
-    public function ifGoogleOptiomizerEnabled($container, $name, $block)
+    public function ifGoogleOptimizerEnabled($name, $method, $params = array())
+    {
+        if (Mage::helper('googleoptimizer')->isOptimizerActiveForCms()) {
+            $block = $this->getLayout()->getBlock($name);
+            if ($block) {
+                call_user_func_array(array($block, $method), $params);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * in case google optimizer enabled for cms in the system.
+     * Uses as parameters container name, block name, type and attributes
+     *
+     * @param string $container
+     * @param string $name
+     * @param string $type
+     * @param string $attributes
+     * @return Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Enable
+     */
+    public function ifGoogleOptimizerEnabledAppend($container, $name, $type, $attributes = array())
     {
         if (Mage::helper('googleoptimizer')->isOptimizerActiveForCms()) {
             $containerBlock = $this->getLayout()->getBlock($container);
             if ($containerBlock) {
-                $containerBlock->addTab($name, $block);
+                $block = $this->getLayout()->createBlock($type, $name, $attributes);
+                $containerBlock->append($block);
             }
         }
 
