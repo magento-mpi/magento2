@@ -89,12 +89,11 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
                 ->applyTemplate($page->getRootTemplate());
         }
 
-        if ($storage = Mage::getSingleton('catalog/session')) {
-            $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
-        }
-
-        if ($storage = Mage::getSingleton('checkout/session')) {
-            $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
+        foreach (array('catalog/session', 'checkout/session') as $class_name) {
+            $storage = Mage::getSingleton($class_name);
+            if ($storage) {
+                $action->getLayout()->getMessagesBlock()->addMessages($storage->getMessages(true));
+            }
         }
 
         $action->renderLayout();
