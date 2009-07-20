@@ -257,15 +257,15 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
     {
         $res = array();
         foreach ($this->getConfigurableAttributes($product) as $attribute) {
-            $label = $attribute->getLabel() ? $attribute->getLabel() : $attribute->getProductAttribute()->getFrontend()->getLabel();
             $res[] = array(
-               'id'            => $attribute->getId(),
-               'label'         => $label,
-               'position'      => $attribute->getPosition(),
-               'values'        => $attribute->getPrices() ? $attribute->getPrices() : array(),
-               'attribute_id'  => $attribute->getProductAttribute()->getId(),
-               'attribute_code'=> $attribute->getProductAttribute()->getAttributeCode(),
-               'frontend_label'=> $attribute->getProductAttribute()->getFrontend()->getLabel(),
+                'id'             => $attribute->getId(),
+                'label'          => $attribute->getLabel(),
+                'use_default'    => $attribute->getUseDefault(),
+                'position'       => $attribute->getPosition(),
+                'values'         => $attribute->getPrices() ? $attribute->getPrices() : array(),
+                'attribute_id'   => $attribute->getProductAttribute()->getId(),
+                'attribute_code' => $attribute->getProductAttribute()->getAttributeCode(),
+                'frontend_label' => $attribute->getProductAttribute()->getFrontend()->getLabel(),
             );
         }
         return $res;

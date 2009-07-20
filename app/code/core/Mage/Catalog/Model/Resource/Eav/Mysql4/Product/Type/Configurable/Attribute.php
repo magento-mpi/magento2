@@ -106,7 +106,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable_Attribute
             ->where('product_super_attribute_id=?', $attribute->getId())
             ->where('store_id=?', (int)$attribute->getStoreId());
         if ($valueId = $this->_getWriteAdapter()->fetchOne($select)) {
-            $this->_getWriteAdapter()->update($this->_labelTable,array('value'=>$attribute->getLabel()),
+            $this->_getWriteAdapter()->update($this->_labelTable,array(
+                'use_default' => (int) $attribute->getUseDefault(),
+                'value'=>$attribute->getLabel()
+                ),
                 $this->_getWriteAdapter()->quoteInto('value_id=?', $valueId)
             );
         }
@@ -114,6 +117,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable_Attribute
             $this->_getWriteAdapter()->insert($this->_labelTable, array(
                 'product_super_attribute_id' => $attribute->getId(),
                 'store_id' => (int) $attribute->getStoreId(),
+                'use_default' => (int) $attribute->getUseDefault(),
                 'value' => $attribute->getLabel()
             ));
         }
