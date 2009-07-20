@@ -24,6 +24,12 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<?php
+/**
+ * @see Mage_Adminhtml_Block_Media_Uploader
+ */
+?>
+
 <?php echo $this->helper('adminhtml/media_js')->includeScript('lib/flex.js') ?>
 <?php echo $this->helper('adminhtml/media_js')->includeScript('mage/adminhtml/flexuploader.js') ?>
 <?php echo $this->helper('adminhtml/media_js')->getTranslatorScript() ?>
@@ -57,7 +63,7 @@
 var maxUploadFileSizeInBytes = <?php echo $this->getDataMaxSizeInBytes() ?>;
 var maxUploadFileSize = '<?php echo $this->getDataMaxSize() ?>';
 
-<?php echo $this->getJsObjectName() ?> = new Flex.Uploader('<?php echo $this->getHtmlId() ?>', '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>);
+<?php echo $this->getJsObjectName() ?> = new Flex.Uploader('<?php echo $this->getHtmlId() ?>', '<?php echo $this->getUploaderUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>);
 
 if (varienGlobalEvents) {
     varienGlobalEvents.attachEventHandler('tabChangeBefore', <?php echo $this->getJsObjectName() ?>.onContainerHideBefore);
