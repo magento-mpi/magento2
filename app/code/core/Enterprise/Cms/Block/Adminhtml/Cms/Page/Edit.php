@@ -41,19 +41,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit extends Mage_Adminhtml_Block_
         if ($this->_isAllowedAction('delete_revision')) {
             $this->_addButton('delete_revision', array(
                 'label'     => Mage::helper('enterprise_cms')->__('Delete'),
-                'onclick'   => 'confirmSetLocation()',
+                'onclick'   => 'confirmSetLocation(\'' .
+                    $this->__('Are you sure you want to do this?') . '\',\'' .
+                        $this->getUrl('*/*/deleteRevision', array('_current' => true)) . '\')',
                 'class'     => 'delete',
             ));
-
-            //$this->_formScripts[] = "
-            //    function saveAndContinueEdit(){
-            //        editForm.submit($('edit_form').action+'back/edit/');
-            //    }
-            //";
         }
 
         if ($this->_isAllowedAction('publish_revision')) {
-            /*
             if ($this->_isAllowedAction('save')) {
                 $this->_addButton('saveandpublish', array(
                     'label'     => Mage::helper('enterprise_cms')->__('Save And Publish'),
@@ -64,23 +59,23 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit extends Mage_Adminhtml_Block_
                 $this->_formScripts[] = "
                     function saveAndPublish(){
                         if(confirm(message)) {
-                            editForm.submit($('edit_form').action+'back/publish/');
+                            editForm.submit($('edit_form').action+'back/publishRevision/');
                         }
                     }
                 ";
             }
-            */
+
             $this->_addButton('publish_revision', array(
                 'label'     => Mage::helper('enterprise_cms')->__('Publish'),
                 'onclick'   => 'confirmSetLocation(\'' .
                     $this->__('Are you sure you want to do this?') . '\',\'' .
-                    $this->getUrl('*/*/publish', array('_current' => true)). '\')',
+                    $this->getUrl('*/*/publishRevision', array('_current' => true)). '\')',
                 'class'     => 'save',
             ));
         }
 
         if ($this->_isAllowedAction('save')) {
-            $this->_updateButton('saveandcontinue', 'label', Mage::helper('enterprise_cms')->__('Save And Continue Edit'));
+            //$this->_updateButton('saveandcontinue', 'label', Mage::helper('enterprise_cms')->__('Save And Continue Edit'));
             $this->_updateButton('saveandcontinue', 'level', 4);
             $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save'));
             $this->_updateButton('save', 'level', 5);

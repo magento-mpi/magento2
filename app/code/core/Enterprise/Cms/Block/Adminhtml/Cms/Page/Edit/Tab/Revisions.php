@@ -36,11 +36,25 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     extends Mage_Adminhtml_Block_Widget_Grid
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Array of available versions for user
+     * @var array
+     */
+    protected $_versionsHash = null;
+
+    /**
+     * Array of admin users in system
+     * @var array
+     */
+    protected $_usersHash = null;
+
     public function __construct()
     {
         parent::__construct();
-        $this->setDefaultSort('event_id');
+        $this->setId('revisionsGrid');
+        $this->setDefaultSort('revision_id');
         $this->setDefaultDir('ASC');
+        $this->setUseAjax(true);
     }
 
     /**
@@ -50,8 +64,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_catalogevent/event')->getCollection()
-            ->addCategoryData();
+        if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublish()) {
+            $userId = false;
+        } else {
+            $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+        }
+
+        $collection = Mage::getModel('enterprise_cms/revision')->getCollection()
+            ->addPageFilter($this->getPage())
+            ->joinVersions()
+            ->addVisibilityFilter($userId,
+                Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -65,88 +88,100 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     protected function _prepareColumns()
     {
 
-        $this->addColumn('event_id', array(
-            'header'=> Mage::helper('enterprise_catalogevent')->__('ID'),
-            'width' => '80px',
-            'type'  => 'text',
-            'index' => 'event_id'
+        $this->addColumn('revision_id', array(
+            'header' => $this->__('Revision'),
+            'width' => 100,
+            'type' => 'text',
+            'index' => 'revision_id'
         ));
 
-        $this->addColumn('category_id', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Category ID'),
-            'index' => 'category_id',
-            'type'  => 'text',
-            'width' => 70
-        ));
-
-        $this->addColumn('category', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Category'),
-            'index' => 'category_name',
-            'type'  => 'text'
-        ));
-
-        $this->addColumn('date_start', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Starts On'),
-            'index' => 'date_start',
+        $this->addColumn('created_at', array(
+            'header' => $this->__('Created'),
+            'index' => 'created_at',
             'type' => 'datetime',
             'filter_time' => true,
             'width' => 150
         ));
 
-        $this->addColumn('date_end', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Ends On'),
-            'index' => 'date_end',
-            'type' => 'datetime',
-            'filter_time' => true,
-            'width' => 150
-        ));
-
-        $this->addColumn('status', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Status'),
-            'index' => 'status',
+        $this->addColumn('version', array(
+            'header' => $this->__('Version'),
+            'index' => 'version_id',
             'type' => 'options',
-            'options' => array(
-                Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => Mage::helper('enterprise_catalogevent')->__('Upcoming'),
-                Enterprise_CatalogEvent_Model_Event::STATUS_OPEN      => Mage::helper('enterprise_catalogevent')->__('Open'),
-                Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => Mage::helper('enterprise_catalogevent')->__('Closed')
-            ),
-            'width' => 140
+            'options' => $this->_getVersions()
         ));
 
-        $this->addColumn('display_state', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Display Countdown Ticker On'),
-            'index' => 'display_state',
+        $this->addColumn('access_level', array(
+            'header' => $this->__('Access Level'),
+            'index' => 'access_level',
             'type' => 'options',
-            'renderer' => 'enterprise_catalogevent/adminhtml_event_grid_column_renderer_bitmask',
+            'width' => 100,
             'options' => array(
-                0 => Mage::helper('enterprise_catalogevent')->__('Lister Block'),
-                Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => Mage::helper('enterprise_catalogevent')->__('Category Page'),
-                Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE  => Mage::helper('enterprise_catalogevent')->__('Product Page')
-            )
+                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PRIVATE => $this->__('Private'),
+                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PROTECTED => $this->__('Protected'),
+                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC => $this->__('Public')
+                )
         ));
 
-        $this->addColumn('sort_order', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Sort Order'),
-            'index' => 'sort_order',
-            'type'  => 'text',
-            'width' => 70
-        ));
-
-        $this->addColumn('actions', array(
-            'header'    => $this->helper('enterprise_catalogevent')->__('Action'),
-            'width'     => 15,
-            'sortable'  => false,
-            'filter'    => false,
-            'type'      => 'action',
-            'actions'   => array(
-                array(
-                    'url'       => $this->getUrl('*/*/edit') . 'id/$event_id',
-                    'caption'   => $this->helper('enterprise_catalogevent')->__('Edit'),
-                ),
-            )
+        $this->addColumn('author', array(
+            'header' => $this->__('Author'),
+            'index' => 'user_id',
+            'type' => 'options',
+            'options' => $this->_getUsers()
         ));
 
         return parent::_prepareColumns();
+    }
+
+    /**
+     * Retrieve array of version available for current user
+     *
+     * @return array
+     */
+    protected function _getVersions()
+    {
+        if (!$this->_versionsHash) {
+            if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublish()) {
+                $userId = false;
+            } else {
+                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+            }
+
+            $collection = Mage::getModel('enterprise_cms/version')->getCollection()
+                ->addVisibilityFilter($userId,
+                    Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
+
+            $this->_versionsHash = $collection->getIdLabelArray();
+        }
+
+        return $this->_versionsHash;
+    }
+
+    /**
+     * Retrieve array of admin users in system
+     *
+     * @return array
+     */
+    protected function _getUsers()
+    {
+        if (!$this->_usersHash) {
+            $collection = Mage::getModel('admin/user')->getCollection();
+            $this->_usersHash = array();
+            foreach ($collection as $user) {
+                $this->_usersHash[$user->getId()] = $user->getUsername();
+            }
+        }
+
+        return $this->_usersHash;
+    }
+
+    /**
+     * Prepare url for reload grid through ajax
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/revisions', array('_current'=>true));
     }
 
     /**
@@ -156,7 +191,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+        return $this->getUrl('*/*/edit', array('page_id' => $row->getPageId(), 'revision_id' => $row->getRevisionId()));
     }
 
     /**
@@ -197,5 +232,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Returns cms page object from registry
+     *
+     * @return Mage_Cms_ModelPage
+     */
+    public function getPage()
+    {
+        return Mage::registry('cms_page');
     }
 }

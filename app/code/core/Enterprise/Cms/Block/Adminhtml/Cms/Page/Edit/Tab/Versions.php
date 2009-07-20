@@ -39,8 +39,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     public function __construct()
     {
         parent::__construct();
-        $this->setDefaultSort('event_id');
+        $this->setDefaultSort('version_id');
         $this->setDefaultDir('ASC');
+        $this->setUseAjax(true);
     }
 
     /**
@@ -50,8 +51,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_catalogevent/event')->getCollection()
-            ->addCategoryData();
+        $collection = Mage::getModel('enterprise_cms/version')->getCollection();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -65,88 +65,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     protected function _prepareColumns()
     {
 
-        $this->addColumn('event_id', array(
-            'header'=> Mage::helper('enterprise_catalogevent')->__('ID'),
-            'width' => '80px',
-            'type'  => 'text',
-            'index' => 'event_id'
-        ));
-
-        $this->addColumn('category_id', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Category ID'),
-            'index' => 'category_id',
-            'type'  => 'text',
-            'width' => 70
-        ));
-
-        $this->addColumn('category', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Category'),
-            'index' => 'category_name',
-            'type'  => 'text'
-        ));
-
-        $this->addColumn('date_start', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Starts On'),
-            'index' => 'date_start',
-            'type' => 'datetime',
-            'filter_time' => true,
-            'width' => 150
-        ));
-
-        $this->addColumn('date_end', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Ends On'),
-            'index' => 'date_end',
-            'type' => 'datetime',
-            'filter_time' => true,
-            'width' => 150
-        ));
-
-        $this->addColumn('status', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Status'),
-            'index' => 'status',
-            'type' => 'options',
-            'options' => array(
-                Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => Mage::helper('enterprise_catalogevent')->__('Upcoming'),
-                Enterprise_CatalogEvent_Model_Event::STATUS_OPEN      => Mage::helper('enterprise_catalogevent')->__('Open'),
-                Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED   => Mage::helper('enterprise_catalogevent')->__('Closed')
-            ),
-            'width' => 140
-        ));
-
-        $this->addColumn('display_state', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Display Countdown Ticker On'),
-            'index' => 'display_state',
-            'type' => 'options',
-            'renderer' => 'enterprise_catalogevent/adminhtml_event_grid_column_renderer_bitmask',
-            'options' => array(
-                0 => Mage::helper('enterprise_catalogevent')->__('Lister Block'),
-                Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE => Mage::helper('enterprise_catalogevent')->__('Category Page'),
-                Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE  => Mage::helper('enterprise_catalogevent')->__('Product Page')
-            )
-        ));
-
-        $this->addColumn('sort_order', array(
-            'header' => Mage::helper('enterprise_catalogevent')->__('Sort Order'),
-            'index' => 'sort_order',
-            'type'  => 'text',
-            'width' => 70
-        ));
-
-        $this->addColumn('actions', array(
-            'header'    => $this->helper('enterprise_catalogevent')->__('Action'),
-            'width'     => 15,
-            'sortable'  => false,
-            'filter'    => false,
-            'type'      => 'action',
-            'actions'   => array(
-                array(
-                    'url'       => $this->getUrl('*/*/edit') . 'id/$event_id',
-                    'caption'   => $this->helper('enterprise_catalogevent')->__('Edit'),
-                ),
-            )
-        ));
-
         return parent::_prepareColumns();
+    }
+
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/versions', array('_current'=>true));
     }
 
     /**

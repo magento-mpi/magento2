@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.0</version>
+             <version>0.1.1</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -39,6 +39,10 @@
             </enterprise_cms>
             <enterprise_cms_mysql4>
                 <class>Enterprise_Cms_Model_Mysql4</class>
+                <entities>
+                    <version><table>enterprise_cms_version</table></version>
+                    <revision><table>enterprise_cms_revision</table></revision>
+                </entities>
             </enterprise_cms_mysql4>
         </models>
         <blocks>
@@ -61,14 +65,33 @@
                 </connection>
             </enterprise_cms_setup>
             <enterprise_cms_write>
-                <use>core_write</use>
+                <connection>
+                    <use>core_write</use>
+                </connection>
             </enterprise_cms_write>
             <enterprise_cms_read>
-                <use>core_read</use>
+                <connection>
+                    <use>core_read</use>
+                </connection>
             </enterprise_cms_read>
         </resources>
     </global>
     <adminhtml>
+        <cms>
+            <revision_contol>
+                <page>
+                    <root_template />
+                    <meta_keywords />
+                    <meta_description />
+                    <content />
+                    <sort_order />
+                    <layout_update_xml />
+                    <custom_theme />
+                    <custom_theme_from />
+                    <custom_theme_to />
+                </page>
+            </revision_contol>
+        </cms>
         <layout>
             <updates>
                 <enterprise_cms>
