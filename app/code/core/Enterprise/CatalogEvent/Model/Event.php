@@ -71,10 +71,17 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
         $this->_init('enterprise_catalogevent/event');
     }
 
+    /**
+     * Apply event status
+     *
+     * @return Enterprise_CatalogEvent_Model_Event
+     */
     protected function _afterLoad()
     {
         $this->_initDisplayStateArray();
-        return parent::_afterLoad();
+        parent::_afterLoad();
+        $this->getStatus();
+        return $this;
     }
 
     /**
@@ -283,7 +290,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
      * @returns boolean|array - returns true if validation passed successfully. Array with error
      * description otherwise
      */
-    public function validate() 
+    public function validate()
     {
         $format = Mage_Core_Model_Locale::FORMAT_TYPE_SHORT;
         $dateStartUnixTime = strtotime($this->_convertDateTime($this->getData('date_start'), $format));
@@ -360,7 +367,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Providing check of status and updates it (with saving into DB) if status changed 
+     * @deprecated after 1.3.2.2
      */
     public function updateStatus()
     {
@@ -374,16 +381,16 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Overriden load method
+     * Get status column value
+     * Set status column if its wasnt seted
      *
-     * @param   integer $id
-     * @return  Mage_Core_Model_Abstract
+     * @return string
      */
-    public function load($id, $field=null)
+    public function getStatus()
     {
-        $event = parent::load($id, $field);
-        $this->updateStatus();
-        return $event;
+        if (!$this->hasData('status')) {
+            $this->applyStatusByDates();
+        }
+        return $this->_getData('status');
     }
-
 }

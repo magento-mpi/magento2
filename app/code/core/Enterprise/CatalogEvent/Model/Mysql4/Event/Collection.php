@@ -74,6 +74,10 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
             $this->_select->where('(' . $field . ' & ' . (int) $condition . ') = ' . (int) $condition);
             return $this;
         }
+        if ($field == 'status') {
+            $this->getSelect()->where($this->_getConditionSql($this->_getStatusColumnExpr(), $condition));
+            return $this;
+        }
         parent::addFieldToFilter($field, $condition);
         return $this;
     }
@@ -202,12 +206,11 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
      * Overriden _afterLoad() implementation
      *
      * @return  Varien_Data_Collection_Db
-     */    
+     */
     protected function _afterLoad()
     {
         $events = parent::_afterLoad();
         foreach ($events->_items as $event) {
-            $event->updateStatus();
             if ($this->_skipClosed && $event->getStatus() == Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED) {
                 $this->removeItemByKey($event->getId());
             }
@@ -219,10 +222,43 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
      * Reset collection
      *
      * @return Enterprise_CatalogEvent_Model_Mysql4_Event_Collection
-     */    
-    protected function _reset() 
+     */
+    protected function _reset()
     {
         $this->_skipClosed = false;
         return parent::_reset();
+    }
+
+    /**
+     * Retrieve DB Expresiion for status column
+     *
+     * @return Zend_Db_Expr
+     */
+    protected function _getStatusColumnExpr()
+    {
+        $timeNow = $this->getResource()->formatDate(time());
+        $connection = $this->getConnection();
+        return new Zend_Db_Expr(vsprintf('(CASE WHEN (`date_start` <= %s AND `date_end` >= %s) THEN %s'
+        . ' WHEN (`date_start` > %s AND `date_end` > %s) THEN %s ELSE %s END)', array(
+            $connection->quote($timeNow),
+            $connection->quote($timeNow),
+            $connection->quote(Enterprise_CatalogEvent_Model_Event::STATUS_OPEN),
+            $connection->quote($timeNow),
+            $connection->quote($timeNow),
+            $connection->quote(Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING),
+            $connection->quote(Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED)
+        )));
+    }
+
+    /**
+     * Add status column based on dates
+     *
+     * @return Enterprise_CatalogEvent_Model_Mysql4_Event_Collection
+     */
+    protected function _initSelect()
+    {
+        parent::_initSelect();
+        $this->getSelect()->columns(array('status' => $this->_getStatusColumnExpr()));
+        return $this;
     }
 }
