@@ -213,7 +213,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
     {
         $orderId = $this->getOrder()->getRealOrderId();
         $amount = Mage::app()->getStore()->roundPrice($this->getOrder()->getBaseGrandTotal());
-        $currencyCode = $this->getOrder()->getBaseCurrency();
+        $currencyCode = $this->getOrder()->getBaseCurrencyCode();
         
         $urlModel = Mage::getModel('core/url')
             ->setUseSession(false);
