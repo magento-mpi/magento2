@@ -25,7 +25,7 @@
  */
 
 /**
- * Cms page edit form revisions tab
+ * Wysiwyg Images storage collection
  *
  * @category    Enterprise
  * @package     Enterprise_Cms

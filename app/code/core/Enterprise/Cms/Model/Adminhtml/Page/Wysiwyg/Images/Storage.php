@@ -25,13 +25,12 @@
  */
 
 /**
- * Cms page edit form revisions tab
+ * Wysiwyg Images model
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
 class Enterprise_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_Object
 {
     /**
@@ -87,6 +86,32 @@ class Enterprise_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_
     }
 
     /**
+     * Create new directory in storage
+     *
+     * @param string $name New directory name
+     * @param string $path Parent directory path
+     * @return boolean
+     */
+    public function createDirectory($name, $path)
+    {
+        if (!is_dir($path) || !is_writable($path)) {
+            $path = Mage::helper('enterprise_cms/page_wysiwyg_images')->getStorageRoot();
+        }
+        $io = new Varien_Io_File();
+        return $io->mkdir($path . DS . $name);
+    }
+
+    /**
+     * Storage session
+     *
+     * @return Mage_Adminhtml_Model_Session
+     */
+    public function getSession()
+    {
+        return Mage::getSingleton('adminhtml/session');
+    }
+
+    /**
      * Wysiwyg Config reader
      *
      * @param string $key
@@ -103,26 +128,6 @@ class Enterprise_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_
             $this->setData($key, $value);
         }
         return $this->getData($key);
-    }
-
-    /**
-     * Images Storage root directory
-     *
-     * @return string
-     */
-    public function getStorageRoot()
-    {
-        return Mage::getConfig()->getOptions()->getBaseDir() . DS . $this->getConfigData('upload_root');
-    }
-
-    /**
-     * Images Storage base URL
-     *
-     * @return string
-     */
-    public function getBaseUrl()
-    {
-        Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . $this->getConfigData('upload_root');
     }
 
 }
