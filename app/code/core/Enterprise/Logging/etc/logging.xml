@@ -35,27 +35,41 @@
 
             <adminhtml_catalog_product_save>
                 <action>save</action>
-                <expected_model>catalog/product</expected_model>
+                <expected_models>
+                    <catalog__product/>
+                </expected_models>
                 <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_catalog_product_save>
 
             <adminhtml_catalog_product_delete>
                 <action>delete</action>
+                <expected_models>
+                    <catalog__product/>
+                </expected_models>                
             </adminhtml_catalog_product_delete>
 
             <adminhtml_catalog_product_massStatus>
                 <action>massUpdate</action>
                 <id>product</id>
+                <expected_models>
+                    <catalog__product/>
+                </expected_models>                
             </adminhtml_catalog_product_massStatus>
 
             <adminhtml_catalog_product_massDelete>
                 <action>massUpdate</action>
                 <id>product</id>
+                <expected_models>
+                    <catalog__product/>
+                </expected_models>                
             </adminhtml_catalog_product_massDelete>
 
             <adminhtml_catalog_product_action_attribute_save>
                 <action>massUpdate</action>
                 <id>product</id>
+                <expected_models>
+                    <catalog__product/>
+                </expected_models>                
                 <post_dispatch>postDispatchProductMassAttributeUpdate</post_dispatch>
             </adminhtml_catalog_product_action_attribute_save>
         </actions>
@@ -71,17 +85,25 @@
 
             <adminhtml_catalog_category_save>
                 <action>save</action>
-                <expected_model>catalog/category</expected_model>
+                <expected_models>
+                    <catalog__category/>
+                </expected_models>
                 <force_skip>1</force_skip>
             </adminhtml_catalog_category_save>
 
             <adminhtml_catalog_category_move>
                 <action>move</action>
+                <expected_models>
+                    <catalog__category/>
+                </expected_models>                
                 <post_dispatch>postDispatchCategoryMove</post_dispatch>
             </adminhtml_catalog_category_move>
 
             <adminhtml_catalog_category_delete>
                 <action>delete</action>
+                <expected_models>
+                    <catalog__category/>
+                </expected_models>                
             </adminhtml_catalog_category_delete>
         </actions>
     </catalog_categories>
@@ -95,11 +117,16 @@
 
             <adminhtml_urlrewrite_save>
                 <action>save</action>
-                <expected_model>core/url_rewrite</expected_model>
+                <expected_models>
+                    <core__url_rewrite/>
+                </expected_models>
             </adminhtml_urlrewrite_save>
 
             <adminhtml_urlrewrite_delete>
                 <action>delete</action>
+                <expected_models>
+                    <core__url_rewrite/>
+                </expected_models>                
             </adminhtml_urlrewrite_delete>
         </actions>
     </core_urlrewrites>
@@ -113,11 +140,16 @@
 
             <adminhtml_catalog_search_save>
                 <action>save</action>
-                <expected_model>catalogsearch/query</expected_model>
+                <expected_models>
+                    <catalogsearch__query/>
+                </expected_models>
             </adminhtml_catalog_search_save>
 
             <adminhtml_catalog_search_delete>
                 <action>delete</action>
+                <expected_models>
+                    <catalogsearch__query/>
+                </expected_models>                
             </adminhtml_catalog_search_delete>
 
             <adminhtml_index_globalSearch>
@@ -136,11 +168,16 @@
 
             <adminhtml_rating_save>
                 <action>save</action>
-                <expected_model>rating/rating</expected_model>
+                <expected_models>
+                    <rating__rating/>
+                </expected_models>
             </adminhtml_rating_save>
 
             <adminhtml_rating_delete>
                 <action>delete</action>
+                <expected_models>
+                    <rating__rating/>
+                </expected_models>                
             </adminhtml_rating_delete>
         </actions>
     </rating>
@@ -154,21 +191,32 @@
 
             <adminhtml_catalog_product_review_save>
                 <action>save</action>
-                <expected_model>review/review</expected_model>
+                <expected_models>
+                    <review__review/>
+                </expected_models>
             </adminhtml_catalog_product_review_save>
 
             <adminhtml_catalog_product_review_delete>
                 <action>delete</action>
+                <expected_models>
+                    <review__review/>
+                </expected_models>                
             </adminhtml_catalog_product_review_delete>
 
             <adminhtml_catalog_product_review_massUpdateStatus>
                 <action>massUpdate</action>
                 <id>reviews</id>
+                <expected_models>
+                    <review__review/>
+                </expected_models>                
             </adminhtml_catalog_product_review_massUpdateStatus>
 
             <adminhtml_catalog_product_review_massDelete>
                 <action>massUpdate</action>
                 <id>reviews</id>
+                <expected_models>
+                    <review__review/>
+                </expected_models>                
             </adminhtml_catalog_product_review_massDelete>
         </actions>
     </review>
@@ -184,12 +232,17 @@
             <adminhtml_catalog_product_attribute_save>
                 <action>save</action>
                 <id>attribute_id</id>
-                <expected_model>catalog/entity_attribute</expected_model>
+                <expected_models>
+                    <catalog__entity_attribute/>
+                </expected_models>
             </adminhtml_catalog_product_attribute_save>
 
             <adminhtml_catalog_product_attribute_delete>
                 <action>delete</action>
                 <id>attribute_id</id>
+                <expected_models>
+                    <catalog__entity_attribute/>
+                </expected_models>                
             </adminhtml_catalog_product_attribute_delete>
         </actions>
     </catalog_attributes>
@@ -203,13 +256,18 @@
 
             <adminhtml_catalog_product_set_save>
                 <action>save</action>
-                <expected_model>eav/entity_attribute_set</expected_model>
+                <expected_models>
+                    <eav__entity_attribute_set/>
+                </expected_models>
                 <force_skip>1</force_skip>
                 <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_catalog_product_set_save>
 
             <adminhtml_catalog_product_set_delete>
                 <action>delete</action>
+                <expected_models>
+                    <eav__entity_attribute_set/>
+                </expected_models>                
             </adminhtml_catalog_product_set_delete>
         </actions>
     </catalog_attributesets>
@@ -225,22 +283,33 @@
             <adminhtml_tag_save>
                 <action>save</action>
                 <id>tag_id</id>
-                <expected_model>tag/tag</expected_model>
+                <expected_models>
+                    <tag__tag/>
+                </expected_models>
             </adminhtml_tag_save>
 
             <adminhtml_tag_delete>
                 <action>delete</action>
                 <id>tag_id</id>
+                <expected_models>
+                    <tag__tag/>
+                </expected_models>                
             </adminhtml_tag_delete>
 
             <adminhtml_tag_massStatus>
                 <action>massUpdate</action>
                 <id>tag</id>
+                <expected_models>
+                    <tag__tag/>
+                </expected_models>                
             </adminhtml_tag_massStatus>
 
             <adminhtml_tag_massDelete>
                 <action>massUpdate</action>
                 <id>tag</id>
+                <expected_models>
+                    <tag__tag/>
+                </expected_models>                
             </adminhtml_tag_massDelete>
         </actions>
     </tag>
@@ -250,7 +319,9 @@
         <actions>
             <adminhtml_index_forgotpassword>
                 <action>forgotpassword</action>
-                <expected_model>admin/user</expected_model>
+                <expected_models>
+                    <admin__user/>
+                </expected_models>
                 <post_dispatch>postDispatchForgotPassword</post_dispatch>
             </adminhtml_index_forgotpassword>
         </actions>
@@ -266,13 +337,18 @@
 
             <adminhtml_cms_page_save>
                 <action>save</action>
-                <expected_model>cms/page</expected_model>
+                <expected_models>
+                    <cms__page/>
+                </expected_models>
                 <id>page_id</id>
             </adminhtml_cms_page_save>
 
             <adminhtml_cms_page_delete>
                 <action>delete</action>
                 <id>page_id</id>
+                <expected_models>
+                    <cms__page/>
+                </expected_models>                
             </adminhtml_cms_page_delete>
         </actions>
     </cms_pages>
@@ -287,13 +363,18 @@
 
             <adminhtml_cms_block_save>
                 <action>save</action>
-                <expected_model>cms/block</expected_model>
+                <expected_models>
+                    <cms__block/>
+                </expected_models>
                 <id>block_id</id>
             </adminhtml_cms_block_save>
 
             <adminhtml_cms_block_delete>
                 <action>delete</action>
                 <id>block_id</id>
+                <expected_models>
+                    <cms__block/>
+                </expected_models>                
             </adminhtml_cms_block_delete>
         </actions>
     </cms_blocks>
@@ -308,11 +389,16 @@
 
             <adminhtml_poll_delete>
                 <action>delete</action>
+                <expected_models>
+                    <poll__poll/>
+                </expected_models>                
             </adminhtml_poll_delete>
 
             <adminhtml_poll_validate>
                 <action>save</action>
-                <expected_model>poll/poll</expected_model>
+                <expected_models>
+                    <poll__poll/>
+                </expected_models>
                 <post_dispatch>postDispatchPollValidation</post_dispatch>
             </adminhtml_poll_validate>
         </actions>
@@ -327,7 +413,9 @@
 
             <adminhtml_customer_save>
                 <action>save</action>
-                <expected_model>customer/customer</expected_model>
+                <expected_models>
+                    <customer__customer/>
+                </expected_models>
                 <special_action_handler>enterprise_customerbalance/observer::predispatchpreparelogging</special_action_handler>
             </adminhtml_customer_save>
 
@@ -338,21 +426,33 @@
 
             <adminhtml_customer_delete>
                 <action>delete</action>
+                <expected_models>
+                    <customer__customer/>
+                </expected_models>                
             </adminhtml_customer_delete>
 
             <adminhtml_customer_massSubscribe>
                 <action>massUpdate</action>
                 <id>customer</id>
+                <expected_models>
+                    <customer__customer/>
+                </expected_models>                
             </adminhtml_customer_massSubscribe>
 
             <adminhtml_customer_massUnsubscribe>
                 <action>massUpdate</action>
                 <id>customer</id>
+                <expected_models>
+                    <customer__customer/>
+                </expected_models>                
             </adminhtml_customer_massUnsubscribe>
 
             <adminhtml_customer_massDelete>
                 <action>massUpdate</action>
                 <id>customer</id>
+                <expected_models>
+                    <customer__customer/>
+                </expected_models>                
             </adminhtml_customer_massDelete>
         </actions>
     </customer>
@@ -366,15 +466,16 @@
 
             <adminhtml_customer_group_save>
                 <action>save</action>
-                <expected_model>customer/group</expected_model>
+                <expected_models>
+                    <customer__group/>
+                </expected_models>
             </adminhtml_customer_group_save>
 
             <adminhtml_customer_group_delete>
                 <action>delete</action>
-            </adminhtml_customer_group_delete>
-
-            <adminhtml_customer_group_delete>
-                <action>delete</action>
+                <expected_models>
+                    <customer__group/>
+                </expected_models>                
             </adminhtml_customer_group_delete>
         </actions>
     </customer_groups>
@@ -526,6 +627,9 @@
             <adminhtml_system_config_save>
                 <action>save</action>
                 <id>section</id>
+                <expected_models>
+                    <adminhtml__config_data/>
+                </expected_models>
                 <use_request>1</use_request>
                 <force_skip>1</force_skip>
                 <skip_on_back>adminhtml_system_config_edit</skip_on_back>
@@ -542,15 +646,23 @@
 
             <adminhtml_promo_catalog_save>
                 <action>save</action>
-                <expected_model>catalogrule/rule</expected_model>
+                <expected_models>
+                    <catalog__rule/>
+                </expected_models>
             </adminhtml_promo_catalog_save>
 
             <adminhtml_promo_catalog_delete>
                 <action>delete</action>
+                <expected_models>
+                    <catalog__rule/>
+                </expected_models>                
             </adminhtml_promo_catalog_delete>
 
             <adminhtml_promo_catalog_applyRules>
                 <action>apply</action>
+                <expected_models>
+                    <catalog__rule/>
+                </expected_models>                
                 <post_dispatch>postDispatchPromoCatalogApply</post_dispatch>
             </adminhtml_promo_catalog_applyRules>
         </actions>
@@ -565,11 +677,16 @@
 
             <adminhtml_promo_quote_save>
                 <action>save</action>
-                <expected_model>salesrule/rule</expected_model>
+                <expected_models>
+                    <salesrule__rule/>
+                </expected_models>
             </adminhtml_promo_quote_save>
 
             <adminhtml_promo_quote_delete>
                 <action>delete</action>
+                <expected_models>
+                    <salesrule__rule/>
+                </expected_models>                
             </adminhtml_promo_quote_delete>
         </actions>
     </salesrule>
@@ -583,7 +700,7 @@
             </adminhtml_system_account_index>
 
             <adminhtml_system_account_save>
-                <action>save</action>
+                <action>save</action>            
                 <post_dispatch>postDispatchMyAccountSave</post_dispatch>
             </adminhtml_system_account_save>
         </actions>
@@ -598,7 +715,9 @@
 
             <adminhtml_newsletter_queue_save>
                 <action>save</action>
-                <expected_model>newsletter/queue</expected_model>
+                <expected_models>
+                    <newsletter__queue/>
+                </expected_models>
                 <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_newsletter_queue_save>
         </actions>
@@ -609,7 +728,9 @@
         <actions>
             <adminhtml_newsletter_template_save>
                 <action>save</action>
-                <expected_model>newsletter/template</expected_model>
+                <expected_models>
+                    <newsletter__template/>
+                </expected_models>
             </adminhtml_newsletter_template_save>
 
             <adminhtml_newsletter_template_edit>
@@ -618,6 +739,9 @@
 
             <adminhtml_newsletter_template_delete>
                 <action>delete</action>
+                <expected_models>
+                    <newsletter__template/>
+                </expected_models>                
             </adminhtml_newsletter_template_delete>
         </actions>
     </newsletter_templates>
@@ -650,21 +774,33 @@
             <adminhtml_sales_order_massHold>
                 <action>massUpdate</action>
                 <id>order_ids</id>
+                <expected_models>
+                    <sales__order/>
+                </expected_models>                
             </adminhtml_sales_order_massHold>
 
             <adminhtml_sales_order_massUnhold>
                 <action>massUpdate</action>
                 <id>order_ids</id>
+                <expected_models>
+                    <sales__order/>
+                </expected_models>                
             </adminhtml_sales_order_massUnhold>
 
             <adminhtml_sales_order_massCancel>
                 <action>massUpdate</action>
                 <id>order_ids</id>
+                <expected_models>
+                    <sales__order/>
+                </expected_models>                
             </adminhtml_sales_order_massCancel>
 
             <adminhtml_sales_order_create_save>
                 <action>save</action>
-                <expected_model>sales/order</expected_model>
+                <expected_models>
+                    <sales__order/>
+                    <customer__customer/>
+                </expected_models>                
             </adminhtml_sales_order_create_save>
 
         </actions>
@@ -675,8 +811,9 @@
         <actions>
             <adminhtml_sales_order_addComment>
                 <action>save</action>
-                <expected_model>sales/order_status_history</expected_model>
-                <model_save_after>orderStatusHistorySaveAfter</model_save_after>
+                <expected_models>
+                    <sales__order_status_history>orderStatusHistorySaveAfter</sales__order_status_history>
+                </expected_models>
             </adminhtml_sales_order_addComment>
         </actions>
     </sales_order_status>
@@ -691,9 +828,12 @@
 
             <adminhtml_sales_order_invoice_save>
                 <action>save</action>
-                <expected_model>sales/order_invoice</expected_model>
+                <expected_models>
+                    <sales__order_invoice/>
+                </expected_models>
                 <force_skip>1</force_skip>
                 <skip_on_back>adminhtml_sales_order_view</skip_on_back>
+                <post_dispatch>postDispatchSalesOrderInvoiceSave</post_dispatch>
             </adminhtml_sales_order_invoice_save>
         </actions>
     </sales_invoices>
@@ -713,7 +853,9 @@
 
             <adminhtml_sales_order_shipment_save>
                 <action>save</action>
-                <expected_model>sales/order_shipment</expected_model>
+                <expected_models>
+                    <sales__order_shipment/>
+                </expected_models>
                 <force_skip>1</force_skip>
                 <skip_on_back>adminhtml_sales_order_view</skip_on_back>
             </adminhtml_sales_order_shipment_save>
@@ -735,7 +877,9 @@
 
             <adminhtml_sales_order_creditmemo_save>
                 <action>save</action>
-                <expected_model>sales/order_creditmemo</expected_model>
+                <expected_models>
+                    <sales__order_creditmemo/>
+                </expected_models>
                 <force_skip>1</force_skip>
                 <skip_on_back>adminhtml_sales_order_view</skip_on_back>
             </adminhtml_sales_order_creditmemo_save>
@@ -752,7 +896,9 @@
 
             <adminhtml_api_role_saverole>
                 <action>save</action>
-                <expected_model>api/roles</expected_model>
+                <expected_models>
+                    <api__roles/>
+                </expected_models>
                 <id>rid</id>
                 <force_skip>1</force_skip>
                 <skip_on_back>adminhtml_api_role_editrole</skip_on_back>
@@ -761,6 +907,9 @@
             <adminhtml_api_role_delete>
                 <action>delete</action>
                 <id>rid</id>
+                <expected_models>
+                    <api__roles/>
+                </expected_models>                
             </adminhtml_api_role_delete>
         </actions>
     </api_roles>
@@ -775,7 +924,9 @@
 
             <adminhtml_api_user_save>
                 <action>save</action>
-                <expected_model>api/user</expected_model>
+                <expected_models>
+                    <api__user/>
+                </expected_models>
                 <id>user_id</id>
                 <force_skip>1</force_skip>
             </adminhtml_api_user_save>
@@ -783,6 +934,9 @@
             <adminhtml_api_user_delete>
                 <action>delete</action>
                 <id>user_id</id>
+                <expected_models>
+                    <api__user/>
+                </expected_models>                
             </adminhtml_api_user_delete>
         </actions>
     </api_users>
@@ -797,7 +951,9 @@
 
             <adminhtml_permissions_role_saverole>
                 <action>save</action>
-                <expected_model>admin/roles</expected_model>
+                <expected_models>
+                    <admin__roles/>
+                </expected_models>
                 <id>rid</id>
                 <force_skip>1</force_skip>
                 <skip_on_back>adminhtml_permissions_role_editrole</skip_on_back>
@@ -806,6 +962,9 @@
             <adminhtml_permissions_role_delete>
                 <action>delete</action>
                 <id>rid</id>
+                <expected_models>
+                    <admin__roles/>
+                </expected_models>                
             </adminhtml_permissions_role_delete>
         </actions>
     </adminhtml_permission_roles>
@@ -820,13 +979,18 @@
 
             <adminhtml_permissions_user_save>
                 <action>save</action>
-                <expected_model>admin/user</expected_model>
+                <expected_models>
+                    <admin__user/>
+                </expected_models>
                 <id>user_id</id>
                 <force_skip>1</force_skip>
             </adminhtml_permissions_user_save>
 
             <adminhtml_permissions_user_delete>
                 <action>delete</action>
+                <expected_models>
+                    <admin__user/>
+                </expected_models>                
                 <id>user_id</id>
             </adminhtml_permissions_user_delete>
         </actions>
@@ -838,17 +1002,24 @@
             <adminhtml_system_store_editWebsite>
                 <action>view</action>
                 <id>website_id</id>
+                <post_dispatch>postDispatchSystemStoreSave</post_dispatch>
             </adminhtml_system_store_editWebsite>
 
             <adminhtml_system_website_save>
                 <action>save</action>
-                <expected_model>core/website</expected_model>
+                <expected_models>
+                    <core__website/>
+                </expected_models>
                 <id>website_id</id>
+                
             </adminhtml_system_website_save>
 
             <adminhtml_system_store_deleteWebsite>
                 <action>delete</action>
                 <id>item_id</id>
+                <expected_models>
+                    <core__website/>
+                </expected_models>                
             </adminhtml_system_store_deleteWebsite>
         </actions>
     </adminhtml_system_websites>
@@ -863,12 +1034,17 @@
 
             <adminhtml_system_store_save>
                 <action>save</action>
-                <expected_model>core/store</expected_model>
+                <expected_models>
+                    <core__store/>
+                </expected_models>
             </adminhtml_system_store_save>
 
             <adminhtml_system_store_deleteStore>
                 <action>delete</action>
                 <id>item_id</id>
+                <expected_models>
+                    <core__store/>
+                </expected_models>                
             </adminhtml_system_store_deleteStore>
         </actions>
     </adminhtml_system_store_groups>
@@ -879,12 +1055,17 @@
             <adminhtml_system_storeview_save>
                 <action>save</action>
                 <id>group_id</id>
-                <expected_model>core/store_group</expected_model>
+                <expected_models>
+                    <core__store_group/>
+                </expected_models>
             </adminhtml_system_storeview_save>
 
             <adminhtml_system_store_deleteGroup>
                 <action>delete</action>
                 <id>item_id</id>
+                <expected_models>
+                    <core__store_group/>
+                </expected_models>                
             </adminhtml_system_store_deleteGroup>
 
             <adminhtml_system_store_editGroup>
@@ -903,11 +1084,16 @@
 
             <adminhtml_tax_class_customer_delete>
                 <action>delete</action>
+                <expected_models>
+                    <tax__class/>
+                </expected_models>                
             </adminhtml_tax_class_customer_delete>
 
             <adminhtml_tax_class_save>
                 <action>save</action>
-                <expected_model>tax/class</expected_model>
+                <expected_models>
+                    <tax__class/>
+                </expected_models>
                 <post_dispatch>postDispatchTaxClassSave</post_dispatch>
             </adminhtml_tax_class_save>
         </actions>
@@ -937,12 +1123,17 @@
             <adminhtml_tax_rule_save>
                 <action>save</action>
                 <id>tag_calculation_rule_id</id>
-                <expected_model>tax/calculation_rule</expected_model>
+                <expected_models>
+                    <tax__calculation_rule/>
+                </expected_models>
             </adminhtml_tax_rule_save>
 
             <adminhtml_tax_rule_delete>
                 <action>delete</action>
                 <id>rule</id>
+                <expected_models>
+                    <tax__calculation_rule/>
+                </expected_models>                
             </adminhtml_tax_rule_delete>
         </actions>
     </tax_rules>
@@ -958,7 +1149,9 @@
             <adminhtml_tax_rate_save>
                 <action>save</action>
                 <id>tag_calculation_rate_id</id>
-                <expected_model>tax/calculation_rate</expected_model>
+                <expected_models>
+                    <tax__calculation_rate/>
+                </expected_models>
             </adminhtml_tax_rate_save>
 
             <adminhtml_tax_rate_importPost>
@@ -969,6 +1162,9 @@
             <adminhtml_tax_rate_delete>
                 <action>delete</action>
                 <id>rate</id>
+                <expected_models>
+                    <tax__calculation_rate/>
+                </expected_models>                
             </adminhtml_tax_rate_delete>
         </actions>
     </tax_rates>

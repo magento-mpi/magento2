@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Logging>
-            <version>0.1.9</version>
+            <version>0.2.0</version>
         </Enterprise_Logging>
     </modules>
     <global>
@@ -39,6 +39,9 @@
                     <event>
                         <table>enterprise_logging_event</table>
                     </event>
+                    <event_changes>
+                        <table>enterprise_logging_event_changes</table>
+                    </event_changes>
                 </entities>
             </enterprise_logging_mysql4>
             <enterprise_logging>
@@ -106,6 +109,15 @@
                     </enterprise_logging>
                 </observers>
             </model_save_after>
+            
+            <model_delete_after>
+                <observers>
+                    <enterprise_logging>
+                        <class>enterprise_logging/observer</class>
+                        <method>modelDeleteAfter</method>
+                    </enterprise_logging>
+                </observers>            
+            </model_delete_after>
 
             <admin_session_user_login_success>
                 <observers>
@@ -188,6 +200,12 @@
                 </Enterprise_Logging>
             </modules>
         </translate>
+        <enterprise>
+            <logging>
+                <skip_fields>updated_at</skip_fields>
+                <!--Coma separated list of fields that should not be logged-->
+            </logging>
+        </enterprise>
     </adminhtml>
 
     <admin>

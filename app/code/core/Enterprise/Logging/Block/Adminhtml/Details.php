@@ -25,25 +25,27 @@
  */
 
 /**
- * Log items collection
+ * Log grid container
  */
-class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Logging_Block_Adminhtml_Details extends Mage_Adminhtml_Block_Widget_Container
 {
     /**
-     * Initialize resource
+     * Header text getter
+     *
+     * @return string
      */
-    protected function _construct()
+    public function getHeaderText()
     {
-        $this->_init('enterprise_logging/event');
+        return Mage::helper('enterprise_logging')->__('Log Entry Details');
     }
 
     /**
-     * Minimize usual count select
+     * Grid contents getter
      *
-     * @return Varien_Db_Select
+     * @return string
      */
-    public function getSelectCountSql()
+    public function getGridHtml()
     {
-        return parent::getSelectCountSql()->resetJoinLeft();
+        return $this->getChildHtml();
     }
 }

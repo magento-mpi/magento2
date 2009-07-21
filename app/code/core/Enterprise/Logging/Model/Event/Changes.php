@@ -25,25 +25,27 @@
  */
 
 /**
- * Log items collection
+ * Logging event changes model
  */
-class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Logging_Model_Event_Changes extends Mage_Core_Model_Abstract
 {
     /**
      * Initialize resource
      */
-    protected function _construct()
+    public function _construct()
     {
-        $this->_init('enterprise_logging/event');
+        $this->_init('enterprise_logging/event_changes');
     }
 
     /**
-     * Minimize usual count select
+     * Set some data automatically before saving model
      *
-     * @return Varien_Db_Select
+     * @return Enterprise_Logging_Model_Event
      */
-    public function getSelectCountSql()
+    protected function _beforeSave()
     {
-        return parent::getSelectCountSql()->resetJoinLeft();
+        $this->setOriginalData(serialize($this->getOriginalData()));
+        $this->setResultData(serialize($this->getResultData()));
+        return parent::_beforeSave();
     }
 }

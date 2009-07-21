@@ -27,35 +27,129 @@
 /**
  * Custom handlers for models logging
  *
- * All handlers must take 2 params: $model and $config objects,
- * where model is the affected entity instance and config is the configuration node for respective full action name
  */
 class Enterprise_Logging_Model_Handler_Models
 {
+
     /**
-     * Check if model has to be saved. Using deprecated in php5.2 'is_a' which should
-     * be restored in php 5.3. So you may remove '@' if you use php 5.3 or higher.
+     * Collection of affected ids
      *
-     * If the model gets into registry, it will be caught on post-dispatch and logged
-     *
-     * @param Mage_Core_Model_Abstract $model
-     * @param Varien_Simplexml_Element $config
+     * @var array
      */
-    public function saveAfterGeneric($model, $config)
+    protected $_collectedIds = array();
+
+    /**
+     * Set of fields that should not be logged
+     *
+     * @var array
+     */
+    protected $_skipFields = array();
+
+    const XML_PATH_SKIP_FIELDS = 'adminhtml/enterprise/logging/skip_fields';
+
+    /**
+     * Class constructor
+     *
+     */
+    public function __construct()
     {
-        $fullActionName = $config->getName();
-        if ($config->expected_model
-            && ($className = Mage::getConfig()->getModelClassName((string)$config->expected_model))
-            && ($model instanceof $className)) {
-            if ((string)$config->allow_model_repeat != 0) {
-                if (!Mage::registry("enterprise_logging_saved_model_{$fullActionName}")) {
-                    Mage::register("enterprise_logging_saved_model_{$fullActionName}", $model);
-                }
-            }
-            else {
-                Mage::register("enterprise_logging_saved_model_{$fullActionName}", $model);
+        $this->_skipFields = array_map('trim', array_filter(explode(',',
+            (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_FIELDS))));
+    }
+
+    /**
+     * SaveAfter handler
+     *
+     * @param object Mage_Core_Model_Abstract $model
+     * @return object Enterprise_Logging_Event_Changes or false if model wasn't modified
+     */
+    public function modelSaveAfter($model)
+    {
+        $data = $this->_prepareData($model->getData());
+        $origData = $this->_prepareData($model->getOrigData());
+
+        $isDiff = false;
+        foreach ($data as $key=>$value){
+            switch (true){
+                case (isset($origData[$key]) && $value == $origData[$key]):
+                    unset($data[$key]);
+                    unset($origData[$key]);
+                    break;
+                case (isset($origData[$key]) && $value != $origData[$key]):
+                case (!isset($origData[$key])):
+                default:
+                    $isDiff = true;
+                    break;
             }
         }
+        if ($isDiff){
+            $this->_collectedIds[] = $model->getId();
+            return Mage::getModel('enterprise_logging/event_changes')
+                        ->setData(
+                            array(
+                                'original_data' => $origData,
+                                'result_data'   => $data,
+                            )
+                        );
+
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Delete after handler
+     *
+     * @param object Mage_Core_Model_Abstract $model
+     * @return object Enterprise_Logging_Event_Changes
+     */
+    public function modelDeleteAfter($model)
+    {
+        $this->_collectedIds[] = $model->getId();
+        $origData = $this->_prepareData($model->getOrigData());
+        return Mage::getModel('enterprise_logging/event_changes')
+                    ->setData(array('original_data'=>$origData, 'data'=>null));
+    }
+
+    /**
+     * MassUpdate after handler
+     *
+     * @param object Mage_Core_Model_Abstract $model
+     * @return object Enterprise_Logging_Event_Changes
+     */
+    public function modelMassUpdateAfter($model)
+    {
+        return $this->modelSaveAfter($model);
+    }
+
+    /**
+     * Clear model data from objects, arrays and fields that should be skipped
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function _prepareData($data)
+    {
+        if (!$data && !is_array($data)) {
+            return array();
+        }
+        $clearData = array();
+        foreach ($data as $key=>$value) {
+            if (!in_array($key, $this->_skipFields) && !is_array($value) && !is_object($value)) {
+                $clearData[$key] = $value;
+            }
+        }
+        return $clearData;
+    }
+
+    /**
+     * Getter for $_colectedIds value
+     *
+     * @return array
+     */
+    public function getCollectedIds()
+    {
+        return $this->_collectedIds;
     }
 
     /**

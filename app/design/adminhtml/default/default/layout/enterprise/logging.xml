@@ -29,8 +29,11 @@
 <layout>
     <adminhtml_logging_index>
         <reference name="content">
-            <block type="enterprise_logging/adminhtml_log" name="enterprise.logging.log" template="widget/grid/container.phtml">
-                <block type="enterprise_logging/adminhtml_log_grid" name="enterprise.logging.log.grid"/>
+            <block type="enterprise_logging/adminhtml_container" name="enterprise.logging.log" template="widget/grid/container.phtml">
+                <block type="enterprise_logging/adminhtml_index_grid" name="enterprise.logging.log.grid"/>
+                <action method="setHeaderText" translate="text">
+                    <text>Admin Actions Log</text>
+                </action>
             </block>
         </reference>
     </adminhtml_logging_index>
@@ -39,9 +42,20 @@
         <block type="enterprise_logging/adminhtml_log_grid" name="root"/>
     </adminhtml_logging_grid>
 
+    <adminhtml_logging_details>
+        <reference name="content">
+            <block type="enterprise_logging/adminhtml_container" name="enterprise.logging.details" template="widget/grid/container.phtml">
+                <block type="enterprise_logging/adminhtml_details_grid" name="enterprise.logging.details.grid"/>
+                <action method="setHeaderText" translate="text">
+                    <text>Log Entry Details</text>
+                </action>                
+            </block>            
+        </reference>
+    </adminhtml_logging_details>
+
     <adminhtml_logging_archive>
         <reference name="content">
-            <block type="enterprise_logging/adminhtml_archive" name="enterprise.logging.archive" template="widget/grid/container.phtml">
+            <block type="enterprise_logging/adminhtml_container" name="enterprise.logging.archive" template="widget/grid/container.phtml">
                 <block type="enterprise_logging/adminhtml_archive_grid" name="enterprise.logging.archive.grid"/>
             </block>
         </reference>

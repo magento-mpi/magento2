@@ -25,25 +25,15 @@
  */
 
 /**
- * Log items collection
+ * Logging event changes model
  */
-class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Logging_Model_Mysql4_Event_Changes extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Initialize resource
      */
-    protected function _construct()
+    public function _construct()
     {
-        $this->_init('enterprise_logging/event');
-    }
-
-    /**
-     * Minimize usual count select
-     *
-     * @return Varien_Db_Select
-     */
-    public function getSelectCountSql()
-    {
-        return parent::getSelectCountSql()->resetJoinLeft();
+        $this->_init('enterprise_logging/event_changes', 'id');
     }
 }

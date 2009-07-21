@@ -49,6 +49,23 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
     }
 
     /**
+     * View logging details
+     */
+    public function detailsAction()
+    {
+        $eventId = $this->getRequest()->getParam('event_id');
+        $model   = Mage::getModel('enterprise_logging/event')
+            ->load($eventId);
+        if (!$model->getId()) {
+            $this->_forward('index');
+        }
+        Mage::register('current_event', $model);
+
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
      * Export log to CSV
      */
     public function exportCsvAction()

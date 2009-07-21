@@ -35,6 +35,7 @@
  */
 class Enterprise_Logging_Model_Handler_Controllers
 {
+
     /**
      * Generic View handler
      *
@@ -70,11 +71,13 @@ class Enterprise_Logging_Model_Handler_Controllers
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
-    public function postDispatchGenericDelete($config, $eventModel)
+    public function postDispatchGeneric($config, $eventModel, $processorModel)
     {
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam(
-            $config->id ? (string)$config->id : 'id')
-        );
+        if ($collectedIds = $processorModel->getCollectedIds()) {
+            $eventModel->setInfo(implode(', ', $collectedIds));
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -88,8 +91,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchGenericSave($config, $eventModel)
     {
-        $class   = Mage::getConfig()->getModelClassName($config->expected_model ? (string)$config->expected_model : '');
-        $model   = Mage::registry("enterprise_logging_saved_model_{$config->getName()}");
+        $class = Mage::getConfig()->getModelClassName($config->expected_model ? (string)$config->expected_model : '');
         $request = Mage::app()->getRequest();
 
         /**
@@ -361,5 +363,50 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchEnterpriseLoggingReport($config, $eventModel)
     {
         return $eventModel;
+    }
+
+    /**
+     * Special handler for adminhtml_system_store_save
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchSystemStoreSave($config, $eventModel)
+    {
+        $postData = Mage::app()->getRequest()->getPost();
+        switch ($postData['store_type']) {
+        case 'website':
+            Mage::unregister('enterprise_logged_actions');
+            Mage::register('enterprise_logged_actions', 'adminhtml_system_website_save');
+            break;
+        case 'group':
+            Mage::unregister('enterprise_logged_actions');
+            Mage::register('enterprise_logged_actions', 'adminhtml_system_storeview_save');
+            break;
+        }
+
+    }
+
+    /**
+     * Special handler for adminhtml_sales_order_invoice_save
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchSalesOrderInvoiceSave($config, $eventModel)
+    {
+        $request = Mage::app()->getRequest();
+        $data = $request->getParam('invoice');
+        if (isset($data['do_shipment']) && $data['do_shipment'] == 1) {
+            $actions = Mage::registry('enterprise_logged_actions');
+            if (!is_array($actions)) {
+                $actions = array($actions);
+            }
+            $actions[] = 'adminhtml_sales_order_shipment_save';
+            Mage::unregister('enterprise_logged_actions');
+            Mage::register('enterprise_logged_actions', $actions);
+        }
     }
 }

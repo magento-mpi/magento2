@@ -25,25 +25,37 @@
  */
 
 /**
- * Log items collection
+ * General Logging container
  */
-class Enterprise_Logging_Model_Mysql4_Event_Collection extends  Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
-     * Initialize resource
+     * Class constructor
      */
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('enterprise_logging/event');
+        $action = Mage::app()->getRequest()->getActionName();
+        $this->_blockGroup = 'enterprise_logging';
+        $this->_controller = 'adminhtml_' . $action;
+
+        parent::__construct();
+        $this->_removeButton('add');
+        if ($action == 'details') {
+            $this->_addButton('back', array(
+                'label'   => Mage::helper('enterprise_logging')->__('Back'),
+                'onclick' => "setLocation('" . Mage::getSingleton('adminhtml/url')->getUrl('*/*/'). "')",
+                'class'   => 'back'
+                ));
+        }
     }
 
     /**
-     * Minimize usual count select
+     * Header text getter
      *
-     * @return Varien_Db_Select
+     * @return string
      */
-    public function getSelectCountSql()
+    public function getHeaderText()
     {
-        return parent::getSelectCountSql()->resetJoinLeft();
+        return Mage::helper('enterprise_logging')->__($this->getData('header_text'));
     }
 }

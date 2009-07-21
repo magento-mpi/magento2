@@ -75,6 +75,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
             }
             fclose($csv);
             $this->_getWriteAdapter()->query("DELETE FROM {$table} WHERE log_id <= {$latestLogEntry}");
+            Mage::getModel('enterprise_logging/event_changes')->rotate($latestLogEntry);
             $this->commit();
         } catch (Exception $e) {
             $this->rollBack();
