@@ -28,8 +28,8 @@
 /**
  * Cms page revision model
  *
- * @category    Mage
- * @package     Mage_Cms
+ * @category    Enterprise
+ * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -43,4 +43,17 @@ class Enterprise_Cms_Model_Revision extends Mage_Core_Model_Abstract
         $this->_init('enterprise_cms/revision');
     }
 
+    /**
+     * Preparing data before save
+     *
+     * @return Enterprise_Cms_Model_Revision
+     */
+    protected function _beforeSave()
+    {
+        if (!$this->getId()) {
+            $this->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
+        }
+
+        return parent::_beforeSave();
+    }
 }

@@ -57,6 +57,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                 $page->setRevisionId($revisionId);
             }
 
+            $page->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
             $page->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
             $page->load($pageId);
@@ -82,7 +83,6 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
             $page->setData($data);
         }
 
-        // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb($page->getId() ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'), $page->getId() ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'));
 
@@ -98,7 +98,10 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
             $page = $this->_initPage();
+
             $page->setData($data);
+
+            $page->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
 
             if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublish()) {
                 Mage::dispatchEvent('cms_page_prepare_save', array('page' => $page, 'request' => $this->getRequest()));
@@ -114,7 +117,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('page_id' => $model->getId()));
+                    $this->_redirect('*/*/edit', array('page_id' => $page->getId()));
                     return;
                 }
                 // go to grid
@@ -127,13 +130,12 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                 // save data in session
                 Mage::getSingleton('adminhtml/session')->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array('page_id' => $model->getId()));
+                $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
                 return;
             }
         }
         $this->_redirect('*/*/');
     }
-
 
     /**
      * Action for revisions ajax tab
@@ -146,47 +148,5 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
 
         $this->loadLayout();
         $this->renderLayout();
-    }
-
-    /**
-     * Action for versions ajax tab
-     *
-     */
-    public function versionsAction()
-    {
-        $this->_initPage();
-
-        $this->loadLayout();
-        $this->renderLayout();
-    }
-
-    public function publishRevisionAction()
-    {
-
-    }
-
-    public function deleteRevisionAction()
-    {
-
-    }
-
-    /**
-     * Check the permission to run it
-     *
-     * @return boolean
-     */
-    protected function _isAllowed()
-    {
-        switch ($this->getRequest()->getActionName()) {
-            case 'new':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/new');
-            case 'publishRevision':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/publish_revision');
-            case 'deleteRevision':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/delete_revision');
-            default:
-                return parent::_isAllowed();
-                break;
-        }
     }
 }

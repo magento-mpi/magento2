@@ -27,19 +27,10 @@
 -->
 
 <layout>
-    <adminhtml_cms_page_index>
-        <remove name="cms_page" />
-        <reference name="content">
-            <block type="enterprise_cms/adminhtml_cms_page" name="enterprise_cms_page" />
-        </reference>
-    </adminhtml_cms_page_index>
-
     <adminhtml_cms_page_edit>
-        <remove name="cms_page_edit" />
-        <reference name="content">
-            <block type="enterprise_cms/adminhtml_cms_page_edit" name="enterprise_cms_page_edit" />
-        </reference>
         <reference name="cms_page_edit_tabs">
+            <action method="removeTab"><name>design_section</name></action>
+            <action method="removeTab"><name>meta_section</name></action>
             <action method="addTab">
                 <name>revisions</name>
                 <block translate="label title" module="enterprise_cms">
@@ -49,6 +40,7 @@
                 </block>
             </action>
             <action method="setTabData"><tab>revisions</tab><key>url</key><value>*/*/revisions</value></action>
+            <!--
             <action method="addTab">
                 <name>versions</name>
                 <block translate="label title" module="enterprise_cms">
@@ -58,6 +50,7 @@
                 </block>
             </action>
             <action method="setTabData"><tab>versions</tab><key>url</key><value>*/*/versions</value></action>
+            -->
         </reference>
     </adminhtml_cms_page_edit>
 
@@ -65,11 +58,6 @@
         <remove name="root" />
         <block type="enterprise_cms/adminhtml_cms_page_edit_tab_revisions"  output="toHtml" name="cms_page_edit_revisions" />
     </adminhtml_cms_page_revisions>
-
-    <adminhtml_cms_page_versions>
-        <remove name="root" />
-        <block type="enterprise_cms/adminhtml_cms_page_edit_tab_versions"  output="toHtml" name="cms_page_edit_versions" />
-    </adminhtml_cms_page_versions>
 
     <adminhtml_cms_page_wysiwyg_images_index>
         <reference name="left">

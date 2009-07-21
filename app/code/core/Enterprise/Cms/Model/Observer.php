@@ -24,29 +24,35 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
- * Cms page edit form revisions tab
+ * Enterprise cms page observer
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Enterprise_Cms_Block_Adminhtml_Cms_Page extends Mage_Adminhtml_Block_Cms_Page
+class Enterprise_Cms_Model_Observer
 {
-
     /**
-     * Check permission for passed action.
-     * If 'save' was passed checking for 'new' to override CE logic
+     * Limit displayed fields on cms page
      *
-     * @param string $action
-     * @return bool
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Cms_Model_Observer
      */
-    protected function _isAllowedAction($action)
+    public function filterFieldsOnPrepareForm($observer)
     {
-        if ($action == 'save') {
-            $action = 'new';
+        $form = $observer->getEvent()->getForm();
+        /** @var $baseFieldset Varien_Data_Form_Element_Fieldset */
+        $baseFieldset = $form->getElement('base_fieldset');
+
+        $elementsUnderRevisionControl = Mage::getSingleton('enterprise_cms/config')
+            ->getPageRevisionControledAttributes();
+
+        foreach ($elementsUnderRevisionControl as $elementId) {
+            $baseFieldset->removeField($elementId);
         }
-        return parent::_isAllowedAction($action);
+
+        return $this;
     }
 }

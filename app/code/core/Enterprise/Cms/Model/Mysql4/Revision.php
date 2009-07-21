@@ -42,4 +42,25 @@ class Enterprise_Cms_Model_Mysql4_Revision extends Mage_Core_Model_Mysql4_Abstra
     {
         $this->_init('enterprise_cms/revision', 'revision_id');
     }
+
+    /**
+     * Process page data before saving
+     *
+     * @param Mage_Core_Model_Abstract $object
+     */
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
+        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+        foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
+            if ($date = $object->getData($dataKey)) {
+                $object->setData($dataKey, Mage::app()->getLocale()->date($date, $format, null, false)
+                    ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
+                );
+            } else {
+                $object->setData($dataKey, new Zend_Db_Expr('NULL'));
+            }
+        }
+
+        return parent::_beforeSave($object);
+    }
 }

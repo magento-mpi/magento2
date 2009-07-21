@@ -100,6 +100,14 @@
             </updates>
         </layout>
         <events>
+            <adminhtml_cms_page_edit_tab_main_prepare_form>
+                <observers>
+                    <enterprise_cms>
+                        <class>enterprise_cms/observer</class>
+                        <method>filterFieldsOnPrepareForm</method>
+                    </enterprise_cms>
+                </observers>
+            </adminhtml_cms_page_edit_tab_main_prepare_form>
         </events>
         <translate>
             <modules>
@@ -118,14 +126,10 @@
                             <children>
                                 <page>
                                     <children>
-                                        <new translate="title" module="enterprise_cms">
-                                            <title>Create Page</title>
-                                            <sort_order>0</sort_order>
-                                        </new>
-                                        <save translate="title" module="enterprise_cms">
+                                        <save_revision translate="title" module="enterprise_cms">
                                             <title>Save Revision</title>
-                                            <sort_order>15</sort_order>
-                                        </save>
+                                            <sort_order>17</sort_order>
+                                        </save_revision>
                                         <publish_revision translate="title" module="enterprise_cms">
                                             <title>Publish Revision</title>
                                             <sort_order>20</sort_order>

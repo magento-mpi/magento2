@@ -53,12 +53,10 @@ class Enterprise_Cms_Model_Mysql4_Revision_Collection extends Enterprise_Cms_Mod
      */
     public function joinVersions($cols = Zend_Db_Select::SQL_WILDCARD)
     {
-        $this->getSelect()->joinInner(array('ver_table' => $this->getTable('enterprise_cms/version')),
-            'ver_table.version_id = main_table.version_id',
-            $cols
-        );
-
         $this->_map['fields']['version_id'] = 'ver_table.version_id';
+
+        $this->getSelect()->joinInner(array('ver_table' => $this->getTable('enterprise_cms/version')),
+            'ver_table.version_id = main_table.version_id', $cols);
 
         return $this;
     }

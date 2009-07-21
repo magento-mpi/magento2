@@ -70,7 +70,7 @@ class Enterprise_Cms_Model_Mysql4_Version_Collection  extends Enterprise_Cms_Mod
      */
     public function getIdLabelArray()
     {
-        return $this->_toOptionHash('version_id', 'label');
+        return $this->_toOptionHash('version_id', 'version_label');
     }
 
     /**
@@ -83,6 +83,19 @@ class Enterprise_Cms_Model_Mysql4_Version_Collection  extends Enterprise_Cms_Mod
         $this->getSelect()->joinLeft(
             array('rev_table' => $this->getTable('enterprise_cms/revision')),
             'rev_table.version_id=main_table.version_id', '*');
+        return $this;
+    }
+
+    /**
+     * Join version label or its number in case label is not defined
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Revision_Collection
+     */
+    public function addVersionLabelToSelect()
+    {
+        $this->_map['fields']['version_label'] = 'IF(main_table.label = "", main_table.version_id, main_table.label )';
+        $this->getSelect()->from('', array('version_label' => $this->_map['fields']['version_label']));
+
         return $this;
     }
 }

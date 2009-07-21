@@ -42,40 +42,16 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
     protected $_revisionTable;
 
     /**
-     * Aliast of revision table used in query
-     * @var string
-     */
-    protected $_revisionTableAlias = 'rev_table';
-
-    /**
      * Name of version table from config
      * @var string
      */
     protected $_versionTable;
 
     /**
-     * Aliast of version table used in query
-     * @var string
-     */
-    protected $_versionTableAlias = 'ver_table';
-
-    /**
      * Configuration model
      * @var Enterprise_Cms_Model_Config
      */
     protected $_config;
-
-    /**
-     * Flag which deterimnes if native save logic will be run
-     * @var bool
-     */
-    protected $_canRunNativeSave = false;
-
-    /**
-     * Flag which determines if native delete logic will be run
-     * @var unknown_type
-     */
-    protected $_canRunNativeDelete = false;
 
     protected function _construct()
     {
@@ -84,11 +60,6 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
         $this->_versionTable = $this->getTable('enterprise_cms/version');
 
         $this->_config = Mage::getSingleton('enterprise_cms/config');
-
-        $this->_canRunNativeDelete = $this->_config->isCurrentUserCanDeletePage();
-
-        $this->_canRunNativeSave = $this->_config->isCurrentUserCanCreatePage()
-                || $this->_config->isCurrentUserCanPublish();
     }
 
     /**
@@ -98,7 +69,7 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        if ($this->_canRunNativeSave) {
+        if ($object->canRunNativeSave()) {
             parent::_beforeSave($object);
         }
 
@@ -112,7 +83,7 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
-        if ($this->_canRunNativeSave) {
+        if ($object->canRunNativeSave()) {
             parent::_afterSave($object);
         }
 
@@ -127,7 +98,7 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
      */
     public function save(Mage_Core_Model_Abstract $object)
     {
-        if ($this->_canRunNativeSave) {
+        if ($object->canRunNativeSave()) {
             parent::save($object);
         }
 
@@ -142,7 +113,7 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
      */
     public function delete(Mage_Core_Model_Abstract $object)
     {
-        if ($this->_canRunNativeDelete) {
+        if ($object->canRunNativeDelete()) {
             parent::delete($object);
         }
 
@@ -156,7 +127,7 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
      */
     protected function _beforeDelete(Mage_Core_Model_Abstract $object)
     {
-        if ($this->_canRunNativeDelete) {
+        if ($object->canRunNativeDelete()) {
             parent::_beforeDelete($object);
         }
 
@@ -170,7 +141,7 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $object)
     {
-        if ($this->_canRunNativeDelete) {
+        if ($object->canRunNativeDelete()) {
             parent::_afterDelete($object);
         }
 
@@ -187,57 +158,78 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
      */
     protected function _getLoadSelect($field, $value, $object)
     {
+        if ($field != 'page_id') {
+            Mage::throwException(Mage::helper('enterprise_cms')->__('Invalid field name for model load.'));
+        }
+
         $select = parent::_getLoadSelect($field, $value, $object);
 
-        $_conditions = array(
-            $this->getMainTable() . '.' . $this->getIdFieldName() . '='
-                . $this->_revisionTableAlias . '.page_id'
-        );
+        /*
+         * Adding version data and access level filtering
+         * to disallow loading of closed content
+         */
+        $accessLevel = $object->getAccessLevel();
+        if (is_array($accessLevel) && !empty($accessLevel)) {
+            $aclCondition = 'ver_table.access_level in ("' . implode('","', $accessLevel) . '")';
+        } else if ($accessLevel) {
+            $aclCondition = 'ver_table.access_level = "' . $accessLevel . '"';
+        }
+
+        $conditions = array('ver_table.page_id = '
+            . $this->getMainTable() . '.' . $this->getIdFieldName());
+
+        /*
+         * If we have user id we need to determine that if user
+         * have his own versions of page we should show him last
+         * revision from his version. If user does not have his own
+         * version we should show him last available revision of other
+         * users regarding to visibility of that version.
+         */
+        if ($object->getUserId()) {
+            $subSelect = clone $select;
+            $subSelect->reset();
+
+            $subSelect->from($this->_versionTable, 'count(*)')
+                ->where('user_id = ?', (int)$object->getUserId())
+                ->where('page_id = ?', (int)$value);
+
+            $conditions[] = '((ver_table.user_id <> ' . (int)$object->getUserId() .
+                ' AND (' . $subSelect . ') = 0 AND ' . $aclCondition . ')
+            OR ver_table.user_id = ' . (int)$object->getUserId() . ')';
+        }
+
+        if (!empty($conditions)) {
+            $conditions = implode(' AND ', $conditions);
+        } else {
+            $conditions = '';
+        }
+
+        $select->joinLeft(array('ver_table' => $this->_versionTable),
+            $conditions, array('version_id', 'version_label' => 'label', 'access_level', 'user_id'));
+
+        /*
+         * Adding revision data
+         */
+        $conditions = array('ver_table.version_id=rev_table.version_id');
 
         /*
          * In case we have specified revision try to load it.
-         * In other case try to load most new revision for this page.
+         * In other case try to load most new revision for
+         * this page counting on restrictions added above.
          */
         if ($object->getRevisionId()) {
-            $_conditions[] = $this->_revisionTableAlias . '.revision_id = ' . $object->getRevisionId();
+            $conditions[] = 'rev_table.revision_id = ' . (int)$object->getRevisionId();
         } else {
             $select->order('revision_id DESC')
                 ->limit(1);
         }
 
-        $select->joinLeft(array($this->_revisionTableAlias => $this->_revisionTable),
-            implode(' AND ', $_conditions), array());
+        $select->joinLeft(array('rev_table' => $this->_revisionTable),
+            implode(' AND ', $conditions), array('revision_id', 'revision_created_at' => 'created_at'));
 
         /*
-         * Adding access level filtering to disallow loading of closed content
-         */
-        $_conditions = array();
-
-        if ($object->getUserId()) {
-            $_condition[] = $this->_versionTableAlias . '.user_id = ' . $object->getUserId();
-        }
-
-        $accessLevel = $object->getAccessLevel();
-        if (is_array($accessLevel) && !empty($accessLevel)) {
-            $_conditions[] = $this->_versionTableAlias .
-                '.access_level in ("' . implode('","', $accessLevel) . '")';
-        } else if ($accessLevel) {
-            $_conditions[] = $this->_versionTableAlias . '.access_level = "' . $accessLevel . '"';
-        }
-
-        if (!empty($_conditions)) {
-            $_conditions = ' AND (' . implode(' OR ', $_conditions) . ')';
-        } else {
-            $_conditions = '';
-        }
-
-        $select->joinLeft(array($this->_versionTableAlias => $this->_versionTable),
-             $this->_versionTableAlias . '.version_id = ' .
-                    $this->_revisionTableAlias . '.version_id ' . $_conditions,
-             '*');
-
-        /*
-         * If no revision data we need to copy it from main table
+         * In case if there is no versions and revisions available
+         * we should show user initial data from published version.
          */
         $attributes = $this->_config->getPageRevisionControledAttributes();
         $_from = array();

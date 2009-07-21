@@ -28,8 +28,8 @@
 /**
  * Cms Page Model extended with Revison functionality
  *
- * @category   Enterprise
- * @package    Enterprise_Cms
+ * @category    Enterprise
+ * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
@@ -75,16 +75,34 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
      */
     protected function _filterData()
     {
-        $revisionedData = array();
+        $rcData = array();
         $attributes = $this->_config->getPageRevisionControledAttributes();
         foreach ($this->getData() as $key => $value) {
             if (in_array($key, $attributes)) {
                 $this->unsData($key);
-                $revisionedData[$key] = $value;
+                $rcData[$key] = $value;
             }
         }
+        return $rcData;
+    }
 
-        return $this;
+    /**
+     * check data which is under revision control if it was modified.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function _dataWasModified(array $data)
+    {
+        foreach ($data as $key => $value) {
+            if ($this->getOrigData($key) !== $value) {
+                if ($this->getOrigData($key) === NULL && $value === '') {
+                    continue;
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -94,22 +112,34 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
      */
     protected function _afterDelete()
     {
-        if ($this->_canRunNativeDelete) {
-            parent::_afterDelete($object);
+        if ($this->canRunNativeDelete()) {
+            parent::_afterDelete();
         }
 
         return $this;
     }
 
     /**
-     * Processing object after save data
+     * Processing data after save
      *
      * @return Enterprise_Cms_Model_Page
      */
     protected function _afterSave()
     {
-        if ($this->_canRunNativeSave) {
+        if ($this->canRunNativeSave()) {
             parent::_afterSave();
+        }
+
+        /*
+         * Save data under revision control if such was changed
+         */
+        if ($this->hasDataUnderRevisionControl()) {
+            $revision = Mage::getModel('enterprise_cms/revision');
+            $revision->setData($this->getDataUnderRevisionControl())
+                ->setVersionId(1)
+                ->setPageId($this->getPageId())
+                ->setUserId($this->getUserId())
+                ->save();
         }
 
         return $this;
@@ -122,22 +152,40 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
      */
     protected function _beforeDelete()
     {
-        if ($this->_canRunNativeDelete) {
-            parent::_beforeDelete($object);
+        if ($this->canRunNativeDelete()) {
+            parent::_beforeDelete();
         }
 
         return $this;
     }
 
     /**
-     * Processing object before save data
+     * Preparing data before save
      *
      * @return Enterprise_Cms_Model_Page
      */
     protected function _beforeSave()
     {
-        if ($this->_canRunNativeSave) {
+        if ($this->canRunNativeSave()) {
             parent::_beforeSave();
+        }
+
+        /*
+         * Preparing data that are under revision control
+         */
+        $_data = $this->_filterData();
+        if ($this->_dataWasModified($_data)) {
+            $this->setDataUnderRevisionControl($_data);
+        } else {
+            $this->unsDataUnderRevisionControl();
+        }
+
+        /*
+         * All new pages created by yser without permission to publish
+         * should be disabled from the begining.
+         */
+        if (!$this->getId() && !$this->_config->isCurrentUserCanPublish()) {
+            $this->setIsActive(false);
         }
 
         return $this;
@@ -151,7 +199,7 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
     public function save()
     {
         if (!$this->_config->isCurrentUserCanSave()) {
-            Mage::throwException(Mage::helper('enterprise_cms')->__('You don\'t have permissions to save revisions.'));
+            Mage::throwException(Mage::helper('enterprise_cms')->__('You don\'t have permissions to save revision.'));
         }
         return parent::save();
     }
@@ -169,5 +217,26 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
             Mage::throwException(Mage::helper('enterprise_cms')->__('You don\'t have permissions to delete revision.'));
         }
         return parent::save();
+    }
+
+    /**
+     * Retrieve internal permission for delete
+     *
+     * @return bool
+     */
+    public function canRunNativeDelete()
+    {
+        return $this->_canRunNativeDelete;
+    }
+
+    /**
+     * Retrieve internal permission for save
+     *
+     * @return bool
+     */
+    public function canRunNativeSave()
+    {
+        return $this->_canRunNativeSave &&
+        ($this->getIsPublishing() || !$this->getOrigData($this->getIdFieldName()));
     }
 }

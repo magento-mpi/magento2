@@ -64,16 +64,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     protected function _prepareCollection()
     {
-        if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublish()) {
-            $userId = false;
-        } else {
-            $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-        }
-
         $collection = Mage::getModel('enterprise_cms/revision')->getCollection()
             ->addPageFilter($this->getPage())
             ->joinVersions()
-            ->addVisibilityFilter($userId,
+            ->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
                 Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
         $this->setCollection($collection);
@@ -140,13 +134,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     protected function _getVersions()
     {
         if (!$this->_versionsHash) {
-            if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublish()) {
-                $userId = false;
-            } else {
-                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-            }
-
+            $userId = Mage::getSingleton('admin/session')->getUser()->getId();
             $collection = Mage::getModel('enterprise_cms/version')->getCollection()
+                ->addVersionLabelToSelect()
                 ->addVisibilityFilter($userId,
                     Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
