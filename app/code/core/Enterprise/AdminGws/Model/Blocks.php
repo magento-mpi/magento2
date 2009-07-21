@@ -255,4 +255,20 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
                                          Enterprise_CatalogEvent_Model_Event::DISPLAY_PRODUCT_PAGE));
         }
     }
+
+    /**
+     * Set required Subscribers From field in newsletter queue form
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function setIsRequiredSubscribersFromFieldForNewsletterQueueForm($observer)
+    {
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
+            return;
+        }
+        $observer->getEvent()
+            ->getBlock()
+            ->getForm()
+            ->getElement('stores')->setRequired(true)->addClass('required-entry');
+    }
 }

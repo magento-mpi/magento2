@@ -462,6 +462,7 @@
                     <adminhtml__catalog_product_attribute>removeCatalogProductAttributeAddButton</adminhtml__catalog_product_attribute>
                     <adminhtml__catalog_product_attribute_edit>removeCatalogProductAttributeSaveButtons</adminhtml__catalog_product_attribute_edit>
                     <adminhtml__catalog_category_edit_form>widgetCatalogEventCategoryEditButtons</adminhtml__catalog_category_edit_form>
+                    <adminhtml__newsletter_queue_edit_form>setIsRequiredSubscribersFromFieldForNewsletterQueueForm</adminhtml__newsletter_queue_edit_form>
                 </block_html_before>
             </admingws>
         </enterprise>
@@ -473,6 +474,6 @@
                      </files>
                 </Enterprise_AdminGws>
             </modules>
-        </translate>           
+        </translate>
     </adminhtml>
 </config>
