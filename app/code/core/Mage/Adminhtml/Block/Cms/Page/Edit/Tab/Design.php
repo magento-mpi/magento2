@@ -35,6 +35,15 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
 
     public function _prepareForm()
     {
+        /*
+         * Checking if user have permissions to save information
+         */
+        if (Mage::getSingleton('admin/session')->isAllowed('cms/page/save')) {
+            $isElementDisabled = false;
+        } else {
+            $isElementDisabled = true;
+        }
+
         $form = new Varien_Data_Form();
 
         $form->setHtmlIdPrefix('page_');
@@ -44,26 +53,30 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
         $fieldset = $form->addFieldset('design_fieldset', array(
             'legend' => Mage::helper('cms')->__('Custom Design'),
             'class'  => 'fieldset-wide',
+            'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('custom_theme', 'select', array(
             'name'      => 'custom_theme',
             'label'     => Mage::helper('cms')->__('Custom Theme'),
             'values'    => Mage::getModel('core/design_source_design')->getAllOptions(),
+            'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('custom_theme_from', 'date', array(
             'name'      => 'custom_theme_from',
             'label'     => Mage::helper('cms')->__('Custom Theme From'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'    => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+            'format'    => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+            'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('custom_theme_to', 'date', array(
             'name'      => 'custom_theme_to',
             'label'     => Mage::helper('cms')->__('Custom Theme To'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'    => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+            'format'    => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+            'disabled'  => $isElementDisabled
         ));
 
 
@@ -72,13 +85,17 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'label'     => Mage::helper('cms')->__('Layout'),
             'required'  => true,
             'values'   => Mage::getSingleton('page/source_layout')->toOptionArray(),
+            'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('layout_update_xml', 'editor', array(
             'name'      => 'layout_update_xml',
             'label'     => Mage::helper('cms')->__('Layout Update XML'),
-            'style'     => 'height:24em;'
+            'style'     => 'height:24em;',
+            'disabled'  => $isElementDisabled
         ));
+
+        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_design_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
 

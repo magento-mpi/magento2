@@ -37,9 +37,22 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
 
+
+
     protected function _prepareForm()
-    {/** @var Cms_Model_Page */
+    {
+        /** @var $model Mage_Cms_Model_Page */
         $model = Mage::registry('cms_page');
+
+        /*
+         * Checking if user have permissions to save information
+         */
+        if (Mage::getSingleton('admin/session')->isAllowed('cms/page/save')) {
+            $isElementDisabled = false;
+        } else {
+            $isElementDisabled = true;
+        }
+
 
         $form = new Varien_Data_Form();
 
@@ -58,6 +71,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             'label'     => Mage::helper('cms')->__('Page Title'),
             'title'     => Mage::helper('cms')->__('Page Title'),
             'required'  => true,
+            'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('identifier', 'text', array(
@@ -67,6 +81,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             'required'  => true,
             'class'     => 'validate-identifier',
             'after_element_html' => '<p class="nm"><small>' . Mage::helper('cms')->__('(eg: domain.com/identifier)') . '</small></p>',
+            'disabled'  => $isElementDisabled
         ));
 
         /**
@@ -79,6 +94,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
                 'title'     => Mage::helper('cms')->__('Store View'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+                'disabled'  => $isElementDisabled
             ));
         }
         else {
@@ -98,6 +114,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
                 '1' => Mage::helper('cms')->__('Enabled'),
                 '0' => Mage::helper('cms')->__('Disabled'),
             ),
+            'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('content', 'editor', array(
@@ -107,8 +124,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             'style'     => 'height:36em;',
             'wysiwyg'   => false,
             'required'  => true,
+            'disabled'  => $isElementDisabled
         ));
 
+        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_main_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
         $this->setForm($form);

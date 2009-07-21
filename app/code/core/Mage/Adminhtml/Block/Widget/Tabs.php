@@ -369,4 +369,18 @@ class Mage_Adminhtml_Block_Widget_Tabs extends Mage_Adminhtml_Block_Widget
 
         return $this;
     }
+
+    /**
+     * Removes tab with passed id from tabs block
+     *
+     * @param string $tabId
+     * @return Mage_Adminhtml_Block_Widget_Tabs
+     */
+    public function removeTab($tabId)
+    {
+        if (isset($this->_tabs[$tabId])) {
+            unset($this->_tabs[$tabId]);
+        }
+        return $this;
+    }
 }

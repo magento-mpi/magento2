@@ -45,6 +45,15 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
 
         Mage::helper('googleoptimizer')->setStoreId(Mage::app()->getDefaultStoreView());
 
+        /*
+         * Checking if user have permissions to save information
+         */
+        if (Mage::getSingleton('admin/session')->isAllowed('cms/page/save')) {
+            $isElementDisabled = false;
+        } else {
+            $isElementDisabled = true;
+        }
+
         $fieldset->addField('conversion_page', 'select',
             array(
                 'name'  => 'conversion_page',
@@ -52,7 +61,8 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                 'values'=> Mage::getModel('googleoptimizer/adminhtml_system_config_source_googleoptimizer_conversionpages')->toOptionArray(),
                 'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
-                'onchange' => 'googleOptimizerConversionPageAction(this)'
+                'onchange' => 'googleOptimizerConversionPageAction(this)',
+                'disabled'  => $isElementDisabled
             )
         );
 
@@ -62,6 +72,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                 array(
                     'name'  => 'conversion_page_url',
                     'label' => Mage::helper('googleoptimizer')->__('Conversion Page URL'),
+                    'disabled'  => $isElementDisabled
                 )
             )->setRenderer($this->getLayout()->createBlock('googleoptimizer/adminhtml_cms_page_edit_renderer_conversion'));
         } else {
@@ -72,7 +83,8 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                     'class' => 'input-text',
                     'readonly' => 'readonly',
                     'required' => false,
-                    'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form')
+                    'note' => Mage::helper('googleoptimizer')->__('Please copy and paste this value to experiment edit form'),
+                    'disabled'  => $isElementDisabled
                 )
             );
         }
@@ -80,6 +92,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
         $fieldset->addField('export_controls', 'text',
             array(
                 'name'  => 'export_controls',
+                'disabled'  => $isElementDisabled
             )
         );
 
@@ -96,7 +109,8 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                 'values'=> $pageTypes,
                 'class' => 'select googleoptimizer validate-googleoptimizer',
                 'required' => false,
-                'onchange' => 'googleOptimizerVariantPageAction(this)'
+                'onchange' => 'googleOptimizerVariantPageAction(this)',
+                'disabled'  => $isElementDisabled
             )
         );
 
@@ -107,6 +121,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                 'class' => 'textarea validate-googleoptimizer',
                 'required' => false,
                 'note' => '',
+                'disabled'  => $isElementDisabled
             )
         );
         $fieldset->addField('tracking_script', 'textarea',
@@ -116,6 +131,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                 'class' => 'textarea validate-googleoptimizer',
                 'required' => false,
                 'note' => '',
+                'disabled'  => $isElementDisabled
             )
         );
         $fieldset->addField('conversion_script', 'textarea',
@@ -125,6 +141,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
                 'class' => 'textarea validate-googleoptimizer',
                 'required' => false,
                 'note' => '',
+                'disabled'  => $isElementDisabled
             )
         );
 

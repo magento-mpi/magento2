@@ -42,6 +42,15 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
 
     protected function _prepareForm()
     {
+        /*
+         * Checking if user have permissions to save information
+         */
+        if (Mage::getSingleton('admin/session')->isAllowed('cms/page/save')) {
+            $isElementDisabled = false;
+        } else {
+            $isElementDisabled = true;
+        }
+
         $form = new Varien_Data_Form();
 
         $form->setHtmlIdPrefix('page_');
@@ -54,13 +63,17 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
             'name' => 'meta_keywords',
             'label' => Mage::helper('cms')->__('Keywords'),
             'title' => Mage::helper('cms')->__('Meta Keywords'),
+            'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('meta_description', 'editor', array(
             'name' => 'meta_description',
             'label' => Mage::helper('cms')->__('Description'),
             'title' => Mage::helper('cms')->__('Meta Description'),
+            'disabled'  => $isElementDisabled
         ));
+
+        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_meta_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
 
