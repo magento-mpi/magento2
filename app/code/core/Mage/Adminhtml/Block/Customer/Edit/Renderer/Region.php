@@ -54,24 +54,33 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_
         $html.= '<select id="'.$selectId.'" name="'.$selectName.'" class="select required-entry" style="display:none">';
         $html.= '<option value="">'.Mage::helper('customer')->__('Please select').'</option>';
         $html.= '</select>';
-        $html.= '<script type="text/javascript">
-        Event.observe(window, "load", function() {
-            if ($("'.$country->getHtmlId().'") != undefined) {
-                var zipOptions = {};
-                zipOptions.input_el = "'.$postcode->getHtmlId().'";
-                zipOptions.label_el = $("'.$country->getHtmlId().'").up(1).next(1).down("label > span.required");
-                zipOptions.optional_countries = '.$this->helper('directory')->getCountriesWithOptionalZipJson($this->getStoreId()).';
-                new regionUpdater(
-                    "'.$country->getHtmlId().'",
-                    "'.$element->getHtmlId().'",
-                    "'.$selectId.'",
-                    '.$this->helper('directory')->getRegionJson().',
-                    undefined,
-                    undefined,
-                    zipOptions
-                );
-            }
-        });
+        $updaterName = 'regionPostcodeUpdater_' . md5($country->getHtmlId() . $postcode->getHtmlId()); 
+        $html.= '<script type="text/javascript">' . 
+        $updaterName.' = function(){
+           if ($("'.$country->getHtmlId().'") == undefined ||
+               $("'.$postcode->getHtmlId().'") == undefined) {
+                return false;
+            }    
+            var zipOptions = {};
+            zipOptions.input_el = "'.$postcode->getHtmlId().'";
+            zipOptions.label_el = $("'.$country->getHtmlId().'").up(1).next(1).down("label > span.required");
+            zipOptions.optional_countries = '.$this->helper('directory')->getCountriesWithOptionalZipJson($this->getStoreId()).';
+            new regionUpdater(
+               "'.$country->getHtmlId().'",
+               "'.$element->getHtmlId().'",
+               "'.$selectId.'",
+               '.$this->helper('directory')->getRegionJson().',
+               undefined,
+               undefined,
+               zipOptions
+             );
+            return true;
+        }
+        
+        if (!'.$updaterName.'())
+        {
+            Event.observe(window, "load", '.$updaterName.');
+        }
         </script>';
         $html.= '</td></tr>'."\n";
         return $html;
