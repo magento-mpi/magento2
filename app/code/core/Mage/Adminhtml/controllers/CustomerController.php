@@ -190,6 +190,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
             $isNewCustomer = !$customer->getId();
             try {
                 if ($customer->getPassword() == 'auto') {
+                    $sendPassToEmail = true;
                     $customer->setPassword($customer->generatePassword());
                 }
 
@@ -204,7 +205,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
                 $customer->save();
                 // send welcome email
-                if ($customer->getWebsiteId() && $customer->hasData('sendemail')) {
+                if ($customer->getWebsiteId() && ($customer->hasData('sendemail') || isset($sendPassToEmail))) {
                     $store_id = $customer->getStoreId();
                     if ($isNewCustomer) {
                         $customer->sendNewAccountEmail('registered', '', $store_id);
