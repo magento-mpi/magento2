@@ -142,17 +142,6 @@
                                 </page>
                             </children>
                         </cms>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <enterprise_cms translate="title" module="enterprise_cms">
-                                            <title>Content Management</title>
-                                        </enterprise_cms>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
                     </children>
                 </admin>
             </resources>
@@ -169,15 +158,4 @@
             </adminhtml>
         </routers>
     </admin>
-    <default>
-        <enterprise_cms>
-            <page_wysiwyg>
-                <enabled>1</enabled>
-                <upload_root>media/images</upload_root>
-                <allowed_extensions>png,gif,jpg,jpeg,bmp</allowed_extensions>
-                <resize_width>100</resize_width>
-                <resize_height>75</resize_height>
-            </page_wysiwyg>
-        </enterprise_cms>
-    </default>
 </config>
