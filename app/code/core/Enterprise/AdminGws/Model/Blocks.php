@@ -263,9 +263,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function setIsRequiredSubscribersFromFieldForNewsletterQueueForm($observer)
     {
-        if ($this->_role->getIsAll()) { // because observer is passed through directly
-            return;
-        }
         $observer->getEvent()
             ->getBlock()
             ->getForm()
