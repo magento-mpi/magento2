@@ -27,7 +27,7 @@
 -->
 
 <layout>
-    <adminhtml_cms_page_edit>
+    <adminhtml_cms_page_edit_changes>
         <reference name="cms_page_edit_tabs">
             <action method="removeTab"><name>design_section</name></action>
             <action method="removeTab"><name>meta_section</name></action>
@@ -40,24 +40,47 @@
                 </block>
             </action>
             <action method="setTabData"><tab>revisions</tab><key>url</key><value>*/*/revisions</value></action>
-            <!--
-            <action method="addTab">
-                <name>versions</name>
-                <block translate="label title" module="enterprise_cms">
-                    <class>ajax</class>
-                    <label>Versions</label>
-                    <title>Versions</title>
-                </block>
-            </action>
-            <action method="setTabData"><tab>versions</tab><key>url</key><value>*/*/versions</value></action>
-            -->
         </reference>
-    </adminhtml_cms_page_edit>
+    </adminhtml_cms_page_edit_changes>
 
     <adminhtml_cms_page_revisions>
         <remove name="root" />
         <block type="enterprise_cms/adminhtml_cms_page_edit_tab_revisions"  output="toHtml" name="cms_page_edit_revisions" />
     </adminhtml_cms_page_revisions>
+
+    <adminhtml_cms_page_revision_edit>
+        <reference name="content">
+            <block type="enterprise_cms/adminhtml_cms_page_revision_edit" name="cms_page_revision_edit">
+                <block type="enterprise_cms/adminhtml_cms_page_revision_edit_info" name="revision_info" template="enterprise/cms/page/revision/info.phtml" />
+            </block>
+        </reference>
+        <reference name="left">
+            <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tabs" name="cms_page_revision_edit_tabs">
+                <action method="addTab"><name>main_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_main</block></action>
+                <action method="addTab"><name>design_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_design</block></action>
+                <action method="addTab"><name>meta_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_meta</block></action>
+                <action method="addTab">
+                    <name>versions</name>
+                    <block translate="label title" module="enterprise_cms">
+                        <class>ajax</class>
+                        <label>Versions</label>
+                        <title>Versions</title>
+                    </block>
+                </action>
+                <action method="setTabData"><tab>versions</tab><key>url</key><value>*/*/versions</value></action>
+            </block>
+        </reference>
+    </adminhtml_cms_page_revision_edit>
+
+    <adminhtml_cms_page_revision_versions>
+        <remove name="root" />
+        <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_versions"  output="toHtml" name="cms_page_revision_edit_versions" />
+    </adminhtml_cms_page_revision_versions>
+
+    <adminhtml_cms_page_revision_versionsgrid>
+        <remove name="root" />
+        <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_versions_grid"  output="toHtml" name="cms_page_revision_edit_versions" />
+    </adminhtml_cms_page_revision_versionsgrid>
 
     <adminhtml_cms_page_wysiwyg_images_index>
         <reference name="left">

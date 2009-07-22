@@ -26,82 +26,17 @@
 
 
 /**
- * Cms manage pages controller
+ * Manage revision controller
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-include('app/code/core/Mage/Adminhtml/controllers/Cms/PageController.php');
+include('app/code/core/Enterprise/Cms/controllers/Adminhtml/Cms/PageController.php');
 
-class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_PageController
+class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cms_Adminhtml_Cms_PageController
 {
-    protected $_handles = array();
-
-    /**
-     * Init actions
-     *
-     * @return mixed $handle
-     * @return Mage_Adminhtml_Cms_PageController
-     */
-    protected function _initAction()
-    {
-        $update = $this->getLayout()->getUpdate();
-        $update->addHandle('default');
-
-        // add default layout handles for this action
-        $this->addActionLayoutHandles();
-        $update->addHandle($this->_handles);
-
-        $this->loadLayoutUpdates()
-            ->generateLayoutXml()
-            ->generateLayoutBlocks();
-
-        $this->_initLayoutMessages('adminhtml/session');
-
-        //load layout, set active menu and breadcrumbs
-        $this->_setActiveMenu('cms/page')
-            ->_addBreadcrumb(Mage::helper('cms')->__('CMS'), Mage::helper('cms')->__('CMS'))
-            ->_addBreadcrumb(Mage::helper('cms')->__('Manage Pages'), Mage::helper('cms')->__('Manage Pages'));
-
-        return $this;
-    }
-
-    /**
-     * Prepare ans place cms page model into registry
-     * with loaded data if id parameter present
-     *
-     * @param string $idFieldName
-     * @return Mage_Cms_Model_Page
-     */
-    protected function _initPage()
-    {
-        $pageId = (int) $this->getRequest()->getParam('page_id');
-        $revisionId = (int) $this->getRequest()->getParam('revision_id');
-
-        $page = Mage::getModel('enterprise_cms/page');
-
-        if ($pageId) {
-            if ($revisionId) {
-                $page->setRevisionId($revisionId);
-            }
-
-            $page->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
-            $page->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
-
-            $page->load($pageId);
-
-            /**
-             * @todo Need to throw exception about - can't load page
-             */
-        }
-
-        Mage::register('cms_page', $page);
-        return $page;
-    }
-
-
     /**
      * Edit revision of CMS page
      */
@@ -110,14 +45,11 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         $page = $this->_initPage();
 
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
-        if (! empty($data)) {
+        if (!empty($data)) {
             $page->setData($data);
         }
 
-        if ($page->getId()) {
-            $page->setHideRevisionedAttributes(true);
-            $this->_handles[] = 'adminhtml_cms_page_edit_changes';
-        }
+        $page->setHideNotRevisionedAttributes(true);
 
         $this->_initAction()
             ->_addBreadcrumb($page->getId() ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'), $page->getId() ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'));
@@ -136,24 +68,26 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
             $model = $this->_initPage();
             $model->setData($data);
 
-            Mage::dispatchEvent('cms_page_prepare_save', array('page' => $model, 'request' => $this->getRequest()));
-
             // try to save it
             try {
                 // save the data
                 $model->save();
 
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('cms')->__('Page was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully saved'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('page_id' => $model->getId()));
+                    $this->_redirect('*/*/edit',
+                        array(
+                            'page_id' => $model->getId(),
+                            'revision_id' => $model->getRevisionId()
+                        ));
                     return;
                 }
                 // go to grid
-                $this->_redirect('*/*/');
+                $this->_redirect('*/cms_page/edit', array('page_id' => $model->getId()));
                 return;
 
             } catch (Exception $e) {
@@ -162,20 +96,23 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                 // save data in session
                 Mage::getSingleton('adminhtml/session')->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+                $this->_redirect('*/*/edit',
+                    array(
+                        'page_id' => $this->getRequest()->getParam('page_id'),
+                        'page_id' => $this->getRequest()->getParam('revision_id'),
+                        ));
                 return;
             }
         }
         $this->_redirect('*/*/');
     }
 
-
     /**
-     * Action for revisions ajax tab
+     * Action for versions ajax tab
      *
      * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
      */
-    public function revisionsAction()
+    public function versionsAction()
     {
         $this->_initPage();
 
@@ -183,5 +120,44 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         $this->renderLayout();
 
         return $this;
+    }
+
+    /**
+     * Action for versions ajax tab
+     *
+     * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
+     */
+    public function versionsgridAction()
+    {
+        $this->_initPage();
+
+        $this->loadLayout();
+        $this->renderLayout();
+
+        return $this;
+    }
+
+    /**
+     * Check the permission to run it
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        switch ($this->getRequest()->getActionName()) {
+            case 'edit':
+            case 'save':
+                return Mage::getSingleton('admin/session')->isAllowed('cms/page/save_revision');
+                break;
+            case 'publish':
+                return Mage::getSingleton('admin/session')->isAllowed('cms/page/publish_revision');
+                break;
+            case 'delete':
+                return Mage::getSingleton('admin/session')->isAllowed('cms/page/delete_revision');
+                break;
+            default:
+                return Mage::getSingleton('admin/session')->isAllowed('cms/page');
+                break;
+        }
     }
 }

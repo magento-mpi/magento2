@@ -73,7 +73,7 @@ class Enterprise_Cms_Model_Config
      */
     public function getAllowedAccessLevel()
     {
-        if ($this->isCurrentUserCanPublish()) {
+        if ($this->isCurrentUserCanPublishRevision()) {
             return array(
                 Enterprise_Cms_Model_Version::ACCESS_LEVEL_PROTECTED,
                 Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC
@@ -88,7 +88,7 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanPublish()
+    public function isCurrentUserCanPublishRevision()
     {
         return $this->isAllowedAction('publish_revision');
     }
@@ -108,9 +108,9 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanCreatePage()
+    public function isCurrentUserCanSavePage()
     {
-        return $this->isAllowedAction('new');
+        return $this->isAllowedAction('save');
     }
 
     /**
@@ -118,9 +118,19 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanSave()
+    public function isCurrentUserCanSaveRevision()
     {
-        return $this->isAllowedAction('save');
+        return $this->isAllowedAction('save_revision');
+    }
+
+    /**
+     * Return status of current user permission to delete revision.
+     *
+     * @return bool
+     */
+    public function isCurrentUserCanDeleteRevision()
+    {
+        return $this->isAllowedAction('delete_revision');
     }
 
     /**

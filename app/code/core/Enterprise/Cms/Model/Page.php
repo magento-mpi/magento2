@@ -63,8 +63,8 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
 
         $this->_canRunNativeDelete = $this->_config->isCurrentUserCanDeletePage();
 
-        $this->_canRunNativeSave = $this->_config->isCurrentUserCanCreatePage()
-                || $this->_config->isCurrentUserCanPublish();
+        $this->_canRunNativeSave = $this->_config->isCurrentUserCanSavePage()
+                || $this->_config->isCurrentUserCanPublishRevision();
     }
 
     /**
@@ -130,16 +130,50 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
             parent::_afterSave();
         }
 
+        $currentUserId = Mage::getSingleton('admin/session')->getUser()->getId();
+
+        $version = Mage::getModel('enterprise_cms/version');
+        /*
+         * Trying to load version if page has it
+         */
+
+        if ($this->getVersionId() && !$this->hasCreateNewVersion()) {
+            $version->load($this->getVersionId());
+            //updating label and access level if current user owner of this version
+            if ($version->getUserId() == $currentUserId) {
+                $version->setAccessLevel($this->getAccessLevel())
+                    ->setLabel($this->getVersionLabel());
+            }
+        } else {
+            /*
+             * if this is new page or it does not have any version we should
+             * create one with public access
+             */
+            $version->setAccessLevel(Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC)
+                ->setLabel($this->getVersionLabel())
+                ->setPageId($this->getPageId())
+                ->setUserId($currentUserId);
+        }
+        $version->save();
+
         /*
          * Save data under revision control if such was changed
+         * or user created new version
          */
-        if ($this->hasDataUnderRevisionControl()) {
+        if ($this->getDataUnderRevisionControlWasModified() || $this->getVersionId() != $version->getId()) {
+            $this->setVersionId($version->getId());
+
+            /*
+             * Saving new Revision
+             */
             $revision = Mage::getModel('enterprise_cms/revision');
             $revision->setData($this->getDataUnderRevisionControl())
-                ->setVersionId(1)
+                ->setVersionId($version->getId())
                 ->setPageId($this->getPageId())
-                ->setUserId($this->getUserId())
+                ->setUserId($currentUserId)
                 ->save();
+
+            $this->setRevisionId($revision->getId());
         }
 
         return $this;
@@ -175,16 +209,17 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
          */
         $_data = $this->_filterData();
         if ($this->_dataWasModified($_data)) {
-            $this->setDataUnderRevisionControl($_data);
+            $this->setDataUnderRevisionControlWasModified(true);
         } else {
-            $this->unsDataUnderRevisionControl();
+            $this->setDataUnderRevisionControlWasModified(false);
         }
+        $this->setDataUnderRevisionControl($_data);
 
         /*
          * All new pages created by yser without permission to publish
          * should be disabled from the begining.
          */
-        if (!$this->getId() && !$this->_config->isCurrentUserCanPublish()) {
+        if (!$this->getId() && !$this->_config->isCurrentUserCanPublishRevision()) {
             $this->setIsActive(false);
         }
 
@@ -198,7 +233,7 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
      */
     public function save()
     {
-        if (!$this->_config->isCurrentUserCanSave()) {
+        if (!$this->_config->isCurrentUserCanSaveRevision()) {
             Mage::throwException(Mage::helper('enterprise_cms')->__('You don\'t have permissions to save revision.'));
         }
         return parent::save();
@@ -213,7 +248,7 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
     {
         if (!$this->_config->isCurrentUserCanDeletePage()) {
             Mage::throwException(Mage::helper('enterprise_cms')->__('You don\'t have permissions to delete page.'));
-        } elseif (!$this->_config->isCurrentUserCanDelete()) {
+        } elseif (!$this->_config->isCurrentUserCanDeleteRevision()) {
             Mage::throwException(Mage::helper('enterprise_cms')->__('You don\'t have permissions to delete revision.'));
         }
         return parent::save();

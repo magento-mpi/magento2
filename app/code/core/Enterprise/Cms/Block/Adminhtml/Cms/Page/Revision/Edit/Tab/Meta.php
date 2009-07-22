@@ -26,20 +26,28 @@
 
 
 /**
- * Cms page version resource model
+ * Meta tab with cms page attributes and some modifications to CE version
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Mysql4_Version extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta
+    extends Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
 {
     /**
-     * Constructor
+     * Check permission for passed action
+     * Rewrite CE save permission to EE save_revision
+     *
+     * @param string $action
+     * @return bool
      */
-    protected function _construct()
+    protected function _isAllowedAction($action)
     {
-        $this->_init('enterprise_cms/version', 'version_id');
+        if ($action == 'save') {
+            $action = 'save_revision';
+        }
+        return parent::_isAllowedAction($action);
     }
 }

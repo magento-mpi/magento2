@@ -28,8 +28,8 @@
 /**
  * Cms page revision collection
  *
- * @category    Mage
- * @package     Mage_Cms
+ * @category    Enterprise
+ * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 

@@ -1,0 +1,44 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design
+ * @package    default_default
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+
+<?php
+/**
+ * @var $this Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Info
+ */
+?>
+<div class="revision-info" style="min-height:23px !important; margin-bottom:11px !important; padding:8px 0px !important; font-size:.95em !important; font-weight:bold !important; border:1px solid #95a486 !important; color:#3d6611 !important; background:#eff5ea !important;">
+    <table width="100%" padding="0">
+        <tr>
+            <td width="25%" align="center"><span class="label"><?php echo $this->__('Revision:') ?></span>&nbsp;<span class="value"><?php echo $this->getRevisionId() ?></span></td>
+            <td width="25%" align="center"><span class="label"><?php echo $this->__('Version:') ?></span>&nbsp;<span class="value"><?php echo $this->getVersion() ?></span></td>
+            <td width="25%" align="center"><span class="label"><?php echo $this->__('Author:') ?></span>&nbsp;<span class="value"><?php echo $this->getAuthor() ?></span></td>
+            <td width="25%" align="center"><span class="label"><?php echo $this->__('Created:') ?></span>&nbsp;<span class="value"><?php echo $this->getCreatedAt() ?></span></td>
+        </tr>
+    </table>
+</div>
+
+

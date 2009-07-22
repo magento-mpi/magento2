@@ -83,14 +83,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     {
 
         $this->addColumn('revision_id', array(
-            'header' => $this->__('Revision'),
+            'header' => Mage::helper('enterprise_cms')->__('Revision'),
             'width' => 100,
             'type' => 'text',
             'index' => 'revision_id'
         ));
 
         $this->addColumn('created_at', array(
-            'header' => $this->__('Created'),
+            'header' => Mage::helper('enterprise_cms')->__('Created'),
             'index' => 'created_at',
             'type' => 'datetime',
             'filter_time' => true,
@@ -98,26 +98,26 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
         ));
 
         $this->addColumn('version', array(
-            'header' => $this->__('Version'),
+            'header' => Mage::helper('enterprise_cms')->__('Version'),
             'index' => 'version_id',
             'type' => 'options',
             'options' => $this->_getVersions()
         ));
 
         $this->addColumn('access_level', array(
-            'header' => $this->__('Access Level'),
+            'header' => Mage::helper('enterprise_cms')->__('Access Level'),
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
             'options' => array(
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PRIVATE => $this->__('Private'),
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PROTECTED => $this->__('Protected'),
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC => $this->__('Public')
+                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PRIVATE => Mage::helper('enterprise_cms')->__('Private'),
+                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PROTECTED => Mage::helper('enterprise_cms')->__('Protected'),
+                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC => Mage::helper('enterprise_cms')->__('Public')
                 )
         ));
 
         $this->addColumn('author', array(
-            'header' => $this->__('Author'),
+            'header' => Mage::helper('enterprise_cms')->__('Author'),
             'index' => 'user_id',
             'type' => 'options',
             'options' => $this->_getUsers()
@@ -181,7 +181,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('page_id' => $row->getPageId(), 'revision_id' => $row->getRevisionId()));
+        return $this->getUrl('*/cms_page_revision/edit', array('page_id' => $row->getPageId(), 'revision_id' => $row->getRevisionId()));
     }
 
     /**

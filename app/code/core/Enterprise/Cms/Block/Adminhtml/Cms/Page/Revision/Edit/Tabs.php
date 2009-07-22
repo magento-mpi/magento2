@@ -26,20 +26,19 @@
 
 
 /**
- * Cms page version resource model
+ * Tab control for revision edit page
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Enterprise_Cms_Model_Mysql4_Version extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
 {
-    /**
-     * Constructor
-     */
-    protected function _construct()
+    public function __construct()
     {
-        $this->_init('enterprise_cms/version', 'version_id');
+        parent::__construct();
+        $this->setId('page_tabs');
+        $this->setDestElementId('edit_form');
+        $this->setTitle(Mage::helper('enterprise_cms')->__('Revision Information'));
     }
 }

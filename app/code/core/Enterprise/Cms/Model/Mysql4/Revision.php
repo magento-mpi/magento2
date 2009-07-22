@@ -28,8 +28,8 @@
 /**
  * Cms page revision resource model
  *
- * @category    Mage
- * @package     Mage_Cms
+ * @category    Enterprise
+ * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
@@ -62,5 +62,48 @@ class Enterprise_Cms_Model_Mysql4_Revision extends Mage_Core_Model_Mysql4_Abstra
         }
 
         return parent::_beforeSave($object);
+    }
+
+    /**
+     * Process data after save
+     *
+     * @param Mage_Core_Model_Abstract $object
+     */
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        $this->_aggregateVersionData((int)$object->getVersionId());
+
+        return parent::_afterSave($object);
+    }
+
+    /**
+     * Process data after delete
+     *
+     * @param Mage_Core_Model_Abstract $object
+     */
+    protected function _afterDelete(Mage_Core_Model_Abstract $object)
+    {
+        $this->_aggregateVersionData((int)$object->getVersionId());
+
+        return parent::_afterDelete($object);
+    }
+
+    /**
+     * Aggregate data for version
+     *
+     * @param int $versionId
+     * @return unknown_type
+     */
+    protected function _aggregateVersionData($versionId)
+    {
+        $versionTable = $this->getTable('enterprise_cms/version');
+
+        $select = 'UPDATE `' . $versionTable . '` SET `revisions_count` =
+            (SELECT count(*) from `' . $this->getMainTable() . '` where `version_id` = ' . (int)$versionId . ')
+            where `version_id` = ' . (int)$versionId;
+
+        $this->_getWriteAdapter()->query($select);
+
+        return $this;
     }
 }

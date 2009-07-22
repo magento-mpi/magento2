@@ -205,7 +205,7 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
         }
 
         $select->joinLeft(array('ver_table' => $this->_versionTable),
-            $conditions, array('version_id', 'version_label' => 'label', 'access_level', 'user_id'));
+            $conditions, array('version_id', 'label', 'access_level', 'version_user_id' => 'user_id'));
 
         /*
          * Adding revision data
@@ -219,13 +219,13 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
          */
         if ($object->getRevisionId()) {
             $conditions[] = 'rev_table.revision_id = ' . (int)$object->getRevisionId();
-        } else {
-            $select->order('revision_id DESC')
-                ->limit(1);
         }
 
+        $select->order('revision_id DESC')
+            ->limit(1);
+
         $select->joinLeft(array('rev_table' => $this->_revisionTable),
-            implode(' AND ', $conditions), array('revision_id', 'revision_created_at' => 'created_at'));
+            implode(' AND ', $conditions), array('revision_id', 'revision_created_at' => 'created_at', 'user_id'));
 
         /*
          * In case if there is no versions and revisions available
