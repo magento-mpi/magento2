@@ -32,16 +32,21 @@
  */
 class Enterprise_Cms_Model_Adminhtml_System_Config_Source_Wysiwyg_Enabled
 {
-    const ENABLED_DEFAULT = 1;
-    const DISABLED_DEFAULT = 2;
-    const DISABLED_TOTALLY = 3;
-
     public function toOptionArray()
     {
         return array(
-            array('value' => self::ENABLED_DEFAULT, 'label' => Mage::helper('enterprise_cms')->__('Enable by Default')),
-            array('value' => self::DISABLED_DEFAULT, 'label' => Mage::helper('enterprise_cms')->__('Disabled by Default')),
-            array('value' => self::DISABLED_TOTALLY, 'label' => Mage::helper('enterprise_cms')->__('Disable Completely'))
+            array(
+                'value' => Enterprise_Cms_Model_Config::WYSIWYG_ENABLED_DEFAULT,
+                'label' => Mage::helper('enterprise_cms')->__('Enable by Default')
+            ),
+            array(
+                'value' => Enterprise_Cms_Model_Config::WYSIWYG_DISABLED_DEFAULT,
+                'label' => Mage::helper('enterprise_cms')->__('Disabled by Default')
+            ),
+            array(
+                'value' => Enterprise_Cms_Model_Config::WYSIWYG_DISABLED_TOTALLY,
+                'label' => Mage::helper('enterprise_cms')->__('Disable Completely')
+            )
         );
     }
 }
