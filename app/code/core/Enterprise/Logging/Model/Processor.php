@@ -210,7 +210,7 @@ class Enterprise_Logging_Model_Processor
                 return;
             }
 
-            $loggingEvent->setAction($this->_config->getNode($this->_initAction)->action);
+            $loggingEvent->setAction($this->_eventConfig->action);
             $loggingEvent->setEventCode($this->_eventConfig->getParent()->getParent()->getName());
             try {
                 $callback = (isset($this->_eventConfig->post_dispatch) ? (string)$this->_eventConfig->post_dispatch
