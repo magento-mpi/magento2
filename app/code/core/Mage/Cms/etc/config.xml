@@ -140,6 +140,17 @@
                                 </poll>
                             </children>
                         </cms>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <cms translate="title" module="cms">
+                                            <title>Content Management</title>
+                                        </cms>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
                     </children>
                 </admin>
             </resources>
@@ -223,5 +234,16 @@
                 <show_cms_breadcrumbs>1</show_cms_breadcrumbs>
             </default>
         </web>
+        <cms>
+            <page_wysiwyg>
+                <enabled>1</enabled>
+                <upload_root>media/images</upload_root>
+                <browser_allowed_extensions>png,gif,jpg,jpeg,bmp</browser_allowed_extensions>
+                <browser_window_width>800</browser_window_width>
+                <browser_window_height>800</browser_window_height>
+                <browser_resize_width>100</browser_resize_width>
+                <browser_resize_height>75</browser_resize_height>
+            </page_wysiwyg>
+        </cms>
     </default>
 </config>
