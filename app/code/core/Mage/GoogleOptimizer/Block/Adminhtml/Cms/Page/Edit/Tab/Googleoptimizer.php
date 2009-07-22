@@ -48,7 +48,7 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
         /*
          * Checking if user have permissions to save information
          */
-        if (Mage::getSingleton('admin/session')->isAllowed('cms/page/save')) {
+        if ($this->_isAllowedAction('save')) {
             $isElementDisabled = false;
         } else {
             $isElementDisabled = true;
@@ -233,5 +233,15 @@ class Mage_Googleoptimizer_Block_Adminhtml_Cms_Page_Edit_Tab_Googleoptimizer
     public function isHidden()
     {
         return false;
+    }
+
+    /** Check permission for passed action
+     *
+     * @param string $action
+     * @return bool
+     */
+    protected function _isAllowedAction($action)
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('cms/page/' . $action);
     }
 }
