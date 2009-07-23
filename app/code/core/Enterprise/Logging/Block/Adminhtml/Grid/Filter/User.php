@@ -27,14 +27,14 @@
 /**
  * User column filter for Event Log grid
  */
-class Enterprise_Logging_Block_Events_Grid_Filter_User extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
+class Enterprise_Logging_Block_Adminhtml_Grid_Filter_User extends Mage_Adminhtml_Block_Widget_Grid_Column_Filter_Select
 {
     /**
      * Build filter options list
      *
      * @return array
      */
-    public function _getOptions() 
+    public function _getOptions()
     {
         $options = array(array('value' => '', 'label' => Mage::helper('enterprise_logging')->__('All Users')));
         foreach(Mage::getResourceModel('enterprise_logging/event')->getUserNames() as $username) {

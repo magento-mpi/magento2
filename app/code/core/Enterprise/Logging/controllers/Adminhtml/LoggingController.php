@@ -57,7 +57,8 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
         $model   = Mage::getModel('enterprise_logging/event')
             ->load($eventId);
         if (!$model->getId()) {
-            $this->_forward('index');
+            $this->_redirect('*/*/');
+            return;
         }
         Mage::register('current_event', $model);
 

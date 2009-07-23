@@ -33,7 +33,7 @@ $tableLogChanges = $this->getTable('enterprise_logging/event_changes');
 
 $installer->getConnection()->addColumn($tableLog, 'x_forwarded_ip', "bigint(20) unsigned NULL DEFAULT NULL AFTER `ip`");
 
-$installer->run("DROP TABLE IF EXISTS `".$tableLogChanges."`");
+$installer->run("DROP TABLE IF EXISTS `{$tableLogChanges}`");
 $installer->run("CREATE TABLE `".$tableLogChanges."` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `model_name` varchar(150) NOT NULL,
@@ -43,7 +43,7 @@ $installer->run("CREATE TABLE `".$tableLogChanges."` (
   `result_data` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `event_id` (`event_id`),
-  CONSTRAINT `FK_ENTERPRISE_LOGGING_EVENT_CHANGES_EVENT_ID` FOREIGN KEY (`event_id`) REFERENCES `enterprise_logging_event` (`log_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_LOGGING_EVENT_CHANGES_EVENT_ID` FOREIGN KEY (`event_id`) REFERENCES `enterprise_logging_event` (`log_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8");
 
 $installer->getConnection()->addColumn($tableLog, 'error_message', "tinytext DEFAULT NULL");

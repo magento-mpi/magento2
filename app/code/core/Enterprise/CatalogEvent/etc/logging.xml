@@ -34,10 +34,15 @@
             </adminhtml_catalog_event_edit>
             <adminhtml_catalog_event_save>
                 <action>save</action>
-                <expected_model>enterprise_catalogevent/event</expected_model>
+                <expected_models>
+                    <enterprise_catalogevent__event/>
+                </expected_models>
             </adminhtml_catalog_event_save>
             <adminhtml_catalog_event_delete>
                 <action>delete</action>
+                <expected_models>
+                    <enterprise_catalogevent__event/>
+                </expected_models>
             </adminhtml_catalog_event_delete>
         </actions>
     </enterprise_catalogevent>

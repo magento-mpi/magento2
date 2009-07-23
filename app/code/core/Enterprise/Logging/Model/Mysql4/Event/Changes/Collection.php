@@ -36,9 +36,4 @@ class Enterprise_Logging_Model_Mysql4_Event_Changes_Collection extends  Mage_Cor
     {
         $this->_init('enterprise_logging/event_changes');
     }
-
-    public function prepareCollection()
-    {
-
-    }
 }

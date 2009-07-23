@@ -29,19 +29,23 @@
     <enterprise_invitation translate="label">
         <label>Customer Invitations</label>
         <actions>
-            <adminhtml_invitation_view>
+            <adminhtml_invitation_index>
                 <action>view</action>
-            </adminhtml_invitation_view>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+            </adminhtml_invitation_index>
 
             <adminhtml_invitation_save>
                 <action>save</action>
-                <expected_model>enterprise_invitation/invitation</expected_model>
-                <model_save_after>enterprise_invitation/observer::loggingInvitationSaveAfter</model_save_after>
+                <expected_models>
+                    <enterprise_invitation__invitation>modelSaveAfterInvitation</enterprise_invitation__invitation>
+                </expected_models>
             </adminhtml_invitation_save>
 
             <adminhtml_invitation_massCancel>
                 <action>massCancel</action>
-                <post_dispatch>enterprise_invitation/observer::postDispatchLoggingInvitationMassCancel</post_dispatch>
+                <expected_models>
+                    <enterprise_invitation__invitation/>
+                </expected_models>
             </adminhtml_invitation_massCancel>
         </actions>
     </enterprise_invitation>

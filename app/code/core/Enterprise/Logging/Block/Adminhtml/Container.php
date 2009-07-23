@@ -30,6 +30,13 @@
 class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
     /**
+     * Curent event data storage
+     *
+     * @var object
+     */
+    protected $_eventData = null;
+
+    /**
      * Class constructor
      */
     public function __construct()
@@ -57,5 +64,48 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
     public function getHeaderText()
     {
         return Mage::helper('enterprise_logging')->__($this->getData('header_text'));
+    }
+
+    /**
+     * Get current event data
+     *
+     * @return object Enterprise_Logging_Model_Event
+     */
+    public function getEventData()
+    {
+        if (!$this->_eventData) {
+            $this->_eventData = Mage::registry('current_event');
+        }
+        return $this->_eventData;
+    }
+
+    /**
+     * Convert x_forwarded_ip to string
+     *
+     * @return string
+     */
+    public function getEventXForwardedIp()
+    {
+        return long2ip($this->getEventData()->getXForwardedIp());
+    }
+
+    /**
+     * Convert ip to string
+     *
+     * @return string
+     */
+    public function getEventIp()
+    {
+        return long2ip($this->getEventData()->getIp());
+    }
+
+    /**
+     * Replace /n => <br /> in event error_message
+     *
+     * @return string
+     */
+    public function getEventError()
+    {
+        return nl2br($this->getEventData()->getErrorMessage());
     }
 }

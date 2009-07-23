@@ -65,9 +65,8 @@ class Enterprise_Logging_Model_Handler_Models
      */
     public function modelSaveAfter($model)
     {
-        $data = $this->_prepareData($model->getData());
-        $origData = $this->_prepareData($model->getOrigData());
-
+        $data = $this->_clearupData($model->getData());
+        $origData = $this->_clearupData($model->getOrigData());
         $isDiff = false;
         foreach ($data as $key=>$value){
             switch (true){
@@ -84,14 +83,11 @@ class Enterprise_Logging_Model_Handler_Models
         }
         if ($isDiff){
             $this->_collectedIds[] = $model->getId();
-            return Mage::getModel('enterprise_logging/event_changes')
-                        ->setData(
-                            array(
-                                'original_data' => $origData,
-                                'result_data'   => $data,
-                            )
-                        );
-
+            return Mage::getModel('enterprise_logging/event_changes')->setData(
+                array(
+                    'original_data' => $origData,
+                    'result_data'   => $data,
+                ));
         } else {
             return false;
         }
@@ -106,9 +102,9 @@ class Enterprise_Logging_Model_Handler_Models
     public function modelDeleteAfter($model)
     {
         $this->_collectedIds[] = $model->getId();
-        $origData = $this->_prepareData($model->getOrigData());
+        $origData = $this->_clearupData($model->getOrigData());
         return Mage::getModel('enterprise_logging/event_changes')
-                    ->setData(array('original_data'=>$origData, 'data'=>null));
+                    ->setData(array('original_data'=>$origData, 'result_data'=>null));
     }
 
     /**
@@ -128,7 +124,7 @@ class Enterprise_Logging_Model_Handler_Models
      * @param array $data
      * @return array
      */
-    protected function _prepareData($data)
+    protected function _clearupData($data)
     {
         if (!$data && !is_array($data)) {
             return array();
@@ -152,17 +148,19 @@ class Enterprise_Logging_Model_Handler_Models
         return $this->_collectedIds;
     }
 
+    /*Special modelSaveAfter handlers */
+
     /**
-     * Orders status history update handler
+     * Special handler for Invitation module
      *
-     * @param Mage_Core_Model_Abstract
-     * @param Varien_Simplexml_Element $config
+     * @param Interprise_Invitation_Model_Invitation $model
+     * @return unknown
      */
-    public function orderStatusHistorySaveAfter($model, $config)
+    public function modelSaveAfterInvitation($model)
     {
-        if (($model instanceof Mage_Sales_Model_Order_Status_History)
-            && !Mage::registry('enterprise_logging_saved_model_adminhtml_sales_order_addComment')) {
-            Mage::register('enterprise_logging_saved_model_adminhtml_sales_order_addComment', $model);
-        }
+        $this->_collectedIds[] = $model->getId();
+        $data = $this->_clearupData($model->getData());
+        return Mage::getModel('enterprise_logging/event_changes')
+            ->setData(array('original_data'=>array(), 'result_data'=>$data));
     }
 }

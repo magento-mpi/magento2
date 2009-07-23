@@ -35,19 +35,17 @@
 
             <adminhtml_staging_manage_save>
                 <action>save</action>
-                <expected_model>enterprise_staging/staging</expected_model>
-                <handler>enterprise_staging/observer::postDispatchLoggingStagingSaveAfter</handler>
-                <allow_model_repeat>1</allow_model_repeat>
+                <expected_models>
+                    <enterprise_staging__staging/>
+                </expected_models>
             </adminhtml_staging_manage_save>
 
             <adminhtml_staging_manage_mergePost>
                 <action>mergePost</action>
-                <post_dispatch>enterprise_staging/observer::postDispatchLoggingMerge</post_dispatch>
             </adminhtml_staging_manage_mergePost>
 
             <adminhtml_staging_backup_rollbackPost>
                 <action>rollback</action>
-                <post_dispatch>enterprise_staging/observer::postDispatchLoggingRollback</post_dispatch>
             </adminhtml_staging_backup_rollbackPost>
 
             <adminhtml_staging_backup_backupDelete>

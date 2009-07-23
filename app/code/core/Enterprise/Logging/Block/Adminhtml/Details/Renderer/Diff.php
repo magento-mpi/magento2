@@ -42,10 +42,11 @@ class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
         if (!$data) {
             return '';
         }
-        $html = '';
+        $html = '<div><span>'. $row->getModelName() . '</span>:<span>' . $row->getModelId() . '</span></div>';
+        $html .= '<dl>';
         foreach ($data as $key=>$value) {
-            $html .= '<strong>' . $key . '</strong> = ' . htmlentities($value) . '<br />';
+            $html .= "<dt>{$key}</dt><dd>" . $this->htmlEscape($value) . '</dd>';
         }
-        return $html;
+        return $html . '</dl>';
     }
 }

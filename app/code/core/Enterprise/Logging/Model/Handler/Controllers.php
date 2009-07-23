@@ -47,7 +47,6 @@ class Enterprise_Logging_Model_Handler_Controllers
      */
     public function postDispatchGenericView($config, $eventModel)
     {
-        // lookup entity ID in request
         $id = Mage::app()->getRequest()->getParam($config->id ? (string)$config->id : 'id');
         if (!$id && $config->default) {
             $id = (string)$config->default;
@@ -80,91 +79,20 @@ class Enterprise_Logging_Model_Handler_Controllers
         return false;
     }
 
+    /*
+     * Special postDispach handlers below
+    */
+
     /**
-     * Generic Save handler
-     *
-     * Expects a model in registry, that was saved
+     * Simply log action without any id-s
      *
      * @param Varien_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return bool
      */
-    public function postDispatchGenericSave($config, $eventModel)
+    public function postDispatchSimpleSave($config, $eventModel)
     {
-        $class = Mage::getConfig()->getModelClassName($config->expected_model ? (string)$config->expected_model : '');
-        $request = Mage::app()->getRequest();
-
-        /**
-         * Here is where actual id for logging is taken. If no model given in registry, or model type
-         * does not corresponds config value, or 'use_request' node is set in config - take id from
-         * request.
-         * If no 'use_request' param set that mean that save was not successfull so, fail an event
-         *
-         */
-        if ($model == null || !($model instanceof $class) || ($config->use_request)) {
-            $id = $request->getParam($config->id ? (string)$config->id : 'id');
-            // mark as failed, if there is no custom force to request
-            if (!$config->use_request) {
-                $eventModel->setIsSuccess(false);
-            }
-        }
-        // normally get saved model ID
-        else {
-            $id = $model->getId();
-        }
-
-        if (($id === false) && $config->skip_on_empty_id) {
-            return false;
-        }
-
-        /**
-         * Set actions to skip. We use 'back' and '_continue' params to make redirect after save.
-         * We could also force some action skipping in some cases (when no special params in request)
-         */
-        if ($eventModel->getIsSuccess() && ($request->getParam('back') || $request->getParam('_continue') || $config->force_skip)) {
-            /**
-             * Comma-separated actions to be skipped next time. If no settings in config, set action by replacing
-             * '_save' to '_edit'. Replace occures in only action ending with '_save'.
-             */
-            Mage::getSingleton('admin/session')->setSkipLoggingAction(
-                $config->skip_on_back ? (string)$config->skip_on_back : preg_replace('%save$%', 'edit', $config->getName())
-            );
-        }
-        $eventModel->setInfo($id);
         return true;
-    }
-
-    /**
-     * Generic Mass-update handler
-     *
-     * Expects ids in request
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return bool
-     */
-    public function postDispatchGenericMassUpdate($config, $eventModel)
-    {
-        $ids = Mage::app()->getRequest()->getParam($config->id ? (string)$config->id : 'id');
-        if (is_array($ids)) {
-            $ids = implode(', ', $ids);
-        }
-        $eventModel->setInfo($ids);
-        return true;
-    }
-
-    /**
-     * Mass-update product attributes
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
-     */
-    public function postDispatchProductMassAttributeUpdate($config, $eventModel)
-    {
-        return $eventModel->setInfo(
-            implode(', ', Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds())
-        );
     }
 
     /**
@@ -287,18 +215,6 @@ class Enterprise_Logging_Model_Handler_Controllers
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
-    public function postDispatchMyAccountView($config, $eventModel)
-    {
-        return $eventModel->setInfo('-');
-    }
-
-    /**
-     * Special handler for myaccount action
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
-     */
     public function postDispatchMyAccountSave($config, $eventModel)
     {
         if ($eventModel->getIsSuccess()) {
@@ -351,18 +267,6 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         return $eventModel->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Import'));
-    }
-
-    /**
-     * Special handler for adminlogging action
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
-     */
-    public function postDispatchEnterpriseLoggingReport($config, $eventModel)
-    {
-        return $eventModel;
     }
 
     /**

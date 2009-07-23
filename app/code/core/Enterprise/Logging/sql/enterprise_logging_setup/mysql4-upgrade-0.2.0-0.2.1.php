@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -20,28 +19,18 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Enterprise
- * @package    Enterprise_Pci
+ * @package    Enterprise_Logging
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<logging>
-    <enterprise_pci_crypt translate="label">
-        <label>Encryption Key Change</label>
-        <actions>
-            <adminhtml_crypt_key_save>
-                <action>key_change</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_crypt_key_save>
-        </actions>
-    </enterprise_pci_crypt>
-    <enterprise_pci_locks translate="label">
-        <label>Admin Accounts Locks</label>
-        <actions>
-            <adminhtml_locks_massUnlock>
-                <action>massUpdate</action>
-                <id>unlock</id>
-            </adminhtml_locks_massUnlock>
-        </actions>
-    </enterprise_pci_locks>
-</logging>
+
+$installer = $this;
+/* @var $installer Mage_Core_Model_Resource_Setup */
+$installer->startSetup();
+
+$tableLog = $this->getTable('enterprise_logging/event');
+
+$installer->getConnection()->changeColumn($tableLog, 'x_forwarded_ip', 'x_forwarded_ip', 'bigint(20) NOT NULL DEFAULT \'0\'');
+$installer->getConnection()->changeColumn($tableLog, 'error_message', 'error_message', 'text DEFAULT NULL');
+
+$installer->endSetup();

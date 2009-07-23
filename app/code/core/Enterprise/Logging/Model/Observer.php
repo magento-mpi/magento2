@@ -25,16 +25,8 @@
  */
 
 /**
- * Enterprise_Logging Observer class.
- * It processes all events storing, by handling an actions from core.
- *
- * Typical procedure is next:
- * 1) Check if event dispatching enabled in system config, by calling model->isActive('event-name')
- * 2) Get data from observer object
- * 3) Get IP and user_id
- * 4) Get success
- * 5) Set data to event.
- *
+ * Log admin actions and performed changes.
+ * It doesn't log all admin actions, only listed in logging.xml config files.
  */
 class Enterprise_Logging_Model_Observer
 {
@@ -46,6 +38,10 @@ class Enterprise_Logging_Model_Observer
      */
     protected $_processor;
 
+    /**
+     * Initialize Enterprise_Logging_Model_Processor class
+     *
+     */
     public function __construct()
     {
         $this->_processor = Mage::getSingleton('enterprise_logging/processor');

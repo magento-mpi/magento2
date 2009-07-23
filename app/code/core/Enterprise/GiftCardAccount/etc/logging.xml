@@ -35,7 +35,9 @@
 
             <adminhtml_giftcardaccount_save>
                 <action>save</action>
-                <expected_model>enterprise_giftcardaccount/giftcardaccount</expected_model>
+                <expected_models>
+                    <enterprise_giftcardaccount__giftcardaccount/>
+                </expected_models>
                 <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_giftcardaccount_save>
 

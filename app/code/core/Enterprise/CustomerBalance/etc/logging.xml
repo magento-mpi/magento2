@@ -32,12 +32,19 @@
             <adminhtml_customerbalance_form>
                 <action>view</action>
             </adminhtml_customerbalance_form>
-
-            <adminhtml_customerbalance_save>
-                <action>save</action>
-                <expected_model>customer/customer</expected_model>
-                <skip_on_back>adminhtml_customerbalance_form,adminhtml_customer_edit</skip_on_back>
-            </adminhtml_customerbalance_save>
         </actions>
     </enterprise_customerbalance>
+    <customer>
+        <actions>
+            <adminhtml_customer_save>
+                <expected_models>
+                    <enterprise_customerbalance__balance/>
+                </expected_models>
+                <skip_on_back>
+                    <adminhtml_customerbalance_form/>
+                    <adminhtml_customer_edit/>
+                </skip_on_back>                
+            </adminhtml_customer_save>            
+        </actions>
+    </customer>
 </logging>
