@@ -162,6 +162,20 @@
                 </cms>
             </updates>
         </layout>
+        <cms>
+            <page>
+                <status>
+                    <disabled translate="label" module="cms">
+                        <value>0</value>
+                        <label>Disabled</label>
+                    </disabled>
+                    <enabled translate="label" module="cms">
+                        <value>1</value>
+                        <label>Enabled</label>
+                    </enabled>
+                </status>
+            </page>
+        </cms>
     </adminhtml>
     <global>
         <models>
