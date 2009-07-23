@@ -146,11 +146,11 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
         $this->getSelect()
             ->order(array(
                 $this->getConnection()->quoteInto(
-                    'IF (main_table.status = ?, 0, 1) ASC',
+                    'IF (' . $this->_getStatusColumnExpr() . ' = ?, 0, 1) ASC',
                     Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
                 ),
                 $this->getConnection()->quoteInto(
-                    'IF (main_table.status = ?, main_table.date_end, main_table.date_start) ASC',
+                    'IF (' . $this->_getStatusColumnExpr() . ' = ?, main_table.date_end, main_table.date_start) ASC',
                     Enterprise_CatalogEvent_Model_Event::STATUS_OPEN
                 ),
                 'main_table.sort_order ASC'
