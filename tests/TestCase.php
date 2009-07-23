@@ -7,6 +7,20 @@
 abstract class Mage_TestCase extends PHPUnit_Framework_TestCase
 {
     /**
+     * $_SERVER original data before emulation
+     *
+     * @var array
+     */
+    protected $_SERVERBeforeEmulation;
+
+    /**
+     * $_POST original data before emulation
+     *
+     * @var array
+     */
+    protected $_POSTBeforeEmulation;
+
+    /**
      * Constructs a test case with the given name.
      *
      * @param  string $name
@@ -252,4 +266,33 @@ abstract class Mage_TestCase extends PHPUnit_Framework_TestCase
         return new Mage_Test_Constraint_IsMageResourceCollection;
     }
 
+    /**
+     * Emulate POST request with specified data
+     *
+     * @param array $data
+     */
+    protected function _emulatePostRequest($data = array())
+    {
+        if (!is_array($data)) {
+            $this->fail('POST emulation data must be an array.');
+        }
+        $this->_SERVERBeforeEmulation = $_SERVER;
+        $this->_POSTBeforeEmulation   = $_POST;
+        $_SERVER['REQUEST_METHOD'] = 'POST';
+        $_POST = $data;
+    }
+
+    /**
+     * Restore POST request if it was emulated
+     */
+    protected function _restorePostRequest()
+    {
+        if (null === $this->_SERVERBeforeEmulation || null === $this->_POSTBeforeEmulation) {
+            $this->fail('Trying to restore non-emulated POST request.');
+        }
+        $_SERVER = $this->_SERVERBeforeEmulation;
+        $this->_SERVERBeforeEmulation = null;
+        $_POST = $this->_POSTBeforeEmulation;
+        $this->_POSTBeforeEmulation = null;
+    }
 }
