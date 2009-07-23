@@ -27,31 +27,37 @@
 require dirname(__FILE__) . '/config.php';
 
 // php-code files
-updateLicense('app/code/core/Enterprise', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'coreCodePoolCallback');
+updateLicense('app/code/core/Enterprise', '*.php', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'coreCodePoolCallback', true, true, true);
 
 // xml-code files
-updateLicense('app/code/core/Enterprise', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'coreCodePoolCallback');
+updateLicense('app/code/core/Enterprise', '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'coreCodePoolCallback', true, true, true);
 
 // modules xml-declarations
-updateLicense('app/etc/modules', 'Enterprise_*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'xmlModulesCallback');
+updateLicense('app/etc/modules', 'Enterprise_*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'xmlModulesCallback', true, true, true);
 
 // design phtml-files
 updateLicense(array(
         'app/design/adminhtml/default/default/template/enterprise',
-        'app/design/frontend/enterprise/default/template'
-    ), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'themeCallback'
+        'app/design/frontend/enterprise/default/template',
+        'app/design/frontend/enterprise/blank/template'
+    ), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'themeCallback', true, true, true
 );
 
 // frontend skins
 updateLicense('skin/frontend/enterprise/default', array('*.css', '*.js'),
-    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('design', 'enterprise_default')
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('design', 'enterprise_default'), true, false, true
 );
 
 // layouts
 echo updateLicense(array(
         'app/design/adminhtml/default/default/layout/enterprise',
         'app/design/frontend/enterprise/default/layout'
-    ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'themeCallback'
+    ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'themeCallback', true, true, true
+);
+
+// additional javascript
+updateLicense('js/enterprise', '*.js', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE,
+    array('design', 'enterprise_default'), true, false, true
 );
 
 exit;

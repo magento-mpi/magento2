@@ -137,11 +137,32 @@ define('REPLACEMENT_XML', "<?xml version=\"1.0\"?" . ">\n<!--\n{notice}\n\\2");
  */
 function globRecursive($directories, $fileMasks, &$result)
 {
+    static $skipDirectories = null;
+
     if (!empty($directories)) {
         if (!is_array($directories)) {
             $directories = array($directories);
         }
+        if (null === $skipDirectories) {
+            $skipDirectories = array();
+            foreach ($directories as $k => $dir) {
+                if (false !== strpos($dir, '!')) {
+                    $skipDirectories[] = realpath(str_replace('!', '', $dir));
+                    unset($directories[$k]);
+                }
+            }
+        }
         foreach ($directories as $dir) {
+            $skip = false;
+            foreach ($skipDirectories as $skipDir) {
+                if (false !== strpos(realpath($dir), $skipDir)) {
+                    $skip = true;
+                    break;
+                }
+            }
+            if ($skip) {
+                continue;
+            }
             globRecursive(glob($dir . '/*', GLOB_ONLYDIR), $fileMasks, $result);
             if (!is_array($fileMasks)) {
                 $fileMasks = array($fileMasks);
@@ -158,15 +179,23 @@ function globRecursive($directories, $fileMasks, &$result)
 /**
  * Update license notice in specified directories and file paths
  *
+ * Optionally can:
+ *  - convert trailing CRLF into LF (will also trim trailing spaces),
+ *  - replace tab indents to spaces
+ *  - add LF to the end of file if not exists
+ *
  * @param string|array $directories - relative to magento root
  * @param string|array $fileMasks   - glob()-compatible
  * @param string $regex             - PCRE
  * @param string $replacement       - with {notice} variable
  * @param string $noticeOfLicense   - license notice text with {category} and {package}
  * @param string|array $categoryPackageCallback - either array or name of function that gets filename and returns array($category, $package)
+ * @param bool $crlfToLf
+ * @param bool $tabsToSpaces
+ * @param bool $LfBeforeEof
  * @return int - cumulative count of changed files
  */
-function updateLicense($directories, $fileMasks, $regex, $replacement, $noticeOfLicense, $categoryPackageCallback)
+function updateLicense($directories, $fileMasks, $regex, $replacement, $noticeOfLicense, $categoryPackageCallback, $crlfToLf = false, $tabsToSpaces = false, $LfBeforeEof = false)
 {
     static $changedFilesCounter = 0;
     if (!is_array($directories)) {
@@ -180,11 +209,32 @@ function updateLicense($directories, $fileMasks, $regex, $replacement, $noticeOf
 
     $foundFiles = array();
     globRecursive($directories, $fileMasks, $foundFiles);
+
     foreach ($foundFiles as $filename) {
         $contents = file_get_contents($filename);
+        $newContents = $contents;
+        // trim lines and/or replace tabs to spaces
+        if (($crlfToLf || $tabsToSpaces) && (false !== strpos($newContents, "\r\n") || false !== strpos($newContents, "\t"))) {
+            $newContents = '';
+            foreach (file($filename) as $line) {
+                if ($tabsToSpaces) {
+                    if (preg_match('/^(\s*' . "\t" . '+\s*?)/', $line, $matches)) {
+                        $replace = str_replace("\t", '    ', $matches[1]);
+                        $line = preg_replace('/^(' . preg_quote($matches[1], '/') . ')/', $replace, $line);
+                    }
+                }
+                if ($crlfToLf) {
+                    $line = rtrim($line);
+                }
+                $newContents .= $line . "\n";
+            }
+        }
+        elseif ($LfBeforeEof && !preg_match('/' . "\n" . '$/s', $newContents)) {
+            $newContents = rtrim($newContents) . "\n";
+        }
         list($category, $package) = (is_array($categoryPackageCallback) ? $categoryPackageCallback : $categoryPackageCallback($filename));
         $readyNotice = str_replace(array('{category}', '{package}'), array($category, $package), $noticeOfLicense);
-        $newContents = preg_replace($regex, str_replace('{notice}', $readyNotice, $replacement), $contents);
+        $newContents = preg_replace($regex, str_replace('{notice}', $readyNotice, $replacement), $newContents);
         if ($contents !== $newContents) {
             file_put_contents($filename, $newContents);
             $changedFilesCounter++;
