@@ -172,6 +172,11 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                     );
                 }
             }
+
+            if (isset($post['save_and_share'])) {
+                $this->_redirect('*/*/share');
+                return;
+            }
         }
         $this->_redirect('*');
     }
