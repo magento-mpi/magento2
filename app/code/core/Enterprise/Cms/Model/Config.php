@@ -37,13 +37,6 @@ class Enterprise_Cms_Model_Config
     const XML_PATH_CMS_TYPE_ATTRIBUTES = 'adminhtml/cms/revision_contol/';
 
     /**
-     * WYSIWYG flags
-     */
-    const WYSIWYG_ENABLED_DEFAULT = 1;
-    const WYSIWYG_DISABLED_DEFAULT = 2;
-    const WYSIWYG_DISABLED_TOTALLY = 3;
-
-    /**
      * Retrieves attributes for passed cms
      * type excluded from revision control.
      *

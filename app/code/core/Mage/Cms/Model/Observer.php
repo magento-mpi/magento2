@@ -73,4 +73,63 @@ class Mage_Cms_Model_Observer
         }
         return $this;
     }
+
+    /**
+     * Enable WYSIWYG Editor for cms page content if its preconfigured
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Cms_Model_Observer
+     */
+    public function toggleWysiwygEditor($observer)
+    {
+        $form = $observer->getEvent()->getForm();
+        /* @var $fieldSet Varien_Data_Form_Element_Fieldset */
+        $fieldSet = $form->getElement('base_fieldset');
+        $editor = $fieldSet->getElements()->searchById('content');
+        if (!$editor) {
+            return $this;
+        }
+
+        $value = $editor->getValue();
+
+        $constructions = array(
+            Varien_Filter_Template::CONSTRUCTION_DEPEND_PATTERN,
+            Varien_Filter_Template::CONSTRUCTION_IF_PATTERN,
+            Varien_Filter_Template::CONSTRUCTION_PATTERN
+        );
+        $mapping = array();
+        foreach ($constructions as $pattern) {
+            if (preg_match_all($pattern, $value, $matches, PREG_SET_ORDER)) {
+                foreach($matches as $match) {
+                    $replacement = '__DIRECTIVE_' . md5($match[0]);
+                    $value = str_replace($match[0], $replacement, $value);
+                    $mapping[$replacement] = $match[0];
+                }
+            }
+        }
+
+        $editor->setValue($value);
+
+        $enabled = Mage::getStoreConfig('cms/page_wysiwyg/enabled');
+        if ($enabled == 'disabled') {
+            $editor->setWysiwyg(false);
+            return $this;
+        }
+
+        $editor->setWysiwyg(true);
+        $config = new Varien_Object();
+        $config->setData(array(
+            'files_browser_window_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_images'),
+            'files_browser_window_width' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_width'),
+            'files_browser_window_height' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_height'),
+            'toggle_link_title' => Mage::helper('cms')->__('Show/Hide Editor'),
+            'mapping' => serialize($mapping)
+        ));
+        if ($enabled == 'enabled') {
+            $config->setEnabled(true);
+        }
+        $editor->setConfig($config);
+
+        return $this;
+    }
 }

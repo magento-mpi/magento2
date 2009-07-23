@@ -1,13 +1,13 @@
 <?php
 /**
- * Magento Enterprise Edition
+ * Magento
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
+ * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -18,20 +18,20 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Enterprise
- * @package    Enterprise_Cms
+ * @category   Mage
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://www.magentocommerce.com/license/enterprise-edition
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  * Directoty tree renderer for Cms Page Wysiwyg Images
  *
- * @category    Enterprise
- * @package     Enterprise_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @category   Mage
+ * @package    Mage_Adminhtml
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Wysiwyg_Images_Tree extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Tree extends Mage_Adminhtml_Block_Template
 {
 
     /**
@@ -41,9 +41,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Wysiwyg_Images_Tree extends M
      */
     public function getTreeJson()
     {
-        $helper = Mage::helper('enterprise_cms/page_wysiwyg_images');
+        $helper = Mage::helper('cms/page_wysiwyg_images');
         $storageRoot = $helper->getStorageRoot();
-
         $collection = Mage::registry('storage')->getDirsCollection($helper->getCurrentPath());
         $jsonArray = array();
         foreach ($collection as $item) {
@@ -74,6 +73,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Wysiwyg_Images_Tree extends M
      */
     public function getRootNodeName()
     {
-        return $this->helper('enterprise_cms')->__('Storage Root');
+        return $this->helper('cms')->__('Storage Root');
     }
 }

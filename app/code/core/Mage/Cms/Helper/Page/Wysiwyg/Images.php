@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
+class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
 {
 
     /**
@@ -170,10 +170,10 @@ class Enterprise_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstrac
     /**
      * Storage model singleton
      *
-     * @return Enterprise_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage
+     * @return Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage
      */
     public function getStorage()
     {
-        return Mage::getSingleton('enterprise_cms/adminhtml_page_wysiwyg_images_storage');
+        return Mage::getSingleton('cms/adminhtml_page_wysiwyg_images_storage');
     }
 }

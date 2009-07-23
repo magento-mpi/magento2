@@ -1,13 +1,13 @@
 <?php
 /**
- * Magento Enterprise Edition
+ * Magento
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Magento Enterprise Edition License
- * that is bundled with this package in the file LICENSE_EE.txt.
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://www.magentocommerce.com/license/enterprise-edition
+ * http://opensource.org/licenses/osl-3.0.php
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Enterprise
- * @package    Enterprise_Cms
+ * @category   Mage
+ * @package    Mage_Adminhtml
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://www.magentocommerce.com/license/enterprise-edition
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
@@ -29,10 +29,10 @@
  * Images manage controller for Cms page WYSIWYG editor
  *
  * @category   Mage
- * @package    Mage_Cms
+ * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Description goes here...
@@ -70,7 +70,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Ad
     {
         $this->initAction();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_cms/adminhtml_cms_page_edit_wysiwyg_images_tree')
+            $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_images_tree')
                 ->getTreeJson()
         );
     }
@@ -85,7 +85,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Ad
     {
         $this->getStorage()
             ->getSession()
-            ->setCurrentPath(Mage::helper('enterprise_cms/page_wysiwyg_images')->getCurrentPath());
+            ->setCurrentPath(Mage::helper('cms/page_wysiwyg_images')->getCurrentPath());
 
         $this->initAction();
         $this->loadLayout('empty');
@@ -102,7 +102,6 @@ class Enterprise_Cms_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Ad
     {
         $name = $this->getRequest()->getPost('name');
         $path = $this->getStorage()->getSession()->getCurrentPath();
-        logme($name.' - '.$path);
         $this->getStorage()->createDirectory($name, $path);
     }
 
@@ -124,7 +123,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Ad
                 $this->getStorage()->getSession()->getCurrentPath()
             );
 
-            $result['url'] = Mage::getSingleton('catalog/product_media_config')->getTmpMediaUrl($result['file']);
+            $result['url'] = '';
             $result['file'] = $result['file'] . '.tmp';
             $result['cookie'] = array(
                 'name'     => session_name(),
@@ -143,11 +142,11 @@ class Enterprise_Cms_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Ad
     /**
      * Storage model retriever
      *
-     * @return Enterprise_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage
+     * @return Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage
      */
     public function getStorage()
     {
-        return Mage::getModel('enterprise_cms/adminhtml_page_wysiwyg_images_storage');
+        return Mage::getModel('cms/adminhtml_page_wysiwyg_images_storage');
     }
 
 }
