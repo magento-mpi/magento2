@@ -81,21 +81,4 @@
         <remove name="root" />
         <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_versions_grid"  output="toHtml" name="cms_page_revision_edit_versions" />
     </adminhtml_cms_page_revision_versionsgrid>
-
-    <adminhtml_cms_page_wysiwyg_images_index>
-        <reference name="left">
-            <block name="wysiwyg_images.tree" type="enterprise_cms/adminhtml_cms_page_edit_wysiwyg_images_tree" template="enterprise/cms/page/edit/wysiwyg/tree.phtml" />
-        </reference>
-        <reference name="content">
-            <block name="wysiwyg_images.content"  type="enterprise_cms/adminhtml_cms_page_edit_wysiwyg_images_content" template="enterprise/cms/page/edit/wysiwyg/content.phtml">
-                <block name="wysiwyg_images.js" type="enterprise_cms/adminhtml_cms_page_edit_wysiwyg_images_content" template="enterprise/cms/page/edit/wysiwyg/js.phtml" />
-                <block name="wysiwyg_images.uploader" type="enterprise_cms/adminhtml_cms_page_edit_wysiwyg_images_content_uploader" template="enterprise/cms/page/edit/wysiwyg/content/uploader.phtml" />
-                <block name="wysiwyg_images.newfolder" type="enterprise_cms/adminhtml_cms_page_edit_wysiwyg_images_content_newfolder" template="enterprise/cms/page/edit/wysiwyg/content/newfolder.phtml" />
-            </block>
-        </reference>
-    </adminhtml_cms_page_wysiwyg_images_index>
-
-    <adminhtml_cms_page_wysiwyg_images_contents>
-        <block name="wysiwyg_images.files" type="enterprise_cms/adminhtml_cms_page_edit_wysiwyg_images_content_files" template="enterprise/cms/page/edit/wysiwyg/content/files.phtml" output="toHtml" />
-    </adminhtml_cms_page_wysiwyg_images_contents>
 </layout>
