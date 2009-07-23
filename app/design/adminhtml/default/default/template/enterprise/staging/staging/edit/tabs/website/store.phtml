@@ -61,7 +61,7 @@ function addStagingStore(id)
     }
 
     new Ajax.Request(getStoreUrl, {
-    	parameters: {store:value, count:addNewStagingStoreCount},
+        parameters: {store:value, count:addNewStagingStoreCount},
         onComplete: insertStagingStore.bind(this)
     });
 }
@@ -76,16 +76,16 @@ function insertStagingStore(transport)
 }
 function removeStagingStore(storeContainerId)
 {
-	var element = $(storeContainerId);
-	if (element) {
-		element.remove();
-	}
+    var element = $(storeContainerId);
+    if (element) {
+        element.remove();
+    }
 }
 function toggleStagingStoreItems(itemsSelectorId)
 {
-	var element = $(itemsSelectorId);
+    var element = $(itemsSelectorId);
     if (element) {
-    	element.disabled = !element.disabled;
+        element.disabled = !element.disabled;
         if (element.disabled) {
             element.hide();
         } else {

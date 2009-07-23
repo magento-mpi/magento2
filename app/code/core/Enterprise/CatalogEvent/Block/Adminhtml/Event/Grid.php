@@ -48,8 +48,8 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid extends Mage_Adminhtml_
      */
     protected function _prepareCollection()
     {
-       	$collection = Mage::getModel('enterprise_catalogevent/event')->getCollection()
-       		->addCategoryData();
+           $collection = Mage::getModel('enterprise_catalogevent/event')->getCollection()
+               ->addCategoryData();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();

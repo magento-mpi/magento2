@@ -35,7 +35,7 @@ $installer->run("CREATE TABLE `{$this->getTable('enterprise_giftcardaccount')}` 
                     `date_created` date NOT NULL,
                     `date_expires` date DEFAULT NULL,
                     `website_id` smallint(5) NOT NULL,
-					`balance` decimal(12,4) NOT NULL default '0.0000'
+                    `balance` decimal(12,4) NOT NULL default '0.0000'
                  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
 
 $installer->endSetup();

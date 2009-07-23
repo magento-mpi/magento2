@@ -110,7 +110,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             'note'      => '<div id="balance_currency"></div>',
         ));
 
-    	$fieldset->addField('date_expires', 'date', array(
+        $fieldset->addField('date_expires', 'date', array(
             'name'   => 'date_expires',
             'label'  => Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),
             'title'  => Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),

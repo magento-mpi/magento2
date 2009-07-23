@@ -29,9 +29,9 @@
 <?php /*if( $form->getUseContainer() === true ): ?>
 <form id="<?php echo $form->getFormId() ?>" method="<?php echo ( $form->getFormMethod() ) ? $form->getFormMethod() : 'post' ; ?>" action="<?php echo $form->getFormAction() ?>" <?php echo ( $form->getFormEnctype() ) ? 'enctype="' . $this->getForm()->getFormEnctype() . '"' : '' ?> >
 <?php endif; ?>
-	<?php foreach ($form->getElements() as $_element): ?>
-	<?php echo $this->drawElement($_element) ?>
-	<?php endforeach; ?>
+    <?php foreach ($form->getElements() as $_element): ?>
+    <?php echo $this->drawElement($_element) ?>
+    <?php endforeach; ?>
 <?php if( $form->getUseContainer() === true ): ?>
 </form>
 <?php endif;*/ ?>
@@ -42,7 +42,7 @@
 
     var currencies = <?php echo $this->getCurrencyJson(); ?>;
 
-    function updateCurrency() 
+    function updateCurrency()
     {
         val = $('_infowebsite_id').options[$('_infowebsite_id').selectedIndex].value;
         if (currencies[val]) {

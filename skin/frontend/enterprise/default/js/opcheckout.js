@@ -622,7 +622,7 @@ Payment.prototype = {
             $(this.form).observe('submit', function(event){this.save();Event.stop(event);}.bind(this));
             this.validator = new Validation(this.form);
         }
-        
+
         var elements = Form.getElements(this.form);
         var method = null;
         for (var i=0; i<elements.length; i++) {

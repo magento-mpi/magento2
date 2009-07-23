@@ -56,7 +56,7 @@ address       { font-style:normal; }
 cite          { font-style:normal; }
 q,
 blockquote    { quotes:none; }
-q:before, 
+q:before,
 q:after       { content:''; }
 small         { font-size:10px; }
 big			  { font-size:1.2em; }

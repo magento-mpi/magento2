@@ -1,13 +1,13 @@
 <?php
 /**
- * Magento
+ * Magento Enterprise Edition
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
+ * http://www.magentocommerce.com/license/enterprise-edition
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -21,7 +21,7 @@
  * @category   Enterprise
  * @package    Enterprise_Permissions
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 class Enterprise_Permissions_Model_Validator
@@ -217,7 +217,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !is_array($filterValues) || !isset($filterValues['visible_in']) ) {
-        	$collection->setStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
+            $collection->setStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -230,7 +230,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !is_array($filterValues) || !isset($filterValues['visible_in']) ) {
-        	$collection->setStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
+            $collection->setStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -343,7 +343,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if (!$request->getParam('store') && !$request->getParam('website') && !$request->getParam('group') ) {
-    	   $collection->addWebsiteFilter(Mage::helper('enterprise_permissions')->getAllowedWebsites());
+           $collection->addWebsiteFilter(Mage::helper('enterprise_permissions')->getAllowedWebsites());
         }
 
         return $collection;
@@ -356,7 +356,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !$request->getParam('website') && !$request->getParam('store') && !$request->getParam('group') ) {
-        	$collection->addFieldToFilter('website_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedWebsites()));
+            $collection->addFieldToFilter('website_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedWebsites()));
         }
 
         return $collection;
@@ -369,7 +369,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !$request->getParam('website') && !$request->getParam('store') && !$request->getParam('group') ) {
-        	$collection->addFieldToFilter('website_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedWebsites()));
+            $collection->addFieldToFilter('website_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedWebsites()));
         }
 
         return $collection;
@@ -382,7 +382,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !$request->getParam('website') && !$request->getParam('store') && !$request->getParam('group') ) {
-        	$collection->addWebsiteFilter(Mage::helper('enterprise_permissions')->getAllowedWebsites());
+            $collection->addWebsiteFilter(Mage::helper('enterprise_permissions')->getAllowedWebsites());
         }
 
         return $collection;
@@ -395,7 +395,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !$request->getParam('website') && !$request->getParam('store') && !$request->getParam('group') ) {
-        	$collection->addStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
+            $collection->addStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -408,7 +408,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
-        	$collection->addFieldToFilter('store_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedStoreViews()));
+            $collection->addFieldToFilter('store_id', array('IN' => Mage::helper('enterprise_permissions')->getAllowedStoreViews()));
         }
 
         return $collection;
@@ -421,7 +421,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
-        	$collection->addStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
+            $collection->addStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -434,7 +434,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !is_array($filterValues) || !isset($filterValues['visible_in']) ) {
-        	$collection->addStoresFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
+            $collection->addStoresFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
@@ -447,7 +447,7 @@ class Enterprise_Permissions_Model_Validator
         }
 
         if( !is_array($filterValues) || !isset($filterValues['store_id']) ) {
-        	$collection->addStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
+            $collection->addStoreFilter(Mage::helper('enterprise_permissions')->getAllowedStoreViews());
         }
 
         return $collection;
