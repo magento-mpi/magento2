@@ -176,6 +176,24 @@
                 </status>
             </page>
         </cms>
+        <events>
+            <adminhtml_cms_page_edit_tab_content_prepare_form>
+                <observers>
+                    <cms>
+                        <class>cms/observer</class>
+                        <method>toggleWysiwygEditor</method>
+                    </cms>
+                </observers>
+            </adminhtml_cms_page_edit_tab_content_prepare_form>
+            <cms_page_prepare_save>
+                <observers>
+                    <cms>
+                        <class>cms/observer</class>
+                        <method>prepareWysiwygContent</method>
+                    </cms>
+                </observers>
+            </cms_page_prepare_save>
+        </events>
     </adminhtml>
     <global>
         <models>

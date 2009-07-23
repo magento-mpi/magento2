@@ -67,10 +67,11 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
             'disabled'  => $isElementDisabled
         ));
 
-        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_content_prepare_form', array('form' => $form));
 
         $form->setValues($model->getData());
         $this->setForm($form);
+
+        Mage::dispatchEvent('adminhtml_cms_page_edit_tab_content_prepare_form', array('form' => $form));
 
         return parent::_prepareForm();
     }

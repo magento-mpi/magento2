@@ -75,7 +75,7 @@ class Mage_Cms_Model_Observer
     }
 
     /**
-     * Enable WYSIWYG Editor for cms page content if its preconfigured
+     * Enable WYSIWYG Editor for cms page content if its preconfigured and prepare template directives
      *
      * @param Varien_Event_Observer $observer
      * @return Mage_Cms_Model_Observer
@@ -84,14 +84,19 @@ class Mage_Cms_Model_Observer
     {
         $form = $observer->getEvent()->getForm();
         /* @var $fieldSet Varien_Data_Form_Element_Fieldset */
-        $fieldSet = $form->getElement('base_fieldset');
+        $fieldSet = $form->getElement('content_fieldset');
         $editor = $fieldSet->getElements()->searchById('content');
-        if (!$editor) {
+        if (!$editor || !$editor->getValue()) {
+            return $this;
+        }
+
+        $enabled = Mage::getStoreConfig('cms/page_wysiwyg/enabled');
+        if ($enabled == 'disabled') {
+            $editor->setWysiwyg(false);
             return $this;
         }
 
         $value = $editor->getValue();
-
         $constructions = array(
             Varien_Filter_Template::CONSTRUCTION_DEPEND_PATTERN,
             Varien_Filter_Template::CONSTRUCTION_IF_PATTERN,
@@ -101,35 +106,74 @@ class Mage_Cms_Model_Observer
         foreach ($constructions as $pattern) {
             if (preg_match_all($pattern, $value, $matches, PREG_SET_ORDER)) {
                 foreach($matches as $match) {
-                    $replacement = '__DIRECTIVE_' . md5($match[0]);
+                    $replacement = '__DIRECTIVE_' . Mage::helper('core')->urlEncode($match[0]);
                     $value = str_replace($match[0], $replacement, $value);
                     $mapping[$replacement] = $match[0];
                 }
             }
         }
 
-        $editor->setValue($value);
-
-        $enabled = Mage::getStoreConfig('cms/page_wysiwyg/enabled');
-        if ($enabled == 'disabled') {
-            $editor->setWysiwyg(false);
-            return $this;
+        // Replace images URL for displaying them in Wysiwyg
+        $imagesSrcRegexp = '/src\s*=\s*[\'\"]{1}(__DIRECTIVE_[a-zA-Z0-9\,\-\_]+)[\'\"]{1}/';
+        if (preg_match_all($imagesSrcRegexp, $value, $matches, PREG_SET_ORDER)) {
+            $urlModel = Mage::getSingleton('adminhtml/url');
+            foreach($matches as $match) {
+                $directive = str_replace('__DIRECTIVE_', '', $match[1]);
+                $url = $urlModel->getUrl('*/cms_page_wysiwyg_images/image', array('directive' => $directive));
+                $mapping[$url] = Mage::helper('core')->urlDecode($directive);
+                $value = str_replace($match[1], $url, $value);
+            }
         }
+
+        $editor->setValue($value);
 
         $editor->setWysiwyg(true);
         $config = new Varien_Object();
         $config->setData(array(
-            'files_browser_window_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_images'),
+            'files_browser_window_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_images/index'),
             'files_browser_window_width' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_width'),
             'files_browser_window_height' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_height'),
             'toggle_link_title' => Mage::helper('cms')->__('Show/Hide Editor'),
-            'mapping' => serialize($mapping)
+            'directives_mapping' => serialize($mapping)
         ));
+        $editor->setConfig($config);
+
         if ($enabled == 'enabled') {
             $config->setEnabled(true);
         }
-        $editor->setConfig($config);
 
+        return $this;
+    }
+
+    /**
+     * Parse page content and replace Wysiwyg directives with their values
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Cms_Model_Observer
+     */
+    public function prepareWysiwygContent($observer)
+    {
+        $request = $observer->getEvent()->getRequest();
+        $page = $observer->getEvent()->getPage();
+        foreach ($request->getPost() as $field => $value) {
+            if (preg_match('/_directives_mapping$/', $field)) {
+                continue;
+            }
+            $fieldMapping = $field . '_directives_mapping';
+            if ($request->getPost($fieldMapping)) {
+                try {
+                    $mapping = unserialize($request->getPost($fieldMapping));
+                    if (is_array($mapping) && count($mapping) > 0) {
+                        $search = array_keys($mapping);
+                        $replace = array_values($mapping);
+                        $page->setData($field, str_replace($search, $replace, $value));
+                        $page->unsetData($fieldMapping);
+                    }
+                } catch (Exception $e) {
+                    continue;
+                }
+            }
+        }
         return $this;
     }
 }

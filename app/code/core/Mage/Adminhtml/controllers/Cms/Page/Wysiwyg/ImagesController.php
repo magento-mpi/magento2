@@ -149,4 +149,35 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
         return Mage::getModel('cms/adminhtml_page_wysiwyg_images_storage');
     }
 
+    /**
+     * Description goes here...
+     *
+     * @param none
+     * @return void
+     */
+    public function imageAction()
+    {
+        $directive = $this->getRequest()->getParam('directive');
+        $directive = Mage::helper('core')->urlDecode($directive);
+
+        Mage::getSingleton('core/design_package')->setArea('frontend')
+            ->setPackageName('enterprise')
+            ->setTheme('default');
+
+        $url = Mage::getModel('core/email_template_filter')->filter($directive);
+        try {
+            $image = Varien_Image_Adapter::factory('GD2');
+            $image->open($url);
+            $image->display();
+        } catch (Exception $e) {
+            $image = imagecreate(100, 100);
+            $bkgrColor = imagecolorallocate($image,10,10,10);
+            imagefill($image,0,0,$bkgrColor);
+            $textColor = imagecolorallocate($image,255,255,255);
+            imagestring($image, 4, 10, 10, 'Skin image', $textColor);
+            header('Content-type: image/png');
+            imagepng($image);
+            imagedestroy($image);
+        }
+    }
 }

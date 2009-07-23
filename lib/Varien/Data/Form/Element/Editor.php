@@ -52,35 +52,71 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     {
         if( $this->getWysiwyg() === true )
         {
+            $config = $this->getConfig();
             $element = ($this->getState() == 'html') ? '' : $this->getHtmlId();
-
             $html = '
-                <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
+                <script type="text/javascript" src="'.$this->getForm()->getParent()->getJsUrl().'tiny_mce/tiny_mce.js" ></script>
         		<script type="text/javascript">
 				//<![CDATA[
-                   /* tinyMCE.init({
+
+				var editorLoaded = false;
+
+				function imagesBrowser(field_name, url, type, win) {
+                    win.open("'.$config->getFilesBrowserWindowUrl().'", "imagesBrowser", "width='.$config->getFilesBrowserWindowWidth().', height='.$config->getFilesBrowserWindowHeight().'");
+                }
+
+                function toggleEditor(id) {
+                    if (!tinyMCE.get(id)) {
+                        tinyMCE.execCommand("mceAddControl", false, id);
+                    } else {
+                        tinyMCE.execCommand("mceRemoveControl", false, id);
+                    }
+                }
+
+                function commandHandler(editor_id, elm, command, user_interface, value) {
+                	var linkElm, imageElm, inst;
+
+                	switch (command) {
+                		case "mceLink":
+                			return false;
+                		case "mceImage":
+                			return false;
+                		case "mceInsertContent":
+                			return false;
+                	}
+
+                	return false; // Pass to next handler in chain
+                }
+
+                function setupEditor() {
+                    editorLoaded = true;
+                    tinyMCE.init({
                         mode : "exact",
-                        theme : "'.$this->getTheme().'",
-                        elements : "' . $element . '",
+                        elements : "'.$this->getHtmlId().'",
+                        theme : "advanced",
+                        plugins : "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+                        theme_advanced_buttons1 : "images,save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+                        theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+                        theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+                        theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak",
                         theme_advanced_toolbar_location : "top",
                         theme_advanced_toolbar_align : "left",
-                        theme_advanced_path_location : "bottom",
-                        extended_valid_elements : "a[name|href|target|title|onclick],img[class|src|border=0|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name],hr[class|width|size|noshade],font[face|size|color|style],span[class|align|style]",
-                        theme_advanced_resize_horizontal : "false",
-                        theme_advanced_resizing : "false",
-                        apply_source_formatting : "true",
-                        convert_urls : "false",
-                        force_br_newlines : "true",
+                        theme_advanced_statusbar_location : "bottom",
+                        theme_advanced_resizing : true,
+                        file_browser_callback : "imagesBrowser",
+                        convert_urls : false,
+                        relative_urls : false,
+                        content_css: "",
+                        execcommand_callback : "commandHandler",
                         doctype : \'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\'
-                    });*/
+                    });
+                }
+                '.($config->getEnabled() ? 'Event.observe(window, "load", function() { setupEditor(); });' : '').'
 				//]]>
-                </script>';
-
-                /*plugins : "inlinepopups,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
-                theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
-                theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
-                theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
-                theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,|,visualchars,nonbreaking"*/
+                </script>
+                <input type="hidden" name="'.$this->getName().'_directives_mapping" value="'.$this->_escape($this->getConfig()->getDirectivesMapping()).'">
+                <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
+                <a href="javascript:toggleEditor(\''.$this->getHtmlId().'\');">'.($config->getToggleLinkTitle() ? $config->getToggleLinkTitle() : 'Add/Remove Editor').'</a>';
 
             $html.= $this->getAfterElementHtml();
             return $html;
@@ -98,5 +134,19 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         }
 
         return $this->getData('theme');
+    }
+
+    /**
+     * Editor config retriever
+     *
+     * @return Varien_Object
+     */
+    public function getConfig()
+    {
+        if ( !($this->getData('config') instanceof Varien_Object) ) {
+            $config = new Varien_Object();
+            $this->setConfig($config);
+        }
+        return $this->getData('config');
     }
 }
