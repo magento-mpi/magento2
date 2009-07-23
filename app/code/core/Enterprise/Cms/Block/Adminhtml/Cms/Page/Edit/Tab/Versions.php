@@ -25,17 +25,17 @@
  */
 
 /**
- * Grid with versions for current page
+ * Cms page edit form revisions tab
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions_Grid
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     extends Mage_Adminhtml_Block_Widget_Grid
+    implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-
     /**
      * Array of admin users in system
      * @var array
@@ -45,8 +45,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions_Grid
     public function __construct()
     {
         parent::__construct();
-        $this->setDefaultSort('version_id');
-        $this->setDefaultDir('ASC');
+        $this->setDefaultSort('version_number');
+        $this->setDefaultDir('DESC');
         $this->setUseAjax(true);
     }
 
@@ -59,7 +59,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions_Grid
     {
         $userId = Mage::getSingleton('admin/session')->getUser()->getId();
 
-        $collection = Mage::getModel('enterprise_cms/version')->getCollection()
+        $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVisibilityFilter($userId,
                 Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
@@ -76,10 +76,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions_Grid
     protected function _prepareColumns()
     {
         $this->addColumn('grid_id', array(
-            'header' => Mage::helper('enterprise_cms')->__('Version Id'),
+            'header' => Mage::helper('enterprise_cms')->__('Version #'),
             'width' => 100,
             'type' => 'text',
-            'index' => 'version_id'
+            'index' => 'version_number'
         ));
 
         $this->addColumn('grid_label', array(
@@ -101,11 +101,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions_Grid
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
-            'options' => array(
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PRIVATE => Mage::helper('enterprise_cms')->__('Private'),
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PROTECTED => Mage::helper('enterprise_cms')->__('Protected'),
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC => Mage::helper('enterprise_cms')->__('Public')
-                )
+            'options' => Mage::getSingleton('enterprise_cms/config')->getStatuses()
         ));
 
         $this->addColumn('grid_revisions', array(
@@ -117,9 +113,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions_Grid
         return parent::_prepareColumns();
     }
 
+    /**
+     * Prepare url for reload grid through ajax
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/versionsgrid', array('_current'=>true));
+        return $this->getUrl('*/*/versions', array('_current'=>true));
     }
 
     /**
@@ -148,5 +149,45 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions_Grid
         }
 
         return $this->_usersHash;
+    }
+
+    /**
+     * Prepare label for tab
+     *
+     * @return string
+     */
+    public function getTabLabel()
+    {
+        return Mage::helper('enterprise_cms')->__('Versions');
+    }
+
+    /**
+     * Prepare title for tab
+     *
+     * @return string
+     */
+    public function getTabTitle()
+    {
+        return Mage::helper('enterprise_cms')->__('Versions');
+    }
+
+    /**
+     * Returns status flag about this tab can be showen or not
+     *
+     * @return true
+     */
+    public function canShowTab()
+    {
+        return true;
+    }
+
+    /**
+     * Returns status flag about this tab hidden or not
+     *
+     * @return true
+     */
+    public function isHidden()
+    {
+        return false;
     }
 }

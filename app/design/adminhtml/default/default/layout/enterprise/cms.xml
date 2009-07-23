@@ -29,8 +29,21 @@
 <layout>
     <adminhtml_cms_page_edit_changes>
         <reference name="cms_page_edit_tabs">
+            <block type="enterprise_cms/adminhtml_cms_page_edit" anme="cms_page_edit_extender" />
+        </reference>
+        <reference name="cms_page_edit_tabs">
+            <action method="removeTab"><name>content_section</name></action>
             <action method="removeTab"><name>design_section</name></action>
             <action method="removeTab"><name>meta_section</name></action>
+            <action method="addTab">
+                <name>versions</name>
+                <block translate="label title" module="enterprise_cms">
+                    <class>ajax</class>
+                    <label>Versions</label>
+                    <title>Versions</title>
+                </block>
+            </action>
+            <action method="setTabData"><tab>versions</tab><key>url</key><value>*/*/versions</value></action>
             <action method="addTab">
                 <name>revisions</name>
                 <block translate="label title" module="enterprise_cms">
@@ -48,6 +61,11 @@
         <block type="enterprise_cms/adminhtml_cms_page_edit_tab_revisions"  output="toHtml" name="cms_page_edit_revisions" />
     </adminhtml_cms_page_revisions>
 
+    <adminhtml_cms_page_versions>
+        <remove name="root" />
+        <block type="enterprise_cms/adminhtml_cms_page_edit_tab_versions"  output="toHtml" name="cms_page_edit_versions" />
+    </adminhtml_cms_page_versions>
+
     <adminhtml_cms_page_revision_edit>
         <reference name="content">
             <block type="enterprise_cms/adminhtml_cms_page_revision_edit" name="cms_page_revision_edit">
@@ -56,29 +74,24 @@
         </reference>
         <reference name="left">
             <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tabs" name="cms_page_revision_edit_tabs">
-                <action method="addTab"><name>main_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_main</block></action>
+                <action method="addTab"><name>content_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_content</block></action>
                 <action method="addTab"><name>design_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_design</block></action>
                 <action method="addTab"><name>meta_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_meta</block></action>
                 <action method="addTab">
-                    <name>versions</name>
+                    <name>version_section</name>
                     <block translate="label title" module="enterprise_cms">
                         <class>ajax</class>
-                        <label>Versions</label>
-                        <title>Versions</title>
+                        <label>Version Information</label>
+                        <title>Version Information</title>
                     </block>
                 </action>
-                <action method="setTabData"><tab>versions</tab><key>url</key><value>*/*/versions</value></action>
+                <action method="setTabData"><tab>version_section</tab><key>url</key><value>*/*/version</value></action>
             </block>
         </reference>
     </adminhtml_cms_page_revision_edit>
 
-    <adminhtml_cms_page_revision_versions>
+    <adminhtml_cms_page_revision_version>
         <remove name="root" />
-        <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_versions"  output="toHtml" name="cms_page_revision_edit_versions" />
-    </adminhtml_cms_page_revision_versions>
-
-    <adminhtml_cms_page_revision_versionsgrid>
-        <remove name="root" />
-        <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_versions_grid"  output="toHtml" name="cms_page_revision_edit_versions" />
-    </adminhtml_cms_page_revision_versionsgrid>
+        <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_version"  output="toHtml" name="cms_page_revision_edit_version" />
+    </adminhtml_cms_page_revision_version>
 </layout>

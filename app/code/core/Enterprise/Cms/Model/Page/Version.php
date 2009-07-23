@@ -26,21 +26,28 @@
 
 
 /**
- * Cms page revision model
+ * Cms page version model
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Revision extends Mage_Core_Model_Abstract
+class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
 {
+    /**
+     * Access level constants
+     */
+    const ACCESS_LEVEL_PRIVATE = 'private';
+    const ACCESS_LEVEL_PROTECTED = 'protected';
+    const ACCESS_LEVEL_PUBLIC = 'public';
+
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->_init('enterprise_cms/revision');
+        $this->_init('enterprise_cms/page_version');
     }
 
     /**
@@ -51,9 +58,26 @@ class Enterprise_Cms_Model_Revision extends Mage_Core_Model_Abstract
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            $this->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
+            /*
+             * Preparing new human-readable id
+             */
+            $incrementModel = Mage::getModel('enterprise_cms/increment')
+                ->loadByTypeNodeLevel(0, $this->getPageId(), 0);
+
+            if (!$incrementModel->getId()) {
+                $incrementModel->setType(0)
+                    ->setNode($this->getPageId())
+                    ->setLevel(1);
+            }
+
+            $incrementNumber = $incrementModel->getNextId();
+            $incrementModel->setLastId($incrementNumber)
+                ->save();
+
+            $this->setVersionNumber($incrementNumber);
         }
 
         return parent::_beforeSave();
     }
+
 }

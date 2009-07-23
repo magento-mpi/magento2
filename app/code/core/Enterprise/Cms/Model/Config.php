@@ -36,6 +36,10 @@ class Enterprise_Cms_Model_Config
 {
     const XML_PATH_CMS_TYPE_ATTRIBUTES = 'adminhtml/cms/revision_contol/';
 
+    const XML_PATH_CMS_REVISION_CONTROL_STATUSES = 'adminhtml/cms/revision_contol/status';
+
+    protected $_statuses;
+
     /**
      * Retrieves attributes for passed cms
      * type excluded from revision control.
@@ -46,7 +50,7 @@ class Enterprise_Cms_Model_Config
         $attributes = Mage::getConfig()
             ->getNode(self::XML_PATH_CMS_TYPE_ATTRIBUTES . $type)
             ->asArray();
-        return array_keys($attributes);;
+        return array_keys($attributes);
     }
 
     /**
@@ -68,11 +72,11 @@ class Enterprise_Cms_Model_Config
     {
         if ($this->isCurrentUserCanPublishRevision()) {
             return array(
-                Enterprise_Cms_Model_Version::ACCESS_LEVEL_PROTECTED,
-                Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC
+                Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PROTECTED,
+                Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC
                 );
         } else {
-            return array(Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC);
+            return array(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC);
         }
     }
 
@@ -83,7 +87,7 @@ class Enterprise_Cms_Model_Config
      */
     public function isCurrentUserCanPublishRevision()
     {
-        return $this->isAllowedAction('publish_revision');
+        return $this->_isAllowedAction('publish_revision');
     }
 
     /**
@@ -93,7 +97,7 @@ class Enterprise_Cms_Model_Config
      */
     public function isCurrentUserCanDeletePage()
     {
-        return $this->isAllowedAction('delete');
+        return $this->_isAllowedAction('delete');
     }
 
     /**
@@ -103,7 +107,7 @@ class Enterprise_Cms_Model_Config
      */
     public function isCurrentUserCanSavePage()
     {
-        return $this->isAllowedAction('save');
+        return $this->_isAllowedAction('save');
     }
 
     /**
@@ -113,7 +117,7 @@ class Enterprise_Cms_Model_Config
      */
     public function isCurrentUserCanSaveRevision()
     {
-        return $this->isAllowedAction('save_revision');
+        return $this->_isAllowedAction('save_revision');
     }
 
     /**
@@ -123,7 +127,7 @@ class Enterprise_Cms_Model_Config
      */
     public function isCurrentUserCanDeleteRevision()
     {
-        return $this->isAllowedAction('delete_revision');
+        return $this->_isAllowedAction('delete_revision');
     }
 
     /**
@@ -132,8 +136,30 @@ class Enterprise_Cms_Model_Config
      * @param string $action
      * @return bool
      */
-    protected function isAllowedAction($action)
+    protected function _isAllowedAction($action)
     {
         return Mage::getSingleton('admin/session')->isAllowed('cms/page/' . $action);
+    }
+
+    /**
+     * Retrieve statuses from config
+     *
+     * @return array
+     */
+    public function getStatuses()
+    {
+        if (is_null($this->_statuses)) {
+            $statusNode = Mage::getConfig()
+                ->getNode(self::XML_PATH_CMS_REVISION_CONTROL_STATUSES);
+            $this->_statuses = array();
+
+            if ($statusNode) {
+                foreach ($statusNode->children() as $key => $status) {
+                    $this->_statuses[$key] = (string)$status->label;
+                }
+            }
+        }
+
+        return $this->_statuses;
     }
 }

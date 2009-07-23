@@ -99,7 +99,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/cms_page/edit', array('page_id' => Mage::registry('cms_page')->getId()));
+        return $this->getUrl('*/cms_page/edit',
+             array(
+                'page_id' => Mage::registry('cms_page')->getId(),
+                'tab' => 'revisions'
+             ));
     }
 
     /**

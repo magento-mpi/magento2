@@ -42,37 +42,41 @@ class Enterprise_Cms_Model_Observer
      */
     public function filterFieldsOnPrepareForm($observer)
     {
-        if (!Mage::registry('cms_page')->getHideRevisionedAttributes() &&
-            !Mage::registry('cms_page')->getHideNotRevisionedAttributes()) {
-            return $this;
-        }
-
         $form = $observer->getEvent()->getForm();
         /** @var $baseFieldset Varien_Data_Form_Element_Fieldset */
         $baseFieldset = $form->getElement('base_fieldset');
 
-        $elementsUnderRevisionControl = Mage::getSingleton('enterprise_cms/config')
-            ->getPageRevisionControledAttributes();
-
-        if (Mage::registry('cms_page')->getHideRevisionedAttributes()) {
-            foreach ($baseFieldset->getElements() as $element) {
-                if (in_array($element->getId(), $elementsUnderRevisionControl)) {
-                    $baseFieldset->removeField($element->getId());
-                }
-            }
-        } else if (Mage::registry('cms_page')->getHideNotRevisionedAttributes()) {
-            /*
-             * Removing fields that are not under
-             * revision control except those which are hidden
-             */
-            foreach ($baseFieldset->getElements() as $element) {
-                if (!in_array($element->getId(), $elementsUnderRevisionControl)
-                        && $element->getType() != 'hidden') {
-                    $baseFieldset->removeField($element->getId());
-                }
+        /*
+         * Making is_active as disabled if user does not have publish permission
+         */
+        if (!Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublishRevision()) {
+            $element = $baseFieldset->getElements()->searchById('is_active');
+            if ($element) {
+                $element->setDisabled(true);
             }
         }
+//        $elementsUnderRevisionControl = Mage::getSingleton('enterprise_cms/config')
+//            ->getPageRevisionControledAttributes();
 
-        return $this;
+//        if (Mage::registry('cms_page')->getHideRevisionedAttributes()) {
+//            foreach ($baseFieldset->getElements() as $element) {
+//                if (in_array($element->getId(), $elementsUnderRevisionControl)) {
+//                    $baseFieldset->removeField($element->getId());
+//                }
+//            }
+//        } else if (Mage::registry('cms_page')->getHideNotRevisionedAttributes()) {
+//            /*
+//             * Removing fields that are not under
+//             * revision control except those which are hidden
+//             */
+//            foreach ($baseFieldset->getElements() as $element) {
+//                if (!in_array($element->getId(), $elementsUnderRevisionControl)
+//                        && $element->getType() != 'hidden') {
+//                    $baseFieldset->removeField($element->getId());
+//                }
+//            }
+//        }
+
+//        return $this;
     }
 }

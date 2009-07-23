@@ -26,14 +26,14 @@
 
 
 /**
- * Cms page version collection
+ * Cms page revision collection
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Mysql4_Version_Collection  extends Enterprise_Cms_Model_Mysql4_Collection_Abstract
+class Enterprise_Cms_Model_Mysql4_Page_Revision_Collection extends Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract
 {
     /**
      * Constructor
@@ -41,48 +41,38 @@ class Enterprise_Cms_Model_Mysql4_Version_Collection  extends Enterprise_Cms_Mod
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('enterprise_cms/version');
+        $this->_init('enterprise_cms/page_revision');
     }
 
     /**
-     * Add access level filter.
-     * Can take parameter array or one level.
+     * Joining version data to reeach revision.
+     * Columns which should be joined determined by parameter $cols.
      *
-     * @param mixed $level
-     * @return Enterprise_Cms_Model_Mysql4_Version_Collection
+     * @param mixed $cols
+     * @return Enterprise_Cms_Model_Mysql4_Revision_Collection
      */
-    public function addAccessLevelFilter($level)
+    public function joinVersions($cols = '')
     {
-        if (is_array($level)) {
-            $this->addFieldToFilter('access_level', array('in' => $level));
-        } else {
-            $this->addFieldToFilter('access_level', $level);
+        $this->_map['fields']['version_id'] = 'ver_table.version_id';
+        $this->_map['fields']['versionuser_user_id'] = 'ver_table.user_id';
+
+        $columns = array(
+            'version_id' => 'ver_table.version_id',
+            'access_level',
+            'version_user_id' => 'ver_table.user_id',
+            'label',
+            'version_number'
+        );
+
+        if (is_array($cols)) {
+            $columns = array_merge($columns, $cols);
+        } else if ($cols) {
+            $columns[] = $cols;
         }
 
-        return $this;
-    }
+        $this->getSelect()->joinInner(array('ver_table' => $this->getTable('enterprise_cms/page_version')),
+            'ver_table.version_id = main_table.version_id', $columns);
 
-    /**
-     * Prepare two dimensional array basing on version_id as key and
-     * version label as value data from collection.
-     *
-     * @return array
-     */
-    public function getIdLabelArray()
-    {
-        return $this->_toOptionHash('version_id', 'version_label');
-    }
-
-    /**
-     * Join revision data by version id
-     *
-     * @return Enterprise_Cms_Model_Mysql4_Version_Collection
-     */
-    public function joinRevisions()
-    {
-        $this->getSelect()->joinLeft(
-            array('rev_table' => $this->getTable('enterprise_cms/revision')),
-            'rev_table.version_id=main_table.version_id', '*');
         return $this;
     }
 
@@ -93,7 +83,7 @@ class Enterprise_Cms_Model_Mysql4_Version_Collection  extends Enterprise_Cms_Mod
      */
     public function addVersionLabelToSelect()
     {
-        $this->_map['fields']['version_label'] = 'IF(main_table.label = "", main_table.version_id, main_table.label )';
+        $this->_map['fields']['version_label'] = 'IF(ver_table.label = "", ver_table.version_id, ver_table.label)';
         $this->getSelect()->from('', array('version_label' => $this->_map['fields']['version_label']));
 
         return $this;

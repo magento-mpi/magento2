@@ -27,15 +27,15 @@
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-$versionTable = $installer->getTable('enterprise_cms/version');
+$versionTable = $installer->getTable('enterprise_cms_version');
 
 $installer->run("
     CREATE TABLE IF NOT EXISTS `{$versionTable}` (
         `version_id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
         `label` VARCHAR(255),
-        `access_level` ENUM('".Enterprise_Cms_Model_Version::ACCESS_LEVEL_PRIVATE."',
-                '".Enterprise_Cms_Model_Version::ACCESS_LEVEL_PROTECTED."',
-                '".Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC."') NOT NULL,
+        `access_level` ENUM('".Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE."',
+                '".Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PROTECTED."',
+                '".Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC."') NOT NULL,
         `page_id` SMALLINT(6) NOT NULL,
         `user_id` MEDIUMINT(9) UNSIGNED NOT NULL,
         `revisions_count` INT(11) UNSIGNED,
@@ -48,7 +48,7 @@ $installer->run("
 $installer->getConnection()->addConstraint('FK_CMS_VERSION_PAGE_ID', $versionTable, 'page_id',
     $installer->getTable('cms/page'), 'page_id');
 
-$revisionTable = $installer->getTable('enterprise_cms/revision');
+$revisionTable = $installer->getTable('enterprise_cms_revision');
 
 $installer->run("
     CREATE TABLE IF NOT EXISTS `{$revisionTable}` (

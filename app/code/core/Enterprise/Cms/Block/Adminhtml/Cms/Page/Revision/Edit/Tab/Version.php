@@ -31,7 +31,7 @@
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Version
     extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
@@ -64,9 +64,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions
         /*
          * Determine if user owner of this revision
          */
-        $userCanEditVersion = true;
+        $this->setUserCanEditVersion(true);
         if ($model->getVersionUserId() != Mage::getSingleton('admin/session')->getUser()->getId()) {
-            $userCanEditVersion = false;
+            $this->setUserCanEditVersion(false);
         }
 
         $form = new Varien_Data_Form();
@@ -77,31 +77,44 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions
             array('legend' => Mage::helper('enterprise_cms')->__('Version Information'),
             'class' => 'fieldset-wide'));
 
-        $fieldset->addField('create_new_version', 'checkbox', array(
-            'name'      => 'create_new_version',
-            'label'     => Mage::helper('enterprise_cms')->__('Create New Version'),
-            'title'     => Mage::helper('enterprise_cms')->__('Create New Version'),
-            'disabled'  => $isElementDisabled,
-            'value' => 1
+        $model->setVersionAction(1);
+
+        $fieldset->addField('version_action', 'radios', array(
+            'name'      => 'version_action',
+            'label'     => Mage::helper('enterprise_cms')->__('Action'),
+            'title'     => Mage::helper('enterprise_cms')->__('Action'),
+            'values'   => array(
+                array(
+                    'value' => 1,
+                    'label' => Mage::helper('enterprise_cms')->__('Keep As Is')
+                ),
+                array(
+                    'value' => 2,
+                    'label' => Mage::helper('enterprise_cms')->__('Create New')
+                ),
+                array(
+                    'value' => 3,
+                    'label' => Mage::helper('enterprise_cms')->__('Update Current')
+                )
+            ),
+            'separator' => '<br />',
+            'class' => 'version-action',
+            'disabled'  => $isElementDisabled
         ));
 
         $fieldset->addField('label', 'text', array(
             'name'      => 'version_label',
             'label'     => Mage::helper('enterprise_cms')->__('Label'),
             'title'     => Mage::helper('enterprise_cms')->__('Label'),
-            'disabled'  => $isElementDisabled || !$userCanEditVersion
+            'disabled'  => $isElementDisabled || !$this->getUserCanEditVersion()
         ));
 
         $fieldset->addField('access_level', 'select', array(
             'label'     => Mage::helper('enterprise_cms')->__('Access Level'),
             'title'     => Mage::helper('enterprise_cms')->__('Access Level'),
             'name'      => 'access_level',
-            'options'   => array(
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PRIVATE => Mage::helper('enterprise_cms')->__('Private'),
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PROTECTED => Mage::helper('enterprise_cms')->__('Protected'),
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC => Mage::helper('enterprise_cms')->__('Public')
-                ),
-            'disabled'  => $isElementDisabled || !$userCanEditVersion
+            'options'   => Mage::getSingleton('enterprise_cms/config')->getStatuses(),
+            'disabled'  => $isElementDisabled || !$this->getUserCanEditVersion()
         ));
 
         $form->setValues($model->getData());
@@ -111,27 +124,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions
     }
 
     /**
-     * Adding child grid block to layout
-     *
-     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions
-     */
-    protected function _prepareLayout()
-    {
-        $this->setChild('grid', $this->getLayout()->createBlock(
-                'enterprise_cms/adminhtml_cms_page_revision_edit_tab_versions_grid',
-                'versions.grid'
-            ));
-        return parent::_prepareLayout();
-    }
-
-    /**
      * Prepare label for tab
      *
      * @return string
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_cms')->__('Versions');
+        return Mage::helper('enterprise_cms')->__('Version Information');
     }
 
     /**
@@ -141,7 +140,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Versions
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_cms')->__('Versions');
+        return Mage::helper('enterprise_cms')->__('Version Information');
     }
 
     /**

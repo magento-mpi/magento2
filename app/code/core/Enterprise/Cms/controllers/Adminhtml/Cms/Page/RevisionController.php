@@ -49,8 +49,6 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             $page->setData($data);
         }
 
-        $page->setHideNotRevisionedAttributes(true);
-
         $this->_initAction()
             ->_addBreadcrumb($page->getId() ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'), $page->getId() ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'));
 
@@ -108,26 +106,11 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
     }
 
     /**
-     * Action for versions ajax tab
+     * Action for version info ajax tab
      *
      * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
      */
-    public function versionsAction()
-    {
-        $this->_initPage();
-
-        $this->loadLayout();
-        $this->renderLayout();
-
-        return $this;
-    }
-
-    /**
-     * Action for versions ajax tab
-     *
-     * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
-     */
-    public function versionsgridAction()
+    public function versionAction()
     {
         $this->_initPage();
 

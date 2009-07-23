@@ -56,8 +56,8 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
     protected function _construct()
     {
         parent::_construct();
-        $this->_revisionTable = $this->getTable('enterprise_cms/revision');
-        $this->_versionTable = $this->getTable('enterprise_cms/version');
+        $this->_revisionTable = $this->getTable('enterprise_cms/page_revision');
+        $this->_versionTable = $this->getTable('enterprise_cms/page_version');
 
         $this->_config = Mage::getSingleton('enterprise_cms/config');
     }
@@ -184,18 +184,26 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
          * revision from his version. If user does not have his own
          * version we should show him last available revision of other
          * users regarding to visibility of that version.
+         * But in case we have defined revision id we should try to load it
+         * without checking if user have available revisions for this page.
          */
         if ($object->getUserId()) {
-            $subSelect = clone $select;
-            $subSelect->reset();
+            if ($object->getRevisionId()) {
+                $conditions[] = '((ver_table.user_id <> ' . (int)$object->getUserId() .
+                    ' AND ' . $aclCondition . ')
+                    OR ver_table.user_id = ' . (int)$object->getUserId() . ')';
+            } else {
+                $subSelect = clone $select;
+                $subSelect->reset();
 
-            $subSelect->from($this->_versionTable, 'count(*)')
-                ->where('user_id = ?', (int)$object->getUserId())
-                ->where('page_id = ?', (int)$value);
+                $subSelect->from($this->_versionTable, 'count(*)')
+                    ->where('user_id = ?', (int)$object->getUserId())
+                    ->where('page_id = ?', (int)$value);
 
-            $conditions[] = '((ver_table.user_id <> ' . (int)$object->getUserId() .
-                ' AND (' . $subSelect . ') = 0 AND ' . $aclCondition . ')
-            OR ver_table.user_id = ' . (int)$object->getUserId() . ')';
+                $conditions[] = '((ver_table.user_id <> ' . (int)$object->getUserId() .
+                    ' AND (' . $subSelect . ') = 0 AND ' . $aclCondition . ')
+                OR ver_table.user_id = ' . (int)$object->getUserId() . ')';
+            }
         }
 
         if (!empty($conditions)) {
@@ -205,27 +213,24 @@ class Enterprise_Cms_Model_Mysql4_Page extends Mage_Cms_Model_Mysql4_Page
         }
 
         $select->joinLeft(array('ver_table' => $this->_versionTable),
-            $conditions, array('version_id', 'label', 'access_level', 'version_user_id' => 'user_id'));
+            $conditions, array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id'));
 
         /*
-         * Adding revision data
-         */
-        $conditions = array('ver_table.version_id=rev_table.version_id');
-
-        /*
+         * Adding revision data.
          * In case we have specified revision try to load it.
          * In other case try to load most new revision for
          * this page counting on restrictions added above.
          */
         if ($object->getRevisionId()) {
-            $conditions[] = 'rev_table.revision_id = ' . (int)$object->getRevisionId();
+            $select->where('rev_table.revision_id = ?', (int)$object->getRevisionId());
         }
 
         $select->order('revision_id DESC')
             ->limit(1);
 
         $select->joinLeft(array('rev_table' => $this->_revisionTable),
-            implode(' AND ', $conditions), array('revision_id', 'revision_created_at' => 'created_at', 'user_id'));
+            'ver_table.version_id=rev_table.version_id',
+            array('revision_id', 'revision_number', 'revision_created_at' => 'created_at', 'user_id'));
 
         /*
          * In case if there is no versions and revisions available

@@ -27,50 +27,34 @@
 
 <?php
 /**
- * @var $this Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Version
+ * @var $this Mage_Adminhtml_Block_Cms_Page_Edit_Form
  */
 ?>
+
 <div class="entry-edit">
-<?php echo $this->getFormObject()->getHtml() ?>
+    <?php echo $this->getFormHtml() ?>
+<?php /*if( $form->getUseContainer() === true ): ?>
+<form id="<?php echo $form->getFormId() ?>" method="<?php echo ( $form->getFormMethod() ) ? $form->getFormMethod() : 'post' ; ?>" action="<?php echo $form->getFormAction() ?>" <?php echo ( $form->getFormEnctype() ) ? 'enctype="' . $this->getForm()->getFormEnctype() . '"' : '' ?> >
+<?php endif; ?>
+    <?php foreach ($form->getElements() as $_element): ?>
+    <?php echo $this->drawElement($_element) ?>
+    <?php endforeach; ?>
+<?php if( $form->getUseContainer() === true ): ?>
+</form>
+<?php endif;*/ ?>
 </div>
-
+<?php if ($this->getSelectedTabId()): ?>
 <script type="text/javascript">
-var canEdit = "<?php echo $this->getUserCanEditVersion() ?>";
-
-$$('.version-action').each(function(element) {
-    Event.observe(element, 'change', parseAction);
+<!--
+Event.observe(window, 'load', function() {
+    var objName = '<?php echo $this->getSelectedTabId() ?>';
+    if (objName) {
+        obj = $(objName);
+        //IE fix (bubbling event model)
+        page_tabsJsTabs.setSkipDisplayFirstTab();
+        page_tabsJsTabs.showTabContent(obj);
+    }
 });
-
-function parseAction(event) {
-    var element = Event.element(event);
-
-    if (!element) {
-        element = event;
-    }
-
-    switch (element.value) {
-        case '1' :
-            $('page_label').disable();
-            $('page_access_level').disable();
-            break;
-        case '2' :
-            $('page_label').enable();
-            $('page_access_level').enable();
-            break;
-        case '3' :
-            if (canEdit) {
-                $('page_label').enable();
-                $('page_access_level').enable();
-            } else {
-                $('page_label').disable();
-                $('page_access_level').disable();
-            }
-            break;
-    }
-}
-
-parseAction($$('.version-action')[0]);
-
+//-->
 </script>
-
-<?php echo $this->getChildHtml('grid') ?>
+<?php endif; ?>

@@ -33,8 +33,8 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Main
-    extends Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
+    extends Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 {
     /**
      * Preparing form by adding extra fields
@@ -49,7 +49,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Main
         parent::_prepareForm();
 
         /** @var $fieldset Varien_Data_Form_Element_Fieldset */
-        $fieldset = $this->getForm()->getElement('base_fieldset');
+        $fieldset = $this->getForm()->getElement('content_fieldset');
+
+        if ($model->getPageId()) {
+            $fieldset->addField('page_id', 'hidden', array(
+                'name' => 'page_id',
+            ));
+        }
 
         if ($model->getRevisionId()) {
             $fieldset->addField('revision_id', 'hidden', array(

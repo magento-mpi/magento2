@@ -52,8 +52,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     {
         parent::__construct();
         $this->setId('revisionsGrid');
-        $this->setDefaultSort('revision_id');
-        $this->setDefaultDir('ASC');
+        $this->setDefaultSort('revision_number');
+        $this->setDefaultDir('DESC');
         $this->setUseAjax(true);
     }
 
@@ -64,9 +64,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_cms/revision')->getCollection()
+        /** $collection Enterprise_Cms_Model_Mysql4_Revision_Collection */
+        $collection = Mage::getModel('enterprise_cms/page_revision')->getCollection()
             ->addPageFilter($this->getPage())
             ->joinVersions()
+            //->addVersionLabelToSelect()
             ->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
                 Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
@@ -81,12 +83,29 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     protected function _prepareColumns()
     {
+        $this->addColumn('version_number', array(
+            'header' => Mage::helper('enterprise_cms')->__('Version #'),
+            'width' => 100,
+            'index' => 'version_number'
+        ));
 
-        $this->addColumn('revision_id', array(
-            'header' => Mage::helper('enterprise_cms')->__('Revision'),
+        $this->addColumn('label', array(
+            'header' => Mage::helper('enterprise_cms')->__('Version Label'),
+            'index' => 'label'
+        ));
+
+        //$this->addColumn('version_id', array(
+        //    'header' => Mage::helper('enterprise_cms')->__('Version'),
+        //    'index' => 'version_id',
+        //    'type' => 'options',
+        //    'options' => $this->_getVersions()
+        //));
+
+        $this->addColumn('revision_number', array(
+            'header' => Mage::helper('enterprise_cms')->__('Revision #'),
             'width' => 100,
             'type' => 'text',
-            'index' => 'revision_id'
+            'index' => 'revision_number'
         ));
 
         $this->addColumn('created_at', array(
@@ -97,23 +116,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
             'width' => 150
         ));
 
-        $this->addColumn('version', array(
-            'header' => Mage::helper('enterprise_cms')->__('Version'),
-            'index' => 'version_id',
-            'type' => 'options',
-            'options' => $this->_getVersions()
-        ));
-
         $this->addColumn('access_level', array(
             'header' => Mage::helper('enterprise_cms')->__('Access Level'),
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
-            'options' => array(
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PRIVATE => Mage::helper('enterprise_cms')->__('Private'),
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PROTECTED => Mage::helper('enterprise_cms')->__('Protected'),
-                    Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC => Mage::helper('enterprise_cms')->__('Public')
-                )
+            'options' => Mage::getSingleton('enterprise_cms/config')->getStatuses()
         ));
 
         $this->addColumn('author', array(
@@ -135,7 +143,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     {
         if (!$this->_versionsHash) {
             $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-            $collection = Mage::getModel('enterprise_cms/version')->getCollection()
+            $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
                 ->addVersionLabelToSelect()
                 ->addVisibilityFilter($userId,
                     Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());

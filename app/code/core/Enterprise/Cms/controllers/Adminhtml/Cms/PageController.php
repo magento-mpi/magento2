@@ -115,7 +115,6 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         }
 
         if ($page->getId()) {
-            $page->setHideRevisionedAttributes(true);
             $this->_handles[] = 'adminhtml_cms_page_edit_changes';
         }
 
@@ -176,6 +175,21 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
      * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
      */
     public function revisionsAction()
+    {
+        $this->_initPage();
+
+        $this->loadLayout();
+        $this->renderLayout();
+
+        return $this;
+    }
+
+    /**
+     * Action for versions ajax tab
+     *
+     * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
+     */
+    public function versionsAction()
     {
         $this->_initPage();
 

@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Mysql4_Collection_Abstract extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     /**
      * Initialization
@@ -74,7 +74,7 @@ class Enterprise_Cms_Model_Mysql4_Collection_Abstract extends Mage_Core_Model_My
      * @param mixed $accessLevel
      * @return Enterprise_Cms_Model_Mysql4_Collection_Abstract
      */
-    public function addVisibilityFilter($userId, $accessLevel = Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC)
+    public function addVisibilityFilter($userId, $accessLevel = Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
     {
         $_condition = array();
 

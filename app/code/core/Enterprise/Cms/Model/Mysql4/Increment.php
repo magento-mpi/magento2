@@ -26,38 +26,53 @@
 
 
 /**
- * Cms page revision collection
+ * Increment resource model
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Mysql4_Revision_Collection extends Enterprise_Cms_Model_Mysql4_Collection_Abstract
+class Enterprise_Cms_Model_Mysql4_Increment extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Constructor
      */
     protected function _construct()
     {
-        parent::_construct();
-        $this->_init('enterprise_cms/revision');
+        $this->_init('enterprise_cms/increment', 'increment_id');
     }
 
     /**
-     * Joining version data to reeach revision.
-     * Columns which should be joined determined by parameter $cols.
+     * Load increment counter by passed node and level
      *
-     * @param mixed $cols
-     * @return Enterprise_Cms_Model_Mysql4_Revision_Collection
+     * @param Mage_Core_Model_Abstract $object
+     * @param int $type
+     * @param int $node
+     * @param int $level
+     * @return bool
      */
-    public function joinVersions($cols = Zend_Db_Select::SQL_WILDCARD)
+    public function loadByTypeNodeLevel(Mage_Core_Model_Abstract $object, $type, $node, $level)
     {
-        $this->_map['fields']['version_id'] = 'ver_table.version_id';
+        $read = $this->_getWriteAdapter();
 
-        $this->getSelect()->joinInner(array('ver_table' => $this->getTable('enterprise_cms/version')),
-            'ver_table.version_id = main_table.version_id', $cols);
+        $select = $read->select()->from($this->getMainTable())
+            ->forUpdate(true)
+            ->where('type=?', $type)
+            ->where('node=?', $node)
+            ->where('level=?', $level);
 
-        return $this;
+        $data = $read->fetchRow($select);
+
+        if (!$data) {
+            return false;
+        }
+
+        $object->setData($data);
+
+        $this->_afterLoad($object);
+
+        return true;
     }
+
 }

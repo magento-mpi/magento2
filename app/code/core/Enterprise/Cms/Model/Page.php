@@ -94,7 +94,13 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
      */
     protected function _dataWasModified(array $data)
     {
+        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
+
         foreach ($data as $key => $value) {
+            if (in_array($key, array('custom_theme_from', 'custom_theme_to')) && $value != '') {
+                $value = Mage::app()->getLocale()->date($value, $format, null, false)
+                    ->toString(Varien_Date::DATE_INTERNAL_FORMAT);
+            }
             if ($this->getOrigData($key) !== $value) {
                 if ($this->getOrigData($key) === NULL && $value === '') {
                     continue;
@@ -132,29 +138,34 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
 
         $currentUserId = Mage::getSingleton('admin/session')->getUser()->getId();
 
-        $version = Mage::getModel('enterprise_cms/version');
+        $version = Mage::getModel('enterprise_cms/page_version');
         /*
          * Trying to load version if page has it
          */
 
-        if ($this->getVersionId() && !$this->hasCreateNewVersion()) {
+        if ($this->getVersionId() && $this->getVersionAction() != 2) {
             $version->load($this->getVersionId());
             //updating label and access level if current user owner of this version
-            if ($version->getUserId() == $currentUserId) {
+            if ($this->getVersionAction() == 3 && $version->getUserId() == $currentUserId) {
                 $version->setAccessLevel($this->getAccessLevel())
-                    ->setLabel($this->getVersionLabel());
+                    ->setLabel($this->getVersionLabel())
+                    ->save();
             }
-        } else {
+        } else if (!$this->getVersionId() || $this->getVersionAction() == 2){
             /*
              * if this is new page or it does not have any version we should
              * create one with public access
              */
-            $version->setAccessLevel(Enterprise_Cms_Model_Version::ACCESS_LEVEL_PUBLIC)
+            if (!$this->hasAccessLevel() || !$this->getVersionId()) {
+                $this->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC);
+            }
+
+            $version->setAccessLevel($this->getAccessLevel())
                 ->setLabel($this->getVersionLabel())
                 ->setPageId($this->getPageId())
-                ->setUserId($currentUserId);
+                ->setUserId($currentUserId)
+                ->save();
         }
-        $version->save();
 
         /*
          * Save data under revision control if such was changed
@@ -162,11 +173,10 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
          */
         if ($this->getDataUnderRevisionControlWasModified() || $this->getVersionId() != $version->getId()) {
             $this->setVersionId($version->getId());
-
             /*
              * Saving new Revision
              */
-            $revision = Mage::getModel('enterprise_cms/revision');
+            $revision = Mage::getModel('enterprise_cms/page_revision');
             $revision->setData($this->getDataUnderRevisionControl())
                 ->setVersionId($version->getId())
                 ->setPageId($this->getPageId())
@@ -271,7 +281,6 @@ class Enterprise_Cms_Model_Page extends Mage_Cms_Model_Page
      */
     public function canRunNativeSave()
     {
-        return $this->_canRunNativeSave &&
-        ($this->getIsPublishing() || !$this->getOrigData($this->getIdFieldName()));
+        return $this->_canRunNativeSave;
     }
 }

@@ -66,6 +66,28 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     }
 
     /**
+     * Prepare version number.
+     *
+     * @return string
+     */
+    public function getVersionNumber()
+    {
+        return $this->_page->getVersionNumber() ? $this->_page->getVersionNumber()
+            : Mage::helper('enterprise_cms')->__('N/A');
+    }
+
+    /**
+     * Prepare version label.
+     *
+     * @return string
+     */
+    public function getVersionLabel()
+    {
+        return $this->_page->getLabel() ? $this->_page->getLabel()
+            : Mage::helper('enterprise_cms')->__('N/A');
+    }
+
+    /**
      * Prepare revision identifier.
      *
      * @return string
@@ -73,6 +95,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     public function getRevisionId()
     {
         return $this->_page->getRevisionId() ? $this->_page->getRevisionId()
+            : Mage::helper('enterprise_cms')->__('N/A');
+    }
+
+    /**
+     * Prepare revision number.
+     *
+     * @return string
+     */
+    public function getRevisionNumber()
+    {
+        return $this->_page->getRevisionNumber() ? $this->_page->getRevisionNumber()
             : Mage::helper('enterprise_cms')->__('N/A');
     }
 

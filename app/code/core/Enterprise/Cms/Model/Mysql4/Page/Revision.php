@@ -33,14 +33,14 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Mysql4_Revision extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Constructor
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/revision', 'revision_id');
+        $this->_init('enterprise_cms/page_revision', 'revision_id');
     }
 
     /**
@@ -96,7 +96,7 @@ class Enterprise_Cms_Model_Mysql4_Revision extends Mage_Core_Model_Mysql4_Abstra
      */
     protected function _aggregateVersionData($versionId)
     {
-        $versionTable = $this->getTable('enterprise_cms/version');
+        $versionTable = $this->getTable('enterprise_cms/page_version');
 
         $select = 'UPDATE `' . $versionTable . '` SET `revisions_count` =
             (SELECT count(*) from `' . $this->getMainTable() . '` where `version_id` = ' . (int)$versionId . ')

@@ -33,13 +33,13 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Mysql4_Version extends Mage_Core_Model_Mysql4_Abstract
+class Enterprise_Cms_Model_Mysql4_Page_Version extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Constructor
      */
     protected function _construct()
     {
-        $this->_init('enterprise_cms/version', 'version_id');
+        $this->_init('enterprise_cms/page_version', 'version_id');
     }
 }
