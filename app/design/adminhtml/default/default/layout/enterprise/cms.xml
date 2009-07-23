@@ -94,4 +94,49 @@
         <remove name="root" />
         <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_version"  output="toHtml" name="cms_page_revision_edit_version" />
     </adminhtml_cms_page_revision_version>
+    
+    <adminhtml_cms_hierarchy_index>
+        <reference name="content">
+            <block type="enterprise_cms/adminhtml_cms_hierarchy" name="enterprise_cms_hierarchy" />
+        </reference>
+    </adminhtml_cms_hierarchy_index>
+    
+    <adminhtml_cms_hierarchy_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs"><flag>1</flag></action>
+        </reference>
+        <reference name="content">
+            <block type="enterprise_cms/adminhtml_cms_hierarchy_edit" name="enterprise_cms_hierarchy_edit" />
+        </reference>
+        <reference name="left">
+            <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tabs" name="enterprise_cms_hierarchy_edit_tabs">
+                <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tab_general" name="enterprise_cms_hierarchy_edit_tab_general" template="enterprise/cms/hierarchy/tab/general.phtml">
+                    <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tab_general_grid" name="cms_page_general_grid"></block>
+                </block>
+                <action method="addTab">
+                    <name>enterprise_cms_hierarchy_edit_tab_general</name>
+                    <block>enterprise_cms_hierarchy_edit_tab_general</block>
+                </action>
+                <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tab_pages" name="enterprise_cms_hierarchy_edit_tab_pages" template="enterprise/cms/hierarchy/tab/pages.phtml">
+                    <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tab_pages_grid" name="cms_page_grid"></block>
+                </block>
+                <action method="addTab">
+                    <name>enterprise_cms_hierarchy_edit_tab_pages</name>
+                    <block>enterprise_cms_hierarchy_edit_tab_pages</block>
+                </action>
+            </block>
+        </reference>
+    </adminhtml_cms_hierarchy_edit>
+    
+    <adminhtml_cms_hierarchy_pagegrid>
+        <reference name="content">
+            <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tab_pages_grid" name="cms_page_grid"></block>
+        </reference>
+    </adminhtml_cms_hierarchy_pagegrid>
+    
+    <adminhtml_cms_hierarchy_pagegeneralgrid>
+        <reference name="content">
+            <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tab_general_grid" name="cms_page_general_grid"></block>
+        </reference>
+    </adminhtml_cms_hierarchy_pagegeneralgrid>
 </layout>

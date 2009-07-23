@@ -1,0 +1,350 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design
+ * @package    default_default
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+<?php
+/* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages */
+?>
+<table cellspacing="0" width="100%">
+    <tr>
+        <td width="50%" style="border-right:1px solid #ddd; padding:0 23px 23px 0;">
+            <?php echo $this->getTreeButtonsHtml();?>
+            <div id="tree-container" style="width:100%;height:400px;overflow:auto"></div>
+        </td>
+        <td style="padding:0 0 23px 23px;">
+            <div class="entry-edit-head">
+                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Page Properties')?></h4>
+            </div>
+            <div id="node_properties_fieldset" class="fieldset">
+                <div class="hor-scroll">
+                    <input type="hidden" id="node_id" value="">
+                    <input type="hidden" id="node_page_id" value="">
+                    <table cellspacing="0" class="form-list">
+                        <tbody><tr>
+                            <td class="label"><label for="node_label"><?php echo $this->__('Node Title')?> <span class="required">*</span></label></td>
+                            <td class="value"><input id="node_label" value="" class="input-text" type="text"/></td>
+                            <td class="value use-default">
+                                <input id="node_label_default" type="checkbox" value="1" onclick="toggleValueElements(this, this.parentNode.parentNode)" checked="checked" />
+                                <label id="node_label_default_label" class="normal" for="node_label_default"><?php echo $this->__('Use Default Value')?></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="label"><label for="node_identifier"><?php echo $this->__('URL Key')?> <span class="required">*</span></label></td>
+                            <td class="value"><input id="node_identifier" value="" class="input-text validate-identifier" type="text"/></td>
+                            <td class="value use-default">
+                                <input id="node_identifier_default" type="checkbox" value="1" onclick="toggleValueElements(this, this.parentNode.parentNode)" checked="checked" />
+                                <label id="node_identifier_default_label" class="normal" for="node_label_default"><?php echo $this->__('Use Default Value')?></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td colspan="2"><?php echo $this->getPagePropertiesButtons();?></td>
+                        </tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+/**
+ * Fix ext compatibility with prototype 1.6
+ */
+Ext.lib.Event.getTarget = function(e) {
+    var ee = e.browserEvent || e;
+    return ee.target ? Event.element(ee) : null;
+};
+hierarchyNodes = {
+    nodes: <?php echo $this->getNodesJson()?>,
+    initialize: function(){
+        this.increment = 0;
+        this.tree = new Ext.tree.TreePanel('tree-container', {
+            animate: false,
+            loader: false,
+            enableDD: true,
+            containerScroll: true,
+            rootVisible: false,
+            lines: true
+        });
+        this.treeRoot = new Ext.tree.TreeNode({
+            text: '_root',
+            id: '_root'
+        });
+        this.newNodePage();
+        this.tree.setRootNode(this.treeRoot);
+        this.createNodes();
+        this.tree.getSelectionModel().addListener('selectionchange', this.onNodeSelect.bind(this));
+        this.tree.addListener('beforeappend', this.onNodeAppend.bind(this));
+        this.tree.render();
+    },
+    createNodes: function(){
+        for (var i = 0, l = this.nodes.length; i < l; i++) {
+            var node = new Ext.tree.TreeNode({
+                text: this.nodes[i].label,
+                label: this.nodes[i].label,
+                orig_label: this.nodes[i].orig_label,
+                use_def_label: this.nodes[i].use_def_label,
+                identifier: this.nodes[i].identifier,
+                orig_identifier: this.nodes[i].orig_identifier,
+                use_def_identifier: this.nodes[i].use_def_identifier,
+                id: this.nodes[i].node_id,
+                page_id: this.nodes[i].page_id,
+                cls: this.nodes[i].page_id > 0 ? '' : 'folder',
+                expanded: true,
+                allowDrop: true,
+                allowDrag: true
+            });
+
+            if (parentNode = this.tree.getNodeById(this.nodes[i].parent_node_id)) {
+                parentNode.appendChild(node);
+            } else {
+                this.treeRoot.appendChild(node);
+            }
+        }
+    },
+    onNodeSelect: function(model, node){
+        if (!node) {
+            this.newNodePage();
+            return;
+        }
+        $('node_id').value = node.id;
+        $('node_page_id').value = node.attributes.page_id;
+        var hasPageId = node.attributes.page_id != null
+        this._changeNodePropShow(hasPageId);
+
+        $('node_label').value = node.attributes.text;
+        $('node_identifier').value = node.attributes.identifier;
+        $('node_label_default').checked = node.attributes.use_def_label;
+        $('node_label').disabled = $('node_label_default').checked;
+        $('node_identifier_default').checked = node.attributes.use_def_identifier;
+        $('node_identifier').disabled = $('node_identifier_default').checked;
+
+        this.nodePropReset();
+
+        $('delete_node_button').show();
+    },
+    onNodeAppend: function(tree,parent,node){
+        var identifier = node.attributes.identifier;
+        for(var i=0, l = parent.childNodes.length; i < l; i++) {
+            if (identifier == parent.childNodes[i].attributes.identifier) {
+                alert('<?php echo $this->__("Node with same Identifier alredy exists. Page do not added!")?>');
+                return false;
+            }
+        }
+        return true;
+    },
+    pageGridRowClick: function(container, evt){
+        var tr = evt.findElement('tr');
+        var checkbox = tr.down('.checkbox');
+        var isInput = evt.element().tagName == 'INPUT';
+        var checked = isInput ? checkbox.checked : !checkbox.checked;
+        container.setCheckboxChecked(checkbox, checked);
+    },
+    pageGridAddSelected: function(){
+        var rows = $$('#cms_page_grid .grid table tbody tr');
+        rows.each(function(tr){
+            var checkbox = tr.down('.checkbox');
+            if (!checkbox || !checkbox.checked) {
+                return;
+            }
+            var page_id = tr.down('.checkbox').value;
+            var label = tr.down('.label').textContent;
+            var identifier = tr.down('.identifier').textContent;
+
+            this.treeRoot.appendChild(new Ext.tree.TreeNode({
+                text: label,
+                orig_label: label,
+                use_def_label: 1,
+                identifier: identifier,
+                orig_identifier: identifier,
+                use_def_identifier: 1,
+                id: '_' + this.increment,
+                page_id: page_id,
+                cls: 'page',
+                expanded: true,
+                allowDrop: true,
+                allowDrag: true
+            }));
+
+            this.increment ++;
+
+            checkbox.checked = false;
+        }.bind(this));
+    },
+    collectChilds: function(node)
+    {
+        if (node.id == '_root') {
+            this.treeData = new Hash();
+        } else {
+            this.treeData.set(node.id, {
+                node_id: node.id,
+                parent_node_id: node.parentNode.id == '_root' ? null : node.parentNode.id,
+                page_id: node.attributes.page_id,
+                label: node.attributes.text,
+                use_def_label: node.attributes.use_def_label,
+                identifier: node.attributes.identifier,
+                use_def_identifier: node.attributes.use_def_identifier,
+                sort_order: node.parentNode.indexOf(node),
+                level: node.getDepth()
+            });
+        }
+        if (node.hasChildNodes()) {
+            node.eachChild(this.collectChilds.bind(this));
+        }
+    },
+    save: function(continue_edit){
+        this.collectChilds(this.treeRoot);
+        $('nodes_data').value = this.treeData.toJSON();
+        $('continue_edit').value = continue_edit ? 1 : 0;
+        editForm.submit();
+    },
+    nodePropValidate: function(){
+        $('node_label').addClassName('required-entry');
+        $('node_identifier').addClassName('required-entry');
+
+        var isValid = true;
+        $('node_properties_fieldset').select('input').each(function(el){
+            isValid = Validation.validate(el) && isValid;
+        });
+
+        $('node_label').removeClassName('required-entry');
+        $('node_identifier').removeClassName('required-entry');
+
+        return isValid;
+    },
+    nodePropReset: function(){
+        $('node_properties_fieldset').select('input').each(function(el){
+            Validation.reset(el);
+        });
+    },
+    _changeNodePropShow: function(hasPageId)
+    {
+        var differnElements = ['node_identifier_default','node_identifier_default_label',
+           'node_label_default', 'node_label_default_label'];
+        differnElements.each(function(id){
+           if (!hasPageId) {
+               $(id).hide();
+           } else {
+               $(id).show();
+           }
+       });
+    },
+    newNodePage: function(){
+        this.nodePropReset();
+        $('node_id').value = '';
+        $('node_page_id').value = '';
+        this._changeNodePropShow(false);
+
+        $('node_label').value = '';
+        $('node_label').disabled = false;
+        $('node_identifier').value = '';
+        $('node_identifier').disabled = false;
+
+        $('delete_node_button').hide();
+
+        this.tree.getSelectionModel().clearSelections();
+    },
+    saveNodePage: function(){
+        var hasNodeId = $('node_id').value != '';
+        var hasPageId = $('node_page_id').value != '';
+        var isValid = this.nodePropValidate();
+        if (!isValid) {
+            return;
+        }
+
+        if (hasNodeId) {
+            var node_id = $('node_id').value;
+            var node = this.tree.getNodeById(node_id);
+
+            var identifier = $('node_identifier').value;
+            for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
+                checkNode = node.parentNode.childNodes[i];
+                if (checkNode.id != node_id && identifier == checkNode.attributes.identifier) {
+                    alert('<?php echo $this->__("Node with same Identifier alredy exists!")?>');
+                    return false;
+                }
+            }
+
+            if (hasPageId) {
+                if ($('node_label_default').checked) {
+                    node.setText(node.attributes.orig_label);
+                    $('node_label').value = node.attributes.orig_label;
+                }
+                if ($('node_identifier_default').checked) {
+                    node.attributes.identifier = node.attributes.orig_identifier;
+                    $('node_identifier').value = node.attributes.orig_identifier;
+                }
+            }
+            node.setText($('node_label').value);
+            node.attributes.identifier = $('node_identifier').value;
+            if (hasPageId) {
+                node.attributes.use_def_label = $('node_label_default').checked;
+                node.attributes.use_def_identifier = $('node_identifier_default').checked;
+            }
+        } else {
+            var node = new Ext.tree.TreeNode({
+                text: $('node_label').value,
+                use_def_label: 0,
+                identifier: $('node_identifier').value,
+                use_def_identifier: 0,
+                id: '_' + this.increment,
+                page_id: null,
+                cls: 'page',
+                expanded: true,
+                allowDrop: true,
+                allowDrag: true
+            });
+
+            this.increment ++;
+            this.treeRoot.appendChild(node);
+        }
+        node.select();
+    },
+    deleteNodePage: function(){
+        if (!$('node_id').value) {
+            this.newNodePage();
+            return;
+        }
+        var node = this.tree.getNodeById($('node_id').value);
+        if (node) {
+            node.parentNode.removeChild(node);
+        }
+        this.newNodePage();
+    }
+};
+Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
+</script>
+
+<div id="cms_page_grid_container">
+    <div class="entry-edit">
+        <div class="entry-edit-head">
+            <div style="float: right;"><?php echo $this->getPageGridButtonsHtml() ?></div>
+            <h4 class="fieldset-legend head-cms-page-grid icon-head"><?php echo $this->__('CMS Pages')?></h4>
+        </div>
+        <fieldset>
+            <?php echo $this->getChildHtml('cms_page_grid')?>
+        </fieldset>
+    <div>
+</div>

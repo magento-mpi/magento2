@@ -1,0 +1,81 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+
+/**
+ * Cms Page Tree Edit Form Container Block
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ */
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+{
+    /**
+     * Retrieve current hierarchy instance
+     *
+     * @return Enterprise_Cms_Model_Hierarchy
+     */
+    protected function _getHierarchy()
+    {
+        return Mage::registry('current_hierarchy');
+    }
+
+    /**
+     * Initialize Form Container
+     *
+     */
+    public function __construct()
+    {
+        $this->_objectId   = 'tree_id';
+        $this->_blockGroup = 'enterprise_cms';
+        $this->_controller = 'adminhtml_cms_hierarchy';
+
+        parent::__construct();
+
+        $this->_updateButton('save', 'onclick', 'hierarchyNodes.save(false)');
+        $this->_addButton('save_and_edit_button', array(
+            'label'     => Mage::helper('enterprise_cms')->__('Save And Continue Edit'),
+            'onclick'   => 'hierarchyNodes.save(true)',
+            'class'     => 'save'
+        ));
+    }
+
+    /**
+     * Retrieve text for header element depending on loaded page
+     *
+     * @return string
+     */
+    public function getHeaderText()
+    {
+        if ($this->_getHierarchy()->getId()) {
+            $label = $this->htmlEscape($this->_getHierarchy()->getRootNode()->getLabel());
+            return Mage::helper('enterprise_cms')->__("Edit Page Tree '%s'", $label);
+        }
+        else {
+            return Mage::helper('enterprise_cms')->__('New Page Tree');
+        }
+    }
+}

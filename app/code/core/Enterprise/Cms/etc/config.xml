@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.2</version>
+             <version>0.1.3</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -43,6 +43,12 @@
                     <page_version><table>enterprise_cms_page_version</table></page_version>
                     <page_revision><table>enterprise_cms_page_revision</table></page_revision>
                     <increment><table>enterprise_cms_increment</table></increment>
+                    <hierarchy>
+                        <table>enterprise_cms_hierarchy</table>
+                    </hierarchy>
+                    <hierarchy_node>
+                        <table>enterprise_cms_hierarchy_node</table>
+                    </hierarchy_node>
                 </entities>
             </enterprise_cms_mysql4>
         </models>
@@ -159,12 +165,30 @@
                                         </delete_revision>
                                     </children>
                                 </page>
+                                <hierarchy translate="title" module="enterprise_cms">
+                                    <title>Manage Hierarchy</title>
+                                    <sort_order>0</sort_order>
+                                </hierarchy>
                             </children>
                         </cms>
                     </children>
                 </admin>
             </resources>
         </acl>
+        <menu>
+            <cms>
+                <children>
+                    <hierarchy translate="title" module="enterprise_cms">
+                        <title>Manage Pages Hierarchy</title>
+                        <sort_order>50</sort_order>
+                        <action>adminhtml/cms_hierarchy</action>
+                        <depends>
+                            <config>enterprise_cms/hierarchy/enabled</config>
+                        </depends>
+                   </hierarchy>
+                </children>
+            </cms>
+        </menu>
     </adminhtml>
     <admin>
         <routers>
@@ -177,4 +201,19 @@
             </adminhtml>
         </routers>
     </admin>
+    <default>
+        <enterprise_cms>
+            <page_wysiwyg>
+                <enabled>1</enabled>
+                <upload_root>media/images</upload_root>
+                <allowed_extensions>png,gif,jpg,jpeg,bmp</allowed_extensions>
+                <resize_width>100</resize_width>
+                <resize_height>75</resize_height>
+            </page_wysiwyg>
+            <hierarchy>
+                <enabled>0</enabled>
+                <matadata_enabled>0</matadata_enabled>
+            </hierarchy>
+        </enterprise_cms>
+    </default>
 </config>
