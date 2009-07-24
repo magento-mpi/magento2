@@ -349,10 +349,11 @@ class Mage_Checkout_Model_Type_Onepage
             );
             return $res;
         }
+        $this->getQuote()->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+
         $payment = $this->getQuote()->getPayment();
         $payment->importData($data);
 
-        $this->getQuote()->getShippingAddress()->setPaymentMethod($payment->getMethod());
         $this->getQuote()->save();
 
         $this->getCheckout()
