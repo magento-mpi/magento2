@@ -25,7 +25,7 @@
  */
 
 /**
- * Leyer navigation block for search
+ * Layered Navigation block for search
  *
  */
 class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
