@@ -526,7 +526,6 @@
             <order>
                 <statuses>
                     <pending translate="label"><label>Pending</label></pending>
-                    <pending_paypal translate="label"><label>Pending PayPal</label></pending_paypal>
                     <processing translate="label"><label>Processing</label></processing>
                     <holded translate="label"><label>On Hold</label></holded>
                     <complete translate="label"><label>Complete</label></complete>
@@ -537,48 +536,46 @@
                     <new translate="label">
                         <label>New</label>
                         <statuses>
-                            <pending/>
+                            <pending default=""/>
                         </statuses>
                         <visible_on_front/>
                     </new>
                     <pending_payment translate="label">
                         <label>Pending Payment</label>
-                        <statuses>
-                            <pending_paypal/>
-                        </statuses>
+                        <statuses/>
                     </pending_payment>
                     <processing translate="label">
                         <label>Processing</label>
                         <statuses>
-                            <processing/>
+                            <processing default=""/>
                         </statuses>
                         <visible_on_front/>
                     </processing>
                     <complete translate="label">
                         <label>Complete</label>
                         <statuses>
-                            <complete/>
+                            <complete default=""/>
                         </statuses>
                         <visible_on_front/>
                     </complete>
                     <closed translate="label">
                         <label>Closed</label>
                         <statuses>
-                            <closed/>
+                            <closed default=""/>
                         </statuses>
                         <visible_on_front/>
                     </closed>
                     <canceled translate="label">
                         <label>Canceled</label>
                         <statuses>
-                            <canceled/>
+                            <canceled default=""/>
                         </statuses>
                         <visible_on_front/>
                     </canceled>
                     <holded translate="label">
                         <label>On Hold</label>
                         <statuses>
-                            <holded/>
+                            <holded default=""/>
                         </statuses>
                         <visible_on_front/>
                     </holded>

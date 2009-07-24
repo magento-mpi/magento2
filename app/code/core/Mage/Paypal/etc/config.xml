@@ -68,6 +68,20 @@
         <blocks>
             <paypal><class>Mage_Paypal_Block</class></paypal>
         </blocks>
+        <sales>
+            <order>
+                <statuses>
+                    <pending_paypal translate="label"><label>Pending PayPal</label></pending_paypal>
+                </statuses>
+                <states>
+                    <pending_payment>
+                        <statuses>
+                            <pending_paypal/>
+                        </statuses>
+                    </pending_payment>
+                </states>
+            </order>
+        </sales>
     </global>
     <frontend>
         <secure_url>
