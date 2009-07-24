@@ -324,6 +324,7 @@
                     <admin__roles_collection>limitAdminPermissionRoles</admin__roles_collection>
                     <admin__user_collection>limitAdminPermissionUsers</admin__user_collection>
                     <admin__roles_user_collection>limitAdminPermissionUsers</admin__roles_user_collection>
+                    <reports__quote_collection>addStoreFilter</reports__quote_collection>
                 </collection_load_before>
                 <model_save_before>
                     <cms__page>cmsPageSaveBefore</cms__page>
