@@ -46,10 +46,9 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Tree extends Mage_Adminh
         $collection = Mage::registry('storage')->getDirsCollection($helper->getCurrentPath());
         $jsonArray = array();
         foreach ($collection as $item) {
-            $relative = str_replace($storageRoot, '', $item->getFilename());
             $jsonArray[] = array(
                 'text'  => $item->getBasename(),
-                'id'    => $helper->convertPathToId($relative),
+                'id'    => $helper->convertPathToId($item->getFilename()),
                 'cls'   => 'folder'
             );
         }
@@ -74,5 +73,27 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Tree extends Mage_Adminh
     public function getRootNodeName()
     {
         return $this->helper('cms')->__('Storage Root');
+    }
+
+    /**
+     * Return tree node full path based on current path
+     *
+     * @return string
+     */
+    public function getTreeCurrentPath()
+    {
+        $treePath = '';
+        if ($path = Mage::registry('storage')->getSession()->getCurrentPath()) {
+            $path = str_replace(Mage::helper('cms/page_wysiwyg_images')->getStorageRoot(), '', $path);
+            $relative = '';
+            foreach (explode(DS, $path) as $dirName) {
+                if ($dirName) {
+                    $relative .= DS . $dirName;
+                    $treePath .= '/' . Mage::helper('core')->urlEncode($relative);
+                }
+            }
+            $treePath = ($treePath != '' ? '/root' . $treePath : '');
+        }
+        return $treePath;
     }
 }

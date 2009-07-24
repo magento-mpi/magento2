@@ -33,6 +33,8 @@
  */
 class Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_Object
 {
+    const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
+
     /**
      * Return one-level child directories for specified path
      *
@@ -90,15 +92,48 @@ class Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_Object
      *
      * @param string $name New directory name
      * @param string $path Parent directory path
-     * @return boolean
+     * @throws Mage_Core_Exception
+     * @return array New directory info
      */
     public function createDirectory($name, $path)
     {
+        if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
+            Mage::throwException(Mage::helper('cms')->__('Invalid folder name. Please, use alphanumeric characters'));
+        }
         if (!is_dir($path) || !is_writable($path)) {
             $path = Mage::helper('cms/page_wysiwyg_images')->getStorageRoot();
         }
+
+        $newPath = $path . DS . $name;
+
+        if (file_exists($newPath)) {
+            Mage::throwException(Mage::helper('cms')->__('Such directory already exists. Try another folder name'));
+        }
+
         $io = new Varien_Io_File();
-        return $io->mkdir($path . DS . $name);
+        if ($io->mkdir($newPath)) {
+            $result = array(
+                'name'  => $name,
+                'path'  => $newPath,
+                'id'    => Mage::helper('cms/page_wysiwyg_images')->convertPathToId($newPath)
+            );
+            return $result;
+        }
+        Mage::throwException(Mage::helper('cms')->__('Cannot create new directory'));
+    }
+
+    /**
+     * Recursively delete directory from storage
+     *
+     * @param string $path Target dir
+     * @return void
+     */
+    public function deleteDirectory($path)
+    {
+        $io = new Varien_Io_File();
+        if (!$io->rmdir($path, true)) {
+            Mage::throwException(Mage::helper('cms')->__('Cannot delete directory %s', $path));
+        }
     }
 
     /**

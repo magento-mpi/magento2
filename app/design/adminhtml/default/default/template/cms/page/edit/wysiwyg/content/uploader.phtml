@@ -62,6 +62,7 @@ var maxUploadFileSizeInBytes = <?php echo $this->getDataMaxSizeInBytes() ?>;
 var maxUploadFileSize = '<?php echo $this->getDataMaxSize() ?>';
 
 <?php echo $this->getJsObjectName() ?> = new Flex.Uploader('<?php echo $this->getHtmlId() ?>', '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>);
+<?php echo $this->getJsObjectName() ?>.onFilesComplete = Images.handleUploadComplete.bind(Images);
 
 if (varienGlobalEvents) {
     varienGlobalEvents.attachEventHandler('tabChangeBefore', <?php echo $this->getJsObjectName() ?>.onContainerHideBefore);

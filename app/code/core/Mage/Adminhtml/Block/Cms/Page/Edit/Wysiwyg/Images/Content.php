@@ -53,6 +53,14 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content extends Mage_Adm
             'type'    => 'button',
             'onclick' => 'Images.upload();'
         ));
+
+        $this->_addButton('delete_folder', array(
+            'class'   => 'delete no-display',
+            'label'   => $this->helper('cms')->__('Delete Folder'),
+            'type'    => 'button',
+            'onclick' => 'Images.deleteFolder();',
+            'id'      => 'button_delete_folder'
+        ));
     }
 
     /**
@@ -75,4 +83,23 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content extends Mage_Adm
         return $this->getUrl('*/*/newFolder');
     }
 
+    /**
+     * Delete directory action target URL
+     *
+     * @return string
+     */
+    protected function getDeletefolderUrl()
+    {
+        return $this->getUrl('*/*/deleteFolder');
+    }
+
+    /**
+     * New directory action target URL
+     *
+     * @return string
+     */
+    public function getOnInsertUrl()
+    {
+        return $this->getUrl('*/*/onInsert');
+    }
 }

@@ -86,6 +86,7 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
      */
     public function convertPathToId($path)
     {
+        $path = str_replace($this->getStorageRoot(), '', $path);
         return Mage::helper('core')->urlEncode($path);
     }
 
@@ -97,7 +98,11 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
      */
     public function convertIdToPath($id)
     {
-        return Mage::helper('core')->urlDecode($id);
+        $path = Mage::helper('core')->urlDecode($id);
+        if (!strstr($path, $this->getStorageRoot())) {
+            $path = $this->getStorageRoot() . $path;
+        }
+        return $path;
     }
 
     /**
@@ -139,8 +144,6 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
             $path = $this->_getRequest()->getParam($this->getTreeNodeName());
             if ($path) {
                 $path = $this->convertIdToPath($path);
-                $path = $this->correctPath($path);
-                $path = $currentPath . DS . $path;
                 if (is_dir($path)) {
                     $currentPath = $path;
                 }

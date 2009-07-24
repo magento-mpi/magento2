@@ -44,6 +44,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Files extends Ma
         $collection = $helper->getStorage()->getFilesCollection($helper->getCurrentPath());
         foreach ($collection as $item) {
             $item->setUrl($helper->getCurrentUrl() . $item->getBasename());
+            $item->setId(Mage::helper('core')->urlEncode($item->getBasename()));
         }
         return $collection;
     }

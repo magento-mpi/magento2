@@ -35,84 +35,71 @@
 class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Description goes here...
+     * Init storage
      *
-     * @param none
-     * @return void
+     * @return Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController
      */
-    protected function initAction()
+    protected function _initAction()
     {
-        Mage::register('storage', $this->getStorage());
+        $this->getStorage();
         return $this;
     }
 
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
     public function indexAction()
     {
-        $this->initAction();
+        $this->_initAction();
         $this->loadLayout('popup');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         $this->renderLayout();
     }
 
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
     public function treeJsonAction()
     {
-        $this->initAction();
+        $this->_initAction()->_saveSessionCurrentPath();
+
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_images_tree')
                 ->getTreeJson()
         );
     }
 
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
     public function contentsAction()
     {
-        $this->getStorage()
-            ->getSession()
-            ->setCurrentPath(Mage::helper('cms/page_wysiwyg_images')->getCurrentPath());
-
-        $this->initAction();
+        $this->_initAction()->_saveSessionCurrentPath();
         $this->loadLayout('empty');
         $this->renderLayout();
     }
 
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
-     */
     public function newFolderAction()
     {
+        $this->_initAction();
         $name = $this->getRequest()->getPost('name');
         $path = $this->getStorage()->getSession()->getCurrentPath();
-        $this->getStorage()->createDirectory($name, $path);
+        try {
+            $result = $this->getStorage()->createDirectory($name, $path);
+        } catch (Exception $e) {
+            $result = array('error' => true, 'message' => $e->getMessage());
+        }
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+    }
+
+    public function deleteFolderAction()
+    {
+        $path = $this->getStorage()->getSession()->getCurrentPath();
+        try {
+            $this->getStorage()->deleteDirectory($path);
+        } catch (Exception $e) {
+            $result = array('error' => true, 'message' => $e->getMessage());
+            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        }
     }
 
     /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
+     * Files upload processing
      */
     public function uploadAction()
     {
+        $this->_initAction();
         $result = array();
         try {
             $uploader = new Varien_File_Uploader('image');
@@ -123,7 +110,7 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
                 $this->getStorage()->getSession()->getCurrentPath()
             );
 
-            $result['url'] = '';
+            $result['url'] = 'http://kd.varien.com/dev/dmitriy.volik/media/tmp/catalog/product/a/s/astrablanco_gif_3.jpg';
             $result['file'] = $result['file'] . '.tmp';
             $result['cookie'] = array(
                 'name'     => session_name(),
@@ -140,20 +127,7 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
     }
 
     /**
-     * Storage model retriever
-     *
-     * @return Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage
-     */
-    public function getStorage()
-    {
-        return Mage::getModel('cms/adminhtml_page_wysiwyg_images_storage');
-    }
-
-    /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
+     * Image directives callback
      */
     public function imageAction()
     {
@@ -179,5 +153,45 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
             imagepng($image);
             imagedestroy($image);
         }
+    }
+
+    /**
+     * Fire when select image
+     */
+    public function onInsertAction()
+    {
+        $url = $this->getRequest()->getParam('url');
+
+        $this->getResponse()->setBody(
+
+            $this->getUrl('*/cms_page_wysiwyg_images/image', array('directive' => Mage::helper('core')->urlEncode('{{media url="editor/file.jpg"}}')))
+        );
+    }
+
+    /**
+     * Register storage model and return it
+     *
+     * @return Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage
+     */
+    public function getStorage()
+    {
+        if (!Mage::registry('storage')) {
+            $storage = Mage::getModel('cms/adminhtml_page_wysiwyg_images_storage');
+            Mage::register('storage', $storage);
+        }
+        return Mage::registry('storage');
+    }
+
+    /**
+     * Save current path in session
+     *
+     * @return Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController
+     */
+    protected function _saveSessionCurrentPath()
+    {
+        $this->getStorage()
+            ->getSession()
+            ->setCurrentPath(Mage::helper('cms/page_wysiwyg_images')->getCurrentPath());
+        return $this;
     }
 }

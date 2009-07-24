@@ -33,9 +33,9 @@
 ?>
 <div class="categories-side-col">
     <div class="tree-actions">
-        <a href="#" onclick="tree.collapseAll(); return false;"><?php echo $this->__('Collapse All'); ?></a>
+        <a href="#" onclick="tree.collapseAll(); return false;"><?php echo $this->helper('cms')->__('Collapse All'); ?></a>
         <span class="separator">|</span>
-        <a href="#" onclick="tree.expandAll(); return false;"><?php echo $this->__('Expand All'); ?></a>
+        <a href="#" onclick="tree.expandAll(); return false;"><?php echo $this->helper('cms')->__('Expand All'); ?></a>
     </div>
 </div>
 
@@ -67,6 +67,12 @@ Ext.onReady(function(){
     root.expand();
 
     Images.setTree(tree);
-    tree.addListener('click', Images.directoryClick.bind(Images));
+    tree.addListener('click', Images.selectFolder.bind(Images));
+    tree.addListener('expand', Images.expandFolder.bind(Images));
+    <?php if ($treePath = $this->getTreeCurrentPath()): ?>
+        tree.expandPath('<?php echo $treePath ?>');
+        tree.selectPath('<?php echo $treePath ?>');
+    <?php endif; ?>
+
 });
 </script>

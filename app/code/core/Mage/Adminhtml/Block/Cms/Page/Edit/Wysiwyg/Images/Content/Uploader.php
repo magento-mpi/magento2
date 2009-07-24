@@ -42,8 +42,11 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Uploader extends
     public function __construct()
     {
         parent::__construct();
+        $params = $this->getConfig()->getParams();
+        $params['dmitro'] = 'killoff';
         $this->getConfig()
             ->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('*/*/upload'))
+            ->setParams($params)
             ->setFileField('image')
             ->setFilters(array(
                 'images' => array(
