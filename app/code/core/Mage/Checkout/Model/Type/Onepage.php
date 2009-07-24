@@ -349,7 +349,12 @@ class Mage_Checkout_Model_Type_Onepage
             );
             return $res;
         }
-        $this->getQuote()->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+        if ($this->getQuote()->isVirtual()) {
+            $this->getQuote()->getBillingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+        }
+        else {
+            $this->getQuote()->getShippingAddress()->setPaymentMethod(isset($data['method']) ? $data['method'] : null);
+        }
 
         $payment = $this->getQuote()->getPayment();
         $payment->importData($data);
