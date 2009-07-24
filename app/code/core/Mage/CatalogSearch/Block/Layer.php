@@ -26,6 +26,10 @@
 
 class Mage_CatalogSearch_Block_Layer extends Mage_Catalog_Block_Layer_View
 {
+    protected function _getAttributeFilterBlockName()
+    {
+        return 'catalogsearch/layer_filter_attribute'; 
+    }
     /**
      * Get layer object
      *

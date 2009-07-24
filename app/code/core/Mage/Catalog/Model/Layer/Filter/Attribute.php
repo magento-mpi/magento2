@@ -81,6 +81,11 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
         }
         return $this;
     }
+    
+    protected function _getIsFilterableAttribute($attribute)
+    {
+        return $attribute->getIsFilterable();
+    }
 
     /**
      * Get data array for building attribute filter items
@@ -109,7 +114,7 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
                 }
                 if (Mage::helper('core/string')->strlen($option['value'])) {
                     // Check filter type
-                    if ($attribute->getIsFilterable() == self::OPTIONS_ONLY_WITH_RESULTS) {
+                    if ($this->_getIsFilterableAttribute($attribute) == self::OPTIONS_ONLY_WITH_RESULTS) {
                         if (!empty($optionsCount[$option['value']])) {
                             $data[] = array(
                                 'label' => $option['label'],
