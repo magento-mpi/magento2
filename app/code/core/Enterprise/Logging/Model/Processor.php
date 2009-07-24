@@ -135,8 +135,11 @@ class Enterprise_Logging_Model_Processor
         }
         if (isset($this->_eventConfig->skip_on_back)) {
             $addValue = array_keys($this->_eventConfig->skip_on_back->asArray());
-            Mage::getSingleton('admin/session')->setSkipLoggingAction(
-                array_merge($addValue, Mage::getSingleton('admin/session')->getSkipLoggingAction()));
+            $sessionValue = Mage::getSingleton('admin/session')->getSkipLoggingAction();
+            if (!is_array($sessionValue) && $sessionValue) {
+                $sessionValue = explode(',', $sessionValue);
+            }
+            Mage::getSingleton('admin/session')->setSkipLoggingAction(array_merge($addValue, $sessionValue));
         }
     }
 
