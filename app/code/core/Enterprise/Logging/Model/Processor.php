@@ -138,6 +138,8 @@ class Enterprise_Logging_Model_Processor
             $sessionValue = Mage::getSingleton('admin/session')->getSkipLoggingAction();
             if (!is_array($sessionValue) && $sessionValue) {
                 $sessionValue = explode(',', $sessionValue);
+            } elseif (!$sessionValue) {
+                $sessionValue = array();
             }
             Mage::getSingleton('admin/session')->setSkipLoggingAction(array_merge($addValue, $sessionValue));
         }
