@@ -33,10 +33,16 @@
  */
 class Mage_Catalog_Block_Layer_View extends Mage_Core_Block_Template
 {
-	protected function _getAttributeFilterBlockName()
-	{
-		return 'catalog/layer_filter_attribute'; 
-	}
+    /**
+     * Get attribute filter block name
+     *
+     * @return string
+     */
+    protected function _getAttributeFilterBlockName()
+    {
+        return 'catalog/layer_filter_attribute';
+    }
+
     /**
      * Prepare child blocks
      *

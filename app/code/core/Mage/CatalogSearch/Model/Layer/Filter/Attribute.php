@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Catalog
+ * @package    Mage_CatalogSearch
  * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -27,13 +27,15 @@
 /**
  * CatalogSearch layer attribute filter
  *
- * @category   Mage
- * @package    Mage_Catalog
- * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_CatalogSearch_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer_Filter_Attribute
 {
-    
+    /**
+     * Finds if attribute can used in leyered navigation
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute  $attribute
+     * @return bool
+     */
     protected function _getIsFilterableAttribute($attribute)
     {
         return $attribute->getIsFilterableInSearch();

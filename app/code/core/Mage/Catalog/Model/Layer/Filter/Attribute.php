@@ -81,7 +81,13 @@ class Mage_Catalog_Model_Layer_Filter_Attribute extends Mage_Catalog_Model_Layer
         }
         return $this;
     }
-    
+
+    /**
+     * Finds if attribute can used in leyered navigation
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute $attribute
+     * @return bool
+     */
     protected function _getIsFilterableAttribute($attribute)
     {
         return $attribute->getIsFilterable();
