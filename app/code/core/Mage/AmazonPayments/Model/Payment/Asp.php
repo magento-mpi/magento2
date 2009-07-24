@@ -336,7 +336,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
             is_null($invoice->getTransactionId())) {
 
             $amount = Mage::app()->getStore()->roundPrice($invoice->getBaseGrandTotal());
-            $currencyCode = $payment->getOrder()->getBaseCurrency();
+            $currencyCode = $payment->getOrder()->getBaseCurrencyCode();
             $transactionId = $payment->getCcTransId();
             $response = $this->getApi()
                 ->setStoreId($payment->getOrder()->getStoreId())
@@ -379,7 +379,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
             is_null($creditmemo->getTransactionId())) {
 
             $amount = Mage::app()->getStore()->roundPrice($creditmemo->getBaseGrandTotal());
-            $currencyCode = $payment->getOrder()->getBaseCurrency();
+            $currencyCode = $payment->getOrder()->getBaseCurrencyCode();
             $referenseID = $creditmemo->getInvoice()->getIncrementId();
             $response = $this->getApi()
                 ->setStoreId($payment->getOrder()->getStoreId())
