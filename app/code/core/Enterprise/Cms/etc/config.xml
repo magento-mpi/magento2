@@ -141,7 +141,7 @@
                     <enterprise_cms>
                         <type>singleton</type>
                         <class>enterprise_cms/observer</class>
-                        <method>filterFieldsOnPrepareForm</method>
+                        <method>onMainTabPrepareForm</method>
                         <type>singleton</type>
                     </enterprise_cms>
                 </observers>
