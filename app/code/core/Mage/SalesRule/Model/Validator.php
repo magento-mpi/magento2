@@ -274,8 +274,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                         /**
                          * We can't use row total here because row total not include tax
                          */
-                        $discountAmount     = min($itemPrice*$qty, $quoteAmount);
-                        $baseDiscountAmount = min($baseItemPrice*$qty, $cartRules[$rule->getId()]);
+                        $discountAmount     = min($itemPrice*$qty - $item->getDiscountAmount(), $quoteAmount);
+                        $baseDiscountAmount = min($baseItemPrice*$qty - $item->getBaseDiscountAmount(), $cartRules[$rule->getId()]);
                         $cartRules[$rule->getId()] -= $baseDiscountAmount;
                     }
                     $address->setCartFixedRules($cartRules);
@@ -417,8 +417,8 @@ class Mage_SalesRule_Model_Validator extends Mage_Core_Model_Abstract
                     }
                     if ($cartRules[$rule->getId()] > 0) {
                         $quoteAmount        = $quote->getStore()->convertPrice($cartRules[$rule->getId()]);
-                        $discountAmount     = min($shippingAmount, $quoteAmount);
-                        $baseDiscountAmount = min($baseShippingAmount, $cartRules[$rule->getId()]);
+                        $discountAmount     = min($shippingAmount-$address->getShippingDiscountAmount(), $quoteAmount);
+                        $baseDiscountAmount = min($baseShippingAmount-$address->getBaseShippingDiscountAmount(), $cartRules[$rule->getId()]);
                         $cartRules[$rule->getId()] -= $baseDiscountAmount;
                     }
                     $address->setCartFixedRules($cartRules);
