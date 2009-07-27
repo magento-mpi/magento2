@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Reports>
-            <version>0.7.8</version>
+            <version>0.7.9</version>
         </Mage_Reports>
     </modules>
     <global>
