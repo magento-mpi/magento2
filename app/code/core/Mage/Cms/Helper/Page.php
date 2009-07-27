@@ -39,7 +39,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     const XML_PATH_HOME_PAGE            = 'web/default/cms_home_page';
 
     /**
-    * Renders CMS page
+    * Renders CMS page on front end
     *
     * Call from controller action
     *
@@ -48,6 +48,19 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     * @return boolean
     */
     public function renderPage(Mage_Core_Controller_Front_Action $action, $pageId = null)
+    {
+        return $this->_renderPage($action, $pageId);
+    }
+
+   /**
+    * Renders CMS page
+    *
+    * @param Mage_Core_Controller_Front_Action $action
+    * @param integer $pageId
+    * @param bool $renderLayout
+    * @return boolean
+    */
+    protected function _renderPage(Mage_Core_Controller_Varien_Action  $action, $pageId = null, $renderLayout = true)
     {
         $page = Mage::getSingleton('cms/page');
         if (!is_null($pageId) && $pageId!==$page->getId()) {
@@ -96,9 +109,26 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             }
         }
 
-        $action->renderLayout();
+        if ($renderLayout) {
+            $action->renderLayout();
+        }
 
         return true;
+    }
+
+    /**
+     * Renders CMS Page with more flexebility then original renderPage function.
+     * Allows to use also backend action as first parameter.
+     * Also takes third parameter which allows not run renderLayout method.
+     *
+     * @param Mage_Core_Controller_Varien_Action $action
+     * @param $pageId
+     * @param $renderLayout
+     * @return bool
+     */
+    public function renderPageExtended(Mage_Core_Controller_Varien_Action $action, $pageId = null, $renderLayout = true)
+    {
+        return $this->_renderPage($action, $pageId, $renderLayout);
     }
 
     /**
