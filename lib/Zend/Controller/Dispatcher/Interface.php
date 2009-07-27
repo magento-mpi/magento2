@@ -12,26 +12,28 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Controller
  * @subpackage Dispatcher
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Interface.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 /**
  * Zend_Controller_Request_Abstract
  */
-#require_once 'Zend/Controller/Request/Abstract.php';
+require_once 'Zend/Controller/Request/Abstract.php';
 
 /**
  * Zend_Controller_Response_Abstract
  */
-#require_once 'Zend/Controller/Response/Abstract.php';
+require_once 'Zend/Controller/Response/Abstract.php';
 
 /**
  * @package    Zend_Controller
  * @subpackage Dispatcher
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 interface Zend_Controller_Dispatcher_Interface

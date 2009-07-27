@@ -17,18 +17,18 @@
  * @subpackage Rsa
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Rsa.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Crypt_Rsa_Key_Private
  */
-#require_once 'Zend/Crypt/Rsa/Key/Private.php';
+require_once 'Zend/Crypt/Rsa/Key/Private.php';
 
 /**
  * @see Zend_Crypt_Rsa_Key_Public
  */
-#require_once 'Zend/Crypt/Rsa/Key/Public.php';
+require_once 'Zend/Crypt/Rsa/Key/Public.php';
 
 /**
  * @category   Zend

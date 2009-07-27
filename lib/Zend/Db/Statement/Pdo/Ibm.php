@@ -15,15 +15,15 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mysqli.php 4874 2007-05-19 01:26:32Z bkarwin $
+ * @version    $Id: Ibm.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Db_Statement_Pdo
  */
-#require_once 'Zend/Db/Statement/Pdo.php';
+require_once 'Zend/Db/Statement/Pdo.php';
 
 /**
  * Proxy class to wrap a PDOStatement object for IBM Databases.
@@ -34,7 +34,7 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Statement
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Statement_Pdo_Ibm extends Zend_Db_Statement_Pdo
@@ -86,7 +86,7 @@ class Zend_Db_Statement_Pdo_Ibm extends Zend_Db_Statement_Pdo
                 return $this->_stmt->bindParam($parameter, $variable, $type, $length, $options);
             }
         } catch (PDOException $e) {
-            #require_once 'Zend/Db/Statement/Exception.php';
+            require_once 'Zend/Db/Statement/Exception.php';
             throw new Zend_Db_Statement_Exception($e->getMessage());
         }
     }

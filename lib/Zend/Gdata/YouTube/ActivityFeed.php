@@ -18,17 +18,18 @@
  * @subpackage YouTube
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: ActivityFeed.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Gdata_Feed
  */
-#require_once 'Zend/Gdata/Feed.php';
+require_once 'Zend/Gdata/Feed.php';
 
 /**
  * @see Zend_Gdata_YouTube_ActivityEntry
  */
-#require_once 'Zend/Gdata/YouTube/ActivityEntry.php';
+require_once 'Zend/Gdata/YouTube/ActivityEntry.php';
 
 /**
  * A feed of user activity entries for YouTube

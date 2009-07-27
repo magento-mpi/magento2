@@ -14,8 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Json
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Encoder.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 /**
@@ -23,7 +24,7 @@
  *
  * @category   Zend
  * @package    Zend_Json
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Json_Encoder
@@ -122,7 +123,7 @@ class Zend_Json_Encoder
                     return '"* RECURSION (' . get_class($value) . ') *"';
 
                 } else {
-                    #require_once 'Zend/Json/Exception.php';
+                    require_once 'Zend/Json/Exception.php';
                     throw new Zend_Json_Exception(
                         'Cycles not supported in JSON encoding, cycle introduced by '
                         . 'class "' . get_class($value) . '"'
@@ -401,7 +402,7 @@ class Zend_Json_Encoder
     {
         $cls = new ReflectionClass($className);
         if (! $cls->isInstantiable()) {
-            #require_once 'Zend/Json/Exception.php';
+            require_once 'Zend/Json/Exception.php';
             throw new Zend_Json_Exception("$className must be instantiable");
         }
 

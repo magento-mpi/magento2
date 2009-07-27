@@ -17,28 +17,28 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Module.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Tool_Project_Provider_Abstract
  */
-#require_once 'Zend/Tool/Project/Provider/Abstract.php';
+require_once 'Zend/Tool/Project/Provider/Abstract.php';
 
 /**
  * @see Zend_Tool_Framework_Provider_Pretendable
  */
-#require_once 'Zend/Tool/Framework/Provider/Pretendable.php';
+require_once 'Zend/Tool/Framework/Provider/Pretendable.php';
 
 /**
  * @see Zend_Tool_Project_Profile_Iterator_ContextFilter
  */
-#require_once 'Zend/Tool/Project/Profile/Iterator/ContextFilter.php';
+require_once 'Zend/Tool/Project/Profile/Iterator/ContextFilter.php';
 
 /**
  * @see Zend_Tool_Project_Profile_Iterator_EnabledResourceFilter
  */
-#require_once 'Zend/Tool/Project/Profile/Iterator/EnabledResourceFilter.php';
+require_once 'Zend/Tool/Project/Profile/Iterator/EnabledResourceFilter.php';
 
 /**
  * @category   Zend

@@ -15,18 +15,19 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Profiler
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Firebug.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Db_Profiler */
-#require_once 'Zend/Db/Profiler.php';
+require_once 'Zend/Db/Profiler.php';
 
 /** Zend_Wildfire_Plugin_FirePhp */
-#require_once 'Zend/Wildfire/Plugin/FirePhp.php';
+require_once 'Zend/Wildfire/Plugin/FirePhp.php';
 
 /** Zend_Wildfire_Plugin_FirePhp_TableMessage */
-#require_once 'Zend/Wildfire/Plugin/FirePhp/TableMessage.php';
+require_once 'Zend/Wildfire/Plugin/FirePhp/TableMessage.php';
 
 /**
  * Writes DB events as log messages to the Firebug Console via FirePHP.
@@ -34,7 +35,7 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Profiler
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db_Profiler_Firebug extends Zend_Db_Profiler

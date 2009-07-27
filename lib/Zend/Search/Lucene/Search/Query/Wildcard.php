@@ -15,23 +15,24 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Wildcard.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 
 /** Zend_Search_Lucene_Search_Query */
-#require_once 'Zend/Search/Lucene/Search/Query.php';
+require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /** Zend_Search_Lucene_Search_Query_MultiTerm */
-#require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
+require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search_Query
@@ -143,7 +144,7 @@ class Zend_Search_Lucene_Search_Query_Wildcard extends Zend_Search_Lucene_Search
         $matchExpression = '/^' . str_replace(array('\\?', '\\*'), array('.', '.*') , preg_quote($this->_pattern->text, '/')) . '$/';
 
         if ($prefixLength < self::$_minPrefixLength) {
-        	throw new Zend_Search_Lucene_Exception('At least ' . self::$_minPrefixLength . ' non-wildcard terms are required.');
+        	throw new Zend_Search_Lucene_Exception('At least ' . self::$_minPrefixLength . ' non-wildcard characters are required at the beginning of pattern.');
         }
 
         /** @todo check for PCRE unicode support may be performed through Zend_Environment in some future */

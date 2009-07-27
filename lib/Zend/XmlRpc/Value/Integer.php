@@ -15,23 +15,23 @@
  * @category   Zend
  * @package    Zend_XmlRpc
  * @subpackage Value
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Integer.php 9095 2008-03-30 18:52:31Z thomas $
+ * @version    $Id: Integer.php 16208 2009-06-21 19:19:26Z thomas $
  */
 
 
 /**
  * Zend_XmlRpc_Value_Scalar
  */
-#require_once 'Zend/XmlRpc/Value/Scalar.php';
+require_once 'Zend/XmlRpc/Value/Scalar.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_XmlRpc
  * @subpackage Value
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_XmlRpc_Value_Integer extends Zend_XmlRpc_Value_Scalar

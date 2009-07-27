@@ -14,25 +14,26 @@
  *
  * @category   Zend
  * @package    Zend_View
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Abstract.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 /** Zend_Loader */
-#require_once 'Zend/Loader.php';
+require_once 'Zend/Loader.php';
 
 /** Zend_Loader_PluginLoader */
-#require_once 'Zend/Loader/PluginLoader.php';
+require_once 'Zend/Loader/PluginLoader.php';
 
 /** Zend_View_Interface */
-#require_once 'Zend/View/Interface.php';
+require_once 'Zend/View/Interface.php';
 
 /**
  * Abstract class for Zend_View to help enforce private constructs.
  *
  * @category   Zend
  * @package    Zend_View
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_View_Abstract implements Zend_View_Interface
@@ -302,7 +303,7 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
             return;
         }
 
-        #require_once 'Zend/View/Exception.php';
+        require_once 'Zend/View/Exception.php';
         throw new Zend_View_Exception('Setting private or protected class members is not allowed', $this);
     }
 
@@ -464,7 +465,7 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
     {
         $type = strtolower($type);
         if (!in_array($type, $this->_loaderTypes)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception(sprintf('Invalid plugin loader type "%s"', $type));
         }
 
@@ -482,7 +483,7 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
     {
         $type = strtolower($type);
         if (!in_array($type, $this->_loaderTypes)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception(sprintf('Invalid plugin loader type "%s"; cannot retrieve', $type));
         }
 
@@ -752,7 +753,7 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
         if (is_string($spec)) {
             // assign by name and value
             if ('_' == substr($spec, 0, 1)) {
-                #require_once 'Zend/View/Exception.php';
+                require_once 'Zend/View/Exception.php';
                 throw new Zend_View_Exception('Setting private or protected class members is not allowed', $this);
             }
             $this->$spec = $value;
@@ -767,11 +768,11 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
                 $this->$key = $val;
             }
             if ($error) {
-                #require_once 'Zend/View/Exception.php';
+                require_once 'Zend/View/Exception.php';
                 throw new Zend_View_Exception('Setting private or protected class members is not allowed', $this);
             }
         } else {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('assign() expects a string or array, received ' . gettype($spec), $this);
         }
 
@@ -902,12 +903,12 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
     protected function _script($name)
     {
         if ($this->isLfiProtectionOn() && preg_match('#\.\.[\\\/]#', $name)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Requested scripts may not include parent directory traversal ("../", "..\\" notation)');
         }
 
         if (0 == count($this->_path['script'])) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('no view script directory set; unable to determine location for view script',
                 $this);
         }
@@ -918,7 +919,7 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
             }
         }
 
-        #require_once 'Zend/View/Exception.php';
+        require_once 'Zend/View/Exception.php';
         $message = "script '$name' not found in path ("
                  . implode(PATH_SEPARATOR, $this->_path['script'])
                  . ")";

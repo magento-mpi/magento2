@@ -17,38 +17,38 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Manifest.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Tool_Framework_Manifest_MetadataManifestable
  */
-#require_once 'Zend/Tool/Framework/Manifest/MetadataManifestable.php';
+require_once 'Zend/Tool/Framework/Manifest/MetadataManifestable.php';
 
 /**
  * @see Zend_Filter
  */
-#require_once 'Zend/Filter.php';
+require_once 'Zend/Filter.php';
 
 /**
  * @see Zend_Filter_Word_CamelCaseToDash
  */
-#require_once 'Zend/Filter/Word/CamelCaseToDash.php';
+require_once 'Zend/Filter/Word/CamelCaseToDash.php';
 
 /**
  * @see Zend_Filter_StringToLower
  */
-#require_once 'Zend/Filter/StringToLower.php';
+require_once 'Zend/Filter/StringToLower.php';
 
 /**
  * @see Zend_Tool_Framework_Metadata_Tool
  */
-#require_once 'Zend/Tool/Framework/Metadata/Tool.php';
+require_once 'Zend/Tool/Framework/Metadata/Tool.php';
 
 /**
  * @see Zend_Tool_Framework_Registry_EnabledInterface
  */
-#require_once 'Zend/Tool/Framework/Registry/EnabledInterface.php';
+require_once 'Zend/Tool/Framework/Registry/EnabledInterface.php';
 
 /**
  * Zend_Tool_Framework_Client_ConsoleClient_Manifest

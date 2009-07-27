@@ -15,13 +15,13 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage View
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: CustomDijit.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Dojo_View_Helper_DijitContainer */
-#require_once 'Zend/Dojo/View/Helper/DijitContainer.php';
+require_once 'Zend/Dojo/View/Helper/DijitContainer.php';
 
 /**
  * Arbitrary dijit support
@@ -29,7 +29,7 @@
  * @uses       Zend_Dojo_View_Helper_DijitContainer
  * @package    Zend_Dojo
  * @subpackage View
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
   */
 class Zend_Dojo_View_Helper_CustomDijit extends Zend_Dojo_View_Helper_DijitContainer
@@ -61,7 +61,7 @@ class Zend_Dojo_View_Helper_CustomDijit extends Zend_Dojo_View_Helper_DijitConta
         if (!array_key_exists('dojoType', $params) 
             && (null === $this->_defaultDojoType)
         ) {
-            #require_once 'Zend/Dojo/View/Exception.php';
+            require_once 'Zend/Dojo/View/Exception.php';
             throw new Zend_Dojo_View_Exception('No dojoType specified; cannot create dijit');
         } elseif (array_key_exists('dojoType', $params)) {
             $this->_dijit  = $params['dojoType'];
@@ -91,7 +91,7 @@ class Zend_Dojo_View_Helper_CustomDijit extends Zend_Dojo_View_Helper_DijitConta
         if (!array_key_exists('dojoType', $params) 
             && (null === $this->_defaultDojoType)
         ) {
-            #require_once 'Zend/Dojo/View/Exception.php';
+            require_once 'Zend/Dojo/View/Exception.php';
             throw new Zend_Dojo_View_Exception('No dojoType specified; cannot create dijit');
         } elseif (array_key_exists('dojoType', $params)) {
             $this->_dijit  = $params['dojoType'];

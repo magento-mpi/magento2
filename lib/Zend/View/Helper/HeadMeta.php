@@ -12,15 +12,16 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Placeholder.php 7078 2007-12-11 14:29:33Z matthew $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: HeadMeta.php 16971 2009-07-22 18:05:45Z mikaelkael $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** Zend_View_Helper_Placeholder_Container_Standalone */
-#require_once 'Zend/View/Helper/Placeholder/Container/Standalone.php';
+require_once 'Zend/View/Helper/Placeholder/Container/Standalone.php';
 
 /**
  * Zend_Layout_View_Helper_HeadMeta
@@ -29,7 +30,7 @@
  * @uses       Zend_View_Helper_Placeholder_Container_Standalone
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_Standalone
@@ -98,7 +99,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
             case 'HttpEquiv':
                 return 'http-equiv';
             default:
-                #require_once 'Zend/View/Exception.php';
+                require_once 'Zend/View/Exception.php';
                 throw new Zend_View_Exception(sprintf('Invalid type "%s" passed to _normalizeType', $type));
         }
     }
@@ -136,7 +137,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
             }
 
             if (2 > $argc) {
-                #require_once 'Zend/View/Exception.php';
+                require_once 'Zend/View/Exception.php';
                 throw new Zend_View_Exception('Too few arguments provided; requires key value, and content');
             }
 
@@ -190,7 +191,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
     public function append($value)
     {
         if (!$this->_isValid($value)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Invalid value passed to append; please use appendMeta()');
         }
 
@@ -208,7 +209,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
     public function offsetSet($index, $value)
     {
         if (!$this->_isValid($value)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Invalid value passed to offsetSet; please use offsetSetMeta()');
         }
 
@@ -225,7 +226,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
     public function offsetUnset($index)
     {
         if (!in_array($index, $this->getContainer()->getKeys())) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Invalid index passed to offsetUnset.');
         }
 
@@ -242,7 +243,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
     public function prepend($value)
     {
         if (!$this->_isValid($value)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Invalid value passed to prepend; please use prependMeta()');
         }
 
@@ -259,7 +260,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
     public function set($value)
     {
         if (!$this->_isValid($value)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Invalid value passed to set; please use setMeta()');
         }
 
@@ -285,7 +286,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
     public function itemToString(stdClass $item)
     {
         if (!in_array($item->type, $this->_typeKeys)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception(sprintf('Invalid type "%s" provided for meta', $item->type));
         }
         $type = $item->type;
@@ -332,7 +333,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
         $this->getContainer()->ksort();
         try {
             foreach ($this as $item) {
-            $items[] = $this->itemToString($item);
+                $items[] = $this->itemToString($item);
             }
         } catch (Zend_View_Exception $e) {
             trigger_error($e->getMessage(), E_USER_WARNING);

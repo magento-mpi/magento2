@@ -16,39 +16,40 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gdata
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Feed.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Gdata
  */
-#require_once 'Zend/Gdata.php';
+require_once 'Zend/Gdata.php';
 
 /**
  * @see Zend_Gdata_App_Feed
  */
-#require_once 'Zend/Gdata/App/Feed.php';
+require_once 'Zend/Gdata/App/Feed.php';
 
 /**
  * @see Zend_Gdata_Entry
  */
-#require_once 'Zend/Gdata/Entry.php';
+require_once 'Zend/Gdata/Entry.php';
 
 /**
  * @see Zend_Gdata_Extension_OpenSearchTotalResults
  */
-#require_once 'Zend/Gdata/Extension/OpenSearchTotalResults.php';
+require_once 'Zend/Gdata/Extension/OpenSearchTotalResults.php';
 
 /**
  * @see Zend_Gdata_Extension_OpenSearchStartIndex
  */
-#require_once 'Zend/Gdata/Extension/OpenSearchStartIndex.php';
+require_once 'Zend/Gdata/Extension/OpenSearchStartIndex.php';
 
 /**
  * @see Zend_Gdata_Extension_OpenSearchItemsPerPage
  */
-#require_once 'Zend/Gdata/Extension/OpenSearchItemsPerPage.php';
+require_once 'Zend/Gdata/Extension/OpenSearchItemsPerPage.php';
 
 /**
  * The Gdata flavor of an Atom Feed
@@ -56,7 +57,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gdata
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Feed extends Zend_Gdata_App_Feed
@@ -171,7 +172,7 @@ class Zend_Gdata_Feed extends Zend_Gdata_App_Feed
                 $this->_etag = $etag;
             }
             elseif ($this->_etag != $etag) {
-                #require_once('Zend/Gdata/App/IOException.php');
+                require_once('Zend/Gdata/App/IOException.php');
                 throw new Zend_Gdata_App_IOException("ETag mismatch");
             }
             break;

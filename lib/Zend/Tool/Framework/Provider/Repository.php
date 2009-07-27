@@ -17,18 +17,18 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Repository.php 16972 2009-07-22 18:44:24Z ralph $
  */
 
 /**
  * @see Zend_Tool_Framework_Provider_Signature
  */
-#require_once 'Zend/Tool/Framework/Provider/Signature.php';
+require_once 'Zend/Tool/Framework/Provider/Signature.php';
 
 /**
  * @see Zend_Tool_Framework_Registry_EnabledInterface
  */
-#require_once 'Zend/Tool/Framework/Registry/EnabledInterface.php';
+require_once 'Zend/Tool/Framework/Registry/EnabledInterface.php';
 
 /**
  * @category   Zend
@@ -112,7 +112,7 @@ class Zend_Tool_Framework_Provider_Repository
             (array_key_exists($providerName, $this->_unprocessedProviders) 
                 || array_key_exists($providerName, $this->_providers))) 
         {
-            #require_once 'Zend/Tool/Framework/Provider/Exception.php';
+            require_once 'Zend/Tool/Framework/Provider/Exception.php';
             throw new Zend_Tool_Framework_Provider_Exception('A provider by the name ' . $providerName 
                 . ' is already registered and $overrideExistingProvider is set to false.');
         }
@@ -256,6 +256,9 @@ class Zend_Tool_Framework_Provider_Repository
     {
         $className = get_class($provider);
         $providerName = substr($className, strrpos($className, '_')+1);
+        if (substr($providerName, -8) == 'Provider') {
+            $providerName = substr($providerName, 0, strlen($providerName)-8);
+        }
         return $providerName;
     }
 

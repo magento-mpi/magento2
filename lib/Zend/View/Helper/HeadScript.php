@@ -12,15 +12,16 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Placeholder.php 7078 2007-12-11 14:29:33Z matthew $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: HeadScript.php 16971 2009-07-22 18:05:45Z mikaelkael $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** Zend_View_Helper_Placeholder_Container_Standalone */
-#require_once 'Zend/View/Helper/Placeholder/Container/Standalone.php';
+require_once 'Zend/View/Helper/Placeholder/Container/Standalone.php';
 
 /**
  * Helper for setting and retrieving script elements for HTML head section
@@ -28,7 +29,7 @@
  * @uses       Zend_View_Helper_Placeholder_Container_Standalone
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_View_Helper_HeadScript extends Zend_View_Helper_Placeholder_Container_Standalone
@@ -141,7 +142,7 @@ class Zend_View_Helper_HeadScript extends Zend_View_Helper_Placeholder_Container
     public function captureStart($captureType = Zend_View_Helper_Placeholder_Container_Abstract::APPEND, $type = 'text/javascript', $attrs = array())
     {
         if ($this->_captureLock) {
-            #require_once 'Zend/View/Helper/Placeholder/Container/Exception.php';
+            require_once 'Zend/View/Helper/Placeholder/Container/Exception.php';
             throw new Zend_View_Helper_Placeholder_Container_Exception('Cannot nest headScript captures');
         }
 
@@ -201,7 +202,7 @@ class Zend_View_Helper_HeadScript extends Zend_View_Helper_Placeholder_Container
     {
         if (preg_match('/^(?P<action>set|(ap|pre)pend|offsetSet)(?P<mode>File|Script)$/', $method, $matches)) {
             if (1 > count($args)) {
-                #require_once 'Zend/View/Exception.php';
+                require_once 'Zend/View/Exception.php';
                 throw new Zend_View_Exception(sprintf('Method "%s" requires at least one argument', $method));
             }
 
@@ -213,7 +214,7 @@ class Zend_View_Helper_HeadScript extends Zend_View_Helper_Placeholder_Container
             if ('offsetSet' == $action) {
                 $index = array_shift($args);
                 if (1 > count($args)) {
-                    #require_once 'Zend/View/Exception.php';
+                    require_once 'Zend/View/Exception.php';
                     throw new Zend_View_Exception(sprintf('Method "%s" requires at least two arguments, an index and source', $method));
                 }
             }
@@ -303,7 +304,7 @@ class Zend_View_Helper_HeadScript extends Zend_View_Helper_Placeholder_Container
     public function append($value)
     {
         if (!$this->_isValid($value)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Invalid argument passed to append(); please use one of the helper methods, appendScript() or appendFile()');
         }
 
@@ -319,7 +320,7 @@ class Zend_View_Helper_HeadScript extends Zend_View_Helper_Placeholder_Container
     public function prepend($value)
     {
         if (!$this->_isValid($value)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Invalid argument passed to prepend(); please use one of the helper methods, prependScript() or prependFile()');
         }
 
@@ -335,7 +336,7 @@ class Zend_View_Helper_HeadScript extends Zend_View_Helper_Placeholder_Container
     public function set($value)
     {
         if (!$this->_isValid($value)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Invalid argument passed to set(); please use one of the helper methods, setScript() or setFile()');
         }
 
@@ -352,7 +353,7 @@ class Zend_View_Helper_HeadScript extends Zend_View_Helper_Placeholder_Container
     public function offsetSet($index, $value)
     {
         if (!$this->_isValid($value)) {
-            #require_once 'Zend/View/Exception.php';
+            require_once 'Zend/View/Exception.php';
             throw new Zend_View_Exception('Invalid argument passed to offsetSet(); please use one of the helper methods, offsetSetScript() or offsetSetFile()');
         }
 

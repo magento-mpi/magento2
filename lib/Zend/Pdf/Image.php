@@ -12,20 +12,22 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Pdf
  * @subpackage Images
- * @copyright  Copyright (c) 2006 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Image.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Pdf_FileParserDataSource */
-#require_once 'Zend/Pdf/FileParserDataSource.php';
+require_once 'Zend/Pdf/FileParserDataSource.php';
 
 /** Zend_Pdf_FileParserDataSource_File */
-#require_once 'Zend/Pdf/FileParserDataSource/File.php';
+require_once 'Zend/Pdf/FileParserDataSource/File.php';
 
 /** Zend_Pdf_FileParserDataSource_String */
-#require_once 'Zend/Pdf/FileParserDataSource/String.php';
+require_once 'Zend/Pdf/FileParserDataSource/String.php';
 
 /**
  * Abstract factory class which vends {@link Zend_Pdf_Resource_Image} objects.
@@ -36,7 +38,7 @@
  *
  * @package    Zend_Pdf
  * @subpackage Images
- * @copyright  Copyright (c) 2006 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Pdf_Image
@@ -127,7 +129,7 @@ abstract class Zend_Pdf_Image
          * use old implementation
          * @todo switch to new implementation
          */
-        #require_once 'Zend/Pdf/Resource/ImageFactory.php';
+        require_once 'Zend/Pdf/Resource/ImageFactory.php';
         return Zend_Pdf_Resource_ImageFactory::factory($filePath);
 
 

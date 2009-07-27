@@ -15,21 +15,21 @@
  * @category   Zend
  * @package    Zend_Tag
  * @subpackage Item
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Item.php 15457 2009-05-09 15:19:13Z dasprid $
+ * @version    $Id: Item.php 16209 2009-06-21 19:20:34Z thomas $
  */
 
 /**
  * @see Zend_Tag_Taggable
  */
-#require_once 'Zend/Tag/Taggable.php';
+require_once 'Zend/Tag/Taggable.php';
 
 /**
  * @category   Zend
  * @package    Zend_Tag
  * @uses       Zend_Tag_Taggable
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tag_Item implements Zend_Tag_Taggable
@@ -81,19 +81,19 @@ class Zend_Tag_Item implements Zend_Tag_Taggable
         }
 
         if (!is_array($options)) {
-            #require_once 'Zend/Tag/Exception.php';
+            require_once 'Zend/Tag/Exception.php';
             throw new Zend_Tag_Exception('Invalid options provided to constructor');
         }
 
         $this->setOptions($options);
         
         if ($this->_title === null) {
-            #require_once 'Zend/Tag/Exception.php';
+            require_once 'Zend/Tag/Exception.php';
             throw new Zend_Tag_Exception('Title was not set');
         }
         
         if ($this->_weight === null) {
-            #require_once 'Zend/Tag/Exception.php';
+            require_once 'Zend/Tag/Exception.php';
             throw new Zend_Tag_Exception('Weight was not set');
         }
     }
@@ -140,7 +140,7 @@ class Zend_Tag_Item implements Zend_Tag_Taggable
     public function setTitle($title)
     {
         if (!is_string($title)) {
-            #require_once 'Zend/Tag/Exception.php';
+            require_once 'Zend/Tag/Exception.php';
             throw new Zend_Tag_Exception('Title must be a string');
         }
         
@@ -168,7 +168,7 @@ class Zend_Tag_Item implements Zend_Tag_Taggable
     public function setWeight($weight)
     {
         if (!is_numeric($weight)) {
-            #require_once 'Zend/Tag/Exception.php';
+            require_once 'Zend/Tag/Exception.php';
             throw new Zend_Tag_Exception('Weight must be numeric');
         }
         

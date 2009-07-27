@@ -14,22 +14,22 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: $
+ * @version   $Id: IsCompressed.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Validate_File_MimeType
  */
-#require_once 'Zend/Validate/File/MimeType.php';
+require_once 'Zend/Validate/File/MimeType.php';
 
 /**
  * Validator which checks if the file already exists in the directory
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_IsCompressed extends Zend_Validate_File_MimeType
@@ -94,7 +94,7 @@ class Zend_Validate_File_IsCompressed extends Zend_Validate_File_MimeType
     public function isValid($value, $file = null)
     {
         // Is file readable ?
-        #require_once 'Zend/Loader.php';
+        require_once 'Zend/Loader.php';
         if (!Zend_Loader::isReadable($value)) {
             return $this->_throw($file, self::NOT_READABLE);
         }

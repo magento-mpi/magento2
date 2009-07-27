@@ -15,22 +15,22 @@
  *
  * @category   Zend
  * @package    Zend_Filter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: StringToUpper.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: StringToUpper.php 16217 2009-06-21 19:39:00Z thomas $
  */
 
 
 /**
  * @see Zend_Filter_Interface
  */
-#require_once 'Zend/Filter/Interface.php';
+require_once 'Zend/Filter/Interface.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Filter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Filter_StringToUpper implements Zend_Filter_Interface
@@ -51,7 +51,7 @@ class Zend_Filter_StringToUpper implements Zend_Filter_Interface
     public function setEncoding($encoding = null)
     {
         if (!function_exists('mb_strtoupper')) {
-            #require_once 'Zend/Filter/Exception.php';
+            require_once 'Zend/Filter/Exception.php';
             throw new Zend_Filter_Exception('mbstring is required for this feature');
         }
         $this->_encoding = $encoding;

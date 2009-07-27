@@ -15,15 +15,15 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: $
+ * @version    $Id: Abstract.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */  
   
 /**
  * @see Zend_Validate_Abstract
  */  
-#require_once 'Zend/Validate/Abstract.php';  
+require_once 'Zend/Validate/Abstract.php';  
   
 /**
  * Class for Database record validation
@@ -31,7 +31,7 @@
  * @category   Zend
  * @package    Zend_Validate
  * @uses       Zend_Validate_Abstract
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */  
 abstract class Zend_Validate_Db_Abstract extends Zend_Validate_Abstract    
@@ -103,8 +103,12 @@ abstract class Zend_Validate_Db_Abstract extends Zend_Validate_Abstract
         /**
          * Check for an adapter being defined. if not, fetch the default adapter.
          */ 
-        if($this->_adapter === null) {
+        if ($this->_adapter === null) {
             $this->_adapter = Zend_Db_Table_Abstract::getDefaultAdapter();
+            if (null === $this->_adapter) {
+                require_once 'Zend/Validate/Exception.php';
+                throw new Zend_Validate_Exception('No database adapter present');
+            }
         }
 
         /**

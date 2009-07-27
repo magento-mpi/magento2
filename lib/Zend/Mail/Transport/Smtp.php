@@ -15,26 +15,26 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Transport
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Smtp.php 15577 2009-05-14 12:43:34Z matthew $
+ * @version    $Id: Smtp.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 
 /**
  * @see Zend_Mime
  */
-#require_once 'Zend/Mime.php';
+require_once 'Zend/Mime.php';
 
 /**
  * @see Zend_Mail_Protocol_Smtp
  */
-#require_once 'Zend/Mail/Protocol/Smtp.php';
+require_once 'Zend/Mail/Protocol/Smtp.php';
 
 /**
  * @see Zend_Mail_Transport_Abstract
  */
-#require_once 'Zend/Mail/Transport/Abstract.php';
+require_once 'Zend/Mail/Transport/Abstract.php';
 
 
 /**
@@ -45,7 +45,7 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Transport
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
@@ -188,7 +188,7 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
                 $connectionClass .= '_Auth_' . ucwords($this->_auth);
             }
             if (!class_exists($connectionClass)) {
-                #require_once 'Zend/Loader.php';
+                require_once 'Zend/Loader.php';
                 Zend_Loader::loadClass($connectionClass);
             }
             $this->setConnection(new $connectionClass($this->_host, $this->_port, $this->_config));
@@ -227,7 +227,7 @@ class Zend_Mail_Transport_Smtp extends Zend_Mail_Transport_Abstract
             /**
              * @see Zend_Mail_Transport_Exception
              */
-            #require_once 'Zend/Mail/Transport/Exception.php';
+            require_once 'Zend/Mail/Transport/Exception.php';
             throw new Zend_Mail_Transport_Exception('_prepareHeaders requires a registered Zend_Mail object');
         }
 

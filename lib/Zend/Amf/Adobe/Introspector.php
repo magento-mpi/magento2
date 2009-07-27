@@ -16,23 +16,24 @@
  * @package    Zend_Amf
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Introspector.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Amf_Parse_TypeLoader */
-#require_once 'Zend/Amf/Parse/TypeLoader.php';
+require_once 'Zend/Amf/Parse/TypeLoader.php';
 
 /** Zend_Reflection_Class */
-#require_once 'Zend/Reflection/Class.php';
+require_once 'Zend/Reflection/Class.php';
 
 /** Zend_Server_Reflection */
-#require_once 'Zend/Server/Reflection.php';
+require_once 'Zend/Server/Reflection.php';
 
 /**
  * This class implements a service for generating AMF service descriptions as XML.
  *
  * @package    Zend_Amf
  * @subpackage Adobe
- * @copyright  Copyright (c) 2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Amf_Adobe_Introspector 
@@ -91,7 +92,7 @@ class Zend_Amf_Adobe_Introspector
 
         // Introspect!
         if (!class_exists($serviceClass)) {
-            #require_once 'Zend/Loader.php';
+            require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($serviceClass, $this->_getServicePath());
         }
         

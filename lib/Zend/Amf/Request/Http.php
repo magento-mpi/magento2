@@ -17,10 +17,11 @@
  * @subpackage Request
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Http.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Amf_Request */
-#require_once 'Zend/Amf/Request.php';
+require_once 'Zend/Amf/Request.php';
 
 /**
  * AMF Request object -- Request via HTTP

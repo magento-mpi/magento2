@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Pop3.php 12539 2008-11-11 02:47:17Z yoshida@zend.co.jp $
+ * @version    $Id: Pop3.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 
@@ -25,7 +25,7 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Mail_Protocol_Pop3
@@ -105,7 +105,7 @@ class Zend_Mail_Protocol_Pop3
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('cannot connect to host : ' . $errno . ' : ' . $errstr);
         }
 
@@ -126,7 +126,7 @@ class Zend_Mail_Protocol_Pop3
                 /**
                  * @see Zend_Mail_Protocol_Exception
                  */
-                #require_once 'Zend/Mail/Protocol/Exception.php';
+                require_once 'Zend/Mail/Protocol/Exception.php';
                 throw new Zend_Mail_Protocol_Exception('cannot enable TLS');
             }
         }
@@ -149,7 +149,7 @@ class Zend_Mail_Protocol_Pop3
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('send failed - connection closed?');
         }
     }
@@ -169,7 +169,7 @@ class Zend_Mail_Protocol_Pop3
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('read failed - connection closed?');
         }
 
@@ -185,7 +185,7 @@ class Zend_Mail_Protocol_Pop3
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('last request failed');
         }
 
@@ -384,7 +384,7 @@ class Zend_Mail_Protocol_Pop3
                 /**
                  * @see Zend_Mail_Protocol_Exception
                  */
-                #require_once 'Zend/Mail/Protocol/Exception.php';
+                require_once 'Zend/Mail/Protocol/Exception.php';
                 throw new Zend_Mail_Protocol_Exception('top not supported and no fallback wanted');
             }
         }

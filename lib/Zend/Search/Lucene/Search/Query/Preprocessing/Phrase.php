@@ -15,28 +15,29 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Phrase.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 
 /** Zend_Search_Lucene_Search_Query_Processing */
-#require_once 'Zend/Search/Lucene/Search/Query/Preprocessing.php';
+require_once 'Zend/Search/Lucene/Search/Query/Preprocessing.php';
 
 /** Zend_Search_Lucene_Search_Query_Phrase */
-#require_once 'Zend/Search/Lucene/Search/Query/Phrase.php';
+require_once 'Zend/Search/Lucene/Search/Query/Phrase.php';
 
 /** Zend_Search_Lucene_Search_Query_Insignificant */
-#require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
+require_once 'Zend/Search/Lucene/Search/Query/Insignificant.php';
 
 /** Zend_Search_Lucene_Search_Query_Empty */
-#require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
+require_once 'Zend/Search/Lucene/Search/Query/Empty.php';
 
 /** Zend_Search_Lucene_Search_Query_Term */
-#require_once 'Zend/Search/Lucene/Search/Query/Term.php';
+require_once 'Zend/Search/Lucene/Search/Query/Term.php';
 
 /** Zend_Search_Lucene_Index_Term */
-#require_once 'Zend/Search/Lucene/Index/Term.php';
+require_once 'Zend/Search/Lucene/Index/Term.php';
 
 
 /**
@@ -47,7 +48,7 @@
  * @package    Zend_Search_Lucene
  * @subpackage Search
  * @internal
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Search_Query_Preprocessing_Phrase extends Zend_Search_Lucene_Search_Query_Preprocessing
@@ -140,7 +141,7 @@ class Zend_Search_Lucene_Search_Query_Preprocessing_Phrase extends Zend_Search_L
 // They are either removed by text analyzer or used as a part of keyword for keyword fields
 //
 //        if (strpos($this->_phrase, '?') !== false || strpos($this->_phrase, '*') !== false) {
-//            #require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
+//            require_once 'Zend/Search/Lucene/Search/QueryParserException.php';
 //            throw new Zend_Search_Lucene_Search_QueryParserException('Wildcards are only allowed in a single terms.');
 //        }
 

@@ -16,19 +16,20 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: SnippetQuery.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * Zend_Gdata_Query
  */
-#require_once('Zend/Gdata/Query.php');
+require_once('Zend/Gdata/Query.php');
 
 /**
  * Zend_Gdata_Gbase_Query
  */
-#require_once('Zend/Gdata/Gbase/Query.php');
+require_once('Zend/Gdata/Gbase/Query.php');
 
 /**
  * Assists in constructing queries for Google Base Snippets Feed
@@ -38,7 +39,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Gbase_SnippetQuery extends Zend_Gdata_Gbase_Query

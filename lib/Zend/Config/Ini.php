@@ -14,22 +14,22 @@
  *
  * @category   Zend
  * @package    Zend_Config
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ini.php 14667 2009-04-05 09:18:21Z rob $
+ * @version    $Id: Ini.php 16201 2009-06-21 18:51:15Z thomas $
  */
 
 
 /**
  * @see Zend_Config
  */
-#require_once 'Zend/Config.php';
+require_once 'Zend/Config.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Config
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Config_Ini extends Zend_Config
@@ -103,7 +103,7 @@ class Zend_Config_Ini extends Zend_Config
             /**
              * @see Zend_Config_Exception
              */
-            #require_once 'Zend/Config/Exception.php';
+            require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception('Filename is not set');
         }
 
@@ -146,7 +146,7 @@ class Zend_Config_Ini extends Zend_Config
                     /**
                      * @see Zend_Config_Exception
                      */
-                    #require_once 'Zend/Config/Exception.php';
+                    require_once 'Zend/Config/Exception.php';
                     throw new Zend_Config_Exception("Section '$sectionName' cannot be found in $filename");
                 }
                 $dataArray = array_merge($this->_processSection($iniArray, $sectionName), $dataArray);
@@ -180,7 +180,7 @@ class Zend_Config_Ini extends Zend_Config
             /**
              * @see Zend_Config_Exception
              */
-            #require_once 'Zend/Config/Exception.php';
+            require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception($this->_loadFileErrorStr);
         }
 
@@ -203,7 +203,7 @@ class Zend_Config_Ini extends Zend_Config
                     /**
                      * @see Zend_Config_Exception
                      */
-                    #require_once 'Zend/Config/Exception.php';
+                    require_once 'Zend/Config/Exception.php';
                     throw new Zend_Config_Exception("Section '$thisSection' may not extend multiple sections in $filename");
             }
         }
@@ -238,7 +238,7 @@ class Zend_Config_Ini extends Zend_Config
                     /**
                      * @see Zend_Config_Exception
                      */
-                    #require_once 'Zend/Config/Exception.php';
+                    require_once 'Zend/Config/Exception.php';
                     throw new Zend_Config_Exception("Parent section '$section' cannot be found");
                 }
             } else {
@@ -274,7 +274,7 @@ class Zend_Config_Ini extends Zend_Config
                     /**
                      * @see Zend_Config_Exception
                      */
-                    #require_once 'Zend/Config/Exception.php';
+                    require_once 'Zend/Config/Exception.php';
                     throw new Zend_Config_Exception("Cannot create sub-key for '{$pieces[0]}' as key already exists");
                 }
                 $config[$pieces[0]] = $this->_processKey($config[$pieces[0]], $pieces[1], $value);
@@ -282,7 +282,7 @@ class Zend_Config_Ini extends Zend_Config
                 /**
                  * @see Zend_Config_Exception
                  */
-                #require_once 'Zend/Config/Exception.php';
+                require_once 'Zend/Config/Exception.php';
                 throw new Zend_Config_Exception("Invalid key '$key'");
             }
         } else {

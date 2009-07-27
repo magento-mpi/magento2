@@ -14,20 +14,20 @@
  *
  * @category   Zend
  * @package    Zend_Filter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Filter.php 15577 2009-05-14 12:43:34Z matthew $
+ * @version    $Id: Filter.php 16286 2009-06-25 15:11:37Z thomas $
  */
 
 /**
  * @see Zend_Filter_Interface
  */
-#require_once 'Zend/Filter/Interface.php';
+require_once 'Zend/Filter/Interface.php';
 
 /**
  * @category   Zend
  * @package    Zend_Filter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Filter implements Zend_Filter_Interface
@@ -38,6 +38,13 @@ class Zend_Filter implements Zend_Filter_Interface
      * @var array
      */
     protected $_filters = array();
+
+    /**
+     * Default Namespaces
+     *
+     * @var array
+     */
+    protected static $_defaultNamespaces = array();
 
     /**
      * Adds a filter to the end of the chain
@@ -69,6 +76,56 @@ class Zend_Filter implements Zend_Filter_Interface
     }
 
     /**
+     * Returns the set default namespaces
+     *
+     * @return array
+     */
+    public static function getDefaultNamespaces()
+    {
+        return self::$_defaultNamespaces;
+    }
+
+    /**
+     * Sets new default namespaces
+     *
+     * @param array|string $namespace
+     * @return null
+     */
+    public static function setDefaultNamespaces($namespace)
+    {
+        if (!is_array($namespace)) {
+            $namespace = array((string) $namespace);
+        }
+
+        self::$_defaultNamespaces = $namespace;
+    }
+
+    /**
+     * Adds a new default namespace
+     *
+     * @param array|string $namespace
+     * @return null
+     */
+    public static function addDefaultNamespaces($namespace)
+    {
+        if (!is_array($namespace)) {
+            $namespace = array((string) $namespace);
+        }
+
+        self::$_defaultNamespaces = array_unique(array_merge(self::$_defaultNamespaces, $namespace));
+    }
+
+    /**
+     * Returns true when defaultNamespaces are set
+     *
+     * @return boolean
+     */
+    public static function hasDefaultNamespaces()
+    {
+        return (!empty(self::$_defaultNamespaces));
+    }
+
+    /**
      * Returns a value filtered through a specified filter class, without requiring separate
      * instantiation of the filter object.
      *
@@ -87,13 +144,13 @@ class Zend_Filter implements Zend_Filter_Interface
      */
     public static function get($value, $classBaseName, array $args = array(), $namespaces = array())
     {
-        #require_once 'Zend/Loader.php';
-        $namespaces = array_merge((array) $namespaces, array('Zend_Filter'));
+        require_once 'Zend/Loader.php';
+        $namespaces = array_merge((array) $namespaces, self::$_defaultNamespaces, array('Zend_Filter'));
         foreach ($namespaces as $namespace) {
             $className = $namespace . '_' . ucfirst($classBaseName);
             if (!class_exists($className)) {
                 try {
-                    #require_once 'Zend/Loader.php';
+                    require_once 'Zend/Loader.php';
                     Zend_Loader::loadClass($className);
                 } catch (Zend_Exception $ze) {
                     continue;
@@ -109,7 +166,7 @@ class Zend_Filter implements Zend_Filter_Interface
                 return $object->filter($value);
             }
         }
-        #require_once 'Zend/Filter/Exception.php';
+        require_once 'Zend/Filter/Exception.php';
         throw new Zend_Filter_Exception("Filter class not found from basename '$classBaseName'");
     }
 }

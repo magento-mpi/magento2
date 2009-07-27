@@ -14,20 +14,20 @@
  *
  * @category   Zend
  * @package    Zend_Config
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Array.php 13708 2009-01-20 12:21:41Z dasprid $
+ * @version    $Id: Array.php 16201 2009-06-21 18:51:15Z thomas $
  */
 
 /**
  * @see Zend_Config_Writer
  */
-#require_once 'Zend/Config/Writer.php';
+require_once 'Zend/Config/Writer.php';
 
 /**
  * @category   Zend
  * @package    Zend_Config
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Config_Writer_Array extends Zend_Config_Writer
@@ -97,12 +97,12 @@ class Zend_Config_Writer_Array extends Zend_Config_Writer
         }
         
         if ($this->_filename === null) {
-            #require_once 'Zend/Config/Exception.php';
+            require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception('No filename was set');
         }
         
         if ($this->_config === null) {
-            #require_once 'Zend/Config/Exception.php';
+            require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception('No config was set');
         }
         
@@ -125,7 +125,7 @@ class Zend_Config_Writer_Array extends Zend_Config_Writer
         $result = @file_put_contents($this->_filename, $arrayString, $flags);
         
         if ($result === false) {
-            #require_once 'Zend/Config/Exception.php';
+            require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception('Could not write to file "' . $this->_filename . '"');
         }
     }

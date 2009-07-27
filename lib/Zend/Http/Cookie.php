@@ -16,12 +16,15 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Cookie
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com/)
- * @version    $Id: Cookie.php 14530 2009-03-29 14:17:14Z shahar $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Cookie.php 16872 2009-07-20 11:47:08Z mikaelkael $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-#require_once 'Zend/Uri/Http.php';
+/**
+ * @see Zend_Uri_Http
+ */
+require_once 'Zend/Uri/Http.php';
 
 
 /**
@@ -38,7 +41,7 @@
  *
  * @category   Zend
  * @package    Zend_Http
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com/)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Http_Cookie
@@ -100,17 +103,17 @@ class Zend_Http_Cookie
     public function __construct($name, $value, $domain, $expires = null, $path = null, $secure = false)
     {
         if (preg_match("/[=,; \t\r\n\013\014]/", $name)) {
-            #require_once 'Zend/Http/Exception.php';
+            require_once 'Zend/Http/Exception.php';
             throw new Zend_Http_Exception("Cookie name cannot contain these characters: =,; \\t\\r\\n\\013\\014 ({$name})");
         }
 
         if (! $this->name = (string) $name) {
-            #require_once 'Zend/Http/Exception.php';
+            require_once 'Zend/Http/Exception.php';
             throw new Zend_Http_Exception('Cookies must have a name');
         }
 
         if (! $this->domain = (string) $domain) {
-            #require_once 'Zend/Http/Exception.php';
+            require_once 'Zend/Http/Exception.php';
             throw new Zend_Http_Exception('Cookies must have a domain');
         }
 
@@ -224,7 +227,7 @@ class Zend_Http_Cookie
 
         // Make sure we have a valid Zend_Uri_Http object
         if (! ($uri->valid() && ($uri->getScheme() == 'http' || $uri->getScheme() =='https'))) {
-            #require_once 'Zend/Http/Exception.php';
+            require_once 'Zend/Http/Exception.php';
             throw new Zend_Http_Exception('Passed URI is not a valid HTTP or HTTPS URI');
         }
 
@@ -314,7 +317,7 @@ class Zend_Http_Cookie
                              * 
                              * @see Zend_Date
                              */
-                            #require_once 'Zend/Date.php';
+                            require_once 'Zend/Date.php';
     
                             $expireDate = new Zend_Date($v);
                             $expires = $expireDate->getTimestamp();

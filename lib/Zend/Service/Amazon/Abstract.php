@@ -17,10 +17,10 @@
  * @subpackage Amazon
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Abstract.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
-#require_once 'Zend/Service/Abstract.php';
+require_once 'Zend/Service/Abstract.php';
 
 /**
  * Abstract Amazon class that handles the credentials for any of the Web Services that
@@ -29,7 +29,7 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Amazon
- * @copyright  Copyright (c) 22005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Service_Amazon_Abstract extends Zend_Service_Abstract
@@ -95,7 +95,7 @@ abstract class Zend_Service_Amazon_Abstract extends Zend_Service_Abstract
         if(in_array(strtolower($region), self::$_validEc2Regions, true)) {
             self::$_defaultRegion = $region;
         } else {
-            #require_once 'Zend/Service/Amazon/Exception.php';
+            require_once 'Zend/Service/Amazon/Exception.php';
             throw new Zend_Service_Amazon_Exception('Invalid Amazon Ec2 Region');
         }
     }
@@ -121,13 +121,13 @@ abstract class Zend_Service_Amazon_Abstract extends Zend_Service_Abstract
         } else {
             // make rue the region is valid
             if(!empty($region) && !in_array(strtolower($region), self::$_validEc2Regions, true)) {
-                #require_once 'Zend/Service/Amazon/Exception.php';
+                require_once 'Zend/Service/Amazon/Exception.php';
                 throw new Zend_Service_Amazon_Exception('Invalid Amazon Ec2 Region');
             }
         }
 
         if(!$accessKey || !$secretKey) {
-            #require_once 'Zend/Service/Amazon/Exception.php';
+            require_once 'Zend/Service/Amazon/Exception.php';
             throw new Zend_Service_Amazon_Exception("AWS keys were not supplied");
         }
         $this->_accessKey = $accessKey;

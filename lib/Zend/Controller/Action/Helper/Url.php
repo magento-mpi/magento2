@@ -15,15 +15,15 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Url.php 12526 2008-11-10 20:25:20Z ralph $
+ * @version    $Id: Url.php 16202 2009-06-21 18:53:49Z thomas $
  */
 
 /**
  * @see Zend_Controller_Action_Helper_Abstract
  */
-#require_once 'Zend/Controller/Action/Helper/Abstract.php';
+require_once 'Zend/Controller/Action/Helper/Abstract.php';
 
 /**
  * Helper for creating URLs for redirects and other tasks
@@ -32,7 +32,7 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Controller_Action_Helper_Url extends Zend_Controller_Action_Helper_Abstract

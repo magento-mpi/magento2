@@ -15,22 +15,23 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Writer.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 
 /** Zend_Search_Lucene_Index_SegmentWriter_DocumentWriter */
-#require_once 'Zend/Search/Lucene/Index/SegmentWriter/DocumentWriter.php';
+require_once 'Zend/Search/Lucene/Index/SegmentWriter/DocumentWriter.php';
 
 /** Zend_Search_Lucene_Index_SegmentInfo */
-#require_once 'Zend/Search/Lucene/Index/SegmentInfo.php';
+require_once 'Zend/Search/Lucene/Index/SegmentInfo.php';
 
 /** Zend_Search_Lucene_Index_SegmentMerger */
-#require_once 'Zend/Search/Lucene/Index/SegmentMerger.php';
+require_once 'Zend/Search/Lucene/Index/SegmentMerger.php';
 
 /** Zend_Search_Lucene_LockManager */
-#require_once 'Zend/Search/Lucene/LockManager.php';
+require_once 'Zend/Search/Lucene/LockManager.php';
 
 
 
@@ -38,7 +39,7 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Index
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Index_Writer

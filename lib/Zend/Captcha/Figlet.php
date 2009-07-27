@@ -15,15 +15,15 @@
  * @category   Zend
  * @package    Zend_Captcha
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** Zend_Captcha_Word */
-#require_once 'Zend/Captcha/Word.php';
+require_once 'Zend/Captcha/Word.php';
 
 /** Zend_Text_Figlet */
-#require_once 'Zend/Text/Figlet.php';
+require_once 'Zend/Text/Figlet.php';
 
 /**
  * Captcha based on figlet text rendering service
@@ -33,9 +33,9 @@
  * @category   Zend
  * @package    Zend_Captcha
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: $
+ * @version    $Id: Figlet.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 class Zend_Captcha_Figlet extends Zend_Captcha_Word
 {

@@ -14,23 +14,23 @@
  *
  * @category   Zend
  * @package    Zend_Translate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Date.php 2498 2006-12-23 22:13:38Z thomas $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Csv.php 16971 2009-07-22 18:05:45Z mikaelkael $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 
 /** Zend_Locale */
-#require_once 'Zend/Locale.php';
+require_once 'Zend/Locale.php';
 
 /** Zend_Translate_Adapter */
-#require_once 'Zend/Translate/Adapter.php';
+require_once 'Zend/Translate/Adapter.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Translate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Translate_Adapter_Csv extends Zend_Translate_Adapter
@@ -68,7 +68,7 @@ class Zend_Translate_Adapter_Csv extends Zend_Translate_Adapter
         $options     = $options + $this->_options;
         $this->_file = @fopen($filename, 'rb');
         if (!$this->_file) {
-            #require_once 'Zend/Translate/Exception.php';
+            require_once 'Zend/Translate/Exception.php';
             throw new Zend_Translate_Exception('Error opening translation file \'' . $filename . '\'.');
         }
 
@@ -77,11 +77,16 @@ class Zend_Translate_Adapter_Csv extends Zend_Translate_Adapter
                 continue;
             }
 
-            if (isset($data[1]) !== true) {
+            if (!isset($data[1])) {
                 continue;
             }
 
-            $this->_data[$locale][$data[0]] = $data[1];
+            if (count($data) == 2) {
+                $this->_data[$locale][$data[0]] = $data[1];
+            } else {
+                $singular = array_shift($data);
+                $this->_data[$locale][$singular] = $data;
+            }
         }
 
         return $this->_data;

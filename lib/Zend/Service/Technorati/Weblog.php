@@ -15,21 +15,21 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Weblog.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: Weblog.php 16211 2009-06-21 19:23:55Z thomas $
  */
 
 
 /**
  * @see Zend_Service_Technorati_Author
  */
-#require_once 'Zend/Service/Technorati/Author.php';
+require_once 'Zend/Service/Technorati/Author.php';
 
 /**
  * @see Zend_Service_Technorati_Utils
  */
-#require_once 'Zend/Service/Technorati/Utils.php';
+require_once 'Zend/Service/Technorati/Utils.php';
 
 
 /**
@@ -38,7 +38,7 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Technorati_Weblog

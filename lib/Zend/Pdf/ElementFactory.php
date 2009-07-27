@@ -12,56 +12,58 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: ElementFactory.php 16978 2009-07-22 19:59:40Z alexander $
  */
 
 
 /** Zend_Pdf_ElementFactory_Interface */
-#require_once 'Zend/Pdf/ElementFactory/Interface.php';
+require_once 'Zend/Pdf/ElementFactory/Interface.php';
 
 /** Zend_Pdf_ElementFactory_Proxy */
-#require_once 'Zend/Pdf/ElementFactory/Proxy.php';
+require_once 'Zend/Pdf/ElementFactory/Proxy.php';
 
 /** Zend_Pdf_Element */
-#require_once 'Zend/Pdf/Element.php';
+require_once 'Zend/Pdf/Element.php';
 
 /** Zend_Pdf_Element_Array */
-#require_once 'Zend/Pdf/Element/Array.php';
+require_once 'Zend/Pdf/Element/Array.php';
 
 /** Zend_Pdf_Element_String_Binary */
-#require_once 'Zend/Pdf/Element/String/Binary.php';
+require_once 'Zend/Pdf/Element/String/Binary.php';
 
 /** Zend_Pdf_Element_Boolean */
-#require_once 'Zend/Pdf/Element/Boolean.php';
+require_once 'Zend/Pdf/Element/Boolean.php';
 
 /** Zend_Pdf_Element_Dictionary */
-#require_once 'Zend/Pdf/Element/Dictionary.php';
+require_once 'Zend/Pdf/Element/Dictionary.php';
 
 /** Zend_Pdf_Element_Name */
-#require_once 'Zend/Pdf/Element/Name.php';
+require_once 'Zend/Pdf/Element/Name.php';
 
 /** Zend_Pdf_Element_Numeric */
-#require_once 'Zend/Pdf/Element/Numeric.php';
+require_once 'Zend/Pdf/Element/Numeric.php';
 
 /** Zend_Pdf_Element_Object */
-#require_once 'Zend/Pdf/Element/Object.php';
+require_once 'Zend/Pdf/Element/Object.php';
 
 /** Zend_Pdf_Element_Reference */
-#require_once 'Zend/Pdf/Element/Reference.php';
+require_once 'Zend/Pdf/Element/Reference.php';
 
 /** Zend_Pdf_Element_Object_Stream */
-#require_once 'Zend/Pdf/Element/Object/Stream.php';
+require_once 'Zend/Pdf/Element/Object/Stream.php';
 
 /** Zend_Pdf_Element_String */
-#require_once 'Zend/Pdf/Element/String.php';
+require_once 'Zend/Pdf/Element/String.php';
 
 /** Zend_Pdf_Element_Null */
-#require_once 'Zend/Pdf/Element/Null.php';
+require_once 'Zend/Pdf/Element/Null.php';
 
 /** Zend_Pdf_UpdateInfoContainer */
-#require_once 'Zend/Pdf/UpdateInfoContainer.php';
+require_once 'Zend/Pdf/UpdateInfoContainer.php';
 
 
 /**
@@ -69,7 +71,7 @@
  * Responsibility is to log PDF changes
  *
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_ElementFactory implements Zend_Pdf_ElementFactory_Interface
@@ -411,12 +413,28 @@ class Zend_Pdf_ElementFactory implements Zend_Pdf_ElementFactory_Interface
      *
      * It's used to clear "parent object" referencies when factory is closed and clean up resources
      *
+     * @param string $refString
      * @param Zend_Pdf_Element_Object $obj
      */
-    public function registerObject($obj)
+    public function registerObject(Zend_Pdf_Element_Object $obj, $refString)
     {
-        $this->_registeredObjects[] = $obj;
+        $this->_registeredObjects[$refString] = $obj;
     }
+
+    /**
+     * Fetch object specified by reference
+     *
+     * @param string $refString
+     * @return Zend_Pdf_Element_Object|null
+     */
+    public function fetchObject($refString)
+    {
+    	if (!isset($this->_registeredObjects[$refString])) {
+    		return null;
+    	}
+        return $this->_registeredObjects[$refString];
+    }
+
 
     /**
      * Check if PDF file was modified

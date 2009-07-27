@@ -15,9 +15,9 @@
  *
  * @category   Zend
  * @package    Zend_Db
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 15577 2009-05-14 12:43:34Z matthew $
+ * @version    $Id: Db.php 16203 2009-06-21 18:56:17Z thomas $
  */
 
 
@@ -26,7 +26,7 @@
  *
  * @category   Zend
  * @package    Zend_Db
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Db
@@ -216,7 +216,7 @@ class Zend_Db
             /**
              * @see Zend_Db_Exception
              */
-            #require_once 'Zend/Db/Exception.php';
+            require_once 'Zend/Db/Exception.php';
             throw new Zend_Db_Exception('Adapter parameters must be in an array or a Zend_Config object');
         }
 
@@ -227,7 +227,7 @@ class Zend_Db
             /**
              * @see Zend_Db_Exception
              */
-            #require_once 'Zend/Db/Exception.php';
+            require_once 'Zend/Db/Exception.php';
             throw new Zend_Db_Exception('Adapter name must be specified in a string');
         }
 
@@ -249,7 +249,7 @@ class Zend_Db
          * if the specified class cannot be loaded.
          */
         if (!class_exists($adapterName)) {
-            #require_once 'Zend/Loader.php';
+            require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($adapterName);
         }
 
@@ -266,7 +266,7 @@ class Zend_Db
             /**
              * @see Zend_Db_Exception
              */
-            #require_once 'Zend/Db/Exception.php';
+            require_once 'Zend/Db/Exception.php';
             throw new Zend_Db_Exception("Adapter class '$adapterName' does not extend Zend_Db_Adapter_Abstract");
         }
 

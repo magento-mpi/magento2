@@ -14,22 +14,22 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: $
+ * @version   $Id: MimeType.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-#require_once 'Zend/Validate/Abstract.php';
+require_once 'Zend/Validate/Abstract.php';
 
 /**
  * Validator for the mime type of a file
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
@@ -94,7 +94,7 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
         } elseif (is_string($mimetype)) {
             $mimetype = explode(',', $mimetype);
         } elseif (!is_array($mimetype)) {
-            #require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception("Invalid options to validator provided");
         }
 
@@ -127,7 +127,7 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
         if (empty($file)) {
             $this->_magicfile = null;
         } else if (!is_readable($file)) {
-            #require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception('The given magicfile can not be read');
         } else {
             $this->_magicfile = (string) $file;
@@ -179,7 +179,7 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
         if (is_string($mimetype)) {
             $mimetype = explode(',', $mimetype);
         } elseif (!is_array($mimetype)) {
-            #require_once 'Zend/Validate/Exception.php';
+            require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception("Invalid options to validator provided");
         }
 
@@ -221,26 +221,33 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
     public function isValid($value, $file = null)
     {
         // Is file readable ?
-        #require_once 'Zend/Loader.php';
+        require_once 'Zend/Loader.php';
         if (!Zend_Loader::isReadable($value)) {
             return $this->_throw($file, self::NOT_READABLE);
         }
 
         if ($file !== null) {
             $mimefile = $this->getMagicFile();
-            if (class_exists('finfo', false) && ((!empty($mimefile)) or (defined('MAGIC')))) {
+            if (class_exists('finfo', false)) {
                 if (!empty($mimefile)) {
                     $mime = new finfo(FILEINFO_MIME, $mimefile);
                 } else {
                     $mime = new finfo(FILEINFO_MIME);
                 }
 
-                $this->_type = $mime->file($value);
+                if ($mime !== false) {
+                    $this->_type = $mime->file($value);
+                }
+
                 unset($mime);
-            } elseif (function_exists('mime_content_type') && ini_get('mime_magic.magicfile')) {
-                $this->_type = mime_content_type($value);
-            } else {
-                $this->_type = $file['type'];
+            }
+
+            if (empty($this->_type)) {
+                if (function_exists('mime_content_type') && ini_get('mime_magic.magicfile')) {
+                    $this->_type = mime_content_type($value);
+                } else {
+                    $this->_type = $file['type'];
+                }
             }
         }
 

@@ -14,22 +14,23 @@
  *
  * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Reference.php 16978 2009-07-22 19:59:40Z alexander $
  */
 
 
 /** Zend_Pdf_Element */
-#require_once 'Zend/Pdf/Element.php';
+require_once 'Zend/Pdf/Element.php';
 
 /** Zend_Pdf_Element_Reference_Context */
-#require_once 'Zend/Pdf/Element/Reference/Context.php';
+require_once 'Zend/Pdf/Element/Reference/Context.php';
 
 /** Zend_Pdf_Element_Reference_Table */
-#require_once 'Zend/Pdf/Element/Reference/Table.php';
+require_once 'Zend/Pdf/Element/Reference/Table.php';
 
 /** Zend_Pdf_ElementFactory */
-#require_once 'Zend/Pdf/ElementFactory.php';
+require_once 'Zend/Pdf/ElementFactory.php';
 
 
 /**
@@ -37,7 +38,7 @@
  *
  * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
@@ -164,10 +165,12 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
      */
     private function _dereference()
     {
-        $obj = $this->_context->getParser()->getObject(
-                       $this->_context->getRefTable()->getOffset($this->_objNum . ' ' . $this->_genNum . ' R'),
-                       $this->_context
-                                                      );
+    	if (($obj = $this->_factory->fetchObject($this->_objNum . ' ' . $this->_genNum)) === null) {
+            $obj = $this->_context->getParser()->getObject(
+                           $this->_context->getRefTable()->getOffset($this->_objNum . ' ' . $this->_genNum . ' R'),
+                           $this->_context
+                                                          );
+    	}
 
         if ($obj === null ) {
             $this->_ref = new Zend_Pdf_Element_Null();
@@ -181,7 +184,7 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
         $this->_ref = $obj;
         $this->setParentObject($obj);
 
-        $this->_factory->registerObject($this);
+        $this->_factory->registerObject($obj, $this->_objNum . ' ' . $this->_genNum);
     }
 
     /**
@@ -240,20 +243,7 @@ class Zend_Pdf_Element_Reference extends Zend_Pdf_Element
             $this->_dereference();
         }
 
-        switch (count($args)) {
-            case 0:
-                return $this->_ref->$method();
-            case 1:
-                return $this->_ref->$method($args[0]);
-            case 2:
-                return $this->_ref->$method($args[0], $args[1]);
-            case 3:
-                return $this->_ref->$method($args[0], $args[1], $args[2]);
-            case 4:
-                return $this->_ref->$method($args[0], $args[1], $args[2], $args[3]);
-            default:
-                throw new Zend_Pdf_Exception('Unsupported number of arguments');
-        }
+        return call_user_func_array(array($this->_ref, $method), $args);
     }
 
     /**

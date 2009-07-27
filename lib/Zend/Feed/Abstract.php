@@ -15,16 +15,16 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 12507 2008-11-10 16:29:09Z matthew $
+ * @version    $Id: Abstract.php 16205 2009-06-21 19:08:45Z thomas $
  */
 
 
 /**
  * @see Zend_Feed_Element
  */
-#require_once 'Zend/Feed/Element.php';
+require_once 'Zend/Feed/Element.php';
 
 
 /**
@@ -37,7 +37,7 @@
  *
  * @category   Zend
  * @package    Zend_Feed
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Feed_Abstract extends Zend_Feed_Element implements Iterator
@@ -80,7 +80,7 @@ abstract class Zend_Feed_Abstract extends Zend_Feed_Element implements Iterator
                 /** 
                  * @see Zend_Feed_Exception
                  */
-                #require_once 'Zend/Feed/Exception.php';
+                require_once 'Zend/Feed/Exception.php';
                 throw new Zend_Feed_Exception('Feed failed to load, got response code ' . $response->getStatus());
             }
             $this->_element = $response->getBody();
@@ -127,7 +127,7 @@ abstract class Zend_Feed_Abstract extends Zend_Feed_Element implements Iterator
             /** 
              * @see Zend_Feed_Exception
              */
-            #require_once 'Zend/Feed/Exception.php';
+            require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception("DOMDocument cannot parse XML: $php_errormsg");
         }
 

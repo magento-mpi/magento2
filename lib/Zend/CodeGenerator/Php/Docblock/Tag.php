@@ -17,23 +17,23 @@
  * @subpackage PHP
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Tag.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_CodeGenerator_Abstract
  */
-#require_once 'Zend/CodeGenerator/Abstract.php';
+require_once 'Zend/CodeGenerator/Php/Abstract.php';
 
 /**
  * @see Zend_CodeGenerator_Php_Docblock_Tag_Param
  */
-#require_once 'Zend/CodeGenerator/Php/Docblock/Tag/Param.php';
+require_once 'Zend/CodeGenerator/Php/Docblock/Tag/Param.php';
 
 /**
  * @see Zend_CodeGenerator_Php_Docblock_Tag_Return
  */
-#require_once 'Zend/CodeGenerator/Php/Docblock/Tag/Return.php';
+require_once 'Zend/CodeGenerator/Php/Docblock/Tag/Return.php';
 
 /**
  * @category   Zend
@@ -41,7 +41,7 @@
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_CodeGenerator_Php_Docblock_Tag extends Zend_CodeGenerator_Abstract
+class Zend_CodeGenerator_Php_Docblock_Tag extends Zend_CodeGenerator_Php_Abstract
 {
 
     /**
@@ -104,7 +104,7 @@ class Zend_CodeGenerator_Php_Docblock_Tag extends Zend_CodeGenerator_Abstract
     public static function getPluginLoader()
     {
         if (self::$_pluginLoader == null) {
-            #require_once 'Zend/Loader/PluginLoader.php';
+            require_once 'Zend/Loader/PluginLoader.php';
             self::setPluginLoader(new Zend_Loader_PluginLoader(array(
                 'Zend_CodeGenerator_Php_Docblock_Tag' => dirname(__FILE__) . '/Tag/'))
                 );
@@ -178,7 +178,7 @@ class Zend_CodeGenerator_Php_Docblock_Tag extends Zend_CodeGenerator_Abstract
      */
     public function generate()
     {
-        return '@' . $this->_name . ' ' . $this->_description . PHP_EOL;
+        return '@' . $this->_name . ' ' . $this->_description;
     }
     
 }

@@ -14,13 +14,13 @@
  *
  * @category   Zend
  * @package    Zend_Soap
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Wsdl.php 15829 2009-05-30 19:04:57Z beberlei $
+ * @version    $Id: Wsdl.php 16210 2009-06-21 19:22:17Z thomas $
  */
 
-#require_once "Zend/Soap/Wsdl/Strategy/Interface.php";
-#require_once "Zend/Soap/Wsdl/Strategy/Abstract.php";
+require_once "Zend/Soap/Wsdl/Strategy/Interface.php";
+require_once "Zend/Soap/Wsdl/Strategy/Abstract.php";
 
 /**
  * Zend_Soap_Wsdl
@@ -91,7 +91,7 @@ class Zend_Soap_Wsdl
                     xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'></definitions>";
         $this->_dom = new DOMDocument();
         if (!$this->_dom->loadXML($wsdl)) {
-            #require_once 'Zend/Server/Exception.php';
+            require_once 'Zend/Server/Exception.php';
             throw new Zend_Server_Exception('Unable to create DomDocument');
         } else {
             $this->_wsdl = $this->_dom->documentElement;
@@ -135,16 +135,16 @@ class Zend_Soap_Wsdl
     public function setComplexTypeStrategy($strategy)
     {
         if($strategy === true) {
-            #require_once "Zend/Soap/Wsdl/Strategy/DefaultComplexType.php";
+            require_once "Zend/Soap/Wsdl/Strategy/DefaultComplexType.php";
             $strategy = new Zend_Soap_Wsdl_Strategy_DefaultComplexType();
         } else if($strategy === false) {
-            #require_once "Zend/Soap/Wsdl/Strategy/AnyType.php";
+            require_once "Zend/Soap/Wsdl/Strategy/AnyType.php";
             $strategy = new Zend_Soap_Wsdl_Strategy_AnyType();
         } else if(is_string($strategy)) {
             if(class_exists($strategy)) {
                 $strategy = new $strategy();
             } else {
-                #require_once "Zend/Soap/Wsdl/Exception.php";
+                require_once "Zend/Soap/Wsdl/Exception.php";
                 throw new Zend_Soap_Wsdl_Exception(
                     sprintf("Strategy with name '%s does not exist.", $strategy
                 ));
@@ -152,7 +152,7 @@ class Zend_Soap_Wsdl
         }
 
         if(!($strategy instanceof Zend_Soap_Wsdl_Strategy_Interface)) {
-            #require_once "Zend/Soap/Wsdl/Exception.php";
+            require_once "Zend/Soap/Wsdl/Exception.php";
             throw new Zend_Soap_Wsdl_Exception("Set a strategy that is not of type 'Zend_Soap_Wsdl_Strategy_Interface'");
         }
         $this->_strategy = $strategy;
@@ -175,6 +175,8 @@ class Zend_Soap_Wsdl
      * @param string $name Name for the {@link http://www.w3.org/TR/wsdl#_messages message}
      * @param array $parts An array of {@link http://www.w3.org/TR/wsdl#_message parts}
      *                     The array is constructed like: 'name of part' => 'part xml schema data type'
+     *                     or 'name of part' => array('type' => 'part xml schema type')
+     *                     or 'name of part' => array('element' => 'part xml element name')
      * @return object The new message's XML_Tree_Node for use in {@link function addDocumentation}
      */
     public function addMessage($name, $parts)
@@ -187,7 +189,13 @@ class Zend_Soap_Wsdl
             foreach ($parts as $name => $type) {
                 $part = $this->_dom->createElement('part');
                 $part->setAttribute('name', $name);
-                $part->setAttribute('type', $type);
+                if (is_array($type)) {
+                    foreach ($type as $key => $value) {
+                        $part->setAttribute($key, $value);
+                    }
+                } else {
+                    $part->setAttribute('type', $type);
+                }
                 $message->appendChild($part);
             }
         }
@@ -586,5 +594,66 @@ class Zend_Soap_Wsdl
         $strategy->setContext($this);
         // delegates the detection of a complex type to the current strategy
         return $strategy->addComplexType($type);
+    }
+    
+    /**
+     * Parse an xsd:element represented as an array into a DOMElement.
+     * 
+     * @param array $element an xsd:element represented as an array
+     * @return DOMElement parsed element
+     */
+    private function _parseElement($element)
+    {
+        if (!is_array($element)) {
+            require_once "Zend/Soap/Wsdl/Exception.php";
+            throw new Zend_Soap_Wsdl_Exception("The 'element' parameter needs to be an associative array.");
+        }
+        
+        $elementXml = $this->_dom->createElement('xsd:element');
+        foreach ($element as $key => $value) {
+            if (in_array($key, array('sequence', 'all', 'choice'))) {
+                if (is_array($value)) {
+                    $complexType = $this->_dom->createElement('xsd:complexType');
+                    if (count($value) > 0) {
+                        $container = $this->_dom->createElement('xsd:' . $key);
+                        foreach ($value as $subelement) {
+                            $subelementXml = $this->_parseElement($subelement);
+                            $container->appendChild($subelementXml);
+                        }
+                        $complexType->appendChild($container);
+                    }
+                    $elementXml->appendChild($complexType);
+                }
+            } else {
+                $elementXml->setAttribute($key, $value);
+            }
+        }
+        return $elementXml;
+    }
+    
+    /**
+     * Add an xsd:element represented as an array to the schema.
+     * 
+     * Array keys represent attribute names and values their respective value.
+     * The 'sequence', 'all' and 'choice' keys must have an array of elements as their value,
+     * to add them to a nested complexType.
+     *
+     * Example: array( 'name' => 'MyElement',
+     *                 'sequence' => array( array('name' => 'myString', 'type' => 'string'),
+     *                                      array('name' => 'myInteger', 'type' => 'int') ) );
+     * Resulting XML: <xsd:element name="MyElement"><xsd:complexType><xsd:sequence>
+     *                  <xsd:element name="myString" type="string"/>
+     *                  <xsd:element name="myInteger" type="int"/>
+     *                </xsd:sequence></xsd:complexType></xsd:element>
+     * 
+     * @param array $element an xsd:element represented as an array
+     * @return string xsd:element for the given element array
+     */
+    public function addElement($element)
+    {
+        $schema = $this->getSchema();
+        $elementXml = $this->_parseElement($element);
+        $schema->appendChild($elementXml);
+        return 'tns:' . $element['name'];
     }
 }

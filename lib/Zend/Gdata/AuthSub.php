@@ -16,19 +16,20 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gdata
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: AuthSub.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * Zend_Gdata_HttpClient
  */
-#require_once 'Zend/Gdata/HttpClient.php';
+require_once 'Zend/Gdata/HttpClient.php';
 
 /**
  * Zend_Version
  */
-#require_once 'Zend/Version.php';
+require_once 'Zend/Version.php';
 
 /**
  * Wrapper around Zend_Http_Client to facilitate Google's "Account Authentication
@@ -39,7 +40,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gdata
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_AuthSub
@@ -117,7 +118,7 @@ class Zend_Gdata_AuthSub
         try {
             $response = $client->request('GET');
         } catch (Zend_Http_Client_Exception $e) {
-            #require_once 'Zend/Gdata/App/HttpException.php';
+            require_once 'Zend/Gdata/App/HttpException.php';
             throw new Zend_Gdata_App_HttpException($e->getMessage(), $e);
         }
 
@@ -133,7 +134,7 @@ class Zend_Gdata_AuthSub
             }
             return $goog_resp['Token'];
         } else {
-            #require_once 'Zend/Gdata/App/AuthException.php';
+            require_once 'Zend/Gdata/App/AuthException.php';
             throw new Zend_Gdata_App_AuthException(
                     'Token upgrade failed. Reason: ' . $response->getBody());
         }
@@ -168,7 +169,7 @@ class Zend_Gdata_AuthSub
         try {
             $response = $client->request('GET');
         } catch (Zend_Http_Client_Exception $e) {
-            #require_once 'Zend/Gdata/App/HttpException.php';
+            require_once 'Zend/Gdata/App/HttpException.php';
             throw new Zend_Gdata_App_HttpException($e->getMessage(), $e);
         }
         ob_end_clean();
@@ -209,7 +210,7 @@ class Zend_Gdata_AuthSub
         try {
             $response = $client->request('GET');
         } catch (Zend_Http_Client_Exception $e) {
-            #require_once 'Zend/Gdata/App/HttpException.php';
+            require_once 'Zend/Gdata/App/HttpException.php';
             throw new Zend_Gdata_App_HttpException($e->getMessage(), $e);
         }
         ob_end_clean();
@@ -229,7 +230,7 @@ class Zend_Gdata_AuthSub
             $client = new Zend_Gdata_HttpClient();
         }
         if (!$client instanceof Zend_Http_Client) {
-            #require_once 'Zend/Gdata/App/HttpException.php';
+            require_once 'Zend/Gdata/App/HttpException.php';
             throw new Zend_Gdata_App_HttpException('Client is not an instance of Zend_Http_Client.');
         }
         $useragent = 'Zend_Framework_Gdata/' . Zend_Version::VERSION;

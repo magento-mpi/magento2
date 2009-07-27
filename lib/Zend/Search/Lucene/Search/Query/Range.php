@@ -15,23 +15,24 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Range.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 
 /** Zend_Search_Lucene_Search_Query */
-#require_once 'Zend/Search/Lucene/Search/Query.php';
+require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /** Zend_Search_Lucene_Search_Query_MultiTerm */
-#require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
+require_once 'Zend/Search/Lucene/Search/Query/MultiTerm.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Query
@@ -90,11 +91,11 @@ class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Qu
     public function __construct($lowerTerm, $upperTerm, $inclusive)
     {
         if ($lowerTerm === null  &&  $upperTerm === null) {
-            #require_once 'Zend/Search/Lucene/Exception.php';
+            require_once 'Zend/Search/Lucene/Exception.php';
             throw new Zend_Search_Lucene_Exception('At least one term must be non-null');
         }
         if ($lowerTerm !== null  &&  $upperTerm !== null  &&  $lowerTerm->field != $upperTerm->field) {
-            #require_once 'Zend/Search/Lucene/Exception.php';
+            require_once 'Zend/Search/Lucene/Exception.php';
             throw new Zend_Search_Lucene_Exception('Both terms must be for the same field');
         }
 
@@ -190,7 +191,7 @@ class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Qu
                     $this->_matches[] = $index->currentTerm();
 
                     if ($maxTerms != 0  &&  count($this->_matches) > $maxTerms) {
-                        #require_once 'Zend/Search/Lucene/Exception.php';
+                        require_once 'Zend/Search/Lucene/Exception.php';
                         throw new Zend_Search_Lucene_Exception('Terms per query limit is reached.');
                     }
 
@@ -207,7 +208,7 @@ class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Qu
                     $this->_matches[] = $index->currentTerm();
 
                     if ($maxTerms != 0  &&  count($this->_matches) > $maxTerms) {
-                        #require_once 'Zend/Search/Lucene/Exception.php';
+                        require_once 'Zend/Search/Lucene/Exception.php';
                         throw new Zend_Search_Lucene_Exception('Terms per query limit is reached.');
                     }
 
@@ -241,7 +242,7 @@ class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Qu
      */
     public function optimize(Zend_Search_Lucene_Interface $index)
     {
-        #require_once 'Zend/Search/Lucene/Exception.php';
+        require_once 'Zend/Search/Lucene/Exception.php';
         throw new Zend_Search_Lucene_Exception('Range query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -254,7 +255,7 @@ class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Qu
     public function getQueryTerms()
     {
         if ($this->_matches === null) {
-            #require_once 'Zend/Search/Lucene/Exception.php';
+            require_once 'Zend/Search/Lucene/Exception.php';
             throw new Zend_Search_Lucene_Exception('Search or rewrite operations have to be performed before.');
         }
 
@@ -270,7 +271,7 @@ class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Qu
      */
     public function createWeight(Zend_Search_Lucene_Interface $reader)
     {
-        #require_once 'Zend/Search/Lucene/Exception.php';
+        require_once 'Zend/Search/Lucene/Exception.php';
         throw new Zend_Search_Lucene_Exception('Range query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -285,7 +286,7 @@ class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Qu
      */
     public function execute(Zend_Search_Lucene_Interface $reader, $docsFilter = null)
     {
-        #require_once 'Zend/Search/Lucene/Exception.php';
+        require_once 'Zend/Search/Lucene/Exception.php';
         throw new Zend_Search_Lucene_Exception('Range query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -299,7 +300,7 @@ class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Qu
      */
     public function matchedDocs()
     {
-        #require_once 'Zend/Search/Lucene/Exception.php';
+        require_once 'Zend/Search/Lucene/Exception.php';
         throw new Zend_Search_Lucene_Exception('Range query should not be directly used for search. Use $query->rewrite($index)');
     }
 
@@ -313,7 +314,7 @@ class Zend_Search_Lucene_Search_Query_Range extends Zend_Search_Lucene_Search_Qu
      */
     public function score($docId, Zend_Search_Lucene_Interface $reader)
     {
-        #require_once 'Zend/Search/Lucene/Exception.php';
+        require_once 'Zend/Search/Lucene/Exception.php';
         throw new Zend_Search_Lucene_Exception('Range query should not be directly used for search. Use $query->rewrite($index)');
     }
 

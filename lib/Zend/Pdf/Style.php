@@ -12,24 +12,26 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Style.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 
 /** Zend_Pdf_Color */
-#require_once 'Zend/Pdf/Color.php';
+require_once 'Zend/Pdf/Color.php';
 
 
 /** Zend_Pdf_Element_Numeric */
-#require_once 'Zend/Pdf/Element/Numeric.php';
+require_once 'Zend/Pdf/Element/Numeric.php';
 
 /** Zend_Pdf_Element_Array */
-#require_once 'Zend/Pdf/Element/Array.php';
+require_once 'Zend/Pdf/Element/Array.php';
 
 /** Zend_Pdf_Resource_Font */
-#require_once 'Zend/Pdf/Resource/Font.php';
+require_once 'Zend/Pdf/Resource/Font.php';
 
 
 /**
@@ -39,7 +41,7 @@
  * It's used by Zend_Pdf_Page class in draw operations.
  *
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Style

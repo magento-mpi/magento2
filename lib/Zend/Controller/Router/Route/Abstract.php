@@ -12,17 +12,18 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Route.php 1847 2006-11-23 11:36:41Z martel $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Abstract.php 16971 2009-07-22 18:05:45Z mikaelkael $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /**
  * @see Zend_Controller_Router_Route_Interface
  */
-#require_once 'Zend/Controller/Router/Route/Interface.php';
+require_once 'Zend/Controller/Router/Route/Interface.php';
 
 /**
  * Abstract Route
@@ -31,7 +32,7 @@
  *
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Controller_Router_Route_Abstract implements Zend_Controller_Router_Route_Interface
@@ -105,7 +106,7 @@ abstract class Zend_Controller_Router_Route_Abstract implements Zend_Controller_
      */    
     public function chain(Zend_Controller_Router_Route_Abstract $route, $separator = '/')
     {
-        #require_once 'Zend/Controller/Router/Route/Chain.php';
+        require_once 'Zend/Controller/Router/Route/Chain.php';
 
         $chain = new Zend_Controller_Router_Route_Chain();
         $chain->chain($this)->chain($route, $separator);

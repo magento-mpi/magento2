@@ -14,27 +14,28 @@
  *
  * @category   Zend
  * @package    Zend_Dom
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Query.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 /**
  * @see Zend_Dom_Query_Css2Xpath
  */
-#require_once 'Zend/Dom/Query/Css2Xpath.php';
+require_once 'Zend/Dom/Query/Css2Xpath.php';
 
 /**
  * @see Zend_Dom_Query_Result
  */
-#require_once 'Zend/Dom/Query/Result.php';
+require_once 'Zend/Dom/Query/Result.php';
 
 /**
  * Query DOM structures based on CSS selectors and/or XPath
  * 
  * @package    Zend_Dom
  * @subpackage Query
- * @copyright  Copyright (C) 2008 - Present, Zend Technologies, Inc.
- * @license    New BSD {@link http://framework.zend.com/license/new-bsd}
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Dom_Query
 {
@@ -65,9 +66,7 @@ class Zend_Dom_Query
      */
     public function __construct($document = null)
     {
-        if (null !== $document) {
-            $this->setDocument($document);
-        }
+        $this->setDocument($document);
     }
 
     /**
@@ -78,6 +77,9 @@ class Zend_Dom_Query
      */
     public function setDocument($document)
     {
+        if (0 === strlen($document)) {
+            return $this;
+        }
         if ('<?xml' == substr(trim($document), 0, 5)) {
             return $this->setDocumentXml($document);
         }
@@ -168,7 +170,7 @@ class Zend_Dom_Query
     public function queryXpath($xpathQuery, $query = null)
     {
         if (null === ($document = $this->getDocument())) {
-            #require_once 'Zend/Dom/Exception.php';
+            require_once 'Zend/Dom/Exception.php';
             throw new Zend_Dom_Exception('Cannot query; no document registered');
         }
 
@@ -186,7 +188,7 @@ class Zend_Dom_Query
         }
 
         if (!$success) {
-            #require_once 'Zend/Dom/Exception.php';
+            require_once 'Zend/Dom/Exception.php';
             throw new Zend_Dom_Exception(sprintf('Error parsing document (type == %s)', $type));
         }
 

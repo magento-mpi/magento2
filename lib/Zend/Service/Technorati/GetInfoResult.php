@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: GetInfoResult.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: GetInfoResult.php 16211 2009-06-21 19:23:55Z thomas $
  */
 
 
@@ -27,7 +27,7 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Technorati_GetInfoResult
@@ -61,7 +61,7 @@ class Zend_Service_Technorati_GetInfoResult
         /**
          * @see Zend_Service_Technorati_Author
          */
-        #require_once 'Zend/Service/Technorati/Author.php';
+        require_once 'Zend/Service/Technorati/Author.php';
 
         $result = $xpath->query('//result');
         if ($result->length == 1) {
@@ -71,7 +71,7 @@ class Zend_Service_Technorati_GetInfoResult
         /**
          * @see Zend_Service_Technorati_Weblog
          */
-        #require_once 'Zend/Service/Technorati/Weblog.php';
+        require_once 'Zend/Service/Technorati/Weblog.php';
 
         $result = $xpath->query('//item/weblog');
         if ($result->length >= 1) {

@@ -17,18 +17,18 @@
  * @subpackage PHP
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Docblock.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_CodeGenerator_Php_Abstract
  */
-#require_once 'Zend/CodeGenerator/Php/Abstract.php';
+require_once 'Zend/CodeGenerator/Php/Abstract.php';
 
 /**
  * @see Zend_CodeGenerator_Php_Docblock_Tag
  */
-#require_once 'Zend/CodeGenerator/Php/Docblock/Tag.php';
+require_once 'Zend/CodeGenerator/Php/Docblock/Tag.php';
 
 /**
  * @category   Zend
@@ -151,7 +151,7 @@ class Zend_CodeGenerator_Php_Docblock extends Zend_CodeGenerator_Php_Abstract
         if (is_array($tag)) {
             $tag = new Zend_CodeGenerator_Php_Docblock_Tag($tag);
         } elseif (!$tag instanceof Zend_CodeGenerator_Php_Docblock_Tag) {
-            #require_once 'Zend/CodeGenerator/Php/Exception.php';
+            require_once 'Zend/CodeGenerator/Php/Exception.php';
             throw new Zend_CodeGenerator_Php_Exception(
                 'setTag() expects either an array of method options or an '
                 . 'instance of Zend_CodeGenerator_Php_Docblock_Tag'
@@ -185,14 +185,14 @@ class Zend_CodeGenerator_Php_Docblock extends Zend_CodeGenerator_Php_Abstract
         
         $output  = '';
         if (null !== ($sd = $this->getShortDescription())) {
-            $output .= $sd . PHP_EOL . PHP_EOL;
+            $output .= $sd . self::LINE_FEED . self::LINE_FEED;
         }
         if (null !== ($ld = $this->getLongDescription())) {
-            $output .= $ld . PHP_EOL . PHP_EOL;
+            $output .= $ld . self::LINE_FEED . self::LINE_FEED;
         }
 
         foreach ($this->getTags() as $tag) {
-            $output .= $tag->generate();
+            $output .= $tag->generate() . self::LINE_FEED;
         }
         
         return $this->_docCommentize(trim($output));
@@ -207,13 +207,13 @@ class Zend_CodeGenerator_Php_Docblock extends Zend_CodeGenerator_Php_Abstract
     protected function _docCommentize($content)
     {
         $indent = $this->getIndentation();
-        $output = '/**' . PHP_EOL;
-        $content = wordwrap($content, 80, "\n");
-        $lines = explode("\n", $content);
+        $output = $indent . '/**' . self::LINE_FEED;
+        $content = wordwrap($content, 80, self::LINE_FEED);
+        $lines = explode(self::LINE_FEED, $content);
         foreach ($lines as $line) {
-            $output .= $indent . ' * ' . $line . PHP_EOL;
+            $output .= $indent . ' * ' . $line . self::LINE_FEED;
         }
-        $output .= $indent . ' */' . PHP_EOL;
+        $output .= $indent . ' */' . self::LINE_FEED;
         return $output;
     }
     

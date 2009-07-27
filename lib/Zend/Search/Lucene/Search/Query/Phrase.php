@@ -15,20 +15,21 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Phrase.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 
 /**
  * Zend_Search_Lucene_Search_Query
  */
-#require_once 'Zend/Search/Lucene/Search/Query.php';
+require_once 'Zend/Search/Lucene/Search/Query.php';
 
 /**
  * Zend_Search_Lucene_Search_Weight_Phrase
  */
-#require_once 'Zend/Search/Lucene/Search/Weight/Phrase.php';
+require_once 'Zend/Search/Lucene/Search/Weight/Phrase.php';
 
 
 /**
@@ -37,7 +38,7 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Search
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Search_Query_Phrase extends Zend_Search_Lucene_Search_Query

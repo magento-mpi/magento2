@@ -15,21 +15,21 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 16029 2009-06-12 18:01:37Z doctorrock83 $
+ * @version    $Id: Abstract.php 16920 2009-07-21 13:32:28Z ralph $
  */
 
 
 /**
  * @see Zend_Db
  */
-#require_once 'Zend/Db.php';
+require_once 'Zend/Db.php';
 
 /**
  * @see Zend_Db_Select
  */
-#require_once 'Zend/Db/Select.php';
+require_once 'Zend/Db/Select.php';
 
 /**
  * Class for connecting to SQL databases and performing common operations.
@@ -37,7 +37,7 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Db_Adapter_Abstract
@@ -175,7 +175,7 @@ abstract class Zend_Db_Adapter_Abstract
                 /**
                  * @see Zend_Db_Exception
                  */
-                #require_once 'Zend/Db/Exception.php';
+                require_once 'Zend/Db/Exception.php';
                 throw new Zend_Db_Exception('Adapter parameters must be in an array or a Zend_Config object');
             }
         }
@@ -209,6 +209,10 @@ abstract class Zend_Db_Adapter_Abstract
         if (!isset($config['charset'])) {
             $config['charset'] = null;
         }
+        
+        if (!isset($config['persistent'])) {
+            $config['persistent'] = false;
+        }
 
         $this->_config = array_merge($this->_config, $config);
         $this->_config['options'] = $options;
@@ -226,7 +230,7 @@ abstract class Zend_Db_Adapter_Abstract
                     break;
                 default:
                     /** @see Zend_Db_Adapter_Exception */
-                    #require_once 'Zend/Db/Adapter/Exception.php';
+                    require_once 'Zend/Db/Adapter/Exception.php';
                     throw new Zend_Db_Adapter_Exception('Case must be one of the following constants: '
                         . 'Zend_Db::CASE_NATURAL, Zend_Db::CASE_LOWER, Zend_Db::CASE_UPPER');
             }
@@ -268,7 +272,7 @@ abstract class Zend_Db_Adapter_Abstract
         // we need at least a dbname
         if (! array_key_exists('dbname', $config)) {
             /** @see Zend_Db_Adapter_Exception */
-            #require_once 'Zend/Db/Adapter/Exception.php';
+            require_once 'Zend/Db/Adapter/Exception.php';
             throw new Zend_Db_Adapter_Exception("Configuration array must have a key for 'dbname' that names the database instance");
         }
 
@@ -276,7 +280,7 @@ abstract class Zend_Db_Adapter_Abstract
             /**
              * @see Zend_Db_Adapter_Exception
              */
-            #require_once 'Zend/Db/Adapter/Exception.php';
+            require_once 'Zend/Db/Adapter/Exception.php';
             throw new Zend_Db_Adapter_Exception("Configuration array must have a key for 'password' for login credentials");
         }
 
@@ -284,7 +288,7 @@ abstract class Zend_Db_Adapter_Abstract
             /**
              * @see Zend_Db_Adapter_Exception
              */
-            #require_once 'Zend/Db/Adapter/Exception.php';
+            require_once 'Zend/Db/Adapter/Exception.php';
             throw new Zend_Db_Adapter_Exception("Configuration array must have a key for 'username' for login credentials");
         }
     }
@@ -354,7 +358,7 @@ abstract class Zend_Db_Adapter_Abstract
                 /**
                  * @see Zend_Db_Profiler_Exception
                  */
-                #require_once 'Zend/Db/Profiler/Exception.php';
+                require_once 'Zend/Db/Profiler/Exception.php';
                 throw new Zend_Db_Profiler_Exception('Profiler argument must be an instance of either Zend_Db_Profiler'
                     . ' or Zend_Config when provided as an object');
             }
@@ -376,7 +380,7 @@ abstract class Zend_Db_Adapter_Abstract
 
         if ($profilerInstance === null) {
             if (!class_exists($profilerClass)) {
-                #require_once 'Zend/Loader.php';
+                require_once 'Zend/Loader.php';
                 Zend_Loader::loadClass($profilerClass);
             }
             $profilerInstance = new $profilerClass();
@@ -384,7 +388,7 @@ abstract class Zend_Db_Adapter_Abstract
 
         if (!$profilerInstance instanceof Zend_Db_Profiler) {
             /** @see Zend_Db_Profiler_Exception */
-            #require_once 'Zend/Db/Profiler/Exception.php';
+            require_once 'Zend/Db/Profiler/Exception.php';
             throw new Zend_Db_Profiler_Exception('Class ' . get_class($profilerInstance) . ' does not extend '
                 . 'Zend_Db_Profiler');
         }
@@ -471,7 +475,7 @@ abstract class Zend_Db_Adapter_Abstract
     /**
      * Leave autocommit mode and begin a transaction.
      *
-     * @return bool True
+     * @return Zend_Db_Adapter_Abstract
      */
     public function beginTransaction()
     {
@@ -479,13 +483,13 @@ abstract class Zend_Db_Adapter_Abstract
         $q = $this->_profiler->queryStart('begin', Zend_Db_Profiler::TRANSACTION);
         $this->_beginTransaction();
         $this->_profiler->queryEnd($q);
-        return true;
+        return $this;
     }
 
     /**
      * Commit a transaction and return to autocommit mode.
      *
-     * @return bool True
+     * @return Zend_Db_Adapter_Abstract
      */
     public function commit()
     {
@@ -493,13 +497,13 @@ abstract class Zend_Db_Adapter_Abstract
         $q = $this->_profiler->queryStart('commit', Zend_Db_Profiler::TRANSACTION);
         $this->_commit();
         $this->_profiler->queryEnd($q);
-        return true;
+        return $this;
     }
 
     /**
      * Roll back a transaction and return to autocommit mode.
      *
-     * @return bool True
+     * @return Zend_Db_Adapter_Abstract
      */
     public function rollBack()
     {
@@ -507,7 +511,7 @@ abstract class Zend_Db_Adapter_Abstract
         $q = $this->_profiler->queryStart('rollback', Zend_Db_Profiler::TRANSACTION);
         $this->_rollBack();
         $this->_profiler->queryEnd($q);
-        return true;
+        return $this;
     }
 
     /**
@@ -575,7 +579,7 @@ abstract class Zend_Db_Adapter_Abstract
                         $i++;
                     } else {
                         /** @see Zend_Db_Adapter_Exception */
-                        #require_once 'Zend/Db/Adapter/Exception.php';
+                        require_once 'Zend/Db/Adapter/Exception.php';
                         throw new Zend_Db_Adapter_Exception(get_class($this) ." doesn't support positional or named binding");
                     }
                 }
@@ -1093,7 +1097,7 @@ abstract class Zend_Db_Adapter_Abstract
     {
         if ($this->_allowSerialization == false) {
             /** @see Zend_Db_Adapter_Exception */
-            #require_once 'Zend/Db/Adapter/Exception.php';
+            require_once 'Zend/Db/Adapter/Exception.php';
             throw new Zend_Db_Adapter_Exception(get_class($this) ." is not allowed to be serialized");
         }
         $this->_connection = false;

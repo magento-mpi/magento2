@@ -15,13 +15,13 @@
  * @category   Zend
  * @package    Zend_Captcha
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Image.php 14290 2009-03-13 12:40:14Z alexander $
+ * @version    $Id: Image.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Captcha_Word */
-#require_once 'Zend/Captcha/Word.php';
+require_once 'Zend/Captcha/Word.php';
 
 /**
  * Image-based captcha element
@@ -31,7 +31,7 @@
  * @category   Zend
  * @package    Zend_Captcha
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Captcha_Image extends Zend_Captcha_Word
@@ -446,24 +446,24 @@ class Zend_Captcha_Image extends Zend_Captcha_Word
     protected function _generateImage($id, $word)
     {
         if (!extension_loaded("gd")) {
-            #require_once 'Zend/Captcha/Exception.php';
+            require_once 'Zend/Captcha/Exception.php';
             throw new Zend_Captcha_Exception("Image CAPTCHA requires GD extension");
         }
 
         if (!function_exists("imagepng")) {
-            #require_once 'Zend/Captcha/Exception.php';
+            require_once 'Zend/Captcha/Exception.php';
             throw new Zend_Captcha_Exception("Image CAPTCHA requires PNG support");
         }
 
         if (!function_exists("imageftbbox")) {
-            #require_once 'Zend/Captcha/Exception.php';
+            require_once 'Zend/Captcha/Exception.php';
             throw new Zend_Captcha_Exception("Image CAPTCHA requires FT fonts support");
         }
 
         $font = $this->getFont();
 
         if (empty($font)) {
-            #require_once 'Zend/Captcha/Exception.php';
+            require_once 'Zend/Captcha/Exception.php';
             throw new Zend_Captcha_Exception("Image CAPTCHA requires font");
         }
 
@@ -477,7 +477,7 @@ class Zend_Captcha_Image extends Zend_Captcha_Word
         } else {
             $img = imagecreatefrompng($this->_startImage);
             if(!$img) {
-                #require_once 'Zend/Captcha/Exception.php';
+                require_once 'Zend/Captcha/Exception.php';
                 throw new Zend_Captcha_Exception("Can not load start image");
             }
             $w = imagesx($img);

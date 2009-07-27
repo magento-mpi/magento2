@@ -14,32 +14,33 @@
  *
  * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Stream.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 
 /**
  * @see Zend_Pdf
  */
-#require_once 'Zend/Pdf.php';
+require_once 'Zend/Pdf.php';
 
 /**
  * @see Zend_Pdf_Element
  */
-#require_once 'Zend/Pdf/Element.php';
+require_once 'Zend/Pdf/Element.php';
 
 /**
  * @see Zend_Memory
  */
-#require_once 'Zend/Memory.php';
+require_once 'Zend/Memory.php';
 
 /**
  * PDF file 'stream' element implementation
  *
  * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Element_Stream extends Zend_Pdf_Element

@@ -15,20 +15,20 @@
  * @category   Zend
  * @package    Zend_Tag
  * @subpackage ItemList
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ItemList.php 15457 2009-05-09 15:19:13Z dasprid $
+ * @version    $Id: ItemList.php 16209 2009-06-21 19:20:34Z thomas $
  */
 
 /**
  * @see Zend_Tag_Taggable
  */
-#require_once 'Zend/Tag/Taggable.php';
+require_once 'Zend/Tag/Taggable.php';
 
 /**
  * @category   Zend
  * @package    Zend_Tag
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tag_ItemList implements Countable, SeekableIterator, ArrayAccess
@@ -61,7 +61,7 @@ class Zend_Tag_ItemList implements Countable, SeekableIterator, ArrayAccess
     {
         // Don't allow an empty value list
         if (count($values) === 0) {
-            #require_once 'Zend/Tag/Exception.php';
+            require_once 'Zend/Tag/Exception.php';
             throw new Zend_Tag_Exception('Value list may not be empty');
         }
         
@@ -215,7 +215,7 @@ class Zend_Tag_ItemList implements Countable, SeekableIterator, ArrayAccess
         // We need to make that check here, as the method signature must be
         // compatible with ArrayAccess::offsetSet()
         if (!($item instanceof Zend_Tag_Taggable)) {
-            #require_once 'Zend/Tag/Exception.php';
+            require_once 'Zend/Tag/Exception.php';
             throw new Zend_Tag_Exception('Item must implement Zend_Tag_Taggable');
         }
     

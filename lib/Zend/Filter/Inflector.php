@@ -14,28 +14,28 @@
  *
  * @category   Zend
  * @package    Zend_Filter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Inflector.php 12501 2008-11-10 16:28:31Z matthew $
+ * @version    $Id: Inflector.php 16217 2009-06-21 19:39:00Z thomas $
  */
 
 /**
  * @see Zend_Filter
  * @see Zend_Filter_Interface
  */
-#require_once 'Zend/Filter.php';
+require_once 'Zend/Filter.php';
 
 /**
  * @see Zend_Loader_PluginLoader
  */
-#require_once 'Zend/Loader/PluginLoader.php';
+require_once 'Zend/Loader/PluginLoader.php';
 
 /**
  * Filter chain for string inflection
  *
  * @category   Zend
  * @package    Zend_Filter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Filter_Inflector implements Zend_Filter_Interface 
@@ -452,7 +452,7 @@ class Zend_Filter_Inflector implements Zend_Filter_Interface
         $inflectedTarget = preg_replace(array_keys($processedParts), array_values($processedParts), $this->_target);
 
         if ($this->_throwTargetExceptionsOn && (preg_match('#(?='.$pregQuotedTargetReplacementIdentifier.'[A-Za-z]{1})#', $inflectedTarget) == true)) {
-            #require_once 'Zend/Filter/Exception.php';
+            require_once 'Zend/Filter/Exception.php';
             throw new Zend_Filter_Exception('A replacement identifier ' . $this->_targetReplacementIdentifier . ' was found inside the inflected target, perhaps a rule was not satisfied with a target source?  Unsatisfied inflected target: ' . $inflectedTarget);
         }
         
@@ -487,7 +487,7 @@ class Zend_Filter_Inflector implements Zend_Filter_Interface
         $className  = $this->getPluginLoader()->load($rule);
         $ruleObject = new $className();
         if (!$ruleObject instanceof Zend_Filter_Interface) {
-            #require_once 'Zend/Filter/Exception.php';
+            require_once 'Zend/Filter/Exception.php';
             throw new Zend_Filter_Exception('No class named ' . $rule . ' implementing Zend_Filter_Interface could be found');
         }
         

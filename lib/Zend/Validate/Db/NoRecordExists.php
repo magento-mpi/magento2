@@ -17,13 +17,13 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: $
+ * @version    $Id: NoRecordExists.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Validate_Db_Abstract
  */
-#require_once 'Zend/Validate/Db/Abstract.php';
+require_once 'Zend/Validate/Db/Abstract.php';
 
 /**
  * Confirms a record does not exist in a table.

@@ -15,19 +15,20 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: ViewRenderer.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 /**
  * @see Zend_Controller_Action_Helper_Abstract
  */
-#require_once 'Zend/Controller/Action/Helper/Abstract.php';
+require_once 'Zend/Controller/Action/Helper/Abstract.php';
 
 /**
  * @see Zend_View
  */
-#require_once 'Zend/View.php';
+require_once 'Zend/View.php';
 
 /**
  * View script integration
@@ -60,14 +61,14 @@
  * $viewHelper->setNoController(true);
  *
  * // Specify a different script to render:
- * $this->_helper->view('form');
+ * $this->_helper->viewRenderer('form');
  *
  * </code>
  *
  * @uses       Zend_Controller_Action_Helper_Abstract
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_Helper_Abstract
@@ -194,7 +195,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
             $this->_setOptions($options);
         }
     }
-    
+
     /**
      * Clone - also make sure the view is cloned.
      *
@@ -204,7 +205,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
     {
         if (isset($this->view) && $this->view instanceof Zend_View_Interface) {
             $this->view = clone $this->view;
-            
+
         }
     }
 
@@ -222,7 +223,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
 
     /**
      * Get current module name
-     * 
+     *
      * @return string
      */
     public function getModule()
@@ -250,7 +251,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
             /**
              * @see Zend_Controller_Action_Exception
              */
-            #require_once 'Zend/Controller/Action/Exception.php';
+            require_once 'Zend/Controller/Action/Exception.php';
             throw new Zend_Controller_Action_Exception('ViewRenderer cannot locate module directory');
         }
         $this->_moduleDir = dirname($moduleDir);
@@ -259,7 +260,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
 
     /**
      * Get inflector
-     * 
+     *
      * @return Zend_Filter_Inflector
      */
     public function getInflector()
@@ -268,15 +269,15 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
             /**
              * @see Zend_Filter_Inflector
              */
-            #require_once 'Zend/Filter/Inflector.php';
+            require_once 'Zend/Filter/Inflector.php';
             /**
              * @see Zend_Filter_PregReplace
              */
-            #require_once 'Zend/Filter/PregReplace.php';
+            require_once 'Zend/Filter/PregReplace.php';
             /**
              * @see Zend_Filter_Word_UnderscoreToSeparator
              */
-            #require_once 'Zend/Filter/Word/UnderscoreToSeparator.php';
+            require_once 'Zend/Filter/Word/UnderscoreToSeparator.php';
             $this->_inflector = new Zend_Filter_Inflector();
             $this->_inflector->setStaticRuleReference('moduleDir', $this->_moduleDir) // moduleDir must be specified before the less specific 'module'
                  ->addRules(array(
@@ -296,8 +297,8 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
 
     /**
      * Set inflector
-     * 
-     * @param  Zend_Filter_Inflector $inflector 
+     *
+     * @param  Zend_Filter_Inflector $inflector
      * @param  boolean               $reference Whether the moduleDir, target, and suffix should be set as references to ViewRenderer properties
      * @return Zend_Controller_Action_Helper_ViewRenderer Provides a fluent interface
      */
@@ -314,8 +315,8 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
 
     /**
      * Set inflector target
-     * 
-     * @param  string $target 
+     *
+     * @param  string $target
      * @return void
      */
     protected function _setInflectorTarget($target)
@@ -325,8 +326,8 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
 
     /**
      * Set internal module directory representation
-     * 
-     * @param  string $dir 
+     *
+     * @param  string $dir
      * @return void
      */
     protected function _setModuleDir($dir)
@@ -336,7 +337,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
 
     /**
      * Get internal module directory representation
-     * 
+     *
      * @return string
      */
     protected function _getModuleDir()
@@ -385,7 +386,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
 
         $inflector = $this->getInflector();
         $this->_setInflectorTarget($this->getViewBasePathSpec());
-        
+
         $dispatcher = $this->_frontController->getDispatcher();
         $request = $this->getRequest();
 
@@ -476,7 +477,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
                 /**
                  * @see Zend_Controller_Action_Exception
                  */
-                #require_once 'Zend/Controller/Action/Exception.php';
+                require_once 'Zend/Controller/Action/Exception.php';
                 throw new Zend_Controller_Action_Exception('ViewRenderer initialization failed: retrieved view base path is empty');
             }
         }
@@ -965,7 +966,7 @@ class Zend_Controller_Action_Helper_ViewRenderer extends Zend_Controller_Action_
 
     /**
      * Should the ViewRenderer render a view script?
-     * 
+     *
      * @return boolean
      */
     protected function _shouldRender()

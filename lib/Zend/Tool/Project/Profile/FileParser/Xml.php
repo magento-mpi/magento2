@@ -17,13 +17,13 @@
  * @subpackage Framework
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Xml.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
-#require_once 'Zend/Tool/Project/Profile/FileParser/Interface.php';
-#require_once 'Zend/Tool/Project/Context/Repository.php';
-#require_once 'Zend/Tool/Project/Profile.php';
-#require_once 'Zend/Tool/Project/Profile/Resource.php';
+require_once 'Zend/Tool/Project/Profile/FileParser/Interface.php';
+require_once 'Zend/Tool/Project/Context/Repository.php';
+require_once 'Zend/Tool/Project/Profile.php';
+require_once 'Zend/Tool/Project/Profile/Resource.php';
 
 /**
  * @category   Zend

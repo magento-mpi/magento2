@@ -15,15 +15,16 @@
  * @category   Zend
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Backend.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 
 /**
  * @package    Zend_Cache
  * @subpackage Zend_Cache_Backend
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cache_Backend
@@ -229,7 +230,7 @@ class Zend_Cache_Backend
             /**
              * @see Zend_Log
              */
-            #require_once 'Zend/Log.php';
+            require_once 'Zend/Log.php';
         } catch (Zend_Exception $e) {
             Zend_Cache::throwException('Logging feature is enabled but the Zend_Log class is not available');
         }
@@ -241,7 +242,7 @@ class Zend_Cache_Backend
             }
         }
         // Create a default logger to the standard output stream
-        #require_once 'Zend/Log/Writer/Stream.php';
+        require_once 'Zend/Log/Writer/Stream.php';
         $logger = new Zend_Log(new Zend_Log_Writer_Stream('php://output'));
         $this->_directives['logger'] = $logger;
     }

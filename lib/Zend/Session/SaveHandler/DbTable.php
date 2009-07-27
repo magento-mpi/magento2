@@ -15,30 +15,30 @@
  *
  * @category   Zend
  * @package    Zend_Session
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTable.php 12585 2008-11-12 17:02:49Z alexander $
+ * @version    $Id: DbTable.php 16933 2009-07-21 20:24:35Z matthew $
  */
 
 /**
  * @see Zend_Session
  */
-#require_once 'Zend/Session.php';
+require_once 'Zend/Session.php';
 
 /**
  * @see Zend_Db_Table_Abstract
  */
-#require_once 'Zend/Db/Table/Abstract.php';
+require_once 'Zend/Db/Table/Abstract.php';
 
 /**
  * @see Zend_Db_Table_Row_Abstract
  */
-#require_once 'Zend/Db/Table/Row/Abstract.php';
+require_once 'Zend/Db/Table/Row/Abstract.php';
 
 /**
  * @see Zend_Config
  */
-#require_once 'Zend/Config.php';
+require_once 'Zend/Config.php';
 
 /**
  * Zend_Session_SaveHandler_DbTable
@@ -46,10 +46,12 @@
  * @category   Zend
  * @package    Zend_Session
  * @subpackage SaveHandler
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Session_SaveHandler_DbTable extends Zend_Db_Table_Abstract implements Zend_Session_SaveHandler_Interface
+class Zend_Session_SaveHandler_DbTable 
+    extends Zend_Db_Table_Abstract 
+    implements Zend_Session_SaveHandler_Interface
 {
     const PRIMARY_ASSIGNMENT                   = 'primaryAssignment';
     const PRIMARY_ASSIGNMENT_SESSION_SAVE_PATH = 'sessionSavePath';
@@ -166,7 +168,7 @@ class Zend_Session_SaveHandler_DbTable extends Zend_Db_Table_Abstract implements
             /**
              * @see Zend_Session_SaveHandler_Exception
              */
-            #require_once 'Zend/Session/SaveHandler/Exception.php';
+            require_once 'Zend/Session/SaveHandler/Exception.php';
 
             throw new Zend_Session_SaveHandler_Exception(
                 '$config must be an instance of Zend_Config or array of key/value pairs containing '
@@ -230,7 +232,7 @@ class Zend_Session_SaveHandler_DbTable extends Zend_Db_Table_Abstract implements
             /**
              * @see Zend_Session_SaveHandler_Exception
              */
-            #require_once 'Zend/Session/SaveHandler/Exception.php';
+            require_once 'Zend/Session/SaveHandler/Exception.php';
             throw new Zend_Session_SaveHandler_Exception();
         } else if (empty($lifetime)) {
             $this->_lifetime = (int) ini_get('session.gc_maxlifetime');
@@ -418,7 +420,7 @@ class Zend_Session_SaveHandler_DbTable extends Zend_Db_Table_Abstract implements
             /**
              * @see Zend_Session_SaveHandler_Exception
              */
-            #require_once 'Zend/Session/SaveHandler/Exception.php';
+            require_once 'Zend/Session/SaveHandler/Exception.php';
 
             throw new Zend_Session_SaveHandler_Exception('session.save_path is a path and not a table name.');
         }
@@ -450,7 +452,7 @@ class Zend_Session_SaveHandler_DbTable extends Zend_Db_Table_Abstract implements
             /**
              * @see Zend_Session_SaveHandler_Exception
              */
-            #require_once 'Zend/Session/SaveHandler/Exception.php';
+            require_once 'Zend/Session/SaveHandler/Exception.php';
 
             throw new Zend_Session_SaveHandler_Exception(
                 "Value for configuration option '" . self::PRIMARY_ASSIGNMENT . "' must have an assignment "
@@ -459,7 +461,7 @@ class Zend_Session_SaveHandler_DbTable extends Zend_Db_Table_Abstract implements
             /**
              * @see Zend_Session_SaveHandler_Exception
              */
-            #require_once 'Zend/Session/SaveHandler/Exception.php';
+            require_once 'Zend/Session/SaveHandler/Exception.php';
 
             throw new Zend_Session_SaveHandler_Exception(
                 "Value for configuration option '" . self::PRIMARY_ASSIGNMENT . "' must have an assignment "
@@ -479,7 +481,7 @@ class Zend_Session_SaveHandler_DbTable extends Zend_Db_Table_Abstract implements
             /**
              * @see Zend_Session_SaveHandler_Exception
              */
-            #require_once 'Zend/Session/SaveHandler/Exception.php';
+            require_once 'Zend/Session/SaveHandler/Exception.php';
 
             throw new Zend_Session_SaveHandler_Exception(
                 "Configuration must define '" . self::MODIFIED_COLUMN . "' which names the "
@@ -488,7 +490,7 @@ class Zend_Session_SaveHandler_DbTable extends Zend_Db_Table_Abstract implements
             /**
              * @see Zend_Session_SaveHandler_Exception
              */
-            #require_once 'Zend/Session/SaveHandler/Exception.php';
+            require_once 'Zend/Session/SaveHandler/Exception.php';
 
             throw new Zend_Session_SaveHandler_Exception(
                 "Configuration must define '" . self::LIFETIME_COLUMN . "' which names the "
@@ -497,7 +499,7 @@ class Zend_Session_SaveHandler_DbTable extends Zend_Db_Table_Abstract implements
             /**
              * @see Zend_Session_SaveHandler_Exception
              */
-            #require_once 'Zend/Session/SaveHandler/Exception.php';
+            require_once 'Zend/Session/SaveHandler/Exception.php';
 
             throw new Zend_Session_SaveHandler_Exception(
                 "Configuration must define '" . self::DATA_COLUMN . "' which names the "

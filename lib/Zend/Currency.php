@@ -14,24 +14,24 @@
  *
  * @category  Zend
  * @package   Zend_Currency
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Currency.php 6137 2007-08-19 14:55:27Z shreef $
+ * @version   $Id: Currency.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * include needed classes
  */
-#require_once 'Zend/Locale.php';
-#require_once 'Zend/Locale/Data.php';
-#require_once 'Zend/Locale/Format.php';
+require_once 'Zend/Locale.php';
+require_once 'Zend/Locale/Data.php';
+require_once 'Zend/Locale/Format.php';
 
 /**
  * Class for handling currency notations
  *
  * @category  Zend
  * @package   Zend_Currency
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Currency
@@ -52,7 +52,7 @@ class Zend_Currency
      *
      * @var string
      */
-    protected $_locale = null;
+    private $_locale = null;
 
     /**
      * Options array
@@ -104,7 +104,7 @@ class Zend_Currency
         $this->_options['symbol']   = self::getSymbol($currency, $this->_locale);
 
         if (($this->_options['currency'] === null) and ($this->_options['name'] === null)) {
-            #require_once 'Zend/Currency/Exception.php';
+            require_once 'Zend/Currency/Exception.php';
             throw new Zend_Currency_Exception("Currency '$currency' not found");
         }
 
@@ -129,7 +129,7 @@ class Zend_Currency
     {
         // Validate the passed number
         if ((isset($value) === false) or (is_numeric($value) === false)) {
-            #require_once 'Zend/Currency/Exception.php';
+            require_once 'Zend/Currency/Exception.php';
             throw new Zend_Currency_Exception("Value '$value' has to be numeric");
         }
 
@@ -149,7 +149,7 @@ class Zend_Currency
         $original = $value;
         $value    = Zend_Locale_Format::toNumber($value, array('locale'        => $locale,
                                                                'number_format' => $format,
-                                                               'precision'     => $options['precision']));
+                                                              'precision'     => $options['precision']));
 
         if ($options['position'] !== self::STANDARD) {
             $value = str_replace('¤', '', $value);
@@ -170,8 +170,6 @@ class Zend_Currency
         if (empty($options['script']) === false) {
             $value = Zend_Locale_Format::convertNumerals($value, 'Latn', $options['script']);
         }
-
-        $options = $this->_processSymbolChoice($options, $value);
 
         // Get the sign to be placed next to the number
         if (is_numeric($options['display']) === false) {
@@ -199,41 +197,6 @@ class Zend_Currency
 
         $value = str_replace('¤', $sign, $value);
         return $value;
-    }
-
-    /**
-     * Select currency symbol if multiple symbols were specified
-     *
-     * @param array $options
-     * @param integer|float $value  Currency value
-     * @return array
-     */
-    protected function _processSymbolChoice($options, $value)
-    {
-        if (isset($options['symbol_choice']) && $options['symbol_choice']) {
-            $symbols = explode('|', $options['symbol']);
-            if (is_array($symbols)) {
-                foreach ($symbols as $symbol) {
-                    $type = $position = null;
-                    if (($tmp = iconv_strpos($symbol, '≤')) !== false) {
-                        $type = 1;
-                        $position = $tmp;
-                    }
-                    if (($tmp = iconv_strpos($symbol, '<')) !== false) {
-                        $type = 2;
-                        $position = $tmp;
-                    }
-                    if (!is_null($position)) {
-                        $number = iconv_substr($symbol, 0, $position);
-                        $sign = iconv_substr($symbol, $position+1);
-                        if (($type == 1 && $number <= $value) || ($type == 2 && $number < $value)) {
-                            $options['symbol'] = $sign;
-                        }
-                    }
-                }
-            }
-        }
-        return $options;
     }
 
     /**
@@ -296,7 +259,7 @@ class Zend_Currency
      * @throws Zend_Currency_Exception When locale contains no region
      * @return string The extracted locale representation as string
      */
-    protected function _checkParams($currency = null, $locale = null)
+    private function _checkParams($currency = null, $locale = null)
     {
         // Manage the params
         if ((empty($locale)) and (!empty($currency)) and
@@ -310,7 +273,7 @@ class Zend_Currency
         if ((Zend_Locale::isLocale($locale, true, false)) and (strlen($locale) > 4)) {
             $country = substr($locale, (strpos($locale, '_') + 1));
         } else {
-            #require_once 'Zend/Currency/Exception.php';
+            require_once 'Zend/Currency/Exception.php';
             throw new Zend_Currency_Exception("No region found within the locale '" . (string) $locale . "'");
         }
 
@@ -431,7 +394,7 @@ class Zend_Currency
         }
 
         if (empty($currency) === true) {
-            #require_once 'Zend/Currency/Exception.php';
+            require_once 'Zend/Currency/Exception.php';
             throw new Zend_Currency_Exception('No currency defined');
         }
 
@@ -543,11 +506,11 @@ class Zend_Currency
      */
     public function setLocale($locale = null)
     {
-        #require_once 'Zend/Locale.php';
+        require_once 'Zend/Locale.php';
         try {
             $this->_locale = Zend_Locale::findLocale($locale);
         } catch (Zend_Locale_Exception $e) {
-            #require_once 'Zend/Currency/Exception.php';
+            require_once 'Zend/Currency/Exception.php';
             throw new Zend_Currency_Exception($e->getMessage());
         }
 
@@ -598,7 +561,7 @@ class Zend_Currency
             switch($name) {
                 case 'position':
                     if (($value !== self::STANDARD) and ($value !== self::RIGHT) and ($value !== self::LEFT)) {
-                        #require_once 'Zend/Currency/Exception.php';
+                        require_once 'Zend/Currency/Exception.php';
                         throw new Zend_Currency_Exception("Unknown position '" . $value . "'");
                     }
 
@@ -606,7 +569,7 @@ class Zend_Currency
 
                 case 'format':
                     if ((empty($value) === false) and (Zend_Locale::isLocale($value, null, false) === false)) {
-                        #require_once 'Zend/Currency/Exception.php';
+                        require_once 'Zend/Currency/Exception.php';
                         throw new Zend_Currency_Exception("'" .
                             ((gettype($value) === 'object') ? get_class($value) : $value)
                             . "' is not a known locale.");
@@ -616,7 +579,7 @@ class Zend_Currency
                 case 'display':
                     if (is_numeric($value) and ($value !== self::NO_SYMBOL) and ($value !== self::USE_SYMBOL) and
                         ($value !== self::USE_SHORTNAME) and ($value !== self::USE_NAME)) {
-                        #require_once 'Zend/Currency/Exception.php';
+                        require_once 'Zend/Currency/Exception.php';
                         throw new Zend_Currency_Exception("Unknown display '$value'");
                     }
                     break;
@@ -627,7 +590,7 @@ class Zend_Currency
                     }
 
                     if (($value < -1) or ($value > 30)) {
-                        #require_once 'Zend/Currency/Exception.php';
+                        require_once 'Zend/Currency/Exception.php';
                         throw new Zend_Currency_Exception("'$value' precision has to be between -1 and 30.");
                     }
                     break;
@@ -636,7 +599,7 @@ class Zend_Currency
                     try {
                         Zend_Locale_Format::convertNumerals(0, $options['script']);
                     } catch (Zend_Locale_Exception $e) {
-                        #require_once 'Zend/Currency/Exception.php';
+                        require_once 'Zend/Currency/Exception.php';
                         throw new Zend_Currency_Exception($e->getMessage());
                     }
                     break;
@@ -650,7 +613,7 @@ class Zend_Currency
                     break;
 
                 default:
-                    #require_once 'Zend/Currency/Exception.php';
+                    require_once 'Zend/Currency/Exception.php';
                     throw new Zend_Currency_Exception("Unknown option: '$name' = '$value'");
                     break;
             }

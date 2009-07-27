@@ -16,34 +16,35 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Photos
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: CommentEntry.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Gdata_Entry
  */
-#require_once 'Zend/Gdata/Entry.php';
+require_once 'Zend/Gdata/Entry.php';
 
 /**
  * @see Zend_Gdata_Photos_Extension_Id
  */
-#require_once 'Zend/Gdata/Photos/Extension/Id.php';
+require_once 'Zend/Gdata/Photos/Extension/Id.php';
 
 /**
  * @see Zend_Gdata_Photos_Extension_PhotoId
  */
-#require_once 'Zend/Gdata/Photos/Extension/PhotoId.php';
+require_once 'Zend/Gdata/Photos/Extension/PhotoId.php';
 
 /**
  * @see Zend_Gdata_Photos_Extension_Weight
  */
-#require_once 'Zend/Gdata/Photos/Extension/Weight.php';
+require_once 'Zend/Gdata/Photos/Extension/Weight.php';
 
 /**
  * @see Zend_Gdata_App_Extension_Category
  */
-#require_once 'Zend/Gdata/App/Extension/Category.php';
+require_once 'Zend/Gdata/App/Extension/Category.php';
 
 /**
  * Data model class for a Comment Entry.
@@ -57,7 +58,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Photos
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Photos_CommentEntry extends Zend_Gdata_Entry

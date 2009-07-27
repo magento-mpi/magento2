@@ -15,14 +15,23 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Test.php 12104 2008-10-23 22:36:28Z shahar $
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Test.php 16872 2009-07-20 11:47:08Z mikaelkael $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
-#require_once 'Zend/Uri/Http.php';
-#require_once 'Zend/Http/Response.php';
-#require_once 'Zend/Http/Client/Adapter/Interface.php';
+/**
+ * @see Zend_Uri_Http
+ */
+require_once 'Zend/Uri/Http.php';
+/**
+ * @see Zend_Http_Response
+ */
+require_once 'Zend/Http/Response.php';
+/**
+ * @see Zend_Http_Client_Adapter_Interface
+ */
+require_once 'Zend/Http/Client/Adapter/Interface.php';
 
 /**
  * A testing-purposes adapter.
@@ -35,7 +44,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interface
@@ -77,7 +86,7 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
     public function setConfig($config = array())
     {
         if (! is_array($config)) {
-            #require_once 'Zend/Http/Client/Adapter/Exception.php';
+            require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception(
                 '$config expects an array, ' . gettype($config) . ' recieved.');
         }
@@ -158,7 +167,7 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
     public function setResponse($response)
     {
         if ($response instanceof Zend_Http_Response) {
-            $response = $response->asString();
+            $response = $response->asString("\r\n");
         }
 
         $this->responses = (array)$response;
@@ -168,10 +177,14 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
     /**
      * Add another response to the response buffer.
      *
-     * @param string $response
+     * @param string Zend_Http_Response|$response
      */
     public function addResponse($response)
     {
+     	if ($response instanceof Zend_Http_Response) {
+            $response = $response->asString("\r\n");
+        }
+        
         $this->responses[] = $response;
     }
 
@@ -184,7 +197,7 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
     public function setResponseIndex($index)
     {
         if ($index < 0 || $index >= count($this->responses)) {
-            #require_once 'Zend/Http/Client/Adapter/Exception.php';
+            require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception(
                 'Index out of range of response buffer size');
         }

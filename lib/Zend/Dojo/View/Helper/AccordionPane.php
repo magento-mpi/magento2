@@ -15,13 +15,13 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage View
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: AccordionPane.php 10067 2008-07-12 21:05:32Z matthew $
+ * @version    $Id: AccordionPane.php 16204 2009-06-21 18:58:29Z thomas $
  */
 
 /** Zend_Dojo_View_Helper_DijitContainer */
-#require_once 'Zend/Dojo/View/Helper/DijitContainer.php';
+require_once 'Zend/Dojo/View/Helper/DijitContainer.php';
 
 /**
  * Dojo AccordionPane dijit
@@ -29,7 +29,7 @@
  * @uses       Zend_Dojo_View_Helper_DijitContainer
  * @package    Zend_Dojo
  * @subpackage View
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
   */
 class Zend_Dojo_View_Helper_AccordionPane extends Zend_Dojo_View_Helper_DijitContainer

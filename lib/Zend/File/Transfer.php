@@ -14,9 +14,9 @@
  *
  * @category  Zend
  * @package   Zend_File_Transfer
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: $
+ * @version   $Id: Transfer.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
@@ -24,7 +24,7 @@
  *
  * @category  Zend
  * @package   Zend_File_Transfer
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_File_Transfer
@@ -36,7 +36,7 @@ class Zend_File_Transfer
      */
     public function __construct($protocol = null)
     {
-        #require_once 'Zend/File/Transfer/Exception.php';
+        require_once 'Zend/File/Transfer/Exception.php';
         throw new Zend_File_Transfer_Exception('Implementation in progress');
 
         switch (strtoupper($protocol)) {
@@ -46,13 +46,13 @@ class Zend_File_Transfer
         }
         
         if (!class_exists($adapter)) {
-            #require_once 'Zend/Loader.php';
+            require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($adapter);
         }
 
         $this->_adapter = new $adapter();
         if (!$this->_adapter instanceof Zend_File_Transfer_Adapter) {
-            #require_once 'Zend/File/Transfer/Exception.php';
+            require_once 'Zend/File/Transfer/Exception.php';
             throw new Zend_File_Transfer_Exception("Adapter " . $adapter . " does not extend Zend_File_Transfer_Adapter'");
         }
 

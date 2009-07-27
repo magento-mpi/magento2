@@ -15,21 +15,21 @@
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage Zend_Auth_Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Ldap.php 14095 2009-02-16 22:17:54Z norm2782 $
+ * @version    $Id: Ldap.php 16200 2009-06-21 18:50:06Z thomas $
  */
 
 /**
  * @see Zend_Auth_Adapter_Interface
  */
-#require_once 'Zend/Auth/Adapter/Interface.php';
+require_once 'Zend/Auth/Adapter/Interface.php';
 
 /**
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage Zend_Auth_Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Auth_Adapter_Ldap implements Zend_Auth_Adapter_Interface
@@ -162,7 +162,7 @@ class Zend_Auth_Adapter_Ldap implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Ldap
              */
-            #require_once 'Zend/Ldap.php';
+            require_once 'Zend/Ldap.php';
             $this->_ldap = new Zend_Ldap();
         }
 
@@ -210,7 +210,7 @@ class Zend_Auth_Adapter_Ldap implements Zend_Auth_Adapter_Interface
         /**
          * @see Zend_Ldap_Exception
          */
-        #require_once 'Zend/Ldap/Exception.php';
+        require_once 'Zend/Ldap/Exception.php';
 
         $messages = array();
         $messages[0] = ''; // reserved
@@ -248,7 +248,7 @@ class Zend_Auth_Adapter_Ldap implements Zend_Auth_Adapter_Interface
                 /**
                  * @see Zend_Auth_Adapter_Exception
                  */
-                #require_once 'Zend/Auth/Adapter/Exception.php';
+                require_once 'Zend/Auth/Adapter/Exception.php';
                 throw new Zend_Auth_Adapter_Exception('Adapter options array not in array');
             }
             $ldap->setOptions($options);

@@ -17,10 +17,11 @@
  * @subpackage Response
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Http.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Amf_Response */
-#require_once 'Zend/Amf/Response.php';
+require_once 'Zend/Amf/Response.php';
 
 /**
  * Creates the proper http headers and send the serialized AMF stream to standard out.

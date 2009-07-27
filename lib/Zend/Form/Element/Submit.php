@@ -15,12 +15,12 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** Zend_Form_Element_Xhtml */
-#require_once 'Zend/Form/Element/Xhtml.php';
+require_once 'Zend/Form/Element/Xhtml.php';
 
 /**
  * Submit form element
@@ -28,9 +28,9 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Submit.php 14637 2009-04-04 13:53:25Z mcleod@spaceweb.nl $
+ * @version    $Id: Submit.php 16218 2009-06-21 19:44:04Z thomas $
  */
 class Zend_Form_Element_Submit extends Zend_Form_Element_Xhtml
 {

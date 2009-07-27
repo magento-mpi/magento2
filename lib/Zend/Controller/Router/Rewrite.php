@@ -12,25 +12,26 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Rewrite.php 15577 2009-05-14 12:43:34Z matthew $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Rewrite.php 16644 2009-07-11 14:12:17Z dasprid $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** Zend_Controller_Router_Abstract */
-#require_once 'Zend/Controller/Router/Abstract.php';
+require_once 'Zend/Controller/Router/Abstract.php';
 
 /** Zend_Controller_Router_Route */
-#require_once 'Zend/Controller/Router/Route.php';
+require_once 'Zend/Controller/Router/Route.php';
 
 /**
  * Ruby routing based Router.
  *
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @see        http://manuals.rubyonrails.com/read/chapter/65
  */
@@ -66,6 +67,13 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
     protected $_globalParams = array();
     
     /**
+     * Separator to use with chain names
+     * 
+     * @var string
+     */
+    protected $_chainNameSeparator = '-';
+    
+    /**
      * Add default routes which are used to mimic basic router behaviour
      * 
      * @return Zend_Controller_Router_Rewrite
@@ -76,7 +84,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
             $dispatcher = $this->getFrontController()->getDispatcher();
             $request = $this->getFrontController()->getRequest();
 
-            #require_once 'Zend/Controller/Router/Route/Module.php';
+            require_once 'Zend/Controller/Router/Route/Module.php';
             $compat = new Zend_Controller_Router_Route_Module(array(), $dispatcher, $request);
 
             $this->_routes = array_merge(array('default' => $compat), $this->_routes);
@@ -147,7 +155,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
     {
         if ($section !== null) {
             if ($config->{$section} === null) {
-                #require_once 'Zend/Controller/Router/Exception.php';
+                require_once 'Zend/Controller/Router/Exception.php';
                 throw new Zend_Controller_Router_Exception("No route configuration in section '{$section}'");
             }
             
@@ -159,7 +167,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
             
             if ($route instanceof Zend_Controller_Router_Route_Chain) {
                 if (!isset($info->chain)) {
-                    #require_once 'Zend/Controller/Router/Exception.php';
+                    require_once 'Zend/Controller/Router/Exception.php';
                     throw new Zend_Controller_Router_Exception("No chain defined");                    
                 }
                 
@@ -195,7 +203,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
     {
         $class = (isset($info->type)) ? $info->type : 'Zend_Controller_Router_Route';
         if (!class_exists($class)) {
-            #require_once 'Zend/Loader.php';
+            require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($class);
         }
               
@@ -235,7 +243,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
                 $chainRoute = $route->chain($childRoute);
             }
             
-            $chainName = $name . '-' . $childRouteName;
+            $chainName = $name . $this->_chainNameSeparator . $childRouteName;
             
             if (isset($childRouteInfo->chains)) {
                 $this->_addChainRoutesFromConfig($chainName, $chainRoute, $childRouteInfo->chains);
@@ -255,7 +263,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
     public function removeRoute($name)
     {
         if (!isset($this->_routes[$name])) {
-            #require_once 'Zend/Controller/Router/Exception.php';
+            require_once 'Zend/Controller/Router/Exception.php';
             throw new Zend_Controller_Router_Exception("Route $name is not defined");
         }
         
@@ -298,7 +306,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
     public function getRoute($name)
     {
         if (!isset($this->_routes[$name])) {
-            #require_once 'Zend/Controller/Router/Exception.php';
+            require_once 'Zend/Controller/Router/Exception.php';
             throw new Zend_Controller_Router_Exception("Route $name is not defined");
         }
         
@@ -314,7 +322,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
     public function getCurrentRoute()
     {
         if (!isset($this->_currentRoute)) {
-            #require_once 'Zend/Controller/Router/Exception.php';
+            require_once 'Zend/Controller/Router/Exception.php';
             throw new Zend_Controller_Router_Exception("Current route is not defined");
         }
         return $this->getRoute($this->_currentRoute);
@@ -329,7 +337,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
     public function getCurrentRouteName()
     {
         if (!isset($this->_currentRoute)) {
-            #require_once 'Zend/Controller/Router/Exception.php';
+            require_once 'Zend/Controller/Router/Exception.php';
             throw new Zend_Controller_Router_Exception("Current route is not defined");
         }
         return $this->_currentRoute;
@@ -355,7 +363,7 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
     public function route(Zend_Controller_Request_Abstract $request)
     {
         if (!$request instanceof Zend_Controller_Request_Http) {
-            #require_once 'Zend/Controller/Router/Exception.php';
+            require_once 'Zend/Controller/Router/Exception.php';
             throw new Zend_Controller_Router_Exception('Zend_Controller_Router_Rewrite requires a Zend_Controller_Request_Http-based request object');
         }
 
@@ -451,5 +459,26 @@ class Zend_Controller_Router_Rewrite extends Zend_Controller_Router_Abstract
         $this->_globalParams[$name] = $value;
     
         return $this;
+    }
+    
+    /**
+     * Set the separator to use with chain names
+     * 
+     * @param  string $separator The separator to use
+     * @return Zend_Controller_Router_Rewrite
+     */
+    public function setChainNameSeparator($separator) {
+    	$this->_chainNameSeparator = $separator;
+    	
+    	return $this;
+    }
+    
+    /**
+     * Get the separator to use for chain names
+     * 
+     * @return string
+     */
+    public function getChainNameSeparator() {
+        return $this->_chainNameSeparator;
     }
 }

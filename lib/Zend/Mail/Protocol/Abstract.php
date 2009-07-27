@@ -16,22 +16,22 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 12395 2008-11-07 23:58:38Z nico $
+ * @version    $Id: Abstract.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 
 /**
  * @see Zend_Validate
  */
-#require_once 'Zend/Validate.php';
+require_once 'Zend/Validate.php';
 
 
 /**
  * @see Zend_Validate_Hostname
  */
-#require_once 'Zend/Validate/Hostname.php';
+require_once 'Zend/Validate/Hostname.php';
 
 
 /**
@@ -42,9 +42,9 @@
  * @category   Zend
  * @package    Zend_Mail
  * @subpackage Protocol
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 12395 2008-11-07 23:58:38Z nico $
+ * @version    $Id: Abstract.php 16219 2009-06-21 19:45:39Z thomas $
  * @todo Implement proxy settings
  */
 abstract class Zend_Mail_Protocol_Abstract
@@ -134,7 +134,7 @@ abstract class Zend_Mail_Protocol_Abstract
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception(join(', ', $this->_validHost->getMessages()));
         }
 
@@ -230,7 +230,7 @@ abstract class Zend_Mail_Protocol_Abstract
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception($errorStr);
         }
 
@@ -238,7 +238,7 @@ abstract class Zend_Mail_Protocol_Abstract
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('Could not set stream timeout');
         }
 
@@ -272,7 +272,7 @@ abstract class Zend_Mail_Protocol_Abstract
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('No connection has been established to ' . $this->_host);
         }
 
@@ -287,7 +287,7 @@ abstract class Zend_Mail_Protocol_Abstract
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('Could not send request to ' . $this->_host);
         }
 
@@ -308,7 +308,7 @@ abstract class Zend_Mail_Protocol_Abstract
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('No connection has been established to ' . $this->_host);
         }
 
@@ -330,7 +330,7 @@ abstract class Zend_Mail_Protocol_Abstract
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception($this->_host . ' has timed out');
         }
 
@@ -338,7 +338,7 @@ abstract class Zend_Mail_Protocol_Abstract
             /**
              * @see Zend_Mail_Protocol_Exception
              */
-            #require_once 'Zend/Mail/Protocol/Exception.php';
+            require_once 'Zend/Mail/Protocol/Exception.php';
             throw new Zend_Mail_Protocol_Exception('Could not read from ' . $this->_host);
         }
 
@@ -374,7 +374,7 @@ abstract class Zend_Mail_Protocol_Abstract
                 /**
                  * @see Zend_Mail_Protocol_Exception
                  */
-                #require_once 'Zend/Mail/Protocol/Exception.php';
+                require_once 'Zend/Mail/Protocol/Exception.php';
                 throw new Zend_Mail_Protocol_Exception($result);
             }
 

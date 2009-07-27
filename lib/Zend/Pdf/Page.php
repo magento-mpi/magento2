@@ -12,43 +12,45 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Page.php 16827 2009-07-18 06:38:11Z yoshida@zend.co.jp $
  */
 
 /** Zend_Pdf_Resource_Font */
-#require_once 'Zend/Pdf/Resource/Font.php';
+require_once 'Zend/Pdf/Resource/Font.php';
 
 /** Zend_Pdf_Style */
-#require_once 'Zend/Pdf/Style.php';
+require_once 'Zend/Pdf/Style.php';
 
 /** Zend_Pdf_Element_Dictionary */
-#require_once 'Zend/Pdf/Element/Dictionary.php';
+require_once 'Zend/Pdf/Element/Dictionary.php';
 
 /** Zend_Pdf_Element_Reference */
-#require_once 'Zend/Pdf/Element/Reference.php';
+require_once 'Zend/Pdf/Element/Reference.php';
 
 /** Zend_Pdf_ElementFactory */
-#require_once 'Zend/Pdf/ElementFactory.php';
+require_once 'Zend/Pdf/ElementFactory.php';
 
 /** Zend_Pdf_Color */
-#require_once 'Zend/Pdf/Color.php';
+require_once 'Zend/Pdf/Color.php';
 
 /** Zend_Pdf_Color_GrayScale */
-#require_once 'Zend/Pdf/Color/GrayScale.php';
+require_once 'Zend/Pdf/Color/GrayScale.php';
 
 /** Zend_Pdf_Color_Rgb */
-#require_once 'Zend/Pdf/Color/Rgb.php';
+require_once 'Zend/Pdf/Color/Rgb.php';
 
 /** Zend_Pdf_Color_Cmyk */
-#require_once 'Zend/Pdf/Color/Cmyk.php';
+require_once 'Zend/Pdf/Color/Cmyk.php';
 
 /**
  * PDF Page
  *
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Page
@@ -120,9 +122,9 @@ class Zend_Pdf_Page
 
 
     /**
-     * Reference to the object with page dictionary.
+     * Page dictionary (refers to an inderect Zend_Pdf_Element_Dictionary object).
      *
-     * @var Zend_Pdf_Element_Reference
+     * @var Zend_Pdf_Element_Reference|Zend_Pdf_Element_Object
      */
     protected $_pageDictionary;
 
@@ -142,7 +144,7 @@ class Zend_Pdf_Page
     protected $_attached;
 
     /**
-     * Stream of the drawing instractions.
+     * Stream of the drawing instructions.
      *
      * @var string
      */
@@ -304,7 +306,7 @@ class Zend_Pdf_Page
                  * @todo support of user defined pagesize notations, like:
                  *       "210x297mm", "595x842", "8.5x11in", "612x792"
                  */
-                #require_once 'Zend/Pdf/Exception.php';
+                require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Wrong pagesize notation.');
             }
             /**
@@ -320,7 +322,7 @@ class Zend_Pdf_Page
             $pageHeight = $param2;
 
         } else {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Unrecognized method signature, wrong number of arguments or wrong argument types.');
         }
 
@@ -344,7 +346,7 @@ class Zend_Pdf_Page
      */
     public function __clone()
     {
-        #require_once 'Zend/Pdf/Exception.php';
+        require_once 'Zend/Pdf/Exception.php';
         throw new Zend_Pdf_Exception('Cloning Zend_Pdf_Page object using \'clone\' keyword is not supported. Use \'new Zend_Pdf_Page($srcPage)\' syntax');
     }
 
@@ -412,6 +414,7 @@ class Zend_Pdf_Page
     /**
      * Retrive PDF file reference to the page
      *
+     * @internal
      * @return Zend_Pdf_Element_Dictionary
      */
     public function getPageDictionary()
@@ -429,7 +432,7 @@ class Zend_Pdf_Page
     public function flush()
     {
         if ($this->_saveCount != 0) {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Saved graphics state is not restored');
         }
 
@@ -496,7 +499,7 @@ class Zend_Pdf_Page
         }
 
         if ($this->_attached) {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Page is attached to one documen, but rendered in context of another.');
             /**
              * @todo Page cloning must be implemented here instead of exception.
@@ -650,11 +653,11 @@ class Zend_Pdf_Page
     {
         if (!in_array($mode, array('Normal', 'Multiply', 'Screen', 'Overlay', 'Darken', 'Lighten', 'ColorDodge',
                                    'ColorBurn', 'HardLight', 'SoftLight', 'Difference', 'Exclusion'))) {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Unsupported transparency mode.');
         }
         if (!is_numeric($alpha)  ||  $alpha < 0  ||  $alpha > 1) {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Alpha value must be numeric between 0 (transparent) and 1 (opaque).');
         }
 
@@ -748,7 +751,7 @@ class Zend_Pdf_Page
         }
 
         $fonts = array();
-        #require_once 'Zend/Pdf/Exception.php';
+        require_once 'Zend/Pdf/Exception.php';
         foreach ($fontResourcesUnique as $resourceReference => $fontDictionary) {
             try {
                 // Try to extract font
@@ -781,7 +784,7 @@ class Zend_Pdf_Page
 
         $fontResources = $this->_pageDictionary->Resources->Font;
 
-        #require_once 'Zend/Pdf/Exception.php';
+        require_once 'Zend/Pdf/Exception.php';
         foreach ($fontResources->getKeys() as $fontResourceName) {
             $fontDictionary = $fontResources->$fontResourceName;
 
@@ -859,7 +862,7 @@ class Zend_Pdf_Page
     public function restoreGS()
     {
         if ($this->_saveCount-- <= 0) {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Restoring graphics state which is not saved');
         }
         $this->_contents .= " Q\n";
@@ -1405,7 +1408,7 @@ class Zend_Pdf_Page
     public function drawText($text, $x, $y, $charEncoding = '')
     {
         if ($this->_font === null) {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Font has not been set');
         }
 

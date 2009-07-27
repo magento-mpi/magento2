@@ -14,15 +14,15 @@
  *
  * @category  Zend
  * @package   Zend_Application
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Exception.php 14064 2009-02-12 20:24:14Z dasprid $
+ * @version   $Id: Exception.php 16200 2009-06-21 18:50:06Z thomas $
  */
 
 /**
  * @see Zend_Application_Exception
  */
-#require_once 'Zend/Application/Exception.php';
+require_once 'Zend/Application/Exception.php';
 
 /**
  * Exception class for Zend_Application
@@ -30,7 +30,7 @@
  * @category  Zend
  * @package   Zend_Application
  * @uses      Zend_Application_Exception
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Application_Bootstrap_Exception extends Zend_Application_Exception

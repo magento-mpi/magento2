@@ -16,36 +16,40 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Books
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Books.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
-#require_once 'Zend/Gdata.php';
+/**
+ * @see Zend_Gdata
+ */
+require_once 'Zend/Gdata.php';
 
 /**
  * @see Zend_Gdata_DublinCore
  */
-#require_once 'Zend/Gdata/DublinCore.php';
+require_once 'Zend/Gdata/DublinCore.php';
 
 /**
  * @see Zend_Gdata_Books_CollectionEntry
  */
-#require_once 'Zend/Gdata/Books/CollectionEntry.php';
+require_once 'Zend/Gdata/Books/CollectionEntry.php';
 
 /**
  * @see Zend_Gdata_Books_CollectionFeed
  */
-#require_once 'Zend/Gdata/Books/CollectionFeed.php';
+require_once 'Zend/Gdata/Books/CollectionFeed.php';
 
 /**
  * @see Zend_Gdata_Books_VolumeEntry
  */
-#require_once 'Zend/Gdata/Books/VolumeEntry.php';
+require_once 'Zend/Gdata/Books/VolumeEntry.php';
 
 /**
  * @see Zend_Gdata_Books_VolumeFeed
  */
-#require_once 'Zend/Gdata/Books/VolumeFeed.php';
+require_once 'Zend/Gdata/Books/VolumeFeed.php';
 
 /**
  * Service class for interacting with the Books service
@@ -53,7 +57,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Books
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Books extends Zend_Gdata

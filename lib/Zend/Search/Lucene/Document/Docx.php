@@ -15,12 +15,13 @@
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Document
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Docx.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Search_Lucene_Document_OpenXml */
-#require_once 'Zend/Search/Lucene/Document/OpenXml.php';
+require_once 'Zend/Search/Lucene/Document/OpenXml.php';
 
 if (class_exists('ZipArchive', false)) {
 
@@ -30,7 +31,7 @@ if (class_exists('ZipArchive', false)) {
  * @category   Zend
  * @package    Zend_Search_Lucene
  * @subpackage Document
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Search_Lucene_Document_Docx extends Zend_Search_Lucene_Document_OpenXml {
@@ -132,7 +133,7 @@ class Zend_Search_Lucene_Document_Docx extends Zend_Search_Lucene_Document_OpenX
      */
     public static function loadDocxFile($fileName, $storeContent = false) {
         if (!is_readable($fileName)) {
-        	#require_once 'Zend/Search/Lucene/Document/Exception.php';
+        	require_once 'Zend/Search/Lucene/Document/Exception.php';
         	throw new Zend_Search_Lucene_Document_Exception('Provided file \'' . $fileName . '\' is not readable.');
         }
 

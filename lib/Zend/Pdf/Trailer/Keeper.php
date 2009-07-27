@@ -12,17 +12,19 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Keeper.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 
 /** Zend_Pdf_Trailer */
-#require_once 'Zend/Pdf/Trailer.php';
+require_once 'Zend/Pdf/Trailer.php';
 
 /** Zend_Pdf_Element_Reference_Context */
-#require_once 'Zend/Pdf/Element/Reference/Context.php';
+require_once 'Zend/Pdf/Element/Reference/Context.php';
 
 
 /**
@@ -30,7 +32,7 @@
  * Stores and provides access to the trailer parced from a PDF file
  *
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Trailer_Keeper extends Zend_Pdf_Trailer

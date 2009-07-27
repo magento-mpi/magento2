@@ -16,7 +16,7 @@
  * @package    Zend_Reflection
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id$
+ * @version    $Id: Property.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
@@ -38,7 +38,7 @@ class Zend_Reflection_Property extends ReflectionProperty
         $phpReflection  = parent::getDeclaringClass();
         $zendReflection = new $reflectionClass($phpReflection->getName());
         if (!$zendReflection instanceof Zend_Reflection_Class) {
-            #require_once 'Zend/Reflection/Exception.php';
+            require_once 'Zend/Reflection/Exception.php';
             throw new Zend_Reflection_Exception('Invalid reflection class provided; must extend Zend_Reflection_Class');
         }
         unset($phpReflection);
@@ -60,7 +60,7 @@ class Zend_Reflection_Property extends ReflectionProperty
 
         $r = new $reflectionClass($docblock);
         if (!$r instanceof Zend_Reflection_Docblock) {
-            #require_once 'Zend/Reflection/Exception.php';
+            require_once 'Zend/Reflection/Exception.php';
             throw new Zend_Reflection_Exception('Invalid reflection class provided; must extend Zend_Reflection_Docblock');
         }
         return $r;

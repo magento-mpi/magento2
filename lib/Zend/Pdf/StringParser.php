@@ -12,66 +12,68 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: StringParser.php 16541 2009-07-07 06:59:03Z bkarwin $
  */
 
 
 /** Zend_Pdf_Element */
-#require_once 'Zend/Pdf/Element.php';
+require_once 'Zend/Pdf/Element.php';
 
 /** Zend_Pdf_Element_Array */
-#require_once 'Zend/Pdf/Element/Array.php';
+require_once 'Zend/Pdf/Element/Array.php';
 
 /** Zend_Pdf_Element_String_Binary */
-#require_once 'Zend/Pdf/Element/String/Binary.php';
+require_once 'Zend/Pdf/Element/String/Binary.php';
 
 /** Zend_Pdf_Element_Boolean */
-#require_once 'Zend/Pdf/Element/Boolean.php';
+require_once 'Zend/Pdf/Element/Boolean.php';
 
 /** Zend_Pdf_Element_Dictionary */
-#require_once 'Zend/Pdf/Element/Dictionary.php';
+require_once 'Zend/Pdf/Element/Dictionary.php';
 
 /** Zend_Pdf_Element_Name */
-#require_once 'Zend/Pdf/Element/Name.php';
+require_once 'Zend/Pdf/Element/Name.php';
 
 /** Zend_Pdf_Element_Numeric */
-#require_once 'Zend/Pdf/Element/Numeric.php';
+require_once 'Zend/Pdf/Element/Numeric.php';
 
 /** Zend_Pdf_Element_Object */
-#require_once 'Zend/Pdf/Element/Object.php';
+require_once 'Zend/Pdf/Element/Object.php';
 
 /** Zend_Pdf_Element_Reference */
-#require_once 'Zend/Pdf/Element/Reference.php';
+require_once 'Zend/Pdf/Element/Reference.php';
 
 /** Zend_Pdf_Element_Object_Stream */
-#require_once 'Zend/Pdf/Element/Object/Stream.php';
+require_once 'Zend/Pdf/Element/Object/Stream.php';
 
 /** Zend_Pdf_Element_String */
-#require_once 'Zend/Pdf/Element/String.php';
+require_once 'Zend/Pdf/Element/String.php';
 
 /** Zend_Pdf_Element_Null */
-#require_once 'Zend/Pdf/Element/Null.php';
+require_once 'Zend/Pdf/Element/Null.php';
 
 /** Zend_Pdf_Element_Reference_Context */
-#require_once 'Zend/Pdf/Element/Reference/Context.php';
+require_once 'Zend/Pdf/Element/Reference/Context.php';
 
 /** Zend_Pdf_Element_Reference_Table */
-#require_once 'Zend/Pdf/Element/Reference/Table.php';
+require_once 'Zend/Pdf/Element/Reference/Table.php';
 
 /** Zend_Pdf_ElementFactory_Interface */
-#require_once 'Zend/Pdf/ElementFactory/Interface.php';
+require_once 'Zend/Pdf/ElementFactory/Interface.php';
 
 /** Zend_Pdf_PhpArray */
-#require_once 'Zend/Pdf/PhpArray.php';
+require_once 'Zend/Pdf/PhpArray.php';
 
 
 /**
  * PDF string parser
  *
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_StringParser

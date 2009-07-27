@@ -16,24 +16,25 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Docs
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Docs.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Gdata
  */
-#require_once 'Zend/Gdata.php';
+require_once 'Zend/Gdata.php';
 
 /**
  * @see Zend_Gdata_Docs_DocumentListFeed
  */
-#require_once 'Zend/Gdata/Docs/DocumentListFeed.php';
+require_once 'Zend/Gdata/Docs/DocumentListFeed.php';
 
 /**
  * @see Zend_Gdata_Docs_DocumentListEntry
  */
-#require_once 'Zend/Gdata/Docs/DocumentListEntry.php';
+require_once 'Zend/Gdata/Docs/DocumentListEntry.php';
 
 /**
  * Service class for interacting with the Google Document List data API
@@ -42,7 +43,7 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Docs
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Docs extends Zend_Gdata
@@ -118,7 +119,7 @@ class Zend_Gdata_Docs extends Zend_Gdata
     public function getDocumentListEntry($location = null)
     {
         if ($location === null) {
-            #require_once 'Zend/Gdata/App/InvalidArgumentException.php';
+            require_once 'Zend/Gdata/App/InvalidArgumentException.php';
             throw new Zend_Gdata_App_InvalidArgumentException(
                     'Location must not be null');
         } else if ($location instanceof Zend_Gdata_Query) {
@@ -221,8 +222,7 @@ class Zend_Gdata_Docs extends Zend_Gdata
 
         // Set the mime type of the data.
         if ($mimeType === null) {
-          $slugHeader =  $fs->getSlug();
-          $filenameParts = explode('.', $slugHeader);
+          $filenameParts = explode('.', $fileLocation);
           $fileExtension = end($filenameParts);
           $mimeType = self::lookupMimeType($fileExtension);
         }

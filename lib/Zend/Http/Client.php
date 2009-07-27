@@ -16,33 +16,33 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client
- * @version    $Id: Client.php 15577 2009-05-14 12:43:34Z matthew $
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Client.php 16898 2009-07-20 21:31:33Z shahar $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /**
  * @see Zend_Loader
  */
-#require_once 'Zend/Loader.php';
+require_once 'Zend/Loader.php';
 
 
 /**
  * @see Zend_Uri
  */
-#require_once 'Zend/Uri.php';
+require_once 'Zend/Uri.php';
 
 
 /**
  * @see Zend_Http_Client_Adapter_Interface
  */
-#require_once 'Zend/Http/Client/Adapter/Interface.php';
+require_once 'Zend/Http/Client/Adapter/Interface.php';
 
 
 /**
  * @see Zend_Http_Response
  */
-#require_once 'Zend/Http/Response.php';
+require_once 'Zend/Http/Response.php';
 
 /**
  * Zend_Http_Client is an implemetation of an HTTP client in PHP. The client
@@ -55,7 +55,7 @@
  * @package    Zend_Http
  * @subpackage Client
  * @throws     Zend_Http_Client_Exception
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Http_Client
@@ -263,7 +263,7 @@ class Zend_Http_Client
 
         if (!$uri instanceof Zend_Uri_Http) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('Passed parameter is not a valid HTTP URI.');
         }
 
@@ -303,7 +303,7 @@ class Zend_Http_Client
     {
         if (! is_array($config)) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('Expected array parameter, given ' . gettype($config));
         }
 
@@ -334,7 +334,7 @@ class Zend_Http_Client
         $regex = '/^[^\x00-\x1f\x7f-\xff\(\)<>@,;:\\\\"\/\[\]\?={}\s]+$/';
         if (! preg_match($regex, $method)) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception("'{$method}' is not a valid HTTP request method.");
         }
 
@@ -385,7 +385,7 @@ class Zend_Http_Client
             // Make sure the name is valid if we are in strict mode
             if ($this->config['strict'] && (! preg_match('/^[a-zA-Z0-9-]+$/', $name))) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("{$name} is not a valid HTTP header name");
             }
             
@@ -537,7 +537,7 @@ class Zend_Http_Client
             // Check we got a proper authentication type
             if (! defined('self::AUTH_' . strtoupper($type))) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Invalid or not supported authentication type: '$type'");
             }
 
@@ -564,7 +564,7 @@ class Zend_Http_Client
     public function setCookieJar($cookiejar = true)
     {
         if (! class_exists('Zend_Http_CookieJar')) {
-            #require_once 'Zend/Http/CookieJar.php';
+            require_once 'Zend/Http/CookieJar.php';
         }
 
         if ($cookiejar instanceof Zend_Http_CookieJar) {
@@ -575,7 +575,7 @@ class Zend_Http_Client
             $this->cookiejar = null;
         } else {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('Invalid parameter type passed as CookieJar');
         }
 
@@ -604,7 +604,7 @@ class Zend_Http_Client
     public function setCookie($cookie, $value = null)
     {
         if (! class_exists('Zend_Http_Cookie')) {
-            #require_once 'Zend/Http/Cookie.php';
+            require_once 'Zend/Http/Cookie.php';
         }
 
         if (is_array($cookie)) {
@@ -639,7 +639,7 @@ class Zend_Http_Client
 
             if (preg_match("/[=,; \t\r\n\013\014]/", $cookie)) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Cookie name cannot contain these characters: =,; \t\r\n\013\014 ({$cookie})");
             }
 
@@ -679,7 +679,7 @@ class Zend_Http_Client
         if ($data === null) {
             if (($data = @file_get_contents($filename)) === false) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Unable to read file '{$filename}' for upload");
             }
 
@@ -691,7 +691,12 @@ class Zend_Http_Client
         // Force enctype to multipart/form-data
         $this->setEncType(self::ENC_FORMDATA);
 
-        $this->files[$formname] = array(basename($filename), $ctype, $data);
+        $this->files[] = array(
+            'formname' => $formname, 
+            'filename' => basename($filename), 
+            'ctype'    => $ctype, 
+            'data'     => $data
+        );
 
         return $this;
     }
@@ -794,11 +799,11 @@ class Zend_Http_Client
         if (is_string($adapter)) {
             if (!class_exists($adapter)) {
                 try {
-                    #require_once 'Zend/Loader.php';
+                    require_once 'Zend/Loader.php';
                     Zend_Loader::loadClass($adapter);
                 } catch (Zend_Exception $e) {
                     /** @see Zend_Http_Client_Exception */
-                    #require_once 'Zend/Http/Client/Exception.php';
+                    require_once 'Zend/Http/Client/Exception.php';
                     throw new Zend_Http_Client_Exception("Unable to load adapter '$adapter': {$e->getMessage()}");
                 }
             }
@@ -808,7 +813,7 @@ class Zend_Http_Client
 
         if (! $adapter instanceof Zend_Http_Client_Adapter_Interface) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('Passed adapter is not a HTTP connection adapter');
         }
 
@@ -829,7 +834,7 @@ class Zend_Http_Client
     {
         if (! $this->uri instanceof Zend_Uri_Http) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('No valid URI has been passed to the client');
         }
 
@@ -871,7 +876,7 @@ class Zend_Http_Client
             $response = $this->adapter->read();
             if (! $response) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception('Unable to read response, or response is empty');
             }
 
@@ -1052,15 +1057,15 @@ class Zend_Http_Client
                     $this->setHeaders(self::CONTENT_TYPE, self::ENC_FORMDATA . "; boundary={$boundary}");
 
                     // Get POST parameters and encode them
-                    $params = $this->_getParametersRecursive($this->paramsPost);
+                    $params = self::_flattenParametersArray($this->paramsPost);
                     foreach ($params as $pp) {
                         $body .= self::encodeFormData($boundary, $pp[0], $pp[1]);
                     }
 
                     // Encode files
-                    foreach ($this->files as $name => $file) {
-                        $fhead = array(self::CONTENT_TYPE => $file[1]);
-                        $body .= self::encodeFormData($boundary, $name, $file[2], $file[0], $fhead);
+                    foreach ($this->files as $file) {
+                        $fhead = array(self::CONTENT_TYPE => $file['ctype']);
+                        $body .= self::encodeFormData($boundary, $file['formname'], $file['data'], $file['filename'], $fhead);
                     }
 
                     $body .= "--{$boundary}--\r\n";
@@ -1074,7 +1079,7 @@ class Zend_Http_Client
 
                 default:
                     /** @see Zend_Http_Client_Exception */
-                    #require_once 'Zend/Http/Client/Exception.php';
+                    require_once 'Zend/Http/Client/Exception.php';
                     throw new Zend_Http_Client_Exception("Cannot handle content type '{$this->enctype}' automatically." .
                         " Please use Zend_Http_Client::setRawData to send this kind of content.");
                     break;
@@ -1097,12 +1102,21 @@ class Zend_Http_Client
      * necessarily unique. If one of the parameters in as array, it will also
      * add a [] suffix to the key.
      *
-     * @param array $parray The parameters array
-     * @param bool $urlencode Whether to urlencode the name and value
+     * This method is deprecated since Zend Framework 1.9 in favour of 
+     * self::_flattenParametersArray() and will be dropped in 2.0
+     * 
+     * @deprecated since 1.9
+     * 
+     * @param  array $parray    The parameters array
+     * @param  bool  $urlencode Whether to urlencode the name and value
      * @return array
      */
     protected function _getParametersRecursive($parray, $urlencode = false)
     {
+        // Issue a deprecated notice
+        trigger_error("The " .  __METHOD__ . " method is deprecated and will be dropped in 2.0.", 
+            E_USER_NOTICE);
+            
         if (! is_array($parray)) {
             return $parray;
         }
@@ -1222,7 +1236,7 @@ class Zend_Http_Client
                 // In basic authentication, the user name cannot contain ":"
                 if (strpos($user, ':') !== false) {
                     /** @see Zend_Http_Client_Exception */
-                    #require_once 'Zend/Http/Client/Exception.php';
+                    require_once 'Zend/Http/Client/Exception.php';
                     throw new Zend_Http_Client_Exception("The user name cannot contain ':' in 'Basic' HTTP authentication");
                 }
 
@@ -1237,10 +1251,57 @@ class Zend_Http_Client
 
             default:
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Not a supported HTTP authentication type: '$type'");
         }
 
         return $authHeader;
     }
+
+    /**
+     * Convert an array of parameters into a flat array of (key, value) pairs
+     * 
+     * Will flatten a potentially multi-dimentional array of parameters (such 
+     * as POST parameters) into a flat array of (key, value) paris. In case 
+     * of multi-dimentional arrays, square brackets ([]) will be added to the
+     * key to indicate an array. 
+     * 
+     * @since  1.9
+     * 
+     * @param  array  $parray
+     * @param  string $prefix
+     * @return array
+     */
+    static protected function _flattenParametersArray($parray, $prefix = null)
+    {
+        if (! is_array($parray)) {
+            return $parray;
+        }
+        
+        $parameters = array();
+        
+        foreach($parray as $name => $value) {
+            
+            // Calculate array key
+            if ($prefix) {
+                if (is_int($name)) {
+                    $key = $prefix . '[]';
+                } else {
+                    $key = $prefix . "[$name]";
+                }
+            } else {
+                $key = $name;
+            }
+            
+            if (is_array($value)) {
+                $parameters = array_merge($parameters, self::_flattenParametersArray($value, $key));
+                
+            } else {
+                $parameters[] = array($key, $value);
+            }
+        }
+        
+        return $parameters;
+    }
+    
 }

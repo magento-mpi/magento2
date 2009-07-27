@@ -15,21 +15,22 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Firebug.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Log */
-#require_once 'Zend/Log.php';
+require_once 'Zend/Log.php';
 
 /** Zend_Log_Writer_Abstract */
-#require_once 'Zend/Log/Writer/Abstract.php';
+require_once 'Zend/Log/Writer/Abstract.php';
 
 /** Zend_Log_Formatter_Firebug */
-#require_once 'Zend/Log/Formatter/Firebug.php';
+require_once 'Zend/Log/Formatter/Firebug.php';
 
 /** Zend_Wildfire_Plugin_FirePhp */
-#require_once 'Zend/Wildfire/Plugin/FirePhp.php';
+require_once 'Zend/Wildfire/Plugin/FirePhp.php';
 
 /**
  * Writes log messages to the Firebug Console via FirePHP.
@@ -37,7 +38,7 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Log_Writer_Firebug extends Zend_Log_Writer_Abstract

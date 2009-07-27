@@ -15,33 +15,33 @@
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage Zend_Auth_Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DbTable.php 14899 2009-04-14 22:04:56Z ralph $
+ * @version    $Id: DbTable.php 16200 2009-06-21 18:50:06Z thomas $
  */
 
 
 /**
  * @see Zend_Auth_Adapter_Interface
  */
-#require_once 'Zend/Auth/Adapter/Interface.php';
+require_once 'Zend/Auth/Adapter/Interface.php';
 
 /**
  * @see Zend_Db_Adapter_Abstract
  */
-#require_once 'Zend/Db/Adapter/Abstract.php';
+require_once 'Zend/Db/Adapter/Abstract.php';
 
 /**
  * @see Zend_Auth_Result
  */
-#require_once 'Zend/Auth/Result.php';
+require_once 'Zend/Auth/Result.php';
 
 
 /**
  * @category   Zend
  * @package    Zend_Auth
  * @subpackage Zend_Auth_Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
@@ -340,7 +340,7 @@ class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            #require_once 'Zend/Auth/Adapter/Exception.php';
+            require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception($exception);
         }
 
@@ -408,7 +408,7 @@ class Zend_Auth_Adapter_DbTable implements Zend_Auth_Adapter_Interface
             /**
              * @see Zend_Auth_Adapter_Exception
              */
-            #require_once 'Zend/Auth/Adapter/Exception.php';
+            require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('The supplied parameters to Zend_Auth_Adapter_DbTable failed to '
                                                 . 'produce a valid sql statement, please check table and column names '
                                                 . 'for validity.');

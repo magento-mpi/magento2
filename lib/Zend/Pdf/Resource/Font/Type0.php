@@ -12,20 +12,22 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Pdf
  * @subpackage Fonts
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Type0.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Pdf_Resource_Font */
-#require_once 'Zend/Pdf/Resource/Font.php';
+require_once 'Zend/Pdf/Resource/Font.php';
 
 /** Zend_Pdf_Resource_Font_CidFont */
-#require_once 'Zend/Pdf/Resource/Font/CidFont.php';
+require_once 'Zend/Pdf/Resource/Font/CidFont.php';
 
 /** Zend_Pdf_Resource_Font_CidFont_TrueType */
-#require_once 'Zend/Pdf/Resource/Font/CidFont/TrueType.php';
+require_once 'Zend/Pdf/Resource/Font/CidFont/TrueType.php';
 
 
 /**
@@ -56,7 +58,7 @@
  *
  * @package    Zend_Pdf
  * @subpackage Fonts
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Resource_Font_Type0 extends Zend_Pdf_Resource_Font

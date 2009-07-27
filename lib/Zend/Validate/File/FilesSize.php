@@ -14,22 +14,22 @@
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: $
+ * @version   $Id: FilesSize.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Validate_File_Size
  */
-#require_once 'Zend/Validate/File/Size.php';
+require_once 'Zend/Validate/File/Size.php';
 
 /**
  * Validator for the size of all files which will be validated in sum
  *
  * @category  Zend
  * @package   Zend_Validate
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
@@ -80,7 +80,7 @@ class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
             } elseif (is_scalar($options)) {
                 $options = array('min' => $options);
             } elseif (!is_array($options)) {
-                #require_once 'Zend/Validate/Exception.php';
+                require_once 'Zend/Validate/Exception.php';
                 throw new Zend_Validate_Exception('Invalid options to validator provided');
             }
 
@@ -107,7 +107,7 @@ class Zend_Validate_File_FilesSize extends Zend_Validate_File_Size
      */
     public function isValid($value, $file = null)
     {
-        #require_once 'Zend/Loader.php';
+        require_once 'Zend/Loader.php';
         if (is_string($value)) {
             $value = array($value);
         }

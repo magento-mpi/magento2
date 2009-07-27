@@ -16,9 +16,9 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Amazon
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Amazon.php 13551 2009-01-08 14:27:42Z beberlei $
+ * @version    $Id: Amazon.php 16974 2009-07-22 19:23:08Z matthew $
  */
 
 
@@ -26,7 +26,7 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Amazon
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Amazon
@@ -75,14 +75,14 @@ class Zend_Service_Amazon
             /**
              * @see Zend_Service_Exception
              */
-            #require_once 'Zend/Service/Exception.php';
+            require_once 'Zend/Service/Exception.php';
             throw new Zend_Service_Exception("Unknown country code: $countryCode");
         }
 
         /**
          * @see Zend_Rest_Client
          */
-        #require_once 'Zend/Rest/Client.php';
+        require_once 'Zend/Rest/Client.php';
         $this->_rest = new Zend_Rest_Client($this->_baseUriList[$countryCode]);
     }
 
@@ -106,7 +106,7 @@ class Zend_Service_Amazon
             /**
              * @see Zend_Service_Exception
              */
-            #require_once 'Zend/Service/Exception.php';
+            require_once 'Zend/Service/Exception.php';
             throw new Zend_Service_Exception('An error occurred sending request. Status code: '
                                            . $response->getStatus());
         }
@@ -118,7 +118,7 @@ class Zend_Service_Amazon
         /**
          * @see Zend_Service_Amazon_ResultSet
          */
-        #require_once 'Zend/Service/Amazon/ResultSet.php';
+        require_once 'Zend/Service/Amazon/ResultSet.php';
         return new Zend_Service_Amazon_ResultSet($dom);
     }
 
@@ -144,7 +144,7 @@ class Zend_Service_Amazon
             /**
              * @see Zend_Service_Exception
              */
-            #require_once 'Zend/Service/Exception.php';
+            require_once 'Zend/Service/Exception.php';
             throw new Zend_Service_Exception('An error occurred sending request. Status code: '
                                            . $response->getStatus());
         }
@@ -160,14 +160,14 @@ class Zend_Service_Amazon
             /**
              * @see Zend_Service_Amazon_Item
              */
-            #require_once 'Zend/Service/Amazon/Item.php';
+            require_once 'Zend/Service/Amazon/Item.php';
             return new Zend_Service_Amazon_Item($items->item(0));
         }
 
         /**
          * @see Zend_Service_Amazon_ResultSet
          */
-        #require_once 'Zend/Service/Amazon/ResultSet.php';
+        require_once 'Zend/Service/Amazon/ResultSet.php';
         return new Zend_Service_Amazon_ResultSet($dom);
     }
 
@@ -199,7 +199,7 @@ class Zend_Service_Amazon
 
         // de-canonicalize out sort key
         if (isset($options['ResponseGroup'])) {
-            $responseGroup = split(',', $options['ResponseGroup']);
+            $responseGroup = explode(',', $options['ResponseGroup']);
 
             if (!in_array('Request', $responseGroup)) {
                 $responseGroup[] = 'Request';
@@ -235,7 +235,7 @@ class Zend_Service_Amazon
                     /**
                      * @see Zend_Service_Exception
                      */
-                    #require_once 'Zend/Service/Exception.php';
+                    require_once 'Zend/Service/Exception.php';
                     throw new Zend_Service_Exception("$message ($code)");
             }
         }

@@ -15,13 +15,13 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage View
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: DijitContainer.php 11744 2008-10-08 18:06:15Z matthew $
+ * @version    $Id: DijitContainer.php 16204 2009-06-21 18:58:29Z thomas $
  */
 
 /** Zend_Dojo_View_Helper_Dijit */
-#require_once 'Zend/Dojo/View/Helper/Dijit.php';
+require_once 'Zend/Dojo/View/Helper/Dijit.php';
 
 /**
  * Dijit layout container base class
@@ -29,7 +29,7 @@
  * @uses       Zend_Dojo_View_Helper_Dijit
  * @package    Zend_Dojo
  * @subpackage View
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
   */
 abstract class Zend_Dojo_View_Helper_DijitContainer extends Zend_Dojo_View_Helper_Dijit
@@ -57,7 +57,7 @@ abstract class Zend_Dojo_View_Helper_DijitContainer extends Zend_Dojo_View_Helpe
     public function captureStart($id, array $params = array(), array $attribs = array())
     {
         if (array_key_exists($id, $this->_captureLock)) {
-            #require_once 'Zend/Dojo/View/Exception.php';
+            require_once 'Zend/Dojo/View/Exception.php';
             throw new Zend_Dojo_View_Exception(sprintf('Lock already exists for id "%s"', $id));
         }
 
@@ -80,7 +80,7 @@ abstract class Zend_Dojo_View_Helper_DijitContainer extends Zend_Dojo_View_Helpe
     public function captureEnd($id)
     {
         if (!array_key_exists($id, $this->_captureLock)) {
-            #require_once 'Zend/Dojo/View/Exception.php';
+            require_once 'Zend/Dojo/View/Exception.php';
             throw new Zend_Dojo_View_Exception(sprintf('No capture lock exists for id "%s"; nothing to capture', $id));
         }
 

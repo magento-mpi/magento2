@@ -14,26 +14,31 @@
  *
  * @category  Zend
  * @package   Zend_Config
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Xml.php 14665 2009-04-05 08:46:51Z rob $
+ * @version   $Id: Xml.php 16924 2009-07-21 16:34:04Z dasprid $
  */
 
 /**
  * @see Zend_Config
  */
-#require_once 'Zend/Config.php';
+require_once 'Zend/Config.php';
 
 /**
  * XML Adapter for Zend_Config
  *
  * @category  Zend
  * @package   Zend_Config
- * @copyright Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Config_Xml extends Zend_Config
 {
+    /**
+     * XML namespace for ZF-related tags and attributes
+     */
+    const XML_NAMESPACE = 'http://framework.zend.com/xml/zend-config-xml/1.0/';
+    
     /**
      * Wether to skip extends or not
      *
@@ -63,7 +68,7 @@ class Zend_Config_Xml extends Zend_Config
     public function __construct($xml, $section = null, $options = false)
     {
         if (empty($xml)) {
-            #require_once 'Zend/Config/Exception.php';
+            require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception('Filename is not set');
         }
 
@@ -89,7 +94,7 @@ class Zend_Config_Xml extends Zend_Config
         restore_error_handler();
         // Check if there was a error while loading file
         if ($this->_loadFileErrorStr !== null) {
-            #require_once 'Zend/Config/Exception.php';
+            require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception($this->_loadFileErrorStr);
         }
 
@@ -104,7 +109,7 @@ class Zend_Config_Xml extends Zend_Config
             $dataArray = array();
             foreach ($section as $sectionName) {
                 if (!isset($config->$sectionName)) {
-                    #require_once 'Zend/Config/Exception.php';
+                    require_once 'Zend/Config/Exception.php';
                     throw new Zend_Config_Exception("Section '$sectionName' cannot be found in $xml");
                 }
 
@@ -114,7 +119,7 @@ class Zend_Config_Xml extends Zend_Config
             parent::__construct($dataArray, $allowModifications);
         } else {
             if (!isset($config->$section)) {
-                #require_once 'Zend/Config/Exception.php';
+                require_once 'Zend/Config/Exception.php';
                 throw new Zend_Config_Exception("Section '$section' cannot be found in $xml");
             }
 
@@ -143,14 +148,15 @@ class Zend_Config_Xml extends Zend_Config
     protected function _processExtends(SimpleXMLElement $element, $section, array $config = array())
     {
         if (!isset($element->$section)) {
-            #require_once 'Zend/Config/Exception.php';
+            require_once 'Zend/Config/Exception.php';
             throw new Zend_Config_Exception("Section '$section' cannot be found");
         }
 
-        $thisSection = $element->$section;
+        $thisSection  = $element->$section;
+        $nsAttributes = $thisSection->attributes(self::XML_NAMESPACE);  
 
-        if (isset($thisSection['extends'])) {
-            $extendedSection = (string) $thisSection['extends'];
+        if (isset($thisSection['extends']) || isset($nsAttributes['extends'])) {
+            $extendedSection = (string) (isset($nsAttributes['extends']) ? $nsAttributes['extends'] : $thisSection['extends']);
             $this->_assertValidExtend($section, $extendedSection);
             
             if (!$this->_skipExtends) {
@@ -172,7 +178,8 @@ class Zend_Config_Xml extends Zend_Config
      */
     protected function _toArray(SimpleXMLElement $xmlObject)
     {
-        $config = array();
+        $config       = array();
+        $nsAttributes = $xmlObject->attributes(self::XML_NAMESPACE);
 
         // Search for parent node values
         if (count($xmlObject->attributes()) > 0) {
@@ -195,10 +202,57 @@ class Zend_Config_Xml extends Zend_Config
             }
         }
 
+        // Search for local 'const' nodes and replace them
+        if (count($xmlObject->children(self::XML_NAMESPACE)) > 0) {
+            if (count($xmlObject->children()) > 0) {
+                require_once 'Zend/Config/Exception.php';
+                throw new Zend_Config_Exception("A node with a 'const' childnode may not have any other children");                 
+            }
+            
+            $dom                 = dom_import_simplexml($xmlObject);
+            $namespaceChildNodes = array();
+
+            // We have to store them in an array, as replacing nodes will
+            // confuse the DOMNodeList later
+            foreach ($dom->childNodes as $node) {
+                if ($node instanceof DOMElement && $node->namespaceURI === self::XML_NAMESPACE) {
+                    $namespaceChildNodes[] = $node;
+                }
+            }
+            
+            foreach ($namespaceChildNodes as $node) {
+                switch ($node->localName) {
+                    case 'const':
+                        if (!$node->hasAttributeNS(self::XML_NAMESPACE, 'name')) {
+                            require_once 'Zend/Config/Exception.php';
+                            throw new Zend_Config_Exception("Misssing 'name' attribute in 'const' node");                            
+                        }
+                        
+                        $constantName = $node->getAttributeNS(self::XML_NAMESPACE, 'name');
+                        
+                        if (!defined($constantName)) {
+                            require_once 'Zend/Config/Exception.php';
+                            throw new Zend_Config_Exception("Constant with name '$constantName' was not defined");                            
+                        }
+                        
+                        $constantValue = constant($constantName);
+                        
+                        $dom->replaceChild($dom->ownerDocument->createTextNode($constantValue), $node);
+                        break;
+                        
+                    default:
+                        require_once 'Zend/Config/Exception.php';
+                        throw new Zend_Config_Exception("Unknown node with name '$node->localName' found");  
+                }
+            }
+            
+            return (string) simplexml_import_dom($dom);
+        }
+
         // Search for children
         if (count($xmlObject->children()) > 0) {
             foreach ($xmlObject->children() as $key => $value) {
-                if (count($value->children()) > 0) {
+                if (count($value->children()) > 0 || count($value->children(self::XML_NAMESPACE)) > 0) {
                     $value = $this->_toArray($value);
                 } else if (count($value->attributes()) > 0) {
                     $attributes = $value->attributes();
@@ -221,7 +275,7 @@ class Zend_Config_Xml extends Zend_Config
                     $config[$key] = $value;
                 }
             }
-        } else if (!isset($xmlObject['extends']) && (count($config) === 0)) {
+        } else if (!isset($xmlObject['extends']) && !isset($nsAttributes['extends']) && (count($config) === 0)) {
             // Object has no children nor attributes and doesn't use the extends
             // attribute: it's a string
             $config = (string) $xmlObject;

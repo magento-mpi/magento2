@@ -15,15 +15,15 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 9098 2008-03-30 19:29:10Z thomas $
+ * @version    $Id: Abstract.php 16202 2009-06-21 18:53:49Z thomas $
  */
 
 /**
  * @see Zend_Controller_Action_Helper_Abstract
  */
-#require_once 'Zend/Controller/Action/Helper/Abstract.php';
+require_once 'Zend/Controller/Action/Helper/Abstract.php';
 
 /**
  * Create and send autocompletion lists
@@ -32,7 +32,7 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Controller_Action_Helper_AutoComplete_Abstract extends Zend_Controller_Action_Helper_Abstract
@@ -71,7 +71,7 @@ abstract class Zend_Controller_Action_Helper_AutoComplete_Abstract extends Zend_
         /**
          * @see Zend_Layout
          */
-        #require_once 'Zend/Layout.php';
+        require_once 'Zend/Layout.php';
         if (null !== ($layout = Zend_Layout::getMvcInstance())) {
             $layout->disableLayout();
         }
@@ -98,7 +98,7 @@ abstract class Zend_Controller_Action_Helper_AutoComplete_Abstract extends Zend_
         /**
          * @see Zend_Controller_Action_Exception
          */
-        #require_once 'Zend/Controller/Action/Exception.php';
+        require_once 'Zend/Controller/Action/Exception.php';
         throw new Zend_Controller_Action_Exception('Invalid data passed for autocompletion');
     }
 

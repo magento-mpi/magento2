@@ -14,30 +14,31 @@
  *
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: EmailAddress.php 14560 2009-03-31 14:41:22Z thomas $
+ * @version    $Id: EmailAddress.php 16223 2009-06-21 20:04:53Z thomas $
  */
 
 /**
  * @see Zend_Validate_Abstract
  */
-#require_once 'Zend/Validate/Abstract.php';
+require_once 'Zend/Validate/Abstract.php';
 
 /**
  * @see Zend_Validate_Hostname
  */
-#require_once 'Zend/Validate/Hostname.php';
+require_once 'Zend/Validate/Hostname.php';
 
 /**
  * @category   Zend
  * @package    Zend_Validate
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Validate_EmailAddress extends Zend_Validate_Abstract
 {
     const INVALID            = 'emailAddressInvalid';
+    const INVALID_FORMAT     = 'emailAddressInvalidFormat';
     const INVALID_HOSTNAME   = 'emailAddressInvalidHostname';
     const INVALID_MX_RECORD  = 'emailAddressInvalidMxRecord';
     const DOT_ATOM           = 'emailAddressDotAtom';
@@ -49,7 +50,8 @@ class Zend_Validate_EmailAddress extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::INVALID            => "'%value%' is not a valid email address in the basic format local-part@hostname",
+        self::INVALID            => "Invalid type given, value should be a string",
+        self::INVALID_FORMAT     => "'%value%' is not a valid email address in the basic format local-part@hostname",
         self::INVALID_HOSTNAME   => "'%hostname%' is not a valid hostname for email address '%value%'",
         self::INVALID_MX_RECORD  => "'%hostname%' does not appear to have a valid MX record for the email address '%value%'",
         self::DOT_ATOM           => "'%localPart%' not matched against dot-atom format",
@@ -169,16 +171,20 @@ class Zend_Validate_EmailAddress extends Zend_Validate_Abstract
      */
     public function isValid($value)
     {
-        $valueString = (string) $value;
+        if (!is_string($value)) {
+            $this->_error(self::INVALID);
+            return false;
+        }
+
         $matches     = array();
         $length      = true;
 
-        $this->_setValue($valueString);
+        $this->_setValue($value);
 
         // Split email address up and disallow '..'
-        if ((strpos($valueString, '..') !== false) or
-            (!preg_match('/^(.+)@([^@]+)$/', $valueString, $matches))) {
-            $this->_error(self::INVALID);
+        if ((strpos($value, '..') !== false) or
+            (!preg_match('/^(.+)@([^@]+)$/', $value, $matches))) {
+            $this->_error(self::INVALID_FORMAT);
             return false;
         }
 
@@ -216,7 +222,7 @@ class Zend_Validate_EmailAddress extends Zend_Validate_Abstract
                  * MX checks are not supported by this system
                  * @see Zend_Validate_Exception
                  */
-                #require_once 'Zend/Validate/Exception.php';
+                require_once 'Zend/Validate/Exception.php';
                 throw new Zend_Validate_Exception('Internal error: MX checking not available on this system');
             }
         }

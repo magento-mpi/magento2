@@ -12,74 +12,76 @@
  * obtain it through the world-wide-web, please send an email
  * to license@zend.com so we can send you a copy immediately.
  *
+ * @category   Zend
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Parser.php 16803 2009-07-17 14:57:27Z alexander $
  */
 
 /** Zend_Pdf_Element */
-#require_once 'Zend/Pdf/Element.php';
+require_once 'Zend/Pdf/Element.php';
 
 /** Zend_Pdf_Element_Array */
-#require_once 'Zend/Pdf/Element/Array.php';
+require_once 'Zend/Pdf/Element/Array.php';
 
 /** Zend_Pdf_Element_String_Binary */
-#require_once 'Zend/Pdf/Element/String/Binary.php';
+require_once 'Zend/Pdf/Element/String/Binary.php';
 
 /** Zend_Pdf_Element_Boolean */
-#require_once 'Zend/Pdf/Element/Boolean.php';
+require_once 'Zend/Pdf/Element/Boolean.php';
 
 /** Zend_Pdf_Element_Dictionary */
-#require_once 'Zend/Pdf/Element/Dictionary.php';
+require_once 'Zend/Pdf/Element/Dictionary.php';
 
 /** Zend_Pdf_Element_Name */
-#require_once 'Zend/Pdf/Element/Name.php';
+require_once 'Zend/Pdf/Element/Name.php';
 
 /** Zend_Pdf_Element_Numeric */
-#require_once 'Zend/Pdf/Element/Numeric.php';
+require_once 'Zend/Pdf/Element/Numeric.php';
 
 /** Zend_Pdf_Element_Object */
-#require_once 'Zend/Pdf/Element/Object.php';
+require_once 'Zend/Pdf/Element/Object.php';
 
 /** Zend_Pdf_Element_Reference */
-#require_once 'Zend/Pdf/Element/Reference.php';
+require_once 'Zend/Pdf/Element/Reference.php';
 
 /** Zend_Pdf_Element_Object_Stream */
-#require_once 'Zend/Pdf/Element/Object/Stream.php';
+require_once 'Zend/Pdf/Element/Object/Stream.php';
 
 /** Zend_Pdf_Element_String */
-#require_once 'Zend/Pdf/Element/String.php';
+require_once 'Zend/Pdf/Element/String.php';
 
 /** Zend_Pdf_Element_Null */
-#require_once 'Zend/Pdf/Element/Null.php';
+require_once 'Zend/Pdf/Element/Null.php';
 
 /** Zend_Pdf_Element_Reference_Context */
-#require_once 'Zend/Pdf/Element/Reference/Context.php';
+require_once 'Zend/Pdf/Element/Reference/Context.php';
 
 /** Zend_Pdf_Element_Reference_Table */
-#require_once 'Zend/Pdf/Element/Reference/Table.php';
+require_once 'Zend/Pdf/Element/Reference/Table.php';
 
 /** Zend_Pdf_Trailer_Keeper */
-#require_once 'Zend/Pdf/Trailer/Keeper.php';
+require_once 'Zend/Pdf/Trailer/Keeper.php';
 
 /** Zend_Pdf_ElementFactory_Interface */
-#require_once 'Zend/Pdf/ElementFactory/Interface.php';
+require_once 'Zend/Pdf/ElementFactory/Interface.php';
 
 /** Zend_Pdf_PhpArray */
-#require_once 'Zend/Pdf/PhpArray.php';
+require_once 'Zend/Pdf/PhpArray.php';
 
 /** Zend_Pdf_StringParser */
-#require_once 'Zend/Pdf/StringParser.php';
+require_once 'Zend/Pdf/StringParser.php';
 
 /** Zend_Pdf_Parser_Stream */
-#require_once 'Zend/Pdf/Parser/Stream.php';
+require_once 'Zend/Pdf/Parser/Stream.php';
 
 
 /**
  * PDF file parser
  *
  * @package    Zend_Pdf
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Pdf_Parser
@@ -97,6 +99,13 @@ class Zend_Pdf_Parser
      * @var Zend_Pdf_Trailer_Keeper
      */
     private $_trailer;
+
+    /**
+     * PDF version specified in the file header
+     *
+     * @var string
+     */
+    private $_pdfVersion;
 
 
     /**
@@ -117,6 +126,16 @@ class Zend_Pdf_Parser
     public function getPDFString()
     {
         return $this->_stringParser->data;
+    }
+
+    /**
+     * PDF version specified in the file header
+     *
+     * @return string
+     */
+    public function getPDFVersion()
+    {
+    	return $this->_pdfVersion;
     }
 
     /**
@@ -398,8 +417,10 @@ class Zend_Pdf_Parser
             throw new Zend_Pdf_Exception('File is not a PDF.');
         }
 
-        $pdfVersion = (float)substr($pdfVersionComment, 5);
-        if ($pdfVersion < 0.9 || $pdfVersion >= 1.61) {
+        $pdfVersion = substr($pdfVersionComment, 5);
+        if (version_compare($pdfVersion, '0.9',  '<')  ||
+            version_compare($pdfVersion, '1.61', '>=')
+           ) {
             /**
              * @todo
              * To support PDF versions 1.5 (Acrobat 6) and PDF version 1.7 (Acrobat 7)
@@ -408,6 +429,7 @@ class Zend_Pdf_Parser
              */
             throw new Zend_Pdf_Exception(sprintf('Unsupported PDF version. Zend_Pdf supports PDF 1.0-1.4. Current version - \'%f\'', $pdfVersion));
         }
+        $this->_pdfVersion = $pdfVersion;
 
         $this->_stringParser->offset = strrpos($this->_stringParser->data, '%%EOF');
         if ($this->_stringParser->offset === false ||

@@ -15,12 +15,12 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage Form_Element
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** Zend_Form_Element */
-#require_once 'Zend/Form/Element.php';
+require_once 'Zend/Form/Element.php';
 
 /**
  * Base element for dijit elements
@@ -28,9 +28,9 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage Form_Element
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Dijit.php 13260 2008-12-15 14:30:35Z matthew $
+ * @version    $Id: Dijit.php 16204 2009-06-21 18:58:29Z thomas $
  */
 abstract class Zend_Dojo_Form_Element_Dijit extends Zend_Form_Element
 {

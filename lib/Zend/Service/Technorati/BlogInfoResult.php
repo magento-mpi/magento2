@@ -15,16 +15,16 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: BlogInfoResult.php 8064 2008-02-16 10:58:39Z thomas $
+ * @version    $Id: BlogInfoResult.php 16211 2009-06-21 19:23:55Z thomas $
  */
 
 
 /**
  * @see Zend_Service_Technorati_Utils
  */
-#require_once 'Zend/Service/Technorati/Utils.php';
+require_once 'Zend/Service/Technorati/Utils.php';
 
 
 /**
@@ -33,7 +33,7 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Technorati
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Technorati_BlogInfoResult
@@ -82,7 +82,7 @@ class Zend_Service_Technorati_BlogInfoResult
         /**
          * @see Zend_Service_Technorati_Weblog
          */
-        #require_once 'Zend/Service/Technorati/Weblog.php';
+        require_once 'Zend/Service/Technorati/Weblog.php';
 
         $result = $xpath->query('//result/weblog');
         if ($result->length == 1) {
@@ -93,7 +93,7 @@ class Zend_Service_Technorati_BlogInfoResult
             /**
              * @see Zend_Service_Technorati_Exception
              */
-            #require_once 'Zend/Service/Technorati/Exception.php';
+            require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(
                 "Your URL is not a recognized Technorati weblog");
         }

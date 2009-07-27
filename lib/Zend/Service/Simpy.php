@@ -16,19 +16,19 @@
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Simpy
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Simpy.php 15893 2009-06-04 23:12:54Z elazar $
+ * @version    $Id: Simpy.php 16211 2009-06-21 19:23:55Z thomas $
  */
 
 
-#require_once 'Zend/Http/Client.php';
+require_once 'Zend/Http/Client.php';
 
 /**
  * @category   Zend
  * @package    Zend_Service
  * @subpackage Simpy
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @link       http://www.simpy.com/doc/api/rest/
  */
@@ -60,7 +60,7 @@ class Zend_Service_Simpy
         /**
          * @see Zend_Service_Rest
          */
-        #require_once 'Zend/Rest/Client.php';
+        require_once 'Zend/Rest/Client.php';
         $this->_http = new Zend_Http_Client;
         $this->_http->setAuth($username, $password);
     }
@@ -110,7 +110,7 @@ class Zend_Service_Simpy
                     /**
                      * @see Zend_Service_Exception
                      */
-                    #require_once 'Zend/Service/Exception.php';
+                    require_once 'Zend/Service/Exception.php';
                     throw new Zend_Service_Exception($message, $code);
                 }
             }
@@ -121,7 +121,7 @@ class Zend_Service_Simpy
         /**
          * @see Zend_Service_Exception
          */
-        #require_once 'Zend/Service/Exception.php';
+        require_once 'Zend/Service/Exception.php';
         throw new Zend_Service_Exception($response->getMessage(), $response->getStatus());
     }
 
@@ -145,7 +145,7 @@ class Zend_Service_Simpy
         /**
          * @see Zend_Service_Simpy_TagSet
          */
-        #require_once 'Zend/Service/Simpy/TagSet.php';
+        require_once 'Zend/Service/Simpy/TagSet.php';
         return new Zend_Service_Simpy_TagSet($doc);
     }
 
@@ -258,7 +258,7 @@ class Zend_Service_Simpy
         /**
          * @see Zend_Service_Simpy_LinkSet
          */
-        #require_once 'Zend/Service/Simpy/LinkSet.php';
+        require_once 'Zend/Service/Simpy/LinkSet.php';
         return new Zend_Service_Simpy_LinkSet($doc);
     }
 
@@ -330,7 +330,7 @@ class Zend_Service_Simpy
         /**
          * @see Zend_Service_Simpy_WatchlistSet
          */
-        #require_once 'Zend/Service/Simpy/WatchlistSet.php';
+        require_once 'Zend/Service/Simpy/WatchlistSet.php';
         return new Zend_Service_Simpy_WatchlistSet($doc);
     }
 
@@ -352,7 +352,7 @@ class Zend_Service_Simpy
         /**
          * @see Zend_Service_Simpy_Watchlist
          */
-        #require_once 'Zend/Service/Simpy/Watchlist.php';
+        require_once 'Zend/Service/Simpy/Watchlist.php';
         return new Zend_Service_Simpy_Watchlist($doc->documentElement);
     }
 
@@ -380,7 +380,7 @@ class Zend_Service_Simpy
         /**
          * @see Zend_Service_Simpy_NoteSet
          */
-        #require_once 'Zend/Service/Simpy/NoteSet.php';
+        require_once 'Zend/Service/Simpy/NoteSet.php';
         return new Zend_Service_Simpy_NoteSet($doc);
     }
 

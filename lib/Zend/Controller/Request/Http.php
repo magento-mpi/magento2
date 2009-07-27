@@ -14,15 +14,16 @@
  *
  * @category   Zend
  * @package    Zend_Controller
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Http.php 16933 2009-07-21 20:24:35Z matthew $
  */
 
 /** Zend_Controller_Request_Abstract */
-#require_once 'Zend/Controller/Request/Abstract.php';
+require_once 'Zend/Controller/Request/Abstract.php';
 
 /** Zend_Uri */
-#require_once 'Zend/Uri.php';
+require_once 'Zend/Uri.php';
 
 /**
  * Zend_Controller_Request_Http
@@ -114,7 +115,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
 
                 $this->setRequestUri($path);
             } else {
-                #require_once 'Zend/Controller/Request/Exception.php';
+                require_once 'Zend/Controller/Request/Exception.php';
                 throw new Zend_Controller_Request_Exception('Invalid URI provided to constructor');
             }
         } else {
@@ -179,7 +180,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
      */
     public function __set($key, $value)
     {
-        #require_once 'Zend/Controller/Request/Exception.php';
+        require_once 'Zend/Controller/Request/Exception.php';
         throw new Zend_Controller_Request_Exception('Setting values in superglobals not allowed; please use setParam()');
     }
 
@@ -242,7 +243,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
     public function setQuery($spec, $value = null)
     {
         if ((null === $value) && !is_array($spec)) {
-            #require_once 'Zend/Controller/Exception.php';
+            require_once 'Zend/Controller/Exception.php';
             throw new Zend_Controller_Exception('Invalid value passed to setQuery(); must be either array of values or key/value pair');
         }
         if ((null === $value) && is_array($spec)) {
@@ -284,7 +285,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
     public function setPost($spec, $value = null)
     {
         if ((null === $value) && !is_array($spec)) {
-            #require_once 'Zend/Controller/Exception.php';
+            require_once 'Zend/Controller/Exception.php';
             throw new Zend_Controller_Exception('Invalid value passed to setPost(); must be either array of values or key/value pair');
         }
         if ((null === $value) && is_array($spec)) {
@@ -498,7 +499,8 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
                 return $this;
             }
 
-            if (!strpos($requestUri, basename($baseUrl))) {
+            $basename = basename($baseUrl);
+            if (empty($basename) || !strpos($requestUri, $basename)) {
                 // no match whatsoever; set it blank
                 $this->_baseUrl = '';
                 return $this;
@@ -542,7 +544,9 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
     public function setBasePath($basePath = null)
     {
         if ($basePath === null) {
-            $filename = basename($_SERVER['SCRIPT_FILENAME']);
+            $filename = (isset($_SERVER['SCRIPT_FILENAME']))
+                      ? basename($_SERVER['SCRIPT_FILENAME'])
+                      : '';
 
             $baseUrl = $this->getBaseUrl();
             if (empty($baseUrl)) {
@@ -936,7 +940,7 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
     public function getHeader($header)
     {
         if (empty($header)) {
-            #require_once 'Zend/Controller/Request/Exception.php';
+            require_once 'Zend/Controller/Request/Exception.php';
             throw new Zend_Controller_Request_Exception('An HTTP header name is required');
         }
 
@@ -993,5 +997,23 @@ class Zend_Controller_Request_Http extends Zend_Controller_Request_Abstract
         } else {
             return $name . ':' . $port;
         }
+    }
+
+    /**
+     * Get the client's IP addres
+     *
+     * @return string
+     */
+    public function getClientIp($checkProxy = true)
+    {
+        if ($checkProxy && $this->getServer('HTTP_CLIENT_IP') != null) {
+            $ip = $this->getServer('HTTP_CLIENT_IP');
+        } else if ($checkProxy && $this->getServer('HTTP_X_FORWARDED_FOR') != null) {
+            $ip = $this->getServer('HTTP_X_FORWARDED_FOR');
+        } else {
+            $ip = $this->getServer('REMOTE_ADDR');
+        }
+
+        return $ip;
     }
 }

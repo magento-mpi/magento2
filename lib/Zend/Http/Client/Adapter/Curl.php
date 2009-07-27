@@ -16,16 +16,16 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Curl.php 14379 2009-03-19 14:57:23Z matthew $
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Curl.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
 /** Zend_Uri_Http */
-#require_once 'Zend/Uri/Http.php';
+require_once 'Zend/Uri/Http.php';
 
 /** Zend_Http_Client_Adapter_Interface */
-#require_once 'Zend/Http/Client/Adapter/Interface.php';
+require_once 'Zend/Http/Client/Adapter/Interface.php';
 
 /**
  * An adapter class for Zend_Http_Client based on the curl extension.
@@ -34,7 +34,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interface
@@ -101,7 +101,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
     public function __construct()
     {
         if (!extension_loaded('curl')) {
-            #require_once 'Zend/Http/Client/Adapter/Exception.php';
+            require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception('cURL extension has to be loaded to use this Zend_Http_Client adapter.');
         }
     }
@@ -116,12 +116,28 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
     public function setConfig($config = array())
     {
         if (!is_array($config)) {
-            #require_once 'Zend/Http/Client/Adapter/Exception.php';
+            require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception('Http Adapter configuration expects an array, ' . gettype($config) . ' recieved.');
         }
 
+        if(isset($config['proxy_user']) && isset($config['proxy_pass'])) {
+            $this->setCurlOption(CURLOPT_PROXYUSERPWD, $config['proxy_user'].":".$config['proxy_pass']);
+            unset($config['proxy_user'], $config['proxy_pass']);
+        }
+
         foreach ($config as $k => $v) {
-            $this->_config[strtolower($k)] = $v;
+            $option = strtolower($k);
+            switch($option) {
+                case 'proxy_host':
+                    $this->setCurlOption(CURLOPT_PROXY, $v);
+                    break;
+                case 'proxy_port':
+                    $this->setCurlOption(CURLOPT_PROXYPORT, $v);
+                    break;
+                default:
+                    $this->_config[$option] = $v;
+                    break;
+            }
         }
 
         return $this;
@@ -183,7 +199,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
         if (!$this->_curl) {
             $this->close();
 
-            #require_once 'Zend/Http/Client/Adapter/Exception.php';
+            require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception('Unable to Connect to ' .  $host . ':' . $port);
         }
 
@@ -216,12 +232,12 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
     {
         // Make sure we're properly connected
         if (!$this->_curl) {
-            #require_once 'Zend/Http/Client/Adapter/Exception.php';
+            require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception("Trying to write but we are not connected");
         }
 
         if ($this->_connected_to[0] != $uri->getHost() || $this->_connected_to[1] != $uri->getPort()) {
-            #require_once 'Zend/Http/Client/Adapter/Exception.php';
+            require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception("Trying to write but we are connected to the wrong host");
         }
 
@@ -244,7 +260,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
                 // or CURLOPT_INFILE and CURLOPT_INFILESIZE are used.
                 if (isset($this->_config['curloptions'][CURLOPT_INFILE])) {
                     if (!isset($this->_config['curloptions'][CURLOPT_INFILESIZE])) {
-                        #require_once 'Zend/Http/Client/Adapter/Exception.php';
+                        require_once 'Zend/Http/Client/Adapter/Exception.php';
                         throw new Zend_Http_Client_Adapter_Exception("Cannot set a file-handle for cURL option CURLOPT_INFILE without also setting its size in CURLOPT_INFILESIZE.");
                     }
 
@@ -280,7 +296,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
 
             default:
                 // For now, through an exception for unsupported request methods
-                #require_once 'Zend/Http/Client/Adapter/Exception.php';
+                require_once 'Zend/Http/Client/Adapter/Exception.php';
                 throw new Zend_Http_Client_Adapter_Exception("Method currently not supported");
         }
 
@@ -325,7 +341,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
             foreach ((array)$this->_config['curloptions'] as $k => $v) {
                 if (!in_array($k, $this->_invalidOverwritableCurlOptions)) {
                     if (curl_setopt($this->_curl, $k, $v) == false) {
-                        #require_once 'Zend/Http/Client/Exception.php';
+                        require_once 'Zend/Http/Client/Exception.php';
                         throw new Zend_Http_Client_Exception(sprintf("Unknown or erroreous cURL option '%s' set", $k));
                     }
                 }
@@ -339,7 +355,7 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
         $request .= $body;
 
         if (empty($this->_response)) {
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception("Error in cURL request: " . curl_error($this->_curl));
         }
 
@@ -388,5 +404,15 @@ class Zend_Http_Client_Adapter_Curl implements Zend_Http_Client_Adapter_Interfac
         }
         $this->_curl         = null;
         $this->_connected_to = array(null, null);
+    }
+
+    /**
+     * Get cUrl Handle
+     *
+     * @return resource
+     */
+    public function getHandle()
+    {
+        return $this->_curl;
     }
 }

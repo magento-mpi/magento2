@@ -15,25 +15,25 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Table
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Abstract.php 6320 2007-09-12 00:27:22Z bkarwin $
+ * @version    $Id: Abstract.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /**
  * @see Zend_Db_Adapter_Abstract
  */
-#require_once 'Zend/Db/Adapter/Abstract.php';
+require_once 'Zend/Db/Adapter/Abstract.php';
 
 /**
  * @see Zend_Db_Adapter_Abstract
  */
-#require_once 'Zend/Db/Select.php';
+require_once 'Zend/Db/Select.php';
 
 /**
  * @see Zend_Db
  */
-#require_once 'Zend/Db.php';
+require_once 'Zend/Db.php';
 
 /**
  * Class for SQL table interface.
@@ -41,13 +41,15 @@
  * @category   Zend
  * @package    Zend_Db
  * @subpackage Table
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Db_Table_Abstract
 {
 
     const ADAPTER          = 'db';
+    const DEFINITION        = 'definition';
+    const DEFINITION_CONFIG_NAME = 'definitionConfigName';
     const SCHEMA           = 'schema';
     const NAME             = 'name';
     const PRIMARY          = 'primary';
@@ -75,6 +77,9 @@ abstract class Zend_Db_Table_Abstract
     const DEFAULT_CLASS    = 'defaultClass';
     const DEFAULT_DB       = 'defaultDb';
 
+    const SELECT_WITH_FROM_PART    = true;
+    const SELECT_WITHOUT_FROM_PART = false;
+
     /**
      * Default Zend_Db_Adapter_Abstract object.
      *
@@ -82,6 +87,20 @@ abstract class Zend_Db_Table_Abstract
      */
     protected static $_defaultDb;
 
+    /**
+     * Optional Zend_Db_Table_Definition object
+     *
+     * @var unknown_type
+     */
+    protected $_definition = null;
+    
+    /**
+     * Optional definition config name used in concrete implementation
+     *
+     * @var string
+     */
+    protected $_definitionConfigName = null;
+    
     /**
      * Default cache for information provided by the adapter's describeTable() method.
      *
@@ -106,7 +125,7 @@ abstract class Zend_Db_Table_Abstract
     /**
      * The table name.
      *
-     * @var array
+     * @var string
      */
     protected $_name = null;
 
@@ -242,10 +261,32 @@ abstract class Zend_Db_Table_Abstract
             $config = array(self::ADAPTER => $config);
         }
 
-        foreach ($config as $key => $value) {
+        if ($config) {
+            $this->setOptions($config);
+        }
+
+        $this->_setup();
+        $this->init();
+    }
+
+    /**
+     * setOptions()
+     *
+     * @param array $options
+     * @return Zend_Db_Table_Abstract
+     */
+    public function setOptions(Array $options)
+    {
+        foreach ($options as $key => $value) {
             switch ($key) {
                 case self::ADAPTER:
                     $this->_setAdapter($value);
+                    break;
+                case self::DEFINITION:
+                    $this->setDefinition($value);
+                    break;
+                case self::DEFINITION_CONFIG_NAME:
+                    $this->setDefinitionConfigName($value);
                     break;
                 case self::SCHEMA:
                     $this->_schema = (string) $value;
@@ -283,8 +324,51 @@ abstract class Zend_Db_Table_Abstract
             }
         }
 
-        $this->_setup();
-        $this->init();
+        return $this;
+    }
+    
+    /**
+     * setDefinition()
+     *
+     * @param Zend_Db_Table_Definition $definition
+     * @return Zend_Db_Table_Abstract
+     */
+    public function setDefinition(Zend_Db_Table_Definition $definition)
+    {
+        $this->_definition = $definition;
+        return $this;
+    }
+    
+    /**
+     * getDefinition()
+     *
+     * @return Zend_Db_Table_Definition|null
+     */
+    public function getDefinition()
+    {
+        return $this->_definition;
+    }
+    
+    /**
+     * setDefinitionConfigName()
+     *
+     * @param string $definition
+     * @return Zend_Db_Table_Abstract
+     */
+    public function setDefinitionConfigName($definitionConfigName)
+    {
+        $this->_definitionConfigName = $definitionConfigName;
+        return $this;
+    }
+    
+    /**
+     * getDefinitionConfigName()
+     *
+     * @return string
+     */
+    public function getDefinitionConfigName()
+    {
+        return $this->_definitionConfigName;
     }
 
     /**
@@ -376,14 +460,17 @@ abstract class Zend_Db_Table_Abstract
     public function getReference($tableClassname, $ruleKey = null)
     {
         $thisClass = get_class($this);
+        if ($thisClass === 'Zend_Db_Table') {
+            $thisClass = $this->_definitionConfigName;
+        }
         $refMap = $this->_getReferenceMapNormalized();
         if ($ruleKey !== null) {
             if (!isset($refMap[$ruleKey])) {
-                #require_once "Zend/Db/Table/Exception.php";
+                require_once "Zend/Db/Table/Exception.php";
                 throw new Zend_Db_Table_Exception("No reference rule \"$ruleKey\" from table $thisClass to table $tableClassname");
             }
             if ($refMap[$ruleKey][self::REF_TABLE_CLASS] != $tableClassname) {
-                #require_once "Zend/Db/Table/Exception.php";
+                require_once "Zend/Db/Table/Exception.php";
                 throw new Zend_Db_Table_Exception("Reference rule \"$ruleKey\" does not reference table $tableClassname");
             }
             return $refMap[$ruleKey];
@@ -393,7 +480,7 @@ abstract class Zend_Db_Table_Abstract
                 return $reference;
             }
         }
-        #require_once "Zend/Db/Table/Exception.php";
+        require_once "Zend/Db/Table/Exception.php";
         throw new Zend_Db_Table_Exception("No reference from table $thisClass to table $tableClassname");
     }
 
@@ -516,11 +603,11 @@ abstract class Zend_Db_Table_Abstract
             return null;
         }
         if (is_string($db)) {
-            #require_once 'Zend/Registry.php';
+            require_once 'Zend/Registry.php';
             $db = Zend_Registry::get($db);
         }
         if (!$db instanceof Zend_Db_Adapter_Abstract) {
-            #require_once 'Zend/Db/Table/Exception.php';
+            require_once 'Zend/Db/Table/Exception.php';
             throw new Zend_Db_Table_Exception('Argument must be of type Zend_Db_Adapter_Abstract, or a Registry key where a Zend_Db_Adapter_Abstract object is stored');
         }
         return $db;
@@ -611,11 +698,11 @@ abstract class Zend_Db_Table_Abstract
             return null;
         }
         if (is_string($metadataCache)) {
-            #require_once 'Zend/Registry.php';
+            require_once 'Zend/Registry.php';
             $metadataCache = Zend_Registry::get($metadataCache);
         }
         if (!$metadataCache instanceof Zend_Cache_Core) {
-            #require_once 'Zend/Db/Table/Exception.php';
+            require_once 'Zend/Db/Table/Exception.php';
             throw new Zend_Db_Table_Exception('Argument must be of type Zend_Cache_Core, or a Registry key where a Zend_Cache_Core object is stored');
         }
         return $metadataCache;
@@ -663,7 +750,7 @@ abstract class Zend_Db_Table_Abstract
         if (! $this->_db) {
             $this->_db = self::getDefaultAdapter();
             if (!$this->_db instanceof Zend_Db_Adapter_Abstract) {
-                #require_once 'Zend/Db/Table/Exception.php';
+                require_once 'Zend/Db/Table/Exception.php';
                 throw new Zend_Db_Table_Exception('No adapter found for ' . get_class($this));
             }
         }
@@ -730,7 +817,7 @@ abstract class Zend_Db_Table_Abstract
                 /**
                  * @see Zend_Db_Table_Exception
                  */
-                #require_once 'Zend/Db/Table/Exception.php';
+                require_once 'Zend/Db/Table/Exception.php';
                 throw new Zend_Db_Table_Exception('Failed saving metadata to metadataCache');
             }
         }
@@ -780,7 +867,7 @@ abstract class Zend_Db_Table_Abstract
             // if no primary key was specified and none was found in the metadata
             // then throw an exception.
             if (empty($this->_primary)) {
-                #require_once 'Zend/Db/Table/Exception.php';
+                require_once 'Zend/Db/Table/Exception.php';
                 throw new Zend_Db_Table_Exception('A table must have a primary key, but none was found');
             }
         } else if (!is_array($this->_primary)) {
@@ -792,7 +879,7 @@ abstract class Zend_Db_Table_Abstract
 
         $cols = $this->_getCols();
         if (! array_intersect((array) $this->_primary, $cols) == (array) $this->_primary) {
-            #require_once 'Zend/Db/Table/Exception.php';
+            require_once 'Zend/Db/Table/Exception.php';
             throw new Zend_Db_Table_Exception("Primary key column(s) ("
                 . implode(',', (array) $this->_primary)
                 . ") are not columns in this table ("
@@ -808,9 +895,9 @@ abstract class Zend_Db_Table_Abstract
          * object whose name is "<table>_<column>_seq".
          */
         if ($this->_sequence === true && $this->_db instanceof Zend_Db_Adapter_Pdo_Pgsql) {
-            $this->_sequence = "{$this->_name}_{$pkIdentity}_seq";
+            $this->_sequence = $this->_db->quoteIdentifier("{$this->_name}_{$pkIdentity}_seq");
             if ($this->_schema) {
-                $this->_sequence = $this->_schema . '.' . $this->_sequence;
+                $this->_sequence = $this->_db->quoteIdentifier($this->_schema) . '.' . $this->_sequence;
             }
         }
     }
@@ -894,7 +981,7 @@ abstract class Zend_Db_Table_Abstract
         }
 
         if (!array_key_exists($key, $info)) {
-            #require_once 'Zend/Db/Table/Exception.php';
+            require_once 'Zend/Db/Table/Exception.php';
             throw new Zend_Db_Table_Exception('There is no table information for the key "' . $key . '"');
         }
 
@@ -904,12 +991,17 @@ abstract class Zend_Db_Table_Abstract
     /**
      * Returns an instance of a Zend_Db_Table_Select object.
      *
+     * @param bool $withFromPart Whether or not to include the from part of the select based on the table
      * @return Zend_Db_Table_Select
      */
-    public function select()
+    public function select($withFromPart = self::SELECT_WITHOUT_FROM_PART)
     {
-        #require_once 'Zend/Db/Table/Select.php';
-        return new Zend_Db_Table_Select($this);
+        require_once 'Zend/Db/Table/Select.php';
+        $select = new Zend_Db_Table_Select($this);
+        if ($withFromPart == self::SELECT_WITH_FROM_PART) {
+            $select->from($this->info(self::NAME), Zend_Db_Table_Select::SQL_WILDCARD, $this->info(self::SCHEMA));
+        }
+        return $select;
     }
 
     /**
@@ -991,7 +1083,7 @@ abstract class Zend_Db_Table_Abstract
             /**
              * @see Zend_Db_Table_Exception
              */
-            #require_once 'Zend/Db/Table/Exception.php';
+            require_once 'Zend/Db/Table/Exception.php';
 
             throw new Zend_Db_Table_Exception('Column "' . $column . '" not found in table.');
         }
@@ -1124,12 +1216,12 @@ abstract class Zend_Db_Table_Abstract
         $keyNames = array_values((array) $this->_primary);
 
         if (count($args) < count($keyNames)) {
-            #require_once 'Zend/Db/Table/Exception.php';
+            require_once 'Zend/Db/Table/Exception.php';
             throw new Zend_Db_Table_Exception("Too few columns for the primary key");
         }
 
         if (count($args) > count($keyNames)) {
-            #require_once 'Zend/Db/Table/Exception.php';
+            require_once 'Zend/Db/Table/Exception.php';
             throw new Zend_Db_Table_Exception("Too many columns for the primary key");
         }
 
@@ -1145,7 +1237,7 @@ abstract class Zend_Db_Table_Abstract
             if ($numberTerms == 0) {
                 $numberTerms = count($keyValues);
             } else if (count($keyValues) != $numberTerms) {
-                #require_once 'Zend/Db/Table/Exception.php';
+                require_once 'Zend/Db/Table/Exception.php';
                 throw new Zend_Db_Table_Exception("Missing value(s) for the primary key");
             }
             for ($i = 0; $i < count($keyValues); ++$i) {
@@ -1220,7 +1312,7 @@ abstract class Zend_Db_Table_Abstract
         );
 
         if (!class_exists($this->_rowsetClass)) {
-            #require_once 'Zend/Loader.php';
+            require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($this->_rowsetClass);
         }
         return new $this->_rowsetClass($data);
@@ -1268,7 +1360,7 @@ abstract class Zend_Db_Table_Abstract
         );
 
         if (!class_exists($this->_rowClass)) {
-            #require_once 'Zend/Loader.php';
+            require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($this->_rowClass);
         }
         return new $this->_rowClass($data);
@@ -1330,7 +1422,7 @@ abstract class Zend_Db_Table_Abstract
         );
 
         if (!class_exists($this->_rowClass)) {
-            #require_once 'Zend/Loader.php';
+            require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($this->_rowClass);
         }
         $row = new $this->_rowClass($config);

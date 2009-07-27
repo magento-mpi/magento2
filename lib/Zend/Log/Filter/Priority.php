@@ -15,21 +15,21 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Filter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Priority.php 14132 2009-02-21 20:23:00Z shahar $
+ * @version    $Id: Priority.php 16219 2009-06-21 19:45:39Z thomas $
  */
 
 /** Zend_Log_Filter_Interface */
-#require_once 'Zend/Log/Filter/Interface.php';
+require_once 'Zend/Log/Filter/Interface.php';
 
 /**
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Filter
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Priority.php 14132 2009-02-21 20:23:00Z shahar $
+ * @version    $Id: Priority.php 16219 2009-06-21 19:45:39Z thomas $
  */
 class Zend_Log_Filter_Priority implements Zend_Log_Filter_Interface
 {
@@ -54,7 +54,7 @@ class Zend_Log_Filter_Priority implements Zend_Log_Filter_Interface
     public function __construct($priority, $operator = '<=')
     {
         if (! is_integer($priority)) {
-            #require_once 'Zend/Log/Exception.php';
+            require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Priority must be an integer');
         }
 

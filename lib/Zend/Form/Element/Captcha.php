@@ -15,15 +15,16 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
+ * @version    $Id: Captcha.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
 /** Zend_Form_Element_Xhtml */
-#require_once 'Zend/Form/Element/Xhtml.php';
+require_once 'Zend/Form/Element/Xhtml.php';
 
 /** Zend_Captcha_Adapter */
-#require_once 'Zend/Captcha/Adapter.php';
+require_once 'Zend/Captcha/Adapter.php';
 
 /**
  * Generic captcha element
@@ -37,7 +38,7 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Element
- * @copyright  Copyright (c) 2005-2008 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Form_Element_Captcha extends Zend_Form_Element_Xhtml 
@@ -207,7 +208,7 @@ class Zend_Form_Element_Captcha extends Zend_Form_Element_Xhtml
         $type = strtoupper($type);
         if ($type == self::CAPTCHA) {
             if (!isset($this->_loaders[$type])) {
-                #require_once 'Zend/Loader/PluginLoader.php';
+                require_once 'Zend/Loader/PluginLoader.php';
                 $this->_loaders[$type] = new Zend_Loader_PluginLoader(
                     array('Zend_Captcha' => 'Zend/Captcha/')
                 );
