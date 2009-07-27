@@ -33,7 +33,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
         $this->setShowGlobalIcon(true);
     }
 
-    public function _prepareForm()
+    protected function _prepareForm()
     {
         /*
          * Checking if user have permissions to save information
