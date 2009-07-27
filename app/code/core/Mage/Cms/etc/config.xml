@@ -253,6 +253,14 @@
                 </observers>
             </controller_front_init_routers>
         </events>
+        <cms>
+            <page>
+                <tempate_filter>core/email_template_filter</tempate_filter>
+            </page>
+            <block>
+                <tempate_filter>core/email_template_filter</tempate_filter>
+            </block>
+        </cms>
     </global>
 
     <default>
