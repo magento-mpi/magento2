@@ -24,7 +24,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-extension_check(array( 
+extension_check(array(
     'curl',
     'dom',
     'gd',
@@ -37,7 +37,8 @@ extension_check(array(
     'simplexml'
 ));
 
-function extension_check($extensions) {
+function extension_check($extensions)
+{
     $fail = '';
     $pass = '';
 
@@ -50,16 +51,22 @@ function extension_check($extensions) {
 
     if(!ini_get('safe_mode')) {
         $pass .='<li>Safe Mode is <strong>off</strong></li>';
-        preg_match('/[0-9]\.[0-9]+\.[0-9]+/', shell_exec('mysql -V'), $version);
-
-        if(version_compare($version[0], '4.1.20', '<')) {
-            $fail .= '<li>You need<strong> MySQL 4.1.20</strong> (or greater)</li>';
+        $mysqlVersion = @shell_exec('mysql -V');
+        if (!$mysqlVersion) {
+            $fail .= '<li>Unable to detect MySQL version</li>';
         }
         else {
-            $pass .='<li>You have<strong> MySQL 4.1.20</strong> (or greater)</li>';
+            preg_match('/[0-9]\.[0-9]+\.[0-9]+/', $mysqlVersion, $version);
+            if (version_compare($version[0], '4.1.20', '<')) {
+                $fail .= '<li>You need<strong> MySQL 4.1.20</strong> (or greater)</li>';
+            }
+            else {
+                $pass .='<li>You have<strong> MySQL 4.1.20</strong> (or greater)</li>';
+            }
         }
+    } else {
+        $fail .= '<li>Safe Mode is <strong>on</strong></li>';
     }
-    else { $fail .= '<li>Safe Mode is <strong>on</strong></li>';  }
 
     foreach($extensions as $extension) {
         if(!extension_loaded($extension)) {
