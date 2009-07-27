@@ -157,6 +157,9 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
             // Prepare customer saving data
             if (isset($data['account'])) {
+                if (isset($data['account']['email'])) {
+                    $data['account']['email'] = trim($data['account']['email']);
+                }
                 $customer->addData($data['account']);
             }
 

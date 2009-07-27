@@ -246,6 +246,9 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
 
             foreach (Mage::getConfig()->getFieldset('customer_account') as $code=>$node) {
                 if ($node->is('create') && ($value = $this->getRequest()->getParam($code)) !== null) {
+                    if ($code == 'email') {
+                        $value = trim($value);
+                    }
                     $customer->setData($code, $value);
                 }
             }
