@@ -44,17 +44,52 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
     {
         parent::__construct();
 
+        $this->_objectId = 'revision_id';
+
         $this->_controller = 'adminhtml_cms_page_revision';
         $this->_blockGroup = 'enterprise_cms';
 
         $this->setFormActionUrl($this->getUrl('*/cms_page_revision/save'));
 
+        $this->_addButton('preview', array(
+            'label'     => Mage::helper('enterprise_cms')->__('Preview'),
+            'onclick'   => 'previewAction(\'' . $this->getPreviewUrl() . '\')',
+            'class'     => 'preview',
+        ));
+
+        $this->_formScripts[] = "
+            function previewAction(url){
+                $('edit_form').writeAttribute('target', '_blank');
+                editForm.submit(url);
+                $('edit_form').writeAttribute('target', '');
+            }
+        ";
+
+        if ($this->_isAllowedAction('publish_revision')) {
+            $this->_addButton('publish', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Select For Publishing'),
+                'onclick'   => 'publishAction(\'' . $this->getPublishUrl() . '\')',
+                'class'     => 'publish',
+            ));
+
+            $this->_formScripts[] = "
+                function publishAction(url){
+                    if (1) {
+                        setLocation(url);
+                    } else {
+                        editForm.submit($('edit_form').action+'back/publish/');
+                    }
+                }
+            ";
+        }
+
         if ($this->_isAllowedAction('save_revision')) {
-            $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save Revision'));
+            $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save'));
+            $this->_updateButton('save', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\');');
         }
 
         if ($this->_isAllowedAction('delete_revision')) {
-            $this->_updateButton('delete', 'label', Mage::helper('enterprise_cms')->__('Delete Revision'));
+            $this->_updateButton('delete', 'label', Mage::helper('enterprise_cms')->__('Delete'));
         }
 
         return $this;
@@ -68,10 +103,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
      */
     public function getHeaderText()
     {
-        $revisionId = Mage::registry('cms_page')->getRevisionId();
+        $revisionNumber = Mage::registry('cms_page')->getRevisionNumber();
         $title = $this->htmlEscape(Mage::registry('cms_page')->getTitle());
-        if ($revisionId) {
-            return Mage::helper('enterprise_cms')->__("Edit Page '%s' Revision %d", $title, $this->htmlEscape($revisionId));
+        if ($revisionNumber) {
+            return Mage::helper('enterprise_cms')->__("Edit Page '%s' Revision #%s", $title, $this->htmlEscape($revisionNumber));
         } else {
             return Mage::helper('enterprise_cms')->__("Edit Page '%s' New Revision", $title);
         }
@@ -101,9 +136,39 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
     {
         return $this->getUrl('*/cms_page/edit',
              array(
-                'page_id' => Mage::registry('cms_page')->getId(),
+                'page_id' => Mage::registry('cms_page')->getPageId(),
                 'tab' => 'revisions'
              ));
+    }
+
+    /**
+     * Get URL for delete button
+     *
+     * @return string
+     */
+    public function getDeleteUrl()
+    {
+        return $this->getUrl('*/*/delete', array('_current' => true));
+    }
+
+    /**
+     * Get URL for publish button
+     *
+     * @return string
+     */
+    public function getPublishUrl()
+    {
+        return $this->getUrl('*/*/publish', array('_current' => true));
+    }
+
+    /**
+     * Get URL for preview button
+     *
+     * @return string
+     */
+    public function getPreviewUrl()
+    {
+        return $this->getUrl('*/*/preview');
     }
 
     /**

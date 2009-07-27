@@ -36,23 +36,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     extends Mage_Adminhtml_Block_Widget_Grid
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-    /**
-     * Array of available versions for user
-     * @var array
-     */
-    protected $_versionsHash = null;
-
-    /**
-     * Array of admin users in system
-     * @var array
-     */
-    protected $_usersHash = null;
-
     public function __construct()
     {
         parent::__construct();
         $this->setId('revisionsGrid');
-        $this->setDefaultSort('revision_number');
+        $this->setDefaultSort('created_at');
         $this->setDefaultDir('DESC');
         $this->setUseAjax(true);
     }
@@ -60,7 +48,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     /**
      * Prepares events collection
      *
-     * @return Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     protected function _prepareCollection()
     {
@@ -70,7 +58,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
             ->joinVersions()
             //->addVersionLabelToSelect()
             ->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
-                Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
+                Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
+            ->setDefaultSortOrder();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -79,14 +68,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     /**
      * Prepare event grid columns
      *
-     * @return Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     protected function _prepareColumns()
     {
         $this->addColumn('version_number', array(
             'header' => Mage::helper('enterprise_cms')->__('Version #'),
             'width' => 100,
-            'index' => 'version_number'
+            'index' => 'version_number',
+            'type' => 'options',
+            'options' => Mage::helper('enterprise_cms')->getVersionsArray($this->getPage())
         ));
 
         $this->addColumn('label', array(
@@ -94,17 +85,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
             'index' => 'label'
         ));
 
-        //$this->addColumn('version_id', array(
-        //    'header' => Mage::helper('enterprise_cms')->__('Version'),
-        //    'index' => 'version_id',
-        //    'type' => 'options',
-        //    'options' => $this->_getVersions()
-        //));
-
         $this->addColumn('revision_number', array(
             'header' => Mage::helper('enterprise_cms')->__('Revision #'),
             'width' => 100,
-            'type' => 'text',
+            'type' => 'number',
             'index' => 'revision_number'
         ));
 
@@ -128,48 +112,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
             'header' => Mage::helper('enterprise_cms')->__('Author'),
             'index' => 'user_id',
             'type' => 'options',
-            'options' => $this->_getUsers()
+            'options' => Mage::helper('enterprise_cms')->getUsersArray()
         ));
 
         return parent::_prepareColumns();
-    }
-
-    /**
-     * Retrieve array of version available for current user
-     *
-     * @return array
-     */
-    protected function _getVersions()
-    {
-        if (!$this->_versionsHash) {
-            $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-            $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
-                ->addVersionLabelToSelect()
-                ->addVisibilityFilter($userId,
-                    Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
-
-            $this->_versionsHash = $collection->getIdLabelArray();
-        }
-
-        return $this->_versionsHash;
-    }
-
-    /**
-     * Retrieve array of admin users in system
-     *
-     * @return array
-     */
-    protected function _getUsers()
-    {
-        if (!$this->_usersHash) {
-            $collection = Mage::getModel('admin/user')->getCollection();
-            $this->_usersHash = array();
-            foreach ($collection as $user) {
-                $this->_usersHash[$user->getId()] = $user->getUsername();
-            }
-        }
-
-        return $this->_usersHash;
     }
 
     /**
@@ -240,5 +186,24 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     public function getPage()
     {
         return Mage::registry('cms_page');
+    }
+
+    /**
+     * Prepare massactions for this grid.
+     * For now it is only ability to remove revisions
+     *
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
+     */
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('revision_id');
+        $this->getMassactionBlock()->setFormFieldName('revision');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'=> Mage::helper('enterprise_cms')->__('Delete'),
+             'url'  => $this->getUrl('*/*/massDeleteRevisions', array('_current' => true)),
+             'confirm' => Mage::helper('enterprise_cms')->__('Are you sure?')
+        ));
+        return $this;
     }
 }

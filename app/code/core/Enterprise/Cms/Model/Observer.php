@@ -35,48 +35,124 @@
 class Enterprise_Cms_Model_Observer
 {
     /**
-     * Limit displayed fields on cms page
+     * Configuration model
+     * @var Enterprise_Cms_Model_Config
+     */
+    protected $_config;
+
+    /**
+     * Contructor
+     */
+    public function __construct()
+    {
+        $this->_config = Mage::getSingleton('enterprise_cms/config');
+    }
+
+    /**
+     * Making changes to main tab regarding to custom logic
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function filterFieldsOnPrepareForm($observer)
+    public function onMainTabPrepareForm($observer)
     {
         $form = $observer->getEvent()->getForm();
-        /** @var $baseFieldset Varien_Data_Form_Element_Fieldset */
+        /* @var $baseFieldset Varien_Data_Form_Element_Fieldset */
         $baseFieldset = $form->getElement('base_fieldset');
 
         /*
          * Making is_active as disabled if user does not have publish permission
          */
-        if (!Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublishRevision()) {
+        if (!$this->_config->isCurrentUserCanPublishRevision()) {
             $element = $baseFieldset->getElements()->searchById('is_active');
             if ($element) {
                 $element->setDisabled(true);
             }
         }
-//        $elementsUnderRevisionControl = Mage::getSingleton('enterprise_cms/config')
-//            ->getPageRevisionControledAttributes();
 
-//        if (Mage::registry('cms_page')->getHideRevisionedAttributes()) {
-//            foreach ($baseFieldset->getElements() as $element) {
-//                if (in_array($element->getId(), $elementsUnderRevisionControl)) {
-//                    $baseFieldset->removeField($element->getId());
-//                }
-//            }
-//        } else if (Mage::registry('cms_page')->getHideNotRevisionedAttributes()) {
-//            /*
-//             * Removing fields that are not under
-//             * revision control except those which are hidden
-//             */
-//            foreach ($baseFieldset->getElements() as $element) {
-//                if (!in_array($element->getId(), $elementsUnderRevisionControl)
-//                        && $element->getType() != 'hidden') {
-//                    $baseFieldset->removeField($element->getId());
-//                }
-//            }
-//        }
+        /*
+         * Adding link to current published revision
+         */
+        /* @var $page Enterprise_Cms_Model_Page */
+        $page = Mage::registry('cms_page');
+        $revisionAvailable = false;
+        if ($page && $page->getPublishedRevisionId()) {
+            $revision = Mage::getModel('enterprise_cms/page_revision')
+                ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
+                ->setAccessLevel($this->_config->getAllowedAccessLevel())
+                ->load($page->getPublishedRevisionId());
 
-//        return $this;
+            if ($revision->getId()) {
+                $revisionNumber = $revision->getRevisionNumber();
+                $versionNumber = $revision->getVersionNumber();
+                $versionLabel = $revision->getLabel();
+
+                $afterElementHtml = Mage::helper('enterprise_cms')->__('Version #%s', $versionNumber);
+
+                if ($versionLabel) {
+                    $afterElementHtml .= "\n" .
+                        Mage::helper('enterprise_cms')->__('Version Label:') . $versionLabel;
+                }
+
+                $page->setPublishedRevisionLink(
+                    Mage::helper('enterprise_cms')->__('Published Revision #%s', $revisionNumber));
+
+                $baseFieldset->addType('link', 'Enterprise_Cms_Block_Form_Element_Link');
+                $baseFieldset->addField('published_revision_link', 'link', array(
+                        'href' => Mage::getUrl('*/cms_page_revision/edit', array(
+                            'page_id' => $page->getId(),
+                            'revision_id' => $page->getPublishedRevisionId()
+                            )),
+                        'after_element_html' => $afterElementHtml
+                    ));
+
+                $revisionAvailable = true;
+            }
+        }
+
+        /*
+         * User does not have access to revision or revision is no longer available
+         */
+        if (!$revisionAvailable) {
+            $baseFieldset->addField('published_revision_status', 'label', array('bold' => true));
+            $page->setPublishedRevisionStatus(Mage::helper('enterprise_cms')->__('Published Revision Unavailable'));
+        }
+
+        return $this;
+    }
+
+    /**
+     * Preparing cms page object before it will be saved
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function cmsPageBeforeSave($observer)
+    {
+        $page = $observer->getEvent()->getObject();
+        /*
+         * All new pages created by yser without permission to publish
+         * should be disabled from the begining.
+         */
+        if (!$page->getId() && !$this->_config->isCurrentUserCanPublishRevision()) {
+            $page->setIsActive(false);
+        }
+    }
+
+    /**
+     * Processing extra data after cms page saved
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function cmsPageAfterSave($observer)
+    {
+        $page = $observer->getEvent()->getObject();
+
+        if (!$this->getOrigData($this->getIdFieldName())) {
+            $revision = Mage::getModel('enterprise_cms/page_revision')
+                ->setData($this->getData())
+                ->save();
+        }
     }
 }

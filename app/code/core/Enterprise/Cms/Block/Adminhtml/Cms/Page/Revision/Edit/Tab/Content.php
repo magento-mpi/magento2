@@ -43,12 +43,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
      */
     protected function _prepareForm()
     {
-        /** @var $model Mage_Cms_Model_Page */
+        /* @var $model Mage_Cms_Model_Page */
         $model = Mage::registry('cms_page');
 
         parent::_prepareForm();
 
-        /** @var $fieldset Varien_Data_Form_Element_Fieldset */
+        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
 
         if ($model->getPageId()) {

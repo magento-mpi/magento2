@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.3</version>
+             <version>0.1.5</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -129,10 +129,26 @@
                 <observers>
                     <enterprise_cms>
                         <class>enterprise_cms/observer</class>
-                        <method>filterFieldsOnPrepareForm</method>
+                        <method>onMainTabPrepareForm</method>
                     </enterprise_cms>
                 </observers>
             </adminhtml_cms_page_edit_tab_main_prepare_form>
+            <cms_page_save_before>
+                <observers>
+                    <enterprise_cms>
+                        <class>enterprise_cms/observer</class>
+                        <method>cmsPageBeforeSave</method>
+                    </enterprise_cms>
+                </observers>
+            </cms_page_save_before>
+            <cms_page_save_after>
+                <observers>
+                    <enterprise_cms>
+                        <class>enterprise_cms/observer</class>
+                        <method>cmsPageAfterSave</method>
+                    </enterprise_cms>
+                </observers>
+            </cms_page_save_after>
         </events>
         <translate>
             <modules>

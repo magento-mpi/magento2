@@ -74,6 +74,18 @@ class Enterprise_Cms_Model_Mysql4_Page_Version_Collection  extends Enterprise_Cm
     }
 
     /**
+     * Prepare two dimensional array basing on version number as key and
+     * version number as value data from collection.
+     *
+     * @return array
+     */
+    public function getNumbersAsArray()
+    {
+        $data = $this->_toOptionHash('version_number', 'version_number');
+        return array_filter($data);
+    }
+
+    /**
      * Join revision data by version id
      *
      * @return Enterprise_Cms_Model_Mysql4_Version_Collection

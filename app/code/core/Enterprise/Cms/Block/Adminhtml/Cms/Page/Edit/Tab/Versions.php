@@ -53,7 +53,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Prepares versions collection
      *
-     * @return Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareCollection()
     {
@@ -71,32 +71,33 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Prepare versions grid columns
      *
-     * @return Enterprise_CatalogEvent_Block_Adminhtml_Event_Grid
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('grid_id', array(
+        $this->addColumn('version_number', array(
             'header' => Mage::helper('enterprise_cms')->__('Version #'),
             'width' => 100,
-            'type' => 'text',
-            'index' => 'version_number'
+            'index' => 'version_number',
+            'type' => 'options',
+            'options' => Mage::helper('enterprise_cms')->getVersionsArray($this->getPage())
         ));
 
-        $this->addColumn('grid_label', array(
+        $this->addColumn('label', array(
             'header' => Mage::helper('enterprise_cms')->__('Label'),
             'index' => 'label',
             'type' => 'text'
         ));
 
-        $this->addColumn('grid_owner', array(
+        $this->addColumn('owner', array(
             'header' => Mage::helper('enterprise_cms')->__('Owner'),
             'index' => 'user_id',
             'type' => 'options',
-            'options' => $this->_getUsers(),
+            'options' => Mage::helper('enterprise_cms')->getUsersArray(),
             'width' => 250
         ));
 
-        $this->addColumn('grid_access_level', array(
+        $this->addColumn('access_level', array(
             'header' => Mage::helper('enterprise_cms')->__('Access Level'),
             'index' => 'access_level',
             'type' => 'options',
@@ -104,7 +105,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             'options' => Mage::getSingleton('enterprise_cms/config')->getStatuses()
         ));
 
-        $this->addColumn('grid_revisions', array(
+        $this->addColumn('revisions', array(
             'header' => Mage::helper('enterprise_cms')->__('Revisions'),
             'index' => 'revisions_count',
             'type' => 'number'
@@ -126,29 +127,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     /**
      * Returns cms page object from registry
      *
-     * @return Mage_Cms_ModelPage
+     * @return Mage_Cms_Model_Page
      */
     public function getPage()
     {
         return Mage::registry('cms_page');
-    }
-
-    /**
-     * Retrieve array of admin users in system
-     *
-     * @return array
-     */
-    protected function _getUsers()
-    {
-        if (!$this->_usersHash) {
-            $collection = Mage::getModel('admin/user')->getCollection();
-            $this->_usersHash = array();
-            foreach ($collection as $user) {
-                $this->_usersHash[$user->getId()] = $user->getUsername();
-            }
-        }
-
-        return $this->_usersHash;
     }
 
     /**
@@ -189,5 +172,25 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     public function isHidden()
     {
         return false;
+    }
+
+    /**
+     * Prepare massactions for this grid.
+     * For now it is only ability to remove versions
+     *
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
+     */
+
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('version_id');
+        $this->getMassactionBlock()->setFormFieldName('version');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'=> Mage::helper('enterprise_cms')->__('Delete'),
+             'url'  => $this->getUrl('*/*/massDeleteVersions', array('_current' => true)),
+             'confirm' => Mage::helper('enterprise_cms')->__('Are you sure?')
+        ));
+        return $this;
     }
 }

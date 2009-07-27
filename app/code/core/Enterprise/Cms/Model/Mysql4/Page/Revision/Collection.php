@@ -88,4 +88,11 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision_Collection extends Enterprise_Cm
 
         return $this;
     }
+
+    public function setDefaultSortOrder()
+    {
+        //$this->getSelect()->order('ver_table.version_number, revision_number DESC');
+
+        return $this;
+    }
 }

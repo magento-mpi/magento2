@@ -42,8 +42,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     /**
      * Init actions
      *
-     * @return mixed $handle
-     * @return Mage_Adminhtml_Cms_PageController
+     * @return Enterprise_Cms_Adminhtml_Cms_PageController
      */
     protected function _initAction()
     {
@@ -69,32 +68,19 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     }
 
     /**
-     * Prepare ans place cms page model into registry
+     * Prepare and place cms page model into registry
      * with loaded data if id parameter present
      *
      * @param string $idFieldName
-     * @return Mage_Cms_Model_Page
+     * @return Enterprise_Cms_Model_Page
      */
     protected function _initPage()
     {
         $pageId = (int) $this->getRequest()->getParam('page_id');
-        $revisionId = (int) $this->getRequest()->getParam('revision_id');
-
-        $page = Mage::getModel('enterprise_cms/page');
+        $page = Mage::getModel('cms/page');
 
         if ($pageId) {
-            if ($revisionId) {
-                $page->setRevisionId($revisionId);
-            }
-
-            $page->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
-            $page->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
-
             $page->load($pageId);
-
-            /**
-             * @todo Need to throw exception about - can't load page
-             */
         }
 
         Mage::register('cms_page', $page);
@@ -103,7 +89,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
 
 
     /**
-     * Edit revision of CMS page
+     * Edit CMS page
      */
     public function editAction()
     {
@@ -119,55 +105,13 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         }
 
         $this->_initAction()
-            ->_addBreadcrumb($page->getId() ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'), $page->getId() ? Mage::helper('cms')->__('Edit Page') : Mage::helper('cms')->__('New Page'));
+            ->_addBreadcrumb($page->getId() ? Mage::helper('cms')->__('Edit Page')
+                    : Mage::helper('cms')->__('New Page'),
+                $page->getId() ? Mage::helper('cms')->__('Edit Page')
+                    : Mage::helper('cms')->__('New Page'));
 
         $this->renderLayout();
     }
-
-    /**
-     * Save action
-     */
-    public function saveAction()
-    {
-        // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
-            // init model and set data
-            $model = $this->_initPage();
-            $model->setData($data);
-
-            Mage::dispatchEvent('cms_page_prepare_save', array('page' => $model, 'request' => $this->getRequest()));
-
-            // try to save it
-            try {
-                // save the data
-                $model->save();
-
-                // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('cms')->__('Page was successfully saved'));
-                // clear previously saved data from session
-                Mage::getSingleton('adminhtml/session')->setFormData(false);
-                // check if 'Save and Continue'
-                if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('page_id' => $model->getId()));
-                    return;
-                }
-                // go to grid
-                $this->_redirect('*/*/');
-                return;
-
-            } catch (Exception $e) {
-                // display error message
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                // save data in session
-                Mage::getSingleton('adminhtml/session')->setFormData($data);
-                // redirect to edit form
-                $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
-                return;
-            }
-        }
-        $this->_redirect('*/*/');
-    }
-
 
     /**
      * Action for revisions ajax tab
@@ -197,5 +141,63 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         $this->renderLayout();
 
         return $this;
+    }
+
+    /**
+     * Mass deletion for revisions
+     *
+     */
+    public function massDeleteRevisionsAction()
+    {
+        $ids = $this->getRequest()->getParam('revision');
+        if (!is_array($ids)) {
+            $this->_getSession()->addError($this->__('Please select revision(s)'));
+        }
+        else {
+            try {
+                foreach ($ids as $id) {
+                    $revision = Mage::getSingleton('enterprise_cms/page_revision')
+                        ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
+                        ->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
+                        ->load($id);
+
+                    if ($revision->getId()) {
+                        $revision->delete();
+                    }
+                }
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d record(s) were successfully deleted', count($ids))
+                );
+            } catch (Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'revisions'));
+    }
+
+    /**
+     * Mass deletion for revisions
+     *
+     */
+    public function massDeleteVersionsAction()
+    {
+        $ids = $this->getRequest()->getParam('version');
+        if (!is_array($ids)) {
+            $this->_getSession()->addError($this->__('Please select version(s)'));
+        }
+        else {
+            try {
+                foreach ($ids as $id) {
+                    $version = Mage::getSingleton('enterprise_cms/page_version')->load($id);
+                    $version->delete();
+                }
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d record(s) were successfully deleted', count($ids))
+                );
+            } catch (Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+        }
+        $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'versions'));
     }
 }
