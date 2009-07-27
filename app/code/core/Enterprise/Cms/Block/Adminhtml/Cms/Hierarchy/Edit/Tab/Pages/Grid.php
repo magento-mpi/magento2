@@ -41,7 +41,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages_Grid extends M
     {
         parent::__construct();
         $this->setRowClickCallback('hierarchyNodes.pageGridRowClick.bind(hierarchyNodes)');
-//        $this->setCheckboxCheckCallback('hierarchyNodes.pageGridCheckboxCheck.bind(hierarchyNodes)');
         $this->setDefaultSort('page_id');
         $this->setMassactionIdField('page_id');
         $this->setUseAjax(true);

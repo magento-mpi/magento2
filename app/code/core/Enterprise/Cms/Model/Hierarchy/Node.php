@@ -99,12 +99,13 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         $nodes = array();
         foreach ($data as $v) {
             $parentNodeId = empty($v['parent_node_id']) ? 0 : $v['parent_node_id'];
+            $pageId = empty($v['page_id']) ? null : intval($v['page_id']);
             $nodes[$parentNodeId][$v['node_id']] = array(
-                'node_id'       => strpos($v['node_id'], '_') === false ? $v['node_id'] : null,
-                'page_id'       => empty($v['page_id']) ? null : intval($v['page_id']),
+                'node_id'       => null,
+                'page_id'       => $pageId,
                 'tree_id'       => $this->getTreeId(),
-                'label'         => !$v['use_def_label'] ? $v['label'] : null,
-                'identifier'    => !$v['use_def_identifier'] ? $v['identifier'] : null,
+                'label'         => !$pageId ? $v['label'] : null,
+                'identifier'    => !$pageId ? $v['identifier'] : null,
                 'level'         => intval($v['level']),
                 'sort_order'    => intval($v['sort_order']),
                 'request_url'   => $v['identifier']
@@ -187,5 +188,60 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function isUseDefaultLabel()
     {
         return is_null($this->_getData('label'));
+    }
+
+    /**
+     * Load node by Request Url
+     *
+     * @param string $url
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function loadByRequestUrl($url)
+    {
+        $this->_getResource()->loadByRequestUrl($this, $url);
+        return $this;
+    }
+
+    /**
+     * Retrieve first child node
+     *
+     * @param int $parentNodeId
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function loadFirstChildByParent($parentNodeId)
+    {
+        $this->_getResource()->loadFirstChildByParent($this, $parentNodeId);
+        return $this;
+    }
+
+    /**
+     * Update rewrite for page (if identifier changed)
+     *
+     * @param Mage_Cms_Model_Page $page
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function updateRewriteUrls(Mage_Cms_Model_Page $page)
+    {
+        $treeIds = $this->_getResource()->getTreeIdsByPage($page->getId());
+        foreach ($treeIds as $treeId) {
+            $this->_getResource()->updateRequestUrlsForTree($treeId);
+        }
+        return $this;
+    }
+
+    /**
+     * Check identifier
+     *
+     * If a CMS Page belongs to a tree (binded to a tree node), it should not be accessed standalone
+     * only by URL that identifies it in a hierarchy.
+     *
+     * Return true if a page binded to a tree node
+     *
+     * @param string $identifier
+     * @return bool
+     */
+    public function checkIdentifier($identifier)
+    {
+        return $this->_getResource()->checkIdentifier($identifier);
     }
 }

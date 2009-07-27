@@ -122,21 +122,21 @@ class Enterprise_Cms_Model_Observer
     }
 
     /**
-     * Preparing cms page object before it will be saved
+     * Validate and render Cms hierarchy page
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function cmsPageBeforeSave($observer)
+    public function cmsControllerRouterMatchBefore(Varien_Event_Observer $observer)
     {
-        $page = $observer->getEvent()->getObject();
-        /*
-         * All new pages created by yser without permission to publish
-         * should be disabled from the begining.
-         */
-        if (!$page->getId() && !$this->_config->isCurrentUserCanPublishRevision()) {
-            $page->setIsActive(false);
+        /* @var $helper Enterprise_Cms_Helper_Hierarchy */
+        $helper = Mage::helper('enterprise_cms/hierarchy');
+        if (!$helper->isEnabled()) {
+            return $this;
         }
+        $condition = $observer->getEvent()->getCondition();
+        $helper->match($condition);
+        return $this;
     }
 
     /**
@@ -145,14 +145,43 @@ class Enterprise_Cms_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function cmsPageAfterSave($observer)
+    public function cmsPageSaveAfter(Varien_Event_Observer $observer)
     {
+        /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
-
-        if (!$this->getOrigData($this->getIdFieldName())) {
-            $revision = Mage::getModel('enterprise_cms/page_revision')
+        if (!$page->getOrigData($page->getIdFieldName())) {
+            Mage::getModel('enterprise_cms/page_revision')
                 ->setData($this->getData())
                 ->save();
+        }
+        if (!Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {
+            return $this;
+        }
+        if (!$page->dataHasChangedFor('identifier')) {
+            return $this;
+        }
+
+        Mage::getSingleton('enterprise_cms/hierarchy_node')->updateRewriteUrls($page);
+
+        return $this;
+    }
+
+    /**
+     * Preparing cms page object before it will be saved
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function cmsPageSaveBeforeSave(Varien_Event_Observer $observer)
+    {
+        /* @var $page Mage_Cms_Model_Page */
+        $page = $observer->getEvent()->getObject();
+        /*
+         * All new pages created by yser without permission to publish
+         * should be disabled from the begining.
+         */
+        if (!$page->getId() && !$this->_config->isCurrentUserCanPublishRevision()) {
+            $page->setIsActive(false);
         }
     }
 }

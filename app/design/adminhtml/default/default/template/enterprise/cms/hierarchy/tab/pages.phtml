@@ -30,39 +30,35 @@
 <table cellspacing="0" width="100%">
     <tr>
         <td width="50%" style="border-right:1px solid #ddd; padding:0 23px 23px 0;">
-            <?php echo $this->getTreeButtonsHtml();?>
             <div id="tree-container" style="width:100%;height:400px;overflow:auto"></div>
         </td>
         <td style="padding:0 0 23px 23px;">
-            <div class="entry-edit-head">
-                <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Page Properties')?></h4>
+            <div style="padding-bottom: 5px;">
+                <?php echo $this->getTreeButtonsHtml();?>
             </div>
-            <div id="node_properties_fieldset" class="fieldset">
-                <div class="hor-scroll">
-                    <input type="hidden" id="node_id" value="">
-                    <input type="hidden" id="node_page_id" value="">
-                    <table cellspacing="0" class="form-list">
-                        <tbody><tr>
-                            <td class="label"><label for="node_label"><?php echo $this->__('Node Title')?> <span class="required">*</span></label></td>
-                            <td class="value"><input id="node_label" value="" class="input-text" type="text"/></td>
-                            <td class="value use-default">
-                                <input id="node_label_default" type="checkbox" value="1" onclick="toggleValueElements(this, this.parentNode.parentNode)" checked="checked" />
-                                <label id="node_label_default_label" class="normal" for="node_label_default"><?php echo $this->__('Use Default Value')?></label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="label"><label for="node_identifier"><?php echo $this->__('URL Key')?> <span class="required">*</span></label></td>
-                            <td class="value"><input id="node_identifier" value="" class="input-text validate-identifier" type="text"/></td>
-                            <td class="value use-default">
-                                <input id="node_identifier_default" type="checkbox" value="1" onclick="toggleValueElements(this, this.parentNode.parentNode)" checked="checked" />
-                                <label id="node_identifier_default_label" class="normal" for="node_label_default"><?php echo $this->__('Use Default Value')?></label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>&nbsp;</td>
-                            <td colspan="2"><?php echo $this->getPagePropertiesButtons();?></td>
-                        </tr></tbody>
-                    </table>
+            <div id="node_prop_container">
+                <div class="entry-edit-head">
+                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Node Properties')?></h4>
+                </div>
+                <div id="node_properties_fieldset" class="fieldset">
+                    <div class="hor-scroll">
+                        <input type="hidden" id="node_id" value="">
+                        <input type="hidden" id="node_page_id" value="">
+                        <table cellspacing="0" class="form-list">
+                            <tbody><tr>
+                                <td class="label"><label for="node_label"><?php echo $this->__('Node Title')?> <span class="required">*</span></label></td>
+                                <td class="value"><span id="node_label_text" style="display: none;"></span><input id="node_label" value="" class="input-text" type="text"/></td>
+                            </tr>
+                            <tr>
+                                <td class="label"><label for="node_identifier"><?php echo $this->__('URL Key')?> <span class="required">*</span></label></td>
+                                <td class="value"><span id="node_identifier_text" style="display: none;"></span><input id="node_identifier" value="" class="input-text validate-identifier" type="text"/></td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td><?php echo $this->getPagePropertiesButtons();?></td>
+                            </tr></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </td>
@@ -80,42 +76,46 @@ hierarchyNodes = {
     nodes: <?php echo $this->getNodesJson()?>,
     initialize: function(){
         this.increment = 0;
+        this.pageIdentifiers = $H({});
         this.tree = new Ext.tree.TreePanel('tree-container', {
             animate: false,
             loader: false,
             enableDD: true,
             containerScroll: true,
-            rootVisible: false,
+            rootVisible: true,
             lines: true
         });
         this.treeRoot = new Ext.tree.TreeNode({
-            text: '_root',
-            id: '_root'
+            text: '<?php echo $this->__("Root")?>',
+            id: '_root',
+            allowDrop: false,
+            allowDrag: false,
+            expanded: true,
+            cls: 'cms_node_root',
         });
-        this.newNodePage();
         this.tree.setRootNode(this.treeRoot);
         this.createNodes();
         this.tree.getSelectionModel().addListener('selectionchange', this.onNodeSelect.bind(this));
         this.tree.addListener('beforeappend', this.onNodeAppend.bind(this));
         this.tree.render();
+        this.treeRoot.select();
     },
     createNodes: function(){
         for (var i = 0, l = this.nodes.length; i < l; i++) {
             var node = new Ext.tree.TreeNode({
-                text: this.nodes[i].label,
-                label: this.nodes[i].label,
-                orig_label: this.nodes[i].orig_label,
-                use_def_label: this.nodes[i].use_def_label,
-                identifier: this.nodes[i].identifier,
-                orig_identifier: this.nodes[i].orig_identifier,
-                use_def_identifier: this.nodes[i].use_def_identifier,
                 id: this.nodes[i].node_id,
+                text: this.nodes[i].label,
                 page_id: this.nodes[i].page_id,
-                cls: this.nodes[i].page_id > 0 ? '' : 'folder',
+                identifier: this.nodes[i].identifier,
+                cls: this.nodes[i].page_id > 0 ? 'cms_page' : 'cms_node',
                 expanded: true,
                 allowDrop: true,
                 allowDrag: true
             });
+
+            if (this.nodes[i].page_id) {
+                this.pageIdentifiers.set(this.nodes[i].identifier, this.nodes[i].identifier);
+            }
 
             if (parentNode = this.tree.getNodeById(this.nodes[i].parent_node_id)) {
                 parentNode.appendChild(node);
@@ -125,25 +125,30 @@ hierarchyNodes = {
         }
     },
     onNodeSelect: function(model, node){
-        if (!node) {
-            this.newNodePage();
+        if (!node || node.id == '_root') {
+            $('node_prop_container').hide();
+            this.pageGridLoad();
             return;
         }
+        $('node_prop_container').show();
+
         $('node_id').value = node.id;
         $('node_page_id').value = node.attributes.page_id;
-        var hasPageId = node.attributes.page_id != null
+        var hasPageId = node.attributes.page_id != null;
         this._changeNodePropShow(hasPageId);
 
-        $('node_label').value = node.attributes.text;
-        $('node_identifier').value = node.attributes.identifier;
-        $('node_label_default').checked = node.attributes.use_def_label;
-        $('node_label').disabled = $('node_label_default').checked;
-        $('node_identifier_default').checked = node.attributes.use_def_identifier;
-        $('node_identifier').disabled = $('node_identifier_default').checked;
+        if (!hasPageId) {
+            $('node_label').value = node.text;
+            $('node_identifier').value = node.attributes.identifier;
+        } else {
+            $('node_label_text').innerHTML = node.text;
+            $('node_identifier_text').innerHTML = node.attributes.identifier;
+        }
 
         this.nodePropReset();
-
         $('delete_node_button').show();
+        $('cancel_node_button').hide();
+        this.pageGridLoad();
     },
     onNodeAppend: function(tree,parent,node){
         var identifier = node.attributes.identifier;
@@ -172,29 +177,29 @@ hierarchyNodes = {
             var page_id = tr.down('.checkbox').value;
             var label = tr.down('.label').textContent;
             var identifier = tr.down('.identifier').textContent;
-
-            this.treeRoot.appendChild(new Ext.tree.TreeNode({
-                text: label,
-                orig_label: label,
-                use_def_label: 1,
-                identifier: identifier,
-                orig_identifier: identifier,
-                use_def_identifier: 1,
+            var rootNode = this.tree.getSelectionModel().getSelectedNode();
+            if (!rootNode) {
+                rootNode = this.treeRoot;
+            }
+            rootNode.appendChild(new Ext.tree.TreeNode({
                 id: '_' + this.increment,
+                text: label,
+                identifier: identifier,
                 page_id: page_id,
-                cls: 'page',
+                cls: 'cms_page',
                 expanded: true,
                 allowDrop: true,
                 allowDrag: true
             }));
+            this.pageIdentifiers.set(identifier, page_id);
 
             this.increment ++;
 
             checkbox.checked = false;
         }.bind(this));
+        this.pageGridLoad();
     },
-    collectChilds: function(node)
-    {
+    collectChilds: function(node){
         if (node.id == '_root') {
             this.treeData = new Hash();
         } else {
@@ -203,9 +208,7 @@ hierarchyNodes = {
                 parent_node_id: node.parentNode.id == '_root' ? null : node.parentNode.id,
                 page_id: node.attributes.page_id,
                 label: node.attributes.text,
-                use_def_label: node.attributes.use_def_label,
                 identifier: node.attributes.identifier,
-                use_def_identifier: node.attributes.use_def_identifier,
                 sort_order: node.parentNode.indexOf(node),
                 level: node.getDepth()
             });
@@ -239,32 +242,50 @@ hierarchyNodes = {
             Validation.reset(el);
         });
     },
-    _changeNodePropShow: function(hasPageId)
-    {
-        var differnElements = ['node_identifier_default','node_identifier_default_label',
-           'node_label_default', 'node_label_default_label'];
-        differnElements.each(function(id){
-           if (!hasPageId) {
-               $(id).hide();
-           } else {
-               $(id).show();
-           }
-       });
+    _changeNodePropShow: function(hasPageId){
+        var nodeElements = ['node_identifier','node_label'];
+        var pageElements = ['node_identifier_text','node_label_text'];
+        pageElements.each(function(id){
+            if (!hasPageId) {
+                $(id).hide();
+            } else {
+                $(id).show();
+            }
+            $(id).innerHTML = '';
+        });
+        nodeElements.each(function(id){
+            if (hasPageId) {
+                $(id).hide();
+            } else {
+                $(id).show();
+            }
+            $(id).value = '';
+        });
+        if (hasPageId) {
+            $('save_node_button').hide();
+        } else {
+            $('save_node_button').show();
+        }
     },
     newNodePage: function(){
         this.nodePropReset();
         $('node_id').value = '';
         $('node_page_id').value = '';
         this._changeNodePropShow(false);
-
-        $('node_label').value = '';
-        $('node_label').disabled = false;
-        $('node_identifier').value = '';
-        $('node_identifier').disabled = false;
+        //this.tree.getSelectionModel().clearSelections();
 
         $('delete_node_button').hide();
-
-        this.tree.getSelectionModel().clearSelections();
+        $('node_prop_container').show();
+        $('cancel_node_button').show();
+    },
+    cancelNodePage: function(){
+        var selectedNode = this.tree.getSelectionModel().getSelectedNode();
+        if (selectedNode && selectedNode.id != '_root') {
+            this.tree.getSelectionModel().clearSelections();
+            selectedNode.select();
+        } else {
+            $('node_prop_container').hide();
+        }
     },
     saveNodePage: function(){
         var hasNodeId = $('node_id').value != '';
@@ -287,51 +308,69 @@ hierarchyNodes = {
                 }
             }
 
-            if (hasPageId) {
-                if ($('node_label_default').checked) {
-                    node.setText(node.attributes.orig_label);
-                    $('node_label').value = node.attributes.orig_label;
-                }
-                if ($('node_identifier_default').checked) {
-                    node.attributes.identifier = node.attributes.orig_identifier;
-                    $('node_identifier').value = node.attributes.orig_identifier;
-                }
-            }
-            node.setText($('node_label').value);
-            node.attributes.identifier = $('node_identifier').value;
-            if (hasPageId) {
-                node.attributes.use_def_label = $('node_label_default').checked;
-                node.attributes.use_def_identifier = $('node_identifier_default').checked;
-            }
+            node.text = $('node_label').value;
+            node.attributes.identifier = identifier;
         } else {
             var node = new Ext.tree.TreeNode({
-                text: $('node_label').value,
-                use_def_label: 0,
-                identifier: $('node_identifier').value,
-                use_def_identifier: 0,
                 id: '_' + this.increment,
+                text: $('node_label').value,
+                identifier: $('node_identifier').value,
                 page_id: null,
-                cls: 'page',
+                cls: 'cms_node',
                 expanded: true,
                 allowDrop: true,
                 allowDrag: true
             });
 
             this.increment ++;
-            this.treeRoot.appendChild(node);
+            var parentNode = this.tree.getSelectionModel().getSelectedNode();
+            if (!parentNode) {
+                parentNode = this.treeRoot;
+            }
+            parentNode.appendChild(node);
         }
         node.select();
     },
     deleteNodePage: function(){
         if (!$('node_id').value) {
-            this.newNodePage();
             return;
         }
         var node = this.tree.getNodeById($('node_id').value);
         if (node) {
+            if (node.attributes.page_id) {
+                this.pageIdentifiers.unset(node.attributes.identifier);
+            }
+            node.parentNode.select();
             node.parentNode.removeChild(node);
+            this.pageGridLoad();
         }
-        this.newNodePage();
+    },
+    pageGridLoad: function(){
+        var node = this.tree.getSelectionModel().getSelectedNode();
+        var fullReset = !node ? true : false;
+        var identifiers = this.pageIdentifiers.clone();
+        if (node) {
+            node.eachChild(function(child){
+                identifiers.set(child.attributes.identifier, true);
+            });
+        }
+
+        var rows = $$('#cms_page_grid .grid table tbody tr');
+        rows.each(function(tr){
+            if (fullReset) {
+                tr.removeClassName('invalid');
+                tr.down('.checkbox').disabled = false;
+            } else {
+                var identifier = tr.down('.identifier').textContent;
+                if (identifiers.get(identifier)) {
+                    tr.addClassName('invalid');
+                    tr.down('.checkbox').disabled = true;
+                } else {
+                    tr.removeClassName('invalid');
+                    tr.down('.checkbox').disabled = false;
+                }
+            }
+        });
     }
 };
 Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
@@ -348,3 +387,7 @@ Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
         </fieldset>
     <div>
 </div>
+
+<script type="text/javascript">
+<?php echo $this->getGridJsObject(); ?>.initCallback = hierarchyNodes.pageGridLoad.bind(hierarchyNodes);
+</script>

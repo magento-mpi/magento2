@@ -59,7 +59,8 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
             $this->getMainTable() . '.page_id = page_table.page_id',
             array(
                 'page_title'        => 'title',
-                'page_identifier'   => 'identifier'
+                'page_identifier'   => 'identifier',
+                'page_is_active'    => 'is_active'
             )
         );
         return $select;
@@ -70,7 +71,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
      * @param int $treeId
-     * @return Enterprise_Cms_Model_Hierarchy_Node
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
      */
     public function loadByHierarchy($object, $treeId)
     {
@@ -78,6 +79,54 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         if ($read && !is_null($treeId)) {
             $select = $this->_getLoadSelect('tree_id', $treeId, $object);
             $select->where('parent_node_id IS NULL');
+            $data = $read->fetchRow($select);
+
+            if ($data) {
+                $object->setData($data);
+            }
+        }
+
+        $this->_afterLoad($object);
+        return $this;
+    }
+
+    /**
+     * Load node by Request Path
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $object
+     * @param string $url
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function loadByRequestUrl($object, $url)
+    {
+        $read = $this->_getReadAdapter();
+        if ($read && !is_null($url)) {
+            $select = $this->_getLoadSelect('request_url', $url, $object);
+            $data = $read->fetchRow($select);
+
+            if ($data) {
+                $object->setData($data);
+            }
+        }
+
+        $this->_afterLoad($object);
+        return $this;
+    }
+
+    /**
+     * Load First node by parent node id
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $object
+     * @param int $parentNodeId
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function loadFirstChildByParent($object, $parentNodeId)
+    {
+        $read = $this->_getReadAdapter();
+        if ($read && !is_null($parentNodeId)) {
+            $select = $this->_getLoadSelect('parent_node_id', $parentNodeId, $object)
+                ->order(array('sort_order'))
+                ->limit(1);
             $data = $read->fetchRow($select);
 
             if ($data) {
@@ -124,5 +173,113 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         $where = $this->_getWriteAdapter()->quoteInto('parent_node_id=?', $object->getId());
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         return $this;
+    }
+
+    /**
+     * Retrieve tree ids array where the page is
+     *
+     * @param int $pageId
+     * @return array
+     */
+    public function getTreeIdsByPage($pageId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->distinct(true)
+            ->from($this->getMainTable(), 'tree_id')
+            ->where('page_id=?', $pageId);
+        $rowset = $this->_getReadAdapter()->fetchAll();
+        $treeIds = array();
+        foreach ($rowset as $row) {
+            $treeIds[$row['tree_id']] = $row['tree_id'];
+        }
+    }
+
+    /**
+     * Rebuild URL rewrites for a tree
+     *
+     * @param int $treeId
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function updateRequestUrlsForTree($treeId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('enterprise_cms/hierarchy'))
+            ->where('tree_id=?', $treeId);
+        $treeRow = $this->_getReadAdapter()->fetchRow($select);
+        if (!$treeRow) {
+            return $this;
+        }
+        $select = $this->_getReadAdapter()->select()
+            ->from(
+                array('node_table' => $this->getMainTable()),
+                array('node_id', 'parent_node_id', 'page_id', 'identifier', 'request_url'))
+            ->joinLeft(
+                array('page_table' => $this->getTable('cms/page')),
+                'node_table.page_id=page_table.page_id',
+                array(
+                    'page_identifier' => 'identifier',
+                ))
+            ->where('tree_id=?', $treeId)
+            ->order(array('level', 'sort_order'));
+        $nodes  = array();
+        $rowSet = $select->query()->fetchAll();
+        foreach ($rowSet as $row) {
+            $nodes[intval($row['parent_node_id'])][$row['node_id']] = $row;
+        }
+
+        $this->_updateNodeRequestUrls($nodes, 0, $treeRow['identifier']);
+
+        return $this;
+    }
+
+    /**
+     * Recursive update node Request URLs
+     *
+     * @param array $nodes
+     * @param int $parentNodeId
+     * @param string $path
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    protected function _updateNodeRequestUrls(array $nodes, $parentNodeId = 0, $path = '')
+    {
+        if (!isset($nodes[$parentNodeId])) {
+            return $this;
+        }
+        foreach ($nodes[$parentNodeId] as $nodeRow) {
+            $identifier = $nodeRow['page_id'] ? $nodeRow['page_identifier'] : $nodeRow['identifier'];
+            $requestUrl = $path . '/' . $identifier;
+            if ($nodeRow['request_url'] != $requestUrl) {
+                $this->_getWriteAdapter()->update($this->getMainTable(), array(
+                    'request_url' => $requestUrl
+                ), $this->_getWriteAdapter()->quoteInto('node_id=?', $nodeRow['node_id']));
+            }
+            if (isset($nodes[$nodeRow['node_id']])) {
+                $this->_updateNodeRequestUrls($nodes, $nodeRow['node_id'], $requestUrl);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Check identifier
+     *
+     * If a CMS Page belongs to a tree (binded to a tree node), it should not be accessed standalone
+     * only by URL that identifies it in a hierarchy.
+     *
+     * @param string $identifier
+     * @return bool
+     */
+    public function checkIdentifier($identifier)
+    {
+        $select = $this->getReadConnection()->select()
+            ->from(array('page_table' => $this->getTable('cms/page')), 'COUNT(page_table.page_id)')
+            ->join(
+                array('node_table' => $this->getMainTable()),
+                'page_table.page_id = node_table.page_id',
+                array())
+            ->where('page_table.identifier=?', $identifier);
+        return $this->_getReadAdapter()->fetchOne($select) > 0;
+
     }
 }

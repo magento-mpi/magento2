@@ -33,8 +33,8 @@
  */
 class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_HIERARCHY_ENABLED    = 'enterprise_cms/hierarchy/enabled';
-    const XML_PATH_METADATA_ENABLED     = 'enterprise_cms/hierarchy/metadata_enabled';
+    const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
+    const XML_PATH_METADATA_ENABLED     = 'cms/hierarchy/metadata_enabled';
 
     /**
      * Check is Enabled Hierarchy Functionality
@@ -54,5 +54,47 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
     public function isMetedataEnabled()
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_METADATA_ENABLED);
+    }
+
+    /**
+     * Validate Request and modify router match condition
+     *
+     * @param Varien_Object $condition
+     * @return Enterprise_Cms_Helper_Hierarchy
+     */
+    public function match(Varien_Object $condition)
+    {
+        /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
+        $node = Mage::getModel('enterprise_cms/hierarchy_node');
+        $requestUrl = $condition->getIdentifier();
+        $node->loadByRequestUrl($requestUrl);
+
+        if ($node->checkIdentifier($requestUrl)) {
+            $condition->setContinue(false);
+        }
+        if (!$node->getId()) {
+            return $this;
+        }
+
+        if (!$node->getPageId()) {
+            /* @var $child Enterprise_Cms_Model_Hierarchy_Node */
+            $child = Mage::getModel('enterprise_cms/hierarchy_node');
+            $child->loadFirstChildByParent($node->getId());
+            if (!$child->getId()) {
+                return $this;
+            }
+            $url   = Mage::getUrl('', array('_direct' => $child->getRequestUrl()));
+            $condition->setRedirectUrl($url);
+        } else {
+            if (!$node->getPageIsActive()) {
+                return $this;
+            }
+
+            $condition->setContinue(true);
+            $condition->setIdentifier($node->getPageIdentifier());
+            return $this;
+        }
+
+        return $this;
     }
 }

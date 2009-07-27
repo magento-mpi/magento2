@@ -72,6 +72,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
             'class'     => 'delete',
         ))->toHtml();
+        $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+            'id'        => 'cancel_node_button',
+            'label'     => Mage::helper('enterprise_cms')->__('Cancel'),
+            'onclick'   => 'hierarchyNodes.cancelNodePage()',
+            'class'     => 'delete',
+        ))->toHtml();
 
         return join(' ', $buttons);
     }
@@ -109,11 +115,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages
                     'node_id'               => $v['node_id'],
                     'parent_node_id'        => $v['parent_node_id'],
                     'label'                 => $v['label'],
-                    'orig_label'            => $v['label'],
-                    'use_def_label'         => $v['use_def_label'],
                     'identifier'            => $v['identifier'],
-                    'orig_identifier'       => $v['identifier'],
-                    'use_def_identifier'    => $v['use_def_identifier'],
                     'page_id'               => empty($v['page_id']) ? null : $v['page_id'],
                 );
             }
@@ -128,17 +130,23 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages
                     'node_id'               => $item->getId(),
                     'parent_node_id'        => $item->getParentNodeId(),
                     'label'                 => $item->getLabel(),
-                    'orig_label'            => $item->getPageTitle(),
-                    'use_def_label'         => $item->isUseDefaultLabel(),
                     'identifier'            => $item->getIdentifier(),
-                    'orig_identifier'       => $item->getPageIdentifier(),
-                    'use_def_identifier'    => $item->isUseDefaultIdentifier(),
                     'page_id'               => $item->getPageId(),
                 );
             }
         }
 
         return Mage::helper('core')->jsonEncode($nodes);
+    }
+
+    /**
+     * Retrieve Grid JavaScript object name
+     *
+     * @return string
+     */
+    public function getGridJsObject()
+    {
+        return $this->getChild('cms_page_grid')->getJsObjectName();
     }
 
     /**
