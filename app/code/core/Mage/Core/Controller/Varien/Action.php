@@ -90,6 +90,21 @@ abstract class Mage_Core_Controller_Varien_Action
     protected $_cookieCheckActions = array();
 
     /**
+     * Currently used area
+     *
+     * @var string
+     */
+    protected $_currentArea;
+
+    /**
+     * Namespace for session.
+     * Should be defined for proper working session.
+     *
+     * @var string
+     */
+    protected $_sessionNamespace;
+
+    /**
      * Constructor
      *
      * @param Zend_Controller_Request_Abstract $request
@@ -432,14 +447,13 @@ abstract class Mage_Core_Controller_Varien_Action
         }
 
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
-            $namespace   = $this->getLayout()->getArea();
             $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions);
             $checkCookie = $checkCookie && !$this->getRequest()->getParam('nocookie', false);
             $cookies = Mage::getSingleton('core/cookie')->get();
             if ($checkCookie && empty($cookies)) {
                 $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
             }
-            Mage::getSingleton('core/session', array('name' => $namespace))->start();
+            Mage::getSingleton('core/session', array('name' => $this->_sessionNamespace))->start();
         }
 
         Mage::app()->loadArea($this->getLayout()->getArea());
