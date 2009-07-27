@@ -203,13 +203,6 @@
     </admin>
     <default>
         <enterprise_cms>
-            <page_wysiwyg>
-                <enabled>1</enabled>
-                <upload_root>media/images</upload_root>
-                <allowed_extensions>png,gif,jpg,jpeg,bmp</allowed_extensions>
-                <resize_width>100</resize_width>
-                <resize_height>75</resize_height>
-            </page_wysiwyg>
             <hierarchy>
                 <enabled>0</enabled>
                 <matadata_enabled>0</matadata_enabled>
