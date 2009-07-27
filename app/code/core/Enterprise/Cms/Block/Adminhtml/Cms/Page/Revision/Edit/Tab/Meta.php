@@ -37,6 +37,32 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta
     extends Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
 {
     /**
+     * Adding onchange js call
+     *
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Meta
+     */
+    protected function _prepareForm()
+    {
+        parent::_prepareForm();
+
+        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
+        $fieldset = $this->getForm()->getElement('meta_fieldset');
+
+        foreach ($fieldset->getElements() as $element) {
+            if ($element->getType() != 'hidden') {
+                if ($element->hasOnchange()) {
+                    $onchange = $element->getOnchange() . ';';
+                } else {
+                    $onchange = '';
+                }
+                $element->setOnchange($onchange . 'dataChanged();');
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * Check permission for passed action
      * Rewrite CE save permission to EE save_revision
      *

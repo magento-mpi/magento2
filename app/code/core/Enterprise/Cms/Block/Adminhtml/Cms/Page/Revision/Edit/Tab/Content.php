@@ -37,9 +37,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
     extends Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 {
     /**
-     * Preparing form by adding extra fields
+     * Preparing form by adding extra fields.
+     * Adding on change js call.
      *
-     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Main
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
      */
     protected function _prepareForm()
     {
@@ -48,8 +49,20 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
         parent::_prepareForm();
 
+
         /* @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
+
+        foreach ($fieldset->getElements() as $element) {
+            if ($element->getType() != 'hidden') {
+                if ($element->hasOnchange()) {
+                    $onchange = $element->getOnchange() . ';';
+                } else {
+                    $onchange = '';
+                }
+                $element->setOnchange($onchange . 'dataChanged();');
+            }
+        }
 
         if ($model->getPageId()) {
             $fieldset->addField('page_id', 'hidden', array(

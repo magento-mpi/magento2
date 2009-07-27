@@ -113,7 +113,7 @@ class Enterprise_Cms_Model_Observer
         /*
          * User does not have access to revision or revision is no longer available
          */
-        if (!$revisionAvailable) {
+        if (!$revisionAvailable && $page->getId()) {
             $baseFieldset->addField('published_revision_status', 'label', array('bold' => true));
             $page->setPublishedRevisionStatus(Mage::helper('enterprise_cms')->__('Published Revision Unavailable'));
         }
@@ -149,10 +149,13 @@ class Enterprise_Cms_Model_Observer
     {
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
+
         if (!$page->getOrigData($page->getIdFieldName())) {
-            Mage::getModel('enterprise_cms/page_revision')
-                ->setData($this->getData())
-                ->save();
+            $revision = Mage::getModel('enterprise_cms/page_revision')
+                ->setData($page->getData())
+                ->setCopiedFromOriginal(true)
+                ->save()
+                ->publish();
         }
         if (!Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {
             return $this;

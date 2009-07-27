@@ -122,12 +122,12 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
                 $revision->save();
 
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully saved.'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit',
+                    $this->_redirect('*/*/' . $this->getRequest()->getParam('back'),
                         array(
                             'page_id' => $revision->getPageId(),
                             'revision_id' => $revision->getId()
@@ -180,7 +180,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
         try {
             $revision->publish();
             // display success message
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully published'));
+            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully published.'));
             $this->_redirect('*/cms_page/edit', array('page_id' => $revision->getPageId()));
             return;
         } catch (Exception $e) {
@@ -246,6 +246,10 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
                 }
             }
             $selectedStoreId = (int) $selectedStoreId;
+
+            /*
+             * Emulating front environment
+             */
             Mage::app()->setCurrentStore(Mage::app()->getStore($selectedStoreId));
 
             Mage::getDesign()->setArea('frontend')
@@ -261,6 +265,10 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
 
             Mage::helper('cms/page')->renderPageExtended($this, null, false);
 
+
+            /*
+             * Adding store switcher block
+             */
             $block = $this->getLayout()
                 ->addBlock('enterprise_cms/store_switcher', 'store_switcher');
 
@@ -296,7 +304,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
                 $revisionNumber = $revision->getRevisionNumber();
                 $revision->delete();
                 // display success message
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully deleted'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully deleted.'));
                 $this->_redirect('*/cms_page/edit', array('page_id' => $revision->getPageId()));
                 return;
             } catch (Exception $e) {
@@ -308,7 +316,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
             }
         }
         // display error message
-        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('Unable to find a revision to delete'));
+        Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('Unable to find a revision to delete.'));
         // go to grid
         $this->_redirect('*/cms_page/edit', array('_current' => true));
     }
@@ -322,13 +330,13 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
     {
         switch ($this->getRequest()->getActionName()) {
             case 'save':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/save_revision');
+                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision();
                 break;
             case 'publish':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/publish_revision');
+                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublishRevision();
                 break;
             case 'delete':
-                return Mage::getSingleton('admin/session')->isAllowed('cms/page/delete_revision');
+                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteRevision();
                 break;
             default:
                 return Mage::getSingleton('admin/session')->isAllowed('cms/page');

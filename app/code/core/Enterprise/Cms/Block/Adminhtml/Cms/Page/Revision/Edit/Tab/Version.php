@@ -62,7 +62,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Version
         }
 
         /*
-         * Determine if user owner of this revision
+         * Determine if user owner of this version
          */
         $this->setUserCanEditVersion(true);
         if ($model->getVersionUserId() != Mage::getSingleton('admin/session')->getUser()->getId()) {

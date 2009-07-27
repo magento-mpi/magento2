@@ -67,17 +67,27 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
 
         if ($this->_isAllowedAction('publish_revision')) {
             $this->_addButton('publish', array(
+                'id'        => 'publish_button',
                 'label'     => Mage::helper('enterprise_cms')->__('Select For Publishing'),
                 'onclick'   => 'publishAction(\'' . $this->getPublishUrl() . '\')',
                 'class'     => 'publish',
             ));
 
             $this->_formScripts[] = "
+                var isDataChanged = false;
                 function publishAction(url){
-                    if (1) {
-                        setLocation(url);
+                    if (isDataChanged) {
+                        editForm.submit('" . $this->getSaveUrl() . "' + 'back/publish/');
                     } else {
-                        editForm.submit($('edit_form').action+'back/publish/');
+                        setLocation(url);
+                    }
+                }
+
+                function dataChanged() {
+                    isDataChanged = true;
+                    var button = $('publish_button');
+                    if (button) {
+                        button.select('span')[0].update('" . Mage::helper('enterprise_cms')->__('Save And Select For Publishing') . "')
                     }
                 }
             ";
