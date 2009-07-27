@@ -37,9 +37,9 @@ $installer->getConnection()->addColumn($pageTable, 'published_revision_id', ' in
 /*
  * Updating new created column with values
  */
-$select = 'UPDATE e_cms_page as p
+$select = 'UPDATE ' . $pageTable . ' as p
 SET published_revision_id = (SELECT revision_id FROM
-        e_enterprise_cms_page_version as v, e_enterprise_cms_page_revision as r
+        ' . $versionTable . ' as v, ' . $revisionTable . ' as r
     WHERE v.page_id = p.page_id
         AND v.access_level = "' . Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC . '"
         AND r.version_id = v.version_id
