@@ -63,11 +63,16 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'disabled'  => $isElementDisabled
         ));
 
+        $dateFormatIso = Mage::app()->getLocale()->getDateTimeFormat(
+            Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
+        );
+
         $fieldset->addField('custom_theme_from', 'date', array(
             'name'      => 'custom_theme_from',
             'label'     => Mage::helper('cms')->__('Custom Theme From'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'    => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+            'format'       => $dateFormatIso,
+            'input_format' => $dateFormatIso,
             'disabled'  => $isElementDisabled
         ));
 
@@ -75,7 +80,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'name'      => 'custom_theme_to',
             'label'     => Mage::helper('cms')->__('Custom Theme To'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'    => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+            'format'       => $dateFormatIso,
+            'input_format' => $dateFormatIso,
             'disabled'  => $isElementDisabled
         ));
 
