@@ -856,9 +856,28 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         return true;
     }
 
+    /**
+     * Grid url getter
+     *
+     * @deprecated after 1.3.2.3 Use getAbsoluteGridUrl() method instead
+     *
+     * @return string current grid url
+     */
     public function getGridUrl()
     {
         return $this->getCurrentUrl();
+    }
+
+    /**
+     * Grid url getter
+     * Version of getGridUrl() but with parameters
+     *
+     * @param array $params url parameters
+     * @return string current grid url
+     */
+    public function getAbsoluteGridUrl($params = array())
+    {
+        return $this->getCurrentUrl($params);
     }
 
     /**
