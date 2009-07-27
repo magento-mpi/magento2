@@ -175,7 +175,7 @@ class Enterprise_Cms_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function cmsPageSaveBeforeSave(Varien_Event_Observer $observer)
+    public function cmsPageSaveBefore(Varien_Event_Observer $observer)
     {
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
