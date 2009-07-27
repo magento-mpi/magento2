@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'disabled'  => $isElementDisabled
         ));
 
-        $dateFormatIso = Mage::app()->getLocale()->getDateTimeFormat(
+        $dateFormatIso = Mage::app()->getLocale()->getDateFormat(
             Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
         );
 
