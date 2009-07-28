@@ -71,8 +71,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'name'      => 'custom_theme_from',
             'label'     => Mage::helper('cms')->__('Custom Theme From'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'       => $dateFormatIso,
-            'input_format' => $dateFormatIso,
+            'format'    => $dateFormatIso,
             'disabled'  => $isElementDisabled
         ));
 
@@ -80,11 +79,9 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'name'      => 'custom_theme_to',
             'label'     => Mage::helper('cms')->__('Custom Theme To'),
             'image'     => $this->getSkinUrl('images/grid-cal.gif'),
-            'format'       => $dateFormatIso,
-            'input_format' => $dateFormatIso,
+            'format'    => $dateFormatIso,
             'disabled'  => $isElementDisabled
         ));
-
 
         $fieldset->addField('root_template', 'select', array(
             'name'      => 'root_template',

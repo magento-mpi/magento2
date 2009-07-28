@@ -111,7 +111,8 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     {
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
-            // init model and set data
+            $data = $this->_filterPostData($data);
+            //init model and set data
             $model = Mage::getModel('cms/page');
 
 //            if ($id = $this->getRequest()->getParam('page_id')) {
@@ -214,5 +215,34 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 return Mage::getSingleton('admin/session')->isAllowed('cms/page');
                 break;
         }
+    }
+
+    /**
+     * Filtering posted data. Converting localized data if needed
+     *
+     * @param array
+     * @return array
+     */
+    protected function _filterPostData($data)
+    {
+        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+                'date_format' => Mage::app()->getLocale()->getDateFormat()
+            ));
+
+        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
+                'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+            ));
+
+        if (isset($data['custom_theme_from']) && $data['custom_theme_from']) {
+            $data['custom_theme_from'] = $filterInput->filter($data['custom_theme_from']);
+            $data['custom_theme_from'] = $filterInternal->filter($data['custom_theme_from']);
+        }
+
+        if (isset($data['custom_theme_to']) && $data['custom_theme_to']) {
+            $data['custom_theme_to'] = $filterInput->filter($data['custom_theme_to']);
+            $data['custom_theme_to'] = $filterInternal->filter($data['custom_theme_to']);
+        }
+
+        return $data;
     }
 }

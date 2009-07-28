@@ -49,14 +49,8 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
-            if ($date = $object->getData($dataKey)) {
-                $object->setData($dataKey, Mage::app()->getLocale()->date($date, $format, null, false)
-                    ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
-                );
-            }
-            else {
+            if (!$object->getData($dataKey)) {
                 $object->setData($dataKey, new Zend_Db_Expr('NULL'));
             }
         }
@@ -177,8 +171,8 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
      *  Check whether page identifier is numeric
      *
      *  @param    Mage_Core_Model_Abstract $object
-     *  @return	  bool
-     *  @date	  Wed Mar 26 18:12:28 EET 2008
+     *  @return      bool
+     *  @date      Wed Mar 26 18:12:28 EET 2008
      */
     protected function isNumericPageIdentifier (Mage_Core_Model_Abstract $object)
     {
