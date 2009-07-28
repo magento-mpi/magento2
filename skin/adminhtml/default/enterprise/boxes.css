@@ -1140,9 +1140,9 @@ ul.super-product-attributes { padding-left:15px; }
 
 /* CMS Versioned
 *******************************************************************************/
-.cms-revision-preview { height:100%; padding:10px 10px 0; }
-.cms-revision-preview .toolbar { margin:0 0 10px; }
-.cms-revision-preview iframe { width:100%; height:94%; border:0; }
+.toolbar { padding:10px; }
+.cms-revision-preview { height:100%; }
+.cms-revision-preview iframe { width:100%; height:93%; border:0; }
 
 
 /*****************************************/
