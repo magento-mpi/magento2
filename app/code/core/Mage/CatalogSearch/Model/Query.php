@@ -56,7 +56,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
         if (is_null($collection)) {
             $collection = Mage::getResourceModel('catalogsearch/search_collection');
 
-            $text = $this->getSynonimFor();
+            $text = $this->getSynonymFor();
             if (!$text) {
                 $text = $this->getQueryText();
             }
