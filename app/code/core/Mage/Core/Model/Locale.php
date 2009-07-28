@@ -229,7 +229,7 @@ class Mage_Core_Model_Locale
     {
         $options    = array();
         $locales    = $this->getLocale()->getLocaleList();
-        $languages  = $this->getLocale()->getLanguageTranslationList($this->getLocale());
+        $languages  = $this->getLocale()->getTranslationList('language', $this->getLocale());
         $countries  = $this->getCountryTranslationList();
 
         $allowed    = $this->getAllowLocales();
@@ -243,8 +243,8 @@ class Mage_Core_Model_Locale
                     continue;
                 }
                 if ($translatedName) {
-                    $label = ucwords($this->getLocale()->getLanguageTranslation($data[0], $code))
-                        . ' (' . $this->getLocale()->getCountryTranslation($data[1], $code)  . ') / '
+                    $label = ucwords($this->getLocale()->getTranslation($data[0], 'language', $code))
+                        . ' (' . $this->getLocale()->getTranslation($data[1], 'country', $code) . ') / '
                         . $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
                 } else {
                     $label = $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
@@ -724,7 +724,7 @@ class Mage_Core_Model_Locale
      */
     public function getCountryTranslation($value)
     {
-        return $this->getLocale()->getCountryTranslation($value, $this->getLocale());
+        return $this->getLocale()->getTranslation($value, 'country', $this->getLocale());
     }
 
     /**
@@ -734,7 +734,7 @@ class Mage_Core_Model_Locale
      */
     public function getCountryTranslationList()
     {
-        return $this->getLocale()->getCountryTranslationList($this->getLocale());
+        return $this->getLocale()->getTranslationList('territory', $this->getLocale(), 2);
     }
 
     /**
