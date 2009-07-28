@@ -145,11 +145,32 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     /**
      * Retrieve minimum query length
      *
+     * @deprecated after 1.3.2.3 use getMinQueryLength() instead
      * @return int
      */
-    public function getMinQueryLength()
+    public function getMinQueryLenght()
     {
         return Mage::getStoreConfig(self::XML_PATH_MIN_QUERY_LENGTH, $this->getStoreId());
+    }
+
+    /**
+     * Retrieve minimum query length
+     *
+     * @return int
+     */
+    public function getMinQueryLength(){
+        return $this->getMinQueryLenght();
+    }
+
+    /**
+     * Retrieve maximum query length
+     *
+     * @deprecated after 1.3.2.3 use getMaxQueryLength() instead
+     * @return int
+     */
+    public function getMaxQueryLenght()
+    {
+        return Mage::getStoreConfig(self::XML_PATH_MAX_QUERY_LENGTH, $this->getStoreId());
     }
 
     /**
@@ -159,7 +180,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
      */
     public function getMaxQueryLength()
     {
-        return Mage::getStoreConfig(self::XML_PATH_MAX_QUERY_LENGTH, $this->getStoreId());
+        return $this->getMaxQueryLenght();
     }
 
     /**
