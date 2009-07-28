@@ -87,7 +87,7 @@ class Enterprise_Cms_Model_Observer
                 $versionNumber = $revision->getVersionNumber();
                 $versionLabel = $revision->getLabel();
 
-                $afterElementHtml = Mage::helper('enterprise_cms')->__('Version #%s', $versionNumber);
+                $afterElementHtml = '';
 
                 if ($versionLabel) {
                     $afterElementHtml .= "\n" .

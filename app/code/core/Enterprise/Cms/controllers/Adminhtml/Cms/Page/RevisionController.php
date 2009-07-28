@@ -93,7 +93,9 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
 
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
         if (!empty($data)) {
-            $revision->setData($data);
+            $_data = $revision->getData();
+            $_data = array_merge($_data, $data);
+            $revision->setData($_data);
         }
 
         $this->_initAction()

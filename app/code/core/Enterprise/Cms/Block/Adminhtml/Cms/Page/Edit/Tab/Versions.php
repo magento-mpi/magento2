@@ -75,6 +75,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareColumns()
     {
+/*
         $this->addColumn('version_number', array(
             'header' => Mage::helper('enterprise_cms')->__('Version #'),
             'width' => 100,
@@ -82,11 +83,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             'type' => 'options',
             'options' => Mage::helper('enterprise_cms')->getVersionsArray($this->getPage())
         ));
-
+*/
         $this->addColumn('label', array(
             'header' => Mage::helper('enterprise_cms')->__('Label'),
             'index' => 'label',
-            'type' => 'text'
+            'type' => 'options',
+            'options' => Mage::helper('enterprise_cms')
+                                ->getVersionsArray('label', 'label', $this->getPage())
         ));
 
         $this->addColumn('owner', array(

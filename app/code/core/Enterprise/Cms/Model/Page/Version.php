@@ -61,13 +61,15 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
             /*
              * Preparing new human-readable id
              */
+            $level = 0;
+
             $incrementModel = Mage::getModel('enterprise_cms/increment')
-                ->loadByTypeNodeLevel(0, $this->getPageId(), 0);
+                ->loadByTypeNodeLevel(0, $this->getPageId(), $level);
 
             if (!$incrementModel->getId()) {
                 $incrementModel->setType(0)
                     ->setNode($this->getPageId())
-                    ->setLevel(1);
+                    ->setLevel($level);
             }
 
             $incrementNumber = $incrementModel->getNextId();
@@ -75,6 +77,10 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
                 ->save();
 
             $this->setVersionNumber($incrementNumber);
+        }
+
+        if (!$this->getLabel()) {
+            Mage::throwException(Mage::helper('enterprise_cms')->__('Label for version is required field.'));
         }
 
         return parent::_beforeSave();

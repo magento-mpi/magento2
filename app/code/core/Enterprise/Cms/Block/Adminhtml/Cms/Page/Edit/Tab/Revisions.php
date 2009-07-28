@@ -72,6 +72,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     protected function _prepareColumns()
     {
+/*
         $this->addColumn('version_number', array(
             'header' => Mage::helper('enterprise_cms')->__('Version #'),
             'width' => 100,
@@ -79,10 +80,22 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
             'type' => 'options',
             'options' => Mage::helper('enterprise_cms')->getVersionsArray($this->getPage())
         ));
-
+*/
         $this->addColumn('label', array(
             'header' => Mage::helper('enterprise_cms')->__('Version Label'),
-            'index' => 'label'
+            'index' => 'label',
+            'type' => 'options',
+            'options' => Mage::helper('enterprise_cms')
+                                ->getVersionsArray('label', 'label', $this->getPage())
+
+        ));
+
+        $this->addColumn('access_level', array(
+            'header' => Mage::helper('enterprise_cms')->__('Access Level'),
+            'index' => 'access_level',
+            'type' => 'options',
+            'width' => 100,
+            'options' => Mage::getSingleton('enterprise_cms/config')->getStatuses()
         ));
 
         $this->addColumn('revision_number', array(
@@ -98,14 +111,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
             'type' => 'datetime',
             'filter_time' => true,
             'width' => 150
-        ));
-
-        $this->addColumn('access_level', array(
-            'header' => Mage::helper('enterprise_cms')->__('Access Level'),
-            'index' => 'access_level',
-            'type' => 'options',
-            'width' => 100,
-            'options' => Mage::getSingleton('enterprise_cms/config')->getStatuses()
         ));
 
         $this->addColumn('author', array(

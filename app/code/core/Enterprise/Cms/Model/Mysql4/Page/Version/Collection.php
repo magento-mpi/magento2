@@ -74,14 +74,15 @@ class Enterprise_Cms_Model_Mysql4_Page_Version_Collection  extends Enterprise_Cm
     }
 
     /**
-     * Prepare two dimensional array basing on version number as key and
-     * version number as value data from collection.
+     * Prepare two dimensional array basing on key and value field.
      *
+     * @param string $keyField
+     * @param string $valueField
      * @return array
      */
-    public function getNumbersAsArray()
+    public function getAsArray($keyField, $valueField)
     {
-        $data = $this->_toOptionHash('version_number', 'version_number');
+        $data = $this->_toOptionHash($keyField, $valueField);
         return array_filter($data);
     }
 

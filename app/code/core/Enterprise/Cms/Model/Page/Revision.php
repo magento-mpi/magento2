@@ -80,6 +80,14 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
                 $this->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC);
             }
 
+            /*
+             * If there no version label we need to check
+             * if this is new page we use page title as label
+             */
+            if (!$this->getVersionLabel() && !$this->getVersionId()) {
+                $this->setVersionLabel($this->getTitle());
+            }
+
             $version->setAccessLevel($this->getAccessLevel())
                 ->setLabel($this->getVersionLabel())
                 ->setPageId($this->getPageId())
@@ -99,13 +107,14 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
             /*
              * Preparing new human-readable id
              */
+            $level = 1;
             $incrementModel = Mage::getModel('enterprise_cms/increment')
-                ->loadByTypeNodeLevel(0, $this->getVersionId(), 1);
+                ->loadByTypeNodeLevel(0, $this->getVersionId(), $level);
 
             if (!$incrementModel->getId()) {
                 $incrementModel->setType(0)
                     ->setNode($this->getVersionId())
-                    ->setLevel(1);
+                    ->setLevel($level);
             }
 
             $incrementNumber = $incrementModel->getNextId();

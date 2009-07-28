@@ -34,7 +34,7 @@
 class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Array of available versions for user
+     * Array of available version numbers for user
      * @var array
      */
     protected $_versionsHash = null;
@@ -69,19 +69,18 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
      * @param mixed $page
      * @return array
      */
-    public function getVersionsArray($page)
+    public function getVersionsArray($keyField, $valueField, $page)
     {
-        if (!$this->_versionsHash) {
+        if (!isset($this->_versionsHash[$keyField . $valueField])) {
             $userId = Mage::getSingleton('admin/session')->getUser()->getId();
             $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
-                //->addVersionLabelToSelect()
                 ->addPageFilter($page)
                 ->addVisibilityFilter($userId,
                     Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
-            $this->_versionsHash = $collection->getNumbersAsArray();
+            $this->_versionsHash[$keyField . $valueField] = $collection->getAsArray($keyField, $valueField);
         }
 
-        return $this->_versionsHash;
+        return $this->_versionsHash[$keyField . $valueField];
     }
 }

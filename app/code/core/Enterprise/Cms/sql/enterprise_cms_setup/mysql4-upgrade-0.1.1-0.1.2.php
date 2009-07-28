@@ -80,15 +80,6 @@ $select->from(array('p' =>  $installer->getTable('cms/page'), array('*')))
 
 $resource = $installer->getConnection()->query($select);
 
-$users = Mage::getModel('admin/user')->getCollection()
-    ->setPageSize(1)
-    ->load();
-
-$users = $users->getItems();
-$user = array_pop($users);
-
-unset($users);
-
 try {
     $installer->getConnection()->beginTransaction();
     while($page = $resource->fetch(Zend_Db::FETCH_ASSOC)) {
@@ -103,8 +94,9 @@ try {
             'version_number' => 1,
             'page_id' => $page['page_id'],
             'access_level' => Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC,
-            'user_id' => $user->getId(),
-            'revisions_count' => 1
+            'user_id' => 0,
+            'revisions_count' => 1,
+            'label' => $page['title']
         ));
 
         $versionId = $installer->getConnection()->lastInsertId($versionTableNew, 'version_id');
@@ -126,7 +118,7 @@ try {
         }
 
         $_data['created_at'] = date('Y-m-d');
-        $_data['user_id'] = $user->getId();
+        $_data['user_id'] = 0;
         $_data['revision_number'] = 1;
         $_data['version_id'] = $versionId;
         $_data['page_id'] = $page['page_id'];

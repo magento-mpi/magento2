@@ -106,7 +106,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Version
             'name'      => 'version_label',
             'label'     => Mage::helper('enterprise_cms')->__('Label'),
             'title'     => Mage::helper('enterprise_cms')->__('Label'),
-            'disabled'  => $isElementDisabled || !$this->getUserCanEditVersion()
+            'disabled'  => $isElementDisabled || !$this->getUserCanEditVersion(),
+            'required'  => true
         ));
 
         $fieldset->addField('access_level', 'select', array(
