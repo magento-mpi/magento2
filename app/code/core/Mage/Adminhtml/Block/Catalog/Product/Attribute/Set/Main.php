@@ -207,7 +207,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
                         'leaf'              => true,
                         'is_user_defined'   => $child->getIsUserDefined(),
                         'is_configurable'   => (int)in_array($child->getAttributeId(), $configurable),
-                        'entity_id'         => $child->getEntityId()
+                        'entity_id'         => $child->getEntityAttributeId()
                     );
 
                     $item['children'][] = $attr;
