@@ -69,11 +69,7 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
             $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
             foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
                 $date = $object->getData($dataKey);
-                if ($date) {
-                    $object->setData($dataKey, Mage::app()->getLocale()->date($date, $format, null, false)
-                        ->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
-                    );
-                } else {
+                if (!$date) {
                     $object->setData($dataKey, new Zend_Db_Expr('NULL'));
                 }
             }

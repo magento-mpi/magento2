@@ -1,13 +1,13 @@
 <?php
 /**
- * Magento
+ * Magento Enterprise Edition
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE_AFL.txt.
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
+ * http://www.magentocommerce.com/license/enterprise-edition
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -18,20 +18,18 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_default
- * @package    enterprise_blank
+ * @category   design
+ * @package    default_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/* @var $this Enterprise_Cms_Block_Store_Switcher */
-
+/* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Store */
 ?>
-<form action="<?php echo $this->getFormActionUrl() ?>" id="preview_switch_form" method="post">
-<?php echo $this->getFormHtml() ?>
+
 <?php if ($websites = $this->getWebsites()): ?>
-<p class="switcher"><label for="store_switcher"><?php echo $this->__('Choose Store View') ?>:</label>
-<select name="store_switcher" id="store_switcher" class="left-col-block" onchange="$('preview_switch_form').submit()">
+<label for="store_switcher"><?php echo $this->__('Choose Store View') ?>:</label>
+<select name="store_switcher" id="store_switcher" class="left-col-block">
     <?php foreach ($websites as $website): ?>
         <?php $showWebsite=false; ?>
         <?php foreach ($website->getGroups() as $group): ?>
@@ -53,6 +51,11 @@
         <?php endforeach; ?>
     <?php endforeach; ?>
 </select>
-</p>
-</form>
+<script type="text/javascript">
+Event.observe($('store_switcher'), 'change', function(event) {
+    var element = Event.element(event);
+    $('preview_selected_store').value = element.value;
+});
+</script>
 <?php endif; ?>
+

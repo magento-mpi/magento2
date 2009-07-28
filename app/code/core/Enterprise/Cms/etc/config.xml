@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.3</version>
+             <version>0.1.5</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -243,4 +243,12 @@
             </hierarchy>
         </cms>
     </default>
+    <crontab>
+        <jobs>
+            <enterprise_cms_page_revision_expire>
+                <schedule><cron_expr>0 2 * * *</cron_expr></schedule>
+                <run><model>enterprise_cms/observer::cmsPageRevisionExpireCronJob</model></run>
+            </enterprise_cms_page_revision_expire>
+        </jobs>
+    </crontab>
 </config>

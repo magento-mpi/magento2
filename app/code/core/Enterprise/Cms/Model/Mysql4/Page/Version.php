@@ -64,7 +64,7 @@ class Enterprise_Cms_Model_Mysql4_Page_Version extends Mage_Core_Model_Mysql4_Ab
 
         if (!$result) {
             Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Version #%s could not be removed because it is last public version for its page.', $object->getVersionNumber())
+                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because it is last public version for its page.', $object->getLabel())
             );
         }
 
@@ -81,7 +81,7 @@ class Enterprise_Cms_Model_Mysql4_Page_Version extends Mage_Core_Model_Mysql4_Ab
 
         if ($result == $object->getVersionId()) {
             Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Version #%s could not be removed because its revision has beed published.', $object->getVersionNumber())
+                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because its revision has beed published.', $object->getLabel())
             );
         }
     }

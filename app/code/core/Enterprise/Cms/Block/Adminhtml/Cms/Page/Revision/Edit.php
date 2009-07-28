@@ -96,6 +96,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         if ($this->_isAllowedAction('save_revision')) {
             $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save'));
             $this->_updateButton('save', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\');');
+            $this->_updateButton('saveandcontinue', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\'+\'back/edit/\');');
         }
 
         if ($this->_isAllowedAction('delete_revision')) {

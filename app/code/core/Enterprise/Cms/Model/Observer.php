@@ -150,13 +150,14 @@ class Enterprise_Cms_Model_Observer
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
 
-        if (!$page->getOrigData($page->getIdFieldName())) {
+        if ($page->getIsNewPage()) {
             $revision = Mage::getModel('enterprise_cms/page_revision')
                 ->setData($page->getData())
                 ->setCopiedFromOriginal(true)
                 ->save()
                 ->publish();
         }
+
         if (!Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {
             return $this;
         }
@@ -183,8 +184,36 @@ class Enterprise_Cms_Model_Observer
          * All new pages created by yser without permission to publish
          * should be disabled from the begining.
          */
-        if (!$page->getId() && !$this->_config->isCurrentUserCanPublishRevision()) {
-            $page->setIsActive(false);
+        if (!$page->getId()) {
+            $page->setIsNewPage(true);
+            if (!$this->_config->isCurrentUserCanPublishRevision()) {
+                $page->setIsActive(false);
+            }
         }
+
+        return $this;
+    }
+
+    /**
+     * Removing revision which are too old
+     * if apropriate system configuration parameter set.
+     *
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function cmsPageRevisionExpireCronJob()
+    {
+        $expireTime = Mage::getStoreConfig('cms/page_revisions/revision_lifetime');
+        $minimumNumber = Mage::getStoreConfig('cms/page_revisions/minimum_number');
+
+        var_dump($expireTime);
+        var_dump($minimumNumber);
+
+        if (!$expireTime || !$minimumNumber) {
+            return $this;
+        }
+
+
+
+        return $this;
     }
 }

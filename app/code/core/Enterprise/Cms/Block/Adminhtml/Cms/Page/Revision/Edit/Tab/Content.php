@@ -82,6 +82,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
             ));
         }
 
+        /*
+         * Params for preview
+         */
+        $fieldset->addField('preview_selected_store', 'hidden', array('name' => 'preview_selected_store'));
+        $fieldset->addField('preview_selected_revision', 'hidden', array('name' => 'preview_selected_revision'));
+
         $this->getForm()->setValues($model->getData());
 
         return $this;

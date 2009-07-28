@@ -33,7 +33,9 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtml_Controller_Action
+include('app/code/core/Enterprise/Cms/controllers/Adminhtml/Cms/PageController.php');
+
+class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cms_Adminhtml_Cms_PageController
 {
     /**
      * Init actions
@@ -55,12 +57,14 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
      * Prepare and place revision model into registry
      * with loaded data if id parameter present
      *
-     * @param string $idFieldName
+     * @param int $revisionId
      * @return Enterprise_Cms_Model_Page_Revision
      */
-    protected function _initRevision()
+    protected function _initRevision($revisionId = null)
     {
-        $revisionId = (int) $this->getRequest()->getParam('revision_id');
+        if (is_null($revisionId)) {
+            $revisionId = (int) $this->getRequest()->getParam('revision_id');
+        }
 
         $revision = Mage::getModel('enterprise_cms/page_revision');
 
@@ -114,6 +118,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
     {
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
+            $data = $this->_filterPostData($data);
             // init model and set data
             $revision = $this->_initRevision();
             $revision->setData($data);
@@ -198,11 +203,22 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
     }
 
     /**
-     * Preview action
+     * Prepares page with iframe
      *
      * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
      */
     public function previewAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Generates preview of page
+     *
+     * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
+     */
+    public function dropAction()
     {
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
@@ -214,12 +230,30 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
             }
 
             /*
+             * If revision was selected load it and get data for preview from it
+             */
+            $_tempData = null;
+            if (isset($data['preview_selected_revision']) && $data['preview_selected_revision']) {
+                $revision = $this->_initRevision($data['preview_selected_revision']);
+                if ($revision->getId()) {
+                    $_tempData = $revision->getData();
+                }
+            }
+
+            /*
+             * If there was no selected revision then use posted data
+             */
+            if (is_null($_tempData)) {
+                $_tempData = $data;
+            }
+
+            /*
              * Preparing posted data for settign it in page model
              */
             $attributes = Mage::getSingleton('enterprise_cms/config')
                 ->getPageRevisionControledAttributes();
 
-            foreach ($data as $key => $value) {
+            foreach ($_tempData as $key => $value) {
                 if (in_array($key, $attributes)) {
                     $page->setData($key, $value);
                 }
@@ -240,8 +274,8 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
                 $allStores = true;
             }
 
-            if (isset($data['store_switcher'])) {
-                $selectedStoreId = $data['store_switcher'];
+            if (isset($data['preview_selected_store']) && $data['preview_selected_store']) {
+                $selectedStoreId = $data['preview_selected_store'];
             } else {
                 if (!$selectedStoreId) {
                     $selectedStoreId = Mage::app()->getDefaultStoreView()->getId();
@@ -265,27 +299,8 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
                     ->setTheme($designChange->getTheme());
             }
 
-            Mage::helper('cms/page')->renderPageExtended($this, null, false);
+            Mage::helper('cms/page')->renderPageExtended($this);
 
-
-            /*
-             * Adding store switcher block
-             */
-            $block = $this->getLayout()
-                ->addBlock('enterprise_cms/store_switcher', 'store_switcher');
-
-            if (!$allStores) {
-                $block->setStoreIds($page->getStoreId());
-            }
-
-            $block->setStoreId($selectedStoreId);
-            $block->setRepostData($data);
-
-            $this->getLayout()
-                ->getBlock('before_body_end')
-                ->append('store_switcher');
-
-            $this->renderLayout();
         } else {
             $this->_forward('noRoute');
         }
@@ -353,7 +368,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Mage_Adminhtm
      */
     public function preDispatch()
     {
-        if ($this->getRequest()->getActionName() == 'preview') {
+        if ($this->getRequest()->getActionName() == 'drop') {
             $this->_currentArea = 'frontend';
         }
         parent::preDispatch();

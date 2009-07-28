@@ -52,7 +52,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
      */
     protected function _prepareCollection()
     {
-        /** $collection Enterprise_Cms_Model_Mysql4_Revision_Collection */
+        /* var $collection Enterprise_Cms_Model_Mysql4_Revision_Collection */
         $collection = Mage::getModel('enterprise_cms/page_revision')->getCollection()
             ->addPageFilter($this->getPage())
             ->joinVersions()

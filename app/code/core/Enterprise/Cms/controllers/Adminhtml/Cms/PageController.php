@@ -200,4 +200,10 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         }
         $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'versions'));
     }
+
+    public function testAction()
+    {
+        Mage::getModel('enterprise_cms/observer')->cmsPageRevisionExpireCronJob();
+        die;
+    }
 }

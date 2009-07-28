@@ -138,10 +138,6 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         $attributes = $this->_config->getPageRevisionControledAttributes();
         foreach ($attributes as $attr) {
             $value = $this->getData($attr);
-            if (in_array($attr, array('custom_theme_from', 'custom_theme_to')) && $value != '') {
-                $value = Mage::app()->getLocale()->date($value, $format, null, false)
-                    ->toString(Varien_Date::DATE_INTERNAL_FORMAT);
-            }
             if ($this->getOrigData($attr) !== $value) {
                 if ($this->getOrigData($attr) === NULL && $value === '' || $value === NULL) {
                     continue;

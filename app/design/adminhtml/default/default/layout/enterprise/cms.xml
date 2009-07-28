@@ -101,6 +101,18 @@
         <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_version"  output="toHtml" name="cms_page_revision_edit_version" />
     </adminhtml_cms_page_revision_version>
 
+    <adminhtml_cms_page_revision_preview>
+        <reference name="root">
+            <action method="setTemplate"><template>enterprise/cms/page/preview.phtml</template></action>
+            <block type="enterprise_cms/adminhtml_cms_page_preview_form" name="preview_form" />
+            <block type="core/text_list" name="tools" as="tools">
+                <block type="enterprise_cms/adminhtml_cms_page_preview_store" name="store_switcher" template="enterprise/cms/page/preview/store.phtml" />
+                <block type="enterprise_cms/adminhtml_cms_page_preview_revision" name="revision_switcher" template="enterprise/cms/page/preview/revision.phtml" />
+            </block>
+        </reference>
+
+    </adminhtml_cms_page_revision_preview>
+
     <adminhtml_cms_hierarchy_index>
         <reference name="content">
             <block type="enterprise_cms/adminhtml_cms_hierarchy" name="enterprise_cms_hierarchy" />

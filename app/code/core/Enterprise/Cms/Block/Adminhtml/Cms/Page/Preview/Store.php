@@ -26,55 +26,14 @@
 
 
 /**
- * Enc
+ * Store selector
  *
  * @category   Enterprise
  * @package    Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Cms_Block_Store_Switcher extends Mage_Adminhtml_Block_Store_Switcher
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Store extends Mage_Adminhtml_Block_Store_Switcher
 {
-    /**
-     * Constructor
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('enterprise/cms/store/switcher.phtml');
-    }
-
-    /**
-     * Prepares form object and return it's html code
-     *
-     * @return string
-     */
-    public function getFormHtml()
-    {
-        if ($this->getRepostData()) {
-            $form = new Varien_Data_Form();
-            foreach ($this->getRepostData() as $key => $value) {
-                $form->addField($key, 'hidden', array('name' => $key));
-            }
-            $form->setValues($this->getRepostData());
-            return $form->toHtml();
-        }
-        return '';
-    }
-
-    /**
-     * Generates action url for form
-     *
-     * @return string
-     */
-    public function getFormActionUrl()
-    {
-        if (!$this->hasData('form_action_url')) {
-            $this->setData('form_action_url', $this->getUrl('*/*/*', array('_current' => true)));
-        }
-        return $this->getData('form_action_url');
-    }
-
     /**
      * Retrieve id of currently selected store
      *
@@ -83,7 +42,7 @@ class Enterprise_Cms_Block_Store_Switcher extends Mage_Adminhtml_Block_Store_Swi
     public function getStoreId()
     {
         if (!$this->hasStoreId()) {
-            $this->setData('store_id', (int)$this->getRequest()->getPost('store_switcher'));
+            $this->setData('store_id', (int)$this->getRequest()->getPost('preview_selected_store'));
         }
         return $this->getData('store_id');
     }

@@ -23,36 +23,26 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
+
+/* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision */
 ?>
 
-<?php
-/* @var $this Mage_Adminhtml_Block_Cms_Page_Edit_Form */
-?>
-
-<div class="entry-edit">
-    <?php echo $this->getFormHtml() ?>
-<?php /*if( $form->getUseContainer() === true ): ?>
-<form id="<?php echo $form->getFormId() ?>" method="<?php echo ( $form->getFormMethod() ) ? $form->getFormMethod() : 'post' ; ?>" action="<?php echo $form->getFormAction() ?>" <?php echo ( $form->getFormEnctype() ) ? 'enctype="' . $this->getForm()->getFormEnctype() . '"' : '' ?> >
-<?php endif; ?>
-    <?php foreach ($form->getElements() as $_element): ?>
-    <?php echo $this->drawElement($_element) ?>
+<?php if ($data = $this->getRevisions()): ?>
+<label for="revision_switcher"><?php echo $this->__('Choose Revision') ?>:</label>
+<select name="revision_switcher" id="revision_switcher" class="left-col-block">
+    <option value=""><?php echo $this->__('Current Modification') ?></option>
+    <?php foreach ($data as $row): ?>
+        <optgroup label="<?php echo $row['label'] ?>">
+        <?php foreach ($row['revisions'] as $item): ?>
+            <option value="<?php echo $item->getId() ?>"<?php if($this->getRevisionId() == $item->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $this->__('Revision #%s', $item->getRevisionNumber()) ?></option>
+        <?php endforeach; ?>
     <?php endforeach; ?>
-<?php if( $form->getUseContainer() === true ): ?>
-</form>
-<?php endif;*/ ?>
-</div>
-<?php if ($this->getSelectedTabId()): ?>
+</select>
 <script type="text/javascript">
-<!--
-Event.observe(window, 'load', function() {
-    var objName = '<?php echo $this->getSelectedTabId() ?>';
-    if (objName) {
-        obj = $(objName);
-        //IE fix (bubbling event model)
-        page_tabsJsTabs.setSkipDisplayFirstTab();
-        page_tabsJsTabs.showTabContent(obj);
-    }
+Event.observe($('revision_switcher'), 'change', function(event) {
+    var element = Event.element(event);
+    $('preview_selected_revision').value = element.value;
 });
-//-->
 </script>
 <?php endif; ?>
+

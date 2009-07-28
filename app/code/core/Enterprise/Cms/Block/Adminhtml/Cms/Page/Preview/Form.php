@@ -20,29 +20,40 @@
  *
  * @category   Enterprise
  * @package    Enterprise_Cms
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
 /**
- * Form for revision edit page
+ * Preview Form for revisions
  *
- * @category    Enterprise
- * @package     Enterprise_Cms
+ * @category   Enterprise
+ * @package    Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Preparing from for revision page
      *
-     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Form
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Form
      */
     protected function _prepareForm()
     {
-        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        $form = new Varien_Data_Form(array(
+                'id' => 'preview_form',
+                'action' => $this->getUrl('*/*/drop', array('_current' => true)),
+                'method' => 'post'
+            ));
+
+        if ($data = $this->getRequest()->getPost()) {
+            foreach ($data as $key => $value) {
+                $form->addField($key, 'hidden', array('name' => $key));
+            }
+            $form->setValues($data);
+        }
+
         $form->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();
