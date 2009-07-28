@@ -391,5 +391,11 @@
                 <export>{{var_dir}}/export</export>
             </filesystem>
         </system>
+        <general>
+            <locale>
+                <code>en_US</code>
+                <timezone>America/Los_Angeles</timezone>
+            </locale>
+        </general>
     </default>
 </config>
