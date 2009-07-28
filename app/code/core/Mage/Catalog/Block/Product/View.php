@@ -87,8 +87,6 @@ class Mage_Catalog_Block_Product_View extends Mage_Catalog_Block_Product_Abstrac
      */
     public function getAddToCartUrl($product, $additional = array())
     {
-        $additional = array();
-
         if ($this->getRequest()->getParam('wishlist_next')){
             $additional['wishlist_next'] = 1;
         }
