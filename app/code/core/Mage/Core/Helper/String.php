@@ -233,11 +233,11 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
      *
      * @param string $str The source string
      * @param bool $uniqueOnly Unique words only
-     * @param int $maxWordLenght Limit words count
+     * @param int $maxWordLength Limit words count
      * @param string $wordSeparatorRegexp
      * @return array
      */
-    function splitWords($str, $uniqueOnly = false, $maxWordLenght = 0, $wordSeparatorRegexp = '\s')
+    function splitWords($str, $uniqueOnly = false, $maxWordLength = 0, $wordSeparatorRegexp = '\s')
     {
         $result = array();
         $split = preg_split('#' . $wordSeparatorRegexp . '#si', $str, null, PREG_SPLIT_NO_EMPTY);
@@ -249,8 +249,8 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
                 $result[] = $word;
             }
         }
-        if ($maxWordLenght && count($result) > $maxWordLenght) {
-            $result = array_slice($result, 0, $maxWordLenght);
+        if ($maxWordLength && count($result) > $maxWordLength) {
+            $result = array_slice($result, 0, $maxWordLength);
         }
         return $result;
     }
