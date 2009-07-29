@@ -438,24 +438,46 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
         return $store->roundPrice($price);
     }
 
+    /**
+     * Check if we have display in catalog prices including tax
+     *
+     * @return bool
+     */
     public function displayPriceIncludingTax()
     {
         return $this->getPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX;
     }
 
+    /**
+     * Check if we have display in catalog prices excluding tax
+     *
+     * @return bool
+     */
     public function displayPriceExcludingTax()
     {
         return $this->getPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX;
     }
 
+    /**
+     * Check if we have display in catalog prices including and excluding tax
+     *
+     * @return bool
+     */
     public function displayBothPrices()
     {
         return $this->getPriceDisplayType() == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH;
     }
 
+    /**
+     * Calculate price imcluding/excluding tax base on tax rate percent
+     *
+     * @param   float $price
+     * @param   float $percent
+     * @param   bool $type true - for calculate price including tax and false if price excluding tax
+     * @return  float
+     */
     protected function _calculatePrice($price, $percent, $type)
     {
-        $store = Mage::app()->getStore();
         if ($type) {
             return $price * (1+($percent/100));
         } else {

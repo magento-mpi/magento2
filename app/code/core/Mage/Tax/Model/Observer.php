@@ -59,7 +59,7 @@ class Mage_Tax_Model_Observer
     public function salesEventOrderAfterSave(Varien_Event_Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
-        if (!$order->getConvertingFromQuote()) {
+        if (!$order->getConvertingFromQuote() || $order->getAppliedTaxIsSaved()) {
             return;
         }
 
@@ -92,6 +92,7 @@ class Mage_Tax_Model_Observer
                 Mage::getModel('sales/order_tax')->setData($data)->save();
             }
         }
+        $order->setAppliedTaxIsSaved(true);
     }
 
     /**

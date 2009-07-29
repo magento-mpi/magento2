@@ -265,8 +265,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
                     if ($this->getAddressType() == self::TYPE_BILLING) {
                         $items[] = $qItem;
                     }
-                }
-                else {
+                } else {
                     if ($this->getAddressType() == self::TYPE_SHIPPING) {
                         $items[] = $qItem;
                     }
@@ -841,6 +840,34 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
             $code = $code.'_amount';
         }
         $this->setData('base_'.$code, $amount);
+        return $this;
+    }
+
+    /**
+     * Add amount total amount value
+     *
+     * @param   string $code
+     * @param   float $amount
+     * @return  Mage_Sales_Model_Quote_Address
+     */
+    public function addTotalAmount($code, $amount)
+    {
+        $amount = $this->getTotalAmount($code)+$amount;
+        $this->setTotalAmount($code, $amount);
+        return $this;
+    }
+
+    /**
+     * Add amount total amount value in base store currency
+     *
+     * @param   string $code
+     * @param   float $amount
+     * @return  Mage_Sales_Model_Quote_Address
+     */
+    public function addBaseTotalAmount($code, $amount)
+    {
+        $amount = $this->getBaseTotalAmount($code)+$amount;
+        $this->setBaseTotalAmount($code, $amount);
         return $this;
     }
 
