@@ -82,7 +82,6 @@
             <catalog_product_save_after>
                 <observers>
                     <catalogsearch>
-                        <type>singleton</type>
                         <class>catalogsearch/fulltext_observer</class>
                         <method>refreshProductIndex</method>
                     </catalogsearch>
@@ -91,7 +90,6 @@
             <catalog_product_delete_after>
                 <observers>
                     <catalogsearch>
-                        <type>singleton</type>
                         <class>catalogsearch/fulltext_observer</class>
                         <method>cleanProductIndex</method>
                     </catalogsearch>
@@ -100,7 +98,6 @@
             <catalog_entity_attribute_save_after>
                 <observers>
                     <catalogsearch>
-                        <type>singleton</type>
                         <class>catalogsearch/fulltext_observer</class>
                         <method>eavAttributeChange</method>
                     </catalogsearch>
@@ -109,7 +106,6 @@
             <catalog_entity_attribute_delete_after>
                 <observers>
                     <catalogsearch>
-                        <type>singleton</type>
                         <class>catalogsearch/fulltext_observer</class>
                         <method>eavAttributeChange</method>
                     </catalogsearch>
@@ -118,7 +114,6 @@
             <catalog_product_import_after>
                 <observers>
                     <catalogsearch>
-                        <type>singleton</type>
                         <class>catalogsearch/fulltext_observer</class>
                         <method>refreshIndexAfterImport</method>
                     </catalogsearch>
@@ -127,7 +122,6 @@
             <store_add>
                 <observers>
                     <catalogsearch>
-                        <type>singleton</type>
                         <class>catalogsearch/fulltext_observer</class>
                         <method>refreshStoreIndex</method>
                     </catalogsearch>
@@ -136,7 +130,6 @@
             <store_delete>
                 <observers>
                     <catalogsearch>
-                        <type>singleton</type>
                         <class>catalogsearch/fulltext_observer</class>
                         <method>cleanStoreIndex</method>
                     </catalogsearch>
@@ -145,7 +138,6 @@
             <catalog_product_website_update>
                 <observers>
                     <catalogsearch>
-                        <type>singleton</type>
                         <class>catalogsearch/fulltext_observer</class>
                         <method>catalogProductWebsiteUpdate</method>
                     </catalogsearch>

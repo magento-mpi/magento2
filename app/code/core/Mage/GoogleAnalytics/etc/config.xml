@@ -60,7 +60,6 @@
             <checkout_onepage_controller_success_action>
                 <observers>
                     <googleanalytics_order_success>
-                        <type>singleton</type>
                         <class>googleanalytics/observer</class>
                         <method>order_success_page_view</method>
                     </googleanalytics_order_success>

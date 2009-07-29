@@ -61,12 +61,10 @@
             <adminhtml_controller_action_predispatch_start>
                 <observers>
                     <store>
-                        <type>singleton</type>
                         <class>adminhtml/observer</class>
                         <method>bindStore</method>
                     </store>
                     <massaction>
-                        <type>singleton</type>
                         <class>adminhtml/observer</class>
                         <method>massactionPrepareKey</method>
                     </massaction>
@@ -92,7 +90,6 @@
             <controller_action_predispatch>
                 <observers>
                     <auth>
-                        <type>singleton</type>
                         <class>admin/observer</class>
                         <method>actionPreDispatchAdmin</method>
                     </auth>
@@ -101,7 +98,6 @@
             <core_locale_set_locale>
                 <observers>
                     <bind_locale>
-                        <type>singleton</type>
                         <class>adminhtml/observer</class>
                         <method>bindLocale</method>
                     </bind_locale>

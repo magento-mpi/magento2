@@ -80,7 +80,6 @@
             <log_log_clean_after>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>eventClean</method>
                     </reports>
@@ -393,7 +392,6 @@
             <catalog_product_compare_remove_product>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>catalogProductCompareRemoveProduct</method>
                     </reports>
@@ -402,7 +400,6 @@
             <customer_login>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>customerLogin</method>
                     </reports>
@@ -411,7 +408,6 @@
             <customer_logout>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>customerLogout</method>
                     </reports>
@@ -420,7 +416,6 @@
             <catalog_controller_product_view>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>catalogProductView</method>
                     </reports>
@@ -429,7 +424,6 @@
             <sendfriend_product>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>sendfriendProduct</method>
                     </reports>
@@ -438,7 +432,6 @@
             <catalog_product_compare_add_product>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>catalogProductCompareAddProduct</method>
                     </reports>
@@ -447,7 +440,6 @@
             <catalog_product_compare_item_collection_clear>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>catalogProductCompareClear</method>
                     </reports>
@@ -456,7 +448,6 @@
             <sales_quote_item_save_before>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>checkoutCartAddProduct</method>
                     </reports>
@@ -465,7 +456,6 @@
             <wishlist_add_product>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>wishlistAddProduct</method>
                     </reports>
@@ -474,7 +464,6 @@
             <wishlist_share>
                 <observers>
                     <reports>
-                        <type>singleton</type>
                         <class>reports/event_observer</class>
                         <method>wishlistShare</method>
                     </reports>

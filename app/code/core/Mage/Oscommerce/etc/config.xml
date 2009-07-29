@@ -170,7 +170,6 @@
             <controller_action_predispatch_oscommerce>
                 <observers>
                     <auth>
-                        <type>singleton</type>
                         <class>admin/observer</class>
                         <method>actionPreDispatchAdmin</method>
                     </auth>

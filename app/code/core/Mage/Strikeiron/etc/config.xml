@@ -80,7 +80,6 @@
             <customer_save_before>
                 <observers>
                     <strikeiron_email_validation>
-                        <type>singleton</type>
                         <class>strikeiron/strikeiron</class>
                         <method>customerSaveBeforeObserver</method>
                     </strikeiron_email_validation>
@@ -89,7 +88,6 @@
             <customer_address_save_before>
                 <observers>
                     <strikeiron_address_validation>
-                        <type>singleton</type>
                         <class>strikeiron/strikeiron</class>
                         <method>addressSaveBeforeObserver</method>
                     </strikeiron_address_validation>
@@ -98,7 +96,6 @@
             <tax_rate_data_fetch>
                 <observers>
                     <strikeiron_tax_rate_fetch>
-                        <type>singleton</type>
                         <class>strikeiron/strikeiron</class>
                         <method>getTaxRate</method>
                     </strikeiron_tax_rate_fetch>

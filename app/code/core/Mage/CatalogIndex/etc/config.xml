@@ -103,7 +103,6 @@
             <store_add>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>processStoreAdd</method>
                     </catalogindex>
@@ -112,7 +111,6 @@
             <catalog_product_save_after>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>processAfterSaveEvent</method>
                     </catalogindex>
@@ -121,7 +119,6 @@
             <catalog_entity_attribute_save_after>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>processAttributeChangeEvent</method>
                     </catalogindex>
@@ -130,7 +127,6 @@
             <catalog_product_delete_after_done>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>processAfterDeleteEvent</method>
                     </catalogindex>
@@ -139,7 +135,6 @@
             <catalog_product_delete_before>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>registerParentIds</method>
                     </catalogindex>
@@ -148,7 +143,6 @@
             <system_config_price_scope_save_after>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>processPriceScopeChange</method>
                     </catalogindex>
@@ -157,7 +151,6 @@
             <catalogrule_after_apply>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>processPriceRuleApplication</method>
                     </catalogindex>
@@ -166,7 +159,6 @@
             <catalog_product_import_after>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>catalogProductImportAfter</method>
                     </catalogindex>
@@ -175,7 +167,6 @@
             <application_clean_cache>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>cleanCache</method>
                     </catalogindex>
@@ -184,7 +175,6 @@
             <catalog_category_save_after>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>catalogCategorySaveAfter</method>
                     </catalogindex>
@@ -194,7 +184,6 @@
             <admin_system_config_changed_section_tax>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>clearPriceAggregation</method>
                     </catalogindex>
@@ -204,7 +193,6 @@
             <tax_settings_change_after>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>clearPriceAggregation</method>
                     </catalogindex>
@@ -214,7 +202,6 @@
             <catalogsearch_reset_search_result>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>clearSearchLayerCache</method>
                     </catalogindex>
@@ -223,7 +210,6 @@
             <catalog_product_flat_prepare_columns>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>catalogProductFlatPrepareColumns</method>
                     </catalogindex>
@@ -232,7 +218,6 @@
             <catalog_product_flat_prepare_indexes>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>catalogProductFlatPrepareIndexes</method>
                     </catalogindex>
@@ -241,7 +226,6 @@
             <catalog_product_flat_rebuild>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>catalogProductFlatRebuild</method>
                     </catalogindex>
@@ -250,7 +234,6 @@
             <catalog_product_flat_update_product>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>catalogProductFlatUpdateProduct</method>
                     </catalogindex>
@@ -270,7 +253,6 @@
             <catalog_product_to_website_change>
                 <observers>
                     <catalogindex>
-                        <type>singleton</type>
                         <class>catalogindex/observer</class>
                         <method>processProductsWebsitesChange</method>
                     </catalogindex>

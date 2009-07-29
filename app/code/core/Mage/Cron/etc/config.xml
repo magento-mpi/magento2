@@ -73,7 +73,6 @@
             <default>
                 <observers>
                     <cron_observer>
-                        <type>singleton</type>
                         <class>cron/observer</class>
                         <method>dispatch</method>
                     </cron_observer>

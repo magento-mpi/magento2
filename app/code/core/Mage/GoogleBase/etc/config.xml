@@ -106,7 +106,6 @@
             <catalog_product_save_after>
                 <observers>
                     <googlebase_observer>
-                        <type>singleton</type>
                         <class>googlebase/observer</class>
                         <method>saveProductItem</method>
                     </googlebase_observer>
@@ -115,7 +114,6 @@
             <catalog_product_delete_before>
                 <observers>
                     <googlebase_observer>
-                        <type>singleton</type>
                         <class>googlebase/observer</class>
                         <method>deleteProductItem</method>
                     </googlebase_observer>

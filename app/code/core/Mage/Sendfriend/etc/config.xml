@@ -99,7 +99,6 @@
             <catalog_controller_product_view>
                 <observers>
                     <sendfriend>
-                        <type>singleton</type>
                         <class>sendfriend/observer</class>
                         <method>register</method>
                     </sendfriend>

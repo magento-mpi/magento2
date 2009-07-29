@@ -45,7 +45,6 @@
             <controller_action_noroute>
                 <observers>
                     <cms>
-                        <type>singleton</type>
                         <class>cms/observer</class>
                         <method>noRoute</method>
                     </cms>
@@ -54,7 +53,6 @@
             <controller_action_nocookies>
                 <observers>
                     <cms>
-                        <type>singleton</type>
                         <class>cms/observer</class>
                         <method>noCookies</method>
                     </cms>
@@ -246,7 +244,6 @@
             <controller_front_init_routers>
                 <observers>
                     <cms>
-                        <type>singleton</type>
                         <class>Mage_Cms_Controller_Router</class>
                         <method>initControllerRouters</method>
                     </cms>

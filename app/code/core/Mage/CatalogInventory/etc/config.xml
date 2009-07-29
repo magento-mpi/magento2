@@ -83,7 +83,6 @@
             <catalog_product_load_after>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>addInventoryData</method>
                     </inventory>
@@ -92,7 +91,6 @@
             <catalog_product_collection_load_after>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>addStockStatusToCollection</method>
                     </inventory>
@@ -101,7 +99,6 @@
             <catalog_product_prepare_index_select>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>addStockStatusToPrepareIndexSelect</method>
                     </inventory>
@@ -110,7 +107,6 @@
             <sales_quote_item_collection_products_after_load>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>addInventoryDataToCollection</method>
                     </inventory>
@@ -119,7 +115,6 @@
             <catalog_product_status_update>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>productStatusUpdate</method>
                     </inventory>
@@ -128,7 +123,6 @@
             <sales_quote_item_qty_set_after>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>checkQuoteItemQty</method>
                     </inventory>
@@ -137,7 +131,6 @@
             <sales_order_save_before>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>lockOrderInventoryData</method>
                     </inventory>
@@ -146,7 +139,6 @@
             <sales_order_item_save_before>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>createOrderItem</method>
                     </inventory>
@@ -155,7 +147,6 @@
             <sales_order_item_cancel>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>cancelOrderItem</method>
                     </inventory>
@@ -164,7 +155,6 @@
             <sales_creditmemo_item_save_after>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>refundOrderItem</method>
                     </inventory>
@@ -173,7 +163,6 @@
             <catalog_product_save_after>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>saveInventoryData</method>
                     </inventory>
@@ -182,7 +171,6 @@
             <catalog_model_product_duplicate>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>copyInventoryData</method>
                     </inventory>
@@ -191,7 +179,6 @@
             <admin_system_config_changed_section_cataloginventory>
                 <observers>
                     <inventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>updateItemsStockUponConfigChange</method>
                     </inventory>
@@ -200,7 +187,6 @@
             <catalog_product_website_update>
                 <observers>
                     <cataloginventory>
-                        <type>singleton</type>
                         <class>cataloginventory/observer</class>
                         <method>catalogProductWebsiteUpdate</method>
                     </cataloginventory>

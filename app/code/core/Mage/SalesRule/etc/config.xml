@@ -83,7 +83,6 @@
             <sales_order_place_after>
                 <observers>
                     <salesrule>
-                        <type>singleton</type>
                         <class>salesrule/observer</class>
                         <method>sales_order_afterPlace</method>
                     </salesrule>

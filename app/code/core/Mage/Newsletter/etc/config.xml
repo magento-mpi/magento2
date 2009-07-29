@@ -109,7 +109,6 @@
             <customer_save_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <type>singleton</type>
                         <class>newsletter/observer</class>
                         <method>subscribeCustomer</method>
                     </newsletter_subscribe_observer>
@@ -118,7 +117,6 @@
             <customer_delete_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <type>singleton</type>
                         <class>newsletter/observer</class>
                         <method>customerDeleted</method>
                     </newsletter_subscribe_observer>
@@ -205,7 +203,6 @@
             <customer_save_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <type>singleton</type>
                         <class>newsletter/observer</class>
                         <method>subscribeCustomer</method>
                     </newsletter_subscribe_observer>
@@ -214,7 +211,6 @@
             <customer_delete_after>
                 <observers>
                     <newsletter_subscribe_observer>
-                        <type>singleton</type>
                         <class>newsletter/observer</class>
                         <method>customerDeleted</method>
                     </newsletter_subscribe_observer>
