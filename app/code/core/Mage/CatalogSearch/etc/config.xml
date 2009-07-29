@@ -63,20 +63,7 @@
                 <setup>
                     <module>Mage_CatalogSearch</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </catalogsearch_setup>
-            <catalogsearch_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </catalogsearch_write>
-            <catalogsearch_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </catalogsearch_read>
         </resources>
         <events>
             <catalog_product_save_after>

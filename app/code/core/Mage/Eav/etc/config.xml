@@ -64,20 +64,7 @@
                     <module>Mage_Eav</module>
                     <class>Mage_Eav_Model_Entity_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </eav_setup>
-            <eav_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </eav_write>
-            <eav_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </eav_read>
         </resources>
         <cache>
             <types>

@@ -51,20 +51,7 @@
                 <setup>
                     <module>Mage_Shipping</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </shipping_setup>
-            <shipping_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </shipping_write>
-            <shipping_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </shipping_read>
         </resources>
         <sales>
             <shipping>

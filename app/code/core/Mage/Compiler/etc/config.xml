@@ -51,20 +51,7 @@
                 <setup>
                     <module>Mage_Compiler</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </compiler_setup>
-            <compiler_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </compiler_write>
-            <compiler_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </compiler_read>
         </resources>
     </global>
     <admin>

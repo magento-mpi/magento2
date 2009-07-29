@@ -465,14 +465,7 @@
                     <module>Mage_Sales</module>
                     <class>Mage_Sales_Model_Mysql4_Setup</class>
                 </setup>
-                <connection><use>core_setup</use></connection>
             </sales_setup>
-            <sales_write>
-                <connection><use>core_write</use></connection>
-            </sales_write>
-            <sales_read>
-                <connection><use>core_read</use></connection>
-            </sales_read>
         </resources>
         <blocks>
             <sales><class>Mage_Sales_Block</class></sales>

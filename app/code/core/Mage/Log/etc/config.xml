@@ -82,20 +82,7 @@
                 <setup>
                     <module>Mage_Log</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </log_setup>
-            <log_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </log_write>
-            <log_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </log_read>
         </resources>
         <template>
             <email>

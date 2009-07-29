@@ -63,20 +63,7 @@
                     <module>Mage_CatalogInventory</module>
                     <class>Mage_Eav_Model_Entity_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </cataloginventory_setup>
-            <cataloginventory_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </cataloginventory_write>
-            <cataloginventory_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </cataloginventory_read>
         </resources>
 
         <events>

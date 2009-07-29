@@ -55,20 +55,7 @@
                 <setup>
                     <module>Mage_PaypalUk</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </paypaluk_setup>
-            <paypaluk_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </paypaluk_write>
-            <paypaluk_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </paypaluk_read>
         </resources>
         <blocks>
             <paypaluk><class>Mage_PaypalUk_Block</class></paypaluk>

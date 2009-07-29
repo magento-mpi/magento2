@@ -51,20 +51,7 @@
                 <setup>
                     <module>Mage_Sitemap</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </sitemap_setup>
-            <sitemap_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </sitemap_write>
-            <sitemap_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </sitemap_read>
         </resources>
         <template>
             <email>

@@ -222,20 +222,7 @@
                 <setup>
                     <module>Mage_Cms</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </cms_setup>
-            <cms_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </cms_write>
-            <cms_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </cms_read>
         </resources>
         <blocks>
             <cms><class>Mage_Cms_Block</class></cms>

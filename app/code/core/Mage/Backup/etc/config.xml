@@ -46,20 +46,7 @@
                 <setup>
                     <module>Mage_Backup</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </backup_setup>
-            <backup_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </backup_write>
-            <backup_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </backup_read>
         </resources>
     </global>
     <adminhtml>

@@ -50,20 +50,7 @@
             <setup>
                <module>Mage_Paygate</module>
             </setup>
-            <connection>
-               <use>core_setup</use>
-            </connection>
          </paygate_setup>
-         <paygate_write>
-            <connection>
-               <use>core_write</use>
-            </connection>
-         </paygate_write>
-         <paygate_read>
-            <connection>
-               <use>core_read</use>
-            </connection>
-         </paygate_read>
       </resources>
    </global>
 
@@ -127,9 +114,9 @@
                 <vendor/>
                 <verbosity>MEDIUM</verbosity>
                 <allowspecific>0</allowspecific>
-        		<proxy_host/>
-        		<proxy_port/>
-        		<use_proxy>0</use_proxy>
+                <proxy_host/>
+                <proxy_port/>
+                <use_proxy>0</use_proxy>
             </verisign>
         </payment>
     </default>

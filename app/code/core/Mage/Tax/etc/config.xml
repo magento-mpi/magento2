@@ -64,20 +64,7 @@
                     <module>Mage_Tax</module>
                     <class>Mage_Tax_Model_Mysql4_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </tax_setup>
-            <tax_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </tax_write>
-            <tax_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </tax_read>
         </resources>
         <fieldsets>
             <sales_convert_quote_address>

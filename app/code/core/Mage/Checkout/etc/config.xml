@@ -75,20 +75,7 @@
                 <setup>
                     <module>Mage_Checkout</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </checkout_setup>
-            <checkout_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </checkout_write>
-            <checkout_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </checkout_read>
         </resources>
         <template>
             <email>

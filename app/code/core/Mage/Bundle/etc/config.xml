@@ -61,20 +61,7 @@
                     <module>Mage_Bundle</module>
                     <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </bundle_setup>
-            <bundle_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </bundle_write>
-            <bundle_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </bundle_read>
         </resources>
         <blocks>
             <bundle><class>Mage_Bundle_Block</class></bundle>

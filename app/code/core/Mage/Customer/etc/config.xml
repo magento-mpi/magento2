@@ -189,20 +189,7 @@ T: {{var telephone}}
                     <module>Mage_Customer</module>
                     <class>Mage_Customer_Model_Entity_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </customer_setup>
-            <customer_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </customer_write>
-            <customer_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </customer_read>
         </resources>
 
         <template>

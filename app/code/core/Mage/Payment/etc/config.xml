@@ -44,9 +44,6 @@
                 <setup>
                     <module>Mage_Payment</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </payment_setup>
         </resources>
 

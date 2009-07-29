@@ -61,20 +61,7 @@
                 <setup>
                     <module>Mage_Strikeiron</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </strikeiron_setup>
-            <strikeiron_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </strikeiron_write>
-            <strikeiron_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </strikeiron_read>
         </resources>
         <events>
             <customer_save_before>

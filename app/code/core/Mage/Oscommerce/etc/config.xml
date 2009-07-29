@@ -80,20 +80,7 @@
                 <setup>
                     <module>Mage_Oscommerce</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </oscommerce_setup>
-            <oscommerce_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </oscommerce_write>
-            <oscommerce_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </oscommerce_read>
             <oscommerce_foreign>
                 <connection>
                     <type>pdo_mysql</type>

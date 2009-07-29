@@ -57,20 +57,7 @@
                 <setup>
                     <module>Mage_AdminNotification</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </adminnotification_setup>
-            <adminnotification_read>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
-            </adminnotification_read>
-            <adminnotification_write>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
-            </adminnotification_write>
         </resources>
         <blocks>
             <productalert>

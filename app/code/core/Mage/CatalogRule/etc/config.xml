@@ -65,20 +65,7 @@
                 <setup>
                     <module>Mage_CatalogRule</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </catalogrule_setup>
-            <catalogrule_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </catalogrule_write>
-            <catalogrule_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </catalogrule_read>
         </resources>
     </global>
     <frontend>

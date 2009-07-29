@@ -57,20 +57,7 @@
                 <setup>
                     <module>Mage_GoogleOptimizer</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </googleoptimizer_setup>
-            <googleoptimizer_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </googleoptimizer_write>
-            <googleoptimizer_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </googleoptimizer_read>
         </resources>
         <blocks>
             <googleoptimizer><class>Mage_GoogleOptimizer_Block</class></googleoptimizer>

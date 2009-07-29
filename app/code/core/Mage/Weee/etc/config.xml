@@ -51,14 +51,7 @@
                     <module>Mage_Weee</module>
                     <class>Mage_Weee_Model_Mysql4_Setup</class>
                 </setup>
-                <connection><use>core_setup</use></connection>
             </weee_setup>
-            <weee_write>
-                <connection><use>core_write</use></connection>
-            </weee_write>
-            <weee_read>
-                <connection><use>core_read</use></connection>
-            </weee_read>
         </resources>
         <blocks>
             <weee><class>Mage_Weee_Block</class></weee>

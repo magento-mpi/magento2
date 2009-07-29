@@ -50,20 +50,7 @@
                     <module>Mage_Paypal</module>
                     <class>Mage_Paypal_Model_Mysql4_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </paypal_setup>
-            <paypal_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </paypal_write>
-            <paypal_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </paypal_read>
         </resources>
         <blocks>
             <paypal><class>Mage_Paypal_Block</class></paypal>

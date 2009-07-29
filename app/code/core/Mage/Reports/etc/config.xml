@@ -61,20 +61,7 @@
                 <setup>
                     <module>Mage_Reports</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </reports_setup>
-            <reports_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </reports_write>
-            <reports_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </reports_read>
         </resources>
         <events>
             <log_log_clean_after>

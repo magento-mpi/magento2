@@ -89,14 +89,7 @@
                     <module>Mage_CatalogIndex</module>
                     <class>Mage_CatalogIndex_Model_Mysql4_Setup</class>
                 </setup>
-                <connection><use>core_setup</use></connection>
             </catalogindex_setup>
-            <catalogindex_write>
-                <connection><use>core_write</use></connection>
-            </catalogindex_write>
-            <catalogindex_read>
-                <connection><use>core_read</use></connection>
-            </catalogindex_read>
         </resources>
 
         <events>

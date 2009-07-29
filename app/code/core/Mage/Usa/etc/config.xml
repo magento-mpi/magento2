@@ -37,15 +37,7 @@
                 <setup>
                     <module>Mage_Usa</module>
                 </setup>
-                <connection>
-                    <use>directory_setup</use>
-                </connection>
             </usa_setup>
-            <usa_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </usa_read>
         </resources>
         <models>
             <usa>

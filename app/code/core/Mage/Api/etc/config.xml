@@ -75,20 +75,7 @@
                 <setup>
                     <module>Mage_Api</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </api_setup>
-            <api_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </api_write>
-            <api_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </api_read>
         </resources>
         <request>
             <direct_front_name>

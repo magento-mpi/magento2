@@ -64,20 +64,7 @@
                 <setup>
                     <module>Mage_Tag</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </tag_setup>
-            <tag_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </tag_write>
-            <tag_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </tag_read>
         </resources>
         <blocks>
             <tag><class>Mage_Tag_Block</class></tag>

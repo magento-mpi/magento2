@@ -108,20 +108,7 @@
                     <module>Mage_Downloadable</module>
                     <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </downloadable_setup>
-            <downloadable_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </downloadable_write>
-            <downloadable_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </downloadable_read>
         </resources>
         <catalog>
             <product>

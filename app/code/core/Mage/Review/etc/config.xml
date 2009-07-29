@@ -66,20 +66,7 @@
                 <setup>
                     <module>Mage_Review</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </review_setup>
-            <review_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </review_write>
-            <review_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </review_read>
         </resources>
         <blocks>
                 <review>
