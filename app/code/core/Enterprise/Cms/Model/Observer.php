@@ -99,7 +99,7 @@ class Enterprise_Cms_Model_Observer
 
                 $baseFieldset->addType('link', 'Enterprise_Cms_Block_Form_Element_Link');
                 $baseFieldset->addField('published_revision_link', 'link', array(
-                        'href' => Mage::getUrl('*/cms_page_revision/edit', array(
+                        'href' => Mage::getModel('adminhtml/url')->getUrl('*/cms_page_revision/edit', array(
                             'page_id' => $page->getId(),
                             'revision_id' => $page->getPublishedRevisionId()
                             )),
