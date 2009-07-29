@@ -16,7 +16,7 @@
  * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Parser.php 16803 2009-07-17 14:57:27Z alexander $
+ * @version    $Id: Parser.php 17182 2009-07-27 13:54:11Z alexander $
  */
 
 /** Zend_Pdf_Element */
@@ -135,7 +135,7 @@ class Zend_Pdf_Parser
      */
     public function getPDFVersion()
     {
-    	return $this->_pdfVersion;
+        return $this->_pdfVersion;
     }
 
     /**

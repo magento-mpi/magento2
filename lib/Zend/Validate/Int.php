@@ -16,7 +16,7 @@
  * @package    Zend_Validate
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Int.php 16223 2009-06-21 20:04:53Z thomas $
+ * @version    $Id: Int.php 17116 2009-07-26 09:39:09Z thomas $
  */
 
 /**
@@ -57,7 +57,9 @@ class Zend_Validate_Int extends Zend_Validate_Abstract
      */
     public function __construct($locale = null)
     {
-        $this->setLocale($locale);
+        if ($locale !== null) {
+            $this->setLocale($locale);
+        }
     }
 
     /**
@@ -96,15 +98,27 @@ class Zend_Validate_Int extends Zend_Validate_Abstract
         }
 
         $this->_setValue($value);
-        try {
-            if (!Zend_Locale_Format::isInteger($value, array('locale' => 'en')) &&
-                !Zend_Locale_Format::isInteger($value, array('locale' => $this->_locale))) {
+        if ($this->_locale === null) {
+            $locale        = localeconv();
+            $valueFiltered = str_replace($locale['decimal_point'], '.', $value);
+            $valueFiltered = str_replace($locale['thousands_sep'], '', $valueFiltered);
+
+            if (strval(intval($valueFiltered)) != $valueFiltered) {
                 $this->_error();
                 return false;
             }
-        } catch (Zend_Locale_Exception $e) {
-            $this->_error();
-            return false;
+
+        } else {
+            try {
+                if (!Zend_Locale_Format::isInteger($value, array('locale' => 'en')) &&
+                    !Zend_Locale_Format::isInteger($value, array('locale' => $this->_locale))) {
+                    $this->_error();
+                    return false;
+                }
+            } catch (Zend_Locale_Exception $e) {
+                $this->_error();
+                return false;
+            }
         }
 
         return true;

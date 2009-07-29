@@ -16,7 +16,7 @@
  * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Numeric.php 16978 2009-07-22 19:59:40Z alexander $
+ * @version    $Id: Numeric.php 17182 2009-07-27 13:54:11Z alexander $
  */
 
 
@@ -51,7 +51,7 @@ class Zend_Pdf_Element_Numeric extends Zend_Pdf_Element
     public function __construct($val)
     {
         if ( !is_numeric($val) ) {
-        	require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Argument must be numeric');
         }
 

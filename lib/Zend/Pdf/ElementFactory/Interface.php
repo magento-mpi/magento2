@@ -16,7 +16,7 @@
  * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Interface.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Interface.php 17182 2009-07-27 13:54:11Z alexander $
  */
 
 /**
@@ -74,11 +74,19 @@ interface Zend_Pdf_ElementFactory_Interface
     /**
      * Calculate object enumeration shift.
      *
-     * @internal
      * @param Zend_Pdf_ElementFactory_Interface $factory
      * @return integer
      */
     public function calculateShift(Zend_Pdf_ElementFactory_Interface $factory);
+
+    /**
+     * Clean enumeration shift cache.
+     * Has to be used after PDF render operation to let followed updates be correct.
+     *
+     * @param Zend_Pdf_ElementFactory_Interface $factory
+     * @return integer
+     */
+    public function cleanEnumerationShiftCache();
 
     /**
      * Retrive object enumeration shift.

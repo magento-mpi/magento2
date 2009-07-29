@@ -16,7 +16,7 @@
  * @package    Zend_Version
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Version.php 16991 2009-07-22 23:06:37Z matthew $
+ * @version    $Id: Version.php 17246 2009-07-28 14:22:08Z matthew $
  */
 
 /**
@@ -32,7 +32,7 @@ final class Zend_Version
     /**
      * Zend Framework version identification - see compareVersion()
      */
-    const VERSION = '1.9.0b1';
+    const VERSION = '1.9.0rc1';
 
     /**
      * Compare the specified Zend Framework version string $version

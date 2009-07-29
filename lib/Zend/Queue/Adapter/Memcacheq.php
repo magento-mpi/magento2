@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Memcacheq.php 16939 2009-07-22 02:22:03Z matthew $
+ * @version    $Id: Memcacheq.php 17241 2009-07-28 13:01:20Z matthew $
  */
 
 /**
@@ -307,7 +307,7 @@ class Zend_Queue_Adapter_Memcacheq extends Zend_Queue_Adapter_AdapterAbstract
             require_once 'Zend/Loader.php';
             Zend_Loader::loadClass($classname);
         }
-        return new $classname($config);
+        return new $classname($options);
     }
 
     /**

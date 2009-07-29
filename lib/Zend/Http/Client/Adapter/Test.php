@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Http
  * @subpackage Client_Adapter
- * @version    $Id: Test.php 16872 2009-07-20 11:47:08Z mikaelkael $
+ * @version    $Id: Test.php 17118 2009-07-26 09:41:41Z shahar $
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
@@ -81,20 +81,25 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
     /**
      * Set the configuration array for the adapter
      *
-     * @param array $config
+     * @param Zend_Config | array $config
      */
     public function setConfig($config = array())
     {
-        if (! is_array($config)) {
+        if ($config instanceof Zend_Config) {
+            $config = $config->toArray();
+
+        } elseif (! is_array($config)) {
             require_once 'Zend/Http/Client/Adapter/Exception.php';
             throw new Zend_Http_Client_Adapter_Exception(
-                '$config expects an array, ' . gettype($config) . ' recieved.');
+                'Array or Zend_Config object expected, got ' . gettype($config)
+            );
         }
 
         foreach ($config as $k => $v) {
             $this->config[strtolower($k)] = $v;
         }
     }
+
 
     /**
      * Connect to the remote server
@@ -181,10 +186,10 @@ class Zend_Http_Client_Adapter_Test implements Zend_Http_Client_Adapter_Interfac
      */
     public function addResponse($response)
     {
-     	if ($response instanceof Zend_Http_Response) {
+         if ($response instanceof Zend_Http_Response) {
             $response = $response->asString("\r\n");
         }
-        
+
         $this->responses[] = $response;
     }
 

@@ -17,7 +17,7 @@
  * @subpackage Adapter
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 16939 2009-07-22 02:22:03Z matthew $
+ * @version    $Id: Db.php 17217 2009-07-28 02:02:37Z matthew $
  */
 
 /**
@@ -165,7 +165,6 @@ class Zend_Queue_Adapter_Db extends Zend_Queue_Adapter_AdapterAbstract
     public function create($name, $timeout = null)
     {
         if ($this->isExists($name)) {
-            $this->getLogger()->warn('Create queue failed. Queue already exists: ' . $name);
             return false;
         }
 
@@ -175,14 +174,9 @@ class Zend_Queue_Adapter_Db extends Zend_Queue_Adapter_AdapterAbstract
 
         try {
             if ($id = $queue->save()) {
-                $this->getLogger()->info('Queue created: ' . $name);
                 return true;
             }
         } catch (Exception $e) {
-            $this->getLogger()->err($e->getMessage() . ' code ' . $e->getCode());
-            /**
-             * @see Zend_Queue_Exception
-             */
             require_once 'Zend/Queue/Exception.php';
             throw new Zend_Queue_Exception($e->getMessage(), $e->getCode());
         }
@@ -285,12 +279,11 @@ class Zend_Queue_Adapter_Db extends Zend_Queue_Adapter_AdapterAbstract
             $queue = $this->_queue;
         }
 
+        if (is_scalar($message)) {
+            $message = (string) $message;
+        }
         if (is_string($message)) {
             $message = trim($message);
-        } elseif (is_scalar($message)) {
-            $message = (string) $message;
-        } else {
-            $message = serialize($message);
         }
 
         if (!$this->isExists($queue->getName())) {

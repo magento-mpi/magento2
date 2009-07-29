@@ -16,7 +16,7 @@
  * @package   Zend_Currency
  * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Currency.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version   $Id: Currency.php 17080 2009-07-25 21:14:29Z thomas $
  */
 
 /**
@@ -52,7 +52,7 @@ class Zend_Currency
      *
      * @var string
      */
-    protected $_locale = null;
+    private $_locale = null;
 
     /**
      * Options array
@@ -138,7 +138,7 @@ class Zend_Currency
         // Format the number
         $format = $options['format'];
         $locale = $this->_locale;
-        if (empty($format) === true) {
+        if (empty($format)) {
             $format = Zend_Locale_Data::getContent($this->_locale, 'currencynumber');
         } else if (Zend_Locale::isLocale($format, true, false)) {
             $locale = $format;
@@ -171,8 +171,6 @@ class Zend_Currency
             $value = Zend_Locale_Format::convertNumerals($value, 'Latn', $options['script']);
         }
 
-        $options = $this->_processSymbolChoice($options, $value);
-
         // Get the sign to be placed next to the number
         if (is_numeric($options['display']) === false) {
             $sign = $options['display'];
@@ -199,41 +197,6 @@ class Zend_Currency
 
         $value = str_replace('¤', $sign, $value);
         return $value;
-    }
-
-    /**
-     * Select currency symbol if multiple symbols were specified
-     *
-     * @param array $options
-     * @param integer|float $value  Currency value
-     * @return array
-     */
-    protected function _processSymbolChoice($options, $value)
-    {
-        if (isset($options['symbol_choice']) && $options['symbol_choice']) {
-            $symbols = explode('|', $options['symbol']);
-            if (is_array($symbols)) {
-                foreach ($symbols as $symbol) {
-                    $type = $position = null;
-                    if (($tmp = iconv_strpos($symbol, '≤')) !== false) {
-                        $type = 1;
-                        $position = $tmp;
-                    }
-                    if (($tmp = iconv_strpos($symbol, '<')) !== false) {
-                        $type = 2;
-                        $position = $tmp;
-                    }
-                    if (!is_null($position)) {
-                        $number = iconv_substr($symbol, 0, $position);
-                        $sign = iconv_substr($symbol, $position+1);
-                        if (($type == 1 && $number <= $value) || ($type == 2 && $number < $value)) {
-                            $options['symbol'] = $sign;
-                        }
-                    }
-                }
-            }
-        }
-        return $options;
     }
 
     /**
@@ -296,7 +259,7 @@ class Zend_Currency
      * @throws Zend_Currency_Exception When locale contains no region
      * @return string The extracted locale representation as string
      */
-    protected function _checkParams($currency = null, $locale = null)
+    private function _checkParams($currency = null, $locale = null)
     {
         // Manage the params
         if ((empty($locale)) and (!empty($currency)) and

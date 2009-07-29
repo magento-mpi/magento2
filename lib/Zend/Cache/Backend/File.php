@@ -17,7 +17,7 @@
  * @subpackage Zend_Cache_Backend
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: File.php 16973 2009-07-22 19:22:34Z matthew $
+ * @version    $Id: File.php 17029 2009-07-24 11:57:49Z matthew $
  */
 
 /**
@@ -953,9 +953,6 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
             $result = stream_get_contents($f);
             if ($this->_options['file_locking']) @flock($f, LOCK_UN);
             @fclose($f);
-        }
-        if (function_exists('set_magic_quotes_runtime')) {
-            @set_magic_quotes_runtime($mqr);
         }
         return $result;
     }

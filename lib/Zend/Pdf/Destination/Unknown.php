@@ -17,21 +17,21 @@
  * @subpackage Destination
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Unknown.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version    $Id: Unknown.php 17182 2009-07-27 13:54:11Z alexander $
  */
 
-/** Zend_Pdf_Destination */
-require_once 'Zend/Pdf/Destination.php';
+/** Zend_Pdf_Destination_Explicit */
+require_once 'Zend/Pdf/Destination/Explicit.php';
 
 
 /**
- * Unrecognized destination representation class
+ * Unrecognized explicit destination representation class
  *
  * @package    Zend_Pdf
  * @subpackage Destination
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Pdf_Destination_Unknown extends Zend_Pdf_Destination
+class Zend_Pdf_Destination_Unknown extends Zend_Pdf_Destination_Explicit
 {
 }

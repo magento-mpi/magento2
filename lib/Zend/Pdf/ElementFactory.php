@@ -16,7 +16,7 @@
  * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ElementFactory.php 16978 2009-07-22 19:59:40Z alexander $
+ * @version    $Id: ElementFactory.php 17182 2009-07-27 13:54:11Z alexander $
  */
 
 
@@ -257,7 +257,6 @@ class Zend_Pdf_ElementFactory implements Zend_Pdf_ElementFactory_Interface
     /**
      * Calculate object enumeration shift.
      *
-     * @internal
      * @param Zend_Pdf_ElementFactory_Interface $factory
      * @return integer
      */
@@ -287,6 +286,22 @@ class Zend_Pdf_ElementFactory implements Zend_Pdf_ElementFactory_Interface
 
         $this->_shiftCalculationCache[$factory->_factoryId] = -1;
         return -1;
+    }
+
+    /**
+     * Clean enumeration shift cache.
+     * Has to be used after PDF render operation to let followed updates be correct.
+     *
+     * @param Zend_Pdf_ElementFactory_Interface $factory
+     * @return integer
+     */
+    public function cleanEnumerationShiftCache()
+    {
+        $this->_shiftCalculationCache = array();
+
+        foreach ($this->_attachedFactories as $attached) {
+            $attached->cleanEnumerationShiftCache();
+        }
     }
 
     /**
@@ -429,9 +444,9 @@ class Zend_Pdf_ElementFactory implements Zend_Pdf_ElementFactory_Interface
      */
     public function fetchObject($refString)
     {
-    	if (!isset($this->_registeredObjects[$refString])) {
-    		return null;
-    	}
+        if (!isset($this->_registeredObjects[$refString])) {
+            return null;
+        }
         return $this->_registeredObjects[$refString];
     }
 

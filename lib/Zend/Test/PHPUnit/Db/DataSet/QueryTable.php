@@ -17,7 +17,7 @@
  * @subpackage PHPUnit
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: QueryTable.php 16607 2009-07-09 21:51:46Z beberlei $
+ * @version    $Id: QueryTable.php 17117 2009-07-26 09:41:26Z beberlei $
  */
 
 
@@ -63,6 +63,24 @@ class Zend_Test_PHPUnit_Db_DataSet_QueryTable extends PHPUnit_Extensions_Databas
         if($this->data === null) {
             $stmt = $this->databaseConnection->getConnection()->query($this->query);
             $this->data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
+        }
+    }
+
+    /**
+     * Create Table Metadata
+     */
+    protected function createTableMetaData()
+    {
+        if ($this->tableMetaData === NULL)
+        {
+            $this->loadData();
+            $keys = array();
+            if(count($this->data) > 0) {
+                $keys = array_keys($this->data[0]);
+            }
+            $this->tableMetaData = new PHPUnit_Extensions_Database_DataSet_DefaultTableMetaData(
+                $this->tableName, $keys
+            );
         }
     }
 }

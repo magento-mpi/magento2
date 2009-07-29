@@ -16,7 +16,7 @@
  * @package    Zend_Pdf
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: PhpArray.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: PhpArray.php 17182 2009-07-27 13:54:11Z alexander $
  */
 
 
@@ -115,7 +115,7 @@ class Zend_Pdf_PhpArray implements ArrayAccess, Iterator, Countable {
     {
         $this->_items = array();
     }
-    
+
     /**
      * Defined by Countable interface
      *
@@ -125,6 +125,5 @@ class Zend_Pdf_PhpArray implements ArrayAccess, Iterator, Countable {
     {
         return count($this->_items);
     }
-    
 }
 

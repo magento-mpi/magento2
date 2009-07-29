@@ -16,7 +16,7 @@
  * @package    Zend_Locale
  * @subpackage Format
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Format.php 16561 2009-07-08 15:05:06Z thomas $
+ * @version    $Id: Format.php 17080 2009-07-25 21:14:29Z thomas $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -293,6 +293,7 @@ class Zend_Locale_Format
         require_once 'Zend/Locale/Math.php';
 
         $value             = Zend_Locale_Math::normalize($value);
+        $value             = self::_floatalize($value);
         $options           = self::_checkOptions($options) + self::$_options;
         $options['locale'] = (string) $options['locale'];
 
@@ -511,7 +512,7 @@ class Zend_Locale_Format
      * @param  string $type
      * @return string
      */
-    public static function _getRegexForType($type, $options)
+    private static function _getRegexForType($type, $options)
     {
         $decimal  = Zend_Locale_Data::getContent($options['locale'], $type);
         $decimal  = preg_replace('/[^#0,;\.\-Ee]/', '',$decimal);
@@ -604,6 +605,35 @@ class Zend_Locale_Format
         }
 
         return $regex;
+    }
+
+    /**
+     * Internal method to convert a scientific notation to float
+     * Additionally fixed a problem with PHP <= 5.2.x with big integers
+     *
+     * @param string $value
+     */
+    private static function _floatalize($value)
+    {
+        $value = strtoupper($value);
+        if (strpos($value, 'E') === false) {
+            return $value;
+        }
+
+        $number = substr($value, 0, strpos($value, 'E'));
+        if (strpos($number, '.') !== false) {
+            $post   = strlen(substr($number, strpos($number, '.') + 1));
+            $mantis = substr($value, strpos($value, 'E') + 1);
+            if ($mantis < 0) {
+                $post += abs((int) $mantis);
+            }
+
+            $value = number_format($value, $post, '.', '');
+        } else {
+            $value = number_format($value, 0, '.', '');
+        }
+
+        return $value;
     }
 
     /**

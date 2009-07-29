@@ -16,7 +16,7 @@
  * @package   Zend_File_Transfer
  * @copyright Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
- * @version   $Id: Abstract.php 16971 2009-07-22 18:05:45Z mikaelkael $
+ * @version   $Id: Abstract.php 17201 2009-07-27 19:34:26Z thomas $
  */
 
 /**
@@ -550,11 +550,19 @@ abstract class Zend_File_Transfer_Adapter_Abstract
         if (is_array($options)) {
             foreach ($options as $name => $value) {
                 foreach ($file as $key => $content) {
-                    if (array_key_exists($name, $this->_options)) {
-                        $this->_files[$key]['options'][$name] = (boolean) $value;
-                    } else {
-                        require_once 'Zend/File/Transfer/Exception.php';
-                        throw new Zend_File_Transfer_Exception("Unknown option: $name = $value");
+                    switch ($name) {
+                        case 'magicFile' :
+                            $this->_files[$key]['options'][$name] = (string) $value;
+                            break;
+
+                        case 'ignoreNoFile' :
+                        case 'useByteString' :
+                            $this->_files[$key]['options'][$name] = (boolean) $value;
+                            break;
+
+                        default:
+                            require_once 'Zend/File/Transfer/Exception.php';
+                            throw new Zend_File_Transfer_Exception("Unknown option: $name = $value");
                     }
                 }
             }
@@ -1212,10 +1220,11 @@ abstract class Zend_File_Transfer_Adapter_Abstract
             }
 
             if (class_exists('finfo', false)) {
+                $const = defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
                 if (!empty($value['options']['magicFile'])) {
-                    $mime = new finfo(FILEINFO_MIME, $value['options']['magicFile']);
+                    $mime = new finfo($const, $value['options']['magicFile']);
                 } else {
-                    $mime = new finfo(FILEINFO_MIME);
+                    $mime = new finfo($const);
                 }
 
                 if ($mime !== false) {
