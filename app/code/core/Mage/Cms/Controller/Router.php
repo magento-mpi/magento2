@@ -64,7 +64,6 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
 
         $identifier = trim($request->getPathInfo(), '/');
 
-        Mage::log('cms_controller_router_match_before');
         $condition = new Varien_Object(array(
             'identifier' => $identifier,
             'continue'   => true
