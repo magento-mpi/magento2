@@ -386,14 +386,14 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
         $calculationSequence = $this->_helper->getCalculationSequence($store);
         switch ($calculationSequence) {
             case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_EXCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, false, false);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, false, false);
+                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, false);
+                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, false);
                 $calcTotal          = $subtotal;
                 $baseCalcTotal      = $baseSubtotal;
                 break;
             case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, false, false);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, false, false);
+                $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, false);
+                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, false);
                 $calcTotal          = $subtotal;
                 $baseCalcTotal      = $baseSubtotal;
                 $item->setDiscountCalculationPrice(($subtotal+$rowTax)/$qty);
@@ -401,8 +401,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 break;
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
-                $rowTax             = $this->_calculator->calcTaxAmount($subtotal-$discountAmount, $rate, false, false);
-                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal-$baseDiscountAmount, $rate, false, false);
+                $rowTax             = $this->_calculator->calcTaxAmount($subtotal-$discountAmount, $rate, false);
+                $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal-$baseDiscountAmount, $rate, false);
                 $calcTotal          = $subtotal-$discountAmount;
                 $baseCalcTotal      = $baseSubtotal-$baseDiscountAmount;
                 break;
