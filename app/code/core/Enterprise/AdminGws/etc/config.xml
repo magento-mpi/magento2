@@ -57,16 +57,7 @@
                     <module>Enterprise_AdminGws</module>
                     <class>Mage_Core_Model_Resource_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </enterprise_admingws_setup>
-            <enterprise_admingws_write>
-                <use>core_write</use>
-            </enterprise_admingws_write>
-            <enterprise_admingws_read>
-                <use>core_read</use>
-            </enterprise_admingws_read>
         </resources>
     </global>
     <adminhtml>

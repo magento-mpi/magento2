@@ -67,20 +67,7 @@
                 <setup>
                     <module>Enterprise_Cms</module>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </enterprise_cms_setup>
-            <enterprise_cms_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </enterprise_cms_write>
-            <enterprise_cms_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </enterprise_cms_read>
         </resources>
         <events>
             <cms_controller_router_match_before>

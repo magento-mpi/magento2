@@ -62,20 +62,7 @@
                     <module>Enterprise_CatalogPermissions</module>
                     <class>Enterprise_CatalogPermissions_Model_Mysql4_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </enterprise_catalogpermissions_setup>
-            <enterprise_catalogpermissions_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </enterprise_catalogpermissions_read>
-            <enterprise_catalogpermissions_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </enterprise_catalogpermissions_write>
         </resources>
     </global>
     <adminhtml>

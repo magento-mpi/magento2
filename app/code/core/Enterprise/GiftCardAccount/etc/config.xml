@@ -60,20 +60,7 @@
                     <module>Enterprise_GiftCardAccount</module>
                     <class>Enterprise_GiftCardAccount_Model_Mysql4_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </enterprise_giftcardaccount_setup>
-            <enterprise_giftcardaccount_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </enterprise_giftcardaccount_write>
-            <enterprise_giftcardaccount_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </enterprise_giftcardaccount_read>
         </resources>
         <blocks>
             <enterprise_giftcardaccount>

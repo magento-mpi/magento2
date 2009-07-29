@@ -53,20 +53,7 @@
                     <module>Enterprise_Staging</module>
                     <class>Mage_Eav_Model_Entity_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </enterprise_staging_setup>
-            <enterprise_staging_write>
-              <connection>
-                <use>core_write</use>
-              </connection>
-            </enterprise_staging_write>
-            <enterprise_staging_read>
-              <connection>
-                <use>core_read</use>
-              </connection>
-            </enterprise_staging_read>
         </resources>
         <blocks>
             <enterprise_staging>

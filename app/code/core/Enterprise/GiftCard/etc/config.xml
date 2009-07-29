@@ -38,20 +38,7 @@
                     <module>Enterprise_GiftCard</module>
                     <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </enterprise_giftcard_setup>
-            <enterprise_giftcard_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </enterprise_giftcard_write>
-            <enterprise_giftcard_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </enterprise_giftcard_read>
         </resources>
 
         <models>

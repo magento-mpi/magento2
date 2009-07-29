@@ -38,20 +38,7 @@
                     <module>Enterprise_CustomerBalance</module>
                     <class>Enterprise_CustomerBalance_Model_Mysql4_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </enterprise_customerbalance_setup>
-            <enterprise_customerbalance_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </enterprise_customerbalance_write>
-            <enterprise_customerbalance_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </enterprise_customerbalance_read>
         </resources>
         <models>
             <enterprise_customerbalance>

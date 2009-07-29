@@ -43,16 +43,7 @@
                     <module>Enterprise_Enterprise</module>
                     <class>Mage_Core_Model_Resource_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </enterprise_enterprise_setup>
-            <enterprise_enterprise_write>
-                <use>core_write</use>
-            </enterprise_enterprise_write>
-            <enterprise_enterprise_read>
-                <use>core_read</use>
-            </enterprise_enterprise_read>
         </resources>
     </global>
     <!-- installer customizations -->
