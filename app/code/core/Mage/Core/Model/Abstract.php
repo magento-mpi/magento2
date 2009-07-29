@@ -282,8 +282,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         if ($this->_cacheTag) {
             if ($this->_cacheTag === true) {
                 $tags = array();
-            }
-            else {
+            } elseif (is_array($this->_cacheTag)) {
+                $tags = $this->_cacheTag;
+            } else {
                 $tags = array($this->_cacheTag);
             }
             Mage::app()->cleanCache($tags);
