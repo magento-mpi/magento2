@@ -205,14 +205,9 @@ class Enterprise_Cms_Model_Observer
         $expireTime = Mage::getStoreConfig('cms/page_revisions/revision_lifetime');
         $minimumNumber = Mage::getStoreConfig('cms/page_revisions/minimum_number');
 
-        var_dump($expireTime);
-        var_dump($minimumNumber);
-
         if (!$expireTime || !$minimumNumber) {
             return $this;
         }
-
-
 
         return $this;
     }

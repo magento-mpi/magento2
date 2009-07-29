@@ -209,6 +209,12 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
      */
     public function previewAction()
     {
+        // check if data sent
+        $data = $this->getRequest()->getPost();
+        if (empty($data) || !isset($data['page_id'])) {
+            $this->_forward('noRoute');
+            return $this;
+        }
         $this->loadLayout();
         $this->renderLayout();
     }
@@ -221,12 +227,14 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
     public function dropAction()
     {
         // check if data sent
-        if ($data = $this->getRequest()->getPost()) {
+        $data = $this->getRequest()->getPost();
+        if (!empty($data) && isset($data['page_id'])) {
             // init model and set data
             $page = Mage::getSingleton('cms/page')
                 ->load($data['page_id']);
             if (!$page->getId()) {
                 $this->_forward('noRoute');
+                return $this;
             }
 
             /*

@@ -90,6 +90,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                         button.select('span')[0].update('" . Mage::helper('enterprise_cms')->__('Save And Select For Publishing') . "')
                     }
                 }
+
+                varienGlobalEvents.attachEventHandler('tinymceChange', dataChanged());
             ";
         }
 
