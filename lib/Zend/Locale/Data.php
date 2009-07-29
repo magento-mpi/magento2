@@ -622,10 +622,6 @@ class Zend_Locale_Data
                 }
                 break;
 
-            case 'currencysymbolchoice':
-                $temp = self::_getFile($locale, '/ldml/numbers/currencies/currency[@type=\'' . $value . '\']/symbol/@choice', '', $value);
-                break;
-
             case 'question':
                 $temp  = self::_getFile($locale, '/ldml/posix/messages/yesstr',  '', 'yes');
                 $temp += self::_getFile($locale, '/ldml/posix/messages/nostr',   '', 'no');
@@ -1171,10 +1167,6 @@ class Zend_Locale_Data
 
             case 'currencysymbol':
                 $temp = self::_getFile($locale, '/ldml/numbers/currencies/currency[@type=\'' . $value . '\']/symbol', '', $value);
-                break;
-
-            case 'currencysymbolchoice':
-                $temp = self::_getFile($locale, '/ldml/numbers/currencies/currency[@type=\'' . $value . '\']/symbol/@choice', '', $value);
                 break;
 
             case 'question':
