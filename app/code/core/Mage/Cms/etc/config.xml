@@ -255,10 +255,10 @@
         </events>
         <cms>
             <page>
-                <tempate_filter>core/email_template_filter</tempate_filter>
+                <tempate_filter>cms/template_filter</tempate_filter>
             </page>
             <block>
-                <tempate_filter>core/email_template_filter</tempate_filter>
+                <tempate_filter>cms/template_filter</tempate_filter>
             </block>
         </cms>
     </global>
