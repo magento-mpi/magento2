@@ -128,7 +128,6 @@
             <adminhtml_catalog_product_edit_prepare_form>
                 <observers>
                     <enterprise_giftcard_product_edit_prepare_form>
-                        <type>singleton</type>
                         <class>enterprise_giftcard/observer</class>
                         <method>setAmountsRendererInForm</method>
                     </enterprise_giftcard_product_edit_prepare_form>
@@ -137,7 +136,6 @@
             <adminhtml_catalog_product_form_prepare_excluded_field_list>
                 <observers>
                     <enterprise_giftcard_product_excluded_field_list>
-                        <type>singleton</type>
                         <class>enterprise_giftcard/observer</class>
                         <method>updateExcludedFieldList</method>
                     </enterprise_giftcard_product_excluded_field_list>
@@ -146,7 +144,6 @@
             <sales_convert_quote_item_to_order_item>
                 <observers>
                     <enterprise_giftcard_append_additional_data>
-                        <type>singleton</type>
                         <class>enterprise_giftcard/observer</class>
                         <method>appendGiftcardAdditionalData</method>
                     </enterprise_giftcard_append_additional_data>
@@ -155,7 +152,6 @@
             <sales_order_save_after>
                 <observers>
                     <enterprise_giftcard_generate_giftcardaccounts>
-                        <type>singleton</type>
                         <class>enterprise_giftcard/observer</class>
                         <method>generateGiftCardAccounts</method>
                     </enterprise_giftcard_generate_giftcardaccounts>

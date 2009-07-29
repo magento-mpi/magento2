@@ -109,7 +109,6 @@
             <catalog_category_save_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>saveCategoryPermissions</method>
                     </enterprise_catalogpermissions>
@@ -118,7 +117,6 @@
             <category_move>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>reindexCategoryPermissionOnMove</method>
                     </enterprise_catalogpermissions>
@@ -127,7 +125,6 @@
             <store_add>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>reindexProducts</method>
                     </enterprise_catalogpermissions>
@@ -136,7 +133,6 @@
             <website_add>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>reindexProducts</method>
                     </enterprise_catalogpermissions>
@@ -145,7 +141,6 @@
             <customer_group_save_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>reindex</method>
                     </enterprise_catalogpermissions>
@@ -154,7 +149,6 @@
             <controller_action_postdispatch>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>reindexPermissions</method>
                     </enterprise_catalogpermissions>
@@ -163,7 +157,6 @@
             <catalog_product_save_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>saveProductPermissionIndex</method>
                     </enterprise_catalogpermissions>
@@ -172,7 +165,6 @@
             <adminhtml_catalog_category_tabs>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>addCategoryPermissionTab</method>
                     </enterprise_catalogpermissions>
@@ -181,7 +173,6 @@
             <catalog_product_import_after>
                 <observers>
                      <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>reindexProducts</method>
                     </enterprise_catalogpermissions>
@@ -190,7 +181,6 @@
             <catalog_product_to_website_change>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>reindexAfterProductAssignedWebsite</method>
                     </enterprise_catalogpermissions>
@@ -199,7 +189,6 @@
             <admin_system_config_changed_section_enterprise_catalogpermissions>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/adminhtml_observer</class>
                         <method>cleanCacheOnConfigChange</method>
                     </enterprise_catalogpermissions>
@@ -228,7 +217,6 @@
             <catalog_product_collection_before_add_count_to_categories>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyCategoryPermissionOnProductCount</method>
                     </enterprise_catalogpermissions>
@@ -237,7 +225,6 @@
             <catalog_product_is_salable_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyIsSalableToProduct</method>
                     </enterprise_catalogpermissions>
@@ -246,7 +233,6 @@
             <catalog_category_collection_load_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyCategoryPermissionOnLoadCollection</method>
                     </enterprise_catalogpermissions>
@@ -255,7 +241,6 @@
             <catalog_category_collection_add_is_active_filter>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyCategoryPermissionOnIsActiveFilterToCollection</method>
                     </enterprise_catalogpermissions>
@@ -264,7 +249,6 @@
             <catalog_category_tree_init_inactive_category_ids>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyCategoryInactiveIds</method>
                     </enterprise_catalogpermissions>
@@ -273,7 +257,6 @@
             <catalog_product_collection_apply_limitations_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyProductPermissionOnCollection</method>
                     </enterprise_catalogpermissions>
@@ -282,7 +265,6 @@
             <catalogindex_prepare_price_select>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyPriceGrantOnPriceIndex</method>
                     </enterprise_catalogpermissions>
@@ -291,7 +273,6 @@
             <catalog_product_collection_load_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyProductPermissionOnCollectionAfterLoad</method>
                     </enterprise_catalogpermissions>
@@ -300,7 +281,6 @@
             <catalog_controller_product_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyProductPermission</method>
                     </enterprise_catalogpermissions>
@@ -309,7 +289,6 @@
             <review_controller_product_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyProductPermission</method>
                     </enterprise_catalogpermissions>
@@ -318,7 +297,6 @@
             <catalog_controller_category_init_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>applyCategoryPermission</method>
                     </enterprise_catalogpermissions>
@@ -327,7 +305,6 @@
             <checkout_cart_product_add_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>checkQuoteItemSetProduct</method>
                     </enterprise_catalogpermissions>
@@ -336,7 +313,6 @@
             <sales_quote_item_qty_set_after>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>checkQuoteItem</method>
                     </enterprise_catalogpermissions>
@@ -345,7 +321,6 @@
             <controller_action_predispatch_catalogsearch>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>checkCatalogSearchPreDispatch</method>
                     </enterprise_catalogpermissions>
@@ -354,7 +329,6 @@
             <controller_action_layout_load_before>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>checkCatalogSearchLayout</method>
                     </enterprise_catalogpermissions>
@@ -363,7 +337,6 @@
             <rss_catalog_new_xml_callback>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>checkIfProductAllowedInRss</method>
                     </enterprise_catalogpermissions>
@@ -372,7 +345,6 @@
             <rss_catalog_special_xml_callback>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>checkIfProductAllowedInRss</method>
                     </enterprise_catalogpermissions>
@@ -381,7 +353,6 @@
             <rss_catalog_tagged_item_xml_callback>
                 <observers>
                     <enterprise_catalogpermissions>
-                        <type>singleton</type>
                         <class>enterprise_catalogpermissions/observer</class>
                         <method>checkIfProductAllowedInRss</method>
                     </enterprise_catalogpermissions>

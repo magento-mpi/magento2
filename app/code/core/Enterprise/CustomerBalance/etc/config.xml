@@ -142,7 +142,6 @@
             <sales_order_place_after>
                 <observers>
                     <enterprise_customerbalance_sales_order_place_after>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>processOrderPlace</method>
                     </enterprise_customerbalance_sales_order_place_after>
@@ -151,7 +150,6 @@
             <core_layout_update_updates_get_after>
                 <observers>
                     <enterprise_customerbalance>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>disableLayout</method>
                     </enterprise_customerbalance>
@@ -160,7 +158,6 @@
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_customerbalance>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>processOrderCreationData</method>
                     </enterprise_customerbalance>
@@ -170,7 +167,6 @@
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_customerbalance>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>quoteCollectTotalsBefore</method>
                     </enterprise_customerbalance>
@@ -180,7 +176,6 @@
             <sales_order_place_before>
                 <observers>
                     <enterprise_customerbalance_sales_order_place_before>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>processBeforeOrderPlace</method>
                     </enterprise_customerbalance_sales_order_place_before>
@@ -190,7 +185,6 @@
             <sales_quote_merge_after>
                 <observers>
                     <enterprise_customerbalance>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>quoteMergeAfter</method>
                     </enterprise_customerbalance>
@@ -200,7 +194,6 @@
             <sales_order_invoice_save_after>
                 <observers>
                     <enterprise_customerbalance_sales_order_invoice_save_after>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>increaseOrderInvoicedAmount</method>
                     </enterprise_customerbalance_sales_order_invoice_save_after>
@@ -210,7 +203,6 @@
             <sales_order_creditmemo_save_after>
                 <observers>
                     <enterprise_customerbalance>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>creditmemoSaveAfter</method>
                     </enterprise_customerbalance>
@@ -220,7 +212,6 @@
             <adminhtml_sales_order_creditmemo_register_before>
                 <observers>
                     <enterprise_customerbalance>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>creditmemoDataImport</method>
                     </enterprise_customerbalance>
@@ -230,7 +221,6 @@
             <sales_order_load_after>
                 <observers>
                     <enterprise_customerbalance>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>salesOrderLoadAfter</method>
                     </enterprise_customerbalance>
@@ -240,7 +230,6 @@
             <sales_order_creditmemo_refund>
                 <observers>
                     <enterprise_customerbalance>
-                        <type>singleton</type>
                         <class>enterprise_customerbalance/observer</class>
                         <method>refund</method>
                     </enterprise_customerbalance>

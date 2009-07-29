@@ -86,7 +86,6 @@
             <cms_controller_router_match_before>
                 <observers>
                     <enterprise_cms>
-                        <type>singleton</type>
                         <class>enterprise_cms/observer</class>
                         <method>cmsControllerRouterMatchBefore</method>
                     </enterprise_cms>
@@ -139,30 +138,24 @@
             <adminhtml_cms_page_edit_tab_main_prepare_form>
                 <observers>
                     <enterprise_cms>
-                        <type>singleton</type>
                         <class>enterprise_cms/observer</class>
                         <method>onMainTabPrepareForm</method>
-                        <type>singleton</type>
                     </enterprise_cms>
                 </observers>
             </adminhtml_cms_page_edit_tab_main_prepare_form>
             <cms_page_save_before>
                 <observers>
                     <enterprise_cms>
-                        <type>singleton</type>
                         <class>enterprise_cms/observer</class>
                         <method>cmsPageSaveBefore</method>
-                        <type>singleton</type>
                     </enterprise_cms>
                 </observers>
             </cms_page_save_before>
             <cms_page_save_after>
                 <observers>
                     <enterprise_cms>
-                        <type>singleton</type>
                         <class>enterprise_cms/observer</class>
                         <method>cmsPageSaveAfter</method>
-                        <type>singleton</type>
                     </enterprise_cms>
                 </observers>
             </cms_page_save_after>

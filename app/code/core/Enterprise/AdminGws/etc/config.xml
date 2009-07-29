@@ -81,7 +81,6 @@
             <admin_roles_load_after>
                 <observers>
                     <enterprise_admingws>
-                        <type>singleton</type>
                         <class>enterprise_admingws/observer</class>
                         <method>addDataAfterRoleLoad</method>
                     </enterprise_admingws>
@@ -90,7 +89,6 @@
             <admin_roles_save_before>
                 <observers>
                     <enterprise_admingws>
-                        <type>singleton</type>
                         <class>enterprise_admingws/observer</class>
                         <method>setDataBeforeRoleSave</method>
                     </enterprise_admingws>
@@ -99,7 +97,6 @@
             <admin_permissions_role_prepare_save>
                 <observers>
                     <enterprise_admingws>
-                        <type>singleton</type>
                         <class>enterprise_admingws/observer</class>
                         <method>prepareRoleSave</method>
                     </enterprise_admingws>

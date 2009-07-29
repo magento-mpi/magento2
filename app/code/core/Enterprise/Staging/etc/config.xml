@@ -239,7 +239,6 @@
             <controller_front_init_before>
                 <observers>
                     <enterprise_staging>
-                        <type>singleton</type>
                         <class>enterprise_staging/observer</class>
                         <method>beforeFrontendInit</method>
                     </enterprise_staging>
@@ -327,7 +326,6 @@
             <website_delete_after>
                 <observers>
                     <enterprise_staging_delete_website>
-                        <type>singleton</type>
                         <class>enterprise_staging/observer</class>
                         <method>deleteWebsite</method>
                     </enterprise_staging_delete_website>
@@ -358,7 +356,6 @@
             <resource_get_tablename>
                 <observers>
                     <enterprise_staging_get_table_name>
-                        <type>singleton</type>
                         <class>enterprise_staging/observer</class>
                         <method>getTableName</method>
                     </enterprise_staging_get_table_name>
@@ -367,7 +364,6 @@
             <websiterestriction_frontend>
                 <observers>
                     <enterprise_staging>
-                        <type>singleton</type>
                         <class>enterprise_staging/observer</class>
                         <method>takeFrontendDown</method>
                     </enterprise_staging>

@@ -127,7 +127,6 @@
             <enterprise_giftcardaccount_save_after>
                 <observers>
                     <enterprise_giftcardaccount_save_after>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>giftcardaccountSaveAfter</method>
                     </enterprise_giftcardaccount_save_after>
@@ -137,7 +136,6 @@
             <sales_order_place_after>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_place_after>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>processOrderPlace</method>
                     </enterprise_giftcardaccount_sales_order_place_after>
@@ -147,7 +145,6 @@
             <sales_order_invoice_save_after>
                 <observers>
                     <enterprise_giftcardaccount_sales_order_invoice_save_after>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>increaseOrderInvoicedAmount</method>
                     </enterprise_giftcardaccount_sales_order_invoice_save_after>
@@ -157,7 +154,6 @@
             <enterprise_giftcardaccount_charge_by_code>
                 <observers>
                     <enterprise_giftcardaccount_charge_by_code>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>chargeByCode</method>
                     </enterprise_giftcardaccount_charge_by_code>
@@ -167,7 +163,6 @@
             <enterprise_giftcardaccount_charge>
                 <observers>
                     <enterprise_giftcardaccount_charge>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>chargeById</method>
                     </enterprise_giftcardaccount_charge>
@@ -177,7 +172,6 @@
             <enterprise_giftcardaccount_create>
                 <observers>
                     <enterprise_giftcardaccount_create>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>create</method>
                     </enterprise_giftcardaccount_create>
@@ -187,7 +181,6 @@
             <adminhtml_sales_order_create_process_data>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>processOrderCreationData</method>
                     </enterprise_giftcardaccount>
@@ -197,7 +190,6 @@
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>quoteCollectTotalsBefore</method>
                     </enterprise_giftcardaccount>
@@ -207,7 +199,6 @@
             <sales_quote_merge_after>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>quoteMergeAfter</method>
                     </enterprise_giftcardaccount>
@@ -217,7 +208,6 @@
             <sales_order_creditmemo_refund>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>refund</method>
                     </enterprise_giftcardaccount>
@@ -227,7 +217,6 @@
             <adminhtml_sales_order_creditmemo_register_before>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>creditmemoDataImport</method>
                     </enterprise_giftcardaccount>
@@ -237,7 +226,6 @@
             <sales_order_load_after>
                 <observers>
                     <enterprise_giftcardaccount>
-                        <type>singleton</type>
                         <class>enterprise_giftcardaccount/observer</class>
                         <method>salesOrderLoadAfter</method>
                     </enterprise_giftcardaccount>
