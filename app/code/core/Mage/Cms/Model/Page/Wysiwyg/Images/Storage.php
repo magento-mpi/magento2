@@ -31,7 +31,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_Object
+class Mage_Cms_Model_Page_Wysiwyg_Images_Storage extends Varien_Object
 {
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
 
@@ -61,12 +61,12 @@ class Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_Object
         $collection = $this->getCollection($path)
             ->setCollectDirs(false)
             ->setCollectFiles(true)
-            ->setCollectRecursively(false);
+            ->setCollectRecursively(false)
+            ->setOrder('mtime', Varien_Data_Collection::SORT_ORDER_ASC);
 
         // Add files extension filter
-        preg_match_all('/[a-z0-9]+/si', strtolower($this->getConfigData('allowed_extensions')), $matches);
-        if (isset($matches[0]) && is_array($matches[0]) && count($matches[0]) > 0) {
-            $collection->setFilesFilter('/\.(' . implode('|', $matches[0]). ')$/i');
+        if ($allowed = $this->getAllowedExtensions()) {
+            $collection->setFilesFilter('/\.(' . implode('|', $allowed). ')$/i');
         }
 
         return $collection;
@@ -80,7 +80,7 @@ class Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getCollection($path = null)
     {
-        $collection = Mage::getModel('cms/adminhtml_page_wysiwyg_images_storage_collection');
+        $collection = Mage::getModel('cms/page_wysiwyg_images_storage_collection');
         if ($path !== null) {
             $collection->addTargetDir($path);
         }
@@ -137,6 +137,51 @@ class Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_Object
     }
 
     /**
+     * Upload and resize new file
+     *
+     * @param string $targetPath Target directory
+     * @throws Mage_Core_Exception
+     * @return array File info Array
+     */
+    public function uploadFile($targetPath)
+    {
+        $uploader = new Varien_File_Uploader('image');
+        if ($allowed = $this->getAllowedExtensions()) {
+            $uploader->setAllowedExtensions($allowed);
+        }
+        $uploader->setAllowRenameFiles(true);
+        $uploader->setFilesDispersion(false);
+        $result = $uploader->save($targetPath);
+
+        if (!$result) {
+            Mage::throwException( Mage::helper('cms')->__('Cannot upload file') );
+        }
+
+        // create thumbnail
+        $thumbsPath = $targetPath . DS . '.thumbs';
+        $io = new Varien_Io_File();
+        if ($io->isWriteable($thumbsPath)) {
+            $io->mkdir($thumbsPath);
+        }
+        $image = Varien_Image_Adapter::factory('GD2');
+        $image->open($targetPath . DS . $uploader->getUploadedFileName());
+        $width = $this->getConfigData('browser_resize_width');
+        $height = $this->getConfigData('browser_resize_height');
+        $image->resize($width, $height);
+        $image->save($thumbsPath . DS . $uploader->getUploadedFileName());
+
+        $result['cookie'] = array(
+            'name'     => session_name(),
+            'value'    => $this->getSession()->getSessionId(),
+            'lifetime' => $this->getSession()->getCookieLifetime(),
+            'path'     => $this->getSession()->getCookiePath(),
+            'domain'   => $this->getSession()->getCookieDomain()
+        );
+
+        return $result;
+    }
+
+    /**
      * Storage session
      *
      * @return Mage_Adminhtml_Model_Session
@@ -163,6 +208,19 @@ class Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage extends Varien_Object
             $this->setData($key, $value);
         }
         return $this->getData($key);
+    }
+
+    /**
+     * Prepare allowed_extensions config settings
+     *
+     * @return array Array of allowed file extensions
+     */
+    public function getAllowedExtensions()
+    {
+        if (preg_match_all('/[a-z0-9]+/si', strtolower($this->getConfigData('allowed_extensions')), $matches)) {
+            return $matches[0];
+        }
+        return array();
     }
 
 }

@@ -183,14 +183,6 @@
                     </cms>
                 </observers>
             </adminhtml_cms_page_edit_tab_content_prepare_form>
-            <cms_page_prepare_save>
-                <observers>
-                    <cms>
-                        <class>cms/observer</class>
-                        <method>prepareWysiwygContent</method>
-                    </cms>
-                </observers>
-            </cms_page_prepare_save>
         </events>
     </adminhtml>
     <global>
@@ -262,8 +254,8 @@
             <page_wysiwyg>
                 <enabled>1</enabled>
                 <upload_root>media/images</upload_root>
-                <browser_allowed_extensions>png,gif,jpg,jpeg,bmp</browser_allowed_extensions>
-                <browser_window_width>800</browser_window_width>
+                <browser_allowed_extensions>jpg,jpeg,png,gif</browser_allowed_extensions>
+                <browser_window_width>1000</browser_window_width>
                 <browser_window_height>800</browser_window_height>
                 <browser_resize_width>100</browser_resize_width>
                 <browser_resize_height>75</browser_resize_height>

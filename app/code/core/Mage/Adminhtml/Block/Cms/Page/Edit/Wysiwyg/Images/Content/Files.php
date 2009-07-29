@@ -43,9 +43,46 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Files extends Ma
         $helper = Mage::helper('cms/page_wysiwyg_images');
         $collection = $helper->getStorage()->getFilesCollection($helper->getCurrentPath());
         foreach ($collection as $item) {
-            $item->setUrl($helper->getCurrentUrl() . $item->getBasename());
             $item->setId(Mage::helper('core')->urlEncode($item->getBasename()));
+            $item->setName($this->getShortFilename($item->getBasename()));
+            $item->setUrl($helper->getCurrentUrl() . $item->getBasename());
+            $item->setEncodedPath(Mage::helper('core')->urlEncode($item->getFilename()));
+
+            if(is_file($helper->getCurrentPath() . DS . '.thumbs' . DS . $item->getBasename())) {
+                $item->setThumbUrl($helper->getCurrentUrl() . '.thumbs/' . $item->getBasename());
+            }
+
+            $size = @getimagesize($item->getFilename());
+            if (is_array($size)) {
+                $item->setWidth($size[0]);
+                $item->setHeight($size[1]);
+            }
         }
         return $collection;
+    }
+
+    public function getImagesWidth()
+    {
+        return Mage::getSingleton('cms/page_wysiwyg_images_storage')->getConfigData('browser_resize_width');
+    }
+
+    public function getImagesHeight()
+    {
+        return Mage::getSingleton('cms/page_wysiwyg_images_storage')->getConfigData('browser_resize_height');
+    }
+
+    /**
+     * Reduce filename by replacing some characters with dots
+     *
+     * @param string $filename
+     * @param int $maxLength Maximum filename
+     * @return string Truncated filename
+     */
+    public function getShortFilename($filename, $maxLength = 15)
+    {
+        if (strlen($filename) <= $maxLength) {
+            return $filename;
+        }
+        return preg_replace('/^(.{1,'.($maxLength - 3).'})(.*)(\.[a-z0-9]+)$/i', '$1..$3', $filename);
     }
 }

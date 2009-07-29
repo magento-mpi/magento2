@@ -31,11 +31,16 @@
  * @see Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Files
  */
 ?>
+<?php
+$_width = $this->getImagesWidth();
+$_height = $this->getImagesHeight();
+?>
 <?php if ($this->getContentsCollection()->count() > 0): ?>
     <?php foreach ($this->getContentsCollection() as $item): ?>
-    <div style="float:left;padding:5px;">
-        <img src="<?php echo $item->getUrl() ?>" width="100" height="100" ondblclick="Images.insert('<?php echo $item->getUrl() ?>');"><br>
-        <input type="checkbox" id="files-delete-<?php echo $item->getId() ?>"> <label for="files-delete-<?php echo $item->getId() ?>">Delete</label>
+    <div class="filecnt" id="<?php echo $item->getId() ?>">
+        <img src="<?php echo ($item->getThumbUrl() ? $item->getThumbUrl() : $item->getUrl()) ?>" width="<?php echo $_width ?>" height="<?php echo $_height ?>"><br/>
+        <small><?php echo $item->getWidth(); ?>x<?php echo $item->getHeight(); ?> <?php echo $this->helper('cms')->__('px.') ?></small><br/>
+        <small><?php echo $item->getName(); ?></small>
     </div>
     <?php endforeach; ?>
 <?php else: ?>

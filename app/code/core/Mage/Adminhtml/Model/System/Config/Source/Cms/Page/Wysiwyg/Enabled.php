@@ -31,7 +31,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Adminhtml_System_Config_Source_Wysiwyg_Enabled
+class Mage_Adminhtml_Model_System_Config_Source_Cms_Page_Wysiwyg_Enabled
 {
     public function toOptionArray()
     {

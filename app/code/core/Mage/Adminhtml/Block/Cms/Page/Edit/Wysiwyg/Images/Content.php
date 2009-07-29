@@ -43,13 +43,13 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content extends Mage_Adm
         $this->_removeButton('back')->_removeButton('edit');
         $this->_addButton('newfolder', array(
             'class'   => 'save',
-            'label'   => $this->helper('cms')->__('Create New Folder'),
+            'label'   => $this->helper('cms')->__('Create Folder'),
             'type'    => 'button',
             'onclick' => 'Images.newFolder();'
         ));
         $this->_addButton('upload', array(
             'class'   => 'add',
-            'label'   => $this->helper('cms')->__('Upload Files'),
+            'label'   => $this->helper('cms')->__('Add Files'),
             'type'    => 'button',
             'onclick' => 'Images.upload();'
         ));
@@ -60,6 +60,14 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content extends Mage_Adm
             'type'    => 'button',
             'onclick' => 'Images.deleteFolder();',
             'id'      => 'button_delete_folder'
+        ));
+
+        $this->_addButton('delete_files', array(
+            'class'   => 'delete no-display',
+            'label'   => $this->helper('cms')->__('Delete Files'),
+            'type'    => 'button',
+            'onclick' => 'Images.deleteFiles();',
+            'id'      => 'button_delete_files'
         ));
     }
 
@@ -91,6 +99,17 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content extends Mage_Adm
     protected function getDeletefolderUrl()
     {
         return $this->getUrl('*/*/deleteFolder');
+    }
+
+    /**
+     * Description goes here...
+     *
+     * @param none
+     * @return void
+     */
+    public function getDeleteFilesUrl()
+    {
+        return $this->getUrl('*/*/deleteFiles');
     }
 
     /**

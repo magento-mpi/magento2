@@ -54,18 +54,19 @@ Wysiwyg.Images.prototype = {
     selectFolder: function (node, event) {
         this.expandFolder(node, event);
         this.activateBlock('contents');
-
+        this.showElement('loading-mask');
         new Ajax.Request('<?php echo $this->getContentsUrl() ?>', {
             parameters: {node: this.currentNode.id},
             evalJS: true,
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
+                    this.hideElement('loading-mask');
                     $('contents').update(transport.responseText);
-                    $$('input[id^=files-delete]').each(function(s) {
+                    $$('div.filecnt').each(function(s) {
                         Event.observe(s.id, 'click', this.selectFile.bind(this));
+                        Event.observe(s.id, 'dblclick', this.insert.bind(this));
                     }.bind(this));
-
                 } catch(e) {
                     alert(e.message);
                 }
@@ -74,31 +75,40 @@ Wysiwyg.Images.prototype = {
     },
 
     selectFile: function (event) {
-//        alert($$('input[id^=files-delete][checked=true]').size());
-//        if (typeof event != 'undefined') {
-//            this.current_folder = Event.findElement(event, 'div').id;
-//        }
-//        var blocks = ['navi','content','path'];
-//        this.loadBlocks(blocks);
-
+        var div = Event.findElement(event, 'DIV');
+        div.toggleClassName('selected');
+        if($$('div.selected').length > 0) {
+            this.showElement('button_delete_files');
+        } else {
+            this.hideElement('button_delete_files');
+        }
     },
 
     expandFolder: function (node, event) {
         this.currentNode = node;
         this.tree.selectPath(node.getPath());
-        this.showElement('button_delete_folder');
+        if(node.id == 'root') {
+            this.hideElement('button_delete_folder');
+        } else {
+            this.showElement('button_delete_folder');
+        }
     },
 
     upload: function() {
-        this.activateBlock('contents-uploader');
         $$('div[class*="file-row complete"]').each(function(e) {
             $(e.id).remove();
         });
+        this.showElement('contents-uploader');
     },
 
-    insert: function(src) {
+    handleUploadComplete: function(files) {
+        this.selectFolder(this.currentNode);
+    },
+
+    insert: function(event) {
+        var div = Event.findElement(event, 'DIV');
         new Ajax.Request('<?php echo $this->getOnInsertUrl() ?>', {
-            parameters: {url: src},
+            parameters: {path: div.id},
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
@@ -129,6 +139,7 @@ Wysiwyg.Images.prototype = {
                             id:response.id
                         });
                         this.currentNode.appendChild(newNode);
+                        this.expandFolder(newNode);
                     }
                 } catch (e) {
                     alert(e.message);
@@ -156,6 +167,29 @@ Wysiwyg.Images.prototype = {
         })
     },
 
+    deleteFiles: function() {
+        if (!confirm('<?php echo $this->helper('cms')->__('Are you sure you want to delete selected files?') ?>')) {
+            return false;
+        }
+        var ids = [];
+        var i = 0;
+        $$('div.selected').each(function (e) {
+            ids[i] = e.id;
+            i++;
+        });
+        new Ajax.Request('<?php echo $this->getDeleteFilesUrl() ?>', {
+            parameters: {files: ids.toJSON()},
+            onSuccess: function(transport) {
+                try {
+                    this.onAjaxSuccess(transport);
+                    this.selectFolder(this.currentNode);
+                } catch(e) {
+                    alert(e.message);
+                }
+            }.bind(this)
+        });
+    },
+
     activateBlock: function(id) {
         $$('div [id^=contents]').each(this.hideElement);
         this.showElement(id);
@@ -180,14 +214,8 @@ Wysiwyg.Images.prototype = {
                 setLocation(response.ajaxRedirect);
             }
         }
-    },
-
-    handleUploadComplete: function(files) {
-        if (confirm('<?php echo $this->helper('cms')->__('Files upload completed. View uploded files?') ?>')) {
-            this.selectFolder(this.currentNode);
-
-        }
     }
+
 }
 
 Images = new Wysiwyg.Images();

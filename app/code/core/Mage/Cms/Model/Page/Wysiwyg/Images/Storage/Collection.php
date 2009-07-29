@@ -31,11 +31,20 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage_Collection extends Varien_Data_Collection_Filesystem
+class Mage_Cms_Model_Page_Wysiwyg_Images_Storage_Collection extends Varien_Data_Collection_Filesystem
 {
     public function __construct()
     {
         parent::__construct();
         $this->setPageSize(10000);
+    }
+
+    protected function _generateRow($filename)
+    {
+        return array(
+            'filename' => $filename,
+            'basename' => basename($filename),
+            'mtime'    => filemtime($filename)
+        );
     }
 }

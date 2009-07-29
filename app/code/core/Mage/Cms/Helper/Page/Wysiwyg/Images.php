@@ -134,7 +134,9 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
 
     /**
      * Return path of the current selected directory or root directory for startup
+     * Try to create target directory if it doesn't exist
      *
+     * @throws Mage_Core_Exception
      * @return string
      */
     public function getCurrentPath()
@@ -147,6 +149,11 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
                 if (is_dir($path)) {
                     $currentPath = $path;
                 }
+            }
+            $io = new Varien_Io_File();
+            if (!$io->isWriteable($currentPath) && !$io->mkdir($currentPath)) {
+                $message = Mage::helper('cms')->__('Directory %s is not writable by server',$currentPath);
+                Mage::throwException($message);
             }
             $this->_currentPath = $currentPath;
         }
@@ -173,10 +180,10 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     /**
      * Storage model singleton
      *
-     * @return Mage_Cms_Model_Adminhtml_Page_Wysiwyg_Images_Storage
+     * @return Mage_Cms_Model_Page_Wysiwyg_Images_Storage
      */
     public function getStorage()
     {
-        return Mage::getSingleton('cms/adminhtml_page_wysiwyg_images_storage');
+        return Mage::getSingleton('cms/page_wysiwyg_images_storage');
     }
 }

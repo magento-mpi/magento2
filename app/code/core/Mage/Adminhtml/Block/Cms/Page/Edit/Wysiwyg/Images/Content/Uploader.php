@@ -33,25 +33,25 @@
 */
 class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Uploader extends Mage_Adminhtml_Block_Media_Uploader
 {
-
-    /**
-     * Block construction
-     *
-     * TODO: Image types from config
-     */
     public function __construct()
     {
         parent::__construct();
         $params = $this->getConfig()->getParams();
-        $params['dmitro'] = 'killoff';
+        $allowed = Mage::getSingleton('cms/page_wysiwyg_images_storage')->getAllowedExtensions();
+        $labels = array();
+        $files = array();
+        foreach ($allowed as $ext) {
+            $labels[] = '.' . $ext;
+            $files[] = '*.' . $ext;
+        }
         $this->getConfig()
             ->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('*/*/upload'))
             ->setParams($params)
             ->setFileField('image')
             ->setFilters(array(
                 'images' => array(
-                    'label' => $this->helper('cms')->__('Images (.gif, .jpg, .png)'),
-                    'files' => array('*.gif', '*.jpg','*.jpeg', '*.png')
+                    'label' => $this->helper('cms')->__('Images (%s)', implode(', ', $labels)),
+                    'files' => array($files)
                 )
             ));
     }

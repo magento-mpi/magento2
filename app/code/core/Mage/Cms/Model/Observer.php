@@ -96,45 +96,43 @@ class Mage_Cms_Model_Observer
             return $this;
         }
 
-        $value = $editor->getValue();
-        $constructions = array(
-            Varien_Filter_Template::CONSTRUCTION_DEPEND_PATTERN,
-            Varien_Filter_Template::CONSTRUCTION_IF_PATTERN,
-            Varien_Filter_Template::CONSTRUCTION_PATTERN
-        );
-        $mapping = array();
-        foreach ($constructions as $pattern) {
-            if (preg_match_all($pattern, $value, $matches, PREG_SET_ORDER)) {
-                foreach($matches as $match) {
-                    $replacement = '__DIRECTIVE_' . Mage::helper('core')->urlEncode($match[0]);
-                    $value = str_replace($match[0], $replacement, $value);
-                    $mapping[$replacement] = $match[0];
+        $imagesUrl = Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_images/image');
+        $pregImagesUrl = preg_quote($imagesUrl,'/');
+        $afterHtml = '
+            <script type="text/javascript">
+
+                function BeforeSetContent'.$editor->getHtmlId().' (o) {
+                    console.debug("setContent");
+                    o.content = o.content.gsub(/src\s*=\s*\"(\{\{[a-z]{0,10}.*?\}\})\"/, function(match){
+                        return "src=\"'.$imagesUrl.'directive/" + Base64.encode(match[1]) + "/\"";
+                    });
+                    o.content = o.content.gsub(/\{\{[a-z]{0,10}.*?\}\}/, function(match){
+                        return "__DIRECTIVE__" + Base64.encode(match[0]);
+                    });
                 }
-            }
-        }
 
-        // Replace images URL for displaying them in Wysiwyg
-        $imagesSrcRegexp = '/src\s*=\s*[\'\"]{1}(__DIRECTIVE_[a-zA-Z0-9\,\-\_]+)[\'\"]{1}/';
-        if (preg_match_all($imagesSrcRegexp, $value, $matches, PREG_SET_ORDER)) {
-            $urlModel = Mage::getSingleton('adminhtml/url');
-            foreach($matches as $match) {
-                $directive = str_replace('__DIRECTIVE_', '', $match[1]);
-                $url = $urlModel->getUrl('*/cms_page_wysiwyg_images/image', array('directive' => $directive));
-                $mapping[$url] = Mage::helper('core')->urlDecode($directive);
-                $value = str_replace($match[1], $url, $value);
-            }
-        }
+                function SaveContent'.$editor->getHtmlId().' (o) {
+                    o.content = o.content.gsub(/'.$pregImagesUrl.'directive\/([a-zA-Z0-9\+\/\=]+)\//, function(match){
+                        return Base64.decode(match[1]);
+                    });
+                    o.content = o.content.gsub(/__DIRECTIVE__([a-zA-Z0-9\+\/\=]+)/, function(match){
+                        return Base64.decode(match[1]);
+                    });
+                }
 
-        $editor->setValue($value);
+                varienGlobalEvents.attachEventHandler("tinymceBeforeSetContent", BeforeSetContent'.$editor->getHtmlId().');
+                varienGlobalEvents.attachEventHandler("tinymceSaveContent", SaveContent'.$editor->getHtmlId().');
+
+            </script>';
 
         $editor->setWysiwyg(true);
+        $editor->setAfterElementHtml($afterHtml);
         $config = new Varien_Object();
         $config->setData(array(
             'files_browser_window_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_images/index'),
             'files_browser_window_width' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_width'),
             'files_browser_window_height' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_height'),
             'toggle_link_title' => Mage::helper('cms')->__('Show/Hide Editor'),
-            'directives_mapping' => serialize($mapping)
         ));
         $editor->setConfig($config);
 
@@ -151,29 +149,29 @@ class Mage_Cms_Model_Observer
      * @param Varien_Event_Observer $observer
      * @return Mage_Cms_Model_Observer
      */
-    public function prepareWysiwygContent($observer)
-    {
-        $request = $observer->getEvent()->getRequest();
-        $page = $observer->getEvent()->getPage();
-        foreach ($request->getPost() as $field => $value) {
-            if (preg_match('/_directives_mapping$/', $field)) {
-                continue;
-            }
-            $fieldMapping = $field . '_directives_mapping';
-            if ($request->getPost($fieldMapping)) {
-                try {
-                    $mapping = unserialize($request->getPost($fieldMapping));
-                    if (is_array($mapping) && count($mapping) > 0) {
-                        $search = array_keys($mapping);
-                        $replace = array_values($mapping);
-                        $page->setData($field, str_replace($search, $replace, $value));
-                        $page->unsetData($fieldMapping);
-                    }
-                } catch (Exception $e) {
-                    continue;
-                }
-            }
-        }
-        return $this;
-    }
+//    public function prepareWysiwygContent($observer)
+//    {
+//        $request = $observer->getEvent()->getRequest();
+//        $page = $observer->getEvent()->getPage();
+//        foreach ($request->getPost() as $field => $value) {
+//            if (preg_match('/_directives_mapping$/', $field)) {
+//                continue;
+//            }
+//            $fieldMapping = $field . '_directives_mapping';
+//            if ($request->getPost($fieldMapping)) {
+//                try {
+//                    $mapping = unserialize($request->getPost($fieldMapping));
+//                    if (is_array($mapping) && count($mapping) > 0) {
+//                        $search = array_keys($mapping);
+//                        $replace = array_values($mapping);
+//                        $page->setData($field, str_replace($search, $replace, $value));
+//                        $page->unsetData($fieldMapping);
+//                    }
+//                } catch (Exception $e) {
+//                    continue;
+//                }
+//            }
+//        }
+//        return $this;
+//    }
 }
