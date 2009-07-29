@@ -21,7 +21,7 @@
  */
 
 /** Zend_Pdf_Destination_Explicit */
-require_once 'Zend/Pdf/Destination/Explicit.php';
+#require_once 'Zend/Pdf/Destination/Explicit.php';
 
 
 /**
@@ -57,7 +57,7 @@ class Zend_Pdf_Destination_FitHorizontally extends Zend_Pdf_Destination_Explicit
         } else if (is_integer($page)) {
             $destinationArray->items[] = new Zend_Pdf_Element_Numeric($page);
         } else {
-            require_once 'Zend/Pdf/Exception.php';
+            #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Page entry must be a Zend_Pdf_Page object or a page number.');
         }
 

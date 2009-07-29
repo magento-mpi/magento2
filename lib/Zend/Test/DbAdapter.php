@@ -23,12 +23,12 @@
 /**
  * @see Zend_Db_Adapter_Abstract
  */
-require_once "Zend/Db/Adapter/Abstract.php";
+#require_once "Zend/Db/Adapter/Abstract.php";
 
 /**
  * @see Zend_Test_DbStatement
  */
-require_once "Zend/Test/DbStatement.php";
+#require_once "Zend/Test/DbStatement.php";
 
 /**
  * Testing Database Adapter which acts as a stack for SQL Results

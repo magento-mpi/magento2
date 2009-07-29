@@ -21,10 +21,10 @@
  */
 
 /** Zend_Pdf_Annotation */
-require_once 'Zend/Pdf/Annotation.php';
+#require_once 'Zend/Pdf/Annotation.php';
 
 /** Zend_Pdf_Destination */
-require_once 'Zend/Pdf/Destination.php';
+#require_once 'Zend/Pdf/Destination.php';
 
 
 /**
@@ -49,14 +49,14 @@ class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
     public function __construct(Zend_Pdf_Element $annotationDictionary)
     {
         if ($annotationDictionary->getType() != Zend_Pdf_Element::TYPE_DICTIONARY) {
-            require_once 'Zend/Pdf/Exception.php';
+            #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Annotation dictionary resource has to be a dictionary.');
         }
 
         if ($annotationDictionary->Subtype === null  ||
             $annotationDictionary->Subtype->getType() != Zend_Pdf_Element::TYPE_NAME  ||
             $annotationDictionary->Subtype->value != 'Link') {
-            require_once 'Zend/Pdf/Exception.php';
+            #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Subtype => Link entry is requires');
         }
 
@@ -76,11 +76,11 @@ class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
     public static function create($x1, $y1, $x2, $y2, $target)
     {
         if (is_string($target)) {
-            require_once 'Zend/Pdf/Destination/Named.php';
+            #require_once 'Zend/Pdf/Destination/Named.php';
             $destination = Zend_Pdf_Destination_Named::create($target);
         }
         if (!$target instanceof Zend_Pdf_Target) {
-            require_once 'Zend/Pdf/Exception.php';
+            #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('$target parameter must be a Zend_Pdf_Target object or a string.');
         }
 
@@ -114,11 +114,11 @@ class Zend_Pdf_Annotation_Link extends Zend_Pdf_Annotation
     public function setDestination($target)
     {
         if (is_string($target)) {
-            require_once 'Zend/Pdf/Destination/Named.php';
+            #require_once 'Zend/Pdf/Destination/Named.php';
             $destination = Zend_Pdf_Destination_Named::create($target);
         }
         if (!$target instanceof Zend_Pdf_Target) {
-            require_once 'Zend/Pdf/Exception.php';
+            #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('$target parameter must be a Zend_Pdf_Target object or a string.');
         }
 

@@ -21,16 +21,16 @@
  */
 
 /** Zend_Pdf_ElementFactory */
-require_once 'Zend/Pdf/ElementFactory.php';
+#require_once 'Zend/Pdf/ElementFactory.php';
 
 /** Zend_Pdf_Outline */
-require_once 'Zend/Pdf/Outline.php';
+#require_once 'Zend/Pdf/Outline.php';
 
 /** Zend_Pdf_Destination */
-require_once 'Zend/Pdf/Destination.php';
+#require_once 'Zend/Pdf/Destination.php';
 
 /** Zend_Pdf_Action */
-require_once 'Zend/Pdf/Action.php';
+#require_once 'Zend/Pdf/Action.php';
 
 
 /**
@@ -200,14 +200,14 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
     public function setTarget($target = null)
     {
         if (is_string($target)) {
-            require_once 'Zend/Pdf/Destination/Named.php';
+            #require_once 'Zend/Pdf/Destination/Named.php';
             $target = new Zend_Pdf_Destination_Named($target);
         }
 
         if ($target === null  ||  $target instanceof Zend_Pdf_Target) {
             $this->_target = $target;
         } else {
-            require_once 'Zend/Pdf/Exception.php';
+            #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Outline target has to be Zend_Pdf_Destination or Zend_Pdf_Action object or string');
         }
 
@@ -224,7 +224,7 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
     public function __construct($options = array())
     {
         if (!isset($options['title'])) {
-            require_once 'Zend/Pdf/Exception.php';
+            #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Title parameter is required.');
         }
 
@@ -268,7 +268,7 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
         } else if ($target instanceof Zend_Pdf_Action) {
             $outlineDictionary->A    = $target->getResource();
         } else {
-            require_once 'Zend/Pdf/Exception.php';
+            #require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Outline target has to be Zend_Pdf_Destination, Zend_Pdf_Action object or null');
         }
 
@@ -293,7 +293,7 @@ class Zend_Pdf_Outline_Created extends Zend_Pdf_Outline
         $lastChild = null;
         foreach ($this->childOutlines as $childOutline) {
             if ($processedOutlines->contains($childOutline)) {
-                require_once 'Zend/Pdf/Exception.php';
+                #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Outlines cyclyc reference is detected.');
             }
 

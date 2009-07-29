@@ -21,7 +21,7 @@
  */
 
 /** Zend_Pdf_Resource_Font_Simple */
-require_once 'Zend/Pdf/Resource/Font/Simple.php';
+#require_once 'Zend/Pdf/Resource/Font/Simple.php';
 
 
 /**
