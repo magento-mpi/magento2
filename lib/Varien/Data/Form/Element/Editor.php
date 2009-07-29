@@ -54,6 +54,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         {
             $config = $this->getConfig();
             $element = ($this->getState() == 'html') ? '' : $this->getHtmlId();
+
             $html = '
                 <script type="text/javascript" src="'.$this->getForm()->getParent()->getJsUrl().'tiny_mce/tiny_mce.js" ></script>
         		<script type="text/javascript">
@@ -73,32 +74,17 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                     }
                 }
 
-                function commandHandler(editor_id, elm, command, user_interface, value) {
-                	var linkElm, imageElm, inst;
-
-                	switch (command) {
-                		case "mceLink":
-                			return false;
-                		case "mceImage":
-                			return false;
-                		case "mceInsertContent":
-                			return false;
-                	}
-
-                	return false; // Pass to next handler in chain
-                }
-
                 function setupEditor() {
                     editorLoaded = true;
                     tinyMCE.init({
                         mode : "exact",
                         elements : "'.$this->getHtmlId().'",
                         theme : "advanced",
-                        plugins : "safari,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
-                        theme_advanced_buttons1 : "images,save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
-                        theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
-                        theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
-                        theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak",
+                        plugins : "safari,pagebreak,style,layer,table,advhr,advimage,emotions,iespell,media,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
+                        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+                        theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
+                        theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,iespell,media,advhr,|,ltr,rtl,|,fullscreen",
+                        theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,pagebreak",
                         theme_advanced_toolbar_location : "top",
                         theme_advanced_toolbar_align : "left",
                         theme_advanced_statusbar_location : "bottom",
@@ -107,9 +93,48 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                         convert_urls : false,
                         relative_urls : false,
                         content_css: "",
-                        execcommand_callback : "commandHandler",
-                        doctype : \'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\'
+                        doctype : \'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\',
+
+                        setup : function(ed) {
+                            ed.onSubmit.add(function(ed, e) {
+                                varienGlobalEvents.fireEvent("tinymceSubmit", e);
+                            });
+
+                            ed.onPaste.add(function(ed, e, o) {
+                                varienGlobalEvents.fireEvent("tinymcePaste", o);
+                            });
+
+                            ed.onBeforeSetContent.add(function(ed, o) {
+                                console.debug("onBeforeSetContent");
+                                varienGlobalEvents.fireEvent("tinymceBeforeSetContent", o);
+                            });
+
+                            ed.onSetContent.add(function(ed, o) {
+                                varienGlobalEvents.fireEvent("tinymceSetContent", o);
+                            });
+
+                            ed.onSaveContent.add(function(ed, o) {
+                                varienGlobalEvents.fireEvent("tinymceSaveContent", o);
+                            });
+
+                            ed.onChange.add(function(ed, l) {
+                                varienGlobalEvents.fireEvent("tinymceChange", l);
+                            });
+
+                            ed.onPreProcess.add(function(ed, o) {
+                                varienGlobalEvents.fireEvent("tinymcePreProcess", o);
+                            });
+
+                            ed.onPostProcess.add(function(ed, o) {
+                                varienGlobalEvents.fireEvent("tinymcePostProcess", o);
+                            });
+                            ed.onExecCommand.add(function(ed, cmd, ui, val) {
+                                console.debug("Command was executed: " + cmd);
+                                varienGlobalEvents.fireEvent("tinymceExecCommand", cmd);
+                            });
+                        }
                     });
+
                 }
                 '.($config->getEnabled() ? 'Event.observe(window, "load", function() { setupEditor(); });' : '').'
 				//]]>
