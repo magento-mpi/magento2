@@ -702,6 +702,13 @@
                 </attributes>
             </collection>
         </product>
+        <category>
+            <collection>
+                <attributes>
+                    <name/><url_key/><is_active/>
+                </attributes>
+            </collection>
+        </category>
     </frontend>
 
     <default>

@@ -326,9 +326,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
         $collection = Mage::getModel('catalog/category')->getCollection();
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
 
-        $collection->addAttributeToSelect('name')
-            ->addAttributeToSelect('url_key')
-            ->addAttributeToSelect('is_active');
+        $attributes = Mage::getConfig()->getNode('frontend/category/collection/attributes');
+        if ($attributes) {
+            $attributes = $attributes->asArray();
+            $attributes = array_keys($attributes);
+        }
+        $collection->addAttributeToSelect($attributes);
 
         if ($sorted) {
             if (is_string($sorted)) {
