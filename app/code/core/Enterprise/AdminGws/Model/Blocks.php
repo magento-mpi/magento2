@@ -157,10 +157,13 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      *
      * @param Varien_Event_Observer $observer
      */
-    public function removeCatalogProductAttributeSaveButtons($observer)
+    public function removeCatalogProductAttributeButtons($observer)
     {
         $observer->getEvent()->getBlock()->removeButton('save');
         $observer->getEvent()->getBlock()->removeButton('save_and_edit_button');
+        if (!$this->_role->getIsAll()) {
+            $observer->getEvent()->getBlock()->removeButton('delete');
+        }
     }
 
     /**
