@@ -271,6 +271,11 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 .messages li.note-msg ul,
 .messages li.notice-msg ul { /* background-image:url(../images/bkg_msg-note.gif); */ }
 
+.std .messages { list-style:none !important; margin:10px 0 0 ; }
+.std .messages ul { padding:10px 17px 18px; margin:0 0 -11px; }
+.std .messages li { margin:0 0 10px !important; background-image:none; padding:0 !important; }
+.std .messages li li { margin:0 !important; padding:0 0 3px !important; }
+
 /* BreadCrumbs */
 .breadcrumbs { margin:0; padding:7px 20px 5px;  background:#ededed url(../images/bkg_crumbs.gif) no-repeat 0 0; text-align:left; }
 .breadcrumbs li { display:inline; }
