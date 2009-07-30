@@ -105,7 +105,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                             });
 
                             ed.onBeforeSetContent.add(function(ed, o) {
-                                console.debug("onBeforeSetContent");
                                 varienGlobalEvents.fireEvent("tinymceBeforeSetContent", o);
                             });
 
@@ -129,7 +128,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                                 varienGlobalEvents.fireEvent("tinymcePostProcess", o);
                             });
                             ed.onExecCommand.add(function(ed, cmd, ui, val) {
-                                console.debug("Command was executed: " + cmd);
                                 varienGlobalEvents.fireEvent("tinymceExecCommand", cmd);
                             });
                         }
