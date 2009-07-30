@@ -91,7 +91,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                     }
                 }
 
-                varienGlobalEvents.attachEventHandler('tinymceChange', dataChanged());
+                varienGlobalEvents.attachEventHandler('tinymceChange', dataChanged);
             ";
         }
 
