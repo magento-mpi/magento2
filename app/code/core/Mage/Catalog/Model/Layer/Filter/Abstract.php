@@ -248,6 +248,6 @@ abstract class Mage_Catalog_Model_Layer_Filter_Abstract extends Varien_Object
      */
     public function getName()
     {
-        return $this->getAttributeModel()->getFrontendLabel();
+        return $this->getAttributeModel()->getStoreLabel();
     }
 }

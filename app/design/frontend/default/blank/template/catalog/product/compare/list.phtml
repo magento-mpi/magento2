@@ -82,7 +82,7 @@
                 <?php $_i=0 ?>
                 <?php foreach($this->getItems() as $_item): ?>
                 <?php if($_i++%10==0): ?>
-                <th class="label"><span class="nobr"><?php echo $this->__($_attribute->getFrontendLabel()) ?></span></th>
+                <th class="label"><span class="nobr"><?php echo $_attribute->getStoreLabel() ?></span></th>
                 <?php endif; ?>
                 <td>
                     <?php switch ($_attribute->getAttributeCode()) {

@@ -152,18 +152,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
 
             $this->_attributeCodes = array();
             $whereCond  = array(
-                $this->_getReadAdapter()->quoteInto('backend_type=?', 'static'),
-                $this->_getReadAdapter()->quoteInto('used_in_product_listing=?', 1),
-                $this->_getReadAdapter()->quoteInto('used_for_sort_by=?', 1),
-                $this->_getReadAdapter()->quoteInto('attribute_code IN(?)', $this->_systemAttributes)
+                $this->_getReadAdapter()->quoteInto('main_table.backend_type=?', 'static'),
+                $this->_getReadAdapter()->quoteInto('additional_table.used_in_product_listing=?', 1),
+                $this->_getReadAdapter()->quoteInto('additional_table.used_for_sort_by=?', 1),
+                $this->_getReadAdapter()->quoteInto('main_table.attribute_code IN(?)', $this->_systemAttributes)
             );
             if ($this->getFlatHelper()->isAddFilterableAttributes()) {
-                $whereCond[] = $this->_getReadAdapter()->quoteInto('is_filterable>?', 0);
+                $whereCond[] = $this->_getReadAdapter()->quoteInto('additional_table.is_filterable>?', 0);
             }
 
             $select = $this->_getReadAdapter()->select()
-                ->from($this->getTable('eav/attribute'))
-                ->where('entity_type_id=?', $this->getEntityTypeId())
+                ->from(array('main_table' => $this->getTable('eav/attribute')))
+                ->join(
+                    array('additional_table' => $this->getTable('catalog/eav_attribute')),
+                    'additional_table.attribute_id=main_table.attribute_id'
+                )
+                ->where('main_table.entity_type_id=?', $this->getEntityTypeId())
                 ->where(join(' OR ', $whereCond));
             $attributesData = $this->_getReadAdapter()->fetchAll($select);
             Mage::getSingleton('eav/config')

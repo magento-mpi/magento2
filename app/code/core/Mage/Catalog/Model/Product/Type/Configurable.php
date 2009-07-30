@@ -266,6 +266,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
                 'attribute_id'   => $attribute->getProductAttribute()->getId(),
                 'attribute_code' => $attribute->getProductAttribute()->getAttributeCode(),
                 'frontend_label' => $attribute->getProductAttribute()->getFrontend()->getLabel(),
+                'store_label'    => $attribute->getProductAttribute()->getStoreLabel(),
             );
         }
         return $res;

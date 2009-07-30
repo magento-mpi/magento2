@@ -345,13 +345,17 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
             $entity     = $entityType->getEntity();
 
             $whereCond  = array(
-                $this->_getWriteAdapter()->quoteInto('is_searchable=?', 1),
-                $this->_getWriteAdapter()->quoteInto('attribute_code IN(?)', array('status', 'visibility'))
+                $this->_getWriteAdapter()->quoteInto('additional_table.is_searchable=?', 1),
+                $this->_getWriteAdapter()->quoteInto('main_table.attribute_code IN(?)', array('status', 'visibility'))
             );
 
             $select = $this->_getWriteAdapter()->select()
-                ->from($this->getTable('eav/attribute'))
-                ->where('entity_type_id=?', $entityType->getEntityTypeId())
+                ->from(array('main_table' => $this->getTable('eav/attribute')))
+                ->join(
+                    array('additional_table' => $this->getTable('catalog/eav_attribute')),
+                    'additional_table.attribute_id = main_table.attribute_id'
+                )
+                ->where('main_table.entity_type_id=?', $entityType->getEntityTypeId())
                 ->where(join(' OR ', $whereCond));
             $attributesData = $this->_getWriteAdapter()->fetchAll($select);
             $this->getEavConfig()->importAttributesData($entityType, $attributesData);

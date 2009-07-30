@@ -186,6 +186,22 @@ class Mage_Catalog_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Retrieve attributes locked fields to edit
+     *
+     * @return array
+     */
+    public function getAttributeLockedFields()
+    {
+        $entityType = 'catalog_product';
+        $lockedAttributeFields = array();
+        $_data = Mage::app()->getConfig()->getNode('global/eav_attributes/' . $entityType);
+        foreach ($_data->children() as $attribute) {
+            $lockedAttributeFields[(string)$attribute->code] = array_keys($attribute->locked_fields->asArray());
+        }
+        return $lockedAttributeFields;
+    }
+
+    /**
      * Retrieve Catalog Price Scope
      *
      * @return int

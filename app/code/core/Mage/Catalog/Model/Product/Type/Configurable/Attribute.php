@@ -68,9 +68,9 @@ class Mage_Catalog_Model_Product_Type_Configurable_Attribute extends Mage_Core_M
     public function getLabel()
     {
         if ($this->getData('use_default') && $this->getProductAttribute()) {
-            return $this->getProductAttribute()->getFrontend()->getLabel();
+            return $this->getProductAttribute()->getStoreLabel();
         } else if (is_null($this->getData('label')) && $this->getProductAttribute()) {
-            $this->setData('label', $this->getProductAttribute()->getFrontend()->getLabel());
+            $this->setData('label', $this->getProductAttribute()->getStoreLabel());
         }
 
         return $this->getData('label');

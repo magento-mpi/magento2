@@ -149,12 +149,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Ma
         if (is_array($frontendLabel)) {
             $frontendLabel = array_shift($frontendLabel);
         }
-        $translations = Mage::getModel('core/translate_string')
-           ->load(Mage_Catalog_Model_Entity_Attribute::MODULE_NAME.Mage_Core_Model_Translate::SCOPE_SEPARATOR.$frontendLabel)
-           ->getStoreTranslations();
+        $storeLabels = $this->getAttributeObject()->getStoreLabels();
         foreach ($this->getStores() as $store) {
             if ($store->getId() != 0) {
-                $values[$store->getId()] = isset($translations[$store->getId()]) ? $translations[$store->getId()] : '';
+                $values[$store->getId()] = isset($storeLabels[$store->getId()]) ? $storeLabels[$store->getId()] : '';
             }
         }
         return $values;

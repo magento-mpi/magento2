@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Eav>
-            <version>0.7.13</version>
+            <version>0.7.14</version>
         </Mage_Eav>
     </modules>
     <global>
@@ -54,6 +54,7 @@
                     <attribute_group><table>eav_attribute_group</table></attribute_group>
                     <attribute_option><table>eav_attribute_option</table></attribute_option>
                     <attribute_option_value><table>eav_attribute_option_value</table></attribute_option_value>
+                    <attribute_label><table>eav_attribute_label</table></attribute_label>
                 </entities>
             </eav_mysql4>
         </models>
@@ -71,6 +72,19 @@
                 <eav translate="label" module="eav"><label>EAV types and attributes</label></eav>
             </types>
         </cache>
+        <eav_attributes>
+            <!-- 
+                <entity_type>
+                    <unique_node_name>
+                        <code>attribute_code</code>
+                        <locked_fields>
+                            <attribute_field_1/>
+                            <attribute_field_2/>
+                        </locked_fields>
+                    </unique_node_name>
+                </entity_type>
+             -->
+        </eav_attributes>
     </global>
 
     <adminhtml>

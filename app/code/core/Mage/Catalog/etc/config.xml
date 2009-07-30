@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>0.7.73</version>
+            <version>1.4.0.0.0</version>
         </Mage_Catalog>
     </modules>
 
@@ -256,6 +256,10 @@
                     <product_flat>
                         <table>catalog_product_flat</table>
                     </product_flat>
+                    
+                    <eav_attribute>
+                        <table>catalog_eav_attribute</table>
+                    </eav_attribute>
                 </entities>
             </catalog_resource_eav_mysql4>
         </models>
@@ -513,6 +517,39 @@
                 </flat>
             </product>
         </catalog>
+        <eav_attributes>
+            <catalog_product>
+                <sku>
+                    <code>sku</code>
+                    <locked_fields>
+                        <is_global/>
+                        <is_unique/>
+                    </locked_fields>
+                </sku>
+                <url_key>
+                    <code>url_key</code>
+                    <locked_fields>
+                        <is_unique/>
+                    </locked_fields>
+                </url_key>
+                <status>
+                    <code>status</code>
+                    <locked_fields>
+                        <is_configurable/>
+                        <is_filterable/>
+                        <is_filterable_in_search/>
+                    </locked_fields>
+                </status>
+                <visibility>
+                    <code>visibility</code>
+                    <locked_fields>
+                        <is_configurable/>
+                        <is_filterable/>
+                        <is_filterable_in_search/>
+                    </locked_fields>
+                </visibility>
+            </catalog_product>
+        </eav_attributes>
     </global>
     <adminhtml>
         <menu>

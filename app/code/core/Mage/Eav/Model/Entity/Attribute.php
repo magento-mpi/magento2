@@ -252,4 +252,27 @@ class Mage_Eav_Model_Entity_Attribute extends Mage_Eav_Model_Entity_Attribute_Ab
     {
         return $this->getResource()->getAttributeCodesByFrontendType($type);
     }
+
+    /**
+     * Return array of labels of stores
+     *
+     * @return array
+     */
+    public function getStoreLabels()
+    {
+        if (!$this->getData('store_labels')) {
+            $this->setData('store_labels', $this->getResource()->getStoreLabelsByAttributeId($this->getId()));
+        }
+        return $this->getData('store_labels');
+    }
+
+    /**
+     * Return store label of attribute
+     *
+     * @return string
+     */
+    public function getStoreLabel()
+    {
+        return $this->getData('store_label');
+    }
 }

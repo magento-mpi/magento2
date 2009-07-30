@@ -45,25 +45,26 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Main extends Mage_
             'method' => 'post'
         ));
 
-        $disableAttributeFields = array(
-            'sku'           => array(
-                'is_global',
-                'is_unique',
-            ),
-            'url_key'       => array(
-                'is_unique',
-            ),
-            'status'        => array(
-                'is_configurable',
-                'is_filterable',
-                'is_filterable_in_search'
-            ),
-            'visibility'    => array(
-                'is_configurable',
-                'is_filterable',
-                'is_filterable_in_search'
-            ),
-        );
+        $disableAttributeFields = Mage::helper('catalog')->getAttributeLockedFields();
+//        $disableAttributeFields = array(
+//            'sku'           => array(
+//                'is_global',
+//                'is_unique',
+//            ),
+//            'url_key'       => array(
+//                'is_unique',
+//            ),
+//            'status'        => array(
+//                'is_configurable',
+//                'is_filterable',
+//                'is_filterable_in_search'
+//            ),
+//            'visibility'    => array(
+//                'is_configurable',
+//                'is_filterable',
+//                'is_filterable_in_search'
+//            ),
+//        );
 
         $fieldset = $form->addFieldset('base_fieldset',
             array('legend'=>Mage::helper('catalog')->__('Attribute Properties'))
