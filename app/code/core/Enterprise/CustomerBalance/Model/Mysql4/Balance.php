@@ -56,4 +56,51 @@ class Enterprise_CustomerBalance_Model_Mysql4_Balance extends Mage_Core_Model_My
             $object->addData($data);
         }
     }
+
+     /**
+     * Update customers balance currency code
+     *
+     * @param string $currencyCode
+     * @return Enterprise_CustomerBalance_Model_Mysql4_Balance
+     */
+    public function setCustomersBalanceCurrencyTo($currencyCode)
+    {
+        $bind = array('base_currency_code' => $currencyCode);
+
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(), $bind, 'website_id IS NULL AND base_currency_code IS NULL'
+        );
+        return $this;
+    }
+
+    /**
+     * Delete customer orphan balances
+     *
+     * @param int $customerId
+     * @return Enterprise_CustomerBalance_Model_Mysql4_Balance
+     */
+    public function deleteBalancesByCustomerId($customerId)
+    {
+        $adapter = $this->_getWriteAdapter();
+
+        $adapter->delete(
+            $this->getMainTable(), $adapter->quoteInto('customer_id = ? AND website_id IS NULL', $customerId)
+        );
+        return $this;
+    }
+
+    /**
+     * Get customer orphan balances count
+     *
+     * @param int $customerId
+     * @return Enterprise_CustomerBalance_Model_Mysql4_Balance
+     */
+    public function getOrphanBalancesCount($customerId)
+    {
+        $adapter = $this->_getReadAdapter();
+        return $adapter->fetchOne($adapter->select()
+            ->from($this->getMainTable(), 'count(*)')
+            ->where('customer_id = ?', $customerId)
+            ->where('website_id IS NULL'));
+    }
 }

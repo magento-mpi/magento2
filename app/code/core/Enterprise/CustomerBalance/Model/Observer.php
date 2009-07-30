@@ -434,4 +434,18 @@ class Enterprise_CustomerBalance_Model_Observer
             Mage::register('enterprise_logged_actions', $actions);
         }
     }
+
+    /**
+     * Set customers balance currency code to website base currency code on website deletion
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_CustomerBalance_Model_Observer
+     */
+    public function setCustomersBalanceCurrencyToWebsiteBaseCurrency(Varien_Event_Observer $observer)
+    {
+        Mage::getModel('enterprise_customerbalance/balance')->setCustomersBalanceCurrencyTo(
+            $observer->getEvent()->getWebsite()->getBaseCurrencyCode()
+        );
+        return $this;
+    }
 }

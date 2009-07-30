@@ -55,6 +55,18 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
     }
 
     /**
+     * Delete orphan balances
+     *
+     */
+    public function deleteOrphanBalancesAction()
+    {
+        $balance = Mage::getSingleton('enterprise_customerbalance/balance')->deleteBalancesByCustomerId(
+            (int)$this->getRequest()->getParam('id')
+        );
+        $this->_redirect('*/customer/edit/', array('_current'=>true));
+    }
+
+    /**
      * Instantiate customer model
      *
      * @param string $idFieldName

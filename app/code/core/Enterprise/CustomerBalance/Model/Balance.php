@@ -236,4 +236,38 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
         return $this->getAmount() >=
             ((float)$quote->getBaseGrandTotal() + (float)$quote->getBaseCustomerBalanceAmountUsed());
     }
+
+    /**
+     * Update customers balance currency code
+     *
+     * @param string $currencyCode
+     * @return Enterprise_CustomerBalance_Model_Balance
+     */
+    public function setCustomersBalanceCurrencyTo($currencyCode)
+    {
+        $this->getResource()->setCustomersBalanceCurrencyTo($currencyCode);
+        return $this;
+    }
+
+    /**
+     * Delete customer orphan balances
+     *
+     * @param int $customerId
+     * @return Enterprise_CustomerBalance_Model_Balance
+     */
+    public function deleteBalancesByCustomerId($customerId)
+    {
+        $this->getResource()->deleteBalancesByCustomerId($customerId);
+        return $this;
+    }
+
+    /**
+     * Get customer orphan balances count
+     *
+     * @return Enterprise_CustomerBalance_Model_Balance
+     */
+    public function getOrphanBalancesCount($customerId)
+    {
+        return $this->getResource()->getOrphanBalancesCount($customerId);
+    }
 }

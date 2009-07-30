@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerBalance>
-             <version>0.0.10</version>
+             <version>0.0.11</version>
         </Enterprise_CustomerBalance>
     </modules>
     <global>
@@ -222,6 +222,14 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_order_creditmemo_refund>
+            <website_delete_after>
+                <observers>
+                    <enterprise_customerbalance>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>setCustomersBalanceCurrencyToWebsiteBaseCurrency</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </website_delete_after>
         </events>
         <pdf>
             <totals>
@@ -308,7 +316,7 @@
                     </files>
                 </Enterprise_CustomerBalance>
             </modules>
-        </translate>        
+        </translate>
     </adminhtml>
     <default>
         <customer>
