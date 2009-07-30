@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.5</version>
+             <version>0.1.6</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -66,6 +66,7 @@
             <enterprise_cms_setup>
                 <setup>
                     <module>Enterprise_Cms</module>
+                    <class>Enterprise_Cms_Model_Mysql4_Setup</class>
                 </setup>
             </enterprise_cms_setup>
         </resources>
@@ -215,14 +216,17 @@
             </adminhtml>
         </routers>
     </admin>
-    <default>
-        <cms>
-            <hierarchy>
-                <enabled>1</enabled>
-                <matadata_enabled>1</matadata_enabled>
-            </hierarchy>
-        </cms>
-    </default>
+
+    <frontend>
+        <layout>
+            <updates>
+                <enterprise_cms module="Enterprise_Cms">
+                    <file>enterprise_cms.xml</file>
+                </enterprise_cms>
+            </updates>
+        </layout>
+    </frontend>
+
     <crontab>
         <jobs>
             <enterprise_cms_page_revision_expire>
@@ -231,4 +235,13 @@
             </enterprise_cms_page_revision_expire>
         </jobs>
     </crontab>
+
+    <default>
+        <cms>
+            <hierarchy>
+                <enabled>1</enabled>
+                <matadata_enabled>1</matadata_enabled>
+            </hierarchy>
+        </cms>
+    </default>
 </config>

@@ -61,6 +61,8 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function loadByHierarchy($treeId)
     {
         $this->_getResource()->loadByHierarchy($this, $treeId);
+        $this->_afterLoad();
+        $this->setOrigData();
         return $this;
     }
 
@@ -101,7 +103,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
             $parentNodeId = empty($v['parent_node_id']) ? 0 : $v['parent_node_id'];
             $pageId = empty($v['page_id']) ? null : intval($v['page_id']);
             $nodes[$parentNodeId][$v['node_id']] = array(
-                'node_id'       => null,
+                'node_id'       => strpos($v['node_id'], '_') === 0 ? null : intval($v['node_id']),
                 'page_id'       => $pageId,
                 'tree_id'       => $this->getTreeId(),
                 'label'         => !$pageId ? $v['label'] : null,
@@ -113,7 +115,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         }
 
         $this->_getResource()->removeTreeChilds($this);
-        $this->_collectTree($nodes, $this->getId(), $this->getRequestUrl(), 0);
+        $this->_collectTree($nodes, $this->getId(), $this->getRequestUrl(), $this->getId(), 0);
 
         return $this;
     }
@@ -127,18 +129,19 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      * @param int $level
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */
-    protected function _collectTree(array $nodes, $parentNodeId, $path = '', $level = 0)
+    protected function _collectTree(array $nodes, $parentNodeId, $path = '', $xpath = '', $level = 0)
     {
         foreach ($nodes[$level] as $k => $v) {
             $v['parent_node_id'] = $parentNodeId;
             $v['request_url']    = $path . '/' . $v['request_url'];
+            $v['xpath'] = $xpath . '/';
 
-            // create new node
+            // create new or modify exists node
             $node = Mage::getModel('enterprise_cms/hierarchy_node');
             $node->addData($v)->save();
 
             if (isset($nodes[$k])) {
-                $this->_collectTree($nodes, $node->getId(), $node->getRequestUrl(), $k);
+                $this->_collectTree($nodes, $node->getId(), $node->getRequestUrl(), $node->getXpath(), $k);
             }
         }
         return $this;
@@ -199,6 +202,8 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function loadByRequestUrl($url)
     {
         $this->_getResource()->loadByRequestUrl($this, $url);
+        $this->_afterLoad();
+        $this->setOrigData();
         return $this;
     }
 
@@ -211,6 +216,8 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function loadFirstChildByParent($parentNodeId)
     {
         $this->_getResource()->loadFirstChildByParent($this, $parentNodeId);
+        $this->_afterLoad();
+        $this->setOrigData();
         return $this;
     }
 
@@ -243,5 +250,160 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function checkIdentifier($identifier)
     {
         return $this->_getResource()->checkIdentifier($identifier);
+    }
+
+    /**
+     * Set Node Hierarchy instance
+     *
+     * @param Enterprise_Cms_Model_Hierarchy $object
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function setHierarchy(Enterprise_Cms_Model_Hierarchy $object)
+    {
+        return $this->setData('_hierarchy', $object);
+    }
+
+    /**
+     * Retrieve Node Hierarchy instance
+     *
+     * @return Enterprise_Cms_Model_Hierarchy
+     */
+    public function getHierarchy()
+    {
+        if (!$this->hasData('_hierarchy')) {
+            $hierarchy = Mage::getModel('enterprise_cms/hierarchy');
+            if ($this->getTreeId()) {
+                $hierarchy->load($this->getTreeId());
+            }
+            $this->setData('_hierarchy', $hierarchy);
+        }
+        return $this->_getData('_hierarchy');
+    }
+
+    /**
+     * Retrieve Chapter Node
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function getChapterNode()
+    {
+        return Mage::getModel('enterprise_cms/hierarchy_node')
+            ->loadByNodeType($this, 'chapter');
+    }
+
+    /**
+     * Retrieve Section Node
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function getSectionNode()
+    {
+        return Mage::getModel('enterprise_cms/hierarchy_node')
+            ->loadByNodeType($this, 'section');
+    }
+
+    /**
+     * Retrieve Next Node
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function getNextNode()
+    {
+        return Mage::getModel('enterprise_cms/hierarchy_node')
+            ->loadByNodeType($this, 'next');
+    }
+
+    /**
+     * Retrieve Previous Node
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function getPreviousNode()
+    {
+        return Mage::getModel('enterprise_cms/hierarchy_node')
+            ->loadByNodeType($this, 'previous');
+    }
+
+    /**
+     * Retrieve First Node in current level
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function getFirstNode()
+    {
+        return Mage::getModel('enterprise_cms/hierarchy_node')
+            ->loadByNodeType($this, 'first');
+    }
+
+    /**
+     * Retrieve Last Node in current level
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function getLastNode()
+    {
+        return Mage::getModel('enterprise_cms/hierarchy_node')
+            ->loadByNodeType($this, 'last');
+    }
+
+    /**
+     * Load Node by Parent node and Type
+     * Allowed types:
+     *  - chapter       parent node chapter
+     *  - section       parent node section
+     *  - first         first node in current parent node level
+     *  - last          last node in current parent node level
+     *  - next          next node (only in current parent node level)
+     *  - previous      previous node (only in current parent node level)
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $node The parent node
+     * @param string $type
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function loadByNodeType(Enterprise_Cms_Model_Hierarchy_Node $node, $type)
+    {
+        if (!$node->getId()) {
+            return $this;
+        }
+        $this->_getResource()->loadByNodeType($this, $node, $type);
+        $this->_afterLoad();
+        $this->setOrigData();
+        return $this;
+    }
+
+    /**
+     * Retrieve Page URL
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getUrl($store = null)
+    {
+        return Mage::app()->getStore($store)->getUrl('', array(
+            '_direct' => $this->getRequestUrl()
+        ));
+    }
+
+    /**
+     * Retrieve Tree Slice
+     * 2 level array
+     *
+     * @param int $up
+     * @param int $down
+     * @return array
+     */
+    public function getTreeSlice($up = 0, $down = 0)
+    {
+        return $this->_getResource()->getTreeSlice($this, $up, $down);
+    }
+
+    /**
+     * Retrieve Parent node children
+     *
+     * @return array
+     */
+    public function getParentNodeChildren()
+    {
+        return $this->_getResource()->getParentNodeChildren($this);
     }
 }

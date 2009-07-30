@@ -34,6 +34,13 @@
 class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
+     * Primary key auto increment flag
+     *
+     * @var bool
+     */
+    protected $_isPkAutoIncrement = false;
+
+    /**
      * Initialize connection and define main table and field
      *
      */
@@ -183,15 +190,17 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      */
     public function getTreeIdsByPage($pageId)
     {
+        $treeIds = array();
         $select = $this->_getReadAdapter()->select()
             ->distinct(true)
             ->from($this->getMainTable(), 'tree_id')
             ->where('page_id=?', $pageId);
-        $rowset = $this->_getReadAdapter()->fetchAll();
+        $rowset = $this->_getReadAdapter()->fetchAll($select);
         $treeIds = array();
         foreach ($rowset as $row) {
             $treeIds[$row['tree_id']] = $row['tree_id'];
         }
+        return $treeIds;
     }
 
     /**
@@ -221,6 +230,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                 ))
             ->where('tree_id=?', $treeId)
             ->order(array('level', 'sort_order'));
+
         $nodes  = array();
         $rowSet = $select->query()->fetchAll();
         foreach ($rowSet as $row) {
@@ -280,6 +290,220 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                 array())
             ->where('page_table.identifier=?', $identifier);
         return $this->_getReadAdapter()->fetchOne($select) > 0;
+    }
 
+    /**
+     * Prepare xpath after object save
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $object
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        if ($object->dataHasChangedFor($this->getIdFieldName())) {
+            // update xpath
+            $xpath = $object->getXpath() . $object->getId();
+            $bind = array('xpath' => $xpath);
+            $where = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $object->getId());
+            $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
+            $object->setXpath($xpath);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Load Node by Parent node and Type
+     * Allowed types:
+     *  - chapter       parent node chapter
+     *  - section       parent node section
+     *  - first         first node in current parent node level
+     *  - last          last node in current parent node level
+     *  - next          next node (only in current parent node level)
+     *  - previous      previous node (only in current parent node level)
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $node
+     * @param Enterprise_Cms_Model_Hierarchy_Node $node The parent node
+     * @param string $type
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function loadByNodeType($object, $node, $type)
+    {
+        if (!$object->getParentNode()) {
+            return $this;
+        }
+        $read = $this->_getReadAdapter();
+        if ($read) {
+            $select = $this->_getLoadSelect('tree_id', $node->getTreeId(), $object);
+            $found  = false;
+            switch ($type) {
+                case 'chapter':
+                    $xpath = split('/', $node->getXpath());
+                    if (isset($xpath[1]) && $xpath[1] != $node->getId()) {
+                        $found = true;
+                        $select->where($this->getMainTable() . '.node_id=?', $xpath[1]);
+                    }
+                    break;
+
+                case 'section':
+                    $xpath = split('/', $node->getXpath());
+                    if (isset($xpath[2]) && $xpath[2] != $node->getId()) {
+                        $found = true;
+                        $select->where($this->getMainTable() . '.node_id=?', $xpath[2]);
+                    }
+                    break;
+
+                case 'first':
+                    $found = true;
+                    $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
+                    $select->order($this->getMainTable() . '.sort_order ASC');
+                    $select->limit(1);
+                    break;
+
+                case 'last':
+                    $found = true;
+                    $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
+                    $select->order($this->getMainTable() . '.sort_order DESC');
+                    $select->limit(1);
+                    break;
+
+                case 'previous':
+                    if ($node->getSortOrder() > 0) {
+                        $found = true;
+                        $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
+                        $select->where($this->getMainTable() . '.sort_order<?', $node->getSortOrder());
+                        $select->order($this->getMainTable() . '.sort_order DESC');
+                        $select->limit(1);
+                    }
+                    break;
+
+                case 'next':
+                    $found = true;
+                    $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
+                    $select->where($this->getMainTable() . '.sort_order>?', $node->getSortOrder());
+                    $select->order($this->getMainTable() . '.sort_order ASC');
+                    $select->limit(1);
+                    break;
+            }
+
+            if (!$found) {
+                return $this;
+            }
+
+            $data = $read->fetchRow($select);
+
+            if ($data) {
+                $object->setData($data);
+            }
+        }
+
+        $this->_afterLoad($object);
+        return $this;
+    }
+
+    /**
+     * Retrieve Tree Slice
+     * 2 level array
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $object
+     * @param int $up
+     * @param int $down
+     * @return array
+     */
+    public function getTreeSlice($object, $up = 0, $down = 0)
+    {
+        $tree       = array();
+        $parentId   = $object->getParentNodeId();
+        if ($up > 0 && $object->getLevel() > 1) {
+            $xpath = split('/', $object->getXpath());
+            array_pop($xpath); //remove self node
+            array_pop($xpath); //remove parent node
+            $parentIds = array();
+            while (count($xpath) > 0) {
+                if ($up == 0) {
+                    break;
+                }
+                $parentIds[] = array_pop($xpath);
+                $up --;
+            }
+
+            if ($parentIds) {
+                $parentId = $parentIds[count($parentIds) -1];
+                $select = $this->_getLoadSelect('tree_id', $object->getTreeId(), $object)
+                    ->where('parent_node_id IN(?)', $parentIds)
+                    ->order(array('level', 'sort_order'));
+                $tree = $this->_createNodesFromSelect($select, $parentId, $tree);
+            }
+        }
+
+        if ($object->getParentNodeId() === null) {
+            $where = 'parent_node_id IS NULL';
+        } else {
+            $where = $this->_getReadAdapter()->quoteInto('parent_node_id=?', $object->getParentNodeId());
+        }
+        if ($down > 0) {
+            $xpath = $object->getXpath() . '/%';
+            $level = $object->getLevel() + $down + 1;
+            $where .= ' OR (' . $this->_getReadAdapter()->quoteInto('xpath LIKE ?', $xpath)
+                . ' AND ' . $this->_getReadAdapter()->quoteInto('level < ?', $level) . ')';
+        }
+
+        $select = $this->_getLoadSelect('tree_id', $object->getTreeId(), $object)
+            ->where($where)
+            ->order(array('level', 'sort_order'));
+
+        $tree = $this->_createNodesFromSelect($select, $parentId, $tree);
+
+        return $tree;
+    }
+
+    /**
+     * Create Node objects from select
+     *
+     * @see getTreeSlice
+     * @param Varien_Db_Select $select
+     * @param int $startNodeId
+     * @param array $tree
+     * @return array
+     */
+    protected function _createNodesFromSelect($select, $startNodeId, array $tree = array())
+    {
+        $nodes = $select->query()->fetchAll();
+        foreach ($nodes as $row) {
+            $parentNodeId = $row['parent_node_id'] == $startNodeId ? 0 : $row['parent_node_id'];
+            $node = Mage::getModel('enterprise_cms/hierarchy_node')
+                ->addData($row);
+            $tree[$parentNodeId][$node->getId()] = $node;
+        }
+
+        return $tree;
+    }
+
+    /**
+     * Retrieve Parent node children
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $object
+     * @return array
+     */
+    public function getParentNodeChildren($object)
+    {
+        $children = array();
+        if ($object->getParentNodeId() === null) {
+            $where = 'parent_node_id IS NULL';
+        } else {
+            $where = $this->_getReadAdapter()->quoteInto('parent_node_id=?', $object->getParentNodeId());
+        }
+        $select = $this->_getLoadSelect('tree_id', $object->getTreeId(), $object)
+            ->where($where)
+            ->order('sort_order');
+        $nodes = $select->query()->fetchAll();
+        foreach ($nodes as $k => $row) {
+            $node = Mage::getModel('enterprise_cms/hierarchy_node')
+                ->addData($row);
+            $children[] = $node;
+            unset($nodes[$k]);
+        }
+
+        return $children;
     }
 }

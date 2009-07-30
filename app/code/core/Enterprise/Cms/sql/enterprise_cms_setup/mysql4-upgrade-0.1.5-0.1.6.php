@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -21,19 +20,16 @@
  *
  * @category   Enterprise
  * @package    Enterprise_Cms
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
--->
-<config>
-    <modules>
-        <Enterprise_Cms>
-            <active>true</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Adminhtml />
-                <Mage_Cms />
-            </depends>
-        </Enterprise_Cms>
-    </modules>
-</config>
+
+
+/* @var $installer Enterprise_Cms_Model_Mysql4_Setup */
+$installer = $this;
+
+$installer->startSetup();
+$installer->getConnection()->addColumn($installer->getTable('enterprise_cms/hierarchy_node'),
+    'xpath', 'varchar(255) DEFAULT \'\'');
+$installer->fixXpathForHierarchyNode();
+$installer->endSetup();

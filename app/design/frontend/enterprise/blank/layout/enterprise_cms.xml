@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
  * Magento Enterprise Edition
@@ -19,21 +19,17 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Enterprise
- * @package    Enterprise_Cms
+ * @category   design
+ * @package    enterprise_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
+
 -->
-<config>
-    <modules>
-        <Enterprise_Cms>
-            <active>true</active>
-            <codePool>core</codePool>
-            <depends>
-                <Mage_Adminhtml />
-                <Mage_Cms />
-            </depends>
-        </Enterprise_Cms>
-    </modules>
-</config>
+<layout version="0.1.0">
+    <cms_page>
+        <reference name="head">
+            <block type="enterprise_cms/hierarchy_head" name="enterprise_cms_hierarchy_head"></block>
+        </reference>
+    </cms_page>
+</layout>

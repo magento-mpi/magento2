@@ -1,0 +1,87 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+
+/**
+ * Cms Hierarchy Head Block
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ */
+class Enterprise_Cms_Block_Hierarchy_Head extends Mage_Core_Block_Abstract
+{
+    /**
+     * Prepare Global Layout
+     *
+     * @return Enterprise_Cms_Block_Hieararchy_Head
+     */
+    protected function _prepareLayout()
+    {
+        /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
+        $node      = Mage::registry('current_cms_hierarchy_node');
+        /* @var $hierarchy Enterprise_Cms_Model_Hierarchy */
+        $hierarchy = Mage::registry('current_cms_hierarchy');
+        /* @var $head Mage_Page_Block_Html_Head */
+        $head      = $this->getLayout()->getBlock('head');
+
+        if ($node && $hierarchy && $head) {
+            if ($hierarchy->getMetaChapter()) {
+                $chapter = $node->getChapterNode();
+                if ($chapter->getId()) {
+                    $head->addLinkRel('chapter', $chapter->getUrl());
+                }
+            }
+            if ($hierarchy->getMetaSection()) {
+                $section = $node->getSectionNode();
+                if ($section->getId()) {
+                    $head->addLinkRel('section', $section->getUrl());
+                }
+            }
+            if ($hierarchy->getMetaNextPrevious()) {
+                $next     = $node->getNextNode();
+                $previous = $node->getPreviousNode();
+                if ($next->getId()) {
+                    $head->addLinkRel('next', $next->getUrl());
+                }
+                if ($previous->getId()) {
+                    $head->addLinkRel('previous', $previous->getUrl());
+                }
+            }
+            if ($hierarchy->getMetaFirstLast()) {
+                $first = $node->getFirstNode();
+                $last  = $node->getLastNode();
+                if ($first->getId()) {
+                    $head->addLinkRel('first', $first->getUrl());
+                }
+                if ($last->getId()) {
+                    $head->addLinkRel('last', $last->getUrl());
+                }
+            }
+        }
+
+        return parent::_prepareLayout();
+    }
+}
