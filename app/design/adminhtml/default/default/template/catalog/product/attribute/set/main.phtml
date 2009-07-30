@@ -300,6 +300,9 @@
                                     allowDrag : true
                                 });
                             TreePanels.root.appendChild(newNode);
+                            newNode.addListener('beforemove', editSet.groupBeforeMove);
+                            newNode.addListener('beforeinsert', editSet.groupBeforeInsert);
+                            newNode.addListener('beforeappend', editSet.groupBeforeInsert);
                             newNode.addListener('click', editSet.register);
                         }
                     },
