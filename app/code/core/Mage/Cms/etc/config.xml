@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Cms>
-            <version>0.7.8</version>
+            <version>0.7.9</version>
         </Mage_Cms>
     </modules>
     <frontend>
@@ -206,6 +206,9 @@
                     <block_store>
                         <table>cms_block_store</table>
                     </block_store>
+                    <widget>
+                        <table>cms_widget</table>
+                    </widget>
                 </entities>
             </cms_mysql4>
         </models>

@@ -43,10 +43,6 @@ class Mage_Cms_Model_Template_Filter extends Mage_Core_Model_Email_Template_Filt
     public function widgetDirective($construction)
     {
         $params = $this->_getIncludeParameters($construction[2]);
-        // validate required parameter type
-        if (empty($params['type'])) {
-            return '';
-        }
 
         // Determine what name block should have in layout
         $name = null;
@@ -54,8 +50,20 @@ class Mage_Cms_Model_Template_Filter extends Mage_Core_Model_Email_Template_Filt
             $name = $params['name'];
         }
 
+        // validate required parameter type or id
+        if (!empty($params['type'])) {
+            $type = $params['type'];
+        } elseif (!empty($params['id'])) {
+            $preconfigured = Mage::getResourceSingleton('cms/widget')
+                ->loadPreconfiguredWidget($params['id']);
+            $type = $preconfigured['type'];
+            $params = $preconfigured['parameters'];
+        } else {
+            return '';
+        }
+
         // define widget block and check the type is instance of Widget Interface
-        $widget = Mage::app()->getLayout()->createBlock($params['type'], $name);
+        $widget = Mage::app()->getLayout()->createBlock($type, $name);
         if (!$widget instanceof Mage_Cms_Block_Widget_Interface) {
             return '';
         }

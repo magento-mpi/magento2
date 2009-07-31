@@ -28,18 +28,18 @@
 <config>
     <widgets>
     <!--
-        <example translate="name description">
+        <example translate="name description"> limited to 255 chars
             <name>Example</name>
             <description>Example</description>
-            <type>namespace_module/factory_block_classname</type>
+            <type>namespace_module/block_classname</type>
             <parameters>
                 <columns translate="label">
                     <required />
                     <visible />
                     <values />
-                    <value>10</value>
-                    <label></label>
-                    <type>text</type>
+                    <value />
+                    <label />
+                    <type />
                 </columns>
             </parameters>
         </example>
