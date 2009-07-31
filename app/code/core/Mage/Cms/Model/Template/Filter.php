@@ -48,8 +48,14 @@ class Mage_Cms_Model_Template_Filter extends Mage_Core_Model_Email_Template_Filt
             return '';
         }
 
+        // Determine what name block should have in layout
+        $name = null;
+        if (isset($params['name'])) {
+            $name = $params['name'];
+        }
+
         // define widget block and check the type is instance of Widget Interface
-        $widget = Mage::app()->getLayout()->createBlock($params['type']);
+        $widget = Mage::app()->getLayout()->createBlock($params['type'], $name);
         if (!$widget instanceof Mage_Cms_Block_Widget_Interface) {
             return '';
         }

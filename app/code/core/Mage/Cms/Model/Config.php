@@ -39,6 +39,13 @@ class Mage_Cms_Model_Config
     protected $_pageStatuses;
 
     /**
+     * Cms widgets installed in system.
+     *
+     * @var Varien_Simplexml_Element
+     */
+    protected $_widgets;
+
+    /**
      * Retrieve page statuses from config
      *
      * @return array
@@ -58,5 +65,35 @@ class Mage_Cms_Model_Config
         }
 
         return $this->_pageStatuses;
+    }
+
+    /**
+     * Retrieve widget by code
+     *
+     * @param string $code
+     * @return Varien_Simplexml_Element
+     */
+    public function getWidget($code)
+    {
+        if ($code) {
+            return $this->getWidgets()->$code;
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrieve widgets declared in system.
+     *
+     * @return Varien_Simplexml_Element
+     */
+    public function getWidgets()
+    {
+        if (!$this->_widgets) {
+            $config = Mage::getConfig()->loadModulesConfiguration('widgets.xml');
+            $this->_widgets = $config->getNode('widgets');
+        }
+
+        return $this->_widgets;
     }
 }

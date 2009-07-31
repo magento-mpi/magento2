@@ -34,4 +34,47 @@
  */
 interface Mage_Cms_Block_Widget_Interface
 {
+    /**
+     * Produce and return widget's html output
+     *
+     * @return string
+     */
+    public function toHtml();
+
+    /**
+     * Add data to the widget.
+     * Retains previous data in the widget.
+     *
+     * @param array $arr
+     * @return Mage_Cms_Block_Widget_Interface
+     */
+    public function addData(array $arr);
+
+    /**
+     * Overwrite data in the widget.
+     *
+     * $key can be string or array.
+     * If $key is string, the attribute value will be overwritten by $value.
+     * If $key is an array, it will overwrite all the data in the widget.
+     *
+     * @param string|array $key
+     * @param mixed $value
+     * @return Varien_Object
+     */
+    public function setData($key, $value = null);
+
+    /**
+     * Retrieve data from the widget.
+     *
+     * If $key is empty will return all the data as an array
+     * Otherwise it will return value of the attribute specified by $key
+     *
+     * If $index is specified it will assume that attribute data is an array
+     * and retrieve corresponding member.
+     *
+     * @param string $key
+     * @param string|int $index
+     * @return mixed
+     */
+    public function getData($key = '', $index = null);
 }
