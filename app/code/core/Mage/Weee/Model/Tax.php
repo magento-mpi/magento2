@@ -87,14 +87,20 @@ class Mage_Weee_Model_Tax extends Mage_Core_Model_Abstract
         $websiteId = Mage::app()->getWebsite($website)->getId();
         $store = Mage::app()->getWebsite($website)->getDefaultGroup()->getDefaultStore();
 
+        $customer = null;
         if ($shipping) {
             $customerTaxClass = $shipping->getQuote()->getCustomerTaxClassId();
+            $customer = $shipping->getQuote()->getCustomer();
         } else {
             $customerTaxClass = null;
         }
 
-        $rateRequest = Mage::getModel('tax/calculation')->getRateRequest($shipping, $billing, $customerTaxClass, $store);
-        $defaultRateRequest = Mage::getModel('tax/calculation')->getRateRequest(false, false, false, $store);
+        $calculator = Mage::getModel('tax/calculation');
+        if ($customer) {
+            $calculator->setCustomer($customer);
+        }
+        $rateRequest = $calculator->getRateRequest($shipping, $billing, $customerTaxClass, $store);
+        $defaultRateRequest = $calculator->getRateRequest(false, false, false, $store);
 
         $discountPercent = 0;
         if (!$ignoreDiscount && Mage::helper('weee')->isDiscounted($store)) {

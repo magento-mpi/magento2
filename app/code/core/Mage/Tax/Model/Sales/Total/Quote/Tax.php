@@ -74,6 +74,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
     {
         parent::collect($address);
         $store = $address->getQuote()->getStore();
+        $customer = $address->getQuote()->getCustomer();
+        if ($customer) {
+            $this->_calculator->setCustomer($customer);
+        }
 
         if (!$address->getAppliedTaxesReset()) {
             $address->setAppliedTaxes(array());
