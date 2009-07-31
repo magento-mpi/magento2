@@ -104,8 +104,8 @@ class Mage_CatalogSearch_Model_Fulltext extends Mage_Core_Model_Abstract
             $query = Mage::helper('catalogsearch')->getQuery();
         }
         $queryText = Mage::helper('catalogsearch')->getQueryText();
-        if ($query->getSynonymFor()) {
-            $queryText = $query->getSynonymFor();
+        if ($query->getSynonimFor()) {
+            $queryText = $query->getSynonimFor();
         }
         $this->getResource()->prepareResult($this, $queryText, $query);
         return $this;

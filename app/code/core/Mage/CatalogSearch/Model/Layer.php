@@ -56,7 +56,7 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     public function prepareProductCollection($collection)
     {
         $collection->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
-            ->addSearchFilter(Mage::helper('catalogsearch')->getEscapedQueryText())
+            ->addSearchFilter(Mage::helper('catalogsearch')->getQueryText())
             ->setStore(Mage::app()->getStore())
             ->addMinimalPrice()
             ->addFinalPrice()
