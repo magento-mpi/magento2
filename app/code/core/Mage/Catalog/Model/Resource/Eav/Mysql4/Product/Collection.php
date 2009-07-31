@@ -1041,7 +1041,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 
         $this->_allIdsCache = null;
         if (is_string($attribute) && $attribute == 'is_saleable') {
-            return $this->getSelect()->where($this->_getConditionSql('(IF(manage_stock, is_in_stock, 1))', $condition));
+            $this->getSelect()->where($this->_getConditionSql('(IF(manage_stock, is_in_stock, 1))', $condition));
+            return $this;
         }
         else {
             return parent::addAttributeToFilter($attribute, $condition, $joinType);
