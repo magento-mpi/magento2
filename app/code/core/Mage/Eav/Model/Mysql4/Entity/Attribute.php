@@ -171,11 +171,6 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $object->setFrontendLabel($frontendLabel[0]);
             $object->setStoreLabels($frontendLabel);
         }
-        $applyTo = $object->getApplyTo();
-
-        if (is_array($applyTo)) {
-            $object->setApplyTo(implode(',', $applyTo));
-        }
 
         /**
          * @todo need use default source model of entity type !!!
