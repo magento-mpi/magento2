@@ -20,13 +20,13 @@
  * @version    $Id: Manifest.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
-#require_once 'Zend/Tool/Framework/Manifest/ProviderManifestable.php';
-#require_once 'Zend/Tool/Framework/Manifest/ActionManifestable.php';
-#require_once 'Zend/Tool/Framework/System/Provider/Version.php';
-#require_once 'Zend/Tool/Framework/System/Provider/Phpinfo.php';
-#require_once 'Zend/Tool/Framework/System/Provider/Manifest.php';
-#require_once 'Zend/Tool/Framework/System/Action/Create.php';
-#require_once 'Zend/Tool/Framework/System/Action/Delete.php';
+require_once 'Zend/Tool/Framework/Manifest/ProviderManifestable.php';
+require_once 'Zend/Tool/Framework/Manifest/ActionManifestable.php';
+require_once 'Zend/Tool/Framework/System/Provider/Version.php';
+require_once 'Zend/Tool/Framework/System/Provider/Phpinfo.php';
+require_once 'Zend/Tool/Framework/System/Provider/Manifest.php';
+require_once 'Zend/Tool/Framework/System/Action/Create.php';
+require_once 'Zend/Tool/Framework/System/Action/Delete.php';
 
 /**
  * @category   Zend

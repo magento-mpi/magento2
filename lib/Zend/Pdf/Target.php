@@ -21,7 +21,7 @@
  */
 
 /** Zend_Pdf_ElementFactory */
-#require_once 'Zend/Pdf/ElementFactory.php';
+require_once 'Zend/Pdf/ElementFactory.php';
 
 
 /**
@@ -51,7 +51,7 @@ abstract class Zend_Pdf_Target
             // Resource is an array, just treat it as an explicit destination array
             return Zend_Pdf_Destination::load($resource);
         } else {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception( 'Wrong resource type.' );
         }
     }

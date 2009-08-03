@@ -20,7 +20,7 @@
  * @version    $Id: Securitygroups.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
-#require_once 'Zend/Service/Amazon/Ec2/Abstract.php';
+require_once 'Zend/Service/Amazon/Ec2/Abstract.php';
 
 /**
  * An Amazon EC2 interface to create, delete, describe, grand and revoke sercurity permissions.

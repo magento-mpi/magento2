@@ -22,7 +22,7 @@
 
 
 /** Zend_Search_Lucene_Analysis_Analyzer */
-#require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
+require_once 'Zend/Search/Lucene/Analysis/Analyzer.php';
 
 
 /**

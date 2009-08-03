@@ -21,7 +21,7 @@
  */
 
 /** Zend_Pdf_Annotation */
-#require_once 'Zend/Pdf/Annotation.php';
+require_once 'Zend/Pdf/Annotation.php';
 
 
 /**
@@ -43,14 +43,14 @@ class Zend_Pdf_Annotation_FileAttachment extends Zend_Pdf_Annotation
     public function __construct(Zend_Pdf_Element $annotationDictionary)
     {
         if ($annotationDictionary->getType() != Zend_Pdf_Element::TYPE_DICTIONARY) {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Annotation dictionary resource has to be a dictionary.');
         }
 
         if ($annotationDictionary->Subtype === null  ||
             $annotationDictionary->Subtype->getType() != Zend_Pdf_Element::TYPE_NAME  ||
             $annotationDictionary->Subtype->value != 'FileAttachment') {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Subtype => FileAttachment entry is requires');
         }
 

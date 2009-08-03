@@ -21,7 +21,7 @@
  */
 
 /** Zend_Pdf_Destination */
-#require_once 'Zend/Pdf/Destination.php';
+require_once 'Zend/Pdf/Destination.php';
 
 
 /**
@@ -56,7 +56,7 @@ class Zend_Pdf_Destination_Named extends Zend_Pdf_Destination
     public function __construct(Zend_Pdf_Element $resource)
     {
         if ($resource->getType() != Zend_Pdf_Element::TYPE_NAME  &&  $resource->getType() != Zend_Pdf_Element::TYPE_STRING) {
-            #require_once 'Zend/Pdf/Exception.php';
+            require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception('Named destination resource must be a PDF name or a PDF string.');
         }
 

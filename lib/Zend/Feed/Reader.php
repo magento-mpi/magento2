@@ -22,17 +22,17 @@
 /**
  * @see Zend_Feed
  */
-#require_once 'Zend/Feed.php';
+require_once 'Zend/Feed.php';
 
 /**
  * @see Zend_Feed_Reader_Feed_Rss
  */
-#require_once 'Zend/Feed/Reader/Feed/Rss.php';
+require_once 'Zend/Feed/Reader/Feed/Rss.php';
 
 /**
  * @see Zend_Feed_Reader_Feed_Atom
  */
-#require_once 'Zend/Feed/Reader/Feed/Atom.php';
+require_once 'Zend/Feed/Reader/Feed/Atom.php';
 
 /**
  * @category   Zend
@@ -161,7 +161,7 @@ class Zend_Feed_Reader
             /**
              * @see Zend_Http_Client
              */
-            #require_once 'Zend/Http/Client.php';
+            require_once 'Zend/Http/Client.php';
             self::$_httpClient = new Zend_Http_Client();
         }
 
@@ -245,7 +245,7 @@ class Zend_Feed_Reader
             }
             $response = $client->request('GET');
             if ($response->getStatus() !== 200 || $response->getStatus() !== 304) {
-                #require_once 'Zend/Feed/Exception.php';
+                require_once 'Zend/Feed/Exception.php';
                 throw new Zend_Feed_Exception('Feed failed to load, got response code ' . $response->getStatus());
             }
             if ($response->getStatus() == 304) {
@@ -268,7 +268,7 @@ class Zend_Feed_Reader
             }
             $response = $client->request('GET');
             if ($response->getStatus() !== 200) {
-                #require_once 'Zend/Feed/Exception.php';
+                require_once 'Zend/Feed/Exception.php';
                 throw new Zend_Feed_Exception('Feed failed to load, got response code ' . $response->getStatus());
             }
             $responseXml = $response->getBody();
@@ -277,7 +277,7 @@ class Zend_Feed_Reader
         } else {
             $response = $client->request('GET');
             if ($response->getStatus() !== 200) {
-                #require_once 'Zend/Feed/Exception.php';
+                require_once 'Zend/Feed/Exception.php';
                 throw new Zend_Feed_Exception('Feed failed to load, got response code ' . $response->getStatus());
             }
             return self::importString($response->getBody());
@@ -326,7 +326,7 @@ class Zend_Feed_Reader
             	$errormsg = "DOMDocument cannot parse XML: Please check the XML document's validity";
             }
 
-            #require_once 'Zend/Feed/Exception.php';
+            require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception($errormsg);
         }
 
@@ -358,7 +358,7 @@ class Zend_Feed_Reader
             /**
              * @see Zend_Feed_Exception
              */
-            #require_once 'Zend/Feed/Exception.php';
+            require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception("File could not be loaded: $php_errormsg");
         }
         return self::importString($feed);
@@ -374,7 +374,7 @@ class Zend_Feed_Reader
             /**
              * @see Zend_Feed_Exception
              */
-            #require_once 'Zend/Feed/Exception.php';
+            require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception("Failed to access $uri, got response code " . $response->getStatus());
         }
         $responseHtml = $response->getBody();
@@ -390,7 +390,7 @@ class Zend_Feed_Reader
                     $php_errormsg = '(error message not available)';
                 }
             }
-            #require_once 'Zend/Feed/Exception.php';
+            require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception("DOMDocument cannot parse XML: $php_errormsg");
         }
         $feedLinks = new stdClass;
@@ -439,11 +439,11 @@ class Zend_Feed_Reader
                         $php_errormsg = '(error message not available)';
                     }
                 }
-                #require_once 'Zend/Feed/Exception.php';
+                require_once 'Zend/Feed/Exception.php';
                 throw new Zend_Feed_Exception("DOMDocument cannot parse XML: $php_errormsg");
             }
         } else {
-            #require_once 'Zend/Feed/Exception.php';
+            require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Invalid object/scalar provided: must be of type Zend_Feed_Reader_FeedInterface, DomDocument or string');
         }
         $xpath = new DOMXPath($dom);
@@ -537,7 +537,7 @@ class Zend_Feed_Reader
     public static function getPluginLoader()
     {
         if (!isset(self::$_pluginLoader)) {
-            #require_once 'Zend/Loader/PluginLoader.php';
+            require_once 'Zend/Loader/PluginLoader.php';
             self::$_pluginLoader = new Zend_Loader_PluginLoader(array(
                 'Zend_Feed_Reader_Extension_' => 'Zend/Feed/Reader/Extension/',
             ));
@@ -607,7 +607,7 @@ class Zend_Feed_Reader
         if (!self::getPluginLoader()->isLoaded($feedName)
             && !self::getPluginLoader()->isLoaded($entryName)
         ) {
-            #require_once 'Zend/Feed/Exception.php';
+            require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Could not load extension: ' . $name
                 . 'using Plugin Loader. Check prefix paths are configured and extension exists.');
         }

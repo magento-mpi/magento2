@@ -24,25 +24,25 @@
 /**
  * @see Zend_Loader
  */
-#require_once 'Zend/Loader.php';
+require_once 'Zend/Loader.php';
 
 
 /**
  * @see Zend_Uri
  */
-#require_once 'Zend/Uri.php';
+require_once 'Zend/Uri.php';
 
 
 /**
  * @see Zend_Http_Client_Adapter_Interface
  */
-#require_once 'Zend/Http/Client/Adapter/Interface.php';
+require_once 'Zend/Http/Client/Adapter/Interface.php';
 
 
 /**
  * @see Zend_Http_Response
  */
-#require_once 'Zend/Http/Response.php';
+require_once 'Zend/Http/Response.php';
 
 /**
  * Zend_Http_Client is an implemetation of an HTTP client in PHP. The client
@@ -263,7 +263,7 @@ class Zend_Http_Client
 
         if (!$uri instanceof Zend_Uri_Http) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('Passed parameter is not a valid HTTP URI.');
         }
 
@@ -306,7 +306,7 @@ class Zend_Http_Client
 
         } elseif (! is_array($config)) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('Array or Zend_Config object expected, got ' . gettype($config));
         }
 
@@ -337,7 +337,7 @@ class Zend_Http_Client
     {
         if (! preg_match('/^[^\x00-\x1f\x7f-\xff\(\)<>@,;:\\\\"\/\[\]\?={}\s]+$/', $method)) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception("'{$method}' is not a valid HTTP request method.");
         }
 
@@ -389,7 +389,7 @@ class Zend_Http_Client
             // Make sure the name is valid if we are in strict mode
             if ($this->config['strict'] && (! preg_match('/^[a-zA-Z0-9-]+$/', $name))) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("{$name} is not a valid HTTP header name");
             }
 
@@ -541,7 +541,7 @@ class Zend_Http_Client
             // Check we got a proper authentication type
             if (! defined('self::AUTH_' . strtoupper($type))) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Invalid or not supported authentication type: '$type'");
             }
 
@@ -568,7 +568,7 @@ class Zend_Http_Client
     public function setCookieJar($cookiejar = true)
     {
         if (! class_exists('Zend_Http_CookieJar')) {
-            #require_once 'Zend/Http/CookieJar.php';
+            require_once 'Zend/Http/CookieJar.php';
         }
 
         if ($cookiejar instanceof Zend_Http_CookieJar) {
@@ -579,7 +579,7 @@ class Zend_Http_Client
             $this->cookiejar = null;
         } else {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('Invalid parameter type passed as CookieJar');
         }
 
@@ -608,7 +608,7 @@ class Zend_Http_Client
     public function setCookie($cookie, $value = null)
     {
         if (! class_exists('Zend_Http_Cookie')) {
-            #require_once 'Zend/Http/Cookie.php';
+            require_once 'Zend/Http/Cookie.php';
         }
 
         if (is_array($cookie)) {
@@ -643,7 +643,7 @@ class Zend_Http_Client
 
             if (preg_match("/[=,; \t\r\n\013\014]/", $cookie)) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Cookie name cannot contain these characters: =,; \t\r\n\013\014 ({$cookie})");
             }
 
@@ -683,7 +683,7 @@ class Zend_Http_Client
         if ($data === null) {
             if (($data = @file_get_contents($filename)) === false) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Unable to read file '{$filename}' for upload");
             }
 
@@ -803,11 +803,11 @@ class Zend_Http_Client
         if (is_string($adapter)) {
             if (!class_exists($adapter)) {
                 try {
-                    #require_once 'Zend/Loader.php';
+                    require_once 'Zend/Loader.php';
                     Zend_Loader::loadClass($adapter);
                 } catch (Zend_Exception $e) {
                     /** @see Zend_Http_Client_Exception */
-                    #require_once 'Zend/Http/Client/Exception.php';
+                    require_once 'Zend/Http/Client/Exception.php';
                     throw new Zend_Http_Client_Exception("Unable to load adapter '$adapter': {$e->getMessage()}");
                 }
             }
@@ -817,7 +817,7 @@ class Zend_Http_Client
 
         if (! $adapter instanceof Zend_Http_Client_Adapter_Interface) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('Passed adapter is not a HTTP connection adapter');
         }
 
@@ -838,7 +838,7 @@ class Zend_Http_Client
     {
         if (! $this->uri instanceof Zend_Uri_Http) {
             /** @see Zend_Http_Client_Exception */
-            #require_once 'Zend/Http/Client/Exception.php';
+            require_once 'Zend/Http/Client/Exception.php';
             throw new Zend_Http_Client_Exception('No valid URI has been passed to the client');
         }
 
@@ -880,7 +880,7 @@ class Zend_Http_Client
             $response = $this->adapter->read();
             if (! $response) {
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception('Unable to read response, or response is empty');
             }
 
@@ -1100,7 +1100,7 @@ class Zend_Http_Client
                     }
 
                     /** @see Zend_Http_Client_Exception */
-                    #require_once 'Zend/Http/Client/Exception.php';
+                    require_once 'Zend/Http/Client/Exception.php';
                     throw new Zend_Http_Client_Exception("Cannot handle content type '{$this->enctype}' automatically." .
                         " Please use Zend_Http_Client::setRawData to send this kind of content.");
                     break;
@@ -1261,7 +1261,7 @@ class Zend_Http_Client
                 // In basic authentication, the user name cannot contain ":"
                 if (strpos($user, ':') !== false) {
                     /** @see Zend_Http_Client_Exception */
-                    #require_once 'Zend/Http/Client/Exception.php';
+                    require_once 'Zend/Http/Client/Exception.php';
                     throw new Zend_Http_Client_Exception("The user name cannot contain ':' in 'Basic' HTTP authentication");
                 }
 
@@ -1276,7 +1276,7 @@ class Zend_Http_Client
 
             default:
                 /** @see Zend_Http_Client_Exception */
-                #require_once 'Zend/Http/Client/Exception.php';
+                require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Not a supported HTTP authentication type: '$type'");
         }
 

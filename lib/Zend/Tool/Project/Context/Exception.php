@@ -19,7 +19,7 @@
  * @version    $Id: Exception.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
-#require_once 'Zend/Tool/Project/Exception.php';
+require_once 'Zend/Tool/Project/Exception.php';
 
 /**
  * @category   Zend

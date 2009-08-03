@@ -21,7 +21,7 @@
 
 
 /** Zend_Pdf_Element_Dictionary */
-#require_once 'Zend/Pdf/Element/Dictionary.php';
+require_once 'Zend/Pdf/Element/Dictionary.php';
 
 
 /**

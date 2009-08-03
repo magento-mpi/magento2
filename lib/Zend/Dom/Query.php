@@ -16,22 +16,22 @@
  * @package    Zend_Dom
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Query.php 16541 2009-07-07 06:59:03Z bkarwin $
+ * @version    $Id: Query.php 17293 2009-07-30 02:34:37Z yoshida@zend.co.jp $
  */
 
 /**
  * @see Zend_Dom_Query_Css2Xpath
  */
-#require_once 'Zend/Dom/Query/Css2Xpath.php';
+require_once 'Zend/Dom/Query/Css2Xpath.php';
 
 /**
  * @see Zend_Dom_Query_Result
  */
-#require_once 'Zend/Dom/Query/Result.php';
+require_once 'Zend/Dom/Query/Result.php';
 
 /**
  * Query DOM structures based on CSS selectors and/or XPath
- * 
+ *
  * @package    Zend_Dom
  * @subpackage Query
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
@@ -60,8 +60,8 @@ class Zend_Dom_Query
 
     /**
      * Constructor
-     * 
-     * @param  null|string $document 
+     *
+     * @param  null|string $document
      * @return void
      */
     public function __construct($document = null)
@@ -71,8 +71,8 @@ class Zend_Dom_Query
 
     /**
      * Set document to query
-     * 
-     * @param  string $document 
+     *
+     * @param  string $document
      * @return Zend_Dom_Query
      */
     public function setDocument($document)
@@ -90,9 +90,9 @@ class Zend_Dom_Query
     }
 
     /**
-     * Register HTML document 
-     * 
-     * @param  string $document 
+     * Register HTML document
+     *
+     * @param  string $document
      * @return Zend_Dom_Query
      */
     public function setDocumentHtml($document)
@@ -104,8 +104,8 @@ class Zend_Dom_Query
 
     /**
      * Register XHTML document
-     * 
-     * @param  string $document 
+     *
+     * @param  string $document
      * @return Zend_Dom_Query
      */
     public function setDocumentXhtml($document)
@@ -117,8 +117,8 @@ class Zend_Dom_Query
 
     /**
      * Register XML document
-     * 
-     * @param  string $document 
+     *
+     * @param  string $document
      * @return Zend_Dom_Query
      */
     public function setDocumentXml($document)
@@ -130,7 +130,7 @@ class Zend_Dom_Query
 
     /**
      * Retrieve current document
-     * 
+     *
      * @return string
      */
     public function getDocument()
@@ -140,7 +140,7 @@ class Zend_Dom_Query
 
     /**
      * Get document type
-     * 
+     *
      * @return string
      */
     public function getDocumentType()
@@ -150,8 +150,8 @@ class Zend_Dom_Query
 
     /**
      * Perform a CSS selector query
-     * 
-     * @param  string $query 
+     *
+     * @param  string $query
      * @return Zend_Dom_Query_Result
      */
     public function query($query)
@@ -162,15 +162,15 @@ class Zend_Dom_Query
 
     /**
      * Perform an XPath query
-     * 
-     * @param  string $xpathQuery
+     *
+     * @param  string|array $xpathQuery
      * @param  string $query CSS selector query
      * @return Zend_Dom_Query_Result
      */
     public function queryXpath($xpathQuery, $query = null)
     {
         if (null === ($document = $this->getDocument())) {
-            #require_once 'Zend/Dom/Exception.php';
+            require_once 'Zend/Dom/Exception.php';
             throw new Zend_Dom_Exception('Cannot query; no document registered');
         }
 
@@ -188,7 +188,7 @@ class Zend_Dom_Query
         }
 
         if (!$success) {
-            #require_once 'Zend/Dom/Exception.php';
+            require_once 'Zend/Dom/Exception.php';
             throw new Zend_Dom_Exception(sprintf('Error parsing document (type == %s)', $type));
         }
 
@@ -198,7 +198,7 @@ class Zend_Dom_Query
 
     /**
      * Prepare node list
-     * 
+     *
      * @param  DOMDocument $document
      * @param  string|array $xpathQuery
      * @return array

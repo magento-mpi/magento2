@@ -20,7 +20,7 @@
  * @version    $Id: DbStatement.php 16911 2009-07-21 11:54:03Z matthew $
  */
 
-#require_once "Zend/Db/Statement/Interface.php";
+require_once "Zend/Db/Statement/Interface.php";
 
 /**
  * Testing Database Statement that acts as a stack to SQL resultsets.
@@ -282,7 +282,7 @@ class Zend_Test_DbStatement implements Zend_Db_Statement_Interface
             return false;
         } else {
             if(count($row) < $col) {
-                #require_once "Zend/Db/Statement/Exception.php";
+                require_once "Zend/Db/Statement/Exception.php";
                 throw new Zend_Db_Statement_Exception(
                     "Column Position '".$col."' is out of bounds."
                 );
