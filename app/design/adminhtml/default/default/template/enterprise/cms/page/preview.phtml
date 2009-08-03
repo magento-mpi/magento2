@@ -36,20 +36,46 @@ html,body { height:100%; }
 <div class="cms-revision-preview">
     <div class="toolbar">
         <?php echo $this->getChildHtml('tools') ?>
-        <button class="scalable " style="" onclick="$('preview_form').submit();" type="button">
+        <button class="scalable " style="" onclick="preview();" type="button">
             <span><?php echo $this->__('Preview') ?></span>
         </button>
-        <script type="text/javascript">
-        //<[!CDATA[
-        Event.observe(window, 'load', function() {
-            $('preview_form').writeAttribute('target', 'preview_iframe');
-            $('preview_form').submit();
-        });
-        //]]>
-        </script>
     </div>
 <iframe name="preview_iframe" id="preview_iframe" frameborder="0"></iframe>
 <?php echo $this->getChildHtml('preview_form') ?>
 </div>
+<div id="loading-mask" style="display:none">
+    <p class="loader" id="loading_mask_loader"><img src="<?php echo $this->getSkinUrl('images/ajax-loader-tr.gif') ?>" alt="<?php echo Mage::helper('adminhtml')->__('Loading...') ?>"/><br/><?php echo Mage::helper('adminhtml')->__('Please wait...') ?></p>
+</div>
+<script type="text/javascript">
+//<[!CDATA[
+    var previewForm = $('preview_form');
+    var loadingMask = $('loading-mask');
+    var previewIframe = $('preview_iframe');
+
+    function preview()
+    {
+        previewForm.writeAttribute('target', previewIframe.readAttribute('id'));
+        blockPreview();
+        previewForm.submit();
+    }
+
+    function blockPreview()
+    {
+        Element.clonePosition(loadingMask, previewIframe);
+        toggleSelectsUnderBlock(loadingMask, false);
+        Element.show(loadingMask);
+        setLoaderPosition();
+    }
+
+    function unBlockPreview()
+    {
+        toggleSelectsUnderBlock(loadingMask, true);
+        Element.hide(loadingMask);
+    }
+
+    Event.observe(window, 'load', preview);
+    Event.observe(previewIframe, 'load', unBlockPreview);
+//]]>
+</script>
 </body>
 </html>
