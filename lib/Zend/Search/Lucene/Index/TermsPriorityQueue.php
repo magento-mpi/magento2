@@ -21,7 +21,7 @@
  */
 
 /** Zend_Search_Lucene */
-require_once 'Zend/Search/Lucene/PriorityQueue.php';
+#require_once 'Zend/Search/Lucene/PriorityQueue.php';
 
 /**
  * @category   Zend

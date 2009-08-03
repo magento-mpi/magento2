@@ -21,7 +21,7 @@
 
 
 /** Zend_Pdf_Element_Object */
-require_once 'Zend/Pdf/Element/Object.php';
+#require_once 'Zend/Pdf/Element/Object.php';
 
 
 /**

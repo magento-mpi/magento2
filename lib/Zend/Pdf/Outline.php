@@ -21,7 +21,7 @@
  */
 
 /** Zend_Pdf_ElementFactory */
-require_once 'Zend/Pdf/ElementFactory.php';
+#require_once 'Zend/Pdf/ElementFactory.php';
 
 
 /**
@@ -201,7 +201,7 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
                     break;
 
                 default:
-                    require_once 'Zend/Pdf/Exception.php';
+                    #require_once 'Zend/Pdf/Exception.php';
                     throw new Zend_Pdf_Exception("Unknown option name - '$key'.");
                     break;
             }
@@ -234,16 +234,16 @@ abstract class Zend_Pdf_Outline implements RecursiveIterator, Countable
     {
         if (is_string($param1)) {
             if ($param2 !== null  &&  !($param2 instanceof Zend_Pdf_Target  ||  is_string($param2))) {
-                require_once 'Zend/Pdf/Exception.php';
+                #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Outline create method takes $title (string) and $target (Zend_Pdf_Target or string) or an array as an input');
             }
 
-            require_once 'Zend/Pdf/Outline/Created.php';
+            #require_once 'Zend/Pdf/Outline/Created.php';
             return new Zend_Pdf_Outline_Created(array('title'  => $param1,
                                                       'target' => $param2));
         } else {
             if (!is_array($param1)  ||  $param2 !== null) {
-                require_once 'Zend/Pdf/Exception.php';
+                #require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception('Outline create method takes $title (string) and $destination (Zend_Pdf_Destination) or an array as an input');
             }
 

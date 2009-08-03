@@ -21,7 +21,7 @@
  */
 
 /** Zend_Pdf_Resource */
-require_once 'Zend/Pdf/Resource.php';
+#require_once 'Zend/Pdf/Resource.php';
 
 /**
  * Abstract class which manages PDF fonts.

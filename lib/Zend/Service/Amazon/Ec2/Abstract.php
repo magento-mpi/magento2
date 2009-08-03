@@ -20,11 +20,11 @@
  * @version    $Id: Abstract.php 16971 2009-07-22 18:05:45Z mikaelkael $
  */
 
-require_once 'Zend/Service/Amazon/Abstract.php';
+#require_once 'Zend/Service/Amazon/Abstract.php';
 
-require_once 'Zend/Service/Amazon/Ec2/Response.php';
+#require_once 'Zend/Service/Amazon/Ec2/Response.php';
 
-require_once 'Zend/Service/Amazon/Ec2/Exception.php';
+#require_once 'Zend/Service/Amazon/Ec2/Exception.php';
 
 /**
  * Provides the basic functionality to send a request to the Amazon Ec2 Query API
@@ -168,7 +168,7 @@ abstract class Zend_Service_Amazon_Ec2_Abstract extends Zend_Service_Amazon_Abst
 
         $data .= implode('&', $arrData);
 
-        require_once 'Zend/Crypt/Hmac.php';
+        #require_once 'Zend/Crypt/Hmac.php';
         $hmac = Zend_Crypt_Hmac::compute($this->_getSecretKey(), 'SHA256', $data, Zend_Crypt_Hmac::BINARY);
 
         return base64_encode($hmac);

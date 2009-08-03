@@ -23,7 +23,7 @@
 /**
  * @see Zend_Pdf_FileParser
  */
-require_once 'Zend/Pdf/FileParser.php';
+#require_once 'Zend/Pdf/FileParser.php';
 
 /**
  * FileParser for Zend_Pdf_Image subclasses.

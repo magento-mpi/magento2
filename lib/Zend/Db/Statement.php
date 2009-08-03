@@ -23,12 +23,12 @@
 /**
  * @see Zend_Db
  */
-require_once 'Zend/Db.php';
+#require_once 'Zend/Db.php';
 
 /**
  * @see Zend_Db_Statement_Interface
  */
-require_once 'Zend/Db/Statement/Interface.php';
+#require_once 'Zend/Db/Statement/Interface.php';
 
 /**
  * Abstract class to emulate a PDOStatement for native database adapters.
@@ -132,7 +132,7 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
                     /**
                      * @see Zend_Db_Statement_Exception
                      */
-                    require_once 'Zend/Db/Statement/Exception.php';
+                    #require_once 'Zend/Db/Statement/Exception.php';
                     throw new Zend_Db_Statement_Exception("Invalid bind-variable position '$val'");
                 }
             } else if ($val[0] == ':') {
@@ -140,7 +140,7 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
                     /**
                      * @see Zend_Db_Statement_Exception
                      */
-                    require_once 'Zend/Db/Statement/Exception.php';
+                    #require_once 'Zend/Db/Statement/Exception.php';
                     throw new Zend_Db_Statement_Exception("Invalid bind-variable name '$val'");
                 }
             }
@@ -225,7 +225,7 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
             /**
              * @see Zend_Db_Statement_Exception
              */
-            require_once 'Zend/Db/Statement/Exception.php';
+            #require_once 'Zend/Db/Statement/Exception.php';
             throw new Zend_Db_Statement_Exception('Invalid bind-variable position');
         }
 
@@ -247,7 +247,7 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
             /**
              * @see Zend_Db_Statement_Exception
              */
-            require_once 'Zend/Db/Statement/Exception.php';
+            #require_once 'Zend/Db/Statement/Exception.php';
             throw new Zend_Db_Statement_Exception("Invalid bind-variable position '$parameter'");
         }
 
@@ -417,7 +417,7 @@ abstract class Zend_Db_Statement implements Zend_Db_Statement_Interface
                 /**
                  * @see Zend_Db_Statement_Exception
                  */
-                require_once 'Zend/Db/Statement/Exception.php';
+                #require_once 'Zend/Db/Statement/Exception.php';
                 throw new Zend_Db_Statement_Exception('invalid fetch mode');
                 break;
         }
