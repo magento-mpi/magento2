@@ -590,8 +590,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $redirectBack = true;
             }
             catch (Exception $e) {
-//                $this->_getSession()->addException($e, $this->__('Product saving error.'));
-                $this->_getSession()->addException($e, $e->getMessage());
+                Mage::logException($e);
+                $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
             }
         }
@@ -626,7 +626,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $this->_getSession()->addSuccess($this->__('Product duplicated'));
             $this->_redirect('*/*/edit', array('_current'=>true, 'id'=>$newProduct->getId()));
         }
-        catch (Exception $e){
+        catch (Exception $e) {
+            Mage::logException($e);
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/edit', array('_current'=>true));
         }
