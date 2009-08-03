@@ -165,11 +165,34 @@ class Enterprise_Staging_Model_Observer
                         }
                         $staging->merge();
 
+                        $comment = Mage::helper('enterprise_staging')->__('Staging Website unschedule');
+
+                        $mergeSchedulingDate = $staging->getMergeSchedulingDate();
+                        if (!empty($mergeSchedulingDate)) {
+                            $comment .= " (" . $mergeSchedulingDate . ")";
+                        }
+
+                        $stagingMap = $staging->getMapperInstance()->serialize();
+
                         $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
                             ->setMergeSchedulingDate('')
                             ->setMergeSchedulingMap('')
                             ->setDontRunStagingProccess(true)
                             ->save();
+
+                        $log = Mage::getModel('enterprise_staging/staging_log');
+                        $log->setStaging($staging);
+                        $log->setStagingId($staging->getId());
+
+                        $log->setAction(Enterprise_Staging_Model_Staging_Config::ACTION_UNHOLD)
+                            ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                            ->setIsAdminNotified(false)
+                            ->setComment($comment)
+                            ->setMap($stagingMap)
+                            ->setStagingWebsiteId($staging->getMasterWebsiteId())
+                            ->setMasterWebsiteId($staging->getStagingWebsiteId())
+                            ->save();
+
                     }
                 }
             }

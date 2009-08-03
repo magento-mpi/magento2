@@ -238,26 +238,28 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function stagingProcessRun($process)
     {
-        $log = Mage::getModel('enterprise_staging/staging_log')
+        $logBefore = Mage::getModel('enterprise_staging/staging_log')
             ->saveOnProcessRun($this, $process, 'before');
 
         $method = $process.'Run';
 
         $this->_getResource()->beginTransaction();
         try {
-            $this->_beforeStagingProcessRun($process, $log);
+            $this->_beforeStagingProcessRun($process, $logBefore);
 
-            $this->_getResource()->{$method}($this, $log);
+            $this->_getResource()->{$method}($this, $logBefore);
 
-            $this->_afterStagingProcessRun($process, $log);
+            $logAfter = Mage::getModel('enterprise_staging/staging_log');
+
+            $this->_afterStagingProcessRun($process, $logAfter);
 
             $this->_getResource()->commit();
 
-            $log->saveOnProcessRun($this, $process, 'after');
+            $logAfter->saveOnProcessRun($this, $process, 'after');
         }
         catch (Exception $e) {
             $this->_getResource()->rollBack();
-            $log->saveOnProcessRun($this, $process, 'after', $e);
+            $logBefore->saveOnProcessRun($this, $process, 'before', $e);
             Mage::throwException($e);
         }
 

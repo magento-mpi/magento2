@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Staging>
-             <version>0.1.11</version>
+             <version>0.1.12</version>
         </Enterprise_Staging>
     </modules>
     <global>
@@ -210,16 +210,57 @@
                     </log>
                 </staging_items>
                 <status>
-                    <processing translate="label"><label>Processing</label></processing>
-                    <complete translate="label"><label>Complete</label></complete>
-                    <created translate="label"><label>Staging Website create</label></created>
-                    <updated translate="label"><label>Staging Website update</label></updated>
-                    <backup_created translate="label"><label>Master Website Backup create</label></backup_created>
-                    <merged translate="label"><label>Staging Website merge</label></merged>
-                    <holded translate="label"><label>Staging Website Hold for Scheduled Merge</label></holded>
-                    <restored translate="label"><label>Master Website restore</label></restored>
-                    <fail translate="label"><label>Fail</label></fail>
+                    <action>
+                        <processing translate="label comment">
+                            <label>Processing</label>
+                            <comment>Operation is Processing</comment>
+                        </processing>
+                        <complete translate="label comment">
+                            <label>Complete</label>
+                            <comment>Operation has Completed</comment>
+                        </complete>
+                        <fail translate="label comment">
+                            <label>Fail</label>
+                            <comment>Reset status after failed merge.</comment>
+                        </fail>
+                    </action>
+                    <common>
+                        <created translate="label comment">
+                            <label>Staging Website create</label>
+                            <comment>Creating staging website</comment>
+                        </created>
+                        <updated translate="label comment">
+                            <label>Staging Website update</label>
+                            <comment>Updating staging website</comment>
+                        </updated>
+                        <backup_created translate="label comment">
+                            <label>Master Website Backup create</label>
+                            <comment>Creating of Master Website Backup</comment>
+                        </backup_created>
+                        <merged translate="label comment">
+                            <label>Staging Website merge</label>
+                            <comment>Merging staging website</comment>
+                        </merged>
+                        <holded translate="label comment">
+                            <label>Staging Website Hold for Scheduled Merge</label>
+                            <comment>Holding Staging Website for Scheduled Merge</comment>
+                        </holded>
+                        <restored translate="label comment">
+                            <label>Master Website restore</label>
+                            <comment>Restoring master website</comment>
+                        </restored>
+                    </common>
                 </status>
+                <action>
+                    <create translate="label"><label>Staging Website Create</label></create>
+                    <update translate="label"><label>Staging Website Update</label></update>
+                    <reset translate="label"><label>Reset</label></reset>
+                    <backup translate="label"><label>Master Website Backup</label></backup>
+                    <merge translate="label"><label>Staging Website Merge</label></merge>
+                    <hold translate="label"><label>Staging Website Hold for Scheduled Merge</label></hold>
+                    <unhold translate="label"><label>Staging Website Unhold for Scheduled Merge</label></unhold>
+                    <rollback translate="label"><label>Master Website Rollback</label></rollback>
+                </action>
             </staging>
         </enterprise>
         <events>

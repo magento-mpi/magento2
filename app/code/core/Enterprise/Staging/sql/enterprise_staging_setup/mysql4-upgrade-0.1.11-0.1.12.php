@@ -18,12 +18,19 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design
- * @package    default_default
+ * @category   Enterprise
+ * @package    Enterprise_Staging
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
-?>
-<div class="entry-edit">
 
-</div>
+$installer = $this;
+/* @var $installer Mage_Eav_Model_Entity_Setup */
+$installer->startSetup();
+
+$installer->getConnection()->changeColumn(
+    $this->getTable('enterprise_staging/staging_log'), 'code', 'action', 'char(20) NOT NULL default \'\''
+);
+$installer->getConnection()->dropColumn($this->getTable('enterprise_staging/staging_log'), 'name');
+
+$installer->endSetup();

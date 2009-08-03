@@ -103,6 +103,9 @@
                 <action method="addInformationRenderer"><type>default</type><block>enterprise_staging/adminhtml_log_view_information_default</block><template>enterprise/staging/log/information/default.phtml</template></action>
                 <action method="addInformationRenderer"><type>create</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/staging.phtml</template></action>
                 <action method="addInformationRenderer"><type>merge</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/staging.phtml</template></action>
+                <action method="addInformationRenderer"><type>hold</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/staging.phtml</template></action>
+                <action method="addInformationRenderer"><type>unhold</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/staging.phtml</template></action>
+                <action method="addInformationRenderer"><type>update</type><block>enterprise_staging/adminhtml_log_view_information_staging</block><template>enterprise/staging/log/information/staging.phtml</template></action>
                 <action method="addInformationRenderer"><type>rollback</type><block>enterprise_staging/adminhtml_log_view_information_rollback</block><template>enterprise/staging/log/information/rollback.phtml</template></action>
             </block>
         </reference>

@@ -82,7 +82,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View extends Mage_Adminhtml_Block_W
 
     public function getInformationHtml(Varien_Object $log)
     {
-        return $this->getInformationRenderer($log->getCode())
+        return $this->getInformationRenderer($log->getAction())
             ->setLog($log)
             ->toHtml();
     }

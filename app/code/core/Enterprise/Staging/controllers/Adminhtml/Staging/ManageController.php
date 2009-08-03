@@ -267,27 +267,24 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $redirectBack = false;
 
         try {
-            $status = Enterprise_Staging_Model_Staging_Config::STATUS_FAIL;
-            $statusLabel = Mage::getSingleton('enterprise_staging/staging_config')
-                ->getStatusLabel($status);
-
-            $comment    = Mage::helper('enterprise_staging')->__('Reset status after failed merge.');
-
-            $log = Mage::getModel('enterprise_staging/staging_log')
-                ->setCode('merge')
-                ->setStagingId($staging->getId())
-                ->setName($statusLabel)
-                ->setStatus($status)
-                ->setIsAdminNotified(false)
-                ->setMap($staging->getMapperInstance()->serialize())
-                ->setComment($comment)
-                ->setStagingWebsiteId($staging->getMasterWebsiteId())
-                ->setMasterWebsiteId($staging->getStagingWebsiteId())
-                ->save();
+            $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
+            $statusComment = Mage::getSingleton('enterprise_staging/staging_config')
+                ->getStatusComment(Enterprise_Staging_Model_Staging_Config::STATUS_FAIL);
 
             $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
                 ->setMergeSchedulingDate('')
                 ->setDontRunStagingProccess(true)
+                ->save();
+
+             Mage::getModel('enterprise_staging/staging_log')
+                ->setAction(Enterprise_Staging_Model_Staging_Config::ACTION_RESET)
+                ->setStagingId($staging->getId())
+                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                ->setIsAdminNotified(false)
+                ->setMap($staging->getMapperInstance()->serialize())
+                ->setComment($statusComment)
+                ->setStagingWebsiteId($staging->getMasterWebsiteId())
+                ->setMasterWebsiteId($staging->getStagingWebsiteId())
                 ->save();
 
             $staging->releaseCoreFlag();
@@ -443,17 +440,15 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $log = Mage::getModel('enterprise_staging/staging_log');
             $log->setStaging($staging);
             $log->setStagingId($staging->getId());
-            $log->setData('status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
 
-            $log->setData('comment', Mage::helper('enterprise_staging')->__('Staging Website unschedule'));
-
-            $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
-            $statusLabel = $config->getStatusLabel($status);
+            $comment = Mage::helper('enterprise_staging')->__('Staging Website unschedule');
 
             $mergeSchedulingDate = $staging->getMergeSchedulingDate();
             if (!empty($mergeSchedulingDate)) {
-                $comment = Mage::helper('enterprise_staging')->__('Unschedule scheduled merge') . " (" . $mergeSchedulingDate . ")";
+                $comment .= " (" . $mergeSchedulingDate . ")";
             }
+
+            $stagingMap = $staging->getMapperInstance()->serialize();
 
             $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
                 ->setMergeSchedulingDate('')
@@ -461,12 +456,11 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 ->setDontRunStagingProccess(true)
                 ->save();
 
-            $log->setCode(Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE)
-                ->setName(Mage::helper('enterprise_staging')->__('Unschedule scheduled merge'))
-                ->setStatus($status)
+            $log->setAction(Enterprise_Staging_Model_Staging_Config::ACTION_UNHOLD)
+                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
                 ->setIsAdminNotified(false)
                 ->setComment($comment)
-                ->setMap($staging->getMapperInstance()->serialize())
+                ->setMap($stagingMap)
                 ->setStagingWebsiteId($staging->getMasterWebsiteId())
                 ->setMasterWebsiteId($staging->getStagingWebsiteId())
                 ->save();

@@ -50,13 +50,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_staging/staging_log_collection')
-            ->addFieldToFilter('code', array('in' => array(
-                Enterprise_Staging_Model_Staging_Config::PROCESS_CREATE,
-                Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE,
-                Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK)))
-            ;//->addFieldToFilter('status', array('neq' => Enterprise_Staging_Model_Staging_Config::STATUS_FAIL));
-
+        $collection = Mage::getResourceModel('enterprise_staging/staging_log_collection');
         $this->setCollection($collection);
 
         parent::_prepareCollection();
@@ -92,11 +86,20 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
             'width'     => 300
         ));
 
+        $this->addColumn('status', array(
+            'header'    => Mage::helper('enterprise_staging')->__('Status'),
+            'index'     => 'status',
+            'type'      => 'options',
+            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getStatusLabelsArray(),
+            'width'  => 200
+        ));
+
         $this->addColumn('action', array(
             'header'    => Mage::helper('enterprise_staging')->__('Action'),
-            'index'     => 'name',
-            'type'      => 'text',
-            'truncate'  => 1000
+            'index'     => 'action',
+            'type'      => 'options',
+            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getActionLabelsArray(),
+            'width' => 200
         ));
 
         return $this;

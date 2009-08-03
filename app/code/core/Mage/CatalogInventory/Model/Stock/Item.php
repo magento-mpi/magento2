@@ -298,6 +298,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
      */
     public function checkQuoteItemQty($qty, $summaryQty, $origQty = 0)
     {
+
         $result = new Varien_Object();
         $result->setHasError(false);
 

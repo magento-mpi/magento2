@@ -52,7 +52,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging extends En
          * If did not have data in merge map then using staging_website_id or
          * master_website_id columns
          */
-        if ($this->getLog()->getCode() == 'create') {
+        if ($this->getLog()->getAction() == 'create') {
             return $this->getLog()->getStaging()->getMasterWebsite();
         } else {
             return $this->getLog()->getStaging()->getStagingWebsite();
@@ -79,7 +79,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging extends En
          * If did not have data in merge map then using staging_website_id or
          * master_website_id columns
          */
-        if ($this->getLog()->getCode() == 'create') {
+        if ($this->getLog()->getAction() == 'create') {
             return $this->getLog()->getStaging()->getStagingWebsite();
         } else {
             return $this->getLog()->getStaging()->getMasterWebsite();

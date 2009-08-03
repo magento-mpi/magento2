@@ -92,58 +92,52 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
         $config = Mage::getSingleton('enterprise_staging/staging_config');
 
         if ($onState == 'before') {
-            $status = $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING;
+            $status = $actionEventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING;
         } else {
-            $status = $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
+            $status = $actionEventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
         }
 
         switch ($process) {
             case 'create':
-                if ($onState == 'after') {
-                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_CREATED;
-                }
+                $commonEventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_CREATED;
                 $this->setStagingWebsiteId($staging->getStagingWebsiteId());
                 $this->setMasterWebsiteId($staging->getMasterWebsiteId());
+                $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_CREATE;
                 break;
             case 'update':
-                if ($onState == 'after') {
-                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_UPDATED;
-                }
+                $commonEventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_UPDATED;
                 $this->setStagingWebsiteId($staging->getStagingWebsiteId());
                 $this->setMasterWebsiteId($staging->getMasterWebsiteId());
+                $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_UPDATE;
                 break;
             case 'backup':
+                $commonEventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_BACKUP_CREATED;
                 $this->setIsBackuped($staging->getIsBackuped());
-                if ($onState == 'after') {
-                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_BACKUP_CREATED;
-                }
                 $this->setStagingWebsiteId(0);
                 $this->setMasterWebsiteId($staging->getMasterWebsiteId());
+                $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_BACKUP;
                 break;
             case 'merge':
                 if ($staging->getIsMergeLater() == true) {
                     $status = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
-
                     $scheduleDate       = $staging->getMergeSchedulingDate();
                     $scheduleOriginDate = $staging->getMergeSchedulingOriginDate();
 
+                    $commonEventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
+                    $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_HOLD;
+                }
+                else {
+                    $commonEventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_MERGED;
+                    $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_MERGE;
                 }
                 $this->setMergeMap($staging->getMapperInstance()->serialize());
-                if ($onState == 'after') {
-                    if ($staging->getIsMergeLater() == true) {
-                        $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED;
-                    } else {
-                        $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_MERGED;
-                    }
-                }
                 $this->setStagingWebsiteId($staging->getMasterWebsiteId());
                 $this->setMasterWebsiteId($staging->getStagingWebsiteId());
                 break;
             case 'rollback':
                 $this->setMergeMap($staging->getMapperInstance()->serialize());
-                if ($onState == 'after') {
-                    $eventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED;
-                }
+                $commonEventStatus = Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED;
+                $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_ROLLBACK;
                 $this->setStagingWebsiteId($staging->getMasterWebsiteId());
                 $this->setMasterWebsiteId(0);
                 break;
@@ -155,9 +149,7 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
 
         $this->setSaveThrowException($exception);
 
-        $eventStatusLabel = $config->getStatusLabel($eventStatus);
-
-        $comment = $eventStatusLabel;
+        $comment = $config->getStatusComment($commonEventStatus, 'common');
         if (!empty($scheduleOriginDate)) {
             $comment .= " (scheduled to: " . $scheduleOriginDate . ")";
         }
@@ -167,11 +159,12 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
         if (!is_null($exception)) {
             $exceptionMessage = $exception->getMessage();
         }
-
+        if ($onState == 'before' && ($process == 'update' || ($process == 'merge' && $staging->getIsMergeLater() == true))) {
+            return $this;
+        }
         $this->setStagingId($staging->getId())
-            ->setCode($process)
-            ->setName($eventStatusLabel)
-            ->setStatus($eventStatus)
+            ->setAction($eventAction)
+            ->setStatus($actionEventStatus)
             ->setIsAdminNotified(false)
             ->setMap($staging->getMapperInstance()->serialize())
             ->setComment($comment)

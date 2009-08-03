@@ -66,6 +66,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Log_Collection extends Mage_Core_M
      */
     public function addHoldedFilter()
     {
+        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_HOLD);
         $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED);
 
         return $this;
@@ -78,7 +79,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Log_Collection extends Mage_Core_M
      */
     public function addMergedFilter()
     {
-        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE);
+        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_MERGE);
         $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
 
         return $this;
@@ -91,7 +92,8 @@ class Enterprise_Staging_Model_Mysql4_Staging_Log_Collection extends Mage_Core_M
      */
     public function addRollbackFilter()
     {
-        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK);
+        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_ROLLBACK);
+        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED);
 
         return $this;
     }
@@ -103,7 +105,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Log_Collection extends Mage_Core_M
      */
     public function addRollbackProcessingFilter()
     {
-        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK);
+        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_ROLLBACK);
         $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
 
         return $this;
@@ -116,7 +118,7 @@ class Enterprise_Staging_Model_Mysql4_Staging_Log_Collection extends Mage_Core_M
      */
     public function addMergeProcessingFilter()
     {
-        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE);
+        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_MERGE);
         $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
 
         return $this;

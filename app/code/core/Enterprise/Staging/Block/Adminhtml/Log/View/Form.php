@@ -46,23 +46,30 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
     protected function _prepareForm()
     {
         $form       = new Varien_Data_Form();
+        $config     = Mage::getSingleton('enterprise_staging/staging_config');
         $staging    = $this->getStaging();
+        $log        = $this->getLog();
         $fieldset   = $form->addFieldset('general_fieldset',
             array('legend' => Mage::helper('enterprise_staging')->__('General Information')));
 
         $fieldset->addField('created_at', 'label', array(
             'label'     => Mage::helper('enterprise_staging')->__('Logged At'),
-            'value'     => $this->formatDate($this->getLog()->getCreatedAt(), 'medium', true)
+            'value'     => $this->formatDate($log->getCreatedAt(), 'medium', true)
         ));
 
         $fieldset->addField('action', 'label', array(
             'label'     => Mage::helper('enterprise_staging')->__('Action'),
-            'value'     => $this->getLog()->getName()
+            'value'     => Mage::helper('enterprise_staging')->__($config->getActionLabel($log->getAction()))
+        ));
+
+        $fieldset->addField('status', 'label', array(
+            'label'     => Mage::helper('enterprise_staging')->__('Status'),
+            'value'     =>Mage::helper('enterprise_staging')->__($config->getStatusLabel($log->getStatus()))
         ));
 
         $fieldset->addField('comment', 'label', array(
             'label'     => Mage::helper('enterprise_staging')->__('Comment'),
-            'value'     => $this->getLog()->getComment()
+            'value'     => $log->getComment()
         ));
 
         $form->addFieldNameSuffix($this->getFieldNameSuffix());

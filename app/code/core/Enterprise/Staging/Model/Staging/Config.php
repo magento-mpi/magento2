@@ -32,15 +32,32 @@ class Enterprise_Staging_Model_Staging_Config
     /**
      * Staging statuses
      */
+    //Action statuses
     const STATUS_PROCESSING     = 'processing';
     const STATUS_COMPLETE       = 'complete';
+    const STATUS_FAIL           = 'fail';
+
+    //Common statuses
     const STATUS_CREATED        = 'created';
     const STATUS_UPDATED        = 'updated';
     const STATUS_BACKUP_CREATED = 'backup_created';
     const STATUS_MERGED         = 'merged';
     const STATUS_RESTORED       = 'restored';
     const STATUS_HOLDED         = 'holded';
-    const STATUS_FAIL           = 'fail';
+
+
+    /**
+     * Staging actions
+     */
+    const ACTION_CREATE         = 'create';
+    const ACTION_UPDATE         = 'update';
+    const ACTION_RESET          = 'reset';
+    const ACTION_MERGE          = 'merge';
+    const ACTION_HOLD           = 'hold';
+    const ACTION_UNHOLD         = 'unhold';
+    const ACTION_BACKUP         = 'backup';
+    const ACTION_ROLLBACK       = 'rollback';
+
 
     /**
      * Staging visibility codes
@@ -48,16 +65,6 @@ class Enterprise_Staging_Model_Staging_Config
     const VISIBILITY_NOT_ACCESSIBLE     = 'not_accessible';
     const VISIBILITY_ACCESSIBLE         = 'accessible';
     const VISIBILITY_REQUIRE_HTTP_AUTH  = 'require_http_auth';
-
-    /**
-     * Staging process action codes
-     */
-    const PROCESS_CHECK     = 'checkfrontend';
-    const PROCESS_CREATE    = 'create';
-    const PROCESS_UPDATE    = 'update';
-    const PROCESS_BACKUP    = 'backup';
-    const PROCESS_MERGE     = 'merge';
-    const PROCESS_ROLLBACK  = 'rollback';
 
     /**
      * Retrieve staging module xml config as Varien_Simplexml_Element object
@@ -96,9 +103,9 @@ class Enterprise_Staging_Model_Staging_Config
     public function getVisibilityOptionArray()
     {
         return array(
-            self::VISIBILITY_NOT_ACCESSIBLE    => Mage::helper('enterprise_staging')->__('Not accessible'),
-            self::VISIBILITY_ACCESSIBLE        => Mage::helper('enterprise_staging')->__('Accessible'),
-            self::VISIBILITY_REQUIRE_HTTP_AUTH => Mage::helper('enterprise_staging')->__('Require Http Auth')
+        self::VISIBILITY_NOT_ACCESSIBLE    => Mage::helper('enterprise_staging')->__('Not accessible'),
+        self::VISIBILITY_ACCESSIBLE        => Mage::helper('enterprise_staging')->__('Accessible'),
+        self::VISIBILITY_REQUIRE_HTTP_AUTH => Mage::helper('enterprise_staging')->__('Require Http Auth')
         );
     }
 
@@ -113,8 +120,8 @@ class Enterprise_Staging_Model_Staging_Config
         $res = array();
         foreach (self::getOptionArray($nodeName) as $value => $label) {
             $res[] = array(
-               'value' => $value,
-               'label' => $label
+            'value' => $value,
+            'label' => $label
             );
         }
         return $res;
@@ -213,33 +220,83 @@ class Enterprise_Staging_Model_Staging_Config
     /**
      * Retrieve Staging Action Label
      *
-     * @param   string $process
+     * @param   string $actionCode
      * @return  string
      */
-    static public function getStagingProcessLabel($process)
+    static public function getActionLabel($actionCode)
     {
-        $processNode = self::getConfig('processes/'.$process);
-        if ($processNode) {
-            $process = (string) $processNode->label;
-            return Mage::helper('enterprise_staging')->__($process);
+        $actionNode = self::getConfig('action/'.$actionCode);
+        if ($actionNode) {
+            $action = (string) $actionNode->label;
+            return Mage::helper('enterprise_staging')->__($action);
         }
-        return $process;
+        return $action;
     }
 
     /**
-     * Retrieve status label
+     * Get actions array from config
+     *
+     * @return array
+     */
+    static public function getActionLabelsArray(){
+        $actionNode = self::getConfig('action')->asArray();
+        $actionArray = array();
+        foreach ($actionNode as $code => $node){
+            $actionArray[$code] = (string) $node['label'];
+        }
+        return $actionArray;
+    }
+
+    /**
+     * Retrieve status label by its type
      *
      * @param   string $status
+     * @param   string $type can be "action" or "common"
      * @return  string
      */
-    static public function getStatusLabel($status)
+    static public function getStatusLabel($status, $type = 'action')
     {
-        $statusNode = self::getConfig('status/'.$status);
+        $type = $type != 'action' && $type != 'common' ? 'action' : $type;
+        $statusNode = self::getConfig('status/'. $type . '/' . $status);
         if ($statusNode) {
             $status = (string) $statusNode->label;
             return Mage::helper('enterprise_staging')->__($status);
         }
         return $status;
+    }
+
+    /**
+     * Get statuses array from config by their type
+     *
+     * @param   string $type can be "action" or "common"
+     * @return array
+     */
+    static public function getStatusLabelsArray($type = 'action'){
+        $type = $type != 'action' && $type != 'common' ? 'action' : $type;
+        $statusNode = self::getConfig('status/' . $type)->asArray();
+        $statusArray = array();
+        foreach ($statusNode as $code => $node){
+            $statusArray[$code] = (string) $node['label'];
+        }
+        return $statusArray;
+    }
+
+    /**
+     * Retrieve status comment by its type
+     *
+     * @param   string $statusCode
+     * @param   string $type can be "action" or "common"
+     * @return  string
+     */
+    static public function getStatusComment($statusCode, $type = 'action')
+    {
+        $type = $type != 'action' && $type != 'common' ? 'action' : $type;
+        $statusNode = self::getConfig('status/'. $type . '/' . $statusCode);
+        if ($statusNode) {
+            $comment = (string) $statusNode->comment;
+            return Mage::helper('enterprise_staging')->__($comment);
+        }
+        return $statusCode;
     }
 
     /**

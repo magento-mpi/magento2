@@ -72,29 +72,27 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
      *
      * @return Enterprise_Staging_Model_Staging_Backup
      */
-    public function saveOnBackupRun(Enterprise_Staging_Model_Staging $staging, Enterprise_Staging_Model_Staging_Log $event)
+    public function saveOnBackupRun(Enterprise_Staging_Model_Staging $staging, Enterprise_Staging_Model_Staging_Log $log)
     {
         if ($staging->getId()) {
             $name = Mage::helper('enterprise_staging')->__('Backup: ') . $staging->getName();
 
             $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix($staging)
                 . Mage::getSingleton('enterprise_staging/staging_config')->getStagingBackupTablePrefix()
-                . $event->getId() . "_";
+                . $log->getId() . "_";
 
             $this->setStagingId($staging->getId())
                 ->setType('backup')
-                ->setEventCode($event->getCode())
+                ->setEventCode($log->getAction())
                 ->setName($name)
                 ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                ->setCreatedAt(Mage::registry($event->getCode() . "_event_start_time"))
+                ->setCreatedAt(Mage::registry($log->getAction() . "_event_start_time"))
                 ->setStagingTablePrefix($tablePrefix)
                 ->setMap($staging->getMapperInstance()->serialize())
                 ->setMageVersion(Mage::getVersion())
                 ->setMageModulesVersion(serialize(Mage::getSingleton('enterprise_staging/staging_config')->getCoreResourcesVersion()));
             $this->save();
 
-            $event->setBackupId($this->getId());
-            $staging->setBackupId($this->getId());
         }
         return $this;
     }
