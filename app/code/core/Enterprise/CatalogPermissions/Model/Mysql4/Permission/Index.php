@@ -249,25 +249,41 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
      */
     public function reindexProducts($productIds = null)
     {
-        $isActiveAttributeId = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_active')->getId();
+        /* @var $isActive Mage_Eav_Model_Entity_Attribute */
+        $isActive = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_active');
+
+        //$isActiveAttributeId = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_active')->getId();
 
         $selectCategory = $this->getReadConnection()->select()
             ->from(
                 array('category_product_index' => $this->getTable('catalog/category_product_index')),
                 array('product_id', 'store_id')
-            )->joinLeft(
-                array('category_is_active' => $this->getTable('catalog/category') . '_int'),
+            );
+        if ($isActive->isScopeGlobal()) {
+            $selectCategory->joinLeft(
+                array('category_is_active' => $isActive->getBackend()->getTable()),
+                'category_product_index.category_id = category_is_active.entity_id AND
+                    category_is_active.store_id = 0
+                 AND category_is_active.attribute_id = ' . (int) $isActive->getAttributeId(),
+                array())
+            ->where('category_is_active.value = 1');
+        } else {
+            $table = $isActive->getBackend()->getTable();
+            $selectAnchorCategory->joinLeft(
+                array('category_is_active' => $table),
                 'category_product_index.category_id = category_is_active.entity_id AND
                     category_is_active.store_id = category_product_index.store_id
-                 AND category_is_active.attribute_id = ' . (int) $isActiveAttributeId,
-                array()
-            )->joinLeft(
-                array('category_is_active_default' => $this->getTable('catalog/category') . '_int'),
+                 AND category_is_active.attribute_id = ' . (int) $isActive->getAttributeId(),
+                array())
+            ->joinLeft(
+                array('category_is_active_default' => $table),
                 'category_product_index.category_id = category_is_active_default.entity_id AND
                     category_is_active_default.store_id = 0
-                  AND category_is_active_default.attribute_id = ' . (int) $isActiveAttributeId,
-                array()
-            )->join(
+                  AND category_is_active_default.attribute_id = ' . (int) $isActive->getAttributeId(),
+                array())
+            ->where('IF(category_is_active.value_id > 0, category_is_active.value, category_is_active_default.value) = 1');
+        }
+            $selectCategory->join(
                 array('store' => $this->getTable('core/store')),
                 'category_product_index.store_id = store.store_id',
                 array()
@@ -275,7 +291,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
                 'category_product_index.store_id',
                 'category_product_index.product_id',
                 'permission_index.customer_group_id'
-           ))->where('IFNULL(category_is_active.value, category_is_active_default.value) = 1')
+           ))
             // Select for per category product index (without anchor category usage)
              ->columns('category_id', 'category_product_index')
              ->join(
