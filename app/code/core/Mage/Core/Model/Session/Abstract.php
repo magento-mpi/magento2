@@ -44,6 +44,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     const XML_PATH_USE_HTTP_VIA         = 'web/session/use_http_via';
     const XML_PATH_USE_X_FORWARDED      = 'web/session/use_http_x_forwarded_for';
     const XML_PATH_USE_USER_AGENT       = 'web/session/use_http_user_agent';
+    const XML_PATH_NOT_USE_FRONTEND_SID = 'web/session/not_use_frontend_sid';
 
     const XML_NODE_USET_AGENT_SKIP      = 'global/session/validation/http_user_agent_skip';
     const XML_PATH_LOG_EXCEPTION_FILE   = 'dev/log/exception_file';
@@ -167,6 +168,20 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
         $use = Mage::getStoreConfig(self::XML_PATH_USE_USER_AGENT);
         if (is_null($use)) {
             return parent::useValidateHttpUserAgent();
+        }
+        return (bool)$use;
+    }
+
+    /**
+     * Not use frontend sid in validator key
+     *
+     * @return bool
+     */
+    public function notUseValidateFrontendSid()
+    {
+        $use = Mage::getStoreConfig(self::XML_PATH_NOT_USE_FRONTEND_SID);
+        if (is_null($use)) {
+            return parent::notUseValidateFrontendSid();
         }
         return (bool)$use;
     }
@@ -311,7 +326,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function setSessionId($id=null)
     {
-        if (is_null($id)) {
+        if (is_null($id) && !$this->notUseValidateFrontendSid()) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam])) {
                 $id = $_GET[$_queryParam];

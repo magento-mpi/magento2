@@ -310,6 +310,16 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
     }
 
     /**
+     * Not use frontend sid in validator key
+     *
+     * @return bool
+     */
+    public function notUseValidateFrontendSid()
+    {
+        return false;
+    }
+
+    /**
      * Retrieve skip User Agent validation strings (Flash etc)
      *
      * @return array
