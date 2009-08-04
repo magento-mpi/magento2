@@ -80,7 +80,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
             $this->setChild('merge_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(
-                        'label'     => Mage::helper('enterprise_staging')->__('Merge'),
+                        'label'     => Mage::helper('enterprise_staging')->__('Merge...'),
                         'onclick'   => 'setLocation(\''.$this->getMergeUrl().'\')',
                         'class'     => 'add'
                     ))

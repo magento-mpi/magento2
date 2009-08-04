@@ -48,6 +48,22 @@ class Enterprise_Staging_Model_Mysql4_Staging_Collection extends Mage_Core_Model
     }
 
     /**
+     * Joining website name
+     *
+     * @return Enterprise_Staging_Model_Mysql4_Staging_Collection
+     */
+    public function addWebsiteName()
+    {
+        $this->getSelect()->joinLeft(
+            array('site'=>$this->getTable('core/website')),
+            "main_table.staging_website_id = site.website_id",
+            array('name' => 'site.name')
+        );
+
+       return $this;
+    }
+
+    /**
      * Joining last log comment
      *
      * @return Enterprise_Staging_Model_Mysql4_Staging_Collection

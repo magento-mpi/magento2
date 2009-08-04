@@ -50,16 +50,6 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
     {
         $form       = new Varien_Data_Form();
         $staging    = $this->getStaging();
-        $fieldset   = $form->addFieldset('general_fieldset',
-            array('legend' => Mage::helper('enterprise_staging')->__('General Information')));
-
-        $fieldset->addField('name', 'text', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Label'),
-            'title'     => Mage::helper('enterprise_staging')->__('Label'),
-            'name'      => 'name',
-            'value'     => $this->getStaging()->getName(),
-            'require'   => true
-        ));
 
         $masterWebsite = $staging->getMasterWebsite();
         if ($masterWebsite) {

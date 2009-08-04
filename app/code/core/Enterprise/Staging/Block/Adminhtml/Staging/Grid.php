@@ -57,6 +57,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('enterprise_staging/staging_collection')
+            ->addWebsiteName()
             ->addLastLogComment();
 
         $this->setCollection($collection);
