@@ -269,7 +269,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             ->where('category_is_active.value = 1');
         } else {
             $table = $isActive->getBackend()->getTable();
-            $selectAnchorCategory->joinLeft(
+            $selectCategory->joinLeft(
                 array('category_is_active' => $table),
                 'category_product_index.category_id = category_is_active.entity_id AND
                     category_is_active.store_id = category_product_index.store_id
