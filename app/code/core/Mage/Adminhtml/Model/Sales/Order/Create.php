@@ -197,6 +197,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
 
         $this->getQuote()->getPayment()->addData($order->getPayment()->getData());
 
+
+        $orderCouponCode = $order->getCouponCode();
+        if ($orderCouponCode) {
+            $this->getQuote()->setCouponCode($orderCouponCode);
+        }
+
         if ($this->getQuote()->getCouponCode()) {
             $this->getQuote()->collectTotals();
         }
