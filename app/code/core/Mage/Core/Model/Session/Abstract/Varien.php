@@ -56,6 +56,9 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 ini_set('session.save_handler', 'memcache');
                 session_save_path($this->getSessionSavePath());
                 break;
+            case 'eaccelerator':
+                ini_set('session.save_handler', 'eaccelerator');
+                break;
             default:
                 session_module_name('files');
                 if (is_writable(Mage::getBaseDir('session'))) {
