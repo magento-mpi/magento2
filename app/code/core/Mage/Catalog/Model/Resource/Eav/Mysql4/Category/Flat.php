@@ -700,7 +700,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             ->joinLeft(
                 array('store' => $this->getTable('catalog/category') . '_' . $type),
                 '`store`.entity_id = `default`.entity_id AND `store`.attribute_id = `default`.attribute_id AND `store`.store_id = ' . $store_id,
-                array('value' => new Zend_Db_Expr('IFNULL(`store`.value, `default`.value)'))
+                array('value' => new Zend_Db_Expr('IF(`store`.`value_id`>0, `store`.`value`, `default`.`value`)'))
             )
             ->where('`default`.entity_id IN (?)', $entityIds)
             ->where('`default`.store_id = ?', 0);

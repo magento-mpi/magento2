@@ -426,7 +426,7 @@ class Mage_CatalogSearch_Model_Mysql4_Fulltext extends Mage_Core_Model_Mysql4_Ab
                     ->joinLeft(
                         array('t_store' => $tableName),
                         $this->_getWriteAdapter()->quoteInto("t_default.entity_id=t_store.entity_id AND t_default.attribute_id=t_store.attribute_id AND t_store.store_id=?", $storeId),
-                        array('value'=>'IFNULL(t_store.value, t_default.value)'))
+                        array('value'=>'IF(t_store.value_id > 0, t_store.value, t_default.value)'))
                     ->where('t_default.store_id=?', 0)
                     ->where('t_default.attribute_id IN(?)', $attributeIds)
                     ->where('t_default.entity_id IN(?)', $productIds);

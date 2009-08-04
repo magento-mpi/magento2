@@ -337,7 +337,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             $this->_getWriteAdapter()->delete($indexTable, 'store_id='.$storeId.$deleteCondition);
             $query = "INSERT INTO $indexTable
             SELECT
-                t_v_default.entity_id, {$storeId}, IFNULL(t_v.value, t_v_default.value)
+                t_v_default.entity_id, {$storeId}, IF(t_v.value_id>0, t_v.value, t_v_default.value)
             FROM
                 {$visibilityTable} AS t_v_default
             INNER JOIN {$this->getTable('catalog/product_website')} AS w
@@ -357,7 +357,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             WHERE
                 t_v_default.attribute_id='{$visibilityAttributeId}'
                 AND t_v_default.store_id=0{$productsCondition}
-                AND (IFNULL(t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")";
+                AND (IF(t_s.value_id>0, t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")";
             $this->_getWriteAdapter()->query($query);
         }
         elseif (is_null($store)) {
@@ -372,7 +372,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             $this->_getWriteAdapter()->delete($indexTable, 'product_id='.$productId.' AND store_id='.$storeId);
             $query = "INSERT INTO $indexTable
             SELECT
-                {$productId}, {$storeId}, IFNULL(t_v.value, t_v_default.value)
+                {$productId}, {$storeId}, IF(t_v.value_id>0, t_v.value, t_v_default.value)
             FROM
                 {$visibilityTable} AS t_v_default
             LEFT JOIN {$visibilityTable} AS `t_v`
@@ -390,7 +390,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             WHERE
                 t_v_default.entity_id={$productId}
                 AND t_v_default.attribute_id='{$visibilityAttributeId}' AND t_v_default.store_id=0
-                AND (IFNULL(t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")";
+                AND (IF(t_s.value_id>0, t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")";
             $this->_getWriteAdapter()->query($query);
         }
 

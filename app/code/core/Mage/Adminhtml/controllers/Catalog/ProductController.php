@@ -474,12 +474,13 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         if (Mage::app()->isSingleStoreMode()) {
             $product->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
         }
+
         /**
          * Check "Use Default Value" checkboxes values
          */
         if ($useDefaults = $this->getRequest()->getPost('use_default')) {
             foreach ($useDefaults as $attributeCode) {
-                $product->setData($attributeCode, null);
+                $product->setData($attributeCode, false);
             }
         }
 

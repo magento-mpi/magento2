@@ -528,7 +528,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                 array()
             )
             ->where('m.path like ?', $category->getPath() . '/%')
-            ->where('(IFNULL(c.value, d.value) = ?)', $isActiveFlag);
+            ->where('(IF(c.value_id>0, c.value, d.value) = ?)', $isActiveFlag);
 
         return $this->_getReadAdapter()->fetchOne($select);
     }
@@ -621,14 +621,14 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                         . ' AND t_s.store_id='. (int)$storeId,
                     array())
                 ->where('i.product_id IS NULL')
-                ->where('IFNULL(t_s.value, t_s_default.value)=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+                ->where('IF(t_s.value_id>0, t_s.value, t_s_default.value)=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
 
             $select->columns(new Zend_Db_Expr($categoryId));
             $select->columns('e.entity_id');
             $select->columns(new Zend_Db_Expr(0));
             $select->columns(new Zend_Db_Expr(0));
             $select->columns(new Zend_Db_Expr($storeId));
-            $select->columns(new Zend_Db_Expr('IFNULL(t_v.value, t_v_default.value)'));
+            $select->columns(new Zend_Db_Expr('IF(t_v.value_id>0, t_v.value, t_v_default.value)'));
 
             if (!empty($productIds)) {
                 $select->where('e.entity_id IN(?)', $productIds);
@@ -732,7 +732,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                     cp.position,
                     MAX({$categoryId}=cp.category_id) as is_parent,
                     {$storeId},
-                    IFNULL(t_v.value, t_v_default.value)
+                    IF(t_v.value_id>0, t_v.value, t_v_default.value)
                 FROM
                     {$this->getTable('catalog/category_product')} AS cp
                 INNER JOIN {$this->getTable('catalog/product_website')} AS pw
@@ -756,7 +756,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                 WHERE category_id IN(
                     SELECT entity_id FROM {$this->getTable('catalog/category')}
                     WHERE entity_id = {$category['entity_id']} OR path LIKE '{$path}/%')
-                    AND (IFNULL(t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")
+                    AND (IF(t_s.value_id>0, t_s.value, t_s_default.value)=".Mage_Catalog_Model_Product_Status::STATUS_ENABLED.")
                     {$insProductCondition}
                 GROUP BY product_id
                 ORDER BY is_parent desc";
@@ -963,7 +963,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
                 "c.attribute_id = '{$attributeId}' AND c.store_id = '{$category->getStoreId()}' AND c.entity_id = m.entity_id",
                 array()
             )
-            ->where('(IFNULL(c.value, d.value) = ?)', '1')
+            ->where('(IF(c.value_id>0, c.value, d.value) = ?)', '1')
             ->where('path LIKE ?', "{$category->getPath()}/%");
         if (!$recursive) {
             $select->where('level <= ?', $category->getLevel() + 1);

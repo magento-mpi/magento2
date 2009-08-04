@@ -242,7 +242,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
              */
             if ($useDefaults = $this->getRequest()->getPost('use_default')) {
                 foreach ($useDefaults as $attributeCode) {
-                    $category->setData($attributeCode, null);
+                    $category->setData($attributeCode, false);
                 }
             }
 

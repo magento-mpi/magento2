@@ -271,7 +271,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
             ->where('d.store_id = ?', 0)
             ->where('d.entity_id IN (?)', new Zend_Db_Expr($filter))
             ->joinLeft(array('c'=>$table), "c.attribute_id = '{$attributeId}' AND c.store_id = '{$storeId}' AND c.entity_id = d.entity_id", array())
-            ->where('IFNULL(c.value, d.value) = ?', 0);
+            ->where('IF(c.value_id>0, c.value, d.value) = ?', 0);
 
         return $this->_conn->fetchCol($select);
     }
@@ -555,7 +555,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Tree extends Varien_Data_T
                     sprintf('`%1$s`.entity_id=e.entity_id AND `%1$s`.attribute_id=%2$d AND `%1$s`.entity_type_id=e.entity_type_id AND `%1$s`.store_id=%3$d',
                         $storeTableAs, $attribute->getData('attribute_id'), $this->getStoreId()
                     ),
-                    array($attributeCode => new Zend_Db_Expr("IFNULL(`{$storeTableAs}`.value, `$defaultTableAs`.value)"))
+                    array($attributeCode => new Zend_Db_Expr("IF(`{$storeTableAs}`.value>0, `{$storeTableAs}`.value, `$defaultTableAs`.value)"))
                 );
             }
         }

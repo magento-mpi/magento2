@@ -336,7 +336,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
                 ->where('entity_id IN(?)', $categoryIds);
         } else {
             $select = $this->_getWriteAdapter()->select()
-                ->from(array('t1'=>$attributeTable), array('entity_id', 'IFNULL(t2.value, t1.value) as value'))
+                ->from(array('t1'=>$attributeTable), array('entity_id', 'IF(t2.value_id>0, t2.value, t1.value) as value'))
                 ->joinLeft(
                     array('t2'=>$attributeTable),
                     $this->_getWriteAdapter()->quoteInto('t1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id=?', $storeId),
@@ -470,7 +470,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         }
         else {
             $select = $this->_getWriteAdapter()->select()
-                ->from(array('t1'=>$attributeTable), array('entity_id', 'IFNULL(t2.value, t1.value) as value'))
+                ->from(array('t1'=>$attributeTable), array('entity_id', 'IF(t2.value_id>0, t2.value, t1.value) as value'))
                 ->joinLeft(
                     array('t2'=>$attributeTable),
                     $this->_getWriteAdapter()->quoteInto('t1.entity_id = t2.entity_id AND t1.attribute_id = t2.attribute_id AND t2.store_id=?', $storeId),
@@ -563,7 +563,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
         }
 
         $select = $this->_getWriteAdapter()->select()
-            ->from(array('main_table'=>$this->getTable('catalog/category')), array('main_table.entity_id', 'main_table.parent_id', 'is_active'=>'IFNULL(c.value, d.value)', 'main_table.path'));
+            ->from(array('main_table'=>$this->getTable('catalog/category')), array('main_table.entity_id', 'main_table.parent_id', 'is_active'=>'IF(c.value_id>0, c.value, d.value)', 'main_table.path'));
 
         if (is_null($path)) {
             $select->where('main_table.entity_id IN(?)', $categoryIds);
