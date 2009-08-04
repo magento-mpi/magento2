@@ -46,6 +46,13 @@
                     <label>Scroll Size</label>
                     <type>text</type>
                 </scroll>
+                <template>
+                    <required />
+                    <visible />
+                    <value>catalogevent/lister.phtml</value>
+                    <label>Template</label>
+                    <type>text</type>
+                </template>
             </parameters>
         </event_lister>
     </widgets>
