@@ -45,12 +45,6 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
             return $this;
         }
 
-        Varien_Profiler::start(__METHOD__.'/setOptions');
-        if (is_writable(Mage::getBaseDir('session'))) {
-            session_save_path($this->getSessionSavePath());
-        }
-        Varien_Profiler::stop(__METHOD__.'/setOptions');
-
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
@@ -64,6 +58,9 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
                 break;
             default:
                 session_module_name('files');
+                if (is_writable(Mage::getBaseDir('session'))) {
+                    session_save_path($this->getSessionSavePath());
+                }
                 break;
         }
 
