@@ -63,14 +63,9 @@ class Mage_Cms_Model_Template_Filter extends Mage_Core_Model_Email_Template_Filt
         }
 
         // define widget block and check the type is instance of Widget Interface
-        $widget = Mage::app()->getLayout()->createBlock($type, $name);
+        $widget = Mage::app()->getLayout()->createBlock($type, $name, $params);
         if (!$widget instanceof Mage_Cms_Block_Widget_Interface) {
             return '';
-        }
-
-        // apply include parameters to widget
-        foreach ($params as $k => $v) {
-            $widget->setDataUsingMethod($k, $v);
         }
 
         return $widget->toHtml();

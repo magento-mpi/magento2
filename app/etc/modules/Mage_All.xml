@@ -108,6 +108,7 @@
             <depends>
                 <Mage_Eav />
                 <Mage_Dataflow />
+                <Mage_Cms />
             </depends>
         </Mage_Catalog>
         <Mage_CatalogRule>
