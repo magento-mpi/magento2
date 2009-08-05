@@ -197,7 +197,7 @@
                         <sort_order>50</sort_order>
                         <action>adminhtml/cms_hierarchy</action>
                         <depends>
-                            <config>enterprise_cms/hierarchy/enabled</config>
+                            <config>cms/hierarchy/enabled</config>
                         </depends>
                    </hierarchy>
                 </children>
