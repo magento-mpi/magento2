@@ -662,7 +662,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function updateAttribute($entityTypeId, $id, $field, $value=null, $sortOrder=null)
     {
-        $this->_updateAttribute($entityTypeId, $id, $field, $value, $sortOrder, $table);
+        $this->_updateAttribute($entityTypeId, $id, $field, $value, $sortOrder);
         $this->_updateAttributeAdditionalData($entityTypeId, $id, $field, $value);
         return $this;
     }
