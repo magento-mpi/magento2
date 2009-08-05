@@ -570,13 +570,8 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         $sortOrder = isset($attr['sort_order']) ? $attr['sort_order'] : null;
         if ($id = $this->getAttribute($entityTypeId, $code, 'attribute_id')) {
             $this->updateAttribute($entityTypeId, $id, $data, null, $sortOrder);
-            $this->updateAttributeAdditionalData($entityTypeId, $id, $data, null);
         } else {
             $this->_insertAttribute($data);
-            $this->_insertAttributeAdditionalData(
-                $entityTypeId,
-                array_merge(array('attribute_id' => $this->getAttributeId($entityTypeId, $code)), $data)
-            );
         }
 
         if (!empty($attr['group'])) {
@@ -656,6 +651,23 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     }
 
     /**
+     * Update Attribute data and Attribute additional data
+     *
+     * @param mixed $entityTypeId
+     * @param mixed $id
+     * @param string $field
+     * @param mixed $value
+     * @param int $sortOrder
+     * @return Mage_Eav_Model_Entity_Setup
+     */
+    public function updateAttribute($entityTypeId, $id, $field, $value=null, $sortOrder=null)
+    {
+        $this->_updateAttribute($entityTypeId, $id, $field, $value, $sortOrder, $table);
+        $this->_updateAttributeAdditionalData($entityTypeId, $id, $field, $value);
+        return $this;
+    }
+
+    /**
      * Update Attribute data
      *
      * @param mixed $entityTypeId
@@ -665,7 +677,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      * @param int $sortOrder
      * @return Mage_Eav_Model_Entity_Setup
      */
-    public function updateAttribute($entityTypeId, $id, $field, $value=null, $sortOrder=null, $table = null)
+    protected function _updateAttribute($entityTypeId, $id, $field, $value=null, $sortOrder=null)
     {
         if (!is_null($sortOrder)) {
             $this->updateTableRow('eav/entity_attribute',
@@ -710,7 +722,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      * @param mixed $value
      * @return Mage_Eav_Model_Entity_Setup
      */
-    public function updateAttributeAdditionalData($entityTypeId, $id, $field, $value=null)
+    protected function _updateAttributeAdditionalData($entityTypeId, $id, $field, $value=null)
     {
         $additionalTable = $this->getEntityType($entityTypeId, 'additional_attribute_table');
         $additionalTableExists = $this->getConnection()->showTableStatus($this->getTable($additionalTable));
@@ -1113,7 +1125,11 @@ CONSTRAINT `FK_{$baseName}_{$type}_store` FOREIGN KEY (`store_id`) REFERENCES `c
         }
 
         $this->getConnection()->insert($this->getTable('eav/attribute'), $bind);
-
+        $attributeId = $this->getConnection()->lastInsertId();
+        $this->_insertAttributeAdditionalData(
+            $data['entity_type_id'],
+            array_merge(array('attribute_id' => $attributeId), $data)
+        );
         return $this;
     }
 
