@@ -79,23 +79,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
             'header'    => Mage::helper('enterprise_logging')->__('Time'),
             'index'     => 'time',
             'type'      => 'datetime',
-        ));
-
-        $this->addColumn('ip', array(
-            'header'    => Mage::helper('enterprise_logging')->__('IP-address'),
-            'index'     => 'ip',
-            'type'      => 'text',
-            'filter'    => 'enterprise_logging/adminhtml_grid_filter_ip',
-            'renderer'  => 'adminhtml/widget_grid_column_renderer_ip',
-            'sortable'  => false
-        ));
-
-        $this->addColumn('user', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Username'),
-            'index'     => 'user',
-            'type'      => 'text',
-            'sortable'  => false,
-            'filter'    => 'enterprise_logging/adminhtml_grid_filter_user'
+            'width'     => 160,
         ));
 
         $this->addColumn('event', array(
@@ -116,6 +100,26 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
             'type'      => 'options',
             'options'   => $actions,
             'sortable'  => false,
+            'width'     => 75,
+        ));
+
+        $this->addColumn('ip', array(
+            'header'    => Mage::helper('enterprise_logging')->__('IP-address'),
+            'index'     => 'ip',
+            'type'      => 'text',
+            'filter'    => 'enterprise_logging/adminhtml_grid_filter_ip',
+            'renderer'  => 'adminhtml/widget_grid_column_renderer_ip',
+            'sortable'  => false,
+            'width'     => 125,
+        ));
+
+        $this->addColumn('user', array(
+            'header'    => Mage::helper('enterprise_logging')->__('Username'),
+            'index'     => 'user',
+            'type'      => 'text',
+            'sortable'  => false,
+            'filter'    => 'enterprise_logging/adminhtml_grid_filter_user',
+            'width'     => 150,
         ));
 
         $this->addColumn('status', array(
@@ -127,6 +131,7 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
                 Enterprise_Logging_Model_Event::RESULT_SUCCESS => Mage::helper('enterprise_logging')->__('Success'),
                 Enterprise_Logging_Model_Event::RESULT_FAILURE => Mage::helper('enterprise_logging')->__('Failure'),
             ),
+            'width'     => 100,
         ));
 
         $this->addColumn('fullaction', array(
@@ -137,11 +142,28 @@ class Enterprise_Logging_Block_Adminhtml_Index_Grid extends Mage_Adminhtml_Block
         ));
 
         $this->addColumn('info', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Identifier'),
+            'header'    => Mage::helper('enterprise_logging')->__('Short Details'),
             'index'     => 'info',
             'type'      => 'text',
             'sortable'  => false,
-            'filter'    => 'adminhtml/widget_grid_column_filter_text'
+            'filter'    => 'adminhtml/widget_grid_column_filter_text',
+            'width'     => 100,
+        ));
+
+        $this->addColumn('view', array(
+            'header'  => Mage::helper('enterprise_logging')->__('Full Details'),
+            'width'   => 50,
+            'type'    => 'action',
+            'getter'  => 'getId',
+            'actions' => array(array(
+                'caption' => Mage::helper('enterprise_logging')->__('View'),
+                'url'     => array(
+                    'base'   => '*/*/details',
+                ),
+                'field'   => 'event_id'
+            )),
+            'filter'    => false,
+            'sortable'  => false,
         ));
 
         $this->addExportType('*/*/exportCsv', 'CSV');
