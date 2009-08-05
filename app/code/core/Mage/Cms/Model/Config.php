@@ -90,7 +90,7 @@ class Mage_Cms_Model_Config
     public function getWidgets()
     {
         if (!$this->_widgets) {
-            $config = Mage::getConfig()->loadModulesConfiguration('widgets.xml');
+            $config = Mage::getConfig()->loadModulesConfiguration('widget.xml');
             $this->_widgets = $config->getNode('widgets');
         }
 
