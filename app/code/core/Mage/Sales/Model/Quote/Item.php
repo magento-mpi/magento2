@@ -233,7 +233,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             ->setName($product->getName())
             ->setWeight($this->getProduct()->getWeight())
             ->setTaxClassId($product->getTaxClassId())
-            ->setCost($product->getCost())
+            ->setBaseCost($product->getCost())
             ->setIsQtyDecimal($product->getIsQtyDecimal());
 
         Mage::dispatchEvent('sales_quote_item_set_product', array(

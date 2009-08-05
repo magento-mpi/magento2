@@ -127,6 +127,15 @@ class Mage_Adminhtml_Block_Report_Sales_Sales_Grid extends Mage_Adminhtml_Block_
             'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
         ));
 
+        $this->addColumn('profit', array(
+            'header'    =>Mage::helper('reports')->__('Profit'),
+            'type'      =>'currency',
+            'currency_code' => $currency_code,
+            'index'     =>'profit',
+            'total'     =>'sum',
+            'renderer'  =>'adminhtml/report_grid_column_renderer_currency'
+        ));
+
         $this->addExportType('*/*/exportSalesCsv', Mage::helper('reports')->__('CSV'));
         $this->addExportType('*/*/exportSalesExcel', Mage::helper('reports')->__('Excel'));
 

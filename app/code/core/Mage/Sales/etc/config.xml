@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.40</version>
+            <version>0.9.41</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -190,6 +190,7 @@
                 <discount_percent><to_order_item_discount>*</to_order_item_discount></discount_percent>
                 <discount_amount><to_order_item_discount>*</to_order_item_discount></discount_amount>
                 <base_discount_amount><to_order_item_discount>*</to_order_item_discount></base_discount_amount>
+                <base_cost><to_order_item>*</to_order_item></base_cost>
             </sales_convert_quote_item>
 
             <sales_convert_order>
@@ -294,7 +295,7 @@
                 <base_row_total><to_quote_item>*</to_quote_item></base_row_total>
 
                 <base_price><to_invoice_item>base_price</to_invoice_item><to_shipment_item>*</to_shipment_item><to_cm_item>*</to_cm_item></base_price>
-                <cost><to_invoice_item>cost</to_invoice_item><to_cm_item>*</to_cm_item></cost>
+                <base_cost><to_invoice_item>*</to_invoice_item><to_cm_item>*</to_cm_item><to_quote_item>*</to_quote_item></base_cost>
             </sales_convert_order_item>
 
             <customer_account>
@@ -513,6 +514,7 @@
                         <special_from_date/>
                         <special_to_date/>
                         <special_price/>
+                        <cost/>
                     </product_attributes>
                 </item>
             </quote>
@@ -591,6 +593,9 @@
                     <grand_total>
                         <class>sales/order_invoice_total_grand</class>
                     </grand_total>
+                    <cost_total>
+                        <class>sales/order_invoice_total_cost</class>
+                    </cost_total>
                 </totals>
             </order_invoice>
             <order_creditmemo>
@@ -610,6 +615,9 @@
                     <grand_total>
                         <class>sales/order_creditmemo_total_grand</class>
                     </grand_total>
+                    <cost_total>
+                        <class>sales/order_creditmemo_total_cost</class>
+                    </cost_total>
                 </totals>
             </order_creditmemo>
         </sales>
