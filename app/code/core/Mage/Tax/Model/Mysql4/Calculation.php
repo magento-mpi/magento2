@@ -72,7 +72,8 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
         $ids = array();
         $currentRate = 0;
         $totalPercent = 0;
-        for ($i=0; $i<count($rates); $i++) {
+        $countedRates = count($rates);
+        for ($i = 0; $i < $countedRates; $i++) {
             $rate = $rates[$i];
             $value = (isset($rate['value']) ? $rate['value'] : $rate['percent'])*1;
 
@@ -130,6 +131,27 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
         return $result;
     }
 
+    private function _preparePostCode($postcode)
+    {
+
+        $strlen = strlen($postcode);
+        if ($strlen > 6) {
+            $postcode = substr($postcode, 0, 6);
+            $strlen = 6;
+        }
+
+        $strArr = array($postcode);
+
+        if ($strlen > 1) {
+            for ($i = 1; $i < $strlen; $i++) {
+                $strArr[] = sprintf('%s*', substr($postcode, 0, - $i));
+            }
+        }
+
+        return $strArr;
+
+    }
+
     protected function _getRates($request)
     {
         $storeId = Mage::app()->getStore($request->getStore())->getId();
@@ -146,7 +168,10 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
         $select
             ->where("rate.tax_country_id = ?", $request->getCountryId())
             ->where("rate.tax_region_id in ('*', '', ?)", $request->getRegionId())
+            /*
             ->where("rate.tax_postcode in ('*', '', ?)", $request->getPostcode());
+            */
+            ->where("rate.tax_postcode in ('*', '', ?)", $this->_preparePostCode($request->getPostcode()));
 
         $select->joinLeft(array('title_table'=>$this->getTable('tax/tax_calculation_rate_title')), "rate.tax_calculation_rate_id = title_table.tax_calculation_rate_id AND title_table.store_id = '{$storeId}'", array('title'=>'IFNULL(title_table.value, rate.code)'));
 
@@ -160,7 +185,8 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
     {
         $result = 0;
         $currentRate = 0;
-        for ($i=0; $i<count($rates); $i++) {
+        $countedRates = count($rates);
+        for ($i = 0; $i < $countedRates; $i++) {
             $rate = $rates[$i];
             $rule = $rate['tax_calculation_rule_id'];
             $value = $rate['value'];
@@ -185,7 +211,8 @@ class Mage_Tax_Model_Mysql4_Calculation extends Mage_Core_Model_Mysql4_Abstract
     {
         $result = array();
         $rates = $this->_getRates($request);
-        for ($i=0; $i<count($rates); $i++) {
+        $countedRates = count($rates);
+        for ($i = 0; $i < $countedRates; $i++) {
             $rate = $rates[$i];
             $rule = $rate['tax_calculation_rule_id'];
             $result[] = $rate['tax_calculation_rate_id'];
