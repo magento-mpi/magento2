@@ -57,7 +57,8 @@ class Mage_Reports_Model_Mysql4_Quote_Collection extends Mage_Sales_Model_Mysql4
      * @param array $storeIds
      * @return Mage_Reports_Model_Mysql4_Quote_Collection
      */
-    public function addStoreFilter($storeIds){
+    public function addStoreFilter($storeIds)
+    {
         $this->addFieldToFilter('store_id', array('in' => $storeIds));
         return $this;
     }
