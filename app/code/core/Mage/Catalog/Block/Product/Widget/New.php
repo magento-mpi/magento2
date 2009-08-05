@@ -25,7 +25,7 @@
  */
 
 /**
- * New products block
+ * New products widget
  *
  * @category   Mage
  * @package    Mage_Catalog
