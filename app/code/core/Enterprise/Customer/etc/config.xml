@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Customer
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_Customer>
+             <version>0.1.0</version>
+        </Enterprise_Customer>
+    </modules>
+    <global>
+        <models>
+            <enterprise_customer>
+                <class>Enterprise_Customer_Model</class>
+                <resourceModel>enterprise_customer_mysql4</resourceModel>
+            </enterprise_customer>
+            <enterprise_customer_mysql4>
+                <class>Enterprise_Customer_Model_Mysql4</class>
+                <entities>
+                </entities>
+            </enterprise_customer_mysql4>
+        </models>
+        <blocks>
+            <enterprise_customer>
+                <class>Enterprise_Customer_Block</class>
+            </enterprise_customer>
+        </blocks>
+        <helpers>
+            <enterprise_customer>
+                <class>Enterprise_Customer_Helper</class>
+            </enterprise_customer>
+        </helpers>
+        <resources>
+            <enterprise_customer_setup>
+                <setup>
+                    <module>Enterprise_Customer</module>
+                    <class>Enterprise_Customer_Model_Mysql4_Setup</class>
+                </setup>
+            </enterprise_customer_setup>
+        </resources>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <enterprise_customer>
+                    <file>enterprise/customer.xml</file>
+                </enterprise_customer>
+            </updates>
+        </layout>
+        <events>
+        </events>
+        <translate>
+            <modules>
+                <Enterprise_Customer>
+                     <files>
+                          <default>Enterprise_Customer.csv</default>
+                     </files>
+                </Enterprise_Customer>
+            </modules>
+        </translate>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <customer>
+                            <children>
+                                <form_type translate="title" module="enterprise_customer">
+                                    <title>Manage Form Types</title>
+                                    <sort_order>10</sort_order>
+                                </form_type>
+                            </children>
+                        </customer>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <menu>
+            <customer>
+                <children>
+                    <formtype translate="title" module="enterprise_customer">
+                        <title>Manage Form Types</title>
+                        <sort_order>60</sort_order>
+                        <action>adminhtml/customer_formtype</action>
+                   </formtype>
+                </children>
+            </customer>
+        </menu>
+    </adminhtml>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <enterprise_customer before="Mage_Adminhtml">Enterprise_Customer_Adminhtml</enterprise_customer>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <frontend>
+        <layout>
+            <updates>
+                <enterprise_customer module="Enterprise_Customer">
+                    <file>enterprise_customer.xml</file>
+                </enterprise_customer>
+            </updates>
+        </layout>
+    </frontend>
+</config>
