@@ -29,7 +29,7 @@
     <widgets>
         <event_lister translate="name description">
             <name>Catalog Events Lister</name>
-            <description>Widget shows upcoming and paased catalog events</description>
+            <description>Widget shows up coming and passed catalog events</description>
             <type>enterprise_catalogevent/widget_lister</type>
             <parameters>
                 <limit translate="label">

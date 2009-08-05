@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<config>
+    <widgets>
+        <catalog_product_link translate="name description">
+            <name>Product Link</name>
+            <description>Widget generates link to specified product</description>
+            <type>enterprise_cms/widget_catalog_product_link</type>
+            <parameters>
+                <sku translate="label">
+                    <visible />
+                    <label>Sku</label>
+                    <type>text</type>
+                </sku>
+                <id_path translate="label">
+                    <visible />
+                    <label>Id Path</label>
+                    <type>text</type>
+                </id_path>
+                <anchor_text translate="label">
+                    <visible />
+                    <required />
+                    <label>Anchor Text</label>
+                    <type>text</type>
+                </anchor_text>
+                <title translate="label">
+                    <visible />
+                    <label>Anchor Title</label>
+                    <type>text</type>
+                </title>
+            </parameters>
+        </catalog_product_link>
+        <catalog_category_link translate="name description">
+            <name>Category Link</name>
+            <description>Widget generates link to specified category</description>
+            <type>enterprise_cms/widget_catalog_category_link</type>
+            <parameters>
+                <url_key translate="label">
+                    <visible />
+                    <required />
+                    <label>Url Key</label>
+                    <type>text</type>
+                </url_key>
+                <anchor_text translate="label">
+                    <visible />
+                    <required />
+                    <label>Anchor Text</label>
+                    <type>text</type>
+                </anchor_text>
+                <title translate="label">
+                    <visible />
+                    <label>Anchor Title</label>
+                    <type>text</type>
+                </title>
+            </parameters>
+        </catalog_category_link>
+        <cms_page_link translate="name description">
+            <name>CMS Page Link</name>
+            <description>Widget generates link to specified cms page</description>
+            <type>enterprise_cms/widget_page_link</type>
+            <parameters>
+                <href translate="label">
+                    <visible />
+                    <required />
+                    <label>Identifier</label>
+                    <type>text</type>
+                </href>
+                <anchor_text translate="label">
+                    <visible />
+                    <label>Anchor Text</label>
+                    <type>text</type>
+                </anchor_text>
+                <title translate="label">
+                    <visible />
+                    <label>Anchor Title</label>
+                    <type>text</type>
+                </title>
+            </parameters>
+        </cms_page_link>
+    </widgets>
+</config>

@@ -83,4 +83,21 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
 
         return $this->_versionsHash[$keyField . $valueField];
     }
+
+    /**
+     * Prepare anchor's html code
+     *
+     * @param string $anchorText
+     * @param array $attributes
+     * @return string
+     */
+    public function prepareAnchorHtml($anchorText, $attributes = array())
+    {
+        $_preparedAttributes = array();
+        foreach($attributes as $attribute => $value) {
+            $_preparedAttributes[] = $attribute . '="' . $value . '"';
+        }
+
+        return '<a '.implode(' ', $_preparedAttributes).'>'. $this->htmlEscape($anchorText) . "</a>\n";
+    }
 }
