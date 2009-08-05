@@ -158,7 +158,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     }
 
     /**
-     * Returns status flag about this tab can be showen or not
+     * Returns status flag about this tab can be shown or not
      *
      * @return true
      */
@@ -183,7 +183,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      *
      * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
-
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('version_id');
@@ -195,5 +194,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
              'confirm' => Mage::helper('enterprise_cms')->__('Are you sure?')
         ));
         return $this;
+    }
+
+    /**
+     * Grid row event edit url
+     *
+     * @return string
+     */
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/cms_page_version/edit', array('page_id' => $row->getPageId(), 'version_id' => $row->getVersionId()));
     }
 }

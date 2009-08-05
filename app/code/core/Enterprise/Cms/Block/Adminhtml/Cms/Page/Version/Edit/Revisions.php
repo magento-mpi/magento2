@@ -25,16 +25,15 @@
  */
 
 /**
- * Cms page edit form revisions tab
+ * Grid wtih revisions on version page
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     extends Mage_Adminhtml_Block_Widget_Grid
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     public function __construct()
     {
@@ -55,11 +54,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
         /* var $collection Enterprise_Cms_Model_Mysql4_Revision_Collection */
         $collection = Mage::getModel('enterprise_cms/page_revision')->getCollection()
             ->addPageFilter($this->getPage())
-            ->joinVersions()
+            ->addVersionFilter($this->getVersion());
+            //->joinVersions()
             //->addVersionLabelToSelect()
-            ->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
-                Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
-            ->setDefaultSortOrder();
+
+            // Commented this bc now revision are shown in scope of version and not page.
+            // So if user has permission to load this version he
+            // has permmission to see all its versions
+            //->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
+            //    Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
@@ -80,14 +83,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
             'type' => 'options',
             'options' => Mage::helper('enterprise_cms')->getVersionsArray($this->getPage())
         ));
-*/
+
         $this->addColumn('label', array(
             'header' => Mage::helper('enterprise_cms')->__('Version Label'),
             'index' => 'label',
             'type' => 'options',
             'options' => Mage::helper('enterprise_cms')
                                 ->getVersionsArray('label', 'label', $this->getPage())
-
         ));
 
         $this->addColumn('access_level', array(
@@ -97,10 +99,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
             'width' => 100,
             'options' => Mage::getSingleton('enterprise_cms/config')->getStatuses()
         ));
-
+*/
         $this->addColumn('revision_number', array(
             'header' => Mage::helper('enterprise_cms')->__('Revision #'),
-            'width' => 100,
+            'width' => 200,
             'type' => 'number',
             'index' => 'revision_number'
         ));
@@ -110,7 +112,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
             'index' => 'created_at',
             'type' => 'datetime',
             'filter_time' => true,
-            'width' => 150
+            'width' => 250
         ));
 
         $this->addColumn('author', array(
@@ -144,53 +146,23 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
     }
 
     /**
-     * Prepare label for tab
-     *
-     * @return string
-     */
-    public function getTabLabel()
-    {
-        return Mage::helper('enterprise_cms')->__('Revisions');
-    }
-
-    /**
-     * Prepare title for tab
-     *
-     * @return string
-     */
-    public function getTabTitle()
-    {
-        return Mage::helper('enterprise_cms')->__('Revisions');
-    }
-
-    /**
-     * Returns status flag about this tab can be showen or not
-     *
-     * @return true
-     */
-    public function canShowTab()
-    {
-        return true;
-    }
-
-    /**
-     * Returns status flag about this tab hidden or not
-     *
-     * @return true
-     */
-    public function isHidden()
-    {
-        return false;
-    }
-
-    /**
      * Returns cms page object from registry
      *
-     * @return Mage_Cms_ModelPage
+     * @return Mage_Cms_Model_Page
      */
     public function getPage()
     {
         return Mage::registry('cms_page');
+    }
+
+    /**
+     * Returns cms page version object from registry
+     *
+     * @return Enterprise_Cms_Model_Page_Version
+     */
+    public function getVersion()
+    {
+        return Mage::registry('cms_page_version');
     }
 
     /**

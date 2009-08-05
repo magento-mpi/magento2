@@ -27,6 +27,9 @@
 -->
 
 <layout>
+<!--
+    Custom layout changes to native adminhtml_cms_page_edit handle
+-->
     <adminhtml_cms_page_edit_changes>
         <reference name="cms_page_edit_tabs">
             <block type="enterprise_cms/adminhtml_cms_page_edit" anme="cms_page_edit_extender" />
@@ -35,43 +38,21 @@
             <action method="removeTab"><name>content_section</name></action>
             <action method="removeTab"><name>design_section</name></action>
             <action method="removeTab"><name>meta_section</name></action>
-
-
             <action method="addTab"><name>versions</name><block>enterprise_cms/adminhtml_cms_page_edit_tab_versions</block></action>
-            <action method="addTab"><name>revisions</name><block>enterprise_cms/adminhtml_cms_page_edit_tab_revisions</block></action>
-<!--
-            <action method="addTab">
-                <name>versions</name>
-                <block translate="label title" module="enterprise_cms">
-                    <class>ajax</class>
-                    <label>Versions</label>
-                    <title>Versions</title>
-                </block>
-            </action>
-            <action method="setTabData"><tab>versions</tab><key>url</key><value>*/*/versions</value></action>
-            <action method="addTab">
-                <name>revisions</name>
-                <block translate="label title" module="enterprise_cms">
-                    <class>ajax</class>
-                    <label>Revisions</label>
-                    <title>Revisions</title>
-                </block>
-            </action>
-            <action method="setTabData"><tab>revisions</tab><key>url</key><value>*/*/revisions</value></action>
--->
         </reference>
     </adminhtml_cms_page_edit_changes>
 
-    <adminhtml_cms_page_revisions>
-        <remove name="root" />
-        <block type="enterprise_cms/adminhtml_cms_page_edit_tab_revisions"  output="toHtml" name="cms_page_edit_revisions" />
-    </adminhtml_cms_page_revisions>
-
+<!--
+    Grid with versions on tab versions
+-->
     <adminhtml_cms_page_versions>
         <remove name="root" />
         <block type="enterprise_cms/adminhtml_cms_page_edit_tab_versions"  output="toHtml" name="cms_page_edit_versions" />
     </adminhtml_cms_page_versions>
 
+<!--
+    Revision edit interface
+-->
     <adminhtml_cms_page_revision_edit>
         <reference name="content">
             <block type="enterprise_cms/adminhtml_cms_page_revision_edit" name="cms_page_revision_edit">
@@ -96,11 +77,17 @@
         </reference>
     </adminhtml_cms_page_revision_edit>
 
+<!--
+    Version ajax tab
+-->
     <adminhtml_cms_page_revision_version>
         <remove name="root" />
         <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_version"  output="toHtml" name="cms_page_revision_edit_version" />
     </adminhtml_cms_page_revision_version>
 
+<!--
+    Revision preview page
+-->
     <adminhtml_cms_page_revision_preview>
         <reference name="root">
             <action method="setTemplate"><template>enterprise/cms/page/preview.phtml</template></action>
@@ -110,8 +97,25 @@
                 <block type="enterprise_cms/adminhtml_cms_page_preview_revision" name="revision_switcher" template="enterprise/cms/page/preview/revision.phtml" />
             </block>
         </reference>
-
     </adminhtml_cms_page_revision_preview>
+
+<!--
+    Version edit interface
+-->
+    <adminhtml_cms_page_version_edit>
+        <reference name="content">
+            <block type="enterprise_cms/adminhtml_cms_page_version_edit" name="cms_page_version_edit" />
+            <block type="enterprise_cms/adminhtml_cms_page_version_edit_revisions" name="cms_page_version_edit_revisions" />
+        </reference>
+    </adminhtml_cms_page_version_edit>
+
+<!--
+    Grid with revisions on version edit page
+-->
+    <adminhtml_cms_page_version_revisions>
+        <remove name="root" />
+        <block type="enterprise_cms/adminhtml_cms_page_version_edit_revisions"  output="toHtml" name="cms_page_edit_version_edit_revisions" />
+    </adminhtml_cms_page_version_revisions>
 
     <adminhtml_cms_hierarchy_index>
         <reference name="content">

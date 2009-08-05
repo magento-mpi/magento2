@@ -103,16 +103,16 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
         }
 
         $this->_initAction()
-            ->_addBreadcrumb($revision->getId() ? Mage::helper('enterprise_cms')->__('Edit Revision')
-                    : Mage::helper('enterprise_cms')->__('New Revision'),
-                $revision->getId() ? Mage::helper('enterprise_cms')->__('Edit Revision')
-                    : Mage::helper('enterprise_cms')->__('New Revision'));
+            ->_addBreadcrumb(Mage::helper('enterprise_cms')->__('Edit Revision'),
+                Mage::helper('enterprise_cms')->__('Edit Revision'));
 
         $this->renderLayout();
     }
 
     /**
      * Save action
+     *
+     * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
      */
     public function saveAction()
     {
@@ -159,7 +159,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 return;
             }
         }
-        $this->_redirect('*/*/');
+        return $this;
     }
 
     /**
@@ -326,7 +326,6 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             try {
                 // init model and delete
                 $revision = $this->_initRevision();
-                $revisionNumber = $revision->getRevisionNumber();
                 $revision->delete();
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully deleted.'));

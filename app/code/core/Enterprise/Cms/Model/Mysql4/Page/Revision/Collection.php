@@ -89,9 +89,24 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision_Collection extends Enterprise_Cm
         return $this;
     }
 
-    public function setDefaultSortOrder()
+    /**
+     * Add filtering by version id.
+     * Parameter $version can be int or object.
+     *
+     * @param int|Enterprise_Cms_Model_Page_Version $version
+     * @return Enterprise_Cms_Model_Mysql4_Page_Revision_Collection
+     */
+    public function addVersionFilter($version)
     {
-        //$this->getSelect()->order('ver_table.version_number, revision_number DESC');
+        if ($version instanceof Enterprise_Cms_Model_Page_Version) {
+            $version = $version->getId();
+        }
+
+        if (is_array($version)) {
+            $version = array('in' => $version);
+        }
+
+        $this->addFieldTofilter('version_id', $version);
 
         return $this;
     }

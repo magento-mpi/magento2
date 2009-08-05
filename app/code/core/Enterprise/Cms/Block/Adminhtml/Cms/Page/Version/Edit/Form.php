@@ -1,0 +1,97 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+
+
+/**
+ * Form for version edit page
+ *
+ * @category    Enterprise
+ * @package     Enterprise_Cms
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+
+class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+{
+    /**
+     * Preparing from for version page
+     *
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Form
+     */
+    protected function _prepareForm()
+    {
+        $form = new Varien_Data_Form(array(
+                'id' => 'edit_form',
+                'action' => $this->getUrl('*/*/save', array('_current' => true)),
+                'method' => 'post'
+            ));
+
+        $form->setUseContainer(true);
+
+        /* @var $model Mage_Cms_Model_Page */
+        $model = Mage::registry('cms_page_version');
+
+        /*
+         * Determine if user owner of this version
+         */
+        $this->setUserCanEditVersion(true);
+        if ($model->getUserId() != Mage::getSingleton('admin/session')->getUser()->getId()
+                || !Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision()) {
+            $this->setUserCanEditVersion(false);
+        }
+
+        $fieldset = $form->addFieldset('version_fieldset',
+            array('legend' => Mage::helper('enterprise_cms')->__('Version Information'),
+            'class' => 'fieldset-wide'));
+
+        $fieldset->addField('version_id', 'hidden', array(
+            'name'      => 'version_id'
+        ));
+
+        $fieldset->addField('page_id', 'hidden', array(
+            'name'      => 'page_id'
+        ));
+
+        $fieldset->addField('label', 'text', array(
+            'name'      => 'label',
+            'label'     => Mage::helper('enterprise_cms')->__('Label'),
+            'title'     => Mage::helper('enterprise_cms')->__('Label'),
+            'disabled'  => !$this->getUserCanEditVersion(),
+            'required'  => true
+        ));
+
+        $fieldset->addField('access_level', 'select', array(
+            'label'     => Mage::helper('enterprise_cms')->__('Access Level'),
+            'title'     => Mage::helper('enterprise_cms')->__('Access Level'),
+            'name'      => 'access_level',
+            'options'   => Mage::getSingleton('enterprise_cms/config')->getStatuses(),
+            'disabled'  => !$this->getUserCanEditVersion()
+        ));
+
+        $form->setValues($model->getData());
+        $this->setForm($form);
+        return parent::_prepareForm();
+    }
+}

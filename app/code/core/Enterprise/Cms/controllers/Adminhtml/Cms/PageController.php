@@ -114,21 +114,6 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     }
 
     /**
-     * Action for revisions ajax tab
-     *
-     * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
-     */
-    public function revisionsAction()
-    {
-        $this->_initPage();
-
-        $this->loadLayout();
-        $this->renderLayout();
-
-        return $this;
-    }
-
-    /**
      * Action for versions ajax tab
      *
      * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
@@ -144,39 +129,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     }
 
     /**
-     * Mass deletion for revisions
-     *
-     */
-    public function massDeleteRevisionsAction()
-    {
-        $ids = $this->getRequest()->getParam('revision');
-        if (!is_array($ids)) {
-            $this->_getSession()->addError($this->__('Please select revision(s)'));
-        }
-        else {
-            try {
-                foreach ($ids as $id) {
-                    $revision = Mage::getSingleton('enterprise_cms/page_revision')
-                        ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
-                        ->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
-                        ->load($id);
-
-                    if ($revision->getId()) {
-                        $revision->delete();
-                    }
-                }
-                $this->_getSession()->addSuccess(
-                    $this->__('Total of %d record(s) were successfully deleted', count($ids))
-                );
-            } catch (Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-            }
-        }
-        $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'revisions'));
-    }
-
-    /**
-     * Mass deletion for revisions
+     * Mass deletion for versions
      *
      */
     public function massDeleteVersionsAction()

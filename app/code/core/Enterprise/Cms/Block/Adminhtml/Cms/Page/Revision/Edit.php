@@ -99,10 +99,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
             $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save'));
             $this->_updateButton('save', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\');');
             $this->_updateButton('saveandcontinue', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\'+\'back/edit/\');');
+        } else {
+            $this->removeButton('save');
+            $this->removeButton('saveandcontinue');
         }
 
         if ($this->_isAllowedAction('delete_revision')) {
             $this->_updateButton('delete', 'label', Mage::helper('enterprise_cms')->__('Delete'));
+        } else {
+            $this->removeButton('delete');
         }
 
         return $this;
@@ -118,11 +123,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
     {
         $revisionNumber = Mage::registry('cms_page')->getRevisionNumber();
         $title = $this->htmlEscape(Mage::registry('cms_page')->getTitle());
-        if ($revisionNumber) {
-            return Mage::helper('enterprise_cms')->__("Edit Page '%s' Revision #%s", $title, $this->htmlEscape($revisionNumber));
-        } else {
-            return Mage::helper('enterprise_cms')->__("Edit Page '%s' New Revision", $title);
-        }
+
+        return Mage::helper('enterprise_cms')->__("Edit Page '%s' Revision #%s", $title, $this->htmlEscape($revisionNumber));
     }
 
     /**
@@ -147,10 +149,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/cms_page/edit',
+        return $this->getUrl('*/cms_page_version/edit',
              array(
                 'page_id' => Mage::registry('cms_page')->getPageId(),
-                'tab' => 'revisions'
+                'version_id' => Mage::registry('cms_page')->getVersionId()
              ));
     }
 
