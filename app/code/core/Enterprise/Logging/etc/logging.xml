@@ -1183,10 +1183,6 @@
     <enterprise_logging translate="label">
         <label>Admin Actions Log</label>
         <actions>
-            <adminhtml_logging_index>
-                <action>view</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_logging_index>
             <adminhtml_logging_details>
                 <action>view</action>
                 <id>event_id</id>
