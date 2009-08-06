@@ -29,34 +29,6 @@
     <sections>
         <cms>
             <groups>
-                <page_revisions translate="label">
-                    <label>CMS Page Revisions</label>
-                    <frontend_type>text</frontend_type>
-                    <sort_order>1</sort_order>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <fields>
-                        <revision_lifetime translate="label comment">
-                            <label>Revision Lifetime (Days)</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <comment>if empty or 0 no expiration</comment>
-                        </revision_lifetime>
-                        <minimum_number translate="label comment">
-                            <label>Minimum Number of Revisions per Page</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <comment>if empty or 0 unlimited</comment>
-                        </minimum_number>
-                    </fields>
-                </page_revisions>
                 <hierarchy translate="label">
                     <label>CMS Page Hierarchy</label>
                     <frontend_type>text</frontend_type>

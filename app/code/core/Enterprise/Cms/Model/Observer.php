@@ -193,22 +193,4 @@ class Enterprise_Cms_Model_Observer
 
         return $this;
     }
-
-    /**
-     * Removing revision which are too old
-     * if apropriate system configuration parameter set.
-     *
-     * @return Enterprise_Cms_Model_Observer
-     */
-    public function cmsPageRevisionExpireCronJob()
-    {
-        $expireTime = Mage::getStoreConfig('cms/page_revisions/revision_lifetime');
-        $minimumNumber = Mage::getStoreConfig('cms/page_revisions/minimum_number');
-
-        if (!$expireTime || !$minimumNumber) {
-            return $this;
-        }
-
-        return $this;
-    }
 }

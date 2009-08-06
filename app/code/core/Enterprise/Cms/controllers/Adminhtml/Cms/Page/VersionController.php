@@ -262,6 +262,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                 return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision();
                 break;
             case 'delete':
+            case 'massDeleteRevisions':
                 return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteRevision();
                 break;
             default:

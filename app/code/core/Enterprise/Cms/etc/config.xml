@@ -227,15 +227,6 @@
         </layout>
     </frontend>
 
-    <crontab>
-        <jobs>
-            <enterprise_cms_page_revision_expire>
-                <schedule><cron_expr>0 2 * * *</cron_expr></schedule>
-                <run><model>enterprise_cms/observer::cmsPageRevisionExpireCronJob</model></run>
-            </enterprise_cms_page_revision_expire>
-        </jobs>
-    </crontab>
-
     <default>
         <cms>
             <hierarchy>
