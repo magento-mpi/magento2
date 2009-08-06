@@ -321,6 +321,13 @@ class Mage_Customer_Model_Convert_Parser_Customer
                 && $newsletter->getSubscriberStatus() == Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED)
                 ? 1 : 0;
 
+            if($customer->getGroupId()){
+                $group = Mage::getResourceModel('customer/group_collection')
+                    ->addFilter('customer_group_id',$customer->getGroupId())
+                    ->load();
+                $row['group'] = $group->getFirstItem()->getCustomerGroupCode();
+            }
+
             $batchExport = $this->getBatchExportModel()
                 ->setId(null)
                 ->setBatchId($this->getBatchModel()->getId())
