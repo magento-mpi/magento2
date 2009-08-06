@@ -96,14 +96,14 @@
                     </enterprise_logging>
                 </observers>
             </model_save_after>
-            
+
             <model_delete_after>
                 <observers>
                     <enterprise_logging>
                         <class>enterprise_logging/observer</class>
                         <method>modelDeleteAfter</method>
                     </enterprise_logging>
-                </observers>            
+                </observers>
             </model_delete_after>
 
             <admin_session_user_login_success>
@@ -162,9 +162,17 @@
                                         </logging>
                                     </children>
                                 </config>
-                                <logging translate="title" module="enterprise_logging">
+                                <enterprise_logging translate="title" module="enterprise_logging">
                                     <title>Admin Logging</title>
-                                </logging>
+                                    <children>
+                                        <events translate="title">
+                                            <title>Report</title>
+                                        </events>
+                                        <backups translate="title">
+                                            <title>Archive</title>
+                                        </backups>
+                                    </children>
+                                </enterprise_logging>
                             </children>
                         </system>
                     </children>

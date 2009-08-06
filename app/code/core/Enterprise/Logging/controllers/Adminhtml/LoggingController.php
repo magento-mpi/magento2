@@ -72,7 +72,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
     public function exportCsvAction()
     {
         $this->_prepareDownloadResponse('log.csv',
-            $this->getLayout()->createBlock('enterprise_logging/adminhtml_log_grid')->getCsv()
+            $this->getLayout()->createBlock('enterprise_logging/adminhtml_index_grid')->getCsv()
         );
     }
 
@@ -82,7 +82,7 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
     public function exportXmlAction()
     {
         $this->_prepareDownloadResponse('log.xml',
-            $this->getLayout()->createBlock('enterprise_logging/adminhtml_log_grid')->getXml()
+            $this->getLayout()->createBlock('enterprise_logging/adminhtml_index_grid')->getXml()
         );
     }
 
@@ -123,6 +123,20 @@ class Enterprise_Logging_Adminhtml_LoggingController extends Mage_Adminhtml_Cont
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('report/logging');
+        switch ($this->getRequest()->getActionName()) {
+            case 'archive':
+            case 'download':
+            case 'archiveGrid':
+                return Mage::getSingleton('admin/session')->isAllowed('admin/system/enterprise_logging/backups');
+                break;
+            case 'grid':
+            case 'exportCsv':
+            case 'exportXml':
+            case 'details':
+            case 'index':
+                return Mage::getSingleton('admin/session')->isAllowed('admin/system/enterprise_logging/events');
+                break;
+        }
+
     }
 }
