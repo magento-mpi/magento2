@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.41</version>
+            <version>0.9.42</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -73,6 +73,7 @@
             </sales_copy_order_shipping_address>
             <sales_convert_quote>
                 <remote_ip><to_order>*</to_order></remote_ip>
+                <x_forwarded_for><to_order>*</to_order></x_forwarded_for>
 
                 <customer_id><to_order>*</to_order></customer_id>
                 <customer_email><to_order>*</to_order></customer_email>
