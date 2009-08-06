@@ -60,7 +60,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
                 $this->removeButton('save');
             } else {
                  $this->_addButton('saveandcontinue', array(
-                        'label'     => Mage::helper('adminhtml')->__('Save And Continue Edit'),
+                        'label'     => Mage::helper('enterprise_cms')->__('Save Version And Continue Edit'),
                         'onclick'   => "editForm.submit($('edit_form').action+'back/edit/');",
                         'class'     => 'save',
                     ), -100);
@@ -70,6 +70,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
                 $this->removeButton('delete');
             }
         }
+
+        $this->_updateButton('delete', 'label', Mage::helper('enterprise_cms')->__('Delete Version'))
+            ->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save Version'));
     }
 
     /**
