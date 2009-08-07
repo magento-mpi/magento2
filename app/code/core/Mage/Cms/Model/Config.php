@@ -59,7 +59,7 @@ class Mage_Cms_Model_Config
 
             if ($statusNode) {
                 foreach ($statusNode->children() as $status) {
-                    $this->_pageStatuses[(string)$status->value] = (string)$status->label;
+                    $this->_pageStatuses[(string)$status->value] = Mage::helper('cms')->__((string)$status->label);
                 }
             }
         }
