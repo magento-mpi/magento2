@@ -75,11 +75,13 @@ html,body { height:100%; }
 
     function togglePublish(state) {
         var button = $('preview-buttons-publish');
-        if (state) {
-            button.show();
-            publishUrl = publishUrlTemplate.replace('{{value}}', state);
-        } else {
-            button.hide();
+        if (button) {
+            if (state) {
+                button.show();
+                publishUrl = publishUrlTemplate.replace('{{value}}', state);
+            } else {
+                button.hide();
+            }
         }
     }
 

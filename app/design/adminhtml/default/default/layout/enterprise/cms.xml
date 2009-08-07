@@ -102,26 +102,7 @@
             <block type="core/text_list" name="tools" as="tools">
                 <block type="enterprise_cms/adminhtml_cms_page_preview_store" name="store_switcher" template="enterprise/cms/page/preview/store.phtml" />
                 <block type="enterprise_cms/adminhtml_cms_page_preview_revision" name="revision_switcher" template="enterprise/cms/page/preview/revision.phtml" />
-                <block type="enterprise_cms/adminhtml_cms_page_preview_buttons" name="preview_control_buttons">
-                    <action method="addButton">
-                        <id>preview</id>
-                        <data translate="label" module="enterprise_cms">
-                            <id>preview-buttons-preview</id>
-                            <label>Preview</label>
-                            <class>preview</class>
-                            <onclick>preview()</onclick>
-                        </data>
-                    </action>
-                    <action method="addButton">
-                        <id>publish</id>
-                        <data translate="label" module="enterprise_cms">
-                            <id>preview-buttons-publish</id>
-                            <label>Publish</label>
-                            <class>publish</class>
-                            <onclick>publish()</onclick>
-                        </data>
-                    </action>
-                </block>
+                <block type="enterprise_cms/adminhtml_cms_page_preview_buttons" name="preview_control_buttons" />
             </block>
         </reference>
     </adminhtml_cms_page_revision_preview>

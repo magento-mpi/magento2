@@ -35,6 +35,32 @@
 class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons extends Mage_Adminhtml_Block_Widget_Container
 {
     /**
+     * Adding two main buttons
+     *
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Buttons
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->_addButton('preview', array(
+                'id' => 'preview-buttons-preview',
+                'label' => 'Preview',
+                'class' => 'preview',
+                'onclick' => 'preview()'
+            ));
+
+        if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublishRevision()) {
+            $this->_addButton('publish', array(
+                'id' => 'preview-buttons-publish',
+                'label' => 'Publish',
+                'class' => 'publish',
+                'onclick' => 'publish()'
+            ));
+        }
+    }
+
+    /**
      * Override parent method to produce only button's html in result
      *
      * @return string
