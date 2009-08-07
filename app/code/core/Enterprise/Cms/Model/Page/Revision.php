@@ -57,53 +57,27 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $currentUserId = Mage::getSingleton('admin/session')->getUser()->getId();
+        // If version id not specified we should create new one
+        if ($this->getCreateNewVersionAction()){
+            $version = Mage::getModel('enterprise_cms/page_version')
+                ->load($this->getVersionId());
 
-        $version = Mage::getModel('enterprise_cms/page_version');
-        /*
-         * Trying to load version if revision has it
-         */
-        if ($this->getVersionId() && $this->getVersionAction() != 2) {
-            $version->load($this->getVersionId());
-            //updating label and access level if current user owner of this version
-            if ($this->getVersionAction() == 3 && $version->getUserId() == $currentUserId) {
-                $version->setAccessLevel($this->getAccessLevel())
-                    ->setLabel($this->getVersionLabel())
-                    ->save();
-            }
-        } else if (!$this->getVersionId() || $this->getVersionAction() == 2){
-            /*
-             * if this is new page or it does not have any version we should
-             * create one with public access
-             */
-            if (!$this->hasAccessLevel() || !$this->getVersionId()) {
-                $this->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC);
-            }
-
-            /*
-             * If there no version label we need to check
-             * if this is new page we use page title as label
-             */
-            if (!$this->getVersionLabel() && !$this->getVersionId()) {
-                $this->setVersionLabel($this->getTitle());
-            }
-
-            $version->setAccessLevel($this->getAccessLevel())
+            $version->unsetData($version->getIdFieldName())
                 ->setLabel($this->getVersionLabel())
-                ->setPageId($this->getPageId())
-                ->setUserId($currentUserId)
+                ->setUserId($this->getUserId())
                 ->save();
+
+            $this->setVersionId($version->getId());
         }
 
         /*
-         * Reseting revision id this revision should be saved as new
+         * Reseting revision id this revision should be saved as new.
+         * Bc data was changed or original version id not equals to new version id.
          */
-        if ($this->_revisionedDataWasModified() || $this->getVersionId() != $version->getId()) {
-            $this->setVersionId($version->getId());
-            $this->setUserId($currentUserId);
+        if ($this->_revisionedDataWasModified() || $this->getVersionId() != $this->getOrigData('version_id')) {
             $this->unsetData($this->getIdFieldName());
-
             $this->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
+
             /*
              * Preparing new human-readable id
              */
@@ -159,7 +133,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         $attributes = $this->_config->getPageRevisionControledAttributes();
         foreach ($this->getData() as $key => $value) {
             if (in_array($key, $attributes)) {
-                $this->unsData($key);
+                $this->unsetData($key);
                 $data[$key] = $value;
             }
         }

@@ -53,52 +53,56 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
 
         $this->_addButton('preview', array(
             'label'     => Mage::helper('enterprise_cms')->__('Preview'),
-            'onclick'   => 'previewAction(\'' . $this->getPreviewUrl() . '\')',
+            'onclick'   => "previewAction('edit_form', editForm, '" . $this->getPreviewUrl() . "')",
             'class'     => 'preview',
         ));
 
-        $this->_formScripts[] = "
-            function previewAction(url){
-                $('edit_form').writeAttribute('target', '_blank');
-                editForm.submit(url);
-                $('edit_form').writeAttribute('target', '');
-            }
-        ";
 
         if ($this->_isAllowedAction('publish_revision')) {
             $this->_addButton('publish', array(
                 'id'        => 'publish_button',
-                'label'     => Mage::helper('enterprise_cms')->__('Select For Publishing'),
-                'onclick'   => 'publishAction(\'' . $this->getPublishUrl() . '\')',
+                'label'     => Mage::helper('enterprise_cms')->__('Publish'),
+                'onclick'   => "publishAction('" . $this->getPublishUrl() . "')",
                 'class'     => 'publish',
             ));
 
-            $this->_formScripts[] = "
-                var isDataChanged = false;
-                function publishAction(url){
-                    if (isDataChanged) {
-                        editForm.submit('" . $this->getSaveUrl() . "' + 'back/publish/');
-                    } else {
-                        setLocation(url);
-                    }
-                }
-
-                function dataChanged() {
-                    isDataChanged = true;
-                    var button = $('publish_button');
-                    if (button) {
-                        button.select('span')[0].update('" . Mage::helper('enterprise_cms')->__('Save And Select For Publishing') . "')
-                    }
-                }
-
-                varienGlobalEvents.attachEventHandler('tinymceChange', dataChanged);
-            ";
+            $this->_addButton('save_publish', array(
+                'id'        => 'save_publish_button',
+                'label'     => Mage::helper('enterprise_cms')->__('Save And Publish'),
+                'onclick'   => "saveAndPublishAction(editForm, '" . $this->getSaveUrl() . "')",
+                'class'     => 'publish no-display',
+            ));
         }
 
         if ($this->_isAllowedAction('save_revision')) {
             $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save'));
             $this->_updateButton('save', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\');');
             $this->_updateButton('saveandcontinue', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\'+\'back/edit/\');');
+
+            // Adding button to create new version
+            $this->_addButton('new_version', array(
+                'id'        => 'new_version',
+                'label'     => Mage::helper('enterprise_cms')->__('New Version'),
+                'onclick'   => 'newVersionAction()',
+                'class'     => 'new',
+            ));
+
+            $this->_formScripts[] = "
+                function newVersionAction(){
+                    var versionLabel = prompt('" . Mage::helper('enterprise_cms')->__('Specify label for new version (required)') . "', '')
+                    if (versionLabel == '') {
+                        alert('" . Mage::helper('enterprise_cms')->__('You should specify valid label') . "');
+                        return false;
+                    } else if (versionLabel == null) {
+                        return false;
+                    }
+
+                    $('page_label').value = versionLabel;
+                    $('page_create_new_version_action').value = '1';
+                    editForm.submit('" . $this->getSaveUrl() . "');
+                }
+            ";
+
         } else {
             $this->removeButton('save');
             $this->removeButton('saveandcontinue');

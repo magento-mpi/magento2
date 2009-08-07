@@ -31,6 +31,9 @@
     Custom layout changes to native adminhtml_cms_page_edit handle
 -->
     <adminhtml_cms_page_edit_changes>
+        <reference name="head">
+            <action method="addJs"><script>enterprise/adminhtml/cms.js</script></action>
+        </reference>
         <reference name="cms_page_edit_tabs">
             <block type="enterprise_cms/adminhtml_cms_page_edit" anme="cms_page_edit_extender" />
         </reference>
@@ -39,6 +42,16 @@
             <action method="removeTab"><name>design_section</name></action>
             <action method="removeTab"><name>meta_section</name></action>
             <action method="addTab"><name>versions</name><block>enterprise_cms/adminhtml_cms_page_edit_tab_versions</block></action>
+        </reference>
+        <reference name="cms_page_edit">
+            <action method="addButton">
+                <id>preview</id>
+                <data translate="label" module="enterprise_cms">
+                    <label>Preview</label>
+                    <class>preview</class>
+                    <onclick>pagePreviewAction()</onclick>
+                </data>
+            </action>
         </reference>
     </adminhtml_cms_page_edit_changes>
 
@@ -54,6 +67,9 @@
     Revision edit interface
 -->
     <adminhtml_cms_page_revision_edit>
+        <reference name="head">
+            <action method="addJs"><script>enterprise/adminhtml/cms.js</script></action>
+        </reference>
         <reference name="content">
             <block type="enterprise_cms/adminhtml_cms_page_revision_edit" name="cms_page_revision_edit">
                 <block type="enterprise_cms/adminhtml_cms_page_revision_edit_info" name="revision_info" template="enterprise/cms/page/revision/info.phtml" />
@@ -64,15 +80,6 @@
                 <action method="addTab"><name>content_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_content</block></action>
                 <action method="addTab"><name>design_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_design</block></action>
                 <action method="addTab"><name>meta_section</name><block>enterprise_cms/adminhtml_cms_page_revision_edit_tab_meta</block></action>
-                <action method="addTab">
-                    <name>version_section</name>
-                    <block translate="label title" module="enterprise_cms">
-                        <class>ajax</class>
-                        <label>Version Information</label>
-                        <title>Version Information</title>
-                    </block>
-                </action>
-                <action method="setTabData"><tab>version_section</tab><key>url</key><value>*/*/version</value></action>
             </block>
         </reference>
     </adminhtml_cms_page_revision_edit>
@@ -95,6 +102,26 @@
             <block type="core/text_list" name="tools" as="tools">
                 <block type="enterprise_cms/adminhtml_cms_page_preview_store" name="store_switcher" template="enterprise/cms/page/preview/store.phtml" />
                 <block type="enterprise_cms/adminhtml_cms_page_preview_revision" name="revision_switcher" template="enterprise/cms/page/preview/revision.phtml" />
+                <block type="enterprise_cms/adminhtml_cms_page_preview_buttons" name="preview_control_buttons">
+                    <action method="addButton">
+                        <id>preview</id>
+                        <data translate="label" module="enterprise_cms">
+                            <id>preview-buttons-preview</id>
+                            <label>Preview</label>
+                            <class>preview</class>
+                            <onclick>preview()</onclick>
+                        </data>
+                    </action>
+                    <action method="addButton">
+                        <id>publish</id>
+                        <data translate="label" module="enterprise_cms">
+                            <id>preview-buttons-publish</id>
+                            <label>Publish</label>
+                            <class>publish</class>
+                            <onclick>publish()</onclick>
+                        </data>
+                    </action>
+                </block>
             </block>
         </reference>
     </adminhtml_cms_page_revision_preview>

@@ -86,4 +86,30 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
         return parent::_beforeSave();
     }
 
+    /**
+     * Processing some data after version saved
+     *
+     * @return Enterprise_Cms_Model_Page_Version
+     */
+    protected function _afterSave()
+    {
+        // If this was a new version we should create initial revision for it
+        // from specified revision or from latest for parent version
+        if (!$this->getOrigData($this->getIdFieldName())) {
+            $revision = Mage::getModel('enterprise_cms/page_revision');
+
+            $revision->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
+            $revision->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
+
+            if ($this->getInitialRevisionId()) {
+                $revision->load($this->getInitialRevisionId());
+            } else {
+                $revision->load($this->getOrigData($this->getIdFieldName()), 'version_id');
+            }
+
+            $revision->setVersionId($this->getId())
+                ->setUserId($this->getUserId())
+                ->save();
+        }
+    }
 }

@@ -121,7 +121,8 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             $data = $this->_filterPostData($data);
             // init model and set data
             $revision = $this->_initRevision();
-            $revision->setData($data);
+            $revision->setData($data)
+                ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
 
             // try to save it
             try {
@@ -142,7 +143,10 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                     return;
                 }
                 // go to grid
-                $this->_redirect('*/cms_page/edit', array('page_id' => $revision->getPageId()));
+                $this->_redirect('*/cms_page_version/edit', array(
+                        'page_id' => $revision->getPageId(),
+                        'version_id' => $revision->getVersionId()
+                    ));
                 return;
 
             } catch (Exception $e) {
@@ -215,7 +219,33 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             $this->_forward('noRoute');
             return $this;
         }
+
+        $page = $this->_initPage();
         $this->loadLayout();
+
+        $stores = $page->getStoreId();
+        if (isset($data['stores'])) {
+            $stores = $data['stores'];
+        }
+
+        /*
+         * Checking if all stores passed then we should not assign array to block
+         */
+        $allStores = false;
+        if (is_array($stores) && count($stores) == 1 && !array_shift($stores)) {
+            $allStores = true;
+        }
+
+        if (!$allStores) {
+            $this->getLayout()->getBlock('store_switcher')->setStoreIds($stores);
+        }
+
+        // Setting default values for selected store and revision
+        $data['preview_selected_store'] = 0;
+        $data['preview_selected_revision'] = 0;
+
+        $this->getLayout()->getBlock('preview_form')->setFormData($data);
+
         $this->renderLayout();
     }
 
@@ -256,16 +286,9 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             }
 
             /*
-             * Preparing posted data for settign it in page model
+             * Posting posted data in page model
              */
-            $attributes = Mage::getSingleton('enterprise_cms/config')
-                ->getPageRevisionControledAttributes();
-
-            foreach ($_tempData as $key => $value) {
-                if (in_array($key, $attributes)) {
-                    $page->setData($key, $value);
-                }
-            }
+            $page->addData($_tempData);
 
             /*
              * Retrieve store id from page model or if it was passed from post
@@ -273,13 +296,6 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             $selectedStoreId = $page->getStoreId();
             if (is_array($selectedStoreId)) {
                 $selectedStoreId = array_shift($selectedStoreId);
-                if (!$selectedStoreId) {
-                    $allStores = true;
-                } else {
-                    $allStores = false;
-                }
-            } else {
-                $allStores = true;
             }
 
             if (isset($data['preview_selected_store']) && $data['preview_selected_store']) {

@@ -125,7 +125,7 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
 
         if ($result == $object->getId()) {
             Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Revision #%s could not be removed because it is selected for publishing.', $object->getRevisionNumber())
+                Mage::helper('enterprise_cms')->__('Revision #%s could not be removed because it is published.', $object->getRevisionNumber())
             );
         }
 
@@ -197,11 +197,13 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
             'ver_table.version_id = ' . $this->getMainTable() . '.version_id' . $conditions,
             array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id'));
 
-        /*
-         * Adding page data.
-         */
+        // Adding page data.
         $select->join(array('page_table' => $this->_pageTable),
             $this->getMainTable() . '.page_id=page_table.page_id', array('title'));
+
+        // Adding limitation and ordering
+        $select->order($this->getMainTable() . '.created_at DESC')
+            ->limit(1);
 
         return $select;
     }

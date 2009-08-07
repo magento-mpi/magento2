@@ -33,12 +33,9 @@ html,body { height:100%; }
 </style>
 </head>
 <body id="html-body"<?php echo $this->getBodyClass()?'class="'.$this->getBodyClass().'"':'' ?>>
-<div class="cms-revision-preview">
+<div id="cms-revision-preview" class="cms-revision-preview">
     <div class="toolbar">
         <?php echo $this->getChildHtml('tools') ?>
-        <button class="scalable " style="" onclick="preview();" type="button">
-            <span><?php echo $this->__('Preview') ?></span>
-        </button>
     </div>
 <iframe name="preview_iframe" id="preview_iframe" frameborder="0"></iframe>
 <?php echo $this->getChildHtml('preview_form') ?>
@@ -52,29 +49,46 @@ html,body { height:100%; }
     var loadingMask = $('loading-mask');
     var previewIframe = $('preview_iframe');
 
-    function preview()
-    {
+    var publishUrlTemplate = '<?php echo $this->getUrl('*/*/publish', array('revision_id' => '{{value}}'))?>';
+    var publishUrl = '';
+
+    function preview() {
         previewForm.writeAttribute('target', previewIframe.readAttribute('id'));
         blockPreview();
         previewForm.submit();
     }
 
-    function blockPreview()
-    {
-        Element.clonePosition(loadingMask, previewIframe);
+    function blockPreview() {
+        Element.clonePosition(loadingMask, $('cms-revision-preview'));
         toggleSelectsUnderBlock(loadingMask, false);
         Element.show(loadingMask);
         setLoaderPosition();
     }
 
-    function unBlockPreview()
-    {
+    function unBlockPreview() {
         toggleSelectsUnderBlock(loadingMask, true);
         Element.hide(loadingMask);
     }
 
     Event.observe(window, 'load', preview);
     Event.observe(previewIframe, 'load', unBlockPreview);
+
+    function togglePublish(state) {
+        var button = $('preview-buttons-publish');
+        if (state) {
+            button.show();
+            publishUrl = publishUrlTemplate.replace('{{value}}', state);
+        } else {
+            button.hide();
+        }
+    }
+
+    togglePublish(false);
+
+    function publish() {
+        setLocation(publishUrl);
+    }
+
 //]]>
 </script>
 </body>

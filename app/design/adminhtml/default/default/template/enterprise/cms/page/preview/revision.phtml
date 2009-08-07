@@ -42,6 +42,7 @@
 Event.observe($('revision_switcher'), 'change', function(event) {
     var element = Event.element(event);
     $('preview_selected_revision').value = element.value;
+    togglePublish(element.value);
 });
 </script>
 <?php endif; ?>

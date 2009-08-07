@@ -48,6 +48,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         parent::__construct();
         $version = Mage::registry('cms_page_version');
 
+        // Add 'new button' depending on permission
+        if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision()) {
+             $this->_addButton('new', array(
+                    'label'     => Mage::helper('adminhtml')->__('Save As New'),
+                    'onclick'   => "editForm.submit('" . $this->getNewUrl() . "');",
+                    'class'     => 'new',
+                ));
+        }
+
         /*
          * Disable Edit or Remove if user not owner of version
          * in other case check permission
@@ -60,19 +69,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
                 $this->removeButton('save');
             } else {
                  $this->_addButton('saveandcontinue', array(
-                        'label'     => Mage::helper('enterprise_cms')->__('Save Version And Continue Edit'),
+                        'label'     => Mage::helper('enterprise_cms')->__('Save And Continue Edit'),
                         'onclick'   => "editForm.submit($('edit_form').action+'back/edit/');",
                         'class'     => 'save',
-                    ), -100);
+                    ));
             }
 
             if (!Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteRevision()) {
                 $this->removeButton('delete');
             }
         }
-
-        $this->_updateButton('delete', 'label', Mage::helper('enterprise_cms')->__('Delete Version'))
-            ->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save Version'));
     }
 
     /**
@@ -111,6 +117,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
     public function getDeleteUrl()
     {
         return $this->getUrl('*/*/delete', array('_current' => true));
+    }
+
+    /**
+     * Get URL for new button
+     *
+     * @return string
+     */
+    public function getNewUrl()
+    {
+        return $this->getUrl('*/*/new', array('_current' => true));
     }
 
 }

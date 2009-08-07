@@ -68,25 +68,19 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
             $fieldset->addField('page_id', 'hidden', array(
                 'name' => 'page_id',
             ));
-        }
 
-        if ($model->getRevisionId()) {
-            $fieldset->addField('revision_id', 'hidden', array(
-                'name' => 'revision_id',
-            ));
-        }
-
-        if ($model->getVersionId()) {
             $fieldset->addField('version_id', 'hidden', array(
                 'name' => 'version_id',
             ));
-        }
 
-        /*
-         * Params for preview
-         */
-        $fieldset->addField('preview_selected_store', 'hidden', array('name' => 'preview_selected_store'));
-        $fieldset->addField('preview_selected_revision', 'hidden', array('name' => 'preview_selected_revision'));
+            $fieldset->addField('label', 'hidden', array(
+                'name' => 'version_label',
+            ));
+
+            $fieldset->addField('create_new_version_action', 'hidden', array(
+                'name' => 'create_new_version_action',
+            ));
+        }
 
         $this->getForm()->setValues($model->getData());
 

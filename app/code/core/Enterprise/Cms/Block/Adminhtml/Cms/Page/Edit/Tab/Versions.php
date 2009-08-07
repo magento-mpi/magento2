@@ -109,7 +109,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 
         $this->addColumn('revisions', array(
-            'header' => Mage::helper('enterprise_cms')->__('Revisions'),
+            'header' => Mage::helper('enterprise_cms')->__('Revisions Qty'),
             'index' => 'revisions_count',
             'type' => 'number'
         ));

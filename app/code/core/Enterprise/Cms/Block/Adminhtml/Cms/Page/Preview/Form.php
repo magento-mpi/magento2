@@ -47,9 +47,18 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Form extends Mage_Adminhtm
                 'method' => 'post'
             ));
 
-        if ($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getFormData()) {
             foreach ($data as $key => $value) {
-                $form->addField($key, 'hidden', array('name' => $key));
+                if (is_array($value)) {
+                    foreach ($value as $subKey => $subValue) {
+                        $newKey = $key.$subKey;
+                        $data[$newKey] = $subValue;
+                        $form->addField($newKey, 'hidden', array('name' => $key."[$subKey]"));
+                    }
+                    unset($data[$key]);
+                } else {
+                    $form->addField($key, 'hidden', array('name' => $key));
+                }
             }
             $form->setValues($data);
         }

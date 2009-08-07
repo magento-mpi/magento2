@@ -41,9 +41,9 @@
 </form>
 <?php endif;*/ ?>
 </div>
-<?php if ($this->getSelectedTabId()): ?>
 <script type="text/javascript">
 <!--
+<?php if ($this->getSelectedTabId()): ?>
 Event.observe(window, 'load', function() {
     var objName = '<?php echo $this->getSelectedTabId() ?>';
     if (objName) {
@@ -53,6 +53,17 @@ Event.observe(window, 'load', function() {
         page_tabsJsTabs.showTabContent(obj);
     }
 });
+<?php endif; ?>
+
+function pagePreviewAction() {
+    var formElem = $('<?php echo $this->getForm()->getId()?>');
+    var oldUrl = formElem.action;
+    formElem.writeAttribute('target', '_blank');
+    editForm.submit('<?php echo $this->getUrl('*/cms_page_revision/preview') ?>')
+    formElem.writeAttribute('target', '');
+    formElem.action = oldUrl;
+    return true;
+}
 //-->
 </script>
-<?php endif; ?>
+
