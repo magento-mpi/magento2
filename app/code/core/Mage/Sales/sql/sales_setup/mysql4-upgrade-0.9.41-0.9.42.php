@@ -25,5 +25,5 @@
  */
 
 $this->startSetup();
-$installer->addAttribute('order', 'x_forwarded_for', array('type'=>'varchar'));
+$this->addAttribute('order', 'x_forwarded_for', array('type'=>'varchar'));
 $this->endSetup();
