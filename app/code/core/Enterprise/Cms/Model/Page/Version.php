@@ -53,7 +53,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     /**
      * Preparing data before save
      *
-     * @return Enterprise_Cms_Model_Revision
+     * @return Enterprise_Cms_Model_Version
      */
     protected function _beforeSave()
     {
@@ -83,6 +83,26 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
             Mage::throwException(Mage::helper('enterprise_cms')->__('Label for version is required field.'));
         }
 
+        // We can not allow changing access level for some versions
+        if ($this->getAccessLevel() != $this->getOrigData('access_level')) {
+            if ($this->getAccessLevel() != Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC) {
+                $resource = $this->_getResource();
+                /* @var $resource Enterprise_Cms_Model_Mysql4_Page_Version */
+
+                if ($resource->isVersionLastPublic($this)) {
+                    Mage::throwException(
+                        Mage::helper('enterprise_cms')->__('Can not change version access level because it is last public version for its page.')
+                    );
+                }
+
+                if ($resource->isVersionHasPublishedRevision($this)) {
+                    Mage::throwException(
+                        Mage::helper('enterprise_cms')->__('Can not change version access level because its revision has beed published.')
+                    );
+                }
+            }
+        }
+
         return parent::_beforeSave();
     }
 
@@ -98,7 +118,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
         if (!$this->getOrigData($this->getIdFieldName())) {
             $revision = Mage::getModel('enterprise_cms/page_revision');
 
-            $revision->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
+            $revision->setUserId($this->getUserId());
             $revision->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
             if ($this->getInitialRevisionId()) {
@@ -110,6 +130,28 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
             $revision->setVersionId($this->getId())
                 ->setUserId($this->getUserId())
                 ->save();
+        }
+    }
+
+    /**
+     * Checking some moments before we can actually delete version
+     *
+     * @return Enterprise_Cms_Model_Version
+     */
+    protected function _beforeDelete()
+    {
+        $resource = $this->_getResource();
+        /* @var $resource Enterprise_Cms_Model_Mysql4_Page_Version */
+        if ($resource->isVersionLastPublic($this)) {
+            Mage::throwException(
+                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because it is last public version for its page.', $object->getLabel())
+            );
+        }
+
+        if ($resource->isVersionHasPublishedRevision($this)) {
+            Mage::throwException(
+                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because its revision has been published.', $object->getLabel())
+            );
         }
     }
 }

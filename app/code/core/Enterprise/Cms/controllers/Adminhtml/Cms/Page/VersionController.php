@@ -100,7 +100,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
 
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
         if (!empty($data)) {
-            $_data = $revision->getData();
+            $_data = $version->getData();
             $_data = array_merge($_data, $data);
             $version->setData($_data);
         }
@@ -125,6 +125,11 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
         if ($data = $this->getRequest()->getPost()) {
             // init model and set data
             $version = $this->_initVersion();
+
+            // if current user not publisher he can't change owner
+            if (!Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublishRevision()) {
+                unset($data['user_id']);
+            }
             $version->addData($data);
 
             // try to save it

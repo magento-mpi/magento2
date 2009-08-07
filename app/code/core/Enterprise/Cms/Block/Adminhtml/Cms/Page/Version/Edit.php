@@ -57,27 +57,26 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
                 ));
         }
 
-        /*
-         * Disable Edit or Remove if user not owner of version
-         * in other case check permission
-         */
-        if ($version->getUserId() != Mage::getSingleton('admin/session')->getUser()->getId()) {
-            $this->removeButton('save');
-            $this->removeButton('delete');
-        } else {
-            if (!Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision()) {
-                $this->removeButton('save');
-            } else {
-                 $this->_addButton('saveandcontinue', array(
-                        'label'     => Mage::helper('enterprise_cms')->__('Save And Continue Edit'),
-                        'onclick'   => "editForm.submit($('edit_form').action+'back/edit/');",
-                        'class'     => 'save',
-                    ));
-            }
+        $config = Mage::getSingleton('enterprise_cms/config');
+        /* @var $config Enterprise_Cms_Model_Config */
 
-            if (!Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteRevision()) {
-                $this->removeButton('delete');
-            }
+        $isOwner = $config->isCurrentUserOwner($version->getUserId());
+        $isPublisher = $config->isCurrentUserCanPublishRevision();
+
+        // Only owner can remove version if he has permission to remove revisions
+        if (!$isOwner || !$config->isCurrentUserCanDeleteRevision()) {
+            $this->removeButton('delete');
+        }
+
+        // Only owner and publisher can save revision
+        if ($isOwner || $isPublisher) {
+            $this->_addButton('saveandcontinue', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Save And Continue Edit'),
+                'onclick'   => "editForm.submit($('edit_form').action+'back/edit/');",
+                'class'     => 'save',
+            ));
+        } else {
+            $this->removeButton('save');
         }
     }
 

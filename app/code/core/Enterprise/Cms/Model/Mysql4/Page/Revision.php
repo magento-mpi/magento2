@@ -166,7 +166,7 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
 
     /**
      * Retrieve select object for load object data.
-     * Joining revision controled data from extra tables.
+     * Joining revision controlled data from extra tables.
      *
      * @param string $field
      * @param mixed $value

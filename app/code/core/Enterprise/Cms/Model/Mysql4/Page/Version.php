@@ -44,33 +44,31 @@ class Enterprise_Cms_Model_Mysql4_Page_Version extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
-     * Checking some moments before we can actually delete version
+     * Checking if version id not last public for its page
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return Enterprise_Cms_Model_Mysql4_Page_Version
+     * @return bool
      */
-    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
+    public function isVersionLastPublic(Mage_Core_Model_Abstract $object)
     {
-        /*
-         * Checking if version id not last public for its page
-         */
         $select = $this->_getReadAdapter()->select();
         $select->from($this->getMainTable(), 'count(*)')
             ->where('page_id = ?', $object->getPageId())
             ->where('access_level = ?', Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
             ->where('version_id <> ? ', $object->getVersionId());
 
-        $result = $this->_getReadAdapter()->fetchOne($select);
+        return !$this->_getReadAdapter()->fetchOne($select);
+    }
 
-        if (!$result) {
-            Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because it is last public version for its page.', $object->getLabel())
-            );
-        }
+    /**
+     * Checking if Version does not contain published revision
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return bool
+     */
+    public function isVersionHasPublishedRevision(Mage_Core_Model_Abstract $object)
+    {
 
-        /*
-         * Checking if Version does not contain published revision
-         */
         $select = $this->_getReadAdapter()->select();
         $select->from(array('p' => $this->getTable('cms/page')), array())
             ->where('p.page_id = ?', $object->getPageId())
@@ -79,10 +77,38 @@ class Enterprise_Cms_Model_Mysql4_Page_Version extends Mage_Core_Model_Mysql4_Ab
 
         $result = $this->_getReadAdapter()->fetchOne($select);
 
-        if ($result == $object->getVersionId()) {
-            Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because its revision has beed published.', $object->getLabel())
-            );
+        return $result == $object->getVersionId();
+    }
+
+    /**
+     * Retrieve select object for load object data and apply custom rules.
+     *
+     * @param string $field
+     * @param mixed $value
+     * @return Zend_Db_Select
+     */
+    protected function _getLoadSelect($field, $value, $object)
+    {
+        $select = parent::_getLoadSelect($field, $value, $object);
+
+        /*
+         * Adding access level filtering to disallow loading of closed content
+         */
+        $conditions = array('user_id = ' . (int)$object->getUserId());
+
+        $accessLevel = $object->getAccessLevel();
+        if (is_array($accessLevel) && !empty($accessLevel)) {
+            $conditions[] = 'access_level in ("' . implode('","', $accessLevel) . '")';
+        } else if ($accessLevel) {
+            $conditions[] = 'access_level = "' . $accessLevel . '"';
+        } else {
+            $conditions[] = 'access_level = ""';
         }
+
+        $conditions = implode(' OR ', $conditions);
+
+        $select->where($conditions);
+
+        return $select;
     }
 }

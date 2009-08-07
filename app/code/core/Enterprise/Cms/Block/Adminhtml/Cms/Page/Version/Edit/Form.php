@@ -51,16 +51,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
         $form->setUseContainer(true);
 
         /* @var $model Mage_Cms_Model_Page */
-        $model = Mage::registry('cms_page_version');
+        $version = Mage::registry('cms_page_version');
 
-        /*
-         * Determine if user owner of this version
-         */
-        $this->setUserCanEditVersion(true);
-        if ($model->getUserId() != Mage::getSingleton('admin/session')->getUser()->getId()
-                || !Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision()) {
-            $this->setUserCanEditVersion(false);
-        }
+        $config = Mage::getSingleton('enterprise_cms/config');
+        /* @var $config Enterprise_Cms_Model_Config */
+
+        $isOwner = $config->isCurrentUserOwner($version->getUserId());
+        $isPublisher = $config->isCurrentUserCanPublishRevision();
 
         $fieldset = $form->addFieldset('version_fieldset',
             array('legend' => Mage::helper('enterprise_cms')->__('Version Information'),
@@ -78,7 +75,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
             'name'      => 'label',
             'label'     => Mage::helper('enterprise_cms')->__('Label'),
             'title'     => Mage::helper('enterprise_cms')->__('Label'),
-            'disabled'  => !$this->getUserCanEditVersion(),
+            'disabled'  => !$isOwner,
             'required'  => true
         ));
 
@@ -87,10 +84,19 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
             'title'     => Mage::helper('enterprise_cms')->__('Access Level'),
             'name'      => 'access_level',
             'options'   => Mage::getSingleton('enterprise_cms/config')->getStatuses(),
-            'disabled'  => !$this->getUserCanEditVersion()
+            'disabled'  => !$isOwner && !$isPublisher
         ));
 
-        $form->setValues($model->getData());
+        if ($isPublisher) {
+            $fieldset->addField('user_id', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Owner'),
+                'title'     => Mage::helper('enterprise_cms')->__('Owner'),
+                'name'      => 'user_id',
+                'options'   => Mage::helper('enterprise_cms')->getUsersArray()
+            ));
+        }
+
+        $form->setValues($version->getData());
         $this->setForm($form);
         return parent::_prepareForm();
     }

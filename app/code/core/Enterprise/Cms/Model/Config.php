@@ -142,6 +142,17 @@ class Enterprise_Cms_Model_Config
     }
 
     /**
+     * Compare current user with passed owner of version or author of revision.
+     *
+     * @param $userId
+     * @return bool
+     */
+    public function isCurrentUserOwner($userId)
+    {
+        return Mage::getSingleton('admin/session')->getUser()->getId() == $userId;
+    }
+
+    /**
      * Retrieve statuses from config
      *
      * @return array
@@ -155,7 +166,7 @@ class Enterprise_Cms_Model_Config
 
             if ($statusNode) {
                 foreach ($statusNode->children() as $key => $status) {
-                    $this->_statuses[$key] = (string)$status->label;
+                    $this->_statuses[$key] = Mage::helper('cms')->__((string)$status->label);
                 }
             }
         }
