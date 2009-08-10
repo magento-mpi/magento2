@@ -175,7 +175,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
         $staging        = $backup->getStaging();
         $mapDataRaw        = $this->getRequest()->getPost('map');
 
-        $mapData = array('staging_items' => array_flip($mapDataRaw));
+        $mapData = array('staging_items' => array_flip((array)$mapDataRaw));
 
         if (!$staging->checkCoreFlag()) {
             $this->_getSession()->addError($this->__('Cannot perform rollback operation, because reindexing process or another staging operation is running'));
