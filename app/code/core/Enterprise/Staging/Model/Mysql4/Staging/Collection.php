@@ -64,23 +64,25 @@ class Enterprise_Staging_Model_Mysql4_Staging_Collection extends Mage_Core_Model
     }
 
     /**
-     * Joining last log comment
+     * Joining last log id and log action
      *
      * @return Enterprise_Staging_Model_Mysql4_Staging_Collection
      */
     public function addLastLogComment()
     {
-        $subSelect = clone $this->getSelect();
+        $subSelect1 = clone $this->getSelect();
+        $subSelect2 = clone $this->getSelect();
 
-        $subSelect->reset();
+        $subSelect1->reset();
+        $subSelect2->reset();
 
-        $subSelect->from(array('log' => $this->getTable('enterprise_staging/staging_log')), 'comment')
-            ->where('`log`.`staging_id` = `main_table`.`staging_id`')
-            ->order('log_id DESC')
-            ->limit(1);
+        $subSelect1->from($this->getTable('enterprise_staging/staging_log'), array('staging_id', 'log_id', 'action'))
+            ->order('log_id DESC');
 
-       $this->getSelect()->from('', array('last_comment' => new Zend_Db_Expr('(' . $subSelect . ')')));
+        $subSelect2->from(array('t' => new Zend_Db_Expr('(' . $subSelect1 . ')')))
+            ->group('staging_id');
 
+       $this->getSelect()->joinLeft(array('staging_log' => new Zend_Db_Expr('(' . $subSelect2 . ')')), 'main_table.staging_id = staging_log.staging_id', array('log_id', 'action'));
        return $this;
     }
 
@@ -111,5 +113,16 @@ class Enterprise_Staging_Model_Mysql4_Staging_Collection extends Mage_Core_Model
     public function toOptionHash()
     {
         return parent::_toOptionHash('staging_id', 'name');
+    }
+
+    /**
+     * Set staging is sheduled flag filter into collection
+     *
+     * @return object Enterprise_Staging_Model_Mysql4_Staging_Collection
+     */
+    public function addIsSheduledToFilter()
+    {
+        $this->addFieldToFilter('merge_scheduling_date', array('notnull' => true));
+        return $this;
     }
 }

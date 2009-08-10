@@ -23,9 +23,11 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
+/**
+ * @var $this Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging
+ */
 ?>
 <div class="information-merge">
-<?php if ($this->getLog()->getStatus() != 'complete'):?>
     <div class="box-left">
         <div class="entry-edit">
             <div class="entry-edit-head">
@@ -35,8 +37,8 @@
                 <div class="hor-scroll">
                     <table cellspacing="0" class="form-list">
                     <tr>
-                        <td><?php echo $this->getSourceWebsite()->getName() ?></td>
-                        <td>&nbsp;-&gt;&nbsp;<?php echo $this->getTargetWebsite()->getName() ?></td>
+                        <td><?php echo $this->getMasterWebsiteName() ?></td>
+                        <td>&nbsp;-&gt;&nbsp;<?php echo $this->getStagingWebsiteName() ?></td>
                     </tr>
                     </table>
                 </div>
@@ -49,13 +51,13 @@
             <div class="fieldset">
                 <div class="hor-scroll">
                     <table cellspacing="0" class="form-list">
-                    <?php $_map = $this->getStoreViewsMap() ?>
+                    <?php $_map = $this->getMegreStoreViewsMap() ?>
                     <?php if (is_string($_map)): ?>
                     <tr>
                         <td colspan="2"><?php echo $_map ?></td>
                     </tr>
                     <?php else:?>
-                    <?php foreach ($this->getStoreViewsMap() as $view): ?>
+                    <?php foreach ($_map as $view): ?>
                     <tr>
                         <td><?php echo $view['from']->getName() ?></td>
                         <td>&nbsp;->&nbsp;<?php echo $view['to']->getName() ?></td>
@@ -92,22 +94,4 @@
             </div>
         </div>
     </div>
-<?php else: ?>
-    <div class="entry-edit">
-        <div class="entry-edit-head">
-            <h4 class="icon-head head-account"><?php echo Mage::helper('enterprise_staging')->__('Schedule Merge Log Entry') ?></h4>
-        </div>
-        <div class="fieldset">
-            <div class="hor-scroll">
-                <table cellspacing="0" class="form-list">
-                <tr>
-                    <td colspan="2">
-                        <?php echo $this->getScheduleMergeLink() ?>
-                    </td>
-                </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
 </div>

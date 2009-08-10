@@ -33,30 +33,19 @@ class Enterprise_Staging_Model_Staging_Config
      * Staging statuses
      */
     //Action statuses
-    const STATUS_PROCESSING     = 'processing';
-    const STATUS_COMPLETE       = 'complete';
-    const STATUS_FAIL           = 'fail';
-
-    //Common statuses
-    const STATUS_CREATED        = 'created';
-    const STATUS_UPDATED        = 'updated';
-    const STATUS_BACKUP_CREATED = 'backup_created';
-    const STATUS_MERGED         = 'merged';
-    const STATUS_RESTORED       = 'restored';
-    const STATUS_HOLDED         = 'holded';
-
+    const STATUS_STARTED        = 'started';
+    const STATUS_COMPLETED      = 'completed';
 
     /**
      * Staging actions
      */
-    const ACTION_CREATE         = 'create';
-    const ACTION_UPDATE         = 'update';
-    const ACTION_RESET          = 'reset';
-    const ACTION_MERGE          = 'merge';
-    const ACTION_HOLD           = 'hold';
-    const ACTION_UNHOLD         = 'unhold';
-    const ACTION_BACKUP         = 'backup';
-    const ACTION_ROLLBACK       = 'rollback';
+    const ACTION_CREATE             = 'create';
+    const ACTION_RESET              = 'reset';
+    const ACTION_MERGE              = 'merge';
+    const ACTION_CRON_MERGE         = 'cron_merge';
+    const ACTION_SCHEDULE_MERGE     = 'schedule_merge';
+    const ACTION_UNSCHEDULE_MERGE   = 'unschedule_merge';
+    const ACTION_ROLLBACK           = 'rollback';
 
 
     /**
@@ -242,22 +231,21 @@ class Enterprise_Staging_Model_Staging_Config
         $actionNode = self::getConfig('action')->asArray();
         $actionArray = array();
         foreach ($actionNode as $code => $node){
-            $actionArray[$code] = (string) $node['label'];
+            $actionArray[$code] = Mage::helper('enterprise_staging')->__((string)$node['label']);
         }
+        asort($actionArray);
         return $actionArray;
     }
 
     /**
-     * Retrieve status label by its type
+     * Retrieve status label
      *
      * @param   string $status
-     * @param   string $type can be "action" or "common"
      * @return  string
      */
-    static public function getStatusLabel($status, $type = 'action')
+    static public function getStatusLabel($status)
     {
-        $type = $type != 'action' && $type != 'common' ? 'action' : $type;
-        $statusNode = self::getConfig('status/'. $type . '/' . $status);
+        $statusNode = self::getConfig('status/action/' . $status);
         if ($statusNode) {
             $status = (string) $statusNode->label;
             return Mage::helper('enterprise_staging')->__($status);
@@ -266,14 +254,12 @@ class Enterprise_Staging_Model_Staging_Config
     }
 
     /**
-     * Get statuses array from config by their type
+     * Get statuses array from config
      *
-     * @param   string $type can be "action" or "common"
      * @return array
      */
-    static public function getStatusLabelsArray($type = 'action'){
-        $type = $type != 'action' && $type != 'common' ? 'action' : $type;
-        $statusNode = self::getConfig('status/' . $type)->asArray();
+    static public function getStatusLabelsArray(){
+        $statusNode = self::getConfig('status/action')->asArray();
         $statusArray = array();
         foreach ($statusNode as $code => $node){
             $statusArray[$code] = (string) $node['label'];
@@ -281,23 +267,6 @@ class Enterprise_Staging_Model_Staging_Config
         return $statusArray;
     }
 
-    /**
-     * Retrieve status comment by its type
-     *
-     * @param   string $statusCode
-     * @param   string $type can be "action" or "common"
-     * @return  string
-     */
-    static public function getStatusComment($statusCode, $type = 'action')
-    {
-        $type = $type != 'action' && $type != 'common' ? 'action' : $type;
-        $statusNode = self::getConfig('status/'. $type . '/' . $statusCode);
-        if ($statusNode) {
-            $comment = (string) $statusNode->comment;
-            return Mage::helper('enterprise_staging')->__($comment);
-        }
-        return $statusCode;
-    }
 
     /**
      * Retrieve visibility label

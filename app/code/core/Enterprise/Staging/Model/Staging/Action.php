@@ -85,7 +85,7 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
                 ->setType('backup')
                 ->setEventCode($log->getAction())
                 ->setName($name)
-                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
+                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETED)
                 ->setCreatedAt(Mage::registry($log->getAction() . "_event_start_time"))
                 ->setStagingTablePrefix($tablePrefix)
                 ->setMap($staging->getMapperInstance()->serialize())

@@ -33,57 +33,23 @@
 class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging extends Enterprise_Staging_Block_Adminhtml_Log_View_Information_Default
 {
     /**
-     * Retrieves website model which was used as source
+     * Retrieve staging website name
      *
-     * @return Mage_Core_Model_Website
+     * @return string
      */
-    public function getSourceWebsite()
+    public function getStagingWebsiteName()
     {
-        $mapData = $this->_mapper->getMergeMapData();
-
-        if (isset($mapData['websites'])) {
-            //array_pop used bc in previous versions of staging there was bug
-            //and trash info was saved in map before correct website_id
-            $websiteId = array_pop($mapData['websites']['from']);
-            return Mage::app()->getWebsite($websiteId);
-        }
-
-        /**
-         * If did not have data in merge map then using staging_website_id or
-         * master_website_id columns
-         */
-        if ($this->getLog()->getAction() == 'create') {
-            return $this->getLog()->getStaging()->getMasterWebsite();
-        } else {
-            return $this->getLog()->getStaging()->getStagingWebsite();
-        }
+        return $this->getLog()->getStagingWebsiteName();
     }
 
     /**
-     * Retrieves website model which was used as target
+     * Retrieve master website name
      *
-     * @return Mage_Core_Model_Website
+     * @return string
      */
-    public function getTargetWebsite()
+    public function getMasterWebsiteName()
     {
-        $mapData = $this->_mapper->getMergeMapData();
-
-        if (isset($mapData['websites'])) {
-            //array_pop used bc in previous versions of staging there was bug
-            //and trash info was saved in map before correct website_id
-            $websiteId = array_pop($mapData['websites']['to']);
-            return Mage::app()->getWebsite($websiteId);
-        }
-
-        /**
-         * If did not have data in merge map then using staging_website_id or
-         * master_website_id columns
-         */
-        if ($this->getLog()->getAction() == 'create') {
-            return $this->getLog()->getStaging()->getStagingWebsite();
-        } else {
-            return $this->getLog()->getStaging()->getMasterWebsite();
-        }
+        return $this->getLog()->getMasterWebsiteName();
     }
 
     /**
@@ -92,7 +58,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging extends En
      *
      * @return mixed
      */
-    public function getStoreViewsMap()
+    public function getMegreStoreViewsMap()
     {
         $mapData = $this->_mapper->getMergeMapData();
 
@@ -121,19 +87,31 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging extends En
     }
 
     /**
-     * Generate link for last scheduled merge log entry
-     * if not available return information message
+     * Get creation store view mapping
      *
-     * @return string
+     * @return mixed array if there are were defined some stores
      */
-    public function getScheduleMergeLink()
+    public function getCreateStoreViewsMap()
     {
-        $logId = $this->getLog()->getLastScheduleMergeLogId();
-        if ($logId) {
-            $url = $this->getUrl('*/*/view', array('id' => $this->getLog()->getLastScheduleMergeLogId()));
-            return '<a href="' .  $url. '">' . $url . '</a>';
+        $map = array();
+
+        $mapData = $this->_mapper->getCreateMapData();
+        if (isset($mapData['websites'])) {
+            $website = array_shift($mapData['websites']);
+            if (isset($website['stores'])) {
+                foreach ($website['stores'] as $store) {
+                    if (isset($store['use']) && $store['use'] == 1) {
+                        $map[] = $store;
+                    }
+                }
+            }
         }
 
-        return Mage::helper('enterprise_staging')->__('No information available');
+        if (!count($map)) {
+            return Mage::helper('enterprise_staging')->__('There was no mapping defined for store views.');
+        }
+
+        return $map;
     }
+
 }

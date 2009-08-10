@@ -129,7 +129,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit extends Mage_Adminhtml_Blo
         }
 
         $stagingId = $this->getStagingId();
-        if ($stagingId && $this->getStaging()->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED) {
+        if ($stagingId && $this->getStaging()->isScheduled()) {
             $this->setChild('unschedule_button',
                 $this->getLayout()->createBlock('adminhtml/widget_button')
                     ->setData(array(

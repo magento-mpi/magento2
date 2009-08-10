@@ -98,7 +98,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     public function getProcessingWebsites()
     {
         $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), array('staging_website_id'))
-            ->where("status = ?", Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
+            ->where("status = ?", Enterprise_Staging_Model_Staging_Config::STATUS_STARTED);
         return $this->_getReadAdapter()->fetchAll($select);
     }
 
@@ -111,7 +111,7 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     public function isWebsiteInProcessing($currentWebsiteId)
     {
         $select = $this->_getReadAdapter()->select()->from($this->getMainTable(), array('COUNT(*)'))
-            ->where("status = ?", Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING)
+            ->where("status = ?", Enterprise_Staging_Model_Staging_Config::STATUS_STARTED)
             ->where("staging_website_id = " . $currentWebsiteId);
 
         $result = (int) $this->_getReadAdapter()->fetchOne($select);
@@ -198,6 +198,32 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
 
         $this->_processStagingItemsCallback('mergeRun', $staging, $event);
 
+        return $this;
+    }
+
+    /**
+     * Run Staging Website Unschedule
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return  Enterprise_Staging_Model_Staging_Action_Run
+     */
+    public function unscheduleMergeRun($staging, $event = null)
+    {
+        return $this;
+    }
+
+    /**
+     * Run Staging Website Reset
+     *
+     * @param   object Enterprise_Staging_Model_Staging $staging
+     * @param   object Enterprise_Staging_Model_Staging_Event $event
+     *
+     * @return  Enterprise_Staging_Model_Staging_Action_Run
+     */
+    public function resetRun($staging, $event = null)
+    {
         return $this;
     }
 

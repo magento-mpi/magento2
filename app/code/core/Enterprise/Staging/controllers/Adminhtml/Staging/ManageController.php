@@ -160,7 +160,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Error while validating data. Please review log and try again.'));
             $this->_initLayoutMessages('adminhtml/session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
@@ -236,7 +236,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 $this->_getSession()->addError($e->getMessage());
                 $staging->releaseCoreFlag();
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_staging')->_('Error while saving staging data. Please review log and try again.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Error while saving staging data. Please review log and try again.'));
                 Mage::logException($e);
                 $staging->releaseCoreFlag();
             }
@@ -267,27 +267,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $redirectBack = false;
 
         try {
-            $status = Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE;
-            $statusComment = Mage::getSingleton('enterprise_staging/staging_config')
-                ->getStatusComment(Enterprise_Staging_Model_Staging_Config::STATUS_FAIL);
-
-            $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                ->setMergeSchedulingDate('')
-                ->setDontRunStagingProccess(true)
-                ->save();
-
-             Mage::getModel('enterprise_staging/staging_log')
-                ->setAction(Enterprise_Staging_Model_Staging_Config::ACTION_RESET)
-                ->setStagingId($staging->getId())
-                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                ->setIsAdminNotified(false)
-                ->setMap($staging->getMapperInstance()->serialize())
-                ->setComment($statusComment)
-                ->setStagingWebsiteId($staging->getMasterWebsiteId())
-                ->setMasterWebsiteId($staging->getStagingWebsiteId())
-                ->save();
-
-            $staging->releaseCoreFlag();
+            $staging->reset();
         } catch (Mage_Core_Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
@@ -405,7 +385,7 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
                 $staging->releaseCoreFlag();
                 $redirectBack = true;
             } catch (Exception $e) {
-                $this->_getSession()->addException($e, $e->getMessage());
+                $this->_getSession()->addException($e, Mage::helper('enterprise_staging')->__('Error while merging. Please review log and try again.'));
                 $staging->releaseCoreFlag();
                 $redirectBack = true;
             }
@@ -437,37 +417,10 @@ class Enterprise_Staging_Adminhtml_Staging_ManageController extends Mage_Adminht
         $config = Mage::getSingleton('enterprise_staging/staging_config');
 
         try {
-            $log = Mage::getModel('enterprise_staging/staging_log');
-            $log->setStaging($staging);
-            $log->setStagingId($staging->getId());
-
-            $comment = Mage::helper('enterprise_staging')->__('Staging Website unschedule');
-
-            $mergeSchedulingDate = $staging->getMergeSchedulingDate();
-            if (!empty($mergeSchedulingDate)) {
-                $comment .= " (" . $mergeSchedulingDate . ")";
-            }
-
-            $stagingMap = $staging->getMapperInstance()->serialize();
-
-            $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                ->setMergeSchedulingDate('')
-                ->setMergeSchedulingMap('')
-                ->setDontRunStagingProccess(true)
-                ->save();
-
-            $log->setAction(Enterprise_Staging_Model_Staging_Config::ACTION_UNHOLD)
-                ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                ->setIsAdminNotified(false)
-                ->setComment($comment)
-                ->setMap($stagingMap)
-                ->setStagingWebsiteId($staging->getMasterWebsiteId())
-                ->setMasterWebsiteId($staging->getStagingWebsiteId())
-                ->save();
-
+            $staging->unscheduleMege();
             $this->_getSession()->addSuccess(Mage::helper('enterprise_staging')->__('Staging was successfully unscheduled'));
         } catch (Exception $e) {
-            $this->_getSession()->addError($e->getMessage(). Mage::helper('enterprise_staging')->__('Failed to unschedule merge'));
+            $this->_getSession()->addError(Mage::helper('enterprise_staging')->__('Failed to unschedule merge'));
         }
 
         $this->_redirect('*/*/');

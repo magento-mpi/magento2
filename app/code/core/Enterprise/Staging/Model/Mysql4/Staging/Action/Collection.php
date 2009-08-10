@@ -75,19 +75,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Action_Collection extends Mage_Cor
         return $this;
     }
 
-    /**
-     * Add merged staging filter into collection
-     *
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Backup_Collection
-     */
-    public function addMergedFilter()
-    {
-        $this->addFieldToFilter('main_table.code', Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE);
-        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
-
-        return $this;
-    }
-
     public function addStagingToCollection()
     {
         $this->getSelect()

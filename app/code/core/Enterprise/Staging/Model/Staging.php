@@ -380,6 +380,30 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Unschedule Merge Staging
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
+    public function unscheduleMege()
+    {
+        if ($this->checkCoreFlag() && !$this->getDontRunStagingProccess()) {
+            $this->stagingProcessRun('unscheduleMerge');
+        }
+        return $this;
+    }
+
+     /**
+     * Unschedule Merge Staging
+     *
+     * @return Enterprise_Staging_Model_Staging
+     */
+    public function reset()
+    {
+        $this->stagingProcessRun('reset');
+        return $this;
+    }
+
+    /**
      * Backup Master Website before Merge
      *
      * @return Enterprise_Staging_Model_Staging
@@ -491,7 +515,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function isStatusProcessing()
     {
-         if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING) {
+         if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_STARTED) {
              return true;
          } else {
             return false;
@@ -508,8 +532,8 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
-            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING)) {
+        if ($this->isScheduled()
+            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_STARTED)) {
             return false;
         }
         return true;
@@ -537,10 +561,10 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         if (!$this->checkCoreFlag()) {
             return false;
         }
-        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING)) {
+        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_STARTED)) {
             return false;
         }
-        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)) {
+        if ($this->canUnschedule()) {
             return false;
         }
         return true;
@@ -553,11 +577,17 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function canUnschedule()
     {
-        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
-            && $this->getMergeSchedulingDate()) {
-            return true;
-        }
-        return false;
+        return $this->isScheduled();
+    }
+
+    /**
+     * Check if merge sheduled
+     *
+     * @return boolean
+     */
+    public function isScheduled()
+    {
+        return (bool)$this->getMergeSchedulingDate();
     }
 
     /**

@@ -64,13 +64,27 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
 
         $fieldset->addField('status', 'label', array(
             'label'     => Mage::helper('enterprise_staging')->__('Status'),
-            'value'     =>Mage::helper('enterprise_staging')->__($config->getStatusLabel($log->getStatus()))
+            'value'     => Mage::helper('enterprise_staging')->__($config->getStatusLabel($log->getStatus()))
         ));
 
-        $fieldset->addField('comment', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Comment'),
-            'value'     => $log->getComment()
-        ));
+        $additionalData = $log->getAdditionalData();
+        if (!empty($additionalData)) {
+            $additionalData = unserialize($additionalData);
+            if (is_array($additionalData)) {
+                if (isset($additionalData['schedule_date'])) {
+                    $fieldset->addField('schedule_date', 'label', array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Schedule Date'),
+                        'value'     => $this->formatDate($additionalData['schedule_date'], 'medium', true)
+                    ));
+                }
+                if(isset($additionalData['action_before_reset'])) {
+                   $fieldset->addField('action_before_reset', 'label', array(
+                        'label'     => Mage::helper('enterprise_staging')->__('Action Before Resetting'),
+                        'value'     => Mage::helper('enterprise_staging')->__($config->getActionLabel($additionalData['action_before_reset']))
+                    ));
+                }
+            }
+        }
 
         $form->addFieldNameSuffix($this->getFieldNameSuffix());
         $this->setForm($form);

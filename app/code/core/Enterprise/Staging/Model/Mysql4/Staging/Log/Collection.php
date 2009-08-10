@@ -60,71 +60,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Log_Collection extends Mage_Core_M
     }
 
     /**
-     * Add holded status filter into collection
-     *
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
-     */
-    public function addHoldedFilter()
-    {
-        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_HOLD);
-        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED);
-
-        return $this;
-    }
-
-    /**
-     * Add merged staging filter into collection
-     *
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
-     */
-    public function addMergedFilter()
-    {
-        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_MERGE);
-        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE);
-
-        return $this;
-    }
-
-    /**
-     * Add merged staging filter into collection
-     *
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
-     */
-    public function addRollbackFilter()
-    {
-        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_ROLLBACK);
-        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_RESTORED);
-
-        return $this;
-    }
-
-    /**
-     * Add rollback processing filter
-     *
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
-     */
-    public function addRollbackProcessingFilter()
-    {
-        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_ROLLBACK);
-        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
-
-        return $this;
-    }
-
-    /**
-     * Add merge processing filter
-     *
-     * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
-     */
-    public function addMergeProcessingFilter()
-    {
-        $this->addFieldToFilter('main_table.action', Enterprise_Staging_Model_Staging_Config::ACTION_MERGE);
-        $this->addFieldToFilter('main_table.status', Enterprise_Staging_Model_Staging_Config::STATUS_PROCESSING);
-
-        return $this;
-    }
-
-    /**
      * Joining staging table to collection
      *
      * @return  object  Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
@@ -136,29 +71,6 @@ class Enterprise_Staging_Model_Mysql4_Staging_Log_Collection extends Mage_Core_M
                 array('staging' => $this->getTable('enterprise_staging/staging')),
                 'main_table.staging_id=staging.staging_id',
                 array('staging_name'=>'name')
-        );
-
-        return $this;
-    }
-
-    /**
-     * Joining website table to collection
-     *
-     * @return Enterprise_Staging_Model_Mysql4_Staging_Log_Collection
-     */
-    public function addWebsitesToCollection()
-    {
-        $this->getSelect()
-            ->joinLeft(
-                array('core_website' => $this->getTable('core/website')),
-                'main_table.master_website_id=core_website.website_id',
-                array('master_website_id' => 'website_id',
-                    'master_website_name' => 'name'))
-            ->joinLeft(
-                array('staging_website' => $this->getTable('core/website')),
-                'main_table.staging_website_id=staging_website.website_id',
-                array('staging_website_id' => 'website_id',
-                    'staging_website_name' => 'name')
         );
 
         return $this;

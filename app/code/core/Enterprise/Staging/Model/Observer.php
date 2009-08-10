@@ -152,7 +152,7 @@ class Enterprise_Staging_Model_Observer
         try {
             $currentDate = Mage::getModel('core/date')->gmtDate();
             $collection  = Mage::getResourceModel('enterprise_staging/staging_collection')
-                ->addFieldToFilter('status', Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED);
+                ->addIsSheduledToFilter();
 
             foreach ($collection as $staging) {
                 $applyDate = $staging->getMergeSchedulingDate();
@@ -163,36 +163,8 @@ class Enterprise_Staging_Model_Observer
                         if ($staging->getIsBackuped() == true) {
                             $staging->backup();
                         }
+                        $staging->setIsMegreByCron('true');
                         $staging->merge();
-
-                        $comment = Mage::helper('enterprise_staging')->__('Staging Website unschedule');
-
-                        $mergeSchedulingDate = $staging->getMergeSchedulingDate();
-                        if (!empty($mergeSchedulingDate)) {
-                            $comment .= " (" . $mergeSchedulingDate . ")";
-                        }
-
-                        $stagingMap = $staging->getMapperInstance()->serialize();
-
-                        $staging->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                            ->setMergeSchedulingDate('')
-                            ->setMergeSchedulingMap('')
-                            ->setDontRunStagingProccess(true)
-                            ->save();
-
-                        $log = Mage::getModel('enterprise_staging/staging_log');
-                        $log->setStaging($staging);
-                        $log->setStagingId($staging->getId());
-
-                        $log->setAction(Enterprise_Staging_Model_Staging_Config::ACTION_UNHOLD)
-                            ->setStatus(Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETE)
-                            ->setIsAdminNotified(false)
-                            ->setComment($comment)
-                            ->setMap($stagingMap)
-                            ->setStagingWebsiteId($staging->getMasterWebsiteId())
-                            ->setMasterWebsiteId($staging->getStagingWebsiteId())
-                            ->save();
-
                     }
                 }
             }

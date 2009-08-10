@@ -85,11 +85,11 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
             'link_type' => 'actions',
             'actions'   => array(
                 array(
-                    'url'       => $this->getUrl('*/*/edit', array('id' => '$backup_id')),
+                    'url'       => $this->getUrl('*/*/edit', array('id' => '$action_id')),
                     'caption'   => Mage::helper('enterprise_staging')->__('Edit')
                 ),
                 array(
-                    'url'       => $this->getUrl('*/*/delete', array('id' => '$backup_id')),
+                    'url'       => $this->getUrl('*/*/delete', array('id' => '$action_id')),
                     'caption'   => Mage::helper('enterprise_staging')->__('Delete'),
                     'confirm'   => Mage::helper('enterprise_staging')->__('Are you sure you want to do this?')
                 )

@@ -70,30 +70,6 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
             'width'     => 200
         ));
 
-        $this->addColumn('from', array(
-            'header'    => Mage::helper('enterprise_staging')->__('From'),
-            'index'     => 'master_website_id',
-            'type'      => 'options',
-            'options'   => $this->getWebsites(),
-            'width'     => 300
-        ));
-
-        $this->addColumn('to', array(
-            'header'    => Mage::helper('enterprise_staging')->__('To'),
-            'index'     => 'staging_website_id',
-            'type'      => 'options',
-            'options'   => $this->getWebsites(),
-            'width'     => 300
-        ));
-
-        $this->addColumn('status', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Status'),
-            'index'     => 'status',
-            'type'      => 'options',
-            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getStatusLabelsArray(),
-            'width'  => 200
-        ));
-
         $this->addColumn('action', array(
             'header'    => Mage::helper('enterprise_staging')->__('Action'),
             'index'     => 'action',
@@ -102,19 +78,33 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
             'width' => 200
         ));
 
-        return $this;
-    }
+        $this->addColumn('from', array(
+            'header'    => Mage::helper('enterprise_staging')->__('Website From'),
+            'index'     => 'master_website_name',
+            'type'      => 'text',
+            'renderer' => 'enterprise_staging/adminhtml_log_grid_renderer_website',
+            'width'     => 300
+        ));
 
-    /**
-     * Prepare array of core website ans also one wich will be associated with Backup
-     *
-     * @return array
-     */
-    public function getWebsites()
-    {
-        $coreWebsites = Mage::getModel('core/website')->getCollection()->toOptionHash();
-        $coreWebsites['0'] = Mage::helper('enterprise_staging')->__('Backup');
-        return $coreWebsites;
+        $this->addColumn('to', array(
+            'header'    => Mage::helper('enterprise_staging')->__('Website To'),
+            'index'     => 'staging_website_name',
+            'type'      => 'text',
+            'renderer' => 'enterprise_staging/adminhtml_log_grid_renderer_website',
+            'width'     => 300
+        ));
+
+        $this->addColumn('status', array(
+            'header'    => Mage::helper('enterprise_staging')->__('Result'),
+            'index'     => 'status',
+            'type'      => 'options',
+            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getStatusLabelsArray(),
+            'width'  => 100
+        ));
+
+
+
+        return $this;
     }
 
     /**
@@ -122,6 +112,9 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
      */
     public function getRowUrl($row)
     {
+        if (($row->getStagingWebsiteId() === null && $row->getStagingWebsiteName() !== null) || ($row->getMasterWebsiteId() === null && $row->getMasterWebsiteName() !== null)) {
+            return false;
+        }
         return $this->getUrl('*/*/view', array(
             'id' => $row->getId())
         );

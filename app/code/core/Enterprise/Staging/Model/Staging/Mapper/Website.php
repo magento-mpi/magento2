@@ -245,7 +245,6 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
                 $this->setRollbackMapData($unserializedArray["_rollbackMapData"]);
             }
         }
-
         return $this;
     }
 }

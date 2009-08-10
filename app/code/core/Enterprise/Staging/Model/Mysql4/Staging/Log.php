@@ -59,23 +59,20 @@ class Enterprise_Staging_Model_Mysql4_Staging_Log extends Mage_Core_Model_Mysql4
     }
 
     /**
-     * Retrieve id of last schedule merge for passed staging id
+     * Retrieve action of last log by staging id
      *
      * @param int $stagingId
      * @return int
      */
-    public function getLastScheduleMergeLogId($stagingId)
+    public function getLastLogAction($stagingId)
     {
         if ($stagingId) {
             $select = $this->_getReadAdapter()->select()
-                ->from(array('_main_table' => $this->getMainTable()), array('log_id'))
-                ->where('_main_table.staging_id=?', $stagingId)
-                ->where('_main_table.status=?', Enterprise_Staging_Model_Staging_Config::STATUS_HOLDED)
+                ->from(array('main_table' => $this->getMainTable()), array('action'))
+                ->where('main_table.staging_id=?', $stagingId)
                 ->order('log_id DESC');
-
             return $this->_getReadAdapter()->fetchOne($select);
         }
-
         return false;
     }
 }

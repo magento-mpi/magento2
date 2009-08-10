@@ -199,7 +199,7 @@ class Enterprise_Staging_Adminhtml_Staging_BackupController extends Enterprise_S
             $staging->releaseCoreFlag();
             $redirectBack = true;
         } catch (Exception $e) {
-            $this->_getSession()->addException($e, $e->getMessage());
+            $this->_getSession()->addException($e, Mage::helper('enterprise_staging')->__('Error while performing rollback. Please review log and try again.'));
             $staging->releaseCoreFlag();
             $redirectBack = true;
         }

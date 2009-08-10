@@ -89,14 +89,14 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => 'Name',
+            'header'    => Mage::helper('enterprise_staging')->__('Name'),
             'index'     => 'name',
             'type'      => 'text',
         ));
 
         $this->addColumn('base_url', array(
             'width'     => 250,
-            'header'    => 'Url',
+            'header'    => Mage::helper('enterprise_staging')->__('Url'),
             'index'     => 'base_url',
             'title'     => 'base_url',
             'length'    => '40',
@@ -106,25 +106,26 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
             'sortable'  => false,
         ));
 
-        $this->addColumn('last_comment', array(
+        $this->addColumn('last_event', array(
             'width'     => 250,
-            'header'    => 'Latest Event',
-            'index'     => 'last_comment',
-            'type'      => 'text',
-            'filter'    => false,
-            'sortable'  => false,
+            'header'    => Mage::helper('enterprise_staging')->__('Latest Event'),
+            'index'     => 'action',
+            'sortable' => false,
+            'filter'   => false,
+            'renderer' => 'enterprise_staging/adminhtml_staging_grid_renderer_event',
+            'options'   => Mage::getSingleton('enterprise_staging/staging_config')->getActionLabelsArray()
         ));
 
         $this->addColumn('created_at', array(
             'width'     => 100,
-            'header'    => 'Created At',
+            'header'    => Mage::helper('enterprise_staging')->__('Created At'),
             'index'     => 'created_at',
             'type'      => 'datetime',
         ));
 
         $this->addColumn('updated_at', array(
             'width'     => 100,
-            'header'    => 'Updated At',
+            'header'    => Mage::helper('enterprise_staging')->__('Updated At'),
             'index'     => 'updated_at',
             'type'      => 'datetime',
         ));
