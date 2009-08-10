@@ -282,7 +282,6 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         $customer = Mage::getModel('customer/customer')
            ->setWebsiteId(Mage::app()->getStore()->getWebsiteId())
            ->loadByEmail($email);
-        $isNewSubscriber = false;
 
         $customerSession = Mage::getSingleton('customer/session');
 
@@ -290,15 +289,10 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
             $this->setSubscriberConfirmCode($this->randomSequence());
         }
 
-//        if(($this->getCustomerId() && !$customerSession->isLoggedIn())
-//           || ($this->getCustomerId()
-//               && $customerSession->getCustomerId() != $this->getCustomerId()
-//               )) {
-//            return $this->getSubscriberStatus();
-//        }
+        $isConfirmNeed = Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1 ? true : false;
 
         if (!$this->getId() || $this->getStatus()==self::STATUS_UNSUBSCRIBED || $this->getStatus()==self::STATUS_NOT_ACTIVE) {
-            if (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1) {
+            if ($isConfirmNeed) {
                 $this->setStatus(self::STATUS_NOT_ACTIVE);
             } else {
                 $this->setStatus(self::STATUS_SUBSCRIBED);
@@ -317,16 +311,14 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         } else {
             $this->setStoreId(Mage::app()->getStore()->getId());
             $this->setCustomerId(0);
-            $isNewSubscriber = true;
         }
 
         $this->setIsStatusChanged(true);
 
         try {
             $this->save();
-            if (Mage::getStoreConfig(self::XML_PATH_CONFIRMATION_FLAG) == 1
-               && $this->getSubscriberStatus()==self::STATUS_NOT_ACTIVE) {
-                   $this->sendConfirmationRequestEmail();
+            if ($isConfirmNeed) {
+                $this->sendConfirmationRequestEmail();
             } else {
                 $this->sendConfirmationSuccessEmail();
             }
