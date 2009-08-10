@@ -42,6 +42,9 @@ varienForm.prototype = {
     },
 
     submit : function(url){
+        if (typeof varienGlobalEvents != undefined) {
+            varienGlobalEvents.fireEvent('formSubmit', this.formId);
+        }
         this.errorSections = $H({});
         this.canShowError = true;
         this.submitUrl = url;

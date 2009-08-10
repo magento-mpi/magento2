@@ -74,6 +74,10 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                     }
                 }
 
+                function onFormValidation'.$this->getHtmlId().'(formId) {
+                    $("'.$this->getHtmlId().'").value = tinyMCE.get("'.$this->getHtmlId().'").getContent();
+                }
+
                 function setupEditor() {
                     tinymce.PluginManager.load("magentowidget", "'.Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js");
                     tinyMCE.init({
@@ -138,6 +142,9 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                 }
 
                 '.($config->getEnabled() ? 'Event.observe(window, "load", function() { setupEditor(); });' : '').'
+
+                varienGlobalEvents.attachEventHandler("formSubmit", onFormValidation'.$this->getHtmlId().');
+
 				//]]>
                 </script>
                 <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
