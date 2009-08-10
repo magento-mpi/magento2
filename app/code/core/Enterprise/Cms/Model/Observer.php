@@ -151,11 +151,23 @@ class Enterprise_Cms_Model_Observer
         $page = $observer->getEvent()->getObject();
 
         if ($page->getIsNewPage()) {
-            $revision = Mage::getModel('enterprise_cms/page_revision')
-                ->setData($page->getData())
-                ->setCopiedFromOriginal(true)
-                ->save()
-                ->publish();
+            $version = Mage::getModel('enterprise_cms/page_version');
+
+            $revisionInitialData = $page->getData();
+            $revisionInitialData['copied_from_original'] = true;
+
+            $version->setLabel($page->getTitle())
+                ->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC)
+                ->setPageId($page->getId())
+                ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
+                ->setInitialRevisionData($revisionInitialData)
+                ->save();
+
+            $revision = $version->getLastRevision();
+
+            if ($revision instanceof Enterprise_Cms_Model_Page_Revision) {
+                $revision->publish();
+            }
         }
 
         if (!Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {

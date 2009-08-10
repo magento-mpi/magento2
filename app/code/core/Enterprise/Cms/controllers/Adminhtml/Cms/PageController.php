@@ -141,7 +141,10 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         else {
             try {
                 foreach ($ids as $id) {
-                    $version = Mage::getSingleton('enterprise_cms/page_version')->load($id);
+                    $version = Mage::getSingleton('enterprise_cms/page_version')
+                        ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
+                        ->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
+                        ->load($id);
                     $version->delete();
                 }
                 $this->_getSession()->addSuccess(

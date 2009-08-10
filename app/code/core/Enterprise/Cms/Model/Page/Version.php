@@ -115,7 +115,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     {
         // If this was a new version we should create initial revision for it
         // from specified revision or from latest for parent version
-        if (!$this->getOrigData($this->getIdFieldName())) {
+        if ($this->getOrigData($this->getIdFieldName()) != $this->getId()) {
             $revision = Mage::getModel('enterprise_cms/page_revision');
 
             $revision->setUserId($this->getUserId());
@@ -123,6 +123,8 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
 
             if ($this->getInitialRevisionId()) {
                 $revision->load($this->getInitialRevisionId());
+            } elseif ($this->getInitialRevisionData()) {
+                $revision->setData($this->getInitialRevisionData());
             } else {
                 $revision->load($this->getOrigData($this->getIdFieldName()), 'version_id');
             }
@@ -130,6 +132,8 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
             $revision->setVersionId($this->getId())
                 ->setUserId($this->getUserId())
                 ->save();
+
+            $this->setLastRevision($revision);
         }
     }
 

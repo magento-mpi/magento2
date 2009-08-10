@@ -98,8 +98,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                     }
 
                     $('page_label').value = versionLabel;
-                    $('page_create_new_version_action').value = '1';
-                    editForm.submit('" . $this->getSaveUrl() . "');
+                    editForm.submit('" . $this->getNewVersionUrl() . "');
                 }
             ";
 
@@ -198,5 +197,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
     public function getFormHtml()
     {
         return $this->getChildHtml('revision_info') . parent::getFormHtml();
+    }
+
+    /**
+     * Save into new version link
+     *
+     * @return string
+     */
+    public function getNewVersionUrl()
+    {
+        return $this->getUrl('*/cms_page_version/new');
     }
 }

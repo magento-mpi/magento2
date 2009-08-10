@@ -269,8 +269,11 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
 
             $version->addData($data)
                 ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
-                ->setOrigData($version->getIdFieldName(), false)
                 ->unsetData($version->getIdFieldName());
+
+            if (isset($data['revision_id'])) {
+                $version->setInitialRevisionData($data);
+            }
 
             // try to save it
             try {
@@ -279,10 +282,17 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('New version was successfully created.'));
                 // clear previously saved data from session
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
-                $this->_redirect('*/cms_page_version/edit', array(
+                if (isset($data['revision_id'])) {
+                    $this->_redirect('*/cms_page_revision/edit', array(
+                        'page_id' => $version->getPageId(),
+                        'revision_id' => $version->getLastRevision()->getId()
+                    ));
+                } else {
+                    $this->_redirect('*/cms_page_version/edit', array(
                         'page_id' => $version->getPageId(),
                         'version_id' => $version->getId()
                     ));
+                }
                 return;
             } catch (Exception $e) {
                 // display error message

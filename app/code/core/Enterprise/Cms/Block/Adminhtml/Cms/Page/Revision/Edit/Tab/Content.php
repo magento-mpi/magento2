@@ -73,12 +73,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
                 'name' => 'version_id',
             ));
 
-            $fieldset->addField('label', 'hidden', array(
-                'name' => 'version_label',
+            $fieldset->addField('revision_id', 'hidden', array(
+                'name' => 'revision_id',
             ));
 
-            $fieldset->addField('create_new_version_action', 'hidden', array(
-                'name' => 'create_new_version_action',
+            $fieldset->addField('label', 'hidden', array(
+                'name' => 'label',
             ));
         }
 

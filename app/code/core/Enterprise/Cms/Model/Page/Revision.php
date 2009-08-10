@@ -57,19 +57,6 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        // If version id not specified we should create new one
-        if ($this->getCreateNewVersionAction()){
-            $version = Mage::getModel('enterprise_cms/page_version')
-                ->load($this->getVersionId());
-
-            $version->unsetData($version->getIdFieldName())
-                ->setLabel($this->getVersionLabel())
-                ->setUserId($this->getUserId())
-                ->save();
-
-            $this->setVersionId($version->getId());
-        }
-
         /*
          * Reseting revision id this revision should be saved as new.
          * Bc data was changed or original version id not equals to new version id.
