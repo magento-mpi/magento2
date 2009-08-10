@@ -45,18 +45,18 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     }
 
     /**
-     * Prepares events collection
+     * Prepares collection of revisions
      *
-     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     protected function _prepareCollection()
     {
         /* var $collection Enterprise_Cms_Model_Mysql4_Revision_Collection */
         $collection = Mage::getModel('enterprise_cms/page_revision')->getCollection()
             ->addPageFilter($this->getPage())
-            ->addVersionFilter($this->getVersion());
-            //->joinVersions()
-            //->addVersionLabelToSelect()
+            ->addVersionFilter($this->getVersion())
+            ->addUserColumn()
+            ->addUserNameColumn();
 
             // Commented this bc now revision are shown in scope of version and not page.
             // So if user has permission to load this version he
@@ -69,9 +69,23 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     }
 
     /**
+     * Retrieve collection for grid if there is not collection call _prepareCollection
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Page_Version_Collection
+     */
+    public function getCollection()
+    {
+        if (!$this->_collection) {
+            $this->_prepareCollection();
+        }
+
+        return $this->_collection;
+    }
+
+    /**
      * Prepare event grid columns
      *
-     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     protected function _prepareColumns()
     {
@@ -117,9 +131,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
 
         $this->addColumn('author', array(
             'header' => Mage::helper('enterprise_cms')->__('Author'),
-            'index' => 'user_id',
+            'index' => 'user',
             'type' => 'options',
-            'options' => Mage::helper('enterprise_cms')->getUsersArray()
+            'options' => $this->getCollection()->getUsersArray()
         ));
 
         return parent::_prepareColumns();
@@ -169,7 +183,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      * Prepare massactions for this grid.
      * For now it is only ability to remove revisions
      *
-     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Revisions
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     protected function _prepareMassaction()
     {

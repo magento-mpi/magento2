@@ -36,6 +36,12 @@
 class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     /**
+     * Array of admin users in loaded collection
+     * @var array
+     */
+    protected $_usersHash = null;
+
+    /**
      * Initialization
      *
      */
@@ -100,23 +106,72 @@ class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage_Core_Mod
     }
 
     /**
-     * Add filter by user.
-     * Can take paramater user id or object.
+     * Mapping user_id to user column with additional value for non-existen users
      *
-     * @param mixed $userId
+     * @return Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract
+     */
+    public function addUserColumn()
+    {
+        $userField = new Zend_Db_Expr('IFNULL(main_table.user_id, -1)');
+        $this->getSelect()->from('', array('user' => $userField));
+
+        $this->_map['fields']['user'] = $userField;
+
+        return $this;
+    }
+
+    /**
+     * Join username from system user table
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract
+     */
+    public function addUserNameColumn()
+    {
+        $this->getSelect()->joinLeft(
+                array('ut' => $this->getTable('admin/user')),
+                'ut.user_id = main_table.user_id',
+                array('username'));
+
+        return $this;
+    }
+
+    /**
+     * Retrieve array of admin users in collection
+     *
+     * @return array
+     */
+    public function getUsersArray()
+    {
+        if (!$this->_usersHash) {
+            $this->_usersHash = array();
+            foreach ($this->_toOptionHash('user_id', 'username') as $userId => $username) {
+                if ($userId) {
+                    $this->_usersHash[$userId] = $username;
+                } else {
+                    $this->_usersHash['-1'] = '[User Deleted]';
+                }
+            }
+
+            ksort($this->_usersHash);
+        }
+        return $this->_usersHash;
+    }
+
+    /**
+     * Add filtering by user id.
+     *
+     * @param int|null $userId
      * @return Enterprise_Cms_Model_Mysql4_Collection_Abstract
      */
-    public function addUserIdFilter($userId)
+    public function addUserIdFilter($userId = null)
     {
-        if ($userId instanceof Mage_Admin_Model_User) {
-            $userId = $user->getId();
+        if (is_null($userId)) {
+            $condition = array('null' => true);
+        } else {
+            $condition = $userId;
         }
 
-        if (is_array($userId)) {
-            $this->addFieldToFilter('page_id', array('in' => $userId));
-        } else {
-            $this->addFieldToFilter('page_id', $userId);
-        }
+        $this->addFieldTofilter('user_id', $condition);
 
         return $this;
     }

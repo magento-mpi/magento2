@@ -85,7 +85,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
 
         // We can not allow changing access level for some versions
         if ($this->getAccessLevel() != $this->getOrigData('access_level')) {
-            if ($this->getAccessLevel() != Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC) {
+            if ($this->getOrigData('access_level') == Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC) {
                 $resource = $this->_getResource();
                 /* @var $resource Enterprise_Cms_Model_Mysql4_Page_Version */
 
@@ -95,11 +95,11 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
                     );
                 }
 
-                if ($resource->isVersionHasPublishedRevision($this)) {
-                    Mage::throwException(
-                        Mage::helper('enterprise_cms')->__('Can not change version access level because its revision has beed published.')
-                    );
-                }
+//                if ($resource->isVersionHasPublishedRevision($this)) {
+//                    Mage::throwException(
+//                        Mage::helper('enterprise_cms')->__('Can not change version access level because its revision has been published.')
+//                    );
+//                }
             }
         }
 
@@ -142,16 +142,28 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     {
         $resource = $this->_getResource();
         /* @var $resource Enterprise_Cms_Model_Mysql4_Page_Version */
-        if ($resource->isVersionLastPublic($this)) {
-            Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because it is last public version for its page.', $object->getLabel())
-            );
+        if ($this->isPublic()) {
+            if ($resource->isVersionLastPublic($this)) {
+                Mage::throwException(
+                    Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because it is last public version for its page.', $this->getLabel())
+                );
+            }
         }
 
         if ($resource->isVersionHasPublishedRevision($this)) {
             Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because its revision has been published.', $object->getLabel())
+                Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because its revision has been published.', $this->getLabel())
             );
         }
+    }
+
+    /**
+     * Check if this version public or not.
+     *
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return $this->getAccessLevel() == Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC;
     }
 }

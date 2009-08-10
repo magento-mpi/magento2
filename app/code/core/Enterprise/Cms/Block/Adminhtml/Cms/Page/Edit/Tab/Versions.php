@@ -48,10 +48,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         $this->setDefaultSort('version_number');
         $this->setDefaultDir('DESC');
         $this->setUseAjax(true);
+        $this->setId('versionGrid');
+        $this->setSaveParametersInSession(true);
     }
 
     /**
-     * Prepares versions collection
+     * Prepares collection of versions
      *
      * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
@@ -59,13 +61,31 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     {
         $userId = Mage::getSingleton('admin/session')->getUser()->getId();
 
+        /* var $collection Enterprise_Cms_Model_Mysql4_Version_Collection */
         $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
             ->addPageFilter($this->getPage())
             ->addVisibilityFilter($userId,
-                Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
+                Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
+            ->addUserColumn()
+            ->addUserNameColumn();
 
         $this->setCollection($collection);
+
         return parent::_prepareCollection();
+    }
+
+    /**
+     * Retrieve collection for grid if there is not collection call _prepareCollection
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Page_Version_Collection
+     */
+    public function getCollection()
+    {
+        if (!$this->_collection) {
+            $this->_prepareCollection();
+        }
+
+        return $this->_collection;
     }
 
     /**
@@ -88,15 +108,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             'header' => Mage::helper('enterprise_cms')->__('Label'),
             'index' => 'label',
             'type' => 'options',
-            'options' => Mage::helper('enterprise_cms')
-                                ->getVersionsArray('label', 'label', $this->getPage())
+            'options' => $this->getCollection()
+                                ->getAsArray('label', 'label')
         ));
 
         $this->addColumn('owner', array(
             'header' => Mage::helper('enterprise_cms')->__('Owner'),
-            'index' => 'user_id',
+            'index' => 'user',
             'type' => 'options',
-            'options' => Mage::helper('enterprise_cms')->getUsersArray(),
+            'options' => $this->getCollection()->getUsersArray(),
             'width' => 250
         ));
 

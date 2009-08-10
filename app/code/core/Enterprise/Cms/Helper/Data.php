@@ -34,12 +34,6 @@
 class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Array of available version numbers for user
-     * @var array
-     */
-    protected $_versionsHash = null;
-
-    /**
      * Array of admin users in system
      * @var array
      */
@@ -54,34 +48,13 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (!$this->_usersHash) {
             $collection = Mage::getModel('admin/user')->getCollection();
-            $this->_usersHash = array();
+            $this->_usersHash = array('' => '[User Deleted]');
             foreach ($collection as $user) {
                 $this->_usersHash[$user->getId()] = $user->getUsername();
             }
         }
 
         return $this->_usersHash;
-    }
-
-    /**
-     * Retrieve array of version available for current user and current page
-     *
-     * @param mixed $page
-     * @return array
-     */
-    public function getVersionsArray($keyField, $valueField, $page)
-    {
-        if (!isset($this->_versionsHash[$keyField . $valueField])) {
-            $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-            $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
-                ->addPageFilter($page)
-                ->addVisibilityFilter($userId,
-                    Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
-
-            $this->_versionsHash[$keyField . $valueField] = $collection->getAsArray($keyField, $valueField);
-        }
-
-        return $this->_versionsHash[$keyField . $valueField];
     }
 
     /**

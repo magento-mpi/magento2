@@ -181,13 +181,44 @@ class Enterprise_Cms_Model_Observer
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
         /*
-         * All new pages created by yser without permission to publish
-         * should be disabled from the begining.
+         * All new pages created by user without permission to publish
+         * should be disabled from the beginning.
          */
         if (!$page->getId()) {
             $page->setIsNewPage(true);
             if (!$this->_config->isCurrentUserCanPublishRevision()) {
                 $page->setIsActive(false);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Clean up orphaned private versions.
+     *
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function cleanUpOrphanedPrivateRevisions()
+    {
+        //Mage::getResourceModel('enterprise_cms/page_version')
+        //    ->cleanUpOrphanedRevisions(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE);
+
+        /* @var $collection Enterprise_Cms_Model_Mysql4_Page_Version_Collection */
+        $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
+            ->addAccessLevelFilter(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE)
+            ->addUserIdFilter();
+
+        foreach ($collection->getItems() as $item) {
+            try {
+                $item->delete();
+            } catch (Mage_Core_Exception $e) {
+                // If we have situation when revision from
+                // orphaned private version published we should
+                // change its access level to protected so publisher
+                // will have chance to see it and assign to some user
+                $item->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PROTECTED);
+                $item->save();
             }
         }
 

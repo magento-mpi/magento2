@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.7</version>
+             <version>0.1.8</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -226,7 +226,14 @@
             </updates>
         </layout>
     </frontend>
-
+    <crontab>
+        <jobs>
+            <enterprise_cms_orphaned>
+                <schedule><cron_expr>* 4 * * *</cron_expr></schedule>
+                <run><model>enterprise_cms/observer::cleanUpOrphanedPrivateRevisions</model></run>
+            </enterprise_cms_orphaned>
+        </jobs>
+    </crontab>
     <default>
         <cms>
             <hierarchy>
