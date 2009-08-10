@@ -56,13 +56,12 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Save user
+     * Processing data before model save
      *
      * @return Mage_Admin_Model_User
      */
-    public function save()
+    protected function _beforeSave()
     {
-        $this->_beforeSave();
         $data = array(
             'firstname' => $this->getFirstname(),
             'lastname'  => $this->getLastname(),
@@ -85,8 +84,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
 
         if ($this->getNewPassword()) {
             $data['password'] = $this->_getEncodedPassword($this->getNewPassword());
-        }
-        elseif ($this->getPassword()) {
+        } elseif ($this->getPassword()) {
             $data['new_password'] = $this->getPassword();
         }
 
@@ -95,9 +93,8 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         }
 
         $this->addData($data);
-        $this->_getResource()->save($this);
-        $this->_afterSave();
-        return $this;
+
+        return parent::_beforeSave();
     }
 
     /**
@@ -112,17 +109,6 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
             $data = serialize($data);
         }
         $this->_getResource()->saveExtra($this, $data);
-        return $this;
-    }
-
-    /**
-     * Delete user
-     *
-     * @return Mage_Admin_Model_User
-     */
-    public function delete()
-    {
-        $this->_getResource()->delete($this);
         return $this;
     }
 
