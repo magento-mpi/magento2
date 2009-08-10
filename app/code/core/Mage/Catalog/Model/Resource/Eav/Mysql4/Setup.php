@@ -773,7 +773,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'comparable'        => false,
                         'visible_on_front'  => false,
                         'unique'            => false,
-                        'apply_to'          => 'simple,configurable,virtual',
+                        'apply_to'          => 'simple,virtual',
                     ),
                     'weight' => array(
                         'type'              => 'decimal',
