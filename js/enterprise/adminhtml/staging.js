@@ -502,8 +502,13 @@ Enterprise.Staging.Form.prototype = {
         }
         this.createBtn = document.getElementsByClassName('create')[0];
 
-        $('staging_website_visibility_' + this.fieldSuffix).observe('change', this.frontendAuthenticationCallback);
-        this.frontendAuthenticationCallback($('staging_website_visibility_' + this.fieldSuffix));
+        var visibilityElement = $('staging_website_visibility_' + this.fieldSuffix);
+        if ($('staging_website_visibility_' + this.fieldSuffix)) {
+            $('staging_website_visibility_' + this.fieldSuffix).observe(
+                    'change', this.frontendAuthenticationCallback);
+            this
+                    .frontendAuthenticationCallback($('staging_website_visibility_' + this.fieldSuffix));
+        }
 
     },
 
