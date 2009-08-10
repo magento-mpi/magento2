@@ -46,9 +46,6 @@ class Enterprise_Cms_Block_Widget_Page_Link
         $pageResource = Mage::getResourceSingleton('enterprise_cms/page');
         /* @var $urlRewriteResource Enterprise_Cms_Model_Mysql4_Page */
 
-        $store = Mage::app()->getStore();
-        $requestPath = null;
-
         $href = $this->_getData('href');
 
         $anchorText = $this->_getData('anchor_text');

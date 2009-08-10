@@ -147,15 +147,24 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
                 $this->_redirect('*/*/');
                 return;
 
-            } catch (Exception $e) {
-                // display error message
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                // save data in session
-                Mage::getSingleton('adminhtml/session')->setFormData($data);
-                // redirect to edit form
-                $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
-                return;
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
             }
+            catch (Exception $e) {
+                $this->_getSession()->addException($e, Mage::helper('cms')->__('Error while saving Page. Please try again later.'));
+//                $this->_getSession()->setFormData($data);
+//                // display error message
+//                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+//                // save data in session
+//                Mage::getSingleton('adminhtml/session')->setFormData($data);
+//                // redirect to edit form
+//                $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+//                return;
+            }
+
+            $this->_getSession()->setFormData($data);
+            $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+            return;
         }
         $this->_redirect('*/*/');
     }

@@ -74,6 +74,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function validateHierarchyIdentifier()
     {
+        $this->loadPageData();
         $identifier = $this->getIdentifier();
         if (empty($identifier)) {
             Mage::throwException(Mage::helper('enterprise_cms')->__('Please enter a valid Identifier'));
@@ -405,5 +406,19 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function getParentNodeChildren()
     {
         return $this->_getResource()->getParentNodeChildren($this);
+    }
+
+    /**
+     * Load page data for model if defined page id end undefined page data
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function loadPageData()
+    {
+        if ($this->getPageId() && !$this->getPageIdentifier()) {
+            $this->_getResource()->loadPageData($this);
+        }
+
+        return $this;
     }
 }

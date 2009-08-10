@@ -78,17 +78,19 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Grid extends Mage_Adminhtml_B
         $this->addColumn('label', array(
             'header'    => Mage::helper('enterprise_cms')->__('Tree Name'),
             'index'     => 'label',
+            'renderer'  => 'enterprise_cms/adminhtml_cms_hierarchy_grid_renderer_label'
         ));
 
         $this->addColumn('identifier', array(
             'header'    => Mage::helper('enterprise_cms')->__('URL Key'),
             'index'     => 'identifier',
+            'renderer'  => 'enterprise_cms/adminhtml_cms_hierarchy_grid_renderer_identifier'
         ));
 
         $this->addColumn('pages_count', array(
             'header'    => Mage::helper('enterprise_cms')->__('Pages Number'),
             'index'     => 'pages_count',
-            'filterable'=> false
+            'filter'    => false
         ));
 
         return parent::_prepareColumns();

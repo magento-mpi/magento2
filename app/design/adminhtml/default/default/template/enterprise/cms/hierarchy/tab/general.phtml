@@ -38,8 +38,16 @@ var hierarchy = {
         this.gridContainer.show();
     },
     resetPage: function(){
-        this.pageElement.value = '';
-        this.infoElement.innerHTML = '<?php echo $this->__("Unselected"); ?>';
+        if (confirm('<?php echo $this->__("Are you sure you want to do this?"); ?>')) {
+            $('label').value = '';
+            $('label').disabled = false;
+            $('identifier').value = '';
+            $('identifier').disabled = false;
+
+            this.pageElement.value = '';
+            this.infoElement.innerHTML = '<?php echo $this->__("Unselected"); ?>';
+        }
+
         this.gridContainer.hide();
     },
     gridRowClick: function(container, event){
@@ -51,10 +59,10 @@ var hierarchy = {
         this.pageElement.value = page_id;
         this.infoElement.innerHTML = label;
 
-        if (confirm('<?php echo $this->__("Update Idetifier and Page Tree Label from Page?"); ?>')) {
-            $('label').value = label;
-            $('identifier').value = identifier;
-        }
+        $('label').value = label;
+        $('label').disabled = true;
+        $('identifier').value = identifier;
+        $('identifier').disabled = true;
 
         this.gridContainer.hide();
     }

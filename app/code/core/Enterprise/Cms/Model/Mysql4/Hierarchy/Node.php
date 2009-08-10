@@ -70,6 +70,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                 'page_is_active'    => 'is_active'
             )
         );
+
         return $select;
     }
 
@@ -132,7 +133,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         $read = $this->_getReadAdapter();
         if ($read && !is_null($parentNodeId)) {
             $select = $this->_getLoadSelect('parent_node_id', $parentNodeId, $object)
-                ->order(array('sort_order'))
+                ->order(array($this->getMainTable().'.sort_order'))
                 ->limit(1);
             $data = $read->fetchRow($select);
 
@@ -212,13 +213,6 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     public function updateRequestUrlsForTree($treeId)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from($this->getTable('enterprise_cms/hierarchy'))
-            ->where('tree_id=?', $treeId);
-        $treeRow = $this->_getReadAdapter()->fetchRow($select);
-        if (!$treeRow) {
-            return $this;
-        }
-        $select = $this->_getReadAdapter()->select()
             ->from(
                 array('node_table' => $this->getMainTable()),
                 array('node_id', 'parent_node_id', 'page_id', 'identifier', 'request_url'))
@@ -229,15 +223,19 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                     'page_identifier' => 'identifier',
                 ))
             ->where('tree_id=?', $treeId)
-            ->order(array('level', 'sort_order'));
+            ->order(array('level', 'node_table.sort_order'));
 
-        $nodes  = array();
-        $rowSet = $select->query()->fetchAll();
+        $nodes      = array();
+        $rowSet     = $select->query()->fetchAll();
         foreach ($rowSet as $row) {
             $nodes[intval($row['parent_node_id'])][$row['node_id']] = $row;
         }
 
-        $this->_updateNodeRequestUrls($nodes, 0, $treeRow['identifier']);
+        if (!$nodes) {
+            return $this;
+        }
+
+        $this->_updateNodeRequestUrls($nodes, 0, null);
 
         return $this;
     }
@@ -250,14 +248,14 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      * @param string $path
      * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
      */
-    protected function _updateNodeRequestUrls(array $nodes, $parentNodeId = 0, $path = '')
+    protected function _updateNodeRequestUrls(array $nodes, $parentNodeId = 0, $path = null)
     {
         if (!isset($nodes[$parentNodeId])) {
             return $this;
         }
         foreach ($nodes[$parentNodeId] as $nodeRow) {
             $identifier = $nodeRow['page_id'] ? $nodeRow['page_identifier'] : $nodeRow['identifier'];
-            $requestUrl = $path . '/' . $identifier;
+            $requestUrl = ($path ? $path . '/' : '') . $identifier;
             if ($nodeRow['request_url'] != $requestUrl) {
                 $this->_getWriteAdapter()->update($this->getMainTable(), array(
                     'request_url' => $requestUrl
@@ -288,7 +286,8 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                 array('node_table' => $this->getMainTable()),
                 'page_table.page_id = node_table.page_id',
                 array())
-            ->where('page_table.identifier=?', $identifier);
+            ->where('page_table.identifier=?', $identifier)
+            ->where('page_table.website_root <> 1');
         return $this->_getReadAdapter()->fetchOne($select) > 0;
     }
 
@@ -431,7 +430,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                 $parentId = $parentIds[count($parentIds) -1];
                 $select = $this->_getLoadSelect('tree_id', $object->getTreeId(), $object)
                     ->where('parent_node_id IN(?)', $parentIds)
-                    ->order(array('level', 'sort_order'));
+                    ->order(array('level', $this->getMainTable().'.sort_order'));
                 $tree = $this->_createNodesFromSelect($select, $parentId, $tree);
             }
         }
@@ -450,7 +449,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
 
         $select = $this->_getLoadSelect('tree_id', $object->getTreeId(), $object)
             ->where($where)
-            ->order(array('level', 'sort_order'));
+            ->order(array('level', $this->getMainTable().'.sort_order'));
 
         $tree = $this->_createNodesFromSelect($select, $parentId, $tree);
 
@@ -495,7 +494,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         }
         $select = $this->_getLoadSelect('tree_id', $object->getTreeId(), $object)
             ->where($where)
-            ->order('sort_order');
+            ->order($this->getMainTable().'.sort_order');
         $nodes = $select->query()->fetchAll();
         foreach ($nodes as $k => $row) {
             $node = Mage::getModel('enterprise_cms/hierarchy_node')
@@ -505,5 +504,32 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         }
 
         return $children;
+    }
+
+    /**
+     * Load page data for model if defined page id
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $object
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function loadPageData($object)
+    {
+        $pageId = $object->getPageId();
+        if (!empty($pageId)) {
+            $columns = array(
+                'page_title'        => 'title',
+                'page_identifier'   => 'identifier',
+                'page_is_active'    => 'is_active'
+            );
+            $select = $this->_getReadAdapter()->select()
+                ->from($this->getTable('cms/page'), $columns)
+                ->where('page_id=?', $pageId)
+                ->limit(1);
+            $row = $this->_getReadAdapter()->fetchRow($select);
+            if ($row) {
+                $object->addData($row);
+            }
+        }
+        return $this;
     }
 }

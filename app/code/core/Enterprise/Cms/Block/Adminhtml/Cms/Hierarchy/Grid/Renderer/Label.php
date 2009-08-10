@@ -25,25 +25,32 @@
  */
 
 
-/* @var $installer Enterprise_Cms_Model_Mysql4_Setup */
-$installer = $this;
+/**
+ * Cms Hierarchy Grid Page/Node Label filter
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ */
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Grid_Renderer_Label
+    extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
+{
+    /**
+     * Renders grid column
+     *
+     * @param Varien_Object $row
+     * @return mixed
+     */
+    public function _getValue(Varien_Object $row)
+    {
+        if ($row->getLabel()) {
+            $value = $row->getLabel();
+        } else {
+            $value = $row->getPageTitle();
+        }
+        if (empty($value)) {
+            $value = $this->getColumn()->getDefault();
+        }
 
-$installer->startSetup();
-
-$installer->getConnection()->modifyColumn($installer->getTable('enterprise_cms/page_version'),
-    'user_id', 'mediumint(9) unsigned');
-
-$installer->getConnection()->modifyColumn($installer->getTable('enterprise_cms/page_revision'),
-    'user_id', 'mediumint(9) unsigned');
-
-$installer->getConnection()->addConstraint('FK_CMS_VERSION_USER_ID',
-    $installer->getTable('enterprise_cms/page_version'), 'user_id',
-    $installer->getTable('admin/user'), 'user_id',
-    'SET NULL', 'CASCADE');
-
-$installer->getConnection()->addConstraint('FK_CMS_REVISION_USER_ID',
-    $installer->getTable('enterprise_cms/page_revision'), 'user_id',
-    $installer->getTable('admin/user'), 'user_id',
-    'SET NULL', 'CASCADE');
-
-$installer->endSetup();
+        return htmlspecialchars($value);
+    }
+}

@@ -25,25 +25,30 @@
  */
 
 
-/* @var $installer Enterprise_Cms_Model_Mysql4_Setup */
-$installer = $this;
+/**
+ * HTML List Type Source Model
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ */
+class Enterprise_Cms_Model_Source_Listtype
+{
+    /**
+     * Retrieve options array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        $types   = array('1', 'a', 'A', 'i', 'I', 'disc', 'circle', 'square');
+        $options = array();
+        foreach ($types as $type) {
+            $options[] = array(
+                'label' => $type,
+                'value' => $type
+            );
+        }
 
-$installer->startSetup();
-
-$installer->getConnection()->modifyColumn($installer->getTable('enterprise_cms/page_version'),
-    'user_id', 'mediumint(9) unsigned');
-
-$installer->getConnection()->modifyColumn($installer->getTable('enterprise_cms/page_revision'),
-    'user_id', 'mediumint(9) unsigned');
-
-$installer->getConnection()->addConstraint('FK_CMS_VERSION_USER_ID',
-    $installer->getTable('enterprise_cms/page_version'), 'user_id',
-    $installer->getTable('admin/user'), 'user_id',
-    'SET NULL', 'CASCADE');
-
-$installer->getConnection()->addConstraint('FK_CMS_REVISION_USER_ID',
-    $installer->getTable('enterprise_cms/page_revision'), 'user_id',
-    $installer->getTable('admin/user'), 'user_id',
-    'SET NULL', 'CASCADE');
-
-$installer->endSetup();
+        return $options;
+    }
+}

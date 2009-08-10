@@ -1,0 +1,60 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design
+ * @package    default_default
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+/* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy */
+?>
+<div class="entry-edit">
+    <input type="hidden" id="website_root_field" name="website_root" value="<?php echo (int)$this->getPage()->getWebsiteRoot();?>" />
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('This Page belongs To') ?></h4>
+    </div>
+    <div class="fieldset fieldset-wide">
+        <div class="hor-scroll">
+            <table class="form-list" cellspacing="0">
+                <col width="25">
+                <tr>
+                    <td><input type="checkbox" id="website_root" value="1" /></td>
+                    <td><label for="website_root"><?php echo $this->__('Website Root')?></label></td>
+                </tr>
+                <?php foreach ($this->getHierchyCollection() as $hierarchy):?>
+                <tr>
+                    <td><input type="checkbox" checked="checked" disabled="disabled" value="1" /></td>
+                    <td><a target="_blank" href="<?php echo $this->getHierarchyEditUrl($hierarchy)?>"><?php echo $this->getHierarchyTitle($hierarchy)?></a></td>
+                </tr>
+                <?php endforeach;?>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+function cmsPageEditHierarchyWebRoot() {
+    $('website_root_field').value = $('website_root').checked ? 1 : 0;
+}
+$('website_root').observe('change', cmsPageEditHierarchyWebRoot);
+if ($('website_root_field').value == "1") {
+    $('website_root').checked = true;
+}
+</script>

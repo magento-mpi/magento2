@@ -29,21 +29,6 @@
 $installer = $this;
 
 $installer->startSetup();
-
-$installer->getConnection()->modifyColumn($installer->getTable('enterprise_cms/page_version'),
-    'user_id', 'mediumint(9) unsigned');
-
-$installer->getConnection()->modifyColumn($installer->getTable('enterprise_cms/page_revision'),
-    'user_id', 'mediumint(9) unsigned');
-
-$installer->getConnection()->addConstraint('FK_CMS_VERSION_USER_ID',
-    $installer->getTable('enterprise_cms/page_version'), 'user_id',
-    $installer->getTable('admin/user'), 'user_id',
-    'SET NULL', 'CASCADE');
-
-$installer->getConnection()->addConstraint('FK_CMS_REVISION_USER_ID',
-    $installer->getTable('enterprise_cms/page_revision'), 'user_id',
-    $installer->getTable('admin/user'), 'user_id',
-    'SET NULL', 'CASCADE');
-
+$installer->getConnection()->addColumn($installer->getTable('cms/page'),
+    'website_root', "tinyint(1) NOT NULL default '0'");
 $installer->endSetup();

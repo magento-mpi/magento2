@@ -41,6 +41,8 @@
             <action method="removeTab"><name>content_section</name></action>
             <action method="removeTab"><name>design_section</name></action>
             <action method="removeTab"><name>meta_section</name></action>
+            <block type="enterprise_cms/adminhtml_cms_page_edit_tab_hierarchy" name="cms_page_edit_tab_hierarchy" template="enterprise/cms/page/tab/hierarchy.phtml"></block>
+            <action method="addTab"><name>hierarchy</name><block>cms_page_edit_tab_hierarchy</block></action>
             <action method="addTab"><name>versions</name><block>enterprise_cms/adminhtml_cms_page_edit_tab_versions</block></action>
         </reference>
         <reference name="cms_page_edit">
@@ -147,6 +149,13 @@
                     <name>enterprise_cms_hierarchy_edit_tab_general</name>
                     <block>enterprise_cms_hierarchy_edit_tab_general</block>
                 </action>
+                
+                <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tab_metadata" name="enterprise_cms_hierarchy_edit_tab_metadata"></block>
+                <action method="addTab">
+                    <name>enterprise_cms_hierarchy_edit_tab_metadata</name>
+                    <block>enterprise_cms_hierarchy_edit_tab_metadata</block>
+                </action>   
+                
                 <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tab_pages" name="enterprise_cms_hierarchy_edit_tab_pages" template="enterprise/cms/hierarchy/tab/pages.phtml">
                     <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_tab_pages_grid" name="cms_page_grid"></block>
                 </block>

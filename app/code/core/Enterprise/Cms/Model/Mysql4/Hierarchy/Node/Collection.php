@@ -81,7 +81,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
     {
         $this->getSelect()->where('main_table.parent_node_id IS NOT NULL');
         $this->getSelect()->order(array(
-            'level','sort_order'
+            'level', 'main_table.sort_order'
         ));
         return $this;
     }

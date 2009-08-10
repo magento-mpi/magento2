@@ -60,7 +60,7 @@ class Enterprise_Cms_Model_Hierarchy extends Mage_Core_Model_Abstract
      */
     public function setRootNode(Enterprise_Cms_Model_Hierarchy_Node $node)
     {
-        return $this->setData('_root_node', $node);
+        return $this->setData('root_node', $node);
     }
 
     /**
@@ -70,11 +70,11 @@ class Enterprise_Cms_Model_Hierarchy extends Mage_Core_Model_Abstract
      */
     public function getRootNode()
     {
-        if (!$this->hasData('_root_node')) {
+        if (!$this->hasData('root_node')) {
             $node = Mage::getModel('enterprise_cms/hierarchy_node');
             $node->loadByHierarchy($this->getId());
-            $this->setData('_root_node', $node);
+            $this->setData('root_node', $node);
         }
-        return $this->_getData('_root_node');
+        return $this->_getData('root_node');
     }
 }

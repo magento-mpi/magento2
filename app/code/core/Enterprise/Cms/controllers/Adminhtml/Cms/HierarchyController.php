@@ -131,8 +131,8 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
         $redirectUrl    = '*/*';
         $redirectArgs   = array();
         if ($this->getRequest()->isPost()) {
-            /* @var $hierarchy Enterprise_Cms_Model_Hierarchy */
-            /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
+            /** @var $hierarchy Enterprise_Cms_Model_Hierarchy */
+            /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
             $hierarchy  = Mage::getModel('enterprise_cms/hierarchy');
             $node       = Mage::getModel('enterprise_cms/hierarchy_node');
             $data       = $this->getRequest()->getPost('cms_hierarchy');
@@ -188,6 +188,35 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
         }
 
         $this->_redirect($redirectUrl, $redirectArgs);
+    }
+
+    /**
+     * Delete form type
+     *
+     */
+    public function deleteAction()
+    {
+        $model  = Mage::getModel('enterprise_cms/hierarchy');
+        $treeId = $this->getRequest()->getParam('tree_id');
+        if (!empty($treeId) && is_numeric($treeId)) {
+            $model->load($treeId);
+        }
+
+        if ($model->getId()) {
+            try {
+                $model->delete();
+                $message = Mage::helper('enterprise_cms')->__('Hierarchy was successfully deleted');
+                $this->_getSession()->addSuccess($message);
+            }
+            catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
+            catch (Exception $e) {
+                $message = Mage::helper('enterprise_cms')->__('Error while deleting Hierarchy. Please try again later.');
+                $this->_getSession()->addException($e, $message);
+            }
+        }
+        $this->_redirect('*/*/index');
     }
 
     /**

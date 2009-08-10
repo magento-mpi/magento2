@@ -84,14 +84,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_General
             'label'     => Mage::helper('enterprise_cms')->__('Identifier (URL Key)'),
             'required'  => true,
             'class'     => 'validate-identifier',
-            'value'     => $model->getRootNode()->getIdentifier()
+            'value'     => $model->getRootNode()->getIdentifier(),
+            'disabled'  => $model->getRootNode()->getPageId() ? true : false
         ));
 
         $fieldset->addField('label', 'text', array(
             'name'      => 'label',
             'label'     => Mage::helper('enterprise_cms')->__('Tree Title'),
             'required'  => true,
-            'value'     => $model->getRootNode()->getLabel()
+            'value'     => $model->getRootNode()->getLabel(),
+            'disabled'  => $model->getRootNode()->getPageId() ? true : false
         ));
 
         $pageTitle = Mage::helper('enterprise_cms')->__('Unselected');
@@ -99,82 +101,31 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_General
             $pageTitle = $node->getPageTitle();
         }
 
-        $afterHtml = $this->getLayout()->createBlock('adminhtml/widget_button')
-            ->setData(array(
-                'id'        => 'select_page_button',
-                'label'     => Mage::helper('enterprise_cms')->__('Select'),
-                'onclick'   => 'hierarchy.selectPage()',
-                'class'     => ''))
-            ->toHtml();
+        $afterHtml = join(' &nbsp; ', array(
+            $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'id'        => 'select_page_button',
+                    'label'     => Mage::helper('enterprise_cms')->__('Select ...'),
+                    'onclick'   => 'hierarchy.selectPage()',
+                    'class'     => ''))
+                ->toHtml(),
+                $this->getLayout()->createBlock('adminhtml/widget_button')
+                ->setData(array(
+                    'id'        => 'reset_page_button',
+                    'label'     => Mage::helper('enterprise_cms')->__('Reset'),
+                    'onclick'   => 'hierarchy.resetPage()',
+                    'class'     => 'delete'))
+                ->toHtml()));
         $fieldset->addField('page_id_element', 'note', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Base Page'),
+            'label'     => Mage::helper('enterprise_cms')->__('Default Page'),
             'text'      => $pageTitle,
             'after_element_html' => ' &nbsp; ' . $afterHtml
-        ));
-
-        $fieldset   = $form->addFieldset('metadata_fieldset', array(
-            'legend'    => Mage::helper('enterprise_cms')->__('Render Metadata in HTML Head')
-        ));
-
-        $yesNoOptions = array(
-            1 => Mage::helper('enterprise_cms')->__('Yes'),
-            0 => Mage::helper('enterprise_cms')->__('No')
-        );
-
-        $fieldset->addField('meta_first_last', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('First/Last'),
-            'title'     => Mage::helper('enterprise_cms')->__('First/Last'),
-            'name'      => 'meta_first_last',
-            'options'   => $yesNoOptions,
-            'value'     => $model->getMetaFirstLast()
-        ));
-
-        $fieldset->addField('meta_next_previous', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
-            'title'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
-            'name'      => 'meta_next_previous',
-            'options'   => $yesNoOptions,
-            'value'     => $model->getMetaNextPrevious()
-        ));
-
-        $fieldset->addField('meta_chapter', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Chapter'),
-            'title'     => Mage::helper('enterprise_cms')->__('Chapter'),
-            'name'      => 'meta_chapter',
-            'options'   => $yesNoOptions,
-            'value'     => $model->getMetaChapter()
-        ));
-
-        $fieldset->addField('meta_section', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Section'),
-            'title'     => Mage::helper('enterprise_cms')->__('Section'),
-            'name'      => 'meta_section',
-            'options'   => $yesNoOptions,
-            'value'     => $model->getMetaSection()
         ));
 
         $form->addFieldNameSuffix($this->getFieldNameSuffix());
         $this->setForm($form);
 
         return parent::_prepareForm();
-    }
-
-    /**
-     * Retrieve buttons for select base page grid
-     *
-     * @return string
-     */
-    public function getPageGridButtonsHtml()
-    {
-        return $this->getLayout()->createBlock('adminhtml/widget_button')
-            ->setData(array(
-                'id'        => 'reset_general_page_button',
-                'label'     => Mage::helper('enterprise_cms')->__('Deselect Page'),
-                'onclick'   => 'hierarchy.resetPage()',
-                'class'     => 'reset'))
-            ->toHtml();
-
-        return join(' ', $buttons);
     }
 
     /**
