@@ -100,7 +100,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
         $this->_scheduleResize = true;
         return $this;
     }
-    
+
     /**
      * Set image quality, values in percentage from 0 to 100
      *
@@ -208,7 +208,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
 
     /**
      * Add watermark to image
-     * size param in format 100x200 
+     * size param in format 100x200
      *
      * @param string $fileName
      * @param string $position
@@ -372,7 +372,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     {
         return $this->_watermarkSize;
     }
-    
+
     /**
      * Set watermark image opacity
      *
@@ -396,10 +396,10 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
         if( $this->_watermarkImageOpacity ) {
             return $this->_watermarkImageOpacity;
         }
-        
+
         return $this->_getModel()->getWatermarkImageOpacity();
     }
-    
+
     protected function setProduct($product)
     {
         $this->_product = $product;
@@ -452,9 +452,20 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     /**
      * Retrieve original image height
      *
+     * @deprecated
      * @return int|null
      */
     public function getOriginalHeigh()
+    {
+        return $this->getOriginalHeight();
+    }
+
+    /**
+     * Retrieve original image height
+     *
+     * @return int|null
+     */
+    public function getOriginalHeight()
     {
         return $this->_getModel()->getImageProcessor()->getOriginalHeight();
     }
@@ -469,7 +480,7 @@ class Mage_Catalog_Helper_Image extends Mage_Core_Helper_Abstract
     {
         return array(
             $this->getOriginalWidth(),
-            $this->getOriginalHeigh()
+            $this->getOriginalHeight()
         );
     }
 }
