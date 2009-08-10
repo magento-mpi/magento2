@@ -60,14 +60,14 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         		<script type="text/javascript">
 				//<![CDATA[
 
-				var editorLoaded = false;
-
-				function imagesBrowser(field_name, url, type, win) {
+                function imagesBrowser(field_name, url, type, win) {
                     win.open("'.$config->getFilesBrowserWindowUrl().'", "imagesBrowser", "width='.$config->getFilesBrowserWindowWidth().', height='.$config->getFilesBrowserWindowHeight().'");
                 }
 
-                function toggleEditor(id) {
+                function toggleTiny(id) {
                     if (!tinyMCE.get(id)) {
+                        setupEditor();
+                        setTimeout("",1000);
                         tinyMCE.execCommand("mceAddControl", false, id);
                     } else {
                         tinyMCE.execCommand("mceRemoveControl", false, id);
@@ -75,13 +75,13 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                 }
 
                 function setupEditor() {
-                    editorLoaded = true;
+                    tinymce.PluginManager.load("magentowidget", "'.Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js");
                     tinyMCE.init({
                         mode : "exact",
                         elements : "'.$this->getHtmlId().'",
                         theme : "advanced",
-                        plugins : "safari,pagebreak,style,layer,table,advhr,advimage,emotions,iespell,media,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
-                        theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+                        plugins : "-magentowidget,inlinepopups,safari,pagebreak,style,layer,table,advhr,advimage,emotions,iespell,media,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
+                        theme_advanced_buttons1 : "magentowidget,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
                         theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,forecolor,backcolor",
                         theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,iespell,media,advhr,|,ltr,rtl,|,fullscreen",
                         theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,pagebreak",
@@ -93,6 +93,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                         convert_urls : false,
                         relative_urls : false,
                         content_css: "",
+                        magentowidget_url: "' . $config->getWidgetWindowUrl() . '",
                         doctype : \'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\',
 
                         setup : function(ed) {
@@ -127,6 +128,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                             ed.onPostProcess.add(function(ed, o) {
                                 varienGlobalEvents.fireEvent("tinymcePostProcess", o);
                             });
+
                             ed.onExecCommand.add(function(ed, cmd, ui, val) {
                                 varienGlobalEvents.fireEvent("tinymceExecCommand", cmd);
                             });
@@ -134,12 +136,49 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                     });
 
                 }
+
                 '.($config->getEnabled() ? 'Event.observe(window, "load", function() { setupEditor(); });' : '').'
 				//]]>
                 </script>
-                <input type="hidden" name="'.$this->getName().'_directives_mapping" value="'.$this->_escape($this->getConfig()->getDirectivesMapping()).'">
                 <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
-                <a href="javascript:toggleEditor(\''.$this->getHtmlId().'\');">'.($config->getToggleLinkTitle() ? $config->getToggleLinkTitle() : 'Add/Remove Editor').'</a>';
+                <a href="javascript:toggleTiny(\''.$this->getHtmlId().'\');">'.($config->getToggleLinkTitle() ? $config->getToggleLinkTitle() : 'Add/Remove Editor').'</a>';
+
+
+            if ($this->getConfig()->getEncodeDirectives() && $this->getConfig()->getDirectivesUrl()) {
+
+                $directivesUrl = $this->getConfig()->getDirectivesUrl();
+                $directivesUrlQuoted = preg_quote($directivesUrl, '/');
+
+                $html .= '
+                    <script type="text/javascript">
+    				//<![CDATA[
+
+    				function encodeDirectives(content) {
+                        return content.gsub(/([a-z]+)\s*\=\s*[\"\']{1}(\{\{[a-z]{0,10}.*?\}\})[\"\']{1}/i, function(match){
+                            return match[1] + "=\"'.$directivesUrl.'directive/" + Base64.mageEncode(match[2]) + "/\"";
+                        });
+                    }
+
+                    function decodeDirectives(content) {
+                        return content.gsub(/'.$directivesUrlQuoted.'directive\/([a-zA-Z0-9\-\_\,]+)\/?/i, function(match){
+                            return Base64.mageDecode(match[1]);
+                        });
+                    }
+
+                    function BeforeSetContent'.$this->getHtmlId().' (o) {
+                        o.content = encodeDirectives(o.content);
+                    }
+
+                    function SaveContent'.$this->getHtmlId().' (o) {
+                        o.content = decodeDirectives(o.content);
+                    }
+
+                    varienGlobalEvents.attachEventHandler("tinymceBeforeSetContent", BeforeSetContent'.$this->getHtmlId().');
+                    varienGlobalEvents.attachEventHandler("tinymceSaveContent", SaveContent'.$this->getHtmlId().');
+
+    				//]]>
+                    </script>';
+            }
 
             $html.= $this->getAfterElementHtml();
             return $html;

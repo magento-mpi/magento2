@@ -53,7 +53,7 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     public function getStorageRoot()
     {
         $root = $this->correctPath( $this->getStorage()->getConfigData('upload_root') );
-        return Mage::getConfig()->getOptions()->getBaseDir() . DS . $root;
+        return Mage::getConfig()->getOptions()->getMediaDir() . DS . $root;
     }
 
     /**
@@ -64,8 +64,7 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     public function getBaseUrl()
     {
         $root = $this->correctPath( $this->getStorage()->getConfigData('upload_root') );
-        $root = $this->convertPathToUrl($root);
-        return Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . $root . '/';
+        return Mage::getBaseUrl('media') . $this->convertPathToUrl($root) . '/';
     }
 
     /**
@@ -168,11 +167,9 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     public function getCurrentUrl()
     {
         if (!$this->_currentUrl) {
-            $path = str_replace(Mage::getConfig()->getOptions()->getBaseDir(), '', $this->getCurrentPath());
+            $path = str_replace(Mage::getConfig()->getOptions()->getMediaDir(), '', $this->getCurrentPath());
             $path = trim($path, DS);
-            $this->_currentUrl = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB)
-                . $this->convertPathToUrl($path)
-                . '/';
+            $this->_currentUrl = Mage::getBaseUrl('media') . $this->convertPathToUrl($path) . '/';
         }
         return $this->_currentUrl;
     }

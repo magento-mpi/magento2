@@ -376,12 +376,11 @@ var Fieldset = {
 };
 
 var Base64 = {
-
     // private property
     _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-
+     //'+/=', '-_,'
     // public method for encoding
-    encode : function (input) {
+    encode: function (input) {
         var output = "";
         var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
         var i = 0;
@@ -413,7 +412,7 @@ var Base64 = {
     },
 
     // public method for decoding
-    decode : function (input) {
+    decode: function (input) {
         var output = "";
         var chr1, chr2, chr3;
         var enc1, enc2, enc3, enc4;
@@ -443,6 +442,15 @@ var Base64 = {
         }
         output = Base64._utf8_decode(output);
         return output;
+    },
+
+    mageEncode: function(input){
+        return this.encode(input).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, ',');
+    },
+
+    mageDecode: function(output){
+        output = output.replace(/\-/g, '+').replace(/_/g, '/').replace(/,/g, '=');
+        return this.decode(output);
     },
 
     // private method for UTF-8 encoding

@@ -48,5 +48,67 @@
                 </template>
             </parameters>
         </new_products>
+
+        <catalog_product_link translate="name description">
+            <name>Product Link</name>
+            <description>Widget generates link to specified product</description>
+            <type>enterprise_cms/widget_catalog_product_link</type>
+            <js>mage/adminhtml/wysiwyg/widget/product.js</js>
+            <parameters>
+                <sku translate="label">
+                    <visible />
+                    <label>Sku</label>
+                    <type>text</type>
+                </sku>
+                <id_path translate="label">
+                    <visible />
+                    <label>Id Path</label>
+                    <type>
+                        <element_type>text</element_type>
+                        <helper>adminhtml/catalog_product_widget_chooser</helper>
+                    </type>
+                </id_path>
+                <anchor_text translate="label">
+                    <visible />
+                    <required />
+                    <label>Anchor Text</label>
+                    <type>text</type>
+                </anchor_text>
+                <title translate="label">
+                    <visible />
+                    <label>Anchor Title</label>
+                    <type>text</type>
+                </title>
+            </parameters>
+        </catalog_product_link>
+
+        <catalog_category_link translate="name description">
+            <name>Category Link</name>
+            <description>Widget generates link to specified category</description>
+            <type>enterprise_cms/widget_catalog_category_link</type>
+            <js>mage/adminhtml/wysiwyg/widget/category.js</js>
+            <parameters>
+                <url_key translate="label">
+                    <visible />
+                    <required />
+                    <label>Url Key</label>
+                    <type>
+                        <element_type>text</element_type>
+                        <helper>adminhtml/catalog_category_widget_chooser</helper>
+                    </type>
+                </url_key>
+                <anchor_text translate="label">
+                    <visible />
+                    <required />
+                    <label>Anchor Text</label>
+                    <type>text</type>
+                </anchor_text>
+                <title translate="label">
+                    <visible />
+                    <label>Anchor Title</label>
+                    <type>text</type>
+                </title>
+            </parameters>
+        </catalog_category_link>
     </widgets>
 </config>

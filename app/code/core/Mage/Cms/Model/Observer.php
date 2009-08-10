@@ -86,7 +86,7 @@ class Mage_Cms_Model_Observer
         /* @var $fieldSet Varien_Data_Form_Element_Fieldset */
         $fieldSet = $form->getElement('content_fieldset');
         $editor = $fieldSet->getElements()->searchById('content');
-        if (!$editor || !$editor->getValue()) {
+        if (!$editor) {
             return $this;
         }
 
@@ -96,43 +96,16 @@ class Mage_Cms_Model_Observer
             return $this;
         }
 
-        $imagesUrl = Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_images/image');
-        $pregImagesUrl = preg_quote($imagesUrl,'/');
-        $afterHtml = '
-            <script type="text/javascript">
-
-                function BeforeSetContent'.$editor->getHtmlId().' (o) {
-                    console.debug("setContent");
-                    o.content = o.content.gsub(/src\s*=\s*\"(\{\{[a-z]{0,10}.*?\}\})\"/, function(match){
-                        return "src=\"'.$imagesUrl.'directive/" + Base64.encode(match[1]) + "/\"";
-                    });
-                    o.content = o.content.gsub(/\{\{[a-z]{0,10}.*?\}\}/, function(match){
-                        return "__DIRECTIVE__" + Base64.encode(match[0]);
-                    });
-                }
-
-                function SaveContent'.$editor->getHtmlId().' (o) {
-                    o.content = o.content.gsub(/'.$pregImagesUrl.'directive\/([a-zA-Z0-9\+\/\=]+)\//, function(match){
-                        return Base64.decode(match[1]);
-                    });
-                    o.content = o.content.gsub(/__DIRECTIVE__([a-zA-Z0-9\+\/\=]+)/, function(match){
-                        return Base64.decode(match[1]);
-                    });
-                }
-
-                varienGlobalEvents.attachEventHandler("tinymceBeforeSetContent", BeforeSetContent'.$editor->getHtmlId().');
-                varienGlobalEvents.attachEventHandler("tinymceSaveContent", SaveContent'.$editor->getHtmlId().');
-
-            </script>';
-
         $editor->setWysiwyg(true);
-        $editor->setAfterElementHtml($afterHtml);
         $config = new Varien_Object();
         $config->setData(array(
             'files_browser_window_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_images/index'),
             'files_browser_window_width' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_width'),
             'files_browser_window_height' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_height'),
             'toggle_link_title' => Mage::helper('cms')->__('Show/Hide Editor'),
+            'encode_directives' => true,
+            'directives_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg/directive'),
+            'widget_window_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_widget/index'),
         ));
         $editor->setConfig($config);
 
@@ -142,36 +115,4 @@ class Mage_Cms_Model_Observer
 
         return $this;
     }
-
-    /**
-     * Parse page content and replace Wysiwyg directives with their values
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Cms_Model_Observer
-     */
-//    public function prepareWysiwygContent($observer)
-//    {
-//        $request = $observer->getEvent()->getRequest();
-//        $page = $observer->getEvent()->getPage();
-//        foreach ($request->getPost() as $field => $value) {
-//            if (preg_match('/_directives_mapping$/', $field)) {
-//                continue;
-//            }
-//            $fieldMapping = $field . '_directives_mapping';
-//            if ($request->getPost($fieldMapping)) {
-//                try {
-//                    $mapping = unserialize($request->getPost($fieldMapping));
-//                    if (is_array($mapping) && count($mapping) > 0) {
-//                        $search = array_keys($mapping);
-//                        $replace = array_values($mapping);
-//                        $page->setData($field, str_replace($search, $replace, $value));
-//                        $page->unsetData($fieldMapping);
-//                    }
-//                } catch (Exception $e) {
-//                    continue;
-//                }
-//            }
-//        }
-//        return $this;
-//    }
 }

@@ -55,11 +55,14 @@ Wysiwyg.Images.prototype = {
         this.expandFolder(node, event);
         this.activateBlock('contents');
         this.showElement('loading-mask');
+        var tmpCurrentNode = this.currentNode; // strange thing, expand(root) event raised before ajax request
         new Ajax.Request('<?php echo $this->getContentsUrl() ?>', {
             parameters: {node: this.currentNode.id},
             evalJS: true,
             onSuccess: function(transport) {
                 try {
+                    this.currentNode = tmpCurrentNode;
+                    this.expandFolder(this.currentNode);
                     this.onAjaxSuccess(transport);
                     this.hideElement('loading-mask');
                     $('contents').update(transport.responseText);
@@ -108,11 +111,12 @@ Wysiwyg.Images.prototype = {
     insert: function(event) {
         var div = Event.findElement(event, 'DIV');
         new Ajax.Request('<?php echo $this->getOnInsertUrl() ?>', {
-            parameters: {path: div.id},
+            parameters: {filename:div.id, node:this.currentNode.id},
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
-                    self.opener.document.getElementById('src').value = transport.responseText;
+                    var openerElement = self.opener.document.getElementById('src') || self.opener.document.getElementById('href');
+                    openerElement.value = transport.responseText;
                     self.close();
                 } catch (e) {
                     alert(e.message);
@@ -139,7 +143,7 @@ Wysiwyg.Images.prototype = {
                             id:response.id
                         });
                         this.currentNode.appendChild(newNode);
-                        this.expandFolder(newNode);
+                        this.selectFolder(newNode);
                     }
                 } catch (e) {
                     alert(e.message);

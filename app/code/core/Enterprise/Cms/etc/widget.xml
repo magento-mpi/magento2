@@ -27,58 +27,6 @@
 -->
 <config>
     <widgets>
-        <catalog_product_link translate="name description">
-            <name>Product Link</name>
-            <description>Widget generates link to specified product</description>
-            <type>enterprise_cms/widget_catalog_product_link</type>
-            <parameters>
-                <sku translate="label">
-                    <visible />
-                    <label>Sku</label>
-                    <type>text</type>
-                </sku>
-                <id_path translate="label">
-                    <visible />
-                    <label>Id Path</label>
-                    <type>text</type>
-                </id_path>
-                <anchor_text translate="label">
-                    <visible />
-                    <required />
-                    <label>Anchor Text</label>
-                    <type>text</type>
-                </anchor_text>
-                <title translate="label">
-                    <visible />
-                    <label>Anchor Title</label>
-                    <type>text</type>
-                </title>
-            </parameters>
-        </catalog_product_link>
-        <catalog_category_link translate="name description">
-            <name>Category Link</name>
-            <description>Widget generates link to specified category</description>
-            <type>enterprise_cms/widget_catalog_category_link</type>
-            <parameters>
-                <url_key translate="label">
-                    <visible />
-                    <required />
-                    <label>Url Key</label>
-                    <type>text</type>
-                </url_key>
-                <anchor_text translate="label">
-                    <visible />
-                    <required />
-                    <label>Anchor Text</label>
-                    <type>text</type>
-                </anchor_text>
-                <title translate="label">
-                    <visible />
-                    <label>Anchor Title</label>
-                    <type>text</type>
-                </title>
-            </parameters>
-        </catalog_category_link>
         <cms_page_link translate="name description">
             <name>CMS Page Link</name>
             <description>Widget generates link to specified cms page</description>

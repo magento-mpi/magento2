@@ -69,10 +69,8 @@ Ext.onReady(function(){
     Images.setTree(tree);
     tree.addListener('click', Images.selectFolder.bind(Images));
     tree.addListener('expand', Images.expandFolder.bind(Images));
-    <?php if ($treePath = $this->getTreeCurrentPath()): ?>
-        tree.expandPath('<?php echo $treePath ?>','', function(success, node) {
-            Images.selectFolder(node);
-        });
-    <?php endif; ?>
+    tree.expandPath('<?php echo $this->getTreeCurrentPath() ?>','', function(success, node) {
+        Images.selectFolder(node);
+    });
 });
 </script>

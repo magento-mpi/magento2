@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Tree extends Mage_Adminh
      */
     public function getTreeCurrentPath()
     {
-        $treePath = '';
+        $treePath = '/root';
         if ($path = Mage::registry('storage')->getSession()->getCurrentPath()) {
             $path = str_replace(Mage::helper('cms/page_wysiwyg_images')->getStorageRoot(), '', $path);
             $relative = '';
@@ -92,7 +92,6 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Tree extends Mage_Adminh
                     $treePath .= '/' . Mage::helper('core')->urlEncode($relative);
                 }
             }
-            $treePath = ($treePath != '' ? '/root' . $treePath : '');
         }
         return $treePath;
     }
