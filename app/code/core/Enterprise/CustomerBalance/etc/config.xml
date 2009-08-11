@@ -222,14 +222,14 @@
                     </enterprise_customerbalance>
                 </observers>
             </sales_order_creditmemo_refund>
-            <website_delete_after>
+            <website_delete_before>
                 <observers>
                     <enterprise_customerbalance>
                         <class>enterprise_customerbalance/observer</class>
                         <method>setCustomersBalanceCurrencyToWebsiteBaseCurrency</method>
                     </enterprise_customerbalance>
                 </observers>
-            </website_delete_after>
+            </website_delete_before>
         </events>
         <pdf>
             <totals>

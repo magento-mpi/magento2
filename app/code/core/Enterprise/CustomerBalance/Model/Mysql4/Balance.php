@@ -58,17 +58,18 @@ class Enterprise_CustomerBalance_Model_Mysql4_Balance extends Mage_Core_Model_My
     }
 
      /**
-     * Update customers balance currency code
+     * Update customers balance currency code per website id
      *
+     * @param int $websiteId
      * @param string $currencyCode
      * @return Enterprise_CustomerBalance_Model_Mysql4_Balance
      */
-    public function setCustomersBalanceCurrencyTo($currencyCode)
+    public function setCustomersBalanceCurrencyTo($websiteId, $currencyCode)
     {
         $bind = array('base_currency_code' => $currencyCode);
-
         $this->_getWriteAdapter()->update(
-            $this->getMainTable(), $bind, 'website_id IS NULL AND base_currency_code IS NULL'
+            $this->getMainTable(), $bind,
+            array('website_id=?' => $websiteId, 'base_currency_code IS NULL')
         );
         return $this;
     }

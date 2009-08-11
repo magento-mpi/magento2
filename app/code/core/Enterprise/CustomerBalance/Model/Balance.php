@@ -238,14 +238,15 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Update customers balance currency code
+     * Update customers balance currency code per website id
      *
+     * @param int $websiteId
      * @param string $currencyCode
      * @return Enterprise_CustomerBalance_Model_Balance
      */
-    public function setCustomersBalanceCurrencyTo($currencyCode)
+    public function setCustomersBalanceCurrencyTo($websiteId, $currencyCode)
     {
-        $this->getResource()->setCustomersBalanceCurrencyTo($currencyCode);
+        $this->getResource()->setCustomersBalanceCurrencyTo($websiteId, $currencyCode);
         return $this;
     }
 
