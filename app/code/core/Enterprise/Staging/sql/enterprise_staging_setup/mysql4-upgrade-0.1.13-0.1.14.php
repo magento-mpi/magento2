@@ -27,8 +27,12 @@
 $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
-$connection = $installer->getConnection();
+$connection      = $installer->getConnection();
 $stagingLogTable = $this->getTable('enterprise_staging/staging_log');
+$actionTable     = $this->getTable('enterprise_staging/staging_action');
+
+$connection->dropForeignKey($actionTable, 'FK_STAGING_LOG_MASTER_WEBSITE');
+$connection->dropForeignKey($actionTable, 'FK_STAGING_LOG_STAGING_WEBSITE');
 
 $connection->addConstraint('FK_STAGING_LOG_MASTER_WEBSITE', $stagingLogTable, 'master_website_id', $installer->getTable('core/website'), 'website_id' ,'SET NULL');
 $connection->addConstraint('FK_STAGING_LOG_STAGING_WEBSITE', $stagingLogTable, 'staging_website_id', $installer->getTable('core/website'), 'website_id' ,'SET NULL');
