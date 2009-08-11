@@ -108,12 +108,12 @@ $installer->getConnection()->addKey($logTable, 'FK_STAGING_LOG_MASTER_WEBSITE', 
 $installer->getConnection()->addKey($logTable, 'FK_STAGING_LOG_STAGING_WEBSITE', 'staging_website_id');
 
 $installer->getConnection()->addConstraint(
-    'FK_STAGING_LOG_MASTER_WEBSITE', $actionTable, 'master_website_id',
+    'FK_STAGING_LOG_MASTER_WEBSITE', $logTable, 'master_website_id',
     $installer->getTable('core/website'), 'website_id', 'CASCADE', 'CASCADE'
 );
 
 $installer->getConnection()->addConstraint(
-    'FK_STAGING_LOG_STAGING_WEBSITE', $actionTable, 'staging_website_id',
+    'FK_STAGING_LOG_STAGING_WEBSITE', $logTable, 'staging_website_id',
     $installer->getTable('core/website'), 'website_id', 'CASCADE', 'CASCADE'
 );
 
