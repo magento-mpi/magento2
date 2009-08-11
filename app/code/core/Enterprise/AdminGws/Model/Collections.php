@@ -31,13 +31,16 @@
 class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Observer_Abstract
 {
     /**
-     * Limit store views collection
+     * Limit store views collection. Adding limitation depending
+     * on allowed group ids for user.
      *
      * @param Mage_Core_Model_Mysql4_Store_Collection $collection
      */
     public function limitStores($collection)
     {
-        $collection->addIdFilter(array_merge($this->_role->getStoreIds(), array(0)));
+        // Changed from filter by store id bc of case when
+        // user creating new store view for allowed store group
+        $collection->addGroupFilter(array_merge($this->_role->getStoreGroupIds(), array(0)));
     }
 
     /**
