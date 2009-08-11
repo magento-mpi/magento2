@@ -43,7 +43,7 @@
 
 <script type="text/javascript">
 //<![CDATA[
-    var enterpriseLoggingActionsLabel = $('<?php echo $this->getHtmlId() ?>').parentNode.parentNode.select('td.label label');
+    var enterpriseLoggingActionsLabel = $('<?php echo $this->getHtmlId() ?>').up('table').select('td.label label');
     if (enterpriseLoggingActionsLabel) {
         var enterpriseLoggingActions = $('<?php echo $this->getHtmlId() ?>').parentNode.select('ul.checkboxes input');
         if (enterpriseLoggingActions) {
