@@ -27,16 +27,28 @@
 
 class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribute_Source_Abstract
 {
-    public function getAllOptions($withEmpty = true)
+    /**
+     * Retrieve All Design Theme Options
+     *
+     * @param bool $withEmpty add empty (please select) values to result
+     * @param bool $fullLabel add package name to label
+     * @return array
+     */
+    public function getAllOptions($withEmpty = true, $fullLabel = false)
     {
         if (is_null($this->_options)) {
             $design = Mage::getModel('core/design_package')->getThemeList();
             $options = array();
-            foreach ($design as $package=>$themes){
-                $packageOption = array('label'=>$package);
-                $themeOptions = array();
+            foreach ($design as $package => $themes) {
+                $packageOption = array(
+                    'label' => $package
+                );
+                $themeOptions  = array();
                 foreach ($themes as $theme) {
-                    $themeOptions[] = array('label'=>$theme, 'value'=>$package . '/' . $theme);
+                    $themeOptions[] = array(
+                        'label' => ($fullLabel ? $package . ' / ' : '') . $theme,
+                        'value' => $package . '/' . $theme
+                    );
                 }
 
                 $packageOption['value'] = $themeOptions;
@@ -48,8 +60,12 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
 
         $options = $this->_options;
         if ($withEmpty) {
-            array_unshift($options, array('value'=>'', 'label'=>Mage::helper('core')->__('-- Please Select --')));
+            array_unshift($options, array(
+                'value' => '',
+                'label' => Mage::helper('core')->__('-- Please Select --')
+            ));
         }
+
         return $options;
     }
 
@@ -61,8 +77,6 @@ class Mage_Core_Model_Design_Source_Design extends Mage_Eav_Model_Entity_Attribu
      */
     public function getOptionText($value)
     {
-        $options = $this->getAllOptions(false);
-
         return $value;
     }
 }
