@@ -26,6 +26,38 @@ WysiwygWidget.optionCategory.prototype = {
     initialize: function(objectName, chooserUrl) {
         this.chooserUrl = chooserUrl;
         this.selfObjectName = objectName;
-    }
+    },
 
+    choose: function(event) {
+        var element = Event.findElement(event, 'A');
+        this.chooserId = element.id;
+        var responseContainerId = "responseCnt" + element.id;
+        if ($(responseContainerId) != undefined) {
+            if ($(responseContainerId).visible()) {
+                $(responseContainerId).hide();
+            } else {
+                $(responseContainerId).show();
+            }
+            return;
+        }
+        new Ajax.Request(this.chooserUrl,
+            {
+                parameters: {'js_chooser_object':this.selfObjectName},
+                onSuccess: function(transport) {
+                    try {
+                        wWidget.onAjaxSuccess(transport);
+                        new Insertion.After(element, wWidget.getDivHtml(responseContainerId, transport.responseText));
+                    } catch(e) {
+                        alert(e.message);
+                    }
+                }.bind(this)
+            }
+        );
+    },
+
+    selectCategory: function (node) {
+        $(this.chooserId).previous("input").value = node.attributes.url_key;
+        var responseContainerId = "responseCnt" + this.chooserId;
+        $(responseContainerId).hide();
+    }
 }

@@ -36,59 +36,34 @@ class Mage_Adminhtml_Catalog_Category_WidgetController extends Mage_Adminhtml_Co
 {
     public function chooserAction()
     {
-        $block = $this->getLayout()->createBlock(
-            'adminhtml/catalog_category_checkboxes_tree', 'promo_widget_chooser_category_ids',
-            array('js_form_object' => $this->getRequest()->getParam('js_chooser_object'))
+        $this->getResponse()->setBody(
+            $this->_getCategoryTreeBlock()->toHtml()
         );
-        $this->getResponse()->setBody($block->toHtml());
     }
 
     /**
-     * Get tree node (Ajax version)
+     * Categories tree node (Ajax version)
      */
     public function categoriesJsonAction()
     {
         if ($categoryId = (int) $this->getRequest()->getPost('id')) {
-            $this->getRequest()->setParam('id', $categoryId);
 
-            if (!$category = $this->_initCategory()) {
-                return;
+            $category = Mage::getModel('catalog/category')->load($categoryId);
+            if ($category->getId()) {
+                Mage::register('category', $category);
+                Mage::register('current_category', $category);
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('adminhtml/catalog_category_tree')
-                    ->getTreeJson($category)
+                $this->_getCategoryTreeBlock()->getTreeJson($category)
             );
         }
     }
 
-    /**
-     * Initialize category object in registry
-     *
-     * @return Mage_Catalog_Model_Category
-     */
-    protected function _initCategory()
+    protected function _getCategoryTreeBlock()
     {
-        $categoryId = (int) $this->getRequest()->getParam('id',false);
-
-        $storeId    = (int) $this->getRequest()->getParam('store');
-
-        $category = Mage::getModel('catalog/category');
-        $category->setStoreId($storeId);
-
-        if ($categoryId) {
-            $category->load($categoryId);
-            if ($storeId) {
-                $rootId = Mage::app()->getStore($storeId)->getRootCategoryId();
-                if (!in_array($rootId, $category->getPathIds())) {
-                    $this->_redirect('*/*/', array('_current'=>true, 'id'=>null));
-                    return false;
-                }
-            }
-        }
-
-        Mage::register('category', $category);
-        Mage::register('current_category', $category);
-        return $category;
+        return $this->getLayout()->createBlock(
+            'adminhtml/catalog_category_widget_chooser', '',
+            array('js_chooser_object' => $this->getRequest()->getParam('js_chooser_object'))
+        );
     }
-
 }

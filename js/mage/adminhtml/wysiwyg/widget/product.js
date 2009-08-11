@@ -43,7 +43,7 @@ WysiwygWidget.optionProduct.prototype = {
         }
         new Ajax.Request(this.chooserUrl,
             {
-                parameters: {type:'product', 'js_chooser_object':this.selfObjectName},
+                parameters: {'js_chooser_object':this.selfObjectName},
                 onSuccess: function(transport) {
                     try {
                         wWidget.onAjaxSuccess(transport);
