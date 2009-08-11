@@ -211,6 +211,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         $product = $this->_getProduct($product);
         $request = $this->_getProductRequest($info);
 
+        $minimumQty = $product->getStockItem()->getMinSaleQty();
+        if($minimumQty > 0 && $request->getQty() < $minimumQty){
+            $request->setQty($minimumQty);
+        }
 
         if ($product->getId()) {
 
