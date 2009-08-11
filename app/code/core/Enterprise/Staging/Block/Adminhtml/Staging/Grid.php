@@ -89,7 +89,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
     protected function _prepareColumns()
     {
         $this->addColumn('name', array(
-            'header'    => Mage::helper('enterprise_staging')->__('Name'),
+            'header'    => Mage::helper('enterprise_staging')->__('Website Name'),
             'index'     => 'name',
             'type'      => 'text',
         ));
