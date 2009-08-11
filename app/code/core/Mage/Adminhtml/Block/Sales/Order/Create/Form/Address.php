@@ -74,7 +74,7 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Form_Address extends Mage_Adminhtm
             $addressModel = Mage::getModel('customer/address');
 
             foreach ($addressModel->getAttributes() as $attribute) {
-                if (!$attribute->getIsVisible()) {
+                if ($attribute->hasData('is_visible') && !$attribute->getIsVisible()) {
                     continue;
                 }
                 if ($inputType = $attribute->getFrontend()->getInputType()) {
