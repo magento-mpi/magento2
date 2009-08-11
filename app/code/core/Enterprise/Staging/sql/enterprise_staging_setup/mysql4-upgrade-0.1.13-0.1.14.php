@@ -28,6 +28,7 @@ $installer = $this;
 /* @var $installer Mage_Eav_Model_Entity_Setup */
 $installer->startSetup();
 $connection      = $installer->getConnection();
+$stagingTable    = $this->getTable('enterprise_staging/staging');
 $stagingLogTable = $this->getTable('enterprise_staging/staging_log');
 $actionTable     = $this->getTable('enterprise_staging/staging_action');
 
@@ -37,7 +38,7 @@ $connection->dropForeignKey($actionTable, 'FK_STAGING_LOG_STAGING_WEBSITE');
 $connection->addConstraint('FK_STAGING_LOG_MASTER_WEBSITE', $stagingLogTable, 'master_website_id', $installer->getTable('core/website'), 'website_id' ,'SET NULL');
 $connection->addConstraint('FK_STAGING_LOG_STAGING_WEBSITE', $stagingLogTable, 'staging_website_id', $installer->getTable('core/website'), 'website_id' ,'SET NULL');
 
-$connection->changeColumn($stagingLogTable, 'merge_scheduling_date', 'merge_scheduling_date', 'DATETIME NULL DEFAULT NULL');
+$connection->changeColumn($stagingTable, 'merge_scheduling_date', 'merge_scheduling_date', 'DATETIME NULL DEFAULT NULL');
 
 $connection->dropColumn($stagingLogTable, 'comment');
 $connection->dropColumn($stagingLogTable, 'log');
