@@ -105,44 +105,20 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
     }
 
     /**
-     * Checking some moments before we can actually delete revision
+     * Checking if revision was published
      *
-     * @param Mage_Core_Model_Abstract $object
-     * @return Enterprise_Cms_Model_Mysql4_Page_Revision
+     * @param $object
+     * @return bool
      */
-    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
+    public function isRevisionPublished(Mage_Core_Model_Abstract $object)
     {
-        parent::_beforeDelete($object);
-
-        /*
-         * Checking if this revision was not published
-         */
         $select = $this->_getReadAdapter()->select();
         $select->from($this->_pageTable, 'published_revision_id')
             ->where('page_id = ?', $object->getPageId());
 
         $result = $this->_getReadAdapter()->fetchOne($select);
 
-        if ($result == $object->getId()) {
-            Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Revision #%s could not be removed because it is published.', $object->getRevisionNumber())
-            );
-        }
-
-        $select = $this->_getReadAdapter()->select();
-        $select->from($this->getMainTable(), 'count(*)')
-            ->where('revision_id <> ?', $object->getId())
-            ->where('version_id = ? ', $object->getVersionId());
-
-        $result = $this->_getReadAdapter()->fetchOne($select);
-
-        if (!$result) {
-            Mage::throwException(
-                Mage::helper('enterprise_cms')->__('Revision #%s could not be removed because it is last available in its version.', $object->getRevisionNumber())
-            );
-        }
-
-        return $this;
+        return $result == $object->getId();
     }
 
     /**
@@ -176,30 +152,60 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
     {
         $select = parent::_getLoadSelect($field, $value, $object);
 
+        $read = $this->_getReadAdapter();
+
         /*
-         * Adding version data and access level filtering
+         * Preparing version data and access level filtering
          * to disallow loading of closed content
          */
-        $conditions = array('ver_table.user_id = ' . (int)$object->getUserId());
+        $permissionCondition = array('ver_table.user_id = ' . (int)$object->getUserId());
 
         $accessLevel = $object->getAccessLevel();
         if (is_array($accessLevel) && !empty($accessLevel)) {
-            $conditions[] = 'ver_table.access_level in ("' . implode('","', $accessLevel) . '")';
+            $permissionCondition[] = $read->quoteInto('ver_table.access_level in (?)', $accessLevel);
         } else if ($accessLevel) {
-            $conditions[] = 'ver_table.access_level = "' . $accessLevel . '"';
+            $permissionCondition[] = $read->quoteInto('ver_table.access_level = ?', $accessLevel);
         } else {
-            $conditions[] = 'ver_table.access_level = ""';
+            $permissionCondition[] = 'ver_table.access_level = ""';
         }
 
-        $conditions = ' AND (' . implode(' OR ', $conditions) . ')';
+        $versionJoinCondition = ' AND (' . implode(' OR ', $permissionCondition) . ')';
 
-        $select->join(array('ver_table' => $this->_versionTable),
-            'ver_table.version_id = ' . $this->getMainTable() . '.version_id' . $conditions,
+        // we have value by which we should load
+        if ($value) {
+            $versionJoinType = $pageJoinType = 'joinInner';
+            $versionJoinCondition = 'ver_table.version_id = ' . $this->getMainTable()
+                . '.version_id' . $versionJoinCondition;
+            $pageJoinCondition = $this->getMainTable() . '.page_id=page_table.page_id';
+        } else {
+            /**
+             * We don't have value so this should
+             * be new revision for specified page and version
+             */
+            $versionJoinType = 'joinRight';
+            $pageJoinType = 'joinLeft';
+            $select->reset(Zend_Db_Select::COLUMNS)
+                ->reset(Zend_Db_Select::WHERE);
+
+            $whereCondition = $read->quoteInto('ver_table.version_id = ?', $object->getVersionId())
+                 . $versionJoinCondition;
+
+            $select->where($whereCondition);
+
+            $versionJoinCondition = '1 = 1';
+            $pageJoinCondition = $read->quoteInto('page_table.page_id = ?', $object->getPageId());
+            // adding page id which we will not have as this is new revision
+            $select->from('', 'page_table.page_id');
+        }
+
+        // Adding version data
+        $select->$versionJoinType(array('ver_table' => $this->_versionTable),
+            $versionJoinCondition,
             array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id'));
 
-        // Adding page data.
-        $select->join(array('page_table' => $this->_pageTable),
-            $this->getMainTable() . '.page_id=page_table.page_id', array('title'));
+        // Adding page data
+        $select->$versionJoinType(array('page_table' => $this->_pageTable),
+            $pageJoinCondition, array('title'));
 
         // Adding limitation and ordering
         $select->order($this->getMainTable() . '.created_at DESC')

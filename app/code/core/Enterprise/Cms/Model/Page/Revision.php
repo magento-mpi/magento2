@@ -148,4 +148,20 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    /**
+     * Checking some moments before we can actually delete revision
+     *
+     * @return Enterprise_Cms_Model_Revision
+     */
+    protected function _beforeDelete()
+    {
+        $resource = $this->_getResource();
+        /* @var $resource Enterprise_Cms_Model_Mysql4_Page_Revision */
+        if ($resource->isRevisionPublished($this)) {
+            Mage::throwException(
+                Mage::helper('enterprise_cms')->__('Revision #%s could not be removed because it is published.', $this->getRevisionNumber())
+            );
+        }
+    }
 }

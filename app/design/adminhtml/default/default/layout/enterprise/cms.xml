@@ -87,14 +87,6 @@
     </adminhtml_cms_page_revision_edit>
 
 <!--
-    Version ajax tab
--->
-    <adminhtml_cms_page_revision_version>
-        <remove name="root" />
-        <block type="enterprise_cms/adminhtml_cms_page_revision_edit_tab_version"  output="toHtml" name="cms_page_revision_edit_version" />
-    </adminhtml_cms_page_revision_version>
-
-<!--
     Revision preview page
 -->
     <adminhtml_cms_page_revision_preview>

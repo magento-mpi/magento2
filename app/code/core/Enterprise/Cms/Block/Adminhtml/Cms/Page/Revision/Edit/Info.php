@@ -105,8 +105,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
      */
     public function getRevisionNumber()
     {
-        return $this->_page->getRevisionNumber() ? $this->_page->getRevisionNumber()
-            : Mage::helper('enterprise_cms')->__('N/A');
+        return $this->_page->getRevisionNumber();
     }
 
     /**
@@ -131,7 +130,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Info extends Mage_Ad
     }
 
     /**
-     * Prapre time of creationg for current revision.
+     * Prepare time of creation for current revision.
      *
      * @return string
      */

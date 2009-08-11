@@ -63,7 +63,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                 'id'        => 'publish_button',
                 'label'     => Mage::helper('enterprise_cms')->__('Publish'),
                 'onclick'   => "publishAction('" . $this->getPublishUrl() . "')",
-                'class'     => 'publish',
+                'class'     => 'publish' . (Mage::registry('cms_page')->getId()? '' : ' no-display'),
             ));
 
             $this->_addButton('save_publish', array(
@@ -127,7 +127,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         $revisionNumber = Mage::registry('cms_page')->getRevisionNumber();
         $title = $this->htmlEscape(Mage::registry('cms_page')->getTitle());
 
-        return Mage::helper('enterprise_cms')->__("Edit Page '%s' Revision #%s", $title, $this->htmlEscape($revisionNumber));
+        if ($revisionNumber) {
+            return Mage::helper('enterprise_cms')->__("Edit Page '%s' Revision #%s", $title, $this->htmlEscape($revisionNumber));
+        } else {
+            return Mage::helper('enterprise_cms')->__("Edit Page '%s' New Revision", $title);
+        }
     }
 
     /**

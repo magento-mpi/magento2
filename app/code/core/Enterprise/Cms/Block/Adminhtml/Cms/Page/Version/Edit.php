@@ -50,9 +50,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
 
         // Add 'new button' depending on permission
         if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision()) {
-             $this->_addButton('new', array(
+            $this->_addButton('new', array(
                     'label'     => Mage::helper('adminhtml')->__('Save As New'),
                     'onclick'   => "editForm.submit('" . $this->getNewUrl() . "');",
+                    'class'     => 'new',
+                ));
+
+            $this->_addButton('new_revision', array(
+                    'label'     => Mage::helper('adminhtml')->__('New Revision'),
+                    'onclick'   => "setLocation('" . $this->getNewRevisionUrl() . "');",
                     'class'     => 'new',
                 ));
         }
@@ -128,4 +134,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         return $this->getUrl('*/*/new', array('_current' => true));
     }
 
+    /**
+     * Get Url for new revision button
+     *
+     * @return string
+     */
+    public function getNewRevisionUrl()
+    {
+        return $this->getUrl('*/cms_page_revision/new', array('_current' => true));
+    }
 }

@@ -272,6 +272,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                 ->unsetData($version->getIdFieldName());
 
             if (isset($data['revision_id'])) {
+                $data = $this->_filterPostData($data);
                 $version->setInitialRevisionData($data);
             }
 

@@ -66,12 +66,27 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             $revisionId = (int) $this->getRequest()->getParam('revision_id');
         }
 
-        $revision = Mage::getModel('enterprise_cms/page_revision');
+        $revision = Mage::getModel('enterprise_cms/page_revision')
+            ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
+            ->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
         if ($revisionId) {
-            $revision->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
-            $revision->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
             $revision->load($revisionId);
+        } else {
+            // loading empty revision
+            $versionId = (int) $this->getRequest()->getParam('version_id');
+            if ($versionId) {
+                $revision->setVersionId($versionId);
+            }
+
+            $pageId = (int) $this->getRequest()->getParam('page_id');
+            if ($pageId) {
+                $revision->setPageId($pageId);
+            }
+
+            // setting owner by default -> current user
+            $revision->load(false)
+                ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());;
         }
 
         //setting in registry as cms_page to make work CE blocks
@@ -84,9 +99,10 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
      */
     public function editAction()
     {
-        $revision = $this->_initRevision();
+        $revisionId = $this->getRequest()->getParam('revision_id');
+        $revision = $this->_initRevision($revisionId);
 
-        if (!$revision->getId()) {
+        if ($revisionId && !$revision->getId()) {
             Mage::getSingleton('adminhtml/session')->addError(
                 Mage::helper('enterprise_cms')->__('Could not load specified revision.'));
 
@@ -163,21 +179,6 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 return;
             }
         }
-        return $this;
-    }
-
-    /**
-     * Action for version info ajax tab
-     *
-     * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
-     */
-    public function versionAction()
-    {
-        $this->_initRevision();
-
-        $this->loadLayout();
-        $this->renderLayout();
-
         return $this;
     }
 
@@ -345,7 +346,10 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 $revision->delete();
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Revision was successfully deleted.'));
-                $this->_redirect('*/cms_page/edit', array('page_id' => $revision->getPageId()));
+                $this->_redirect('*/cms_page_version/edit', array(
+                        'page_id' => $revision->getPageId(),
+                        'version_id' => $revision->getVersionId()
+                    ));
                 return;
             } catch (Exception $e) {
                 // display error message
@@ -395,5 +399,15 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             $this->_currentArea = 'frontend';
         }
         parent::preDispatch();
+    }
+
+    /**
+     * New Revision action
+     *
+     * @return Enterprise_Cms_Adminhtml_Cms_Page_RevisionController
+     */
+    public function newAction()
+    {
+        $this->_forward('edit');
     }
 }
