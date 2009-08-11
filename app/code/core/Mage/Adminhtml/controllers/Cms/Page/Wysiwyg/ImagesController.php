@@ -150,7 +150,7 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
         $mediaPath = str_replace(Mage::getBaseUrl('media'), '', $fileurl);
         $directive = sprintf('{{media url="%s"}}', $mediaPath);
         $this->getResponse()->setBody(
-            $this->getUrl('*/cms_page_wysiwyg_images/image', array('directive' => Mage::helper('core')->urlEncode($directive)))
+            $this->getUrl('*/cms_page_wysiwyg/directive', array('directive' => Mage::helper('core')->urlEncode($directive)))
         );
     }
 
