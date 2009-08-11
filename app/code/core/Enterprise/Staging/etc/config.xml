@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Staging>
-             <version>0.1.14</version>
+             <version>0.1.15</version>
         </Enterprise_Staging>
     </modules>
     <global>

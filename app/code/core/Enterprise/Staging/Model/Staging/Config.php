@@ -214,6 +214,7 @@ class Enterprise_Staging_Model_Staging_Config
      */
     static public function getActionLabel($actionCode)
     {
+        $action = '';
         $actionNode = self::getConfig('action/'.$actionCode);
         if ($actionNode) {
             $action = (string) $actionNode->label;
