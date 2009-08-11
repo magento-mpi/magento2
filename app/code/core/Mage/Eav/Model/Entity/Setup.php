@@ -763,11 +763,40 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      */
     public function getAttribute($entityTypeId, $id, $field=null)
     {
-        return $this->getTableRow('eav/attribute',
-            is_numeric($id) ? 'attribute_id' : 'attribute_code', $id,
-            $field,
-            'entity_type_id', $this->getEntityTypeId($entityTypeId)
-        );
+        $joinTable = $this->getEntityType($entityTypeId, 'additional_attribute_table');
+        if (!$joinTable) {
+            return $this->getTableRow('eav/attribute',
+                is_numeric($id) ? 'attribute_id' : 'attribute_code', $id,
+                $field,
+                'entity_type_id', $this->getEntityTypeId($entityTypeId)
+            );
+        }
+        $mainTable = $this->getTable('eav/attribute');
+        $joinTable = $this->getTable($joinTable);
+        $parentId = $this->getEntityTypeId($entityTypeId);
+        $idField = (is_numeric($id) ? 'attribute_id' : 'attribute_code');
+        $table = $mainTable . '-' . $joinTable;
+        if (empty($this->_setupCache[$table][$parentId][$id])) {
+            $sql = "select
+                        $mainTable.*,
+                        $joinTable.*
+                    from
+                        $mainTable
+                        inner join $joinTable on $joinTable.attribute_id=$mainTable.attribute_id
+                    where
+                        $mainTable.$idField = :idField
+                        and $mainTable.entity_type_id = :parentId";
+            $bind = array(
+                'idField' => $id,
+                'parentId' => $parentId
+            );
+            $this->_setupCache[$mainTable][$parentId][$id] = $this->_conn->fetchRow($sql, $bind);
+            $this->_conn->fetchAll($sql, $bind);
+        }
+        if (is_null($field)) {
+            return $this->_setupCache[$mainTable][$parentId][$id];
+        }
+        return isset($this->_setupCache[$mainTable][$parentId][$id][$field]) ? $this->_setupCache[$mainTable][$parentId][$id][$field] : false;
     }
 
     /**
@@ -833,8 +862,17 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     public function removeAttribute($entityTypeId, $code)
     {
         $attributeId = $this->getAttributeId($entityTypeId, $code);
+        $additionalTable = $this->getEntityType($entityTypeId, 'additional_attribute_table');
         if ($attributeId) {
             $this->deleteTableRow('eav/attribute', 'attribute_id', $attributeId);
+            if ($additionalTable) {
+                $additionalTable = $this->getTable($additionalTable);
+                $condition = $this->_conn->quoteInto("attribute_id=?", $attributeId);
+                $this->_conn->delete($additionalTable, $condition);
+                if (isset($this->_setupCache[$table.'-'.$additionalTable][0][$attributeId])) {
+                    unset($this->_setupCache[$table][0][$attributeId]);
+                }
+            }
         }
         return $this;
     }
