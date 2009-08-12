@@ -511,7 +511,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     }
 
     /**
-     * Retreive current customer group id
+     * Retrieve current customer group id
      *
      * @return int
      */
@@ -521,7 +521,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     }
 
     /**
-     * Retreive permission index model
+     * Retrieve permission index model
      *
      * @return Enterprise_CatalogPermissions_Model_Permission_Index
      */
@@ -531,7 +531,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     }
 
     /**
-     * Retreive current website id
+     * Retrieve current website id
      *
      * @return int
      */
@@ -553,42 +553,56 @@ class Enterprise_CatalogPermissions_Model_Observer
         }
 
         /*
-         * If product already disallowed we don't do checks
+         * If product already was checked we don't do checks
          */
-        if (!$observer->getEvent()->getProduct()->getAllowedInRss()) {
+        if ($observer->getEvent()->getProduct()->hasAllowedInRss()) {
             return $this;
         }
 
         $row = $observer->getEvent()->getRow();
+        if (!$row) {
+            $row = $observer->getEvent()->getProduct()->getData();
+        }
 
+        Mage::log(print_r($row, true));
+
+        $observer->getEvent()->getProduct()
+            ->setAllowedInRss($this->_checkPermission($row, 'grant_catalog_category_view', 'isAllowedCategoryView'));
+
+        $observer->getEvent()->getProduct()
+            ->setAllowedPriceInRss($this->_checkPermission($row, 'grant_catalog_product_price', 'isAllowedProductPrice'));
+
+        return $this;
+    }
+
+    protected function _checkPermission($data, $permission, $method)
+    {
         $result = true;
 
         /*
          * If there is no permissions for this
          * product then we will use configuration default
          */
-        if (!array_key_exists('grant_catalog_product_price', $row)) {
-            $row['grant_catalog_product_price'] = null;
+        if (!array_key_exists($permission, $data)) {
+            $data[$permission] = null;
         }
 
-        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice()) {
-            if ($row['grant_catalog_product_price'] == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW) {
+        if (!Mage::helper('enterprise_catalogpermissions')->$method()) {
+            if ($data[$permission] == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW) {
                 $result = true;
             } else {
                 $result = false;
             }
         } else {
-            if ($row['grant_catalog_product_price'] != Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY
-                    || is_null($row['grant_catalog_product_price'])) {
+            if ($data[$permission] != Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY
+                    || is_null($data[$permission])) {
                 $result = true;
             } else {
                 $result = false;
             }
         }
 
-        $observer->getEvent()->getProduct()->setAllowedInRss($result);
-
-        return $this;
+        return $result;
     }
 
 }
