@@ -104,8 +104,10 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
                 $hasError = false;
                 $formType = Mage::getModel('eav/form_type');
                 $formType->addData(array(
-                    'code'          => $this->getRequest()->getPost('code'),
+                    'code'          => $skeleton->getCode(),
                     'label'         => $this->getRequest()->getPost('label'),
+                    'theme'         => $this->getRequest()->getPost('theme'),
+                    'store_id'      => $this->getRequest()->getPost('store_id'),
                     'entity_types'  => $skeleton->getEntityTypes(),
                     'is_system'     => 0
                 ));
@@ -185,7 +187,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
                 // update fieldset
                 $fsData = $fsUpdate[$fieldset->getId()];
                 $fieldset->setCode($fsData['code'])
-                    ->setLabel($fsData['label'])
+                    ->setLabels($fsData['labels'])
                     ->setSortOrder($fsData['sort_order'])
                     ->save();
             }
@@ -197,7 +199,7 @@ class Enterprise_Customer_Adminhtml_Customer_FormtypeController extends Mage_Adm
             $fieldset = Mage::getModel('eav/form_fieldset');
             $fieldset->setTypeId($formType->getId())
                 ->setCode($fsData['code'])
-                ->setLabel($fsData['label'])
+                ->setLabels($fsData['labels'])
                 ->setSortOrder($fsData['sort_order'])
                 ->save();
             $fsMap[$fsData['node_id']] = $fieldset->getId();
