@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Enterprise
+ * @package    Enterprise_CustomerSegment
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+-->
+<config>
+    <modules>
+        <Enterprise_CustomerSegment>
+             <version>0.0.1</version>
+        </Enterprise_CustomerSegment>
+    </modules>
+    
+    <global>
+        <models>
+             <enterprise_customersegment>
+                <class>Enterprise_CustomerSegment_Model</class>
+                <resourceModel>enterprise_customersegment_mysql4</resourceModel>
+             </enterprise_customersegment>
+             <enterprise_customersegment_mysql4>
+                <class>Enterprise_CustomerSegment_Model_Mysql4</class>
+                <entities>
+                    <segment><table>enterprise_customersegment_segment</table></segment>
+                </entities>
+            </enterprise_customersegment_mysql4>
+        </models>
+        <helpers>
+            <enterprise_customersegment>
+                <class>Enterprise_CustomerSegment_Helper</class>
+            </enterprise_customersegment>
+        </helpers>
+        <blocks>
+             <enterprise_customersegment>
+                <class>Enterprise_CustomerSegment_Block</class>
+             </enterprise_customersegment>
+        </blocks>
+        <resources>
+            <enterprise_customersegment_setup>
+                <setup>
+                    <module>Enterprise_CustomerSegment</module>
+                    <class>Enterprise_CustomerSegment_Model_Mysql4_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </enterprise_customersegment_setup>
+            <enterprise_customersegment_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </enterprise_customersegment_write>
+            <enterprise_customersegment_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </enterprise_customersegment_read>
+        </resources>
+    </global>
+
+    <admin>
+         <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <enterprise_customersegment before="Mage_Adminhtml">Enterprise_CustomerSegment_Adminhtml</enterprise_customersegment>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <enterprise_customersegment>
+                    <file>enterprise/customersegment.xml</file>
+                </enterprise_customersegment>
+            </updates>
+        </layout>
+
+        <acl>
+          <resources>
+            <admin>
+              <children>
+                <customer>
+                    <children>
+                        <customersegment  translate="title" module="enterprise_customersegment">
+                            <title>Customer Segment</title>
+                        </customersegment>
+                  </children>
+                </customer>
+              </children>
+            </admin>
+          </resources>
+        </acl>
+        
+        <menu>
+            <customer>
+                <children>
+                    <customersegment translate="title" module="enterprise_customersegment">
+                        <title>Customer Segment</title>
+                        <action>adminhtml/customersegment</action>
+                        <resource>customer/customersegment</resource>
+                        <depends>
+                            <module>Enterprise_CustomerSegment</module>
+                            <config>customer/enterprise_customersegment/is_enabled</config>
+                        </depends>
+                    </customersegment>
+                </children>
+             </customer>
+        </menu>
+        
+        <translate>
+            <modules>
+                <Enterprise_CustomerSegment>
+                    <files>
+                        <default>Enterprise_CustomerSegment.csv</default>
+                    </files>
+                </Enterprise_CustomerSegment>
+            </modules>
+        </translate>        
+    </adminhtml>
+
+    <default>
+            <customer>
+                <enterprise_customersegment>
+                    <is_enabled>0</is_enabled>
+                </enterprise_customersegment>
+            </customer>
+    </default>
+
+</config>
