@@ -67,7 +67,7 @@ class Mage_Eav_Model_Mysql4_Form_Type_Collection extends Mage_Core_Model_Mysql4_
 
         $this->getSelect()->join(
             array('form_type_entity' => $this->getTable('eav/form_type_entity')),
-            'main_table.entity_id=form_type_entity.entity_type_id',
+            'main_table.type_id=form_type_entity.type_id',
             array())
         ->where('form_type_entity.entity_type_id=?', $entity);
 
