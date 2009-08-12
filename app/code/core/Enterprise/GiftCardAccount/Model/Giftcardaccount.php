@@ -66,7 +66,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 if ($this->getBalance() > 0) {
                     $this->setState(self::STATE_AVAILABLE);
                 }
-                elseif ($this->getIsRedeemable())  {
+                elseif ($this->getIsRedeemable() && $this->getIsRedeemed())  {
                     $this->setState(self::STATE_REDEEMED);
                 }
                 else {
@@ -80,7 +80,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         } else {
             if ($this->getDateExpires()) {
                 $expirationDate =  Mage::app()->getLocale()->date(
-                    $this->getDateExpires(), 
+                    $this->getDateExpires(),
                     Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
                     null, false);
                 $currentDate = Mage::app()->getLocale()->date(
