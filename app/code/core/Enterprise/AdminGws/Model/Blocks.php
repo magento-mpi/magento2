@@ -247,10 +247,19 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         if ($this->_role->getIsAll()) {
             return;
         }
-        $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
-        $category = Mage::getModel('catalog/category')->load($categoryId);
-        $allowedCategoryEdit = $this->_role->hasExclusiveCategoryAccess($category->getPath());
-        if ($allowedCategoryEdit) {
+        $setDisabled = false;
+        if (!$this->_role->getIsWebsiteLevel()) {
+            $setDisabled = true;
+        }
+        else {
+            $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
+            $category = Mage::getModel('catalog/category')->load($categoryId);
+            if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
+                $setDisabled = true;
+            }
+
+        }
+        if ($setDisabled) {
             $element = $observer->getEvent()->getBlock()->getForm()
                        ->getElement('display_state_array');
             $element->setDisabled( array(Enterprise_CatalogEvent_Model_Event::DISPLAY_CATEGORY_PAGE,
