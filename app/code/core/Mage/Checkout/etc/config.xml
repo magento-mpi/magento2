@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Checkout>
-            <version>0.9.3</version>
+            <version>0.9.4</version>
         </Mage_Checkout>
     </modules>
     <global>
@@ -74,6 +74,7 @@
             <checkout_setup>
                 <setup>
                     <module>Mage_Checkout</module>
+                    <class>Mage_Checkout_Model_Mysql4_Setup</class>
                 </setup>
             </checkout_setup>
         </resources>
