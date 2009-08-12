@@ -261,6 +261,14 @@
                     </enterprise_admingws>
                 </observers>
             </sales_sale_collection_query_before>
+            <catalog_product_website_update>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/models</class>
+                        <method>catalogProductRemoveFromWebsitesAfter</method>
+                    </enterprise_admingws>
+                </observers>
+            </catalog_product_website_update>
         </events>
         <enterprise>
             <admingws>
@@ -452,6 +460,7 @@
                     <adminhtml__catalog_product_attribute_edit>removeCatalogProductAttributeButtons</adminhtml__catalog_product_attribute_edit>
                     <adminhtml__catalog_category_edit_form>widgetCatalogEventCategoryEditButtons</adminhtml__catalog_category_edit_form>
                     <adminhtml__newsletter_queue_edit_form>setIsRequiredSubscribersFromFieldForNewsletterQueueForm</adminhtml__newsletter_queue_edit_form>
+                    <adminhtml__catalog_product_edit_action_attribute_tab_websites>setWebsitesReadonly</adminhtml__catalog_product_edit_action_attribute_tab_websites>
                 </block_html_before>
             </admingws>
         </enterprise>

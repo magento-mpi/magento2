@@ -270,4 +270,14 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             ->getForm()
             ->getElement('stores')->setRequired(true)->addClass('required-entry');
     }
+
+    /**
+     * Set websites readonly flag for store-level users on mass update attributes
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function setWebsitesReadonly($observer)
+    {
+        $observer->getEvent()->getBlock()->setWebsitesReadonly(!$this->_role->getIsWebsiteLevel());
+    }
 }
