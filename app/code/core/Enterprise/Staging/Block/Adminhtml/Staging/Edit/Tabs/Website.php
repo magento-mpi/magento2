@@ -189,7 +189,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
                     'label'    => Mage::helper('enterprise_staging')->__('HTTP Login'),
                     'class'    => 'input-text validate-login',
                     'name'     => "websites[{$_id}][master_login]",
-                    'required' => false,
+                    'required' => true,
                     'value'    => $stagingWebsite ? $stagingWebsite->getMasterLogin() : ''
                 )
             );
@@ -199,7 +199,7 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
                     'label'    => Mage::helper('enterprise_staging')->__('HTTP Password'),
                     'class'    => 'input-text validate-password',
                     'name'     => "websites[{$_id}][master_password]",
-                    'required' => false,
+                    'required' => true,
                     'value'    => $stagingWebsite ? Mage::helper('core')->decrypt($stagingWebsite->getMasterPassword()) : ''
                 )
             );
