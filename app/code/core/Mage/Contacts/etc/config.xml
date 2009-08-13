@@ -87,25 +87,6 @@
                 </Mage_Contacts>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <contacts translate="title" module="contacts">
-                                            <title>Contacts Section</title>
-                                        </contacts>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
 
     <default>

@@ -102,57 +102,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <menu>
-            <system>
-                <children>
-                    <convert>
-                        <children>
-                            <oscimport translate="title" module="oscommerce">
-                                <title>osCommerce</title>
-                                <action>oscommerce/adminhtml_import</action>
-                            </oscimport>
-                        </children>
-                    </convert>
-                </children>
-            </system>
-            <sales>
-                <children>
-                    <oscorder translate="title" module="oscommerce">
-                        <title>osCommerce Orders</title>
-                        <action>oscommerce/adminhtml_order</action>
-                        <sort_order>100</sort_order>
-                    </oscorder>
-                </children>
-            </sales>
-        </menu>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <sales>
-                            <children>
-                                <oscorder translate="title" module="oscommerce">
-                                    <title>osCommerce Orders</title>
-                                    <sort_order>100</sort_order>
-                                </oscorder>
-                            </children>
-                        </sales>
-                        <system>
-                            <children>
-                                <convert>
-                                    <children>
-                                        <oscimport translate="title" module="oscommerce">
-                                            <title>osCommerce</title>
-                                            <sort_order>100</sort_order>
-                                        </oscimport>
-                                    </children>
-                                </convert>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
         <events>
             <controller_action_predispatch_oscommerce>
                 <observers>

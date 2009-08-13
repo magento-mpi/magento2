@@ -114,51 +114,6 @@
                 </googlebase>
             </updates>
         </layout>
-        <menu>
-            <catalog>
-                <children>
-                    <googlebase translate="title" module="googlebase">
-                        <title>Google Base</title>
-                        <children>
-                            <types translate="title" module="googlebase">
-                                <title>Manage Attributes</title>
-                                <action>googlebase/types</action>
-                            </types>
-                            <items translate="title" module="googlebase">
-                                <title>Manage Items</title>
-                                <action>googlebase/items</action>
-                            </items>
-                        </children>
-                    </googlebase>
-                 </children>
-            </catalog>
-        </menu>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <catalog>
-                            <children>
-                                <googlebase translate="title" module="googlebase">
-                                    <title>Google Base</title>
-                                    <sort_order>500</sort_order>
-                                    <children>
-                                        <types translate="title">
-                                            <title>Manage Attributes</title>
-                                            <sort_order>0</sort_order>
-                                        </types>
-                                        <items translate="title">
-                                            <title>Manage Items</title>
-                                            <sort_order>5</sort_order>
-                                        </items>
-                                    </children>
-                                </googlebase>
-                            </children>
-                        </catalog>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
     <frontend>
         <routers>

@@ -172,31 +172,6 @@
                 </Mage_CatalogSearch>
             </modules>
         </translate>
-        <menu>
-            <catalog>
-                <children>
-                    <search translate="title" module="catalogsearch">
-                        <title>Search</title>
-                        <action>adminhtml/catalog_search/</action>
-                    </search>
-                </children>
-            </catalog>
-        </menu>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <catalog>
-                            <children>
-                                <search translate="title" module="catalogsearch">
-                                    <title>Search</title>
-                                </search>
-                            </children>
-                        </catalog>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
 
     <default>

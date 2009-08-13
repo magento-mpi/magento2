@@ -120,25 +120,6 @@
                 </Mage_Payment>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <payment translate="title" module="payment">
-                                            <title>Payment Methods Section</title>
-                                        </payment>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
    </adminhtml>
 
     <default>

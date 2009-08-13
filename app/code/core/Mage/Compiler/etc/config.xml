@@ -66,26 +66,6 @@
         </routers>
     </admin>
     <adminhtml>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <tools>
-                                    <children>
-                                        <compiler translate="title" module="compiler">
-                                            <title>Compilation</title>
-                                            <sort_order>0</sort_order>
-                                        </compiler>
-                                    </children>
-                                </tools>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
         <translate>
             <modules>
                 <Mage_Compiler>
@@ -95,21 +75,6 @@
                 </Mage_Compiler>
             </modules>
         </translate>
-        <menu>
-            <system>
-                <children>
-                    <tools>
-                        <children>
-                            <compiler translate="title" module="compiler">
-                                <title>Compilation (Beta)</title>
-                                <sort_order>1000</sort_order>
-                                <action>compiler/process</action>
-                            </compiler>
-                        </children>
-                    </tools>
-                </children>
-            </system>
-        </menu>
         <layout>
             <updates>
                 <compiler>

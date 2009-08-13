@@ -75,62 +75,6 @@
         </blocks>
     </global>
     <adminhtml>
-        <menu>
-            <catalog>
-                <children>
-                    <reviews_ratings translate="title" module="review">
-                        <title>Reviews and Ratings</title>
-                        <children>
-                            <reviews translate="title" module="review">
-                                <title>Customer Reviews</title>
-                                <children>
-                                    <pending translate="title" module="review">
-                                        <title>Pending Reviews</title>
-                                        <action>adminhtml/catalog_product_review/pending/</action>
-                                    </pending>
-                                    <all translate="title" module="review">
-                                        <title>All Reviews</title>
-                                        <action>adminhtml/catalog_product_review/</action>
-                                    </all>
-                                </children>
-                            </reviews>
-                            <ratings translate="title" module="review">
-                                <title>Manage Ratings</title>
-                                <action>adminhtml/rating/</action>
-                            </ratings>
-                        </children>
-                    </reviews_ratings>
-                </children>
-             </catalog>
-        </menu>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <catalog>
-                            <children>
-                                <reviews_ratings translate="title" module="review">
-                                    <title>Reviews and Ratings</title>
-                                    <children>
-                                        <reviews translate="title">
-                                            <title>Customer Reviews</title>
-                                            <children>
-                                                <all translate="title">
-                                                    <title>All Reviews</title>
-                                                </all>
-                                                <pending translate="title">
-                                                    <title>Pending Reviews</title>
-                                                </pending>
-                                            </children>
-                                        </reviews>
-                                     </children>
-                                </reviews_ratings>
-                            </children>
-                        </catalog>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
         <translate>
             <modules>
                 <Mage_Review>

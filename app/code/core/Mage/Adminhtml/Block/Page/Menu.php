@@ -118,7 +118,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
     protected function _buildMenuArray(Varien_Simplexml_Element $parent=null, $path='', $level=0)
     {
         if (is_null($parent)) {
-            $parent = Mage::getConfig()->getNode('adminhtml/menu');
+            $parent = Mage::getSingleton('admin/config')->getAdminhtmlConfig()->getNode('menu');
         }
 
         $parentArr = array();
@@ -146,7 +146,7 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
                 $menuArr['url'] = '#';
                 $menuArr['click'] = 'return false';
             }
-            #print_r($this->getActive().','.$path.$childName."<hr>");
+
             $menuArr['active'] = ($this->getActive()==$path.$childName)
                 || (strpos($this->getActive(), $path.$childName.'/')===0);
 

@@ -111,25 +111,6 @@
                 </Mage_Paypal>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <paypal>
-                                            <title>PayPal Section</title>
-                                        </paypal>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
 
     <default>

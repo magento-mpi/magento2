@@ -135,25 +135,6 @@
         </events>
     </frontend>
     <adminhtml>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <wishlist translate="title" module="wishlist">
-                                            <title>Wishlist Section</title>
-                                        </wishlist>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
         <translate>
             <modules>
                 <Mage_Wishlist>

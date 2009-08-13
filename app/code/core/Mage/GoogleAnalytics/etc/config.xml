@@ -93,24 +93,5 @@
                 </Mage_GoogleAnalytics>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <google translate="title" module="googleanalytics">
-                                            <title>Google API</title>
-                                        </google>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
     </adminhtml>
 </config>

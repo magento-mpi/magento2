@@ -309,7 +309,7 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
     public function findFirstAvailableMenu($parent=null, $path='', $level=0)
     {
         if ($parent == null) {
-            $parent = Mage::getConfig()->getNode('adminhtml/menu');
+            $parent = Mage::getSingleton('admin/config')->getAdminhtmlConfig()->getNode('menu');
         }
         foreach ($parent->children() as $childName=>$child) {
             $aclResource = 'admin/' . $path . $childName;
@@ -358,8 +358,9 @@ class Mage_Admin_Model_User extends Mage_Core_Model_Abstract
         $startupPage = Mage::getStoreConfig(self::XML_PATH_STARTUP_PAGE);
         $aclResource = 'admin/' . $startupPage;
         if (Mage::getSingleton('admin/session')->isAllowed($aclResource)) {
-            $nodePath = 'adminhtml/menu/' . join('/children/', explode('/', $startupPage)) . '/action';
-            if ($url = Mage::getConfig()->getNode($nodePath)) {
+            $nodePath = 'menu/' . join('/children/', explode('/', $startupPage)) . '/action';
+            $url = Mage::getSingleton('admin/config')->getAdminhtmlConfig()->getNode($nodePath);
+            if ($url) {
                 return $url;
             }
         }

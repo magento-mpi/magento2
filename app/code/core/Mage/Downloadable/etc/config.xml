@@ -757,25 +757,6 @@
                 </Mage_Downloadable>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <downloadable translate="title" module="downloadable">
-                                            <title>Downloadable product Section</title>
-                                        </downloadable>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
         <sales>
             <order>
                 <create>
