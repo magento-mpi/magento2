@@ -544,9 +544,19 @@ abstract class Mage_Core_Controller_Varien_Action
         $this->getRequest()->setDispatched(true);
     }
 
+    /**
+     * Throw control to different action (control and module if was specified).
+     *
+     * @param string $action
+     * @param string|null $controller
+     * @param string|null $module
+     * @param string|null $params
+     */
     protected function _forward($action, $controller = null, $module = null, array $params = null)
     {
         $request = $this->getRequest();
+
+        $request->initForward();
 
         if (!is_null($params)) {
             $request->setParams($params);
@@ -591,7 +601,7 @@ abstract class Mage_Core_Controller_Varien_Action
     }
 
     /**
-     * Set redirect into responce
+     * Set redirect into response
      *
      * @param   string $path
      * @param   array $arguments
