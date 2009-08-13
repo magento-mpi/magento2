@@ -991,14 +991,20 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         if ($this->isVirtual()) {
             return $this->getBillingAddress()->getTotals();
         }
-        
-        $totals = $this->getShippingAddress()->getTotals();
-        foreach ($this->getBillingAddress()->getTotals() as $code => $total) {
-            if (isset($totals[$code])) {
-                $totals[$code]->setValue($totals[$code]->getValue()+$total->getValue());
-            }
-            else {
-                $totals[$code] = $total;
+
+        $totals = null;
+        // Going through all quote addresses and sum their totals
+        foreach ($this->getAddressesCollection() as $address) {
+            if (!$totals) {
+                $totals = $address->getTotals();
+            } else {
+                foreach ($address->getTotals() as $code => $total) {
+                    if (isset($totals[$code])) {
+                        $totals[$code]->setValue($totals[$code]->getValue()+$total->getValue());
+                    } else {
+                        $totals[$code] = $total;
+                    }
+                }
             }
         }
 
