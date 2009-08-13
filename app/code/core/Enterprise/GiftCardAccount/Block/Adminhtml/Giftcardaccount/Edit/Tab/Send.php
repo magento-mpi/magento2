@@ -30,7 +30,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
     {
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_send');
-        $form->setFieldNameSuffix('send');
 
         $model = Mage::registry('current_giftcardaccount');
 
@@ -66,7 +65,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
         ));
 
         $fieldset->addField('store_id', 'select', array(
-            'name'     => 'store_id',
+            'name'     => 'recipient_store',
             'label'    => Mage::helper('enterprise_customerbalance')->__('Send email from the following Store View'),
             'title'    => Mage::helper('enterprise_customerbalance')->__('Send email from the following Store View'),
             'after_element_html'=>$this->_getStoreIdScript()
@@ -76,6 +75,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             'name'      => 'action',
         ));
 
+        $form->setValues($model->getData());
         $this->setForm($form);
         return $this;
     }

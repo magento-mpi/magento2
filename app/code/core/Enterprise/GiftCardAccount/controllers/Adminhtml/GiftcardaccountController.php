@@ -81,11 +81,12 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
 
         $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
         if (!empty($data)) {
-            $model->setData($data);
+            $model->addData($data);
         }
 
         $this->loadLayout()
-            ->_addBreadcrumb($id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'), $id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'))
+            ->_addBreadcrumb($id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'),
+                             $id ? Mage::helper('enterprise_giftcardaccount')->__('Edit Gift Card Account') : Mage::helper('enterprise_giftcardaccount')->__('New Gift Card Account'))
             ->_addContent($this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit')->setData('form_action_url', $this->getUrl('*/*/save')))
             ->_addLeft($this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_edit_tabs'))
             ->renderLayout();
@@ -98,38 +99,24 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
     {
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
+            $data = $this->_filterPostData($data);
             // init model and set data
             $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
-            if (isset($data['info'])) {
-                if (isset($data['info']['giftcardaccount_id'])) {
-                    $model->load($data['info']['giftcardaccount_id']);
-                }
-                $model->addData($data['info']);
+            if (!empty($data)) {
+                $model->addData($data);
             }
 
             // try to save it
             try {
                 // save the data
                 $model->save();
-
                 $sending = null;
-                if (isset($data['send'])) {
-                    if (isset($data['send']['action']) && $data['send']['action']) {
-                        try {
-                            $model->load($model->getId());
-
-                            $name = (isset($data['send']['recipient_name']) ? $data['send']['recipient_name'] : '');
-                            $email = (isset($data['send']['recipient_email']) ? $data['send']['recipient_email'] : '');
-                            $store = (isset($data['send']['store_id']) ? $data['send']['store_id'] : null);
-
-                            $model->setRecipientEmail($email)
-                                ->setRecipientName($name)
-                                ->setRecipientStore($store)
-                                ->sendEmail();
-                            $sending = $model->getEmailSent();
-                        } catch (Exception $e) {
-                            $sending = false;
-                        }
+                if ($model->getAction()) {
+                    try {
+                        $model->sendEmail();
+                        $sending = $model->getEmailSent();
+                    } catch (Exception $e) {
+                        $sending = false;
                     }
                 }
 
@@ -161,7 +148,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
                 // save data in session
                 Mage::getSingleton('adminhtml/session')->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             }
         }
@@ -313,5 +300,29 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
             }
         }
         $this->_redirect('*/*/index');
+    }
+
+    /**
+     * Filtering posted data. Converting localized data if needed
+     *
+     * @param array
+     * @return array
+     */
+    protected function _filterPostData($data)
+    {
+        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+                'date_format' => Mage::app()->getLocale()->getDateFormat()
+            ));
+
+        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
+                'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
+            ));
+
+        if (isset($data['date_expires']) && $data['date_expires']) {
+            $data['date_expires'] = $filterInput->filter($data['date_expires']);
+            $data['date_expires'] = $filterInternal->filter($data['date_expires']);
+        }
+
+        return $data;
     }
 }

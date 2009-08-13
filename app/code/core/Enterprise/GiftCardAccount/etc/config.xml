@@ -100,7 +100,7 @@
                 </totals>
             </order_creditmemo>
         </sales>
-        
+
         <enterprise>
             <giftcardaccount>
                 <separator>-</separator>
@@ -306,7 +306,7 @@
                     </files>
                 </Enterprise_GiftCardAccount>
             </modules>
-        </translate>        
+        </translate>
     </adminhtml>
 
     <default>

@@ -80,17 +80,14 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
         } else {
             if ($this->getDateExpires()) {
                 $expirationDate =  Mage::app()->getLocale()->date(
-                    $this->getDateExpires(),
-                    Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+                    $this->getDateExpires(), Varien_Date::DATE_INTERNAL_FORMAT,
                     null, false);
                 $currentDate = Mage::app()->getLocale()->date(
-                    null,
-                    Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT),
+                    null, Varien_Date::DATE_INTERNAL_FORMAT,
                     null, false);
-                if ($this->getState() == self::STATE_AVAILABLE && $expirationDate < $currentDate) {
+                if ($expirationDate < $currentDate) {
                     Mage::throwException(Mage::helper('enterprise_giftcardaccount')->__('Expiration date can not be in the past'));
                 }
-                $this->setDateExpires($expirationDate->toString(Varien_Date::DATE_INTERNAL_FORMAT));
             } else {
                 $this->setDateExpires(null);
             }
@@ -318,16 +315,23 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     /**
      * Return Gift Card Account state as user-friendly label
      *
+     * @deprecated after 1.3.2.3 use magic method instead
      * @return string
      */
     public function getStateText()
     {
-        $states = $this->getStatesAsOptionList();
+        return $this->_setStateText();
+    }
 
-        if (isset($states[$this->getState()])) {
-            return $states[$this->getState()];
-        }
-        return '';
+    /**
+     * Set state text on after load
+     *
+     * @return Enterprise_GiftCardAccount_Model_Giftcardaccount
+     */
+    public function _afterLoad()
+    {
+        $this->_setStateText();
+        return $this;
     }
 
     /**
@@ -457,5 +461,23 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
                 ->setHistoryAction(Enterprise_GiftCardAccount_Model_History::ACTION_SENT)
                 ->save();
         }
+    }
+
+    /**
+     * Set state text by loaded state code
+     * Used in _afterLoad() and old getStateText()
+     *
+     * @return string
+     */
+    protected function _setStateText()
+    {
+        $states = $this->getStatesAsOptionList();
+
+        if (isset($states[$this->getState()])) {
+            $stateText = $states[$this->getState()];
+            $this->setStateText($stateText);
+            return $stateText;
+        }
+        return '';
     }
 }

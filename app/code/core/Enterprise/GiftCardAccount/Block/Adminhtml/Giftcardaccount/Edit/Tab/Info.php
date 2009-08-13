@@ -37,7 +37,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
     {
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_info');
-        $form->setFieldNameSuffix('info');
 
         $model = Mage::registry('current_giftcardaccount');
 
@@ -55,14 +54,13 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             $fieldset->addField('code', 'label', array(
                 'name'      => 'code',
                 'label'     => Mage::helper('enterprise_giftcardaccount')->__('Gift Card Code'),
-                'title'     => Mage::helper('enterprise_giftcardaccount')->__('Gift Card Code'),
+                'title'     => Mage::helper('enterprise_giftcardaccount')->__('Gift Card Code')
             ));
 
-            $fieldset->addField('state', 'label', array(
-                'name'      => 'state',
+            $fieldset->addField('state_text', 'label', array(
+                'name'      => 'state_text',
                 'label'     => Mage::helper('enterprise_giftcardaccount')->__('Status'),
-                'title'     => Mage::helper('enterprise_giftcardaccount')->__('Status'),
-                'value'     => $model->getStateText(),
+                'title'     => Mage::helper('enterprise_giftcardaccount')->__('Status')
             ));
         }
 
@@ -115,14 +113,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             'label'  => Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),
             'title'  => Mage::helper('enterprise_giftcardaccount')->__('Expiration Date'),
             'image'  => $this->getSkinUrl('images/grid-cal.gif'),
-            'input_format' => Varien_Date::DATE_INTERNAL_FORMAT,
-            'format'       => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+            'format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
         ));
 
         $form->setValues($model->getData());
-        if ($model->getId()) {
-            $form->addValues(array('state'=>$model->getStateText()));
-        }
         $this->setForm($form);
         return $this;
     }
