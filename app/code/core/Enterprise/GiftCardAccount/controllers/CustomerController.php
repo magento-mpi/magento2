@@ -53,9 +53,8 @@ class Enterprise_GiftCardAccount_CustomerController extends Mage_Core_Controller
                 if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
                     Mage::throwException($this->__('Redemption functionality is disabled.'));
                 }
-                $gifcatdAccount = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code);
-                $gifcatdAccount->setIsRedeemed(true);
-                $gifcatdAccount->redeem();
+                Mage::getModel('enterprise_giftcardaccount/giftcardaccount')->loadByCode($code)
+                    ->setIsRedeemed(true)->redeem();
                 Mage::getSingleton('customer/session')->addSuccess(
                     $this->__('Gift Card "%s" was redeemed successfully.', Mage::helper('core')->htmlEscape($code))
                 );
