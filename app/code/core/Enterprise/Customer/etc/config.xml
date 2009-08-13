@@ -81,33 +81,6 @@
                 </Enterprise_Customer>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <customer>
-                            <children>
-                                <form_type translate="title" module="enterprise_customer">
-                                    <title>Manage Form Types</title>
-                                    <sort_order>10</sort_order>
-                                </form_type>
-                            </children>
-                        </customer>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
-        <menu>
-            <customer>
-                <children>
-                    <formtype translate="title" module="enterprise_customer">
-                        <title>Manage Form Types</title>
-                        <sort_order>60</sort_order>
-                        <action>adminhtml/customer_formtype</action>
-                   </formtype>
-                </children>
-            </customer>
-        </menu>
     </adminhtml>
 
     <admin>

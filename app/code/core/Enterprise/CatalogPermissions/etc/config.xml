@@ -66,32 +66,6 @@
         </resources>
     </global>
     <adminhtml>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                       <system>
-                            <children>
-                                <config>
-                                    <children>
-                                           <enterprise_catalogpermissions translate="title" module="enterprise_catalogpermissions">
-                                                <title>Category Permissions Section</title>
-                                           </enterprise_catalogpermissions>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                        <catalog>
-                            <children>
-                                 <enterprise_catalogpermissions translate="title" module="enterprise_catalogpermissions">
-                                    <title>Category Permissions</title>
-                                 </enterprise_catalogpermissions>
-                            </children>
-                        </catalog>
-                    </children>
-                </admin>
-            </resources>
-         </acl>
         <events>
             <catalog_category_save_after>
                 <observers>

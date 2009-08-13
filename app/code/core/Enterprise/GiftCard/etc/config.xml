@@ -187,25 +187,6 @@
                 </enterprise_giftcard>
             </updates>
         </layout>
-        <acl>
-          <resources>
-            <admin>
-              <children>
-                <system>
-                  <children>
-                    <config>
-                      <children>
-                        <giftcard>
-                          <title>Gift Cards</title>
-                        </giftcard>
-                      </children>
-                    </config>
-                  </children>
-                </system>
-              </children>
-            </admin>
-          </resources>
-        </acl>
         <translate>
             <modules>
                 <Enterprise_GiftCard>

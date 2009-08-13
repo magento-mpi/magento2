@@ -99,38 +99,6 @@
             </updates>
         </layout>
 
-        <acl>
-          <resources>
-            <admin>
-              <children>
-                <customer>
-                    <children>
-                        <customersegment  translate="title" module="enterprise_customersegment">
-                            <title>Customer Segment</title>
-                        </customersegment>
-                  </children>
-                </customer>
-              </children>
-            </admin>
-          </resources>
-        </acl>
-        
-        <menu>
-            <customer>
-                <children>
-                    <customersegment translate="title" module="enterprise_customersegment">
-                        <title>Customer Segment</title>
-                        <action>adminhtml/customersegment</action>
-                        <resource>customer/customersegment</resource>
-                        <depends>
-                            <module>Enterprise_CustomerSegment</module>
-                            <config>customer/enterprise_customersegment/is_enabled</config>
-                        </depends>
-                    </customersegment>
-                </children>
-             </customer>
-        </menu>
-        
         <translate>
             <modules>
                 <Enterprise_CustomerSegment>

@@ -184,28 +184,6 @@
                 </enterprise_catalogevent>
             </updates>
         </layout>
-        <menu>
-            <catalog>
-               <children>
-                   <products>
-                       <sort_order>0</sort_order>
-                   </products>
-                   <categories>
-                       <sort_order>0</sort_order>
-                   </categories>
-                   <events translate="title" module="enterprise_catalogevent">
-                        <title>Manage Catalog Events</title>
-                        <sort_order>1</sort_order>
-                        <action>adminhtml/catalog_event</action>
-                        <resource>catalog/events</resource>
-                        <depends>
-                            <module>Enterprise_CatalogEvent</module>
-                            <config>catalog/enterprise_catalogevent/enabled</config>
-                        </depends>
-                   </events>
-               </children>
-            </catalog>
-        </menu>
         <translate>
             <modules>
                 <Enterprise_CatalogEvent>
@@ -215,21 +193,5 @@
                 </Enterprise_CatalogEvent>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                         <catalog>
-                            <children>
-                                <events translate="title" module="enterprise_catalogevent">
-                                    <title>Manage Catalog Events</title>
-                                    <sort_order>60</sort_order>
-                                </events>
-                            </children>
-                        </catalog>
-                    </children>
-                </admin>
-            </resources>
-         </acl>
     </adminhtml>
 </config>

@@ -124,61 +124,6 @@
                 </observers>
             </admin_session_user_login_failed>
         </events>
-        <menu>
-            <system>
-                <children>
-                    <enterprise_logging translate="title" module="enterprise_logging">
-                        <title>Admin Actions Log</title>
-                        <sort_order>71</sort_order>
-                        <depends><module>Enterprise_Logging</module></depends>
-                        <children>
-                            <events>
-                                <title>Report</title>
-                                <sort_order>1</sort_order>
-                                <action>adminhtml/logging</action>
-                                <depends><module>Enterprise_Logging</module></depends>
-                            </events>
-                            <backups translate="title">
-                                <title>Archive</title>
-                                <sort_order>2</sort_order>
-                                <action>adminhtml/logging/archive</action>
-                                <depends><module>Enterprise_Logging</module></depends>
-                            </backups>
-                        </children>
-                    </enterprise_logging>
-                </children>
-            </system>
-        </menu>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <logging translate="title" module="enterprise_logging">
-                                            <title>Logging</title>
-                                        </logging>
-                                    </children>
-                                </config>
-                                <enterprise_logging translate="title" module="enterprise_logging">
-                                    <title>Admin Logging</title>
-                                    <children>
-                                        <events translate="title">
-                                            <title>Report</title>
-                                        </events>
-                                        <backups translate="title">
-                                            <title>Archive</title>
-                                        </backups>
-                                    </children>
-                                </enterprise_logging>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
         <layout>
             <updates>
                 <events>

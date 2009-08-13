@@ -120,50 +120,6 @@
                 </observers>
             </controller_action_predispatch>
         </events>
-        <menu>
-            <system>
-                <children>
-                    <crypt_key translate="title" module="enterprise_pci">
-                        <title>Manage Encryption Key</title>
-                        <sort_order>75</sort_order>
-                        <action>adminhtml/crypt_key</action>
-                        <depends><module>Enterprise_Pci</module></depends>
-                    </crypt_key>
-                    <acl>
-                        <children>
-                            <locks translate="title" module="enterprise_pci">
-                                <title>Locked Users</title>
-                                <action>adminhtml/locks</action>
-                            </locks>
-                        </children>
-                    </acl>
-                </children>
-            </system>
-        </menu>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <crypt_key translate="title" module="enterprise_pci">
-                                    <title>Manage Encryption Key</title>
-                                    <sort_order>30</sort_order>
-                                </crypt_key>
-                                <acl>
-                                    <children>
-                                        <locks translate="title" module="enterprise_pci">
-                                            <title>Locked Admins</title>
-                                            <sort_order>100</sort_order>
-                                        </locks>
-                                    </children>
-                                </acl>
-                            </children>
-                        </system>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
         <translate>
             <modules>
                 <Enterprise_Pci>

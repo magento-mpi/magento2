@@ -157,52 +157,6 @@
                 </Enterprise_Cms>
             </modules>
         </translate>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <cms>
-                            <children>
-                                <page>
-                                    <children>
-                                        <save_revision translate="title" module="enterprise_cms">
-                                            <title>Save Revision</title>
-                                            <sort_order>17</sort_order>
-                                        </save_revision>
-                                        <publish_revision translate="title" module="enterprise_cms">
-                                            <title>Publish Revision</title>
-                                            <sort_order>20</sort_order>
-                                        </publish_revision>
-                                        <delete_revision translate="title" module="enterprise_cms">
-                                            <title>Delete Revision</title>
-                                            <sort_order>25</sort_order>
-                                        </delete_revision>
-                                    </children>
-                                </page>
-                                <hierarchy translate="title" module="enterprise_cms">
-                                    <title>Manage Hierarchy</title>
-                                    <sort_order>0</sort_order>
-                                </hierarchy>
-                            </children>
-                        </cms>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
-        <menu>
-            <cms>
-                <children>
-                    <hierarchy translate="title" module="enterprise_cms">
-                        <title>Manage Pages Hierarchy</title>
-                        <sort_order>50</sort_order>
-                        <action>adminhtml/cms_hierarchy</action>
-                        <depends>
-                            <config>cms/hierarchy/enabled</config>
-                        </depends>
-                   </hierarchy>
-                </children>
-            </cms>
-        </menu>
     </adminhtml>
 
     <admin>

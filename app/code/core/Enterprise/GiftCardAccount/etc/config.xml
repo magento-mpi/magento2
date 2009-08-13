@@ -298,47 +298,6 @@
                 </enterprise_giftcardaccount>
             </updates>
         </layout>
-
-        <acl>
-          <resources>
-            <admin>
-              <children>
-                <system>
-                  <children>
-                    <config>
-                      <children>
-                        <giftcardaccount translate="title" module="enterprise_giftcardaccount">
-                          <title>Gift Card Accounts</title>
-                        </giftcardaccount>
-                      </children>
-                    </config>
-                  </children>
-                </system>
-                <customer>
-                  <children>
-                    <giftcardaccount  translate="title" module="enterprise_giftcardaccount">
-                        <title>Gift Card Accounts</title>
-                    </giftcardaccount>
-                  </children>
-                </customer>
-              </children>
-            </admin>
-          </resources>
-        </acl>
-
-
-        <menu>
-            <customer>
-                <children>
-                    <giftcardaccount translate="title" module="enterprise_giftcardaccount">
-                        <title>Gift Card Accounts</title>
-                        <action>adminhtml/giftcardaccount</action>
-                        <resource>customer/giftcardaccount</resource>
-                        <depends><module>Enterprise_GiftCardAccount</module></depends>
-                    </giftcardaccount>
-                </children>
-             </customer>
-        </menu>
         <translate>
             <modules>
                 <Enterprise_GiftCardAccount>
