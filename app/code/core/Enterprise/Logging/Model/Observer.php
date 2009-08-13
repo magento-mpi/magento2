@@ -54,8 +54,37 @@ class Enterprise_Logging_Model_Observer
      */
     public function controllerPredispatch($observer)
     {
-        $fullActionName = $observer->getControllerAction()->getFullActionName();
-        $actionName = $observer->getControllerAction()->getRequest()->getRequestedActionName();
+        /* @var $action Mage_Core_Controller_Varien_Action */
+        $action = $observer->getEvent()->getControllerAction();
+        /* @var $request Mage_Core_Controller_Request_Http */
+        $request = $observer->getEvent()->getControllerAction()->getRequest();
+
+        $beforeForwardInfo = $request->getBeforeForwardInfo();
+
+        // Always use current action name bc basing on
+        // it we make decision about access granted or denied
+        $actionName = $request->getRequestedActionName();
+
+        if (empty($beforeForwardInfo)) {
+            $fullActionName = $action->getFullActionName();
+        } else {
+            $fullActionName = array($request->getRequestedRouteName());
+
+            if (isset($beforeForwardInfo['controller_name'])) {
+                $fullActionName[] = $beforeForwardInfo['controller_name'];
+            } else {
+                $fullActionName[] = $request->getRequestedControllerName();
+            }
+
+            if (isset($beforeForwardInfo['action_name'])) {
+                $fullActionName[] = $beforeForwardInfo['action_name'];
+            } else {
+                $fullActionName[] = $actionName;
+            }
+
+            $fullActionName = implode('_', $fullActionName);
+        }
+
         $this->_processor->initAction($fullActionName, $actionName);
     }
 
@@ -86,7 +115,9 @@ class Enterprise_Logging_Model_Observer
      */
     public function controllerPostdispatch($observer)
     {
-        $this->_processor->logAction();
+        if ($observer->getEvent()->getControllerAction()->getRequest()->isDispatched()) {
+            $this->_processor->logAction();
+        }
     }
 
     /**

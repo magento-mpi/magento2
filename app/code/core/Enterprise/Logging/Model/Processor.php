@@ -107,9 +107,11 @@ class Enterprise_Logging_Model_Processor
     public function initAction($fullActionName, $actionName)
     {
         $this->_actionName = $actionName;
+
         if(!$this->_initAction){
             $this->_initAction = $fullActionName;
         }
+
         $this->_lastAction = $fullActionName;
 
         $this->_skipNextAction = (!$this->_config->isActive($fullActionName)) ? true : false;
@@ -121,7 +123,7 @@ class Enterprise_Logging_Model_Processor
         /**
          * Skip view action after save. For example on 'save and continue' click.
          * Some modules always reloading page after save. We pass comma-separated list
-         * of actions into getSkipLoggingAction, it is neccesseary for such actions
+         * of actions into getSkipLoggingAction, it is necessary for such actions
          * like customer balance, when customer balance ajax tab loaded after
          * customer page.
          */
@@ -180,7 +182,7 @@ class Enterprise_Logging_Model_Processor
     }
 
     /**
-     * Postdispach action handler
+     * Postdispatch action handler
      *
      */
     public function logAction()

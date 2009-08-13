@@ -470,6 +470,8 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return;
         }
 
+        $this->_request->initForward();
+
         if ($module) {
             $this->_request->setModuleName($module);
         }
