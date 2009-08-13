@@ -291,16 +291,28 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove controll buttons for store-level roles on Price Rules page
+     * Remove controll buttons for store-level roles on Catalog Price Rules page
      *
      * @param Varien_Event_Observer $observer
      */
     public function removePromoCatalogButtons($observer)
     {
+        $block = $observer->getEvent()->getBlock();
+        $block->removeButton('apply_rules');
         if ($this->_role->getIsStoreLevel()) {
-            $block = $observer->getEvent()->getBlock();
-            $block->removeButton('apply_rules');
             $block->removeButton('add');
+        }
+    }
+
+    /**
+     * Remove controll buttons for store-level roles on Shoping Cart Price Rules page
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removePromoQuoteButtons($observer)
+    {
+        if ($this->_role->getIsStoreLevel()) {
+            $block = $observer->getEvent()->getBlock()->removeButton('add');
         }
     }
 }

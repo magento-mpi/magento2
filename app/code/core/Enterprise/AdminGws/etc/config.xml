@@ -381,6 +381,7 @@
                     <adminhtml__catalog_product__>validateCatalogProduct</adminhtml__catalog_product__><!-- catalog product submitting -->
                     <adminhtml__catalog_product__edit>validateCatalogProductEdit</adminhtml__catalog_product__edit><!-- catalog product viewing -->
                     <adminhtml__promo_catalog__>validatePromoCatalog</adminhtml__promo_catalog__><!-- catalog price rules creation and saving -->
+                    <adminhtml__promo_catalog__applyRules>validatePromoCatalogApplyRules</adminhtml__promo_catalog__applyRules><!-- catalog price rules applying rules -->
                     <adminhtml__promo_quote__>validatePromoQuote</adminhtml__promo_quote__><!-- shopping cart price rules creation and saving -->
                     <adminhtml__customer__>validateNoWebsiteGeneric</adminhtml__customer__><!-- customers creation and saving -->
                     <adminhtml__customer__edit>validateCustomerEdit</adminhtml__customer__edit><!-- viewing a customer account -->
@@ -462,6 +463,7 @@
                     <adminhtml__newsletter_queue_edit_form>setIsRequiredSubscribersFromFieldForNewsletterQueueForm</adminhtml__newsletter_queue_edit_form>
                     <adminhtml__catalog_product_edit_action_attribute_tab_websites>setWebsitesReadonly</adminhtml__catalog_product_edit_action_attribute_tab_websites>
                     <adminhtml__promo_catalog>removePromoCatalogButtons</adminhtml__promo_catalog>
+                    <adminhtml__promo_quote>removePromoQuoteButtons</adminhtml__promo_quote>
                 </block_html_before>
             </admingws>
         </enterprise>

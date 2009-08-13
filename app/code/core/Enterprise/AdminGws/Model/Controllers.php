@@ -910,4 +910,15 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
 
         return false;
     }
+
+    /**
+     * Validate applying rules action
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validatePromoCatalogApplyRules($controller)
+    {
+        $this->_forward();
+        return false;
+    }
 }
