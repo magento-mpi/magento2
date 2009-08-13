@@ -289,4 +289,18 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     {
         $observer->getEvent()->getBlock()->setWebsitesReadonly(!$this->_role->getIsWebsiteLevel());
     }
+
+    /**
+     * Remove controll buttons for store-level roles on Price Rules page
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removePromoCatalogButtons($observer)
+    {
+        if ($this->_role->getIsStoreLevel()) {
+            $block = $observer->getEvent()->getBlock();
+            $block->removeButton('apply_rules');
+            $block->removeButton('add');
+        }
+    }
 }
