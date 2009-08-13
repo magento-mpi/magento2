@@ -81,21 +81,35 @@ class Mage_Wishlist_Model_Mysql4_Product_Collection
     }
 
     /**
+     * Reset sort order
+     *
+     * @return Mage_Wishlist_Model_Mysql4_Product_Collection
+     */
+    public function resetSortOrder()
+    {
+        $this->getSelect()->reset(Zend_Db_Select::ORDER);
+        return $this;
+    }
+
+    /**
      * Add store data (days in wishlist)
      *
      * @return Mage_Wishlist_Model_Mysql4_Product_Collection
      */
     public function addStoreData()
     {
-        if (!isset($this->_joinFields['e_id'])) {
+        if (!$this->getFlag('add_days_in_wishlist')) {
             return $this;
         }
 
-        $dayTable = $this->_getAttributeTableAlias('days_in_wishlist');
-        $this->joinField('store_name', 'core/store', 'name', 'store_id=store_id');
+        $this->setFlag('add_days_in_wishlist', null);
+
+        $dayTable = 't_wi'; //$this->_getAttributeTableAlias('days_in_wishlist');
+
+        $this->joinField('store_name', 'core/store', 'name', 'store_id=item_store_id');
         $this->joinField('days_in_wishlist',
             'wishlist/item',
-            "(TO_DAYS('" . Mage::getSingleton('core/date')->date() . "') - TO_DAYS(DATE_ADD(".$dayTable.".added_at, INTERVAL " .(int) Mage::getSingleton('core/date')->getGmtOffset() . " SECOND)))",
+            "(TO_DAYS('" . (substr(Mage::getSingleton('core/date')->date(), 0, -2) . '00') . "') - TO_DAYS(DATE_ADD(".$dayTable.".added_at, INTERVAL " .(int) Mage::getSingleton('core/date')->getGmtOffset() . " SECOND)))",
             'wishlist_item_id=wishlist_item_id'
         );
 

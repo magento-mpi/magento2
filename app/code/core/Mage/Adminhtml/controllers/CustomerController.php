@@ -332,7 +332,7 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
                         ->delete();
                 }
                 catch (Exception $e) {
-                    //
+                    Mage::logException($e);
                 }
             }
         }
