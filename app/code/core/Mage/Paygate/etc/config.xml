@@ -28,7 +28,7 @@
 <config>
    <modules>
       <Mage_Paygate>
-         <version>0.7.0</version>
+         <version>0.7.1</version>
 
       </Mage_Paygate>
    </modules>
@@ -109,7 +109,7 @@
                 <pwd backend_model="adminhtml/system_config_backend_encrypted"/>
                 <tender>C</tender>
                 <title>Credit Card (Payflow Pro)</title>
-                <url>https://pilot-payflowpro.verisign.com/transaction</url>
+                <url>https://payflowpro.paypal.com/transaction</url>
                 <user backend_model="adminhtml/system_config_backend_encrypted"/>
                 <vendor/>
                 <verbosity>MEDIUM</verbosity>
