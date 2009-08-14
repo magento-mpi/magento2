@@ -124,4 +124,24 @@ class Mage_Eav_Model_Mysql4_Form_Type extends Mage_Core_Model_Mysql4_Abstract
 
         return parent::_afterSave($object);
     }
+
+    /**
+     * Retrieve form type filtered by given attribute
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract|int $attribute
+     * @return array
+     */
+    public function getFormTypesByAttribute($attribute)
+    {
+        if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+            $attribute = $attribute->getId();
+        }
+        if (!$attribute) {
+            return array();
+        }
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('eav/form_element'))
+            ->where('attribute_id = ?', $attribute);
+        return $this->_getReadAdapter()->fetchAll($select);
+    }
 }

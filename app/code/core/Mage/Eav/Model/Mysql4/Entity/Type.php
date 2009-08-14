@@ -61,7 +61,7 @@ class Mage_Eav_Model_Mysql4_Entity_Type extends Mage_Core_Model_Mysql4_Abstract
      * @param integer $entityTypeId
      * @return string
      */
-    public function getAdditionalTable($entityTypeId)
+    public function getAdditionalAttributeTable($entityTypeId)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), array('additional_attribute_table'))

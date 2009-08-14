@@ -238,7 +238,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
      */
     protected function _saveAdditionalAttributeData(Mage_Core_Model_Abstract $object)
     {
-        if ($additionalTable = $this->getAdditionalTable($object->getEntityTypeId())) {
+        if ($additionalTable = $this->getAdditionalAttributeTable($object->getEntityTypeId())) {
             $describe = $this->describeTable($this->getTable($additionalTable));
             $data = array();
             foreach (array_keys($describe) as $field) {
@@ -485,9 +485,9 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
      * @param integer $entityTypeId
      * @return string
      */
-    public function getAdditionalTable($entityTypeId)
+    public function getAdditionalAttributeTable($entityTypeId)
     {
-        return Mage::getResourceSingleton('eav/entity_type')->getAdditionalTable($entityTypeId);
+        return Mage::getResourceSingleton('eav/entity_type')->getAdditionalAttributeTable($entityTypeId);
     }
 
     /**
@@ -502,7 +502,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         if ($entityType = $object->getData('entity_type')) {
             $additionalTable = $entityType->getAdditionalAttributeTable();
         } else {
-            $additionalTable = $this->getAdditionalTable($object->getEntityTypeId());
+            $additionalTable = $this->getAdditionalAttributeTable($object->getEntityTypeId());
         }
         if ($additionalTable) {
             $select = $this->_getReadAdapter()->select()

@@ -73,7 +73,24 @@ class Mage_Eav_Model_Mysql4_Form_Element_Collection extends Mage_Core_Model_Mysq
             $fieldset = $fieldset->getId();
         }
 
-        $this->addFieldToFilter('fieldset_id', $fieldset);
+        $this->addFieldToFilter('main_table.fieldset_id', $fieldset);
+
+        return $this;
+    }
+
+    /**
+     * Add Attribute filter to collection
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Abstract|int $attribute
+     * @return Mage_Eav_Model_Mysql4_Form_Element_Collection
+     */
+    public function addAttributeFilter($attribute)
+    {
+        if ($attribute instanceof Mage_Eav_Model_Entity_Attribute_Abstract) {
+            $attribute = $attribute->getId();
+        }
+
+        $this->addFieldToFilter('main_table.attribute_id', $attribute);
 
         return $this;
     }
@@ -85,7 +102,7 @@ class Mage_Eav_Model_Mysql4_Form_Element_Collection extends Mage_Core_Model_Mysq
      */
     public function setSortOrder()
     {
-        $this->setOrder('sort_order', self::SORT_ORDER_ASC);
+        $this->setOrder('main_table.sort_order', self::SORT_ORDER_ASC);
 
         return $this;
     }
