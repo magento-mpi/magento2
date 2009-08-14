@@ -285,7 +285,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      *
      * @param Varien_Event_Observer $observer
      */
-    public function setWebsitesReadonly($observer)
+    public function catalogProductMassUpdateWebsites($observer)
     {
         $observer->getEvent()->getBlock()->setWebsitesReadonly(!$this->_role->getIsWebsiteLevel());
     }

@@ -263,19 +263,20 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Catalog product validate after remove from websites on mass update attributes
+     * Catalog product validate after add|remove to|from websites on mass update attributes
      *
      * @param Varien_Event_Observer $observer
      */
-    public function catalogProductRemoveFromWebsitesAfter(Varien_Event_Observer $observer)
+    public function catalogProductActionWithWebsitesAfter(Varien_Event_Observer $observer)
     {
-        if($observer->getEvent()->getAction() == 'remove'){
-            if (!$this->_role->getIsWebsiteLevel()) {
-                $this->_throwSave();
-            }
-            elseif(!$this->_role->hasWebsiteAccess($observer->getWebsiteIds())) {
-                $this->_throwSave();
-            }
+        if ($this->_role->getIsAll()) {
+            return ;
+        }
+        if (!$this->_role->getIsWebsiteLevel()) {
+            $this->_throwSave();
+        }
+        elseif(!$this->_role->hasWebsiteAccess($observer->getWebsiteIds())) {
+            $this->_throwSave();
         }
     }
 
