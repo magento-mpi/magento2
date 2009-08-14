@@ -30,8 +30,7 @@
         <cms_page_link translate="name description">
             <name>CMS Page Link</name>
             <description>Widget generates link to specified cms page</description>
-            <type>enterprise_cms/widget_page_link</type>
-            <js>mage/adminhtml/wysiwyg/widget/page.js</js>
+            <type>cms/widget_page_link</type>
             <parameters>
                 <href translate="label">
                     <visible />

@@ -81,7 +81,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
                 var optionLabel = node.text;
                 var optionValue = node.attributes.id;
 
-                chooser.previous("input.widget-option").value = optionValue;
+                chooser.previous("input.widget-option").value = "category/" + optionValue;
                 chooser.next("label.widget-option-label").update(optionLabel);
 
                 var responseContainerId = "responseCnt" + chooser.id;

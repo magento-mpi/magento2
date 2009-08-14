@@ -52,13 +52,8 @@
         <catalog_product_link translate="name description">
             <name>Product Link</name>
             <description>Widget generates link to specified product</description>
-            <type>enterprise_cms/widget_catalog_product_link</type>
+            <type>catalog/product_widget_link</type>
             <parameters>
-                <!--sku translate="label">
-                    <visible />
-                    <label>Sku</label>
-                    <type>text</type>
-                </sku-->
                 <id_path translate="label">
                     <visible />
                     <required />
@@ -85,9 +80,9 @@
         <catalog_category_link translate="name description">
             <name>Category Link</name>
             <description>Widget generates link to specified category</description>
-            <type>enterprise_cms/widget_catalog_category_link</type>
+            <type>catalog/category_widget_link</type>
             <parameters>
-                <!--url_key translate="label">
+                <id_path translate="label">
                     <visible />
                     <required />
                     <label>Category</label>
@@ -95,16 +90,7 @@
                         <element_type>label</element_type>
                         <helper>adminhtml/catalog_category_widget_chooser</helper>
                     </type>
-                </url_key-->
-                <category_id translate="label">
-                    <visible />
-                    <required />
-                    <label>Category</label>
-                    <type>
-                        <element_type>label</element_type>
-                        <helper>adminhtml/catalog_category_widget_chooser</helper>
-                    </type>
-                </category_id>
+                </id_path>
                 <anchor_text translate="label">
                     <visible />
                     <required />

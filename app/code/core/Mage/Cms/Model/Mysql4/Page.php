@@ -202,6 +202,23 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     }
 
     /**
+     * Retrieves cms page title from DB by passed identifier
+     *
+     * @param string $identifier
+     * @return string|false
+     */
+    public function retrieveCmsPageTitleByIdentifier($identifier)
+    {
+        $select = $this->_getReadAdapter()->select();
+        /* @var $select Zend_Db_Select */
+        $select->from(array('main_table' => $this->getMainTable()), 'title')
+            ->where('main_table.identifier = ?', $identifier)
+            ->limit(1);
+
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
+
+    /**
      * Get store ids to which specified item is assigned
      *
      * @param int $id
