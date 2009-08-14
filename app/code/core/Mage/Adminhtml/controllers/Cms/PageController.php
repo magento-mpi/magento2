@@ -235,7 +235,7 @@ class Mage_Adminhtml_Cms_PageController extends Mage_Adminhtml_Controller_Action
     protected function _filterPostData($data)
     {
         $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-                'date_format' => Mage::app()->getLocale()->getDateFormat()
+                'date_format' => Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
             ));
 
         $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
