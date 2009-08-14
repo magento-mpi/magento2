@@ -20,33 +20,26 @@
  *
  * @category   Enterprise
  * @package    Enterprise_Customer
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Enterprise Customer Data Helper
+ * Customer attributes grid container
  *
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Customer_Block_Adminhtml_Customer_Attribute extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-    /**
-     * Return form types ids of given attribute
-     *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @return array
-     */
-    public function getAttributeFormTypeIds($attribute)
+
+    public function __construct()
     {
-        $types = Mage::getResourceModel('eav/form_type')
-            ->getFormTypesByAttribute($attribute);
-        $typesIds = array();
-        foreach ($types as $type) {
-            $typesIds[] = $type['type_id'];
-        }
-        return $typesIds;
+        $this->_blockGroup = 'enterprise_customer';
+        $this->_controller = 'adminhtml_customer_attribute';
+        $this->_headerText = Mage::helper('enterprise_customer')->__('Manage Customer Attributes');
+        $this->_addButtonLabel = Mage::helper('enterprise_customer')->__('Add New Attribute');
+        parent::__construct();
     }
+
 }

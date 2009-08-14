@@ -1,0 +1,168 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design_default
+ * @package    Mage
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<script type="text/javascript">
+function saveAndContinueEdit(){
+    editForm.submit($('edit_form').action+'back/edit/');
+}
+
+
+function toggleApplyVisibility(select) {
+    if ($(select).value == 1) {
+        $(select).next('select').removeClassName('no-display');
+        $(select).next('select').removeClassName('ignore-validate');
+
+    } else {
+        $(select).next('select').addClassName('no-display');
+        $(select).next('select').addClassName('ignore-validate');
+        var options = $(select).next('select').options;
+        for( var i=0; i < options.length; i++) {
+            options[i].selected = false;
+        }
+    }
+}
+
+function checkOptionsPanelVisibility(){
+    if($('matage-options-panel')){
+        var panel = $('matage-options-panel');
+        if($('frontend_input') &&
+                ($('frontend_input').value=='select'
+                || $('frontend_input').value=='multiselect'
+                || $('frontend_input').value=='radio'
+                || $('frontend_input').value=='checkbox')
+        ){
+            panel.show();
+        }
+        else {
+            panel.hide();
+        }
+    }
+}
+
+function bindAttributeInputType()
+{
+    checkOptionsPanelVisibility();
+    switchDefaultValueField();
+}
+
+function switchDefaultValueField()
+{
+    if (!$('frontend_input')) {
+        return;
+    }
+
+    var currentValue = $('frontend_input').value;
+
+    var defaultValueTextVisibility = false;
+    var defaultValueTextareaVisibility = false;
+    var defaultValueDateVisibility = false;
+    var defaultValueYesnoVisibility = false;
+    var linesToDivideMultilineVisibility = false;
+    var minTextLengthVisibility = false;
+    var maxTextLengthVisibility = false;
+
+    switch (currentValue) {
+        case 'radio':
+        case 'select':
+            optionDefaultInputType = 'radio';
+            break;
+        case 'checkbox':
+        case 'multiselect':
+            optionDefaultInputType = 'checkbox';
+            break;
+            break;
+        case 'date':
+            defaultValueDateVisibility = true;
+            break;
+        case 'boolean':
+            defaultValueYesnoVisibility = true;
+            break;
+        case 'textarea':
+            defaultValueTextareaVisibility = true;
+            minTextLengthVisibility = true;
+            maxTextLengthVisibility = true;
+            break;
+        case 'multiline':
+            linesToDivideMultilineVisibility = true;
+            defaultValueTextareaVisibility = true;
+            break;
+        default:
+            defaultValueTextVisibility = true;
+            minTextLengthVisibility = true;
+            maxTextLengthVisibility = true;
+            break;
+    }
+
+    setRowVisibility('default_value_text', defaultValueTextVisibility);
+    setRowVisibility('default_value_textarea', defaultValueTextareaVisibility);
+    setRowVisibility('default_value_date', defaultValueDateVisibility);
+    setRowVisibility('default_value_yesno', defaultValueYesnoVisibility);
+    setRowVisibility('lines_to_divide_multiline', linesToDivideMultilineVisibility);
+    setRowVisibility('min_text_length', minTextLengthVisibility);
+    setRowVisibility('max_text_length', maxTextLengthVisibility);
+
+
+    var elems = document.getElementsByName('default[]');
+    for (var i = 0; i < elems.length; i++) {
+        elems[i].type = optionDefaultInputType;
+    }
+}
+
+function setRowVisibility(id, isVisible)
+{
+    if ($(id)) {
+        var td = $(id).parentNode;
+        var tr = $(td.parentNode);
+
+        if (isVisible) {
+            tr.show();
+        } else {
+            tr.blur();
+            tr.hide();
+        }
+    }
+}
+
+function updateRequriedOptions()
+{
+    if ($F('frontend_input')=='select' && $F('is_required')==1) {
+        $('option-count-check').addClassName('required-options-count');
+    } else {
+        $('option-count-check').removeClassName('required-options-count');
+    }
+}
+
+if($('frontend_input')){
+    Event.observe($('frontend_input'), 'change', updateRequriedOptions);
+    Event.observe($('frontend_input'), 'change', bindAttributeInputType);
+}
+
+if ($('is_required')) {
+    Event.observe($('is_required'), 'change', updateRequriedOptions);
+}
+bindAttributeInputType();
+
+</script>

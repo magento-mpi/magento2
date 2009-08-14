@@ -20,33 +20,18 @@
  *
  * @category   Enterprise
  * @package    Enterprise_Customer
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
 /**
- * Enterprise Customer Data Helper
+ * Customer Attributes edit form options tab
  *
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Tab_Options extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
 {
-    /**
-     * Return form types ids of given attribute
-     *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @return array
-     */
-    public function getAttributeFormTypeIds($attribute)
-    {
-        $types = Mage::getResourceModel('eav/form_type')
-            ->getFormTypesByAttribute($attribute);
-        $typesIds = array();
-        foreach ($types as $type) {
-            $typesIds[] = $type['type_id'];
-        }
-        return $typesIds;
-    }
+
 }

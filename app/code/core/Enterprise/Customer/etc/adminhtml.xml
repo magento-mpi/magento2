@@ -36,6 +36,14 @@
                                 <title>Manage Form Types</title>
                                 <sort_order>10</sort_order>
                             </form_type>
+                            <attributes translate="title">
+                                <title>Attributes</title>
+                                <children>
+                                    <customer_attributes translate="title">
+                                        <title>Manage Customer Attributes</title>
+                                    </customer_attributes>
+                                </children>
+                            </attributes>
                         </children>
                     </customer>
                 </children>
@@ -45,6 +53,15 @@
     <menu>
         <customer>
             <children>
+                <attributes translate="title" module="enterprise_customer">
+                    <title>Attributes</title>
+                    <children>
+                        <customer_attributes translate="title" module="enterprise_customer">
+                            <title>Manage Customer Attributes</title>
+                            <action>adminhtml/customer_attribute</action>
+                        </customer_attributes>
+                    </children>
+                </attributes>
                 <formtype translate="title" module="enterprise_customer">
                     <title>Manage Form Types</title>
                     <sort_order>60</sort_order>

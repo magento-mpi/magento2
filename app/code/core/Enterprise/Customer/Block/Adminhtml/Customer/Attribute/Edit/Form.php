@@ -20,33 +20,26 @@
  *
  * @category   Enterprise
  * @package    Enterprise_Customer
- * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
 /**
- * Enterprise Customer Data Helper
+ * Customer Attributes Edit container
  *
  * @category   Enterprise
  * @package    Enterprise_Customer
  */
-class Enterprise_Customer_Helper_Data extends Mage_Core_Helper_Abstract
+class Enterprise_Customer_Block_Adminhtml_Customer_Attribute_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
-    /**
-     * Return form types ids of given attribute
-     *
-     * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
-     * @return array
-     */
-    public function getAttributeFormTypeIds($attribute)
+
+    protected function _prepareForm()
     {
-        $types = Mage::getResourceModel('eav/form_type')
-            ->getFormTypesByAttribute($attribute);
-        $typesIds = array();
-        foreach ($types as $type) {
-            $typesIds[] = $type['type_id'];
-        }
-        return $typesIds;
+        $form = new Varien_Data_Form(array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'));
+        $form->setUseContainer(true);
+        $this->setForm($form);
+        return parent::_prepareForm();
     }
+
 }
