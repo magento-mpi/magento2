@@ -25,7 +25,7 @@
  */
 
 /**
- * Product attribute add/edit form options tab
+ * Attribute add/edit form options tab
  *
  * @category   Mage
  * @package    Mage_Eav
