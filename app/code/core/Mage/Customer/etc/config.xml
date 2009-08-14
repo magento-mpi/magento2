@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>0.8.12</version>
+            <version>1.4.0.0.0</version>
         </Mage_Customer>
     </modules>
 
@@ -180,6 +180,9 @@ T: {{var telephone}}
                     <customer_group>
                         <table>customer_group</table>
                     </customer_group>
+                    <eav_attribute>
+                        <table>customer_eav_attribute</table>
+                    </eav_attribute>
                 </entities>
             </customer_entity>
         </models>

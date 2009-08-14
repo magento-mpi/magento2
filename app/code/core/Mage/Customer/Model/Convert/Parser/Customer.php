@@ -352,14 +352,10 @@ class Mage_Customer_Model_Convert_Parser_Customer
             'country_id'
         );
 
-        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('customer')->getId();
-        $customerAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter($entityTypeId)
+        $customerAttributes = Mage::getResourceModel('customer/attribute_collection')
             ->load()->getIterator();
 
-        $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('customer_address')->getId();
-        $addressAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter($entityTypeId)
+        $addressAttributes = Mage::getResourceModel('customer/address_attribute_collection')
             ->load()->getIterator();
 
         $attributes = array(
