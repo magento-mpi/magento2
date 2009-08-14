@@ -113,9 +113,9 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
                     '<td  style="text-decoration:none;">'.$product->getDescription();
 
                 if ($product->getAllowedPriceInRss()) {
-                    $special_price = ($result['use_special'] ? $result['special_price'] : $result['rule_price']);
+                    $specialPrice = ($result['use_special'] ? $result['special_price'] : $result['rule_price']);
                     $description .= '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
-                        ' Special Price:'. Mage::helper('core')->currency($special_price).
+                        ' Special Price:'. Mage::helper('core')->currency($specialPrice).
                     ($result['use_special'] && $result['special_to_date'] ? '<br/> Special Expires on: '.$this->formatDate($result['special_to_date'], Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM) : '').
                     '</p>';
                 }
@@ -158,9 +158,9 @@ class Mage_Rss_Block_Catalog_Special extends Mage_Rss_Block_Abstract
        $row = $args['row'];
 
        if ($product->getAllowedPriceInRss()) {
-           $special_price = $row['special_price'];
+           $specialPrice = $row['special_price'];
            $rule_price = $row['rule_price'];
-           if (!$rule_price || ($rule_price && $special_price && $special_price<=$rule_price)) {
+           if (!$rulePrice || ($rulePrice && $specialPrice && $specialPrice<=$rulePrice)) {
                $row['start_date'] = $row['special_from_date'];
                $row['use_special'] = true;
            } else {

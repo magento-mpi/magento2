@@ -109,8 +109,7 @@ class Mage_Rss_Block_Catalog_Tag extends Mage_Rss_Block_Abstract
                 'title'         => $product->getName(),
                 'link'          => $product->getProductUrl(),
                 'description'   => $description,
-
-                );
+            );
         $rssObj->_addEntry($data);
     }
 }

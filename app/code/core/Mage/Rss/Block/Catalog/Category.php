@@ -119,25 +119,27 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
             return;
         }
 
-        $description = '<table><tr>'.
-            '<td><a href="'.$product->getProductUrl().'"><img src="' . $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75)
-            .'" border="0" align="left" height="75" width="75"></a></td>'.
-            '<td  style="text-decoration:none;">'.$product->getDescription();
+        $description = '<table><tr>'
+            . '<td><a href="'.$product->getProductUrl().'"><img src="'
+            . $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75)
+            . '" border="0" align="left" height="75" width="75"></a></td>'
+            . '<td  style="text-decoration:none;">' . $product->getDescription();
 
         if ($product->getAllowedPriceInRss()) {
-            $final_price = $product->getFinalPrice();
-            $description .= '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
-                ($product->getPrice() != $final_price  ? ' Special Price:'. Mage::helper('core')->currency($final_price) : '').
-                '</p>';
+            $description .= '<p> Price:'.Mage::helper('core')->currency($product->getPrice());
+            if ($product->getPrice() != $product->getFinalPrice()) {
+                $description .= ' Special Price:' . Mage::helper('core')->currency($product->getFinalPrice());
+            }
+            $description .= '</p>';
         }
 
         $description .= '</td></tr></table>';
         $rssObj = $args['rssObj'];
         $data = array(
-                    'title'         => $product->getName(),
-                    'link'          => $product->getProductUrl(),
-                    'description'   => $description,
-                    );
+                'title'         => $product->getName(),
+                'link'          => $product->getProductUrl(),
+                'description'   => $description,
+            );
 
         $rssObj->_addEntry($data);
     }

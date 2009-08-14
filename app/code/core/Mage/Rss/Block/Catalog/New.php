@@ -111,15 +111,16 @@ getFinalPrice() - used in shopping cart calculations
 
         //$product->unsetData()->load($args['row']['entity_id']);
         $product->setData($args['row']);
-        $final_price = $product->getFinalPrice();
         $description = '<table><tr>'.
             '<td><a href="'.$product->getProductUrl().'"><img src="'. $this->helper('catalog/image')->init($product, 'thumbnail')->resize(75, 75) .'" border="0" align="left" height="75" width="75"></a></td>'.
             '<td  style="text-decoration:none;">'.$product->getDescription();
 
         if ($allowedPriceInRss) {
-            $description .= '<p> Price:'.Mage::helper('core')->currency($product->getPrice()).
-            ($product->getPrice() != $final_price  ? ' Special Price:'. Mage::helper('core')->currency($final_price) : '').
-            '</p>';
+            $description .= '<p> Price:' . Mage::helper('core')->currency($product->getPrice());
+            if ($product->getPrice() != $product->getFinalPrice()){
+                $description .= ' Special Price:' . Mage::helper('core')->currency($product->getFinalPrice());
+            }
+            $description .= '</p>';
         }
 
         $description .= '</td>'.
@@ -130,8 +131,7 @@ getFinalPrice() - used in shopping cart calculations
                 'title'         => $product->getName(),
                 'link'          => $product->getProductUrl(),
                 'description'   => $description,
-
-                );
+            );
         $rssObj->_addEntry($data);
     }
 }
