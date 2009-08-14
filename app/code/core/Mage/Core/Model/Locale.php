@@ -512,6 +512,23 @@ class Mage_Core_Model_Locale
     }
 
     /**
+     * Create Zend_Date object with date converted from store's timezone
+     * to UTC time zone. Date should be passed in format of store's locale.
+     *
+     * @param mixed $store Information about store
+     * @param string|integer|Zend_Date|array|null $date date in store's timezone
+     * @param boolean $includeTime flag for including time to date
+     * @return Zend_Date
+     */
+    public function utcDate($store=null, $date, $includeTime = false)
+    {
+        $dateObj = Mage::app()->getLocale()->storeDate($store, $date, $includeTime);
+        $dateObj->set($date);
+        $dateObj->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
+        return $dateObj;
+    }
+
+    /**
      * Get store timestamp
      * Timstamp will be builded with store timezone settings
      *
