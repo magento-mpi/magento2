@@ -27,29 +27,6 @@
 -->
 <config>
     <widgets>
-        <cms_page_link translate="name description">
-            <name>CMS Page Link</name>
-            <description>Widget generates link to specified cms page</description>
-            <type>enterprise_cms/widget_page_link</type>
-            <parameters>
-                <href translate="label">
-                    <visible />
-                    <required />
-                    <label>Identifier</label>
-                    <type>text</type>
-                </href>
-                <anchor_text translate="label">
-                    <visible />
-                    <label>Anchor Text</label>
-                    <type>text</type>
-                </anchor_text>
-                <title translate="label">
-                    <visible />
-                    <label>Anchor Title</label>
-                    <type>text</type>
-                </title>
-            </parameters>
-        </cms_page_link>
         <cms_hierarchy_node translate="name description">
             <name>CMS Hierarchy Node</name>
             <description>Widget generates link to specified node in a hierarchy</description>
@@ -59,8 +36,13 @@
                     <label>CMS hierarchy node</label>
                     <visible />
                     <required />
-                    <type>select</type>
-                    <values>enterprise_cms/source_hierarchy_tree</values>
+                    <!--type>select</type-->
+                    <!--values>enterprise_cms/source_hierarchy_tree</values-->
+                    <type>
+                        <element_type>label</element_type>
+                        <helper>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</helper>
+                    </type>
+
                 </node_id>
                 <anchor_text translate="label">
                     <visible />
