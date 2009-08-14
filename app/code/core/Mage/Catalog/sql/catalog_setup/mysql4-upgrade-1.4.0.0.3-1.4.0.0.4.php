@@ -18,19 +18,19 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Catalog
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-/**
- * Product attribute add/edit form options tab
- *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Mage_Adminhtml_Block_Catalog_Product_Attribute_Edit_Tab_Options extends Mage_Eav_Block_Adminhtml_Attribute_Edit_Options_Abstract
-{
-}
+
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+$installer = $this;
+
+$installer->startSetup();
+
+$installer->updateEntityType('catalog_category', 'entity_attribute_collection', 'catalog/category_attribute_collection');
+$installer->updateEntityType('catalog_product', 'entity_attribute_collection', 'catalog/product_attribute_collection');
+
+$installer->endSetup();

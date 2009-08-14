@@ -213,20 +213,19 @@ class Mage_Catalog_Model_Layer extends Varien_Object
      */
     public function getFilterableAttributes()
     {
-        $entity = Mage::getSingleton('eav/config')
-            ->getEntityType('catalog_product');
+//        $entity = Mage::getSingleton('eav/config')
+//            ->getEntityType('catalog_product');
 
         $setIds = $this->_getSetIds();
         if (!$setIds) {
             return array();
         }
-        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection */
-        $collection = Mage::getResourceModel('catalog/attribute_collection')
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection */
+        $collection = Mage::getResourceModel('catalog/product_attribute_collection')
             ->setItemObjectClass('catalog/resource_eav_attribute');
 
         $collection->getSelect()->distinct(true);
         $collection
-            ->setEntityTypeFilter($entity->getId())
             ->setAttributeSetFilter($setIds)
             ->addStoreLabel(Mage::app()->getStore()->getId())
             ->setOrder('position', 'ASC');

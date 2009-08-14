@@ -187,8 +187,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
             $item['allowDrop']  = true;
             $item['allowDrag']  = true;
 
-            $nodeChildren = Mage::getResourceModel('catalog/attribute_collection')
-                ->setEntityTypeFilter(Mage::registry('entityType'))
+            $nodeChildren = Mage::getResourceModel('catalog/product_attribute_collection')
                 ->setAttributeGroupFilter($node->getId())
                 ->addVisibleFilter()
                 ->checkConfigurableProducts()
@@ -230,9 +229,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
         $items = array();
         $setId = $this->_getSetId();
 
-//        $collection = Mage::getModel('eav/entity_attribute')
-//            ->getResourceCollection()
-        $collection = Mage::getResourceModel('catalog/attribute_collection')
+        $collection = Mage::getResourceModel('catalog/product_attribute_collection')
             ->setAttributeSetFilter($setId)
             ->load();
 
@@ -242,10 +239,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Attribute_Set_Main extends Mage_Admin
             $attributesIds[] = $item->getAttributeId();
         }
 
-//        $attributes = Mage::getModel('eav/entity_attribute')
-//            ->getResourceCollection()
-        $attributes = Mage::getResourceModel('catalog/attribute_collection')
-            ->setEntityTypeFilter(Mage::registry('entityType'))
+        $attributes = Mage::getResourceModel('catalog/product_attribute_collection')
             ->setAttributesExcludeFilter($attributesIds)
             ->addVisibleFilter()
             ->load();

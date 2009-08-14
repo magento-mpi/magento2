@@ -99,8 +99,8 @@ class Mage_CatalogSearch_Model_Layer extends Mage_Catalog_Model_Layer
     /**
      * Add filters to attribute collection
      *
-     * @param   Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection $collection
-     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection
+     * @param   Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection $collection
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
      */
     protected function _prepareAttributeCollection($collection)
     {

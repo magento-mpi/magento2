@@ -90,7 +90,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
     public function setEntityTypeFilter($typeId)
     {
         $this->getSelect()->where('main_table.entity_type_id=?', $typeId);
-        if ($additionalTable = $this->getResource()->getAdditionalTable($typeId)) {
+        if ($additionalTable = $this->getResource()->getAdditionalAttributeTable($typeId)) {
             $this->getSelect()->join(
                 array('additional_table' => $this->getTable($additionalTable)),
                 'additional_table.attribute_id=main_table.attribute_id'
@@ -228,17 +228,6 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Collection extends Mage_Core_Model_
     public function addIsNotUniqueFilter()
     {
         $this->getSelect()->where('main_table.is_unique=0');
-        return $this;
-    }
-
-    /**
-     * Specify "is_searchable" filter
-     *
-     * @return Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
-     */
-    public function addIsSearchableFilter()
-    {
-        $this->getSelect()->where('main_table.is_searchable=1');
         return $this;
     }
 

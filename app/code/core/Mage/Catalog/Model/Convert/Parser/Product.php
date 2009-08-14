@@ -486,8 +486,7 @@ class Mage_Catalog_Model_Convert_Parser_Product
     public function getExternalAttributes()
     {
         $entityTypeId = Mage::getSingleton('eav/config')->getEntityType('catalog_product')->getId();
-        $productAttributes = Mage::getResourceModel('eav/entity_attribute_collection')
-            ->setEntityTypeFilter($entityTypeId)
+        $productAttributes = Mage::getResourceModel('catalog/product_attribute_collection')
             ->load();
 
             var_dump($this->_externalFields);

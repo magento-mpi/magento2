@@ -42,12 +42,11 @@ class Mage_CatalogSearch_Model_Advanced extends Varien_Object
 
     public function getAttributes()
     {
-        /* @var $attributes Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection */
+        /* @var $attributes Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection */
         $attributes = $this->getData('attributes');
         if (is_null($attributes)) {
             $product = Mage::getModel('catalog/product');
-            $attributes = Mage::getResourceModel('catalog/attribute_collection');
-            $attributes->setEntityTypeFilter($product->getResource()->getTypeId())
+            $attributes = Mage::getResourceModel('catalog/product_attribute_collection')
                 //->addIsSearchableFilter()
                 ->addHasOptionsFilter()
                 ->addDisplayInAdvancedSearchFilter()

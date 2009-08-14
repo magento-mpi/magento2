@@ -72,7 +72,8 @@ class Mage_Adminhtml_Catalog_Product_AttributeController extends Mage_Adminhtml_
     public function editAction()
     {
         $id = $this->getRequest()->getParam('attribute_id');
-        $model = Mage::getModel('catalog/resource_eav_attribute');
+        $model = Mage::getModel('catalog/resource_eav_attribute')
+            ->setEntityTypeId($this->_entityTypeId);
 
         if ($id) {
             $model->load($id);

@@ -26,13 +26,34 @@
 
 
 /**
- * Catalog EAV additional attribute resource collection
+ * Catalog product EAV additional attribute resource collection
  *
  * @category   Mage
  * @package    Mage_Catalog
  */
-class Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection extends Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
+class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection extends Mage_Eav_Model_Mysql4_Entity_Attribute_Collection
 {
+    protected function _initSelect()
+    {
+        $this->getSelect()->from(array('main_table' => $this->getResource()->getMainTable()))
+            ->where('main_table.entity_type_id=?', Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId())
+            ->join(
+                array('additional_table' => $this->getTable('catalog/eav_attribute')),
+                'additional_table.attribute_id=main_table.attribute_id'
+            );
+        return $this;
+    }
+
+    /**
+     * Specify attribute entity type filter
+     *
+     * @param   int $typeId
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
+     */
+    public function setEntityTypeFilter($typeId)
+    {
+        return $this;
+    }
 
     /**
      * Return array of fields to load attribute values
@@ -49,7 +70,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection extends Mage_E
     /**
      * Specify "is_visible_in_advanced_search" filter
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
      */
     public function addDisplayInAdvancedSearchFilter()
     {
@@ -60,7 +81,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection extends Mage_E
     /**
      * Specify "is_filterable" filter
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
      */
     public function addIsFilterableFilter()
     {
@@ -71,7 +92,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection extends Mage_E
     /**
      * Add filterable in search filter
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
      */
     public function addIsFilterableInSearchFilter()
     {
@@ -82,11 +103,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection extends Mage_E
     /**
      * Specify filter by "is_visible" field
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Attribute_Collection
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
      */
     public function addVisibleFilter()
     {
         $this->getSelect()->where('additional_table.is_visible=?', 1);
+        return $this;
+    }
+
+    /**
+     * Specify "is_searchable" filter
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Collection
+     */
+    public function addIsSearchableFilter()
+    {
+        $this->getSelect()->where('additional_table.is_searchable=1');
         return $this;
     }
 }

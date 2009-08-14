@@ -106,6 +106,8 @@
                 <eav translate="label" module="eav"><label>EAV types and attributes</label></eav>
             </types>
         </cache>
+        <eav_frontendclasses>
+        </eav_frontendclasses>
         <eav_attributes>
             <!-- 
                 <entity_type>
