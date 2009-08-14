@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CatalogPermissions>
-            <version>0.0.6</version>
+            <version>0.0.7</version>
         </Enterprise_CatalogPermissions>
     </modules>
     <global>
@@ -346,15 +346,15 @@
         </translate>
     </frontend>
     <default>
-        <enterprise_catalogpermissions>
-            <general>
+        <catalog>
+            <enterprise_catalogpermissions>
                 <grant_catalog_category_view>0</grant_catalog_category_view>
                 <grant_catalog_product_price>0</grant_catalog_product_price>
                 <grant_checkout_items>0</grant_checkout_items>
                 <restricted_landing_page>no-route</restricted_landing_page>
                 <deny_catalog_search></deny_catalog_search>
                 <enabled>0</enabled>
-            </general>
-        </enterprise_catalogpermissions>
+            </enterprise_catalogpermissions>
+        </catalog>
     </default>
 </config>

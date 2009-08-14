@@ -32,9 +32,9 @@
  */
 class Enterprise_CatalogPermissions_Model_Observer
 {
-    const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'enterprise_catalogpermissions/general/grant_catalog_category_view';
-    const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'enterprise_catalogpermissions/general/grant_catalog_product_price';
-    const XML_PATH_GRANT_CHECKOUT_ITEMS = 'enterprise_catalogpermissions/general/grant_checkout_items';
+    const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/enterprise_catalogpermissions/grant_catalog_category_view';
+    const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'catalog/enterprise_catalogpermissions/grant_catalog_product_price';
+    const XML_PATH_GRANT_CHECKOUT_ITEMS = 'catalog/enterprise_catalogpermissions/grant_checkout_items';
 
     /**
      * Is in product queue flag

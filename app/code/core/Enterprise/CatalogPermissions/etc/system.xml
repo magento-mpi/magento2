@@ -29,7 +29,7 @@
     <sections>
         <catalog>
             <groups>
-                <general translate="label" module="enterprise_catalogpermissions">
+                <enterprise_catalogpermissions translate="label" module="enterprise_catalogpermissions">
                     <label>Category Permissions</label>
                     <frontend_type>text</frontend_type>
                     <sort_order>500</sort_order>
@@ -127,7 +127,7 @@
                             <can_be_empty>1</can_be_empty>
                         </deny_catalog_search>
                     </fields>
-                </general>
+                </enterprise_catalogpermissions>
             </groups>
         </catalog>
     </sections>

@@ -33,12 +33,12 @@
 
 class Enterprise_CatalogPermissions_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const XML_PATH_ENABLED = 'enterprise_catalogpermissions/general/enabled';
-    const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'enterprise_catalogpermissions/general/grant_catalog_category_view';
-    const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'enterprise_catalogpermissions/general/grant_catalog_product_price';
-    const XML_PATH_GRANT_CHECKOUT_ITEMS = 'enterprise_catalogpermissions/general/grant_checkout_items';
-    const XML_PATH_DENY_CATALOG_SEARCH = 'enterprise_catalogpermissions/general/deny_catalog_search';
-    const XML_PATH_LANDING_PAGE = 'enterprise_catalogpermissions/general/restricted_landing_page';
+    const XML_PATH_ENABLED = 'catalog/enterprise_catalogpermissions/enabled';
+    const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/enterprise_catalogpermissions/grant_catalog_category_view';
+    const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'catalog/enterprise_catalogpermissions/grant_catalog_product_price';
+    const XML_PATH_GRANT_CHECKOUT_ITEMS = 'catalog/enterprise_catalogpermissions/grant_checkout_items';
+    const XML_PATH_DENY_CATALOG_SEARCH = 'catalog/enterprise_catalogpermissions/deny_catalog_search';
+    const XML_PATH_LANDING_PAGE = 'catalog/enterprise_catalogpermissions/restricted_landing_page';
 
     const GRANT_ALL             = 1;
     const GRANT_CUSTOMER_GROUP  = 2;

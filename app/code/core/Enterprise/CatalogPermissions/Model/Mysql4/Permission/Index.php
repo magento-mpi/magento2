@@ -32,7 +32,7 @@
  */
 class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_Core_Model_Mysql4_Abstract
 {
-    const XML_PATH_GRANT_BASE = 'enterprise_catalogpermissions/general/';
+    const XML_PATH_GRANT_BASE = 'catalog/enterprise_catalogpermissions/';
 
     /**
      * Store ids
