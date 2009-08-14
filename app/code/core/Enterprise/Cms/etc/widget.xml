@@ -36,8 +36,6 @@
                     <label>CMS hierarchy node</label>
                     <visible />
                     <required />
-                    <!--type>select</type-->
-                    <!--values>enterprise_cms/source_hierarchy_tree</values-->
                     <type>
                         <element_type>label</element_type>
                         <helper>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</helper>
