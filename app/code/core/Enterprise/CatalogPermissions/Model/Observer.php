@@ -36,8 +36,6 @@ class Enterprise_CatalogPermissions_Model_Observer
     const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'enterprise_catalogpermissions/general/grant_catalog_product_price';
     const XML_PATH_GRANT_CHECKOUT_ITEMS = 'enterprise_catalogpermissions/general/grant_checkout_items';
 
-
-
     /**
      * Is in product queue flag
      *
@@ -83,7 +81,6 @@ class Enterprise_CatalogPermissions_Model_Observer
         $this->_getIndexModel()->addIndexToCategoryCollection($categoryCollection, $this->_getCustomerGroupId(), $this->_getWebsiteId());
         return $this;
     }
-
 
     /**
      * Apply category permissions for category collection
@@ -398,9 +395,6 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
-
-
-
     /**
      * Apply category related permissions on category
      *
@@ -418,8 +412,6 @@ class Enterprise_CatalogPermissions_Model_Observer
 
         return $this;
     }
-
-
 
     /**
      * Apply category related permissions on product
@@ -564,8 +556,6 @@ class Enterprise_CatalogPermissions_Model_Observer
             $row = $observer->getEvent()->getProduct()->getData();
         }
 
-        Mage::log(print_r($row, true));
-
         $observer->getEvent()->getProduct()
             ->setAllowedInRss($this->_checkPermission($row, 'grant_catalog_category_view', 'isAllowedCategoryView'));
 
@@ -575,6 +565,16 @@ class Enterprise_CatalogPermissions_Model_Observer
         return $this;
     }
 
+    /**
+     * Checks permission in passed product data.
+     * For retrieving default configuration value used
+     * $method from helper enterprise_catalogpermissions.
+     *
+     * @param array $data
+     * @param string $permission
+     * @param string $method method name from Enterprise_CatalogPermissions_Helper_Data class
+     * @return bool
+     */
     protected function _checkPermission($data, $permission, $method)
     {
         $result = true;
