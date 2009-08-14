@@ -52,7 +52,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Options extends Mage_Adm
 
         $fieldset->addField('option_widget_type', 'hidden', array(
             'name'          => 'widget_type',
-            'value'         => (string)$config->getNode('widgets/'.$widget.'/type')
+            'value'         => (string)$config->getNode('widgets/'.$widget.'/type'),
+            'class'         => 'widget-option',
         ));
 
         $options = $config->getNode('widgets/'.$widget.'/parameters');
@@ -71,6 +72,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Options extends Mage_Adm
                 'required'  => (bool)$option->required,
                 'value'     => (string)$option->value,
                 'class'     => 'widget-option',
+                'note'      => (string)$option->note,
             );
 
             if ($option->values) {

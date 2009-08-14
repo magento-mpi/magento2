@@ -25,7 +25,7 @@
  */
 
 /**
- * Product chooser for Wysiwyg CMS widget
+ * Product Chooser for "Product Link" Cms Widget Plugin
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -33,55 +33,99 @@
  */
 class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Block construction, prepare grid params
+     *
+     * @param array $arguments Object data
+     */
     public function __construct($arguments=array())
     {
         parent::__construct($arguments);
-        $jsObject = $this->getJsChooserObject();
-        $this->setRowClickCallback("$jsObject.clickProduct.bind($jsObject)");
         $this->setDefaultSort('name');
         $this->setUseAjax(true);
-        if ($this->getRequest()->getParam('collapse')) {
-            $this->setIsCollapsed(true);
-        }
     }
 
+    /**
+     * Prepare chooser element HTML
+     *
+     * @param Varien_Data_Form_Element_Abstract $element Form Element
+     * @return Varien_Data_Form_Element_Abstract
+     */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
-        $chooserId = $element->getId() . 'product_chooser';
-        $jsObject = 'oProduct' . $chooserId;
-        $html = '
-            <a href="javascript:void(0)" id="'.$chooserId.'" class="widget-option-chooser"><img src="'.$image.'" title="'.$this->helper('catalog')->__('Open Chooser').'" /></a>
-            <script type="text/javascript">
-                '.$jsObject.' = new WysiwygWidget.optionProduct("'.$jsObject.'", "'.$this->getGridUrl().'");
-                Event.observe("'.$chooserId.'", "click", '.$jsObject.'.choose.bind('.$jsObject.'));
-            </script>
-        ';
-        $element->setData('after_element_html',$html);
+        $uniqId = $element->getId() . md5(microtime());
+        $sourceUrl = $this->getUrl('*/catalog_product_widget/chooser', array('uniq_id' => $uniqId));
+
+        $chooserHtml = $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_widget_chooser')
+            ->setElement($element)
+            ->setSourceUrl($sourceUrl)
+            ->toHtml();
+
+        $element->setData('after_element_html', $chooserHtml);
         return $element;
     }
 
-    protected function _addColumnFilterToCollection($column)
+    /**
+     * Grid Row JS Callback
+     *
+     * @return string
+     */
+    public function getRowClickCallback()
     {
-        // Set custom filter for in product flag
-        if ($column->getId() == 'in_products') {
-            $selected = $this->_getSelectedProducts();
-            if (empty($selected)) {
-                $selected = '';
+        $js = '
+            function (grid, event) {
+                var trElement = Event.findElement(event, "tr");
+
+                var productId = trElement.down("td").innerHTML;
+                var productName = trElement.down("td").next().next().innerHTML;
+                var chooser = $(grid.containerId).up().previous("a.widget-option-chooser");
+
+                var optionLabel = productName;
+                var optionValue = "product/" + productId;
+                if (grid.categoryId) {
+                    optionValue += "/" + grid.categoryId;
+                }
+                if (grid.categoryName) {
+                    optionLabel = grid.categoryName + " / " + optionLabel;
+                }
+
+                chooser.previous("input.widget-option").value = optionValue;
+                chooser.next("label.widget-option-label").update(optionLabel);
+
+                var responseContainerId = "responseCnt" + chooser.id;
+                $(responseContainerId).hide();
             }
-            if ($column->getFilter()->getValue()) {
-            	$this->getCollection()->addFieldToFilter('sku', array('in'=>$selected));
-            } else {
-            	$this->getCollection()->addFieldToFilter('sku', array('nin'=>$selected));
-            }
-        } else {
-            parent::_addColumnFilterToCollection($column);
-        }
-        return $this;
+        ';
+        return $js;
     }
 
+    /**
+     * Category Tree node onClick listener js function
+     *
+     * @return string
+     */
+    public function getCategoryClickListenerJs()
+    {
+        $js = '
+            function (node, e) {
+                {jsObject}.addVarToUrl("category_id", node.attributes.id);
+                {jsObject}.reload({jsObject}.url);
+                {jsObject}.categoryId = node.attributes.id;
+                {jsObject}.categoryName = node.text;
+            }
+        ';
+        $js = str_replace('{jsObject}', $this->getJsObjectName(), $js);
+        return $js;
+    }
+
+    /**
+     * Prepare products collection, defined collection filters (category, product type)
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareCollection()
     {
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->setStoreId(0)
         	->addAttributeToSelect('name')
@@ -91,11 +135,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
                 Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
             )));
 
-        $this->setCollection($collection);
+        if ($categoryId = $this->getCategoryId()) {
+            $productIds = Mage::getModel('catalog/category')->load($categoryId)
+                ->getProductsPosition();
+            $productIds = array_keys($productIds);
+            if (empty($productIds)) {
+                $productIds = 0;
+            }
+            $collection->addFieldToFilter('entity_id', array('in' => $productIds));
+        }
 
+        $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
+    /**
+     * Prepare columns for products grid
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('entity_id', array(
@@ -120,14 +178,13 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
         return parent::_prepareColumns();
     }
 
+    /**
+     * Adds additional parameter to URL for loading only products grid
+     *
+     * @return string
+     */
     public function getGridUrl()
     {
-        return $this->getUrl('*/catalog_product_widget/chooser', array('_current' => true));
-    }
-
-    protected function _getSelectedProducts()
-    {
-        return $this->getRequest()->getPost('selected', array());
+        return $this->getUrl('*/catalog_product_widget/chooser', array('products_grid' => true, '_current' => true));
     }
 }
-

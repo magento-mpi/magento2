@@ -35,10 +35,7 @@
 class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
+     * Wisywyg widget plugin main page
      */
     public function indexAction()
     {
@@ -59,10 +56,7 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Co
     }
 
     /**
-     * Description goes here...
-     *
-     * @param none
-     * @return void
+     * Ajax responder for loading plugin options form
      */
     public function loadOptionsAction()
     {
@@ -76,13 +70,14 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Co
     }
 
     /**
-     * Description goes here...
+     * Format widget pseudo-code for inserting into wysiwyg editor
      *
-     * @param none
-     * @return void
+     * TODO: move this to some model
      */
     public function buildWidgetAction()
     {
+        $image = Mage::getDesign()->getSkinUrl('images/i_notice.gif');
+
         $code = '{{widget';
         if ($type = $this->getRequest()->getPost('widget_type')) {
             $code .= sprintf(' type="%s"', $type);
@@ -91,6 +86,13 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Co
             $code .= sprintf(' %s="%s"', $name, $value);
         }
         $code .= '}}';
+//        $html = sprintf('<img src="%s" id="%s-%s" class="widget" alt="%s" title="%s">',
+//            $image,
+//            $this->getRequest()->getPost('widget_code'),
+//            Mage::helper('core')->urlEncode($code),
+//            '', ''
+//        );
+//        $this->getResponse()->setBody($html);
         $this->getResponse()->setBody($code);
     }
 }

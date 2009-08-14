@@ -25,13 +25,13 @@
  */
 ?>
 
-<?php $_divId = 'tree-div_' . time() ?>
+<?php $_divId = 'tree' . $this->getId() ?>
 <div id="<?php echo $_divId ?>" class="tree"></div>
 
 <script type="text/javascript">
 //<![CDATA[
 
-var tree;
+var tree<?php echo $this->getId() ?>;
 
 Ext.tree.TreePanel.Enhanced = function(el, config)
 {
@@ -55,7 +55,9 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
         this.setRootNode(root);
 
         if (firstLoad) {
-            this.addListener('click', this.categoryClick.createDelegate(this));
+            <?php if ($this->getNodeClickListener()): ?>
+                this.addListener('click', <?php echo $this->getNodeClickListener() ?>.createDelegate(this));
+            <?php endif; ?>
         }
 
         this.loader.buildCategoryTree(root, data);
@@ -63,11 +65,6 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
         // render the tree
         this.render();
     },
-
-    categoryClick : function(node, e)
-    {
-        <?php echo $this->getJsChooserObject() ?>.selectCategory(node);
-    }
 });
 
 Ext.onReady(function()
@@ -100,11 +97,53 @@ Ext.onReady(function()
         }
     };
 
+    categoryLoader.createNode = function(config) {
+        var node;
+        var _node = Object.clone(config);
+        if (config.children && !config.children.length) {
+            delete(config.children);
+            node = new Ext.tree.AsyncTreeNode(config);
+        } else {
+            node = new Ext.tree.TreeNode(config);
+        }
+        return node;
+    };
+
+    categoryLoader.buildHash = function(node)
+    {
+        var hash = {};
+
+        hash = this.toArray(node.attributes);
+
+        if (node.childNodes.length>0 || (node.loaded==false && node.loading==false)) {
+            hash['children'] = new Array;
+
+            for (var i = 0, len = node.childNodes.length; i < len; i++) {
+                if (!hash['children']) {
+                    hash['children'] = new Array;
+                }
+                hash['children'].push(this.buildHash(node.childNodes[i]));
+            }
+        }
+
+        return hash;
+    };
+
+    categoryLoader.toArray = function(attributes) {
+        var data = {};
+        for (var key in attributes) {
+            var value = attributes[key];
+            data[key] = value;
+        }
+
+        return data;
+    };
+
     categoryLoader.on("beforeload", function(treeLoader, node) {
         treeLoader.baseParams.id = node.attributes.id;
     });
 
-    tree = new Ext.tree.TreePanel.Enhanced('<?php echo $_divId ?>', {
+    tree<?php echo $this->getId() ?> = new Ext.tree.TreePanel.Enhanced('<?php echo $_divId ?>', {
         animate:          false,
         loader:           categoryLoader,
         enableDD:         false,
@@ -124,7 +163,7 @@ Ext.onReady(function()
         category_id: <?php echo (int) $this->getCategoryId() ?>
     };
 
-    tree.loadTree({parameters:parameters, data:<?php echo $this->getTreeJson() ?>},true);
+    tree<?php echo $this->getId() ?>.loadTree({parameters:parameters, data:<?php echo $this->getTreeJson() ?>},true);
 
 });
 //]]>

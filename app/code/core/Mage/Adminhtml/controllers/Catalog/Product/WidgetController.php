@@ -26,7 +26,7 @@
 
 
 /**
- * Catalog widgets controller for CMS WYSIWYG
+ * Catalog Product widgets controller for CMS WYSIWYG
  *
  * @category   Mage
  * @package    Mage_Adminhtml
@@ -34,12 +34,29 @@
  */
 class Mage_Adminhtml_Catalog_Product_WidgetController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Chooser Source action
+     */
     public function chooserAction()
     {
-        $block = $this->getLayout()->createBlock(
-            'adminhtml/catalog_product_widget_chooser', '',
-            array('js_chooser_object' => $this->getRequest()->getParam('js_chooser_object'))
-        );
-        $this->getResponse()->setBody($block->toHtml());
+        $uniqId = $this->getRequest()->getParam('uniq_id');
+
+        $productsGrid = $this->getLayout()->createBlock('adminhtml/catalog_product_widget_chooser', '', array(
+            'id'                => $uniqId,
+            'category_id'       => $this->getRequest()->getParam('category_id')
+        ));
+
+        $html = $productsGrid->toHtml();
+
+        if (!$this->getRequest()->getParam('products_grid')) {
+            $categoriesTree = $this->getLayout()->createBlock('adminhtml/catalog_category_widget_chooser', '', array(
+                'id'                  => $uniqId.'Tree',
+                'node_click_listener' => $productsGrid->getCategoryClickListenerJs()
+            ));
+
+            $html = $categoriesTree->toHtml() . $html;
+        }
+
+        $this->getResponse()->setBody($html);
     }
 }

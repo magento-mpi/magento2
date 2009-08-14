@@ -20,6 +20,7 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+
 var WysiwygWidget = {};
 WysiwygWidget.Widget = Class.create();
 WysiwygWidget.Widget.prototype = {
@@ -30,8 +31,11 @@ WysiwygWidget.Widget.prototype = {
         this.widgetCodeEl = $("select_widget_code");
         this.widgetOptionsEl = $("widget_options");
         this.optionsUrl = optionsSourceUrl;
+        this.optionValues = new Hash({});
 
         Event.observe(this.widgetCodeEl, "change", this.loadOptions.bind(this));
+
+        this.initOptionValues();
     },
 
     getDivHtml: function(id, html) {
@@ -81,6 +85,28 @@ WysiwygWidget.Widget.prototype = {
         $(containerId).addClassName('no-display');
     },
 
+    // Assign widget options values when existing widget selected in WYSIWYG
+    initOptionValues: function() {
+        var ed = tinyMCEPopup.editor;
+        var e = ed.selection.getNode();
+
+        if (e != undefined && e.id && ed.dom.getAttrib(e, 'class').indexOf('widget') != -1) {
+            var widgetId = e.id.split("-");
+            if (widgetId.length == 2) {
+                var code = widgetId[0];
+                var widgetCode = Base64.mageDecode(widgetId[1]);
+                this.widgetCodeEl.value = code;
+                this.optionValues = new Hash({});
+
+                widgetCode.gsub(/([a-z0-9\_]+)\s*\=\s*[\"]{1}([^\"]+)[\"]{1}/i, function(match){
+                    this.optionValues.set('option_' + match[1], match[2]);
+                }.bind(this));
+
+                this.loadOptions();
+            }
+        }
+    },
+
     loadOptions: function() {
         if (!this.widgetCodeEl.value) {
             this.switchOptionsContainer();
@@ -92,6 +118,8 @@ WysiwygWidget.Widget.prototype = {
             return;
         }
 
+        this._showWidgetDescription();
+
         new Ajax.Request(this.optionsUrl,
             {
                 parameters:{widget_code: this.widgetCodeEl.value},
@@ -100,12 +128,30 @@ WysiwygWidget.Widget.prototype = {
                         this.onAjaxSuccess(transport);
                         this.switchOptionsContainer();
                         new Insertion.Bottom(this.widgetOptionsEl, this.getDivHtml(this.getOptionsContainerId(), transport.responseText));
+
+                        if(this.optionValues) {
+                            this.optionValues.each(function(pair) {
+                                if ($(pair.key) != undefined) {
+                                    $(pair.key).value = pair.value;
+                                }
+                            });
+                        }
+
                     } catch(e) {
                         alert(e.message);
                     }
                 }.bind(this)
             }
         );
+    },
+
+    _showWidgetDescription: function() {
+        var noteCnt = this.widgetCodeEl.up().next().down('small');
+        var descrCnt = $(this.widgetCodeEl.value + '-description');
+        if(noteCnt != undefined) {
+            var description = (descrCnt != undefined ? descrCnt.innerHTML : '');
+            noteCnt.update(descrCnt.innerHTML);
+        }
     },
 
     insertWidget: function() {
@@ -118,6 +164,7 @@ WysiwygWidget.Widget.prototype = {
                     i++;
                 }
             });
+
             new Ajax.Request($(editForm.formId).readAttribute("action"),
             {
                 parameters: Form.serializeElements( formElements ),
@@ -125,13 +172,12 @@ WysiwygWidget.Widget.prototype = {
                     try {
                         this.onAjaxSuccess(transport);
                     	tinyMCEPopup.execCommand("mceInsertContent", false, transport.responseText);
-
                     	// Refocus in window
                     	if (tinyMCEPopup.isWindow) {
                     		window.focus();
                     	}
                     	tinyMCEPopup.editor.focus();
-                    	tinyMCEPopup.close();
+                    	tinyMCEPopup.close(); // cannot directly call TinyMCEPopup.close() in Prototype class scope
                     } catch(e) {
                         alert(e.message);
                     }
@@ -149,5 +195,47 @@ WysiwygWidget.Widget.prototype = {
                 setLocation(response.ajaxRedirect);
             }
         }
+    }
+}
+
+WysiwygWidget.chooser = Class.create();
+WysiwygWidget.chooser.prototype = {
+
+    // HTML element A, on which click event fired when choose a selection
+    chooserId: null,
+
+    // Source URL for Ajax requests
+    chooserUrl: null,
+
+    initialize: function(chooserId, chooserUrl) {
+        this.chooserId = chooserId;
+        this.chooserUrl = chooserUrl;
+    },
+
+    choose: function(event) {
+        //var element = Event.findElement(event, 'A');
+        var chooser = $(this.chooserId);
+        var responseContainerId = "responseCnt" + this.chooserId;
+        if ($(responseContainerId) != undefined) {
+            if ($(responseContainerId).visible()) {
+                $(responseContainerId).hide();
+            } else {
+                $(responseContainerId).show();
+            }
+            return;
+        }
+        new Ajax.Request(this.chooserUrl,
+            {
+                parameters: {},
+                onSuccess: function(transport) {
+                    try {
+                        wWidget.onAjaxSuccess(transport);
+                        chooser.next("label.widget-option-label").insert({after: wWidget.getDivHtml(responseContainerId, transport.responseText)});
+                    } catch(e) {
+                        alert(e.message);
+                    }
+                }.bind(this)
+            }
+        );
     }
 }

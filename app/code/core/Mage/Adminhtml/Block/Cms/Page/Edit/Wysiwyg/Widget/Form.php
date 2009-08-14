@@ -34,6 +34,9 @@
 
 class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Form with widget to select
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
@@ -42,12 +45,14 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
             'legend'    => $this->__('Widget')
         ));
 
-        $fieldset->addField('select_widget_code', 'select', array(
-            'label'     => $this->__('Widget Type'),
-            'title'     => $this->__('Widget Type'),
-            'name'      => 'widget_code',
-            'required'  => true,
-            'options'   => $this->_getAvailableWidgets(),
+        $select = $fieldset->addField('select_widget_code', 'select', array(
+            'label'                 => $this->__('Widget Type'),
+            'title'                 => $this->__('Widget Type'),
+            'name'                  => 'widget_code',
+            'required'              => true,
+            'options'               => $this->_getWidgetSelectOptions(),
+            'note'                  => $this->helper('cms')->__('No options available'),
+            'after_element_html'    => $this->_getWidgetSelectAfterHtml(),
         ));
 
         $form->setUseContainer(true);
@@ -58,19 +63,57 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
     }
 
     /**
-     * Description goes here...
+     * Prepare options for widgets HTML select
      *
-     * @param none
-     * @return void
+     * @return array
+     */
+    protected function _getWidgetSelectOptions()
+    {
+        $options = array('' => $this->helper('cms')->__('Select widget to load its options'));
+        foreach ($this->_getAvailableWidgets() as $code => $data) {
+            $options[$code] = $this->helper('cms')->__($data['name']);
+        }
+        return $options;
+    }
+
+    /**
+     * Prepare widgets select after element HTML
+     *
+     * @return string
+     */
+    protected function _getWidgetSelectAfterHtml()
+    {
+        $html =  '';
+        foreach ($this->_getAvailableWidgets() as $code => $data) {
+            $html .= sprintf('<div id="%s-description" class="no-display">%s</div>',
+                $code,
+                $this->helper('cms')->__($data['description'])
+            );
+        }
+        return $html;
+    }
+
+    /**
+     * Return array of available widgets based on configuration
+     *
+     * @return array
      */
     protected function _getAvailableWidgets()
     {
-        $config = Mage::getConfig()->loadModulesConfiguration('widget.xml');
-        $widgets = $config->getNode('widgets');
-        $result = array('' => $this->helper('cms')->__('Select widget to load its options'));
-        foreach ($widgets->children() as $widget) {
-            $result[$widget->getName()] = $this->helper('cms')->__( (string)$widget->name );
+        if (!$this->getData('available_widgets')) {
+            $config = Mage::getConfig()->loadModulesConfiguration('widget.xml');
+            $widgets = $config->getNode('widgets');
+            $result = array();
+            foreach ($widgets->children() as $widget) {
+                $result[$widget->getName()] = array(
+                    'name'          => (string)$widget->name,
+                    'description'   => (string)$widget->description,
+                    'type'          => (string)$widget->type,
+                );
+            }
+            $this->setData('available_widgets', $result);
         }
-        return $result;
+        return $this->getData('available_widgets');
     }
+
 }

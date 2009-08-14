@@ -26,37 +26,23 @@
 
 
 /**
- * Wysiwyg controller for different purposes
+ * Controller for CMS Page Link Widget plugin
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Cms_Page_WysiwygController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Cms_Page_WidgetController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Template directives callback
-     *
-     * TODO: move this to some model
+     * Chooser Source action
      */
-    public function directiveAction()
+    public function chooserAction()
     {
-        $directive = $this->getRequest()->getParam('directive');
-        $directive = Mage::helper('core')->urlDecode($directive);
-        $url = Mage::getModel('core/email_template_filter')->filter($directive);
-        try {
-            $image = Varien_Image_Adapter::factory('GD2');
-            $image->open($url);
-            $image->display();
-        } catch (Exception $e) {
-            $image = imagecreate(100, 100);
-            $bkgrColor = imagecolorallocate($image,10,10,10);
-            imagefill($image,0,0,$bkgrColor);
-            $textColor = imagecolorallocate($image,255,255,255);
-            imagestring($image, 4, 10, 10, 'Skin image', $textColor);
-            header('Content-type: image/png');
-            imagepng($image);
-            imagedestroy($image);
-        }
+        $uniqId = $this->getRequest()->getParam('uniq_id');
+        $pagesGrid = $this->getLayout()->createBlock('adminhtml/cms_page_widget_chooser', '', array(
+            'id' => $uniqId,
+        ));
+        $this->getResponse()->setBody($pagesGrid->toHtml());
     }
 }

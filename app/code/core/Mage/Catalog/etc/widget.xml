@@ -53,18 +53,18 @@
             <name>Product Link</name>
             <description>Widget generates link to specified product</description>
             <type>enterprise_cms/widget_catalog_product_link</type>
-            <js>mage/adminhtml/wysiwyg/widget/product.js</js>
             <parameters>
-                <sku translate="label">
+                <!--sku translate="label">
                     <visible />
                     <label>Sku</label>
                     <type>text</type>
-                </sku>
+                </sku-->
                 <id_path translate="label">
                     <visible />
-                    <label>Id Path</label>
+                    <required />
+                    <label>Product</label>
                     <type>
-                        <element_type>text</element_type>
+                        <element_type>label</element_type>
                         <helper>adminhtml/catalog_product_widget_chooser</helper>
                     </type>
                 </id_path>
@@ -86,17 +86,25 @@
             <name>Category Link</name>
             <description>Widget generates link to specified category</description>
             <type>enterprise_cms/widget_catalog_category_link</type>
-            <js>mage/adminhtml/wysiwyg/widget/category.js</js>
             <parameters>
-                <url_key translate="label">
+                <!--url_key translate="label">
                     <visible />
                     <required />
-                    <label>Url Key</label>
+                    <label>Category</label>
                     <type>
-                        <element_type>text</element_type>
+                        <element_type>label</element_type>
                         <helper>adminhtml/catalog_category_widget_chooser</helper>
                     </type>
-                </url_key>
+                </url_key-->
+                <category_id translate="label">
+                    <visible />
+                    <required />
+                    <label>Category</label>
+                    <type>
+                        <element_type>label</element_type>
+                        <helper>adminhtml/catalog_category_widget_chooser</helper>
+                    </type>
+                </category_id>
                 <anchor_text translate="label">
                     <visible />
                     <required />

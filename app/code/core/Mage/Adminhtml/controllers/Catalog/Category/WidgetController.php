@@ -34,6 +34,9 @@
  */
 class Mage_Adminhtml_Catalog_Category_WidgetController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Chooser Source action
+     */
     public function chooserAction()
     {
         $this->getResponse()->setBody(
@@ -61,9 +64,8 @@ class Mage_Adminhtml_Catalog_Category_WidgetController extends Mage_Adminhtml_Co
 
     protected function _getCategoryTreeBlock()
     {
-        return $this->getLayout()->createBlock(
-            'adminhtml/catalog_category_widget_chooser', '',
-            array('js_chooser_object' => $this->getRequest()->getParam('js_chooser_object'))
-        );
+        return $this->getLayout()->createBlock('adminhtml/catalog_category_widget_chooser', '', array(
+            'id' => $this->getRequest()->getParam('uniq_id')
+        ));
     }
 }

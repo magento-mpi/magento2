@@ -33,9 +33,62 @@
  */
 class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtml_Block_Catalog_Category_Tree
 {
-    protected function _prepareLayout()
+    /**
+     * Block construction
+     * Defines tree template and init tree params
+     */
+    public function __construct()
     {
+        parent::__construct();
         $this->setTemplate('catalog/category/widget/tree.phtml');
+        $this->_withProductCount = false;
+    }
+
+    /**
+     * Prepare chooser element HTML
+     *
+     * @param Varien_Data_Form_Element_Abstract $element Form Element
+     * @return Varien_Data_Form_Element_Abstract
+     */
+    public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
+    {
+        $uniqId = $element->getId() . md5(microtime());
+        $sourceUrl = $this->getUrl('*/catalog_category_widget/chooser', array('uniq_id' => $uniqId));
+
+        $chooserHtml = $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_widget_chooser')
+            ->setElement($element)
+            ->setSourceUrl($sourceUrl)
+            ->toHtml();
+
+        $element->setData('after_element_html', $chooserHtml);
+        return $element;
+    }
+
+    /**
+     * Category Tree node onClick listener js function
+     *
+     * @return string
+     */
+    public function getNodeClickListener()
+    {
+        if ($this->getData('node_click_listener')) {
+            return $this->getData('node_click_listener');
+        }
+        $js = '
+            function (node, e) {
+                var chooser = $("tree'.$this->getId().'").up().previous("a.widget-option-chooser");
+
+                var optionLabel = node.text;
+                var optionValue = node.attributes.id;
+
+                chooser.previous("input.widget-option").value = optionValue;
+                chooser.next("label.widget-option-label").update(optionLabel);
+
+                var responseContainerId = "responseCnt" + chooser.id;
+                $(responseContainerId).hide();
+            }
+        ';
+        return $js;
     }
 
     /**
@@ -52,26 +105,23 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
         return $item;
     }
 
+    /**
+     * Adds some extra params to categories collection
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection
+     */
     public function getCategoryCollection()
     {
         return parent::getCategoryCollection()->addAttributeToSelect('url_key');
     }
 
-    public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
+    /**
+     * Tree JSON source URL
+     *
+     * @return string
+     */
+    public function getLoadTreeUrl($expanded=null)
     {
-        $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
-        $chooserId = $element->getId() . 'category_chooser';
-        $jsObject = 'oCategory' . $chooserId;
-        $html = '
-            <a href="javascript:void(0)" id="'.$chooserId.'" class="widget-option-chooser"><img src="'.$image.'" title="'.$this->helper('catalog')->__('Open Chooser').'" /></a>
-            <script type="text/javascript">
-                '.$jsObject.' = new WysiwygWidget.optionCategory("'.$jsObject.'", "'.$this->getUrl('*/catalog_category_widget/chooser', array('_current' => true)).'");
-                Event.observe("'.$chooserId.'", "click", '.$jsObject.'.choose.bind('.$jsObject.'));
-            </script>
-        ';
-        $element->setData('after_element_html',$html);
-        return $element;
+        return $this->getUrl('*/catalog_category_widget/categoriesJson', array('_current'=>true));
     }
-
 }
-

@@ -27,22 +27,32 @@
 -->
 <config>
     <widgets>
-    <!--
-        <example translate="name description"> limited to 255 chars
-            <name>Example</name>
-            <description>Example</description>
-            <type>namespace_module/block_classname</type>
+        <cms_page_link translate="name description">
+            <name>CMS Page Link</name>
+            <description>Widget generates link to specified cms page</description>
+            <type>enterprise_cms/widget_page_link</type>
+            <js>mage/adminhtml/wysiwyg/widget/page.js</js>
             <parameters>
-                <columns translate="label">
-                    <required />
+                <href translate="label">
                     <visible />
-                    <values />
-                    <value />
-                    <label />
-                    <type />
-                </columns>
+                    <required />
+                    <label>Identifier</label>
+                    <type>
+                        <element_type>label</element_type>
+                        <helper>adminhtml/cms_page_widget_chooser</helper>
+                    </type>
+                </href>
+                <anchor_text translate="label">
+                    <visible />
+                    <label>Anchor Text</label>
+                    <type>text</type>
+                </anchor_text>
+                <title translate="label">
+                    <visible />
+                    <label>Anchor Title</label>
+                    <type>text</type>
+                </title>
             </parameters>
-        </example>
-    -->
+        </cms_page_link>
     </widgets>
 </config>
