@@ -217,6 +217,11 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         $block->unsetChild('addButton');
     }
 
+    /**
+     * Remove edit buttons on catalog events page and catalog event edit page
+     *
+     * @param Varien_Event_Observer $observer
+     */
     public function widgetCatalogEventCategoryEditButtons($observer)
     {
         if ($this->_role->getIsAll()) { // because observer is passed through directly
@@ -242,7 +247,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      *
      * @param Varien_Event_Observer $observer
      */
-    public function restrictCountdownTicker($observer)
+    public function restrictCatalogEventEditForm($observer)
     {
         if ($this->_role->getIsAll()) {
             return;
@@ -253,8 +258,8 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         }
         else {
             $categoryId = $observer->getEvent()->getBlock()->getEvent()->getCategoryId();
-            $category = Mage::getModel('catalog/category')->load($categoryId);
-            if (!$this->_role->hasExclusiveCategoryAccess($category->getPath())) {
+            $path = Mage::getResourceModel('catalog/category')->getCategoryPathById($categoryId);
+            if (!$this->_role->hasExclusiveCategoryAccess($path)) {
                 $setDisabled = true;
             }
 

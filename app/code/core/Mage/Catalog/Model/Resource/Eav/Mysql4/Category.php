@@ -1051,4 +1051,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
         return false;
     }
+
+    /**
+     * Get category path value by its id
+     *
+     * @param int $categoryId
+     * @return string
+     */
+    public function getCategoryPathById($categoryId)
+    {
+        $select =  $this->getReadConnection()->select();
+        $select->from($this->getEntityTable(), array('path'))
+               ->where('entity_id = ?', $categoryId);
+        return $this->getReadConnection()->fetchOne($select);
+    }
 }
