@@ -27,20 +27,19 @@
 -->
 <config>
     <widgets>
-        <cms_hierarchy_node translate="name description">
-            <name>CMS Hierarchy Node</name>
-            <description>Widget generates link to specified node in a hierarchy</description>
+        <cms_hierarchy_node translate="name description" module="enterprise_cms">
+            <name>CMS Hierarchy Link</name>
+            <description>Widget that generates Link to specified Node in a Hierarchy</description>
             <type>enterprise_cms/widget_node</type>
             <parameters>
                 <node_id translate="label">
-                    <label>CMS hierarchy node</label>
+                    <label>Hierarchy Node</label>
                     <visible />
                     <required />
                     <type>
                         <element_type>label</element_type>
                         <helper>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</helper>
                     </type>
-
                 </node_id>
                 <anchor_text translate="label">
                     <visible />
@@ -54,9 +53,9 @@
                 </title>
             </parameters>
         </cms_hierarchy_node>
-        <cms_pagination translate="name description">
-            <name>Pagination, based on Hierarchy</name>
-            <description>Renders paginated-navigation for specified tree</description>
+        <cms_pagination translate="name description" module="enterprise_cms">
+            <name>Pagination based on Hierarchy</name>
+            <description>Widget that generates Navigation for specified Hierarchy Tree</description>
             <type>enterprise_cms/widget_pagination</type>
             <parameters>
                 <frame translate="label">
@@ -71,9 +70,9 @@
                 </jump>
             </parameters>
         </cms_pagination>
-        <cms_menu translate="name description">
-            <name>Menu, based on Hierarchy</name>
-            <description>Renders the specified tree, if the page is assigned to it, as a unified or ordered list</description>
+        <cms_menu translate="name description" module="enterprise_cms">
+            <name>Menu based on Hierarchy</name>
+            <description>Widget that generates Menu for Hierarchy as Unified or Ordered List</description>
             <type>enterprise_cms/widget_menu</type>
             <parameters>
                 <up translate="label">
@@ -88,13 +87,13 @@
                 </down>
                 <ordered translate="label">
                     <visible />
-                    <label>Whether to render ordered list instead</label>
+                    <label>Whether to render Ordered List instead</label>
                     <type>select</type>
                     <values>adminhtml/system_config_source_yesno</values>
                 </ordered>
                 <type translate="label">
                     <visible />
-                    <label>List type</label>
+                    <label>List Type</label>
                     <type>select</type>
                     <values>enterprise_cms/source_listtype</values>
                 </type>
