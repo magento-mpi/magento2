@@ -61,6 +61,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
                 ->setData(array(
                     'label'  => Mage::helper('customer')->__('Delete Address'),
                     'name'   => 'delete_address',
+                    'element_name' => 'delete_address',
                     'disabled' => $this->isReadonly(),
                     'class'  => 'delete' . ($this->isReadonly() ? ' disabled' : '')
                 ))
@@ -71,6 +72,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
                     'label'  => Mage::helper('customer')->__('Add New Address'),
                     'id'     => 'add_address_button',
                     'name'   => 'add_address_button',
+                    'element_name' => 'add_address_button',
                     'disabled' => $this->isReadonly(),
                     'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : ''),
                     'onclick'=> 'customerAddresses.addNewAddress()'
@@ -82,6 +84,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
                     'label'  => Mage::helper('customer')->__('Cancel'),
                     'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
                     'name'   => 'cancel_address',
+                    'element_name' => 'cancel_address',
                     'class'  => 'cancel delete-address'  . ($this->isReadonly() ? ' disabled' : ''),
                     'disabled' => $this->isReadonly(),
                     'onclick'=> 'customerAddresses.cancelAdd(this)',

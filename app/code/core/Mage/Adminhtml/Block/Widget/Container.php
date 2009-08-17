@@ -226,6 +226,9 @@ class Mage_Adminhtml_Block_Widget_Container extends Mage_Adminhtml_Block_Templat
                 if (!$child) {
                     $child = $this->_addButtonChildBlock($childId);
                 }
+                if (isset($data['name'])) {
+                    $data['element_name'] = $data['name'];
+                }
                 $child->setData($data);
 
                 $out .= $this->getChildHtml($childId);
