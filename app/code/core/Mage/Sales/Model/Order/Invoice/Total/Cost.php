@@ -32,7 +32,7 @@ class Mage_Sales_Model_Order_Invoice_Total_Cost extends Mage_Sales_Model_Order_I
         $baseInvoiceTotalCost = 0;
         foreach ($invoice->getAllItems() as $item) {
             if (!$item->getHasChildren()){
-                $baseInvoiceTotalCost += $item->getBaseCost();
+                $baseInvoiceTotalCost += $item->getBaseCost()*$item->getQty();
             }
         }
         $invoice->setBaseCost($baseInvoiceTotalCost);
