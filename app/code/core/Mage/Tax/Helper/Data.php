@@ -47,9 +47,30 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
     protected $_priceDisplayType;
     protected $_shippingPriceDisplayType;
 
+    /**
+     * Postcode cut to this length when creating search templates
+     *
+     * @var integer
+     */
+    protected $_postCodeSubStringLength = 10;
+
     public function  __construct()
     {
         $this->_config = Mage::getSingleton('tax/config');
+    }
+
+    /**
+     * Return max postcode length to create search templates
+     *
+     * @return integer  $len
+     */
+    public function getPostCodeSubStringLength()
+    {
+        $len = (int)$this->_postCodeSubStringLength;
+        if ($len <= 0) {
+            $len = 10;
+        }
+        return $len;
     }
 
     /**
