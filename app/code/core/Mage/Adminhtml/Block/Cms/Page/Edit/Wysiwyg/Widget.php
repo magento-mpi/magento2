@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget extends Mage_Adminhtml_B
 
         $this->removeButton('reset');
         $this->removeButton('back');
-        $this->_updateButton('save', 'label', $this->__('Insert widget'));
+        $this->_updateButton('save', 'label', $this->helper('cms')->__('Insert widget'));
         $this->_updateButton('save', 'id', 'insert_button');
         $this->_updateButton('save', 'onclick', 'wWidget.insertWidget()');
 

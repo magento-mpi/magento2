@@ -42,11 +42,12 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Co
         $this->loadLayout('popup');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $config = Mage::getConfig()->loadModulesConfiguration('widget.xml');
+        // Add extra JS files required for widgets
+        $config = Mage::getSingleton('cms/page_wysiwyg_widget')->getXmlConfig();
         $widgets = $config->getNode('widgets');
         foreach ($widgets->children() as $widget) {
             if ($widget->js) {
-                foreach (explode(',', $widget->js) as $js) {
+                foreach (explode(',', (string)$widget->js) as $js) {
                     $this->getLayout()->getBlock('head')->addJs($js);
                 }
             }
@@ -71,28 +72,12 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Co
 
     /**
      * Format widget pseudo-code for inserting into wysiwyg editor
-     *
-     * TODO: move this to some model
      */
     public function buildWidgetAction()
     {
-        $image = Mage::getDesign()->getSkinUrl('images/i_notice.gif');
-
-        $code = '{{widget';
-        if ($type = $this->getRequest()->getPost('widget_type')) {
-            $code .= sprintf(' type="%s"', $type);
-        }
-        foreach ($this->getRequest()->getPost('parameters') as $name => $value) {
-            $code .= sprintf(' %s="%s"', $name, $value);
-        }
-        $code .= '}}';
-//        $html = sprintf('<img src="%s" id="%s-%s" class="widget" alt="%s" title="%s">',
-//            $image,
-//            $this->getRequest()->getPost('widget_code'),
-//            Mage::helper('core')->urlEncode($code),
-//            '', ''
-//        );
-//        $this->getResponse()->setBody($html);
+        $type = $this->getRequest()->getPost('widget_type');
+        $params = $this->getRequest()->getPost('parameters', array());
+        $code = Mage::getSingleton('cms/page_wysiwyg_widget')->getWidgetDeclaration($type, $params);
         $this->getResponse()->setBody($code);
     }
 }

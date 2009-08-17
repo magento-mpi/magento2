@@ -27,28 +27,27 @@
 -->
 <config>
     <widgets>
-        <recently_viewed translate="name description">
+        <recently_viewed translate="name description" module="reports">
             <name>Recently Viewed Products</name>
-            <description>Widget shows recently viewed products by customer</description>
+            <description>Widget that shows Recently Viewed Products by Customer</description>
             <type>reports/product_widget_viewed</type>
             <parameters>
                 <page_size translate="label">
                     <required />
                     <visible />
                     <value>1</value>
-                    <label>Product's Number to display</label>
+                    <label>Products Number to display</label>
                     <type>text</type>
                 </page_size>
                 <template>
                     <required />
-                    <visible />
                     <value>reports/product_viewed.phtml</value>
                     <label>Template</label>
                     <type>text</type>
                 </template>
             </parameters>
         </recently_viewed>
-        <recently_compared translate="name description">
+        <recently_compared translate="name description" module="reports">
             <name>Recently Compared Products</name>
             <description>Widget shows recently compared products by customer</description>
             <type>reports/product_widget_compared</type>
@@ -57,12 +56,11 @@
                     <required />
                     <visible />
                     <value>1</value>
-                    <label>Product's Number to display</label>
+                    <label>Products Number to display</label>
                     <type>text</type>
                 </page_size>
                 <template>
                     <required />
-                    <visible />
                     <value>reports/product_compared.phtml</value>
                     <label>Template</label>
                     <type>text</type>

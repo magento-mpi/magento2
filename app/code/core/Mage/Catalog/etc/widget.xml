@@ -27,21 +27,20 @@
 -->
 <config>
     <widgets>
-        <new_products translate="name description">
+        <new_products translate="name description" module="catalog">
             <name>New Products</name>
-            <description>Widget shows for customer products from catalog that are marked as new </description>
+            <description>Widget to display Catalog Products that are marked as New</description>
             <type>catalog/product_widget_new</type>
             <parameters>
                 <products_count translate="label">
                     <required />
                     <visible />
                     <value>1</value>
-                    <label>Product's Number to display</label>
+                    <label>Products Number to display</label>
                     <type>text</type>
                 </products_count>
                 <template>
                     <required />
-                    <visible />
                     <value>catalog/product/new.phtml</value>
                     <label>Template</label>
                     <type>text</type>
@@ -49,9 +48,9 @@
             </parameters>
         </new_products>
 
-        <catalog_product_link translate="name description">
+        <catalog_product_link translate="name description" module="catalog">
             <name>Product Link</name>
-            <description>Widget generates link to specified product</description>
+            <description>Widget that generates Link to specified Product</description>
             <type>catalog/product_widget_link</type>
             <parameters>
                 <id_path translate="label">
@@ -77,9 +76,9 @@
             </parameters>
         </catalog_product_link>
 
-        <catalog_category_link translate="name description">
+        <catalog_category_link translate="name description" module="catalog">
             <name>Category Link</name>
-            <description>Widget generates link to specified category</description>
+            <description>Widget that generates Link to specified Category</description>
             <type>catalog/category_widget_link</type>
             <parameters>
                 <id_path translate="label">

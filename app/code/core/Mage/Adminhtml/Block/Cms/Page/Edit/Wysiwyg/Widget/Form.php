@@ -42,12 +42,12 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
         $form = new Varien_Data_Form();
 
         $fieldset = $form->addFieldset('base_fieldset', array(
-            'legend'    => $this->__('Widget')
+            'legend'    => $this->helper('cms')->__('Widget')
         ));
 
         $select = $fieldset->addField('select_widget_code', 'select', array(
-            'label'                 => $this->__('Widget Type'),
-            'title'                 => $this->__('Widget Type'),
+            'label'                 => $this->helper('cms')->__('Widget Type'),
+            'title'                 => $this->helper('cms')->__('Widget Type'),
             'name'                  => 'widget_code',
             'required'              => true,
             'options'               => $this->_getWidgetSelectOptions(),
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
     {
         $options = array('' => $this->helper('cms')->__('Select widget to load its options'));
         foreach ($this->_getAvailableWidgets() as $code => $data) {
-            $options[$code] = $this->helper('cms')->__($data['name']);
+            $options[$code] = $data['name'];
         }
         return $options;
     }
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
         foreach ($this->_getAvailableWidgets() as $code => $data) {
             $html .= sprintf('<div id="%s-description" class="no-display">%s</div>',
                 $code,
-                $this->helper('cms')->__($data['description'])
+                $data['description']
             );
         }
         return $html;
@@ -101,13 +101,18 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
     protected function _getAvailableWidgets()
     {
         if (!$this->getData('available_widgets')) {
-            $config = Mage::getConfig()->loadModulesConfiguration('widget.xml');
+            $config = Mage::getSingleton('cms/page_wysiwyg_widget')->getXmlConfig();
             $widgets = $config->getNode('widgets');
             $result = array();
             foreach ($widgets->children() as $widget) {
+                if ($widget->getAttribute('module')) {
+                    $helper = Mage::helper($widget->getAttribute('module'));
+                } else {
+                    $helper = Mage::helper('cms');
+                }
                 $result[$widget->getName()] = array(
-                    'name'          => (string)$widget->name,
-                    'description'   => (string)$widget->description,
+                    'name'          => $helper->__((string)$widget->name),
+                    'description'   => $helper->__((string)$widget->description),
                     'type'          => (string)$widget->type,
                 );
             }
@@ -115,5 +120,4 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
         }
         return $this->getData('available_widgets');
     }
-
 }

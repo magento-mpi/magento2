@@ -27,7 +27,7 @@
 -->
 <config>
     <widgets>
-        <cms_page_link translate="name description">
+        <cms_page_link translate="name description" module="cms">
             <name>CMS Page Link</name>
             <description>Widget generates link to specified cms page</description>
             <type>cms/widget_page_link</type>
@@ -35,7 +35,7 @@
                 <href translate="label">
                     <visible />
                     <required />
-                    <label>Identifier</label>
+                    <label>Page</label>
                     <type>
                         <element_type>label</element_type>
                         <helper>adminhtml/cms_page_widget_chooser</helper>
