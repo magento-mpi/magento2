@@ -252,12 +252,22 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
                 $this->_afterSave();
             }
             $this->_getResource()->commit();
-        }
-        catch (Exception $e){
+        } catch (Exception $e) {
             $this->_getResource()->rollBack();
             throw $e;
         }
+        $this->_afterSaveCommit();
         return $this;
+    }
+
+    /**
+     * Processing data save after main transaction commit
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _afterSaveCommit()
+    {
+         return $this;
     }
 
     /**

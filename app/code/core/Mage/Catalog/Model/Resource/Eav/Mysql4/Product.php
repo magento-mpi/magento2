@@ -114,9 +114,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
             $object->setId($this->getIdBySku($object->getSku()));
         }
 
-        $categoryIds = $object->getCategoryIds();
-        if ($categoryIds) {
-            $categoryIds = Mage::getModel('catalog/category')->verifyIds($categoryIds);
+        /**
+         * Check if declared category ids in object data.
+         */
+        if ($object->hasCategoryIds()) {
+            $categoryIds = Mage::getResourceSingleton('catalog/category')->verifyIds(
+                $object->getCategoryIds()
+            );
             $object->setCategoryIds($categoryIds);
         }
 
@@ -196,8 +200,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
      */
     protected function _saveCategories(Varien_Object $object)
     {
+        /**
+         * If category ids data is not declared we haven't do manipulations
+         */
+        if (!$object->hasCategoryIds()) {
+            return $this;
+        }
         $categoryIds = $object->getCategoryIds();
-
         $oldCategoryIds = $this->getCategoryIds($object);
 
         $object->setIsChangedCategories(false);

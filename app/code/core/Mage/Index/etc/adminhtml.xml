@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <system>
+            <children>
+                <index translate="title" module="index">
+                    <title>Index Management</title>
+                    <action>adminhtml/process/list</action>
+                    <sort_order>92</sort_order>
+                </index>
+            </children>
+        </system>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <cache translate="title">
+                                <title>Index Management</title>
+                            </cache>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

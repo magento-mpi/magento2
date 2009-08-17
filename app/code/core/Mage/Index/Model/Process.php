@@ -1,0 +1,287 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Mage
+ * @package    Mage_Index
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+
+class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
+{
+    const XML_PATH_INDEXER_DATA    = 'global/index/indexer';
+    const STATUS_RUNNING   = 'running';
+    const STATUS_PENDING   = 'pending';
+
+    const EVENT_STATUS_NEW      = 'new';
+    const EVENT_STATUS_DONE     = 'done';
+    const EVENT_STATUS_ERROR    = 'error';
+    const EVENT_STATUS_WORKING  = 'working';
+
+    /**
+     * Indexer stategy object
+     *
+     * @var Mage_Index_Model_Indexer_Abstract
+     */
+    protected $_indexer = null;
+
+    protected $_isLocked = null;
+    protected $_lockFile = null;
+
+    /**
+     * Initialize resource
+     */
+    protected function _construct()
+    {
+        $this->_init('index/process');
+    }
+
+    /**
+     * Register data required by process in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    public function register(Mage_Index_Model_Event $event)
+    {
+        if ($this->matchEvent($event)) {
+            $this->getIndexer()->register($event);
+            $event->addProcessId($this->getId());
+        }
+        return $this;
+
+    }
+
+    /**
+     * Check if event can be matched by process
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return bool
+     */
+    public function matchEvent(Mage_Index_Model_Event $event)
+    {
+        return $this->getIndexer()->matchEvent($event);
+    }
+
+    /**
+     * Reindex all data what this process responsible is
+     *
+     * @return unknown_type
+     */
+    public function reindexAll()
+    {
+        $this->lock();
+        $this->getIndexer()->reindexAll();
+        $this->unlock();
+    }
+
+    /**
+     * Process event
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return int
+     */
+    public function processEvent(Mage_Index_Model_Event $event)
+    {
+        return $this->getIndexer()->processEvent($event);
+    }
+
+    /**
+     * Get Indexer strategy
+     *
+     * @return Mage_Index_Model_Indexer_Abstract
+     */
+    public function getIndexer()
+    {
+        if ($this->_indexer === null) {
+            $code = $this->_getData('indexer_code');
+            if (!$code) {
+                Mage::throwException(Mage::helper('index')->__('Indexer code is not defined.'));
+            }
+            $xmlPath = self::XML_PATH_INDEXER_DATA . '/' . $code;
+            $config = Mage::getConfig()->getNode($xmlPath);
+            if (!$config || empty($config->model)) {
+                Mage::throwException(Mage::helper('index')->__('Indexer model is not defined.'));
+            }
+            $model = Mage::getModel((string)$config->model);
+            if ($model instanceof Mage_Index_Model_Indexer_Abstract) {
+                $this->_indexer = $model;
+            } else {
+                Mage::throwException(Mage::helper('index')->__('Indexer model should extend Mage_Index_Model_Indexer_Abstract.'));
+            }
+        }
+        return $this->_indexer;
+    }
+
+    /**
+     * Index pending events addressed to the process
+     *
+     * @param   null|string $entity
+     * @param   null|string $type
+     * @return  Mage_Index_Model_Process
+     */
+    public function indexEvents($entity=null, $type=null)
+    {
+        /**
+         * Check if process indexer can match entity code and action type
+         */
+        if ($entity !== null && $type !== null) {
+            if (!$this->getIndexer()->matchEntityAndType($entity, $type)) {
+                return $this;
+            }
+        }
+
+        if ($this->isLocked()) {
+            return $this;
+        }
+        $this->lock();
+
+        /**
+         * Prepare events collection
+         */
+        $eventsCollection = Mage::getResourceModel('index/event_collection')
+            ->addProcessFilter($this, self::EVENT_STATUS_NEW);
+        if ($entity !== null) {
+            $eventsCollection->addEntityFilter($entity);
+        }
+        if ($type !== null) {
+            $eventsCollection->addTypeFilter($type);
+        }
+
+        /**
+         * Process all new events
+         */
+        while ($eventsCollection->getSize()) {
+            foreach ($eventsCollection as $event) {
+                try {
+                    $this->updateEventStatus($event, self::EVENT_STATUS_WORKING);
+                    $this->processEvent($event);
+                    $this->updateEventStatus($event, self::EVENT_STATUS_DONE);
+                } catch (Exception $e) {
+                    $this->updateEventStatus($event, self::EVENT_STATUS_ERROR);
+                }
+            }
+            $eventsCollection->reset();
+        }
+
+        $this->unlock();
+        return $this;
+    }
+
+    /**
+     * Update status process/event association
+     *
+     * @param   Mage_Index_Model_Event $event
+     * @param   string $status
+     * @return  Mage_Index_Model_Process
+     */
+    public function updateEventStatus(Mage_Index_Model_Event $event, $status)
+    {
+        $this->_getResource()->updateEventStatus($this->getId(), $event->getId(), $status);
+        return $this;
+    }
+
+    /**
+     * Get lock file resource
+     *
+     * @return resource
+     */
+    protected function _getLockFile()
+    {
+        if ($this->_lockFile === null) {
+            $varDir = Mage::getConfig()->getVarDir('locks');
+            $file = $varDir . DS . 'index_process_'.$this->getId().'.lock';
+            if (is_file($file)) {
+                $this->_lockFile = fopen($file, 'w');
+            } else {
+                $this->_lockFile = fopen($file, 'x');
+            }
+            fwrite($this->_lockFile, date('r'));
+        }
+        return $this->_lockFile;
+    }
+
+    /**
+     * Lock process without blocking.
+     * This method allow protect multiple process runing and fast lock validation.
+     *
+     * @return Mage_Index_Model_Process
+     */
+    public function lock()
+    {
+        $this->_isLocked = true;
+        flock($this->_getLockFile(), LOCK_EX | LOCK_NB);
+        return $this;
+    }
+
+    /**
+     * Lock and block process.
+     * If new instance of the process will try validate locking state
+     * script will wait until process will be unlocked
+     *
+     * @return Mage_Index_Model_Process
+     */
+    public function lockAndBlock()
+    {
+        $this->_isLocked = true;
+        flock($this->_getLockFile(), LOCK_EX);
+        return $this;
+    }
+
+    /**
+     * Unlock process
+     *
+     * @return Mage_Index_Model_Process
+     */
+    public function unlock()
+    {
+        $this->_isLocked = false;
+        flock($this->_getLockFile(), LOCK_UN);
+        return $this;
+    }
+
+    /**
+     * Check if process is locked
+     *
+     * @return bool
+     */
+    public function isLocked()
+    {
+        if ($this->_isLocked !== null) {
+            return $this->_isLocked;
+        } else {
+            $fp = $this->_getLockFile();
+            if (flock($fp, LOCK_EX | LOCK_NB)) {
+                flock($fp, LOCK_UN);
+                return false;
+            }
+            return true;
+        }
+    }
+
+    /**
+     * Close file resource if it was opened
+     */
+    public function __destruct()
+    {
+        if ($this->_lockFile) {
+            fclose($this->_lockFile);
+        }
+    }
+}

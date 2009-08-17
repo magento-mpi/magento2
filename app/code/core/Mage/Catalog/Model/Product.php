@@ -34,6 +34,7 @@
 class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 {
     const CACHE_TAG              = 'catalog_product';
+    const ENTITY                 = 'catalog_product';
     protected $_cacheTag         = 'catalog_product';
     protected $_eventPrefix      = 'catalog_product';
     protected $_eventObject      = 'product';
@@ -494,8 +495,21 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
          */
         $this->getOptionInstance()->setProduct($this)
             ->saveOptions();
+        return parent::_afterSave();
+    }
 
-        parent::_afterSave();
+    /**
+     * Init indexing process after product data commit
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _afterSaveCommit()
+    {
+        parent::_afterSaveCommit();
+        Mage::getSingleton('index/indexer')->processEntityAction(
+            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+        );
+        return $this;
     }
 
     /**

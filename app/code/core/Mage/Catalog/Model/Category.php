@@ -34,6 +34,7 @@
  */
 class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 {
+    const ENTITY    = 'catalog_category';
     /**
      * Category display modes
      */
