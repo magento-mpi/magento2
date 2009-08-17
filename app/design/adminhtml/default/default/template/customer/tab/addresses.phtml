@@ -430,7 +430,13 @@ addressesModel.prototype = {
 
     bindCountryRegionRelation : function(parentId){
         //alert('OK');
-        var countryElements = $$('.countries');
+        if(parentId){
+            var countryElements = $(parentId).getElementsByClassName('countries');
+        }
+        else{
+            var countryElements = $$('.countries');
+        }
+
         for(var i=0;i<=countryElements.length;i++){
             if(countryElements[i]){
                 if(!countryElements[i].bindRegions || !countryElements[i].parentBindId || countryElements[i].parentBindId!=parentId){
