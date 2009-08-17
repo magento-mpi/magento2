@@ -272,11 +272,11 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if ($this->_role->getIsAll()) {
             return ;
         }
-        if (in_array($observer->getEvent()->getAction(), array('remove', 'add'))){
+        if (in_array($observer->getEvent()->getAction(), array('remove', 'add'))) {
             if (!$this->_role->getIsWebsiteLevel()) {
                 $this->_throwSave();
             }
-            if(!$this->_role->hasWebsiteAccess($observer->getWebsiteIds())) {
+            if (!$this->_role->hasWebsiteAccess($observer->getWebsiteIds(), true)) {
                 $this->_throwSave();
             }
         }
