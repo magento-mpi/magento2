@@ -50,12 +50,8 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
      */
     protected function _prepareLayout()
     {
-        Varien_Data_Form::setElementRenderer(
-            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_element')
-        );
-        Varien_Data_Form::setFieldsetRenderer(
-            $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset')
-        );
+        parent::_prepareLayout();
+
         Varien_Data_Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock('enterprise_catalogevent/adminhtml_form_renderer_fieldset_element')
         );
@@ -78,7 +74,6 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             )
         );
 
-
         $form->setHtmlIdPrefix('event_edit_');
 
         $fieldset = $form->addFieldset('general_fieldset',
@@ -93,7 +88,6 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
         $currentCategory = Mage::getModel('catalog/category')
             ->load($this->getEvent()->getCategoryId());
 
-
         $fieldset->addField('category_name', 'note',
             array(
                 'id'    => 'category_span',
@@ -105,37 +99,30 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             Mage_Core_Model_Locale::FORMAT_TYPE_SHORT
         );
 
-        $fieldset->addField('date_start', 'date',
-            array(
-
+        $fieldset->addField('date_start', 'date', array(
                 'label'        => Mage::helper('enterprise_catalogevent')->__('Start Date'),
                 'name'         => 'date_start',
                 'required'     => true, 'time' => true,
                 'image'        => $this->getSkinUrl('images/grid-cal.gif'),
-                'format'       => $dateFormatIso,
-                'input_format' => $dateFormatIso
+                'format'       => $dateFormatIso
             ));
 
-        $fieldset->addField('date_end', 'date',
-            array(
+        $fieldset->addField('date_end', 'date', array(
                 'label'        => Mage::helper('enterprise_catalogevent')->__('End Date'),
                 'name'         => 'date_end', 'required' => true,
                 'time'         => true,
                 'image'        => $this->getSkinUrl('images/grid-cal.gif'),
-                'format'       => $dateFormatIso,
-                'input_format' => $dateFormatIso
+                'format'       => $dateFormatIso
             ));
 
-        $fieldset->addField('image', 'image',
-             array(
+        $fieldset->addField('image', 'image', array(
                 'label' => Mage::helper('enterprise_catalogevent')->__('Image'),
                 'scope' => 'store',
                 'name'  => 'image'
              )
         );
 
-        $fieldset->addField('sort_order', 'text',
-             array(
+        $fieldset->addField('sort_order', 'text', array(
                 'label' => Mage::helper('enterprise_catalogevent')->__('Sort Order'),
                 'name'  => 'sort_order',
                 'class' => 'validate-num qty'
@@ -148,8 +135,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED => Mage::helper('enterprise_catalogevent')->__('Closed')
         );
 
-        $fieldset->addField('display_state_array', 'checkboxes',
-            array(
+        $fieldset->addField('display_state_array', 'checkboxes', array(
                 'label'  => Mage::helper('enterprise_catalogevent')->__('Display Countdown Ticker On'),
                 'name'   => 'display_state[]',
                 'values' => array(
@@ -159,42 +145,18 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
             ));
 
         if ($this->getEvent()->getId()) {
-            $fieldset->addField('status', 'note',
-                array(
+            $fieldset->addField('status', 'note', array(
                     'label' => Mage::helper('enterprise_catalogevent')->__('Status'),
                     'text'  => ($this->getEvent()->getStatus() ? $statuses[$this->getEvent()->getStatus()] : $statuses[Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING])
             ));
         }
-        $sessionData = Mage::getSingleton('adminhtml/session')->getEventData(true);
-        if ($sessionData && isset($sessionData['catalogevent'])) {
-            $form->setValues($sessionData['catalogevent']);
-        }
-        else {
-            $form->setValues($this->getEvent()->getData());
-        }
 
-
-
-        if ($this->getEvent()->getDateStart() && !$sessionData) {
-            $date = Mage::app()->getLocale()->date(
-                $this->getEvent()->getDateStart(),
-                Varien_Date::DATETIME_INTERNAL_FORMAT
-            );
-            $form->getElement('date_start')->setValue($date);
-        }
-
-        if ($this->getEvent()->getDateEnd() && !$sessionData) {
-            $date = Mage::app()->getLocale()->date(
-                $this->getEvent()->getDateEnd(),
-                Varien_Date::DATETIME_INTERNAL_FORMAT
-            );
-            $form->getElement('date_end')->setValue($date);
-        }
+        $form->setValues($this->getEvent()->getData());
 
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
                 '<a href="' . Mage::helper('adminhtml')->getUrl('adminhtml/catalog_category/edit',
-                                                                array('clear' => 1, 'id' => $currentCategory->getId()))
+                                                            array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );
         } else {
@@ -203,12 +165,13 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
                 . '">' . $currentCategory->getName() . '</a>'
             );
         }
-        if (!$this->getEvent()->getId() 
-                 && $sessionData && isset($sessionData['catalogevent'])
-                 && isset($sessionData['catalogevent']['display_state'])) {
-            $form->getElement('display_state_array')->setChecked($sessionData['catalogevent']['display_state']);
-        }
 
+        $form->getElement('date_start')->setValue($this->getEvent()->getStoreDateStart());
+        $form->getElement('date_end')->setValue($this->getEvent()->getStoreDateEnd());
+
+        if ($this->getEvent()->getDisplayState()) {
+            $form->getElement('display_state_array')->setChecked($this->getEvent()->getDisplayState());
+        }
 
         $form->setUseContainer(true);
         $form->setDataObject($this->getEvent());
@@ -229,7 +192,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Event_Edit_Form extends Mage_Admin
     }
 
     /**
-     * Retrive catalog event model
+     * Retrieve catalog event model
      *
      * @return Enterprise_CatalogEvent_Model_Event
      */

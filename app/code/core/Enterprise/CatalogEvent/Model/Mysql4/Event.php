@@ -34,7 +34,7 @@
 class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
-     * Intialize resource
+     * Initialize resource
      *
      * @return void
      */
@@ -60,7 +60,7 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Retreive category ids with events
+     * Retrieve category ids with events
      *
      * @param int|string|Mage_Core_Model_Store $storeId
      * @return array

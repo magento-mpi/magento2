@@ -203,7 +203,7 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
     }
 
     /**
-     * Overriden _afterLoad() implementation
+     * Override _afterLoad() implementation
      *
      * @return  Varien_Data_Collection_Db
      */
@@ -230,7 +230,7 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
     }
 
     /**
-     * Retrieve DB Expresiion for status column
+     * Retrieve DB Expression for status column
      *
      * @return Zend_Db_Expr
      */
@@ -238,13 +238,14 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event_Collection extends Mage_Core_Mo
     {
         $timeNow = $this->getResource()->formatDate(time());
         $connection = $this->getConnection();
+        $timeNowQuoted = $connection->quote($timeNow);
         return new Zend_Db_Expr(vsprintf('(CASE WHEN (`date_start` <= %s AND `date_end` >= %s) THEN %s'
         . ' WHEN (`date_start` > %s AND `date_end` > %s) THEN %s ELSE %s END)', array(
-            $connection->quote($timeNow),
-            $connection->quote($timeNow),
+            $timeNowQuoted,
+            $timeNowQuoted,
             $connection->quote(Enterprise_CatalogEvent_Model_Event::STATUS_OPEN),
-            $connection->quote($timeNow),
-            $connection->quote($timeNow),
+            $timeNowQuoted,
+            $timeNowQuoted,
             $connection->quote(Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING),
             $connection->quote(Enterprise_CatalogEvent_Model_Event::STATUS_CLOSED)
         )));

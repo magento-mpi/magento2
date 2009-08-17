@@ -40,11 +40,11 @@ class Enterprise_CatalogEvent_Model_Observer
      * @var array
      */
     protected $_eventsToCategories = null;
-    
-    
+
+
     /**
      * @deprecated - logic moved to Event->load() and Collection _afterLoad() methods
-     * 
+     *
      * Applies event status by cron
      *
      * @return void
@@ -193,6 +193,9 @@ class Enterprise_CatalogEvent_Model_Observer
         /* @var $product Mage_Catalog_Model_Product */
         $quoteItem = $observer->getEvent()->getQuoteItem();
         /* @var $quoteItem Mage_Sales_Model_Quote_Item */
+
+        $this->_applyEventToProduct($product);
+
         if ($product->getEvent()) {
             $quoteItem->setEventId($product->getEvent()->getId());
             if ($quoteItem->getParentItem()) {
@@ -230,7 +233,8 @@ class Enterprise_CatalogEvent_Model_Observer
         $item = $observer->getEvent()->getItem();
         /* @var $item Mage_Sales_Model_Quote_Item */
         $this->_initializeEventsForQuoteItems($item->getQuote());
-        if ($item->getEvent()
+
+        if ($item->getEventId()
             && $item->getEvent()->getStatus() !== Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
             $item->getQuote()->removeItem($item->getId());
             if ($item->getParentItem()) {

@@ -40,12 +40,16 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     const STATUS_OPEN           = 'open';
     const STATUS_CLOSED         = 'closed';
 
+    /**
+     * Path to time zone in configuration
+     *
+     * @deprecated after 1.3.2.3
+     */
     const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
 
     const IMAGE_PATH = 'enterprise/catalogevent';
 
     protected $_store = null;
-
 
     /**
      * Is model deleteable
@@ -62,7 +66,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     protected $_isReadonly = false;
 
     /**
-     * Intialize model
+     * Initialize model
      *
      * @return void
      */
@@ -114,7 +118,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrive store
+     * Retrieve store
      *
      * @return Mage_Core_Model_Store
      */
@@ -147,7 +151,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retreive image url
+     * Retrieve image url
      *
      * @return string|boolean
      */
@@ -245,7 +249,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retreive category ids with events
+     * Retrieve category ids with events
      *
      * @param int|string|Mage_Core_Model_Store $storeId
      * @return array
@@ -272,16 +276,12 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
             }
             if ($date != $this->getOrigData($dateType)) {
                 $dateChanged = true;
-                try {
-                    $this->setData($dateType, $this->_convertDateTime($date, Mage_Core_Model_Locale::FORMAT_TYPE_SHORT));
-                } catch (Exception $e) {
-                    Mage::throwException(Mage::helper('enterprise_catalogevent')->__('%s has invalid date format.', $fieldTitles[$dateType]));
-                }
             }
         }
         if ($dateChanged) {
             $this->applyStatusByDates();
         }
+
         return $this;
     }
 
@@ -292,9 +292,8 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
      */
     public function validate()
     {
-        $format = Mage_Core_Model_Locale::FORMAT_TYPE_SHORT;
-        $dateStartUnixTime = strtotime($this->_convertDateTime($this->getData('date_start'), $format));
-        $dateEndUnixTime   = strtotime($this->_convertDateTime($this->getData('date_end'), $format));
+        $dateStartUnixTime = strtotime($this->getData('date_start'));
+        $dateEndUnixTime   = strtotime($this->getData('date_end'));
         $dateIsOk = $dateEndUnixTime > $dateStartUnixTime;
         if ($dateIsOk) {
             return true;
@@ -307,6 +306,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     /**
      * Converts given date to internal date format in UTC
      *
+     * @deprecated after 1.3.2.3
      * @param  string $dateTime
      * @param  string $format
      * @return string
@@ -323,7 +323,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
 
 
     /**
-     * Checks model is deleteable
+     * Checks if object can be deleted
      *
      * @return boolean
      */
@@ -333,7 +333,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Set is deleteable flag
+     * Sets flag for object if it can be deleted or not
      *
      * @param boolean $value
      * @return Enterprise_CatalogEvent_Model_Event
@@ -345,7 +345,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Checks model is readonly
+     * Checks model is read only
      *
      * @return boolean
      */
@@ -355,7 +355,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Set is readonly flag
+     * Set is read only flag
      *
      * @param boolean $value
      * @return Enterprise_CatalogEvent_Model_Event
@@ -382,7 +382,7 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
 
     /**
      * Get status column value
-     * Set status column if its wasnt seted
+     * Set status column if it wasn't set
      *
      * @return string
      */
@@ -392,5 +392,65 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
             $this->applyStatusByDates();
         }
         return $this->_getData('status');
+    }
+
+    /**
+     * Converts passed start time value in sotre's
+     * time zone to UTC time zone and sets it to object.
+     *
+     * @param string $value date time in store's time zone
+     * @param mixed $store
+     * @return Enterprise_CatalogEvent_Model_Event
+     */
+    public function setStoreDateStart($value, $store = null)
+    {
+        $date = Mage::app()->getLocale()->utcDate($store, $value, true, Varien_Date::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_start', $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        return $this;
+    }
+
+    /**
+     * Converts passed end time value in sotre's
+     * time zone to UTC time zone and sets it to object.
+     *
+     * @param string $value date time in store's time zone
+     * @param mixed $store
+     * @return Enterprise_CatalogEvent_Model_Event
+     */
+    public function setStoreDateEnd($value, $store = null)
+    {
+        $date = Mage::app()->getLocale()->utcDate($store, $value, true, Varien_Date::DATETIME_INTERNAL_FORMAT);
+        $this->setData('date_end', $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        return $this;
+    }
+
+    /**
+     * Gets start time from object, converts it from UTC time zone
+     * to store's time zone. Result is formatted by internal format
+     * and in time zone of current store or passed through parameter.
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getStoreDateStart($store = null)
+    {
+        $value = $this->getResource()->mktime($this->getData('date_start'));
+        $date = Mage::app()->getLocale()->storeDate($store, $value, true);
+        return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+    }
+
+    /**
+     * Gets end time from object, converts it from UTC time zone
+     * to store's time zone. Result is formatted by internal format
+     * and in time zone of current store or passed through parameter.
+     *
+     * @param mixed $store
+     * @return string
+     */
+    public function getStoreDateEnd($store = null)
+    {
+        $value = $this->getResource()->mktime($this->getData('date_end'));
+        $date = Mage::app()->getLocale()->storeDate($store, $value, true);
+        return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
     }
 }

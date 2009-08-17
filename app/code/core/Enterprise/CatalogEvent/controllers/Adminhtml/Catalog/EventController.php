@@ -81,6 +81,11 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
         }
 
+        $sessionData = Mage::getSingleton('adminhtml/session')->getEventData(true);
+        if (!empty($sessionData)) {
+            $event->addData($sessionData);
+        }
+
         Mage::register('enterprise_catalogevent_event', $event);
 
         $this->_initAction();
@@ -113,11 +118,12 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
         }
 
-        $data = new Varien_Object($this->getRequest()->getPost('catalogevent'));
+        $postData = $this->_filterPostData($this->getRequest()->getPost());
+        $data = new Varien_Object($postData['catalogevent']);
 
         $event->setDisplayState($data->getDisplayState())
-            ->setDateStart($data->getDateStart())
-            ->setDateEnd($data->getDateEnd())
+            ->setStoreDateStart($data->getDateStart())
+            ->setStoreDateEnd($data->getDateEnd())
             ->setSortOrder($data->getSortOrder());
 
         $isUploaded = true;
@@ -136,7 +142,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             foreach ($validateResult as $errorMessage) {
                 $this->_getSession()->addError($errorMessage);
             }
-            $this->_getSession()->setEventData($this->getRequest()->getPost());
+            $this->_getSession()->setEventData($event->getData());
             $this->_redirect('*/*/edit', array('_current'=>true));
             return;
         }
@@ -156,6 +162,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
                 }
             }
             $event->save();
+
             $this->_getSession()->addSuccess(
                 Mage::helper('enterprise_catalogevent')->__('Event was successfully saved.')
             );
@@ -166,7 +173,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
             }
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_getSession()->setEventData($this->getRequest()->getPost());
+            $this->_getSession()->setEventData($event->getData());
             $this->_redirect('*/*/edit', array('_current'=>true));
         }
 
@@ -222,6 +229,40 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     {
         return Mage::helper('enterprise_catalogevent')->isEnabled() &&
                Mage::getSingleton('admin/session')->isAllowed('catalog/events');
+    }
+
+    /**
+     * Filtering posted data. Converting localized data if needed
+     *
+     * @param array
+     * @return array
+     */
+    protected function _filterPostData($data)
+    {
+        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
+                'date_format' => Mage::app()->getLocale()->getDateTimeFormat(
+                                        Mage_Core_Model_Locale::FORMAT_TYPE_SHORT)
+            ));
+
+        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
+                'date_format' => Varien_Date::DATETIME_INTERNAL_FORMAT
+            ));
+
+        if(isset($data['catalogevent'])) {
+            $_data = $data['catalogevent'];
+            if (isset($_data['date_start']) && $_data['date_start']) {
+                $_data['date_start'] = $filterInput->filter($_data['date_start']);
+                $_data['date_start'] = $filterInternal->filter($_data['date_start']);
+            }
+
+            if (isset($_data['date_end']) && $_data['date_end']) {
+                $_data['date_end'] = $filterInput->filter($_data['date_end']);
+                $_data['date_end'] = $filterInternal->filter($_data['date_end']);
+            }
+            $data['catalogevent'] = $_data;
+        }
+
+        return $data;
     }
 
 }
