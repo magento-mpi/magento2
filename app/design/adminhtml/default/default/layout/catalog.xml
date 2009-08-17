@@ -62,6 +62,50 @@
         </reference>
     </adminhtml_catalog_product_edit>
 
+    <adminhtml_catalog_product_related>
+        <block type="core/text_list" name="root">
+            <block type="adminhtml/catalog_product_edit_tab_related" name="catalog.product.edit.tab.related"/>
+            <block type="adminhtml/catalog_product_edit_tab_ajax_serializer" name="catalog.product.edit.tab.ajax.serializer">
+                <reference name="catalog.product.edit.tab.ajax.serializer">
+                    <action method="initSerializerBlock">
+                        <block_name>catalog.product.edit.tab.related</block_name>
+                        <get_products_function>getRelatedProducts</get_products_function>
+                        <input_name>links[related]</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_catalog_product_related>
+
+    <adminhtml_catalog_product_upsell>
+        <block type="core/text_list" name="root">
+            <block type="adminhtml/catalog_product_edit_tab_upsell" name="catalog.product.edit.tab.upsell"/>
+            <block type="adminhtml/catalog_product_edit_tab_ajax_serializer" name="catalog.product.edit.tab.ajax.serializer">
+                <reference name="catalog.product.edit.tab.ajax.serializer">
+                    <action method="initSerializerBlock">
+                        <block_name>catalog.product.edit.tab.upsell</block_name>
+                        <get_products_function>getupsellProducts</get_products_function>
+                        <input_name>links[upsell]</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_catalog_product_upsell>
+
+    <adminhtml_catalog_product_crosssell>
+        <block type="core/text_list" name="root">
+            <block type="adminhtml/catalog_product_edit_tab_crosssell" name="catalog.product.edit.tab.crosssell"/>
+            <block type="adminhtml/catalog_product_edit_tab_ajax_serializer" name="catalog.product.edit.tab.ajax.serializer">
+                <reference name="catalog.product.edit.tab.ajax.serializer">
+                    <action method="initSerializerBlock">
+                        <block_name>catalog.product.edit.tab.crosssell</block_name>
+                        <get_products_function>getcrosssellProducts</get_products_function>
+                        <input_name>links[crosssell]</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_catalog_product_crosssell>
 <!--
 Layout handle for simple products
 -->

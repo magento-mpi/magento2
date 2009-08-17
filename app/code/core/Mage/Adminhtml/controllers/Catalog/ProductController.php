@@ -281,13 +281,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function relatedAction()
     {
         $this->_initProduct();
-
-        $gridBlock = $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related')
-            ->setGridUrl($this->getUrl('*/*/gridOnly', array('_current' => true, 'gridOnlyBlock' => 'related')))
-        ;
-        $serializerBlock = $this->_createSerializerBlock('links[related]', $gridBlock, Mage::registry('product')->getRelatedProducts());
-
-        $this->_outputBlocks($gridBlock, $serializerBlock);
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -296,13 +291,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function upsellAction()
     {
         $this->_initProduct();
-
-        $gridBlock = $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_upsell')
-            ->setGridUrl($this->getUrl('*/*/gridOnly', array('_current' => true, 'gridOnlyBlock' => 'upsell')))
-        ;
-        $serializerBlock = $this->_createSerializerBlock('links[upsell]', $gridBlock, Mage::registry('product')->getUpsellProducts());
-
-        $this->_outputBlocks($gridBlock, $serializerBlock);
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -311,13 +301,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function crosssellAction()
     {
         $this->_initProduct();
-
-        $gridBlock = $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell')
-            ->setGridUrl($this->getUrl('*/*/gridOnly', array('_current' => true, 'gridOnlyBlock' => 'crosssell')))
-        ;
-        $serializerBlock = $this->_createSerializerBlock('links[crosssell]', $gridBlock, Mage::registry('product')->getCrossSellProducts());
-
-        $this->_outputBlocks($gridBlock, $serializerBlock);
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
