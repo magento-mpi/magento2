@@ -81,7 +81,7 @@
                 </div>
             </div>
         <?php if ($_counter%2==0 || $_counter==count($this->getSearchableAttributes())): ?>
-        </li>        
+        </li>
         <?php endif; ?>
         <?php $_counter++; endforeach; ?>
     </ul>
@@ -90,7 +90,6 @@
 <div class="buttons-set form-buttons btn-only">
     <button type="submit" class="button" title="<?php echo $this->__('Search') ?>"><span><span><?php echo $this->__('Search') ?></span></span></button>
 </div>
-<p class="required">* <?php echo $this->__('Required Fields') ?></p>
 </form>
 <script type="text/javascript">
 //<![CDATA[
