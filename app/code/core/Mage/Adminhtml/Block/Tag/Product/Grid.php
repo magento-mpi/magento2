@@ -37,9 +37,20 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
     public function __construct()
     {
         parent::__construct();
-        $this->setId('tag_grid' . Mage::registry('tagId'));
+        $this->setId('tag_product_grid' . Mage::registry('tagId'));
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
+        $this->setUseAjax(true);
+    }
+
+    /*
+     * Retrieves Grid Url
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/product', array('_current' => true));
     }
 
     protected function _prepareCollection()
@@ -79,6 +90,15 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
             'align'         => 'right',
             'index'         => 'popularity',
             'type'          => 'number'
+        ));
+
+        $this->addColumn('sku', array(
+            'header'    => Mage::helper('tag')->__('SKU'),
+            'filter'    => false,
+            'sortable'  => false,
+            'width'     => 50,
+            'align'     => 'right',
+            'index'     => 'sku',
         ));
 
         return parent::_prepareColumns();

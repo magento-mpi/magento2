@@ -34,22 +34,12 @@
                     <children>
                         <pending translate="title" module="tag">
                             <title>Pending Tags</title>
-                            <action>adminhtml/tag/pending</action>
+                            <action>adminhtml/tag/index/pending/true</action>
                         </pending>
                         <all translate="title" module="tag">
                             <title>All Tags</title>
                             <action>adminhtml/tag/index</action>
                         </all>
-                        <!--
-                        <customer>
-                            <title>Customers' Tags</title>
-                            <action>adminhtml/tag/customer</action>
-                        </customer>
-                        <product>
-                            <title>Products' Tags</title>
-                            <action>adminhtml/tag/product</action>
-                        </product>
-                        -->
                     </children>
                 </tag>
              </children>

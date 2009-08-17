@@ -46,11 +46,29 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
     public function indexAction()
     {
+        /**
+         * setting status parameter for grid filter for non-ajax request
+         *
+         */
+        if ($this->getRequest()->getParam('pending') && !$this->getRequest()->getParam('isAjax')) {
+            $this->getRequest()->setParam('filter', base64_encode('status=' . Mage_Tag_Model_Tag::STATUS_PENDING));
+        }
+        elseif (!$this->getRequest()->getParam('isAjax')) {
+            $this->getRequest()->setParam('filter', '');
+        }
+
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('All Tags'), Mage::helper('adminhtml')->__('All Tags'))
             ->_setActiveMenu('catalog/tag/all')
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_tag'))
             ->renderLayout();
+    }
+
+    public function ajaxGridAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/tag_tag_grid')->toHtml()
+        );
     }
 
     public function newAction()
@@ -61,6 +79,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function editAction()
     {
         $id = $this->getRequest()->getParam('tag_id');
+        Mage::register('tagId', $id);
         $model = Mage::getModel('tag/tag');
 
         if ($id) {
@@ -75,9 +94,12 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
         Mage::register('tag_tag', $model);
 
+        $content = $this->getLayout()->createBlock('adminhtml/tag_tag_edit')
+            ->setData('action', $this->getUrl('*/tag_edit/save'));
+
         $this->_initAction()
             ->_addBreadcrumb($id ? Mage::helper('adminhtml')->__('Edit Tag') : Mage::helper('adminhtml')->__('New Tag'), $id ? Mage::helper('adminhtml')->__('Edit Tag') : Mage::helper('adminhtml')->__('New Tag'))
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_tag_edit')->setData('action', $this->getUrl('*/tag_edit/save')))
+            ->_addContent($content)
             ->renderLayout();
     }
 
@@ -192,12 +214,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function productAction()
     {
         Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
-
-        $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Products'), Mage::helper('adminhtml')->__('Products'))
-            ->_setActiveMenu('catalog/tag/product')
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_product'))
-            ->renderLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/tag_product_grid')->toHtml()
+        );
     }
 
     /**
@@ -207,12 +226,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     public function customerAction()
     {
         Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
-
-        $this->_initAction()
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Customers'), Mage::helper('adminhtml')->__('Customers'))
-            ->_setActiveMenu('catalog/tag/customer')
-            ->_addContent($this->getLayout()->createBlock('adminhtml/tag_customer'))
-            ->renderLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/tag_customer_grid')->toHtml()
+        );
     }
 
     public function massDeleteAction()

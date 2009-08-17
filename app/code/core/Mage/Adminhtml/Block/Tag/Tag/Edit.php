@@ -63,6 +63,29 @@ class Mage_Adminhtml_Block_Tag_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form
         $this->_updateButton('delete', 'label', Mage::helper('tag')->__('Delete Tag'));
     }
 
+    /**
+     * Add to layout accordion block
+     *
+     * @return Mage_Adminhtml_Block_Tag_Edit
+     */
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
+        $this->setChild('accordion', $this->getLayout()->createBlock('adminhtml/tag_edit_accordion'));
+        return $this;
+    }
+
+    /**
+     * Adds to html of form html of accordion block
+     *
+     * @return string
+     */
+    public function getFormHtml()
+    {
+        $html = parent::getFormHtml();
+        return $html . $this->getChildHtml('accordion');
+    }
+
     public function getHeaderText()
     {
         if (Mage::registry('tag_tag')->getId()) {

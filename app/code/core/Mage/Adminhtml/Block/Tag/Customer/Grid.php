@@ -37,9 +37,19 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
     public function __construct()
     {
         parent::__construct();
-        $this->setId('tag_grid' . Mage::registry('tagId'));
+        $this->setId('tag_customer_grid' . Mage::registry('tagId'));
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
+        $this->setUseAjax(true);
+    }
+    /*
+     * Retrieves Grid Url
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/customer', array('_current' => true));
     }
 
     protected function _prepareCollection()
@@ -105,14 +115,7 @@ class Mage_Adminhtml_Block_Tag_Customer_Grid extends Mage_Adminhtml_Block_Widget
             'index'     => 'product_sku',
         ));
 
-        $this->addColumn('product_sku', array(
-            'header'    => Mage::helper('tag')->__('Product SKU'),
-            'filter'    => false,
-            'sortable'  => false,
-            'width'     => '50px',
-            'align'     => 'right',
-            'index'     => 'product_sku',
-        ));
+
 
         return parent::_prepareColumns();
     }
