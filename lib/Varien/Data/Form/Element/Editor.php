@@ -75,7 +75,9 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                 }
 
                 function onFormValidation'.$this->getHtmlId().'(formId) {
-                    $("'.$this->getHtmlId().'").value = tinyMCE.get("'.$this->getHtmlId().'").getContent();
+                    if (tinyMCE.get("'.$this->getHtmlId().'")) {
+                        $("'.$this->getHtmlId().'").value = tinyMCE.get("'.$this->getHtmlId().'").getContent();
+                    }
                 }
 
                 function setupEditor() {
@@ -123,14 +125,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
 
                             ed.onChange.add(function(ed, l) {
                                 varienGlobalEvents.fireEvent("tinymceChange", l);
-                            });
-
-                            ed.onPreProcess.add(function(ed, o) {
-                                varienGlobalEvents.fireEvent("tinymcePreProcess", o);
-                            });
-
-                            ed.onPostProcess.add(function(ed, o) {
-                                varienGlobalEvents.fireEvent("tinymcePostProcess", o);
                             });
 
                             ed.onExecCommand.add(function(ed, cmd, ui, val) {
