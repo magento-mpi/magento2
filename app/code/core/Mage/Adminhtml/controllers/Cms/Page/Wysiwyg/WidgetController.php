@@ -75,9 +75,10 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Co
      */
     public function buildWidgetAction()
     {
+        $code = $this->getRequest()->getPost('widget_code');
         $type = $this->getRequest()->getPost('widget_type');
         $params = $this->getRequest()->getPost('parameters', array());
-        $code = Mage::getSingleton('cms/page_wysiwyg_widget')->getWidgetDeclaration($type, $params);
+        $code = Mage::getSingleton('cms/page_wysiwyg_widget')->getWidgetDeclaration($code, $type, $params);
         $this->getResponse()->setBody($code);
     }
 }

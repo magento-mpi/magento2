@@ -70,8 +70,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
     protected function _getWidgetSelectOptions()
     {
         $options = array('' => $this->helper('cms')->__('Select widget to load its options'));
-        foreach ($this->_getAvailableWidgets() as $code => $data) {
-            $options[$code] = $data['name'];
+        foreach ($this->_getAvailableWidgets() as $data) {
+            $options[$data['code']] = $data['name'];
         }
         return $options;
     }
@@ -84,9 +84,9 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
     protected function _getWidgetSelectAfterHtml()
     {
         $html =  '';
-        foreach ($this->_getAvailableWidgets() as $code => $data) {
+        foreach ($this->_getAvailableWidgets() as $data) {
             $html .= sprintf('<div id="%s-description" class="no-display">%s</div>',
-                $code,
+                $data['code'],
                 $data['description']
             );
         }
@@ -112,12 +112,26 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
                 }
                 $result[$widget->getName()] = array(
                     'name'          => $helper->__((string)$widget->name),
-                    'description'   => $helper->__((string)$widget->description),
+                    'code'          => $widget->getName(),
                     'type'          => (string)$widget->type,
+                    'description'   => $helper->__((string)$widget->description),
                 );
             }
+            usort($result, array($this, "_sortWidgets"));
             $this->setData('available_widgets', $result);
         }
         return $this->getData('available_widgets');
+    }
+
+    /**
+     * User-defined widgets sorting by Name
+     *
+     * @param array $a
+     * @param array $b
+     * @return boolean
+     */
+    protected function _sortWidgets($a, $b)
+    {
+        return strcmp($a["name"], $b["name"]);
     }
 }

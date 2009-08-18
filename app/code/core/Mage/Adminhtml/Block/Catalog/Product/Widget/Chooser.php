@@ -56,12 +56,25 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
         $uniqId = $element->getId() . md5(microtime());
         $sourceUrl = $this->getUrl('*/catalog_product_widget/chooser', array('uniq_id' => $uniqId));
 
-        $chooserHtml = $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_widget_chooser')
+        $chooser = $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_widget_chooser')
             ->setElement($element)
-            ->setSourceUrl($sourceUrl)
-            ->toHtml();
+            ->setSourceUrl($sourceUrl);
 
-        $element->setData('after_element_html', $chooserHtml);
+        if ($element->getValue()) {
+            $value = explode('/', $element->getValue());
+            $productId = isset($value[1]) ? $value[1] : false;
+            $categoryId = isset($value[2]) ? $value[2] : false;
+            $label = '';
+            if ($categoryId) {
+                $label = Mage::getSingleton('catalog/category')->load($categoryId)->getName() . ' / ' . $label;
+            }
+            if ($productId) {
+                $label .= Mage::getSingleton('catalog/product')->load($productId)->getName();
+            }
+            $chooser->setLabel($label);
+        }
+
+        $element->setData('after_element_html', $chooser->toHtml());
         return $element;
     }
 
@@ -132,6 +145,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
             ->addAttributeToFilter('type_id', array('in'=>array(
                 Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
                 Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
+                Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
                 Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
             )));
 

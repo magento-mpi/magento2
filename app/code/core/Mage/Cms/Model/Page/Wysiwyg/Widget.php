@@ -63,14 +63,31 @@ class Mage_Cms_Model_Page_Wysiwyg_Widget extends Varien_Object
      * @param array $params Pre-configured Widget Params
      * @return string Widget directive ready to parse
      */
-    public function getWidgetDeclaration($type, $params = array())
+    public function getWidgetDeclaration($code, $type, $params = array())
     {
+        $config = Mage::getSingleton('cms/page_wysiwyg_widget')->getXmlConfig();
+        $parameters = $config->getNode('widgets/' . $code . '/parameters');
+
         $directive = '{{widget type="' . $type . '"';
         foreach ($params as $name => $value) {
-            $directive .= sprintf(' %s="%s"', $name, $value);
+            // Retrieve default option value if pre-configured
+            if (trim($value) == '') {
+                $value = (string)$parameters->{$name}->value;
+            }
+            if ($value) {
+                $directive .= sprintf(' %s="%s"', $name, $value);
+            }
         }
         $directive .= '}}';
 
-        return $directive;
+        $image = Mage::getBaseUrl('js') . 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/img/icon.gif';
+        $html = sprintf('<img src="%s" id="%s-%s" class="widget-directive-image">',
+            $image,
+            $code,
+            Mage::helper('core')->urlEncode($directive
+        ));
+        return $html;
+
+        //return $directive;
     }
 }

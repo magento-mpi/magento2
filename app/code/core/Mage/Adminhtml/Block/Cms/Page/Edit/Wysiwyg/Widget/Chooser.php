@@ -84,6 +84,9 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Chooser extends Mage_Adm
             $hidden->setId($element->getId());
             $hidden->setForm($element->getForm());
             $hiddenHtml = $hidden->getElementHtml();
+
+            // Unset element value in favour of hidden field
+            $element->setValue("");
         }
 
         $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
@@ -95,7 +98,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Chooser extends Mage_Adm
             <a href="javascript:void(0)" id="'.$chooserId.'" class="widget-option-chooser">
                 <img src="'.$image.'" title="'.$this->helper('cms')->__('Open Chooser').'" />
             </a>
-            <label class="widget-option-label"></label>
+            <label class="widget-option-label">'.($this->getLabel() ? $this->getLabel() : '').'</label>
             <script type="text/javascript">
                 '.$chooserJsObject.' = new WysiwygWidget.chooser("'.$chooserId.'", "'.$this->getSourceUrl().'");
                 Event.observe("'.$chooserId.'", "click", '.$chooserJsObject.'.choose.bind('.$chooserJsObject.'));

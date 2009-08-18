@@ -51,7 +51,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Options extends Mage_Adm
         $this->setForm($form);
 
         $config = Mage::getSingleton('cms/page_wysiwyg_widget')->getXmlConfig();
-        $widgetCode = $this->getRequest()->getPost('widget_code');
+        $widgetCode = $this->_getRequestOptionValues('widget_code');
+
         $widget = $config->getNode('widgets/' . $widgetCode);
 
         if ( !($widget instanceof Varien_Simplexml_Element)) {
@@ -93,6 +94,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Options extends Mage_Adm
     {
         $form = $this->getForm();
         $fieldset = $form->getElement('options_fieldset');
+        $values = $this->_getRequestOptionValues('values');
 
         // renderer, filter and type for option
         $_renderer = false;
@@ -103,10 +105,21 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Options extends Mage_Adm
             'name'      => $form->addSuffixToName($option->getName(), 'parameters'),
             'label'     => $helper->__((string)$option->label),
             'required'  => (bool)$option->required,
-            'value'     => (string)$option->value,
             'class'     => 'widget-option',
             'note'      => $helper->__((string)$option->note),
         );
+
+        $defaultValue = (string)$option->value;
+
+        // Save Default option value in field note
+        if ($defaultValue) {
+            $data['required'] = false;
+            $data['note'] .= $this->helper('cms')->__("Leave blank for default value '%s'", $defaultValue);
+        }
+
+        if (isset($values[$option->getName()]) && $values[$option->getName()] != $defaultValue) {
+            $data['value'] = $values[$option->getName()];
+        }
 
         if ($option->values) {
             $data['values'] = $this->_prepareOptionValues($option->values, $helper);
@@ -163,5 +176,25 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Options extends Mage_Adm
             }
         }
         return $result;
+    }
+
+    /**
+     * Retrieve values for Options from Request (widget callback)
+     *
+     * @param string $key Key name to get specified Request data
+     * @return string|array
+     */
+    protected function _getRequestOptionValues($key = null)
+    {
+        if (!$this->hasData('request_values')) {
+            $values = $this->getRequest()->getParam('widget');
+            $values = Mage::helper('core')->jsonDecode($values);
+            $this->setData('request_values', $values);
+        }
+        $values = $this->getData('request_values');
+        if ($key !== null) {
+            return isset($values[$key]) ? $values[$key] : null;
+        }
+        return $values;
     }
 }
