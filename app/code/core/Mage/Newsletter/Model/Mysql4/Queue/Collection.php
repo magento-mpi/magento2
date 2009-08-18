@@ -67,16 +67,16 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
     {
         $this->_addSubscribersFlag = true;
         $this->getSize(); // Executing of count query!
+        $select = $this->getConnection()
+                    ->select()
+                        ->from(array('link_total' => $this->getTable('queue_link')), 'COUNT(DISTINCT `link_total`.`queue_link_id`)')
+                        ->where('`main_table`.`queue_id` = `link_total`.`queue_id`');
         $this->getSelect()
-            ->joinLeft(array('link_total'=>$this->getTable('queue_link')),
-                                     'main_table.queue_id=link_total.queue_id',
-                                     array(
-                                         new Zend_Db_Expr('COUNT(DISTINCT link_total.queue_link_id) AS subscribers_total')
-                                     ))
              ->joinLeft(array('link_sent'=>$this->getTable('queue_link')),
                                      'main_table.queue_id=link_sent.queue_id and link_sent.letter_sent_at IS NOT NULL',
                                      array(
-                                         new Zend_Db_Expr('COUNT(DISTINCT link_sent.queue_link_id) AS subscribers_sent')
+                                         new Zend_Db_Expr('COUNT(DISTINCT `link_sent`.`queue_link_id`) AS `subscribers_sent`'),
+                                         new Zend_Db_Expr('(' . $select . ') AS `subscribers_total`')
                                      ))
             ->group('main_table.queue_id');
         return $this;
