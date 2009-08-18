@@ -26,8 +26,7 @@ WysiwygWidget.Widget = Class.create();
 WysiwygWidget.Widget.prototype = {
 
     initialize: function(formId, optionsSourceUrl) {
-        new Insertion.Bottom(formId, this.getDivHtml('widget_options'));
-
+        $(formId).insert({bottom: this.getDivHtml('widget_options')});
         this.widgetCodeEl = $("select_widget_code");
         this.widgetOptionsEl = $("widget_options");
         this.optionsUrl = optionsSourceUrl;
@@ -99,7 +98,7 @@ WysiwygWidget.Widget.prototype = {
                 this.optionValues = new Hash({});
 
                 widgetCode.gsub(/([a-z0-9\_]+)\s*\=\s*[\"]{1}([^\"]+)[\"]{1}/i, function(match){
-                    this.optionValues.set('option_' + match[1], match[2]);
+                    this.optionValues.set(match[1], match[2]);
                 }.bind(this));
 
                 this.loadOptions();
@@ -120,23 +119,15 @@ WysiwygWidget.Widget.prototype = {
 
         this._showWidgetDescription();
 
+        var params = {widget_code: this.widgetCodeEl.value, values: this.optionValues};
         new Ajax.Request(this.optionsUrl,
             {
-                parameters:{widget_code: this.widgetCodeEl.value},
+                parameters: {widget: Object.toJSON(params)},
                 onSuccess: function(transport) {
                     try {
                         this.onAjaxSuccess(transport);
                         this.switchOptionsContainer();
-                        new Insertion.Bottom(this.widgetOptionsEl, this.getDivHtml(this.getOptionsContainerId(), transport.responseText));
-
-                        if(this.optionValues) {
-                            this.optionValues.each(function(pair) {
-                                if ($(pair.key) != undefined) {
-                                    $(pair.key).value = pair.value;
-                                }
-                            });
-                        }
-
+                        this.widgetOptionsEl.insert({bottom: this.getDivHtml(this.getOptionsContainerId(), transport.responseText)});
                     } catch(e) {
                         alert(e.message);
                     }

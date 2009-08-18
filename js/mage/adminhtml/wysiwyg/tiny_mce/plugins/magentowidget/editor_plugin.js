@@ -20,9 +20,17 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+tinyMCE.addI18n({en:{
+    magentowidget:
+    {
+        insert_widget : "Insert Widget"
+    }
+}});
+
 /*
     TODO: Apply JStrim to reduce file size
 */
+
 (function() {
     tinymce.create('tinymce.plugins.MagentowidgetPlugin', {
         /**
@@ -43,7 +51,7 @@
 
             // Register Varienimages button
             ed.addButton('magentowidget', {
-                title : 'magentowidget.insert_image',
+                title : 'magentowidget.insert_widget',
                 cmd : 'mceMagentowidget',
                 image : url + '/img/icon.gif'
             });
