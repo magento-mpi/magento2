@@ -159,7 +159,8 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         $allow = $attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL
             && $attribute->getIsVisible()
             && $attribute->getIsConfigurable()
-            && $attribute->usesSource();
+            && $attribute->usesSource()
+            && $attribute->getIsUserDefined();
 
         return $allow;
     }
