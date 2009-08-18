@@ -434,9 +434,13 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
      */
     public function getStoreDateStart($store = null)
     {
-        $value = $this->getResource()->mktime($this->getData('date_start'));
-        $date = Mage::app()->getLocale()->storeDate($store, $value, true);
-        return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+        if ($this->getData('date_start')) {
+            $value = $this->getResource()->mktime($this->getData('date_start'));
+            $date = Mage::app()->getLocale()->storeDate($store, $value, true);
+            return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+        }
+
+        return $this->getData('date_start');
     }
 
     /**
@@ -449,8 +453,12 @@ class Enterprise_CatalogEvent_Model_Event extends Mage_Core_Model_Abstract
      */
     public function getStoreDateEnd($store = null)
     {
-        $value = $this->getResource()->mktime($this->getData('date_end'));
-        $date = Mage::app()->getLocale()->storeDate($store, $value, true);
-        return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+        if ($this->getData('date_end')) {
+            $value = $this->getResource()->mktime($this->getData('date_end'));
+            $date = Mage::app()->getLocale()->storeDate($store, $value, true);
+            return $date->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+        }
+
+        return $this->getData('date_end');
     }
 }
