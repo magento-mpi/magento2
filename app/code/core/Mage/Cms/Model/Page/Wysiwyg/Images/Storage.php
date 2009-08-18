@@ -217,7 +217,7 @@ class Mage_Cms_Model_Page_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getAllowedExtensions()
     {
-        if (preg_match_all('/[a-z0-9]+/si', strtolower($this->getConfigData('allowed_extensions')), $matches)) {
+        if (preg_match_all('/[a-z0-9]+/si', strtolower($this->getConfigData('browser_allowed_extensions')), $matches)) {
             return $matches[0];
         }
         return array();

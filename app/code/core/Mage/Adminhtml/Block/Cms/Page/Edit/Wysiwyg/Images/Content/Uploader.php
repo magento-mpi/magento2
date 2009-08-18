@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Uploader extends
             ->setFilters(array(
                 'images' => array(
                     'label' => $this->helper('cms')->__('Images (%s)', implode(', ', $labels)),
-                    'files' => array($files)
+                    'files' => $files
                 )
             ));
     }
