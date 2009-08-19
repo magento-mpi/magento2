@@ -44,16 +44,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Addresses extends Mage_Adminhtml_Bl
         return $this->getUrl('*/json/countryRegion');
     }
 
-    public function getCountriesWithOptionalZipJson()
-    {
-        $website = Mage::app()->getWebsite(Mage::registry('current_customer')->getWebsiteId());
-        $store = $website->getDefaultStore();
-        if ($store instanceof Varien_Object) {
-            $store = $store->getId();
-        }
-        return Mage::helper('directory')->getCountriesWithOptionalZipJson($store);
-    }
-
     protected function _prepareLayout()
     {
         $this->setChild('delete_button',
