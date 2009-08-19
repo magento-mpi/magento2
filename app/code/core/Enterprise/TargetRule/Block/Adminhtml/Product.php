@@ -27,11 +27,11 @@
 class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block_Widget
 {
     /**
-     * Get data for Rule Based Positions selector
+     * Get data for Position Behavior selector
      *
      * @return array
      */
-    public function getRuleBasedPositionOptions()
+    public function getPositionBehaviorOptions()
     {
         return Mage::getModel('enterprise_targetrule/source_position')->toOptionArray();
     }
@@ -43,7 +43,11 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     public function getRuleBasedPositions()
     {
-        return $this->_getValue('TargetruleRuleBasedPositions');
+        $return = $this->_getValue('rule_based_positions');
+        if (null === $return) {
+            $return = $this->getDefaultValue('rule_based_positions');
+        }
+        return $return;
     }
 
     /**
@@ -53,7 +57,11 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     public function getPositionBehavior()
     {
-        return $this->_getValue('TargetrulePositionBehavior');
+        $return = $this->_getValue('position_behavior');
+        if (null === $return) {
+            $return = $this->getDefaultValue('position_behavior');
+        }
+        return $return;
     }
 
     /**
@@ -64,7 +72,8 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     protected function _getValue($var)
     {
-        $_getFunction = 'get' . ucfirst($this->getFormPrefix()) . $var;
+        $var = str_replace(' ', '', ucwords(str_replace('_', ' ', $var)));
+        $_getFunction = 'get' . ucfirst($this->getFormPrefix()) . 'Targetrule' . $var;
         return Mage::registry('current_product')->$_getFunction();
     }
 
@@ -87,7 +96,17 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     public function isDefault($value)
     {
-        $_var = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $value)));
-        return ($this->$_var() === NULL)?true:false;
+        return ($this->_getValue($value) === null) ? true : false;
+    }
+
+    /**
+     * Get default value
+     *
+     * @param string $value
+     * @return mixed
+     */
+    public function getDefaultValue($value)
+    {
+        return Mage::getStoreConfig(Enterprise_TargetRule_Model_Rule::CONFIG_VALUES_XPATH . $value);
     }
 }

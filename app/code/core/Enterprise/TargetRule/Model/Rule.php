@@ -29,4 +29,6 @@ class Enterprise_TargetRule_Model_Rule
     const RULE_AMPLIFY = 0;
     const SELECTED_REPLACE = 1;
     const RULE_REPLACE = 2;
+
+    const CONFIG_VALUES_XPATH = 'catalog/enterprise_targetrule/';
 }

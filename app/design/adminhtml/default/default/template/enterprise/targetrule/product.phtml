@@ -31,27 +31,25 @@
         <table cellspacing="0" class="form-list" id="table_catalog_targetrule">
         <tr>
             <td class="label"><label for="<?php echo $this->getFieldName('rule_based_positions'); ?>"><?php echo Mage::helper('enterprise_targetrule')->__('Rule-based Positions') ?></label></td>
-            <td class="value"><select id="<?php echo $this->getFieldName('rule_based_positions'); ?>" name="product[<?php echo $this->getFieldName('rule_based_positions'); ?>]" class="select" <?php echo $this->isDefault('rule_based_positions')?'disabled="true"':''; ?>>
+            <td class="value"><input type="text" class="input-text validate-number" id="<?php echo $this->getFieldName('rule_based_positions'); ?>" name="product[<?php echo $this->getFieldName('rule_based_positions'); ?>]" value="<?php echo (int)$this->getRuleBasedPositions();?>" <?php echo $this->isDefault('rule_based_positions')?'disabled="true"':''; ?>/>
+            <input type="checkbox" id="<?php echo $this->getFieldName('rule_based_positions'); ?>_default" name="product[<?php echo $this->getFieldName('rule_based_positions'); ?>_default]" value="1" onclick="targetruleSetDefault(this, '<?php echo $this->getFieldName('rule_based_positions'); ?>');" class="checkbox" <?php echo $this->isDefault('rule_based_positions')?'checked':''; ?>/>
+            <label for="<?php echo $this->getFieldName('rule_based_positions'); ?>_default" class="normal"><?php echo Mage::helper('enterprise_targetrule')->__('Use Config Settings') ?></label>
+            </td>
+            <td class="value scope-label"><?php echo Mage::helper('enterprise_targetrule')->__('[GLOBAL]') ?></td>
+        </tr>
+        <tr>
+            <td class="label"><label for="<?php echo $this->getFieldName('position_behavior'); ?>"><?php echo Mage::helper('enterprise_targetrule')->__('Position Behavior') ?></label></td>
+            <td class="value"><select id="<?php echo $this->getFieldName('position_behavior'); ?>" name="product[<?php echo $this->getFieldName('position_behavior'); ?>]" class="select" <?php echo $this->isDefault('position_behavior')?'disabled="true"':''; ?>>
             <?php
-            foreach ($this->getRuleBasedPositionOptions() as $key=>$value) {
+            foreach ($this->getPositionBehaviorOptions() as $key=>$value) {
                 echo "<option value=\"{$key}\"";
-                echo ($key == $this->getRuleBasedPositions())?'selected':'';
+                echo ($key == $this->getPositionBehavior())?'selected':'';
                 echo ">{$value}</option>";
             }
             ?>
             </select>
-
-            <input type="checkbox" id="<?php echo $this->getFieldName('rule_based_positions'); ?>_default" name="product[<?php echo $this->getFieldName('rule_based_positions'); ?>_default]" value="1" onclick="targetruleSetDefault(this, '<?php echo $this->getFieldName('rule_based_positions'); ?>');" class="checkbox" <?php echo $this->isDefault('rule_based_positions')?'checked':''; ?>/>
-            <label for="<?php echo $this->getFieldName('rule_based_positions'); ?>_default" class="normal"><?php echo Mage::helper('enterprise_targetrule')->__('Use Config Settings') ?></label>
-            <td class="value scope-label"><?php echo Mage::helper('enterprise_targetrule')->__('[GLOBAL]') ?></td>
-        </tr>
-
-        <tr>
-            <td class="label"><label for="<?php echo $this->getFieldName('position_behavior'); ?>"><?php echo Mage::helper('enterprise_targetrule')->__('Position Behavior') ?></label></td>
-            <td class="value"><input type="text" class="input-text validate-number" id="<?php echo $this->getFieldName('position_behavior'); ?>" name="product[<?php echo $this->getFieldName('position_behavior'); ?>]" value="<?php echo (int)$this->getPositionBehavior();?>" <?php echo $this->isDefault('position_behavior')?'disabled="true"':''; ?>/>
             <input type="checkbox" id="<?php echo $this->getFieldName('position_behavior'); ?>_default" name="product[<?php echo $this->getFieldName('position_behavior'); ?>_default]" value="1" onclick="targetruleSetDefault(this, '<?php echo $this->getFieldName('position_behavior'); ?>');" class="checkbox" <?php echo $this->isDefault('position_behavior')?'checked':''; ?>/>
             <label for="<?php echo $this->getFieldName('position_behavior'); ?>_default" class="normal"><?php echo Mage::helper('enterprise_targetrule')->__('Use Config Settings') ?></label>
-            </td>
             <td class="value scope-label"><?php echo Mage::helper('enterprise_targetrule')->__('[GLOBAL]') ?></td>
         </tr>
         </table>
@@ -59,8 +57,7 @@
 <script type="text/javascript">
 //<![CDATA[
 targetruleSetDefault = function (check, elementId) {
-    var el = document.getElementById(elementId);
-    el.disabled = (check.checked)?true:false;
+    var el = document.getElementById(elementId).disabled = check.checked;
 }
 //]]>
 </script>
