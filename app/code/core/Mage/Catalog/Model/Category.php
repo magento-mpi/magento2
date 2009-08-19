@@ -34,7 +34,11 @@
  */
 class Mage_Catalog_Model_Category extends Mage_Catalog_Model_Abstract
 {
-    const ENTITY    = 'catalog_category';
+    /**
+     * Entity code.
+     * Can be used as part of method name for entity processing
+     */
+    const ENTITY    = 'catalogCategory';
     /**
      * Category display modes
      */

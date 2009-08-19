@@ -162,6 +162,28 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Get event entity code.
+     * Entity code declare what kind of data object related with event (product, category etc.)
+     *
+     * @return string
+     */
+    public function getEntity()
+    {
+        return $this->_getData('entity');
+    }
+
+    /**
+     * Get event action type.
+     * Data related on self::TYPE_* constants
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->_getData('type');
+    }
+
+    /**
      * Serelaize old and new data arrays before saving
      *
      * @return Mage_Index_Model_Event

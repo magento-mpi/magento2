@@ -73,13 +73,46 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
-        $product = $event->getDataObject();
-        if ($product->hasCategoryIds()) {
-            $event->addNewData('category_ids', $product->getCategoryIds());
+        $entity = $event->getEntity();
+        switch ($entity) {
+        	case Mage_Catalog_Model_Product::ENTITY:
+        	   $this->_registerProductEvent($event);
+        	break;
+            case Mage_Catalog_Model_Category::ENTITY:
+                $this->_registerCategoryEvent($event);
+            break;
         }
         return $this;
     }
 
+    /**
+     * Register event data during product save process
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    protected function _registerProductEvent(Mage_Index_Model_Event $event)
+    {
+        $product = $event->getDataObject();
+        if ($product->hasCategoryIds()) {
+            $event->addNewData('category_ids', $product->getCategoryIds());
+        }
+    }
+
+    /**
+     * Register event data during category save process
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    protected function _registerCategoryEvent(Mage_Index_Model_Event $event)
+    {
+
+    }
+
+    /**
+     * Process event data and save to index
+     *
+     * @param Mage_Index_Model_Event $event
+     */
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
         $this->callEventHandler($event);
