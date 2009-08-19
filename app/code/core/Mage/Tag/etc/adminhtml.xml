@@ -32,14 +32,18 @@
                 <tag translate="title" module="tag">
                     <title>Tags</title>
                     <children>
-                        <pending translate="title" module="tag">
-                            <title>Pending Tags</title>
-                            <action>adminhtml/tag/index/pending/true</action>
-                        </pending>
+                        <!--
+                            childrens should be in the order (All Tags, Pending Tags)
+                            for correct menu building in "None Secret Key" mode
+                        -->
                         <all translate="title" module="tag">
                             <title>All Tags</title>
                             <action>adminhtml/tag/index</action>
                         </all>
+                        <pending translate="title" module="tag">
+                            <title>Pending Tags</title>
+                            <action>adminhtml/tag/index/pending/true</action>
+                        </pending>
                     </children>
                 </tag>
              </children>
