@@ -95,11 +95,6 @@ class Mage_Adminhtml_CustomerController extends Mage_Adminhtml_Controller_Action
 
         $customer = Mage::registry('current_customer');
 
-        $storeId = Mage::app()->getWebsite($customer->getWebsiteId())
-            ->getDefaultStore()
-            ->getId();
-        $this->getLayout()->getBlock('optional_zip_countries')->setStoreId($storeId);
-
         // set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getCustomerData(true);
 

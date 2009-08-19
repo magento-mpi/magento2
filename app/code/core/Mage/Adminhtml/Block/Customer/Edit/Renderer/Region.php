@@ -55,12 +55,10 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_
         $html.= '<option value="">'.Mage::helper('customer')->__('Please select').'</option>';
         $html.= '</select>';
 
-        $html.= '<script type="text/javascript">';
-        if ($this->getStoreId()) {
-            $html.= 'optionalZipCountries = '.$this->helper('directory')->getCountriesWithOptionalZipJson($this->getStoreId()) .';';
-        }
-        $html.= 'new regionUpdater("'.$country->getHtmlId().'", "'.$element->getHtmlId().'", "'.$selectId.'", '.$this->helper('directory')->getRegionJson().');';
-        $html.= '</script>';
+        $html.= '<script type="text/javascript">'."\n";
+        $html.= 'new regionUpdater("'.$country->getHtmlId().'", "'.$element->getHtmlId().'", "'.$selectId.'", '.$this->helper('directory')->getRegionJson().');'."\n";
+        $html.= '</script>'."\n";
+
         $html.= '</td></tr>'."\n";
         return $html;
     }
