@@ -35,7 +35,7 @@ class Enterprise_Logging_Model_Processor
     /**
      * current event config
      *
-     * @var object
+     * @var Varien_Simplexml_Element
      */
     protected $_eventConfig;
 
@@ -153,20 +153,44 @@ class Enterprise_Logging_Model_Processor
      *
      * @param object $model
      */
-    public function modelChangeAfter($model, $action)
+    public function modelActionAfter($model, $action)
     {
         if ($this->_skipNextAction) {
             return;
         }
+        //These models used when we merge action models with action group models
+        $usedModels = $defaultExpectedModels = null;
+        if ($this->_eventConfig) {
+            $actionGroupNode = $this->_eventConfig->getParent()->getParent();
+            if (isset($actionGroupNode->expected_models)) {
+                $defaultExpectedModels = $actionGroupNode->expected_models;
+            }
+        }
+
+        //Exact models in exactly action node
         $expectedModels = isset($this->_eventConfig->expected_models)
             ? $this->_eventConfig->expected_models : false;
+
         if (!$expectedModels || empty($expectedModels)) {
-            return;
+            if (empty($defaultExpectedModels)) {
+                return;
+            }
+            $usedModels = $defaultExpectedModels;
         }
-        foreach ($expectedModels->children() as $expect=>$callback) {
+        else {
+            if ($expectedModels->getAttribute('extends') == 'merge') {
+                $defaultExpectedModels->extend($expectedModels);
+                $usedModels = $defaultExpectedModels;
+            }
+            else {
+                $usedModels = $expectedModels;
+            }
+        }
+        //Log event changes for each model
+        foreach ($usedModels->children() as $expect => $callback) {
             $className = Mage::getConfig()->getModelClassName(str_replace('__', '/', $expect));
             if ($model instanceof $className){
-                $classMap = $this->_getCallbackFunction($callback, $this->_modelsHandler,
+                $classMap = $this->_getCallbackFunction(trim($callback), $this->_modelsHandler,
                     sprintf('model%sAfter', ucfirst($action)));
                 $handler  = $classMap['handler'];
                 $callback = $classMap['callback'];
@@ -230,9 +254,6 @@ class Enterprise_Logging_Model_Processor
         try {
             $callback = isset($this->_eventConfig->post_dispatch) ? (string)$this->_eventConfig->post_dispatch : false;
             $defaulfCallback = 'postDispatchGeneric';
-            if ($this->_eventConfig->action == 'view') {
-                $defaulfCallback .= 'View';
-            }
             $classMap = $this->_getCallbackFunction($callback, $this->_controllerActionsHandler, $defaulfCallback);
             $handler  = $classMap['handler'];
             $callback = $classMap['callback'];
@@ -243,7 +264,7 @@ class Enterprise_Logging_Model_Processor
                 $loggingEvent->save();
                 if ($eventId = $loggingEvent->getId()) {
                     foreach ($this->_eventChanges as $changes){
-                        if($changes) {
+                        if ($changes && ($changes->getOriginalData() || $changes->getResultData())) {
                             $changes->setEventId($eventId);
                             $changes->save();
                         }
@@ -266,7 +287,7 @@ class Enterprise_Logging_Model_Processor
     }
 
     /**
-     * Get callback function for logAction and modelChangeAfter functions
+     * Get callback function for logAction and modelActionAfter functions
      *
      * @param string $srtCallback
      * @param oblect $defaultHandler
@@ -276,7 +297,7 @@ class Enterprise_Logging_Model_Processor
     protected function _getCallbackFunction($srtCallback, $defaultHandler, $defaultFunction)
     {
         $return = array('handler' => $defaultHandler, 'callback' => $defaultFunction);
-        if (!$srtCallback) {
+        if (empty($srtCallback)) {
             return $return;
         }
 

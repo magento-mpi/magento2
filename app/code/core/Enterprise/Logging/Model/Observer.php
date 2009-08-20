@@ -95,7 +95,7 @@ class Enterprise_Logging_Model_Observer
      */
     public function modelSaveAfter($observer)
     {
-        $this->_processor->modelChangeAfter($observer->getEvent()->getObject(), 'save');
+        $this->_processor->modelActionAfter($observer->getEvent()->getObject(), 'save');
     }
 
     /**
@@ -105,7 +105,17 @@ class Enterprise_Logging_Model_Observer
      */
     public function modelDeleteAfter($observer)
     {
-        $this->_processor->modelChangeAfter($observer->getEvent()->getObject(), 'delete');
+        $this->_processor->modelActionAfter($observer->getEvent()->getObject(), 'delete');
+    }
+
+    /**
+     * Model after load observer.
+     *
+     * @param Varien_Event_Observer
+     */
+    public function modelLoadAfter($observer)
+    {
+        $this->_processor->modelActionAfter($observer->getEvent()->getObject(), 'view');
     }
 
     /**

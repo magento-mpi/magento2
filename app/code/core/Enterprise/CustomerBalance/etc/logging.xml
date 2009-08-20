@@ -31,20 +31,21 @@
         <actions>
             <adminhtml_customerbalance_form>
                 <action>view</action>
+                <post_dispatch>postDispatchCustomerBalanceView</post_dispatch>
             </adminhtml_customerbalance_form>
         </actions>
     </enterprise_customerbalance>
     <customer>
         <actions>
             <adminhtml_customer_save>
-                <expected_models>
+                <expected_models extends="merge">
                     <enterprise_customerbalance__balance/>
                 </expected_models>
                 <skip_on_back>
                     <adminhtml_customerbalance_form/>
                     <adminhtml_customer_edit/>
-                </skip_on_back>                
-            </adminhtml_customer_save>            
+                </skip_on_back>
+            </adminhtml_customer_save>
         </actions>
     </customer>
 </logging>

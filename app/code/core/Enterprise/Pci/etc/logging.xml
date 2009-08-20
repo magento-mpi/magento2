@@ -30,7 +30,7 @@
         <label>Encryption Key Change</label>
         <actions>
             <adminhtml_crypt_key_save>
-                <action>key_change</action>
+                <action>save</action>
                 <post_dispatch>postDispatchSimpleSave</post_dispatch>
             </adminhtml_crypt_key_save>
         </actions>
@@ -40,7 +40,6 @@
         <actions>
             <adminhtml_locks_massUnlock>
                 <action>massUpdate</action>
-                <id>unlock</id>
             </adminhtml_locks_massUnlock>
         </actions>
     </enterprise_pci_locks>

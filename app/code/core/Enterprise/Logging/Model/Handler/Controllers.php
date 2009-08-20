@@ -37,34 +37,8 @@ class Enterprise_Logging_Model_Handler_Controllers
 {
 
     /**
-     * Generic View handler
+     * Generic Action handler
      *
-     * Expects an ID in request
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return bool
-     */
-    public function postDispatchGenericView($config, $eventModel)
-    {
-        $id = Mage::app()->getRequest()->getParam($config->id ? (string)$config->id : 'id');
-        if (!$id && $config->default) {
-            $id = (string)$config->default;
-        }
-        if (false === $id || null === $id) {
-            return false;
-        }
-        if (0 === $id && (bool)(string)$config->skip_zero_id) {
-            return false;
-        }
-        $eventModel->setInfo($id);
-        return true;
-    }
-
-    /**
-     * Generic Delete handler
-     *
-     * Expects an ID in request
      *
      * @param Varien_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
@@ -93,6 +67,35 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchSimpleSave($config, $eventModel)
     {
         return true;
+    }
+
+    /**
+     * Custom handler for config view
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchConfigView($config, $eventModel)
+    {
+        $id = Mage::app()->getRequest()->getParam('section');
+        if (!$id) {
+            $id = 'general';
+        }
+        $eventModel->setInfo($id);
+        return true;
+    }
+
+    /**
+     * Custom handler for customer balance view
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchCustomerBalanceView($config, $eventModel)
+    {
+        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('id'));
     }
 
     /**

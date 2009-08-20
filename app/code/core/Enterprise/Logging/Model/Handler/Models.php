@@ -82,7 +82,7 @@ class Enterprise_Logging_Model_Handler_Models
             }
         }
         if ($isDiff){
-            $this->_collectedIds[] = $model->getId();
+            $this->_collectedIds[get_class($model)][] = $model->getId();
             return Mage::getModel('enterprise_logging/event_changes')->setData(
                 array(
                     'original_data' => $origData,
@@ -101,7 +101,7 @@ class Enterprise_Logging_Model_Handler_Models
      */
     public function modelDeleteAfter($model)
     {
-        $this->_collectedIds[] = $model->getId();
+        $this->_collectedIds[get_class($model)][] = $model->getId();
         $origData = $this->_clearupData($model->getOrigData());
         return Mage::getModel('enterprise_logging/event_changes')
                     ->setData(array('original_data'=>$origData, 'result_data'=>null));
@@ -140,12 +140,19 @@ class Enterprise_Logging_Model_Handler_Models
 
     /**
      * Getter for $_colectedIds value
+     * It collects unique ids for each object
      *
      * @return array
      */
     public function getCollectedIds()
     {
-        return $this->_collectedIds;
+        $ids = array();
+        foreach ($this->_collectedIds as $className => $classIds) {
+            $uniqueIds  = array_unique($classIds);
+            $ids        = array_merge($ids, $uniqueIds);
+            $this->_collectedIds[$className] = $uniqueIds;
+        }
+        return $ids;
     }
 
     /*Special modelSaveAfter handlers */
@@ -158,9 +165,21 @@ class Enterprise_Logging_Model_Handler_Models
      */
     public function modelSaveAfterInvitation($model)
     {
-        $this->_collectedIds[] = $model->getId();
+        $this->_collectedIds[get_class($model)][] = $model->getId();
         $data = $this->_clearupData($model->getData());
         return Mage::getModel('enterprise_logging/event_changes')
-            ->setData(array('original_data'=>array(), 'result_data'=>$data));
+            ->setData(array('original_data' => array(), 'result_data' => $data));
+    }
+
+    /**
+     * Load after handler
+     *
+     * @param object Mage_Core_Model_Abstract $model
+     */
+    public function modelViewAfter($model)
+    {
+        $this->_collectedIds[get_class($model)][] = $model->getId();
+        return Mage::getModel('enterprise_logging/event_changes')
+            ->setData(array('original_data' => array(), 'result_data' => array()));
     }
 }

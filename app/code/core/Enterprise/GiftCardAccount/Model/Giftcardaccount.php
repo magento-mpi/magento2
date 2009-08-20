@@ -331,7 +331,7 @@ class Enterprise_GiftCardAccount_Model_Giftcardaccount extends Mage_Core_Model_A
     public function _afterLoad()
     {
         $this->_setStateText();
-        return $this;
+        return parent::_afterLoad();
     }
 
     /**

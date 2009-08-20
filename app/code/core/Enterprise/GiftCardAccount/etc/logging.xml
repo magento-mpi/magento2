@@ -28,6 +28,9 @@
 <logging>
     <enterprise_giftcardaccount translate="label">
         <label>Gift Card Accounts</label>
+        <expected_models>
+            <enterprise_giftcardaccount__giftcardaccount/>
+        </expected_models>
         <actions>
             <adminhtml_giftcardaccount_edit>
                 <action>view</action>
@@ -35,9 +38,6 @@
 
             <adminhtml_giftcardaccount_save>
                 <action>save</action>
-                <expected_models>
-                    <enterprise_giftcardaccount__giftcardaccount/>
-                </expected_models>
                 <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_giftcardaccount_save>
 

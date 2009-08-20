@@ -28,6 +28,9 @@
 <logging>
     <adminhtml_cms_hierarchy translate="label">
         <label>CMS Hierarchy</label>
+        <expected_models>
+            <enterprise_cms__hierarchy/>
+        </expected_models>
         <actions>
             <adminhtml_cms_hierarchy_edit>
                 <action>view</action>
@@ -35,27 +38,25 @@
 
             <adminhtml_cms_hierarchy_save>
                 <action>save</action>
-                <expected_models>
-                    <enterprise_cms__hierarchy/>
+                <expected_models extends="merge">
                     <enterprise_cms__hierarchy_node/>
                 </expected_models>
             </adminhtml_cms_hierarchy_save>
 
             <adminhtml_cms_hierarchy_delete>
                 <action>delete</action>
-                <expected_models>
-                    <enterprise_cms__hierarchy/>
-                </expected_models>
             </adminhtml_cms_hierarchy_delete>
         </actions>
     </adminhtml_cms_hierarchy>
 
     <adminhtml_cms_page_revision translate="label">
         <label>CMS Revision</label>
+        <expected_models>
+            <enterprise_cms__page_revision/>
+        </expected_models>
         <actions>
             <adminhtml_cms_page_revision_edit>
                 <action>view</action>
-                <id>revision_id</id>
             </adminhtml_cms_page_revision_edit>
 
             <adminhtml_cms_page_revision_preview>
@@ -64,60 +65,46 @@
 
             <adminhtml_cms_page_revision_save>
                 <action>save</action>
-                <expected_models>
-                    <enterprise_cms__page_revision/>
-                </expected_models>
             </adminhtml_cms_page_revision_save>
 
             <adminhtml_cms_page_revision_delete>
                 <action>delete</action>
-                <expected_models>
-                    <enterprise_cms__page_revision/>
-                </expected_models>
             </adminhtml_cms_page_revision_delete>
         </actions>
     </adminhtml_cms_page_revision>
 
     <adminhtml_cms_page_version translate="label">
         <label>CMS Version</label>
+        <expected_models>
+            <enterprise_cms__page_version/>
+        </expected_models>
         <actions>
             <adminhtml_cms_page_version_edit>
                 <action>view</action>
-                <id>version_id</id>
             </adminhtml_cms_page_version_edit>
 
             <adminhtml_cms_page_version_save>
                 <action>save</action>
-                <expected_models>
-                    <enterprise_cms__page_version/>
-                </expected_models>
             </adminhtml_cms_page_version_save>
 
             <adminhtml_cms_page_version_delete>
                 <action>delete</action>
-                <expected_models>
-                    <enterprise_cms__page_version/>
-                </expected_models>
             </adminhtml_cms_page_version_delete>
 
             <adminhtml_cms_page_version_massDeleteRevisions>
                 <action>massUpdate</action>
                 <id>revision</id>
-                <expected_models>
-                    <enterprise_cms__page_revision/>
-                </expected_models>
             </adminhtml_cms_page_version_massDeleteRevisions>
         </actions>
     </adminhtml_cms_page_version>
 
     <cms_pages>
+        <expected_models>
+            <enterprise_cms__page_version/>
+        </expected_models>
         <actions>
             <adminhtml_cms_page_massDeleteVersions>
                 <action>massUpdate</action>
-                <id>version</id>
-                <expected_models>
-                    <enterprise_cms__page_version/>
-                </expected_models>
             </adminhtml_cms_page_massDeleteVersions>
         </actions>
     </cms_pages>

@@ -28,6 +28,9 @@
 <logging>
     <enterprise_staging translate="label">
         <label>Content Staging</label>
+        <expected_models>
+            <enterprise_staging__staging/>
+        </expected_models>
         <actions>
             <adminhtml_staging_manage_edit>
                 <action>view</action>
@@ -35,9 +38,6 @@
 
             <adminhtml_staging_manage_save>
                 <action>save</action>
-                <expected_models>
-                    <enterprise_staging__staging/>
-                </expected_models>
             </adminhtml_staging_manage_save>
 
             <adminhtml_staging_manage_mergePost>

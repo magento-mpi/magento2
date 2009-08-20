@@ -106,6 +106,15 @@
                 </observers>
             </model_delete_after>
 
+            <model_load_after>
+                <observers>
+                    <enterprise_logging>
+                        <class>enterprise_logging/observer</class>
+                        <method>modelLoadAfter</method>
+                    </enterprise_logging>
+                </observers>
+            </model_load_after>
+
             <admin_session_user_login_success>
                 <observers>
                     <enterprise_logging>

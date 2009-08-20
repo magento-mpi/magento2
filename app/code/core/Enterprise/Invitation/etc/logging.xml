@@ -28,6 +28,9 @@
 <logging>
     <enterprise_invitation translate="label">
         <label>Customer Invitations</label>
+        <expected_models>
+            <enterprise_invitation__invitation/>
+        </expected_models>
         <actions>
             <adminhtml_invitation_index>
                 <action>view</action>
@@ -43,9 +46,6 @@
 
             <adminhtml_invitation_massCancel>
                 <action>massCancel</action>
-                <expected_models>
-                    <enterprise_invitation__invitation/>
-                </expected_models>
             </adminhtml_invitation_massCancel>
         </actions>
     </enterprise_invitation>
