@@ -164,7 +164,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
                 case 'datetimeFromTo':
                     $attr = array(
                         'attribute' => $keyDB,
-                        'from'      => $val['from'],
+                        'from'      => isset($val['from']) ? $val['from'] : null,
                         'to'        => isset($val['to']) ? $val['to'] : null,
                         'datetime'  => true
                     );
