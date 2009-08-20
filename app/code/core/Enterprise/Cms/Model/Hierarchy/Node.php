@@ -128,6 +128,9 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     protected function _collectTree(array $nodes, $parentNodeId, $path = '', $xpath = '', $level = 0)
     {
+        if (!isset($nodes[$level])) {
+            return $this;
+        }
         foreach ($nodes[$level] as $k => $v) {
             $v['parent_node_id'] = $parentNodeId;
             if ($path != '') {

@@ -126,7 +126,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
                     array('page_exists' => $ifPageExistExpr, 'current_page' => $ifCurrentPageExpr)
                 );
 
-            $this->setFlag('meta_data_joined', true);
+            $this->setFlag('page_exists_joined', true);
         }
         return $this;
     }
