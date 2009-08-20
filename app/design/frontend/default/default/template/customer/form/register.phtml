@@ -146,7 +146,7 @@
 //<![CDATA[
     var dataForm = new VarienForm('form-validate', true);
     <?php if($this->getShowAddressFields()): ?>
-    new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, <?php echo $this->helper('directory')->getCountriesWithOptionalZipJson() ?>);
+    new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, <?php echo $this->helper('directory')->getCountriesWithOptionalZip(true) ?>);
     <?php endif; ?>
 //]]>
 </script>

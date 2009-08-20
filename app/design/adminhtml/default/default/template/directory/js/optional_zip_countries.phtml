@@ -18,7 +18,7 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
+ * @category   design
  * @package    default_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
@@ -34,7 +34,7 @@
 ?>
 <script type="text/javascript">
 //<![CDATA[
-optionalZipCountries = <?php echo $this->helper('directory')->getCountriesWithOptionalZipJson($this->getStoreId()) ?>;
+optionalZipCountries = <?php echo $this->helper('directory')->getCountriesWithOptionalZip(true) ?>;
 
 function onAddressCountryChanged (countryElement) {
     var zipElementId = countryElement.id.replace(/country_id/, 'postcode');
@@ -51,12 +51,9 @@ function onAddressCountryChanged (countryElement) {
 
 function setPostcodeOptional(zipElement, country) {
     if (optionalZipCountries.indexOf(country) != -1) {
-        // workaround: Remove multiple required-entry class from Postcode field
-        zipElement.classNames().each(function(c) {
-            if(c == 'required-entry') {
-                zipElement.removeClassName(c);
-            }
-        })
+        while (zipElement.hasClassName('required-entry')) {
+            zipElement.removeClassName('required-entry');
+        }
         zipElement.up(1).down('label > span.required').hide();
     } else {
         zipElement.addClassName('required-entry');

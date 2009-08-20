@@ -205,7 +205,7 @@
     var zipOptions = {};
     zipOptions.input_el = "billing:postcode";
     zipOptions.label_el = $("billing:postcode").up(1).down('label > span.required');
-    zipOptions.optional_countries = <?php echo $this->helper('directory')->getCountriesWithOptionalZipJson() ?>;
+    zipOptions.optional_countries = <?php echo $this->helper('directory')->getCountriesWithOptionalZip(true) ?>;
     var billingRegionUpdater = new RegionUpdater('billing:country_id', 'billing:region', 'billing:region_id', countryRegions, undefined, zipOptions);
 //-->
 </script>

@@ -31,7 +31,12 @@
  */
 class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
 {
-
+    /**
+     * Output the region element and javasctipt that makes it dependent from country element
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return string
+     */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         if ($country = $element->getForm()->getElement('country_id')) {
@@ -42,7 +47,6 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_
         }
 
         $regionId = $element->getForm()->getElement('region_id')->getValue();
-        $postcode = $element->getForm()->getElement('postcode');
 
         $html = '<tr>';
         $element->setClass('input-text');
@@ -62,5 +66,4 @@ class Mage_Adminhtml_Block_Customer_Edit_Renderer_Region extends Mage_Adminhtml_
         $html.= '</td></tr>'."\n";
         return $html;
     }
-
 }

@@ -164,6 +164,6 @@
     var zipOptions = {};
     zipOptions.input_el = "zip";
     zipOptions.label_el = $("zip").up(1).down('label > span.required');
-    zipOptions.optional_countries = <?php echo $this->helper('directory')->getCountriesWithOptionalZipJson() ?>;
+    zipOptions.optional_countries = <?php echo $this->helper('directory')->getCountriesWithOptionalZip(true) ?>;
     new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, zipOptions);
 </script>
