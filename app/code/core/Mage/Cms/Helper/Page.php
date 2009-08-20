@@ -117,7 +117,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Renders CMS Page with more flexebility then original renderPage function.
+     * Renders CMS Page with more flexibility then original renderPage function.
      * Allows to use also backend action as first parameter.
      * Also takes third parameter which allows not run renderLayout method.
      *
