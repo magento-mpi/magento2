@@ -153,21 +153,4 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 
         return Mage::getUrl(null, array('_direct' => $page->getIdentifier()));
     }
-
-    /**
-     * Prepare anchor's html code
-     *
-     * @param string $anchorText
-     * @param array $attributes
-     * @return string
-     */
-    public function prepareAnchorHtml($anchorText, $attributes = array())
-    {
-        $_preparedAttributes = array();
-        foreach($attributes as $attribute => $value) {
-            $_preparedAttributes[] = $attribute . '="' . $value . '"';
-        }
-
-        return '<a '.implode(' ', $_preparedAttributes).'>'. $this->htmlEscape($anchorText) . "</a>\n";
-    }
 }
