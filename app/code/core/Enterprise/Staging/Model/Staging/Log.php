@@ -87,7 +87,7 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
     {
         $this->setStaging($staging);
 
-        if ($process == 'update' || $process == 'backup') {
+        if ($process == 'update') {
             return $this;
         }
         if ($onState == 'before' && (($process == 'merge' && $staging->getIsMergeLater() == true) || $process == 'reset' || $process == 'unscheduleMerge')) {
@@ -137,6 +137,11 @@ class Enterprise_Staging_Model_Staging_Log extends Mage_Core_Model_Abstract
                 $this->setStagingWebsiteId($staging->getMasterWebsiteId());
                 $this->setMasterWebsiteId(null);
                 $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_ROLLBACK;
+                break;
+            case 'backup':
+                $this->setStagingWebsiteId(null);
+                $this->setMasterWebsiteId($staging->getMasterWebsiteId());
+                $eventAction = Enterprise_Staging_Model_Staging_Config::ACTION_BACKUP;
                 break;
             case 'reset':
                 $this->setStagingWebsiteId($staging->getStagingWebsiteId());

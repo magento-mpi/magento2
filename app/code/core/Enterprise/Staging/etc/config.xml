@@ -227,6 +227,7 @@
                     <unschedule_merge translate="label"><label>Merger Unscheduling</label></unschedule_merge>
                     <cron_merge translate="label"><label>Scheduled Merger</label></cron_merge>
                     <rollback translate="label"><label>Rollback</label></rollback>
+                    <backup translate="label"><label>Backup</label></backup>
                 </action>
             </staging>
         </enterprise>

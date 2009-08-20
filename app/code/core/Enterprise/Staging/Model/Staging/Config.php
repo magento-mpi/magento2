@@ -46,6 +46,7 @@ class Enterprise_Staging_Model_Staging_Config
     const ACTION_SCHEDULE_MERGE     = 'schedule_merge';
     const ACTION_UNSCHEDULE_MERGE   = 'unschedule_merge';
     const ACTION_ROLLBACK           = 'rollback';
+    const ACTION_BACKUP             = 'backup';
 
 
     /**

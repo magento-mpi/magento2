@@ -260,7 +260,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         catch (Exception $e) {
             $this->_getResource()->rollBack();
             $logBefore->saveOnProcessRun($this, $process, 'before', $e);
-            Mage::throwException($e);
+            throw $e;
         }
 
         return $this;

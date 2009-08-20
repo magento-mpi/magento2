@@ -68,7 +68,7 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
      * Save backup from backup staging process
      *
      * @param  object Enterprise_Staging_Model_Staging $staging
-     * @param  object Enterprise_Staging_Model_Staging_Log $event
+     * @param  object Enterprise_Staging_Model_Staging_Log $log
      *
      * @return Enterprise_Staging_Model_Staging_Backup
      */

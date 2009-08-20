@@ -40,7 +40,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
         parent::__construct();
 
         $this->setId('enterpriseStagingHistoryGrid');
-        $this->setDefaultSort('created_at');
+        $this->setDefaultSort('log_id');
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
     }
@@ -63,6 +63,11 @@ class Enterprise_Staging_Block_Adminhtml_Log_Grid extends Mage_Adminhtml_Block_W
      */
     protected function _prepareColumns()
     {
+         $this->addColumn('log_id', array(
+            'header'    => Mage::helper('enterprise_staging')->__('ID'),
+            'index'     => 'log_id',
+            'type'      => 'number'
+        ));
         $this->addColumn('created_at', array(
             'header'    => Mage::helper('enterprise_staging')->__('Logged At'),
             'index'     => 'created_at',
