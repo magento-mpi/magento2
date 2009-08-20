@@ -573,7 +573,7 @@ Product.Configurable.prototype = {
 			this.valueAutoIndex = 1;
 		}
 		templateVariables.set('html_id', container.id  + '_' + this.valueAutoIndex);
-		templateVariables = templateVariables.merge(value);
+		templateVariables.update(value);
 		var pricingValue = parseFloat(templateVariables.get('pricing_value'));
 		if (!isNaN(pricingValue)) {
 		    templateVariables.set('pricing_value', pricingValue);
