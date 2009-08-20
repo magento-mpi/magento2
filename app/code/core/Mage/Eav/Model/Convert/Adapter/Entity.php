@@ -165,7 +165,7 @@ class Mage_Eav_Model_Convert_Adapter_Entity
                     $attr = array(
                         'attribute' => $keyDB,
                         'from'      => $val['from'],
-                        'to'        => $val['to'],
+                        'to'        => isset($val['to']) ? $val['to'] : null,
                         'datetime'  => true
                     );
                     break;
