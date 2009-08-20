@@ -82,7 +82,7 @@ abstract class Mage_Index_Model_Mysql4_Abstract extends Mage_Core_Model_Mysql4_A
      *
      * @return Mage_Index_Model_Mysql4_Abstract
      */
-    public function cloneIndexTable()
+    public function cloneIndexTable($asOriginal = false)
     {
         $mainTable  = $this->getMainTable();
         $idxTable   = $this->getIdxTable();
@@ -90,8 +90,13 @@ abstract class Mage_Index_Model_Mysql4_Abstract extends Mage_Core_Model_Mysql4_A
 
         $sql = 'DROP TABLE IF EXISTS ' . $idxAdapter->quoteIdentifier($idxTable);
         $idxAdapter->query($sql);
-        $sql = 'CREATE TABLE ' . $idxAdapter->quoteIdentifier($idxTable)
-            . ' SELECT * FROM ' . $idxAdapter->quoteIdentifier($mainTable) . ' LIMIT 0';
+        if ($asOriginal) {
+            $sql = 'CREATE TABLE ' . $idxAdapter->quoteIdentifier($idxTable)
+                . ' LIKE ' . $idxAdapter->quoteIdentifier($this->getMainTable());
+        } else {
+            $sql = 'CREATE TABLE ' . $idxAdapter->quoteIdentifier($idxTable)
+                . ' SELECT * FROM ' . $idxAdapter->quoteIdentifier($mainTable) . ' LIMIT 0';
+        }
         $idxAdapter->query($sql);
         return $this;
     }

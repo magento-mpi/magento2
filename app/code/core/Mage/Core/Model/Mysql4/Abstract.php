@@ -229,6 +229,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
      * Get table name for the entity
      *
      * @param string $entityName
+     * @return string
      */
     public function getTable($entityName)
     {
@@ -244,6 +245,18 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
             $this->_tables[$entityName] = $entityName;
         }
         return $this->_tables[$entityName];
+    }
+
+    /**
+     * Retrieve table name for the entity separated value
+     *
+     * @param string $entityName
+     * @param string $valueType
+     * @return string
+     */
+    public function getValueTable($entityName, $valueType)
+    {
+        return $this->getTable($entityName) . '_' . $valueType;
     }
 
     /**

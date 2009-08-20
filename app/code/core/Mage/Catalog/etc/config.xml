@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.4.0.0.4</version>
+            <version>1.4.0.0.5</version>
         </Mage_Catalog>
     </modules>
 
@@ -189,6 +189,8 @@
                     <category_flat><table>catalog_category_flat</table></category_flat>
                     <product_flat><table>catalog_product_flat</table></product_flat>
                     <eav_attribute><table>catalog_eav_attribute</table></eav_attribute>
+                    <product_relation><table>catalog_product_relation</table></product_relation>
+                    <product_index_eav><table>catalog_product_index_eav</table></product_index_eav>
                 </entities>
             </catalog_resource_eav_mysql4>
         </models>

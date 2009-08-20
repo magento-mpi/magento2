@@ -242,9 +242,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
     public function save($product = null)
     {
         parent::save($product);
+        /* @var $resource Mage_Bundle_Model_Mysql4_Bundle */
+        $resource = Mage::getResourceModel('bundle/bundle');
 
-        if ($options = $this->getProduct($product)->getBundleOptionsData()) {
-
+        $options = $this->getProduct($product)->getBundleOptionsData();
+        if ($options) {
             foreach ($options as $key => $option) {
                 if (isset($option['option_id']) && $option['option_id'] == '') {
                     unset($option['option_id']);
@@ -261,9 +263,11 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 $options[$key]['option_id'] = $optionModel->getOptionId();
             }
 
+            $usedProductIds      = array();
             $excludeSelectionIds = array();
 
-            if ($selections = $this->getProduct($product)->getBundleSelectionsData()) {
+            $selections = $this->getProduct($product)->getBundleSelectionsData();
+            if ($selections) {
                 foreach ($selections as $index => $group) {
                     foreach ($group as $key => $selection) {
                         if (isset($selection['selection_id']) && $selection['selection_id'] == '') {
@@ -286,14 +290,17 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
                         if ($selectionModel->getSelectionId()) {
                             $excludeSelectionIds[] = $selectionModel->getSelectionId();
+                            $usedProductIds[] = $selectionModel->getProductId();
                         }
                     }
                 }
-                Mage::getResourceModel('bundle/bundle')->dropAllUnneededSelections($this->getProduct($product)->getId(), $excludeSelectionIds);
+
+                $resource->dropAllUnneededSelections($this->getProduct($product)->getId(), $excludeSelectionIds);
+                $resource->saveProductRelations($this->getProduct($product)->getId(), array_unique($usedProductIds));
             }
 
             if ($this->getProduct($product)->getData('price_type') != $this->getProduct($product)->getOrigData('price_type')) {
-                Mage::getResourceModel('bundle/bundle')->dropAllQuoteChildItems($this->getProduct($product)->getId());
+                $resource->dropAllQuoteChildItems($this->getProduct($product)->getId());
             }
         }
 
