@@ -316,6 +316,7 @@ class Mage_Customer_Model_Convert_Parser_Customer
             $row['created_in'] = $store->getCode();
 
             $newsletter = $this->getNewsletterModel()
+                ->setData(array())
                 ->loadByCustomer($customer);
             $row['is_subscribed'] = ($newsletter->getId()
                 && $newsletter->getSubscriberStatus() == Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED)
