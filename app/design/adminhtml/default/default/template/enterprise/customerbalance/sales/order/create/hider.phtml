@@ -30,13 +30,12 @@
         if ($('order-billing_method')) {
             $('order-billing_method').select('dl').each(function(elem){
                 if (elem.className=="payment-methods") {
-                    elem.select('input').each(function (e){
-                        if (e.name=='payment[method]') {
-                            if (e.value == 'free') {
-                                e.checked = true;
-                            } else {
-                                e.parentNode.hide();
-                            }
+                    elem.select('dt', 'dd').each(function (e){
+                        inp = e.select('input#p_method_free');
+                        if (inp.length > 0) {
+                            inp[0].checked = true;
+                        } else {
+                            e.hide();
                         }
                     });
                 }
