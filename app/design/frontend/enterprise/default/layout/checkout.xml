@@ -39,7 +39,7 @@ Default layout, loads most of the pages
             <block type="checkout/links" name="checkout_cart_link">
                 <!-- <action method="addCartLink"></action> -->
                 <action method="addCheckoutLink"></action>
-            </block>          
+            </block>
         </reference>
         <reference name="header">
             <block type="checkout/cart_sidebar" name="topCart" template="checkout/cart/cartheader.phtml">
@@ -47,6 +47,9 @@ Default layout, loads most of the pages
                 <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>checkout/cart/sidebar/default.phtml</template></action>
                 <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>checkout/cart/sidebar/default.phtml</template></action>
             </block>
+        </reference>
+        <reference name="head">
+            <block type="core/template" name="optional_zip_countries" as="optional_zip_countries" template="directory/js/optional_zip_countries.phtml" />
         </reference>
 
     </default>
@@ -267,14 +270,14 @@ One page checkout main layout
         <remove name="right"/>
 
         <reference name="root">
-            <action method="setTemplate"><template>page/1column.phtml</template></action>           
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
         <reference name="content">
                 <block type="core/template" name="checkout.callout" before="-" template="callouts/callout.phtml">
                     <action method="setImgSrc"><src>images/callouts/checkout-callout.gif</src></action>
                     <action method="setImgAlt" translate="alt" module="catalog"><alt>Need help with checking out? Let us help! Call us at (555) 555-0123.</alt></action>
-                </block>         
-            <block type="checkout/onepage" name="checkout.onepage" template="checkout/onepage.phtml">          
+                </block>
+            <block type="checkout/onepage" name="checkout.onepage" template="checkout/onepage.phtml">
                 <block type="checkout/onepage_progress" as="checkoutProgress" name="checkout.progress" template="checkout/onepage/progress.phtml"/>
                 <block type="checkout/onepage_login" name="checkout.onepage.login" as="login" template="checkout/onepage/login.phtml"/>
                 <block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="checkout/onepage/billing.phtml"/>
