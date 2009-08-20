@@ -50,7 +50,7 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
     {
         $this->getSelect()
             ->joinLeft(array('order'=>$this->getTable('sales/order')),
-                       'order.customer_id = main_table.referral_id',
+                       'order.customer_id = main_table.referral_id AND order.store_id = main_table.store_id',
                        array(
                             'purchased' => new Zend_Db_Expr('COUNT(DISTINCT order.customer_id)'),
                             'purchased_rate' =>  new Zend_Db_Expr('IF(COUNT(DISTINCT main_table.referral_id), COUNT(DISTINCT order.customer_id) / COUNT(DISTINCT main_table.referral_id) > 0, 0) * 100'),
@@ -69,11 +69,6 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
     public function setStoreIds($storeIds)
     {
         parent::setStoreIds($storeIds);
-        $vals = array_values($storeIds);
-        if (count($storeIds) >= 1 && $vals[0] != '') {
-            $this->addFieldToFilter('order_store_id', array('in' => (array)$storeIds));
-        }
-
         return $this;
     }
 }

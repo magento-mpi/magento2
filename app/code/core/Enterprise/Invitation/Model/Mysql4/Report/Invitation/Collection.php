@@ -82,7 +82,7 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Collection
     {
         $vals = array_values($storeIds);
         if (count($storeIds) >= 1 && $vals[0] != '') {
-            $this->addFieldToFilter('store_id', array('in' => (array)$storeIds));
+            $this->addFieldToFilter('main_table.store_id', array('in' => (array)$storeIds));
         }
 
         return $this;
