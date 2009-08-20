@@ -497,8 +497,20 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
      */
     protected function _prepareDataForSave(Mage_Core_Model_Abstract $object)
     {
+        return $this->_prepareDataForTable($object, $this->getMainTable());
+    }
+
+    /**
+     * Prepare data for passed table
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @param string $table
+     * @return array
+     */
+    protected function _prepareDataForTable(Mage_Core_Model_Abstract $object, $table)
+    {
         $data = array();
-        $fields = $this->_getWriteAdapter()->describeTable($this->getMainTable());
+        $fields = $this->_getWriteAdapter()->describeTable($table);
         foreach (array_keys($fields) as $field) {
             if ($object->hasData($field)) {
                 $fieldValue = $object->getData($field);
