@@ -168,7 +168,7 @@ Event.observe(window, 'load', varienWindowOnload);
 
 RegionUpdater = Class.create();
 RegionUpdater.prototype = {
-    initialize: function (countryEl, regionTextEl, regionSelectEl, regions, disableAction, clearRegionValueOnDisable, zipOptions)
+    initialize: function (countryEl, regionTextEl, regionSelectEl, regions, disableAction, clearRegionValueOnDisable)
     {
         this.countryEl = $(countryEl);
         this.regionTextEl = $(regionTextEl);
@@ -179,7 +179,6 @@ RegionUpdater.prototype = {
         this.regions = regions;
         this.disableAction = (typeof disableAction=='undefined') ? 'hide' : disableAction;
         this.clearRegionValueOnDisable = (typeof clearRegionValueOnDisable == 'undefined') ? false : clearRegionValueOnDisable;
-        this.zipOptions = (typeof zipOptions=='undefined') ? false : zipOptions;
 
         if (this.regionSelectEl.options.length<=1) {
             this.update();
@@ -279,7 +278,7 @@ RegionUpdater.prototype = {
 //            Element.remove(this.regionSelectEl);
 //            this.regionSelectEl = null;
         }
-        this.setZipOptional();
+        varienGlobalEvents.fireEvent("address_country_changed", this.countryEl);
     },
 
     setMarkDisplay: function(elem, display){
@@ -288,39 +287,6 @@ RegionUpdater.prototype = {
             if(marks[0]){
                 display ? marks[0].show() : marks[0].hide();
             }
-        }
-    },
-
-    setZipOptional: function(){
-        if (!this.zipOptions) {
-            return;
-        }
-        var elem = this.countryEl;
-        var labelElement, inputElement, optionalZipCountries;
-
-        // find required mark (*) for zip
-        if (this.zipOptions.label_el) {
-            labelElement = $(this.zipOptions.label_el);
-        }
-        // find input field for zip
-        if (this.zipOptions.input_el) {
-            inputElement = $(this.zipOptions.input_el);
-        }
-        // find countries which have optional zip code
-        if (this.zipOptions.optional_countries) {
-            optionalZipCountries = this.zipOptions.optional_countries;
-        }
-
-        if (!labelElement || !inputElement || !optionalZipCountries) {
-            return;
-        }
-
-        if (optionalZipCountries.indexOf(this.countryEl.value) != -1) {
-            labelElement.hide();
-            inputElement.removeClassName('required-entry').removeClassName('required-entry');
-        } else {
-            labelElement.show();
-            inputElement.addClassName('required-entry');
         }
     }
 }
