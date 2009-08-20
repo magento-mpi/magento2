@@ -30,7 +30,7 @@ $installer = $this;
 
 $installer->startSetup();
 $installer->run("
-CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms/hierarchy')}` (
+CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms_hierarchy')}` (
   `tree_id` int(10) unsigned NOT NULL auto_increment,
   `meta_first_last` tinyint(1) NOT NULL default '0',
   `meta_next_previous` tinyint(1) NOT NULL default '0',
@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms/hierarchy_node
   KEY `IDX_PAGE` (`page_id`),
   CONSTRAINT `FK_ENTERPRISE_CMS_HIERARCHY_NODE_PAGE` FOREIGN KEY (`page_id`) REFERENCES `{$installer->getTable('cms/page')}` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `FK_ENTERPRISE_CMS_HIERARCHY_NODE_PARENT_NODE` FOREIGN KEY (`parent_node_id`) REFERENCES `{$installer->getTable('enterprise_cms/hierarchy_node')}` (`node_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_ENTERPRISE_CMS_HIERARCHY_NODE_TREE` FOREIGN KEY (`tree_id`) REFERENCES `{$installer->getTable('enterprise_cms/hierarchy')}` (`tree_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_ENTERPRISE_CMS_HIERARCHY_NODE_TREE` FOREIGN KEY (`tree_id`) REFERENCES `{$installer->getTable('enterprise_cms_hierarchy')}` (`tree_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 ");
 $installer->endSetup();

@@ -106,7 +106,7 @@ class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage_Core_Mod
     }
 
     /**
-     * Mapping user_id to user column with additional value for non-existen users
+     * Mapping user_id to user column with additional value for non-existent users
      *
      * @return Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract
      */

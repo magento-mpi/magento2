@@ -43,32 +43,23 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
     }
 
     /**
-     * Add filter by hierarchy tree
-     *
-     * @param int $treeId
-     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection
-     */
-    public function addTreeFilter($treeId)
-    {
-        $this->addFieldToFilter('tree_id', $treeId);
-        return $this;
-    }
-
-    /**
      * Join Cms Page data to collection
      *
      * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection
      */
     public function joinCmsPage()
     {
-        $this->getSelect()->joinLeft(
-            array('page_table' => $this->getTable('cms/page')),
-            'main_table.page_id = page_table.page_id',
-            array(
-                'page_title'        => 'title',
-                'page_identifier'   => 'identifier'
-            )
-        );
+        if (!$this->getFlag('cms_page_data_joined')) {
+            $this->getSelect()->joinLeft(
+                array('page_table' => $this->getTable('cms/page')),
+                'main_table.page_id = page_table.page_id',
+                array(
+                    'page_title'        => 'title',
+                    'page_identifier'   => 'identifier'
+                )
+            );
+            $this->setFlag('cms_page_data_joined', true);
+        }
         return $this;
     }
 
@@ -79,10 +70,123 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
      */
     public function setTreeOrder()
     {
-        $this->getSelect()->where('main_table.parent_node_id IS NOT NULL');
-        $this->getSelect()->order(array(
-            'level', 'main_table.sort_order'
-        ));
+        if (!$this->getFlag('tree_order_added')) {
+            $this->getSelect()->order(array(
+                'parent_node_id', 'level', 'main_table.sort_order'
+            ));
+            $this->setFlag('tree_order_added', true);
+        }
+        return $this;
+    }
+
+    /**
+     * Join meta data for tree root nodes from extra table.
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection
+     */
+    public function joinMetaData()
+    {
+        if (!$this->getFlag('meta_data_joined')) {
+            $this->getSelect()->joinLeft(array('metadata_table' => $this->getTable('enterprise_cms/hierarchy_metadata')),
+                'main_table.node_id = metadata_table.node_id',
+                array(
+                    'meta_first_last',
+                    'meta_next_previous',
+                    'meta_chapter',
+                    'meta_section'
+                ));
+        }
+        $this->setFlag('meta_data_joined', true);
+        return $this;
+    }
+
+    /**
+     * Join main table on self to discover which nodes
+     * have defined page as direct child node.
+     *
+     * @param int|Mage_Cms_Model_Page $page
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection
+     */
+    public function joinPageExistsNodeInfo($page)
+    {
+        if (!$this->getFlag('page_exists_joined')) {
+            if ($page instanceof Mage_Cms_Model_Page) {
+                $page = $page->getId();
+            }
+
+            $onClause = 'main_table.node_id = clone.parent_node_id AND clone.page_id = ?';
+            $ifPageExistExpr = new Zend_Db_Expr('IF(clone.node_id is NULL, 0, 1)');
+            $ifCurrentPageExpr = new Zend_Db_Expr(
+                    $this->getConnection()->quoteInto('IF(main_table.page_id = ?, 1, 0)', $page)
+                );
+
+            $this->getSelect()->joinLeft(
+                    array('clone' => $this->getResource()->getMainTable()),
+                    $this->getConnection()->quoteInto($onClause, $page),
+                    array('page_exists' => $ifPageExistExpr, 'current_page' => $ifCurrentPageExpr)
+                );
+
+            $this->setFlag('meta_data_joined', true);
+        }
+        return $this;
+    }
+
+    /**
+     * Apply filter to retrieve nodes with ids which
+     * were defined as parameter or nodes which contain
+     * defined page in their direct children.
+     *
+     * @param int|array $nodeIds
+     * @param int|Mage_Cms_Model_Page|null $page
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection
+     */
+    public function applyPageExistsOrNodeIdFilter($nodeIds, $page = null)
+    {
+        if (!$this->getFlag('page_exists_or_node_id_filter_applied')) {
+            if (!$this->getFlag('page_exists_joined')) {
+                $this->joinPageExistsNodeInfo($page);
+            }
+
+            $whereExpr = new Zend_Db_Expr(
+                $this->getConnection()->quoteInto('clone.node_id IS NOT NULL OR main_table.node_id IN (?)', $nodeIds)
+            );
+
+            $this->getSelect()->where($whereExpr);
+            $this->setFlag('page_exists_or_node_id_filter_applied', true);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Adds dynamic column with maximum value (which means that it
+     * is sort_order of last direct child) of sort_order column in scope of one node.
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection
+     */
+    public function addLastChildSortOrderColumn()
+    {
+        if (!$this->getFlag('last_child_sort_order_column_added')) {
+            $subSelect = $this->getConnection()->select();
+            $subSelect->from($this->getResource()->getMainTable(), new Zend_Db_Expr('MAX(sort_order)'))
+                ->where('parent_node_id = `main_table`.`node_id`');
+            $this->getSelect()->from('', array('last_child_sort_order' => $subSelect));
+
+            $this->setFlag('last_child_sort_order_column_added', true);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Apply filter to retrieve only root nodes.
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection
+     */
+    public function applyRootNodeFilter()
+    {
+        $this->addFieldToFilter('parent_node_id', array('isnull' => true));
+
         return $this;
     }
 }

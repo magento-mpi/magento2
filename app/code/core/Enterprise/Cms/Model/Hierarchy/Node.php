@@ -26,7 +26,7 @@
 
 
 /**
- * Cms Hieararchy Pages Node Model
+ * Cms Hierarchy Pages Node Model
  *
  * @category   Enterprise
  * @package    Enterprise_Cms
@@ -43,27 +43,13 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Resource instance
+     * Retrieve Resource instance wrapper
      *
      * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
      */
     protected function _getResource()
     {
         return parent::_getResource();
-    }
-
-    /**
-     * Load Parent Node by Hierarchy Page Tree ID
-     *
-     * @param int $treeId
-     * @return Enterprise_Cms_Model_Hierarchy_Node
-     */
-    public function loadByHierarchy($treeId)
-    {
-        $this->_getResource()->loadByHierarchy($this, $treeId);
-        $this->_afterLoad();
-        $this->setOrigData();
-        return $this;
     }
 
     /**
@@ -80,7 +66,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
             Mage::throwException(Mage::helper('enterprise_cms')->__('Please enter a valid Identifier'));
         }
 
-        if (!$this->_getResource()->validateHierarchyIdentifier($this->getIdentifier(), $this->getTreeId())) {
+        if (!$this->_getResource()->validateHierarchyIdentifier($this->getIdentifier())) {
             Mage::throwException(Mage::helper('enterprise_cms')->__('Hierarchy with same Identifier already exists'));
         }
 
@@ -93,9 +79,9 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      * @param array $data
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */
-    public function collectTree($data)
+    public function collectTree($data, $remove)
     {
-        if (!is_array($data) || !$this->getId()) {
+        if (!is_array($data)) {
             return $this;
         }
 
@@ -103,20 +89,30 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         foreach ($data as $v) {
             $parentNodeId = empty($v['parent_node_id']) ? 0 : $v['parent_node_id'];
             $pageId = empty($v['page_id']) ? null : intval($v['page_id']);
-            $nodes[$parentNodeId][$v['node_id']] = array(
-                'node_id'       => strpos($v['node_id'], '_') === 0 ? null : intval($v['node_id']),
-                'page_id'       => $pageId,
-                'tree_id'       => $this->getTreeId(),
-                'label'         => !$pageId ? $v['label'] : null,
-                'identifier'    => !$pageId ? $v['identifier'] : null,
-                'level'         => intval($v['level']),
-                'sort_order'    => intval($v['sort_order']),
-                'request_url'   => $v['identifier']
+
+            $_node = array(
+                'node_id'            => strpos($v['node_id'], '_') === 0 ? null : intval($v['node_id']),
+                'page_id'            => $pageId,
+                'label'              => !$pageId ? $v['label'] : null,
+                'identifier'         => !$pageId ? $v['identifier'] : null,
+                'level'              => intval($v['level']),
+                'sort_order'          => intval($v['sort_order']),
+                'request_url'        => $v['identifier']
             );
+
+            $nodes[$parentNodeId][$v['node_id']] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($v, $_node);
         }
 
-        $this->_getResource()->removeTreeChilds($this);
-        $this->_collectTree($nodes, $this->getId(), $this->getRequestUrl(), $this->getId(), 0);
+        $this->_getResource()->beginTransaction();
+        try {
+            $this->_collectTree($nodes, $this->getId(), $this->getRequestUrl(), $this->getId(), 0);
+            $this->_getResource()->dropNodes($remove);
+
+            $this->_getResource()->commit();
+        } catch (Exception $e) {
+            $this->_getResource()->rollBack();
+            throw $e;
+        }
 
         return $this;
     }
@@ -134,15 +130,23 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     {
         foreach ($nodes[$level] as $k => $v) {
             $v['parent_node_id'] = $parentNodeId;
-            $v['request_url']    = $path . '/' . $v['request_url'];
-            $v['xpath'] = $xpath . '/';
+            if ($path != '') {
+                $v['request_url'] = $path . '/' . $v['request_url'];
+            } else {
+                $v['request_url'] = $v['request_url'];
+            }
 
-            // create new or modify exists node
-            $node = Mage::getModel('enterprise_cms/hierarchy_node');
-            $node->addData($v)->save();
+            if ($xpath != '') {
+                $v['xpath'] = $xpath . '/';
+            } else {
+                $v['xpath'] = '';
+            }
+
+            // create new or modify exists node using current instance of object
+            $this->setData($v)->save();
 
             if (isset($nodes[$k])) {
-                $this->_collectTree($nodes, $node->getId(), $node->getRequestUrl(), $node->getXpath(), $k);
+                $this->_collectTree($nodes, $this->getId(), $this->getRequestUrl(), $this->getXpath(), $k);
             }
         }
         return $this;
@@ -230,9 +234,9 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function updateRewriteUrls(Mage_Cms_Model_Page $page)
     {
-        $treeIds = $this->_getResource()->getTreeIdsByPage($page->getId());
-        foreach ($treeIds as $treeId) {
-            $this->_getResource()->updateRequestUrlsForTree($treeId);
+        $xpaths = $this->_getResource()->getTreeXpathsByPage($page->getId());
+        foreach ($xpaths as $xpath) {
+            $this->_getResource()->updateRequestUrlsForTreeByXpath($xpath);
         }
         return $this;
     }
@@ -251,34 +255,6 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     public function checkIdentifier($identifier)
     {
         return $this->_getResource()->checkIdentifier($identifier);
-    }
-
-    /**
-     * Set Node Hierarchy instance
-     *
-     * @param Enterprise_Cms_Model_Hierarchy $object
-     * @return Enterprise_Cms_Model_Hierarchy_Node
-     */
-    public function setHierarchy(Enterprise_Cms_Model_Hierarchy $object)
-    {
-        return $this->setData('_hierarchy', $object);
-    }
-
-    /**
-     * Retrieve Node Hierarchy instance
-     *
-     * @return Enterprise_Cms_Model_Hierarchy
-     */
-    public function getHierarchy()
-    {
-        if (!$this->hasData('_hierarchy')) {
-            $hierarchy = Mage::getModel('enterprise_cms/hierarchy');
-            if ($this->getTreeId()) {
-                $hierarchy->load($this->getTreeId());
-            }
-            $this->setData('_hierarchy', $hierarchy);
-        }
-        return $this->_getData('_hierarchy');
     }
 
     /**
@@ -420,5 +396,63 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Appending passed page as child node for specified nodes.
+     *
+     * @param Mage_Cms_Model_Page $page
+     * @param array $nodeIds
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function appendPageToNodes($page, $nodeIds)
+    {
+        $parentNodes = $this->getCollection()
+            ->joinPageExistsNodeInfo($page)
+            ->applyPageExistsOrNodeIdFilter($nodeIds, $page)
+            ->addLastChildSortOrderColumn();
+
+        $pageData = array(
+            'page_id' => $page->getId(),
+            'identifier' => null,
+            'label' => null
+        );
+
+        $removeFromNodes = array();
+
+        foreach ($parentNodes as $node) {
+            /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
+            if (in_array($node->getId(), $nodeIds)) {
+                if ($node->getPageExists()) {
+                    continue;
+                } else {
+                    $node->addData($pageData)
+                        ->setParentNodeId($node->getId())
+                        ->unsetData($this->getIdFieldName())
+                        ->setLevel($node->getLevel() + 1)
+                        ->setSortOrder($node->getLastChildSortOrder() + 1)
+                        ->setRequestUrl($node->getRequestUrl() . '/' . $page->getIdentifier())
+                        ->setXpath($node->getXpath() . '/')
+                        ->save();
+                }
+            } else {
+                $removeFromNodes[] = $node->getId();
+            }
+        }
+
+        if (!empty($removeFromNodes)) {
+            $this->_getResource()->removePageFromNodes($page->getId(), $removeFromNodes);
+        }
+
+        return $this;
+    }
+
+    public function getTreeMetaData()
+    {
+        if (is_null($this->_treeMetaData)) {
+            $this->_treeMetaData = $this->_getResource()->getTreeMetaData();
+        }
+
+        return $this->_treeMetaData;
     }
 }

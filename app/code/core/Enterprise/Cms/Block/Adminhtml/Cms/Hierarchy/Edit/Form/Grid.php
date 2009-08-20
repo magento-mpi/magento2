@@ -26,12 +26,12 @@
 
 
 /**
- * Cms Hierarchy Pages Tree Edit Cms Page General Grid Block
+ * Cms Hierarchy Pages Tree Edit Cms Page Grid Block
  *
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_General_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Initialize Grid block
@@ -40,10 +40,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_General_Grid extends
     public function __construct()
     {
         parent::__construct();
-        $this->setRowClickCallback('hierarchy.gridRowClick.bind(hierarchy)');
+        $this->setRowClickCallback('hierarchyNodes.pageGridRowClick.bind(hierarchyNodes)');
         $this->setDefaultSort('page_id');
+        $this->setMassactionIdField('page_id');
         $this->setUseAjax(true);
-        $this->setId('cms_page_general_grid');
+        $this->setId('cms_page_grid');
     }
 
     /**
@@ -65,13 +66,18 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_General_Grid extends
      */
     protected function _prepareColumns()
     {
+        $this->addColumn('is_selected', array(
+            'header_css_class'  => 'a-center',
+            'type'              => 'checkbox',
+            'align'             => 'center',
+            'index'             => 'page_id',
+        ));
         $this->addColumn('page_id', array(
             'header'            => Mage::helper('enterprise_cms')->__('Page ID'),
             'sortable'          => true,
             'width'             => '60px',
             'type'              => 'range',
-            'index'             => 'page_id',
-            'column_css_class'  => 'page_id'
+            'index'             => 'page_id'
         ));
 
         $this->addColumn('title', array(
@@ -96,6 +102,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_General_Grid extends
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/*/pageGeneralGrid', array('_current' => true));
+        return $this->getUrl('*/*/pageGrid', array('_current' => true));
     }
 }

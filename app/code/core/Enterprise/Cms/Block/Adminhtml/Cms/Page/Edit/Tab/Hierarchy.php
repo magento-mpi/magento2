@@ -36,6 +36,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
+     * Array of nodes for tree
+     * @var array|null
+     */
+    protected $_nodes = null;
+
+    /**
      * Retrieve current page instance
      *
      * @return Mage_Cms_Model_Page
@@ -46,45 +52,94 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     }
 
     /**
-     * Retrieve Hierarchy collection
+     * Retrieve Hierarchy JSON string
      *
-     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Collection
+     * @return string
      */
-    public function getHierchyCollection()
+    public function getNodesJson()
     {
-        if (!$this->hasData('hierarchy_collection')) {
-            /* @var $collection Enterprise_Cms_Model_Mysql4_Hierarchy_Collection */
-            $collection = Mage::getModel('enterprise_cms/hierarchy')->getCollection()
-                ->joinRootNode()
-                ->addContainPageFilter($this->getPage());
-            $this->setData('hierarchy_collection', $collection);
-        }
-        return $this->getData('hierarchy_collection');
+        return Mage::helper('core')->jsonEncode($this->getNodes());
     }
 
     /**
-     * Retrieve HTML escaped Hierarchy title
+     * Prepare nodes data from DB
      *
-     * @param Enterprise_Cms_Model_Hierarchy
-     * @return string
+     * @return array
      */
-    public function getHierarchyTitle($hierarchy)
-    {
-        if ($hierarchy->getLabel()) {
-            return $this->htmlEscape($hierarchy->getLabel());
+    public function getNodes() {
+        if (is_null($this->_nodes)) {
+            $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
+                ->joinCmsPage()
+                ->setTreeOrder()
+                ->joinPageExistsNodeInfo($this->getPage());
+
+            $this->_nodes = array();
+
+            $_selectedNodes = null;
+            if ($this->getPage()->hasData('node_ids')) {
+                $_selectedNodes = explode(',', $this->getPage()->getData('node_ids'));
+            }
+
+            foreach ($collection as $item) {
+                /* @var $item Enterprise_Cms_Model_Hierarchy_Node */
+                if (is_array($_selectedNodes)) {
+                    if (in_array($item->getId(), $_selectedNodes)) {
+                        $item->setPageExists(1);
+                    } else {
+                        $item->setPageExists(0);
+                    }
+                }
+
+                $_node = array(
+                    'node_id'               => $item->getId(),
+                    'parent_node_id'        => $item->getParentNodeId(),
+                    'label'                 => $item->getLabel(),
+                    'page_exists'           => (bool)$item->getPageExists(),
+                    'current_page'          => (bool)$item->getCurrentPage(),
+                    'cls'                   => $item->getCurrentPage()?'cur-page':''
+                );
+                $this->_nodes[] = $_node;
+            }
         }
-        return $this->htmlEscape($hierarchy->getPageTitle());
+        return $this->_nodes;
     }
 
     /**
-     * Retrieve Hierarchy edit URL
+     * Retrieve ids of selected nodes from two sources.
+     * First is from prepared data from DB.
+     * Second source is data from page model in case we had error.
      *
-     * @param Enterprise_Cms_Model_Hierarchy
      * @return string
      */
-    public function getHierarchyEditUrl($hierarchy)
+    public function getSelectedNodeIds()
     {
-        return $this->getUrl('adminhtml/cms_hierarchy/edit', array('tree_id' => $hierarchy->getId()));
+        if (!$this->getPage()->hasData('node_ids')) {
+            $ids = array();
+
+            foreach ($this->getNodes() as $node) {
+                if ($node['page_exists']) {
+                    $ids[] = $node['node_id'];
+                }
+            }
+            return implode(',', $ids);
+        }
+
+        return $this->getPage()->getData('node_ids');
+    }
+
+    /**
+     * Prepare json string with current page data
+     *
+     * @return string
+     */
+    public function getCurrentPageJson()
+    {
+        $data = array(
+            'label' => $this->getPage()->getTitle(),
+            'id' => $this->getPage()->getId()
+        );
+
+        return Mage::helper('core')->jsonEncode($data);
     }
 
     /**
@@ -115,9 +170,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     public function canShowTab()
     {
         if (!$this->getPage()->getId()) {
-            return false;
-        }
-        if (!$this->getHierchyCollection()->getItems()) {
             return false;
         }
         return true;

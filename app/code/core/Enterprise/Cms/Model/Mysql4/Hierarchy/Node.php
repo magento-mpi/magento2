@@ -26,7 +26,7 @@
 
 
 /**
- * Cms Hieararchy Pages Node Resource Model
+ * Cms Hierarchy Pages Node Resource Model
  *
  * @category   Enterprise
  * @package    Enterprise_Cms
@@ -41,17 +41,25 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     protected $_isPkAutoIncrement = false;
 
     /**
+     * Secondary table for saving meta data
+     * @var string
+     */
+    protected $_metadataTable;
+
+    /**
      * Initialize connection and define main table and field
      *
      */
     protected function _construct()
     {
         $this->_init('enterprise_cms/hierarchy_node', 'node_id');
+        $this->_metadataTable = $this->getTable('enterprise_cms/hierarchy_metadata');
     }
 
     /**
-     * Retrieve select object for load object data
-     * Join page information if page assigned
+     * Retrieve select object for load object data.
+     * Join page information if page assigned.
+     * Join secondary table with meta data for root nodes.
      *
      * @param string $field
      * @param mixed $value
@@ -61,41 +69,23 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        $select->joinLeft(
-            array('page_table' => $this->getTable('cms/page')),
-            $this->getMainTable() . '.page_id = page_table.page_id',
-            array(
-                'page_title'        => 'title',
-                'page_identifier'   => 'identifier',
-                'page_is_active'    => 'is_active'
-            )
-        );
+        $select->joinLeft(array('page_table' => $this->getTable('cms/page')),
+                $this->getMainTable() . '.page_id = page_table.page_id',
+                array(
+                    'page_title'        => 'title',
+                    'page_identifier'   => 'identifier',
+                    'page_is_active'    => 'is_active'
+                ))
+            ->joinLeft(array('metadata_table' => $this->_metadataTable),
+                $this->getMainTable() . '.' . $this->getIdFieldName() . ' = metadata_table.node_id',
+                array(
+                    'meta_first_last',
+                    'meta_next_previous',
+                    'meta_chapter',
+                    'meta_section'
+                ));
 
         return $select;
-    }
-
-    /**
-     * Load Parent Node by Hierarchy Page Tree ID
-     *
-     * @param Enterprise_Cms_Model_Hierarchy_Node $object
-     * @param int $treeId
-     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
-     */
-    public function loadByHierarchy($object, $treeId)
-    {
-        $read = $this->_getReadAdapter();
-        if ($read && !is_null($treeId)) {
-            $select = $this->_getLoadSelect('tree_id', $treeId, $object);
-            $select->where('parent_node_id IS NULL');
-            $data = $read->fetchRow($select);
-
-            if ($data) {
-                $object->setData($data);
-            }
-        }
-
-        $this->_afterLoad($object);
-        return $this;
     }
 
     /**
@@ -153,15 +143,12 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      * @param int $treeId
      * @return bool
      */
-    public function validateHierarchyIdentifier($identifier, $treeId = null)
+    public function validateHierarchyIdentifier($identifier)
     {
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
             ->where('parent_node_id IS NULL')
             ->where('identifier=?', $identifier);
-        if ($treeId) {
-            $select->where('tree_id!=?', $treeId);
-        }
 
         if ($this->_getReadAdapter()->fetchRow($select)) {
             return false;
@@ -171,7 +158,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Remove children by root
+     * Remove children by root node.
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
      * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
@@ -184,64 +171,68 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Retrieve tree ids array where the page is
+     * Retrieve xpaths array which contains defined page
      *
      * @param int $pageId
      * @return array
      */
-    public function getTreeIdsByPage($pageId)
+    public function getTreeXpathsByPage($pageId)
     {
-        $treeIds = array();
+        $treeXpaths = array();
         $select = $this->_getReadAdapter()->select()
-            ->distinct(true)
-            ->from($this->getMainTable(), 'tree_id')
+            ->from($this->getMainTable(), 'xpath')
             ->where('page_id=?', $pageId);
+
         $rowset = $this->_getReadAdapter()->fetchAll($select);
-        $treeIds = array();
+        $treeXpaths = array();
         foreach ($rowset as $row) {
-            $treeIds[$row['tree_id']] = $row['tree_id'];
+            $treeXpaths[] = $row['xpath'];
         }
-        return $treeIds;
+        return $treeXpaths;
     }
 
     /**
-     * Rebuild URL rewrites for a tree
+     * Rebuild URL rewrites for a tree with specified path.
      *
-     * @param int $treeId
+     * @param string $xpath
      * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
      */
-    public function updateRequestUrlsForTree($treeId)
+    public function updateRequestUrlsForTreeByXpath($xpath)
     {
         $select = $this->_getReadAdapter()->select()
             ->from(
                 array('node_table' => $this->getMainTable()),
-                array('node_id', 'parent_node_id', 'page_id', 'identifier', 'request_url'))
+                array($this->getIdFieldName(), 'parent_node_id', 'page_id', 'identifier', 'request_url'))
             ->joinLeft(
                 array('page_table' => $this->getTable('cms/page')),
                 'node_table.page_id=page_table.page_id',
                 array(
                     'page_identifier' => 'identifier',
                 ))
-            ->where('tree_id=?', $treeId)
+            ->where('xpath LIKE ?', $xpath. '/%')
+            ->orWhere('xpath = ?', $xpath)
+            ->group('node_table.node_id')
             ->order(array('level', 'node_table.sort_order'));
 
         $nodes      = array();
         $rowSet     = $select->query()->fetchAll();
         foreach ($rowSet as $row) {
-            $nodes[intval($row['parent_node_id'])][$row['node_id']] = $row;
+            $nodes[intval($row['parent_node_id'])][$row[$this->getIdFieldName()]] = $row;
         }
 
         if (!$nodes) {
             return $this;
         }
 
-        $this->_updateNodeRequestUrls($nodes, 0, null);
+        $keys = array_keys($nodes);
+        $parentNodeId = array_shift($keys);
+        $this->_updateNodeRequestUrls($nodes, $parentNodeId, null);
 
         return $this;
     }
 
     /**
-     * Recursive update node Request URLs
+     * Recursive update Request URL for node and all it's children
      *
      * @param array $nodes
      * @param int $parentNodeId
@@ -250,19 +241,26 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      */
     protected function _updateNodeRequestUrls(array $nodes, $parentNodeId = 0, $path = null)
     {
-        if (!isset($nodes[$parentNodeId])) {
-            return $this;
-        }
         foreach ($nodes[$parentNodeId] as $nodeRow) {
             $identifier = $nodeRow['page_id'] ? $nodeRow['page_identifier'] : $nodeRow['identifier'];
-            $requestUrl = ($path ? $path . '/' : '') . $identifier;
+
+            if ($path) {
+                $requestUrl = $path . '/' . $identifier;
+            } else {
+                $route = explode('/', $nodeRow['request_url']);
+                array_pop($route);
+                $route[] = $identifier;
+                $requestUrl = implode('/', $route);
+            }
+
             if ($nodeRow['request_url'] != $requestUrl) {
                 $this->_getWriteAdapter()->update($this->getMainTable(), array(
                     'request_url' => $requestUrl
-                ), $this->_getWriteAdapter()->quoteInto('node_id=?', $nodeRow['node_id']));
+                ), $this->_getWriteAdapter()->quoteInto($this->getIdFieldName().'=?', $nodeRow[$this->getIdFieldName()]));
             }
-            if (isset($nodes[$nodeRow['node_id']])) {
-                $this->_updateNodeRequestUrls($nodes, $nodeRow['node_id'], $requestUrl);
+
+            if (isset($nodes[$nodeRow[$this->getIdFieldName()]])) {
+                $this->_updateNodeRequestUrls($nodes, $nodeRow[$this->getIdFieldName()], $requestUrl);
             }
         }
 
@@ -308,6 +306,25 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
             $object->setXpath($xpath);
         }
 
+        $this->_saveMetaData($object);
+
+        return $this;
+    }
+
+    /**
+     * Saving meta if such available for node (in case node is root node of three)
+     *
+     * @param Mage_Core_Model_Abstract $object
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    protected function _saveMetaData(Mage_Core_Model_Abstract $object)
+    {
+        if ($object->getParentNodeId()) {
+            return $this;
+        }
+        $preparedData = $this->_prepareDataForTable($object, $this->_metadataTable);
+        $this->_getWriteAdapter()->insertOnDuplicate(
+            $this->_metadataTable, $preparedData, array_keys($preparedData));
         return $this;
     }
 
@@ -333,14 +350,14 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         }
         $read = $this->_getReadAdapter();
         if ($read) {
-            $select = $this->_getLoadSelect('tree_id', $node->getTreeId(), $object);
+            $select = $this->_getLoadSelect($this->getIdFieldName(), $node->getId(), $object);
             $found  = false;
             switch ($type) {
                 case 'chapter':
                     $xpath = split('/', $node->getXpath());
                     if (isset($xpath[1]) && $xpath[1] != $node->getId()) {
                         $found = true;
-                        $select->where($this->getMainTable() . '.node_id=?', $xpath[1]);
+                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[1]);
                     }
                     break;
 
@@ -348,7 +365,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                     $xpath = split('/', $node->getXpath());
                     if (isset($xpath[2]) && $xpath[2] != $node->getId()) {
                         $found = true;
-                        $select->where($this->getMainTable() . '.node_id=?', $xpath[2]);
+                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[2]);
                     }
                     break;
 
@@ -428,8 +445,8 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
 
             if ($parentIds) {
                 $parentId = $parentIds[count($parentIds) -1];
-                $select = $this->_getLoadSelect('tree_id', $object->getTreeId(), $object)
-                    ->where('parent_node_id IN(?)', $parentIds)
+                $select = $this->_getLoadSelect($this->getIdFieldName(), $object->getId(), $object)
+                    ->where('parent_node_id IN (?)', $parentIds)
                     ->order(array('level', $this->getMainTable().'.sort_order'));
                 $tree = $this->_createNodesFromSelect($select, $parentId, $tree);
             }
@@ -447,7 +464,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                 . ' AND ' . $this->_getReadAdapter()->quoteInto('level < ?', $level) . ')';
         }
 
-        $select = $this->_getLoadSelect('tree_id', $object->getTreeId(), $object)
+        $select = $this->_getLoadSelect($this->getIdFieldName(), $object->getId(), $object)
             ->where($where)
             ->order(array('level', $this->getMainTable().'.sort_order'));
 
@@ -492,7 +509,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         } else {
             $where = $this->_getReadAdapter()->quoteInto('parent_node_id=?', $object->getParentNodeId());
         }
-        $select = $this->_getLoadSelect('tree_id', $object->getTreeId(), $object)
+        $select = $this->_getLoadSelect($this->getIdFieldName(), $object->getId(), $object)
             ->where($where)
             ->order($this->getMainTable().'.sort_order');
         $nodes = $select->query()->fetchAll();
@@ -530,6 +547,40 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                 $object->addData($row);
             }
         }
+        return $this;
+    }
+
+    /**
+     * Remove node which are representing specified page from defined nodes.
+     * Which will also remove child nodes by foreign key.
+     *
+     * @param int $pageId
+     * @param int|array $nodes
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function removePageFromNodes($pageId, $nodes)
+    {
+        $write = $this->_getWriteAdapter();
+        $whereClause = $write->quoteInto('page_id = ? AND ', $pageId);
+        $whereClause .= $write->quoteInto('parent_node_id IN (?)', $nodes);
+        $write->delete($this->getMainTable(), $whereClause);
+
+        return $this;
+    }
+
+    /**
+     * Remove nodes defined by id.
+     * Which will also remove their child nodes by foreign key.
+     *
+     * @param int|array $nodeIds
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function dropNodes($nodeIds)
+    {
+        $write = $this->_getWriteAdapter();
+        $whereClause = $write->quoteInto('node_id IN (?)', $nodeIds);
+        $write->delete($this->getMainTable(), $whereClause);
+
         return $this;
     }
 }

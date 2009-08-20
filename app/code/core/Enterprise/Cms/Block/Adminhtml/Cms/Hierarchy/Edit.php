@@ -34,48 +34,29 @@
 class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     /**
-     * Retrieve current hierarchy instance
-     *
-     * @return Enterprise_Cms_Model_Hierarchy
-     */
-    protected function _getHierarchy()
-    {
-        return Mage::registry('current_hierarchy');
-    }
-
-    /**
      * Initialize Form Container
      *
      */
     public function __construct()
     {
-        $this->_objectId   = 'tree_id';
+        $this->_objectId   = 'node_id';
         $this->_blockGroup = 'enterprise_cms';
         $this->_controller = 'adminhtml_cms_hierarchy';
 
         parent::__construct();
 
-        $this->_updateButton('save', 'onclick', 'hierarchyNodes.save(false)');
-        $this->_addButton('save_and_edit_button', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Save And Continue Edit'),
-            'onclick'   => 'hierarchyNodes.save(true)',
-            'class'     => 'save'
-        ));
+        $this->_updateButton('save', 'onclick', 'hierarchyNodes.save()');
+        $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save Pages Hierarchy'));
+        $this->_removeButton('back');
     }
 
     /**
-     * Retrieve text for header element depending on loaded page
+     * Retrieve text for header element
      *
      * @return string
      */
     public function getHeaderText()
     {
-        if ($this->_getHierarchy()->getId()) {
-            $label = $this->htmlEscape($this->_getHierarchy()->getRootNode()->getLabel());
-            return Mage::helper('enterprise_cms')->__("Edit Page Tree '%s'", $label);
-        }
-        else {
-            return Mage::helper('enterprise_cms')->__('New Page Tree');
-        }
+        return Mage::helper('enterprise_cms')->__("Manage Pages Hierarchy");
     }
 }

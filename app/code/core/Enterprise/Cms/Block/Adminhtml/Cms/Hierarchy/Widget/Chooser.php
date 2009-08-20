@@ -129,14 +129,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
      */
     protected function _getTreesJson()
     {
-        $collection = Mage::getModel('enterprise_cms/hierarchy')->getCollection()
-            ->joinRootNode();
+        /* @var $collection Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection */
+        $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection();
+        $collection->applyRootNodeFilter()
+            ->joinCmsPage();
 
         $trees = array();
-        foreach ($collection as $tree) {
+        foreach ($collection as $rootNode) {
             $trees[] = array(
-                'id'        => $tree->getRootNode()->getId(),
-                'text'      => $tree->getRootNode()->getLabel(),
+                'id'        => $rootNode->getId(),
+                'text'      => $rootNode->getLabel(),
                 'cls'       => 'folder',
             );
         }

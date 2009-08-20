@@ -29,23 +29,12 @@
     <adminhtml_cms_hierarchy translate="label">
         <label>CMS Hierarchy</label>
         <expected_models>
-            <enterprise_cms__hierarchy/>
+            <enterprise_cms__hierarchy_node/>
         </expected_models>
         <actions>
-            <adminhtml_cms_hierarchy_edit>
-                <action>view</action>
-            </adminhtml_cms_hierarchy_edit>
-
             <adminhtml_cms_hierarchy_save>
                 <action>save</action>
-                <expected_models extends="merge">
-                    <enterprise_cms__hierarchy_node/>
-                </expected_models>
             </adminhtml_cms_hierarchy_save>
-
-            <adminhtml_cms_hierarchy_delete>
-                <action>delete</action>
-            </adminhtml_cms_hierarchy_delete>
         </actions>
     </adminhtml_cms_hierarchy>
 
@@ -93,7 +82,6 @@
 
             <adminhtml_cms_page_version_massDeleteRevisions>
                 <action>massUpdate</action>
-                <id>revision</id>
             </adminhtml_cms_page_version_massDeleteRevisions>
         </actions>
     </adminhtml_cms_page_version>

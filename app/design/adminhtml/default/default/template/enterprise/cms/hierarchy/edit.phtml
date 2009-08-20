@@ -25,45 +25,25 @@
  */
 ?>
 <?php
-/* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Tab_Pages */
+/* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Edit_Form */
 ?>
 <table cellspacing="0" width="100%">
     <tr>
         <td width="50%" style="border-right:1px solid #ddd; padding:0 23px 23px 0;">
-            <div id="tree-container" style="width:100%;height:400px;overflow:auto"></div>
+            <div id="tree-container" style="width:100%;height:400px;overflow:auto" class="tree x-tree" />
         </td>
         <td style="padding:0 0 23px 23px;">
             <div style="padding-bottom: 5px;">
                 <?php echo $this->getTreeButtonsHtml();?>
+                <?php echo $this->getPagePropertiesButtons();?>
             </div>
-            <div id="node_prop_container">
-                <div class="entry-edit-head">
-                    <h4 class="icon-head head-edit-form fieldset-legend"><?php echo $this->__('Node Properties')?></h4>
-                </div>
-                <div id="node_properties_fieldset" class="fieldset">
-                    <div class="hor-scroll">
-                        <input type="hidden" id="node_id" value="">
-                        <input type="hidden" id="node_page_id" value="">
-                        <table cellspacing="0" class="form-list">
-                            <tbody><tr>
-                                <td class="label"><label for="node_label"><?php echo $this->__('Node Title')?> <span class="required">*</span></label></td>
-                                <td class="value"><span id="node_label_text" style="display: none;"></span><input id="node_label" value="" class="input-text" type="text"/></td>
-                            </tr>
-                            <tr>
-                                <td class="label"><label for="node_identifier"><?php echo $this->__('URL Key')?> <span class="required">*</span></label></td>
-                                <td class="value"><span id="node_identifier_text" style="display: none;"></span><input id="node_identifier" value="" class="input-text validate-identifier" type="text"/></td>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td><?php echo $this->getPagePropertiesButtons();?></td>
-                            </tr></tbody>
-                        </table>
-                    </div>
-                </div>
+            <div id="node_prop_container" class="entry-edit">
+                <?php echo $this->getFormHtml() ?>
             </div>
         </td>
     </tr>
 </table>
+
 <script type="text/javascript">
 /**
  * Fix ext compatibility with prototype 1.6
@@ -74,6 +54,7 @@ Ext.lib.Event.getTarget = function(e) {
 };
 hierarchyNodes = {
     nodes: <?php echo $this->getNodesJson()?>,
+    removedNodes: $A(),
     initialize: function(){
         this.increment = 0;
         this.pageIdentifiers = $H({});
@@ -91,7 +72,7 @@ hierarchyNodes = {
             allowDrop: true,
             allowDrag: false,
             expanded: true,
-            cls: 'cms_node_root',
+            cls: 'cms_node_root'
         });
         this.tree.setRootNode(this.treeRoot);
         this.createNodes();
@@ -99,6 +80,11 @@ hierarchyNodes = {
         this.tree.addListener('beforeappend', this.onNodeAppend.bind(this));
         this.tree.render();
         this.treeRoot.select();
+        this.dataModification = false;
+        this.lastChangedNode = null;
+
+        $('node_label').removeClassName('required-entry');
+        $('node_identifier').removeClassName('required-entry');
     },
     createNodes: function(){
         for (var i = 0, l = this.nodes.length; i < l; i++) {
@@ -108,9 +94,13 @@ hierarchyNodes = {
                 page_id: this.nodes[i].page_id,
                 identifier: this.nodes[i].identifier,
                 cls: this.nodes[i].page_id > 0 ? 'cms_page' : 'cms_node',
-                expanded: true,
+                expanded: false,
                 allowDrop: true,
-                allowDrag: true
+                allowDrag: true,
+                meta_first_last: this.nodes[i].meta_first_last,
+                meta_next_previous: this.nodes[i].meta_next_previous,
+                meta_chapter: this.nodes[i].meta_chapter,
+                meta_section: this.nodes[i].meta_section
             });
 
             if (this.nodes[i].page_id) {
@@ -125,15 +115,35 @@ hierarchyNodes = {
         }
     },
     onNodeSelect: function(model, node){
+        if (this.lastChangedNode) {
+            this.lastChangedNode.ui.removeClass('modified');
+            this.lastChangedNode = null;
+        }
+
         if (!node || node.id == '_root') {
             $('node_prop_container').hide();
+            $('cancel_node_button').hide();
+            $('save_node_button').hide();
+            $('delete_node_button').hide();
             this.pageGridLoad();
             return;
         }
         $('node_prop_container').show();
 
+        var isTreeNode = (node.parentNode.id == '_root');
+        if (isTreeNode) {
+            this.showFieldSet('metadata_fieldset');
+            $('meta_first_last').value = node.attributes.meta_first_last;
+            $('meta_next_previous').value = node.attributes.meta_next_previous;
+            $('meta_chapter').value = node.attributes.meta_chapter;
+            $('meta_section').value = node.attributes.meta_section;
+        } else {
+            this.hideFieldSet('metadata_fieldset');
+        }
+
         $('node_id').value = node.id;
         $('node_page_id').value = node.attributes.page_id;
+
         var hasPageId = node.attributes.page_id != null;
         this._changeNodePropShow(hasPageId);
 
@@ -146,8 +156,12 @@ hierarchyNodes = {
         }
 
         this.nodePropReset();
+
         $('delete_node_button').show();
         $('cancel_node_button').hide();
+
+        this.saveButton(!hasPageId || isTreeNode, false, false);
+
         this.pageGridLoad();
     },
     onNodeAppend: function(tree,parent,node){
@@ -210,17 +224,26 @@ hierarchyNodes = {
                 label: node.attributes.text,
                 identifier: node.attributes.identifier,
                 sort_order: node.parentNode.indexOf(node),
-                level: node.getDepth()
+                level: node.getDepth(),
+                meta_first_last: node.attributes.meta_first_last,
+                meta_next_previous: node.attributes.meta_next_previous,
+                meta_chapter: node.attributes.meta_chapter,
+                meta_section: node.attributes.meta_section
             });
         }
         if (node.hasChildNodes()) {
             node.eachChild(this.collectChilds.bind(this));
         }
     },
-    save: function(continue_edit){
+    save: function(){
+        if (this.dataModification) {
+            if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are not saved node data. Are you sure you want to proceed?') ?>')) {
+                return;
+            }
+        }
         this.collectChilds(this.treeRoot);
         $('nodes_data').value = this.treeData.toJSON();
-        $('continue_edit').value = continue_edit ? 1 : 0;
+        $('removed_nodes').value = this.removedNodes.join(',');
         editForm.submit();
     },
     nodePropValidate: function(){
@@ -247,32 +270,35 @@ hierarchyNodes = {
         var pageElements = ['node_identifier_text','node_label_text'];
         pageElements.each(function(id){
             if (!hasPageId) {
-                $(id).hide();
+                $(id).up('tr').hide();
             } else {
-                $(id).show();
+                $(id).up('tr').show();
             }
             $(id).innerHTML = '';
         });
         nodeElements.each(function(id){
             if (hasPageId) {
-                $(id).hide();
+                $(id).up('tr').hide();
             } else {
-                $(id).show();
+                $(id).up('tr').show();
             }
             $(id).value = '';
         });
-        if (hasPageId) {
-            $('save_node_button').hide();
-        } else {
-            $('save_node_button').show();
-        }
     },
     newNodePage: function(){
         this.nodePropReset();
         $('node_id').value = '';
         $('node_page_id').value = '';
         this._changeNodePropShow(false);
+        this.saveButton(true, false, true);
         //this.tree.getSelectionModel().clearSelections();
+
+        var selectedNode = this.tree.getSelectionModel().getSelectedNode();
+        if (selectedNode.id == '_root') {
+            this.showFieldSet('metadata_fieldset');
+        } else {
+            this.hideFieldSet('metadata_fieldset');
+        }
 
         $('delete_node_button').hide();
         $('node_prop_container').show();
@@ -284,15 +310,19 @@ hierarchyNodes = {
             this.tree.getSelectionModel().clearSelections();
             selectedNode.select();
         } else {
+            this.saveButton(false);
+            $('cancel_node_button').hide();
             $('node_prop_container').hide();
         }
     },
     saveNodePage: function(){
         var hasNodeId = $('node_id').value != '';
         var hasPageId = $('node_page_id').value != '';
-        var isValid = this.nodePropValidate();
-        if (!isValid) {
-            return;
+        if (!hasPageId) {
+            var isValid = this.nodePropValidate();
+            if (!isValid) {
+                return;
+            }
         }
 
         if (hasNodeId) {
@@ -308,8 +338,10 @@ hierarchyNodes = {
                 }
             }
 
-            node.text = $('node_label').value;
-            node.attributes.identifier = identifier;
+            if (!hasPageId) {
+                node.setText($('node_label').value);
+                node.attributes.identifier = identifier;
+            }
         } else {
             var node = new Ext.tree.TreeNode({
                 id: '_' + this.increment,
@@ -324,12 +356,27 @@ hierarchyNodes = {
 
             this.increment ++;
             var parentNode = this.tree.getSelectionModel().getSelectedNode();
+
             if (!parentNode) {
                 parentNode = this.treeRoot;
             }
             parentNode.appendChild(node);
         }
+
+        if (node.parentNode.id == '_root') {
+            node.attributes.meta_first_last = $('meta_first_last').value;
+            node.attributes.meta_next_previous = $('meta_next_previous').value;
+            node.attributes.meta_chapter = $('meta_chapter').value;
+            node.attributes.meta_section = $('meta_section').value;
+        }
+
+        node.getUI().removeClass('modified');
+        node.getUI().addClass('saved');
+
         node.select();
+
+        this.saveButton(true, false);
+        this.dataModification = false;
     },
     deleteNodePage: function(){
         if (!$('node_id').value) {
@@ -342,40 +389,84 @@ hierarchyNodes = {
             }
             node.parentNode.select();
             node.parentNode.removeChild(node);
+
+            if (!isNaN(node.id * 1)) {
+                this.removedNodes.push(node.id);
+            }
+
             this.pageGridLoad();
         }
     },
     pageGridLoad: function(){
         var node = this.tree.getSelectionModel().getSelectedNode();
         var fullReset = !node ? true : false;
-        var identifiers = this.pageIdentifiers.clone();
+        var identifiers = $H([]);
         if (node) {
             node.eachChild(function(child){
                 identifiers.set(child.attributes.identifier, true);
             });
-        }
 
-        var rows = $$('#cms_page_grid .grid table tbody tr');
-        rows.each(function(tr){
-            if (fullReset) {
-                tr.removeClassName('invalid');
-                tr.down('.checkbox').disabled = false;
-            } else {
-                var identifier = tr.down('.identifier').textContent;
-                if (identifiers.get(identifier)) {
-                    tr.addClassName('invalid');
-                    tr.down('.checkbox').disabled = true;
-                } else {
+            var rows = $$('#cms_page_grid .grid table tbody tr');
+            rows.each(function(tr){
+                if (fullReset) {
                     tr.removeClassName('invalid');
                     tr.down('.checkbox').disabled = false;
+                } else {
+                    var identifier = tr.down('.identifier').textContent;
+                    if (identifiers.get(identifier)) {
+                        tr.addClassName('invalid');
+                        tr.down('.checkbox').disabled = true;
+                    } else {
+                        tr.removeClassName('invalid');
+                        tr.down('.checkbox').disabled = false;
+                    }
+                }
+            });
+        }
+    },
+    hideFieldSet: function(id) {
+        $(id).hide();
+        $(id).previous(0).hide();
+    },
+    showFieldSet: function(id) {
+        $(id).show();
+        $(id).previous(0).show();
+    },
+    saveButton: function(show, enabled, save) {
+        var btn = $('save_node_button');
+        if (show) {
+            btn.show();
+            btn.disabled = !enabled;
+            if (enabled) {
+                btn.removeClassName('disabled');
+            } else {
+                btn.addClassName('disabled');
+            }
+
+            if (save != undefined) {
+                if (save) {
+                    btn.down('span').update('<?php echo $this->getButtonSaveLabel() ?>');
+                } else {
+                    btn.down('span').update('<?php echo $this->getButtonUpdateLabel() ?>');
                 }
             }
-        });
+        } else {
+            btn.hide();
+        }
+    },
+    nodeChanged: function() {
+        var node = this.tree.getSelectionModel().getSelectedNode();
+        if (node.id != '_root') {
+            node.getUI().addClass('modified');
+            this.lastChangedNode = node;
+        }
+        this.dataModification = true;
+        this.saveButton(true, true);
     }
 };
 Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
 </script>
-
+<br />
 <div id="cms_page_grid_container">
     <div class="entry-edit">
         <div class="entry-edit-head">
@@ -383,9 +474,9 @@ Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
             <h4 class="fieldset-legend head-cms-page-grid icon-head"><?php echo $this->__('CMS Pages')?></h4>
         </div>
         <fieldset>
-            <?php echo $this->getChildHtml('cms_page_grid')?>
+            <?php echo $this->getParentBlock()->getChildHtml('cms_page_grid')?>
         </fieldset>
-    <div>
+    </div>
 </div>
 
 <script type="text/javascript">

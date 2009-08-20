@@ -90,10 +90,8 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
                 return $this;
             }
 
-            $hierarchy = $node->getHierarchy();
             // register hierarchy and node
             Mage::register('current_cms_hierarchy_node', $node);
-            Mage::register('current_cms_hierarchy', $hierarchy);
 
             $condition->setContinue(true);
             $condition->setIdentifier($node->getPageIdentifier());
@@ -101,5 +99,30 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
         }
 
         return $this;
+    }
+
+    /**
+     * Copy meta data from source array to target
+     *
+     * @param array $source
+     * @param array $target
+     * @return array
+     */
+    public function copyMetaData($source, $target)
+    {
+        $elements = array(
+            'meta_first_last',
+            'meta_next_previous',
+            'meta_chapter',
+            'meta_section'
+        );
+
+        foreach ($elements as $element) {
+            if (isset($source[$element])) {
+                $target[$element] = $source[$element];
+            }
+        }
+
+        return $target;
     }
 }

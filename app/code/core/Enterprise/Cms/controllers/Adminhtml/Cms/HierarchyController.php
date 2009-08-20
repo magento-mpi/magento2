@@ -34,7 +34,7 @@
 class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Retrieve Cms Hierarhy data helper
+     * Retrieve Cms Hierarchy data helper
      *
      * @return Enterprise_Cms_Helper_Hierarchy
      */
@@ -74,48 +74,18 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     }
 
     /**
-     * CMS Page Trees Grid
+     * Edit Page Tree
      *
      */
     public function indexAction()
     {
-        $this->_initAction()
-            ->renderLayout();
-    }
-
-    /**
-     * Add new tree (forward to edit page)
-     *
-     */
-    public function newAction()
-    {
-        $this->_forward('edit');
-    }
-
-    /**
-     * Edit Page Tree
-     *
-     */
-    public function editAction()
-    {
-        $hierarchy  = Mage::getModel('enterprise_cms/hierarchy');
-        $node       = Mage::getModel('enterprise_cms/hierarchy_node');
-        $treeId     = $this->getRequest()->getParam('tree_id');
-        if (is_numeric($treeId)) {
-            $hierarchy->load($treeId);
-            if ($hierarchy->getId()) {
-                $node->loadByHierarchy($hierarchy->getId());
-            }
-        }
-        $hierarchy->setRootNode($node);
+        $node = Mage::getModel('enterprise_cms/hierarchy_node');
 
         $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
-            $hierarchy->addData($data);
             $node->addData($data);
         }
 
-        Mage::register('current_hierarchy', $hierarchy);
         Mage::register('current_hierarchy_node', $node);
 
         $this->_initAction()
@@ -128,43 +98,21 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     public function saveAction()
     {
-        $redirectUrl    = '*/*';
         $redirectArgs   = array();
         if ($this->getRequest()->isPost()) {
-            /** @var $hierarchy Enterprise_Cms_Model_Hierarchy */
             /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
-            $hierarchy  = Mage::getModel('enterprise_cms/hierarchy');
             $node       = Mage::getModel('enterprise_cms/hierarchy_node');
-            $data       = $this->getRequest()->getPost('cms_hierarchy');
+            $data       = $this->getRequest()->getPost();
             $hasError   = true;
-            if (isset($data['tree_id']) && is_numeric($data['tree_id'])) {
-                $hierarchy->load($data['tree_id']);
-            } else {
-                $data['tree_id'] = null;
-            }
-            try {
-                if (empty($data['page_id'])) {
-                    $data['page_id'] = null;
-                }
-                $hierarchy->addData($data);
-                $node->loadByHierarchy($hierarchy->getId());
-                $node->addData($data);
-                $node->validateHierarchyIdentifier();
-                $hierarchy->save();
-                // prepare root hierarchy node
-                $node->setTreeId($hierarchy->getId());
-                $node->setParentNodeId(null);
-                $node->setLevel(0);
-                $node->setSortOrder(0);
-                $node->setRequestUrl($node->getIdentifier());
-                $node->save();
 
+            try {
                 $nodesData = Mage::helper('core')->jsonDecode($data['nodes_data']);
-                $node->collectTree($nodesData);
+                $removedNodes = explode(',', $data['removed_nodes']);
+                $node->collectTree($nodesData, $removedNodes);
 
                 $hasError = false;
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_cms')->__('Page Tree was successfully saved')
+                    Mage::helper('enterprise_cms')->__('Hierarchy was successfully saved')
                 );
             }
             catch (Mage_Core_Exception $e) {
@@ -172,51 +120,17 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_cms')->__('Error while saving this Page Tree. Please try again later.')
+                    $e->getMessage() . Mage::helper('enterprise_cms')->__('Error while saving this Hierarchy. Please try again later.')
                 );
             }
 
             if ($hasError) {
                 //save data in session
                 $this->_getSession()->setFormData($data);
-                $redirectUrl = '*/*/edit';
-                $redirectArgs['tree_id'] = !empty($data['tree_id']) ? $data['tree_id'] : null;
-            } else if (!empty($data['continue_edit'])) {
-                $redirectUrl = '*/*/edit';
-                $redirectArgs['tree_id'] = $hierarchy->getId();
             }
         }
 
-        $this->_redirect($redirectUrl, $redirectArgs);
-    }
-
-    /**
-     * Delete form type
-     *
-     */
-    public function deleteAction()
-    {
-        $model  = Mage::getModel('enterprise_cms/hierarchy');
-        $treeId = $this->getRequest()->getParam('tree_id');
-        if (!empty($treeId) && is_numeric($treeId)) {
-            $model->load($treeId);
-        }
-
-        if ($model->getId()) {
-            try {
-                $model->delete();
-                $message = Mage::helper('enterprise_cms')->__('Hierarchy was successfully deleted');
-                $this->_getSession()->addSuccess($message);
-            }
-            catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
-            }
-            catch (Exception $e) {
-                $message = Mage::helper('enterprise_cms')->__('Error while deleting Hierarchy. Please try again later.');
-                $this->_getSession()->addException($e, $message);
-            }
-        }
-        $this->_redirect('*/*/index');
+        $this->_redirect('*/*/');
     }
 
     /**
@@ -226,21 +140,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     public function pageGridAction()
     {
         $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->getBlock('cms_page_grid')->toHtml()
-        );
-    }
-
-    /**
-     * Cms Pages Ajax Grid for General
-     *
-     */
-    public function pageGeneralGridAction()
-    {
-        $this->loadLayout();
-        $this->getResponse()->setBody(
-            $this->getLayout()->getBlock('cms_page_general_grid')->toHtml()
-        );
+        $this->renderLayout();
     }
 
     /**

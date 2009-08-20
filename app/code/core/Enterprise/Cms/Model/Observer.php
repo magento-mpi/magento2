@@ -179,6 +179,11 @@ class Enterprise_Cms_Model_Observer
 
         Mage::getSingleton('enterprise_cms/hierarchy_node')->updateRewriteUrls($page);
 
+        $nodeIds = $page->getNodeIds();
+        if (!empty($nodeIds)) {
+            Mage::getSingleton('enterprise_cms/hierarchy_node')->appendPageToNodes($page, $nodeIds);
+        }
+
         return $this;
     }
 
@@ -201,6 +206,11 @@ class Enterprise_Cms_Model_Observer
             if (!$this->_config->isCurrentUserCanPublishRevision()) {
                 $page->setIsActive(false);
             }
+        }
+
+        if ($page->getNodeIds()) {
+            $nodeIds = explode(',', $page->getNodeIds());
+            $page->setNodeIds($nodeIds);
         }
 
         return $this;
