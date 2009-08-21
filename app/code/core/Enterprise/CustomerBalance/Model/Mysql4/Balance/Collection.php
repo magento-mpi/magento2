@@ -52,4 +52,16 @@ class Enterprise_CustomerBalance_Model_Mysql4_Balance_Collection extends Mage_Co
         );
         return $this;
     }
+
+    /**
+     * Implement after load logic for each collection item
+     *
+     * @return Enterprise_CustomerBalance_Model_Mysql4_Balance_Collection
+     */
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+        $this->walk('afterLoad');
+        return $this;
+    }
 }

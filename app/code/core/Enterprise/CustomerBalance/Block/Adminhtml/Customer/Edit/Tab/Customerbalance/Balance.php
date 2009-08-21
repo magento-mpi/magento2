@@ -26,20 +26,24 @@
 
 class Enterprise_CustomerBalance_Block_Adminhtml_Customer_Edit_Tab_Customerbalance_Balance extends Mage_Adminhtml_Block_Template
 {
+    /**
+     * @deprecated after 1.3.2.3
+     *
+     * @return int
+     */
     public function getOneBalanceTotal()
     {
-        $customer = Mage::registry('current_customer');
-        $balance = Mage::getModel('enterprise_customerbalance/balance')
-            ->setCustomer($customer)->setWebsiteId($customer->getWebsiteId())
-            ->loadByCustomer();
-        return Mage::app()->getLocale()->currency(Mage::app()->getWebsite($customer->getWebsiteId())->getBaseCurrencyCode())
-            ->toCurrency($balance->getAmount());
+        return 0;
     }
 
+    /**
+     * @deprecated after 1.3.2.3
+     *
+     * @return bool
+     */
     public function shouldShowOneBalance()
     {
-        return Mage::getSingleton('enterprise_customerbalance/balance')
-            ->shouldCustomerHaveOneBalance(Mage::registry('current_customer'));
+        return false;
     }
 
     /**

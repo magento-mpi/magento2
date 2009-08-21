@@ -45,21 +45,13 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Check whether customer should have one balance only
-     *
-     * Note: Checking customer scope comented bc of enhancment
-     * request to show all available customer balances in system.
-     * So from now this function will be returning false always.
-     *
+     * @deprecated after 1.3.2.3
      * @param Mage_Customer_Model_Customer $customer
      * @return bool
      */
     public function shouldCustomerHaveOneBalance($customer)
     {
-        //if (0 == $customer->getWebsiteId()) {
         return false;
-        //}
-        //return Mage::getSingleton('customer/config_share')->isWebsiteScope();
     }
 
     /**
@@ -270,5 +262,15 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
     public function getOrphanBalancesCount($customerId)
     {
         return $this->getResource()->getOrphanBalancesCount($customerId);
+    }
+
+    /**
+     * Public version of afterLoad
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    public function afterLoad()
+    {
+        return $this->_afterLoad();
     }
 }
