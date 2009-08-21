@@ -341,7 +341,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
             );
             $select->joinLeft(
                 array($sAlias => $table),
-                "{$dAlias}.entity_id = {$dAlias}.entity_id AND {$dAlias}.attribute_id = {$sAlias}.attribute_id"
+                "{$dAlias}.entity_id = {$sAlias}.entity_id AND {$dAlias}.attribute_id = {$sAlias}.attribute_id"
                     . " AND {$sAlias}.store_id = {$storeCond}",
                 array()
             );
