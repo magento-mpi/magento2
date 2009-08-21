@@ -147,7 +147,7 @@
 -->
     <adminhtml_cms_hierarchy_pagegrid>
         <remove name="root" />
-        <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_form_grid" name="cms_page_grid" />
+        <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_form_grid" name="cms_page_grid" output="toHtml" />
     </adminhtml_cms_hierarchy_pagegrid>
 
 </layout>
