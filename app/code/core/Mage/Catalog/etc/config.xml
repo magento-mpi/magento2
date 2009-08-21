@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Catalog>
-            <version>1.4.0.0.5</version>
+            <version>1.4.0.0.6</version>
         </Mage_Catalog>
     </modules>
 
@@ -191,6 +191,7 @@
                     <eav_attribute><table>catalog_eav_attribute</table></eav_attribute>
                     <product_relation><table>catalog_product_relation</table></product_relation>
                     <product_index_eav><table>catalog_product_index_eav</table></product_index_eav>
+                    <product_index_price><table>catalog_product_index_price</table></product_index_price>
                 </entities>
             </catalog_resource_eav_mysql4>
         </models>
@@ -367,6 +368,7 @@
                             <simple/>
                             <virtual/>
                         </allow_product_types>
+                        <price_indexer>catalog/product_indexer_price_grouped</price_indexer>
                     </grouped>
                     <configurable translate="label" module="catalog">
                         <label>Configurable Product</label>
@@ -377,6 +379,7 @@
                             <simple/>
                             <virtual/>
                         </allow_product_types>
+                        <price_indexer>catalog/product_indexer_price_configurable</price_indexer>
                     </configurable>
                     <virtual translate="label" module="catalog">
                         <label>Virtual Product</label>

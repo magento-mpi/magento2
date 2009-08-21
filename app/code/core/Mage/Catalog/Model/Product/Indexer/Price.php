@@ -26,11 +26,41 @@
 
 class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_Abstract
 {
+    /**
+     * Matched Entities instruction array
+     *
+     * @var array
+     */
+    protected $_matchedEntities = array(
+        Mage_Catalog_Model_Product::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
+        )
+    );
+
+    /**
+     * Initialize resource model
+     *
+     */
+    protected function _construct()
+    {
+        $this->_init('catalog/product_indexer_price');
+    }
+
+    /**
+     * Retrieve Indexer name
+     *
+     * @return string
+     */
     public function getName()
     {
         return Mage::helper('catalog')->__('Product Prices');
     }
 
+    /**
+     * Retrieve Indexer description
+     *
+     * @return string
+     */
     public function getDescription()
     {
         return Mage::helper('catalog')->__('Index product prices');
@@ -43,6 +73,27 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = $event->getDataObject();
+
+        $reindexPrice = $product->getIsRelationsChanged();
+
+        $attributes = array(
+            'price',
+            'special_price',
+            'special_from_date',
+            'special_to_date',
+            'tax_class_id',
+            'status'
+        );
+
+        foreach ($attributes as $attributeCode) {
+            $reindexPrice = $reindexPrice || $product->dataHasChangedFor($attributeCode);
+        }
+
+        if ($reindexPrice) {
+            $event->addNewData('reindex_price', 1);
+        }
     }
 
     /**
@@ -52,6 +103,6 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
-
+        $this->callEventHandler($event);
     }
 }
