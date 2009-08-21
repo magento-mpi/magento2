@@ -27,10 +27,9 @@
 -->
 <config>
     <widgets>
-        <recently_viewed translate="name description" module="reports">
+        <recently_viewed type="reports/product_widget_viewed" translate="name description" module="reports">
             <name>Recently Viewed Products</name>
             <description>Widget that shows Recently Viewed Products by Customer</description>
-            <type>reports/product_widget_viewed</type>
             <parameters>
                 <page_size translate="label">
                     <required />
@@ -47,10 +46,9 @@
                 </template>
             </parameters>
         </recently_viewed>
-        <recently_compared translate="name description" module="reports">
+        <recently_compared type="reports/product_widget_compared" translate="name description" module="reports">
             <name>Recently Compared Products</name>
             <description>Widget shows recently compared products by customer</description>
-            <type>reports/product_widget_compared</type>
             <parameters>
                 <page_size translate="label">
                     <required />

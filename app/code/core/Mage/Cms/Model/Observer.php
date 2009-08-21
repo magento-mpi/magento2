@@ -73,46 +73,4 @@ class Mage_Cms_Model_Observer
         }
         return $this;
     }
-
-    /**
-     * Enable WYSIWYG Editor for cms page content if its preconfigured and prepare template directives
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Cms_Model_Observer
-     */
-    public function toggleWysiwygEditor($observer)
-    {
-        $form = $observer->getEvent()->getForm();
-        /* @var $fieldSet Varien_Data_Form_Element_Fieldset */
-        $fieldSet = $form->getElement('content_fieldset');
-        $editor = $fieldSet->getElements()->searchById('content');
-        if (!$editor) {
-            return $this;
-        }
-
-        $enabled = Mage::getStoreConfig('cms/page_wysiwyg/enabled');
-        if ($enabled == 'disabled') {
-            $editor->setWysiwyg(false);
-            return $this;
-        }
-
-        $editor->setWysiwyg(true);
-        $config = new Varien_Object();
-        $config->setData(array(
-            'files_browser_window_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_images/index'),
-            'files_browser_window_width' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_width'),
-            'files_browser_window_height' => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_height'),
-            'toggle_link_title' => Mage::helper('cms')->__('Show/Hide Editor'),
-            'encode_directives' => true,
-            'directives_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg/directive'),
-            'widget_window_url' => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_widget/index'),
-        ));
-        $editor->setConfig($config);
-
-        if ($enabled == 'enabled') {
-            $config->setEnabled(true);
-        }
-
-        return $this;
-    }
 }

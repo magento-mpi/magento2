@@ -64,7 +64,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
             'style'     => 'height:36em;',
             'wysiwyg'   => false,
             'required'  => true,
-            'disabled'  => $isElementDisabled
+            'disabled'  => $isElementDisabled,
+            'config'    => Mage::getSingleton('cms/page_wysiwyg_config')->getConfig()
         ));
 
 

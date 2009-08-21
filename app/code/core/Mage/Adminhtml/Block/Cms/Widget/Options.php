@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Options extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Default type for widget option field
@@ -50,21 +50,12 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Options extends Mage_Adm
         $form->setUseContainer(false);
         $this->setForm($form);
 
-        $config = Mage::getSingleton('cms/page_wysiwyg_widget')->getXmlConfig();
-        $widgetCode = $this->_getRequestOptionValues('widget_code');
-
-        $widget = $config->getNode('widgets/' . $widgetCode);
+        $widget = Mage::getSingleton('cms/widget')
+            ->getXmlElementByType($this->_getRequestOptionValues('widget_type'));
 
         if ( !($widget instanceof Varien_Simplexml_Element)) {
             return;
         }
-
-        // Add hidden field with widget type
-        $fieldset->addField('option_widget_type', 'hidden', array(
-            'name'          => 'widget_type',
-            'value'         => (string)$widget->type,
-            'class'         => 'widget-option',
-        ));
 
         // Define helper for translations
         if ($widget->getAttribute('module')) {
@@ -128,8 +119,8 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Options extends Mage_Adm
         $type = $option->type;
         if ($type->hasChildren()) {
             $_type = $type->element_type ? (string)$type->element_type : self::DEFAULT_ELEMENT_TYPE;
-            if ($type->helper) {
-                $_helper = $this->getLayout()->getBlockSingleton( (string)$type->helper );
+            if ($type->element_helper) {
+                $_helper = $this->getLayout()->getBlockSingleton( (string)$type->element_helper );
             }
         } elseif (strstr($type, '/')) {
             $_type = self::DEFAULT_ELEMENT_TYPE;

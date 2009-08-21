@@ -27,18 +27,17 @@
 -->
 <config>
     <widgets>
-        <cms_page_link translate="name description" module="cms">
+        <cms_page_link type="cms/widget_page_link" translate="name description" module="cms">
             <name>CMS Page Link</name>
-            <description>Widget generates link to specified cms page</description>
-            <type>cms/widget_page_link</type>
+            <description type="desc">Widget generates link to specified cms page</description>
             <parameters>
-                <href translate="label">
+                <href type="complex" translate="label">
                     <visible />
                     <required />
                     <label>Page</label>
                     <type>
                         <element_type>label</element_type>
-                        <helper>adminhtml/cms_page_widget_chooser</helper>
+                        <element_helper>adminhtml/cms_page_widget_chooser</element_helper>
                     </type>
                 </href>
                 <anchor_text translate="label">

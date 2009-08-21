@@ -25,14 +25,14 @@ var WysiwygWidget = {};
 WysiwygWidget.Widget = Class.create();
 WysiwygWidget.Widget.prototype = {
 
-    initialize: function(formId, optionsSourceUrl) {
-        $(formId).insert({bottom: this.getDivHtml('widget_options')});
-        this.widgetCodeEl = $("select_widget_code");
-        this.widgetOptionsEl = $("widget_options");
+    initialize: function(formEl, widgetEl, widgetOptionsEl, optionsSourceUrl) {
+        $(formEl).insert({bottom: this.getDivHtml(widgetOptionsEl)});
+        this.widgetEl = $(widgetEl);
+        this.widgetOptionsEl = $(widgetOptionsEl);
         this.optionsUrl = optionsSourceUrl;
         this.optionValues = new Hash({});
 
-        Event.observe(this.widgetCodeEl, "change", this.loadOptions.bind(this));
+        Event.observe(this.widgetEl, "change", this.loadOptions.bind(this));
 
         this.initOptionValues();
     },
@@ -43,7 +43,7 @@ WysiwygWidget.Widget.prototype = {
     },
 
     getOptionsContainerId: function() {
-        return this.widgetOptionsEl.id + this.widgetCodeEl.value;
+        return this.widgetOptionsEl.id + Base64.idEncode(this.widgetEl.value);
     },
 
     switchOptionsContainer: function(containerId) {
@@ -88,26 +88,24 @@ WysiwygWidget.Widget.prototype = {
     initOptionValues: function() {
         var ed = tinyMCEPopup.editor;
         var e = ed.selection.getNode();
+        if (e != undefined && e.id) {
+            var widgetCode = Base64.idDecode(e.id);
+            this.optionValues = new Hash({});
 
-        if (e != undefined && e.id && ed.dom.getAttrib(e, 'class').indexOf('widget') != -1) {
-            var widgetId = e.id.split("-");
-            if (widgetId.length == 2) {
-                var code = widgetId[0];
-                var widgetCode = Base64.mageDecode(widgetId[1]);
-                this.widgetCodeEl.value = code;
-                this.optionValues = new Hash({});
-
-                widgetCode.gsub(/([a-z0-9\_]+)\s*\=\s*[\"]{1}([^\"]+)[\"]{1}/i, function(match){
+            widgetCode.gsub(/([a-z0-9\_]+)\s*\=\s*[\"]{1}([^\"]+)[\"]{1}/i, function(match){
+                if (match[1] == 'type') {
+                    this.widgetEl.value = match[2];
+                } else {
                     this.optionValues.set(match[1], match[2]);
-                }.bind(this));
+                }
+            }.bind(this));
 
-                this.loadOptions();
-            }
+            this.loadOptions();
         }
     },
 
     loadOptions: function() {
-        if (!this.widgetCodeEl.value) {
+        if (!this.widgetEl.value) {
             this.switchOptionsContainer();
             return;
         }
@@ -119,7 +117,7 @@ WysiwygWidget.Widget.prototype = {
 
         this._showWidgetDescription();
 
-        var params = {widget_code: this.widgetCodeEl.value, values: this.optionValues};
+        var params = {widget_type: this.widgetEl.value, values: this.optionValues};
         new Ajax.Request(this.optionsUrl,
             {
                 parameters: {widget: Object.toJSON(params)},
@@ -137,8 +135,8 @@ WysiwygWidget.Widget.prototype = {
     },
 
     _showWidgetDescription: function() {
-        var noteCnt = this.widgetCodeEl.up().next().down('small');
-        var descrCnt = $(this.widgetCodeEl.value + '-description');
+        var noteCnt = this.widgetEl.up().next().down('small');
+        var descrCnt = $('widget-description-' + this.widgetEl.selectedIndex);
         if(noteCnt != undefined) {
             var description = (descrCnt != undefined ? descrCnt.innerHTML : '');
             noteCnt.update(descrCnt.innerHTML);

@@ -32,13 +32,13 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Adminhtml_Block_Cms_Widget extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
     {
         parent::__construct();
 
-        $this->_controller = 'cms_page_edit_wysiwyg';
+        $this->_controller = 'cms';
         $this->_mode = 'widget';
         $this->_headerText = '';
 
@@ -50,7 +50,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget extends Mage_Adminhtml_B
 
         $this->_formInitScripts[] = '
             Event.observe(window, "load", function(){
-                wWidget = new WysiwygWidget.Widget("edit_form", "'.$this->getUrl('*/*/loadOptions').'");
+                wWidget = new WysiwygWidget.Widget("edit_form", "select_widget_type", "widget_options", "'.$this->getUrl('*/*/loadOptions').'");
             });
         ';
     }

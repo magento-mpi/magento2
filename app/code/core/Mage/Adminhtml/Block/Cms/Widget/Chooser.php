@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Chooser extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Template
 {
     /**
      * Chooser source URL getter

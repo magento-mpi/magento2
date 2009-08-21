@@ -55,12 +55,20 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
         $uniqId = $element->getId() . md5(microtime());
         $sourceUrl = $this->getUrl('*/catalog_category_widget/chooser', array('uniq_id' => $uniqId));
 
-        $chooserHtml = $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_widget_chooser')
+        $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
-            ->setSourceUrl($sourceUrl)
-            ->toHtml();
+            ->setSourceUrl($sourceUrl);
 
-        $element->setData('after_element_html', $chooserHtml);
+        if ($element->getValue()) {
+            $value = explode('/', $element->getValue());
+            $categoryId = isset($value[1]) ? $value[1] : false;
+            if ($categoryId) {
+                $label = Mage::getSingleton('catalog/category')->load($categoryId)->getName();
+                $chooser->setLabel($label);
+            }
+        }
+
+        $element->setData('after_element_html', $chooser->toHtml());
         return $element;
     }
 

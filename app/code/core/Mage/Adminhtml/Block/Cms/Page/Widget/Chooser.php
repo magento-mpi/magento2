@@ -56,12 +56,18 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
         $uniqId = $element->getId() . md5(microtime());
         $sourceUrl = $this->getUrl('*/cms_page_widget/chooser', array('uniq_id' => $uniqId));
 
-        $chooserHtml = $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_widget_chooser')
+        $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
-            ->setSourceUrl($sourceUrl)
-            ->toHtml();
+            ->setSourceUrl($sourceUrl);
 
-        $element->setData('after_element_html', $chooserHtml);
+        if ($element->getValue()) {
+            $page = Mage::getModel('cms/page')->load($element->getValue());
+            if ($page->getId()) {
+                $chooser->setLabel($page->getTitle());
+            }
+        }
+
+        $element->setData('after_element_html', $chooser->toHtml());
         return $element;
     }
 

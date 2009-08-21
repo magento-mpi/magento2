@@ -31,7 +31,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Page_Wysiwyg_Widget extends Varien_Object
+class Mage_Cms_Model_Widget extends Varien_Object
 {
     /**
      * Load Widgets XML config from widget.xml files and cache it
@@ -57,22 +57,36 @@ class Mage_Cms_Model_Page_Wysiwyg_Widget extends Varien_Object
     }
 
     /**
+     * Return widget XML config element based on its type
+     *
+     * @param string $type Widget type
+     * @return Varien_Simplexml_Element
+     */
+    public function getXmlElementByType($type)
+    {
+        $elements = $this->getXmlConfig()->getNode('widgets')->xpath('*[@type="' . $type . '"]');
+        if (is_array($elements) && isset($elements[0]) && $elements[0] instanceof Varien_Simplexml_Element) {
+            return $elements[0];
+        }
+        return null;
+    }
+
+    /**
      * Return widget presentation code in WYSIWYG editor
      *
      * @param string $type Widget Type
      * @param array $params Pre-configured Widget Params
      * @return string Widget directive ready to parse
      */
-    public function getWidgetDeclaration($code, $type, $params = array())
+    public function getWidgetDeclaration($type, $params = array())
     {
-        $config = Mage::getSingleton('cms/page_wysiwyg_widget')->getXmlConfig();
-        $parameters = $config->getNode('widgets/' . $code . '/parameters');
+        $widget = $this->getXmlElementByType($type);
 
         $directive = '{{widget type="' . $type . '"';
         foreach ($params as $name => $value) {
             // Retrieve default option value if pre-configured
-            if (trim($value) == '') {
-                $value = (string)$parameters->{$name}->value;
+            if (trim($value) == '' && $widget->parameters) {
+                $value = (string)$widget->parameters->{$name}->value;
             }
             if ($value) {
                 $directive .= sprintf(' %s="%s"', $name, $value);
@@ -81,13 +95,22 @@ class Mage_Cms_Model_Page_Wysiwyg_Widget extends Varien_Object
         $directive .= '}}';
 
         $image = Mage::getBaseUrl('js') . 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/img/icon.gif';
-        $html = sprintf('<img src="%s" id="%s-%s" class="widget-directive-image">',
+        $html = sprintf('<img id="%s" src="%s" class="widget" title="%s">',
+            $this->_idEncode($directive),
             $image,
-            $code,
-            Mage::helper('core')->urlEncode($directive
-        ));
+            Mage::helper('core')->urlEscape($directive)
+        );
         return $html;
+    }
 
-        //return $directive;
+    /**
+     * Encode string to valid HTML id element, based on base64 encoding
+     *
+     * @param string $string
+     * @return string
+     */
+    protected function _idEncode($string)
+    {
+        return strtr(base64_encode($string), '+/=', ':_-');
     }
 }

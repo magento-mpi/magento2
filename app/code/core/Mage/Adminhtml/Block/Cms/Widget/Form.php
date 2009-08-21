@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Form with widget to select
@@ -45,10 +45,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
             'legend'    => $this->helper('cms')->__('Widget')
         ));
 
-        $select = $fieldset->addField('select_widget_code', 'select', array(
+        $select = $fieldset->addField('select_widget_type', 'select', array(
             'label'                 => $this->helper('cms')->__('Widget Type'),
             'title'                 => $this->helper('cms')->__('Widget Type'),
-            'name'                  => 'widget_code',
+            'name'                  => 'widget_type',
             'required'              => true,
             'options'               => $this->_getWidgetSelectOptions(),
             'note'                  => $this->helper('cms')->__('No options available'),
@@ -71,7 +71,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
     {
         $options = array('' => $this->helper('cms')->__('Select widget to load its options'));
         foreach ($this->_getAvailableWidgets() as $data) {
-            $options[$data['code']] = $data['name'];
+            $options[$data['type']] = $data['name'];
         }
         return $options;
     }
@@ -84,9 +84,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
     protected function _getWidgetSelectAfterHtml()
     {
         $html =  '';
+        $i = 0;
         foreach ($this->_getAvailableWidgets() as $data) {
-            $html .= sprintf('<div id="%s-description" class="no-display">%s</div>',
-                $data['code'],
+            $html .= sprintf('<div id="widget-description-%s" class="no-display">%s</div>',
+                ++$i,
                 $data['description']
             );
         }
@@ -101,7 +102,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
     protected function _getAvailableWidgets()
     {
         if (!$this->getData('available_widgets')) {
-            $config = Mage::getSingleton('cms/page_wysiwyg_widget')->getXmlConfig();
+            $config = Mage::getSingleton('cms/widget')->getXmlConfig();
             $widgets = $config->getNode('widgets');
             $result = array();
             foreach ($widgets->children() as $widget) {
@@ -113,7 +114,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Widget_Form extends Mage_Adminh
                 $result[$widget->getName()] = array(
                     'name'          => $helper->__((string)$widget->name),
                     'code'          => $widget->getName(),
-                    'type'          => (string)$widget->type,
+                    'type'          => $widget->getAttribute('type'),
                     'description'   => $helper->__((string)$widget->description),
                 );
             }

@@ -32,7 +32,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Wisywyg widget plugin main page
@@ -43,7 +43,7 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Co
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         // Add extra JS files required for widgets
-        $config = Mage::getSingleton('cms/page_wysiwyg_widget')->getXmlConfig();
+        $config = Mage::getSingleton('cms/widget')->getXmlConfig();
         $widgets = $config->getNode('widgets');
         foreach ($widgets->children() as $widget) {
             if ($widget->js) {
@@ -75,10 +75,9 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_WidgetController extends Mage_Adminhtml_Co
      */
     public function buildWidgetAction()
     {
-        $code = $this->getRequest()->getPost('widget_code');
         $type = $this->getRequest()->getPost('widget_type');
         $params = $this->getRequest()->getPost('parameters', array());
-        $code = Mage::getSingleton('cms/page_wysiwyg_widget')->getWidgetDeclaration($code, $type, $params);
-        $this->getResponse()->setBody($code);
+        $html = Mage::getSingleton('cms/widget')->getWidgetDeclaration($type, $params);
+        $this->getResponse()->setBody($html);
     }
 }

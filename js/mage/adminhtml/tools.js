@@ -453,6 +453,15 @@ var Base64 = {
         return this.decode(output);
     },
 
+    idEncode: function(input){
+        return this.encode(input).replace(/\+/g, ':').replace(/\//g, '_').replace(/=/g, '-');
+    },
+
+    idDecode: function(output){
+        output = output.replace(/\-/g, '=').replace(/_/g, '/').replace(/\:/g, '\+');
+        return this.decode(output);
+    },
+
     // private method for UTF-8 encoding
     _utf8_encode : function (string) {
         string = string.replace(/\r\n/g,"\n");

@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
         $uniqId = $element->getId() . md5(microtime());
         $sourceUrl = $this->getUrl('*/catalog_product_widget/chooser', array('uniq_id' => $uniqId));
 
-        $chooser = $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_widget_chooser')
+        $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
             ->setSourceUrl($sourceUrl);
 
@@ -141,17 +141,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->setStoreId(0)
-        	->addAttributeToSelect('name')
-            ->addAttributeToFilter('type_id', array('in'=>array(
-                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-                Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-                Mage_Catalog_Model_Product_Type::TYPE_VIRTUAL,
-                Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
-            )));
+        	->addAttributeToSelect('name');
 
         if ($categoryId = $this->getCategoryId()) {
-            $productIds = Mage::getModel('catalog/category')->load($categoryId)
-                ->getProductsPosition();
+            $category = Mage::getModel('catalog/category')->load($categoryId);
+            // $collection->addCategoryFilter($category);
+            $productIds = $category->getProductsPosition();
             $productIds = array_keys($productIds);
             if (empty($productIds)) {
                 $productIds = 0;
