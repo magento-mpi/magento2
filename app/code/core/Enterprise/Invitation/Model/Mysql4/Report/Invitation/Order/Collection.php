@@ -59,16 +59,4 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
         $this->_map['fields']['order_store_id'] = 'order.store_id';
         return $this;
     }
-
-    /**
-     * Filters report by stores
-     *
-     * @param array $storeIds
-     * @return Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
-     */
-    public function setStoreIds($storeIds)
-    {
-        parent::setStoreIds($storeIds);
-        return $this;
-    }
 }
