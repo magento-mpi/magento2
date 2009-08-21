@@ -115,6 +115,12 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
         if ($category->getIsChangedProductList()) {
             $event->addNewData('products_was_changed', true);
         }
+        /**
+         * Check if category has another affected category ids (category move result)
+         */
+        if ($category->getAffectedCategoryIds()) {
+            $event->addNewData('affected_category_ids', $category->getAffectedCategoryIds());
+        }
     }
 
     /**

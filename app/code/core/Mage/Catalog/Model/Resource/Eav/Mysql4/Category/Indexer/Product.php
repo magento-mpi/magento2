@@ -103,20 +103,35 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
      */
     public function catalogCategorySave(Mage_Index_Model_Event $event)
     {
-        $categoryId = $event->getEntityPk();
+        $data = $event->getNewData();
+
+        /**
+         * Check if we have reindex category move results
+         */
+        if (isset($data['affected_category_ids'])) {
+            $categoryIds = $event->getNewData('affected_category_ids');
+        } elseif (isset($data['products_was_changed'])) {
+            $categoryIds = array($event->getEntityPk());
+        } else {
+            return $this;
+        }
+
         $select = $this->_getWriteAdapter()->select()
             ->from($this->_categoryTable, 'path')
-            ->where('entity_id=?', $categoryId);
-        $path = $this->_getWriteAdapter()->fetchOne($select);
-        $categoryIds = explode('/', $path);
+            ->where('entity_id IN (?)', $categoryIds);
+        $paths = $this->_getWriteAdapter()->fetchCol($select);
+        $allCategoryIds = array();
+        foreach ($paths as $path) {
+            $allCategoryIds = array_merge($allCategoryIds, explode('/', $path));
+        }
 
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            $this->_getWriteAdapter()->quoteInto('category_id IN(?)', $categoryIds)
+            $this->_getWriteAdapter()->quoteInto('category_id IN(?)', $allCategoryIds)
         );
-        $categoryIds = array_diff($categoryIds, array($categoryId));
-        $this->_refreshDirectRelations($categoryId);
-        $this->_refreshAnchorRelations($categoryIds);
+        $allCategoryIds = array_diff($allCategoryIds, $categoryIds);
+        $this->_refreshDirectRelations($categoryIds);
+        $this->_refreshAnchorRelations($allCategoryIds);
     }
 
     /**
