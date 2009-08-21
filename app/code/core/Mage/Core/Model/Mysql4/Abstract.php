@@ -283,7 +283,7 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     /**
      * Retrieve connection for read data
      *
-     * @return  Zend_Db_Adapter_Abstract
+     * @return  Varien_Db_Adapter_Pdo_Mysql
      */
     protected function _getReadAdapter()
     {

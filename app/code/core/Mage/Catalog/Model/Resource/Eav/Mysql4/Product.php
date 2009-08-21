@@ -110,6 +110,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
      */
     protected function _beforeSave(Varien_Object $object)
     {
+        /**
+         * Try detect product id by sku if id is not declared
+         */
         if (!$object->getId() && $object->getSku()) {
             $object->setId($this->getIdBySku($object->getSku()));
         }
@@ -137,7 +140,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product extends Mage_Catalog_Model_
     {
         $this->_saveWebsiteIds($product)
             ->_saveCategories($product)
-            ->refreshIndex($product);
+            //->refreshIndex($product)
+            ;
 
         parent::_afterSave($product);
         return $this;

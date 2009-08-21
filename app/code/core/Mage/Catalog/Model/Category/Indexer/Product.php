@@ -93,7 +93,10 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
     protected function _registerProductEvent(Mage_Index_Model_Event $event)
     {
         $product = $event->getDataObject();
-        if ($product->hasCategoryIds()) {
+        /**
+         * Check if product categories data was changed
+         */
+        if ($product->getIsChangedCategories()) {
             $event->addNewData('category_ids', $product->getCategoryIds());
         }
     }
@@ -105,7 +108,13 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
      */
     protected function _registerCategoryEvent(Mage_Index_Model_Event $event)
     {
-
+        $category = $event->getDataObject();
+        /**
+         * Check if product categories data was changed
+         */
+        if ($category->getIsChangedProductList()) {
+            $event->addNewData('products_was_changed', true);
+        }
     }
 
     /**

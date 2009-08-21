@@ -136,7 +136,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
             array('children_count'=>new Zend_Db_Expr('`children_count`-'.$childDecrease)),
             $this->_getWriteAdapter()->quoteInto('entity_id IN(?)', $parentIds)
         );
+        $this->deleteChildren($object);
+        return $this;
+    }
 
+    /**
+     * Delete children categories of specific category
+     *
+     * @param   Varien_Object $object
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Category
+     */
+    public function deleteChildren(Varien_Object $object)
+    {
         /**
          * Recursion use a lot of memmory, that why we run one request for delete children
          */
@@ -240,6 +251,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         return $this;
     }
 
+    /**
+     * Get maximum position of child categories by specific tree path
+     *
+     * @param   string $path
+     * @return  int
+     */
     protected function _getMaxPosition($path)
     {
         $select = $this->getReadConnection()->select();
@@ -256,24 +273,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     }
 
     /**
-     * Save category products
+     * Save category products relation
      *
-     * @param Mage_Catalog_Model_Category $category
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category
+     * @param   Mage_Catalog_Model_Category $category
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Category
      */
     protected function _saveCategoryProducts($category)
     {
         $category->setIsChangedProductList(false);
-
+        $id = $category->getId();
         /**
          * new category-product relationships
-         *
          */
         $products = $category->getPostedProducts();
 
         /**
          * Example re-save category
-         *
          */
         if (is_null($products)) {
             return $this;
@@ -281,7 +296,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         /**
          * old category-product relationships
-         *
          */
         $oldProducts = $category->getProductsPosition();
 
@@ -290,60 +304,46 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
 
         /**
          * Find product ids which are presented in both arrays
-         *
+         * and saved before (check $oldProducts array)
          */
         $update = array_intersect_key($products, $oldProducts);
-
-        /**
-         * Use for update just products with changed position
-         *
-         */
         $update = array_diff_assoc($update, $oldProducts);
+
+        $adapter = $this->_getWriteAdapter();
 
         /**
          * Delete products from category
-         *
          */
         if (!empty($delete)) {
-            $cond = join(' AND ', array(
-                $this->_getWriteAdapter()->quoteInto('product_id IN(?)', array_keys($delete)),
-                $this->_getWriteAdapter()->quoteInto('category_id=?', $category->getId())
-            ));
-            $this->_getWriteAdapter()->delete($this->_categoryProductTable, $cond);
+            $cond = $adapter->quoteInto('product_id IN(?) AND ', array_keys($delete))
+                . $adapter->quoteInto('category_id=?', $id);
+            $adapter->delete($this->_categoryProductTable, $cond);
         }
 
         /**
          * Add products to category
-         *
          */
         if (!empty($insert)) {
             $data = array();
             foreach ($insert as $productId => $position) {
                 $data[] = array(
-                    'category_id' => $category->getId(),
+                    'category_id' => $id,
                     'product_id'  => (int)$productId,
                     'position'    => (int)$position
                 );
             }
-
-            $this->_getWriteAdapter()
-                ->insertMultiple($this->_categoryProductTable, $data);
+            $adapter->insertMultiple($this->_categoryProductTable, $data);
         }
 
         /**
          * Update product positions in category
-         *
          */
         if (!empty($update)) {
             foreach ($update as $productId => $position) {
-                $where  = join(' AND ', array(
-                    $this->_getWriteAdapter()->quoteInto('category_id=?', (int)$category->getId()),
-                    $this->_getWriteAdapter()->quoteInto('product_id=?', (int)$productId)
-                ));
-                $bind   = array(
-                    'position' => (int)$position
-                );
-                $this->_getWriteAdapter()->update($this->_categoryProductTable, $bind, $where);
+                $where = $adapter->quoteInto('category_id=?', (int)$id)
+                    . $adapter->quoteInto('product_id=?', (int)$productId);
+                $bind  = array('position' => (int)$position);
+                $adapter->update($this->_categoryProductTable, $bind, $where);
             }
         }
 
@@ -356,9 +356,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
         }
 
         if (!empty($insert) || !empty($update) || !empty($delete)) {
+
             $category->setIsChangedProductList(true);
-            $categoryIds = explode('/', $category->getPath());
-            $this->refreshProductIndex($categoryIds);
+            /**
+             * Moved to index
+             */
+            //$categoryIds = explode('/', $category->getPath());
+            //$this->refreshProductIndex($categoryIds);
         }
 
         return $this;
@@ -642,6 +646,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category extends Mage_Catalog_Model
     /**
      * Rebuild associated products index
      *
+     * @deprecated after 1.4.0.0-Alpha, functionality moved to Mage_Catalog_Model_Category_Indexer_Produxt
      * @param   array $categoryIds
      * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Category
      */
