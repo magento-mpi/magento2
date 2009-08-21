@@ -66,4 +66,19 @@ class Enterprise_Invitation_Model_Observer
             $result->setIsAllowed(!$this->_config->getInvitationRequired());
         }
     }
+
+    /**
+     * Custom log invitation log action
+     *
+     * @param Interprise_Invitation_Model_Invitation $model
+     * @param Enterprise_Logging_Model_Processor $processor
+     * @return Enterprise_Logging_Model_Event_Changes
+     */
+    public function logInvitationSave($model, $processor)
+    {
+        $processor->collectId($model);
+        $data = $processor->cleanupData($model->getData());
+        return Mage::getModel('enterprise_logging/event_changes')
+            ->setData(array('original_data' => array(), 'result_data' => $data));
+    }
 }

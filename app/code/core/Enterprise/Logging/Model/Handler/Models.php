@@ -30,43 +30,16 @@
  */
 class Enterprise_Logging_Model_Handler_Models
 {
-
-    /**
-     * Collection of affected ids
-     *
-     * @var array
-     */
-    protected $_collectedIds = array();
-
-    /**
-     * Set of fields that should not be logged
-     *
-     * @var array
-     */
-    protected $_skipFields = array();
-
-    const XML_PATH_SKIP_FIELDS = 'adminhtml/enterprise/logging/skip_fields';
-
-    /**
-     * Class constructor
-     *
-     */
-    public function __construct()
-    {
-        $this->_skipFields = array_map('trim', array_filter(explode(',',
-            (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_FIELDS))));
-    }
-
     /**
      * SaveAfter handler
      *
      * @param object Mage_Core_Model_Abstract $model
      * @return object Enterprise_Logging_Event_Changes or false if model wasn't modified
      */
-    public function modelSaveAfter($model)
+    public function modelSaveAfter($model, $processor)
     {
-        $data = $this->_clearupData($model->getData());
-        $origData = $this->_clearupData($model->getOrigData());
+        $data = $processor->cleanupData($model->getData());
+        $origData = $processor->cleanupData($model->getOrigData());
         $isDiff = false;
         foreach ($data as $key=>$value){
             switch (true){
@@ -82,7 +55,7 @@ class Enterprise_Logging_Model_Handler_Models
             }
         }
         if ($isDiff){
-            $this->_collectedIds[get_class($model)][] = $model->getId();
+            $processor->collectId($model);
             return Mage::getModel('enterprise_logging/event_changes')->setData(
                 array(
                     'original_data' => $origData,
@@ -99,10 +72,10 @@ class Enterprise_Logging_Model_Handler_Models
      * @param object Mage_Core_Model_Abstract $model
      * @return object Enterprise_Logging_Event_Changes
      */
-    public function modelDeleteAfter($model)
+    public function modelDeleteAfter($model, $processor)
     {
-        $this->_collectedIds[get_class($model)][] = $model->getId();
-        $origData = $this->_clearupData($model->getOrigData());
+        $processor->collectId($model);
+        $origData = $processor->cleanupData($model->getOrigData());
         return Mage::getModel('enterprise_logging/event_changes')
                     ->setData(array('original_data'=>$origData, 'result_data'=>null));
     }
@@ -113,72 +86,20 @@ class Enterprise_Logging_Model_Handler_Models
      * @param object Mage_Core_Model_Abstract $model
      * @return object Enterprise_Logging_Event_Changes
      */
-    public function modelMassUpdateAfter($model)
+    public function modelMassUpdateAfter($model, $processor)
     {
-        return $this->modelSaveAfter($model);
-    }
-
-    /**
-     * Clear model data from objects, arrays and fields that should be skipped
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function _clearupData($data)
-    {
-        if (!$data && !is_array($data)) {
-            return array();
-        }
-        $clearData = array();
-        foreach ($data as $key=>$value) {
-            if (!in_array($key, $this->_skipFields) && !is_array($value) && !is_object($value)) {
-                $clearData[$key] = $value;
-            }
-        }
-        return $clearData;
-    }
-
-    /**
-     * Getter for $_colectedIds value
-     * It collects unique ids for each object
-     *
-     * @return array
-     */
-    public function getCollectedIds()
-    {
-        $ids = array();
-        foreach ($this->_collectedIds as $className => $classIds) {
-            $uniqueIds  = array_unique($classIds);
-            $ids        = array_merge($ids, $uniqueIds);
-            $this->_collectedIds[$className] = $uniqueIds;
-        }
-        return $ids;
-    }
-
-    /*Special modelSaveAfter handlers */
-
-    /**
-     * Special handler for Invitation module
-     *
-     * @param Interprise_Invitation_Model_Invitation $model
-     * @return unknown
-     */
-    public function modelSaveAfterInvitation($model)
-    {
-        $this->_collectedIds[get_class($model)][] = $model->getId();
-        $data = $this->_clearupData($model->getData());
-        return Mage::getModel('enterprise_logging/event_changes')
-            ->setData(array('original_data' => array(), 'result_data' => $data));
+        return $this->modelSaveAfter($model, $processor);
     }
 
     /**
      * Load after handler
      *
      * @param object Mage_Core_Model_Abstract $model
+     * @return Enterprise_Logging_Model_Event_Changes
      */
-    public function modelViewAfter($model)
+    public function modelViewAfter($model, $processor)
     {
-        $this->_collectedIds[get_class($model)][] = $model->getId();
+        $processor->collectId($model);
         return Mage::getModel('enterprise_logging/event_changes')
             ->setData(array('original_data' => array(), 'result_data' => array()));
     }

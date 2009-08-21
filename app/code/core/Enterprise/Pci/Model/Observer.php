@@ -246,4 +246,18 @@ class Enterprise_Pci_Model_Observer
     {
         return (bool)(int)Mage::getStoreConfig('admin/security/password_is_forced');
     }
+
+    /**
+     * Custom log Encryption Key save action
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return bool
+     */
+    public function logEncryptionKeySave($config, $eventModel)
+    {
+        return true;
+    }
+
+
 }

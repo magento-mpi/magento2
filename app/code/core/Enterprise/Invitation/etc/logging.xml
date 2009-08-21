@@ -32,15 +32,14 @@
             <enterprise_invitation__invitation/>
         </expected_models>
         <actions>
-            <adminhtml_invitation_index>
+            <adminhtml_invitation_view>
                 <action>view</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
-            </adminhtml_invitation_index>
+            </adminhtml_invitation_view>
 
             <adminhtml_invitation_save>
                 <action>save</action>
                 <expected_models>
-                    <enterprise_invitation__invitation>modelSaveAfterInvitation</enterprise_invitation__invitation>
+                    <enterprise_invitation__invitation>Enterprise_Invitation_Model_Observer::logInvitationSave</enterprise_invitation__invitation>
                 </expected_models>
             </adminhtml_invitation_save>
 

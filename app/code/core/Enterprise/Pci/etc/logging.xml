@@ -31,7 +31,7 @@
         <actions>
             <adminhtml_crypt_key_save>
                 <action>save</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
+                <post_dispatch>Enterprise_Pci_Model_Observer::logEncryptionKeySave</post_dispatch>
             </adminhtml_crypt_key_save>
         </actions>
     </enterprise_pci_crypt>

@@ -87,18 +87,6 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
-     * Custom handler for customer balance view
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
-     */
-    public function postDispatchCustomerBalanceView($config, $eventModel)
-    {
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('id'));
-    }
-
-    /**
      * Custom handler for category move
      *
      * @param Varien_Simplexml_Element $config

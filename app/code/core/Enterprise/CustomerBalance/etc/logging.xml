@@ -31,7 +31,9 @@
         <actions>
             <adminhtml_customerbalance_form>
                 <action>view</action>
-                <post_dispatch>postDispatchCustomerBalanceView</post_dispatch>
+                <expected_models>
+                    <enterprise_customerbalance__balance/>
+                </expected_models>
             </adminhtml_customerbalance_form>
         </actions>
     </enterprise_customerbalance>

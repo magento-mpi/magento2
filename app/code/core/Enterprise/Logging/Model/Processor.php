@@ -89,6 +89,22 @@ class Enterprise_Logging_Model_Processor
     protected $_eventChanges = array();
 
     /**
+     * Set of fields that should not be logged
+     *
+     * @var array
+     */
+    protected $_skipFields = array();
+
+    /**
+     * Collection of affected ids
+     *
+     * @var array
+     */
+    protected $_collectedIds = array();
+
+    const XML_PATH_SKIP_FIELDS = 'adminhtml/enterprise/logging/skip_fields';
+
+    /**
      * Initialize configuration model, controller and model handler
      */
     public function __construct()
@@ -119,6 +135,9 @@ class Enterprise_Logging_Model_Processor
             return;
         }
         $this->_eventConfig = $this->_config->getNode($fullActionName);
+
+        $this->_skipFields = array_map('trim', array_filter(explode(',',
+            (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_FIELDS))));
 
         /**
          * Skip view action after save. For example on 'save and continue' click.
@@ -195,7 +214,7 @@ class Enterprise_Logging_Model_Processor
                 $handler  = $classMap['handler'];
                 $callback = $classMap['callback'];
                 if ($handler) {
-                    if ($changes = $handler->$callback($model)) {
+                    if ($changes = $handler->$callback($model, $this)) {
                         $changes->setModelName($className);
                         $changes->setModelId($model->getId());
                         $this->_eventChanges[] = $changes;
@@ -277,13 +296,29 @@ class Enterprise_Logging_Model_Processor
     }
 
     /**
+     * Collect $model id
+     *
+     * @param object $model
+     */
+    public function collectId($model)
+    {
+        $this->_collectedIds[get_class($model)][] = $model->getId();
+    }
+
+    /**
      * Collected ids getter
      *
      * @return array
      */
     public function getCollectedIds()
     {
-        return $this->_modelsHandler->getCollectedIds();
+        $ids = array();
+        foreach ($this->_collectedIds as $className => $classIds) {
+            $uniqueIds  = array_unique($classIds);
+            $ids        = array_merge($ids, $uniqueIds);
+            $this->_collectedIds[$className] = $uniqueIds;
+        }
+        return $ids;
     }
 
     /**
@@ -319,5 +354,25 @@ class Enterprise_Logging_Model_Processor
         }
 
         return $return;
+    }
+
+    /**
+     * Clear model data from objects, arrays and fields that should be skipped
+     *
+     * @param array $data
+     * @return array
+     */
+    public function cleanupData($data)
+    {
+        if (!$data && !is_array($data)) {
+            return array();
+        }
+        $clearData = array();
+        foreach ($data as $key=>$value) {
+            if (!in_array($key, $this->_skipFields) && !is_array($value) && !is_object($value)) {
+                $clearData[$key] = $value;
+            }
+        }
+        return $clearData;
     }
 }
