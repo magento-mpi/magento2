@@ -27,10 +27,9 @@
 -->
 <config>
     <widgets>
-        <cms_hierarchy_node translate="name description" module="enterprise_cms">
+        <cms_hierarchy_node type="enterprise_cms/widget_node" translate="name description" module="enterprise_cms">
             <name>CMS Hierarchy Link</name>
             <description>Widget that generates Link to specified Node in a Hierarchy</description>
-            <type>enterprise_cms/widget_node</type>
             <parameters>
                 <node_id translate="label">
                     <label>Hierarchy Node</label>
@@ -38,7 +37,7 @@
                     <required />
                     <type>
                         <element_type>label</element_type>
-                        <helper>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</helper>
+                        <element_helper>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</element_helper>
                     </type>
                 </node_id>
                 <anchor_text translate="label">
@@ -53,10 +52,9 @@
                 </title>
             </parameters>
         </cms_hierarchy_node>
-        <cms_pagination translate="name description" module="enterprise_cms">
+        <cms_pagination type="enterprise_cms/widget_pagination" translate="name description" module="enterprise_cms">
             <name>Pagination based on Hierarchy</name>
             <description>Widget that generates Navigation for specified Hierarchy Tree</description>
-            <type>enterprise_cms/widget_pagination</type>
             <parameters>
                 <frame translate="label">
                     <visible />
@@ -70,10 +68,9 @@
                 </jump>
             </parameters>
         </cms_pagination>
-        <cms_menu translate="name description" module="enterprise_cms">
+        <cms_menu type="enterprise_cms/widget_menu" translate="name description" module="enterprise_cms">
             <name>Menu based on Hierarchy</name>
             <description>Widget that generates Menu for Hierarchy as Unified or Ordered List</description>
-            <type>enterprise_cms/widget_menu</type>
             <parameters>
                 <up translate="label">
                     <visible />
@@ -91,12 +88,12 @@
                     <type>select</type>
                     <values>adminhtml/system_config_source_yesno</values>
                 </ordered>
-                <type translate="label">
+                <list_type translate="label">
                     <visible />
                     <label>List Type</label>
                     <type>select</type>
                     <values>enterprise_cms/source_listtype</values>
-                </type>
+                </list_type>
             </parameters>
         </cms_menu>
     </widgets>

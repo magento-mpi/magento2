@@ -27,10 +27,9 @@
 -->
 <config>
     <widgets>
-        <event_lister translate="name description" module="enterprise_catalogevent">
+        <event_lister type="enterprise_catalogevent/widget_lister" translate="name description" module="enterprise_catalogevent">
             <name>Catalog Events Lister</name>
             <description>Widget that shows Upcoming and Past Catalog Events</description>
-            <type>enterprise_catalogevent/widget_lister</type>
             <parameters>
                 <limit translate="label">
                     <required />

@@ -44,12 +44,18 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
         $uniqId = $element->getId() . md5(microtime());
         $sourceUrl = $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqId));
 
-        $chooserHtml = $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_widget_chooser')
+        $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
-            ->setSourceUrl($sourceUrl)
-            ->toHtml();
+            ->setSourceUrl($sourceUrl);
 
-        $element->setData('after_element_html', $chooserHtml);
+        if ($element->getValue()) {
+            $node = Mage::getModel('enterprise_cms/hierarchy_node')->load($element->getValue());
+            if ($node->getId()) {
+                $chooser->setLabel($node->getLabel());
+            }
+        }
+
+        $element->setData('after_element_html', $chooser->toHtml());
         return $element;
     }
 
