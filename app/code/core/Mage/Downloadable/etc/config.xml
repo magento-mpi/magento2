@@ -120,6 +120,7 @@
                         <price_model>downloadable/product_price</price_model>
                         <index_data_retreiver>downloadable/catalogIndex_data_downloadable</index_data_retreiver>
                         <composite>0</composite>
+                        <price_indexer>downloadable/indexer_price</price_indexer>
                     </downloadable>
                     <bundle>
                         <allowed_selection_types>

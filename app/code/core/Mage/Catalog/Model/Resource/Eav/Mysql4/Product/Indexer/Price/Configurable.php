@@ -45,6 +45,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
         $this->_prepareFinalPriceData();
         $this->_applyCustomOption();
         $this->_applyCustomOption();
+        $this->_movePriceDataToIndexTable();
 
         return $this;
     }
