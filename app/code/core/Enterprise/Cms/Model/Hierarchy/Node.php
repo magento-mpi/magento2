@@ -34,6 +34,23 @@
 class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
 {
     /**
+     *
+     * @var unknown_type
+     */
+    protected $_metaNodes = array();
+
+    /**
+     * Meta node's types
+     */
+// commented bc of changes in road map
+//    const META_NODE_TYPE_CHAPTER = 'chapter';
+//    const META_NODE_TYPE_SECTION = 'section';
+    const META_NODE_TYPE_FIRST = 'first';
+    const META_NODE_TYPE_LAST = 'last';
+    const META_NODE_TYPE_NEXT = 'next';
+    const META_NODE_TYPE_PREVIOUS = 'previous';
+
+    /**
      * Initialize resource model
      *
      */
@@ -261,73 +278,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Chapter Node
-     *
-     * @return Enterprise_Cms_Model_Hierarchy_Node
-     */
-    public function getChapterNode()
-    {
-        return Mage::getModel('enterprise_cms/hierarchy_node')
-            ->loadByNodeType($this, 'chapter');
-    }
-
-    /**
-     * Retrieve Section Node
-     *
-     * @return Enterprise_Cms_Model_Hierarchy_Node
-     */
-    public function getSectionNode()
-    {
-        return Mage::getModel('enterprise_cms/hierarchy_node')
-            ->loadByNodeType($this, 'section');
-    }
-
-    /**
-     * Retrieve Next Node
-     *
-     * @return Enterprise_Cms_Model_Hierarchy_Node
-     */
-    public function getNextNode()
-    {
-        return Mage::getModel('enterprise_cms/hierarchy_node')
-            ->loadByNodeType($this, 'next');
-    }
-
-    /**
-     * Retrieve Previous Node
-     *
-     * @return Enterprise_Cms_Model_Hierarchy_Node
-     */
-    public function getPreviousNode()
-    {
-        return Mage::getModel('enterprise_cms/hierarchy_node')
-            ->loadByNodeType($this, 'previous');
-    }
-
-    /**
-     * Retrieve First Node in current level
-     *
-     * @return Enterprise_Cms_Model_Hierarchy_Node
-     */
-    public function getFirstNode()
-    {
-        return Mage::getModel('enterprise_cms/hierarchy_node')
-            ->loadByNodeType($this, 'first');
-    }
-
-    /**
-     * Retrieve Last Node in current level
-     *
-     * @return Enterprise_Cms_Model_Hierarchy_Node
-     */
-    public function getLastNode()
-    {
-        return Mage::getModel('enterprise_cms/hierarchy_node')
-            ->loadByNodeType($this, 'last');
-    }
-
-    /**
-     * Load Node by Parent node and Type
+     * Retrieve meta node by specified type for current node's tree.
      * Allowed types:
      *  - chapter       parent node chapter
      *  - section       parent node section
@@ -336,19 +287,19 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      *  - next          next node (only in current parent node level)
      *  - previous      previous node (only in current parent node level)
      *
-     * @param Enterprise_Cms_Model_Hierarchy_Node $node The parent node
      * @param string $type
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */
-    public function loadByNodeType(Enterprise_Cms_Model_Hierarchy_Node $node, $type)
+    public function getMetaNodeByType($type)
     {
-        if (!$node->getId()) {
-            return $this;
+        if (!isset($this->_metaNodes[$type])) {
+            $model = Mage::getModel('enterprise_cms/hierarchy_node')
+                ->setData($this->_getResource()->getMetaNodeDataByType($this, $type));
+
+            $this->_metaNodes[$type] = $model;
         }
-        $this->_getResource()->loadByNodeType($this, $node, $type);
-        $this->_afterLoad();
-        $this->setOrigData();
-        return $this;
+
+        return $this->_metaNodes[$type];
     }
 
     /**
@@ -365,8 +316,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve Tree Slice
-     * 2 level array
+     * Retrieve Tree Slice like two level array of node models.
      *
      * @param int $up
      * @param int $down
@@ -374,17 +324,30 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function getTreeSlice($up = 0, $down = 0)
     {
-        return $this->_getResource()->getTreeSlice($this, $up, $down);
+        $data = $this->_getResource()->getTreeSlice($this, $up, $down);
+        $blankModel = Mage::getModel('enterprise_cms/hierarchy_node');
+        foreach ($data as $parentId => $children) {
+            foreach ($children as $childId => $child) {
+                $newModel = clone $blankModel;
+                $data[$parentId][$childId] = $newModel->setData($child);
+            }
+        }
+        return $data;
     }
-
     /**
-     * Retrieve Parent node children
+     * Retrieve parent node's children.
      *
      * @return array
      */
     public function getParentNodeChildren()
     {
-        return $this->_getResource()->getParentNodeChildren($this);
+        $children = $this->_getResource()->getParentNodeChildren($this);
+        $blankModel = Mage::getModel('enterprise_cms/hierarchy_node');
+        foreach ($children as $childId => $child) {
+            $newModel = clone $blankModel;
+            $children[$childId] = $newModel->setData($child);
+        }
+        return $children;
     }
 
     /**
@@ -402,18 +365,18 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Appending passed page as child node for specified nodes.
+     * Appending passed page as child node for specified nodes and set it specified sort order.
+     * Parent nodes specified as array (parentNodeId => sortOrder)
      *
      * @param Mage_Cms_Model_Page $page
-     * @param array $nodeIds
+     * @param array $nodes
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */
-    public function appendPageToNodes($page, $nodeIds)
+    public function appendPageToNodes($page, $nodes)
     {
         $parentNodes = $this->getCollection()
             ->joinPageExistsNodeInfo($page)
-            ->applyPageExistsOrNodeIdFilter($nodeIds, $page)
-            ->addLastChildSortOrderColumn();
+            ->applyPageExistsOrNodeIdFilter(array_keys($nodes), $page);
 
         $pageData = array(
             'page_id' => $page->getId(),
@@ -425,7 +388,8 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
 
         foreach ($parentNodes as $node) {
             /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-            if (in_array($node->getId(), $nodeIds)) {
+            if (isset($nodes[$node->getId()])) {
+                $sortOrder = $nodes[$node->getId()];
                 if ($node->getPageExists()) {
                     continue;
                 } else {
@@ -433,7 +397,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
                         ->setParentNodeId($node->getId())
                         ->unsetData($this->getIdFieldName())
                         ->setLevel($node->getLevel() + 1)
-                        ->setSortOrder($node->getLastChildSortOrder() + 1)
+                        ->setSortOrder($sortOrder)
                         ->setRequestUrl($node->getRequestUrl() . '/' . $page->getIdentifier())
                         ->setXpath($node->getXpath() . '/')
                         ->save();
@@ -450,10 +414,15 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         return $this;
     }
 
+    /**
+     * Get tree meta data flags for current node's tree.
+     *
+     * @return array|bool
+     */
     public function getTreeMetaData()
     {
         if (is_null($this->_treeMetaData)) {
-            $this->_treeMetaData = $this->_getResource()->getTreeMetaData();
+            $this->_treeMetaData = $this->_getResource()->getTreeMetaData($this);
         }
 
         return $this->_treeMetaData;

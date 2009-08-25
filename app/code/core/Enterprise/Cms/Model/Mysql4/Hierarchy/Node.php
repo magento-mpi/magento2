@@ -41,7 +41,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     protected $_isPkAutoIncrement = false;
 
     /**
-     * Secondary table for saving meta data
+     * Secondary table for storing meta data
      * @var string
      */
     protected $_metadataTable;
@@ -329,7 +329,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Load Node by Parent node and Type
+     * Load meta node's data by Parent node and Type
      * Allowed types:
      *  - chapter       parent node chapter
      *  - section       parent node section
@@ -343,31 +343,32 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      * @param string $type
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */
-    public function loadByNodeType($object, $node, $type)
+    public function getMetaNodeDataByType($node, $type)
     {
-        if (!$object->getParentNode()) {
-            return $this;
+        if (!$node->getParentNodeId()) {
+            return false;
         }
         $read = $this->_getReadAdapter();
         if ($read) {
-            $select = $this->_getLoadSelect($this->getIdFieldName(), $node->getId(), $object);
+            $select = $this->_getLoadSelectWithoutWhere();
             $found  = false;
             switch ($type) {
-                case 'chapter':
-                    $xpath = split('/', $node->getXpath());
-                    if (isset($xpath[1]) && $xpath[1] != $node->getId()) {
-                        $found = true;
-                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[1]);
-                    }
-                    break;
-
-                case 'section':
-                    $xpath = split('/', $node->getXpath());
-                    if (isset($xpath[2]) && $xpath[2] != $node->getId()) {
-                        $found = true;
-                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[2]);
-                    }
-                    break;
+// commented bc of changes in road map
+//                case 'chapter':
+//                    $xpath = split('/', $node->getXpath());
+//                    if (isset($xpath[1]) && $xpath[1] != $node->getId()) {
+//                        $found = true;
+//                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[1]);
+//                    }
+//                    break;
+//
+//                case 'section':
+//                    $xpath = split('/', $node->getXpath());
+//                    if (isset($xpath[2]) && $xpath[2] != $node->getId()) {
+//                        $found = true;
+//                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[2]);
+//                    }
+//                    break;
 
                 case 'first':
                     $found = true;
@@ -403,18 +404,13 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
             }
 
             if (!$found) {
-                return $this;
+                return false;
             }
 
-            $data = $read->fetchRow($select);
-
-            if ($data) {
-                $object->setData($data);
-            }
+            return $read->fetchRow($select);
         }
 
-        $this->_afterLoad($object);
-        return $this;
+        return false;
     }
 
     /**
@@ -445,10 +441,11 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
 
             if ($parentIds) {
                 $parentId = $parentIds[count($parentIds) -1];
-                $select = $this->_getLoadSelect($this->getIdFieldName(), $object->getId(), $object)
+                $select = $this->_getLoadSelectWithoutWhere()
                     ->where('parent_node_id IN (?)', $parentIds)
                     ->order(array('level', $this->getMainTable().'.sort_order'));
-                $tree = $this->_createNodesFromSelect($select, $parentId, $tree);
+                $nodes = $select->query()->fetchAll();
+                $tree = $this->_prepareRelatedStructure($nodes, $parentId, $tree);
             }
         }
 
@@ -464,32 +461,29 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                 . ' AND ' . $this->_getReadAdapter()->quoteInto('level < ?', $level) . ')';
         }
 
-        $select = $this->_getLoadSelect($this->getIdFieldName(), $object->getId(), $object)
+        $select = $this->_getLoadSelectWithoutWhere()
             ->where($where)
             ->order(array('level', $this->getMainTable().'.sort_order'));
 
-        $tree = $this->_createNodesFromSelect($select, $parentId, $tree);
+        $nodes = $select->query()->fetchAll();
+        $tree = $this->_prepareRelatedStructure($nodes, $parentId, $tree);
 
         return $tree;
     }
 
     /**
-     * Create Node objects from select
+     * Preparing array where all nodes grouped in sub arrays by parent id.
      *
-     * @see getTreeSlice
-     * @param Varien_Db_Select $select
+     * @param array $nodes source node's data
      * @param int $startNodeId
-     * @param array $tree
+     * @param array $tree Initial array which will modified and returned with new data
      * @return array
      */
-    protected function _createNodesFromSelect($select, $startNodeId, array $tree = array())
+    protected function _prepareRelatedStructure($nodes, $startNodeId, $tree)
     {
-        $nodes = $select->query()->fetchAll();
         foreach ($nodes as $row) {
             $parentNodeId = $row['parent_node_id'] == $startNodeId ? 0 : $row['parent_node_id'];
-            $node = Mage::getModel('enterprise_cms/hierarchy_node')
-                ->addData($row);
-            $tree[$parentNodeId][$node->getId()] = $node;
+            $tree[$parentNodeId][$row[$this->getIdFieldName()]] = $row;
         }
 
         return $tree;
@@ -509,18 +503,12 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         } else {
             $where = $this->_getReadAdapter()->quoteInto('parent_node_id=?', $object->getParentNodeId());
         }
-        $select = $this->_getLoadSelect($this->getIdFieldName(), $object->getId(), $object)
+        $select = $this->_getLoadSelectWithoutWhere()
             ->where($where)
             ->order($this->getMainTable().'.sort_order');
         $nodes = $select->query()->fetchAll();
-        foreach ($nodes as $k => $row) {
-            $node = Mage::getModel('enterprise_cms/hierarchy_node')
-                ->addData($row);
-            $children[] = $node;
-            unset($nodes[$k]);
-        }
 
-        return $children;
+        return $nodes;
     }
 
     /**
@@ -580,6 +568,51 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         $write = $this->_getWriteAdapter();
         $whereClause = $write->quoteInto('node_id IN (?)', $nodeIds);
         $write->delete($this->getMainTable(), $whereClause);
+
+        return $this;
+    }
+
+    /**
+     * Retrieve tree meta data flags from secondary table.
+     * Filtering by root node of passed node.
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $object
+     * @return array|bool
+     */
+    public function getTreeMetaData(Enterprise_Cms_Model_Hierarchy_Node $object) {
+        $read = $this->_getReadAdapter();
+        $select = $read->select();
+        $xpath = explode('/', $object->getXpath());
+        $select->from($this->_metadataTable)
+            ->where('node_id = ?', $xpath[0]);
+
+        return $read->fetchRow($select);
+    }
+
+    /**
+     * Prepare load select but without where part.
+     * So all extra joins to secondary tables will be present.
+     *
+     * @return Zend_Db_Select
+     */
+    public function _getLoadSelectWithoutWhere()
+    {
+        return $this->_getLoadSelect(null, null, null)
+            ->reset(Zend_Db_Select::WHERE);
+    }
+
+    /**
+     * Updating nodes sort_order with new value.
+     *
+     * @param int $nodeId
+     * @param int $sortOrder
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function updateSortOrder($nodeId, $sortOrder)
+    {
+        $this->_getWriteAdapter()->update($this->getMainTable(),
+                array('sort_order' => $sortOrder),
+                array($this->getIdFieldName() . ' = ? ' => $nodeId));
 
         return $this;
     }

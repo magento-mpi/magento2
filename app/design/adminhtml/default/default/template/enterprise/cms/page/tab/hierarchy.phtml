@@ -32,6 +32,7 @@
     <div class="fieldset fieldset-wide">
         <input type="hidden" name="node_ids" id="node_ids" value="<?php echo $this->getSelectedNodeIds() ?>" />
         <input type="hidden" name="website_root" id="website_root" value="<?php echo $this->getPage()->getWebsiteRoot() ?>" />
+        <input type="hidden" name="nodes_data" id="nodes_data" value="" />
         <div id="hierrachy-nodes" class="tree x-tree" />
     </div>
 </div>
@@ -53,48 +54,42 @@ hierarchyNodes = {
         this.tree = new Ext.tree.TreePanel('hierrachy-nodes', {
             animate: false,
             loader: false,
-            enableDD: false,
+            enableDD: true,
             containerScroll: true,
-            rootVisible: true,
+            rootVisible: false,
             lines: true
         });
 
         this.treeRoot = new Ext.tree.TreeNode({
-            text: '<?php echo $this->__("Website Root")?>',
-            id: '_root',
+            id: 'tree_root',
             expanded: true,
-            cls: 'cms_node_root',
-            uiProvider: Ext.tree.CheckboxNodeUI,
-            checked: this.pageAssignedToWebsiteRoot
+            cls: 'cms_hierarchy_tree'
         });
         this.tree.setRootNode(this.treeRoot);
 
         this.createNodes();
 
-        //removing current page from root node
-        //if (this.pageAssignedToWebsiteRoot) {
-        //    var child = this.findCurrentPageChildNode(this.treeRoot);
-        //    if (child) {
-        //        this.treeRoot.removeChild(child);
-        //    }
-        //}
-
         this.fixNodes(this.treeRoot);
 
         this.tree.render();
         this.tree.addListener('check', this.nodeChecked.bind(this));
+        this.tree.addListener('nodedragover', this.onDragOver.bind(this));
+        this.tree.addListener('move', this.saveTreeData.bind(this));
         this.treeRoot.select();
+        this.saveTreeData();
     },
     createNodes: function(){
         for (var i = 0, l = this.nodes.length; i < l; i++) {
+            var dd = (this.nodes[i].parent_node_id && this.nodes[i].current_page) ? true : false;
             var node = new Ext.tree.TreeNode({
                 id: this.nodes[i].node_id,
                 text: this.nodes[i].label,
                 cls: this.nodes[i].cls,
                 expanded: false,
-                uiProvider: Ext.tree.CheckboxNodeUI,
+                allowDrop: true,
+                allowDrag: dd,
+                uiProvider: this.nodes[i].current_page ? null : Ext.tree.CheckboxNodeUI,
                 checked: this.nodes[i].page_exists,
-                disabled: this.nodes[i].current_page,
                 current_page: this.nodes[i].current_page
             });
 
@@ -120,39 +115,18 @@ hierarchyNodes = {
         }
     },
     nodeChecked: function(node) {
-        if (node.id == '_root') {
-            if(node.attributes.checked) {
-                $('website_root').value = 1;
-            } else {
-                $('website_root').value = 0;
+        var child = this.findCurrentPageChildNode(node);
+        if(node.attributes.checked) {
+            if (child) {
+                return; //prevent issues with double event fire on checking checkbox without childs
             }
+            this.addPageToNode(this.page, node);
         } else {
-            var child = this.findCurrentPageChildNode(node);
-            if(node.attributes.checked) {
-                if (child) {
-                    return; //prevent issues with double event fire on checking checkbox without childs
-                }
-                this.addPageToNode(this.page, node);
-                this.addToNodeIds(node.id);
-            } else {
-                if (child) {
-                    node.removeChild(child);
-                }
-                this.removeFromNodeIds(node.id);
+            if (child) {
+                node.removeChild(child);
             }
         }
-    },
-    addToNodeIds: function(id) {
-        var ids = this.nodeIds.value.split(',');
-        ids.push(id);
-        this.nodeIds.value = ids.join(',');
-    },
-    removeFromNodeIds: function(id) {
-        var ids = this.nodeIds.value.split(',');
-        while (-1 != ids.indexOf(id)) {
-            ids.splice(ids.indexOf(id), 1);
-        }
-        this.nodeIds.value = ids.join(',');
+        this.saveTreeData();
     },
     addPageToNode: function(page, node) {
         var newNode = new Ext.tree.TreeNode({
@@ -162,8 +136,8 @@ hierarchyNodes = {
             page_id: page.id,
             expanded: false,
             current_page: true,
-            uiProvider: Ext.tree.CheckboxNodeUI,
-            disabled: true
+            allowDrop: false,
+            allowDrag: true
         });
         this.increment++;
         node.appendChild(newNode);
@@ -175,6 +149,39 @@ hierarchyNodes = {
             if (children[i].attributes.current_page) {
                 return children[i];
             }
+        }
+    },
+    onDragOver: function(dragOverEvent) {
+        if (dragOverEvent.point == 'append') {
+            if (dragOverEvent.target != dragOverEvent.dropNode.parentNode) {
+                return false;
+            }
+        } else {
+            if (dragOverEvent.target.parentNode != dragOverEvent.dropNode.parentNode) {
+                return false;
+            }
+        }
+        return true;
+    },
+    saveTreeData: function(){
+        this.collectChilds(this.treeRoot);
+        $('nodes_data').value = this.treeData.toJSON();
+    },
+    collectChilds: function(node){
+        if (node.id == 'tree_root') {
+            this.treeData = new Hash();
+        } else {
+            this.treeData.set(node.id, {
+                node_id: node.id,
+                parent_node_id: node.parentNode.id == 'tree_root' ? null : node.parentNode.id,
+                label: node.attributes.text,
+                sort_order: node.parentNode.indexOf(node),
+                current_page: node.attributes.current_page,
+                page_exists: node.attributes.checked
+            });
+        }
+        if (node.hasChildNodes()) {
+            node.eachChild(this.collectChilds.bind(this));
         }
     }
 };

@@ -31,15 +31,31 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Block_Widget_Node extends Enterprise_Cms_Block_Widget_Abstract
+class Enterprise_Cms_Block_Widget_Node
+    extends Mage_Core_Block_Html_Link
+    implements Mage_Cms_Block_Widget_Interface
 {
     /**
-     * Define default template and settings
+     * Current Hierarchy Node Page Instance
+     *
+     * @var Enterprise_Cms_Model_Hierarchy_Node
+     */
+    protected $_node;
+
+    /**
+     * Initialize current node model
      *
      */
     protected function _construct()
     {
-        $this->setTemplate('enterprise/widget/nodelink.phtml');
+        parent::_construct();
+
+        if ($this->getNodeId()) {
+            $this->_node = Mage::getModel('enterprise_cms/hierarchy_node')
+                ->load($this->getNodeId());
+        } else {
+            $this->_node = Mage::registry('current_cms_hierarchy_node');
+        }
     }
 
     /**
@@ -47,12 +63,12 @@ class Enterprise_Cms_Block_Widget_Node extends Enterprise_Cms_Block_Widget_Abstr
      *
      * @return string
      */
-    public function getLinkTitle()
+    public function getAnchorText()
     {
         if ($this->getData('anchor_text')) {
             return $this->getData('anchor_text');
         }
-        return $this->getNode()->getLabel();
+        return $this->_node->getLabel();
     }
 
     /**
@@ -65,7 +81,7 @@ class Enterprise_Cms_Block_Widget_Node extends Enterprise_Cms_Block_Widget_Abstr
         if ($this->getData('title')) {
             return $this->getData('title');
         }
-        return $this->getNode()->getLabel();
+        return $this->_node->getLabel();
     }
 
     /**
@@ -73,37 +89,9 @@ class Enterprise_Cms_Block_Widget_Node extends Enterprise_Cms_Block_Widget_Abstr
      *
      * @return string
      */
-    public function getUrl()
+    public function getHref()
     {
-        return $this->getNode()->getUrl();
-    }
-
-    /**
-     * Retrieve additional link attributes
-     *
-     * @return string
-     */
-    public function getLinkAttributes()
-    {
-        $allow = array(
-            'charset', 'type', 'name', 'hreflang', 'rel', 'rev', 'accesskey', 'shape',
-            'coords', 'tabindex', 'onfocus', 'onblur', // %attrs
-            'id', 'class', 'style', // %coreattrs
-            'lang', 'dir', // %i18n
-            'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmousemove',
-            'onmouseout', 'onkeypress', 'onkeydown', 'onkeyup' // %events
-        );
-        $attributes = array();
-        foreach ($allow as $attribute) {
-            if ($this->hasData($attribute)) {
-                $attributes[$attribute] = $this->_getData($attribute);
-            }
-        }
-
-        if (!empty($attributes)) {
-            return $this->serialize($attributes);
-        }
-        return '';
+        return $this->_node->getUrl();
     }
 
     /**
@@ -113,7 +101,7 @@ class Enterprise_Cms_Block_Widget_Node extends Enterprise_Cms_Block_Widget_Abstr
      */
     protected function _toHtml()
     {
-        if (!$this->getNode()) {
+        if (!$this->_node) {
             return '';
         }
         return parent::_toHtml();

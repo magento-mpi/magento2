@@ -64,7 +64,7 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
      */
     public function match(Varien_Object $condition)
     {
-        /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
+         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
         $node = Mage::getModel('enterprise_cms/hierarchy_node');
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);

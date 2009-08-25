@@ -64,6 +64,8 @@ class Enterprise_Cms_Block_Widget_Menu extends Enterprise_Cms_Block_Widget_Abstr
      */
     protected function _construct()
     {
+        parent::_construct();
+
         $this->_allowedListAttributes = array('start', 'value', 'compact', // %attrs
             'id', 'class', 'style', 'title', // %coreattrs
             'lang', 'dir', // %i18n
@@ -220,8 +222,7 @@ class Enterprise_Cms_Block_Widget_Menu extends Enterprise_Cms_Block_Widget_Abstr
      */
     protected function _getNodeLabel($node)
     {
-        $currentNode = Mage::registry('current_cms_hierarchy_node');
-        if ($currentNode && $currentNode->getId() == $node->getId()) {
+        if ($this->_node && $this->_node->getId() == $node->getId()) {
             return $this->_getSpan($node);
         }
         return $this->_getLink($node);
@@ -292,7 +293,7 @@ class Enterprise_Cms_Block_Widget_Menu extends Enterprise_Cms_Block_Widget_Abstr
                 $down = 0;
             }
 
-            $this->setData('_tree', $this->getNode()->getTreeSlice($up, $down));
+            $this->setData('_tree', $this->_node->getTreeSlice($up, $down));
         }
         return $this->_getData('_tree');
     }
@@ -330,10 +331,10 @@ class Enterprise_Cms_Block_Widget_Menu extends Enterprise_Cms_Block_Widget_Abstr
      */
     protected function _toHtml()
     {
-        if (!$this->getNode()) {
+        if (!$this->_node) {
             return '';
         }
         $tree = $this->getTree();
-        return $this->_drawMenu($tree);
+        return $this->_drawMenu($tree);;
     }
 }

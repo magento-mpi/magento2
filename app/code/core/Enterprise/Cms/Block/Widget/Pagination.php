@@ -39,8 +39,9 @@ class Enterprise_Cms_Block_Widget_Pagination extends Enterprise_Cms_Block_Widget
      */
     protected function _construct()
     {
+        parent::_construct();
         $this->setTemplate('enterprise/widget/pagination.phtml');
-        $this->setData('sequance', 1);
+        $this->setData('sequence', 1);
         $this->setData('outer', 1);
         $this->setData('frame', 10);
         $this->setData('jump', 0);
@@ -62,9 +63,9 @@ class Enterprise_Cms_Block_Widget_Pagination extends Enterprise_Cms_Block_Widget
      *
      * @return bool
      */
-    public function canShowSequance()
+    public function canShowSequence()
     {
-        return $this->_getData('sequance') > 0;
+        return $this->_getData('sequence') > 0;
     }
 
     /**
@@ -255,7 +256,7 @@ class Enterprise_Cms_Block_Widget_Pagination extends Enterprise_Cms_Block_Widget
     {
         if (!$this->hasData('_nodes')) {
             // initialize nodes
-            $nodes    = $this->getNode()->getParentNodeChildren();
+            $nodes    = $this->_node->getParentNodeChildren();
             $flags    = array(
                 'previous' => false,
                 'next'     => false
@@ -276,7 +277,7 @@ class Enterprise_Cms_Block_Widget_Pagination extends Enterprise_Cms_Block_Widget
                     $next = $node;
                     $flags['next'] = false;
                 }
-                if ($node->getId() == $this->getNode()->getId()) {
+                if ($node->getId() == $this->_node->getId()) {
                     $flags['next'] = true;
                     $flags['previous'] = true;
                     $current = $k;
@@ -378,7 +379,7 @@ class Enterprise_Cms_Block_Widget_Pagination extends Enterprise_Cms_Block_Widget
      */
     protected function _toHtml()
     {
-        if (!$this->getNode()) {
+        if (!$this->_node) {
             return '';
         }
         $this->getNodes();

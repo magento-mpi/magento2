@@ -34,12 +34,19 @@
 class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
+     * Currently selected store in store switcher
+     * @var null|int
+     */
+    protected $_currentStore = null;
+
+    /**
      * Define custom form template for block
      */
     public function __construct()
     {
         parent::__construct();
         $this->setTemplate('enterprise/cms/hierarchy/edit.phtml');
+        $this->_currentStore = $this->getRequest()->getParam('store');
     }
 
     /**
@@ -59,7 +66,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
          * Define general properties for each node
          */
         $fieldset   = $form->addFieldset('node_properties_fieldset', array(
-            'legend'    => Mage::helper('enterprise_cms')->__('Node Properties')
+            'legend'    => Mage::helper('enterprise_cms')->__('Page Properties')
         ));
 
         $fieldset->addField('nodes_data', 'hidden', array(
@@ -129,21 +136,22 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'   => 'hierarchyNodes.nodeChanged()'
         ));
 
-        $fieldset->addField('meta_chapter', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Chapter'),
-            'title'     => Mage::helper('enterprise_cms')->__('Chapter'),
-            'name'      => 'meta_chapter',
-            'options'   => $yesNoOptions,
-            'onchange'   => 'hierarchyNodes.nodeChanged()'
-        ));
-
-        $fieldset->addField('meta_section', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Section'),
-            'title'     => Mage::helper('enterprise_cms')->__('Section'),
-            'name'      => 'meta_section',
-            'options'   => $yesNoOptions,
-            'onchange'   => 'hierarchyNodes.nodeChanged()'
-        ));
+// commented bc of changes in road map
+//        $fieldset->addField('meta_chapter', 'select', array(
+//            'label'     => Mage::helper('enterprise_cms')->__('Chapter'),
+//            'title'     => Mage::helper('enterprise_cms')->__('Chapter'),
+//            'name'      => 'meta_chapter',
+//            'options'   => $yesNoOptions,
+//            'onchange'   => 'hierarchyNodes.nodeChanged()'
+//        ));
+//
+//        $fieldset->addField('meta_section', 'select', array(
+//            'label'     => Mage::helper('enterprise_cms')->__('Section'),
+//            'title'     => Mage::helper('enterprise_cms')->__('Section'),
+//            'name'      => 'meta_section',
+//            'options'   => $yesNoOptions,
+//            'onchange'   => 'hierarchyNodes.nodeChanged()'
+//        ));
 
         $form->setUseContainer(true);
         $this->setForm($form);
@@ -223,12 +231,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     {
         $nodes = array();
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-        $node = Mage::registry('current_hierarchy_node');
+        $nodeModel = Mage::registry('current_hierarchy_node');
         // restore data is exists
-        $data = Mage::helper('core')->jsonDecode($node->getNodesData());
+        $data = Mage::helper('core')->jsonDecode($nodeModel->getNodesData());
         if (is_array($data)) {
             foreach ($data as $v) {
-                $_node = array(
+                $node = array(
                     'node_id'               => $v['node_id'],
                     'parent_node_id'        => $v['parent_node_id'],
                     'label'                 => $v['label'],
@@ -236,28 +244,60 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                     'page_id'               => empty($v['page_id']) ? null : $v['page_id']
                 );
 
-                $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($v, $_node);
+                $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($v, $node);
             }
         } else {
-            $collection = $node->getCollection()
+            $collection = $nodeModel->getCollection()
                 ->joinCmsPage()
+                ->addCmsPageInStoresColumn()
                 ->joinMetaData()
                 ->setTreeOrder();
             foreach ($collection as $item) {
                 /* @var $item Enterprise_Cms_Model_Hierarchy_Node */
-                $_node = array(
+                $node = array(
                     'node_id'               => $item->getId(),
                     'parent_node_id'        => $item->getParentNodeId(),
                     'label'                 => $item->getLabel(),
                     'identifier'            => $item->getIdentifier(),
-                    'page_id'               => $item->getPageId()
+                    'page_id'               => $item->getPageId(),
+                    'assigned_to_store'     => $this->isNodeAvailableForStore($item, $this->_currentStore)
                 );
 
-                $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($item->getData(), $_node);
+                $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($item->getData(), $node);
             }
         }
 
         return Mage::helper('core')->jsonEncode($nodes);
+    }
+
+    /**
+     * Check if passed node available for store in case this node representation of page.
+     * If node does not represent page then method will return true.
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $node
+     * @param null|int $store
+     * @return bool
+     */
+    public function isNodeAvailableForStore($node, $store)
+    {
+        if (!$node->getPageId()) {
+            return true;
+        }
+
+        if (!$store) {
+            return true;
+        }
+
+        if ($node->getPageInStores() == '0') {
+            return true;
+        }
+
+        $stores = explode(',', $node->getPageInStores());
+        if (in_array($store, $stores)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -288,5 +328,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     public function getButtonUpdateLabel()
     {
         return Mage::helper('enterprise_cms')->__('Update');
+    }
+
+    /**
+     * Retrieve html of store switcher added from layout
+     *
+     * @return string
+     */
+    public function getStoreSwitcherHtml()
+    {
+        return $this->getLayout()->getBlock('store_switcher')
+            ->setUseConfirm(false)
+            ->toHtml();
     }
 }

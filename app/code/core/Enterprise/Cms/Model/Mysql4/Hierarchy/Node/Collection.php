@@ -64,6 +64,25 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
     }
 
     /**
+     * Adding sub query for custom column to determine on which stores page active.
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection
+     */
+    public function addCmsPageInStoresColumn()
+    {
+        if (!$this->getFlag('cms_page_in_stores_data_joined')) {
+            $subSelect = $this->getConnection()->select();
+            $subSelect->from(array('store' => $this->getTable('cms/page_store')), new Zend_Db_Expr('GROUP_CONCAT(`store_id`)'))
+                ->where('store.page_id = main_table.page_id');
+
+            $this->getSelect()->from('', array('page_in_stores' => $subSelect));
+
+            $this->setFlag('cms_page_in_stores_data_joined', true);
+        }
+        return $this;
+    }
+
+    /**
      * Order nodes as tree
      *
      * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection

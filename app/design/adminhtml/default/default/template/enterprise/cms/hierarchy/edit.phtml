@@ -30,6 +30,7 @@
 <table cellspacing="0" width="100%">
     <tr>
         <td width="50%" style="border-right:1px solid #ddd; padding:0 23px 23px 0;">
+            <?php echo $this->getStoreSwitcherHtml() ?>
             <div id="tree-container" style="width:100%;height:400px;overflow:auto" class="tree x-tree" />
         </td>
         <td style="padding:0 0 23px 23px;">
@@ -88,12 +89,23 @@ hierarchyNodes = {
     },
     createNodes: function(){
         for (var i = 0, l = this.nodes.length; i < l; i++) {
+            var cssClass = '';
+            if (!this.nodes[i].assigned_to_store) {
+                cssClass = cssClass + ' disallowed';
+            }
+
+            if (this.nodes[i].page_id > 0) {
+                cssClass = cssClass + ' cms_page';
+            } else {
+                cssClass = cssClass + ' cms_node';
+            }
+
             var node = new Ext.tree.TreeNode({
                 id: this.nodes[i].node_id,
                 text: this.nodes[i].label,
                 page_id: this.nodes[i].page_id,
                 identifier: this.nodes[i].identifier,
-                cls: this.nodes[i].page_id > 0 ? 'cms_page' : 'cms_node',
+                cls: cssClass,
                 expanded: false,
                 allowDrop: true,
                 allowDrag: true,
@@ -135,8 +147,9 @@ hierarchyNodes = {
             this.showFieldSet('metadata_fieldset');
             $('meta_first_last').value = node.attributes.meta_first_last;
             $('meta_next_previous').value = node.attributes.meta_next_previous;
-            $('meta_chapter').value = node.attributes.meta_chapter;
-            $('meta_section').value = node.attributes.meta_section;
+// commented bc of changes in road map
+//            $('meta_chapter').value = node.attributes.meta_chapter;
+//            $('meta_section').value = node.attributes.meta_section;
         } else {
             this.hideFieldSet('metadata_fieldset');
         }
@@ -366,8 +379,9 @@ hierarchyNodes = {
         if (node.parentNode.id == '_root') {
             node.attributes.meta_first_last = $('meta_first_last').value;
             node.attributes.meta_next_previous = $('meta_next_previous').value;
-            node.attributes.meta_chapter = $('meta_chapter').value;
-            node.attributes.meta_section = $('meta_section').value;
+// commented bc of changes in road map
+//            node.attributes.meta_chapter = $('meta_chapter').value;
+//            node.attributes.meta_section = $('meta_section').value;
         }
 
         node.getUI().removeClass('modified');

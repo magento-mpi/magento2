@@ -40,7 +40,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      * @var array|null
      */
     protected $_nodes = null;
-
     /**
      * Retrieve current page instance
      *
@@ -62,43 +61,58 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
     }
 
     /**
-     * Prepare nodes data from DB
+     * Prepare nodes data from DB  all from session if error occurred.
      *
      * @return array
      */
     public function getNodes() {
         if (is_null($this->_nodes)) {
-            $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
-                ->joinCmsPage()
-                ->setTreeOrder()
-                ->joinPageExistsNodeInfo($this->getPage());
-
             $this->_nodes = array();
-
-            $_selectedNodes = null;
-            if ($this->getPage()->hasData('node_ids')) {
-                $_selectedNodes = explode(',', $this->getPage()->getData('node_ids'));
-            }
-
-            foreach ($collection as $item) {
-                /* @var $item Enterprise_Cms_Model_Hierarchy_Node */
-                if (is_array($_selectedNodes)) {
-                    if (in_array($item->getId(), $_selectedNodes)) {
-                        $item->setPageExists(1);
+            $data = Mage::helper('core')->jsonDecode($this->getPage()->getNodesData());
+            if (is_array($data)) {
+                foreach ($data as $v) {
+                    if (isset($v['page_exists'])) {
+                        $pageExists = (bool)$v['page_exists'];
                     } else {
-                        $item->setPageExists(0);
+                        $pageExists = false;
                     }
+                    $node = array(
+                        'node_id'               => $v['node_id'],
+                        'parent_node_id'        => $v['parent_node_id'],
+                        'label'                 => $v['label'],
+                        'page_exists'           => $pageExists,
+                        'current_page'          => (bool)$v['current_page'],
+                        'cls'                   => $v['current_page']?'cur-page':''
+                    );
+                    $this->_nodes[] = $node;
                 }
-
-                $_node = array(
-                    'node_id'               => $item->getId(),
-                    'parent_node_id'        => $item->getParentNodeId(),
-                    'label'                 => $item->getLabel(),
-                    'page_exists'           => (bool)$item->getPageExists(),
-                    'current_page'          => (bool)$item->getCurrentPage(),
-                    'cls'                   => $item->getCurrentPage()?'cur-page':''
+            } else {
+                $this->_nodes[] = array(
+                    'node_id'           => 'website_root',
+                    'parent_node_id'    => null,
+                    'label'             => Mage::helper('enterprise_cms')->__('Website Root'),
+                    'page_exists'       => (bool)$this->getPage()->getWebsiteRoot(),
+                    'current_page'      => false,
+                    'cls'               => ''
                 );
-                $this->_nodes[] = $_node;
+
+                $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
+                    ->joinCmsPage()
+                    ->setTreeOrder()
+                    ->joinPageExistsNodeInfo($this->getPage());
+
+                foreach ($collection as $item) {
+                    /* @var $item Enterprise_Cms_Model_Hierarchy_Node */
+                    $node = array(
+                        'node_id'               => $item->getId(),
+                        'parent_node_id'        => $item->getParentNodeId(),
+                        'label'                 => $item->getLabel(),
+                        'page_exists'           => (bool)$item->getPageExists(),
+                        'current_page'          => (bool)$item->getCurrentPage(),
+                        'cls'                   => $item->getCurrentPage()?'cur-page':''
+                    );
+                    $this->_nodes[] = $node;
+                }
             }
         }
         return $this->_nodes;
@@ -117,7 +131,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
             $ids = array();
 
             foreach ($this->getNodes() as $node) {
-                if ($node['page_exists']) {
+                if (isset($node['page_exists']) && $node['page_exists']) {
                     $ids[] = $node['node_id'];
                 }
             }

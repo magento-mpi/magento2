@@ -36,13 +36,6 @@ abstract class Enterprise_Cms_Block_Widget_Abstract
     implements Mage_Cms_Block_Widget_Interface
 {
     /**
-     * Current Hierarchy Tree Instance
-     *
-     * @var Enterprise_Cms_Model_Hierarchy
-     */
-    protected $_hierarchy;
-
-    /**
      * Current Hierarchy Node Page Instance
      *
      * @var Enterprise_Cms_Model_Hierarchy_Node
@@ -50,37 +43,18 @@ abstract class Enterprise_Cms_Block_Widget_Abstract
     protected $_node;
 
     /**
-     * Retrieve current hierarchy Tree instance
+     * Initialize current node model
      *
-     * @return Enterprise_Cms_Model_Hierarchy
      */
-    public function getHierarchy()
+    protected function _construct()
     {
-        if (is_null($this->_hierarchy)) {
-            if (!$this->getNode()) {
-                $this->_hierarchy = false;
-            } else {
-                $this->_hierarchy = $this->getNode()->getHierarchy();
-            }
-        }
-        return $this->_hierarchy;
-    }
+        parent::_construct();
 
-    /**
-     * Retrieve current hierarchy Node Page instance
-     *
-     * @return Enterprise_Cms_Model_Hierarchy_Node
-     */
-    public function getNode()
-    {
-        if (is_null($this->_node)) {
-            if ($this->getNodeId()) {
-                $this->_node = Mage::getModel('enterprise_cms/hierarchy_node')
-                    ->load($this->getNodeId());
-            } else {
-                $this->_node = Mage::registry('current_cms_hierarchy_node');
-            }
+        if ($this->getNodeId()) {
+            $this->_node = Mage::getModel('enterprise_cms/hierarchy_node')
+                ->load($this->getNodeId());
+        } else {
+            $this->_node = Mage::registry('current_cms_hierarchy_node');
         }
-        return $this->_node;
     }
 }

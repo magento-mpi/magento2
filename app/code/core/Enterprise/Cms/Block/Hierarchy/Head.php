@@ -42,42 +42,51 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Mage_Core_Block_Abstract
     {
         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
         $node      = Mage::registry('current_cms_hierarchy_node');
-        /* @var $hierarchy Enterprise_Cms_Model_Hierarchy */
-        $hierarchy = Mage::registry('current_cms_hierarchy');
         /* @var $head Mage_Page_Block_Html_Head */
         $head      = $this->getLayout()->getBlock('head');
 
-        if ($node && $hierarchy && $head) {
-            if ($hierarchy->getMetaChapter()) {
-                $chapter = $node->getChapterNode();
-                if ($chapter->getId()) {
-                    $head->addLinkRel('chapter', $chapter->getUrl());
+        if ($node && $head) {
+            $treeMetaData = $node->getTreeMetaData();
+            if (is_array($treeMetaData)) {
+                /* @var $linkNode Enterprise_Cms_Model_Hierarchy_Node */
+
+// commented bc of changes in road map
+//                if ($treeMetaData['meta_chapter']) {
+//                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER);
+//                    if ($linkNode->getId()) {
+//                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER, $linkNode->getUrl());
+//                    }
+//                }
+//
+//                if ($treeMetaData['meta_section']) {
+//                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION);
+//                    if ($linkNode->getId()) {
+//                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION, $linkNode->getUrl());
+//                    }
+//                }
+
+                if ($treeMetaData['meta_next_previous']) {
+                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT);
+                    if ($linkNode->getId()) {
+                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT, $linkNode->getUrl());
+                    }
+
+                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS);
+                    if ($linkNode->getId()) {
+                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS, $linkNode->getUrl());
+                    }
                 }
-            }
-            if ($hierarchy->getMetaSection()) {
-                $section = $node->getSectionNode();
-                if ($section->getId()) {
-                    $head->addLinkRel('section', $section->getUrl());
-                }
-            }
-            if ($hierarchy->getMetaNextPrevious()) {
-                $next     = $node->getNextNode();
-                $previous = $node->getPreviousNode();
-                if ($next->getId()) {
-                    $head->addLinkRel('next', $next->getUrl());
-                }
-                if ($previous->getId()) {
-                    $head->addLinkRel('previous', $previous->getUrl());
-                }
-            }
-            if ($hierarchy->getMetaFirstLast()) {
-                $first = $node->getFirstNode();
-                $last  = $node->getLastNode();
-                if ($first->getId()) {
-                    $head->addLinkRel('first', $first->getUrl());
-                }
-                if ($last->getId()) {
-                    $head->addLinkRel('last', $last->getUrl());
+
+                if ($treeMetaData['meta_first_last']) {
+                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST);
+                    if ($linkNode->getId()) {
+                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST, $linkNode->getUrl());
+                    }
+
+                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_LAST);
+                    if ($linkNode->getId()) {
+                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_LAST, $linkNode->getUrl());
+                    }
                 }
             }
         }

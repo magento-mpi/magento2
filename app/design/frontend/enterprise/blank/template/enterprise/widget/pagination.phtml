@@ -26,7 +26,7 @@
 /* @var $this Enterprise_Cms_Block_Widget_Pagination */
 ?>
 <div class="pagination">
-<?php if ($this->canShowSequance()):?>
+<?php if ($this->canShowSequence()):?>
     <?php if ($this->canShowPrevious()):?>
     <a class="previous" href="<?php echo $this->getPreviousNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getPreviousNode(), '&laquo;&laquo;')?></a>
     <?php else:?>
@@ -58,9 +58,9 @@
  ... <a  class="last" title="<?php echo $this->htmlEscape($this->getLastNode()->getLabel())?>" href="<?php echo $this->getLastNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getLastNode())?></a>
 <?php endif;?>
 
-<?php if ($this->canShowSequance()):?>
+<?php if ($this->canShowSequence()):?>
     <?php if ($this->canShowNext()):?>
-    <a class="next" href="<?php echo $this->getNextNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getNode(), '&raquo;&raquo;')?></a>
+    <a class="next" href="<?php echo $this->getNextNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->_node, '&raquo;&raquo;')?></a>
     <?php else:?>
     <span class="next">&raquo;&raquo;</span>
     <?php endif;?>

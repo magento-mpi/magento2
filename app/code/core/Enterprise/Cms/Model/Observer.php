@@ -179,9 +179,18 @@ class Enterprise_Cms_Model_Observer
 
         Mage::getSingleton('enterprise_cms/hierarchy_node')->updateRewriteUrls($page);
 
-        $nodeIds = $page->getNodeIds();
-        if (!empty($nodeIds)) {
-            Mage::getSingleton('enterprise_cms/hierarchy_node')->appendPageToNodes($page, $nodeIds);
+        /*
+         * Appending page to selected nodes it will remove pages from other nodes
+         * which are not specified in array. So should be called even array is empty!
+         * Returns array of new ids for page nodes array( oldId => newId ).
+         */
+        Mage::getSingleton('enterprise_cms/hierarchy_node')->appendPageToNodes($page, $page->getAppendToNodes());
+
+        /*
+         * Updating sort order for nodes in parent nodes which have current page as child
+         */
+        foreach ($page->getNodesSortOrder() as $nodeId => $value) {
+            Mage::getResourceSingleton('enterprise_cms/hierarchy_node')->updateSortOrder($nodeId, $value);
         }
 
         return $this;
@@ -208,11 +217,38 @@ class Enterprise_Cms_Model_Observer
             }
         }
 
-        if ($page->getNodeIds()) {
-            $nodeIds = explode(',', $page->getNodeIds());
-            $page->setNodeIds($nodeIds);
+        /*
+         * Checking if node's data was passed and if yes. Saving new sort order for nodes.
+         */
+        $nodesData = $page->getNodesData();
+        $appendToNodes = array();
+        $sortOrder = array();
+        if ($nodesData) {
+            $nodesData = Mage::helper('core')->jsonDecode($page->getNodesData());
+            if (!empty($nodesData)) {
+                $page->setWebsiteRoot(false);
+                foreach ($nodesData as $row) {
+                    if (isset($row['page_exists']) && $row['page_exists']) {
+                        if ($row['node_id'] == 'website_root') {
+                            $page->setWebsiteRoot(true);
+                        } else {
+                            $appendToNodes[$row['node_id']] = 0;
+                        }
+                    }
+
+                    if (isset($appendToNodes[$row['parent_node_id']])) {
+                        if (strpos($row['node_id'], '_') !== FALSE) {
+                            $appendToNodes[$row['parent_node_id']] = $row['sort_order'];
+                        } else {
+                            $sortOrder[$row['node_id']] = $row['sort_order'];
+                        }
+                    }
+                }
+            }
         }
 
+        $page->setNodesSortOrder($sortOrder);
+        $page->setAppendToNodes($appendToNodes);
         return $this;
     }
 
