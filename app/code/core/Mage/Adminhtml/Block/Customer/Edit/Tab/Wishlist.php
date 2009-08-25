@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Customer_Edit_Tab_Wishlist extends Mage_Adminhtml_Blo
                 ->addAttributeToSelect('name')
                 ->addAttributeToSelect('price')
                 ->addAttributeToSelect('small_image')
-                ->setFlag('add_days_in_wishlist', true)
+                ->setDaysInWishlist(true)
                 ->addStoreData();
 
         $this->setCollection($collection);

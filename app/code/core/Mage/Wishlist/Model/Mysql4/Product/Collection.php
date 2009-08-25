@@ -35,6 +35,35 @@
 class Mage_Wishlist_Model_Mysql4_Product_Collection
     extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
+
+    /**
+     * Add days in whishlist filter of product collection
+     *
+     * @var boolean
+     */
+    protected $_addDaysInWishlist = false;
+
+    /**
+     * Get add days in whishlist filter of product collection flag
+     *
+     * @return boolean
+     */
+    public function getDaysInWishlist()
+    {
+        return $this->_addDaysInWishlist;
+    }
+
+    /**
+     * Set add days in whishlist filter of product collection flag
+     *
+     * @return Mage_Wishlist_Model_Mysql4_Product_Collection
+     */
+    public function setDaysInWishlist($flag)
+    {
+        $this->_addDaysInWishlist = (bool) $flag;
+        return $this;
+    }
+
     /**
      * Add wishlist filter to collection
      *
@@ -98,11 +127,11 @@ class Mage_Wishlist_Model_Mysql4_Product_Collection
      */
     public function addStoreData()
     {
-        if (!$this->getFlag('add_days_in_wishlist')) {
+        if (!$this->getDaysInWishlist()) {
             return $this;
         }
 
-        $this->setFlag('add_days_in_wishlist', null);
+        $this->setDaysInWishlist(false);
 
         $dayTable = 't_wi'; //$this->_getAttributeTableAlias('days_in_wishlist');
 
