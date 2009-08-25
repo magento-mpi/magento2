@@ -84,7 +84,7 @@ hierarchyNodes = {
             var node = new Ext.tree.TreeNode({
                 id: this.nodes[i].node_id,
                 text: this.nodes[i].label,
-                cls: this.nodes[i].cls,
+                cls: this.nodes[i].current_page ? 'cur-page' : '',
                 expanded: false,
                 allowDrop: true,
                 allowDrag: dd,
@@ -137,7 +137,8 @@ hierarchyNodes = {
             expanded: false,
             current_page: true,
             allowDrop: false,
-            allowDrag: true
+            allowDrag: true,
+            cls: 'cur-page'
         });
         this.increment++;
         node.appendChild(newNode);
