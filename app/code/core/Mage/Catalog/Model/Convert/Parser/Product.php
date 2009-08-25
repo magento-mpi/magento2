@@ -489,8 +489,6 @@ class Mage_Catalog_Model_Convert_Parser_Product
         $productAttributes = Mage::getResourceModel('catalog/product_attribute_collection')
             ->load();
 
-            var_dump($this->_externalFields);
-
         $attributes = $this->_externalFields;
 
         foreach ($productAttributes as $attr) {
