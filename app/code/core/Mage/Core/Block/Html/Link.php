@@ -49,10 +49,12 @@ class Mage_Core_Block_Html_Link extends Mage_Core_Block_Abstract
             'onclick', 'ondblclick', 'onmousedown', 'onmouseup', 'onmouseover', 'onmousemove',
             'onmouseout', 'onkeypress', 'onkeydown', 'onkeyup' // %events
         );
+
         $attributes = array();
         foreach ($allow as $attribute) {
-            if ($this->hasData($attribute)) {
-                $this->setData($attribute, $this->htmlEscape($this->_getData($attribute)));
+            $value = $this->getDataUsingMethod($attribute);
+            if (!is_null($value)) {
+                $this->setData($attribute, $this->htmlEscape($value));
                 $attributes[] = $attribute;
             }
         }
@@ -72,5 +74,4 @@ class Mage_Core_Block_Html_Link extends Mage_Core_Block_Abstract
     {
         return '<a ' . $this->getLinkAttributes() . '>' . $this->htmlEscape($this->getAnchorText()) . '</a>';
     }
-
 }
