@@ -288,7 +288,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         $this->_prepareWebsiteDateTable();
         $this->_prepareDefaultFinalPriceTable();
 
-        $write = $this->_getWriteAdapter();
+        $write  = $this->_getWriteAdapter();
         $select = $write->select()
             ->from(array('e' => $this->getTable('catalog/product')), array('entity_id'))
             ->join(
@@ -302,8 +302,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             ->join(
                 array('cwd' => $this->_getWebsiteDateTable()),
                 'cw.website_id = cwd.website_id',
-                array()
-            )
+                array())
             ->join(
                 array('csg' => $this->getTable('core/store_group')),
                 'csg.website_id = cw.website_id AND cw.default_group_id = csg.group_id',
@@ -315,8 +314,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             ->join(
                 array('pw' => $this->getTable('catalog/product_website')),
                 'pw.product_id = e.entity_id AND pw.website_id = cw.website_id',
-                array()
-            )
+                array())
             ->where('e.type_id=?', $this->getTypeId());
 
         // add enable products limitation
@@ -341,8 +339,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
 
         $rulePrice      = 'rp.rule_price';
         $finalPrice     = new Zend_Db_Expr("@final_price:=IF((@price:=IF(IF({$specialFrom} IS NULL, 1,"
-            . " IF({$specialFrom} >= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
-            . "IF({$specialTo} <= {$curentDate}, 1, 0)) > 0 AND {$specialPrice} < {$price}, {$specialPrice}, {$price})"
+            . " IF({$specialFrom} <= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
+            . "IF({$specialTo} >= {$curentDate}, 1, 0)) > 0 AND {$specialPrice} < {$price}, {$specialPrice}, {$price})"
             . ") > {$rulePrice} AND {$rulePrice} IS NOT NULL, {$rulePrice}, @price)");
         $select->columns(array(
             'price'     => $finalPrice,

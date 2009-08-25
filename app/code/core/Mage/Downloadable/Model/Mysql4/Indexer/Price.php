@@ -38,7 +38,7 @@ class Mage_Downloadable_Model_Mysql4_Indexer_Price
     /**
      * Reindex temporary (price result data) for all products
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
+     * @return Mage_Downloadable_Model_Mysql4_Indexer_Price
      */
     public function reindexAll()
     {
@@ -87,6 +87,11 @@ class Mage_Downloadable_Model_Mysql4_Indexer_Price
         return $this;
     }
 
+    /**
+     * Calculate and apply Downloadable links price to index
+     *
+     * @return Mage_Downloadable_Model_Mysql4_Indexer_Price
+     */
     protected function _applyDownloadableLink()
     {
         $write  = $this->_getWriteAdapter();
@@ -142,5 +147,7 @@ class Mage_Downloadable_Model_Mysql4_Indexer_Price
         $write->query($query);
 
         $write->truncate($table);
+
+        return $this;
     }
 }
