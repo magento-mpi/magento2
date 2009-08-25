@@ -435,6 +435,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if ($this->getCanSaveCustomOptions()) {
             $options = $this->getProductOptions();
             if (is_array($options)) {
+                $this->setIsCustomOptionChanged();
                 foreach ($this->getProductOptions() as $option) {
                     $this->getOptionInstance()->addOption($option);
                     if ((!isset($option['is_delete'])) || $option['is_delete'] != '1') {
@@ -442,8 +443,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
                     }
                 }
                 foreach ($this->getOptionInstance()->getOptions() as $option) {
-                        if ($option['is_require'] == '1') {
-                            $hasRequiredOptions = true;
+                    if ($option['is_require'] == '1') {
+                        $hasRequiredOptions = true;
                         break;
                     }
                 }

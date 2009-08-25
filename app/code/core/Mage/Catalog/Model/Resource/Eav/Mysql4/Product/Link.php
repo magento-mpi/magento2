@@ -93,8 +93,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link extends Mage_Core_Mode
          * Grouped product relations should be added to relation table
          */
         if ($typeId == Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED) {
-            Mage::getResourceSingleton('catalog/product_relation')
-                ->processRelations($product->getId(), array_keys($data));
+
         }
 
         return $this;
@@ -176,5 +175,37 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link extends Mage_Core_Mode
         }
 
         return $parentIds;
+    }
+
+    /**
+     * Save grouped product relations
+     *
+     * @param Mage_Catalog_Model_Product $parentProduct
+     * @param array $data
+     * @param int $typeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link
+     */
+    public function saveGroupedLinks($product, $data, $typeId)
+    {
+        // check for change relations
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getMainTable(), array('linked_product_id'))
+            ->where('product_id=?', $product->getId())
+            ->where('link_type_id=?', $typeId);
+        $old = $this->_getWriteAdapter()->fetchCol($select);
+        $new = array_keys($data);
+
+        if (array_diff($old, $new) || array_diff($new, $old)) {
+            $product->setIsRelationsChanged(true);
+        }
+
+        // save product links attributes
+        $this->saveProductLinks($product, $data, $typeId);
+
+        // Grouped product relations should be added to relation table
+        Mage::getResourceSingleton('catalog/product_relation')
+            ->processRelations($product->getId(), $new);
+
+        return $this;
     }
 }

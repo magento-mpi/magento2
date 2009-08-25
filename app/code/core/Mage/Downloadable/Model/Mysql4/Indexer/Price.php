@@ -46,6 +46,23 @@ class Mage_Downloadable_Model_Mysql4_Indexer_Price
         $this->_applyCustomOption();
         $this->_applyDownloadableLink();
         $this->_movePriceDataToIndexTable();
+
+        return $this;
+    }
+
+    /**
+     * Reindex temporary (price result data) for defined product(s)
+     *
+     * @param int|array $entityIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
+     */
+    public function reindexEntity($entityIds)
+    {
+        $this->_prepareFinalPriceData($entityIds);
+        $this->_applyCustomOption();
+        $this->_applyDownloadableLink();
+        $this->_movePriceDataToIndexTable();
+
         return $this;
     }
 

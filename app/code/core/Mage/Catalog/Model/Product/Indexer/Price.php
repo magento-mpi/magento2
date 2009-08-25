@@ -76,7 +76,7 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
         /* @var $product Mage_Catalog_Model_Product */
         $product = $event->getDataObject();
 
-        $reindexPrice = $product->getIsRelationsChanged();
+        $reindexPrice = $product->getIsRelationsChanged() || $product->getIsCustomOptionChanged();
 
         $attributes = array(
             'price',
@@ -92,6 +92,7 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
         }
 
         if ($reindexPrice) {
+            $event->addNewData('product_type_id', $product->getTypeId());
             $event->addNewData('reindex_price', 1);
         }
     }

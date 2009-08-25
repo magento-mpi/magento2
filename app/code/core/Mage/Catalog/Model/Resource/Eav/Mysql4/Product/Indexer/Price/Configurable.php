@@ -44,13 +44,29 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
     {
         $this->_prepareFinalPriceData();
         $this->_applyCustomOption();
-        $this->_applyCustomOption();
+        $this->_applyConfigurableOption();
         $this->_movePriceDataToIndexTable();
 
         return $this;
     }
 
-/**
+    /**
+     * Reindex temporary (price result data) for defined product(s)
+     *
+     * @param int|array $entityIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
+     */
+    public function reindexEntity($entityIds)
+    {
+        $this->_prepareFinalPriceData($entityIds);
+        $this->_applyCustomOption();
+        $this->_applyConfigurableOption();
+        $this->_movePriceDataToIndexTable();
+
+        return $this;
+    }
+
+    /**
      * Retrieve table name for custom option temporary aggregation data
      *
      * @return string
@@ -137,7 +153,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
         $copTable   = $this->_getConfigurableOptionPriceTable();
 
         $this->_prepareConfigurableOptionAggregateTable();
-        $this->_prepareConfigurableOptionAggregateTable();
+        $this->_prepareConfigurableOptionPriceTable();
 
         $select = $write->select()
             ->from(array('i' => $this->_getDefaultFinalPriceTable()), null)
@@ -145,7 +161,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
                 array('l' => $this->getTable('catalog/product_super_link')),
                 'l.parent_id = i.entity_id',
                 array('parent_id', 'product_id'))
-            ->columns(array('entity_id', 'customer_group_id', 'website_id'), 'i')
+            ->columns(array('customer_group_id', 'website_id'), 'i')
             ->join(
                 array('a' => $this->getTable('catalog/product_super_attribute')),
                 'l.parent_id = a.product_id',
@@ -160,7 +176,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
                     . ' AND apd.website_id = 0 AND cp.value = apd.value_index',
                 array())
             ->joinLeft(
-                array('aps' => $this->getTable('catalog/product_super_attribute_pricing')),
+                array('apw' => $this->getTable('catalog/product_super_attribute_pricing')),
                 'a.product_super_attribute_id = apw.product_super_attribute_id'
                     . ' AND apw.website_id = i.website_id AND cp.value = apw.value_index',
                 array())
@@ -178,20 +194,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
                 array('parent_id', 'customer_group_id', 'website_id', 'MIN(price)', 'MAX(price)'))
             ->group('parent_id', 'customer_group_id', 'website_id');
 
-        $query = $select->insertFromSelect($coaTable);
-        $write->query($query);
-
-        $select = $write->select()
-            ->from(
-                array($coaTable),
-                array(
-                    'entity_id',
-                    'customer_group_id',
-                    'website_id',
-                    'min_price'     => 'SUM(min_price)',
-                    'max_price'     => 'SUM(max_price)',
-                ))
-            ->group(array('entity_id', 'customer_group_id', 'website_id'));
         $query = $select->insertFromSelect($copTable);
         $write->query($query);
 

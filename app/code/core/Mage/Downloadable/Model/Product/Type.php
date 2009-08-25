@@ -260,6 +260,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                 if ($_deleteItems) {
                     Mage::getResourceModel('downloadable/link')->deleteItems($_deleteItems);
                 }
+                if ($this->getProduct($product)->getLinksPurchasedSeparately()) {
+                    $this->getProduct($product)->setIsCustomOptionChanged();
+                }
             }
         }
 

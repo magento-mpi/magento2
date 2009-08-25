@@ -46,12 +46,19 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable extends M
     /**
      * Save configurable product relations
      *
-     * @param int $mainProductId the parent id
+     * @param Mage_Catalog_Model_Product|int $mainProduct the parent id
      * @param array $productIds the children id array
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable
      */
-    public function saveProducts($mainProductId, $productIds)
+    public function saveProducts($mainProduct, $productIds)
     {
+        $isProductInstance = false;
+        if ($mainProduct instanceof Mage_Catalog_Model_Product) {
+            $mainProductId = $mainProduct->getId();
+            $isProductInstance = true;
+        } else {
+            $mainProductId = $mainProduct;
+        }
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), 'product_id')
             ->where('parent_id=?', $mainProductId);
@@ -59,6 +66,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable extends M
 
         $insert = array_diff($productIds, $old);
         $delete = array_diff($old, $productIds);
+
+        if ((!empty($insert) || !empty($delete)) && $isProductInstance) {
+            $mainProduct->setIsRelationsChanged(true);
+        }
 
         if (!empty($delete)) {
             $where = join(' AND ', array(

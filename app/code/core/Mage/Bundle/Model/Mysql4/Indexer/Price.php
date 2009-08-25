@@ -48,6 +48,19 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
     }
 
     /**
+     * Reindex temporary (price result data) for defined product(s)
+     *
+     * @param int|array $entityIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
+     */
+    public function reindexEntity($entityIds)
+    {
+        $this->_prepareBundlePrice($entityIds);
+
+        return $this;
+    }
+
+    /**
      * Retrieve temporary price index table name for fixed bundle products
      *
      * @return string
@@ -171,9 +184,10 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
      * Prepare temporary price index data for bundle products by price type
      *
      * @param int $priceType
+     * @param int|array $entityIds the entity ids limitatation
      * @return Mage_Bundle_Model_Mysql4_Indexer_Price
      */
-    protected function _prepareBundlePriceByType($priceType)
+    protected function _prepareBundlePriceByType($priceType, $entityIds = null)
     {
         $write = $this->_getWriteAdapter();
         $table = $this->_getBundlePriceTable();
@@ -249,6 +263,10 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
             'min_price'     => new Zend_Db_Expr('@final_price'),
             'max_price'     => new Zend_Db_Expr('@final_price'),
         ));
+
+        if (!is_null($entityIds)) {
+            $select->where('e.entity_id IN(?)', $entityIds);
+        }
 
         $query = $select->insertFromSelect($table);
         $write->query($query);
@@ -365,14 +383,15 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
     /**
      * Prepare temporary index price for bundle products
      *
+     * @param int|array $entityIds  the entity ids limitation
      * @return Mage_Bundle_Model_Mysql4_Indexer_Price
      */
-    protected function _prepareBundlePrice()
+    protected function _prepareBundlePrice($entityIds = null)
     {
         $this->_prepareWebsiteDateTable();
         $this->_prepareBundlePriceTable();
-        $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED);
-        $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC);
+        $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED, $entityIds);
+        $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC, $entityIds);
         $this->_calculateBundleOptionPrice();
         $this->_applyCustomOption();
         $this->_movePriceDataToIndexTable();

@@ -247,6 +247,8 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
 
         $options = $this->getProduct($product)->getBundleOptionsData();
         if ($options) {
+            $this->getProduct($product)->setIsRelationsChanged(true);
+
             foreach ($options as $key => $option) {
                 if (isset($option['option_id']) && $option['option_id'] == '') {
                     unset($option['option_id']);

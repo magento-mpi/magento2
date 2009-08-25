@@ -76,7 +76,94 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
             return $this;
         }
 
+        $write = $this->_getWriteAdapter();
+        $this->cloneIndexTable(true);
+
+        $indexer = $this->_getIndexer($data['product_type_id']);
+        $processIds = array($productId);
+        if ($indexer->getIsComposite()) {
+            $this->_copyRelationIndexData($productId);
+            $indexer->reindexEntity($productId);
+        } else {
+            $select = $write->select()
+                ->from($this->getTable('catalog/product_relation'), array('parent_id'))
+                ->where('child_id=?', $productId);
+            $parentIds = $write->fetchCol($select);
+
+            if ($parentIds) {
+                $processIds = array_merge($processIds, $parentIds);
+                $this->_copyRelationIndexData($parentIds);
+                $indexer->reindexEntity($productId);
+
+                $types = $this->_getProductTypes();
+                foreach ($types as $typeIndexer) {
+                    if ($typeIndexer->getIsComposite()) {
+                        $typeIndexer->reindexEntity($parentIds);
+                    }
+                }
+            } else {
+                $indexer->reindexEntity($productId);
+            }
+        }
+
+        $write->beginTransaction();
+        try {
+            // remove old index
+            $where = $write->quoteInto('entity_id IN(?)', $processIds);
+            $write->delete($this->getMainTable(), $where);
+
+            // remove additional data from index
+            $where = $write->quoteInto('entity_id NOT IN(?)', $processIds);
+            $write->delete($this->getIdxTable(), $where);
+
+            // insert new index
+            $this->insertFromTable($this->getIdxTable(), $this->getMainTable());
+
+            $this->commit();
+        } catch (Exception $e) {
+            $this->rollBack();
+            throw $e;
+        }
+
         return $this;
+    }
+
+    /**
+     * Copy relations product index from primary index to temporary index table by parent entity
+     *
+     * @param array|int $parentIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
+     */
+    protected function _copyRelationIndexData($parentIds)
+    {
+        $write  = $this->_getWriteAdapter();
+        $select = $write->select()
+            ->from($this->getTable('catalog/product_relation'), array('child_id'))
+            ->where('parent_id IN(?)', $parentIds);
+        $children = $write->fetchCol($select);
+
+        $select = $write->select()
+            ->from($this->getMainTable())
+            ->where('entity_id IN(?)', $children);
+        $query  = $select->insertFromSelect($this->getIdxTable());
+        $write->query($query);
+
+        return $this;
+    }
+
+    /**
+     * Retrieve Price indexer by Product Type
+     *
+     * @param string $productTypeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
+     */
+    protected function _getIndexer($productTypeId)
+    {
+        $types = $this->_getProductTypes();
+        if (!isset($types[$productTypeId])) {
+            Mage::throwException(Mage::helper('catalog')->__('Unsupported product type "%s"', $productTypeId));
+        }
+        return $types[$productTypeId];
     }
 
     /**
@@ -95,8 +182,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
                 } else {
                     $modelName = $this->_defaultPriceIndexer;
                 }
+                $isComposite = !empty($typeInfo['composite']);
                 $indexer = Mage::getResourceModel($modelName)
-                    ->setTypeId($typeId);
+                    ->setTypeId($typeId)
+                    ->setIsComposite($isComposite);
+
                 $this->_indexers[$typeId] = $indexer;
             }
         }

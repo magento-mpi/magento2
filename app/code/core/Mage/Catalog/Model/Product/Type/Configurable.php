@@ -424,7 +424,7 @@ class Mage_Catalog_Model_Product_Type_Configurable extends Mage_Catalog_Model_Pr
         if (is_array($data)) {
             $productIds = array_keys($data);
             Mage::getResourceModel('catalog/product_type_configurable')
-                ->saveProducts($this->getProduct($product)->getId(), $productIds);
+                ->saveProducts($this->getProduct($product), $productIds);
         }
         return $this;
     }

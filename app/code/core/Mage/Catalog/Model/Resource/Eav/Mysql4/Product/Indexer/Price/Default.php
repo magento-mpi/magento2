@@ -46,6 +46,13 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
     protected $_typeId;
 
     /**
+     * Product Type is composite flag
+     *
+     * @var bool
+     */
+    protected $_isComposite = false;
+
+    /**
      * Define main price index table
      *
      */
@@ -77,6 +84,28 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             Mage::throwException(Mage::helper('catalog')->__('Not defined Product Type for Indexer'));
         }
         return $this->_typeId;
+    }
+
+    /**
+     * Set Product Type Composite flag
+     *
+     * @param bool $flag
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
+     */
+    public function setIsComposite($flag)
+    {
+        $this->_isComposite = (bool)$flag;
+        return $this;
+    }
+
+    /**
+     * Check product type is composite
+     *
+     * @return bool
+     */
+    public function getIsComposite()
+    {
+        return $this->_isComposite;
     }
 
     /**
@@ -114,6 +143,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
     public function reindexEntity($entityIds)
     {
+        $this->_prepareFinalPriceData($entityIds);
+        $this->_applyCustomOption();
+        $this->_movePriceDataToIndexTable();
+
         return $this;
     }
 
@@ -281,9 +314,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
     /**
      * Prepare products default final price in temporary index table
      *
+     * @param int|array $entityIds  the entity ids limitation
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
-    protected function _prepareFinalPriceData()
+    protected function _prepareFinalPriceData($entityIds = null)
     {
         $this->_prepareWebsiteDateTable();
         $this->_prepareDefaultFinalPriceTable();
@@ -347,6 +381,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             'min_price' => new Zend_Db_Expr('@final_price'),
             'max_price' => new Zend_Db_Expr('@final_price'),
         ));
+
+        if (!is_null($entityIds)) {
+            $select->where('e.entity_id IN(?)', $entityIds);
+        }
 
         $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable());
         $write->query($query);

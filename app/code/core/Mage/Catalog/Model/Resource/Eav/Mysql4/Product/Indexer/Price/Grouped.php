@@ -47,12 +47,26 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
     }
 
     /**
+     * Reindex temporary (price result data) for defined product(s)
+     *
+     * @param int|array $entityIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
+     */
+    public function reindexEntity($entityIds)
+    {
+        $this->_prepareGroupedProductPriceData($entityIds);
+
+        return $this;
+    }
+
+    /**
      * Calculate minimal and maximal prices for Grouped products
      * Use calculated price for relation products
      *
+     * @param int|array $entityIds  the parent entity ids limitation
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
      */
-    protected function _prepareGroupedProductPriceData()
+    protected function _prepareGroupedProductPriceData($entityIds = null)
     {
         $write = $this->_getWriteAdapter();
         $table = $this->getIndexTable();
@@ -72,6 +86,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
                 ))
             ->group(array('l.product_id', 'i.customer_group_id', 'i.website_id', 'i.tax_class_id'))
             ->where('l.link_type_id=?', Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+
+        if (!is_null($entityIds)) {
+            $select->where('l.product_id IN(?)', $entityIds);
+        }
 
         $query = $select->insertFromSelect($table);
         $write->query($query);
