@@ -26,9 +26,12 @@
 
 class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+    protected $_processModel;
+
     public function __construct()
     {
         parent::__construct();
+        $this->_processModel = Mage::getModel('index/process');
         $this->setId('indexer_processes_grid');
         $this->_filterVisibility = false;
         $this->_pagerVisibility  = false;
@@ -54,7 +57,6 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
     protected function _prepareColumns()
     {
         $baseUrl = $this->getUrl();
-
         $this->addColumn('indexer_code', array(
             'header'    => Mage::helper('index')->__('Index'),
             'width'     => '180',
@@ -70,15 +72,27 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
             'sortable'  => false,
         ));
 
+        $this->addColumn('mode', array(
+            'header'    => Mage::helper('index')->__('Mode'),
+            'width'     => '150',
+            'align'     => 'left',
+            'index'     => 'mode',
+            'type'      => 'options',
+            'options'   => $this->_processModel->getModesOptions()
+        ));
+
         $this->addColumn('status', array(
             'header'    => Mage::helper('index')->__('Status'),
             'width'     => '100',
             'align'     => 'left',
-            'index'     => 'status'
+            'index'     => 'status',
+            'type'      => 'options',
+            'options'   => $this->_processModel->getStatusesOptions()
         ));
 
         $this->addColumn('ended_at', array(
             'header'    => Mage::helper('index')->__('Ran Last'),
+            'type'      => 'datetime',
             'width'     => '150',
             'align'     => 'left',
             'index'     => 'ended_at'
@@ -86,21 +100,21 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
 
         $this->addColumn('action',
             array(
-                'header'    =>  Mage::helper('index')->__('Reindex'),
+                'header'    =>  Mage::helper('index')->__('Action'),
                 'width'     => '100',
                 'type'      => 'action',
                 'getter'    => 'getId',
                 'actions'   => array(
                     array(
-                        'caption'   => Mage::helper('index')->__('All Data'),
+                        'caption'   => Mage::helper('index')->__('Reindex Data'),
                         'url'       => array('base'=> '*/*/reindexProcess'),
                         'field'     => 'process'
                     ),
-                    array(
-                        'caption'   => Mage::helper('index')->__('Pending Events'),
-                        'url'       => array('base'=> '*/*/reindexEvents'),
-                        'field'     => 'process'
-                    )
+//                    array(
+//                        'caption'   => Mage::helper('index')->__('Pending Events'),
+//                        'url'       => array('base'=> '*/*/reindexEvents'),
+//                        'field'     => 'process'
+//                    )
                 ),
                 'filter'    => false,
                 'sortable'  => false,
@@ -110,30 +124,35 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         return parent::_prepareColumns();
     }
 
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/edit', array('process'=>$row->getId()));
+    }
+
 //    protected function _prepareMassaction()
 //    {
 //        $this->setMassactionIdField('process_id');
 //        $this->getMassactionBlock()->setFormFieldName('process');
 //
-//        $this->getMassactionBlock()->addItem('delete', array(
-//             'label'    => Mage::helper('customer')->__('Run Indexing Process'),
-//             'url'      => $this->getUrl('*/*/run'),
-//             //'confirm'  => Mage::helper('customer')->__('Are you sure?')
-//        ));
-//
-////        $this->getMassactionBlock()->addItem('assign_group', array(
-////             'label'        => Mage::helper('customer')->__('Assign a customer group'),
-////             'url'          => $this->getUrl('*/*/massAssignGroup'),
-////             'additional'   => array(
-////                'visibility'    => array(
-////                     'name'     => 'group',
-////                     'type'     => 'select',
-////                     'class'    => 'required-entry',
-////                     'label'    => Mage::helper('customer')->__('Group'),
-////                     'values'   => $groups
-////                 )
-////            )
+////        $this->getMassactionBlock()->addItem('delete', array(
+////             'label'    => Mage::helper('customer')->__('Run Indexing Process'),
+////             'url'      => $this->getUrl('*/*/run'),
+////             //'confirm'  => Mage::helper('customer')->__('Are you sure?')
 ////        ));
+//
+//        $this->getMassactionBlock()->addItem('change_mode', array(
+//             'label'        => Mage::helper('index')->__('Change Indexing Mode'),
+//             'url'          => $this->getUrl('*/*/massChangeMode'),
+//             'additional'   => array(
+//                'visibility'    => array(
+//                     'name'     => 'group',
+//                     'type'     => 'select',
+//                     'class'    => 'required-entry',
+//                     'label'    => Mage::helper('index')->__('Mode'),
+//                     'values'   => $this->_processModel->getModesOptions()
+//                 )
+//            )
+//        ));
 //
 //        return $this;
 //    }

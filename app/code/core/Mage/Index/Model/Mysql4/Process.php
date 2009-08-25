@@ -49,4 +49,44 @@ class Mage_Index_Model_Mysql4_Process extends Mage_Core_Model_Mysql4_Abstract
         $adapter->update($this->getTable('index/process_event'), array('status' => $status), $condition);
         return $this;
     }
+
+    /**
+     * Register process end
+     *
+     * @param   Mage_Index_Model_Process $process
+     * @return  Mage_Index_Model_Mysql4_Process
+     */
+    public function endProcess(Mage_Index_Model_Process $process)
+    {
+        $data = array(
+            'status'    => Mage_Index_Model_Process::STATUS_PENDING,
+            'ended_at'  =>$this->formatDate(time()),
+        );
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
+            $data,
+            $this->_getWriteAdapter()->quoteInto('process_id=?', $process->getId())
+        );
+        return $this;
+    }
+
+    /**
+     * Register process start
+     *
+     * @param   Mage_Index_Model_Process $process
+     * @return  Mage_Index_Model_Mysql4_Process
+     */
+    public function startProcess(Mage_Index_Model_Process $process)
+    {
+        $data = array(
+            'status'    => Mage_Index_Model_Process::STATUS_RUNNING,
+            'started_at'=>$this->formatDate(time()),
+        );
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
+            $data,
+            $this->_getWriteAdapter()->quoteInto('process_id=?', $process->getId())
+        );
+        return $this;
+    }
 }

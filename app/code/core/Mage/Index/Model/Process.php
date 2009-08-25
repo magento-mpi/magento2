@@ -27,13 +27,26 @@
 class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
 {
     const XML_PATH_INDEXER_DATA    = 'global/index/indexer';
+    /**
+     * Process statuses
+     */
     const STATUS_RUNNING   = 'running';
     const STATUS_PENDING   = 'pending';
 
+    /**
+     * Process event statuses
+     */
     const EVENT_STATUS_NEW      = 'new';
     const EVENT_STATUS_DONE     = 'done';
     const EVENT_STATUS_ERROR    = 'error';
     const EVENT_STATUS_WORKING  = 'working';
+
+    /**
+     * Process modes
+     * Process mode allow disable automatic process events processing
+     */
+    const MODE_MANUAL   = 'manual';
+    const MODE_REAL_TIME= 'real_time';
 
     /**
      * Indexer stategy object
@@ -86,9 +99,11 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function reindexAll()
     {
+        $this->_getResource()->startProcess($this);
         $this->lock();
         $this->getIndexer()->reindexAll();
         $this->unlock();
+        $this->_getResource()->endProcess($this);
     }
 
     /**
@@ -145,6 +160,10 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
             if (!$this->getIndexer()->matchEntityAndType($entity, $type)) {
                 return $this;
             }
+        }
+
+        if ($this->getMode() == self::MODE_MANUAL) {
+            return $this;
         }
 
         if ($this->isLocked()) {
@@ -283,5 +302,31 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         if ($this->_lockFile) {
             fclose($this->_lockFile);
         }
+    }
+
+    /**
+     * Get list of process mode options
+     *
+     * @return array
+     */
+    public function getModesOptions()
+    {
+        return array(
+            self::MODE_REAL_TIME => Mage::helper('index')->__('Autumatic Initialization'),
+            self::MODE_MANUAL => Mage::helper('index')->__('Manual Initialization')
+        );
+    }
+
+    /**
+     * Get list of process status options
+     *
+     * @return array
+     */
+    public function getStatusesOptions()
+    {
+        return array(
+            self::STATUS_PENDING => Mage::helper('index')->__('Pending'),
+            self::STATUS_RUNNING => Mage::helper('index')->__('Running'),
+        );
     }
 }

@@ -54,6 +54,55 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
     }
 
     /**
+     * Process detail and edit action
+     */
+    public function editAction()
+    {
+        $process = $this->_initProcess();
+        if ($process) {
+            Mage::register('current_index_process', $process);
+            $this->loadLayout();
+            $this->renderLayout();
+        } else {
+            $this->_getSession()->addError(
+                Mage::helper('index')->__('Can\'t initialize indexer process.')
+            );
+            $this->_redirect('*/*/list');
+            return $this;
+        }
+    }
+
+    public function saveAction()
+    {
+        $process = $this->_initProcess();
+        if ($process) {
+            $mode = $this->getRequest()->getPost('mode');
+            if ($mode) {
+                $process->setMode($mode);
+            }
+            try {
+                $process->save();
+                $this->_getSession()->addSuccess(
+                    Mage::helper('index')->__('Index was saved successfully.')
+                );
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addException($e,
+                     Mage::helper('index')->__('Some problem with saving process.')
+                );
+            }
+            $this->_redirect('*/*/list');
+        } else {
+            $this->_getSession()->addError(
+                Mage::helper('index')->__('Can\'t initialize indexer process.')
+            );
+            $this->_redirect('*/*/list');
+            return $this;
+        }
+    }
+
+    /**
      * Reindex all data what process is responsible
      */
     public function reindexProcessAction()

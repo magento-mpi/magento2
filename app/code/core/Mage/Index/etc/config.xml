@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Index>
-            <version>1.4.0.0</version>
+            <version>1.4.0.1</version>
         </Mage_Index>
     </modules>
     <global>
@@ -75,4 +75,13 @@
             </adminhtml>
         </routers>
     </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <index>
+                    <file>index.xml</file>
+                </index>
+            </updates>
+        </layout>
+    </adminhtml>
 </config>
