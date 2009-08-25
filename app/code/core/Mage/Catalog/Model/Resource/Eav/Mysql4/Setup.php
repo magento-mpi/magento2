@@ -111,7 +111,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Setup extends Mage_Eav_Model_Entity
                         'source'            => 'eav/entity_attribute_source_boolean',
                         'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
                         'visible'           => true,
-                        'required'          => false,
+                        'required'          => true,
                         'user_defined'      => false,
                         'default'           => '',
                         'searchable'        => false,

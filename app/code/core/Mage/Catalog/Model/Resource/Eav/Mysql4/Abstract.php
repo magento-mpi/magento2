@@ -206,8 +206,6 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
     /**
      * Insert entity attribute value
      *
-     * Insert attribute value we do only for default store
-     *
      * @param   Varien_Object $object
      * @param   Mage_Eav_Model_Entity_Attribute_Abstract $attribute
      * @param   mixed $value
@@ -215,6 +213,20 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
      */
     protected function _insertAttribute($object, $attribute, $value)
     {
+        /**
+         * save required attributes in global scope every time if store id different from default
+         */
+        $storeId = Mage::app()->getStore($object->getStoreId())->getId();
+        if ($attribute->getIsRequired() && $this->getDefaultStoreId() != $storeId) {
+            $bind = array(
+                'entity_type_id'    => $attribute->getEntityTypeId(),
+                'attribute_id'      => $attribute->getAttributeId(),
+                'store_id'          => $this->getDefaultStoreId(),
+                'entity_id'         => $object->getEntityId(),
+                'value'             => $this->_prepareValueForSave($value, $attribute)
+            );
+            $this->_getWriteAdapter()->insertOnDuplicate($attribute->getBackend()->getTable(), $bind, array('value'));
+        }
         return $this->_saveAttributeValue($object, $attribute, $value);
 
 //        $entityIdField = $attribute->getBackend()->getEntityIdField();
