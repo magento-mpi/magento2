@@ -124,7 +124,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         foreach ($paths as $path) {
             $allCategoryIds = array_merge($allCategoryIds, explode('/', $path));
         }
-
+        $allCategoryIds = array_unique($allCategoryIds);
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
             $this->_getWriteAdapter()->quoteInto('category_id IN(?)', $allCategoryIds)
@@ -358,7 +358,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
                     ca.category_id, cp.product_id
                 FROM {$anchorTable} AS ca
                   INNER JOIN {$this->_categoryTable} AS ce
-                    ON ce.path LIKE ca.path
+                    ON ce.path LIKE ca.path OR ce.entity_id = ca.category_id
                   INNER JOIN {$this->_categoryProductTable} AS cp
                     ON cp.category_id = ce.entity_id
                   INNER JOIN {$enabledTable} as pv
