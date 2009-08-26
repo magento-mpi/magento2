@@ -41,6 +41,7 @@ class Mage_Catalog_Block_Widget_Link
      */
     protected function _construct()
     {
+        parent::_construct();
         /*
          * Saving original data to make sure we
          * have it without any other data manipulations.

@@ -42,6 +42,7 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
      */
     protected function _construct()
     {
+        parent::_construct();
         $this->addData(array(
             'cache_lifetime'    => 86400,
             'cache_tags'        => array(Mage_Catalog_Model_Product::CACHE_TAG),
