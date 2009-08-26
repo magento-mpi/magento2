@@ -107,7 +107,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             'title'     => Mage::helper('cms')->__('Page Status'),
             'name'      => 'is_active',
             'required'  => true,
-            'options'   => Mage::getSingleton('cms/config')->getPageStatuses(),
+            'options'   => array(
+                '1' => Mage::helper('cms')->__('Enabled'),
+                '0' => Mage::helper('cms')->__('Disabled'),
+            ),
             'disabled'  => $isElementDisabled
         ));
 
@@ -140,7 +143,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
     }
 
     /**
-     * Returns status flag about this tab can be showen or not
+     * Returns status flag about this tab can be shown or not
      *
      * @return true
      */
