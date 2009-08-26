@@ -187,14 +187,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('revision_id');
-        $this->getMassactionBlock()->setFormFieldName('revision');
+        if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteRevision()) {
+            $this->setMassactionIdField('revision_id');
+            $this->getMassactionBlock()->setFormFieldName('revision');
 
-        $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('enterprise_cms')->__('Delete'),
-             'url'  => $this->getUrl('*/*/massDeleteRevisions', array('_current' => true)),
-             'confirm' => Mage::helper('enterprise_cms')->__('Are you sure?')
-        ));
+            $this->getMassactionBlock()->addItem('delete', array(
+                 'label'=> Mage::helper('enterprise_cms')->__('Delete'),
+                 'url'  => $this->getUrl('*/*/massDeleteRevisions', array('_current' => true)),
+                 'confirm' => Mage::helper('enterprise_cms')->__('Are you sure?')
+            ));
+        }
         return $this;
     }
 }

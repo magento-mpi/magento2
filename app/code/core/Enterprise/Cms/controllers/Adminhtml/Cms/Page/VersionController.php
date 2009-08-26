@@ -328,9 +328,11 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
         switch ($this->getRequest()->getActionName()) {
             case 'new':
             case 'save':
-                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision();
+                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveVersion();
                 break;
             case 'delete':
+                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteVersion();
+                break;
             case 'massDeleteRevisions':
                 return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteRevision();
                 break;

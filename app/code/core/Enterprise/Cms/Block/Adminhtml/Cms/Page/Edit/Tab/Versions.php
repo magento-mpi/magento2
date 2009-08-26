@@ -204,14 +204,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('version_id');
-        $this->getMassactionBlock()->setFormFieldName('version');
+        if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteVersion()) {
+            $this->setMassactionIdField('version_id');
+            $this->getMassactionBlock()->setFormFieldName('version');
 
-        $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('enterprise_cms')->__('Delete'),
-             'url'  => $this->getUrl('*/*/massDeleteVersions', array('_current' => true)),
-             'confirm' => Mage::helper('enterprise_cms')->__('Are you sure?')
-        ));
+            $this->getMassactionBlock()->addItem('delete', array(
+                 'label'=> Mage::helper('enterprise_cms')->__('Delete'),
+                 'url'  => $this->getUrl('*/*/massDeleteVersions', array('_current' => true)),
+                 'confirm' => Mage::helper('enterprise_cms')->__('Are you sure?')
+            ));
+        }
         return $this;
     }
 

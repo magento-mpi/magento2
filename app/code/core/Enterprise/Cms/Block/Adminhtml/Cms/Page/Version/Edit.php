@@ -48,8 +48,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         parent::__construct();
         $version = Mage::registry('cms_page_version');
 
+        $config = Mage::getSingleton('enterprise_cms/config');
+        /* @var $config Enterprise_Cms_Model_Config */
+
         // Add 'new button' depending on permission
-        if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision()) {
+        if ($config->isCurrentUserCanSaveVersion()) {
             $this->_addButton('new', array(
                     'label'     => Mage::helper('adminhtml')->__('Save As New'),
                     'onclick'   => "editForm.submit('" . $this->getNewUrl() . "');",
@@ -63,14 +66,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
                 ));
         }
 
-        $config = Mage::getSingleton('enterprise_cms/config');
-        /* @var $config Enterprise_Cms_Model_Config */
-
         $isOwner = $config->isCurrentUserOwner($version->getUserId());
         $isPublisher = $config->isCurrentUserCanPublishRevision();
 
-        // Only owner can remove version if he has permission to remove revisions
-        if (!$isOwner || !$config->isCurrentUserCanDeleteRevision()) {
+        // Only owner can remove version if he has such permissions
+        if (!$isOwner || !$config->isCurrentUserCanDeleteVersion()) {
             $this->removeButton('delete');
         }
 

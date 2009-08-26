@@ -162,4 +162,21 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
 
         return $this;
     }
+
+    /**
+     * Check the permission to run action.
+     *
+     * @return boolean
+     */
+    protected function _isAllowed()
+    {
+        switch ($this->getRequest()->getActionName()) {
+            case 'massDeleteVersions':
+                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteVersion();
+                break;
+            default:
+                return parent::_isAllowed();
+                break;
+        }
+    }
 }

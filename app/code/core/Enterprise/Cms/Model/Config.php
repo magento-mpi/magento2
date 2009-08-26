@@ -138,6 +138,26 @@ class Enterprise_Cms_Model_Config
     }
 
     /**
+     * Return status of current user permission to save version.
+     *
+     * @return bool
+     */
+    public function isCurrentUserCanSaveVersion()
+    {
+        return $this->isCurrentUserCanSaveRevision();
+    }
+
+    /**
+     * Return status of current user permission to delete version.
+     *
+     * @return bool
+     */
+    public function isCurrentUserCanDeleteVersion()
+    {
+        return $this->isCurrentUserCanDeleteRevision();
+    }
+
+    /**
      * Check permission for passed action
      *
      * @param string $action
