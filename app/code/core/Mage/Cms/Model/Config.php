@@ -34,38 +34,12 @@
  */
 class Mage_Cms_Model_Config
 {
-    const XML_PATH_CMS_PAGE_STATUSES = 'adminhtml/cms/page/status';
-
-    protected $_pageStatuses;
-
     /**
      * Cms widgets installed in system.
      *
      * @var Varien_Simplexml_Element
      */
     protected $_widgets;
-
-    /**
-     * Retrieve page statuses from config
-     *
-     * @return array
-     */
-    public function getPageStatuses()
-    {
-        if (is_null($this->_pageStatuses)) {
-            $statusNode = Mage::getConfig()
-                ->getNode(self::XML_PATH_CMS_PAGE_STATUSES);
-            $this->_pageStatuses = array();
-
-            if ($statusNode) {
-                foreach ($statusNode->children() as $status) {
-                    $this->_pageStatuses[(string)$status->value] = Mage::helper('cms')->__((string)$status->label);
-                }
-            }
-        }
-
-        return $this->_pageStatuses;
-    }
 
     /**
      * Retrieve widget by code
