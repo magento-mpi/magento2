@@ -89,7 +89,7 @@ class Mage_Core_Model_Mysql4_Url_Rewrite extends Mage_Core_Model_Mysql4_Abstract
      * @param int|Mage_Core_Model_Store $store
      * @return string|false
      */
-    public function retrieveRequestPathByIdPath($idPath, $store)
+    public function getRequestPathByIdPath($idPath, $store)
     {
         if ($store instanceof Mage_Core_Model_Store) {
             $storeId = (int)$store->getId();

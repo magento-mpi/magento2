@@ -33,36 +33,84 @@
  */
 
 class Mage_Cms_Block_Widget_Page_Link
-    extends Mage_Core_Block_Template
+    extends Mage_Core_Block_Html_Link
     implements Mage_Cms_Block_Widget_Interface
 {
     /**
-     * Rendering page's link
+     * Initialize block
+     */
+    protected function _construct()
+    {
+        /*
+         * Saving original data to make sure we
+         * have it without any other data manipulations.
+         */
+        $this->setOrigData();
+    }
+
+    /**
+     * Prepare page url. Use passed identifier
+     * or retrieve such using passed page id.
      *
      * @return string
      */
-    protected function _toHtml()
+    public function getHref()
     {
-        $pageResource = Mage::getResourceSingleton('cms/page');
-        /* @var $urlRewriteResource Mage_Cms_Model_Mysql4_Page */
-
-        $href = $this->_getData('href');
-
-        $anchorText = $this->_getData('anchor_text');
-        if (!$anchorText) {
-            $pageTitle = '';
-            if ($href) {
-                $pageTitle = $pageResource->retrieveCmsPageTitleByIdentifier($href);
-            }
-            $anchorText = $pageTitle ? $pageTitle : $href;
+        $href = "";
+        if ($this->getOrigData('href')) {
+            $href = $this->getOrigData('href');
+        } else if ($this->getOrigData('page_id')) {
+            $href = Mage::getResourceSingleton('cms/page')->getCmsPageIdentifierById($this->getOrigData('page_id'));
+            $this->setData('href', $href);
         }
 
-        $_attributes = array(
-            'href' => $this->getBaseUrl(). $href,
-            'title' => is_null($this->_getData('title')) ? $anchorText : $this->_getData('title')
-        );
+        return Mage::app()->getStore()->getUrl('', array('_direct' => $href));
+    }
 
-        return Mage::helper('cms/page')->prepareAnchorHtml(
-            $anchorText, $_attributes);
+    /**
+     * Prepare anchor title attribute using passed title
+     * as parameter or retrieve page title from DB using passed identifier or page id.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        $title = '';
+        if ($this->getOrigData('title') !== null) {
+            // compare to null used here bc user can specify blank title
+            $title = $this->getOrigData('title');
+        } else if ($this->getOrigData('href')) {
+            $title = Mage::getResourceSingleton('cms/page')->getCmsPageTitleByIdentifier($this->getOrigData('href'));
+        } else if ($this->getOrigData('page_id')) {
+            $title = Mage::getResourceSingleton('cms/page')->getCmsPageTitleById($this->getOrigData('page_id'));
+        }
+
+        $this->setData('title', $title);
+
+        return $title;
+    }
+
+    /**
+     * Prepare anchor text using passed text as parameter.
+     * If anchor text was not specified use title instead and
+     * if title will be blank string, page identifier will be used.
+     *
+     * @return string
+     */
+    public function getAnchorText()
+    {
+        if ($this->getOrigData('anchor_text')) {
+            return $this->getOrigData('anchor_text');
+        }
+
+        if ($this->getTitle()) {
+            return $this->getTitle();
+        }
+
+        if (!$this->getOrigData('href') && $this->getOrigData('page_id')) {
+            return Mage::getResourceSingleton('cms/page')->getCmsPageTitleById($this->getOrigData('page_id'));
+        }
+
+        return $this->getOrigData('href');
     }
 }

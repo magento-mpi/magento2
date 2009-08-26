@@ -36,27 +36,24 @@ class Mage_Catalog_Block_Product_Widget_New
     implements Mage_Cms_Block_Widget_Interface
 {
     /**
-     * Setting how much products widget should show
-     *
-     * @param int $count
-     * @return Mage_Catalog_Block_Product_Widget_New
+     * Initialize widget's template.
      */
-    public function setProductsCount($count)
+    protected function _construct()
     {
-        $this->setData('products_count');
-        return $this;
+        parent::_construct();
+        $this->setTemplate($this->_getData('template'));
     }
 
     /**
-     * Retrive how much products should be displayed
+     * Retrieve how much products should be displayed.
      *
      * @return int
      */
     public function getProductsCount()
     {
-        if (null === $this->getData('products_data')) {
-            $this->setData('products_count', self::DEFAULT_PRODUCTS_COUNT);
+        if (!$this->hasData('products_count')) {
+            return parent::getProductsCount();
         }
-        return $this->getData('products_data');
+        return $this->_getData('products_count');
     }
 }

@@ -44,6 +44,11 @@
                     <label>Template</label>
                     <type>text</type>
                 </template>
+                <cache_lifetime>
+                    <label>Widget's cache lifetime</label>
+                    <visible />
+                    <type>text</type>
+                </cache_lifetime>
             </parameters>
         </new_products>
 

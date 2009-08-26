@@ -33,36 +33,7 @@
  */
 
 class Mage_Catalog_Block_Product_Widget_Link
-    extends Mage_Core_Block_Template
-    implements Mage_Cms_Block_Widget_Interface
+    extends Mage_Catalog_Block_Widget_Link
 {
-    /**
-     * Rendering product's link
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $urlRewriteResource = Mage::getResourceSingleton('core/url_rewrite');
-        /* @var $urlRewriteResource Mage_Core_Model_Mysql4_Url_Rewrite */
 
-        $store = Mage::app()->getStore();
-        $requestPath = null;
-
-        $idPath = $this->_getData('id_path');
-        if ($idPath) {
-            $requestPath = $urlRewriteResource->retrieveRequestPathByIdPath($idPath, $store);
-        }
-
-        if ($requestPath) {
-            $_attributes = array(
-                'href' => $this->getBaseUrl(). $requestPath,
-                'title' => is_null($this->_getData('title')) ? $this->_getData('anchor_text') : $this->_getData('title')
-            );
-            return Mage::helper('cms/page')->prepareAnchorHtml(
-                $this->_getData('anchor_text'), $_attributes);
-        }
-
-        return '';
-    }
 }

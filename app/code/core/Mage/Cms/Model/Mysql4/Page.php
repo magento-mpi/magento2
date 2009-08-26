@@ -202,19 +202,47 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
     }
 
     /**
-     * Retrieves cms page title from DB by passed identifier
+     * Retrieves cms page title from DB by passed identifier.
      *
      * @param string $identifier
      * @return string|false
      */
-    public function retrieveCmsPageTitleByIdentifier($identifier)
+    public function getCmsPageTitleByIdentifier($identifier)
     {
         $select = $this->_getReadAdapter()->select();
         /* @var $select Zend_Db_Select */
         $select->from(array('main_table' => $this->getMainTable()), 'title')
-            ->where('main_table.identifier = ?', $identifier)
-            ->limit(1);
+            ->where('main_table.identifier = ?', $identifier);
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
 
+    /**
+     * Retrieves cms page title from DB by passed id.
+     *
+     * @param string $id
+     * @return string|false
+     */
+    public function getCmsPageTitleById($id)
+    {
+        $select = $this->_getReadAdapter()->select();
+        /* @var $select Zend_Db_Select */
+        $select->from(array('main_table' => $this->getMainTable()), 'title')
+            ->where('main_table.page_id = ?', $id);
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
+
+    /**
+     * Retrieves cms page identifier from DB by passed id.
+     *
+     * @param string $id
+     * @return string|false
+     */
+    public function getCmsPageIdentifierById($id)
+    {
+        $select = $this->_getReadAdapter()->select();
+        /* @var $select Zend_Db_Select */
+        $select->from(array('main_table' => $this->getMainTable()), 'identifier')
+            ->where('main_table.page_id = ?', $id);
         return $this->_getReadAdapter()->fetchOne($select);
     }
 
