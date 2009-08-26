@@ -49,6 +49,12 @@ class Mage_Cms_Model_Mysql4_Page extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
+        /*
+         * For two attributes which represent datetime data in DB
+         * we should make converting such as:
+         * If they are empty we need to convert them into DB
+         * type NULL so in DB they will be empty and not some default value.
+         */
         foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
             if (!$object->getData($dataKey)) {
                 $object->setData($dataKey, new Zend_Db_Expr('NULL'));
