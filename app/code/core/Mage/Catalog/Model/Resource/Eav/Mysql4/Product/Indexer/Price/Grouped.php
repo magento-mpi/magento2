@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
      * @param int|array $entityIds
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds)
+    public function reindexEntity($entityIds, $hasOptions = true)
     {
         $this->_prepareGroupedProductPriceData($entityIds);
 
@@ -69,7 +69,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
     protected function _prepareGroupedProductPriceData($entityIds = null)
     {
         $write = $this->_getWriteAdapter();
-        $table = $this->getIndexTable();
+        $table = $this->getIdxTable();
 
         $select = $write->select()
             ->from(array('l' => $this->getTable('catalog/product_link')), array('product_id'))

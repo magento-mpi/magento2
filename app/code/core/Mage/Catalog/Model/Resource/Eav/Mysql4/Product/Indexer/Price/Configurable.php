@@ -54,12 +54,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
+     * @param bool $hasOptions  the entity has custom options flag
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds)
+    public function reindexEntity($entityIds, $hasOptions = true)
     {
         $this->_prepareFinalPriceData($entityIds);
-        $this->_applyCustomOption();
+        if ($hasOptions) {
+            $this->_applyCustomOption();
+        }
         $this->_applyConfigurableOption();
         $this->_movePriceDataToIndexTable();
 
@@ -73,7 +76,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
      */
     protected function _getConfigurableOptionAggregateTable()
     {
-        return $this->getIndexTable() . '_configurable_option_aggregate';
+        return $this->getIdxTable() . '_configurable_option_aggregate';
     }
 
     /**
@@ -83,7 +86,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
      */
     protected function _getConfigurableOptionPriceTable()
     {
-        return $this->getIndexTable() . '_configurable_option';
+        return $this->getIdxTable() . '_configurable_option';
     }
 
     /**

@@ -35,7 +35,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
-    extends Mage_Core_Model_Mysql4_Abstract
+    extends Mage_Index_Model_Mysql4_Abstract
     implements Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
 {
     /**
@@ -109,20 +109,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
     }
 
     /**
-     * Retrieve index table name with additional suffix
-     *
-     * @param string $table
-     * @return string
-     */
-    public function getIndexTable($table = null)
-    {
-        if (is_null($table)) {
-            $table = $this->getMainTable();
-        }
-        return $table . Mage_Index_Model_Mysql4_Abstract::IDX_SUFFIX;
-    }
-
-    /**
      * Reindex temporary (price result data) for all products
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
@@ -139,12 +125,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
+     * @param bool $hasOptions  the entity has custom options flag
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds)
+    public function reindexEntity($entityIds, $hasOptions = true)
     {
         $this->_prepareFinalPriceData($entityIds);
-        $this->_applyCustomOption();
+        if ($hasOptions) {
+            $this->_applyCustomOption();
+        }
         $this->_movePriceDataToIndexTable();
 
         return $this;
@@ -224,7 +213,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
     protected function _getWebsiteDateTable()
     {
-        return $this->getIndexTable($this->getValueTable('core/website', 'date'));
+        return $this->getIdxTable($this->getValueTable('core/website', 'date'));
     }
 
     /**
@@ -235,7 +224,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
     protected function _getDefaultFinalPriceTable()
     {
-        return $this->getIndexTable($this->getMainTable() . '_final');
+        return $this->getIdxTable($this->getMainTable() . '_final');
     }
 
     /**
@@ -399,7 +388,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
     protected function _getCustomOptionAggregateTable()
     {
-        return $this->getIndexTable() . '_option_aggregate';
+        return $this->getIdxTable() . '_option_aggregate';
     }
 
     /**
@@ -409,7 +398,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
     protected function _getCustomOptionPriceTable()
     {
-        return $this->getIndexTable() . '_option';
+        return $this->getIdxTable() . '_option';
     }
 
     /**
@@ -622,7 +611,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         $select = $write->select()
             ->from($table);
 
-        $query = $select->insertFromSelect($this->getIndexTable());
+        $query = $select->insertFromSelect($this->getIdxTable());
         $write->query($query);
 
         $write->truncate($table);

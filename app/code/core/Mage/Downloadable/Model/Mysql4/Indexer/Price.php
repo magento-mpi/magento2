@@ -54,12 +54,15 @@ class Mage_Downloadable_Model_Mysql4_Indexer_Price
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
+     * @param bool $hasOptions  the entity has custom options flag
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds)
+    public function reindexEntity($entityIds, $hasOptions = true)
     {
         $this->_prepareFinalPriceData($entityIds);
-        $this->_applyCustomOption();
+        if ($hasOptions) {
+            $this->_applyCustomOption();
+        }
         $this->_applyDownloadableLink();
         $this->_movePriceDataToIndexTable();
 
@@ -74,7 +77,7 @@ class Mage_Downloadable_Model_Mysql4_Indexer_Price
      */
     protected function _getDownloadableLinkPriceTable()
     {
-        return $this->getIndexTable($this->getMainTable() . '_downloadable');
+        return $this->getIdxTable($this->getMainTable() . '_downloadable');
     }
 
     /**

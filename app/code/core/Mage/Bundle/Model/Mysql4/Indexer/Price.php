@@ -51,11 +51,12 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
+     * @param bool $hasOptions  the entity has custom options flag
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds)
+    public function reindexEntity($entityIds, $hasOptions = true)
     {
-        $this->_prepareBundlePrice($entityIds);
+        $this->_prepareBundlePrice($entityIds, $hasOptions);
 
         return $this;
     }
@@ -363,7 +364,7 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
                 'bs.option_id = bo.option_id',
                 array('selection_id'))
             ->join(
-                array('idx' => $this->getIndexTable()),
+                array('idx' => $this->getIdxTable()),
                 'bs.product_id = idx.entity_id AND i.customer_group_id = idx.customer_group_id'
                     . ' AND i.website_id = idx.website_id',
                 array())
@@ -384,16 +385,19 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
      * Prepare temporary index price for bundle products
      *
      * @param int|array $entityIds  the entity ids limitation
+     * @param bool $hasOptions  the entity has custom options flag
      * @return Mage_Bundle_Model_Mysql4_Indexer_Price
      */
-    protected function _prepareBundlePrice($entityIds = null)
+    protected function _prepareBundlePrice($entityIds = null, $hasOptions = true)
     {
         $this->_prepareWebsiteDateTable();
         $this->_prepareBundlePriceTable();
         $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED, $entityIds);
         $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC, $entityIds);
         $this->_calculateBundleOptionPrice();
-        $this->_applyCustomOption();
+        if ($hasOptions) {
+            $this->_applyCustomOption();
+        }
         $this->_movePriceDataToIndexTable();
 
         return $this;

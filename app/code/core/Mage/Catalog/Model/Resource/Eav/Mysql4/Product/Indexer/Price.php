@@ -75,6 +75,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
         if (!isset($data['reindex_price'])) {
             return $this;
         }
+        $hasOptions = !empty($data['has_custom_options']);
 
         $write = $this->_getWriteAdapter();
         $this->cloneIndexTable(true);
@@ -83,26 +84,32 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
         $processIds = array($productId);
         if ($indexer->getIsComposite()) {
             $this->_copyRelationIndexData($productId);
-            $indexer->reindexEntity($productId);
+            $indexer->reindexEntity($productId, $hasOptions);
         } else {
             $select = $write->select()
-                ->from($this->getTable('catalog/product_relation'), array('parent_id'))
-                ->where('child_id=?', $productId);
-            $parentIds = $write->fetchCol($select);
+                ->from(array('l' => $this->getTable('catalog/product_relation')), array('parent_id'))
+                ->join(
+                    array('e' => $this->getTable('catalog/product')),
+                    'l.parent_id=e.entity_id',
+                    array('e.type_id'))
+                ->where('l.child_id=?', $productId);
+            $parentIds = $write->fetchPairs($select);
 
             if ($parentIds) {
-                $processIds = array_merge($processIds, $parentIds);
-                $this->_copyRelationIndexData($parentIds);
-                $indexer->reindexEntity($productId);
+                $processIds = array_merge($processIds, array_keys($parentIds));
+                $this->_copyRelationIndexData($parentIds, $productId);
+                $indexer->reindexEntity($productId, $hasOptions);
 
-                $types = $this->_getProductTypes();
-                foreach ($types as $typeIndexer) {
-                    if ($typeIndexer->getIsComposite()) {
-                        $typeIndexer->reindexEntity($parentIds);
-                    }
+                $parentByType = array();
+                foreach ($parentIds as $parentId => $parentType) {
+                    $parentByType[$parentType][$parentId] = $parentId;
+                }
+
+                foreach ($parentByType as $parentType => $entityIds) {
+                    $this->_getIndexer($parentType)->reindexEntity($entityIds);
                 }
             } else {
-                $indexer->reindexEntity($productId);
+                $indexer->reindexEntity($productId, $hasOptions);
             }
         }
 
@@ -132,14 +139,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
      * Copy relations product index from primary index to temporary index table by parent entity
      *
      * @param array|int $parentIds
+     * @package array|int
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
      */
-    protected function _copyRelationIndexData($parentIds)
+    protected function _copyRelationIndexData($parentIds, $excludeIds = null)
     {
         $write  = $this->_getWriteAdapter();
         $select = $write->select()
             ->from($this->getTable('catalog/product_relation'), array('child_id'))
             ->where('parent_id IN(?)', $parentIds);
+        if (!is_null($excludeIds)) {
+            $select->where('child_id NOT IN(?)', $excludeIds);
+        }
         $children = $write->fetchCol($select);
 
         $select = $write->select()

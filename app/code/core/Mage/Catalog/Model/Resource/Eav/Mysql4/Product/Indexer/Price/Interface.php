@@ -45,7 +45,8 @@ interface Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
+     * @param bool $hasOptions  the entity has custom options flag
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds);
+    public function reindexEntity($entityIds, $hasOptions = true);
 }
