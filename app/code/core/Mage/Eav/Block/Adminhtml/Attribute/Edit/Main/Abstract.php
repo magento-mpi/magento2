@@ -171,6 +171,7 @@ abstract class Mage_Eav_Block_Adminhtml_Attribute_Edit_Main_Abstract extends Mag
      */
     protected function _initFormValues()
     {
+        Mage::dispatchEvent('adminhtml_block_eav_attribute_edit_form_init', array('form' => $this->getForm()));
         $this->getForm()
             ->addValues($this->getAttributeObject()->getData());
         return parent::_initFormValues();
