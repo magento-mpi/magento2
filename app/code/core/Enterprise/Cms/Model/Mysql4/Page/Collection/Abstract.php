@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage_Core_Model_Mysql4_Collection_Abstract
+abstract class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     /**
      * Array of admin users in loaded collection
@@ -127,10 +127,13 @@ class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage_Core_Mod
      */
     public function addUserNameColumn()
     {
-        $this->getSelect()->joinLeft(
+        if (!$this->getFlag('user_name_column_joined')) {
+            $this->getSelect()->joinLeft(
                 array('ut' => $this->getTable('admin/user')),
                 'ut.user_id = main_table.user_id',
                 array('username'));
+            $this->setFlag('user_name_column_joined', true);
+        }
 
         return $this;
     }
@@ -148,7 +151,7 @@ class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage_Core_Mod
                 if ($userId) {
                     $this->_usersHash[$userId] = $username;
                 } else {
-                    $this->_usersHash['-1'] = '[User Deleted]';
+                    $this->_usersHash['-1'] = Mage::helper('enterprise_cms')->__('[User Deleted]');
                 }
             }
 

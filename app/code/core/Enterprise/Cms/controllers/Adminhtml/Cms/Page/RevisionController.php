@@ -66,27 +66,20 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             $revisionId = (int) $this->getRequest()->getParam('revision_id');
         }
 
-        $revision = Mage::getModel('enterprise_cms/page_revision')
-            ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
-            ->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
+        $revision = Mage::getModel('enterprise_cms/page_revision');
+        $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+        $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
 
         if ($revisionId) {
-            $revision->load($revisionId);
+            $revision->loadWithRestrictions($accessLevel, $userId, $revisionId);
         } else {
             // loading empty revision
             $versionId = (int) $this->getRequest()->getParam('version_id');
-            if ($versionId) {
-                $revision->setVersionId($versionId);
-            }
-
             $pageId = (int) $this->getRequest()->getParam('page_id');
-            if ($pageId) {
-                $revision->setPageId($pageId);
-            }
 
-            // setting owner by default -> current user
-            $revision->load(false)
-                ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());;
+            // loading empty revision but with general data from page and version
+            $revision->loadByVersionPageWithRestrictions($versionId, $pageId, $accessLevel, $userId);
+            $revision->setUserId($userId);
         }
 
         //setting in registry as cms_page to make work CE blocks

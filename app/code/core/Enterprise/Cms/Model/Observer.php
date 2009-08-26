@@ -77,10 +77,11 @@ class Enterprise_Cms_Model_Observer
         $page = Mage::registry('cms_page');
         $revisionAvailable = false;
         if ($page && $page->getPublishedRevisionId()) {
+            $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+            $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+
             $revision = Mage::getModel('enterprise_cms/page_revision')
-                ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
-                ->setAccessLevel($this->_config->getAllowedAccessLevel())
-                ->load($page->getPublishedRevisionId());
+                ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
 
             if ($revision->getId()) {
                 $revisionNumber = $revision->getRevisionNumber();

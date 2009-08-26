@@ -36,7 +36,7 @@
  *
  * When we store counter for version it has node = page_id and level = 0
  * When we store counter for revision it has node = version_id (not increment number) and level = 1
- * In case we will add something after revision something like subrevision
+ * In case we will add something after revision something like sub-revision
  * we will need to use node = revision_id and level = 2  (for future).
  * Type is only one value '0' at this time bc revision control used only for pages.
  *
@@ -47,11 +47,23 @@
 
 class Enterprise_Cms_Model_Increment extends Mage_Core_Model_Abstract
 {
+    /*
+     * Increment types
+     */
+    const TYPE_PAGE = 0;
+
+    /*
+     * Increment levels
+     */
+    const LEVEL_VERSION = 0;
+    const LEVEL_REVISION = 1;
+
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
+        parent::_construct();
         $this->_init('enterprise_cms/increment');
     }
 
@@ -71,11 +83,11 @@ class Enterprise_Cms_Model_Increment extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Increment counter and return new value.
+     * Get incremented value of counter.
      *
      * @return mixed
      */
-    public function getNextId()
+    protected function _getNextId()
     {
         $incrementId = $this->getLastId();
         if ($incrementId) {
@@ -85,5 +97,30 @@ class Enterprise_Cms_Model_Increment extends Mage_Core_Model_Abstract
         }
 
         return $incrementId;
+    }
+
+    /**
+     * Generate new increment id for passed type, node and level.
+     *
+     * @param int $type
+     * @param int $node
+     * @param int $level
+     * @return string
+     */
+    public function getNewIncrementId($type, $node, $level)
+    {
+        $this->loadByTypeNodeLevel($type, $node, $level);
+
+        // if no counter for such combination we need to create new
+        if (!$this->getId()) {
+            $this->setType($type)
+                ->setNode($node)
+                ->setLevel($level);
+        }
+
+        $newIncrementId = $this->_getNextId();
+        $this->setLastId($newIncrementId)->save();
+
+        return $newIncrementId;
     }
 }

@@ -81,22 +81,17 @@ class Enterprise_Cms_Model_Mysql4_Page_Version extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
-     * Retrieve select object for load object data and apply custom rules.
+     * Add access restriction filters to allow load only by granted user.
      *
-     * @param string $field
-     * @param mixed $value
+     * @param Zend_Db_Select $select
+     * @param int $accessLevel
+     * @param int $userId
      * @return Zend_Db_Select
      */
-    protected function _getLoadSelect($field, $value, $object)
+    protected function _addAccessRestrictionsToSelect($select, $accessLevel, $userId)
     {
-        $select = parent::_getLoadSelect($field, $value, $object);
+        $conditions = array('user_id = ' . $userId);
 
-        /*
-         * Adding access level filtering to disallow loading of closed content
-         */
-        $conditions = array('user_id = ' . (int)$object->getUserId());
-
-        $accessLevel = $object->getAccessLevel();
         if (is_array($accessLevel) && !empty($accessLevel)) {
             $conditions[] = 'access_level in ("' . implode('","', $accessLevel) . '")';
         } else if ($accessLevel) {
@@ -132,6 +127,38 @@ class Enterprise_Cms_Model_Mysql4_Page_Version extends Mage_Core_Model_Mysql4_Ab
         $condition['access_level IN (?)'] = $accessLevel;
         $write->delete($this->getMainTable(), $condition);
 
+        return $this;
+    }
+
+    /**
+     * Loading data with extra access level checking.
+     *
+     * @param Enterprise_Cms_Model_Page_Version $object
+     * @param array|string $accessLevel
+     * @param int $userId
+     * @param int|string $value
+     * @param string|null $field
+     * @return Enterprise_Cms_Model_Page_Version
+     */
+    public function loadWithRestrictions($object, $accessLevel, $userId, $value, $field = null)
+    {
+        if (is_null($field)) {
+            $field = $this->getIdFieldName();
+        }
+
+        $read = $this->_getReadAdapter();
+        if ($read && $value) {
+            $select = $this->_getLoadSelect($field, $value, $object);
+
+            $select = $this->_addAccessRestrictionsToSelect($select, $accessLevel, $userId);
+
+            $data = $read->fetchRow($select);
+            if ($data) {
+                $object->setData($data);
+            }
+        }
+
+        $this->_afterLoad($object);
         return $this;
     }
 }

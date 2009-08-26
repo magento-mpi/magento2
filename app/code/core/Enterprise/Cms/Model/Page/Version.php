@@ -45,36 +45,23 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
+        parent::_construct();
         $this->_init('enterprise_cms/page_version');
     }
 
     /**
      * Preparing data before save
      *
-     * @return Enterprise_Cms_Model_Version
+     * @return Enterprise_Cms_Model_Page_Version
      */
     protected function _beforeSave()
     {
         if (!$this->getId()) {
-            /*
-             * Preparing new human-readable id
-             */
-            $level = 0;
-
-            $incrementModel = Mage::getModel('enterprise_cms/increment')
-                ->loadByTypeNodeLevel(0, $this->getPageId(), $level);
-
-            if (!$incrementModel->getId()) {
-                $incrementModel->setType(0)
-                    ->setNode($this->getPageId())
-                    ->setLevel($level);
-            }
-
-            $incrementNumber = $incrementModel->getNextId();
-            $incrementModel->setLastId($incrementNumber)
-                ->save();
+            $incrementNumber = Mage::getModel('enterprise_cms/increment')
+                ->getNewIncrementId(Enterprise_Cms_Model_Increment::TYPE_PAGE,
+                        $this->getPageId(), Enterprise_Cms_Model_Increment::LEVEL_VERSION);
 
             $this->setVersionNumber($incrementNumber);
         }
@@ -118,19 +105,18 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
         if ($this->getOrigData($this->getIdFieldName()) != $this->getId()) {
             $revision = Mage::getModel('enterprise_cms/page_revision');
 
-            $revision->setUserId($this->getUserId());
-            $revision->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
+            // setting data for load
+            $userId = $this->getUserId();
+            $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
 
-            if ($this->getInitialRevisionId()) {
-                $revision->load($this->getInitialRevisionId());
-            } elseif ($this->getInitialRevisionData()) {
+            if ($this->getInitialRevisionData()) {
                 $revision->setData($this->getInitialRevisionData());
             } else {
-                $revision->load($this->getOrigData($this->getIdFieldName()), 'version_id');
+                $revision->loadWithRestrictions($accessLevel, $userId, $this->getOrigData($this->getIdFieldName()), 'version_id');
             }
 
             $revision->setVersionId($this->getId())
-                ->setUserId($this->getUserId())
+                ->setUserId($userId)
                 ->save();
 
             $this->setLastRevision($revision);
@@ -140,7 +126,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     /**
      * Checking some moments before we can actually delete version
      *
-     * @return Enterprise_Cms_Model_Version
+     * @return Enterprise_Cms_Model_Page_Version
      */
     protected function _beforeDelete()
     {
@@ -169,5 +155,22 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
     public function isPublic()
     {
         return $this->getAccessLevel() == Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC;
+    }
+
+    /**
+     * Loading version with extra access level checking.
+     *
+     * @param array|string $accessLevel
+     * @param int $userId
+     * @param int|string $value
+     * @param string|null $field
+     * @return Enterprise_Cms_Model_Page_Version
+     */
+    public function loadWithRestrictions($accessLevel, $userId, $value, $field = null)
+    {
+        $this->_getResource()->loadWithRestrictions($this, $accessLevel, $userId, $value, $field = null);
+        $this->_afterLoad();
+        $this->setOrigData();
+        return $this;
     }
 }

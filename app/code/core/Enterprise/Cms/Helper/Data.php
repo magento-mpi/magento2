@@ -48,12 +48,26 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
     {
         if (!$this->_usersHash) {
             $collection = Mage::getModel('admin/user')->getCollection();
-            $this->_usersHash = array('' => '[User Deleted]');
+            $this->_usersHash = array('' => $this->__('[User Deleted]'));
             foreach ($collection as $user) {
                 $this->_usersHash[$user->getId()] = $user->getUsername();
             }
         }
 
         return $this->_usersHash;
+    }
+
+    /**
+     * Get version's access levels with labels.
+     *
+     * @return array
+     */
+    public function getVersionAccessLevels()
+    {
+        return array(
+            Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE => $this->__('Private'),
+            Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PROTECTED => $this->__('Protected'),
+            Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC => $this->__('Public')
+        );
     }
 }

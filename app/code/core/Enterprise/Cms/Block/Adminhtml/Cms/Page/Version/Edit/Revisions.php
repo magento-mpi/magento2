@@ -25,7 +25,7 @@
  */
 
 /**
- * Grid wtih revisions on version page
+ * Grid with revisions on version page
  *
  * @category    Enterprise
  * @package     Enterprise_Cms
@@ -60,7 +60,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
 
             // Commented this bc now revision are shown in scope of version and not page.
             // So if user has permission to load this version he
-            // has permmission to see all its versions
+            // has permission to see all its versions
             //->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
             //    Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
@@ -111,7 +111,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
-            'options' => Mage::getSingleton('enterprise_cms/config')->getStatuses()
+            'options' => Mage::helper('enterprise_cms')->getVersionAccessLevels()
         ));
 */
         $this->addColumn('revision_number', array(

@@ -83,30 +83,6 @@
     </global>
     <adminhtml>
         <cms>
-            <revision_contol>
-                <page>
-                    <root_template />
-                    <meta_keywords />
-                    <meta_description />
-                    <content />
-                    <sort_order />
-                    <layout_update_xml />
-                    <custom_theme />
-                    <custom_theme_from />
-                    <custom_theme_to />
-                </page>
-                <status>
-                    <private>
-                        <label>Private</label>
-                    </private>
-                    <protected>
-                        <label>Protected</label>
-                    </protected>
-                    <public>
-                        <label>Public</label>
-                    </public>
-                </status>
-            </revision_contol>
             <page>
                 <status>
                     <enabled translate="label" module="enterprise_cms">

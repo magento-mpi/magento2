@@ -48,6 +48,18 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
     protected $_versionTable;
 
     /**
+     * Alias of page table from config
+     * @var string
+     */
+    protected $_pageTableAlias;
+
+    /**
+     * Alias of version table from config
+     * @var string
+     */
+    protected $_versionTableAlias;
+
+    /**
      * Constructor
      */
     protected function _construct()
@@ -55,6 +67,9 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
         $this->_init('enterprise_cms/page_revision', 'revision_id');
         $this->_pageTable = $this->getTable('cms/page');
         $this->_versionTable = $this->getTable('enterprise_cms/page_version');
+
+        $this->_pageTableAlias = 'page_table';
+        $this->_versionTableAlias = 'version_table';
     }
 
     /**
@@ -66,6 +81,12 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
         if (!$object->getCopiedFromOriginal()) {
+            /*
+             * For two attributes which represent datetime data in DB
+             * we should make converting such as:
+             * If they are empty we need to convert them into DB
+             * type NULL so in DB they will be empty and not some default value.
+             */
             $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
             foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
                 $date = $object->getData($dataKey);
@@ -141,80 +162,6 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
     }
 
     /**
-     * Retrieve select object for load object data.
-     * Joining revision controlled data from extra tables.
-     *
-     * @param string $field
-     * @param mixed $value
-     * @return Zend_Db_Select
-     */
-    protected function _getLoadSelect($field, $value, $object)
-    {
-        $select = parent::_getLoadSelect($field, $value, $object);
-
-        $read = $this->_getReadAdapter();
-
-        /*
-         * Preparing version data and access level filtering
-         * to disallow loading of closed content
-         */
-        $permissionCondition = array('ver_table.user_id = ' . (int)$object->getUserId());
-
-        $accessLevel = $object->getAccessLevel();
-        if (is_array($accessLevel) && !empty($accessLevel)) {
-            $permissionCondition[] = $read->quoteInto('ver_table.access_level in (?)', $accessLevel);
-        } else if ($accessLevel) {
-            $permissionCondition[] = $read->quoteInto('ver_table.access_level = ?', $accessLevel);
-        } else {
-            $permissionCondition[] = 'ver_table.access_level = ""';
-        }
-
-        $versionJoinCondition = ' AND (' . implode(' OR ', $permissionCondition) . ')';
-
-        // we have value by which we should load
-        if ($value) {
-            $versionJoinType = $pageJoinType = 'joinInner';
-            $versionJoinCondition = 'ver_table.version_id = ' . $this->getMainTable()
-                . '.version_id' . $versionJoinCondition;
-            $pageJoinCondition = $this->getMainTable() . '.page_id=page_table.page_id';
-        } else {
-            /**
-             * We don't have value so this should
-             * be new revision for specified page and version
-             */
-            $versionJoinType = 'joinRight';
-            $pageJoinType = 'joinLeft';
-            $select->reset(Zend_Db_Select::COLUMNS)
-                ->reset(Zend_Db_Select::WHERE);
-
-            $whereCondition = $read->quoteInto('ver_table.version_id = ?', $object->getVersionId())
-                 . $versionJoinCondition;
-
-            $select->where($whereCondition);
-
-            $versionJoinCondition = '1 = 1';
-            $pageJoinCondition = $read->quoteInto('page_table.page_id = ?', $object->getPageId());
-            // adding page id which we will not have as this is new revision
-            $select->from('', 'page_table.page_id');
-        }
-
-        // Adding version data
-        $select->$versionJoinType(array('ver_table' => $this->_versionTable),
-            $versionJoinCondition,
-            array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id'));
-
-        // Adding page data
-        $select->$versionJoinType(array('page_table' => $this->_pageTable),
-            $pageJoinCondition, array('title'));
-
-        // Adding limitation and ordering
-        $select->order($this->getMainTable() . '.created_at DESC')
-            ->limit(1);
-
-        return $select;
-    }
-
-    /**
      * Publishing passed revision object to page
      *
      * @param array $object
@@ -223,7 +170,8 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
      */
     public function publish(array $data, $targetId)
     {
-        $data = $this->_prepareDataForPublish($data);
+        $object = new Varien_Object($data);
+        $data = $this->_prepareDataForTable($object, $this->_pageTable);
         $condition = $this->_getWriteAdapter()->quoteInto('page_id = ?', $targetId);
         $this->_getWriteAdapter()->update($this->_pageTable, $data, $condition);
 
@@ -231,31 +179,174 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
     }
 
     /**
-     * Prepare data for publish
+     * Loading revision's data with extra access level checking.
      *
-     * @param   Mage_Core_Model_Abstract $object
-     * @return  array
+     * @param Enterprise_Cms_Model_Page_Revision $object
+     * @param array|string $accessLevel
+     * @param int $userId
+     * @param int|string $value
+     * @param string|null $field
+     * @return Enterprise_Cms_Model_Page_Revision
      */
-    protected function _prepareDataForPublish(array $data)
+    public function loadWithRestrictions($object, $accessLevel, $userId, $value, $field)
     {
-        $_preparedData = array();
-        $fields = $this->_getWriteAdapter()->describeTable($this->_pageTable);
-        foreach (array_keys($fields) as $field) {
-            if (isset($data[$field])) {
-                $fieldValue = $data[$field];
-                if ($fieldValue instanceof Zend_Db_Expr) {
-                    $_preparedData[$field] = $fieldValue;
-                }
-                else {
-                    if (null !== $fieldValue) {
-                        $_preparedData[$field] = $this->_prepareValueForSave($fieldValue, $fields[$field]['DATA_TYPE']);
-                    }
-                    elseif (!empty($fields[$field]['NULLABLE'])) {
-                        $_preparedData[$field] = null;
-                    }
-                }
+        if (is_null($field)) {
+            $field = $this->getIdFieldName();
+        }
+
+        $read = $this->_getReadAdapter();
+        if ($read && $value) {
+            // getting main load select
+            $select = $this->_getLoadSelect($field, $value, $object);
+
+            // prepare join conditions for version table
+            $joinConditions = array($this->_getPermissionCondition($accessLevel, $userId));
+            $joinConditions[] = $this->_versionTableAlias . '.version_id = '
+                . $this->getMainTable() . '.version_id';
+            // joining version table
+            $this->_joinVersionData($select, 'joinInner', implode(' AND ', $joinConditions));
+
+            // prepare join conditions for page table
+            $joinConditions = $this->getMainTable() . '.page_id = ' . $this->_pageTableAlias . '.page_id';
+            // joining page table
+            $this->_joinPageData($select, 'joinInner', $joinConditions);
+
+            if ($field != $this->getIdFieldName()) {
+                // Adding limitation and ordering bc we are
+                // loading not by unique conditions so we need
+                // to make sure we have latest revision and only one
+                $this->_addSingleLimitation($select);
+            }
+
+            $data = $read->fetchRow($select);
+            if ($data) {
+                $object->setData($data);
             }
         }
-        return $_preparedData;
+
+        $this->_afterLoad($object);
+        return $this;
+    }
+
+    /**
+     * Loading revision's data using version and page's id but also counting on access restrictions.
+     * Used to load clean revision without any data that is under revision control but which
+     * will have all other data from version and page tables.
+     *
+     * @param Enterprise_Cms_Model_Page_Revision $object
+     * @param int $versionId
+     * @param int $pageId
+     * @param array|string $accessLevel
+     * @param int $userId
+     * @return Enterprise_Cms_Model_Page_Revision
+     */
+    public function loadByVersionPageWithRestrictions($object, $versionId, $pageId, $accessLevel, $userId)
+    {
+        $read = $this->_getReadAdapter();
+        if ($read && $versionId && $pageId) {
+            // getting main load select
+            $select = $this->_getLoadSelect($this->getIdFieldName(), false, $object);
+            // reseting all columns and where as we don't have need them
+            $select->reset(Zend_Db_Select::COLUMNS)->reset(Zend_Db_Select::WHERE);
+
+            // adding where conditions with restriction filter
+            $whereConditions = array($this->_getPermissionCondition($accessLevel, $userId));
+            $whereConditions[] = $read->quoteInto($this->_versionTableAlias . '.version_id = ?', $versionId);
+            $select->where(implode(' AND ', $whereConditions));
+
+            //joining version table
+            $this->_joinVersionData($select, 'joinRight', '1 = 1');
+
+            //joining page table
+            $joinCondition = $read->quoteInto($this->_pageTableAlias . '.page_id = ?', $pageId);
+            $this->_joinPageData($select, 'joinLeft', $joinCondition);
+            // adding page id column which we will not have as this is clean revision
+            // and this column is not specified in join
+            $select->from('', 'page_table.page_id');
+
+            // Adding limitation and ordering bc we are
+            // loading not by unique conditions so we need
+            // to make sure we have latest revision and only one
+            $this->_addSingleLimitation($select);
+
+            $data = $read->fetchRow($select);
+            if ($data) {
+                $object->setData($data);
+            }
+        }
+
+        $this->_afterLoad($object);
+        return $this;
+    }
+
+    /**
+     * Preparing array of conditions based on user id and version's access level.
+     *
+     * @param array|string $accessLevel
+     * @param int $userId
+     * @return string
+     */
+    protected function _getPermissionCondition($accessLevel, $userId)
+    {
+        $read = $this->_getReadAdapter();
+        $permissionCondition = array();
+        $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.user_id = ? ', $userId);
+
+        if (is_array($accessLevel) && !empty($accessLevel)) {
+            $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level in (?)', $accessLevel);
+        } else if ($accessLevel) {
+            $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.access_level = ?', $accessLevel);
+        } else {
+            $permissionCondition[] = $versionTableAlias . '.access_level = ""';
+        }
+
+        return '(' . implode(' OR ', $permissionCondition) . ')';
+    }
+
+    /**
+     * Joining version table using specified conditions and join type.
+     *
+     * @param Zend_Db_Select $select
+     * @param string $joinType
+     * @param string $joinConditions
+     * @return Zend_Db_Select
+     */
+    protected function _joinVersionData($select, $joinType, $joinConditions)
+    {
+        $select->$joinType(array($this->_versionTableAlias => $this->_versionTable),
+            $joinConditions,
+            array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id'));
+
+        return $select;
+    }
+
+    /**
+     * Joining page table using specified conditions and join type.
+     *
+     * @param Zend_Db_Select $select
+     * @param string $joinType can be joinInner, joinRight, joinLeft
+     * @param string $joinConditions
+     * @return Zend_Db_Select
+     */
+    protected function _joinPageData($select, $joinType, $joinConditions)
+    {
+        $select->$joinType(array($this->_pageTableAlias => $this->_pageTable),
+            $joinConditions, array('title'));
+
+        return $select;
+    }
+
+    /**
+     * Applying order by create datetime and limitation to one record.
+     *
+     * @param Zend_Db_Select $select
+     * @return Zend_Db_Select
+     */
+    protected function _addSingleLimitation($select)
+    {
+        $select->order($this->getMainTable() . '.created_at DESC')
+            ->limit(1);
+
+        return $select;
     }
 }

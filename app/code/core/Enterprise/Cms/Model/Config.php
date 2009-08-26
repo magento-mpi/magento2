@@ -34,11 +34,18 @@
  */
 class Enterprise_Cms_Model_Config
 {
-    const XML_PATH_CMS_TYPE_ATTRIBUTES = 'adminhtml/cms/revision_contol/';
-
-    const XML_PATH_CMS_REVISION_CONTROL_STATUSES = 'adminhtml/cms/revision_contol/status';
-
-    protected $_statuses;
+    protected $_revisionControlledAttributes = array(
+        'page' => array(
+            'root_template',
+            'rmeta_keywords',
+            '<meta_description',
+            'content',
+            'sort_order',
+            'layout_update_xml',
+            'custom_theme',
+            'custom_theme_from',
+            'custom_theme_to'
+        ));
 
     /**
      * Retrieves attributes for passed cms
@@ -47,10 +54,10 @@ class Enterprise_Cms_Model_Config
      * @return array
      */
     protected function _getRevisionControledAttributes($type) {
-        $attributes = Mage::getConfig()
-            ->getNode(self::XML_PATH_CMS_TYPE_ATTRIBUTES . $type)
-            ->asArray();
-        return array_keys($attributes);
+        if (isset($this->_revisionControlledAttributes[$type])) {
+            return $this->_revisionControlledAttributes[$type];
+        }
+        return array();
     }
 
     /**
@@ -152,25 +159,5 @@ class Enterprise_Cms_Model_Config
         return Mage::getSingleton('admin/session')->getUser()->getId() == $userId;
     }
 
-    /**
-     * Retrieve statuses from config
-     *
-     * @return array
-     */
-    public function getStatuses()
-    {
-        if (is_null($this->_statuses)) {
-            $statusNode = Mage::getConfig()
-                ->getNode(self::XML_PATH_CMS_REVISION_CONTROL_STATUSES);
-            $this->_statuses = array();
 
-            if ($statusNode) {
-                foreach ($statusNode->children() as $key => $status) {
-                    $this->_statuses[$key] = Mage::helper('cms')->__((string)$status->label);
-                }
-            }
-        }
-
-        return $this->_statuses;
-    }
 }

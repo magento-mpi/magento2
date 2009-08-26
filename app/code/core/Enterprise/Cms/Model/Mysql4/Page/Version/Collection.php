@@ -93,21 +93,25 @@ class Enterprise_Cms_Model_Mysql4_Page_Version_Collection  extends Enterprise_Cm
      */
     public function joinRevisions()
     {
-        $this->getSelect()->joinLeft(
-            array('rev_table' => $this->getTable('enterprise_cms/page_revision')),
-            'rev_table.version_id=main_table.version_id', '*');
+        if (!$this->getFlag('revisions_joined')) {
+            $this->getSelect()->joinLeft(
+                array('rev_table' => $this->getTable('enterprise_cms/page_revision')),
+                'rev_table.version_id=main_table.version_id', '*');
+
+            $this->setFlag('revisions_joined');
+        }
         return $this;
     }
 
     /**
-     * Join version label or its number in case label is not defined
+     * Add order by version number in specified direction.
      *
-     * @return Enterprise_Cms_Model_Mysql4_Revision_Collection
+     * @param string $dir
+     * @return Enterprise_Cms_Model_Mysql4_Page_Version_Collection
      */
-    public function addVersionLabelToSelect()
+    public function addNumberSort($dir = 'desc')
     {
-        $this->_map['fields']['version_label'] = 'IF(main_table.label = "", main_table.version_id, main_table.label )';
-        $this->getSelect()->from('', array('version_label' => $this->_map['fields']['version_label']));
+        $this->setOrder('version_number', $dir);
 
         return $this;
     }

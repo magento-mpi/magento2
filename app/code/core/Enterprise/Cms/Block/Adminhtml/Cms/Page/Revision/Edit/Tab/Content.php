@@ -80,9 +80,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
             $fieldset->addField('label', 'hidden', array(
                 'name' => 'label',
             ));
+
+            $fieldset->addField('user_id', 'hidden', array(
+                'name' => 'user_id',
+            ));
         }
 
         $this->getForm()->setValues($model->getData());
+
+        // setting current user id for new version functionality.
+        // in posted data there will be current user
+        $this->getForm()->getElement('user_id')->setValue(Mage::getSingleton('admin/session')->getUser()->getId());
 
         return $this;
     }

@@ -83,7 +83,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
             'label'     => Mage::helper('enterprise_cms')->__('Access Level'),
             'title'     => Mage::helper('enterprise_cms')->__('Access Level'),
             'name'      => 'access_level',
-            'options'   => Mage::getSingleton('enterprise_cms/config')->getStatuses(),
+            'options'   => Mage::helper('enterprise_cms')->getVersionAccessLevels(),
             'disabled'  => !$isOwner && !$isPublisher
         ));
 

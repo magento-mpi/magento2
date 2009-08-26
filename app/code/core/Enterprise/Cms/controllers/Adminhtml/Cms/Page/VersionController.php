@@ -67,11 +67,12 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
         }
 
         $version = Mage::getModel('enterprise_cms/page_version');
+        /* @var $version Enterprise_Cms_Model_Page_Version */
 
         if ($versionId) {
-            $version->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
-            $version->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
-            $version->load($versionId);
+            $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+            $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+            $version->loadWithRestrictions($accessLevel, $userId, $versionId);
         }
 
         Mage::register('cms_page_version', $version);
@@ -200,11 +201,12 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
         }
         else {
             try {
+                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+                $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+
                 foreach ($ids as $id) {
                     $revision = Mage::getSingleton('enterprise_cms/page_revision')
-                        ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
-                        ->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
-                        ->load($id);
+                        ->loadWithRestrictions($accessLevel, $userId, $id);
 
                     if ($revision->getId()) {
                         $revision->delete();
@@ -268,8 +270,12 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
             $version = $this->_initVersion();
 
             $version->addData($data)
-                ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
                 ->unsetData($version->getIdFieldName());
+
+            // only if user not specified we set current user as owner
+            if (!$version->getUserId()) {
+                $version->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
+            }
 
             if (isset($data['revision_id'])) {
                 $data = $this->_filterPostData($data);

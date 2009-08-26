@@ -45,8 +45,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
     public function __construct()
     {
         parent::__construct();
-        $this->setDefaultSort('version_number');
-        $this->setDefaultDir('DESC');
         $this->setUseAjax(true);
         $this->setId('versionGrid');
         $this->setSaveParametersInSession(true);
@@ -67,7 +65,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             ->addVisibilityFilter($userId,
                 Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
             ->addUserColumn()
-            ->addUserNameColumn();
+            ->addUserNameColumn()
+            ->addNumberSort();
 
         $this->setCollection($collection);
 
@@ -125,7 +124,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             'index' => 'access_level',
             'type' => 'options',
             'width' => 100,
-            'options' => Mage::getSingleton('enterprise_cms/config')->getStatuses()
+            'options' => Mage::helper('enterprise_cms')->getVersionAccessLevels()
         ));
 
         $this->addColumn('revisions', array(

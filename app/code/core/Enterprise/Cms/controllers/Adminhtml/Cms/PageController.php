@@ -140,12 +140,16 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
         }
         else {
             try {
+                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+                $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+
                 foreach ($ids as $id) {
                     $version = Mage::getSingleton('enterprise_cms/page_version')
-                        ->setUserId(Mage::getSingleton('admin/session')->getUser()->getId())
-                        ->setAccessLevel(Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
-                        ->load($id);
-                    $version->delete();
+                        ->loadWithRestrictions($accessLevel, $userId, $id);
+
+                    if ($version->getId()) {
+                        $version->delete();
+                    }
                 }
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d record(s) were successfully deleted', count($ids))

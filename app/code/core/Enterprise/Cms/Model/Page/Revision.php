@@ -44,8 +44,9 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
     /**
      * Constructor
      */
-    public function __construct()
+    protected function _construct()
     {
+        parent::_construct();
         $this->_init('enterprise_cms/page_revision');
         $this->_config = Mage::getSingleton('enterprise_cms/config');
     }
@@ -53,7 +54,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
     /**
      * Preparing data before save
      *
-     * @return Enterprise_Cms_Model_Revision
+     * @return Enterprise_Cms_Model_Page_Revision
      */
     protected function _beforeSave()
     {
@@ -65,22 +66,9 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
             $this->unsetData($this->getIdFieldName());
             $this->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
 
-            /*
-             * Preparing new human-readable id
-             */
-            $level = 1;
-            $incrementModel = Mage::getModel('enterprise_cms/increment')
-                ->loadByTypeNodeLevel(0, $this->getVersionId(), $level);
-
-            if (!$incrementModel->getId()) {
-                $incrementModel->setType(0)
-                    ->setNode($this->getVersionId())
-                    ->setLevel($level);
-            }
-
-            $incrementNumber = $incrementModel->getNextId();
-            $incrementModel->setLastId($incrementNumber)
-                ->save();
+            $incrementNumber = Mage::getModel('enterprise_cms/increment')
+                ->getNewIncrementId(Enterprise_Cms_Model_Increment::TYPE_PAGE,
+                        $this->getVersionId(), Enterprise_Cms_Model_Increment::LEVEL_REVISION);
 
             $this->setRevisionNumber($incrementNumber);
         }
@@ -95,7 +83,6 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
      */
     protected function _revisionedDataWasModified()
     {
-        $format = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $attributes = $this->_config->getPageRevisionControledAttributes();
         foreach ($attributes as $attr) {
             $value = $this->getData($attr);
@@ -152,7 +139,7 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
     /**
      * Checking some moments before we can actually delete revision
      *
-     * @return Enterprise_Cms_Model_Revision
+     * @return Enterprise_Cms_Model_Page_Revision
      */
     protected function _beforeDelete()
     {
@@ -163,5 +150,41 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
                 Mage::helper('enterprise_cms')->__('Revision #%s could not be removed because it is published.', $this->getRevisionNumber())
             );
         }
+    }
+
+    /**
+     * Loading revision with extra access level checking.
+     *
+     * @param array|string $accessLevel
+     * @param int $userId
+     * @param int|string $value
+     * @param string|null $field
+     * @return Enterprise_Cms_Model_Page_Revision
+     */
+    public function loadWithRestrictions($accessLevel, $userId, $value, $field = null)
+    {
+        $this->_getResource()->loadWithRestrictions($this, $accessLevel, $userId, $value, $field);
+        $this->_afterLoad();
+        $this->setOrigData();
+        return $this;
+    }
+
+    /**
+     * Loading revision with empty data which is under
+     * control and with other data from version and page.
+     * Also apply extra access level checking.
+     *
+     * @param int $versionId
+     * @param int $pageId
+     * @param array|string $accessLevel
+     * @param int $userId
+     * @return Enterprise_Cms_Model_Page_Revision
+     */
+    public function loadByVersionPageWithRestrictions($versionId, $pageId, $accessLevel, $userId)
+    {
+        $this->_getResource()->loadByVersionPageWithRestrictions($this, $versionId, $pageId, $accessLevel, $userId);
+        $this->_afterLoad();
+        $this->setOrigData();
+        return $this;
     }
 }
