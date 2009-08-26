@@ -82,15 +82,6 @@
         </events>
     </global>
     <adminhtml>
-        <cms>
-            <page>
-                <status>
-                    <enabled translate="label" module="enterprise_cms">
-                        <label>Published</label>
-                    </enabled>
-                </status>
-            </page>
-        </cms>
         <layout>
             <updates>
                 <enterprise_cms>

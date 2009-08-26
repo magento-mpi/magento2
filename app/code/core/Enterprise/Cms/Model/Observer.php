@@ -59,16 +59,25 @@ class Enterprise_Cms_Model_Observer
         $form = $observer->getEvent()->getForm();
         /* @var $baseFieldset Varien_Data_Form_Element_Fieldset */
         $baseFieldset = $form->getElement('base_fieldset');
+        /* @var $baseFieldset Varien_Data_Form_Element_Fieldset */
 
-        /*
-         * Making is_active as disabled if user does not have publish permission
-         */
-        if (!$this->_config->isCurrentUserCanPublishRevision()) {
-            $element = $baseFieldset->getElements()->searchById('is_active');
-            if ($element) {
-                $element->setDisabled(true);
+        $isActiveElement = $form->getElement('is_active');
+        if ($isActiveElement) {
+            // Making is_active as disabled if user does not have publish permission
+            if (!$this->_config->isCurrentUserCanPublishRevision()) {
+                    $isActiveElement->setDisabled(true);
             }
+
+            // Changing status label from 'Enabled' to 'Published'
+            $values = $isActiveElement->getValues();
+            foreach ($values as $key => $value) {
+                if ($value['value'] == 1) {
+                    $values[$key]['label'] = Mage::helper('enterprise_cms')->__('Published');
+                }
+            }
+            $isActiveElement->setValues($values);
         }
+
 
         /*
          * Adding link to current published revision
