@@ -625,10 +625,12 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
     {
         if (is_array($data)) {
             foreach ($data as $itemId => $info) {
-                $item = $this->getQuote()->getItemById($itemId);
+                $item       = $this->getQuote()->getItemById($itemId);
                 $itemQty    = (float)$info['qty'];
-                if ($item && !$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
-                    $itemQty = intval($info['qty']);
+                if ($item && $item->getProduct()->getStockItem()) {
+                    if (!$item->getProduct()->getStockItem()->getIsQtyDecimal()) {
+                        $itemQty = intval($info['qty']);
+                    }
                 }
                 $itemQty    = $itemQty>0 ? $itemQty : 1;
                 if (isset($info['custom_price'])) {
