@@ -515,11 +515,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function isStatusProcessing()
     {
-         if ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_STARTED) {
-             return true;
-         } else {
-            return false;
-         }
+         return $this->getStatus() != Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETED;
     }
 
     /**
@@ -532,8 +528,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             return false;
         }
-        if ($this->isScheduled()
-            || ($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_STARTED)) {
+        if ($this->isScheduled() || $this->isStatusProcessing()) {
             return false;
         }
         return true;
@@ -561,7 +556,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
         if (!$this->checkCoreFlag()) {
             return false;
         }
-        if (($this->getStatus() == Enterprise_Staging_Model_Staging_Config::STATUS_STARTED)) {
+        if ($this->isStatusProcessing()) {
             return false;
         }
         if ($this->canUnschedule()) {

@@ -33,6 +33,26 @@ class Enterprise_Staging_Model_Mysql4_Staging extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
+     * Add website name to select
+     *
+     * @param   string $field
+     * @param   mixed $value
+     * @param   object $object
+     *
+     * @return  Zend_Db_Select
+     */
+    protected function _getLoadSelect($field, $value, $object)
+    {
+        $select = parent::_getLoadSelect($field, $value, $object);
+        $select->joinLeft(
+            array('site'=>$this->getTable('core/website')),
+            "staging_website_id = site.website_id",
+            array('name' => 'site.name')
+        );
+        return $select;
+    }
+
+    /**
      * Before save processing
      *
      * @param Varien_Object $object

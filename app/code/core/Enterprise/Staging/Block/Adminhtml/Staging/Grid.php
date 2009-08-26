@@ -106,6 +106,14 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Grid extends Mage_Adminhtml_Blo
             'sortable'  => false,
         ));
 
+        $this->addColumn('status', array(
+            'width'     => 100,
+            'header'    => Mage::helper('enterprise_staging')->__('Status'),
+            'index'     => 'status',
+            'type'      => 'options',
+            'options'   => array('started' => Mage::helper('enterprise_staging')->__('Processing'), 'completed' => Mage::helper('enterprise_staging')->__('Ready'))
+        ));
+
         $this->addColumn('last_event', array(
             'width'     => 250,
             'header'    => Mage::helper('enterprise_staging')->__('Latest Event'),
