@@ -39,8 +39,7 @@ class Mage_CatalogSearch_Model_Mysql4_Search_Collection
      */
     public function addSearchFilter($query)
     {
-        $query = $this->getConnection()->quote($query);
-        $this->_searchQuery = '%'.$query.'%';
+        $this->_searchQuery = $this->getConnection()->quote("%{$query}%");
         $this->addFieldToFilter('entity_id', array('in'=>new Zend_Db_Expr($this->_getSearchEntityIdsSql($query))));
         return $this;
     }
