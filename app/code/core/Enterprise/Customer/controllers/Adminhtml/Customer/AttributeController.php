@@ -103,6 +103,8 @@ class Enterprise_Customer_Adminhtml_Customer_AttributeController extends Mage_Ad
             }
             if ($attributeObject->getEntityTypeId() != $this->_entityTypeId) {
                 $this->_getSession()->addError(Mage::helper('enterprise_customer')->__('You cannot edit this attribute.'));
+                $this->_redirect('*/*/');
+                return;
             }
         }
         $attributeData = $this->_getSession()->getAttributeData(true);
