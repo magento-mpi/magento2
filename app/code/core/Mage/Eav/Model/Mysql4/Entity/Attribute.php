@@ -242,7 +242,7 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
             $describe = $this->describeTable($this->getTable($additionalTable));
             $data = array();
             foreach (array_keys($describe) as $field) {
-                if ($value = $object->getData($field)) {
+                if (null !== ($value = $object->getData($field))) {
                     $data[$field] = $value;
                 }
             }
