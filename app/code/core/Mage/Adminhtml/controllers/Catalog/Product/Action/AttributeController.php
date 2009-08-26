@@ -72,54 +72,11 @@ class Mage_Adminhtml_Catalog_Product_Action_AttributeController extends Mage_Adm
 
         try {
             if ($attributesData) {
-                $product = Mage::getModel('catalog/product');
-                if ($inventoryData) {
-                    $stockItem = Mage::getModel('cataloginventory/stock_item');
-                }
-                foreach ($this->_getHelper()->getProductIds() as $productId) {
-                    $product->setData(array());
-                    $product->setStoreId($this->_getHelper()->getSelectedStoreId())
-                        ->load($productId)
-                        ->setIsMassupdate(true)
-                        ->setExcludeUrlRewrite(true);
-
-                    if (!$product->getId()) {
-                        continue;
-                    }
-
-                    $product->addData($attributesData);
-                    if ($inventoryData) {
-                        $product->setStockData($inventoryData);
-                    }
-
-                    $dataChanged = false;
-                    foreach ($attributesData as $k => $v) {
-                        if ($product->dataHasChangedFor($k)) {
-                            $dataChanged = true;
-                        }
-                    }
-
-                    if ($dataChanged) {
-                        $product->save();
-                    }
-                    elseif ($inventoryData) {
-                        $stockItem->setData(array());
-                        $stockItem->loadByProduct($productId)
-                            ->setProductId($productId);
-                        $stockDataChanged = false;
-                        foreach ($inventoryData as $k => $v) {
-                            $stockItem->setDataUsingMethod($k, $v);
-                            if ($stockItem->dataHasChangedFor($k)) {
-                                $stockDataChanged = true;
-                            }
-                        }
-                        if ($stockDataChanged) {
-                            $stockItem->save();
-                        }
-                    }
-                }
+                $storeId = $this->_getHelper()->getSelectedStoreId();
+                Mage::getSingleton('catalog/product_action')
+                    ->updateAttributes($this->_getHelper()->getProductIds(), $attributesData, $storeId);
             }
-            elseif ($inventoryData) {
+            if ($inventoryData) {
                 $stockItem = Mage::getModel('cataloginventory/stock_item');
 
                 foreach ($this->_getHelper()->getProductIds() as $productId) {
