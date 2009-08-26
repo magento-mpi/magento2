@@ -31,7 +31,10 @@ abstract class Mage_Index_Model_Mysql4_Abstract extends Mage_Core_Model_Mysql4_A
 {
     const IDX_SUFFIX    = '_idx';
 
-    abstract public function reindexAll();
+    public function reindexAll()
+    {
+        return $this;
+    }
 
     /**
      * Get DB adapter for index data processing
