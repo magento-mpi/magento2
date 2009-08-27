@@ -142,7 +142,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
             'header'    => Mage::helper('cms')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('cms/config')->getPageStatuses(),
+            'options'   => Mage::getModel('cms/page')->getAvailableStatuses(),
             'width'   => '100',
         ));
 
