@@ -43,6 +43,7 @@ abstract class Enterprise_CatalogEvent_Block_Event_Abstract extends Mage_Core_Bl
 
     protected function _construct()
     {
+        parent::_construct();
         $this->_statuses = array(
             Enterprise_CatalogEvent_Model_Event::STATUS_UPCOMING => $this->helper('enterprise_catalogevent')->__('Coming Soon'),
             Enterprise_CatalogEvent_Model_Event::STATUS_OPEN     => $this->helper('enterprise_catalogevent')->__('Sale Ends In'),

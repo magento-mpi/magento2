@@ -67,7 +67,7 @@ class Enterprise_CatalogEvent_Block_Event_Lister extends Enterprise_CatalogEvent
     }
 
     /**
-     * Retreive categories with events
+     * Retrieve categories with events
      *
      * @return array
      */

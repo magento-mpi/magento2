@@ -35,12 +35,5 @@ class Enterprise_CatalogEvent_Block_Widget_Lister
     extends Enterprise_CatalogEvent_Block_Event_Lister
     implements Mage_Cms_Block_Widget_Interface
 {
-    /**
-     * Initialize widget's template.
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate($this->_getData('template'));
-    }
+
 }
