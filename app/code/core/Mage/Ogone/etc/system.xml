@@ -93,7 +93,7 @@
                         </secret_key_in>
                         <secret_key_out translate="label,comment">
                             <label>SHA-OUT Signature</label>
-                            <comment>use in posting data from Ogone to Magento</comment>
+                            <comment>use in posting data from Magento to Ogone</comment>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <frontend_type>obscure</frontend_type>
                             <sort_order>6</sort_order>
