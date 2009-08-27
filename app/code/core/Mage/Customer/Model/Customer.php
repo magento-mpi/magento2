@@ -695,6 +695,10 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
             && '' == trim($this->getTaxvat())) {
             $errors[] = Mage::helper('customer')->__('TAX/VAT number is required.');
         }
+        if (('req' === Mage::helper('customer/address')->getConfig('gender_show'))
+            && '' == trim($this->getGender())) {
+            $errors[] = Mage::helper('customer')->__('Gender is required.');
+        }
 
         if (empty($errors)) {
             return true;

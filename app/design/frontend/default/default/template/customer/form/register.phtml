@@ -64,6 +64,10 @@
 <?php if ($_taxvat->isEnabled()): ?>
             <li><?php echo $_taxvat->setTaxvat($this->getFormData()->getTaxvat())->toHtml() ?></li>
 <?php endif ?>
+<?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+<?php if ($_gender->isEnabled()): ?>
+    <li><?php echo $_gender->setGender($this->getFormData()->getGender())->toHtml() ?></li>
+<?php endif ?>
         </ul>
     </fieldset>
 <?php if($this->getShowAddressFields()): ?>

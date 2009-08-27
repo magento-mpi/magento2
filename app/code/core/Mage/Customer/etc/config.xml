@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Customer>
-            <version>1.4.0.0.0</version>
+            <version>1.4.0.0.1</version>
         </Mage_Customer>
     </modules>
 
@@ -91,6 +91,7 @@
                 <confirmation><create>1</create></confirmation>
                 <dob><create>1</create><update>1</update></dob>
                 <taxvat><create>1</create><update>1</update></taxvat>
+                <gender><create>1</create><update>1</update></gender>
             </customer_account>
         </fieldsets>
 
@@ -304,6 +305,7 @@ T: {{var telephone}}
                 <suffix_show></suffix_show>
                 <suffix_options></suffix_options>
                 <dob_show></dob_show>
+                <gender_show></gender_show>
             </address>
             <startup>
                 <redirect_dashboard>1</redirect_dashboard>

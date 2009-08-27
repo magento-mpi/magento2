@@ -52,6 +52,7 @@
                 <email><to_customer>*</to_customer></email>
                 <customer_dob><to_customer>dob</to_customer></customer_dob>
                 <customer_taxvat><to_customer>taxvat</to_customer></customer_taxvat>
+                <customer_gender><to_customer>gender</to_customer></customer_gender>
             </checkout_onepage_billing>
         </fieldsets>
         <blocks>

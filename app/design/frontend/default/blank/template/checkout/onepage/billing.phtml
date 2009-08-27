@@ -102,6 +102,14 @@
                 </li>
     <?php endif ?>
 
+    <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+    <?php if ($_gender->isEnabled()): ?>
+                <li>
+                    <?php echo $_gender->setGender($this->getQuote()->getCustomerGender())
+                        ->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                </li>
+    <?php endif ?>
+
                 <li id="register-customer-password">
                     <div class="input-box">
                         <label for="billing:customer_password"><?php echo $this->__('Password') ?> <span class="required">*</span></label><br />
