@@ -112,7 +112,8 @@
                 <?php if(!$this->isCustomerLoggedIn()): ?>
                 <?php $_dob = $this->getLayout()->createBlock('customer/widget_dob') ?>
                 <?php $_taxvat = $this->getLayout()->createBlock('customer/widget_taxvat') ?>
-                <?php if ($_dob->isEnabled() || $_taxvat->isEnabled() ): ?>
+                <?php $_gender = $this->getLayout()->createBlock('customer/widget_gender') ?>
+                <?php if ($_dob->isEnabled() || $_taxvat->isEnabled() || $_gender->isEnabled() ): ?>
                 <li class="fields">
                     <?php if ($_dob->isEnabled()): ?>
                     <div class="field">
@@ -123,6 +124,12 @@
                     <?php if ($_taxvat->isEnabled()): ?>
                                 <div class="field">
                                     <?php echo $_taxvat->setTaxvat($this->getQuote()->getCustomerTaxvat())
+                                        ->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                                </div>
+                    <?php endif ?>
+                    <?php if ($_gender->isEnabled()): ?>
+                                <div class="field">
+                                    <?php echo $_gender->setGender($this->getQuote()->getCustomerGender())
                                         ->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
                                 </div>
                     <?php endif ?>
