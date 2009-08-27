@@ -204,7 +204,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
      */
     public function applyRootNodeFilter()
     {
-        $this->addFieldToFilter('parent_node_id', array('isnull' => true));
+        $this->addFieldToFilter('parent_node_id', array('null' => true));
 
         return $this;
     }
