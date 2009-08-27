@@ -164,13 +164,12 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
     /**
      * Publishing passed revision object to page
      *
-     * @param array $object
+     * @param Enterprise_Cms_Model_Page_Revision $object
      * @param int $targetId
      * @return Enterprise_Cms_Model_Mysql4_Page_Revision
      */
-    public function publish(array $data, $targetId)
+    public function publish(Enterprise_Cms_Model_Page_Revision $object, $targetId)
     {
-        $object = Mage::getModel('enterprise_cms/page_revision')->setData($data);
         $data = $this->_prepareDataForTable($object, $this->_pageTable);
         $condition = $this->_getWriteAdapter()->quoteInto('page_id = ?', $targetId);
         $this->_getWriteAdapter()->update($this->_pageTable, $data, $condition);

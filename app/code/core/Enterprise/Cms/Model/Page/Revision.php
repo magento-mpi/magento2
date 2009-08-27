@@ -142,7 +142,8 @@ class Enterprise_Cms_Model_Page_Revision extends Mage_Core_Model_Abstract
         $this->_getResource()->beginTransaction();
         try {
             $data = $this->_prepareDataForPublish($this);
-            $this->_getResource()->publish($data, $this->getPageId());
+            $object = Mage::getModel('enterprise_cms/page_revision')->setData($data);
+            $this->_getResource()->publish($object, $this->getPageId());
             $this->_getResource()->commit();
         } catch (Exception $e){
             $this->_getResource()->rollBack();
