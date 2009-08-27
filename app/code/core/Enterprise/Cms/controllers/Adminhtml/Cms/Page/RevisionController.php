@@ -367,13 +367,13 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
     {
         switch ($this->getRequest()->getActionName()) {
             case 'save':
-                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveRevision();
+                return Mage::getSingleton('enterprise_cms/config')->canCurrentUserSaveRevision();
                 break;
             case 'publish':
-                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublishRevision();
+                return Mage::getSingleton('enterprise_cms/config')->canCurrentUserPublishRevision();
                 break;
             case 'delete':
-                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteRevision();
+                return Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteRevision();
                 break;
             default:
                 return Mage::getSingleton('admin/session')->isAllowed('cms/page');

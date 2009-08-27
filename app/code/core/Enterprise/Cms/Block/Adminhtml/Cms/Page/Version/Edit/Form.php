@@ -57,7 +57,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
         /* @var $config Enterprise_Cms_Model_Config */
 
         $isOwner = $config->isCurrentUserOwner($version->getUserId());
-        $isPublisher = $config->isCurrentUserCanPublishRevision();
+        $isPublisher = $config->canCurrentUserPublishRevision();
 
         $fieldset = $form->addFieldset('version_fieldset',
             array('legend' => Mage::helper('enterprise_cms')->__('Version Information'),

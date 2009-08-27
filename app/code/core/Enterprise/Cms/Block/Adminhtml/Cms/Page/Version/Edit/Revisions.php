@@ -187,7 +187,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
      */
     protected function _prepareMassaction()
     {
-        if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteRevision()) {
+        if (Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteRevision()) {
             $this->setMassactionIdField('revision_id');
             $this->getMassactionBlock()->setFormFieldName('revision');
 

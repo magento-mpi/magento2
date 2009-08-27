@@ -128,7 +128,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
             $version = $this->_initVersion();
 
             // if current user not publisher he can't change owner
-            if (!Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanPublishRevision()) {
+            if (!Mage::getSingleton('enterprise_cms/config')->canCurrentUserPublishRevision()) {
                 unset($data['user_id']);
             }
             $version->addData($data);
@@ -328,13 +328,13 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
         switch ($this->getRequest()->getActionName()) {
             case 'new':
             case 'save':
-                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanSaveVersion();
+                return Mage::getSingleton('enterprise_cms/config')->canCurrentUserSaveVersion();
                 break;
             case 'delete':
-                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteVersion();
+                return Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteVersion();
                 break;
             case 'massDeleteRevisions':
-                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteRevision();
+                return Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteRevision();
                 break;
             default:
                 return Mage::getSingleton('admin/session')->isAllowed('cms/page');

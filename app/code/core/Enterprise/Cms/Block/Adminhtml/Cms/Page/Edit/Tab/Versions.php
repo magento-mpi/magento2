@@ -204,7 +204,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected function _prepareMassaction()
     {
-        if (Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteVersion()) {
+        if (Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteVersion()) {
             $this->setMassactionIdField('version_id');
             $this->getMassactionBlock()->setFormFieldName('version');
 

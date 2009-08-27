@@ -77,7 +77,7 @@ class Enterprise_Cms_Model_Config
      */
     public function getAllowedAccessLevel()
     {
-        if ($this->isCurrentUserCanPublishRevision()) {
+        if ($this->canCurrentUserPublishRevision()) {
             return array(
                 Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PROTECTED,
                 Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC
@@ -92,7 +92,7 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanPublishRevision()
+    public function canCurrentUserPublishRevision()
     {
         return $this->_isAllowedAction('publish_revision');
     }
@@ -102,7 +102,7 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanDeletePage()
+    public function canCurrentUserDeletePage()
     {
         return $this->_isAllowedAction('delete');
     }
@@ -112,7 +112,7 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanSavePage()
+    public function canCurrentUserSavePage()
     {
         return $this->_isAllowedAction('save');
     }
@@ -122,7 +122,7 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanSaveRevision()
+    public function canCurrentUserSaveRevision()
     {
         return $this->_isAllowedAction('save_revision');
     }
@@ -132,7 +132,7 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanDeleteRevision()
+    public function canCurrentUserDeleteRevision()
     {
         return $this->_isAllowedAction('delete_revision');
     }
@@ -142,9 +142,9 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanSaveVersion()
+    public function canCurrentUserSaveVersion()
     {
-        return $this->isCurrentUserCanSaveRevision();
+        return $this->canCurrentUserSaveRevision();
     }
 
     /**
@@ -152,9 +152,9 @@ class Enterprise_Cms_Model_Config
      *
      * @return bool
      */
-    public function isCurrentUserCanDeleteVersion()
+    public function canCurrentUserDeleteVersion()
     {
-        return $this->isCurrentUserCanDeleteRevision();
+        return $this->canCurrentUserDeleteRevision();
     }
 
     /**

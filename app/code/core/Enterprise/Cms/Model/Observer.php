@@ -64,7 +64,7 @@ class Enterprise_Cms_Model_Observer
         $isActiveElement = $form->getElement('is_active');
         if ($isActiveElement) {
             // Making is_active as disabled if user does not have publish permission
-            if (!$this->_config->isCurrentUserCanPublishRevision()) {
+            if (!$this->_config->canCurrentUserPublishRevision()) {
                     $isActiveElement->setDisabled(true);
             }
         }
@@ -212,7 +212,7 @@ class Enterprise_Cms_Model_Observer
          */
         if (!$page->getId()) {
             $page->setIsNewPage(true);
-            if (!$this->_config->isCurrentUserCanPublishRevision()) {
+            if (!$this->_config->canCurrentUserPublishRevision()) {
                 $page->setIsActive(false);
             }
         }

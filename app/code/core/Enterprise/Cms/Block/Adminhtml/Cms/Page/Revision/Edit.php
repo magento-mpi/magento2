@@ -61,7 +61,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         ));
 
 
-        if ($config->isCurrentUserCanPublishRevision()) {
+        if ($config->canCurrentUserPublishRevision()) {
             $this->_addButton('publish', array(
                 'id'        => 'publish_button',
                 'label'     => Mage::helper('enterprise_cms')->__('Publish'),
@@ -77,7 +77,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
             ));
         }
 
-        if ($config->isCurrentUserCanSaveRevision()) {
+        if ($config->canCurrentUserSaveRevision()) {
             $this->_updateButton('save', 'label', Mage::helper('enterprise_cms')->__('Save'));
             $this->_updateButton('save', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\');');
             $this->_updateButton('saveandcontinue', 'onclick', 'editForm.submit(\'' . $this->getSaveUrl() . '\'+\'back/edit/\');');
@@ -110,7 +110,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
             $this->removeButton('saveandcontinue');
         }
 
-        if ($config->isCurrentUserCanDeleteRevision()) {
+        if ($config->canCurrentUserDeleteRevision()) {
             $this->_updateButton('delete', 'label', Mage::helper('enterprise_cms')->__('Delete'));
         } else {
             $this->removeButton('delete');

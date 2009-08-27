@@ -172,7 +172,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
     {
         switch ($this->getRequest()->getActionName()) {
             case 'massDeleteVersions':
-                return Mage::getSingleton('enterprise_cms/config')->isCurrentUserCanDeleteVersion();
+                return Mage::getSingleton('enterprise_cms/config')->canCurrentUserDeleteVersion();
                 break;
             default:
                 return parent::_isAllowed();
