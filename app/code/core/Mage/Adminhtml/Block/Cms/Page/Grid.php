@@ -97,7 +97,10 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
             'header'    => Mage::helper('cms')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('cms/config')->getPageStatuses(),
+            'options'   => array(
+                0 => Mage::helper('cms')->__('Disabled'),
+                1 => Mage::helper('cms')->__('Enabled')
+            )
         ));
 
         $this->addColumn('creation_time', array(
