@@ -36,15 +36,6 @@ class Mage_Catalog_Block_Product_Widget_New
     implements Mage_Cms_Block_Widget_Interface
 {
     /**
-     * Initialize widget's template.
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate($this->_getData('template'));
-    }
-
-    /**
      * Retrieve how much products should be displayed.
      *
      * @return int
