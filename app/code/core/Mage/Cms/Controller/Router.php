@@ -78,6 +78,7 @@ class Mage_Cms_Controller_Router extends Mage_Core_Controller_Varien_Router_Abst
             Mage::app()->getFrontController()->getResponse()
                 ->setRedirect($condition->getRedirectUrl())
                 ->sendResponse();
+            $request->setDispatched(true);
             return true;
         }
 
