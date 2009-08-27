@@ -92,6 +92,17 @@ class Enterprise_Logging_Model_Handler_Models
     }
 
     /**
+     * MassDelete after handler
+     *
+     * @param object Mage_Core_Model_Abstract $model
+     * @return object Enterprise_Logging_Event_Changes
+     */
+    public function modelMassDeleteAfter($model, $processor)
+    {
+        return $this->modelSaveAfter($model, $processor);
+    }
+
+    /**
      * Load after handler
      *
      * @param object Mage_Core_Model_Abstract $model

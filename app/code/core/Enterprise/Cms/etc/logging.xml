@@ -26,7 +26,7 @@
  */
 -->
 <logging>
-    <adminhtml_cms_hierarchy translate="label">
+    <enterprise_cms_hierarchy translate="label">
         <label>CMS Hierarchy</label>
         <expected_models>
             <enterprise_cms__hierarchy_node/>
@@ -36,9 +36,9 @@
                 <action>save</action>
             </adminhtml_cms_hierarchy_save>
         </actions>
-    </adminhtml_cms_hierarchy>
+    </enterprise_cms_hierarchy>
 
-    <adminhtml_cms_page_revision translate="label">
+    <enterprise_cms_page_revision translate="label">
         <label>CMS Revision</label>
         <expected_models>
             <enterprise_cms__page_revision/>
@@ -60,9 +60,9 @@
                 <action>delete</action>
             </adminhtml_cms_page_revision_delete>
         </actions>
-    </adminhtml_cms_page_revision>
+    </enterprise_cms_page_revision>
 
-    <adminhtml_cms_page_version translate="label">
+    <enterprise_cms_page_version translate="label">
         <label>CMS Version</label>
         <expected_models>
             <enterprise_cms__page_version/>
@@ -81,19 +81,19 @@
             </adminhtml_cms_page_version_delete>
 
             <adminhtml_cms_page_version_massDeleteRevisions>
-                <action>massUpdate</action>
+                <action>massDelete</action>
             </adminhtml_cms_page_version_massDeleteRevisions>
         </actions>
-    </adminhtml_cms_page_version>
+    </enterprise_cms_page_version>
 
-    <cms_pages>
+    <enterprise_cms_pages>
         <expected_models>
             <enterprise_cms__page_version/>
         </expected_models>
         <actions>
             <adminhtml_cms_page_massDeleteVersions>
-                <action>massUpdate</action>
+                <action>massDelete</action>
             </adminhtml_cms_page_massDeleteVersions>
         </actions>
-    </cms_pages>
+    </enterprise_cms_pages>
 </logging>

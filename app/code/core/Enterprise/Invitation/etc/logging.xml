@@ -44,7 +44,7 @@
             </adminhtml_invitation_save>
 
             <adminhtml_invitation_massCancel>
-                <action>massCancel</action>
+                <action>massUpdate</action>
             </adminhtml_invitation_massCancel>
         </actions>
     </enterprise_invitation>

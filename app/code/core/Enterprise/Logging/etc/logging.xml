@@ -50,7 +50,7 @@
             </adminhtml_catalog_product_massStatus>
 
             <adminhtml_catalog_product_massDelete>
-                <action>massUpdate</action>
+                <action>massDelete</action>
             </adminhtml_catalog_product_massDelete>
 
             <adminhtml_catalog_product_action_attribute_save>
@@ -172,7 +172,7 @@
             </adminhtml_catalog_product_review_massUpdateStatus>
 
             <adminhtml_catalog_product_review_massDelete>
-                <action>massUpdate</action>
+                <action>massDelete</action>
             </adminhtml_catalog_product_review_massDelete>
         </actions>
     </review>
@@ -241,7 +241,7 @@
             </adminhtml_tag_massStatus>
 
             <adminhtml_tag_massDelete>
-                <action>massUpdate</action>
+                <action>massDelete</action>
             </adminhtml_tag_massDelete>
         </actions>
     </tag>
@@ -352,7 +352,7 @@
             </adminhtml_customer_massUnsubscribe>
 
             <adminhtml_customer_massDelete>
-                <action>massUpdate</action>
+                <action>massDelete</action>
             </adminhtml_customer_massDelete>
         </actions>
     </customer>
