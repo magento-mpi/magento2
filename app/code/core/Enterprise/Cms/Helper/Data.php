@@ -44,11 +44,16 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
      *
      * @return array
      */
-    public function getUsersArray()
+    public function getUsersArray($addEmptyUser = false)
     {
         if (!$this->_usersHash) {
             $collection = Mage::getModel('admin/user')->getCollection();
-            $this->_usersHash = array('' => $this->__('[User Deleted]'));
+            $this->_usersHash = array();
+
+            if ($addEmptyUser) {
+                $this->_usersHash[''] = '';
+            }
+
             foreach ($collection as $user) {
                 $this->_usersHash[$user->getId()] = $user->getUsername();
             }

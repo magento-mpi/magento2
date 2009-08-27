@@ -92,7 +92,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
                 'label'     => Mage::helper('enterprise_cms')->__('Owner'),
                 'title'     => Mage::helper('enterprise_cms')->__('Owner'),
                 'name'      => 'user_id',
-                'options'   => Mage::helper('enterprise_cms')->getUsersArray()
+                'options'   => Mage::helper('enterprise_cms')->getUsersArray(!$version->getUserId()),
+                'required'  => !$version->getUserId()
             ));
         }
 

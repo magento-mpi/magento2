@@ -151,7 +151,7 @@ abstract class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage
                 if ($userId) {
                     $this->_usersHash[$userId] = $username;
                 } else {
-                    $this->_usersHash['-1'] = Mage::helper('enterprise_cms')->__('[User Deleted]');
+                    $this->_usersHash['-1'] = Mage::helper('enterprise_cms')->__('[No Owner]');
                 }
             }
 
