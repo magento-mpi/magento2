@@ -54,7 +54,7 @@ class Enterprise_Cms_Model_Mysql4_Increment extends Mage_Core_Model_Mysql4_Abstr
      */
     public function loadByTypeNodeLevel(Mage_Core_Model_Abstract $object, $type, $node, $level)
     {
-        $read = $this->_getWriteAdapter();
+        $read = $this->_getReadAdapter();
 
         $select = $read->select()->from($this->getMainTable())
             ->forUpdate(true)
@@ -75,4 +75,22 @@ class Enterprise_Cms_Model_Mysql4_Increment extends Mage_Core_Model_Mysql4_Abstr
         return true;
     }
 
+    /**
+     * Remove unneeded increment record.
+     *
+     * @param int $type
+     * @param int $node
+     * @param int $level
+     * @return Enterprise_Cms_Model_Mysql4_Increment
+     */
+    public function cleanIncrementRecord($type, $node, $level)
+    {
+        $write = $this->_getWriteAdapter();
+        $write->delete($this->getMainTable(),
+            array('type=?' => $type,
+                'node=?' => $node,
+                'level=?' => $level));
+
+        return $this;
+    }
 }

@@ -36,6 +36,21 @@
 class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
 {
     /**
+     * Prefix of model events names.
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'enterprise_cms_version';
+
+    /**
+     * Parameter name in event.
+     * In observe method you can use $observer->getEvent()->getObject() in this case.
+     *
+     * @var string
+     */
+    protected $_eventObject = 'version';
+
+    /**
      * Access level constants
      */
     const ACCESS_LEVEL_PRIVATE = 'private';
@@ -121,6 +136,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
 
             $this->setLastRevision($revision);
         }
+        return parent::_afterSave();
     }
 
     /**
@@ -145,6 +161,24 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
                 Mage::helper('enterprise_cms')->__('Version "%s" could not be removed because its revision has been published.', $this->getLabel())
             );
         }
+
+        return parent::_beforeDelete();
+    }
+
+    /**
+     * Removing unneeded data from increment table after version was removed.
+     *
+     * @param $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    protected function _afterDelete()
+    {
+        Mage::getResourceSingleton('enterprise_cms/increment')
+            ->cleanIncrementRecord(Enterprise_Cms_Model_Increment::TYPE_PAGE,
+                $this->getId(),
+                Enterprise_Cms_Model_Increment::LEVEL_REVISION);
+
+        return parent::_afterDelete();
     }
 
     /**

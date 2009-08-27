@@ -107,29 +107,6 @@ class Enterprise_Cms_Model_Mysql4_Page_Version extends Mage_Core_Model_Mysql4_Ab
         return $select;
     }
 
-
-    /**
-     * Removing orphaned versions with specified status.
-     *
-     * @param string|array $accessLevel
-     * @return Enterprise_Cms_Model_Mysql4_Page_Version
-     */
-    public function cleanUpOrphanedRevisions($accessLevel)
-    {
-        /* @var Varien_Db_Adapter_Pdo_Mysql */
-        $write = $this->_getWriteAdapter();
-        $condition = array('user_id is null');
-
-        if (!is_array($accessLevel)) {
-            $accessLevel = array($accessLevel);
-        }
-
-        $condition['access_level IN (?)'] = $accessLevel;
-        $write->delete($this->getMainTable(), $condition);
-
-        return $this;
-    }
-
     /**
      * Loading data with extra access level checking.
      *

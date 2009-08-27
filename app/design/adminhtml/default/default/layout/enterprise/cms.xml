@@ -42,8 +42,9 @@
             <action method="removeTab"><name>design_section</name></action>
             <action method="removeTab"><name>meta_section</name></action>
             <block type="enterprise_cms/adminhtml_cms_page_edit_tab_hierarchy" name="cms_page_edit_tab_hierarchy" template="enterprise/cms/page/tab/hierarchy.phtml"></block>
+            <block type="enterprise_cms/adminhtml_cms_page_edit_tab_versions" name="cms_page_edit_tab_versions" />
             <action method="addTab"><name>hierarchy</name><block>cms_page_edit_tab_hierarchy</block></action>
-            <action method="addTab"><name>versions</name><block>enterprise_cms/adminhtml_cms_page_edit_tab_versions</block></action>
+            <action method="addTab"><name>versions</name><block>cms_page_edit_tab_versions</block></action>
         </reference>
         <reference name="cms_page_edit">
             <action method="addButton">

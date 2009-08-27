@@ -41,7 +41,7 @@ class Enterprise_Cms_Model_Observer
     protected $_config;
 
     /**
-     * Contructor
+     * Constructor
      */
     public function __construct()
     {
@@ -67,17 +67,7 @@ class Enterprise_Cms_Model_Observer
             if (!$this->_config->isCurrentUserCanPublishRevision()) {
                     $isActiveElement->setDisabled(true);
             }
-
-            // Changing status label from 'Enabled' to 'Published'
-            $values = $isActiveElement->getValues();
-            foreach ($values as $key => $value) {
-                if ($value['value'] == 1) {
-                    $values[$key]['label'] = Mage::helper('enterprise_cms')->__('Published');
-                }
-            }
-            $isActiveElement->setValues($values);
         }
-
 
         /*
          * Adding link to current published revision
@@ -263,32 +253,76 @@ class Enterprise_Cms_Model_Observer
     }
 
     /**
-     * Clean up orphaned private versions.
+     * Clean up private versions after user deleted.
      *
+     * @param Varien_Event_Observer $observer
      * @return Enterprise_Cms_Model_Observer
      */
-    public function cleanUpOrphanedPrivateRevisions()
+    public function adminUserDeleteAfter(Varien_Event_Observer $observer)
     {
-        //Mage::getResourceModel('enterprise_cms/page_version')
-        //    ->cleanUpOrphanedRevisions(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE);
-
-        /* @var $collection Enterprise_Cms_Model_Mysql4_Page_Version_Collection */
-        $collection = Mage::getModel('enterprise_cms/page_version')->getCollection()
+        $version = Mage::getModel('enterprise_cms/page_version');
+        $collection = $version->getCollection()
             ->addAccessLevelFilter(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PRIVATE)
             ->addUserIdFilter();
 
-        foreach ($collection->getItems() as $item) {
-            try {
-                $item->delete();
-            } catch (Mage_Core_Exception $e) {
-                // If we have situation when revision from
-                // orphaned private version published we should
-                // change its access level to protected so publisher
-                // will have chance to see it and assign to some user
-                $item->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PROTECTED);
-                $item->save();
-            }
+         Mage::getSingleton('core/resource_iterator')
+            ->walk($collection->getSelect(), array(array($this, 'removeVersionCallback')), array('version'=> $version));
+
+         return $this;
+    }
+
+    /**
+     * Callback function to remove version or change access
+     * level to protected if we can't remove it.
+     *
+     * @param array $args
+     */
+    public function removeVersionCallback($args)
+    {
+        $version = $args['version'];
+        $version->setData($args['row']);
+
+        try {
+            $version->delete();
+        } catch (Mage_Core_Exception $e) {
+            // If we have situation when revision from
+            // orphaned private version published we should
+            // change its access level to protected so publisher
+            // will have chance to see it and assign to some user
+            $version->setAccessLevel(Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PROTECTED);
+            $version->save();
         }
+    }
+
+    /**
+     * Modify status's label from 'Enabled' to 'Published'.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function modifyPageStatuses(Varien_Event_Observer $observer)
+    {
+        $statuses = $observer->getEvent()->getStatuses();
+        $statuses->setData(1, Mage::helper('enterprise_cms')->__('Published'));
+
+        return $this;
+    }
+
+    /**
+     * Removing unneeded data from increment table for removed page.
+     *
+     * @param $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function cmsPageDeleteAfter(Varien_Event_Observer $observer)
+    {
+        /* @var $page Mage_Cms_Model_Page */
+        $page = $observer->getEvent()->getObject();
+
+        Mage::getResourceSingleton('enterprise_cms/increment')
+            ->cleanIncrementRecord(Enterprise_Cms_Model_Increment::TYPE_PAGE,
+                $page->getId(),
+                Enterprise_Cms_Model_Increment::LEVEL_VERSION);
 
         return $this;
     }

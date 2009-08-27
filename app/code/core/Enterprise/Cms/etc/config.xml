@@ -114,6 +114,30 @@
                     </enterprise_cms>
                 </observers>
             </cms_page_save_after>
+            <admin_user_delete_after>
+                <observers>
+                    <enterprise_cms>
+                        <class>enterprise_cms/observer</class>
+                        <method>adminUserDeleteAfter</method>
+                    </enterprise_cms>
+                </observers>
+            </admin_user_delete_after>
+            <cms_page_get_available_statuses>
+                <observers>
+                    <enterprise_cms>
+                        <class>enterprise_cms/observer</class>
+                        <method>modifyPageStatuses</method>
+                    </enterprise_cms>
+                </observers>
+            </cms_page_get_available_statuses>
+            <cms_page_delete_after>
+                <observers>
+                    <enterprise_cms>
+                        <class>enterprise_cms/observer</class>
+                        <method>cmsPageDeleteAfter</method>
+                    </enterprise_cms>
+                </observers>
+            </cms_page_delete_after>
         </events>
         <translate>
             <modules>
@@ -147,14 +171,6 @@
             </updates>
         </layout>
     </frontend>
-    <crontab>
-        <jobs>
-            <enterprise_cms_orphaned>
-                <schedule><cron_expr>* 4 * * *</cron_expr></schedule>
-                <run><model>enterprise_cms/observer::cleanUpOrphanedPrivateRevisions</model></run>
-            </enterprise_cms_orphaned>
-        </jobs>
-    </crontab>
     <default>
         <cms>
             <hierarchy>

@@ -37,13 +37,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
 {
     /**
      * Adding js to CE blocks to implement special functionality which
-     * will allow go back to edit page with pre loaded tab passed through query string
+     * will allow go back to edit page with pre loaded tab passed through query string.
      *
      * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
      */
     protected function _prepareLayout()
     {
         $tabsBlock = $this->getLayout()->getBlock('cms_page_edit_tabs');
+        /* @var $tabBlock Mage_Adminhtml_Block_Cms_Page_Edit_Tabs */
         if ($tabsBlock) {
             $editBlock = $this->getLayout()->getBlock('cms_page_edit');
             if ($editBlock) {
