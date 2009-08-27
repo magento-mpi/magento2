@@ -89,4 +89,22 @@ class Mage_Cms_Model_Page extends Mage_Core_Model_Abstract
     {
         return $this->_getResource()->checkIdentifier($identifier, $storeId);
     }
+
+    /**
+     * Prepare page's statuses.
+     * Available event cms_page_get_available_statuses to customize statuses.
+     *
+     * @return array
+     */
+    public function getAvailableStatuses()
+    {
+        $statuses = new Varien_Object(array(
+            '1' => Mage::helper('cms')->__('Enabled'),
+            '0' => Mage::helper('cms')->__('Disabled'),
+        ));
+
+        Mage::dispatchEvent('cms_page_get_available_statuses', array('statuses' => $statuses));
+
+        return $statuses->getData();
+    }
 }

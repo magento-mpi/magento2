@@ -107,10 +107,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             'title'     => Mage::helper('cms')->__('Page Status'),
             'name'      => 'is_active',
             'required'  => true,
-            'options'   => array(
-                '1' => Mage::helper('cms')->__('Enabled'),
-                '0' => Mage::helper('cms')->__('Disabled'),
-            ),
+            'options'   => $model->getAvailableStatuses(),
             'disabled'  => $isElementDisabled
         ));
 
