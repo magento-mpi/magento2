@@ -74,16 +74,19 @@
             <parameters>
                 <up translate="label">
                     <visible />
+                    <value>0</value>
                     <label>How many levels up</label>
                     <type>text</type>
                 </up>
                 <down translate="label">
                     <visible />
+                    <value>1</value>
                     <label>How many levels down</label>
                     <type>text</type>
                 </down>
                 <ordered translate="label">
                     <visible />
+                    <value>1</value>
                     <label>Whether to render Ordered List instead</label>
                     <type>select</type>
                     <values>adminhtml/system_config_source_yesno</values>

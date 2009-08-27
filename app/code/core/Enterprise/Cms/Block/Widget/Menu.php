@@ -94,7 +94,11 @@ class Enterprise_Cms_Block_Widget_Menu extends Enterprise_Cms_Block_Widget_Abstr
      */
     public function getListContainer()
     {
-        return $this->getOrdered() > 0 ? self::TAG_OL : self::TAG_UL;
+        $ordered = 1;
+        if ($this->hasData('ordered') && $this->getOrdered() !== '') {
+            $ordered = $this->getOrdered();
+        }
+        return (int)$ordered ? self::TAG_OL : self::TAG_UL;
     }
 
     /**
@@ -290,7 +294,7 @@ class Enterprise_Cms_Block_Widget_Menu extends Enterprise_Cms_Block_Widget_Abstr
             }
             $down = $this->_getData('down');
             if (!abs(intval($down))) {
-                $down = 0;
+                $down = 1;
             }
 
             $this->setData('_tree', $this->_node->getTreeSlice($up, $down));
