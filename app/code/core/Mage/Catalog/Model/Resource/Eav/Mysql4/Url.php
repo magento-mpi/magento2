@@ -152,6 +152,29 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
     }
 
     /**
+     * Validate array of request paths. Return first not used path in case if validations passed
+     *
+     * @param   array $paths
+     * @param   int $storeId
+     * @return  false | string
+     */
+    public function checkRequestPaths($paths, $storeId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getMainTable(), 'request_path')
+            ->where('store_id=?', $storeId)
+            ->where('request_path IN (?)', $paths);
+        $data = $this->_getWriteAdapter()->fetchCol($select);
+        $paths = array_diff($paths, $data);
+        if (empty($paths)) {
+            return false;
+        } else {
+            reset($paths);
+            return current($paths);
+        }
+    }
+
+    /**
      * Prepare rewrites for condition
      *
      * @param int $storeId
