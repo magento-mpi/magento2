@@ -24,19 +24,4 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-
-<b><?php echo Mage::helper('ogone')->__('Please, wait a moment. This page will transfere you data to ogone payment in few seconds.'); ?></b>
-<form name='ogone' id='ogone_review_form' action='<?php echo $this->getFormAction();?>' method='POST'>
-<?php if (is_array($this->getFormData())): ?>
-    <?php foreach ($this->getFormData() as $name => $value) { ?>
-        <input type="hidden" name="<?php echo($name); ?>" value="<?php echo($value); ?>"/>
-    <?php }?>
-<?php endif; ?>
-</form>
-
-<script type="text/javascript">
-//<![CDATA[
-    var review = new VarienForm('ogone_review_form', '');
-    window.onload = review.submit();
-//]]>
-</script>
+<p><?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?></p>
