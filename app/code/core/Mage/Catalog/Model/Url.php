@@ -567,7 +567,7 @@ class Mage_Catalog_Model_Url
         );
 
         if ($validatedPath) {
-            return $validatedPath.$suffix;
+            return $validatedPath;
         }
         /**
          * Use unique path generator

@@ -214,12 +214,12 @@
                 <catalog_product_price>
                     <model>catalog/product_indexer_price</model>
                 </catalog_product_price>
-                <catalog_product_url>
-                    <model>catalog/product_indexer_url</model>
-                </catalog_product_url>
-                <catalog_product_flat>
+                <catalog_url>
+                    <model>catalog/indexer_url</model>
+                </catalog_url>
+                <!-- <catalog_product_flat>
                     <model>catalog/product_indexer_flat</model>
-                </catalog_product_flat>
+                </catalog_product_flat> -->
                 <catalog_category_product>
                     <model>catalog/category_indexer_product</model>
                 </catalog_category_product>

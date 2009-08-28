@@ -117,6 +117,9 @@ abstract class Mage_Index_Model_Indexer_Abstract extends Mage_Core_Model_Abstrac
         return false;
     }
 
+    /**
+     * Rebuild all index data
+     */
     public function reindexAll()
     {
         $this->_getResource()->reindexAll();
