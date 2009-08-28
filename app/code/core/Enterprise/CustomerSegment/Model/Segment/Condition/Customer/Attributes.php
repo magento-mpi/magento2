@@ -27,6 +27,25 @@
 
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes extends Mage_Rule_Model_Condition_Abstract
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setType('enterprise_customersegment/segment_condition_customer_attributes');
+        $this->setValue(null);
+    }
+
+    public function getNewChildSelectOptions()
+    {
+        $attributes = $this->loadAttributeOptions()->getAttributeOption();
+        $conditions = array();
+        foreach ($attributes as $code => $label) {
+            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
+        }
+
+        return $conditions;
+    }
+
     /**
      * Retrieve attribute object
      *
@@ -34,6 +53,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
      */
     public function getAttributeObject()
     {
+
         try {
             $obj = Mage::getSingleton('eav/config')
                 ->getAttribute('customer', $this->getAttribute());
@@ -77,17 +97,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
     public function getValueSelectOptions()
     {
         if (!$this->getData('value_select_options')) {
-            if ($this->getAttribute()==='attribute_set_id') {
-                
-                $entityTypeId = Mage::getSingleton('eav/config')
-                    ->getEntityType('customer')->getId();
-                $options = Mage::getResourceModel('eav/entity_attribute_set_collection')
-                    ->setEntityTypeFilter($entityTypeId)
-                    ->load()->toOptionArray();
-                $this->setData('value_select_options', $options);
-            
-            } elseif (is_object($this->getAttributeObject()) && $this->getAttributeObject()->usesSource()) {
-                
+            if (is_object($this->getAttributeObject()) && $this->getAttributeObject()->usesSource()) {
                 if ($this->getAttributeObject()->getFrontendInput() == 'multiselect') {
                     $addEmptyOption = false;
                 } else {
@@ -95,7 +105,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
                 }
                 $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions($addEmptyOption);
                 $this->setData('value_select_options', $optionsArr);
-            
             }
         }
         return $this->getData('value_select_options');
@@ -108,9 +117,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
      */
     public function getInputType()
     {
-        if ($this->getAttribute()==='attribute_set_id') {
-            return 'select';
-        }
         if (!is_object($this->getAttributeObject())) {
             return 'string';
         }
@@ -136,9 +142,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
      */
     public function getValueElementType()
     {
-        if ($this->getAttribute()==='attribute_set_id') {
-            return 'select';
-        }
         if (!is_object($this->getAttributeObject())) {
             return 'text';
         }

@@ -70,7 +70,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             $model->addData($data);
         }
         
-        $model->getConditions()->setJsFormObject('rule_conditions_fieldset');
+        $model->getConditions()->setJsFormObject('segment_conditions_fieldset');
+        
         Mage::register('enterprise_customersegment_segment', $model);
 
         $block =  $this->getLayout()->createBlock(
@@ -112,7 +113,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         $id = $this->getRequest()->getParam('id');
         $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
         $type = $typeArr[0];
-        
+
         $model = Mage::getModel($type)
             ->setId($id)
             ->setType($type)

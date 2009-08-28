@@ -41,7 +41,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condit
 
         $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('enterprise/customersegment/edit/conditions/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('*/customersegment/newConditionHtml/form/rule_conditions_fieldset'));
+            ->setNewChildUrl($this->getUrl('*/customersegment/newConditionHtml/form/segment_conditions_fieldset'));
         $fieldset = $form->addFieldset('conditions_fieldset', array(
             'legend'=>Mage::helper('enterprise_customersegment')->__('Conditions'))
         )->setRenderer($renderer);
