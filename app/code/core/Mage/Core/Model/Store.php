@@ -34,6 +34,8 @@
  */
 class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
 {
+    const ENTITY = 'core_store';
+
     const XML_PATH_STORE_IN_URL         = 'web/url/use_store';
     const XML_PATH_USE_REWRITES         = 'web/seo/use_rewrites';
     const XML_PATH_UNSECURE_BASE_URL    = 'web/unsecure/base_url';

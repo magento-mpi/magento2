@@ -252,6 +252,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     public function save()
     {
         $this->_getResource()->beginTransaction();
+        $dataCommited = false;
         try {
             $this->_beforeSave();
             if ($this->_dataSaveAllowed) {
@@ -259,11 +260,14 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
                 $this->_afterSave();
             }
             $this->_getResource()->commit();
+            $dataCommited = true;
         } catch (Exception $e) {
             $this->_getResource()->rollBack();
             throw $e;
         }
-        $this->_afterSaveCommit();
+        if ($dataCommited) {
+            $this->_afterSaveCommit();
+        }
         return $this;
     }
 
@@ -274,7 +278,9 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _afterSaveCommit()
     {
-         return $this;
+        Mage::dispatchEvent('model_save_commit_after', array('object'=>$this));
+        Mage::dispatchEvent($this->_eventPrefix.'_save_commit_after', array($this->_eventObject=>$this));
+        return $this;
     }
 
     /**
