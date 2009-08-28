@@ -56,14 +56,68 @@ class Mage_Catalog_Model_Product_Action extends Mage_Core_Model_Abstract
     /**
      * Update attribute values for entity list per store
      *
-     * @param array $entityIds
+     * @param array $productIds
      * @param array $attrData
      * @param int $storeId
      * @return Mage_Catalog_Model_Product_Action
      */
-    public function updateAttributes($entityIds, $attrData, $storeId)
+    public function updateAttributes($productIds, $attrData, $storeId)
     {
-        $this->_getResource()->updateAttributes($entityIds, $attrData, $storeId);
+        $this->_getResource()->updateAttributes($productIds, $attrData, $storeId);
+        $this->setData(array(
+            'product_ids'       => array_unique($productIds),
+            'attributes_data'   => $attrData,
+            'store_id'          => $storeId
+        ));
+
+        // register mass action indexer event
+        Mage::getSingleton('index/indexer')->processEntityAction(
+            $this, Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
+        );
         return $this;
+    }
+
+    /**
+     * Update websites for product action
+     *
+     * allowed types:
+     * - add
+     * - remove
+     *
+     * @param array $productIds
+     * @param array $websiteIds
+     * @param string $type
+     */
+    public function updateWebsites($productIds, $websiteIds, $type)
+    {
+        Mage::dispatchEvent('catalog_product_website_update_before', array(
+            'website_ids'   => $websiteIds,
+            'product_ids'   => $productIds,
+            'action'        => $type
+        ));
+
+        if ($type == 'add') {
+            Mage::getModel('catalog/product_website')->addProducts($websiteIds, $productIds);
+        } else if ($type == 'remove') {
+            Mage::getModel('catalog/product_website')->removeProducts($websiteIds, $productIds);
+        }
+
+        $this->setData(array(
+            'product_ids' => array_unique($productIds),
+            'website_ids' => $websiteIds,
+            'action_type' => $type
+        ));
+
+        // register mass action indexer event
+        Mage::getSingleton('index/indexer')->processEntityAction(
+            $this, Mage_Catalog_Model_Product::ENTITY, Mage_Index_Model_Event::TYPE_MASS_ACTION
+        );
+
+        // add back compatibility system event
+        Mage::dispatchEvent('catalog_product_website_update', array(
+            'website_ids'   => $websiteIds,
+            'product_ids'   => $productIds,
+            'action'        => $type
+        ));
     }
 }

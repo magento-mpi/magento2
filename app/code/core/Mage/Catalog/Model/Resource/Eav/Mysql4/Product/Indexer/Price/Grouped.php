@@ -52,7 +52,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
      * @param int|array $entityIds
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds, $hasOptions = true)
+    public function reindexEntity($entityIds)
     {
         $this->_prepareGroupedProductPriceData($entityIds);
 
@@ -80,9 +80,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
                     'customer_group_id',
                     'website_id',
                     'tax_class_id',
-                    'price'     => new Zend_Db_Expr('NULL'),
-                    'min_price' => new Zend_Db_Expr('MIN(i.min_price)'),
-                    'max_price' => new Zend_Db_Expr('MAX(i.max_price)')
+                    'price'       => new Zend_Db_Expr('NULL'),
+                    'final_price' => new Zend_Db_Expr('NULL'),
+                    'min_price'   => new Zend_Db_Expr('MIN(i.min_price)'),
+                    'max_price'   => new Zend_Db_Expr('MAX(i.max_price)'),
+                    'tier_price'  => new Zend_Db_Expr('NULL')
                 ))
             ->group(array('l.product_id', 'i.customer_group_id', 'i.website_id', 'i.tax_class_id'))
             ->where('l.link_type_id=?', Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);

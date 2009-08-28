@@ -37,7 +37,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      * Entity code.
      * Can be used as part of method name for entity processing
      */
-    const ENTITY                 = 'catalogProduct';
+    const ENTITY                 = 'catalog_product';
 
     const CACHE_TAG              = 'catalog_product';
     protected $_cacheTag         = 'catalog_product';
@@ -527,7 +527,23 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         $this->cleanCache();
         $this->_protectFromNonAdmin();
+        Mage::getSingleton('index/indexer')->logEvent(
+            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+        );
         return parent::_beforeDelete();
+    }
+
+    /**
+     * Init indexing process after product delete commit
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _afterDeleteCommit()
+    {
+        parent::_afterDeleteCommit();
+        Mage::getSingleton('index/indexer')->indexEvents(
+            self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+        );
     }
 
     /**

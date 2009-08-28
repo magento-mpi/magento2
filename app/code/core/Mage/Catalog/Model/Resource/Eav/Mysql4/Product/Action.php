@@ -62,16 +62,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Action extends Mage_Catalog
         $object->setIdFieldName('entity_id')
             ->setStoreId($storeId);
 
-        foreach ($attrData as $attrCode => $value) {
-            $attribute = $this->getAttribute($attrCode);
-            if (!$attribute->getAttributeId()) {
-                continue;
-            }
+        $this->_getWriteAdapter()->beginTransaction();
+        try {
+            foreach ($attrData as $attrCode => $value) {
+                $attribute = $this->getAttribute($attrCode);
+                if (!$attribute->getAttributeId()) {
+                    continue;
+                }
 
-            foreach ($entityIds as $entityId) {
-                $object->setId($entityId);
-                $this->_saveAttributeValue($object, $attribute, $value);
+                foreach ($entityIds as $entityId) {
+                    $object->setId($entityId);
+                    $this->_saveAttributeValue($object, $attribute, $value);
+                }
             }
+            $this->_getWriteAdapter()->commit();
+        } catch (Exception $e) {
+            $this->_getWriteAdapter()->rollBack();
+            throw $e;
         }
 
         return $this;

@@ -54,15 +54,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @param bool $hasOptions  the entity has custom options flag
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds, $hasOptions = true)
+    public function reindexEntity($entityIds)
     {
         $this->_prepareFinalPriceData($entityIds);
-        if ($hasOptions) {
-            $this->_applyCustomOption();
-        }
+        $this->_applyCustomOption();
         $this->_applyConfigurableOption();
         $this->_movePriceDataToIndexTable();
 
@@ -108,6 +105,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
             . ' `customer_group_id` SMALLINT(5) UNSIGNED NOT NULL,'
             . ' `website_id` SMALLINT(5) UNSIGNED NOT NULL,'
             . ' `price` DECIMAL(12,4) DEFAULT NULL,'
+            . ' `tier_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' PRIMARY KEY (`parent_id`, `child_id`, `customer_group_id`, `website_id`)'
             . ') ENGINE=MYISAM DEFAULT CHARSET=utf8',
             $write->quoteIdentifier($table));
@@ -135,6 +133,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
             . ' `website_id` SMALLINT(5) UNSIGNED NOT NULL,'
             . ' `min_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' `max_price` DECIMAL(12,4) DEFAULT NULL,'
+            . ' `tier_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)'
             . ') ENGINE=MYISAM DEFAULT CHARSET=utf8',
             $write->quoteIdentifier($table));
@@ -186,6 +185,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
             ->columns(new Zend_Db_Expr("SUM(IF((@price:=IF(apw.value_id, apw.pricing_value, apd.pricing_value))"
                 . " IS NULL, 0, IF(IF(apw.value_id, apw.is_percent, apd.is_percent) = 1, "
                 . "ROUND(i.price * (@price / 100), 4), @price)))"))
+            ->columns(new Zend_Db_Expr("IF(i.tier_price IS NOT NULL, SUM(IF((@tier_price:="
+                . "IF(apw.value_id, apw.pricing_value, apd.pricing_value)) IS NULL, 0, IF("
+                . "IF(apw.value_id, apw.is_percent, apd.is_percent) = 1, "
+                . "ROUND(i.price * (@tier_price / 100), 4), @tier_price))), NULL)"))
             ->group(array('l.parent_id', 'i.customer_group_id', 'i.website_id', 'l.product_id'));
 
         $query = $select->insertFromSelect($coaTable);
@@ -194,7 +197,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
         $select = $write->select()
             ->from(
                 array($coaTable),
-                array('parent_id', 'customer_group_id', 'website_id', 'MIN(price)', 'MAX(price)'))
+                array('parent_id', 'customer_group_id', 'website_id', 'MIN(price)', 'MAX(price)', 'MIN(tier_price)'))
             ->group('parent_id', 'customer_group_id', 'website_id');
 
         $query = $select->insertFromSelect($copTable);
@@ -208,8 +211,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
                     .' AND i.website_id = io.website_id',
                 array());
         $select->columns(array(
-            'min_price' => new Zend_Db_Expr('i.min_price + io.min_price'),
-            'max_price' => new Zend_Db_Expr('i.max_price + io.max_price'),
+            'min_price'  => new Zend_Db_Expr('i.min_price + io.min_price'),
+            'max_price'  => new Zend_Db_Expr('i.max_price + io.max_price'),
+            'tier_price' => new Zend_Db_Expr('IF(i.tier_price IS NOT NULL, i.tier_price + io.tier_price, NULL)'),
         ));
         $query = $select->crossUpdateFromSelect($table);
         $write->query($query);

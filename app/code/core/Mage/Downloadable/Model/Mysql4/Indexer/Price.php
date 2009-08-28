@@ -54,15 +54,12 @@ class Mage_Downloadable_Model_Mysql4_Indexer_Price
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @param bool $hasOptions  the entity has custom options flag
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds, $hasOptions = true)
+    public function reindexEntity($entityIds)
     {
         $this->_prepareFinalPriceData($entityIds);
-        if ($hasOptions) {
-            $this->_applyCustomOption();
-        }
+        $this->_applyCustomOption();
         $this->_applyDownloadableLink();
         $this->_movePriceDataToIndexTable();
 
@@ -159,8 +156,9 @@ class Mage_Downloadable_Model_Mysql4_Indexer_Price
                     .' AND i.website_id = id.website_id',
                 array())
             ->columns(array(
-                'min_price' => new Zend_Db_Expr('i.min_price + id.min_price'),
-                'max_price' => new Zend_Db_Expr('i.max_price + id.max_price'),
+                'min_price'  => new Zend_Db_Expr('i.min_price + id.min_price'),
+                'max_price'  => new Zend_Db_Expr('i.max_price + id.max_price'),
+                'tier_price' => new Zend_Db_Expr('IF(i.tier_price IS NOT NULL, i.tier_price + id.min_price, NULL)')
             ));
 
         $query = $select->crossUpdateFromSelect(array('i' => $this->_getDefaultFinalPriceTable()));

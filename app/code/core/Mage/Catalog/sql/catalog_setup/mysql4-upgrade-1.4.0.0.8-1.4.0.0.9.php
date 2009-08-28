@@ -25,28 +25,12 @@
  */
 
 
-/**
- * Catalog Product Type Price Indexer interface
- *
- * @category    Mage
- * @package     Mage_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-interface Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
-{
-    /**
-     * Reindex temparary (price result data) for all products
-     *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
-     */
-    public function reindexAll();
+/* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+$installer = $this;
 
-    /**
-     * Reindex temporary (price result data) for defined product(s)
-     *
-     * @param int|array $entityIds
-     * @param bool $hasOptions  the entity has custom options flag
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
-     */
-    public function reindexEntity($entityIds);
-}
+$installer->startSetup();
+$installer->getConnection()->addColumn($installer->getTable('catalog/product_index_price'), 'final_price',
+    'DECIMAL(12,4) DEFAULT NULL ALTER `price`');
+$installer->getConnection()->addColumn($installer->getTable('catalog/product_index_price'), 'tier_price',
+    'DECIMAL(12,4) DEFAULT NULL');
+$installer->endSetup();

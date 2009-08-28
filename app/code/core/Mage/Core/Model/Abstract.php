@@ -354,6 +354,7 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
             $this->_afterDelete();
 
             $this->_getResource()->commit();
+            $this->_afterDeleteCommit();
         }
         catch (Exception $e){
             $this->_getResource()->rollBack();
@@ -408,6 +409,16 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
         Mage::dispatchEvent('model_delete_after', array('object'=>$this));
         Mage::dispatchEvent($this->_eventPrefix.'_delete_after', array($this->_eventObject=>$this));
         return $this;
+    }
+
+    /**
+     * Processing manipulation after main transaction commit
+     *
+     * @return Mage_Core_Model_Abstract
+     */
+    protected function _afterDeleteCommit()
+    {
+         return $this;
     }
 
     /**

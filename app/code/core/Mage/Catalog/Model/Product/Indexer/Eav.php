@@ -38,7 +38,12 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
      */
     protected $_matchedEntities = array(
         Mage_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Mage_Index_Model_Event::TYPE_SAVE,
+            Mage_Index_Model_Event::TYPE_DELETE,
+            Mage_Index_Model_Event::TYPE_MASS_ACTION,
+        ),
+        Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE,
         )
     );
 
@@ -78,23 +83,156 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = $event->getDataObject();
-        $attributes = $product->getAttributes();
-        $eavChanges = array();
-        foreach ($attributes as $attribute) {
-            /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $check = (($attribute->getBackendType() == 'int' && $attribute->getFrontendInput() == 'select')
-                || ($attribute->getBackendType() == 'varchar' && $attribute->getFrontendInput() == 'multiselect'))
-                && ($attribute->getIsFilterable() || $attribute->getIsFilterableInSearch());
-            if ($check && $product->dataHasChangedFor($attribute->getAttributeCode())) {
-                $eavChanges[$attribute->getAttributeId()] = $product->getData($attribute->getAttributeCode());
+        if ($event->getEntity() == Mage_Catalog_Model_Product::ENTITY) {
+            switch ($event->getType()) {
+                case Mage_Index_Model_Event::TYPE_DELETE:
+                    $this->_registerCatalogProductDeleteEvent($event);
+                    break;
+
+                case Mage_Index_Model_Event::TYPE_SAVE:
+                    $this->_registerCatalogProductSaveEvent($event);
+                    break;
+
+                case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+                    $this->_registerCatalogProductMassActionEvent($event);
+                    break;
+            }
+        } else if ($event->getEntity() == Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
+            switch ($event->getType()) {
+                case Mage_Index_Model_Event::TYPE_SAVE:
+                    $this->_registerCatalogAttributeSaveEvent($event);
+                    break;
             }
         }
 
-        if ($eavChanges) {
-            $event->addNewData('eav_changes', $eavChanges);
+        return $this;
+    }
+
+    /**
+     * Retrieve in
+     *
+     * @param unknown_type $product
+     */
+    protected function _attributeIsIndexable($attribute)
+    {
+        if (!$attribute instanceof Mage_Catalog_Model_Resource_Eav_Attribute) {
+            $attribute = Mage::getSingleton('eav/config')
+                ->getAttribute('catalog_product', $attribute);
         }
+
+        return (($attribute->getBackendType() == 'int' && $attribute->getFrontendInput() == 'select')
+            || ($attribute->getBackendType() == 'varchar' && $attribute->getFrontendInput() == 'multiselect'))
+            && ($attribute->getIsFilterable() || $attribute->getIsFilterableInSearch());
+    }
+
+    /**
+     * Register data required by process in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Catalog_Model_Product_Indexer_Eav
+     */
+    protected function _registerCatalogProductSaveEvent(Mage_Index_Model_Event $event)
+    {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product    = $event->getDataObject();
+        $attributes = $product->getAttributes();
+        $reindexEav = false;
+        foreach ($attributes as $attribute) {
+            $attributeCode = $attribute->getAttributeCode();
+            if ($this->_attributeIsIndexable($attribute) && $product->dataHasChangedFor($attributeCode)) {
+                $reindexEav = true;
+                break;
+            }
+        }
+
+        if ($reindexEav) {
+            $event->addNewData('reindex_eav', $reindexEav);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Register data required by process in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Catalog_Model_Product_Indexer_Eav
+     */
+    protected function _registerCatalogProductDeleteEvent(Mage_Index_Model_Event $event)
+    {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product    = $event->getDataObject();
+
+        $parentIds  = $this->_getResource()->getRelationsByChild($product->getId());
+        if ($parentIds) {
+            $event->addNewData('reindex_eav_parent_ids', $parentIds);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Register data required by process in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Catalog_Model_Product_Indexer_Eav
+     */
+    protected function _registerCatalogProductMassActionEvent(Mage_Index_Model_Event $event)
+    {
+        $reindexEav = false;
+
+        /* @var $actionObject Varien_Object */
+        $actionObject = $event->getDataObject();
+        // check if attributes changed
+        $attrData = $actionObject->getAttributesData();
+        if (is_array($attrData)) {
+            foreach (array_keys($attrData) as $attributeCode) {
+                if ($this->_attributeIsIndexable($attributeCode)) {
+                    $reindexEav = true;
+                    break;
+                }
+            }
+        }
+
+        // check changed websites
+        if ($actionObject->getWebsiteIds()) {
+            $reindexEav = true;
+        }
+
+        // register affected products
+        if ($reindexEav) {
+            $event->addNewData('reindex_eav_product_ids', $actionObject->getProductIds());
+        }
+
+        return $this;
+    }
+
+    /**
+     * Register data required by process attribute save in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Catalog_Model_Product_Indexer_Eav
+     */
+    protected function _registerCatalogAttributeSaveEvent(Mage_Index_Model_Event $event)
+    {
+        /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
+        $attribute = $event->getDataObject();
+
+        $validateType = (($attribute->getBackendType() == 'int' && $attribute->getFrontendInput() == 'select')
+            || ($attribute->getBackendType() == 'varchar' && $attribute->getFrontendInput() == 'multiselect'));
+        if ($validateType) {
+            $before = $attribute->getOrigData('is_filterable')
+                || $attribute->getOrigData('is_filterable_in_search');
+            $after  = $attribute->getData('is_filterable')
+                || $attribute->getData('is_filterable_in_search');
+
+            if (!$before && $after || $before && !$after) {
+                $event->addNewData('reindex_attribute', 1);
+                $event->addNewData('is_indexable', $after);
+            }
+        }
+
+        return $this;
     }
 
     /**

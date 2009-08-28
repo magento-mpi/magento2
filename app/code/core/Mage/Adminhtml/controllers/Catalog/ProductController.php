@@ -743,18 +743,20 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->_redirect('*/*/index');
     }
 
+    /**
+     * Update product(s) status action
+     *
+     */
     public function massStatusAction()
     {
         $productIds = (array)$this->getRequest()->getParam('product');
         $storeId    = (int)$this->getRequest()->getParam('store', 0);
         $status     = (int)$this->getRequest()->getParam('status');
 
-        $statusModel = Mage::getModel('catalog/product_status');
-
         try {
-            foreach ($productIds as $productId) {
-                $statusModel->updateProductStatus($productId, $storeId, $status);
-            }
+            Mage::getSingleton('catalog/product_action')
+                ->updateAttributes($productIds, array('status' => $status), $storeId);
+
             $this->_getSession()->addSuccess(
                 $this->__('Total of %d record(s) were successfully updated', count($productIds))
             );

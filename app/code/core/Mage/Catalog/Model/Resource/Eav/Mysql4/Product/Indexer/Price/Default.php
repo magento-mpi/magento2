@@ -125,15 +125,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      * Reindex temporary (price result data) for defined product(s)
      *
      * @param int|array $entityIds
-     * @param bool $hasOptions  the entity has custom options flag
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
-    public function reindexEntity($entityIds, $hasOptions = true)
+    public function reindexEntity($entityIds)
     {
         $this->_prepareFinalPriceData($entityIds);
-        if ($hasOptions) {
-            $this->_applyCustomOption();
-        }
+        $this->_applyCustomOption();
         $this->_movePriceDataToIndexTable();
 
         return $this;
@@ -289,9 +286,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             . ' `customer_group_id` SMALLINT(5) UNSIGNED NOT NULL,'
             . ' `website_id` SMALLINT(5) UNSIGNED NOT NULL,'
             . ' `tax_class_id` SMALLINT(5) UNSIGNED DEFAULT \'0\','
+            . ' `orig_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' `price` DECIMAL(12,4) DEFAULT NULL,'
             . ' `min_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' `max_price` DECIMAL(12,4) DEFAULT NULL,'
+            . ' `tier_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)'
             . ') ENGINE=MYISAM DEFAULT CHARSET=utf8',
             $write->quoteIdentifier($table));
@@ -338,6 +337,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
                 array('pw' => $this->getTable('catalog/product_website')),
                 'pw.product_id = e.entity_id AND pw.website_id = cw.website_id',
                 array())
+            ->joinLeft(
+                array('tp' => $this->_getTierPriceIndexTable()),
+                'tp.entity_id = e.entity_id AND tp.website_id = cw.website_id'
+                    . ' AND tp.customer_group_id = cg.customer_group_id',
+                array())
             ->where('e.type_id=?', $this->getTypeId());
 
         // add enable products limitation
@@ -366,9 +370,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             . "IF({$specialTo} >= {$curentDate}, 1, 0)) > 0 AND {$specialPrice} < {$price}, {$specialPrice}, {$price})"
             . ") > {$rulePrice} AND {$rulePrice} IS NOT NULL, {$rulePrice}, @price)");
         $select->columns(array(
-            'price'     => $finalPrice,
-            'min_price' => new Zend_Db_Expr('@final_price'),
-            'max_price' => new Zend_Db_Expr('@final_price'),
+            'orig_price'    => $price,
+            'price'         => $finalPrice,
+            'min_price'     => new Zend_Db_Expr('@final_price'),
+            'max_price'     => new Zend_Db_Expr('@final_price'),
+            'tier_price'    => new Zend_Db_Expr('tp.min_price')
         ));
 
         if (!is_null($entityIds)) {
@@ -421,6 +427,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             . ' `option_id` INT(10) UNSIGNED DEFAULT \'0\','
             . ' `min_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' `max_price` DECIMAL(12,4) DEFAULT NULL,'
+            . ' `tier_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`, `option_id`)'
             . ') ENGINE=MYISAM DEFAULT CHARSET=utf8',
             $write->quoteIdentifier($table));
@@ -448,6 +455,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             . ' `website_id` SMALLINT(5) UNSIGNED NOT NULL,'
             . ' `min_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' `max_price` DECIMAL(12,4) DEFAULT NULL,'
+            . ' `tier_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)'
             . ') ENGINE=MYISAM DEFAULT CHARSET=utf8',
             $write->quoteIdentifier($table));
@@ -507,6 +515,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         $minPrice = new Zend_Db_Expr("IF(o.is_require, MIN(IF(IF(otps.option_type_price_id>0, otps.price_type, "
             . "otpd.price_type)='fixed', IF(otps.option_type_price_id>0, otps.price, otpd.price), "
             . "ROUND(i.price * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))), 0)");
+        $tierPrice = new Zend_Db_Expr("IF(i.tier_price IS NOT NULL, IF(o.is_require, "
+            . "MIN(IF(IF(otps.option_type_price_id>0, otps.price_type, otpd.price_type)='fixed', "
+            . "IF(otps.option_type_price_id>0, otps.price, otpd.price), "
+            . "ROUND(i.tier_price * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))), 0), NULL)");
         $maxPrice = new Zend_Db_Expr("IF((o.type='radio' OR o.type='drop_down'), "
             . "MAX(IF(IF(otps.option_type_price_id>0, otps.price_type, otpd.price_type)='fixed', "
             . "IF(otps.option_type_price_id>0, otps.price, otpd.price), "
@@ -516,8 +528,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             . "ROUND(i.price * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))))");
 
         $select->columns(array(
-            'min_price' => $minPrice,
-            'max_price' => $maxPrice
+            'min_price'  => $minPrice,
+            'max_price'  => $maxPrice,
+            'tier_price' => $tierPrice
         ));
 
         $query = $select->insertFromSelect($coaTable);
@@ -553,13 +566,18 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
                 array());
 
         $minPrice = new Zend_Db_Expr("IF((@price:=IF(IF(ops.option_price_id>0, ops.price_type, opd.price_type)='fixed',"
-            ." IF(ops.option_price_id>0, ops.price, opd.price), ROUND(i.price * (IF(ops.option_price_id>0, "
+            . " IF(ops.option_price_id>0, ops.price, opd.price), ROUND(i.price * (IF(ops.option_price_id>0, "
             . "ops.price, opd.price) / 100), 4))) AND o.is_require, @price,0)");
         $maxPrice = new Zend_Db_Expr("@price");
+        $tierPrice = new Zend_Db_Expr("IF(i.tier_price IS NOT NULL, IF((@tier_price:=IF(IF(ops.option_price_id>0, "
+            . "ops.price_type, opd.price_type)='fixed', IF(ops.option_price_id>0, ops.price, opd.price), "
+            . "ROUND(i.tier_price * (IF(ops.option_price_id>0, ops.price, opd.price) / 100), 4))) AND o.is_require, "
+            . "@tier_price, 0), NULL)");
 
         $select->columns(array(
-            'min_price' => $minPrice,
-            'max_price' => $maxPrice
+            'min_price'  => $minPrice,
+            'max_price'  => $maxPrice,
+            'tier_price' => $tierPrice
         ));
 
         $query = $select->insertFromSelect($coaTable);
@@ -574,6 +592,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
                     'website_id',
                     'min_price'     => 'SUM(min_price)',
                     'max_price'     => 'SUM(max_price)',
+                    'tier_price'    => 'SUM(tier_price)',
                 ))
             ->group(array('entity_id', 'customer_group_id', 'website_id'));
         $query = $select->insertFromSelect($copTable);
@@ -587,8 +606,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
                     .' AND i.website_id = io.website_id',
                 array());
         $select->columns(array(
-            'min_price' => new Zend_Db_Expr('i.min_price + io.min_price'),
-            'max_price' => new Zend_Db_Expr('i.max_price + io.max_price'),
+            'min_price'  => new Zend_Db_Expr('i.min_price + io.min_price'),
+            'max_price'  => new Zend_Db_Expr('i.max_price + io.max_price'),
+            'tier_price' => new Zend_Db_Expr('IF(i.tier_price IS NOT NULL, i.tier_price + io.tier_price, NULL)'),
         ));
         $query = $select->crossUpdateFromSelect($table);
         $write->query($query);
@@ -617,5 +637,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         $write->truncate($table);
 
         return $this;
+    }
+
+    /**
+     * Retrieve table name for product tier price index
+     *
+     * @return string
+     */
+    protected function _getTierPriceIndexTable()
+    {
+        return $this->getIdxTable($this->getValueTable('catalog/product', 'tier_price'));
     }
 }

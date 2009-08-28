@@ -33,7 +33,9 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     protected $_matchedEntities = array(
         Mage_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Mage_Index_Model_Event::TYPE_SAVE,
+            Mage_Index_Model_Event::TYPE_DELETE,
+            Mage_Index_Model_Event::TYPE_MASS_ACTION,
         )
     );
 
@@ -67,34 +69,109 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
     }
 
     /**
-     * Register data required by process in event object
+     * Retrieve attribute list has an effect on product price
      *
-     * @param Mage_Index_Model_Event $event
+     * @return array
      */
-    protected function _registerEvent(Mage_Index_Model_Event $event)
+    protected function _getDependentAttributes()
     {
-        /* @var $product Mage_Catalog_Model_Product */
-        $product = $event->getDataObject();
-
-        $reindexPrice = $product->getIsRelationsChanged() || $product->getIsCustomOptionChanged();
-
-        $attributes = array(
+        return array(
             'price',
             'special_price',
             'special_from_date',
             'special_to_date',
             'tax_class_id',
-            'status'
+            'status',
+            'tier_price'
         );
+    }
+
+    /**
+     * Register data required by catalog product delete process
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    protected function _registerCatalogProductDeleteEvent(Mage_Index_Model_Event $event)
+    {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = $event->getDataObject();
+
+        $parentIds = $this->_getResource()->getProductParentsByChild($product->getId());
+        if ($parentIds) {
+            $event->addNewData('reindex_price_parent_ids', $parentIds);
+        }
+    }
+
+    /**
+     * Register data required by catalog product save process
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    protected function _registerCatalogProductSaveEvent(Mage_Index_Model_Event $event)
+    {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product      = $event->getDataObject();
+        $attributes   = $this->_getDependentAttributes();
+        $reindexPrice = $product->getIsRelationsChanged() || $product->getIsCustomOptionChanged();
 
         foreach ($attributes as $attributeCode) {
             $reindexPrice = $reindexPrice || $product->dataHasChangedFor($attributeCode);
         }
 
         if ($reindexPrice) {
-            $event->addNewData('has_custom_options', $product->hasCustomOptions());
             $event->addNewData('product_type_id', $product->getTypeId());
             $event->addNewData('reindex_price', 1);
+        }
+    }
+
+    protected function _registerCatalogProductMassActionEvent(Mage_Index_Model_Event $event)
+    {
+        /* @var $actionObject Varien_Object */
+        $actionObject = $event->getDataObject();
+        $attributes   = $this->_getDependentAttributes();
+        $reindexPrice = false;
+
+        // check if attributes changed
+        $attrData = $actionObject->getAttributesData();
+        if (is_array($attrData)) {
+            foreach ($attributes as $attributeCode) {
+                if (array_key_exists($attributeCode, $attrData)) {
+                    $reindexPrice = true;
+                    break;
+                }
+            }
+        }
+
+        // check changed websites
+        if ($actionObject->getWebsiteIds()) {
+            $reindexPrice = true;
+        }
+
+        // register affected products
+        if ($reindexPrice) {
+            $event->addNewData('reindex_price_product_ids', $actionObject->getProductIds());
+        }
+    }
+
+    /**
+     * Register data required by process in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    protected function _registerEvent(Mage_Index_Model_Event $event)
+    {
+        switch ($event->getType()) {
+            case Mage_Index_Model_Event::TYPE_DELETE:
+                $this->_registerCatalogProductDeleteEvent($event);
+                break;
+
+            case Mage_Index_Model_Event::TYPE_SAVE:
+                $this->_registerCatalogProductSaveEvent($event);
+                break;
+
+            case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+                $this->_registerCatalogProductMassActionEvent($event);
+                break;
         }
     }
 

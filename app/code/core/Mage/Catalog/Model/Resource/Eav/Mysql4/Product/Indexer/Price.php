@@ -56,63 +56,68 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
         $this->_init('catalog/product_index_price', 'entity_id');
     }
 
-/**
-     * Process product save.
-     * Method is responsible for index support
-     * when product was saved and assigned categories was changed.
+    /**
+     * Retrieve parent ids and types by child id
      *
-     * @param   Mage_Index_Model_Event $event
-     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
+     * Return array with key product_id and value as product type id
+     *
+     * @param int $childId
+     * @return array
      */
-    public function catalogProductSave(Mage_Index_Model_Event $event)
+    public function getProductParentsByChild($childId)
     {
-        $productId = $event->getEntityPk();
-        $data = $event->getNewData();
+        $select = $write->select()
+            ->from(array('l' => $this->getTable('catalog/product_relation')), array('parent_id'))
+            ->join(
+                array('e' => $this->getTable('catalog/product')),
+                'l.parent_id=e.entity_id',
+                array('e.type_id'))
+            ->where('l.child_id=?', $childId);
+        return $write->fetchPairs($select);
+    }
 
-        /**
-         * Check if price attribute values were updated
-         */
-        if (!isset($data['reindex_price'])) {
+    /**
+     * Process produce delete
+     *
+     * If the deleted product was found in a composite product(s) update it
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
+     */
+    public function catalogProductDelete(Mage_Index_Model_Event $event)
+    {
+        $data = $event->getNewData();
+        if (empty($data['reindex_price_parent_ids'])) {
             return $this;
         }
-        $hasOptions = !empty($data['has_custom_options']);
 
-        $write = $this->_getWriteAdapter();
         $this->cloneIndexTable(true);
 
-        $indexer = $this->_getIndexer($data['product_type_id']);
-        $processIds = array($productId);
-        if ($indexer->getIsComposite()) {
-            $this->_copyRelationIndexData($productId);
-            $indexer->reindexEntity($productId, $hasOptions);
-        } else {
-            $select = $write->select()
-                ->from(array('l' => $this->getTable('catalog/product_relation')), array('parent_id'))
-                ->join(
-                    array('e' => $this->getTable('catalog/product')),
-                    'l.parent_id=e.entity_id',
-                    array('e.type_id'))
-                ->where('l.child_id=?', $productId);
-            $parentIds = $write->fetchPairs($select);
-
-            if ($parentIds) {
-                $processIds = array_merge($processIds, array_keys($parentIds));
-                $this->_copyRelationIndexData($parentIds, $productId);
-                $indexer->reindexEntity($productId, $hasOptions);
-
-                $parentByType = array();
-                foreach ($parentIds as $parentId => $parentType) {
-                    $parentByType[$parentType][$parentId] = $parentId;
-                }
-
-                foreach ($parentByType as $parentType => $entityIds) {
-                    $this->_getIndexer($parentType)->reindexEntity($entityIds);
-                }
-            } else {
-                $indexer->reindexEntity($productId, $hasOptions);
-            }
+        $processIds = array_keys($data['reindex_price_parent_ids']);
+        $parentIds  = array();
+        foreach ($data['reindex_price_parent_ids'] as $parentId => $parentType) {
+            $parentIds[$parentType][$parentId] = $parentId;
         }
 
+        $this->_copyRelationIndexData($processIds);
+        foreach ($parentIds as $parentType => $entityIds) {
+            $this->_getIndexer($parentType)->reindexEntity($entityIds);
+        }
+
+        $this->_copyIndexDataToMainTable($parentIds);
+
+        return $this;
+    }
+
+    /**
+     * Copy data from temporary index table to main table by defined ids
+     *
+     * @param array $processIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
+     */
+    protected function _copyIndexDataToMainTable($processIds)
+    {
+        $write = $this->_getWriteAdapter();
         $write->beginTransaction();
         try {
             // remove old index
@@ -136,6 +141,168 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
     }
 
     /**
+     * Process product save.
+     * Method is responsible for index support
+     * when product was saved and changed attribute(s) has an effect on price.
+     *
+     * @param   Mage_Index_Model_Event $event
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
+     */
+    public function catalogProductSave(Mage_Index_Model_Event $event)
+    {
+        $productId = $event->getEntityPk();
+        $data = $event->getNewData();
+
+        /**
+         * Check if price attribute values were updated
+         */
+        if (!isset($data['reindex_price'])) {
+            return $this;
+        }
+
+        $this->cloneIndexTable(true);
+
+        $indexer = $this->_getIndexer($data['product_type_id']);
+        $processIds = array($productId);
+        if ($indexer->getIsComposite()) {
+            $this->_copyRelationIndexData($productId);
+            $this->_prepareTierPriceIndex($productId);
+            $indexer->reindexEntity($productId);
+        } else {
+            $parentIds = $this->getProductParentsByChild($productId);
+
+            if ($parentIds) {
+                $processIds = array_merge($processIds, array_keys($parentIds));
+                $this->_copyRelationIndexData(array_keys($parentIds), $productId);
+                $this->_prepareTierPriceIndex($processIds);
+                $indexer->reindexEntity($productId);
+
+                $parentByType = array();
+                foreach ($parentIds as $parentId => $parentType) {
+                    $parentByType[$parentType][$parentId] = $parentId;
+                }
+
+                foreach ($parentByType as $parentType => $entityIds) {
+                    $this->_getIndexer($parentType)->reindexEntity($entityIds);
+                }
+            } else {
+                $this->_prepareTierPriceIndex($productId);
+                $indexer->reindexEntity($productId);
+            }
+        }
+
+        $this->_copyIndexDataToMainTable();
+
+        return $this;
+    }
+
+    /**
+     * Process product mass update action
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
+     */
+    public function catalogProductMassAction(Mage_Index_Model_Event $event)
+    {
+        $data = $event->getNewData();
+        if (empty($data['reindex_price_product_ids'])) {
+            return $this;
+        }
+
+        $processIds = $data['reindex_price_product_ids'];
+
+        $write  = $this->_getWriteAdapter();
+        $select = $write->select()
+            ->from($this->getTable('catalog/product'), 'COUNT(*)');
+        $pCount = $write->fetchOne($select);
+
+        // if affected more 30% of all products - run reindex all products
+        if ($pCount * 0.3 < count($processIds)) {
+            return $this->reindexAll();
+        }
+
+        // calculate relations
+        $select = $write->select()
+            ->from($this->getTable('catalog/product_relation'), 'COUNT(DISTINCT parent_id)')
+            ->where('child_id IN(?)', $processIds);
+        $aCount = $write->fetchOne($select);
+        $select = $write->select()
+            ->from($this->getTable('catalog/product_relation'), 'COUNT(DISTINCT child_id)')
+            ->where('parent_id IN(?)', $processIds);
+        $bCount = $write->fetchOne($select);
+
+        // if affected with relations more 30% of all products - run reindex all products
+        if ($pCount * 0.3 < count($processIds) + $aCount + $bCount) {
+            return $this->reindexAll();
+        }
+
+        $this->cloneIndexTable(true);
+
+        // retrieve products types
+        $select = $write->select()
+            ->from($this->getTable('catalog/product'), array('entity_id', 'type_id'))
+            ->where('entity_id IN(?)', $processIds);
+        $pairs  = $write->fetchPairs($select);
+        $byType = array();
+        foreach ($pairs as $productId => $productType) {
+            $byType[$productType][$productId] = $productId;
+        }
+
+        $compositeIds    = array();
+        $notCompositeIds = array();
+
+        foreach ($byType as $productType => $entityIds) {
+            $indexer = $this->_getIndexer($productType);
+            if ($indexer->getIsComposite()) {
+                $compositeIds += $entityIds;
+            } else {
+                $notCompositeIds += $entityIds;
+            }
+        }
+
+        if (!empty($notCompositeIds)) {
+            $select = $write->select()
+                ->from(
+                    array('l' => $this->getTable('catalog/product_relation')),
+                    'parent_id')
+                ->join(
+                    array('e' => $this->getTable('catalog/product')),
+                    'e.entity_id = l.parent_id',
+                    array('type_id'))
+                ->where('l.child_id IN(?)', $notCompositeIds);
+            $pairs  = $write->fetchPairs($select);
+            foreach ($pairs as $productId => $productType) {
+                if (!in_array($productId, $processIds)) {
+                    $processIds[] = $productId;
+                    $byType[$productType][$productId] = $productId;
+                    $compositeIds[$productId] = $productId;
+                }
+            }
+        }
+
+        if (!empty($compositeIds)) {
+            $this->_copyRelationIndexData($compositeIds, $notCompositeIds);
+        }
+
+        $indexers = $this->_getProductTypes();
+        foreach ($indexers as $indexer) {
+            if (!empty($byType[$indexer->getTypeId()])) {
+                try {
+                    $indexer->reindexEntity($byType[$indexer->getTypeId()]);
+                } catch (Exception $e) {
+                    echo '<pre>';
+                    echo $e;
+                    die();
+                }
+            }
+        }
+
+        $this->_copyIndexDataToMainTable($processIds);
+
+        return $this;
+    }
+
+    /**
      * Copy relations product index from primary index to temporary index table by parent entity
      *
      * @param array|int $parentIds
@@ -151,13 +318,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
         if (!is_null($excludeIds)) {
             $select->where('child_id NOT IN(?)', $excludeIds);
         }
+
         $children = $write->fetchCol($select);
 
-        $select = $write->select()
-            ->from($this->getMainTable())
-            ->where('entity_id IN(?)', $children);
-        $query  = $select->insertFromSelect($this->getIdxTable());
-        $write->query($query);
+        if ($children) {
+            $select = $write->select()
+                ->from($this->getMainTable())
+                ->where('entity_id IN(?)', $children);
+            $query  = $select->insertFromSelect($this->getIdxTable());
+            $write->query($query);
+        }
 
         return $this;
     }
@@ -213,6 +383,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
     public function reindexAll()
     {
         $this->cloneIndexTable(true);
+        $this->_prepareTierPriceIndex();
 
         $indexers = $this->_getProductTypes();
         foreach ($indexers as $indexer) {
@@ -221,6 +392,66 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
         }
 
         $this->syncData();
+        return $this;
+    }
+
+    /**
+     * Retrieve table name for product tier price index
+     *
+     * @return string
+     */
+    protected function _getTierPriceIndexTable()
+    {
+        return $this->getIdxTable($this->getValueTable('catalog/product', 'tier_price'));
+    }
+
+    /**
+     * Prepare tier price index table
+     *
+     * @param int|array $entityIds the entity ids limitation
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
+     */
+    protected function _prepareTierPriceIndex($entityIds = null)
+    {
+        $write = $this->_getWriteAdapter();
+        $table = $this->_getTierPriceIndexTable();
+
+        $query = sprintf('DROP TABLE IF EXISTS %s', $write->quoteIdentifier($table));
+        $write->query($query);
+
+        $query = sprintf('CREATE TABLE %s ('
+            . ' `entity_id` INT(10) UNSIGNED NOT NULL,'
+            . ' `customer_group_id` SMALLINT(5) UNSIGNED NOT NULL,'
+            . ' `website_id` SMALLINT(5) UNSIGNED NOT NULL,'
+            . ' `min_price` DECIMAL(12,4) DEFAULT NULL,'
+            . ' PRIMARY KEY  (`entity_id`,`customer_group_id`,`website_id`)'
+            . ') ENGINE=INNODB DEFAULT CHARSET=utf8',
+            $write->quoteIdentifier($table));
+        $write->query($query);
+
+        $select = $write->select()
+            ->from(
+                array('tp' => $this->getValueTable('catalog/product', 'tier_price')),
+                array('entity_id'))
+            ->join(
+                array('cg' => $this->getTable('customer/customer_group')),
+                'tp.all_groups = 1 OR (tp.all_groups = 0 AND tp.customer_group_id = cg.customer_group_id)',
+                array('customer_group_id'))
+            ->join(
+                array('cw' => $this->getTable('core/website')),
+                'tp.website_id = 0 OR tp.website_id = cw.website_id',
+                array('website_id'))
+            ->where('cw.website_id != 0')
+            ->columns(new Zend_Db_Expr('MIN(tp.value)'))
+            ->group(array('tp.entity_id', 'cg.customer_group_id', 'cw.website_id'));
+
+        if (!empty($entityIds)) {
+            $select->where('tp.entity_id IN(?)', $entityIds);
+        }
+
+        $query = $select->insertFromSelect($table);
+        $write->query($query);
+
         return $this;
     }
 }

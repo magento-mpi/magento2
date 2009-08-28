@@ -37,7 +37,8 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     const SCOPE_GLOBAL  = 1;
     const SCOPE_WEBSITE = 2;
 
-    const MODULE_NAME = 'Mage_Catalog';
+    const MODULE_NAME   = 'Mage_Catalog';
+    const ENTITY        = 'catalog_eav_attribute';
 
     protected $_eventPrefix = 'catalog_entity_attribute';
     protected $_eventObject = 'attribute';
@@ -91,6 +92,22 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
          */
         Mage::getSingleton('eav/config')->clear();
         return parent::_afterSave();
+    }
+
+    /**
+     * Init indexing process after attribute data commit
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     */
+    protected function _afterSaveCommit()
+    {
+        parent::_afterSaveCommit();
+
+        Mage::getSingleton('index/indexer')->processEntityAction(
+            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+        );
+
+        return $this;
     }
 
     /**

@@ -190,39 +190,28 @@ class Mage_Catalog_Model_Product_Status extends Mage_Core_Model_Abstract
      */
     public function updateProductStatus($productId, $storeId, $value)
     {
-        $stores = array();
-        if ($storeId != 0) {
-            $attribute = $this->getProductAttribute('status');
-            if ($attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE) {
-                $stores[] = $storeId;
-            }
-            elseif ($attribute->getIsGlobal() == Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_WEBSITE) {
-                $website = Mage::app()->getStore($storeId)->getWebsite();
-                foreach ($website->getStores() as $store) {
-                    $stores[] = $store->getId();
-                }
-            }
-            else {
-                $stores[] = 0;
-            }
-        }
-        else {
-            $stores[] = $storeId;
+        Mage::getSingleton('catalog/product_action')
+            ->updateAttributes(array($productId), array('status' => $value), $storeId);
+
+        // add back compatibility event
+        $status = $this->_getResource()->getProductAttribute('status');
+        if ($status->isScopeWebsite()) {
+            $website = Mage::app()->getStore($storeId)->getWebsite();
+            $stores  = $website->getStoreIds();
+        } else if ($status->isScopeStore()) {
+            $stores = array($storeId);
+        } else {
+            $stores = array_keys(Mage::app()->getStores());
         }
 
         foreach ($stores as $storeId) {
-            $this->_getResource()->updateProductStatus($productId, $storeId, $value);
-            Mage::getResourceModel('catalog/category')->refreshProductIndex(
-                array(),
-                array($productId),
-                $storeId ? array($storeId) : array()
-            );
             Mage::dispatchEvent('catalog_product_status_update', array(
                 'product_id'    => $productId,
                 'store_id'      => $storeId,
                 'status'        => $value
             ));
         }
+
         return $this;
     }
 

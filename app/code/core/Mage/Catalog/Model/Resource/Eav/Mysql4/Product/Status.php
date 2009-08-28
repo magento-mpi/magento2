@@ -54,7 +54,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Status extends Mage_Core_Mo
      * Retrieve product attribute (public method for status model)
      *
      * @param string $attributeCode
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
      */
     public function getProductAttribute($attributeCode)
     {

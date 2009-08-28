@@ -43,54 +43,71 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
     }
 
     /**
-     * Process product save.
-     * Method is responsible for index support
-     * when product was saved and assigned categories was changed.
+     * Retrieve product relations by children
      *
-     * @param   Mage_Index_Model_Event $event
-     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
+     * @param int|array $childIds
+     * @return array
      */
-    public function catalogProductSave(Mage_Index_Model_Event $event)
+    public function getRelationsByChild($childIds)
     {
-        $productId = $event->getEntityPk();
-        $data = $event->getNewData();
-
-        /**
-         * Check if filterable attribute values were updated
-         */
-        if (!isset($data['eav_changes'])) {
-            return $this;
-        }
-
-        $write  = $this->_getWriteAdapter();
-        $this->cloneIndexTable(true);
-
+        $write = $this->_getWriteAdapter();
         $select = $write->select()
             ->from($this->getTable('catalog/product_relation'), 'parent_id')
-            ->where('child_id=?', $productId);
-        $parentIds = $write->fetchCol($select);
-        if ($parentIds) {
-            $select = $write->select()
-                ->from($this->getTable('catalog/product_relation'), 'child_id')
-                ->where('parent_id IN(?)', $parentIds);
-            $childIds = $write->fetchCol($select);
-        } else {
-            $childIds = array($productId);
+            ->where('child_id IN(?)', $childIds);
+
+        return $write->fetchCol($select);
+    }
+
+    /**
+     * Retrieve product relations by parents
+     *
+     * @param int|array $childIds
+     * @return array
+     */
+    public function getRelationsByParent($parentIds)
+    {
+        $write = $this->_getWriteAdapter();
+        $select = $write->select()
+            ->from($this->getTable('catalog/product_relation'), 'child_id')
+            ->where('parent_id IN(?)', $parentIds);
+
+        return $write->fetchCol($select);
+    }
+
+    /**
+     * Reindex by entities
+     *
+     * @param int|array $processIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
+     */
+    protected function _reindexEntities($processIds)
+    {
+        $write = $this->_getWriteAdapter();
+
+        $this->cloneIndexTable(true);
+
+        if (!is_array($processIds)) {
+            $processIds = array($processIds);
         }
 
-        $entityIds = array_unique(array_merge($childIds, $parentIds));
-
-        $this->_prepareSelectIndex($entityIds);
-        $this->_prepareMultiselectIndex($entityIds);
+        $parentIds = $this->getRelationsByChild($processIds);
         if ($parentIds) {
-            $this->_prepareRelationIndex($parentIds);
+            $processIds = array_unique(array_merge($processIds, $parentIds));
         }
+        $childIds  = $this->getRelationsByParent($parentIds);
+        if ($childIds) {
+            $processIds = array_unique(array_merge($processIds, $childIds));
+        }
+
+        $this->_prepareSelectIndex($processIds);
+        $this->_prepareMultiselectIndex($processIds);
+        $this->_prepareRelationIndex($processIds);
         $this->_removeNotVisibleEntityFromIndex();
 
         $write->beginTransaction();
         try {
             // remove old index
-            $where = $write->quoteInto('entity_id IN(?)', $entityIds);
+            $where = $write->quoteInto('entity_id IN(?)', $processIds);
             $write->delete($this->getMainTable(), $where);
 
             // insert new index
@@ -106,17 +123,132 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
     }
 
     /**
-     * Prepare temporary data index for select filtrable attribute
+     * Process product save.
+     * Method is responsible for index support
+     * when product was saved and assigned categories was changed.
      *
-     * @param array $entityIds    the entity ids limitation
+     * @param   Mage_Index_Model_Event $event
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
+     */
+    public function catalogProductSave(Mage_Index_Model_Event $event)
+    {
+        $productId = $event->getEntityPk();
+        $data = $event->getNewData();
+
+        /**
+         * Check if filterable attribute values were updated
+         */
+        if (!isset($data['reindex_eav'])) {
+            return $this;
+        }
+
+        return $this->_reindexEntities($productId);
+    }
+
+    /**
+     * Process Product Delete
+     *
+     * @param Mage_Index_Model_Event $event
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
      */
-    protected function _prepareSelectIndex($entityIds = null)
+    public function catalogProductDelete(Mage_Index_Model_Event $event)
+    {
+        $data = $event->getNewData();
+        if (empty($data['reindex_eav_parent_ids'])) {
+            return $this;
+        }
+
+        return $this->_reindexEntities($data['reindex_eav_parent_ids']);
+    }
+
+    /**
+     * Process Product Mass Update
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
+     */
+    public function catalogProductMassAction(Mage_Index_Model_Event $event)
+    {
+        $data = $event->getNewData();
+        if (empty($data['reindex_eav_product_ids'])) {
+            return $this;
+        }
+
+        return $this->_reindexEntities($data['reindex_eav_product_ids']);
+    }
+
+    /**
+     * Process Catalog Eav Attribute Save
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
+     */
+    public function catalogEavAttributeSave(Mage_Index_Model_Event $event)
+    {
+        $data = $event->getNewData();
+        if (empty($data['reindex_attribute'])) {
+            return $this;
+        }
+
+        $attributeId = $event->getEntityPk();
+        $write = $this->_getWriteAdapter();
+
+        if (empty($data['is_indexable'])) {
+            // remove attribute data from main index
+            $write->beginTransaction();
+            try {
+
+                $where = $write->quoteInto('attribute_id=?', $attributeId);
+                $write->delete($this->getMainTable(), $where);
+                $write->commit();
+            } catch (Exception $e) {
+                $write->rollback();
+                throw $e;
+            }
+        } else {
+            $this->cloneIndexTable(true);
+
+            $this->_prepareSelectIndex(null, $attributeId);
+            $this->_prepareMultiselectIndex(null, $attributeId);
+            $this->_prepareRelationIndex();
+            $this->_removeNotVisibleEntityFromIndex();
+
+            $this->beginTransaction();
+            try {
+                // remove index by attribute
+                $where = $write->quoteInto('attribute_id=?', $attributeId);
+                $write->delete($this->getMainTable(), $where);
+
+                // insert new index
+                $this->insertFromTable($this->getIdxTable(), $this->getMainTable());
+
+                $write->commit();
+            } catch (Exception $e) {
+                $write->rollback();
+                throw $e;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Prepare temporary data index for select filtrable attribute
+     *
+     * @param array $entityIds      the entity ids limitation
+     * @param int $attributeId      the attribute id limitation
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
+     */
+    protected function _prepareSelectIndex($entityIds = null, $attributeId = null)
     {
         $write      = $this->_getWriteAdapter();
         $idxTable   = $this->getIdxTable();
         // prepare select attributes
-        $attrIds    = $this->_getFilterableAttributeIds(false);
+        if (is_null($attributeId)) {
+            $attrIds    = $this->_getFilterableAttributeIds(false);
+        } else {
+            $attrIds    = array($attributeId);
+        }
 
         $select = $write->select()
             ->from(
@@ -152,15 +284,21 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
     /**
      * Prepare temporary data index for multiselect filtrable attribute
      *
-     * @param array $entityIds    the entity ids limitation
+     * @param array $entityIds      the entity ids limitation
+     * @param int $attributeId      the attribute id limitation
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
      */
-    protected function _prepareMultiselectIndex($entityIds = null)
+    protected function _prepareMultiselectIndex($entityIds = null, $attributeId = null)
     {
         $write      = $this->_getWriteAdapter();
         $idxTable   = $this->getIdxTable();
+
         // prepare multiselect attributes
-        $attrIds    = $this->_getFilterableAttributeIds(true);
+        if (is_null($attributeId)) {
+            $attrIds    = $this->_getFilterableAttributeIds(true);
+        } else {
+            $attrIds    = array($attributeId);
+        }
 
         $select = $write->select()
             ->from(
@@ -203,7 +341,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
      * @param array $parentIds  the parent entity ids limitation
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
      */
-    protected function _prepareRelationIndex($parentIds = array())
+    protected function _prepareRelationIndex($parentIds = null)
     {
         $write      = $this->_getWriteAdapter();
         $idxTable   = $this->getIdxTable();
