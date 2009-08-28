@@ -52,7 +52,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     {
         parent::preDispatch();
         if (!$this->_getHelper()->isEnabled()) {
-            $this->setFlag(self::FLAG_NO_DISPATCH);
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         return $this;
     }
@@ -98,7 +98,6 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     public function saveAction()
     {
-        $redirectArgs   = array();
         if ($this->getRequest()->isPost()) {
             /** @var $node Enterprise_Cms_Model_Hierarchy_Node */
             $node       = Mage::getModel('enterprise_cms/hierarchy_node');
@@ -106,8 +105,17 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             $hasError   = true;
 
             try {
-                $nodesData = Mage::helper('core')->jsonDecode($data['nodes_data']);
-                $removedNodes = explode(',', $data['removed_nodes']);
+                if (!empty($data['nodes_data'])) {
+                    $nodesData = Mage::helper('core')->jsonDecode($data['nodes_data']);
+                } else {
+                    $nodesData = array();
+                }
+                if (!empty($data['removed_nodes'])) {
+                    $removedNodes = explode(',', $data['removed_nodes']);
+                } else {
+                    $removedNodes = array();
+                }
+
                 $node->collectTree($nodesData, $removedNodes);
 
                 $hasError = false;

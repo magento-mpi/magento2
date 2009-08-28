@@ -51,54 +51,24 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
      *
      * @return bool
      */
-    public function isMetedataEnabled()
+    public function isMetadataEnabled()
     {
         return Mage::getStoreConfigFlag(self::XML_PATH_METADATA_ENABLED);
     }
 
     /**
-     * Validate Request and modify router match condition
+     * Retrieve metadata fields
      *
-     * @param Varien_Object $condition
-     * @return Enterprise_Cms_Helper_Hierarchy
+     * @return array
      */
-    public function match(Varien_Object $condition)
+    public function getMetadataFields()
     {
-         /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-        $node = Mage::getModel('enterprise_cms/hierarchy_node');
-        $requestUrl = $condition->getIdentifier();
-        $node->loadByRequestUrl($requestUrl);
-
-        if ($node->checkIdentifier($requestUrl)) {
-            $condition->setContinue(false);
-        }
-        if (!$node->getId()) {
-            return $this;
-        }
-
-        if (!$node->getPageId()) {
-            /* @var $child Enterprise_Cms_Model_Hierarchy_Node */
-            $child = Mage::getModel('enterprise_cms/hierarchy_node');
-            $child->loadFirstChildByParent($node->getId());
-            if (!$child->getId()) {
-                return $this;
-            }
-            $url   = Mage::getUrl('', array('_direct' => $child->getRequestUrl()));
-            $condition->setRedirectUrl($url);
-        } else {
-            if (!$node->getPageIsActive()) {
-                return $this;
-            }
-
-            // register hierarchy and node
-            Mage::register('current_cms_hierarchy_node', $node);
-
-            $condition->setContinue(true);
-            $condition->setIdentifier($node->getPageIdentifier());
-            return $this;
-        }
-
-        return $this;
+        return array(
+            'meta_first_last',
+            'meta_next_previous',
+            'meta_chapter',
+            'meta_section'
+        );
     }
 
     /**
@@ -110,14 +80,12 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
      */
     public function copyMetaData($source, $target)
     {
-        $elements = array(
-            'meta_first_last',
-            'meta_next_previous',
-            'meta_chapter',
-            'meta_section'
-        );
+        if (!$this->isMetadataEnabled()) {
+            return $target;
+        }
 
-        foreach ($elements as $element) {
+        $fields = $this->getMetadataFields();
+        foreach ($fields as $element) {
             if (isset($source[$element])) {
                 $target[$element] = $source[$element];
             }

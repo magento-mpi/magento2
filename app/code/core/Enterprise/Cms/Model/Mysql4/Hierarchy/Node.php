@@ -137,27 +137,6 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Validate Unique Hierarchy Identifier
-     *
-     * @param string $identifier
-     * @param int $treeId
-     * @return bool
-     */
-    public function validateHierarchyIdentifier($identifier)
-    {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('parent_node_id IS NULL')
-            ->where('identifier=?', $identifier);
-
-        if ($this->_getReadAdapter()->fetchRow($select)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Remove children by root node.
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object

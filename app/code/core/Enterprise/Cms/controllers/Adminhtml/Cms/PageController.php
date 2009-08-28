@@ -33,7 +33,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 
-include('app/code/core/Mage/Adminhtml/controllers/Cms/PageController.php');
+include('Mage/Adminhtml/controllers/Cms/PageController.php');
 
 class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_PageController
 {

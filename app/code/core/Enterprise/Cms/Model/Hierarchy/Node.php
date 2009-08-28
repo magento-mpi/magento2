@@ -70,30 +70,10 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Validate Unique Hierarchy Identifier
-     *
-     * @throws Mage_Core_Exception
-     * @return bool
-     */
-    public function validateHierarchyIdentifier()
-    {
-        $this->loadPageData();
-        $identifier = $this->getIdentifier();
-        if (empty($identifier)) {
-            Mage::throwException(Mage::helper('enterprise_cms')->__('Please enter a valid Identifier'));
-        }
-
-        if (!$this->_getResource()->validateHierarchyIdentifier($this->getIdentifier())) {
-            Mage::throwException(Mage::helper('enterprise_cms')->__('Hierarchy with same Identifier already exists'));
-        }
-
-        return true;
-    }
-
-    /**
      * Collect and save tree
      *
-     * @param array $data
+     * @param array $data       modified nodes data array
+     * @param array $remove     the removed node ids
      * @return Enterprise_Cms_Model_Hierarchy_Node
      */
     public function collectTree($data, $remove)
@@ -104,8 +84,20 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
 
         $nodes = array();
         foreach ($data as $v) {
+            $required = array(
+                'node_id', 'parent_node_id', 'page_id', 'label', 'identifier', 'level', 'sort_order'
+            );
+            // validate required node data
+            foreach ($required as $field) {
+                if (!array_key_exists($field, $v)) {
+                    Mage::throwException(
+                        Mage::helper('enterprise_cms')->__('Invalid node data')
+                    );
+                }
+            }
             $parentNodeId = empty($v['parent_node_id']) ? 0 : $v['parent_node_id'];
             $pageId = empty($v['page_id']) ? null : intval($v['page_id']);
+
 
             $_node = array(
                 'node_id'            => strpos($v['node_id'], '_') === 0 ? null : intval($v['node_id']),
@@ -113,17 +105,28 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
                 'label'              => !$pageId ? $v['label'] : null,
                 'identifier'         => !$pageId ? $v['identifier'] : null,
                 'level'              => intval($v['level']),
-                'sort_order'          => intval($v['sort_order']),
+                'sort_order'         => intval($v['sort_order']),
                 'request_url'        => $v['identifier']
             );
 
-            $nodes[$parentNodeId][$v['node_id']] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($v, $_node);
+            foreach ($this->getMetadataElements() as $element) {
+                if (isset($v[$element])) {
+                    $_node[$element] = $v[$element];
+                }
+            }
+
+            $nodes[$parentNodeId][$v['node_id']] = Mage::helper('enterprise_cms/hierarchy')
+                ->copyMetaData($v, $_node);
         }
 
         $this->_getResource()->beginTransaction();
         try {
+            // recursive node save
             $this->_collectTree($nodes, $this->getId(), $this->getRequestUrl(), $this->getId(), 0);
-            $this->_getResource()->dropNodes($remove);
+            // remove deleted nodes
+            if (!empty($remove)) {
+                $this->_getResource()->dropNodes($remove);
+            }
 
             $this->_getResource()->commit();
         } catch (Exception $e) {
@@ -162,11 +165,11 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
                 $v['xpath'] = '';
             }
 
-            // create new or modify exists node using current instance of object
-            $this->setData($v)->save();
+            $object = clone $this;
+            $object->setData($v)->save();
 
             if (isset($nodes[$k])) {
-                $this->_collectTree($nodes, $this->getId(), $this->getRequestUrl(), $this->getXpath(), $k);
+                $this->_collectTree($nodes, $object->getId(), $object->getRequestUrl(), $object->getXpath(), $k);
             }
         }
         return $this;
@@ -179,10 +182,11 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function getIdentifier()
     {
-        if (is_null($this->_getData('identifier'))) {
-            return $this->_getData('page_identifier');
+        $identifier = $this->_getData('identifier');
+        if (is_null($identifier)) {
+            $identifier = $this->_getData('page_identifier');
         }
-        return $this->_getData('identifier');
+        return $identifier;
     }
 
     /**
@@ -202,10 +206,11 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function getLabel()
     {
-        if (is_null($this->_getData('label'))) {
-            return $this->_getData('page_title');
+        $label = $this->_getData('label');
+        if (is_null($label)) {
+            $label = $this->_getData('page_title');
         }
-        return $this->_getData('label');
+        return $label;
     }
 
     /**

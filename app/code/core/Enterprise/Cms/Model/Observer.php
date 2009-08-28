@@ -134,8 +134,45 @@ class Enterprise_Cms_Model_Observer
         if (!$helper->isEnabled()) {
             return $this;
         }
+
         $condition = $observer->getEvent()->getCondition();
-        $helper->match($condition);
+
+        /**
+         * Validate Request and modify router match condition
+         */
+        /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
+        $node = Mage::getModel('enterprise_cms/hierarchy_node');
+        $requestUrl = $condition->getIdentifier();
+        $node->loadByRequestUrl($requestUrl);
+
+        if ($node->checkIdentifier($requestUrl)) {
+            $condition->setContinue(false);
+        }
+        if (!$node->getId()) {
+            return $this;
+        }
+
+        if (!$node->getPageId()) {
+            /* @var $child Enterprise_Cms_Model_Hierarchy_Node */
+            $child = Mage::getModel('enterprise_cms/hierarchy_node');
+            $child->loadFirstChildByParent($node->getId());
+            if (!$child->getId()) {
+                return $this;
+            }
+            $url   = Mage::getUrl('', array('_direct' => $child->getRequestUrl()));
+            $condition->setRedirectUrl($url);
+        } else {
+            if (!$node->getPageIsActive()) {
+                return $this;
+            }
+
+            // register hierarchy and node
+            Mage::register('current_cms_hierarchy_node', $node);
+
+            $condition->setContinue(true);
+            $condition->setIdentifier($node->getPageIdentifier());
+        }
+
         return $this;
     }
 
@@ -173,11 +210,11 @@ class Enterprise_Cms_Model_Observer
         if (!Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {
             return $this;
         }
-        if (!$page->dataHasChangedFor('identifier')) {
-            return $this;
-        }
 
-        Mage::getSingleton('enterprise_cms/hierarchy_node')->updateRewriteUrls($page);
+        // rebuild URL rewrites if page has changed for identifier
+        if ($page->dataHasChangedFor('identifier')) {
+            Mage::getSingleton('enterprise_cms/hierarchy_node')->updateRewriteUrls($page);
+        }
 
         /*
          * Appending page to selected nodes it will remove pages from other nodes
