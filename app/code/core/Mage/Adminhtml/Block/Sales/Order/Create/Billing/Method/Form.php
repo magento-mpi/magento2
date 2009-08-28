@@ -61,20 +61,24 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_P
     }
 
     /**
-     * Retrieve code of current payment method
+     * Get current payment method code or first one
      *
-     * @return mixed
+     * @return string|false
      */
     public function getSelectedMethodCode()
     {
-        $method = $this->getQuote()->getPayment()->getMethod();
-        $methods = $this->getMethods();
-        foreach ($methods as $_method) {
-            if ($_method->getCode() == $method) {
-                return $method;
+        $currentCode = $this->getQuote()->getPayment()->getMethod();
+        $firstAvailableCode = false;
+        foreach ($this->getMethods() as $method) {
+            $code = $method->getCode();
+            if (!$firstAvailableCode) {
+                $firstAvailableCode = $code;
+            }
+            if ($code == $currentCode) {
+                return $code;
             }
         }
-        return (count($methods) > 0) ? $methods[0]->getCode() : false;
+        return $firstAvailableCode;
     }
 
     /**
