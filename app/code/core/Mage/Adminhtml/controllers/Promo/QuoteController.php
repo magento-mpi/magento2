@@ -130,6 +130,10 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
                 $model->save();
                 $session->addSuccess(Mage::helper('salesrule')->__('Rule was successfully saved'));
                 $session->setPageData(false);
+                if ($this->getRequest()->getParam('back')) {
+                    $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                    return;
+                }
                 $this->_redirect('*/*/');
                 return;
             } catch (Exception $e) {

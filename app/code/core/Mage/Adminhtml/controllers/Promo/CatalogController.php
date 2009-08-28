@@ -124,6 +124,10 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                     $this->_forward('applyRules');
                 } else {
                     Mage::app()->saveCache(1, 'catalog_rules_dirty');
+                    if ($this->getRequest()->getParam('back')) {
+                        $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                        return;
+                    }
                     $this->_redirect('*/*/');
                 }
                 return;
