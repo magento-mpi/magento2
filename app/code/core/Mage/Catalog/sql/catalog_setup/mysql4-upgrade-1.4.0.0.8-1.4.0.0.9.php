@@ -30,7 +30,7 @@ $installer = $this;
 
 $installer->startSetup();
 $installer->getConnection()->addColumn($installer->getTable('catalog/product_index_price'), 'final_price',
-    'DECIMAL(12,4) DEFAULT NULL ALTER `price`');
+    'DECIMAL(12,4) DEFAULT NULL AFTER `price`');
 $installer->getConnection()->addColumn($installer->getTable('catalog/product_index_price'), 'tier_price',
     'DECIMAL(12,4) DEFAULT NULL');
 $installer->endSetup();
