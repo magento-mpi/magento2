@@ -67,15 +67,14 @@ class Mage_Adminhtml_Block_Sales_Order_Create_Billing_Method_Form extends Mage_P
      */
     public function getSelectedMethodCode()
     {
-        if ($method = $this->getQuote()->getPayment()->getMethod()) {
-            return $method;
-        }
-        if (count($this->getMethods()) == 1) {
-            foreach ($this->getMethods() as $_method) {
-                return $_method->getCode();
+        $method = $this->getQuote()->getPayment()->getMethod();
+        $methods = $this->getMethods();
+        foreach ($methods as $_method) {
+            if ($_method->getCode() == $method) {
+                return $method;
             }
         }
-        return false;
+        return (count($methods) > 0) ? $methods[0]->getCode() : false;
     }
 
     /**
