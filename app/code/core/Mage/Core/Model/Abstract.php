@@ -90,6 +90,13 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     protected $_dataSaveAllowed = true;
 
     /**
+     * Flag which allow detect object state: is it new object (without id) or existing one (with id)
+     *
+     * @var bool
+     */
+    protected $_isObjectNew     = null;
+
+    /**
      * Standard model initialization
      *
      * @param string $resourceModel
@@ -271,12 +278,35 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     }
 
     /**
+     * Check object state (true - if it is object without id on object just created)
+     * This method can help detect if object just created in _afterSave method
+     * problem is what in after save onject has id and we can't detect what object was
+     * created in this transaction
+     *
+     * @param bool $flag
+     * @return bool
+     */
+    public function isObjectNew($flag=null)
+    {
+        if ($flag !== null) {
+            $this->_isObjectNew = $flag;
+        }
+        if ($this->_isObjectNew !== null) {
+            return $this->_isObjectNew;
+        }
+        return $this->getId();
+    }
+
+    /**
      * Processing object before save data
      *
      * @return Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
+        if (!$this->getId()) {
+            $this->isObjectNew(true);
+        }
         Mage::dispatchEvent('model_save_before', array('object'=>$this));
         Mage::dispatchEvent($this->_eventPrefix.'_save_before', array($this->_eventObject=>$this));
         return $this;
