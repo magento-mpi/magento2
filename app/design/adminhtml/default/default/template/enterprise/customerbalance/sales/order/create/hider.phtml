@@ -27,6 +27,7 @@
 <?php if ($this->isFullyPaid()): ?>
 <script language="javascript">
     function hideAllPaymentMethods() {
+        order.setPaymentMethod('free');
         if ($('order-billing_method')) {
             $('order-billing_method').select('dl').each(function(elem){
                 if (elem.className=="payment-methods") {
