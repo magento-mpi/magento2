@@ -72,9 +72,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             );
         }
 
-        // Init attribute label names for store selected in dropdown
-        Mage_Catalog_Model_Resource_Eav_Attribute::initLabels($product->getStoreId());
-
         // Required attributes of simple product for configurable creation
         if ($this->getRequest()->getParam('popup')
             && $requiredAttributes = $this->getRequest()->getParam('required')) {
