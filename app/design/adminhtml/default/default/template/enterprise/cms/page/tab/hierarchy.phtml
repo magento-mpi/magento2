@@ -186,5 +186,8 @@ hierarchyNodes = {
         }
     }
 };
-Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
+// Used prototype observe to fix issue in IE when browser chrashes at rendering page.
+// Some issue with page laoout and js operations on layout.
+Event.observe(window, 'load', hierarchyNodes.initialize.bind(hierarchyNodes));
+// Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
 </script>
