@@ -37,8 +37,8 @@ class Enterprise_Cms_Model_Config
     protected $_revisionControlledAttributes = array(
         'page' => array(
             'root_template',
-            'rmeta_keywords',
-            '<meta_description',
+            'meta_keywords',
+            'meta_description',
             'content',
             'sort_order',
             'layout_update_xml',
