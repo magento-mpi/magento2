@@ -1,3 +1,4 @@
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -18,42 +19,24 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   design
- * @package    enterprise_default
+ * @package    default_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
+?>
 
-/**
-  * CMS JS Function
-  */
+<?php
+/* @var $this Mage_Adminhtml_Block_Cms_Page_Edit_Form */
+?>
 
-function previewAction(formId, formObj, url){
-    var formElem = $(formId);
-    var previewWindowName = 'cms-page-preview-' + $('page_page_id').value;
-
-    formElem.writeAttribute('target', previewWindowName);
-    formObj.submit(url);
-    formElem.writeAttribute('target', '');
-}
-
-function publishAction(publishUrl){
-    setLocation(publishUrl);
-}
-
-function saveAndPublishAction(formObj, saveUrl){
-    formObj.submit(saveUrl + 'back/publish/');
-}
-
-function dataChanged() {
-    var buttonSaveAndPublish = $('save_publish_button');
-    if (buttonSaveAndPublish && buttonSaveAndPublish.hasClassName('no-display')) {
-        var buttonPublish = $('publish_button');
-        if (buttonPublish) {
-            buttonPublish.hide();
-        }
-        buttonSaveAndPublish.removeClassName('no-display');
-    }
-}
-
-varienGlobalEvents.attachEventHandler('tinymceChange', dataChanged);
-
+<div class="entry-edit">
+    <?php echo $this->getFormHtml() ?>
+</div>
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('enterprise_cms')->__('Version Revisions') ?></h4>
+    </div>
+    <div id="version_fieldset" class="fieldset fieldset-wide">
+        <?php echo $this->getParentBlock()->getChildHtml('cms_page_version_edit_revisions_grid') ?>
+    </div>
+</div>

@@ -87,22 +87,22 @@ class Enterprise_Cms_Model_Observer
                 $versionNumber = $revision->getVersionNumber();
                 $versionLabel = $revision->getLabel();
 
-                $afterElementHtml = '';
+                $beforeElementHtml = '';
 
                 if ($versionLabel) {
-                    $afterElementHtml .= "\n" .
-                        Mage::helper('enterprise_cms')->__('Version Label: %s', $versionLabel);
+                    $beforeElementHtml .= Mage::helper('enterprise_cms')->__('%s; ', $versionLabel);
                 }
 
                 $page->setPublishedRevisionLink(
-                    Mage::helper('enterprise_cms')->__('Published Revision #%s', $revisionNumber));
+                    Mage::helper('enterprise_cms')->__('rev #%s', $revisionNumber));
 
                 $baseFieldset->addField('published_revision_link', 'link', array(
+                        'label' => Mage::helper('enterprise_cms')->__('Currently Published Revision'),
                         'href' => Mage::getModel('adminhtml/url')->getUrl('*/cms_page_revision/edit', array(
                             'page_id' => $page->getId(),
                             'revision_id' => $page->getPublishedRevisionId()
                             )),
-                        'after_element_html' => $afterElementHtml
+                        'before_element_html' => $beforeElementHtml
                     ));
 
                 $revisionAvailable = true;

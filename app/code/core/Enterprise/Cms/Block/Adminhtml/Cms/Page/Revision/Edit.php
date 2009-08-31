@@ -60,21 +60,22 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
             'class'     => 'preview',
         ));
 
-
         if ($config->canCurrentUserPublishRevision()) {
             $this->_addButton('publish', array(
                 'id'        => 'publish_button',
                 'label'     => Mage::helper('enterprise_cms')->__('Publish'),
                 'onclick'   => "publishAction('" . $this->getPublishUrl() . "')",
                 'class'     => 'publish' . (Mage::registry('cms_page')->getId()? '' : ' no-display'),
-            ));
+            ), 1);
 
             $this->_addButton('save_publish', array(
                 'id'        => 'save_publish_button',
                 'label'     => Mage::helper('enterprise_cms')->__('Save And Publish'),
                 'onclick'   => "saveAndPublishAction(editForm, '" . $this->getSaveUrl() . "')",
                 'class'     => 'publish no-display',
-            ));
+            ), 1);
+
+            $this->_updateButton('saveandcontinue', 'level', 2);
         }
 
         if ($config->canCurrentUserSaveRevision()) {
@@ -85,22 +86,22 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
             // Adding button to create new version
             $this->_addButton('new_version', array(
                 'id'        => 'new_version',
-                'label'     => Mage::helper('enterprise_cms')->__('New Version'),
+                'label'     => Mage::helper('enterprise_cms')->__('Save in New Version...'),
                 'onclick'   => 'newVersionAction()',
                 'class'     => 'new',
             ));
 
             $this->_formScripts[] = "
                 function newVersionAction(){
-                    var versionLabel = prompt('" . Mage::helper('enterprise_cms')->__('Specify label for new version (required)') . "', '')
-                    if (versionLabel == '') {
-                        alert('" . Mage::helper('enterprise_cms')->__('You should specify valid label') . "');
+                    var versionName = prompt('" . Mage::helper('enterprise_cms')->__('Specify New Version Name (required)') . "', '')
+                    if (versionName == '') {
+                        alert('" . Mage::helper('enterprise_cms')->__('You should specify valid name') . "');
                         return false;
-                    } else if (versionLabel == null) {
+                    } else if (versionName == null) {
                         return false;
                     }
 
-                    $('page_label').value = versionLabel;
+                    $('page_label').value = versionName;
                     editForm.submit('" . $this->getNewVersionUrl() . "');
                 }
             ";

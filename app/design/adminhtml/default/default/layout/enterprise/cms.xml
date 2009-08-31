@@ -107,8 +107,9 @@
 -->
     <adminhtml_cms_page_version_edit>
         <reference name="content">
-            <block type="enterprise_cms/adminhtml_cms_page_version_edit" name="cms_page_version_edit" />
-            <block type="enterprise_cms/adminhtml_cms_page_version_edit_revisions" name="cms_page_version_edit_revisions" />
+            <block type="enterprise_cms/adminhtml_cms_page_version_edit" name="cms_page_version_edit">
+                <block type="enterprise_cms/adminhtml_cms_page_version_edit_revisions" name="cms_page_version_edit_revisions_grid" />
+            </block>
         </reference>
     </adminhtml_cms_page_version_edit>
 
