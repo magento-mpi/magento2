@@ -154,8 +154,10 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d record(s) were successfully deleted', count($ids))
                 );
-            } catch (Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('Error while deleting versions. Please try again later.'));
             }
         }
         $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'versions'));

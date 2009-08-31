@@ -91,13 +91,12 @@ class Enterprise_Cms_Model_Observer
 
                 if ($versionLabel) {
                     $afterElementHtml .= "\n" .
-                        Mage::helper('enterprise_cms')->__('Version Label:') . $versionLabel;
+                        Mage::helper('enterprise_cms')->__('Version Label: %s', $versionLabel);
                 }
 
                 $page->setPublishedRevisionLink(
                     Mage::helper('enterprise_cms')->__('Published Revision #%s', $revisionNumber));
 
-                $baseFieldset->addType('link', 'Enterprise_Cms_Block_Form_Element_Link');
                 $baseFieldset->addField('published_revision_link', 'link', array(
                         'href' => Mage::getModel('adminhtml/url')->getUrl('*/cms_page_revision/edit', array(
                             'page_id' => $page->getId(),
@@ -340,7 +339,7 @@ class Enterprise_Cms_Model_Observer
     public function modifyPageStatuses(Varien_Event_Observer $observer)
     {
         $statuses = $observer->getEvent()->getStatuses();
-        $statuses->setData(1, Mage::helper('enterprise_cms')->__('Published'));
+        $statuses->setData(Mage_Cms_Model_Page::STATUS_ENABLED, Mage::helper('enterprise_cms')->__('Published'));
 
         return $this;
     }

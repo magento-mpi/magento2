@@ -215,8 +215,10 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                 $this->_getSession()->addSuccess(
                     $this->__('Total of %d record(s) were successfully deleted', count($ids))
                 );
-            } catch (Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('Error while deleting revisions. Please try again later.'));
             }
         }
         $this->_redirect('*/*/edit', array('_current' => true, 'tab' => 'revisions'));
@@ -235,17 +237,24 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
         if ($id = $this->getRequest()->getParam('version_id')) {
              // init model
             $version = $this->_initVersion();
-
+            $error = false;
             try {
                 $version->delete();
                 // display success message
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_cms')->__('Version was successfully deleted.'));
                 $this->_redirect('*/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
-            } catch (Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 // display error message
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                // go back to edit form
+                $error = true;
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('Error while deleting version. Please try again later.'));
+                $error = true;
+            }
+
+            // go back to edit form
+            if ($error) {
                 $this->_redirect('*/*/edit', array('_current' => true));
                 return;
             }

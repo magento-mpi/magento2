@@ -333,6 +333,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
     {
         // check if we know what should be deleted
         if ($id = $this->getRequest()->getParam('revision_id')) {
+            $error = false;
             try {
                 // init model and delete
                 $revision = $this->_initRevision();
@@ -344,10 +345,17 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                         'version_id' => $revision->getVersionId()
                     ));
                 return;
-            } catch (Exception $e) {
+            } catch (Mage_Core_Exception $e) {
                 // display error message
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-                // go back to edit form
+                $error = true;
+            } catch (Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('Error while deleting revision. Please try again later.'));
+                $error = true;
+            }
+
+            // go back to edit form
+            if ($error) {
                 $this->_redirect('*/*/edit', array('_current' => true));
                 return;
             }
