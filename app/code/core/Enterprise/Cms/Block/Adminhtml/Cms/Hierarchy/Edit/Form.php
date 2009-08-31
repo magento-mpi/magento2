@@ -89,7 +89,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'name'      => 'label',
             'label'     => Mage::helper('enterprise_cms')->__('Title'),
             'required'  => true,
-            'onchange'   => 'hierarchyNodes.nodeChanged()'
+            'onchange'   => 'hierarchyNodes.nodeChanged()',
+            'tabindex'   => '1'
         ));
 
         $fieldset->addField('node_identifier', 'text', array(
@@ -97,7 +98,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('enterprise_cms')->__('URL Key'),
             'required'  => true,
             'class'     => 'validate-identifier',
-            'onchange'   => 'hierarchyNodes.nodeChanged()'
+            'onchange'   => 'hierarchyNodes.nodeChanged()',
+            'tabindex'   => '2'
         ));
 
         $fieldset->addField('node_label_text', 'note', array(
@@ -125,7 +127,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'title'     => Mage::helper('enterprise_cms')->__('First/Last'),
             'name'      => 'meta_first_last',
             'options'   => $yesNoOptions,
-            'onchange'   => 'hierarchyNodes.nodeChanged()'
+            'onchange'   => 'hierarchyNodes.nodeChanged()',
+            'tabindex'   => '3'
         ));
 
         $fieldset->addField('meta_next_previous', 'select', array(
@@ -133,7 +136,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'title'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
             'name'      => 'meta_next_previous',
             'options'   => $yesNoOptions,
-            'onchange'   => 'hierarchyNodes.nodeChanged()'
+            'onchange'   => 'hierarchyNodes.nodeChanged()',
+            'tabindex'   => '4'
         ));
 
 // commented bc of changes in road map
@@ -142,7 +146,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
 //            'title'     => Mage::helper('enterprise_cms')->__('Chapter'),
 //            'name'      => 'meta_chapter',
 //            'options'   => $yesNoOptions,
-//            'onchange'   => 'hierarchyNodes.nodeChanged()'
+//            'onchange'   => 'hierarchyNodes.nodeChanged()',
+//            'tabindex'   => '5'
 //        ));
 //
 //        $fieldset->addField('meta_section', 'select', array(
@@ -150,7 +155,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
 //            'title'     => Mage::helper('enterprise_cms')->__('Section'),
 //            'name'      => 'meta_section',
 //            'options'   => $yesNoOptions,
-//            'onchange'   => 'hierarchyNodes.nodeChanged()'
+//            'onchange'   => 'hierarchyNodes.nodeChanged()',
+//            'tabindex'   => '6'
 //        ));
 
         $form->setUseContainer(true);
@@ -185,12 +191,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     {
         $buttons = array();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
-            'id'        => 'save_node_button',
-            'label'     => Mage::helper('enterprise_cms')->__('Save'),
-            'onclick'   => 'hierarchyNodes.saveNodePage()',
-            'class'     => 'save',
-        ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'delete_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Remove From Tree'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
@@ -201,6 +201,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('enterprise_cms')->__('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
             'class'     => 'delete',
+        ))->toHtml();
+        $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
+            'id'        => 'save_node_button',
+            'label'     => Mage::helper('enterprise_cms')->__('Save'),
+            'onclick'   => 'hierarchyNodes.saveNodePage()',
+            'class'     => 'save',
         ))->toHtml();
 
         return join(' ', $buttons);

@@ -33,7 +33,7 @@
         <input type="hidden" name="node_ids" id="node_ids" value="<?php echo $this->getSelectedNodeIds() ?>" />
         <input type="hidden" name="website_root" id="website_root" value="<?php echo $this->getPage()->getWebsiteRoot() ?>" />
         <input type="hidden" name="nodes_data" id="nodes_data" value="" />
-        <div id="hierrachy-nodes" class="tree x-tree"></div>
+        <div id="tree-container" class="tree x-tree"></div>
     </div>
 </div>
 <script type="text/javascript">
@@ -51,19 +51,22 @@ hierarchyNodes = {
         this.increment = 0;
         this.pageAssignedToWebsiteRoot = <?php echo $this->getPage()->getWebsiteRoot()?'true':'false' ?>;
         this.nodeIds = $('node_ids');
-        this.tree = new Ext.tree.TreePanel('hierrachy-nodes', {
+        this.tree = new Ext.tree.TreePanel('tree-container', {
             animate: false,
             loader: false,
             enableDD: true,
             containerScroll: true,
-            rootVisible: false,
+            rootVisible: true,
             lines: true
         });
 
         this.treeRoot = new Ext.tree.TreeNode({
-            id: 'tree_root',
+            id: '_root',
             expanded: true,
-            cls: 'cms_hierarchy_tree'
+            text: '<?php echo $this->__("Website Root")?>',
+            cls: 'cms_node_root',
+            uiProvider: Ext.tree.CheckboxNodeUI,
+            checked: this.pageAssignedToWebsiteRoot
         });
         this.tree.setRootNode(this.treeRoot);
 
@@ -81,11 +84,13 @@ hierarchyNodes = {
     createNodes: function(){
         for (var i = 0, l = this.nodes.length; i < l; i++) {
             var dd = (this.nodes[i].parent_node_id && this.nodes[i].current_page) ? true : false;
+            var cls = this.nodes[i].current_page ? 'cur-page' : '';
+            cls += this.nodes[i].page_id ? ' cms_page' : ' cms_node';
             var node = new Ext.tree.TreeNode({
                 id: this.nodes[i].node_id,
                 text: this.nodes[i].label,
-                cls: this.nodes[i].current_page ? 'cur-page' : '',
-                expanded: false,
+                cls: cls,
+                expanded: this.nodes[i].page_exists,
                 allowDrop: true,
                 allowDrag: dd,
                 uiProvider: this.nodes[i].current_page ? null : Ext.tree.CheckboxNodeUI,
@@ -138,7 +143,7 @@ hierarchyNodes = {
             current_page: true,
             allowDrop: false,
             allowDrag: true,
-            cls: 'cur-page'
+            cls: 'cur-page cms_page'
         });
         this.increment++;
         node.appendChild(newNode);
@@ -169,12 +174,17 @@ hierarchyNodes = {
         $('nodes_data').value = this.treeData.toJSON();
     },
     collectChilds: function(node){
-        if (node.id == 'tree_root') {
+        if (node.id == '_root') {
             this.treeData = new Hash();
+            if (node.attributes.checked) {
+                $('website_root').value = 1;
+            } else {
+                $('website_root').value = 0;
+            }
         } else {
             this.treeData.set(node.id, {
                 node_id: node.id,
-                parent_node_id: node.parentNode.id == 'tree_root' ? null : node.parentNode.id,
+                parent_node_id: node.parentNode.id == '_root' ? null : node.parentNode.id,
                 label: node.attributes.text,
                 sort_order: node.parentNode.indexOf(node),
                 current_page: node.attributes.current_page,

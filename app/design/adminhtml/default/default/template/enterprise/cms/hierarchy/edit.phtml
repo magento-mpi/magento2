@@ -223,6 +223,8 @@ hierarchyNodes = {
             this.increment ++;
 
             checkbox.checked = false;
+
+            rootNode.expand();
         }.bind(this));
         this.pageGridLoad();
     },
@@ -374,6 +376,7 @@ hierarchyNodes = {
                 parentNode = this.treeRoot;
             }
             parentNode.appendChild(node);
+            parentNode.expand();
         }
 
         if (node.parentNode.id == '_root') {

@@ -81,19 +81,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                         'parent_node_id'        => $v['parent_node_id'],
                         'label'                 => $v['label'],
                         'page_exists'           => $pageExists,
+                        'page_id'               => $v['page_id'],
                         'current_page'          => (bool)$v['current_page']
                     );
                     $this->_nodes[] = $node;
                 }
             } else {
-                $this->_nodes[] = array(
-                    'node_id'           => 'website_root',
-                    'parent_node_id'    => null,
-                    'label'             => Mage::helper('enterprise_cms')->__('Website Root'),
-                    'page_exists'       => (bool)$this->getPage()->getWebsiteRoot(),
-                    'current_page'      => false
-                );
-
                 $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
                     ->joinCmsPage()
                     ->setTreeOrder()
@@ -106,6 +99,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                         'parent_node_id'        => $item->getParentNodeId(),
                         'label'                 => $item->getLabel(),
                         'page_exists'           => (bool)$item->getPageExists(),
+                        'page_id'               => $item->getPageId(),
                         'current_page'          => (bool)$item->getCurrentPage()
                     );
                     $this->_nodes[] = $node;

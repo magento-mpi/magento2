@@ -264,14 +264,9 @@ class Enterprise_Cms_Model_Observer
         if ($nodesData) {
             $nodesData = Mage::helper('core')->jsonDecode($page->getNodesData());
             if (!empty($nodesData)) {
-                $page->setWebsiteRoot(false);
                 foreach ($nodesData as $row) {
                     if (isset($row['page_exists']) && $row['page_exists']) {
-                        if ($row['node_id'] == 'website_root') {
-                            $page->setWebsiteRoot(true);
-                        } else {
-                            $appendToNodes[$row['node_id']] = 0;
-                        }
+                        $appendToNodes[$row['node_id']] = 0;
                     }
 
                     if (isset($appendToNodes[$row['parent_node_id']])) {
