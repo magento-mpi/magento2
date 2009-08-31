@@ -145,7 +145,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
             $trees[] = array(
                 'id'        => $rootNode->getId(),
                 'text'      => $rootNode->getLabel(),
-                'cls'       => 'folder',
+                'cls'       => $rootNode->getPageId() ? 'cms_page' : 'cms_node'
             );
         }
 
@@ -170,7 +170,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
             $nodes[] = array(
                 'id'    => $node->getNodeId(),
                 'text'  => $node->getLabel(),
-                'cls'   => 'folder',
+                'cls'   => $node->getPageId() ? 'cms_page' : 'cms_node'
             );
         }
 
