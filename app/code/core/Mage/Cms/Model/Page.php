@@ -37,6 +37,12 @@ class Mage_Cms_Model_Page extends Mage_Core_Model_Abstract
     const NOROUTE_PAGE_ID = 'no-route';
 
     /**
+     * Page's Statuses
+     */
+    const STATUS_ENABLED = 1;
+    const STATUS_DISABLED = 0;
+
+    /**
      * Prefix of model events names
      *
      * @var string
@@ -99,8 +105,8 @@ class Mage_Cms_Model_Page extends Mage_Core_Model_Abstract
     public function getAvailableStatuses()
     {
         $statuses = new Varien_Object(array(
-            '1' => Mage::helper('cms')->__('Enabled'),
-            '0' => Mage::helper('cms')->__('Disabled'),
+            self::STATUS_DISABLED => Mage::helper('cms')->__('Enabled'),
+            self::STATUS_ENABLED => Mage::helper('cms')->__('Disabled'),
         ));
 
         Mage::dispatchEvent('cms_page_get_available_statuses', array('statuses' => $statuses));
