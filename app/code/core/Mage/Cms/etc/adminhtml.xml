@@ -34,14 +34,17 @@
                 <page translate="title" module="cms">
                     <title>Manage Pages</title>
                     <action>adminhtml/cms_page</action>
+                    <sort_order>0</sort_order>
                 </page>
                 <block translate="title" module="cms">
                     <title>Static Blocks</title>
                     <action>adminhtml/cms_block</action>
+                    <sort_order>10</sort_order>
                 </block>
                 <poll translate="title" module="cms">
                     <title>Poll Manager</title>
                     <action>adminhtml/poll</action>
+                    <sort_order>20</sort_order>
                 </poll>
             </children>
          </cms>
