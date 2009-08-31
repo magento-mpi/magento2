@@ -132,8 +132,8 @@
             <block type="enterprise_cms/adminhtml_cms_hierarchy_edit" name="enterprise_cms_hierarchy_edit_tree">
                 <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_form_grid" name="cms_page_grid" />
             </block>
-            <block type="adminhtml/store_switcher" name="store_switcher" />
         </reference>
+        <block type="adminhtml/store_switcher" name="store_switcher" />
     </adminhtml_cms_hierarchy_index>
 
 <!--

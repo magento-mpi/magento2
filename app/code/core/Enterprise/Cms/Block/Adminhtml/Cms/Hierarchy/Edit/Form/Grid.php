@@ -55,6 +55,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('cms/page')->getCollection();
+
+        $store = $this->_getStore();
+        if ($store->getId()) {
+            $collection->addStoreFilter($store);
+        }
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -103,5 +109,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
     public function getGridUrl()
     {
         return $this->getUrl('*/*/pageGrid', array('_current' => true));
+    }
+
+    /**
+     * Get selected store by store id passed through query.
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _getStore()
+    {
+        $storeId = (int) $this->getRequest()->getParam('store', 0);
+        return Mage::app()->getStore($storeId);
     }
 }
