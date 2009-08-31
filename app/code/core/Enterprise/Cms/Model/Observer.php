@@ -251,6 +251,8 @@ class Enterprise_Cms_Model_Observer
             if (!$this->_config->canCurrentUserPublishRevision()) {
                 $page->setIsActive(false);
             }
+            // newly created page should be auto assigned to website root
+            $page->setWebsiteRoot(true);
         }
 
         /*
