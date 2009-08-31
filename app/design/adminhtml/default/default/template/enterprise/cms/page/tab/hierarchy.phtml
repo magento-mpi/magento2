@@ -33,7 +33,7 @@
         <input type="hidden" name="node_ids" id="node_ids" value="<?php echo $this->getSelectedNodeIds() ?>" />
         <input type="hidden" name="website_root" id="website_root" value="<?php echo $this->getPage()->getWebsiteRoot() ?>" />
         <input type="hidden" name="nodes_data" id="nodes_data" value="" />
-        <div id="hierrachy-nodes" class="tree x-tree" />
+        <div id="hierrachy-nodes" class="tree x-tree"></div>
     </div>
 </div>
 <script type="text/javascript">
@@ -188,4 +188,3 @@ hierarchyNodes = {
 };
 Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
 </script>
-
