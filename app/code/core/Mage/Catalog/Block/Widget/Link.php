@@ -37,6 +37,12 @@ class Mage_Catalog_Block_Widget_Link
     implements Mage_Cms_Block_Widget_Interface
 {
     /**
+     * Entity model name which must be used to retrieve entity specific data.
+     * @var null|Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract
+     */
+    protected $_entityResource = null;
+
+    /**
      * Initialize block
      */
     protected function _construct()
@@ -70,16 +76,21 @@ class Mage_Catalog_Block_Widget_Link
 
     /**
      * Prepare anchor text using passed text as parameter.
-     * If anchor text was not specified use title instead.
+     * If anchor text was not specified get entity name from DB.
      *
      * @return string
      */
     public function getAnchorText()
     {
-        if ($this->_getData('anchor_text')) {
-            return $this->_getData('anchor_text');
+        if (!$this->hasData('anchor_text') && $this->_entityResource) {
+            $idPath = explode('/', $this->_getData('id_path'));
+            $id = array_pop($idPath);
+            if ($id) {
+                $name = $this->_entityResource->getAttributeRawValue($id, 'name', Mage::app()->getStore());
+                $this->setData('anchor_text', $name);
+            }
         }
 
-        return $this->getTitle();
+        return $this->_getData('anchor_text');
     }
 }
