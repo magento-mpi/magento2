@@ -105,4 +105,19 @@ class Mage_Cms_Model_Mysql4_Page_Collection extends Mage_Core_Model_Mysql4_Colle
 
         return $this;
     }
+
+    /**
+     * Get SQL for get record count.
+     * Extra group by strip added.
+     *
+     * @return Varien_Db_Select
+     */
+    public function getSelectCountSql()
+    {
+        $countSelect = parent::getSelectCountSql();
+
+        $countSelect->reset(Zend_Db_Select::GROUP);
+
+        return $countSelect;
+    }
 }
