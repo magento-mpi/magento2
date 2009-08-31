@@ -66,6 +66,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
      */
     public function getProductParentsByChild($childId)
     {
+        $write = $this->_getWriteAdapter();
         $select = $write->select()
             ->from(array('l' => $this->getTable('catalog/product_relation')), array('parent_id'))
             ->join(
@@ -191,7 +192,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
             }
         }
 
-        $this->_copyIndexDataToMainTable();
+        $this->_copyIndexDataToMainTable($processIds);
 
         return $this;
     }

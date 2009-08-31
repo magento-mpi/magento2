@@ -98,7 +98,7 @@ class Mage_Index_Model_Indexer
     }
 
     /**
-     * Indexing events.
+     * Indexing all pending events.
      * Events set can be limited by event entity and type
      *
      * @param   null | string $entity
@@ -114,19 +114,24 @@ class Mage_Index_Model_Indexer
         foreach ($this->_processesCollection as $process) {
             $process->indexEvents($entity, $type);
         }
-        /*$eventsCollection = Mage::getResourceSingleton('index/event_collection');
-        if ($entity !== null) {
-            $eventsCollection->addEntityFilter($entity);
+        return $this;
+    }
+
+    /**
+     * Index one event by all processes
+     *
+     * @param   Mage_Index_Model_Event $event
+     * @return  Mage_Index_Model_Indexer
+     */
+    public function indexEvent(Mage_Index_Model_Event $event)
+    {
+        if ($this->isLocked()) {
+            return $this;
         }
-        if ($type !== null) {
-            $eventsCollection->addTypeFilter($type);
+
+        foreach ($this->_processesCollection as $process) {
+            $process->processEvent($event);
         }
-        foreach ($eventsCollection as $event) {
-            foreach ($this->_processesCollection as $process) {
-                $process->processEvent($event);
-            }
-            $event->delete();
-        }*/
         return $this;
     }
 
@@ -153,9 +158,10 @@ class Mage_Index_Model_Indexer
      * @param   Varien_Object $entity
      * @param   string $entityType
      * @param   string $eventType
-     * @return  Mage_Index_Model_Indexer
+     * @param   bool $doSave
+     * @return  Mage_Index_Model_Event
      */
-    public function logEvent(Varien_Object $entity, $entityType, $eventType)
+    public function logEvent(Varien_Object $entity, $entityType, $eventType, $doSave=true)
     {
         if ($this->isLocked()) {
             return $this;
@@ -167,8 +173,10 @@ class Mage_Index_Model_Indexer
             ->setEntityPk($entity->getId());
 
         $this->registerEvent($event);
-        $event->save();
-        return $this;
+        if ($doSave) {
+            $event->save();
+        }
+        return $event;
     }
 
     /**
@@ -182,8 +190,9 @@ class Mage_Index_Model_Indexer
      */
     public function processEntityAction(Varien_Object $entity, $entityType, $eventType)
     {
-        $this->logEvent($entity, $entityType, $eventType);
-        $this->indexEvents($entityType, $eventType);
+        $event = $this->logEvent($entity, $entityType, $eventType, false);
+        $this->indexEvent($event);
+        $event->save();
         return $this;
     }
 }

@@ -34,7 +34,18 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
     const TYPE_MASS_ACTION = 'mass_action';
     const TYPE_REINDEX     = 'reindex';
 
+    /**
+     * Array of related processes ids
+     * @var array
+     */
     protected $_processIds = null;
+
+    /**
+     * New and old data namespace. Used for separate processes data
+     *
+     * @var string
+     */
+    protected $_dataNamespace = null;
 
     /**
      * Initialize resource
@@ -45,14 +56,44 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Specify namespace for old and new data
+     */
+    public function setDataNamespace($namespace)
+    {
+        $this->_dataNamespace = $namespace;
+        return $this;
+    }
+
+    /**
+     * Reset old and new data arrays
+     *
+     * @return Mage_Index_Model_Event
+     */
+    public function resetData()
+    {
+        if ($this->_dataNamespace) {
+            $data = $this->getOldData(false);
+            $data[$this->_dataNamespace] = null;
+            $this->setOldData($data);
+            $data = $this->getNewData(false);
+            $data[$this->_dataNamespace] = null;
+            $this->setNewData($data);
+        } else {
+            $this->setOldData(array());
+            $this->setNewData(array());
+        }
+        return $this;
+    }
+
+    /**
      * Add process id to event object
      *
      * @param   $processId
      * @return  Mage_Index_Model_Event
      */
-    public function addProcessId($processId)
+    public function addProcessId($processId, $status=Mage_Index_Model_Process::EVENT_STATUS_NEW)
     {
-        $this->_processIds[$processId] = Mage_Index_Model_Process::EVENT_STATUS_NEW;
+        $this->_processIds[$processId] = $status;
         return $this;
     }
 
@@ -84,7 +125,7 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
         }
         if (!empty($data['new_data'])) {
             $previousNewData = unserialize($data['new_data']);
-            $currentNewData  = $this->getNewData();
+            $currentNewData  = $this->getNewData(false);
             $currentNewData  = array_merge($previousNewData, $currentNewData);
             $this->setNewData(serialize($currentNewData));
         }
@@ -96,13 +137,16 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
      *
      * @return array
      */
-    public function getOldData()
+    public function getOldData($useNamespace = true)
     {
         $data = $this->_getData('old_data');
         if (is_string($data)) {
             $data = unserialize($data);
         } elseif (empty($data) || !is_array($data)) {
             $data = array();
+        }
+        if ($useNamespace && $this->_dataNamespace) {
+            return isset($data[$this->_dataNamespace]) ? $data[$this->_dataNamespace] : array();
         }
         return $data;
     }
@@ -112,13 +156,16 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
      *
      * @return array
      */
-    public function getNewData()
+    public function getNewData($useNamespace = true)
     {
         $data = $this->_getData('new_data');
         if (is_string($data)) {
             $data = unserialize($data);
         } elseif (empty($data) || !is_array($data)) {
             $data = array();
+        }
+        if ($useNamespace && $this->_dataNamespace) {
+            return isset($data[$this->_dataNamespace]) ? $data[$this->_dataNamespace] : array();
         }
         return $data;
     }
@@ -132,11 +179,18 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
      */
     public function addOldData($key, $value=null)
     {
-        $oldData = $this->getOldData();
-        if (is_array($key)) {
-            $oldData = array_merge_recursive($oldData, $key);
+        $oldData = $this->getOldData(false);
+        if (!is_array($key)) {
+            $key = array($key => $value);
+        }
+
+        if ($this->_dataNamespace) {
+            if (!isset($oldData[$this->_dataNamespace])) {
+                $oldData[$this->_dataNamespace] = array();
+            }
+            $oldData[$this->_dataNamespace] = array_merge($oldData[$this->_dataNamespace], $key);
         } else {
-            $oldData[$key] = $value;
+            $oldData = array_merge($oldData, $key);
         }
         $this->setOldData($oldData);
         return $this;
@@ -151,11 +205,17 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
      */
     public function addNewData($key, $value=null)
     {
-        $newData = $this->getNewData();
-        if (is_array($key)) {
-            $newData = array_merge($newData, $key);
+        $newData = $this->getNewData(false);
+        if (!is_array($key)) {
+            $key = array($key => $value);
+        }
+        if ($this->_dataNamespace) {
+            if (!isset($newData[$this->_dataNamespace])) {
+                $newData[$this->_dataNamespace] = array();
+            }
+            $newData[$this->_dataNamespace] = array_merge($newData[$this->_dataNamespace], $key);
         } else {
-            $newData[$key] = $value;
+            $newData = array_merge($newData, $key);
         }
         $this->setNewData($newData);
         return $this;
@@ -190,8 +250,8 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
-        $oldData = $this->getOldData();
-        $newData = $this->getNewData();
+        $oldData = $this->getOldData(false);
+        $newData = $this->getNewData(false);
         $this->setOldData(serialize($oldData));
         $this->setNewData(serialize($newData));
         if (!$this->hasCreatedAt()) {

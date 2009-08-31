@@ -55,6 +55,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     protected $_indexer = null;
 
+    /**
+     * Process lock properties
+     */
     protected $_isLocked = null;
     protected $_lockFile = null;
 
@@ -67,6 +70,30 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Set indexer class name as data namespace for event object
+     *
+     * @param   Mage_Index_Model_Event $event
+     * @return  Mage_Index_Model_Process
+     */
+    protected function _setEventNamespace(Mage_Index_Model_Event $event)
+    {
+        $namespace = get_class($this->getIndexer());
+        $event->setDataNamespace($namespace);
+        return $this;
+    }
+
+    /**
+     * Remove indexer namespace from event
+     *
+     * @return  Mage_Index_Model_Process
+     */
+    protected function _resetEventNamespace($event)
+    {
+        $event->setDataNamespace(null);
+        return $this;
+    }
+
+    /**
      * Register data required by process in event object
      *
      * @param Mage_Index_Model_Event $event
@@ -74,8 +101,10 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function register(Mage_Index_Model_Event $event)
     {
         if ($this->matchEvent($event)) {
+            $this->_setEventNamespace($event);
             $this->getIndexer()->register($event);
             $event->addProcessId($this->getId());
+            $this->_resetEventNamespace($event);
         }
         return $this;
 
@@ -107,18 +136,26 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Process event
+     * Process event with assigned indexer object
      *
      * @param Mage_Index_Model_Event $event
-     * @return int
+     * @return Mage_Index_Model_Process
      */
     public function processEvent(Mage_Index_Model_Event $event)
     {
-        return $this->getIndexer()->processEvent($event);
+        if ($this->getMode() == self::MODE_MANUAL) {
+            return $this;
+        }
+        $this->_setEventNamespace($event);
+        $this->getIndexer()->processEvent($event);
+        $event->resetData();
+        $this->_resetEventNamespace($event);
+        $event->addProcessId($this->getId(), self::EVENT_STATUS_DONE);
+        return $this;
     }
 
     /**
-     * Get Indexer strategy
+     * Get Indexer strategy object
      *
      * @return Mage_Index_Model_Indexer_Abstract
      */
@@ -189,12 +226,11 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         while ($eventsCollection->getSize()) {
             foreach ($eventsCollection as $event) {
                 try {
-                    $this->updateEventStatus($event, self::EVENT_STATUS_WORKING);
                     $this->processEvent($event);
-                    $this->updateEventStatus($event, self::EVENT_STATUS_DONE);
                 } catch (Exception $e) {
-                    $this->updateEventStatus($event, self::EVENT_STATUS_ERROR);
+                    $event->addProcessId($this->getId(), self::EVENT_STATUS_ERROR);
                 }
+                $event->save();
             }
             $eventsCollection->reset();
         }
@@ -312,8 +348,8 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function getModesOptions()
     {
         return array(
-            self::MODE_REAL_TIME => Mage::helper('index')->__('Autumatic Initialization'),
-            self::MODE_MANUAL => Mage::helper('index')->__('Manual Initialization')
+            self::MODE_REAL_TIME => Mage::helper('index')->__('Update on Save'),
+            self::MODE_MANUAL => Mage::helper('index')->__('Manual Update')
         );
     }
 
@@ -325,8 +361,8 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function getStatusesOptions()
     {
         return array(
-            self::STATUS_PENDING => Mage::helper('index')->__('Pending'),
-            self::STATUS_RUNNING => Mage::helper('index')->__('Running'),
+            self::STATUS_PENDING => Mage::helper('index')->__('Ready'),
+            self::STATUS_RUNNING => Mage::helper('index')->__('Processing'),
         );
     }
 }

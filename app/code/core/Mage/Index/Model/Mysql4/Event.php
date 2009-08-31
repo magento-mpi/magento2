@@ -39,16 +39,21 @@ class Mage_Index_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $select = $this->_getReadAdapter()->select()
-            ->from($this->getMainTable())
-            ->where('type=?', $object->getType())
-            ->where('entity=?', $object->getEntity());
-        if ($object->hasEntityPk()) {
-            $select->where('entity_pk=?', $object->getEntityPk());
-        }
-        $data = $this->_getWriteAdapter()->fetchRow($select);
-        if ($data) {
-            $object->mergePreviousData($data);
+        /**
+         * Check if event already exist and merge previous data
+         */
+        if (!$object->getId()) {
+            $select = $this->_getReadAdapter()->select()
+                ->from($this->getMainTable())
+                ->where('type=?', $object->getType())
+                ->where('entity=?', $object->getEntity());
+            if ($object->hasEntityPk()) {
+                $select->where('entity_pk=?', $object->getEntityPk());
+            }
+            $data = $this->_getWriteAdapter()->fetchRow($select);
+            if ($data) {
+                $object->mergePreviousData($data);
+            }
         }
         return parent::_beforeSave($object);
     }

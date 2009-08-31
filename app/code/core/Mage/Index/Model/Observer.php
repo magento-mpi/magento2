@@ -37,22 +37,49 @@ class Mage_Index_Model_Observer
     {
         $this->_indexer = Mage::getModel('index/indexer');
     }
-    
-    public function logProductSave(Varien_Event_Observer $observer)
-    {
-        /**
-         * 1. Get data from observer
-         * 2. Loop all processes => get list required event fields
-         * 3. Save event
-         */
-        $product = $observer->getEvent()->getProduct();
-        $event = Mage::getModel('index/event')
-            ->setType(Mage_Index_Model_Event::TYPE_SAVE)
-            ->setDataObject($product)
-            ->setEntity('product')
-            ->setEntityPk($product->getId());
 
-        $this->_indexer->registerEvent($event);
-        $event->save();
+    /**
+     * Store after commit observer. Process store related indexes
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function processStoreSave(Varien_Event_Observer $observer)
+    {
+        $store = $observer->getEvent()->getStore();
+        $this->_indexer->processEntityAction(
+            $store,
+            Mage_Core_Model_Store::ENTITY,
+            Mage_Index_Model_Event::TYPE_SAVE
+        );
+    }
+
+    /**
+     * Store group after commit observer. Process store group related indexes
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function processStoreGroupSave(Varien_Event_Observer $observer)
+    {
+        $storeGroup = $observer->getEvent()->getStoreGroup();
+        $this->_indexer->processEntityAction(
+            $storeGroup,
+            Mage_Core_Model_Store_Group::ENTITY,
+            Mage_Index_Model_Event::TYPE_SAVE
+        );
+    }
+
+    /**
+     * Website save after commit observer. Process website related indexes
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function processWebsiteSave(Varien_Event_Observer $observer)
+    {
+        $website = $observer->getEvent()->getWebsite();
+        $this->_indexer->processEntityAction(
+            $website,
+            Mage_Core_Model_Website::ENTITY,
+            Mage_Index_Model_Event::TYPE_SAVE
+        );
     }
 }
