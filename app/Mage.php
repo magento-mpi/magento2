@@ -768,6 +768,9 @@ final class Mage
                 !empty($extra) ? $extra . "\n\n" : '' . $e->getMessage(),
                 $e->getTraceAsString()
             );
+            if (isset($_SERVER) && isset($_SERVER['REQUEST_URI'])) {
+                $reportData[] = $_SERVER['REQUEST_URI'];
+            }
             $reportData = serialize($reportData);
 
             file_put_contents($reportFile, $reportData);
