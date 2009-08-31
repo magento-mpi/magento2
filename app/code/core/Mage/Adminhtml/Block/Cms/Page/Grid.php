@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Cms_Page_Grid extends Mage_Adminhtml_Block_Widget_Gri
         ));
 
         $this->addColumn('identifier', array(
-            'header'    => Mage::helper('cms')->__('Identifier'),
+            'header'    => Mage::helper('cms')->__('URL Key'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));

@@ -125,7 +125,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
         ));
 
         $this->addColumn('identifier', array(
-            'header'    => Mage::helper('cms')->__('Identifier'),
+            'header'    => Mage::helper('cms')->__('URL Key'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));
