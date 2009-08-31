@@ -109,12 +109,6 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
                 'request_url'        => $v['identifier']
             );
 
-            foreach ($this->getMetadataElements() as $element) {
-                if (isset($v[$element])) {
-                    $_node[$element] = $v[$element];
-                }
-            }
-
             $nodes[$parentNodeId][$v['node_id']] = Mage::helper('enterprise_cms/hierarchy')
                 ->copyMetaData($v, $_node);
         }
