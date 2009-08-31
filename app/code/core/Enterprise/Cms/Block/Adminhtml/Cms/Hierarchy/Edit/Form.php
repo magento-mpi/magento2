@@ -94,7 +94,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
 
         $fieldset->addField('node_identifier', 'text', array(
             'name'      => 'identifier',
-            'label'     => Mage::helper('enterprise_cms')->__('Identifier (URL Key)'),
+            'label'     => Mage::helper('enterprise_cms')->__('URL Key'),
             'required'  => true,
             'class'     => 'validate-identifier',
             'onchange'   => 'hierarchyNodes.nodeChanged()'
@@ -105,7 +105,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $fieldset->addField('node_identifier_text', 'note', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Identifier (URL Key)')
+            'label'     => Mage::helper('enterprise_cms')->__('URL Key')
         ));
 
         /*

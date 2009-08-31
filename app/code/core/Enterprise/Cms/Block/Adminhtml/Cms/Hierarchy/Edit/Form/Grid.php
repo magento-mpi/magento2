@@ -87,7 +87,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
         ));
 
         $this->addColumn('identifier', array(
-            'header'            => Mage::helper('enterprise_cms')->__('Identifier'),
+            'header'            => Mage::helper('enterprise_cms')->__('URL Key'),
             'index'             => 'identifier',
             'column_css_class'  => 'identifier'
         ));
