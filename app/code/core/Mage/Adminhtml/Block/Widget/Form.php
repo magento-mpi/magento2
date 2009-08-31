@@ -45,9 +45,9 @@ class Mage_Adminhtml_Block_Widget_Form extends Mage_Adminhtml_Block_Widget
      * Class constructor
      *
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setTemplate('widget/form.phtml');
         $this->setDestElementId('edit_form');
         $this->setShowGlobalIcon(false);

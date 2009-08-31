@@ -72,7 +72,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
         parent::_construct();
 
         /*
-         * In case template was passed through contructor
+         * In case template was passed through constructor
          * we assign it to block's property _template
          * Mainly for those cases when block created
          * not via Mage_Core_Model_Layout::addBlock()
@@ -95,7 +95,7 @@ class Mage_Core_Block_Template extends Mage_Core_Block_Abstract
     /**
      * Set path to template used for generating block's output.
      *
-     * @param string $templste
+     * @param string $template
      * @return Mage_Core_Block_Template
      */
     public function setTemplate($template)
