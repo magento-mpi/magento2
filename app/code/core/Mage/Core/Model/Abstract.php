@@ -418,6 +418,8 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     protected function _afterDeleteCommit()
     {
+        Mage::dispatchEvent('model_delete_commit_after', array('object'=>$this));
+        Mage::dispatchEvent($this->_eventPrefix.'_delete_commit_after', array($this->_eventObject=>$this));
          return $this;
     }
 

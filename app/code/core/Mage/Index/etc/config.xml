@@ -63,6 +63,56 @@
                  -->
             </indexer>
         </index>
+        <events>
+            <store_save_commit_after>
+                <observers>
+                    <index>
+                        <class>index/observer</class>
+                        <method>processStoreSave</method>
+                    </index>
+                </observers>
+            </store_save_commit_after>
+            <store_group_save_commit_after>
+                <observers>
+                    <index>
+                        <class>index/observer</class>
+                        <method>processStoreGroupSave</method>
+                    </index>
+                </observers>
+            </store_group_save_commit_after>
+            <website_save_commit_after>
+                <observers>
+                    <index>
+                        <class>index/observer</class>
+                        <method>processWebsiteSave</method>
+                    </index>
+                </observers>
+            </website_save_commit_after>
+            <store_delete_commit_after>
+                <observers>
+                    <index>
+                        <class>index/observer</class>
+                        <method>processStoreDelete</method>
+                    </index>
+                </observers>
+            </store_delete_commit_after>
+            <store_group_delete_commit_after>
+                <observers>
+                    <index>
+                        <class>index/observer</class>
+                        <method>processStoreGroupDelete</method>
+                    </index>
+                </observers>
+            </store_group_delete_commit_after>
+            <website_delete_commit_after>
+                <observers>
+                    <index>
+                        <class>index/observer</class>
+                        <method>processWebsiteDelete</method>
+                    </index>
+                </observers>
+            </website_delete_commit_after>
+        </events>
     </global>
     <admin>
         <routers>
