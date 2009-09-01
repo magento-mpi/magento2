@@ -190,7 +190,7 @@ WysiwygWidget.Widget.prototype = {
         } else {
             var parent = this.getPopup().opener;
             var textarea = parent.document.getElementById(this.getPopup().name);
-            this.updateElementAtCursor(textarea, content, this.getPopup().opener);
+            updateElementAtCursor(textarea, content, this.getPopup().opener);
         }
     },
 
@@ -224,21 +224,6 @@ WysiwygWidget.Widget.prototype = {
 
     getWysiwygNode: function() {
         return tinyMCEPopup.editor.selection.getNode();
-    },
-
-    // Insert some content to the cursor position of input element
-    updateElementAtCursor: function(el, value, win) {
-        if (document.selection) {
-            el.focus();
-            sel = win.document.selection.createRange();
-            sel.text = value;
-        } else if (el.selectionStart || el.selectionStart == '0') {
-            var startPos = el.selectionStart;
-            var endPos = el.selectionEnd;
-            el.value = el.value.substring(0, startPos) + value + el.value.substring(endPos, el.value.length);
-        } else {
-            el.value += value;
-        }
     }
 }
 
