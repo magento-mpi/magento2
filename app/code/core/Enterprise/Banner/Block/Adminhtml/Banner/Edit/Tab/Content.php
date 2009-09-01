@@ -83,12 +83,14 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
         );
 
         $labels = array();//$banner->getStoreLabels();
-        $fieldset->addField('store_default_label', 'textarea', array(
+        $field = $fieldset->addField('store_default_label', 'textarea', array(
             'name'      => 'store_labels[0]',
             'required'  => false,
             'label'     => Mage::helper('enterprise_banner')->__('Default Store View'),
             'value'     => isset($labels[0]) ? $labels[0] : '',
         ));
+
+        $field->setAfterElementHtml($this->getContentAfterElementHtml($field));
 
         foreach (Mage::app()->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
@@ -101,17 +103,58 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                     'text'     => $group->getName(),
                 ));
                 foreach ($stores as $store) {
-                    $fieldset->addField('store_'.$store->getId().'_label', 'textarea', array(
+                    $field = $fieldset->addField('store_'.$store->getId().'_label', 'textarea', array(
                         'name'      => 'store_labels['.$store->getId().']',
                         'required'  => false,
                         'label'     => $store->getName(),
                         'value'     => isset($labels[$store->getId()]) ? $labels[$store->getId()] : '',
                     ));
+
+                    $field->setAfterElementHtml($this->getContentAfterElementHtml($field));
                 }
             }
         }
 
         $this->setForm($form);
         return parent::_prepareForm();
+    }
+
+    /**
+     * Prepare links for inserting some additional features (widgets, images) to content
+     *
+     * @param Varien_Data_Form_Element_Abstract
+     * @return string
+     */
+    public function getContentAfterElementHtml($field)
+    {
+        $links = array();
+        $linksHtml = array();
+
+        // Link to media images insertion window
+        $winUrl = $this->getUrl('*/cms_page_wysiwyg_images/index');
+        $links[] = new Varien_Data_Form_Element_Link(array(
+            'href'      => '#',
+            'title'     => Mage::helper('enterprise_banner')->__('Insert Image'),
+            'value'     => Mage::helper('enterprise_banner')->__('Insert Image'),
+            'html_id'   => $field->getId() . '_media',
+            'onclick'   => "window.open('" . $winUrl . "', '" . $field->getHtmlId() . "', 'width=1024,height=800')",
+        ));
+
+        // Link to widget insertion window
+        $winUrl = $this->getUrl('*/cms_widget/index', array('no_wysiwyg' => true));
+        $links[] = new Varien_Data_Form_Element_Link(array(
+            'href'      => '#',
+            'title'     => Mage::helper('enterprise_banner')->__('Insert Widget'),
+            'value'     => Mage::helper('enterprise_banner')->__('Insert Widget'),
+            'html_id'   => $field->getId() . '_widget',
+            'onclick'   => "window.open('" . $winUrl . "', '" . $field->getHtmlId() . "', 'width=1024,height=800')",
+        ));
+
+        foreach ($links as $link) {
+            $link->setForm($field->getForm());
+            $linksHtml[] = $link->getElementHtml();
+        }
+
+        return implode(' | ', $linksHtml);
     }
 }
