@@ -350,6 +350,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $error = true;
             } catch (Exception $e) {
+                Mage::logException($e);
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('Error while deleting revision. Please try again later.'));
                 $error = true;
             }

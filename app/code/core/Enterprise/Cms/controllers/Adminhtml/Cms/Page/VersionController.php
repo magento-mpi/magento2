@@ -218,6 +218,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
+                Mage::logException($e);
                 $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('Error while deleting revisions. Please try again later.'));
             }
         }
@@ -249,6 +250,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_VersionController extends Enterprise_Cms
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 $error = true;
             } catch (Exception $e) {
+                Mage::logException($e);
                 Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_cms')->__('Error while deleting version. Please try again later.'));
                 $error = true;
             }

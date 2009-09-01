@@ -161,6 +161,7 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
+                Mage::logException($e);
                 $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('Error while deleting versions. Please try again later.'));
             }
         }
