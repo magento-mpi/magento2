@@ -118,16 +118,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'legend'    => Mage::helper('enterprise_cms')->__('Render Metadata in HTML Head')
             ));
 
-            $yesNoOptions = array(
-                1 => Mage::helper('enterprise_cms')->__('Yes'),
-                0 => Mage::helper('enterprise_cms')->__('No')
-            );
+            $yesNoOptions = Mage::getSingleton('adminhtml/system_config_source_yesno')
+                    ->toOptionArray();
 
             $fieldset->addField('meta_first_last', 'select', array(
                 'label'     => Mage::helper('enterprise_cms')->__('First/Last'),
                 'title'     => Mage::helper('enterprise_cms')->__('First/Last'),
                 'name'      => 'meta_first_last',
-                'options'   => $yesNoOptions,
+                'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
                 'tabindex'   => '3'
             ));
@@ -136,7 +134,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'label'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
                 'title'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
                 'name'      => 'meta_next_previous',
-                'options'   => $yesNoOptions,
+                'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
                 'tabindex'   => '4'
             ));
@@ -146,7 +144,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     //            'label'     => Mage::helper('enterprise_cms')->__('Chapter'),
     //            'title'     => Mage::helper('enterprise_cms')->__('Chapter'),
     //            'name'      => 'meta_chapter',
-    //            'options'   => $yesNoOptions,
+    //            'values'   => $yesNoOptions,
     //            'onchange'   => 'hierarchyNodes.nodeChanged()',
     //            'tabindex'   => '5'
     //        ));
@@ -155,7 +153,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     //            'label'     => Mage::helper('enterprise_cms')->__('Section'),
     //            'title'     => Mage::helper('enterprise_cms')->__('Section'),
     //            'name'      => 'meta_section',
-    //            'options'   => $yesNoOptions,
+    //            'values'   => $yesNoOptions,
     //            'onchange'   => 'hierarchyNodes.nodeChanged()',
     //            'tabindex'   => '6'
     //        ));
