@@ -100,8 +100,12 @@ class Enterprise_Cms_Adminhtml_Cms_PageController extends Mage_Adminhtml_Cms_Pag
             $page->setData($data);
         }
 
-        if ($page->getId()) {
-            $this->_handles[] = 'adminhtml_cms_page_edit_changes';
+        if ($page->getId()){
+            if ($page->getUnderVersionControl()) {
+                $this->_handles[] = 'adminhtml_cms_page_edit_changes';
+            }
+        } else if (!$page->hasUnderVersionControl()) {
+            $page->setUnderVersionControl((int)Mage::getSingleton('enterprise_cms/config')->getDefaultVersioningStatus());
         }
 
         $this->_initAction()

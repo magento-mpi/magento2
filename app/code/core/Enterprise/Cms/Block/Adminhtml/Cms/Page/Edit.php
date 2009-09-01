@@ -38,6 +38,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
     /**
      * Adding js to CE blocks to implement special functionality which
      * will allow go back to edit page with pre loaded tab passed through query string.
+     * Added permission checking to remove some buttons if needed.
      *
      * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
      */
@@ -47,15 +48,29 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
         /* @var $tabBlock Mage_Adminhtml_Block_Cms_Page_Edit_Tabs */
         if ($tabsBlock) {
             $editBlock = $this->getLayout()->getBlock('cms_page_edit');
+            /* @var $editBlock Mage_Adminhtml_Block_Cms_Page_Edit */
             if ($editBlock) {
-                $formBlock = $editBlock->getChild('form');
-                if ($formBlock) {
-                    $tabId = $this->getRequest()->getParam('tab');
-                    if ($tabId) {
-                        $formBlock->setSelectedTabId($tabsBlock->getId() . '_' . $tabId)
-                            ->setTabJsObject($tabsBlock->getJsObjectName());
+                $page = Mage::registry('cms_page');
+                if ($page) {
+                    if ($page->getUnderVersionControl()) {
+                        $formBlock = $editBlock->getChild('form');
+                        if ($formBlock) {
+                            $tabId = $this->getRequest()->getParam('tab');
+                            if ($tabId) {
+                                $formBlock->setSelectedTabId($tabsBlock->getId() . '_' . $tabId)
+                                    ->setTabJsObject($tabsBlock->getJsObjectName());
+                            }
+                            $formBlock->setTemplate('enterprise/cms/page/edit/form.phtml');
+                        }
                     }
-                    $formBlock->setTemplate('enterprise/cms/page/edit/form.phtml');
+                    // If user non-publisher he can save page only if it has disabled status
+                    if ($page->getId() && $page->getIsActive() == Mage_Cms_Model_Page::STATUS_ENABLED) {
+                        if (!Mage::getSingleton('enterprise_cms/config')->canCurrentUserPublishRevision()) {
+                            $editBlock->removeButton('delete');
+                            $editBlock->removeButton('save');
+                            $editBlock->removeButton('saveandcontinue');
+                        }
+                    }
                 }
             }
         }

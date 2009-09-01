@@ -75,44 +75,54 @@ class Enterprise_Cms_Model_Observer
         /* @var $page Enterprise_Cms_Model_Page */
         $page = Mage::registry('cms_page');
         $revisionAvailable = false;
-        if ($page && $page->getPublishedRevisionId()) {
-            $userId = Mage::getSingleton('admin/session')->getUser()->getId();
-            $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
+        if ($page) {
 
-            $revision = Mage::getModel('enterprise_cms/page_revision')
-                ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
+            $baseFieldset->addField('under_version_control', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Is Under Version Control'),
+                'title'     => Mage::helper('enterprise_cms')->__('Is Under Version Control'),
+                'name'      => 'under_version_control',
+                'values'    => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray()
+            ));
 
-            if ($revision->getId()) {
-                $revisionNumber = $revision->getRevisionNumber();
-                $versionNumber = $revision->getVersionNumber();
-                $versionLabel = $revision->getLabel();
+            if ($page->getPublishedRevisionId() && $page->getUnderVersionControl()) {
+                $userId = Mage::getSingleton('admin/session')->getUser()->getId();
+                $accessLevel = Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel();
 
-                $beforeElementHtml = '';
+                $revision = Mage::getModel('enterprise_cms/page_revision')
+                    ->loadWithRestrictions($accessLevel, $userId, $page->getPublishedRevisionId());
 
-                if ($versionLabel) {
-                    $beforeElementHtml .= Mage::helper('enterprise_cms')->__('%s; ', $versionLabel);
+                if ($revision->getId()) {
+                    $revisionNumber = $revision->getRevisionNumber();
+                    $versionNumber = $revision->getVersionNumber();
+                    $versionLabel = $revision->getLabel();
+
+                    $beforeElementHtml = '';
+
+                    if ($versionLabel) {
+                        $beforeElementHtml .= Mage::helper('enterprise_cms')->__('%s; ', $versionLabel);
+                    }
+
+                    $page->setPublishedRevisionLink(
+                        Mage::helper('enterprise_cms')->__('rev #%s', $revisionNumber));
+
+                    $baseFieldset->addField('published_revision_link', 'link', array(
+                            'label' => Mage::helper('enterprise_cms')->__('Currently Published Revision'),
+                            'href' => Mage::getModel('adminhtml/url')->getUrl('*/cms_page_revision/edit', array(
+                                'page_id' => $page->getId(),
+                                'revision_id' => $page->getPublishedRevisionId()
+                                )),
+                            'before_element_html' => $beforeElementHtml
+                        ));
+
+                    $revisionAvailable = true;
                 }
-
-                $page->setPublishedRevisionLink(
-                    Mage::helper('enterprise_cms')->__('rev #%s', $revisionNumber));
-
-                $baseFieldset->addField('published_revision_link', 'link', array(
-                        'label' => Mage::helper('enterprise_cms')->__('Currently Published Revision'),
-                        'href' => Mage::getModel('adminhtml/url')->getUrl('*/cms_page_revision/edit', array(
-                            'page_id' => $page->getId(),
-                            'revision_id' => $page->getPublishedRevisionId()
-                            )),
-                        'before_element_html' => $beforeElementHtml
-                    ));
-
-                $revisionAvailable = true;
             }
         }
 
         /*
          * User does not have access to revision or revision is no longer available
          */
-        if (!$revisionAvailable && $page->getId()) {
+        if (!$revisionAvailable && $page->getId() && $page->getUnderVersionControl()) {
             $baseFieldset->addField('published_revision_status', 'label', array('bold' => true));
             $page->setPublishedRevisionStatus(Mage::helper('enterprise_cms')->__('Published Revision Unavailable'));
         }
@@ -186,7 +196,9 @@ class Enterprise_Cms_Model_Observer
         /* @var $page Mage_Cms_Model_Page */
         $page = $observer->getEvent()->getObject();
 
-        if ($page->getIsNewPage()) {
+        // Create new initial version & revision if it
+        // is a new page or version control was turned on for this page.
+        if ($page->getIsNewPage() || ($page->getUnderVersionControl() && $page->dataHasChangedFor('under_version_control'))) {
             $version = Mage::getModel('enterprise_cms/page_version');
 
             $revisionInitialData = $page->getData();
@@ -199,10 +211,12 @@ class Enterprise_Cms_Model_Observer
                 ->setInitialRevisionData($revisionInitialData)
                 ->save();
 
-            $revision = $version->getLastRevision();
+            if ($page->getUnderVersionControl()) {
+                $revision = $version->getLastRevision();
 
-            if ($revision instanceof Enterprise_Cms_Model_Page_Revision) {
-                $revision->publish();
+                if ($revision instanceof Enterprise_Cms_Model_Page_Revision) {
+                    $revision->publish();
+                }
             }
         }
 
@@ -253,6 +267,8 @@ class Enterprise_Cms_Model_Observer
             }
             // newly created page should be auto assigned to website root
             $page->setWebsiteRoot(true);
+        } else if (!$page->getUnderVersionControl()) {
+            $page->setPublishedRevisionId(null);
         }
 
         /*

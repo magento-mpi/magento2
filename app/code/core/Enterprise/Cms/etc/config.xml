@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.10</version>
+             <version>0.1.11</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -177,6 +177,9 @@
                 <enabled>1</enabled>
                 <metadata_enabled>1</metadata_enabled>
             </hierarchy>
+            <content>
+                <versioning>1</versioning>
+            </content>
         </cms>
     </default>
 </config>

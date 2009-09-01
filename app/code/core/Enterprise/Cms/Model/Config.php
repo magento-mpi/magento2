@@ -24,7 +24,6 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
  * Enterprise cms page config model
  *
@@ -34,6 +33,8 @@
  */
 class Enterprise_Cms_Model_Config
 {
+    const XML_PATH_CONTENT_VERSIONING = 'cms/content/versioning';
+
     protected $_revisionControlledAttributes = array(
         'page' => array(
             'root_template',
@@ -179,5 +180,13 @@ class Enterprise_Cms_Model_Config
         return Mage::getSingleton('admin/session')->getUser()->getId() == $userId;
     }
 
-
+    /**
+     * Get default value for versioning from configuration.
+     *
+     * @return bool
+     */
+    public function getDefaultVersioningStatus()
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_CONTENT_VERSIONING);
+    }
 }
