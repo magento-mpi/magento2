@@ -113,51 +113,53 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         /*
          * Define field set with elements for root nodes
          */
-        $fieldset   = $form->addFieldset('metadata_fieldset', array(
-            'legend'    => Mage::helper('enterprise_cms')->__('Render Metadata in HTML Head')
-        ));
+        if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) {
+            $fieldset   = $form->addFieldset('metadata_fieldset', array(
+                'legend'    => Mage::helper('enterprise_cms')->__('Render Metadata in HTML Head')
+            ));
 
-        $yesNoOptions = array(
-            1 => Mage::helper('enterprise_cms')->__('Yes'),
-            0 => Mage::helper('enterprise_cms')->__('No')
-        );
+            $yesNoOptions = array(
+                1 => Mage::helper('enterprise_cms')->__('Yes'),
+                0 => Mage::helper('enterprise_cms')->__('No')
+            );
 
-        $fieldset->addField('meta_first_last', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('First/Last'),
-            'title'     => Mage::helper('enterprise_cms')->__('First/Last'),
-            'name'      => 'meta_first_last',
-            'options'   => $yesNoOptions,
-            'onchange'   => 'hierarchyNodes.nodeChanged()',
-            'tabindex'   => '3'
-        ));
+            $fieldset->addField('meta_first_last', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('First/Last'),
+                'title'     => Mage::helper('enterprise_cms')->__('First/Last'),
+                'name'      => 'meta_first_last',
+                'options'   => $yesNoOptions,
+                'onchange'   => 'hierarchyNodes.nodeChanged()',
+                'tabindex'   => '3'
+            ));
 
-        $fieldset->addField('meta_next_previous', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
-            'title'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
-            'name'      => 'meta_next_previous',
-            'options'   => $yesNoOptions,
-            'onchange'   => 'hierarchyNodes.nodeChanged()',
-            'tabindex'   => '4'
-        ));
+            $fieldset->addField('meta_next_previous', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
+                'title'     => Mage::helper('enterprise_cms')->__('Next/Previous'),
+                'name'      => 'meta_next_previous',
+                'options'   => $yesNoOptions,
+                'onchange'   => 'hierarchyNodes.nodeChanged()',
+                'tabindex'   => '4'
+            ));
 
-// commented bc of changes in road map
-//        $fieldset->addField('meta_chapter', 'select', array(
-//            'label'     => Mage::helper('enterprise_cms')->__('Chapter'),
-//            'title'     => Mage::helper('enterprise_cms')->__('Chapter'),
-//            'name'      => 'meta_chapter',
-//            'options'   => $yesNoOptions,
-//            'onchange'   => 'hierarchyNodes.nodeChanged()',
-//            'tabindex'   => '5'
-//        ));
-//
-//        $fieldset->addField('meta_section', 'select', array(
-//            'label'     => Mage::helper('enterprise_cms')->__('Section'),
-//            'title'     => Mage::helper('enterprise_cms')->__('Section'),
-//            'name'      => 'meta_section',
-//            'options'   => $yesNoOptions,
-//            'onchange'   => 'hierarchyNodes.nodeChanged()',
-//            'tabindex'   => '6'
-//        ));
+    // commented bc of changes in road map
+    //        $fieldset->addField('meta_chapter', 'select', array(
+    //            'label'     => Mage::helper('enterprise_cms')->__('Chapter'),
+    //            'title'     => Mage::helper('enterprise_cms')->__('Chapter'),
+    //            'name'      => 'meta_chapter',
+    //            'options'   => $yesNoOptions,
+    //            'onchange'   => 'hierarchyNodes.nodeChanged()',
+    //            'tabindex'   => '5'
+    //        ));
+    //
+    //        $fieldset->addField('meta_section', 'select', array(
+    //            'label'     => Mage::helper('enterprise_cms')->__('Section'),
+    //            'title'     => Mage::helper('enterprise_cms')->__('Section'),
+    //            'name'      => 'meta_section',
+    //            'options'   => $yesNoOptions,
+    //            'onchange'   => 'hierarchyNodes.nodeChanged()',
+    //            'tabindex'   => '6'
+    //        ));
+        }
 
         $form->setUseContainer(true);
         $this->setForm($form);

@@ -143,6 +143,7 @@ hierarchyNodes = {
         $('node_prop_container').show();
 
         var isTreeNode = (node.parentNode.id == '_root');
+        <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
         if (isTreeNode) {
             this.showFieldSet('metadata_fieldset');
             $('meta_first_last').value = node.attributes.meta_first_last;
@@ -153,6 +154,7 @@ hierarchyNodes = {
         } else {
             this.hideFieldSet('metadata_fieldset');
         }
+        <?php endif; ?>
 
         $('node_id').value = node.id;
         $('node_page_id').value = node.attributes.page_id;
@@ -309,11 +311,13 @@ hierarchyNodes = {
         //this.tree.getSelectionModel().clearSelections();
 
         var selectedNode = this.tree.getSelectionModel().getSelectedNode();
+        <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
         if (selectedNode.id == '_root') {
             this.showFieldSet('metadata_fieldset');
         } else {
             this.hideFieldSet('metadata_fieldset');
         }
+        <?php endif; ?>
 
         $('delete_node_button').hide();
         $('node_prop_container').show();
@@ -379,6 +383,7 @@ hierarchyNodes = {
             parentNode.expand();
         }
 
+        <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()): ?>
         if (node.parentNode.id == '_root') {
             node.attributes.meta_first_last = $('meta_first_last').value;
             node.attributes.meta_next_previous = $('meta_next_previous').value;
@@ -386,6 +391,7 @@ hierarchyNodes = {
 //            node.attributes.meta_chapter = $('meta_chapter').value;
 //            node.attributes.meta_section = $('meta_section').value;
         }
+        <?php endif; ?>
 
         node.getUI().removeClass('modified');
         node.getUI().addClass('saved');
