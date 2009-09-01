@@ -110,19 +110,36 @@ Wysiwyg.Images.prototype = {
 
     insert: function(event) {
         var div = Event.findElement(event, 'DIV');
+        var targetEl = this.getTargetElement();
+        if ($(targetEl) == undefined) {
+            alert("Target element not found for content update");
+            return;
+        }
+
+        var params = {filename:div.id, node:this.currentNode.id};
+        if (targetEl.tagName.toLowerCase() == 'textarea') {
+            params.as_is = 1;
+        }
+
         new Ajax.Request('<?php echo $this->getOnInsertUrl() ?>', {
-            parameters: {filename:div.id, node:this.currentNode.id},
+            parameters: params,
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
-                    var openerElement = self.opener.document.getElementById('src') || self.opener.document.getElementById('href');
-                    openerElement.value = transport.responseText;
+                    updateElementAtCursor(targetEl, transport.responseText, self.opener);
                     self.close();
                 } catch (e) {
                     alert(e.message);
                 }
             }.bind(this)
         });
+    },
+
+    getTargetElement: function() {
+        var parent = self.opener;
+        return (parent.document.getElementById('src')
+            || parent.document.getElementById('href')
+            || parent.document.getElementById(self.name));
     },
 
     newFolder: function() {

@@ -149,9 +149,10 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
         $fileurl = Mage::helper('cms/page_wysiwyg_images')->getCurrentUrl() . $filename;
         $mediaPath = str_replace(Mage::getBaseUrl('media'), '', $fileurl);
         $directive = sprintf('{{media url="%s"}}', $mediaPath);
-        $this->getResponse()->setBody(
-            $this->getUrl('*/cms_page_wysiwyg/directive', array('directive' => Mage::helper('core')->urlEncode($directive)))
-        );
+        if (!$this->getRequest()->getParam('as_is')) {
+            $directive = $this->getUrl('*/cms_page_wysiwyg/directive', array('directive' => Mage::helper('core')->urlEncode($directive)));
+        }
+        $this->getResponse()->setBody($directive);
     }
 
     /**
