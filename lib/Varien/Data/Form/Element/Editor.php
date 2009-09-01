@@ -59,8 +59,8 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                 <script type="text/javascript" src="'.$jsUrl.'tiny_mce/tiny_mce.js"></script>
                 <script type="text/javascript" src="'.$jsUrl.'mage/adminhtml/wysiwyg/tiny_mce/setup.js"></script>
 
-                <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
                 <a href="#" id="toggle'.$this->getHtmlId().'">'.($config->getToggleLinkTitle() ? $config->getToggleLinkTitle() : 'Add/Remove Editor').'</a>
+                <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
 
                 <script type="text/javascript">
                 //<![CDATA[
@@ -87,6 +87,10 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         }
         else
         {
+            if ($this->getConfig('widget_window_url')) {
+                $html = '<a href="#" onclick="window.open(\''.$this->getConfig('widget_window_url').'\', \''.$this->getHtmlId().'\', \'width=1024,height=800\');">'.$this->getConfig('widget_link_text').'</a>';
+                return $html . parent::getElementHtml();
+            }
             return parent::getElementHtml();
         }
     }

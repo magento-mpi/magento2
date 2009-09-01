@@ -76,9 +76,10 @@ class Mage_Cms_Model_Widget extends Varien_Object
      *
      * @param string $type Widget Type
      * @param array $params Pre-configured Widget Params
+     * @param bool $asIs Return result as widget directive(true) or as placeholder image(false)
      * @return string Widget directive ready to parse
      */
-    public function getWidgetDeclaration($type, $params = array())
+    public function getWidgetDeclaration($type, $params = array(), $asIs = true)
     {
         $widget = $this->getXmlElementByType($type);
 
@@ -94,7 +95,15 @@ class Mage_Cms_Model_Widget extends Varien_Object
         }
         $directive .= '}}';
 
-        $image = Mage::getBaseUrl('js') . 'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/img/icon.gif';
+        if ($asIs) {
+            return $directive;
+        }
+
+        if (is_file(Mage::getDesign()->getSkinBaseDir() . DS . 'images' . DS . $widget->getName() . '.gif')) {
+            $image = Mage::getDesign()->getSkinUrl('images/' . $widget->getName() . '.gif');
+        } else {
+            $image = Mage::getDesign()->getSkinUrl('images/widget_placeholder.gif');
+        }
         $html = sprintf('<img id="%s" src="%s" class="widget" title="%s">',
             $this->_idEncode($directive),
             $image,

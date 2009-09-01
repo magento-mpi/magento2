@@ -49,7 +49,7 @@ tinyMCE.addI18n({en:{
                 });
             });
 
-            // Register Varienimages button
+            // Register Widget plugin button
             ed.addButton('magentowidget', {
                 title : 'magentowidget.insert_widget',
                 cmd : 'mceMagentowidget',
@@ -62,6 +62,13 @@ tinyMCE.addI18n({en:{
                     cm.setActive('magentowidget', true);
                 } else {
                     cm.setActive('magentowidget', false);
+                }
+            });
+
+            // Add a widget placeholder image double click callback
+            ed.onDblClick.add(function(ed, e) {
+                if (e.target.className == 'widget' && e.target.nodeName == 'IMG') {
+                    ed.execCommand('mceMagentowidget');
                 }
             });
         },

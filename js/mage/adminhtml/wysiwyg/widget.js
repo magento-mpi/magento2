@@ -86,12 +86,15 @@ WysiwygWidget.Widget.prototype = {
 
     // Assign widget options values when existing widget selected in WYSIWYG
     initOptionValues: function() {
-        var ed = tinyMCEPopup.editor;
-        var e = ed.selection.getNode();
+
+        if (!this.wysiwygExists()) {
+            return false;
+        }
+
+        var e = this.getWysiwygNode();
         if (e != undefined && e.id) {
             var widgetCode = Base64.idDecode(e.id);
             this.optionValues = new Hash({});
-
             widgetCode.gsub(/([a-z0-9\_]+)\s*\=\s*[\"]{1}([^\"]+)[\"]{1}/i, function(match){
                 if (match[1] == 'type') {
                     this.widgetEl.value = match[2];
@@ -154,19 +157,20 @@ WysiwygWidget.Widget.prototype = {
                 }
             });
 
+            // Add as_is flag to parameters if wysiwyg editor doesn't exist
+            var params = Form.serializeElements(formElements);
+            if (!this.wysiwygExists()) {
+                params = params + '&as_is=1';
+            }
+
             new Ajax.Request($(editForm.formId).readAttribute("action"),
             {
-                parameters: Form.serializeElements( formElements ),
+                parameters: params,
                 onComplete: function(transport) {
                     try {
                         this.onAjaxSuccess(transport);
-                    	tinyMCEPopup.execCommand("mceInsertContent", false, transport.responseText);
-                    	// Refocus in window
-                    	if (tinyMCEPopup.isWindow) {
-                    		window.focus();
-                    	}
-                    	tinyMCEPopup.editor.focus();
-                    	tinyMCEPopup.close(); // cannot directly call TinyMCEPopup.close() in Prototype class scope
+                        this.updateContent(transport.responseText);
+                        this.getPopup().close();
                     } catch(e) {
                         alert(e.message);
                     }
@@ -174,6 +178,22 @@ WysiwygWidget.Widget.prototype = {
             });
         }
     },
+
+    updateContent: function(content) {
+        if (this.wysiwygExists()) {
+        	this.getPopup().execCommand("mceInsertContent", false, content);
+        	// Refocus in window
+        	if (this.getPopup().isWindow) {
+        		window.focus();
+        	}
+        	this.getWysiwyg().focus();
+        } else {
+            var parent = this.getPopup().opener;
+            var textarea = parent.document.getElementById(this.getPopup().name);
+            this.updateElementAtCursor(textarea, content, this.getPopup().opener);
+        }
+    },
+
 
     onAjaxSuccess: function(transport) {
         if (transport.responseText.isJSON()) {
@@ -183,6 +203,41 @@ WysiwygWidget.Widget.prototype = {
             } else if (response.ajaxExpired && response.ajaxRedirect) {
                 setLocation(response.ajaxRedirect);
             }
+        }
+    },
+
+    wysiwygExists: function() {
+        return (typeof tinyMCEPopup != 'undefined') && (typeof tinyMCEPopup.editor != 'undefined');
+    },
+
+    getPopup: function() {
+        if (this.wysiwygExists()) {
+            return tinyMCEPopup;
+        } else {
+            return window.self;
+        }
+    },
+
+    getWysiwyg: function() {
+        return tinyMCEPopup.editor;
+    },
+
+    getWysiwygNode: function() {
+        return tinyMCEPopup.editor.selection.getNode();
+    },
+
+    // Insert some content to the cursor position of input element
+    updateElementAtCursor: function(el, value, win) {
+        if (document.selection) {
+            el.focus();
+            sel = win.document.selection.createRange();
+            sel.text = value;
+        } else if (el.selectionStart || el.selectionStart == '0') {
+            var startPos = el.selectionStart;
+            var endPos = el.selectionEnd;
+            el.value = el.value.substring(0, startPos) + value + el.value.substring(endPos, el.value.length);
+        } else {
+            el.value += value;
         }
     }
 }

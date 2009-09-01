@@ -40,7 +40,12 @@ class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Acti
     public function indexAction()
     {
         $this->loadLayout('popup');
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $header = $this->getLayout()->getBlock('head');
+
+        $header->setCanLoadExtJs(true);
+        if (Mage::getStoreConfig('cms/page_wysiwyg/enabled') != 'disabled') {
+            $header->addJs('tiny_mce/tiny_mce_popup.js');
+        }
 
         // Add extra JS files required for widgets
         $config = Mage::getSingleton('cms/widget')->getXmlConfig();
@@ -48,7 +53,7 @@ class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Acti
         foreach ($widgets->children() as $widget) {
             if ($widget->js) {
                 foreach (explode(',', (string)$widget->js) as $js) {
-                    $this->getLayout()->getBlock('head')->addJs($js);
+                    $header->addJs($js);
                 }
             }
         }
@@ -77,7 +82,8 @@ class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Acti
     {
         $type = $this->getRequest()->getPost('widget_type');
         $params = $this->getRequest()->getPost('parameters', array());
-        $html = Mage::getSingleton('cms/widget')->getWidgetDeclaration($type, $params);
+        $asIs = $this->getRequest()->getPost('as_is');
+        $html = Mage::getSingleton('cms/widget')->getWidgetDeclaration($type, $params, $asIs);
         $this->getResponse()->setBody($html);
     }
 }

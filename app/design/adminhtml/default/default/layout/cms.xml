@@ -95,7 +95,6 @@
             <block name="wysiwyg_widget" type="adminhtml/cms_widget" />
         </reference>
         <reference name="head">
-            <action method="addJs"><script>tiny_mce/tiny_mce_popup.js</script></action>
             <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
         </reference>
     </adminhtml_cms_widget_index>

@@ -28,6 +28,8 @@ tinyMceWysiwygSetup.prototype =
     {
         this.id = htmlId;
         this.config = config;
+
+        varienGlobalEvents.attachEventHandler('tinymceChange', this.onChangeContent.bind(this));
     },
 
     setup: function()
@@ -59,7 +61,6 @@ tinyMceWysiwygSetup.prototype =
             theme_advanced_toolbar_align : 'left',
             theme_advanced_statusbar_location : 'bottom',
             theme_advanced_resizing : true,
-            file_browser_callback : 'imagebrowser',
             convert_urls : false,
             relative_urls : false,
             content_css: '',
@@ -97,6 +98,10 @@ tinyMceWysiwygSetup.prototype =
             }
         };
 
+        if (this.config.files_browser_window_url) {
+            settings.file_browser_callback = 'imagebrowser';
+        }
+
         return settings;
     },
 
@@ -120,6 +125,16 @@ tinyMceWysiwygSetup.prototype =
     onFormValidation: function() {
         if (tinyMCE.get(this.id)) {
             $(this.id).value = tinyMCE.get(this.id).getContent();
+        }
+    },
+
+    onChangeContent: function() {
+        // Add "changed" to tab class if it exists
+        if(this.config.tab_id) {
+            var tab = $$('a[id$=' + this.config.tab_id + ']')[0];
+            if ($(tab) != undefined && $(tab).hasClassName('tab-item-link')) {
+                $(tab).addClassName('changed');
+            }
         }
     },
 
