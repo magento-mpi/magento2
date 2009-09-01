@@ -29,7 +29,7 @@
 <layout>
     <adminhtml_cms_page_edit>
         <reference name="cms_page_edit_tabs">
-            <block type="enterprise_cms/adminhtml_cms_page_edit" anme="cms_page_edit_extender" />
+            <block type="enterprise_cms/adminhtml_cms_page_edit" name="cms_page_edit_extender" />
         </reference>
     </adminhtml_cms_page_edit>
 <!--
