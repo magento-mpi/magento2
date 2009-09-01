@@ -175,7 +175,7 @@
         <cms>
             <hierarchy>
                 <enabled>1</enabled>
-                <matadata_enabled>1</matadata_enabled>
+                <metadata_enabled>1</metadata_enabled>
             </hierarchy>
         </cms>
     </default>

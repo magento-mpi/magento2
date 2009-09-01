@@ -285,8 +285,6 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
             $object->setXpath($xpath);
         }
 
-        $this->_saveMetaData($object);
-
         return $this;
     }
 
@@ -296,7 +294,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      * @param Mage_Core_Model_Abstract $object
      * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
      */
-    protected function _saveMetaData(Mage_Core_Model_Abstract $object)
+    public function saveMetaData(Mage_Core_Model_Abstract $object)
     {
         if ($object->getParentNodeId()) {
             return $this;
