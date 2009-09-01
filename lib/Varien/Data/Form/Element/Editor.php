@@ -88,7 +88,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         else
         {
             if ($this->getConfig('widget_window_url')) {
-                $html = '<a href="#" onclick="window.open(\''.$this->getConfig('widget_window_url').'\', \''.$this->getHtmlId().'\', \'width=1024,height=800\');">'.$this->getConfig('widget_link_text').'</a>';
+                $html = '<a href="#" onclick="window.open(\''.$this->getConfig('widget_window_no_wysiwyg_url').'\', \''.$this->getHtmlId().'\', \'width=1024,height=800\');">'.$this->getConfig('widget_link_text').'</a>';
                 return $html . parent::getElementHtml();
             }
             return parent::getElementHtml();

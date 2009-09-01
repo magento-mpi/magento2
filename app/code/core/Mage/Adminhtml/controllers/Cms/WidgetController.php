@@ -43,7 +43,9 @@ class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Acti
         $header = $this->getLayout()->getBlock('head');
 
         $header->setCanLoadExtJs(true);
-        if (Mage::getStoreConfig('cms/page_wysiwyg/enabled') != 'disabled') {
+
+        // Include WYSIWYG popup helper if WYSIWYG instance exists
+        if (!$this->getRequest()->getParam('no_wysiwyg')) {
             $header->addJs('tiny_mce/tiny_mce_popup.js');
         }
 

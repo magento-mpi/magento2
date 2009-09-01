@@ -51,6 +51,7 @@ class Mage_Cms_Model_Page_Wysiwyg_Config extends Varien_Object
             'encode_directives'             => true,
             'directives_url'                => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg/directive'),
             'widget_window_url'             => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_widget/index'),
+            'widget_window_no_wysiwyg_url'  => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_widget/index', array('no_wysiwyg' => true)),
             'widget_plugin_src'             => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js',
             'widget_image_url'              => Mage::getDesign()->getSkinUrl('images/widget_placeholder.gif'),
             'widget_link_text'              => Mage::helper('cms')->__('Insert Widget'),
