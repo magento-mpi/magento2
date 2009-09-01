@@ -39,20 +39,27 @@ class Mage_Admin_Model_Mysql4_Rules extends Mage_Core_Model_Mysql4_Abstract
             $masterResources = Mage::getModel('admin/roles')->getResourcesList2D();
             $masterAdmin = false;
             if ( $postedResources = $rule->getResources() ) {
-                foreach ($masterResources as $index => $resName) {
-                    if ( !$masterAdmin ) {
+                // If all was selected save it only and nothing else.
+                if ($postedResources === array('all')) {
+                    $this->_getWriteAdapter()->insert($this->getMainTable(), array(
+                            'role_type'     => 'G',
+                            'resource_id'     => 'all',
+                            'privileges'     => '', # FIXME !!!
+                            'assert_id'     => 0,
+                            'role_id'         => $roleId,
+                            'permission'    => 'allow'
+                        ));
+                } else {
+                    foreach ($masterResources as $index => $resName) {
                         $permission = ( in_array($resName, $postedResources) )? 'allow' : 'deny';
                         $this->_getWriteAdapter()->insert($this->getMainTable(), array(
-                            'role_type' 	=> 'G',
-                            'resource_id' 	=> trim($resName, '/'),
-                            'privileges' 	=> '', # FIXME !!!
-                            'assert_id' 	=> 0,
-                            'role_id' 		=> $roleId,
-                            'permission'	=> $permission
+                                'role_type'     => 'G',
+                                'resource_id'     => trim($resName, '/'),
+                                'privileges'     => '', # FIXME !!!
+                                'assert_id'     => 0,
+                                'role_id'         => $roleId,
+                                'permission'    => $permission
                             ));
-                    }
-                    if ( $resName == 'all' && $permission == 'allow' ) {
-                        $masterAdmin = true;
                     }
                 }
             }
