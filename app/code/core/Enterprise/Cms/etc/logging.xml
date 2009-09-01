@@ -32,6 +32,11 @@
             <enterprise_cms__hierarchy_node/>
         </expected_models>
         <actions>
+            <adminhtml_cms_hierarchy_index>
+                <action>view</action>
+                <expected_models />
+                <post_dispatch>postDispatchCmsHierachyView</post_dispatch>
+            </adminhtml_cms_hierarchy_index>
             <adminhtml_cms_hierarchy_save>
                 <action>save</action>
             </adminhtml_cms_hierarchy_save>

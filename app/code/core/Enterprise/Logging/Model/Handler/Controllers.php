@@ -304,4 +304,16 @@ class Enterprise_Logging_Model_Handler_Controllers
             Mage::register('enterprise_logged_actions', $actions);
         }
     }
+
+    /**
+     * Handler for cms hierarchy view
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event|false
+     */
+    public function postDispatchCmsHierachyView($config, $eventModel)
+    {
+        return $eventModel->setInfo(Mage::helper('enterprise_cms')->__('Tree Viewed'));
+    }
 }
