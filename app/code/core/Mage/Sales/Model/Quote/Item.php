@@ -216,6 +216,23 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     }
 
     /**
+     * Checking item data
+     *
+     * @return Mage_Sales_Model_Quote_Item_Abstract
+     */
+    public function checkData()
+    {
+        $parent = parent::checkData();
+        if ($this->getProduct()->getHasError()) {
+            $this->setHasError(true);
+            $this->setMessage(Mage::helper('sales')->__('Item options declare error'));
+            $this->getQuote()->setHasError(true);
+            $this->getQuote()->addMessage($this->getProduct()->getMessage(), 'options');
+        }
+        return $parent;
+    }
+
+    /**
      * Setup product for quote item
      *
      * @param   Mage_Catalog_Model_Product $product
