@@ -320,7 +320,7 @@ abstract class Mage_Eav_Model_Entity_Abstract
      * If attribute is not found false is returned
      *
      * @param string|integer|Mage_Core_Model_Config_Element $attribute
-     * @return Mage_Eav_Model_Entity_Attribute_Abstract
+     * @return Mage_Eav_Model_Entity_Attribute_Abstract || false
      */
     public function getAttribute($attribute)
     {
@@ -966,10 +966,13 @@ abstract class Mage_Eav_Model_Entity_Abstract
         $delete     = array();
 
         if (!empty($entityId)) {
+            $origData = $newObject->getOrigData();
             /**
-             * get current data in db for this entity
+             * get current data in db for this entity if original data is empty
              */
-            $origData = $this->_getOrigObject($newObject)->getOrigData();
+            if (empty($origData)) {
+                $origData = $this->_getOrigObject($newObject)->getOrigData();
+            }
 
             /**
              * drop attributes that are unknown in new data
@@ -984,13 +987,22 @@ abstract class Mage_Eav_Model_Entity_Abstract
             $origData = array();
         }
 
+        $staticFields   = $this->_getWriteAdapter()->describeTable($this->getEntityTable());
+        $staticFields   = array_keys($staticFields);
+        $attributeCodes = array_keys($this->_attributesByCode);
+
         foreach ($newData as $k => $v) {
             /**
              * Check attribute information
              */
             if (is_numeric($k) || is_array($v)) {
                 continue;
-//                throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Invalid data object key'));
+            }
+            /**
+             * Check if data key is presented in static fields or attribute codes
+             */
+            if (!in_array($k, $staticFields) && !in_array($k, $attributeCodes)) {
+                continue;
             }
 
             $attribute = $this->getAttribute($k);
