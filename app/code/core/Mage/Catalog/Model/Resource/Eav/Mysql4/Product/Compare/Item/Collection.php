@@ -34,9 +34,6 @@
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
 {
-
-    protected $_storeId = null;
-
     /**
      * Customer Filter
      *
@@ -68,32 +65,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection ext
 
         $this->_productWebsiteTable = $this->getResource()->getTable('catalog/product_website');
         $this->_productCategoryTable= $this->getResource()->getTable('catalog/category_product');
-    }
-
-    /**
-     * Set store id
-     *
-     * @param integer $storeId
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item_Collection
-     */
-    public function setStoreId($storeId)
-    {
-        $this->_storeId = $storeId;
-        return $this;
-    }
-
-    /**
-     * Return store id.
-     * If is not set return current app store
-     *
-     * @return integer
-     */
-    public function getStoreId()
-    {
-        if ($this->_storeId === null) {
-            return Mage::app()->getStore()->getId();
-        }
-        return $this->_storeId;
     }
 
     /**
