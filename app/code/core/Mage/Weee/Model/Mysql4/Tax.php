@@ -24,7 +24,7 @@ class Mage_Weee_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
     {
         $this->_init('weee/tax', 'value_id');
     }
-    
+
     public function fetchOne($select)
     {
         return $this->_getReadAdapter()->fetchOne($select);
@@ -53,24 +53,30 @@ class Mage_Weee_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
      */
     protected function _updateDiscountPercents($productCondition = null)
     {
-        $this->_getWriteAdapter()->delete($this->getTable('weee/discount'));
         $now = strtotime(now());
 
         $select = $this->_getReadAdapter()->select();
         $select->from(array('data'=>$this->getTable('catalogrule/rule_product')));
-        
+
+        $deleteCondition = '';
         if ($productCondition) {
             if ($productCondition instanceof Mage_Catalog_Model_Product) {
                 $select->where('product_id=?', $productCondition->getId());
+                $deleteCondition = $this->_getWriteAdapter()->quoteInto('entity_id=?', $productCondition->getId());
             } elseif ($productCondition instanceof Mage_Catalog_Model_Product_Condition_Interface) {
-                $select->where('product_id IN ('.$productCondition->getIdsSelect($this->_getWriteAdapter())->__toString().')');
+                $productCondition = $productCondition->getIdsSelect($this->_getWriteAdapter())->__toString();
+                $select->where('product_id IN ('.$productCondition.')');
+                $deleteCondition = 'entity_id IN ('.$productCondition.')';
             } else {
                 $select->where('product_id=?', $productCondition);
+                $deleteCondition = $this->_getWriteAdapter()->quoteInto('entity_id=?', $productCondition);
             }
         } else {
             $select->where('(from_time <= ? OR from_time = 0)', $now)
                 ->where('(to_time >= ? OR to_time = 0)', $now);
         }
+        $this->_getWriteAdapter()->delete($this->getTable('weee/discount'), $deleteCondition);
+
         $select->order(array('data.website_id', 'data.customer_group_id', 'data.product_id', 'data.sort_order'));
 
         $data = $this->_getReadAdapter()->query($select);
