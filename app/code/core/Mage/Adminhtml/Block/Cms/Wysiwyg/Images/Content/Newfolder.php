@@ -24,39 +24,14 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 /**
- * Wysiwyg controller for different purposes
+ * New directory block for Wysiwyg Images
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Cms_Page_WysiwygController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Newfolder extends Mage_Adminhtml_Block_Template
 {
-    /**
-     * Template directives callback
-     *
-     * TODO: move this to some model
-     */
-    public function directiveAction()
-    {
-        $directive = $this->getRequest()->getParam('directive');
-        $directive = Mage::helper('core')->urlDecode($directive);
-        $url = Mage::getModel('core/email_template_filter')->filter($directive);
-        try {
-            $image = Varien_Image_Adapter::factory('GD2');
-            $image->open($url);
-            $image->display();
-        } catch (Exception $e) {
-            $image = imagecreate(100, 100);
-            $bkgrColor = imagecolorallocate($image,10,10,10);
-            imagefill($image,0,0,$bkgrColor);
-            $textColor = imagecolorallocate($image,255,255,255);
-            imagestring($image, 4, 10, 10, 'Skin image', $textColor);
-            header('Content-type: image/png');
-            imagepng($image);
-            imagedestroy($image);
-        }
-    }
+
 }

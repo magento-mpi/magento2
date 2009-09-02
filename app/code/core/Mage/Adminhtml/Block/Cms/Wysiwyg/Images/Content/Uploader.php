@@ -31,13 +31,13 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
 */
-class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Uploader extends Mage_Adminhtml_Block_Media_Uploader
+class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Mage_Adminhtml_Block_Media_Uploader
 {
     public function __construct()
     {
         parent::__construct();
         $params = $this->getConfig()->getParams();
-        $allowed = Mage::getSingleton('cms/page_wysiwyg_images_storage')->getAllowedExtensions();
+        $allowed = Mage::getSingleton('cms/wysiwyg_images_storage')->getAllowedExtensions();
         $labels = array();
         $files = array();
         foreach ($allowed as $ext) {

@@ -31,7 +31,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content extends Mage_Adminhtml_Block_Widget_View_Container
+class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Block_Widget_View_Container
 {
     /**
      * Block construction

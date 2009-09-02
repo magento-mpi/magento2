@@ -71,22 +71,22 @@
         </reference>
     </adminhtml_cms_block_edit>
 
-    <adminhtml_cms_page_wysiwyg_images_index>
+    <adminhtml_cms_wysiwyg_images_index>
         <reference name="left">
-            <block name="wysiwyg_images.tree" type="adminhtml/cms_page_edit_wysiwyg_images_tree" template="cms/page/edit/wysiwyg/tree.phtml" />
+            <block name="wysiwyg_images.tree" type="adminhtml/cms_wysiwyg_images_tree" template="cms//wysiwyg/tree.phtml" />
         </reference>
         <reference name="content">
-            <block name="wysiwyg_images.content"  type="adminhtml/cms_page_edit_wysiwyg_images_content" template="cms/page/edit/wysiwyg/content.phtml">
-                <block name="wysiwyg_images.js" type="adminhtml/cms_page_edit_wysiwyg_images_content" template="cms/page/edit/wysiwyg/js.phtml" />
-                <block name="wysiwyg_images.uploader" type="adminhtml/cms_page_edit_wysiwyg_images_content_uploader" template="cms/page/edit/wysiwyg/content/uploader.phtml" />
-                <block name="wysiwyg_images.newfolder" type="adminhtml/cms_page_edit_wysiwyg_images_content_newfolder" template="cms/page/edit/wysiwyg/content/newfolder.phtml" />
+            <block name="wysiwyg_images.content"  type="adminhtml/cms_wysiwyg_images_content" template="cms/wysiwyg/content.phtml">
+                <block name="wysiwyg_images.js" type="adminhtml/cms_wysiwyg_images_content" template="cms/wysiwyg/js.phtml" />
+                <block name="wysiwyg_images.uploader" type="adminhtml/cms_wysiwyg_images_content_uploader" template="cms/wysiwyg/content/uploader.phtml" />
+                <block name="wysiwyg_images.newfolder" type="adminhtml/cms_wysiwyg_images_content_newfolder" template="cms/wysiwyg/content/newfolder.phtml" />
             </block>
         </reference>
-    </adminhtml_cms_page_wysiwyg_images_index>
+    </adminhtml_cms_wysiwyg_images_index>
 
-    <adminhtml_cms_page_wysiwyg_images_contents>
-        <block name="wysiwyg_images.files" type="adminhtml/cms_page_edit_wysiwyg_images_content_files" template="cms/page/edit/wysiwyg/content/files.phtml" output="toHtml" />
-    </adminhtml_cms_page_wysiwyg_images_contents>
+    <adminhtml_cms_wysiwyg_images_contents>
+        <block name="wysiwyg_images.files" type="adminhtml/cms_wysiwyg_images_content_files" template="cms/wysiwyg/content/files.phtml" output="toHtml" />
+    </adminhtml_cms_wysiwyg_images_contents>
 
     <adminhtml_cms_widget_index>
         <remove name="left" />

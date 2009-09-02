@@ -26,30 +26,8 @@
 ?>
 <?php
 /**
- * Wysiwyg Images content template
+ * New directory template for Wysiwyg Images
  *
- * @see Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content
+ * @see Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Newfolder
  */
 ?>
-<?php echo $this->getChildHtml('wysiwyg_images.js') ?>
-
-<style type="text/css">
-#contents {overflow:auto;height:400px;}
-#contents .filecnt {float:left; padding:3px; margin:0px 5px 15px 5px;border:1px solid #fff;}
-#contents .selected {border:1px solid #f1af73;}
-</style>
-
-<div class="content-header">
-    <table cellspacing="0">
-        <tr>
-            <td><h3><?php echo $this->getHeaderText() ?></h3></td>
-            <td class="form-buttons">
-                <?php echo $this->getButtonsHtml() ?>
-            </td>
-        </tr>
-    </table>
-</div>
-
-<div id="contents-uploader" class="no-display"><?php echo $this->getChildHtml('wysiwyg_images.uploader') ?></div>
-<div id="contents"></div>
-<div id="contents-newfolder" class="no-display"><?php echo $this->getChildHtml('wysiwyg_images.newfolder') ?></div>

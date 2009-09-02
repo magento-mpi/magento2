@@ -26,13 +26,13 @@
 
 
 /**
- * Images manage controller for Cms page WYSIWYG editor
+ * Images manage controller for Cms WYSIWYG editor
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Init storage
@@ -48,7 +48,7 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
     public function indexAction()
     {
         try {
-            Mage::helper('cms/page_wysiwyg_images')->getCurrentPath();
+            Mage::helper('cms/wysiwyg_images')->getCurrentPath();
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
         try {
             $this->_initAction()->_saveSessionCurrentPath();
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('adminhtml/cms_page_edit_wysiwyg_images_tree')
+                $this->getLayout()->createBlock('adminhtml/cms_wysiwyg_images_tree')
                     ->getTreeJson()
             );
         } catch (Exception $e) {
@@ -146,11 +146,11 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
     {
         $filename = $this->getRequest()->getParam('filename');
         $filename = Mage::helper('core')->urlDecode($filename);
-        $fileurl = Mage::helper('cms/page_wysiwyg_images')->getCurrentUrl() . $filename;
+        $fileurl = Mage::helper('cms/wysiwyg_images')->getCurrentUrl() . $filename;
         $mediaPath = str_replace(Mage::getBaseUrl('media'), '', $fileurl);
         $directive = sprintf('{{media url="%s"}}', $mediaPath);
         if (!$this->getRequest()->getParam('as_is')) {
-            $directive = $this->getUrl('*/cms_page_wysiwyg/directive', array('directive' => Mage::helper('core')->urlEncode($directive)));
+            $directive = $this->getUrl('*/cms_wysiwyg/directive', array('directive' => Mage::helper('core')->urlEncode($directive)));
         }
         $this->getResponse()->setBody($directive);
     }
@@ -163,7 +163,7 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
     public function getStorage()
     {
         if (!Mage::registry('storage')) {
-            $storage = Mage::getModel('cms/page_wysiwyg_images_storage');
+            $storage = Mage::getModel('cms/wysiwyg_images_storage');
             Mage::register('storage', $storage);
         }
         return Mage::registry('storage');
@@ -178,7 +178,7 @@ class Mage_Adminhtml_Cms_Page_Wysiwyg_ImagesController extends Mage_Adminhtml_Co
     {
         $this->getStorage()
             ->getSession()
-            ->setCurrentPath(Mage::helper('cms/page_wysiwyg_images')->getCurrentPath());
+            ->setCurrentPath(Mage::helper('cms/wysiwyg_images')->getCurrentPath());
         return $this;
     }
 }

@@ -31,7 +31,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Page_Wysiwyg_Config extends Varien_Object
+class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
 {
     /**
      * Return Wysiwyg config as Varien_Object
@@ -43,13 +43,13 @@ class Mage_Cms_Model_Page_Wysiwyg_Config extends Varien_Object
     {
         $config = new Varien_Object();
         $config->setData(array(
-            'enabled'                       => Mage::getStoreConfig('cms/page_wysiwyg/enabled'),
-            'files_browser_window_url'      => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg_images/index'),
-            'files_browser_window_width'    => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_width'),
-            'files_browser_window_height'   => Mage::getStoreConfig('cms/page_wysiwyg/browser_window_height'),
+            'enabled'                       => Mage::getStoreConfig('cms/wysiwyg/enabled'),
+            'files_browser_window_url'      => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_wysiwyg_images/index'),
+            'files_browser_window_width'    => Mage::getStoreConfig('cms/wysiwyg/browser_window_width'),
+            'files_browser_window_height'   => Mage::getStoreConfig('cms/wysiwyg/browser_window_height'),
             'toggle_link_title'             => Mage::helper('cms')->__('Show/Hide Editor'),
             'encode_directives'             => true,
-            'directives_url'                => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_page_wysiwyg/directive'),
+            'directives_url'                => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_wysiwyg/directive'),
             'widget_window_url'             => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_widget/index'),
             'widget_window_no_wysiwyg_url'  => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_widget/index', array('no_wysiwyg' => true)),
             'widget_plugin_src'             => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js',

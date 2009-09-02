@@ -31,7 +31,7 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Files extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Mage_Adminhtml_Block_Template
 {
     /**
      * Prepare Files collection
@@ -40,7 +40,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Files extends Ma
      */
     public function getContentsCollection()
     {
-        $helper = Mage::helper('cms/page_wysiwyg_images');
+        $helper = Mage::helper('cms/wysiwyg_images');
         $collection = $helper->getStorage()->getFilesCollection($helper->getCurrentPath());
         foreach ($collection as $item) {
             $item->setId(Mage::helper('core')->urlEncode($item->getBasename()));
@@ -63,12 +63,12 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Content_Files extends Ma
 
     public function getImagesWidth()
     {
-        return Mage::getSingleton('cms/page_wysiwyg_images_storage')->getConfigData('browser_resize_width');
+        return Mage::getSingleton('cms/wysiwyg_images_storage')->getConfigData('browser_resize_width');
     }
 
     public function getImagesHeight()
     {
-        return Mage::getSingleton('cms/page_wysiwyg_images_storage')->getConfigData('browser_resize_height');
+        return Mage::getSingleton('cms/wysiwyg_images_storage')->getConfigData('browser_resize_height');
     }
 
     /**

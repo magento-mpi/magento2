@@ -57,7 +57,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
         $fieldset = $form->addFieldset('content_fieldset', array('class'=>'fieldset-wide'));
 
-        $wysiwygConfig = Mage::getSingleton('cms/page_wysiwyg_config')->getConfig(
+        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(
             array('tab_id' => $this->getTabId())
         );
 

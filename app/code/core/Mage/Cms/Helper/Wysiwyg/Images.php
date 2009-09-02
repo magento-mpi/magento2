@@ -25,12 +25,12 @@
  */
 
 /**
- * Page Wysiwyg Images Helper
+ * Wysiwyg Images Helper
  *
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
+class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
 {
 
     /**
@@ -181,6 +181,6 @@ class Mage_Cms_Helper_Page_Wysiwyg_Images extends Mage_Core_Helper_Abstract
      */
     public function getStorage()
     {
-        return Mage::getSingleton('cms/page_wysiwyg_images_storage');
+        return Mage::getSingleton('cms/wysiwyg_images_storage');
     }
 }

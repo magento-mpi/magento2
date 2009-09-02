@@ -25,13 +25,13 @@
  */
 
 /**
- * Directoty tree renderer for Cms Page Wysiwyg Images
+ * Directoty tree renderer for Cms Wysiwyg Images
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Tree extends Mage_Adminhtml_Block_Template
+class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Tree extends Mage_Adminhtml_Block_Template
 {
 
     /**
@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Tree extends Mage_Adminh
      */
     public function getTreeJson()
     {
-        $helper = Mage::helper('cms/page_wysiwyg_images');
+        $helper = Mage::helper('cms/wysiwyg_images');
         $storageRoot = $helper->getStorageRoot();
         $collection = Mage::registry('storage')->getDirsCollection($helper->getCurrentPath());
         $jsonArray = array();
@@ -84,7 +84,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Wysiwyg_Images_Tree extends Mage_Adminh
     {
         $treePath = '/root';
         if ($path = Mage::registry('storage')->getSession()->getCurrentPath()) {
-            $path = str_replace(Mage::helper('cms/page_wysiwyg_images')->getStorageRoot(), '', $path);
+            $path = str_replace(Mage::helper('cms/wysiwyg_images')->getStorageRoot(), '', $path);
             $relative = '';
             foreach (explode(DS, $path) as $dirName) {
                 if ($dirName) {

@@ -31,7 +31,7 @@
  * @package     Mage_Cms
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Cms_Model_Page_Wysiwyg_Images_Storage extends Varien_Object
+class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
 {
     const DIRECTORY_NAME_REGEXP = '/^[a-z0-9\-\_]+$/si';
 
@@ -80,7 +80,7 @@ class Mage_Cms_Model_Page_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getCollection($path = null)
     {
-        $collection = Mage::getModel('cms/page_wysiwyg_images_storage_collection');
+        $collection = Mage::getModel('cms/wysiwyg_images_storage_collection');
         if ($path !== null) {
             $collection->addTargetDir($path);
         }
@@ -101,7 +101,7 @@ class Mage_Cms_Model_Page_Wysiwyg_Images_Storage extends Varien_Object
             Mage::throwException(Mage::helper('cms')->__('Invalid folder name. Please, use alphanumeric characters'));
         }
         if (!is_dir($path) || !is_writable($path)) {
-            $path = Mage::helper('cms/page_wysiwyg_images')->getStorageRoot();
+            $path = Mage::helper('cms/wysiwyg_images')->getStorageRoot();
         }
 
         $newPath = $path . DS . $name;
@@ -115,7 +115,7 @@ class Mage_Cms_Model_Page_Wysiwyg_Images_Storage extends Varien_Object
             $result = array(
                 'name'  => $name,
                 'path'  => $newPath,
-                'id'    => Mage::helper('cms/page_wysiwyg_images')->convertPathToId($newPath)
+                'id'    => Mage::helper('cms/wysiwyg_images')->convertPathToId($newPath)
             );
             return $result;
         }
@@ -201,7 +201,7 @@ class Mage_Cms_Model_Page_Wysiwyg_Images_Storage extends Varien_Object
     public function getConfigData($key, $default=false)
     {
         if (!$this->hasData($key)) {
-            $value = Mage::getStoreConfig('cms/page_wysiwyg/'.$key);
+            $value = Mage::getStoreConfig('cms/wysiwyg/'.$key);
             if (is_null($value) || false===$value) {
                 $value = $default;
             }
