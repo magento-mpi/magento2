@@ -269,4 +269,17 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
 
         $this->addStoreFilter($collection);
     }
+
+    /**
+     * Apply store filter on collection used in new order's rss
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Collections
+     */
+    public function rssOrderNewCollectionSelect($observer)
+    {
+        $collection = $observer->getEvent()->getCollection();
+        $this->addStoreAttributeToFilter($collection);
+        return $this;
+    }
 }

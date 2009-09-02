@@ -269,6 +269,14 @@
                     </enterprise_admingws>
                 </observers>
             </catalog_product_website_update_before>
+            <rss_order_new_collection_select>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/collections</class>
+                        <method>rssOrderNewCollectionSelect</method>
+                    </enterprise_admingws>
+                </observers>
+            </rss_order_new_collection_select>
         </events>
         <enterprise>
             <admingws>
