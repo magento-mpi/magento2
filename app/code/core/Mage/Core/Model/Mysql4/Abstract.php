@@ -593,10 +593,10 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
 
         if (!empty($existent)) {
             if (count($existent) == 1 ) {
-                $error = Mage::helper('core')->__('%s already exist', $existent[0]);
+                $error = Mage::helper('core')->__('%s already exists', $existent[0]);
             }
             else {
-                $error = Mage::helper('core')->__('%s already exists', implode(', ', $existent));
+                $error = Mage::helper('core')->__('%s already exist', implode(', ', $existent));
             }
             Mage::throwException($error);
         }
