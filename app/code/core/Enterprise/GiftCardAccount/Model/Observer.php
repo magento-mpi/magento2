@@ -156,7 +156,7 @@ class Enterprise_GiftCardAccount_Model_Observer
     public function giftcardaccountSaveAfter(Varien_Event_Observer $observer)
     {
         $gca = $observer->getEvent()->getGiftcardaccount();
-        
+
         if ($gca->hasHistoryAction()) {
             Mage::getModel('enterprise_giftcardaccount/history')
                 ->setGiftcardaccount($gca)
@@ -276,6 +276,11 @@ class Enterprise_GiftCardAccount_Model_Observer
 
             $order->setBaseGiftCardsRefunded($order->getBaseGiftCardsRefunded() + $creditmemo->getBaseGiftCardsAmount());
             $order->setGiftCardsRefunded($order->getGiftCardsRefunded() + $creditmemo->getGiftCardsAmount());
+
+            // we need to update flag after credit memo was refunded and order's properties changed
+            if ($order->getGiftCardsInvoiced() == $order->getGiftCardsRefunded()) {
+                $order->setForcedCanCreditmemo(false);
+            }
         }
 
         return $this;
