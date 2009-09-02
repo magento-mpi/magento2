@@ -128,7 +128,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    $e->getMessage() . Mage::helper('enterprise_cms')->__('Error while saving this Hierarchy. Please try again later.')
+                    Mage::helper('enterprise_cms')->__('Error while saving this Hierarchy. Please try again later.')
                 );
             }
 

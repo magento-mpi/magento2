@@ -437,7 +437,7 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
         parent::_afterSave();
 
         if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) {
-            $this->_getResource()->saveMetaData();
+            $this->_getResource()->saveMetaData($this);
         }
 
         return $this;
