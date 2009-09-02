@@ -276,6 +276,16 @@
                 </enterprise_giftcardaccount>
             </updates>
         </layout>
+        <events>
+            <google_checkout_discount_item_price>
+                <observers>
+                    <enterprise_giftcardaccount>
+                        <class>enterprise_giftcardaccount/observer</class>
+                        <method>googleCheckoutDiscoutItem</method>
+                    </enterprise_giftcardaccount>
+                </observers>
+            </google_checkout_discount_item_price>
+        </events>
     </frontend>
 
     <admin>

@@ -333,4 +333,19 @@ class Enterprise_GiftCardAccount_Model_Observer
 
         return $this;
     }
+
+    /**
+     * Updating price for Google Checkout internal discount item.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_GiftCardAccount_Model_Observer
+     */
+    public function googleCheckoutDiscoutItem(Varien_Event_Observer $observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $discountItem = $observer->getEvent()->getDiscountItem();
+        $discountItem->setPrice($discountItem->getPrice() + $quote->getBaseGiftCardsAmountUsed());
+
+        return $this;
+    }
 }
