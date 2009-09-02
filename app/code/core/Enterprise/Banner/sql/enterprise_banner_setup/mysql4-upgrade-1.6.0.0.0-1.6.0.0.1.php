@@ -34,13 +34,13 @@ $connection             = $installer->getConnection();
 
 $installer->run("ALTER TABLE `{$bannerContentTable}` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;");
 
-$collection->modifyColumn($bannerContentTable, 'banner_content', 'MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL');
+$connection->modifyColumn($bannerContentTable, 'banner_content', 'MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL');
 
 $installer->run("ALTER TABLE `{$bannerContentTable}` ADD PRIMARY KEY ( `banner_id` , `store_id` )");
 
-$collection->dropForeignKey($bannerSalesRuleTable, 'FK_BANNER_SALESRULE_RULE');
+$connection->dropForeignKey($bannerSalesRuleTable, 'FK_BANNER_SALESRULE_RULE');
 
-$collection->addConstraint(
+$connection->addConstraint(
     'FK_BANNER_SALESRULE_RULE', $bannerSalesRuleTable, 'rule_id',
     $installer->getTable('salesrule/rule'), 'rule_id', 'CASCADE', 'CASCADE'
 );
