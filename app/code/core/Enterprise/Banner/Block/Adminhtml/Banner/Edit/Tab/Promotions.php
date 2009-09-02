@@ -67,4 +67,32 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions
     {
         return false;
     }
+
+    /**
+     * Enter description here...
+     *
+     * @return unknown
+     */
+    public function getBannersSalesRuleJson()
+    {
+        $rules = Mage::registry('current_banner')->getRelatedSalesRule();
+        if (!empty($rules)) {
+            return Mage::helper('core')->jsonEncode($rules);
+        }
+        return '{}';
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return unknown
+     */
+    public function getBannersCatalogRuleJson()
+    {
+        $rules = Mage::registry('current_banner')->getRelatedCatalogRule();
+        if (!empty($rules)) {
+            return Mage::helper('core')->jsonEncode($rules);
+        }
+        return '{}';
+    }
 }

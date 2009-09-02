@@ -59,5 +59,8 @@
         <remove name="root" />
         <block type="enterprise_banner/adminhtml_banner_edit_tab_promotions_catalogrule" name="banner_catalogrule_grid" output="toHtml" />
     </adminhtml_banner_catalogrulegrid>
-
+    <adminhtml_banner_grid>
+        <remove name="root" />
+        <block type="enterprise_banner/adminhtml_banner_grid" name="banner_grid" output="toHtml" />
+    </adminhtml_banner_grid>
 </layout>

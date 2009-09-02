@@ -27,17 +27,6 @@
 class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Render Banner grid
-     */
-    public function gridAction()
-    {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('enterprise_banner/adminhtml_banner_grid', 'banner.grid')
-                ->toHtml()
-        );
-    }
-
-    /**
      * Banners list
      *
      * @return void
@@ -64,8 +53,6 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
      */
     public function editAction()
     {
-
-        // 1. Get ID and create model
         $id = $this->getRequest()->getParam('id');
         $this->_initBanner('id');
         $model = Mage::registry('current_banner');
@@ -81,10 +68,11 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
             $model->addData($data);
         }
 
-        $this->loadLayout()
-            ->_addBreadcrumb($id ? Mage::helper('enterprise_banner')->__('Edit Banner') : Mage::helper('enterprise_banner')->__('New Banner'),
-                             $id ? Mage::helper('enterprise_banner')->__('Edit Banner') : Mage::helper('enterprise_banner')->__('New Banner'))
-            ->renderLayout();
+        $this->loadLayout();
+        $this->_setActiveMenu('cms/enterprise_banner');
+        $this->_addBreadcrumb($id ? Mage::helper('enterprise_banner')->__('Edit Banner') : Mage::helper('enterprise_banner')->__('New Banner'),
+                              $id ? Mage::helper('enterprise_banner')->__('Edit Banner') : Mage::helper('enterprise_banner')->__('New Banner'))
+             ->renderLayout();
     }
 
     /**
@@ -95,7 +83,6 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         $redirectBack = $this->getRequest()->getParam('back', false);
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
-            $data = $this->_filterPostData($data);
             // init model and set data
             $model = Mage::getModel('enterprise_banner/banner');
             if (!empty($data)) {
@@ -175,6 +162,37 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     }
 
     /**
+     * Delete specified banners using grid massaction
+     */
+    public function massDeleteAction()
+    {
+        $ids = $this->getRequest()->getParam('banner');
+        if (!is_array($ids)) {
+            $this->_getSession()->addError($this->__('Please select banner(s)'));
+        }
+        else {
+            try {
+                foreach ($ids as $id) {
+                    $model = Mage::getSingleton('enterprise_banner/banner')->load($id);
+                    $model->delete();
+                }
+
+                $this->_getSession()->addSuccess(
+                    $this->__('Total of %d record(s) were successfully deleted', count($ids))
+                );
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('Error while mass delete banners. Please review log and try again.'));
+                Mage::logException($e);
+                return;
+            }
+        }
+        $this->_redirect('*/*/index');
+    }
+
+
+    /**
      * Load Banenr from request
      *
      * @param string $idFieldName
@@ -190,30 +208,6 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     }
 
     /**
-     * Filtering posted data. Converting localized data if needed
-     *
-     * @param array
-     * @return array
-     */
-    protected function _filterPostData($data)
-    {
-        $filterInput = new Zend_Filter_LocalizedToNormalized(array(
-                'date_format' => Mage::app()->getLocale()->getDateFormat()
-            ));
-
-        $filterInternal = new Zend_Filter_NormalizedToLocalized(array(
-                'date_format' => Varien_Date::DATE_INTERNAL_FORMAT
-            ));
-
-        if (isset($data['date_expires']) && $data['date_expires']) {
-            $data['date_expires'] = $filterInput->filter($data['date_expires']);
-            $data['date_expires'] = $filterInternal->filter($data['date_expires']);
-        }
-
-        return $data;
-    }
-
-    /**
      * Check the permission to run it
      *
      * @return boolean
@@ -223,12 +217,29 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         return Mage::getSingleton('admin/session')->isAllowed('cms/enterprise_banner');
     }
 
+    /**
+     * Render Banner grid
+     */
+    public function gridAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Enter description here...
+     *
+     */
     public function salesRuleGridAction()
     {
         $this->loadLayout();
         $this->renderLayout();
     }
 
+    /**
+     * Enter description here...
+     *
+     */
     public function catalogRuleGridAction()
     {
         $this->loadLayout();

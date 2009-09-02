@@ -34,40 +34,41 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
+        $this->setVarNameFilter('related_catalogrule_filter');
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('catalogrule/rule')
-            ->getResourceCollection();
+        $collection = Mage::getModel('enterprise_banner/catalogrule')
+            ->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $this->addColumn('in_rules', array(
+        $this->addColumn('in_banner_catalogrule', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'name'      => 'in_rules',
+            'name'      => 'in_banner_catalogrule',
             'values'    => $this->_getSelectedRules(),
             'align'     => 'center',
             'index'     => 'rule_id'
         ));
-        $this->addColumn('rule_id', array(
+        $this->addColumn('catalogrule_rule_id', array(
             'header'    => Mage::helper('catalogrule')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
-        $this->addColumn('name', array(
+        $this->addColumn('catalogrule_name', array(
             'header'    => Mage::helper('catalogrule')->__('Rule Name'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
-        $this->addColumn('from_date', array(
+        $this->addColumn('catalogrule_from_date', array(
             'header'    => Mage::helper('catalogrule')->__('Date Start'),
             'align'     => 'left',
             'width'     => '120px',
@@ -75,7 +76,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
             'index'     => 'from_date',
         ));
 
-        $this->addColumn('to_date', array(
+        $this->addColumn('catalogrule_to_date', array(
             'header'    => Mage::helper('catalogrule')->__('Date Expire'),
             'align'     => 'left',
             'width'     => '120px',
@@ -84,7 +85,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
             'index'     => 'to_date',
         ));
 
-        $this->addColumn('is_active', array(
+        $this->addColumn('catalogrule_is_active', array(
             'header'    => Mage::helper('catalogrule')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
@@ -100,6 +101,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         return parent::_prepareColumns();
     }
 
+    /**
+     *
+     */
     public function getGridUrl()
     {
         return $this->getUrl('*/*/catalogRuleGrid', array('_current'=>true));
@@ -107,6 +111,11 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
 
     protected function _getSelectedRules()
     {
-        return $this->getRequest()->getPost('catalogrules', null);
+        $rules = $this->getRequest()->getPost('selected_catalogrules');
+        if (is_null($rules)) {
+            $rules = Mage::registry('current_banner')->getRelatedCatalogRule();
+            return array_keys($rules);
+        }
+        return $rules;
     }
 }

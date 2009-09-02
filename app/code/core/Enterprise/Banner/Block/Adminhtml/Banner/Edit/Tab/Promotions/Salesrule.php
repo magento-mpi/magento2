@@ -34,40 +34,41 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
+        $this->setVarNameFilter('related_salesrule_filter');
     }
 
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('salesrule/rule')
-            ->getResourceCollection();
+        $collection = Mage::getModel('enterprise_banner/salesrule')
+            ->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
     protected function _prepareColumns()
     {
-        $this->addColumn('in_rules', array(
+        $this->addColumn('in_banner_salesrule', array(
             'header_css_class' => 'a-center',
             'type'      => 'checkbox',
-            'name'      => 'in_rules',
+            'name'      => 'in_banner_salesrule',
             'values'    => $this->_getSelectedRules(),
             'align'     => 'center',
             'index'     => 'rule_id'
         ));
-        $this->addColumn('rule_id', array(
+        $this->addColumn('salesrule_rule_id', array(
             'header'    => Mage::helper('salesrule')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'rule_id',
         ));
 
-        $this->addColumn('name', array(
+        $this->addColumn('salesrule_name', array(
             'header'    => Mage::helper('salesrule')->__('Rule Name'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
-        $this->addColumn('from_date', array(
+        $this->addColumn('salesrule_from_date', array(
             'header'    => Mage::helper('salesrule')->__('Date Start'),
             'align'     => 'left',
             'width'     => '120px',
@@ -75,7 +76,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
             'index'     => 'from_date',
         ));
 
-        $this->addColumn('to_date', array(
+        $this->addColumn('salesrule_to_date', array(
             'header'    => Mage::helper('salesrule')->__('Date Expire'),
             'align'     => 'left',
             'width'     => '120px',
@@ -84,7 +85,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
             'index'     => 'to_date',
         ));
 
-        $this->addColumn('is_active', array(
+        $this->addColumn('salesrule_is_active', array(
             'header'    => Mage::helper('salesrule')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
@@ -107,6 +108,11 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
 
     protected function _getSelectedRules()
     {
-        return $this->getRequest()->getPost('salesrules', null);
+        $rules = $this->getRequest()->getPost('selected_salesrules');
+        if (is_null($rules)) {
+            $rules = Mage::registry('current_banner')->getRelatedSalesRule();
+            return array_keys($rules);
+        }
+        return $rules;
     }
 }

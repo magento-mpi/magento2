@@ -29,7 +29,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
-     * Prepare label for tab
+     * Prepare content for tab
      *
      * @return string
      */
@@ -82,12 +82,12 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
             'legend'=>Mage::helper('salesrule')->__('Content'))
         );
 
-        $labels = array();//$banner->getStoreLabels();
-        $field = $fieldset->addField('store_default_label', 'textarea', array(
-            'name'      => 'store_labels[0]',
-            'required'  => false,
-            'label'     => Mage::helper('enterprise_banner')->__('Default Store View'),
-            'value'     => isset($labels[0]) ? $labels[0] : '',
+        $storeContents = $banner->getStoreContents();
+        $field = $fieldset->addField('store_default_content', 'textarea', array(
+            'name'      => 'store_contents[0]',
+            'required'  => true,
+            'label'     => Mage::helper('enterprise_banner')->__('All Store Views'),
+            'value'     => isset($storeContents[0]) ? $storeContents[0] : '',
         ));
 
         $field->setAfterElementHtml($this->getContentAfterElementHtml($field));
@@ -103,14 +103,23 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                     'text'     => $group->getName(),
                 ));
                 foreach ($stores as $store) {
-                    $field = $fieldset->addField('store_'.$store->getId().'_label', 'textarea', array(
-                        'name'      => 'store_labels['.$store->getId().']',
+                    $field = $fieldset->addField('store_'.$store->getId().'_content', 'textarea', array(
+                        'name'      => 'store_contents['.$store->getId().']',
                         'required'  => false,
                         'label'     => $store->getName(),
-                        'value'     => isset($labels[$store->getId()]) ? $labels[$store->getId()] : '',
+                        'disabled'  => isset($storeContents[$store->getId()]) ? false : true,
+                        'value'     => isset($storeContents[$store->getId()]) ? $storeContents[$store->getId()] : '',
                     ));
-
                     $field->setAfterElementHtml($this->getContentAfterElementHtml($field));
+
+                    $fieldset->addField('store_'.$store->getId().'_content_use', 'checkbox', array(
+                        'name'      => 'store_contents_not_use['.$store->getId().']',
+                        'required'  => false,
+                        'onclick'   => 'toggleValueElements(this, Element.previous(Element.previous(this.parentNode).parentNode))',
+                        'checked'   => isset($storeContents[$store->getId()]) ? false : true,
+                        'after_element_html'     => Mage::helper('enterprise_banner')->__('Use Default'),
+                        'value'     => $store->getId()
+                    ));
                 }
             }
         }

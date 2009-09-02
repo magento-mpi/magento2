@@ -89,8 +89,34 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
                 ),
         ));
 
+        $this->addColumn('action', array(
+            'header'    => Mage::helper('enterprise_banner')->__('Action'),
+            'align'     => 'center',
+            'width'     => 20,
+            'format'    => '<a href="'.$this->getUrl('*/*/edit/id/$banner_id').'">'.Mage::helper('enterprise_banner')->__('Edit').'</a>',
+            'filter'    => false,
+            'sortable'  => false,
+            'is_system' => true
+        ));
 
         return parent::_prepareColumns();
+    }
+
+    /**
+     * Prepare mass action options for this grid
+     */
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('banner_id');
+        $this->getMassactionBlock()->setFormFieldName('banner');
+
+        $this->getMassactionBlock()->addItem('delete', array(
+             'label'=> Mage::helper('enterprise_banner')->__('Delete'),
+             'url'  => $this->getUrl('*/*/massDelete'),
+             'confirm' => Mage::helper('enterprise_banner')->__('Are you sure you want to delete these banners?')
+        ));
+
+        return $this;
     }
 
     /**
