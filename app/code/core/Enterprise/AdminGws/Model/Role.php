@@ -407,8 +407,7 @@ class Enterprise_AdminGws_Model_Role extends Varien_Object
     public function hasExclusiveStoreAccess($storeIds)
     {
         return $this->getIsAll() ||
-               (count(array_intersect($this->getStoreIds(), $storeIds)) === count($storeIds) &&
-                $this->getIsWebsiteLevel());
+               (count(array_intersect($this->getStoreIds(), $storeIds)) === count($storeIds));
     }
 
     /**

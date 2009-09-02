@@ -46,7 +46,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
+        if (!$model->getId() && !$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
     }
@@ -63,7 +63,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
+        if (!$model->getId() && !$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
 
