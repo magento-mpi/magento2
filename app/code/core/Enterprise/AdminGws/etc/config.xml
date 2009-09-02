@@ -295,7 +295,7 @@
                     <core__store_collection>limitStores</core__store_collection>
                     <core__website_collection>limitWebsites</core__website_collection>
                     <core__store_group_collection>limitStoreGroups</core__store_group_collection>
-                    <cms__page_collection>addStoreFilterNoAdmin</cms__page_collection>
+                    <cms__page_collection>addStoreFilterNoAdminForCmsPageCollection</cms__page_collection>
                     <cms__block_collection>addStoreFilterNoAdmin</cms__block_collection>
                     <poll__poll_collection>addStoreFilterNoAdmin</poll__poll_collection>
                     <sales__order_collection>addStoreAttributeToFilter</sales__order_collection>

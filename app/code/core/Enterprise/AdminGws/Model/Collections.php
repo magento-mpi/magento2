@@ -282,4 +282,22 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
         $this->addStoreAttributeToFilter($collection);
         return $this;
     }
+
+    /**
+     * Limit a cms page collection by allowed stores without admin
+     *
+     * @param Mage_Core_Model_Mysql4_Collection_Abstract $collection
+     */
+    public function addStoreFilterNoAdminForCmsPageCollection($collection)
+    {
+        /*
+         * If stores where joined already we adding extra
+         * where condition to exclude pages assigned to 'all stores'
+         */
+        if ($collection->getFlag('store_filter_added')) {
+            $collection->getSelect()->where('store_table.store_id <> 0');
+        } else {
+            $collection->addStoreFilter($this->_role->getStoreIds(), false);
+        }
+    }
 }
