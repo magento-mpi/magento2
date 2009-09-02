@@ -127,4 +127,20 @@ class Mage_Index_Model_Observer
             Mage_Index_Model_Event::TYPE_DELETE
         );
     }
+
+    /**
+     * Config data after commit observer.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function processConfigDataSave(Varien_Event_Observer $observer)
+    {
+        $configData = $observer->getEvent()->getConfigData();
+        $this->_indexer->processEntityAction(
+            $configData,
+            Mage_Core_Model_Config_Data::ENTITY,
+            Mage_Index_Model_Event::TYPE_SAVE
+        );
+    }
+
 }

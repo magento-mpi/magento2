@@ -72,6 +72,9 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
         }
     }
 
+    /**
+     * Save process data
+     */
     public function saveAction()
     {
         $process = $this->_initProcess();
@@ -114,7 +117,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                 $process->reindexAll();
                 Varien_Profiler::stop('__INDEX_PROCESS_REINDEX_ALL__');
                 $this->_getSession()->addSuccess(
-                    Mage::helper('index')->__('Index was rebuilt successfully.')
+                    Mage::helper('index')->__('%s index was rebuilt successfully.', $process->getIndexer()->getName())
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -129,9 +132,9 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                 Mage::helper('index')->__('Can\'t initialize indexer process.')
             );
         }
-        $this->loadLayout();
-        $this->renderLayout();
-        //$this->_redirect('*/*/list');
+//        $this->loadLayout();
+//        $this->renderLayout();
+        $this->_redirect('*/*/list');
     }
 
     /**

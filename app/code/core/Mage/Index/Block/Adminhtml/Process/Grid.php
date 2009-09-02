@@ -83,11 +83,12 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
 
         $this->addColumn('status', array(
             'header'    => Mage::helper('index')->__('Status'),
-            'width'     => '100',
+            'width'     => '120',
             'align'     => 'left',
             'index'     => 'status',
             'type'      => 'options',
-            'options'   => $this->_processModel->getStatusesOptions()
+            'options'   => $this->_processModel->getStatusesOptions(),
+            'frame_callback' => array($this, 'decorateStatus')
         ));
 
         $this->addColumn('ended_at', array(
@@ -122,6 +123,23 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         return parent::_prepareColumns();
+    }
+
+    public function decorateStatus($value, $row, $column, $isExport)
+    {
+        $class = '';
+        switch ($row->getStatus()) {
+            case Mage_Index_Model_Process::STATUS_PENDING :
+                $class = 'grid-severity-notice';
+                break;
+            case Mage_Index_Model_Process::STATUS_RUNNING :
+                $class = 'grid-severity-major';
+                break;
+            case Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX :
+                $class = 'grid-severity-critical';
+                break;
+        }
+        return '<span class="'.$class.'"><span>'.$value.'</span></span>';
     }
 
     public function getRowUrl($row)

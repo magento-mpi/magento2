@@ -36,7 +36,14 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
             Mage_Index_Model_Event::TYPE_SAVE,
             Mage_Index_Model_Event::TYPE_DELETE,
             Mage_Index_Model_Event::TYPE_MASS_ACTION,
+        ),
+        Mage_Core_Model_Config_Data::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
         )
+    );
+
+    protected $_relatedConfigSettings = array(
+        Mage_Catalog_Helper_Data::XML_PATH_PRICE_SCOPE
     );
 
     /**
@@ -84,6 +91,26 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
             'status',
             'tier_price'
         );
+    }
+
+    /**
+     * Check if event can be matched by process.
+     * Rewrited for checking configuration settings save (like price scope).
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return bool
+     */
+    public function matchEvent(Mage_Index_Model_Event $event)
+    {
+        if ($event->getEntity() == Mage_Core_Model_Config_Data::ENTITY) {
+            $data = $event->getDataObject();
+            if (in_array($data->getPath(), $this->_relatedConfigSettings)) {
+                return $data->isValueChanged();
+            } else {
+                return false;
+            }
+        }
+        return parent::matchEvent($event);
     }
 
     /**
@@ -160,6 +187,11 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
+        if ($event->getEntity() == Mage_Core_Model_Config_Data::ENTITY) {
+            $process = $event->getProcess();
+            $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+            return $this;
+        }
         switch ($event->getType()) {
             case Mage_Index_Model_Event::TYPE_DELETE:
                 $this->_registerCatalogProductDeleteEvent($event);

@@ -89,4 +89,22 @@ class Mage_Index_Model_Mysql4_Process extends Mage_Core_Model_Mysql4_Abstract
         );
         return $this;
     }
+
+    /**
+     * Update process status field
+     *
+     * @param Mage_Index_Model_Process
+     * @param string status
+     * @return Mage_Index_Model_Mysql4_Process
+     */
+    public function updateStatus($process, $status)
+    {
+        $data = array('status' => $status);
+        $this->_getWriteAdapter()->update(
+            $this->getMainTable(),
+            $data,
+            $this->_getWriteAdapter()->quoteInto('process_id=?', $process->getId())
+        );
+        return $this;
+    }
 }

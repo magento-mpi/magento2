@@ -48,11 +48,37 @@ class Mage_Index_Model_Event extends Mage_Core_Model_Abstract
     protected $_dataNamespace = null;
 
     /**
+     * Process object which currently working with event
+     */
+    protected $_process = null;
+
+    /**
      * Initialize resource
      */
     protected function _construct()
     {
         $this->_init('index/event');
+    }
+
+    /**
+     * Specify process object
+     *
+     * @param null|Mage_Index_Model_Process $process
+     */
+    public function setProcess($process)
+    {
+        $this->_process = $process;
+        return $this;
+    }
+
+    /**
+     * Get related process object
+     *
+     * @return null | Mage_Index_Model_Process
+     */
+    public function getProcess()
+    {
+        return $this->_process;
     }
 
     /**

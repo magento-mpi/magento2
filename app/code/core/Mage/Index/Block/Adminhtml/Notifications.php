@@ -24,14 +24,32 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Index_Block_Adminhtml_Process extends Mage_Adminhtml_Block_Widget_Grid_Container
+class Mage_Index_Block_Adminhtml_Notifications extends Mage_Adminhtml_Block_Template
 {
-    public function __construct()
+    /**
+     * Get array of index names which require data reindex
+     *
+     * @return array
+     */
+    public function getProcessesForReindex()
     {
-        $this->_blockGroup = 'index';
-        $this->_controller = 'adminhtml_process';
-        $this->_headerText = Mage::helper('index')->__('Index Management');
-        parent::__construct();
-        $this->_removeButton('add');
+        $res = array();
+        $processes = Mage::getSingleton('index/indexer')->getProcessesCollection();
+        foreach ($processes as $process) {
+            if ($process->getStatus() == Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX) {
+                $res[] = $process->getIndexer()->getName();
+            }
+        }
+        return $res;
+    }
+
+    /**
+     * Get index management url
+     *
+     * @return string
+     */
+    public function getManageUrl()
+    {
+        return $this->getUrl('adminhtml/process/list');
     }
 }

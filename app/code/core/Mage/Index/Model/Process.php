@@ -30,8 +30,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     /**
      * Process statuses
      */
-    const STATUS_RUNNING   = 'running';
-    const STATUS_PENDING   = 'pending';
+    const STATUS_RUNNING            = 'running';
+    const STATUS_PENDING            = 'pending';
+    const STATUS_REQUIRE_REINDEX    = 'require_reindex';
 
     /**
      * Process event statuses
@@ -79,6 +80,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     {
         $namespace = get_class($this->getIndexer());
         $event->setDataNamespace($namespace);
+        $event->setProcess($this);
         return $this;
     }
 
@@ -90,6 +92,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     protected function _resetEventNamespace($event)
     {
         $event->setDataNamespace(null);
+        $event->setProcess(null);
         return $this;
     }
 
@@ -144,6 +147,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function processEvent(Mage_Index_Model_Event $event)
     {
         if ($this->getMode() == self::MODE_MANUAL) {
+            return $this;
+        }
+        if (!$this->getIndexer()->matchEvent($event)) {
             return $this;
         }
         $this->_setEventNamespace($event);
@@ -341,6 +347,18 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Change process status
+     *
+     * @param string $status
+     * @return Mage_Index_Model_Process
+     */
+    public function changeStatus($status)
+    {
+        $this->_getResource()->updateStatus($this, $status);
+        return $this;
+    }
+
+    /**
      * Get list of process mode options
      *
      * @return array
@@ -361,8 +379,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     public function getStatusesOptions()
     {
         return array(
-            self::STATUS_PENDING => Mage::helper('index')->__('Ready'),
-            self::STATUS_RUNNING => Mage::helper('index')->__('Processing'),
+            self::STATUS_PENDING            => Mage::helper('index')->__('Ready'),
+            self::STATUS_RUNNING            => Mage::helper('index')->__('Processing'),
+            self::STATUS_REQUIRE_REINDEX    => Mage::helper('index')->__('Require Reindex'),
         );
     }
 }

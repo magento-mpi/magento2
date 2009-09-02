@@ -26,6 +26,12 @@
  */
 -->
 <layout>
+    <default>
+        <reference name="notifications">
+            <block type="index/adminhtml_notifications" name="index_notifications" template="index/notifications.phtml"></block>
+        </reference>
+    </default>
+    
     <adminhtml_process_edit>
         <reference name="content">
             <block type="index/adminhtml_process_edit" name="process_edit"></block>

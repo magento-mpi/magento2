@@ -112,6 +112,14 @@
                     </index>
                 </observers>
             </website_delete_commit_after>
+            <core_config_data_save_commit_after>
+                <observers>
+                    <index>
+                        <class>index/observer</class>
+                        <method>processConfigDataSave</method>
+                    </index>
+                </observers>
+            </core_config_data_save_commit_after>
         </events>
     </global>
     <admin>

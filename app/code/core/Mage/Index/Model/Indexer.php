@@ -32,7 +32,7 @@ class Mage_Index_Model_Indexer
     /**
      * Collection of available processes
      *
-     * @var array
+     * @var Mage_Index_Model_Mysql4_Process_Collection
      */
     protected $_processesCollection;
 
@@ -49,6 +49,16 @@ class Mage_Index_Model_Indexer
     public function __construct()
     {
         $this->_processesCollection = Mage::getResourceModel('index/process_collection');
+    }
+
+    /**
+     * Get collection of all available processes
+     *
+     * @return Mage_Index_Model_Mysql4_Process_Collection
+     */
+    public function getProcessesCollection()
+    {
+        return $this->_processesCollection;
     }
 
     /**
@@ -77,24 +87,6 @@ class Mage_Index_Model_Indexer
     public function isLocked()
     {
         return $this->_lockFlag;
-    }
-
-    /**
-     * Run indexing process (all processes or specific process)
-     *
-     * @param null | string $process
-     */
-    public function indexProcess($process = null)
-    {
-        if ($this->isLocked()) {
-            return $this;
-        }
-
-        /**
-         * Get processes ids
-         * Get all events related with processes
-         * Index events
-         */
     }
 
     /**
@@ -190,9 +182,17 @@ class Mage_Index_Model_Indexer
      */
     public function processEntityAction(Varien_Object $entity, $entityType, $eventType)
     {
+        if ($this->isLocked()) {
+            return $this;
+        }
         $event = $this->logEvent($entity, $entityType, $eventType, false);
-        $this->indexEvent($event);
-        $event->save();
+        /**
+         * Index and save event just in case if some process mutched it
+         */
+        if ($event->getProcessIds()) {
+            $this->indexEvent($event);
+            $event->save();
+        }
         return $this;
     }
 }
