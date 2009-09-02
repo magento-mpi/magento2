@@ -173,6 +173,20 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     }
 
     /**
+     * Add Store ID filter
+     *
+     * @param int $storeId
+     * @return Mage_Tag_Model_Mysql4_Product_Collection
+     */
+    public function addStoreFilter($store=null)
+    {
+        if (!is_null($store)) {
+            $this->getSelect()->where('relation.store_id = ?', $store);
+        }
+        return $this;
+    }
+
+    /**
      * Set Customer filter
      *
      * @param int $customerId
@@ -180,8 +194,11 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
      */
     public function addCustomerFilter($customerId)
     {
-        $this->getSelect()
-            ->where('relation.customer_id = ?', $customerId);
+        if ((int)$customerId == 0) {
+            $this->getSelect()->where('relation.customer_id ' . $customerId);
+        } else {
+            $this->getSelect()->where('relation.customer_id = ?', $customerId);
+        }
         $this->_customerFilterId = $customerId;
         return $this;
     }
@@ -344,11 +361,22 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
             ->addAttributeToSelect('small_image');
 
         $this->getSelect()
-            ->join(array('relation' => $tagRelationTable), 'relation.product_id = e.entity_id')
+            ->join(
+                array('relation' => $tagRelationTable),
+                'relation.product_id = e.entity_id',
+                array(
+                    'product_id'                => 'product_id',
+                    'item_store_id'             => 'store_id',
+                )
+            )
             ->join(array('t' => $tagTable),
                 't.tag_id = relation.tag_id',
                 array('tag_id', 'name', 'tag_status' => 'status', 'tag_name' => 'name')
             );
+
+        $this->setFlag('url_data_object', true);
+        $this->setFlag('do_not_use_category_id', true);
+
         return $this;
     }
 

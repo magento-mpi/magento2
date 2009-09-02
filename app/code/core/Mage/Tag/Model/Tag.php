@@ -149,6 +149,15 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
         return Mage::getResourceModel('tag/popular_collection');
     }
 
+    public function getRelatedProducts()
+    {
+        return Mage::getModel('tag/tag_relation')
+            ->setTagId($this->getTagId())
+            ->setStoreId($this->getStoreId())
+            ->setCustomerId(null)
+            ->getProductIds();
+    }
+
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();

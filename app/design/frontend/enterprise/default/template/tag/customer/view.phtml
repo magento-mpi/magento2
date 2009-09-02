@@ -23,6 +23,7 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
+/* @var $this Mage_Tag_Block_Customer_View */
 ?>
 <div class="page-title">
     <h2><?php echo $this->__('My Tags') ?></h2>
@@ -42,9 +43,9 @@
     <?php $iterator = 0 ?>
     <?php foreach($this->getMyProducts() as $_product): ?>
         <tr<?php if($iterator % 2 == 0): ?> class="odd"<?php $iterator++;endif; ?>>
-            <td><a class="product-image" href="<?php echo $_product->getProductUrl(); ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(100, 100); ?>" width="100" height="100" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a></td>
+            <td><a class="product-image" href="<?php echo $this->getProductUrl($_product); ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(100, 100); ?>" width="100" height="100" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a></td>
             <td>
-                <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
+                <h3 class="product-name"><a href="<?php echo $this->getProductUrl($_product); ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
                 <?php echo $this->getPriceHtml($_product) ?>
                 <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                 <p><?php echo $_product->getDescription() ?></p>

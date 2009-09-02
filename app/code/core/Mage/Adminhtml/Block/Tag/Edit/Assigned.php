@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_Tag_Edit_Accordion extends Mage_Adminhtml_Block_Widget_Accordion
+class Mage_Adminhtml_Block_Tag_Edit_Assigned extends Mage_Adminhtml_Block_Widget_Accordion
 {
     protected function _prepareLayout()
     {
@@ -43,16 +43,10 @@ class Mage_Adminhtml_Block_Tag_Edit_Accordion extends Mage_Adminhtml_Block_Widge
         $tag_id     = $this->getRequest()->getParam('tag_id');
         $store_id   = $this->getRequest()->getParam('store');
 
-        $this->addItem('tag_customer', array(
-            'title'   => Mage::helper('tag')->__('Customers Submitted this Tag'),
-            'ajax'    => true,
-            'content_url' => $this->getUrl('*/*/customer', array('ret' => 'all', 'tag_id'=>$tag_id, 'store'=>$store_id)),
-        ));
-
-        $this->addItem('tag_product', array(
-            'title'   => Mage::helper('tag')->__('Products Tagged by Customers'),
-            'ajax'    => true,
-            'content_url' => $this->getUrl('*/*/product', array('ret' => 'all', 'tag_id'=>$tag_id, 'store'=>$store_id)),
+        $this->addItem('tag_assign', array(
+            'title'         => Mage::helper('tag')->__('Products Tagged by Administrators'),
+            'ajax'          => true,
+            'content_url'   => $this->getUrl('*/*/assigned', array('ret' => 'all', 'tag_id'=>$tag_id, 'store'=>$store_id)),
         ));
     }
 }

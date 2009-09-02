@@ -82,6 +82,12 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
         return $this;
     }
 
+    public function addStoreFilter($storeId)
+    {
+        $this->getSelect()->where('tr.store_id = ?', $storeId);
+        return $this;
+    }
+
     public function addStatusFilter($status)
     {
         $this->getSelect()

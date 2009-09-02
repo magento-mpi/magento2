@@ -25,34 +25,35 @@
  */
 
 /**
- * Adminhtml tag accordion
+ *
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-class Mage_Adminhtml_Block_Tag_Edit_Accordion extends Mage_Adminhtml_Block_Widget_Accordion
+class Mage_Adminhtml_Block_Tag_Edit_Serializer extends Mage_Core_Block_Template
 {
-    protected function _prepareLayout()
+    public function _construct()
     {
-        if (is_null(Mage::registry('tagId'))) {
-            return $this;
+        parent::_construct();
+        $this->setTemplate('tag/edit/serializer.phtml');
+        return $this;
+    }
+
+    /**
+     * Retrieves JSON string from products array
+     *
+     * @return string
+     */
+    public function getProductsJSON()
+    {
+        $result = array();
+        if ($this->getProducts()) {
+            foreach ($this->getProducts() as $product) {
+                $result[$product] = array('id'=>$product);
+            }
         }
 
-        $tag_id     = $this->getRequest()->getParam('tag_id');
-        $store_id   = $this->getRequest()->getParam('store');
-
-        $this->addItem('tag_customer', array(
-            'title'   => Mage::helper('tag')->__('Customers Submitted this Tag'),
-            'ajax'    => true,
-            'content_url' => $this->getUrl('*/*/customer', array('ret' => 'all', 'tag_id'=>$tag_id, 'store'=>$store_id)),
-        ));
-
-        $this->addItem('tag_product', array(
-            'title'   => Mage::helper('tag')->__('Products Tagged by Customers'),
-            'ajax'    => true,
-            'content_url' => $this->getUrl('*/*/product', array('ret' => 'all', 'tag_id'=>$tag_id, 'store'=>$store_id)),
-        ));
+        return Zend_Json_Encoder::encode($result);
     }
 }

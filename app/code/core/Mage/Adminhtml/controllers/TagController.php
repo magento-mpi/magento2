@@ -44,6 +44,23 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         return $this;
     }
 
+    /**
+     * Create serializer block for a grid
+     *
+     * @param string $inputName
+     * @param Mage_Adminhtml_Block_Widget_Grid $gridBlock
+     * @param array $productsArray
+     * @return Mage_Adminhtml_Block_Tag_Edit_Serializer
+     */
+    protected function _createSerializerBlock($inputName, Mage_Adminhtml_Block_Widget_Grid $gridBlock, $productsArray)
+    {
+        return $this->getLayout()->createBlock('adminhtml/tag_edit_serializer')
+            ->setGridBlock($gridBlock)
+            ->setProducts($productsArray)
+            ->setInputElementName($inputName)
+        ;
+    }
+
     public function indexAction()
     {
         /**
@@ -78,6 +95,11 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
     public function editAction()
     {
+        if (0 === (int)$this->getRequest()->getParam('store')) {
+            $this->_redirect('*/*/*/', array('store' => Mage::app()->getAnyStoreView()->getId(), '_current' => true));
+            return;
+        }
+
         $id = $this->getRequest()->getParam('tag_id');
         Mage::register('tagId', $id);
         $model = Mage::getModel('tag/tag');
@@ -85,6 +107,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         if ($id) {
             $model->load($id);
         }
+
+        $model->addSummary($this->getRequest()->getParam('store'));
 
         // set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getTagData(true);
@@ -94,21 +118,29 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
         Mage::register('tag_tag', $model);
 
-        $content = $this->getLayout()->createBlock('adminhtml/tag_tag_edit')
-            ->setData('action', $this->getUrl('*/tag_edit/save'));
-
-        $this->_initAction()
-            ->_addBreadcrumb($id ? Mage::helper('adminhtml')->__('Edit Tag') : Mage::helper('adminhtml')->__('New Tag'), $id ? Mage::helper('adminhtml')->__('Edit Tag') : Mage::helper('adminhtml')->__('New Tag'))
-            ->_addContent($content)
-            ->renderLayout();
+        $this->_initAction()->renderLayout();
     }
 
     public function saveAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
-            $data['name']=trim($data['name']);
+        if ($postData = $this->getRequest()->getPost()) {
+            if (isset($postData['tag_id'])) {
+                $data['tag_id'] = $postData['tag_id'];
+            }
+
+            $data['name']               = trim($postData['tag_name']);
+            $data['status']             = $postData['tag_status'];
+            $data['base_popularity']    = (isset($postData['base_popularity'])) ? $postData['base_popularity'] : 0;
+            $data['store_id']           = $postData['store_id'];
+
             $model = Mage::getModel('tag/tag');
             $model->setData($data);
+
+            if (isset($postData['links']['related'])) {
+                parse_str($postData['links']['related'], $productIds);
+                $tagRelationModel = Mage::getModel('tag/tag_relation');
+                $tagRelationModel->addRelations($model, array_keys($productIds));
+            }
 
             switch( $this->getRequest()->getParam('ret') ) {
                 case 'all':
@@ -132,12 +164,18 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
                     ));
             }
 
-            // $tag->setStoreId(Mage::app()->getStore()->getId());
             try {
                 $model->save();
                 $model->aggregate();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Tag was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setTagData(false);
+
+                if ($this->getRequest()->getParam('ret') == 'edit') {
+                    $url = $this->getUrl('*/tag/edit', array(
+                        'tag_id' => $model->getId()
+                    ));
+                }
+
                 $this->getResponse()->setRedirect($url);
                 return;
             } catch (Exception $e) {
@@ -205,6 +243,39 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             ->_setActiveMenu('catalog/tag/pending')
             ->_addContent($this->getLayout()->createBlock('adminhtml/tag_pending'))
             ->renderLayout();
+    }
+
+    /**
+     * Assigned products (with serializer block)
+     *
+     */
+    public function assignedAction()
+    {
+        Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
+        $store_id = $this->getRequest()->getParam('store');
+
+        $relatedProducts = Mage::getModel('tag/tag')
+            ->setTagId(Mage::registry('tagId'))
+            ->setStoreId($store_id)
+            ->getRelatedProducts();
+
+        $assignedGridBlock = $this->getLayout()->createBlock('adminhtml/tag_assigned_grid');
+        $serializerBlock = $this->_createSerializerBlock('links[related]', $assignedGridBlock, $relatedProducts);
+
+        $this->getResponse()->setBody(
+            $assignedGridBlock->toHtml() . $serializerBlock->toHtml()
+        );
+    }
+
+    /**
+     * Assigned products grid
+     *
+     */
+    public function assignedGridOnlyAction()
+    {
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/tag_assigned_grid')->toHtml()
+        );
     }
 
     /**

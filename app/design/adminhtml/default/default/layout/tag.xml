@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Magento
  *
@@ -23,15 +24,11 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-?>
-<div class="content-header">
-<table cellspacing="0">
-    <tr>
-        <td style="width:80%;"><h3 class="<?php echo $this->getHeaderCssClass() ?>"><?php echo $this->getHeaderHtml(); ?></h3></td>
-        <td class="form-buttons"><?php echo $this->getCreateButtonHtml(); ?></td>
-    </tr>
-</table>
-</div>
-<div id="tag_frame">
-    <?php echo $this->getGridHtml() ?>
-</div>
+-->
+<layout>
+    <adminhtml_tag_edit>
+        <reference name="content">
+            <block type="adminhtml/tag_edit" name="tag_edit" template="tag/container.phtml"></block>
+        </reference>
+    </adminhtml_tag_edit>
+</layout>

@@ -90,20 +90,30 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
     }
 
 
-    public function addPopularity($limit=null)
+    /**
+     * Replacing popularity by sum of popularity and base_popularity
+     *
+     * @param int $limit
+     * @param int $storeId
+     * @return Mage_Tag_Model_Mysql4_Tag_Collection
+     */
+    public function addPopularity($limit=null, $storeId)
     {
         $this->getSelect()
             ->joinLeft(
-                array('prelation'=>$this->getTable('tag/relation')),
-                'main_table.tag_id=prelation.tag_id',
-                array('popularity' => 'COUNT(DISTINCT relation.tag_relation_id)'
-            ))
+                array('relation'=>$this->getTable('tag/relation')),
+                'main_table.tag_id=relation.tag_id'
+            )
+            ->joinLeft(
+                array('summary'=>$this->getTable('tag/summary')),
+                'main_table.tag_id=summary.tag_id',
+                array('popularity' => '(summary.popularity + summary.base_popularity)')
+            )
+            ->where('summary.store_id = ?', $storeId)
             ->group('main_table.tag_id');
-            $this->joinRel();
         if (! is_null($limit)) {
             $this->getSelect()->limit($limit);
         }
-        $this->setJoinFlag('prelation');
         return $this;
     }
 
@@ -120,7 +130,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
             ->joinLeft(
                 array('summary'=>$this->getTable('tag/summary')),
                 'main_table.tag_id=summary.tag_id' . $joinCondition,
-                array('store_id','popularity', 'customers', 'products', 'uses', 'historical_uses'
+                array('store_id','popularity', 'base_popularity', 'customers', 'products', 'uses', 'historical_uses'
             ));
 
         $this->setJoinFlag('summary');
