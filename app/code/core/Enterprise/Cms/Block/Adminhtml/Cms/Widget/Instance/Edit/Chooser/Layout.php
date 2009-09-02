@@ -74,7 +74,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
      */
     public function getLayoutHandlePatterns()
     {
-        return $this->_layoutHandleWildcard;
+        return $this->_layoutHandlePatterns;
     }
 
     /**
