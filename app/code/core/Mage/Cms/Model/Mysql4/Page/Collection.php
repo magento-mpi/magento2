@@ -91,17 +91,21 @@ class Mage_Cms_Model_Mysql4_Page_Collection extends Mage_Core_Model_Mysql4_Colle
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
-        if ($store instanceof Mage_Core_Model_Store) {
-            $store = array($store->getId());
-        }
+        if (!$this->getFlag('store_filter_added')) {
+            if ($store instanceof Mage_Core_Model_Store) {
+                $store = array($store->getId());
+            }
 
-        $this->getSelect()->join(
-            array('store_table' => $this->getTable('cms/page_store')),
-            'main_table.page_id = store_table.page_id',
-            array()
-        )
-        ->where('store_table.store_id in (?)', ($withAdmin ? array(0, $store) : $store))
-        ->group('main_table.page_id');
+            $this->getSelect()->join(
+                array('store_table' => $this->getTable('cms/page_store')),
+                'main_table.page_id = store_table.page_id',
+                array()
+            )
+            ->where('store_table.store_id in (?)', ($withAdmin ? array(0, $store) : $store))
+            ->group('main_table.page_id');
+
+            $this->setFlag('store_filter_added', true);
+        }
 
         return $this;
     }
