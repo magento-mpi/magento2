@@ -411,6 +411,11 @@ class Enterprise_CustomerBalance_Model_Observer
 
             $order->setBaseCustomerBalanceRefunded($order->getBaseCustomerBalanceRefunded() + $creditmemo->getBaseCustomerBalanceAmount());
             $order->setCustomerBalanceRefunded($order->getCustomerBalanceRefunded() + $creditmemo->getCustomerBalanceAmount());
+
+            // we need to update flag after credit memo was refunded and order's properties changed
+            if ($order->getCustomerBalanceInvoiced() == $order->getCustomerBalanceRefunded()) {
+                $order->setForcedCanCreditmemo(false);
+            }
         }
 
         return $this;
