@@ -37,15 +37,15 @@ class Mage_Adminhtml_Model_System_Config_Source_Cms_Wysiwyg_Enabled
     {
         return array(
             array(
-                'value' => 'enabled',
+                'value' => Mage_Cms_Model_Wysiwyg_Config::WYSIWYG_ENABLED,
                 'label' => Mage::helper('cms')->__('Enable by Default')
             ),
             array(
-                'value' => 'hidden',
+                'value' => Mage_Cms_Model_Wysiwyg_Config::WYSIWYG_HIDDEN,
                 'label' => Mage::helper('cms')->__('Disabled by Default')
             ),
             array(
-                'value' => 'disabled',
+                'value' => Mage_Cms_Model_Wysiwyg_Config::WYSIWYG_DISABLED,
                 'label' => Mage::helper('cms')->__('Disable Completely')
             )
         );

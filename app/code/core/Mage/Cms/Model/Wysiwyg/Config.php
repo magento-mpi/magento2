@@ -34,6 +34,13 @@
 class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
 {
     /**
+     * Wysiwyg behaviour
+     */
+    const WYSIWYG_ENABLED = 'enabled';
+    const WYSIWYG_HIDDEN = 'hidden';
+    const WYSIWYG_DISABLED = 'disabled';
+
+    /**
      * Return Wysiwyg config as Varien_Object
      *
      * @param $data Varien_Object constructor params to override default config values
@@ -43,7 +50,6 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
     {
         $config = new Varien_Object();
         $config->setData(array(
-            'enabled'                       => Mage::getStoreConfig('cms/wysiwyg/enabled'),
             'files_browser_window_url'      => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_wysiwyg_images/index'),
             'files_browser_window_width'    => Mage::getStoreConfig('cms/wysiwyg/browser_window_width'),
             'files_browser_window_height'   => Mage::getStoreConfig('cms/wysiwyg/browser_window_height'),
@@ -66,5 +72,23 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
         return $config;
     }
 
+    /**
+     * Check whether Wysiwyg is enabled or not
+     *
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return in_array(Mage::getStoreConfig('cms/wysiwyg/enabled'), array(self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN));
+    }
 
+    /**
+     * Check whether Wysiwyg is loaded on demand or not
+     *
+     * @return bool
+     */
+    public function isHidden()
+    {
+        return Mage::getStoreConfig('cms/wysiwyg/enabled') == self::WYSIWYG_HIDDEN;
+    }
 }
