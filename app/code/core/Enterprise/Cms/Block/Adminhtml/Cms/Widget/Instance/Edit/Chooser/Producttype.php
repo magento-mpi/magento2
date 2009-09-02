@@ -39,7 +39,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Producttyp
         $selectBlock = $this->getLayout()->createBlock('core/html_select')
             ->setName('layout_handle')
             ->setId('layout_handle')
-            ->setExtraParams('multiple="multiple"')
+//            ->setExtraParams('multiple="multiple"')
             ->setOptions($this->getProductTypes());
         return parent::_toHtml().$selectBlock->toHtml();
     }
