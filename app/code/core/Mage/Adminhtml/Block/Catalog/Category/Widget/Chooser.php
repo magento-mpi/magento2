@@ -53,7 +53,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         $uniqId = $element->getId() . md5(microtime());
-        $sourceUrl = $this->getUrl('*/catalog_category_widget/chooser', array('uniq_id' => $uniqId));
+        $sourceUrl = $this->getUrl('*/catalog_category_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
 
         $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
@@ -130,6 +130,10 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
      */
     public function getLoadTreeUrl($expanded=null)
     {
-        return $this->getUrl('*/catalog_category_widget/categoriesJson', array('_current'=>true));
+        return $this->getUrl('*/catalog_category_widget/categoriesJson', array(
+            '_current'=>true,
+            'uniq_id' => $this->getId(),
+            'use_massaction' => $this->getUseMassaction()
+        ));
     }
 }

@@ -33,6 +33,8 @@
 
 var tree<?php echo $this->getId() ?>;
 
+var useMassaction = <?php echo $this->getUseMassaction()?1:0 ?>;
+
 Ext.tree.TreePanel.Enhanced = function(el, config)
 {
     Ext.tree.TreePanel.Enhanced.superclass.constructor.call(this, el, config);
@@ -80,6 +82,9 @@ Ext.onReady(function()
         if (parent && config && config.length){
             for (var i = 0; i < config.length; i++) {
                 var node;
+                if (useMassaction) {
+                    config[i].uiProvider = Ext.tree.CheckboxNodeUI;
+                }
                 var _node = Object.clone(config[i]);
                 if (_node.children && !_node.children.length) {
                     delete(_node.children);

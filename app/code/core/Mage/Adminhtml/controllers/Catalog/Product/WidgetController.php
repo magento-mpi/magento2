@@ -40,9 +40,11 @@ class Mage_Adminhtml_Catalog_Product_WidgetController extends Mage_Adminhtml_Con
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
+        $massAction = $this->getRequest()->getParam('use_massaction', false);
 
         $productsGrid = $this->getLayout()->createBlock('adminhtml/catalog_product_widget_chooser', '', array(
             'id'                => $uniqId,
+            'use_massaction' => $massAction,
             'category_id'       => $this->getRequest()->getParam('category_id')
         ));
 

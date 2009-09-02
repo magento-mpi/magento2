@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
         $this->setForm($form);
 
         $widget = Mage::getSingleton('cms/widget')
-            ->getXmlElementByType($this->_getRequestOptionValues('widget_type'));
+            ->getXmlElementByType($this->getWidgetType());
 
         if ( !($widget instanceof Varien_Simplexml_Element)) {
             return;
@@ -167,6 +167,19 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
             }
         }
         return $result;
+    }
+    /**
+     * Getter.
+     * If widget type was not set befor, try to retrieve it from request
+     *
+     * @return string
+     */
+    public function getWidgetType()
+    {
+        if (!$this->_getData('widget_type')) {
+            return $this->_getRequestOptionValues('widget_type');
+        }
+        return $this->_getData('widget_type');
     }
 
     /**
