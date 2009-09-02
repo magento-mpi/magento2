@@ -1,0 +1,150 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   design
+ * @package    default_default
+ * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
+ */
+?>
+<?php echo $this->getAddLayoutButtonHtml() ?>
+<div class="no-display" id="page_group_container_template">
+    <div class="page_group_container" id="page_group_container_{{id}}">
+        <div>
+            <select name="" onchange="WidgetInstance.showPageGroupChooser(this.value)">
+                <option value="">-- Please Select --</option>
+                <optgroup label="Category Pages">
+                    <option value="anchor_categories_{{id}}">Anchor Categories</option>
+                    <option value="notanchor_categories_{{id}}">Not Anchor Categories</option>
+                    <option value="categories_{{id}}">Specific Categories</option>
+                </optgroup>
+                <optgroup label="Product Pages">
+                    <option value="all_products_{{id}}">All Products</option>
+                    <option value="product_types_{{id}}">Product Types</option>
+                    <option value="products_{{id}}">Specific Products</option>
+                </optgroup>
+                <optgroup label="Another Pages">
+                    <option value="all_pages_{{id}}">All Pages</option>
+                    <option value="pages_{{id}}">Specific Pages</option>
+                </optgroup>
+            </select>
+        </div>
+        <div>
+            <div class="no-display categories" id="anchor_categories_{{id}}">
+                <input type="hidden" class="layout_handle_pattern" name="layout_handle" value="^catalog_category_layered*" />
+            </div>
+            <div class="no-display categories" id="notanchor_categories_{{id}}">
+                <input type="hidden" class="layout_handle_pattern" name="layout_handle" value="catalog_category_default" />
+            </div>
+            <div class="no-display categories" id="categories_{{id}}">
+                <?php echo $this->getCategoriesChooser() ?>
+            </div>
+            <div class="no-display products" id="all_products_{{id}}">
+                <input type="hidden" class="layout_handle_pattern" name="layout_handle" value="^catalog_product_*,^PRODUCT_TYPE_*" />
+            </div>
+            <div class="no-display product_types" id="product_types_{{id}}">
+<!--                <input type="hidden" class="layout_handle_pattern" name="layout_handle" value="^catalog_product_*,^PRODUCT_TYPE_*" />-->
+                <?php echo $this->getProductTypesChooser() ?>
+            </div>
+            <div class="no-display products" id="products_{{id}}"><?php echo $this->getProductsChooser() ?></div>
+            <div class="no-display all_pages" id="all_pages_{{id}}">
+                <input type="hidden" class="layout_handle_pattern" name="layout_handle" value="^default$" />
+            </div>
+            <div class="no-display pages" id="pages_{{id}}">
+                <div><?php echo $this->getLayoutsChooser() ?></div>
+            </div>
+        </div>
+        <div class="" id="add_button">
+            <?php echo $this->getRemoveLayoutButtonHtml() ?>
+        </div>
+    </div>
+</div>
+<div id="page_group_container"></div>
+<script type="text/javascript">
+
+var pageGroupTemplateId = 'page_group_container_template';
+
+var WidgetInstance = {
+    pageGroupTemplateId : 'page_group_container_template',
+    pageGroupContainerId : 'page_group_container',
+    templatePattern : /(^|.|\r|\n)({{(\w+)}})/,
+    count : 0,
+    activeChoosers : $H({}),
+    addPageGroup : function(data) {
+        if ((pageGroupTemplate= $(this.pageGroupTemplateId)) && (pageGroupContainer = $(this.pageGroupContainerId))) {
+            if (!data.id) {
+                data.id = this.count++;
+            }
+            pageGroupTemplateObj = new Template(pageGroupTemplate.innerHTML, this.templatePattern);
+            Element.insert(pageGroupContainer, {'bottom':pageGroupTemplateObj.evaluate(data)});
+        }
+    },
+    removePageGroup : function(element) {
+        container = element.up('div.page_group_container');
+        if (container) {
+            container.remove();
+        }
+    },
+    showPageGroupChooser : function (chooserType) {
+        if (chooserType && (chooser = $(chooserType))) {
+            if (activeChooserId = this.activeChoosers.get(chooser.up('div.page_group_container').id)) {
+                if (activeChooser = $(activeChooserId)) {
+                    activeChooser.addClassName('no-display');
+                    activeChooser.hide();
+                }
+            }
+            this.activeChoosers.set(chooser.up('div.page_group_container').id, chooserType);
+            chooser.removeClassName('no-display');
+            chooser.show();
+            if (!chooser.down('div.block_container')) {
+                chooserLayout = '';
+                if (chooserLayoutField = chooser.down('input.layout_handle_pattern')) {
+                    chooserLayout = chooserLayoutField.value;
+                }
+                this.showBlocksByPageGroup(chooser, chooserLayout);
+            }
+        }
+    },
+    showBlocksByPageGroup : function (element, group) {
+        if (element) {
+            if (blockContainer = element.down('div.block_container')) {
+                blockContainer.remove();
+            }
+            if (group) {
+                var url = '<?php echo $this->getBlockChooserUrl() ?>';
+                new Ajax.Request(url, {
+                    method: 'post',
+                    parameters: {layout:group},
+                    onSuccess: function(transport) {
+                        try {
+                            if (transport.responseText) {
+                                blockContainerTemplate = '<div class="block_container">'+transport.responseText+'</div>';
+                                Element.insert(element, {'bottom':blockContainerTemplate});
+                            }
+                        } catch (e) {
+                            alert('Error occurs during loading block chooser.');
+                        }
+                    }
+                });
+            }
+        }
+    }
+};
+</script>

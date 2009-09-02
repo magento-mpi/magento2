@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.11</version>
+             <version>0.1.12</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -49,6 +49,9 @@
                     <hierarchy_node>
                         <table>enterprise_cms_hierarchy_node</table>
                     </hierarchy_node>
+                    <widget_instance>
+                        <table>enterprise_cms_widget_instance</table>
+                    </widget_instance>;
                 </entities>
             </enterprise_cms_mysql4>
         </models>
