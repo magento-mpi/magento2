@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
             'style'     => 'height:36em',
             'wysiwyg'   => false,
             'required'  => true,
-            'config'    => Mage::getSingleton('cms/page_wysiwyg_config')->getConfig()
+            'config'    => Mage::getSingleton('cms/wysiwyg_config')->getConfig()
         ));
 
         $form->setValues($model->getData());
