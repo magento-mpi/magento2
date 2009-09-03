@@ -329,10 +329,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeCmsPageButtons($observer)
     {
-        if ($this->_role->getIsAll()) {
-            return $this;
-        }
-
         $model = Mage::registry('cms_page');
         if ($model) {
             $storeIds = $model->getStoreId();
@@ -355,10 +351,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeCmsBlockButtons($observer)
     {
-        if ($this->_role->getIsAll()) {
-            return $this;
-        }
-
         $model = Mage::registry('cms_block');
         if ($model) {
             $storeIds = $model->getStoreId();
@@ -381,10 +373,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removePollButtons($observer)
     {
-        if ($this->_role->getIsAll()) {
-            return $this;
-        }
-
         $model = Mage::registry('poll_data');
         if ($model) {
             $storeIds = $model->getStoreIds();
