@@ -71,7 +71,7 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
         if (empty($data['product_id'])) {
             return $this;
         }
-
+        $write = $this->_getWriteAdapter();
         $productId = $data['product_id'];
         $this->cloneIndexTable(true);
 
