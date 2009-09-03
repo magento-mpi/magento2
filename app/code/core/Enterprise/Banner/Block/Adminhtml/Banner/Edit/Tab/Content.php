@@ -69,6 +69,17 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
     }
 
     /**
+     * Load Wysiwyg on demand and Prepare layout
+     */
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
+        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+        }
+    }
+
+    /**
      * Enter description here...
      *
      * @return unknown
@@ -82,15 +93,18 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
             'legend'=>Mage::helper('salesrule')->__('Content'))
         );
 
+        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(
+            array('tab_id' => $this->getTabId())
+        );
+
         $storeContents = $banner->getStoreContents();
-        $field = $fieldset->addField('store_default_content', 'textarea', array(
+        $field = $fieldset->addField('store_default_content', 'editor', array(
             'name'      => 'store_contents[0]',
             'required'  => true,
             'label'     => Mage::helper('enterprise_banner')->__('All Store Views'),
             'value'     => isset($storeContents[0]) ? $storeContents[0] : '',
+            'config'    => $wysiwygConfig,
         ));
-
-        $field->setAfterElementHtml($this->getContentAfterElementHtml($field));
 
         foreach (Mage::app()->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
@@ -103,14 +117,14 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                     'text'     => $group->getName(),
                 ));
                 foreach ($stores as $store) {
-                    $field = $fieldset->addField('store_'.$store->getId().'_content', 'textarea', array(
+                    $field = $fieldset->addField('store_'.$store->getId().'_content', 'editor', array(
                         'name'      => 'store_contents['.$store->getId().']',
                         'required'  => false,
                         'label'     => $store->getName(),
                         'disabled'  => isset($storeContents[$store->getId()]) ? false : true,
                         'value'     => isset($storeContents[$store->getId()]) ? $storeContents[$store->getId()] : '',
+                        'config'    => $wysiwygConfig,
                     ));
-                    $field->setAfterElementHtml($this->getContentAfterElementHtml($field));
 
                     $fieldset->addField('store_'.$store->getId().'_content_use', 'checkbox', array(
                         'name'      => 'store_contents_not_use['.$store->getId().']',
@@ -126,44 +140,5 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
 
         $this->setForm($form);
         return parent::_prepareForm();
-    }
-
-    /**
-     * Prepare links for inserting some additional features (widgets, images) to content
-     *
-     * @param Varien_Data_Form_Element_Abstract
-     * @return string
-     */
-    public function getContentAfterElementHtml($field)
-    {
-        $links = array();
-        $linksHtml = array();
-
-        // Link to media images insertion window
-        $winUrl = $this->getUrl('*/cms_page_wysiwyg_images/index');
-        $links[] = new Varien_Data_Form_Element_Link(array(
-            'href'      => '#',
-            'title'     => Mage::helper('enterprise_banner')->__('Insert Image'),
-            'value'     => Mage::helper('enterprise_banner')->__('Insert Image'),
-            'html_id'   => $field->getId() . '_media',
-            'onclick'   => "window.open('" . $winUrl . "', '" . $field->getHtmlId() . "', 'width=1024,height=800')",
-        ));
-
-        // Link to widget insertion window
-        $winUrl = $this->getUrl('*/cms_widget/index', array('no_wysiwyg' => true));
-        $links[] = new Varien_Data_Form_Element_Link(array(
-            'href'      => '#',
-            'title'     => Mage::helper('enterprise_banner')->__('Insert Widget'),
-            'value'     => Mage::helper('enterprise_banner')->__('Insert Widget'),
-            'html_id'   => $field->getId() . '_widget',
-            'onclick'   => "window.open('" . $winUrl . "', '" . $field->getHtmlId() . "', 'width=1024,height=800')",
-        ));
-
-        foreach ($links as $link) {
-            $link->setForm($field->getForm());
-            $linksHtml[] = $link->getElementHtml();
-        }
-
-        return implode(' | ', $linksHtml);
     }
 }
