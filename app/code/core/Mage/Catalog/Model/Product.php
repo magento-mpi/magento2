@@ -520,6 +520,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
 
     /**
      * Clear chache related with product and protect delete from not admin
+     * Register indexing event before delete stock item
      *
      * @return Mage_Catalog_Model_Product
      */
@@ -528,7 +529,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         $this->cleanCache();
         $this->_protectFromNonAdmin();
         Mage::getSingleton('index/indexer')->logEvent(
-            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
         return parent::_beforeDelete();
     }
@@ -542,7 +543,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
     {
         parent::_afterDeleteCommit();
         Mage::getSingleton('index/indexer')->indexEvents(
-            self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+            self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
     }
 

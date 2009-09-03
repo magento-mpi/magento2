@@ -81,6 +81,7 @@
                         <index_data_retreiver>bundle/catalogIndex_data_bundle</index_data_retreiver>
                         <index_priority>40</index_priority>
                         <price_indexer>bundle/indexer_price</price_indexer>
+                        <stock_indexer>bundle/indexer_stock</stock_indexer>
                     </bundle>
                 </type>
                 <options>

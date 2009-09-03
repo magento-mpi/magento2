@@ -288,47 +288,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
         $indexers = $this->_getProductTypes();
         foreach ($indexers as $indexer) {
             if (!empty($byType[$indexer->getTypeId()])) {
-                try {
-                    $indexer->reindexEntity($byType[$indexer->getTypeId()]);
-                } catch (Exception $e) {
-                    echo '<pre>';
-                    echo $e;
-                    die();
-                }
+                $indexer->reindexEntity($byType[$indexer->getTypeId()]);
             }
         }
 
         $this->_copyIndexDataToMainTable($processIds);
-
-        return $this;
-    }
-
-    /**
-     * Copy relations product index from primary index to temporary index table by parent entity
-     *
-     * @param array|int $parentIds
-     * @package array|int
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
-     */
-    protected function _copyRelationIndexData($parentIds, $excludeIds = null)
-    {
-        $write  = $this->_getWriteAdapter();
-        $select = $write->select()
-            ->from($this->getTable('catalog/product_relation'), array('child_id'))
-            ->where('parent_id IN(?)', $parentIds);
-        if (!is_null($excludeIds)) {
-            $select->where('child_id NOT IN(?)', $excludeIds);
-        }
-
-        $children = $write->fetchCol($select);
-
-        if ($children) {
-            $select = $write->select()
-                ->from($this->getMainTable())
-                ->where('entity_id IN(?)', $children);
-            $query  = $select->insertFromSelect($this->getIdxTable());
-            $write->query($query);
-        }
 
         return $this;
     }
@@ -452,6 +416,36 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
 
         $query = $select->insertFromSelect($table);
         $write->query($query);
+
+        return $this;
+    }
+
+    /**
+     * Copy relations product index from primary index to temporary index table by parent entity
+     *
+     * @param array|int $parentIds
+     * @package array|int $excludeIds
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price
+     */
+    protected function _copyRelationIndexData($parentIds, $excludeIds = null)
+    {
+        $write  = $this->_getWriteAdapter();
+        $select = $write->select()
+            ->from($this->getTable('catalog/product_relation'), array('child_id'))
+            ->where('parent_id IN(?)', $parentIds);
+        if (!is_null($excludeIds)) {
+            $select->where('child_id NOT IN(?)', $excludeIds);
+        }
+
+        $children = $write->fetchCol($select);
+
+        if ($children) {
+            $select = $write->select()
+                ->from($this->getMainTable())
+                ->where('entity_id IN(?)', $children);
+            $query  = $select->insertFromSelect($this->getIdxTable());
+            $write->query($query);
+        }
 
         return $this;
     }

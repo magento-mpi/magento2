@@ -190,9 +190,23 @@
                     <virtual>
                         <is_qty>1</is_qty>
                     </virtual>
+                    <configurable>
+                        <stock_indexer>cataloginventory/indexer_stock_configurable</stock_indexer>
+                    </configurable>
+                    <grouped>
+                        <stock_indexer>cataloginventory/indexer_stock_grouped</stock_indexer>
+                    </grouped>
                 </type>
             </product>
         </catalog>
+        
+        <index>
+            <indexer>
+                <cataloginventory_stock>
+                    <model>cataloginventory/indexer_stock</model>
+                </cataloginventory_stock>
+            </indexer>
+        </index>
     </global>
 
     <frontend>

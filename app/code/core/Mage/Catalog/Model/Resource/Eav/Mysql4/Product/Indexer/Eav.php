@@ -31,7 +31,8 @@
  * @category   Mage
  * @package    Mage_Catalog
  */
-class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_Index_Model_Mysql4_Abstract
+class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
+    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Abstract
 {
     /**
      * Define main index table
@@ -40,38 +41,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
     protected function _construct()
     {
         $this->_init('catalog/product_index_eav', 'entity_id');
-    }
-
-    /**
-     * Retrieve product relations by children
-     *
-     * @param int|array $childIds
-     * @return array
-     */
-    public function getRelationsByChild($childIds)
-    {
-        $write = $this->_getWriteAdapter();
-        $select = $write->select()
-            ->from($this->getTable('catalog/product_relation'), 'parent_id')
-            ->where('child_id IN(?)', $childIds);
-
-        return $write->fetchCol($select);
-    }
-
-    /**
-     * Retrieve product relations by parents
-     *
-     * @param int|array $childIds
-     * @return array
-     */
-    public function getRelationsByParent($parentIds)
-    {
-        $write = $this->_getWriteAdapter();
-        $select = $write->select()
-            ->from($this->getTable('catalog/product_relation'), 'child_id')
-            ->where('parent_id IN(?)', $parentIds);
-
-        return $write->fetchCol($select);
     }
 
     /**
@@ -269,7 +238,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
             ->where('IF(pis.value_id > 0, pis.value, pid.value) IS NOT NULL');
 
         $statusCond = $write->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
-        $this->_addAttributeConditionToSelect($select, 'status', 'pid.entity_id', 'cs.store_id', $statusCond);
+        $this->_addAttributeToSelect($select, 'status', 'pid.entity_id', 'cs.store_id', $statusCond);
 
         if (!is_null($entityIds)) {
             $select->where('pid.entity_id IN(?)', $entityIds);
@@ -323,7 +292,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
             ->where('pvd.attribute_id IN(?)', $attrIds);
 
         $statusCond = $write->quoteInto('=?', '=' . Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
-        $this->_addAttributeConditionToSelect($select, 'status', 'pvd.entity_id', 'cs.store_id', $statusCond);
+        $this->_addAttributeToSelect($select, 'status', 'pvd.entity_id', 'cs.store_id', $statusCond);
 
         if (!is_null($entityIds)) {
             $select->where('pvd.entity_id IN(?)', $entityIds);
@@ -375,9 +344,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
         $select = $write->select()
             ->from($idxTable, null);
 
-        $visibilityCond = $write->quoteInto('=?',Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
-        $this->_addAttributeConditionToSelect($select, 'visibility', $idxTable.'.entity_id', $idxTable.'.store_id',
-            $visibilityCond);
+        $condition = $write->quoteInto('=?',Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE);
+        $this->_addAttributeToSelect($select, 'visibility', $idxTable.'.entity_id', $idxTable.'.store_id', $condition);
 
         $query = $select->deleteFromSelect($idxTable);
         $write->query($query);
@@ -401,17 +369,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
 
         $this->syncData();
         return $this;
-    }
-
-    /**
-     * Retrieve attribute instance by attribute code
-     *
-     * @param string $attributeCode
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
-     */
-    protected function _getAttribute($attributeCode)
-    {
-        return Mage::getSingleton('eav/config')->getAttribute('catalog_product', $attributeCode);
     }
 
     /**
@@ -439,53 +396,5 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav extends Mage_In
         }
 
         return $this->_getReadAdapter()->fetchCol($select);
-    }
-
-    /**
-     * Add attribute limitation to select object
-     *
-     * Condition variable must be contain "sign"
-     *
-     * @param Varien_Db_Select $select
-     * @param string $attributeCode
-     * @param string $entityField           the entity field name in base table
-     * @param string $storeCond             the store SQL condition or field name
-     * @param string $condition             the SQL limitation condition
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
-     */
-    protected function _addAttributeConditionToSelect($select, $attributeCode, $entityField, $storeCond, $condition)
-    {
-        $attribute   = $this->_getAttribute($attributeCode);
-        $attributeId = (int)$attribute->getId();
-        if ($attribute->isScopeGlobal()) {
-            $alias = 'ta_' . $attributeCode;
-            $select->join(
-                array($alias => $attribute->getBackend()->getTable()),
-                "{$entityField} = {$alias}.entity_id AND {$alias}.attribute_id = {$attributeId}"
-                    . " AND {$alias}.store_id = 0",
-                array()
-            );
-            $select->where("{$alias}.value {$condition}");
-        } else {
-            $dAlias = 'tad_' . $attributeCode;
-            $sAlias = 'tas_' . $attributeCode;
-            $table  = $attribute->getBackend()->getTable();
-
-            $select->join(
-                array($dAlias => $table),
-                "{$entityField} = {$dAlias}.entity_id AND {$dAlias}.attribute_id = {$attributeId}"
-                    . " AND {$dAlias}.store_id = 0",
-                array()
-            );
-            $select->joinLeft(
-                array($sAlias => $table),
-                "{$dAlias}.entity_id = {$sAlias}.entity_id AND {$dAlias}.attribute_id = {$sAlias}.attribute_id"
-                    . " AND {$sAlias}.store_id = {$storeCond}",
-                array()
-            );
-            $select->where("IF({$sAlias}.value_id > 0, {$sAlias}.value, {$dAlias}.value) {$condition}");
-        }
-
-        return $this;
     }
 }

@@ -35,7 +35,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
-    extends Mage_Index_Model_Mysql4_Abstract
+    extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Abstract
     implements Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
 {
     /**
@@ -134,73 +134,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         $this->_movePriceDataToIndexTable();
 
         return $this;
-    }
-
-    /**
-     * Retrieve attribute instance by attribute code
-     *
-     * @param string $attributeCode
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
-     */
-    protected function _getAttribute($attributeCode)
-    {
-        return Mage::getSingleton('eav/config')->getAttribute('catalog_product', $attributeCode);
-    }
-
-    /**
-     * Add attribute join condition to select and return Zend_Db_Expr
-     * attribute value definition
-     *
-     * If $condition is not empty add limitation for select
-     *
-     * @param Varien_Db_Select $select
-     * @param string $attributeCode     the attribute code
-     * @param string $entityField       the entity field for condition
-     * @param string $storeField        the store field for condition
-     * @param bool $required            if required used INNER join, else - LEFT
-     * @return Zend_Db_Expr             the attribute value expression
-     */
-    protected function _addAttributeToSelect($select, $attributeCode, $entityField, $storeField, $condition = null,
-        $required = false)
-    {
-        $attribute      = $this->_getAttribute($attributeCode);
-        $attributeId    = $attribute->getAttributeId();
-        $attributeTable = $attribute->getBackend()->getTable();
-        $joinType       = $required ? 'join' : 'joinLeft';
-
-        if ($attribute->isScopeGlobal()) {
-            $alias = 'ta_' . $attributeCode;
-            $select->$joinType(
-                array($alias => $attributeTable),
-                "{$alias}.entity_id = {$entityField} AND {$alias}.attribute_id = {$attributeId}"
-                    . " AND {$alias}.store_id = 0",
-                array()
-            );
-            $expression = new Zend_Db_Expr("{$alias}.value");
-        } else {
-            $dAlias = 'tad_' . $attributeCode;
-            $sAlias = 'tas_' . $attributeCode;
-
-            $select->$joinType(
-                array($dAlias => $attributeTable),
-                "{$dAlias}.entity_id = {$entityField} AND {$dAlias}.attribute_id = {$attributeId}"
-                    . " AND {$dAlias}.store_id = 0",
-                array()
-            );
-            $select->joinLeft(
-                array($sAlias => $attributeTable),
-                "{$sAlias}.entity_id = {$entityField} AND {$sAlias}.attribute_id = {$attributeId}"
-                    . " AND {$sAlias}.store_id = {$storeField}",
-                array()
-            );
-            $expression = new Zend_Db_Expr("IF({$sAlias}.value_id > 0, {$sAlias}.value, {$dAlias}.value)");
-        }
-
-        if (!is_null($condition)) {
-            $select->where("{$expression}{$condition}");
-        }
-
-        return $expression;
     }
 
     /**
