@@ -101,7 +101,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Checkboxes_Tree extends Mage_Adminht
      */
     public function getRoot($parentNodeCategory=null, $recursionLevel=2)
     {
-        //return parent::getRoot($parentNodeCategory, $recursionLevel);
-        return $this->getRootByIds($this->getCategoryIds());
+        return parent::getRoot($parentNodeCategory, $recursionLevel);
+        //return $this->getRootByIds($this->getCategoryIds());
     }
 }
