@@ -50,16 +50,12 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     {
         if($this->isEnabled())
         {
-            $config = $this->getConfig();
             $element = ($this->getState() == 'html') ? '' : $this->getHtmlId();
             $jsUrl = $this->getForm()->getParent()->getJsUrl();
             $jsSetupObject = 'wysiwyg' . $this->getHtmlId();
 
             $html = '
-                <script type="text/javascript" src="'.$jsUrl.'tiny_mce/tiny_mce.js"></script>
-                <script type="text/javascript" src="'.$jsUrl.'mage/adminhtml/wysiwyg/tiny_mce/setup.js"></script>
-
-                <a href="#" id="toggle'.$this->getHtmlId().'">'.($config->getToggleLinkTitle() ? $config->getToggleLinkTitle() : 'Add/Remove Editor').'</a>
+                <div>' . $this->_getToggleLinkHtml() . $this->_getLinksSeparatorHtml(false) . $this->_getLinksHtml(false) . '</div>
                 <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
 
                 <script type="text/javascript">
@@ -88,8 +84,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         else
         {
             if ($this->getConfig('widget_window_url')) {
-                $html = '<a href="#" onclick="window.open(\''.$this->getConfig('widget_window_no_wysiwyg_url').'\', \''.$this->getHtmlId().'\', \'width=1024,height=800\');">'.$this->getConfig('widget_link_text').'</a>';
-                return $html . parent::getElementHtml();
+                return $this->_getLinksHtml() . parent::getElementHtml();
             }
             return parent::getElementHtml();
         }
@@ -102,6 +97,71 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         }
 
         return $this->getData('theme');
+    }
+
+    /**
+     * Return HTML link to toggling WYSIWYG
+     *
+     * @return string
+     */
+    protected function _getToggleLinkHtml()
+    {
+        return '<a href="#" id="toggle'.$this->getHtmlId().'">'.$this->translate('Show / Hide Editor').'</a>';
+    }
+
+    /**
+     * Return HTML separator between links
+     *
+     * @param bool $visible
+     * @return string
+     */
+    protected function _getLinksSeparatorHtml($visible = true)
+    {
+        return '<span class="'.$this->getHtmlId().'_sep"'.($visible ? '' : ' style="display:none;"').'> | </span>';
+    }
+
+    /**
+     * Prepare Html links for additional WYSIWYG features
+     *
+     * @param bool $visible Display link or not
+     * @return void
+     */
+    protected function _getLinksHtml($visible = true)
+    {
+        $links = array();
+        $linksHtml = array();
+
+        // Link to media images insertion window
+        $winUrl = $this->getConfig('files_browser_window_url');
+        $links[] = new Varien_Data_Form_Element_Link(array(
+            'href'      => '#',
+            'title'     => $this->translate('Insert Image'),
+            'value'     => $this->translate('Insert Image'),
+            'html_id'   => $this->getId() . '_media',
+            'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
+            'class'     => $this->getHtmlId().'_link',
+            'style'     => $visible ? '' : 'display:none',
+        ));
+
+        // Link to widget insertion window
+        $winUrl = $this->isEnabled() ? $this->getConfig('widget_window_url') : $this->getConfig('widget_window_no_wysiwyg_url');
+        $links[] = new Varien_Data_Form_Element_Link(array(
+            'href'      => '#',
+            'title'     => $this->translate('Insert Widget'),
+            'value'     => $this->translate('Insert Widget'),
+            'html_id'   => $this->getId() . '_widget',
+            'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
+            'class'     => $this->getHtmlId().'_link',
+            'style'     => $visible ? '' : 'display:none',
+        ));
+
+        foreach ($links as $link) {
+            $link->setForm($this->getForm());
+            $linksHtml[] = $link->getElementHtml();
+        }
+
+        $linksHtml = implode($this->_getLinksSeparatorHtml($visible), $linksHtml);
+        return $linksHtml;
     }
 
     /**
@@ -123,14 +183,27 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     }
 
     /**
+     * Translate string using defined helper
+     *
+     * @param string $string String to be translated
+     * @return string
+     */
+    public function translate($string)
+    {
+        if ($this->getConfig('translator') instanceof Varien_Object) {
+            return $this->getConfig('translator')->__($string);
+        }
+        return $string;
+    }
+
+    /**
      * Check whether Wysiwyg is enabled or not
      *
      * @return bool
      */
     public function isEnabled()
     {
-        $enabledByConfig = in_array($this->getConfig('enabled'), array('enabled', 'hidden'));
-        return $this->getWysiwyg() === true || $enabledByConfig;
+        return $this->getWysiwyg() || Mage::getSingleton('cms/wysiwyg_config')->isEnabled();
     }
 
     /**
@@ -140,6 +213,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
      */
     public function isHidden()
     {
-        return $this->getConfig('enabled') == 'hidden';
+        return Mage::getSingleton('cms/wysiwyg_config')->isHidden();
     }
 }

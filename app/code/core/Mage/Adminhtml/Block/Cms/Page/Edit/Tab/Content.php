@@ -36,6 +36,17 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
     extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
+    /**
+     * Load Wysiwyg on demand and Prepare layout
+     */
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
+        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+        }
+    }
+
     protected function _prepareForm()
     {
         /** @var $model Mage_Cms_Model_Page */

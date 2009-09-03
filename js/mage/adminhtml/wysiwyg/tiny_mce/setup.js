@@ -115,11 +115,17 @@ tinyMceWysiwygSetup.prototype =
     toggle: function() {
         if (!tinyMCE.get(this.id)) {
             this.setup();
-            setTimeout("",1000);
-            tinyMCE.execCommand("mceAddControl", false, this.id);
+            setTimeout('',1000);
+            tinyMCE.execCommand('mceAddControl', false, this.id);
         } else {
-            tinyMCE.execCommand("mceRemoveControl", false, this.id);
+            tinyMCE.execCommand('mceRemoveControl', false, this.id);
         }
+        $$('a.' + this.id + '_link').each(function(e) {
+            e.toggle();
+        });
+        $$('span.' + this.id + '_sep').each(function(e) {
+            e.toggle();
+        });
     },
 
     onFormValidation: function() {
