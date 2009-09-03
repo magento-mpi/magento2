@@ -234,21 +234,31 @@ class Enterprise_CatalogEvent_Model_Observer
         /* @var $item Mage_Sales_Model_Quote_Item */
         $this->_initializeEventsForQuoteItems($item->getQuote());
 
-        if ($item->getEventId()
-            && $item->getEvent()->getStatus() !== Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
-            $item->getQuote()->removeItem($item->getId());
-            if ($item->getParentItem()) {
-                $parentItem = $item->getParentItem();
-                $item->getQuote()->removeItem($parentItem);
-                $item->getQuote()->setHasError(true)
-                        ->addMessage(
-                            Mage::helper('enterprise_catalogevent')->__('Sale was closed for product "%s".', $parentItem->getName())
-                        );
+        if ($item->getEventId()) {
+            if ($event = $item->getEvent()) {
+                if ($event->getStatus() !== Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
+                    $item->getQuote()->removeItem($item->getId());
+                    if ($item->getParentItem()) {
+                        $parentItem = $item->getParentItem();
+                        $item->getQuote()->removeItem($parentItem);
+                        $item->getQuote()->setHasError(true)
+                                ->addMessage(
+                                    Mage::helper('enterprise_catalogevent')->__('Sale was closed for product "%s".', $parentItem->getName())
+                                );
+                    } else {
+                         $item->getQuote()->setHasError(true)
+                                ->addMessage(
+                                    Mage::helper('enterprise_catalogevent')->__('Sale was closed for product "%s".', $item->getName())
+                                );
+                    }
+                }
             } else {
-                 $item->getQuote()->setHasError(true)
-                        ->addMessage(
-                            Mage::helper('enterprise_catalogevent')->__('Sale was closed for product "%s".', $item->getName())
-                        );
+                /*
+                 * If quote item has event id but event was
+                 * not assigned to it then we should set event id to
+                 * null as event was removed already
+                 */
+                $item->setEventId(null);
             }
         }
     }
@@ -284,7 +294,6 @@ class Enterprise_CatalogEvent_Model_Observer
         }
 
         $categoryIds = $product->getCategoryIds();
-
 
         $event = false;
         $noOpenEvent = false;
@@ -333,9 +342,9 @@ class Enterprise_CatalogEvent_Model_Observer
 
             $eventCollection = $this->_getEventCollection(array_keys($this->_eventsToCategories));
 
-            foreach ($this->_eventsToCategories as $categoryId => $eventId) {
+            foreach ($this->_eventsToCategories as $catId => $eventId) {
                 if ($eventId !== null) {
-                    $this->_eventsToCategories[$categoryId] = $eventCollection->getItemById($eventId);
+                    $this->_eventsToCategories[$catId] = $eventCollection->getItemById($eventId);
                 }
             }
         }
@@ -417,7 +426,7 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     protected function _applyEventToCategory($category, Varien_Data_Collection $eventCollection)
     {
-        foreach (array_reverse($this->_parseCategoryPath($category->getPath())) as $categoryId) { // Walk throught category path, search event for category
+        foreach (array_reverse($this->_parseCategoryPath($category->getPath())) as $categoryId) { // Walk through category path, search event for category
             $event = $eventCollection->getItemByColumnValue(
                 'category_id', $categoryId);
             if ($event) {
