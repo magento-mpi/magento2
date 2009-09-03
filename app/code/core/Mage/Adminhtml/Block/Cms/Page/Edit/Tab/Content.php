@@ -55,16 +55,14 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
 
         $form->setHtmlIdPrefix('page_');
 
-        $fieldset = $form->addFieldset('content_fieldset', array('class'=>'fieldset-wide'));
+        $fieldset = $form->addFieldset('content_fieldset', array('legend'=>Mage::helper('cms')->__('Content'),'class'=>'fieldset-wide'));
 
         $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(
             array('tab_id' => $this->getTabId())
         );
 
-        $fieldset->addField('content', 'editor', array(
+        $contentField = $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
-            'label'     => Mage::helper('cms')->__('Content'),
-            'title'     => Mage::helper('cms')->__('Content'),
             'style'     => 'height:36em;',
             'wysiwyg'   => false,
             'required'  => true,
@@ -72,6 +70,10 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
             'config'    => $wysiwygConfig
         ));
 
+        // Setting custom renderer for content field to remove label column
+        $renderer = $this->getLayout()->createBlock('adminhtml/widget_form_renderer_fieldset_element')
+                    ->setTemplate('cms/page/edit/form/renderer/content.phtml');
+        $contentField->setRenderer($renderer);
 
         $form->setValues($model->getData());
         $this->setForm($form);
@@ -102,7 +104,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
     }
 
     /**
-     * Returns status flag about this tab can be showen or not
+     * Returns status flag about this tab can be shown or not
      *
      * @return true
      */
