@@ -665,8 +665,11 @@ final class Mage
         if (!self::getConfig()) {
             return;
         }
-        if (!self::getStoreConfig('dev/log/active')) {
-            return;
+
+        if (!self::$_isDeveloperMode) {
+            if (!self::getStoreConfig('dev/log/active')) {
+                return;
+            }
         }
 
         static $loggers = array();
