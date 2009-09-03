@@ -43,7 +43,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      *
      * @var string
      */
-    protected $_name;
+    protected $_nameInLayout;
 
     /**
      * Parent layout of the block
@@ -257,29 +257,19 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
     }
 
     /**
-     * Retirive block's name in layout.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->_name;
-    }
-
-    /**
      * Set block's name in layout and unsets previous link if such exists.
      *
      * @param $name
      * @return Mage_Core_Block_Abstract
      */
-    public function setName($name)
+    public function setNameInLayout($name)
     {
-        if (!empty($this->_name) && $this->getLayout()) {
+        if (!empty($this->_nameInLayout) && $this->getLayout()) {
             $this->getLayout()
-            ->unsetBlock($this->_name)
+            ->unsetBlock($this->_nameInLayout)
             ->setBlock($name, $this);
         }
-        $this->_name = $name;
+        $this->_nameInLayout = $name;
         return $this;
     }
 
@@ -972,18 +962,7 @@ abstract class Mage_Core_Block_Abstract extends Varien_Object
      */
     public function getNameInLayout()
     {
-        return $this->getName();
-    }
-
-    /**
-     * Alias for setName method.
-     *
-     * @param string $name
-     * @return Mage_Core_Block_Abstract
-     */
-    public function setNameInLayout($name)
-    {
-        return $this->setName($name);
+        return $this->_nameInLayout;
     }
 
     public function countChildren()
