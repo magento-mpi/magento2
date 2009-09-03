@@ -72,6 +72,7 @@
     </adminhtml_cms_block_edit>
 
     <adminhtml_cms_wysiwyg_images_index>
+        <remove name="footer" />
         <reference name="left">
             <block name="wysiwyg_images.tree" type="adminhtml/cms_wysiwyg_images_tree" template="cms//wysiwyg/tree.phtml" />
         </reference>
