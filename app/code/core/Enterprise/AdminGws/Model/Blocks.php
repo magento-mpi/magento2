@@ -336,7 +336,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         $model = Mage::registry('cms_page');
         if ($model) {
             $storeIds = $model->getStoreId();
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess($storeIds)) {
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
                 $block = $observer->getEvent()->getBlock();
                 $block->removeButton('save');
                 $block->removeButton('saveandcontinue');
@@ -362,7 +362,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         $model = Mage::registry('cms_block');
         if ($model) {
             $storeIds = $model->getStoreId();
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess($storeIds)) {
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
                 $block = $observer->getEvent()->getBlock();
                 $block->removeButton('save');
                 $block->removeButton('saveandcontinue');
@@ -388,7 +388,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         $model = Mage::registry('poll_data');
         if ($model) {
             $storeIds = $model->getStoreIds();
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess($storeIds)) {
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
                 $block = $observer->getEvent()->getBlock();
                 $block->removeButton('save');
                 $block->removeButton('delete');
