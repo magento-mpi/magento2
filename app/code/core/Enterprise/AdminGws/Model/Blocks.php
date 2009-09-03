@@ -243,7 +243,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Disables "Display Countdown Ticker On" checkboxes if user have not enouch rights
+     * Disables "Display Countdown Ticker On" checkboxes if user have not enough rights
      *
      * @param Varien_Event_Observer $observer
      */
@@ -296,7 +296,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove controll buttons for store-level roles on Catalog Price Rules page
+     * Remove control buttons for store-level roles on Catalog Price Rules page
      *
      * @param Varien_Event_Observer $observer
      */
@@ -310,7 +310,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove controll buttons for store-level roles on Shoping Cart Price Rules page
+     * Remove control buttons for store-level roles on Shopping Cart Price Rules page
      *
      * @param Varien_Event_Observer $observer
      */
@@ -319,5 +319,82 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         if ($this->_role->getIsStoreLevel()) {
             $block = $observer->getEvent()->getBlock()->removeButton('add');
         }
+    }
+
+    /**
+     * Remove control buttons if user does not have exclusive access to current page
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeCmsPageButtons($observer)
+    {
+        if ($this->_role->getIsAll()) {
+            return $this;
+        }
+
+        $model = Mage::registry('cms_page');
+        if ($model) {
+            $storeIds = $model->getStoreId();
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess($storeIds)) {
+                $block = $observer->getEvent()->getBlock();
+                $block->removeButton('save');
+                $block->removeButton('saveandcontinue');
+                $block->removeButton('delete');
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove control buttons if user does not have exclusive access to current block
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeCmsBlockButtons($observer)
+    {
+        if ($this->_role->getIsAll()) {
+            return $this;
+        }
+
+        $model = Mage::registry('cms_block');
+        if ($model) {
+            $storeIds = $model->getStoreId();
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess($storeIds)) {
+                $block = $observer->getEvent()->getBlock();
+                $block->removeButton('save');
+                $block->removeButton('saveandcontinue');
+                $block->removeButton('delete');
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove control buttons if user does not have exclusive access to current block
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removePollButtons($observer)
+    {
+        if ($this->_role->getIsAll()) {
+            return $this;
+        }
+
+        $model = Mage::registry('poll_data');
+        if ($model) {
+            $storeIds = $model->getStoreIds();
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess($storeIds)) {
+                $block = $observer->getEvent()->getBlock();
+                $block->removeButton('save');
+                $block->removeButton('delete');
+            }
+        }
+
+        return $this;
     }
 }
