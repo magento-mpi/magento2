@@ -64,7 +64,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
             'disabled'  => $isElementDisabled
         ));
 
-        $layoutFieldset->addField('layout_update_xml', 'editor', array(
+        $layoutFieldset->addField('layout_update_xml', 'textarea', array(
             'name'      => 'layout_update_xml',
             'label'     => Mage::helper('cms')->__('Layout Update XML'),
             'style'     => 'height:24em;',

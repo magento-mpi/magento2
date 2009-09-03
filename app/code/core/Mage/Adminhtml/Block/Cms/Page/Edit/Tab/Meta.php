@@ -59,14 +59,14 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Meta
 
         $fieldset = $form->addFieldset('meta_fieldset', array('legend' => Mage::helper('cms')->__('Meta Data'), 'class' => 'fieldset-wide'));
 
-        $fieldset->addField('meta_keywords', 'editor', array(
+        $fieldset->addField('meta_keywords', 'textarea', array(
             'name' => 'meta_keywords',
             'label' => Mage::helper('cms')->__('Keywords'),
             'title' => Mage::helper('cms')->__('Meta Keywords'),
             'disabled'  => $isElementDisabled
         ));
 
-        $fieldset->addField('meta_description', 'editor', array(
+        $fieldset->addField('meta_description', 'textarea', array(
             'name' => 'meta_description',
             'label' => Mage::helper('cms')->__('Description'),
             'title' => Mage::helper('cms')->__('Meta Description'),
