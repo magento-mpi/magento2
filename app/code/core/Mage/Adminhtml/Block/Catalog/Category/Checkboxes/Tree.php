@@ -91,17 +91,8 @@ class Mage_Adminhtml_Block_Catalog_Category_Checkboxes_Tree extends Mage_Adminht
         return $item;
     }
 
-    /**
-     * Changed from original getRootIds to have common logic
-     * with tree building on category edit page.
-     *
-     * @param Mage_Catalog_Model_Category $parentNodeCategory
-     * @param int $recursionLevel
-     * @return Varien_Data_Tree_Node
-     */
-    public function getRoot($parentNodeCategory=null, $recursionLevel=2)
+    public function getRoot($parentNodeCategory=null, $recursionLevel=3)
     {
-        return parent::getRoot($parentNodeCategory, $recursionLevel);
-        //return $this->getRootByIds($this->getCategoryIds());
+        return $this->getRootByIds($this->getCategoryIds());
     }
 }
