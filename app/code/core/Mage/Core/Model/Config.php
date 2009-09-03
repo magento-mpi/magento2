@@ -310,7 +310,7 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
             $disableLocalModules = false;
         }
 
-        if ($disableLocalModules) {
+        if ($disableLocalModules && !defined('COMPILER_INCLUDE_PATH')) {
             set_include_path(
                 // excluded '/app/code/local'
                 BP . DS . 'app' . DS . 'code' . DS . 'community' . PS .
