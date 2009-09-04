@@ -258,4 +258,21 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         }
         return $object;
     }
+
+    /**
+     * Fetching store ids in which tag visible
+     *
+     * @param Mage_Tag_Model_Mysql4_Tag $object
+     */
+    protected function _afterLoad(Mage_Core_Model_Abstract $object)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getTable('tag/summary'), array('store_id'))
+            ->where('tag_id = ?', $object->getId());
+        $storeIds = $this->_getWriteAdapter()->fetchCol($select);
+
+        $object->setVisibleInStoreIds($storeIds);
+
+        return $this;
+    }
 }

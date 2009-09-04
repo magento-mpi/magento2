@@ -27,6 +27,7 @@
 /**
  * Admin tag edit block
  *
+ * @deprecated after 1.3.2.3
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
