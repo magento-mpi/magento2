@@ -105,9 +105,15 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
         return $this;
     }
 
+    /**
+     * Apply filter by store id(s).
+     *
+     * @param int|array $storeId
+     * @return Mage_Tag_Model_Mysql4_Customer_Collection
+     */
     public function addStoreFilter($storeId)
     {
-        $this->getSelect()->where('tr.store_id = ?', $storeId);
+        $this->getSelect()->where('tr.store_id IN (?)', $storeId);
         return $this;
     }
 

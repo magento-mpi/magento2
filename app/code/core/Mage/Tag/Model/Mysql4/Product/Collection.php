@@ -176,13 +176,13 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     /**
      * Add Store ID filter
      *
-     * @param int $storeId
+     * @param int|array $store
      * @return Mage_Tag_Model_Mysql4_Product_Collection
      */
     public function addStoreFilter($store=null)
     {
         if (!is_null($store)) {
-            $this->getSelect()->where('relation.store_id = ?', $store);
+            $this->getSelect()->where('relation.store_id IN (?)', $store);
         }
         return $this;
     }
