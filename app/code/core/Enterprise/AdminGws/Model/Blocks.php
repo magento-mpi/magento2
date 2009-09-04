@@ -409,4 +409,68 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
 
         return $this;
     }
+
+    /**
+     * Remove buttons from staging grid for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function  removeStagingGridButtons($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('add');
+
+        return $this;
+    }
+
+    /**
+     * Remove buttons from staging edit form for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function  removeStagingEditButtons($observer)
+    {
+        $observer->getEvent()->getBlock()
+            ->unsetChild('merge_button')
+            ->unsetChild('save_button')
+            ->unsetChild('reset_status_button')
+            ->unsetChild('unschedule_button')
+            ->unsetChild('create_button');
+
+        return $this;
+    }
+
+    /**
+     * Remove buttons from backup grid for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeStagingBackupGridActions($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        $block->setMassactionIdField(false);
+        $column = $block->getColumn('action');
+        if ($column) {
+            $column->setActions(array());
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove buttons from backup edit form for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeStagingBackupEditButtons($observer)
+    {
+        $observer->getEvent()->getBlock()
+            ->unsetChild('rollback_button')
+            ->unsetChild('delete_button');
+
+        return $this;
+    }
 }

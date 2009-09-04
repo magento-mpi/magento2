@@ -464,6 +464,15 @@
                     <adminhtml__catalog_product_set__add>validateAttributeSetActions</adminhtml__catalog_product_set__add>
                     <adminhtml__catalog_product_set__save>validateAttributeSetActions</adminhtml__catalog_product_set__save>
                     <adminhtml__catalog_product_set__delete>validateAttributeSetActions</adminhtml__catalog_product_set__delete>
+                    <adminhtml__staging_manage__merge>blockStagingAction</adminhtml__staging_manage__merge>
+                    <adminhtml__staging_manage__mergePost>blockStagingAction</adminhtml__staging_manage__mergePost>
+                    <adminhtml__staging_manage__save>blockStagingAction</adminhtml__staging_manage__save>
+                    <adminhtml__staging_manage__delete>blockStagingAction</adminhtml__staging_manage__delete>
+                    <adminhtml__staging_manage__unschedule>blockStagingAction</adminhtml__staging_manage__unschedule>
+                    <adminhtml__staging_manage__resetStatus>blockStagingAction</adminhtml__staging_manage__resetStatus>
+                    <adminhtml__staging_backup__massDelete>blockStagingAction</adminhtml__staging_backup__massDelete>
+                    <adminhtml__staging_backup__delete>blockStagingAction</adminhtml__staging_backup__delete>
+                    <adminhtml__staging_backup__rollbackPost>blockStagingAction</adminhtml__staging_backup__rollbackPost>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
@@ -482,6 +491,10 @@
                     <adminhtml__cms_block_edit>removeCmsBlockButtons</adminhtml__cms_block_edit>
                     <adminhtml__poll_edit>removePollButtons</adminhtml__poll_edit>
                     <adminhtml__tag_edit>removeTagButtons</adminhtml__tag_edit>
+                    <enterprise_staging__adminhtml_staging>removeStagingGridButtons</enterprise_staging__adminhtml_staging>
+                    <enterprise_staging__adminhtml_staging_edit>removeStagingEditButtons</enterprise_staging__adminhtml_staging_edit>
+                    <enterprise_staging__adminhtml_backup_grid>removeStagingBackupGridActions</enterprise_staging__adminhtml_backup_grid>
+                    <enterprise_staging__adminhtml_backup_edit>removeStagingBackupEditButtons</enterprise_staging__adminhtml_backup_edit>
                 </block_html_before>
             </admingws>
         </enterprise>
