@@ -44,7 +44,25 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
         Mage_Catalog_Model_Product::ENTITY => array(
             Mage_Index_Model_Event::TYPE_MASS_ACTION,
             Mage_Index_Model_Event::TYPE_DELETE
+        ),
+        Mage_Core_Model_Store::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
+        ),
+        Mage_Core_Model_Store_Group::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
+        ),
+        Mage_Core_Model_Config_Data::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
         )
+    );
+
+    /**
+     * Related config settings
+     *
+     * @var array
+     */
+    protected $_relatedConfigSettings = array(
+        Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK,
     );
 
     /**
@@ -87,28 +105,94 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
     }
 
     /**
+     * Check if event can be matched by process.
+     * Overwrote for specific config save, store and store groups save matching
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return bool
+     */
+    public function matchEvent(Mage_Index_Model_Event $event)
+    {
+        $entity = $event->getEntity();
+        if ($entity == Mage_Core_Model_Store::ENTITY) {
+            /* @var $store Mage_Core_Model_Store */
+            $store = $event->getDataObject();
+            if ($store->isObjectNew()) {
+                return true;
+            }
+            return false;
+        } else if ($entity == Mage_Core_Model_Store_Group::ENTITY) {
+            /* @var $storeGroup Mage_Core_Model_Store_Group */
+            $storeGroup = $event->getDataObject();
+            if ($storeGroup->dataHasChangedFor('website_id')) {
+                return true;
+            }
+            return false;
+        } else if ($entity == Mage_Core_Model_Config_Data::ENTITY) {
+            $configData = $event->getDataObject();
+            $path = $configData->getPath();
+            if (in_array($path, $this->_relatedConfigSettings)) {
+                return $configData->isValueChanged();
+            }
+            return false;
+        }
+        return parent::matchEvent($event);
+    }
+
+    /**
      * Register data required by process in event object
      *
      * @param Mage_Index_Model_Event $event
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
-        if ($event->getEntity() == Mage_CatalogInventory_Model_Stock_Item::ENTITY) {
-            switch ($event->getType()) {
-                case Mage_Index_Model_Event::TYPE_SAVE:
-                    $this->_registerStockItemSaveEvent($event);
-                    break;
-            }
-        } else if ($event->getEntity() == Mage_Catalog_Model_Product::ENTITY) {
-            switch ($event->getType()) {
-                case Mage_Index_Model_Event::TYPE_MASS_ACTION:
-                    $this->_registerCatalogProductMassActionEvent($event);
-                    break;
+        switch ($event->getEntity()) {
+            case Mage_CatalogInventory_Model_Stock_Item::ENTITY:
+                $this->_registerCatalogProductEvent($event);
+                break;
 
-                case Mage_Index_Model_Event::TYPE_DELETE:
-                    $this->_registerCatalogProductDeleteEvent($event);
-                    break;
-            }
+            case Mage_Catalog_Model_Product::ENTITY:
+                $this->_registerCatalogInventoryStockItemEvent($event);
+                break;
+            case Mage_Core_Model_Store::ENTITY:
+            case Mage_Core_Model_Store_Group::ENTITY:
+            case Mage_Core_Model_Config_Data::ENTITY:
+                $event->addNewData('skip_stock_call_event_hangler', true);
+                $process = $event->getProcess();
+                $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                break;
+        }
+    }
+
+    /**
+     * Register data required by catalog product processes in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    protected function _registerCatalogProductEvent(Mage_Index_Model_Event $event)
+    {
+        switch ($event->getType()) {
+            case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+                $this->_registerCatalogProductMassActionEvent($event);
+                break;
+
+            case Mage_Index_Model_Event::TYPE_DELETE:
+                $this->_registerCatalogProductDeleteEvent($event);
+                break;
+        }
+    }
+
+    /**
+     * Register data required by cataloginventory stock item processes in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    protected function _registerCatalogInventoryStockItemEvent(Mage_Index_Model_Event $event)
+    {
+        switch ($event->getType()) {
+            case Mage_Index_Model_Event::TYPE_SAVE:
+                $this->_registerStockItemSaveEvent($event);
+                break;
         }
     }
 
