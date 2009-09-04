@@ -435,13 +435,22 @@ hierarchyNodes = {
                     tr.removeClassName('invalid');
                     tr.down('.checkbox').disabled = false;
                 } else {
-                    var identifier = tr.down('.identifier').textContent;
-                    if (identifiers.get(identifier)) {
-                        tr.addClassName('invalid');
-                        tr.down('.checkbox').disabled = true;
-                    } else {
-                        tr.removeClassName('invalid');
-                        tr.down('.checkbox').disabled = false;
+                    var identifierColumn = tr.down('.identifier');
+                    if (identifierColumn != undefined) {
+                        var identifier = identifierColumn.textContent;
+                        if (identifiers.get(identifier)) {
+                            tr.addClassName('invalid');
+                            var checkbox = tr.down('.checkbox');
+                            if (checkbox != undefined) {
+                                checkbox.disabled = true;
+                            }
+                        } else {
+                            tr.removeClassName('invalid');
+                            var checkbox = tr.down('.checkbox');
+                            if (checkbox != undefined) {
+                                checkbox.disabled = false;
+                            }
+                        }
                     }
                 }
             });
