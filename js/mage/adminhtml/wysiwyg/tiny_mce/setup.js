@@ -107,9 +107,15 @@ tinyMceWysiwygSetup.prototype =
 
     openImagesBrowser: function(o) {
         var win = o.win;
+        var type = o.type;
+        var field = o.field;
         var wWidth = this.config.files_browser_window_width;
         var wHeight = this.config.files_browser_window_height;
-        win.open(this.config.files_browser_window_url, "imagesBrowser", "width=" + wWidth + ", height=" + wHeight);
+        var wUrl = this.config.files_browser_window_url;
+        if (type != undefined && type != "") {
+            wUrl = wUrl + "type/" + type + "/";
+        }
+        win.open(wUrl, "imagesBrowser", "width=" + wWidth + ", height=" + wHeight);
     },
 
     toggle: function() {

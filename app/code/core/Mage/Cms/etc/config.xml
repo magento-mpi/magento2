@@ -167,6 +167,8 @@
                 <enabled>enabled</enabled>
                 <upload_root>content/images</upload_root>
                 <browser_allowed_extensions>jpg,jpeg,png,gif</browser_allowed_extensions>
+                <browser_image_allowed_extensions>jpg,jpeg,png,gif</browser_image_allowed_extensions>
+                <browser_media_allowed_extensions>flv,swf,avi,mov</browser_media_allowed_extensions>
                 <browser_window_width>1000</browser_window_width>
                 <browser_window_height>800</browser_window_height>
                 <browser_resize_width>100</browser_resize_width>

@@ -37,7 +37,8 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Mage_Admi
     {
         parent::__construct();
         $params = $this->getConfig()->getParams();
-        $allowed = Mage::getSingleton('cms/wysiwyg_images_storage')->getAllowedExtensions();
+        $type = $this->getRequest()->getParam('type');
+        $allowed = Mage::getSingleton('cms/wysiwyg_images_storage')->getAllowedExtensions($type);
         $labels = array();
         $files = array();
         foreach ($allowed as $ext) {
@@ -45,7 +46,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader extends Mage_Admi
             $files[] = '*.' . $ext;
         }
         $this->getConfig()
-            ->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('*/*/upload'))
+            ->setUrl(Mage::getModel('adminhtml/url')->addSessionParam()->getUrl('*/*/upload', array('type' => $type)))
             ->setParams($params)
             ->setFileField('image')
             ->setFilters(array(

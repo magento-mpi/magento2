@@ -54,9 +54,10 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      * Return files
      *
      * @param string $path Parent directory path
+     * @param string $type Type of storage, e.g. image, media etc.
      * @return Varien_Data_Collection_Filesystem
      */
-    public function getFilesCollection($path)
+    public function getFilesCollection($path, $type = null)
     {
         $collection = $this->getCollection($path)
             ->setCollectDirs(false)
@@ -65,7 +66,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
             ->setOrder('mtime', Varien_Data_Collection::SORT_ORDER_ASC);
 
         // Add files extension filter
-        if ($allowed = $this->getAllowedExtensions()) {
+        if ($allowed = $this->getAllowedExtensions($type)) {
             $collection->setFilesFilter('/\.(' . implode('|', $allowed). ')$/i');
         }
 
@@ -140,13 +141,14 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      * Upload and resize new file
      *
      * @param string $targetPath Target directory
+     * @param string $type Type of storage, e.g. image, media etc.
      * @throws Mage_Core_Exception
      * @return array File info Array
      */
-    public function uploadFile($targetPath)
+    public function uploadFile($targetPath, $type = null)
     {
         $uploader = new Varien_File_Uploader('image');
-        if ($allowed = $this->getAllowedExtensions()) {
+        if ($allowed = $this->getAllowedExtensions($type)) {
             $uploader->setAllowedExtensions($allowed);
         }
         $uploader->setAllowRenameFiles(true);
@@ -213,11 +215,13 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     /**
      * Prepare allowed_extensions config settings
      *
+     * @param string $type Type of storage, e.g. image, media etc.
      * @return array Array of allowed file extensions
      */
-    public function getAllowedExtensions()
+    public function getAllowedExtensions($type = null)
     {
-        if (preg_match_all('/[a-z0-9]+/si', strtolower($this->getConfigData('browser_allowed_extensions')), $matches)) {
+        $configKey = is_null($type) ? 'browser_allowed_extensions' : 'browser_'.$type.'_allowed_extensions';
+        if (preg_match_all('/[a-z0-9]+/si', strtolower($this->getConfigData($configKey)), $matches)) {
             return $matches[0];
         }
         return array();

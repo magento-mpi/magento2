@@ -61,8 +61,8 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                 <script type="text/javascript">
                 //<![CDATA[
 
-                function imagebrowser(field_name, url, type, w) {
-                    varienGlobalEvents.fireEvent("open_browser_callback", {win:w});
+                function imagebrowser(field_name, url, object_type, w) {
+                    varienGlobalEvents.fireEvent("open_browser_callback", {win:w, type:object_type, field:field_name});
                 }
 
 				'.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
@@ -137,7 +137,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             'href'      => '#',
             'title'     => $this->translate('Insert Image'),
             'value'     => $this->translate('Insert Image'),
-            'html_id'   => $this->getId() . '_media',
             'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
             'class'     => $this->getHtmlId().'_link',
             'style'     => $visible ? '' : 'display:none',
@@ -149,7 +148,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             'href'      => '#',
             'title'     => $this->translate('Insert Widget'),
             'value'     => $this->translate('Insert Widget'),
-            'html_id'   => $this->getId() . '_widget',
             'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
             'class'     => $this->getHtmlId().'_link',
             'style'     => $visible ? '' : 'display:none',

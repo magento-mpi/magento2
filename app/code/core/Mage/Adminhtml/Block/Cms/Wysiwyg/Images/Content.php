@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
      */
     public function getContentsUrl()
     {
-        return $this->getUrl('*/*/contents');
+        return $this->getUrl('*/*/contents', array('type' => $this->getRequest()->getParam('type')));
     }
 
     /**
