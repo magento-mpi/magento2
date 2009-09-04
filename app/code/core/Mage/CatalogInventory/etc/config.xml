@@ -99,14 +99,14 @@
                     </inventory>
                 </observers>
             </sales_quote_item_collection_products_after_load>
-            <catalog_product_status_update>
+            <!-- catalog_product_status_update>
                 <observers>
                     <inventory>
                         <class>cataloginventory/observer</class>
                         <method>productStatusUpdate</method>
                     </inventory>
                 </observers>
-            </catalog_product_status_update>
+            </catalog_product_status_update -->
             <sales_quote_item_qty_set_after>
                 <observers>
                     <inventory>
@@ -171,14 +171,14 @@
                     </inventory>
                 </observers>
             </admin_system_config_changed_section_cataloginventory>
-            <catalog_product_website_update>
+            <!-- catalog_product_website_update>
                 <observers>
                     <cataloginventory>
                         <class>cataloginventory/observer</class>
                         <method>catalogProductWebsiteUpdate</method>
                     </cataloginventory>
                 </observers>
-            </catalog_product_website_update>
+            </catalog_product_website_update  -->
         </events>
 
         <catalog>
