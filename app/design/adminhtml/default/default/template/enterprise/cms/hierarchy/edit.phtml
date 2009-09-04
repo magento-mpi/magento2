@@ -191,10 +191,12 @@ hierarchyNodes = {
     },
     pageGridRowClick: function(container, evt){
         var tr = evt.findElement('tr');
-        var checkbox = tr.down('.checkbox');
-        var isInput = evt.element().tagName == 'INPUT';
-        var checked = isInput ? checkbox.checked : !checkbox.checked;
-        container.setCheckboxChecked(checkbox, checked);
+        if (!tr.hasClassName('invalid')) {
+            var checkbox = tr.down('.checkbox');
+            var isInput = evt.element().tagName == 'INPUT';
+            var checked = isInput ? checkbox.checked : !checkbox.checked;
+            container.setCheckboxChecked(checkbox, checked);
+        }
     },
     pageGridAddSelected: function(){
         var rows = $$('#cms_page_grid .grid table tbody tr');
@@ -442,13 +444,13 @@ hierarchyNodes = {
                             tr.addClassName('invalid');
                             var checkbox = tr.down('.checkbox');
                             if (checkbox != undefined) {
-                                checkbox.disabled = true;
+                                checkbox.disable();
                             }
                         } else {
                             tr.removeClassName('invalid');
                             var checkbox = tr.down('.checkbox');
                             if (checkbox != undefined) {
-                                checkbox.disabled = false;
+                                checkbox.enable();
                             }
                         }
                     }
