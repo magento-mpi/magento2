@@ -144,7 +144,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         ));
 
         // Link to widget insertion window
-        $winUrl = $this->isEnabled() ? $this->getConfig('widget_window_url') : $this->getConfig('widget_window_no_wysiwyg_url');
+        $winUrl = $this->getConfig('widget_window_no_wysiwyg_url');
         $links[] = new Varien_Data_Form_Element_Link(array(
             'href'      => '#',
             'title'     => $this->translate('Insert Widget'),
