@@ -25,58 +25,47 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Primary extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Uptodate extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
+    /**
+     * Intialize model
+     *
+     * @return void
+     */    
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_address_primary');
+        $this->setType('enterprise_customersegment/segment_condition_period_uptodate');
         $this->setValue(null);
     }
-    
+
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 
-            'label'=>Mage::helper('enterprise_customersegment')->__('Is Primary Address'));
-    }
-
-    public function loadAttributeOptions()
-    {
-        $this->setAttributeOption(array(
-            'billing'  => Mage::helper('enterprise_customersegment')->__('Billing'),
-            'shipping'  => Mage::helper('enterprise_customersegment')->__('Shipping'),
-        ));
-        return $this;
-    }
-
-    public function loadValueOptions()
-    {
-        $this->setValueOption(array(
-            '1' => Mage::helper('enterprise_customersegment')->__('IS'), 
-            '0' => Mage::helper('enterprise_customersegment')->__('IS NOT'), 
-        ));
-        return $this;
+        return Mage::getModel('enterprise_customersegment/segment_condition_combine')->getNewChildSelectOptions();
     }
     
     public function getInputType()
     {
-        return 'select';
+        return 'text';
     }
 
     public function getValueElementType()
     {
-        return 'select';
+        return 'text';
     }
     
     public function asHtml()
     {
        $html = $this->getTypeElement()->getHtml().
-       
-       Mage::helper('enterprise_customersegment')->__("Customer Address %s Primary %s:",
-            $this->getValueElement()->getHtml(),
-            $this->getAttributeElement()->getHtml()
+       Mage::helper('enterprise_customersegment')->__("If period is last %s days and match %s:",
+              $this->getValueElement()->getHtml(),
+              $this->getAggregatorElement()->getHtml()
        );
        $html.= $this->getRemoveLinkHtml();
        return $html;
     }    
+
+    
+    
 }
+

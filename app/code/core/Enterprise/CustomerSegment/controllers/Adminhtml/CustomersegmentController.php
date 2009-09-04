@@ -72,7 +72,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         
         $model->getConditions()->setJsFormObject('segment_conditions_fieldset');
         
-        Mage::register('enterprise_customersegment_segment', $model);
+        Mage::register('current_customer_segment', $model);
 
         $block =  $this->getLayout()->createBlock(
             'enterprise_customersegment/adminhtml_customersegment_edit')
@@ -144,7 +144,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 if ($id = $this->getRequest()->getParam('segment_id')) {
                     $model->load($id);
                     if ($id != $model->getId()) {
-                        Mage::throwException(Mage::helper('enterprise_customersegment')->__('Wrong rule specified.'));
+                        Mage::throwException(Mage::helper('enterprise_customersegment')->__('Wrong segment specified.'));
                     }
                 }
                 $data['conditions'] = $data['rule']['conditions'];
@@ -184,7 +184,6 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 $model = Mage::getModel('enterprise_customersegment/segment');
                 $model->load($id);
                 $model->delete();
-                Mage::app()->saveCache(1, 'enterprise_customersegment_segment_dirty');
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_customersegment')->__('Segment was successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
@@ -209,5 +208,45 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         return Mage::getSingleton('admin/session')->isAllowed('customer/customersegment') &&
             Mage::helper('enterprise_customersegment')->isEnabled();
     }
+
+    public function chooserAction()
+    {
+
+    	$block = $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_chooser_daterange');
+    	
+    	if ($block) {
+            $this->getResponse()->setBody($block->toHtml());
+        }
+    	
+/*    	$block = $this->getLayout()->createBlock(
+            'adminhtml/promo_widget_chooser_sku', 'promo_widget_chooser_sku',
+            array('js_form_object' => $this->getRequest()->getParam('form'),
+        ));
+    	
+    	
+    	$block = false;
+        switch ($this->getRequest()->getParam('attribute')) {
+            case 'sku':
+                $block = $this->getLayout()->createBlock(
+                    'adminhtml/promo_widget_chooser_sku', 'promo_widget_chooser_sku',
+                    array('js_form_object' => $this->getRequest()->getParam('form'),
+                ));
+                break;
+
+            case 'category_ids':
+                $block = $this->getLayout()->createBlock(
+                        'adminhtml/catalog_category_checkboxes_tree', 'promo_widget_chooser_category_ids',
+                        array('js_form_object' => $this->getRequest()->getParam('form'))
+                    )
+                    ->setCategoryIds($this->getRequest()->getParam('selected', array()))
+                ;
+                break;
+        }
+        if ($block) {
+            $this->getResponse()->setBody($block->toHtml());
+        }
+*/        
+    }
+    
     
 }

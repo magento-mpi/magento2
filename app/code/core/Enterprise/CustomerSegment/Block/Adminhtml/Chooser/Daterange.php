@@ -24,20 +24,16 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-$installer = $this;
-$installer->startSetup();
-
-$installer->run("CREATE TABLE `{$this->getTable('enterprise_customersegment_segment')}` (
-                  `segment_id` int(10) unsigned NOT NULL auto_increment,
-                  `name` varchar(255) NOT NULL default '',
-                  `description` text NOT NULL,
-                  `is_active` tinyint(1) NOT NULL default '0',
-                  `conditions_serialized` mediumtext NOT NULL,
-                  `processing_frequency` int(100) NOT NULL,
-                  PRIMARY KEY  (`segment_id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-
-$installer->endSetup();
-
-
-
+class Enterprise_CustomerSegment_Block_Adminhtml_Chooser_Daterange extends Mage_Adminhtml_Block_Template 
+{
+    /**
+     * Intialize block
+     *
+     * @return void
+     */    
+    protected function _construct()
+    {
+        $this->setTemplate('enterprise/customersegment/chooser/daterange.phtml');
+    }
+    
+}

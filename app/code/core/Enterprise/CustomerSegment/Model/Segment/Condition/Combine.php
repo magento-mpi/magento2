@@ -45,70 +45,20 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine extends Mage_Ru
      */    
     public function getNewChildSelectOptions()
     {
-        $conditions = array();
-        $conditions = array_merge_recursive($conditions, array(
+        $conditions = array(
             array('value'=>'enterprise_customersegment/segment_condition_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
-            array('value'=>'enterprise_customersegment/segment_condition_period', 'label'=>Mage::helper('enterprise_customersegment')->__('Period Combination')),
+            array('value'=>'enterprise_customersegment/segment_condition_period_uptodate', 'label'=>Mage::helper('enterprise_customersegment')->__('Up to Date Combination')),
+            array('value'=>'enterprise_customersegment/segment_condition_period_daterange', 'label'=>Mage::helper('enterprise_customersegment')->__('Date Range Combination')),
             array('value'=>'enterprise_customersegment/segment_condition_sales', 'label'=>Mage::helper('enterprise_customersegment')->__('Sales')),
-            Mage::getModel('enterprise_customersegment/segment_condition_product_attributes')->getNewChildSelectOptions(),
-            Mage::getModel('enterprise_customersegment/segment_condition_isproductin')->getNewChildSelectOptions(),
-            Mage::getModel('enterprise_customersegment/segment_condition_customer_address')->getNewChildSelectOptions(),
-            Mage::getModel('enterprise_customersegment/segment_condition_order_address')->getNewChildSelectOptions(),
+            array('value'=>'enterprise_customersegment/segment_condition_isproductin', 'label'=>Mage::helper('enterprise_customersegment')->__('Is Product In')),
+            array('value'=>'enterprise_customersegment/segment_condition_customer_address', 'label'=>Mage::helper('enterprise_customersegment')->__('Customer Address')),            
+            array('value'=>'enterprise_customersegment/segment_condition_order_address', 'label'=>Mage::helper('enterprise_customersegment')->__('Order Address')),            
+            Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart')->getNewChildSelectOptions(),
             Mage::getModel('enterprise_customersegment/segment_condition_customer')->getNewChildSelectOptions(),
-            ));
+        );
         return $conditions;
     }
 
-    
-    /**
-     * Return condition options for customer attributes
-     *
-     * @return array
-     */    
-    protected function _getConditionsProductAttributes()
-    {
-        $condition = Mage::getModel('enterprise_customersegment/segment_condition_product_attributes');
-        $attributes = $condition->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
-        foreach ($attributes as $code=>$label) {
-            $conditions[] = array('value'=>'enterprise_customersegment/segment_condition_product_attributes|'.$code, 'label'=>$label);
-        }
-        return $conditions;
-    }
-    
-    
-    
-    /**
-     * Return condition options for customer attributes
-     *
-     * @return array
-     */    
-    protected function _getConditionsCustomerAttributes()
-    {
-        $condition = Mage::getModel('enterprise_customersegment/segment_condition_customer_attributes');
-        $attributes = $condition->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
-        foreach ($attributes as $code=>$label) {
-            $conditions[] = array('value'=>'enterprise_customersegment/segment_condition_customer_attributes|'.$code, 'label'=>$label);
-        }
-        return $conditions;
-    }
-
-    /**
-     * Return condition options for customer behavior
-     *
-     * @return array
-     */    
-    protected function _getConditionsCustomerBehavior()
-    {
-        $condition = Mage::getModel('enterprise_customersegment/segment_condition_customer_behavior');
-        $productAttributes = $condition->loadAttributeOptions()->getAttributeOption();
-        $attributes = array();
-        foreach ($productAttributes as $code=>$label) {
-            $attributes[] = array('value'=>'enterprise_customersegment/segment_condition_customer_behavior|'.$code, 'label'=>$label);
-        }
-        return $attributes;
-    }
     
     /**
      * Return check new condition elemtnt
@@ -127,5 +77,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine extends Mage_Ru
         ))->setRenderer(Mage::getBlockSingleton('enterprise_customersegment/adminhtml_customersegment_edit_tab_conditions_newchild'));
     }
 
+    
 }
 

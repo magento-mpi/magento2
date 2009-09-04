@@ -33,7 +33,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
      */   
     protected function _prepareForm()
     {
-        $model = Mage::registry('enterprise_customersegment_segment');
+        $model = Mage::registry('current_customer_segment');
 
         $form = new Varien_Data_Form();
 
@@ -60,13 +60,21 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
             'title' => Mage::helper('enterprise_customersegment')->__('Description'),
             'style' => 'width: 98%; height: 100px;',
         ));
-
-        $fieldset->addField('processing_frequency', 'text', array(
+        
+        $fieldset->addField('website_id', 'select', array(
+            'name'      => 'website_id',
+            'label'     => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
+            'title'     => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
+            'required'  => true,
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+        ));
+        
+        /*$fieldset->addField('processing_frequency', 'text', array(
             'name' => 'processing_frequency',
             'label' => Mage::helper('enterprise_customersegment')->__('Processing Frequency (days)'),
             'title' => Mage::helper('enterprise_customersegment')->__('Processing Frequency (days)'),
             'class' => 'validate-number',
-        ));
+        ));*/
         
         $fieldset->addField('is_active', 'select', array(
             'label'     => Mage::helper('enterprise_customersegment')->__('Status'),

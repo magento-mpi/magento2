@@ -33,7 +33,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Condit
      */
     protected function _prepareForm()
     {
-        $model = Mage::registry('enterprise_customersegment_segment');
+        $model = Mage::registry('current_customer_segment');
 
         $form = new Varien_Data_Form();
 

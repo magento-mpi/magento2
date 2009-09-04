@@ -18,26 +18,17 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Enterprise
- * @package    Enterprise_CustomerSegment
+ * @category   design
+ * @package    default_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-$installer = $this;
-$installer->startSetup();
+/**
+ * New child element for conditions widget
+ *
+ * @see Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Conditions_Newchild
+ */
+?>
 
-$installer->run("CREATE TABLE `{$this->getTable('enterprise_customersegment_segment')}` (
-                  `segment_id` int(10) unsigned NOT NULL auto_increment,
-                  `name` varchar(255) NOT NULL default '',
-                  `description` text NOT NULL,
-                  `is_active` tinyint(1) NOT NULL default '0',
-                  `conditions_serialized` mediumtext NOT NULL,
-                  `processing_frequency` int(100) NOT NULL,
-                  PRIMARY KEY  (`segment_id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
-
-$installer->endSetup();
-
-
-
+daterange elements 

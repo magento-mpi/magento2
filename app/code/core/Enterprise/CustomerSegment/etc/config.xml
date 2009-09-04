@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerSegment>
-             <version>0.0.1</version>
+             <version>0.0.2</version>
         </Enterprise_CustomerSegment>
     </modules>
     
@@ -98,7 +98,18 @@
                 </enterprise_customersegment>
             </updates>
         </layout>
-
+        
+        <events>
+	        <adminhtml_block_eav_attribute_edit_form_init>
+	            <observers>
+	                <enterprise_targetrule>
+	                    <class>enterprise_customersegment/observer</class>
+	                    <method>addProductAttributeField</method>
+	                </enterprise_targetrule>
+	            </observers>
+	        </adminhtml_block_eav_attribute_edit_form_init>
+        </events>
+        
         <translate>
             <modules>
                 <Enterprise_CustomerSegment>
@@ -113,7 +124,7 @@
     <default>
             <customer>
                 <enterprise_customersegment>
-                    <is_enabled>0</is_enabled>
+                    <is_enabled>1</is_enabled>
                 </enterprise_customersegment>
             </customer>
     </default>

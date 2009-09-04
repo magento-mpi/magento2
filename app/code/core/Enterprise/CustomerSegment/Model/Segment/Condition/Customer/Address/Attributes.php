@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
 
-        return $conditions;
+        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Address attributes'));;
     }
 
     /**
@@ -60,11 +60,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
 
         $attributes = array();
         foreach ($productAttributes as $attribute) {
-            /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-/*            if (!$attribute->isAllowedForRuleCondition() || !$attribute->getIsUsedForPriceRules()) {
-                continue;
+            if ($attribute->getIsUsedForCustomerSegment()) {
+                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
             }
-*/            $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
         }
 
         asort($attributes);

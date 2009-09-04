@@ -78,11 +78,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
             ->getAttributesByCode();
             
         $attributes = array();
+        
         foreach ($productAttributes as $attribute) {
-            if (!$attribute->getFrontendLabel()/*!$attribute->isAllowedForRuleCondition() || !$attribute->getIsUsedForPriceRules()*/) {
-                continue;
+        	if ($attribute->getIsUsedForCustomerSegment()) {
+                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
             }
-            $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
         }
         asort($attributes);
         $this->setAttributeOption($attributes);
@@ -96,8 +96,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
      */
     public function getValueSelectOptions()
     {
-        if (!$this->getData('value_select_options')) {
-            if (is_object($this->getAttributeObject()) && $this->getAttributeObject()->usesSource()) {
+        if (!$this->getData('value_select_options') && is_object($this->getAttributeObject())) {
+
+    		if ($this->getAttributeObject()->usesSource()) {
                 if ($this->getAttributeObject()->getFrontendInput() == 'multiselect') {
                     $addEmptyOption = false;
                 } else {
@@ -105,7 +106,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
                 }
                 $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions($addEmptyOption);
                 $this->setData('value_select_options', $optionsArr);
-            }
+           	}
+
+	        if ($this->_isCurrentAttributeDefaultAddress()) {
+                $optionsArr = $this->_getOptionsForAttributeDefaultAddress();
+                $this->setData('value_select_options', $optionsArr);
+	        }
+            
         }
         return $this->getData('value_select_options');
     }
@@ -117,9 +124,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
      */
     public function getInputType()
     {
+        if ($this->_isCurrentAttributeDefaultAddress()) {
+            return 'select';
+        }
+    	
         if (!is_object($this->getAttributeObject())) {
             return 'string';
         }
+        
         switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'select':
                 return 'select';
@@ -142,9 +154,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
      */
     public function getValueElementType()
     {
+        if ($this->_isCurrentAttributeDefaultAddress()) {
+            return 'select';
+        }
+    	
         if (!is_object($this->getAttributeObject())) {
             return 'text';
         }
+        
         switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'select':
                 return 'select';
@@ -204,6 +221,29 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
         $element = parent::getAttributeElement();
         $element->setShowAsText(true);
         return $element;
+    }
+    
+    public function getOperatorElementHtml()
+    {
+        if ($this->_isCurrentAttributeDefaultAddress()) {
+            return '';
+        }
+        
+        return parent::getOperatorElementHtml();
+    }
+        
+    protected function _isCurrentAttributeDefaultAddress()
+    {
+        return $this->getAttributeObject()->getAttributeCode() == 'default_billing' ||
+        $this->getAttributeObject()->getAttributeCode() == 'default_shipping';
+    }
+
+    protected function _getOptionsForAttributeDefaultAddress()
+    {
+    	return array(
+    	   array('value' => 'is_exists', 'label' => Mage::helper('enterprise_customersegment')->__('Is exists')),
+           array('value' => 'is_not_exists', 'label' => Mage::helper('enterprise_customersegment')->__('Is not exists')),
+    	);
     }
     
 }

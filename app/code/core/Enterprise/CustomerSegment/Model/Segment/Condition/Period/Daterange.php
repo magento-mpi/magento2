@@ -25,7 +25,7 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Sales extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
     /**
      * Intialize model
@@ -35,63 +35,75 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales extends Enterpris
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_sales');
+        $this->setType('enterprise_customersegment/segment_condition_period_daterange');
         $this->setValue(null);
     }
 
-    /**
-     * Return options for check new condition elemtnt
-     *
-     * @return array
-     */    
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_sales_combine')->getNewChildSelectOptions();
-    }
-
-    public function loadOperatorOptions()
-    {
-        $this->setOperatorOption(array(
-            '=='  => Mage::helper('enterprise_customersegment')->__('is'),
-            '!='  => Mage::helper('enterprise_customersegment')->__('is not'),
-        ));
-        return $this;
-    }
-    
-    public function loadValueOptions()
-    {
-        $options = Mage::getSingleton('sales/order_config')->getStatuses();
-        $options = array_merge (array('any'=>Mage::helper('enterprise_customersegment')->__('Any')), $options);
-    	$this->setValueOption($options);
-        return $this;
+        return Mage::getModel('enterprise_customersegment/segment_condition_combine')->getNewChildSelectOptions();
     }
     
     public function getInputType()
     {
-        return 'select';
+        return 'text';
     }
 
     public function getValueElementType()
     {
-        return 'select';
+        return 'text';
     }
     
+    /**
+     * Retrieve Explicit Apply
+     *
+     * @return bool
+     */
     public function getExplicitApply()
     {
-        return false;
+        return true;
     }
+    
+    /**
+     * Retrieve after element HTML
+     *
+     * @return string
+     */
+    public function getValueAfterElementHtml()
+    {
+        $html = '';
+        $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
+        if (!empty($image)) {
+            $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' . $image . '" alt="" class="v-middle rule-chooser-trigger" title="' . Mage::helper('rule')->__('Open Chooser') . '" /></a>';
+        }
+        return $html;
+    }
+    /**
+     * Retrieve value element chooser URL
+     *
+     * @return string
+     */
+    public function getValueElementChooserUrl()
+    {
+        $url = 'adminhtml/customersegment/chooser';
+        if ($this->getJsFormObject()) {
+            $url .= '/form/'.$this->getJsFormObject();
+        }
+        return Mage::helper('adminhtml')->getUrl($url);
+    }
+    
     
     public function asHtml()
     {
        $html = $this->getTypeElement()->getHtml().
-       Mage::helper('enterprise_customersegment')->__("If order status %s %s and match %s:",
-              $this->getOperatorElement()->getHtml(),
+       Mage::helper('enterprise_customersegment')->__("If period is from %s to (value) and match %s:",
               $this->getValueElement()->getHtml(),
               $this->getAggregatorElement()->getHtml()
        );
        $html.= $this->getRemoveLinkHtml();
+       $html.= $this->getChooserContainerHtml();
        return $html;
     }    
-    
+
 }
 

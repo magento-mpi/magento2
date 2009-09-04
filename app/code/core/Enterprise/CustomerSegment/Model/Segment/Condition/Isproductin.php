@@ -25,23 +25,62 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Isproductin extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Isproductin extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
-	public function __construct()
+
+    public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_isproductin');
-        $this->setValue(null);
     }
     
-    public function getNewChildSelectOptions()    {
-    	$conditions = array();
-	    $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_isproductin_inshoppingcart')->getNewChildSelectOptions(); 
-	    $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_isproductin_inwishlist')->getNewChildSelectOptions(); 
-	    $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_isproductin_viewedhistory')->getNewChildSelectOptions(); 
-	    $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_isproductin_orderedhistory')->getNewChildSelectOptions(); 
-    
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Is Product In'));;
+    public function getNewChildSelectOptions()
+    {
+        return Mage::getModel('enterprise_customersegment/segment_condition_isproductin_combine')->getNewChildSelectOptions();
     }
+
+    public function loadValueOptions()
+    {
+        $options = array(
+            '1' => Mage::helper('enterprise_customersegment')->__('IN'), 
+            '0' => Mage::helper('enterprise_customersegment')->__('NOT IN'), 
+        );
+        $this->setValueOption($options);
+        return $this;
+    }
+
+    public function loadAttributeOptions()
+    {
+        $this->setAttributeOption(array(
+            'shopping_cart'  => Mage::helper('enterprise_customersegment')->__('Shopping Cart'),
+            'wishlist'  => Mage::helper('enterprise_customersegment')->__('Wishlist'),
+            'viewed_history'  => Mage::helper('enterprise_customersegment')->__('Viewed History'),
+            'ordered_history'  => Mage::helper('enterprise_customersegment')->__('Ordered History'),
+        ));
+        return $this;
+    }
+    
+    public function getInputType()
+    {
+        return 'select';
+    }
+
+    public function getValueElementType()
+    {
+        return 'select';
+    }
+    
+    public function asHtml()
+    {
+       $html = $this->getTypeElement()->getHtml().
+       Mage::helper('enterprise_customersegment')->__("If product %s %s and match %s:",
+              $this->getValueElement()->getHtml(),
+              $this->getAttributeElement()->getHtml(),
+              $this->getAggregatorElement()->getHtml()
+       );
+       $html.= $this->getRemoveLinkHtml();
+       return $html;
+    }    
+    
 }
 
