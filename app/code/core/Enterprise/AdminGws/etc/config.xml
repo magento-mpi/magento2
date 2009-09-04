@@ -304,6 +304,9 @@
                     <customer__customer_collection>limitCustomers</customer__customer_collection>
                     <review__review_collection>limitReviews</review__review_collection>
                     <tag__tag_collection>addStoreFilter</tag__tag_collection>
+                    <tag__product_collection>addStoreFilter</tag__product_collection>
+                    <reports__tag_product_collection>addStoreFilter</reports__tag_product_collection>
+                    <reports__tag_customer_collection>addStoreFilter</reports__tag_customer_collection>
                     <catalogsearch__query_collection>addStoreFilter</catalogsearch__query_collection>
                     <enterprise_invitation__invitation_collection>addStoreFilter</enterprise_invitation__invitation_collection>
                     <catalogrule__rule_collection>limitPriceRules</catalogrule__rule_collection>
