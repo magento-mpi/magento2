@@ -62,7 +62,7 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
         if ($this->isLoaded()) {
             return $this;
         }
-        parent::load(true, $logQuery);
+        parent::load($printQuery, $logQuery);
         if ($this->getFlag('add_stores_after')) {
             $this->_addStoresVisibility();
         }
