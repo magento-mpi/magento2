@@ -51,6 +51,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     /**
      * Join Flags
      *
+     * @deprecated after 1.3.2.3
      * @var array
      */
     protected $_joinFlags = array();
@@ -71,43 +72,43 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     }
 
     /**
-     * Set join flag
+     * Set flag about joined table.
+     * setFlag method must be used in future.
      *
+     * @deprecated after 1.3.2.3
      * @param string $table
      * @return Mage_Tag_Model_Mysql4_Product_Collection
      */
     public function setJoinFlag($table)
     {
-        $this->_joinFlags[$table] = true;
+        $this->setFlag($table, true);
         return $this;
     }
 
     /**
-     * Retrieve join flag
+     * Get flag's status about joined table.
+     * getFlag method must be used in future.
      *
-     * @param string $table
+     * @deprecated after 1.3.2.3
+     * @param $table
      * @return bool
      */
     public function getJoinFlag($table)
     {
-        return isset($this->_joinFlags[$table]);
+        return $this->getFlag($table);
     }
 
     /**
-     * Unset join flag
+     * Unset value of join flag.
+     * Set false (bool) value to flag instead in future.
      *
-     * @param string $table
+     * @deprecated after 1.3.2.3
+     * @param $table
      * @return Mage_Tag_Model_Mysql4_Product_Collection
      */
-    public function unsetJoinFlag($table = null)
+    public function unsetJoinFlag($table=null)
     {
-        if (is_null($table)) {
-            $this->_joinFlags = array();
-        }
-        elseif ($this->getJoinFlag($table)) {
-            unset($this->_joinFlags[$table]);
-        }
-
+        $this->setFlag($table, false);
         return $this;
     }
 
@@ -118,7 +119,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
      */
     public function addStoresVisibility()
     {
-        $this->setJoinFlag('add_stores_after');
+        $this->setFlag('add_stores_after', true);
         return $this;
     }
 
@@ -212,7 +213,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     public function addTagFilter($tagId)
     {
         $this->getSelect()->where('relation.tag_id = ?', $tagId);
-        $this->setJoinFlag('distinct');
+        $this->setFlag('distinct', true);
         return $this;
     }
 
@@ -268,7 +269,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
             ->where('prelation.tag_id = ?', $tagId);
 
         $this->_tagIdFilter = $tagId;
-        $this->setJoinFlag('prelation');
+        $this->setFlag('prelation', true);
         return $this;
     }
 
@@ -313,7 +314,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     {
         $active = Mage_Tag_Model_Tag_Relation::STATUS_ACTIVE;
         $this->getSelect()->where('relation.active=?', $active);
-        if ($this->getJoinFlag('prelation')) {
+        if ($this->getFlag('prelation')) {
             $this->getSelect()->where('prelation.active=?', $active);
         }
         return $this;
@@ -389,7 +390,7 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
     {
         parent::_afterLoad();
 
-        if ($this->getJoinFlag('add_stores_after')) {
+        if ($this->getFlag('add_stores_after')) {
             $this->_addStoresVisibility();
         }
 
@@ -417,14 +418,14 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $countSelect->reset(Zend_Db_Select::GROUP);
 
-        if ($this->getJoinFlag('group_tag')) {
+        if ($this->getFlag('group_tag')) {
             $field = 'relation.tag_id';
         }
         else {
             $field = 'e.entity_id';
         }
         $expr = new Zend_Db_Expr('COUNT('
-            . ($this->getJoinFlag('distinct') ? 'DISTINCT ' : '')
+            . ($this->getFlag('distinct') ? 'DISTINCT ' : '')
             . $field . ')');
 
         $countSelect->from(null, $expr);

@@ -36,6 +36,10 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
 {
     protected $_allowDisableGrouping = true;
     protected $_countAttribute = 'tr.tag_relation_id';
+
+    /**
+     * @deprecated after 1.3.2.3
+     */
     protected $_joinFlags = array();
 
     public function _initSelect()
@@ -46,25 +50,44 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
         return $this;
     }
 
+    /**
+     * Set flag about joined table.
+     * setFlag method must be used in future.
+     *
+     * @deprecated after 1.3.2.3
+     * @param string $table
+     * @return Mage_Tag_Model_Mysql4_Customer_Collection
+     */
     public function setJoinFlag($table)
     {
-        $this->_joinFlags[$table] = true;
+        $this->setFlag($table, true);
         return $this;
     }
 
+    /**
+     * Get flag's status about joined table.
+     * getFlag method must be used in future.
+     *
+     * @deprecated after 1.3.2.3
+     * @param $table
+     * @return bool
+     */
     public function getJoinFlag($table)
     {
-        return isset($this->_joinFlags[$table]);
+        return $this->getFlag($table);
     }
 
+    /**
+     * Unset value of join flag.
+     * Set false (bool) value to flag instead in future.
+     *
+     * @deprecated after 1.3.2.3
+     * @param $table
+     * @return Mage_Tag_Model_Mysql4_Customer_Collection
+     */
     public function unsetJoinFlag($table=null)
     {
-        if (is_null($table)) {
-            $this->_joinFlags = array();
-        } elseif ($this->getJoinFlag($table)) {
-            unset($this->_joinFlags[$table]);
-        }
-
+        $this->setFlag($table, false);
         return $this;
     }
 
