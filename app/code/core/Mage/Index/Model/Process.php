@@ -30,7 +30,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
     /**
      * Process statuses
      */
-    const STATUS_RUNNING            = 'running';
+    const STATUS_RUNNING            = 'working';
     const STATUS_PENDING            = 'pending';
     const STATUS_REQUIRE_REINDEX    = 'require_reindex';
 
@@ -131,6 +131,9 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
      */
     public function reindexAll()
     {
+        if ($this->isLocked()) {
+            Mage::throwException(Mage::helper('index')->__('Proces is working now'));
+        }
         $this->_getResource()->startProcess($this);
         $this->lock();
         $this->getIndexer()->reindexAll();
