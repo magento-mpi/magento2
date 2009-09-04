@@ -36,7 +36,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Isproductin extends Ent
     
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_isproductin_combine')->getNewChildSelectOptions();
+        $conditions = array(
+            array('value'=>'enterprise_customersegment/segment_condition_isproductin_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),    
+            Mage::getModel('enterprise_customersegment/segment_condition_product_attributes')->getNewChildSelectOptions()        
+        ); 
+        $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
+        return $conditions;
     }
 
     public function loadValueOptions()

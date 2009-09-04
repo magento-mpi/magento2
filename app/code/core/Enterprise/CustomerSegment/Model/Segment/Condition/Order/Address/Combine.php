@@ -45,10 +45,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Combine e
      */    
     public function getNewChildSelectOptions()
     {
-        return array(
+        $conditions = array(
             array('value'=>$this->getType(), 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),    
             Mage::getModel('enterprise_customersegment/segment_condition_order_address_attributes')->getNewChildSelectOptions()
         );
+        $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
+        return $conditions;
     }
     
 }

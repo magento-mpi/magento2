@@ -46,7 +46,15 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales extends Enterpris
      */    
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_sales_combine')->getNewChildSelectOptions();
+        $conditions = array();
+        $conditions[] = array('value'=>'enterprise_customersegment/segment_condition_sales_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination'));
+        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_salesamount')->getNewChildSelectOptions(); 
+        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_ordersnumber')->getNewChildSelectOptions(); 
+        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_purchasedquantity')->getNewChildSelectOptions(); 
+        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_paymentconversionrate')->getNewChildSelectOptions(); 
+    	
+    	$conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
+    	return $conditions;
     }
 
     public function loadOperatorOptions()

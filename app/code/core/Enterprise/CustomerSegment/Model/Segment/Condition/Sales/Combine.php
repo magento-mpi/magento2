@@ -51,6 +51,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine extends E
         $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_ordersnumber')->getNewChildSelectOptions(); 
         $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_purchasedquantity')->getNewChildSelectOptions(); 
         $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_paymentconversionrate')->getNewChildSelectOptions(); 
+        $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
         return $conditions;
     }
     

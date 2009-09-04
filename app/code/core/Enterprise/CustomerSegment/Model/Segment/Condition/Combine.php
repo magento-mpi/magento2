@@ -45,8 +45,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine extends Mage_Ru
      */    
     public function getNewChildSelectOptions()
     {
-        $conditions = array(
-            array('value'=>'enterprise_customersegment/segment_condition_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
+    	$conditions = array(
+    	    array('value'=>'enterprise_customersegment/segment_condition_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
             array('value'=>'enterprise_customersegment/segment_condition_period_uptodate', 'label'=>Mage::helper('enterprise_customersegment')->__('Up to Date Combination')),
             array('value'=>'enterprise_customersegment/segment_condition_period_daterange', 'label'=>Mage::helper('enterprise_customersegment')->__('Date Range Combination')),
             array('value'=>'enterprise_customersegment/segment_condition_sales', 'label'=>Mage::helper('enterprise_customersegment')->__('Sales')),
@@ -56,25 +56,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine extends Mage_Ru
             Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart')->getNewChildSelectOptions(),
             Mage::getModel('enterprise_customersegment/segment_condition_customer')->getNewChildSelectOptions(),
         );
-        return $conditions;
-    }
 
-    
-    /**
-     * Return check new condition elemtnt
-     *
-     * @return Varien_Data_Form_Element_Hidden
-     */    
-    public function getNewChildElement()
-    {
-        $id = $this->getPrefix() . '__' . $this->getId() . '__new_child'; 
-        $name = 'rule[' . $this->getPrefix() . '][' . $this->getId() . '][new_child]';
-        
-        return $this->getForm()->addField($id, 'hidden', array(
-            'name' => $name,
-            'values' => $this->getNewChildSelectOptions(),
-            'value_name' => $this->getNewChildName(),
-        ))->setRenderer(Mage::getBlockSingleton('enterprise_customersegment/adminhtml_customersegment_edit_tab_conditions_newchild'));
+        $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
+        return $conditions;
     }
 
     

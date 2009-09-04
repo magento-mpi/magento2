@@ -85,7 +85,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
                         ->toOptionArray();
                     break;
 
-                case 'region':
+                case 'region_id':
                     $options = Mage::getModel('adminhtml/system_config_source_allregion')
                         ->toOptionArray();
                     break;
@@ -114,7 +114,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
     public function getInputType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region':
+            case 'country_id': case 'region_id':
                 return 'select';
         }
         return 'string';
@@ -123,7 +123,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region':
+            case 'country_id': case 'region_id':
                 return 'select';
         }
         return 'text';
