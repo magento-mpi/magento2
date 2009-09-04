@@ -108,9 +108,9 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
             $tableAlias = "weee_{$attribute}_table";
 
             if (Mage::helper('weee')->isDiscounted()) {
-                $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0)*(1-({$discountField}/100)))";
+                $additionalCalculations[] = "+(IFNULL({$tableAlias}.min_price, 0)*(1-({$discountField}/100)))";
             } else {
-                $additionalCalculations[] = "+(IFNULL({$tableAlias}.value, 0))";
+                $additionalCalculations[] = "+(IFNULL({$tableAlias}.min_price, 0))";
             }
         }
         $response->setAdditionalCalculations($additionalCalculations);
