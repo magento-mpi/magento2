@@ -30,7 +30,7 @@
  * @category   Enterprise
  * @package    Enterprise_Invitation
  */
-class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mage_Core_Block_Template
+class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends Mage_Adminhtml_Block_Template
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -248,7 +248,7 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
         }
         return Mage::helper('enterprise_invitation')->getInvitationUrl($this->getInvitation());
     }
-    
+
     /**
      * Checks if this invitation was sent by admin
      *
