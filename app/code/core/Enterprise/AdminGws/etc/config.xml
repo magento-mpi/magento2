@@ -303,7 +303,7 @@
                     <catalog__product_collection>limitProducts</catalog__product_collection>
                     <customer__customer_collection>limitCustomers</customer__customer_collection>
                     <review__review_collection>limitReviews</review__review_collection>
-<!-- tag relation logic is not clear <tag__tag_collection>addStoreFilter</tag__tag_collection>-->
+                    <tag__tag_collection>addStoreFilter</tag__tag_collection>
                     <catalogsearch__query_collection>addStoreFilter</catalogsearch__query_collection>
                     <enterprise_invitation__invitation_collection>addStoreFilter</enterprise_invitation__invitation_collection>
                     <catalogrule__rule_collection>limitPriceRules</catalogrule__rule_collection>
@@ -478,6 +478,7 @@
                     <adminhtml__cms_page_edit>removeCmsPageButtons</adminhtml__cms_page_edit>
                     <adminhtml__cms_block_edit>removeCmsBlockButtons</adminhtml__cms_block_edit>
                     <adminhtml__poll_edit>removePollButtons</adminhtml__poll_edit>
+                    <adminhtml__tag_edit>removeTagButtons</adminhtml__tag_edit>
                 </block_html_before>
             </admingws>
         </enterprise>

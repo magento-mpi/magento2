@@ -366,7 +366,7 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove control buttons if user does not have exclusive access to current block
+     * Remove control buttons if user does not have exclusive access to current poll
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Blocks
@@ -379,6 +379,30 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
                 $block = $observer->getEvent()->getBlock();
                 $block->removeButton('save');
+                $block->removeButton('delete');
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove control buttons if user does not have exclusive access to current tag
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeTagButtons($observer)
+    {
+        $model = Mage::registry('tag_tag');
+        if ($model) {
+            $storeIds = $model->getVisibleInStoreIds();
+            // Remove admin store with id 0
+            $storeIds = array_filter($storeIds);
+            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+                $block = $observer->getEvent()->getBlock();
+                $block->removeButton('save');
+                $block->removeButton('save_and_edit_button');
                 $block->removeButton('delete');
             }
         }
