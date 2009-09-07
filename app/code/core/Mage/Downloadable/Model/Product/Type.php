@@ -70,6 +70,9 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
      */
     public function hasLinks($product = null)
     {
+        if ($this->getProduct($product)->hasData('links_exist')) {
+            return $this->getProduct($product)->getData('links_exist');
+        }
         return count($this->getLinks($product)) > 0;
     }
 
@@ -143,7 +146,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     }
 
     /**
-     * Enter description here...
+     * Save Product downloadable information (links and samples)
      *
      * @param Mage_Catalog_Model_Product $product
      * @return Mage_Downloadable_Model_Product_Type
@@ -270,7 +273,7 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
     }
 
     /**
-     * Enter description here...
+     * Prepare Product object before adding to Shopping Cart
      *
      * @param Varien_Object $buyRequest
      * @param Mage_Catalog_Model_Product $product
@@ -356,6 +359,20 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
             $this->getProduct($product)->setTypeHasOptions(false);
             $this->getProduct($product)->setTypeHasRequiredOptions(false);
         }
+
+        // Update links_exist attribute value
+        $linksExist = false;
+        if ($data = $product->getDownloadableData()) {
+            if (isset($data['link'])) {
+                foreach ($data['link'] as $linkItem) {
+                    if (!isset($linkItem['is_delete']) || !$linkItem['is_delete']) {
+                        $linksExist = true;
+                        break;
+                    }
+                }
+            }
+        }
+        $this->getProduct($product)->setLinksExist($linksExist);
     }
 
     /**
@@ -383,5 +400,16 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
         }
 
         return $searchData;
+    }
+
+    /**
+     * Check is product available for sale
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return bool
+     */
+    public function isSalable($product = null)
+    {
+        return $this->hasLinks($product) && parent::isSalable($product);
     }
 }
