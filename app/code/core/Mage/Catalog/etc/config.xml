@@ -217,9 +217,9 @@
                 <catalog_url>
                     <model>catalog/indexer_url</model>
                 </catalog_url>
-                <!-- <catalog_product_flat>
+                <catalog_product_flat>
                     <model>catalog/product_indexer_flat</model>
-                </catalog_product_flat> -->
+                </catalog_product_flat>
                 <catalog_category_product>
                     <model>catalog/category_indexer_product</model>
                 </catalog_category_product>
@@ -232,10 +232,10 @@
                         <class>catalog/observer</class>
                         <method>storeAdd</method>
                     </catalog>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>storeAdd</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </store_add>
             <store_edit>
@@ -244,10 +244,10 @@
                         <class>catalog/observer</class>
                         <method>storeEdit</method>
                     </catalog>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>storeEdit</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </store_edit>
             <store_delete>
@@ -256,10 +256,10 @@
                         <class>catalog/observer</class>
                         <method>storeDelete</method>
                     </catalog>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>storeDelete</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </store_delete>
             <store_group_save>
@@ -268,10 +268,10 @@
                         <class>catalog/observer</class>
                         <method>storeGroupSave</method>
                     </catalog>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>storeGroupSave</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </store_group_save>
             <category_move>
@@ -288,10 +288,10 @@
                         <class>catalog/observer</class>
                         <method>catalogProductImportAfter</method>
                     </catalog>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>catalogProductImportAfter</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </catalog_product_import_after>
             <catalog_category_save_after>
@@ -304,42 +304,42 @@
             </catalog_category_save_after>
             <customer_group_save_after>
                 <observers>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>customerGroupSaveAfter</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </customer_group_save_after>
             <catalog_product_save_after>
                 <observers>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>catalogProductSaveAfter</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </catalog_product_save_after>
             <catalog_product_status_update>
                 <observers>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>catalogProductStatusUpdate</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </catalog_product_status_update>
             <catalog_product_website_update>
                 <observers>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>catalogProductWebsiteUpdate</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </catalog_product_website_update>
             <catalog_entity_attribute_save_after>
                 <observers>
-                    <catalog_product_flat>
+                    <!-- catalog_product_flat>
                         <class>catalog/product_flat_observer</class>
                         <method>catalogEntityAttributeSaveAfter</method>
-                    </catalog_product_flat>
+                    </catalog_product_flat -->
                 </observers>
             </catalog_entity_attribute_save_after>
             <log_log_clean_after>

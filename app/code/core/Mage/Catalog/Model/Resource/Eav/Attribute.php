@@ -111,6 +111,32 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     }
 
     /**
+     * Register indexing event before delete catalog eav attribute
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     */
+    protected function _beforeDelete()
+    {
+        Mage::getSingleton('index/indexer')->logEvent(
+            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
+        );
+        return parent::_beforeDelete();
+    }
+
+    /**
+     * Init indexing process after catalog eav attribute delete commit
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     */
+    protected function _afterDeleteCommit()
+    {
+        parent::_afterDeleteCommit();
+        Mage::getSingleton('index/indexer')->indexEvents(
+            self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
+        );
+    }
+
+    /**
      * Return is attribute global
      *
      * @return integer

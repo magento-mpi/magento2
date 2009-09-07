@@ -66,7 +66,7 @@
             </catalogsearch_setup>
         </resources>
         <events>
-            <catalog_product_save_after>
+            <!-- catalog_product_save_after>
                 <observers>
                     <catalogsearch>
                         <class>catalogsearch/fulltext_observer</class>
@@ -129,11 +129,18 @@
                         <method>catalogProductWebsiteUpdate</method>
                     </catalogsearch>
                 </observers>
-            </catalog_product_website_update>
+            </catalog_product_website_update -->
         </events>
         <blocks>
             <catalogsearch><class>Mage_CatalogSearch_Block</class></catalogsearch>
         </blocks>
+        <index>
+            <indexer>
+                <catalogsearch_fulltext>
+                    <model>catalogsearch/indexer_fulltext</model>
+                </catalogsearch_fulltext>
+            </indexer>
+        </index>
     </global>
     <frontend>
         <routers>

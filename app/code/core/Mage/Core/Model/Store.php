@@ -28,7 +28,7 @@
 /**
  * Store model
  *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  * @category   Mage
  * @package    Mage_Core
  */
@@ -877,9 +877,18 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         return $this->_getData('name');
     }
 
+    /**
+     * Protect delete from non admin area
+     * Register indexing event before delete store
+     *
+     * @return Mage_Core_Model_Store
+     */
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();
+        Mage::getSingleton('index/indexer')->logEvent(
+            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
+        );
         return parent::_beforeDelete();
     }
 
@@ -893,6 +902,19 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
         parent::_afterDelte();
         Mage::getConfig()->removeCache();
         return $this;
+    }
+
+    /**
+     * Init indexing process after store delete commit
+     *
+     * @return Mage_Core_Model_Store
+     */
+    protected function _afterDeleteCommit()
+    {
+        parent::_afterDeleteCommit();
+        Mage::getSingleton('index/indexer')->indexEvents(
+            self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
+        );
     }
 
     /**

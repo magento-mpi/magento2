@@ -18,15 +18,24 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_CatalogSearch
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_Abstract
+
+
+/**
+ * CatalogSearch fulltext indexer model
+ *
+ * @category    Mage
+ * @package     Mage_CatalogSearch
+ * @author      Magento Core Team <core@magentocommerce.com>
+ */
+class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer_Abstract
 {
     /**
-     * Index math Entities array
+     * Indexer must be match entities
      *
      * @var array
      */
@@ -34,6 +43,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         Mage_Catalog_Model_Product::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE,
             Mage_Index_Model_Event::TYPE_MASS_ACTION,
+            Mage_Index_Model_Event::TYPE_DELETE
         ),
         Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE,
@@ -46,7 +56,29 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         Mage_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
+        Mage_Core_Model_Config_Data::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
+        )
     );
+
+    /**
+     * Related Configuration Settings for match
+     *
+     * @var array
+     */
+    protected $_relatedConfigSettings = array(
+        Mage_CatalogSearch_Model_Fulltext::XML_PATH_CATALOG_SEARCH_TYPE
+    );
+
+    /**
+     * Retrieve Fulltext Search instance
+     *
+     * @return Mage_CatalogSearch_Model_Fulltext
+     */
+    protected function _getIndexer()
+    {
+        return Mage::getSingleton('catalogsearch/fulltext');
+    }
 
     /**
      * Retrieve Indexer name
@@ -55,7 +87,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     public function getName()
     {
-        return Mage::helper('catalog')->__('Product Flat Data');
+        return Mage::helper('catalogsearch')->__('Catalog Search Index');
     }
 
     /**
@@ -65,17 +97,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     public function getDescription()
     {
-        return Mage::helper('catalog')->__('Reorganize EAV product structure to flat structure');
-    }
-
-    /**
-     * Retrieve Catalog Product Flat Indexer model
-     *
-     * @return Mage_Catalog_Model_Product_Flat_Indexer
-     */
-    protected function _getIndexer()
-    {
-        return Mage::getSingleton('catalog/product_flat_indexer');
+        return Mage::helper('catalogsearch')->__('Rebuild Catalog product fulltext search index');
     }
 
     /**
@@ -88,33 +110,15 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     public function matchEvent(Mage_Index_Model_Event $event)
     {
-        if (!Mage::helper('catalog/product_flat')->isBuilt()) {
-            return false;
-        }
-
         $entity = $event->getEntity();
         if ($entity == Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
             $attribute      = $event->getEntity();
-            $addFilterable  = Mage::helper('catalog/product_flat')->isAddFilterableAttributes();
 
-            $enableBefore   = ($attribute->getOrigData('backend_type') == 'static')
-                || ($addFilterable && $attribute->getOrigData('is_filterable') > 0)
-                || ($attribute->getOrigData('used_in_product_listing') == 1)
-                || ($attribute->getOrigData('used_for_sort_by') == 1);
-
-            $enableAfter    = ($attribute->getData('backend_type') == 'static')
-                || ($addFilterable && $attribute->getData('is_filterable') > 0)
-                || ($attribute->getData('used_in_product_listing') == 1)
-                || ($attribute->getData('used_for_sort_by') == 1);
-
-            if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
-                return $enableBefore;
-            } else if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
-                if ($enableAfter || $enableBefore) {
-                    return true;
-                }
-                return false;
+            if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
+                return $attribute->getIsSearchable();
+            } else if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+                return $attribute->dataHasChangedFor('is_searchable');
             }
         } else if ($entity == Mage_Core_Model_Store::ENTITY) {
             if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
@@ -134,6 +138,13 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
                 return true;
             }
             return false;
+        } else if ($entity == Mage_Core_Model_Config_Data::ENTITY) {
+            $data = $event->getDataObject();
+            if (in_array($data->getPath(), $this->_relatedConfigSettings)) {
+                return $data->isValueChanged();
+            } else {
+                return false;
+            }
         }
 
         return parent::matchEvent($event);
@@ -150,14 +161,12 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
             case Mage_Catalog_Model_Product::ENTITY:
                 $this->_registerCatalogProductEvent($event);
                 break;
+
+            case Mage_Core_Model_Config_Data::ENTITY:
             case Mage_Core_Model_Store::ENTITY:
-                if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
-                    $this->_registerCoreStoreEvent($event);
-                    break;
-                }
             case Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY:
             case Mage_Core_Model_Store_Group::ENTITY:
-                $event->addNewData('catalog_product_flat_skip_call_event_handler', true);
+                $event->addNewData('catalogsearch_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;
@@ -176,33 +185,39 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
             case Mage_Index_Model_Event::TYPE_SAVE:
                 /* @var $product Mage_Catalog_Model_Product */
                 $product = $event->getDataObject();
-                $event->addNewData('catalog_product_flat_product_id', $product->getId());
-                break;
 
+                $event->addNewData('catalogsearch_update_product_id', $product->getId());
+                break;
+            case Mage_Index_Model_Event::TYPE_DELETE:
+                /* @var $product Mage_Catalog_Model_Product */
+                $product = $event->getDataObject();
+
+                $event->addNewData('catalogsearch_delete_product_id', $product->getId());
+                break;
             case Mage_Index_Model_Event::TYPE_MASS_ACTION:
                 /* @var $actionObject Varien_Object */
                 $actionObject = $event->getDataObject();
 
                 $reindexData  = array();
-                $reindexFlat  = false;
+                $rebuildIndex = false;
 
                 // check if status changed
                 $attrData = $actionObject->getAttributesData();
                 if (isset($attrData['status'])) {
-                    $reindexFlat = true;
-                    $reindexData['catalog_product_flat_status'] = $attrData['status'];
+                    $rebuildIndex = true;
+                    $reindexData['catalogsearch_status'] = $attrData['status'];
                 }
 
                 // check changed websites
                 if ($actionObject->getWebsiteIds()) {
-                    $reindexFlat = true;
-                    $reindexData['catalog_product_flat_website_ids'] = $actionObject->getWebsiteIds();
-                    $reindexData['catalog_product_flat_action_type'] = $actionObject->getActionType();
+                    $rebuildIndex = true;
+                    $reindexData['catalogsearch_website_ids'] = $actionObject->getWebsiteIds();
+                    $reindexData['catalogsearch_action_type'] = $actionObject->getActionType();
                 }
 
                 // register affected products
-                if ($reindexFlat) {
-                    $reindexData['catalog_product_flat_product_ids'] = $actionObject->getProductIds();
+                if ($rebuildIndex) {
+                    $reindexData['catalogsearch_product_ids'] = $actionObject->getProductIds();
                     foreach ($reindexData as $k => $v) {
                         $event->addNewData($k, $v);
                     }
@@ -214,22 +229,6 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
     }
 
     /**
-     * Register core store delete process
-     *
-     * @param Mage_Index_Model_Event $event
-     * @return Mage_Catalog_Model_Product_Indexer_Flat
-     */
-    protected function _registerCoreStoreEvent(Mage_Index_Model_Event $event)
-    {
-        if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
-            /* @var $store Mage_Core_Model_Store */
-            $store = $event->getDataObject();
-            $event->addNewData('catalog_product_flat_delete_store_id', $store->getId());
-        }
-        return $this;
-    }
-
-    /**
      * Process event
      *
      * @param Mage_Index_Model_Event $event
@@ -237,34 +236,49 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
         $data = $event->getNewData();
-        if (!empty($data['catalog_product_flat_product_id'])) {
-            // catalog_product save
-            $productId = $data['catalog_product_flat_product_id'];
-            $this->_getIndexer()->saveProduct($productId);
-        } else if (!empty($data['catalog_product_flat_product_ids'])) {
-            // catalog_product mass_action
-            $productIds = $data['catalog_product_flat_product_ids'];
 
-            if (!empty($data['catalog_product_flat_website_ids'])) {
-                $websiteIds = $data['catalog_product_flat_website_ids'];
+        if (!empty($data['catalogsearch_delete_product_id'])) {
+            $productId = $data['catalogsearch_delete_product_id'];
+            $this->_getIndexer()->cleanIndex(null, $productId)
+                ->resetSearchResults();
+        } else if (!empty($data['catalogsearch_update_product_id'])) {
+            $productId = $data['catalogsearch_update_product_id'];
+            $this->_getIndexer()->rebuildIndex(null, $productId)
+                ->resetSearchResults();
+        } else if (!empty($data['catalogsearch_product_ids'])) {
+            // mass action
+            $productIds = $data['catalogsearch_product_ids'];
+
+            if (!empty($data['catalogsearch_website_ids'])) {
+                $websiteIds = $data['catalogsearch_website_ids'];
+                $actionType = $data['catalogsearch_action_type'];
+
                 foreach ($websiteIds as $websiteId) {
-                    $website = Mage::app()->getWebsite($websiteId);
-                    foreach ($website->getStores() as $store) {
-                        if ($data['catalog_product_flat_action_type'] == 'remove') {
-                            $this->_getIndexer()->removeProduct($productIds, $store->getId());
-                        } else {
-                            $this->_getIndexer()->updateProduct($productIds, $store->getId());
+                    foreach (Mage::app()->getWebsite($websiteId)->getStoreIds() as $storeId) {
+                        if ($actionType == 'remove') {
+                            $this->_getIndexer()
+                                ->cleanIndex($storeId, $productIds)
+                                ->resetSearchResults();
+                        } else if ($actionType == 'add') {
+                            $this->_getIndexer()
+                                ->rebuildIndex($storeId, $productIds)
+                                ->resetSearchResults();
                         }
                     }
                 }
             }
-
-            if (isset($data['catalog_product_flat_status'])) {
-                $status = $data['catalog_product_flat_status'];
-                $this->_getIndexer()->updateProductStatus($productIds, $status);
+            if (isset($data['catalogsearch_status'])) {
+                $status = $data['catalogsearch_status'];
+                if ($status == Mage_Catalog_Model_Product_Status::STATUS_ENABLED) {
+                    $this->_getIndexer()
+                        ->rebuildIndex(null, $productIds)
+                        ->resetSearchResults();
+                } else {
+                    $this->_getIndexer()
+                        ->cleanIndex(null, $productIds)
+                        ->resetSearchResults();
+                }
             }
-        } else if (!empty($data['catalog_product_flat_delete_store_id'])) {
-            $this->_getIndexer()->deleteStore($data['catalog_product_flat_delete_store_id']);
         }
     }
 
@@ -274,6 +288,6 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
      */
     public function reindexAll()
     {
-        $this->_getIndexer()->rebuild();
+        $this->_getIndexer()->rebuildIndex();
     }
 }

@@ -157,7 +157,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
             case Mage_Core_Model_Store::ENTITY:
             case Mage_Core_Model_Store_Group::ENTITY:
             case Mage_Core_Model_Config_Data::ENTITY:
-                $event->addNewData('skip_stock_call_event_hangler', true);
+                $event->addNewData('skip_stock_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;
@@ -278,6 +278,9 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
-        $this->callEventHandler($event);
+        $data = $event->getNewData();
+        if (empty($data['skip_stock_call_event_handler'])) {
+            $this->callEventHandler($event);
+        }
     }
 }
