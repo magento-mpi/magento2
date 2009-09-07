@@ -35,7 +35,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     {
         $this->loadLayout();
         $this->_setActiveMenu('customer/customersegment');
-        $this->renderLayout();    
+        $this->renderLayout();
     }
 
     /**
@@ -69,28 +69,28 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         if (!empty($data)) {
             $model->addData($data);
         }
-        
+
         $model->getConditions()->setJsFormObject('segment_conditions_fieldset');
-        
+
         Mage::register('current_customer_segment', $model);
 
         $block =  $this->getLayout()->createBlock(
             'enterprise_customersegment/adminhtml_customersegment_edit')
-            ->setData('form_action_url', $this->getUrl('*/*/save'));        
+            ->setData('form_action_url', $this->getUrl('*/*/save'));
 
         $this->_initAction();
-        
+
         $this->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
-        
+
         $this
             ->_addBreadcrumb($id ? Mage::helper('enterprise_customersegment')->__('Edit Segment') : Mage::helper('enterprise_customersegment')->__('New Segment'), $id ? Mage::helper('enterprise_customersegment')->__('Edit Segment') : Mage::helper('enterprise_customersegment')->__('New Segment'))
             ->_addContent($block)
             ->_addLeft($this->getLayout()->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tabs'))
             ->renderLayout();
     }
-    
+
     /**
      * Init active menu and set breadcrumb
      *
@@ -164,7 +164,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                     ));
                     return;
                 }
-                
+
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
@@ -213,19 +213,19 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     public function chooserAction()
     {
 
-    	$block = $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_chooser_daterange');
-    	
-    	if ($block) {
+        $block = $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_chooser_daterange');
+
+        if ($block) {
             $this->getResponse()->setBody($block->toHtml());
         }
-    	
+
 /*    	$block = $this->getLayout()->createBlock(
             'adminhtml/promo_widget_chooser_sku', 'promo_widget_chooser_sku',
             array('js_form_object' => $this->getRequest()->getParam('form'),
         ));
-    	
-    	
-    	$block = false;
+
+
+        $block = false;
         switch ($this->getRequest()->getParam('attribute')) {
             case 'sku':
                 $block = $this->getLayout()->createBlock(
@@ -246,8 +246,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
         if ($block) {
             $this->getResponse()->setBody($block->toHtml());
         }
-*/        
+*/
     }
-    
-    
+
+
 }

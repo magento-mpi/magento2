@@ -31,7 +31,7 @@
              <version>0.0.2</version>
         </Enterprise_CustomerSegment>
     </modules>
-    
+
     <global>
         <models>
              <enterprise_customersegment>
@@ -98,18 +98,18 @@
                 </enterprise_customersegment>
             </updates>
         </layout>
-        
+
         <events>
-	        <adminhtml_block_eav_attribute_edit_form_init>
-	            <observers>
-	                <enterprise_targetrule>
-	                    <class>enterprise_customersegment/observer</class>
-	                    <method>addProductAttributeField</method>
-	                </enterprise_targetrule>
-	            </observers>
-	        </adminhtml_block_eav_attribute_edit_form_init>
+            <adminhtml_block_eav_attribute_edit_form_init>
+                <observers>
+                    <enterprise_targetrule>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>addProductAttributeField</method>
+                    </enterprise_targetrule>
+                </observers>
+            </adminhtml_block_eav_attribute_edit_form_init>
         </events>
-        
+
         <translate>
             <modules>
                 <Enterprise_CustomerSegment>
@@ -118,7 +118,7 @@
                     </files>
                 </Enterprise_CustomerSegment>
             </modules>
-        </translate>        
+        </translate>
     </adminhtml>
 
     <default>

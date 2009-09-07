@@ -1,13 +1,13 @@
 <?php
 /**
- * Magento
+ * Magento Enterprise Edition
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
+ * http://www.magentocommerce.com/license/enterprise-edition
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_CustomerSegment
+ * @category   Enterprise
+ * @package    Enterprise_CustomerSegment
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
@@ -45,8 +45,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine extends Mage_Ru
      */
     public function getNewChildSelectOptions()
     {
-    	$conditions = array(
-    	    array('value'=>'enterprise_customersegment/segment_condition_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
+        $conditions = array(
+            array('value'=>'enterprise_customersegment/segment_condition_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
             array('value'=>'enterprise_customersegment/segment_condition_period_uptodate', 'label'=>Mage::helper('enterprise_customersegment')->__('Up to Date Combination')),
             array('value'=>'enterprise_customersegment/segment_condition_period_daterange', 'label'=>Mage::helper('enterprise_customersegment')->__('Date Range Combination')),
             array('value'=>'enterprise_customersegment/segment_condition_sales', 'label'=>Mage::helper('enterprise_customersegment')->__('Sales Combination')),
