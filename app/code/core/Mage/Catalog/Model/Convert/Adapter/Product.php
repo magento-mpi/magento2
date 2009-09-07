@@ -649,9 +649,8 @@ class Mage_Catalog_Model_Convert_Adapter_Product
                             $setValue[] = $item['value'];
                         }
                     }
-                }
-                else {
-                    $setValue = null;
+                } else {
+                    $setValue = false;
                     foreach ($options as $item) {
                         if ($item['label'] == $value) {
                             $setValue = $item['value'];
