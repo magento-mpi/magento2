@@ -46,6 +46,9 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         Mage_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
+        Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
+        )
     );
 
     /**
@@ -150,6 +153,9 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
             case Mage_Catalog_Model_Product::ENTITY:
                 $this->_registerCatalogProductEvent($event);
                 break;
+            case Mage_Catalog_Model_Convert_Adapter_Product::ENTITY:
+                $event->addNewData('catalog_product_flat_reindex_all', true);
+                break;
             case Mage_Core_Model_Store::ENTITY:
                 if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
                     $this->_registerCoreStoreEvent($event);
@@ -237,7 +243,9 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
         $data = $event->getNewData();
-        if (!empty($data['catalog_product_flat_product_id'])) {
+        if (!empty($data['catalog_product_flat_reindex_all'])) {
+            $this->reindexAll();
+        } else if (!empty($data['catalog_product_flat_product_id'])) {
             // catalog_product save
             $productId = $data['catalog_product_flat_product_id'];
             $this->_getIndexer()->saveProduct($productId);

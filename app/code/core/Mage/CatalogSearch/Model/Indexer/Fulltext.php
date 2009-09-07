@@ -58,6 +58,9 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
         ),
         Mage_Core_Model_Config_Data::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
+        ),
+        Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -162,11 +165,15 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
                 $this->_registerCatalogProductEvent($event);
                 break;
 
+            case Mage_Catalog_Model_Convert_Adapter_Product::ENTITY:
+                $event->addNewData('catalogsearch_fulltext_reindex_all', true);
+                break;
+
             case Mage_Core_Model_Config_Data::ENTITY:
             case Mage_Core_Model_Store::ENTITY:
             case Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY:
             case Mage_Core_Model_Store_Group::ENTITY:
-                $event->addNewData('catalogsearch_skip_call_event_handler', true);
+                $event->addNewData('catalogsearch_fulltext_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;
@@ -237,7 +244,9 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
     {
         $data = $event->getNewData();
 
-        if (!empty($data['catalogsearch_delete_product_id'])) {
+        if (!empty($data['catalogsearch_fulltext_reindex_all'])) {
+            $this->reindexAll();
+        } else if (!empty($data['catalogsearch_delete_product_id'])) {
             $productId = $data['catalogsearch_delete_product_id'];
             $this->_getIndexer()->cleanIndex(null, $productId)
                 ->resetSearchResults();

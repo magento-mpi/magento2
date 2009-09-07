@@ -28,7 +28,8 @@
 class Mage_Catalog_Model_Convert_Adapter_Product
     extends Mage_Eav_Model_Convert_Adapter_Entity
 {
-    const MULTI_DELIMITER = ' , ';
+    const MULTI_DELIMITER   = ' , ';
+    const ENTITY            = 'catalog_product_import';
 
     /**
      * Product model
@@ -726,10 +727,18 @@ class Mage_Catalog_Model_Convert_Adapter_Product
 
     /**
      * Process after import data
+     * Init indexing process after catalog product import
      *
      */
     public function finish()
     {
+        Mage::getSingleton('index/indexer')->processEntityAction(
+            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+        );
+
+        /**
+         * Back compatibility event
+         */
         Mage::dispatchEvent('catalog_product_import_after', array());
     }
 }

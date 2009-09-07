@@ -39,6 +39,9 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
         ),
         Mage_Core_Model_Config_Data::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
+        ),
+        Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -187,23 +190,27 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
-        if ($event->getEntity() == Mage_Core_Model_Config_Data::ENTITY) {
+        $entity = $event->getEntity();
+
+        if ($entity == Mage_Core_Model_Config_Data::ENTITY) {
             $process = $event->getProcess();
             $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-            return $this;
-        }
-        switch ($event->getType()) {
-            case Mage_Index_Model_Event::TYPE_DELETE:
-                $this->_registerCatalogProductDeleteEvent($event);
-                break;
+        } else if ($entity == Mage_Catalog_Model_Convert_Adapter_Product::ENTITY) {
+            $event->addNewData('catalog_product_price_reindex_all', true);
+        } else if ($entity == Mage_Catalog_Model_Product::ENTITY) {
+            switch ($event->getType()) {
+                case Mage_Index_Model_Event::TYPE_DELETE:
+                    $this->_registerCatalogProductDeleteEvent($event);
+                    break;
 
-            case Mage_Index_Model_Event::TYPE_SAVE:
-                $this->_registerCatalogProductSaveEvent($event);
-                break;
+                case Mage_Index_Model_Event::TYPE_SAVE:
+                    $this->_registerCatalogProductSaveEvent($event);
+                    break;
 
-            case Mage_Index_Model_Event::TYPE_MASS_ACTION:
-                $this->_registerCatalogProductMassActionEvent($event);
-                break;
+                case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+                    $this->_registerCatalogProductMassActionEvent($event);
+                    break;
+            }
         }
     }
 
@@ -214,6 +221,12 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
-        $this->callEventHandler($event);
+        $data = $event->getNewData();
+        if (!empty($data['catalog_product_price_reindex_all'])) {
+            $this->reindexAll();
+        }
+        if (empty($data['catalog_product_price_skip_call_event_handler'])) {
+            $this->callEventHandler($event);
+        }
     }
 }

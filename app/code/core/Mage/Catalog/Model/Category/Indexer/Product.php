@@ -50,6 +50,9 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
         Mage_Core_Model_Store_Group::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
+        Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
+        )
     );
 
     /**
@@ -119,17 +122,23 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
     {
         $entity = $event->getEntity();
         switch ($entity) {
-        	case Mage_Catalog_Model_Product::ENTITY:
-        	   $this->_registerProductEvent($event);
-        	break;
+            case Mage_Catalog_Model_Product::ENTITY:
+               $this->_registerProductEvent($event);
+                break;
+
             case Mage_Catalog_Model_Category::ENTITY:
                 $this->_registerCategoryEvent($event);
-            break;
+                break;
+
+            case Mage_Catalog_Model_Convert_Adapter_Product::ENTITY:
+                $event->addNewData('catalog_category_product_reindex_all', true);
+                break;
+
             case Mage_Core_Model_Store::ENTITY:
             case Mage_Core_Model_Store_Group::ENTITY:
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-            break;
+                break;
         }
         return $this;
     }
@@ -179,6 +188,12 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
      */
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
-        $this->callEventHandler($event);
+        $data = $event->getNewData();
+        if (!empty($data['catalog_category_product_reindex_all'])) {
+            $this->reindexAll();
+        }
+        if (empty($data['catalog_category_product_skip_call_event_handler'])) {
+            $this->callEventHandler($event);
+        }
     }
 }

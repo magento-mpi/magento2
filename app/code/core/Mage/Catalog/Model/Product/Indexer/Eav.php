@@ -44,6 +44,9 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
         ),
         Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE,
+        ),
+        Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -83,7 +86,9 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
      */
     protected function _registerEvent(Mage_Index_Model_Event $event)
     {
-        if ($event->getEntity() == Mage_Catalog_Model_Product::ENTITY) {
+        $entity = $event->getEntity();
+
+        if ($entity == Mage_Catalog_Model_Product::ENTITY) {
             switch ($event->getType()) {
                 case Mage_Index_Model_Event::TYPE_DELETE:
                     $this->_registerCatalogProductDeleteEvent($event);
@@ -97,15 +102,15 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
                     $this->_registerCatalogProductMassActionEvent($event);
                     break;
             }
-        } else if ($event->getEntity() == Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
+        } else if ($entity == Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
             switch ($event->getType()) {
                 case Mage_Index_Model_Event::TYPE_SAVE:
                     $this->_registerCatalogAttributeSaveEvent($event);
                     break;
             }
+        } else if ($entity == Mage_Catalog_Model_Convert_Adapter_Product::ENTITY) {
+            $event->addNewData('catalog_product_eav_reindex_all', true);
         }
-
-        return $this;
     }
 
     /**
@@ -242,6 +247,12 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
      */
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
-        $this->callEventHandler($event);
+        $data = $event->getNewData();
+        if (!empty($data['catalog_product_eav_reindex_all'])) {
+            $this->reindexAll();
+        }
+        if (empty($data['catalog_product_eav_skip_call_event_handler'])) {
+            $this->callEventHandler($event);
+        }
     }
 }

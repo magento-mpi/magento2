@@ -53,6 +53,9 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
         ),
         Mage_Core_Model_Config_Data::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
+        ),
+        Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -154,10 +157,15 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
             case Mage_Catalog_Model_Product::ENTITY:
                 $this->_registerCatalogInventoryStockItemEvent($event);
                 break;
+
+            case Mage_Catalog_Model_Convert_Adapter_Product::ENTITY:
+                $event->addNewData('cataloginventory_stock_reindex_all', true);
+                break;
+
             case Mage_Core_Model_Store::ENTITY:
             case Mage_Core_Model_Store_Group::ENTITY:
             case Mage_Core_Model_Config_Data::ENTITY:
-                $event->addNewData('skip_stock_call_event_handler', true);
+                $event->addNewData('cataloginventory_stock_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
                 break;
@@ -279,7 +287,10 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
         $data = $event->getNewData();
-        if (empty($data['skip_stock_call_event_handler'])) {
+        if (!empty($data['cataloginventory_stock_reindex_all'])) {
+            $this->reindexAll();
+        }
+        if (empty($data['cataloginventory_stock_skip_call_event_handler'])) {
             $this->callEventHandler($event);
         }
     }

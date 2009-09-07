@@ -57,6 +57,9 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
         Mage_Core_Model_Config_Data::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
         ),
+        Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
+        )
     );
 
     protected $_relatedConfigSettings = array(
@@ -131,16 +134,22 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
         switch ($entity) {
             case Mage_Catalog_Model_Product::ENTITY:
                $this->_registerProductEvent($event);
-            break;
+                break;
+
             case Mage_Catalog_Model_Category::ENTITY:
                 $this->_registerCategoryEvent($event);
-            break;
+                break;
+
+            case Mage_Catalog_Model_Convert_Adapter_Product::ENTITY:
+                $event->addNewData('catalog_url_reindex_all', true);
+                break;
+
             case Mage_Core_Model_Store::ENTITY:
             case Mage_Core_Model_Store_Group::ENTITY:
             case Mage_Core_Model_Config_Data::ENTITY:
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
-            break;
+                break;
         }
         return $this;
     }
@@ -191,7 +200,11 @@ class Mage_Catalog_Model_Indexer_Url extends Mage_Index_Model_Indexer_Abstract
     protected function _processEvent(Mage_Index_Model_Event $event)
     {
         $data = $event->getNewData();
-        if (isset($data['rewrite_product_ids'])) {
+
+        if (!empty($data['catalog_url_reindex_all'])) {
+            $this->reindexAll();
+        }
+        if(isset($data['rewrite_product_ids'])) {
             foreach ($data['rewrite_product_ids'] as $productId) {
                  Mage::getSingleton('catalog/url')->refreshProductRewrite($productId);
             }
