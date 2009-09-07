@@ -97,7 +97,7 @@ class Enterprise_Pci_Model_Encryption extends Mage_Core_Model_Encryption
         if (self::HASH_VERSION_MD5 === $version) {
             return md5($data);
         }
-        return bin2hex(mhash(MHASH_SHA256, $data));
+        return hash('sha256', $data);
     }
 
     /**
