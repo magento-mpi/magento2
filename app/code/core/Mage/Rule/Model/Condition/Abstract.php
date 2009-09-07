@@ -33,6 +33,13 @@ abstract class Mage_Rule_Model_Condition_Abstract
     extends Varien_Object
     implements Mage_Rule_Model_Condition_Interface
 {
+    /**
+     * Defines which operators will be available for this condition
+     *
+     * @var string
+     */
+    protected $_inputType = null;
+
     public function __construct()
     {
         parent::__construct();
@@ -149,13 +156,16 @@ abstract class Mage_Rule_Model_Condition_Abstract
     /**
      * This value will define which operators will be available for this condition.
      *
-     * Possible values are: string, numeric, date, select, multiselect, grid
+     * Possible values are: string, numeric, date, select, multiselect, grid, boolean
      *
      * @return string
      */
     public function getInputType()
     {
-        return 'string';
+        if (null === $this->_inputType) {
+            return 'string';
+        }
+        return $this->_inputType;
     }
 
     public function getOperatorSelectOptions()
