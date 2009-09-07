@@ -83,6 +83,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
     public function ajaxGridAction()
     {
+        $this->loadLayout();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/tag_tag_grid')->toHtml()
         );
