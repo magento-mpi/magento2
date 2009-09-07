@@ -297,6 +297,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             array()
         );
 
+        /**
+         * @todo remove relation with price rules table
+         */
         $rulePrice      = 'rp.rule_price';
         $finalPrice     = new Zend_Db_Expr("@final_price:=IF((@price:=IF(IF({$specialFrom} IS NULL, 1,"
             . " IF({$specialFrom} <= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
@@ -313,7 +316,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);
         }
-
+        Mage::dispatchEvent('prepare_final_price_index_select', array('select'=>$select));
         $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable());
         $write->query($query);
 
