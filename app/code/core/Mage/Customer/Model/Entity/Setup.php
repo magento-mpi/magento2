@@ -127,7 +127,7 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                     'group_id' => array(
                         'type'          => 'static',
                         'input'         => 'select',
-                        'label'         => 'Customer Group',
+                        'label'         => 'Group',
                         'source'        => 'customer/customer_attribute_source_group',
                         'sort_order'    => 70,
                     ),
@@ -243,6 +243,7 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'source'        => 'customer_entity/address_attribute_source_region',
                         'required'      => 'false',
                         'sort_order'    => 80,
+                        'label'         => 'State/Province'
                     ),
                     'postcode' => array(
                         'label'         => 'Zip/Postal Code',
