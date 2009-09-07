@@ -180,7 +180,7 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
             && !$this->getRequest()->getParam('forwarded')
             && !$this->_getSession()->getIsUrlNotice(true)
             && !Mage::getConfig()->getNode('global/can_use_base_url')) {
-            $this->_checkUrlSettings();
+            //$this->_checkUrlSettings();
             $this->setFlag('', self::FLAG_IS_URLS_CHECKED, true);
         }
         if (is_null(Mage::getSingleton('adminhtml/session')->getLocale())) {
@@ -190,6 +190,10 @@ class Mage_Adminhtml_Controller_Action extends Mage_Core_Controller_Varien_Actio
         return $this;
     }
 
+    /**
+     * @deprecated after 1.4.0.0 alpha, logic moved to Mage_Adminhtml_Block_Notification_Baseurl
+     * @return Mage_Adminhtml_Controller_Action
+     */
     protected function _checkUrlSettings()
     {
         /**

@@ -92,7 +92,7 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->addColumn('ended_at', array(
-            'header'    => Mage::helper('index')->__('Ran Last'),
+            'header'    => Mage::helper('index')->__('Last Run'),
             'type'      => 'datetime',
             'width'     => '180',
             'align'     => 'left',

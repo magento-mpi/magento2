@@ -384,7 +384,7 @@ class Mage_Index_Model_Process extends Mage_Core_Model_Abstract
         return array(
             self::STATUS_PENDING            => Mage::helper('index')->__('Ready'),
             self::STATUS_RUNNING            => Mage::helper('index')->__('Processing'),
-            self::STATUS_REQUIRE_REINDEX    => Mage::helper('index')->__('Require Reindex'),
+            self::STATUS_REQUIRE_REINDEX    => Mage::helper('index')->__('Reindex Required'),
         );
     }
 }

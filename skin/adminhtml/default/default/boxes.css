@@ -280,7 +280,8 @@ ul.tabs-horiz li a.active       { border-bottom:1px solid #fff; background:#fff;
 
 /* MESSAGES
 *******************************************************************************/
-.notification-global { padding:5px 27px 5px 47px; background:#fff9e9 url(images/error_msg_icon.gif) 27px 5px no-repeat; border-bottom:1px solid #eee2be; font-size:11px; line-height:16px; margin:0 0 -3px; color:#444; position:relative; }
+.notification-global { padding:5px 27px 5px 47px; background:#fff9e9 url(images/error_msg_icon.gif) 27px 5px no-repeat; border-bottom:1px solid #eee2be;border-top:1px solid #eee2be; font-size:11px; line-height:16px; margin:0 0 -3px; color:#444; position:relative; }
+.notification-global-notice {background-image:url(images/note_msg_icon.gif)}
 .notification-global .label { color:#eb5e00; }
 .notification-global .clickable { cursor:pointer; }
 .notification-global span.critical { color:#d20000; }
@@ -1072,7 +1073,7 @@ ul.super-product-attributes { padding-left:15px; }
 .grid-severity-notice span { display:block; height:16px; background-image:url(images/bg_notifications.gif); background-repeat:no-repeat; font:bold 10px/16px Arial, Helvetica, sans-serif; text-transform:uppercase; text-align:center; padding:0 0 0 7px; margin:1px 0; white-space:nowrap; color:#fff; }
 .grid-severity-critical { background-position:0 0; }
 .grid-severity-critical span { background-position:100% 0; padding:0 7px 0 0; }
-.grid-severity-major { background-position:0 -16px; padding:0 7px 0 0; }
+.grid-severity-major { background-position:0 -16px;}
 .grid-severity-major span { background-position:100% -16px; padding:0 7px 0 0; }
 .grid-severity-minor { background-position:0 -32px; }
 .grid-severity-minor span { background-position:100% -32px; padding:0 7px 0 0; }

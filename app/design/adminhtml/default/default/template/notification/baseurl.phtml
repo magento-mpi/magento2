@@ -18,17 +18,18 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design_default
- * @package    Mage
+ * @category   Mage
+ * @package    design_default
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
+/**
+ * @see Mage_Adminhtml_Block_Notification_Baseurl
+ */
 ?>
-<?php $_processes = $this->getProcessesForReindex()?>
-<?php if($_processes):?>
-<div class="notification-global">
-    <strong><?php echo $this->helper('index')->__('One or more of the Indexes are not up to date:') ?></strong>
-    <?php echo implode(', ', $_processes)?>.
-    <?php echo $this->helper('index')->__('Click here to go to <a href="%s">Index Management</a> and rebuild required indexes.', $this->getManageUrl());?>
+<?php $_url = $this->getConfigUrl()?>
+<?php if ($_url): ?>
+<div class="notification-global notification-global-notice">
+    <?php echo $this->helper('adminhtml')->__('{{base_url}} is not recommended to use in a production environment to declare the Base Unsecure URL / Base Secure URL. It is highly recommended to change this value in your Magento <a href="%s">configuration</a>.', $_url)?>
 </div>
-<?php endif;?>
+<?php endif; ?>
