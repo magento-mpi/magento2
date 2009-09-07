@@ -27,6 +27,7 @@
 
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity extends Mage_Rule_Model_Condition_Abstract
 {
+    protected $_inputType = 'numeric';
 
     public function __construct()
     {
@@ -34,10 +35,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
         $this->setType('enterprise_customersegment/segment_condition_sales_purchasedquantity');
         $this->setValue(null);
     }
-	
+
 	public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 
+        return array('value' => $this->getType(),
             'label'=>Mage::helper('enterprise_customersegment')->__('Purchased Quantity'));
     }
 
@@ -52,13 +53,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
 
     public function asHtml()
     {
-       $html = $this->getTypeElement()->getHtml().
-       Mage::helper('enterprise_customersegment')->__("%s Purchased Quantity %s %s:",
-              $this->getAttributeElement()->getHtml(),
-              $this->getOperatorElement()->getHtml(),
-              $this->getValueElement()->getHtml()
-       );
-       $html.= $this->getRemoveLinkHtml();
-       return $html;
-    }    
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_customersegment')->__('%s Purchased Quantity %s %s:',
+                $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . $this->getRemoveLinkHtml();
+    }
 }

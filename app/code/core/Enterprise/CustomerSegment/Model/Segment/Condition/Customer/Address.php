@@ -27,12 +27,14 @@
 
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
+    protected $_inputType = 'select';
+
     public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_customer_address');
     }
-	
+
     public function getNewChildSelectOptions()
     {
         $conditions = array(
@@ -45,20 +47,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address extend
     
     public function loadValueOptions()
     {
-        $options = array(
-            'all'  => Mage::helper('enterprise_customersegment')->__('All'),
+        $this->setValueOption(array(
             'any'  => Mage::helper('enterprise_customersegment')->__('Any'),
-            'primary_billing'  => Mage::helper('enterprise_customersegment')->__('Primary Billing'),
-            'primary_shipping'  => Mage::helper('enterprise_customersegment')->__('Primary Shipping'),
-        );
-        $this->setValueOption($options);
+            'all'  => Mage::helper('enterprise_customersegment')->__('All'),
+            'primary_billing'  => Mage::helper('enterprise_customersegment')->__('Default Billing'),
+            'primary_shipping'  => Mage::helper('enterprise_customersegment')->__('Default Shipping'),
+        ));
         return $this;
-    }
-
-    
-    public function getInputType()
-    {
-        return 'select';
     }
 
     public function getValueElementType()
@@ -68,14 +63,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address extend
 
     public function asHtml()
     {
-    	$html = $this->getTypeElement()->getHtml().
-        Mage::helper('enterprise_customersegment')->__("If customer %s address(es) and match %s:",
-                $this->getValueElement()->getHtml(),
-                $this->getAggregatorElement()->getHtml()
-        );
-        $html.= $this->getRemoveLinkHtml();
-        return $html;
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_customersegment')->__('If Customer %s Address(es) match %s of these Conditions:',
+                $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . $this->getRemoveLinkHtml();
     }
-   
 }
-

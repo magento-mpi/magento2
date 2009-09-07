@@ -25,13 +25,16 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange
+    extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
+    protected $_inputType = 'select';
+
     /**
      * Intialize model
      *
      * @return void
-     */    
+     */
     public function __construct()
     {
         parent::__construct();
@@ -43,17 +46,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange extend
     {
         return Mage::getModel('enterprise_customersegment/segment_condition_combine')->getNewChildSelectOptions();
     }
-    
-    public function getInputType()
-    {
-        return 'text';
-    }
 
     public function getValueElementType()
     {
         return 'text';
     }
-    
+
     /**
      * Retrieve Explicit Apply
      *
@@ -63,7 +61,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange extend
     {
         return true;
     }
-    
+
     /**
      * Retrieve after element HTML
      *
@@ -74,7 +72,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange extend
         $html = '';
         $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
         if (!empty($image)) {
-            $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="' . $image . '" alt="" class="v-middle rule-chooser-trigger" title="' . Mage::helper('rule')->__('Open Chooser') . '" /></a>';
+            $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
+            . $image . '" alt="" class="v-middle rule-chooser-trigger" title="'
+            . Mage::helper('rule')->__('Open Chooser') . '" /></a>';
         }
         return $html;
     }
@@ -91,19 +91,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange extend
         }
         return Mage::helper('adminhtml')->getUrl($url);
     }
-    
-    
+
     public function asHtml()
     {
-       $html = $this->getTypeElement()->getHtml().
-       Mage::helper('enterprise_customersegment')->__("If period is from %s to (value) and match %s:",
-              $this->getValueElement()->getHtml(),
-              $this->getAggregatorElement()->getHtml()
-       );
-       $html.= $this->getRemoveLinkHtml();
-       $html.= $this->getChooserContainerHtml();
-       return $html;
-    }    
-
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_customersegment')->__('If Period %s %s and %s of these Conditions Match:',
+                $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . $this->getRemoveLinkHtml()
+            . $this->getChooserContainerHtml();
+    }
 }
-

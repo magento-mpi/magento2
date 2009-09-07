@@ -25,7 +25,8 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Isproductin_Combine extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Isproductin_Combine
+    extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
     /**
      * Intialize model
@@ -52,6 +53,4 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Isproductin_Combine ext
         $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
         return $conditions;
     }
-    
 }
-

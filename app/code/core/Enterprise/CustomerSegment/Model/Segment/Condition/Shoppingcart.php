@@ -34,11 +34,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart extends Ma
         $this->setValue(null);
     }
     
-    public function getNewChildSelectOptions()    {
-    	$conditions = array();
+    public function getNewChildSelectOptions()
+    {
+        $conditions = array();
         $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_amount')->getNewChildSelectOptions(); 
         $conditions = array_merge($conditions, Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_itemsquantity')->getNewChildSelectOptions());
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Shopping Cart'));;
+        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Shopping Cart'));
     }
 }
-

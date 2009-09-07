@@ -24,9 +24,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-
 class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount extends Mage_Rule_Model_Condition_Abstract
 {
+    protected $_inputType = 'numeric';
+
     public function __construct()
     {
         parent::__construct();
@@ -55,13 +56,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount ext
     
     public function asHtml()
     {
-       $html = $this->getTypeElement()->getHtml().
-       Mage::helper('enterprise_customersegment')->__("Shopping Cart %s Amount %s %s",
-              $this->getAttributeElement()->getHtml(),
-              $this->getOperatorElement()->getHtml(),
-              $this->getValueElement()->getHtml()
-       );
-       $html.= $this->getRemoveLinkHtml();
-       return $html;
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_customersegment')->__('Shopping Cart %s Amount %s %s:',
+                $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . $this->getRemoveLinkHtml();
     }    
 }

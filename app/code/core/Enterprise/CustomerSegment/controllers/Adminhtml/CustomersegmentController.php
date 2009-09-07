@@ -158,10 +158,11 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 Mage::getSingleton('adminhtml/session')->setPageData(false);
 
                 if ($redirectBack) {
-                  $this->_redirect('*/*/' . $redirectBack, array(
-                        'id' => $model->getId()
-                  ));
-                  return;
+                    $this->_redirect('*/*/edit', array(
+                        'id'       => $model->getId(),
+                        '_current' => true,
+                    ));
+                    return;
                 }
                 
             } catch (Exception $e) {

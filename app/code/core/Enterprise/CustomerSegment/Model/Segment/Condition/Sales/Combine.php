@@ -25,13 +25,14 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
+    extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
     /**
      * Intialize model
      *
      * @return void
-     */    
+     */
     public function __construct()
     {
         parent::__construct();
@@ -42,18 +43,15 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine extends E
      * Return options for check new condition elemtnt
      *
      * @return array
-     */    
+     */
     public function getNewChildSelectOptions()
     {
         $conditions = array();
         $conditions[] = array('value'=>$this->getType(), 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination'));
-        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_salesamount')->getNewChildSelectOptions(); 
-        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_ordersnumber')->getNewChildSelectOptions(); 
-        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_purchasedquantity')->getNewChildSelectOptions(); 
-        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_paymentconversionrate')->getNewChildSelectOptions(); 
+        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_salesamount')->getNewChildSelectOptions();
+        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_ordersnumber')->getNewChildSelectOptions();
+        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_purchasedquantity')->getNewChildSelectOptions();
         $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
         return $conditions;
     }
-    
 }
-

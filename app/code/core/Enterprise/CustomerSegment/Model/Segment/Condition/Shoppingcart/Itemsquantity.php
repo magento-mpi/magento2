@@ -25,29 +25,29 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity
+    extends Mage_Rule_Model_Condition_Abstract
 {
+    protected $_inputType = 'numeric';
+
     public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_shoppingcart_itemsquantity');
         $this->setValue(null);
     }
-    
+
     public function getNewChildSelectOptions()
     {
-        return array(array('value' => $this->getType(), 
+        return array(array('value' => $this->getType(),
             'label'=>Mage::helper('enterprise_customersegment')->__('Items Quantity')));
     }
-    
+
     public function asHtml()
     {
-       $html = $this->getTypeElement()->getHtml().
-       Mage::helper('enterprise_customersegment')->__("Shopping Cart Items Qty %s %s:",
-            $this->getOperatorElement()->getHtml(),  
-            $this->getValueElement()->getHtml()
-       );
-       $html.= $this->getRemoveLinkHtml();
-       return $html;
-    }    
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_customersegment')->__('Shopping Cart Items Qty %s %s:',
+                $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . $this->getRemoveLinkHtml();
+    }
 }

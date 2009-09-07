@@ -40,7 +40,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
+            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
         }
 
         return $conditions;
@@ -80,7 +80,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
         $attributes = array();
         
         foreach ($productAttributes as $attribute) {
-        	if ($attribute->getIsUsedForCustomerSegment()) {
+            if ($attribute->getIsUsedForCustomerSegment()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
             }
         }
@@ -98,7 +98,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
     {
         if (!$this->getData('value_select_options') && is_object($this->getAttributeObject())) {
 
-    		if ($this->getAttributeObject()->usesSource()) {
+            if ($this->getAttributeObject()->usesSource()) {
                 if ($this->getAttributeObject()->getFrontendInput() == 'multiselect') {
                     $addEmptyOption = false;
                 } else {
@@ -106,12 +106,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
                 }
                 $optionsArr = $this->getAttributeObject()->getSource()->getAllOptions($addEmptyOption);
                 $this->setData('value_select_options', $optionsArr);
-           	}
+               }
 
-	        if ($this->_isCurrentAttributeDefaultAddress()) {
+            if ($this->_isCurrentAttributeDefaultAddress()) {
                 $optionsArr = $this->_getOptionsForAttributeDefaultAddress();
                 $this->setData('value_select_options', $optionsArr);
-	        }
+            }
             
         }
         return $this->getData('value_select_options');
@@ -127,7 +127,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
         if ($this->_isCurrentAttributeDefaultAddress()) {
             return 'select';
         }
-    	
+
         if (!is_object($this->getAttributeObject())) {
             return 'string';
         }
@@ -157,7 +157,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
         if ($this->_isCurrentAttributeDefaultAddress()) {
             return 'select';
         }
-    	
+
         if (!is_object($this->getAttributeObject())) {
             return 'text';
         }
@@ -240,10 +240,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes ext
 
     protected function _getOptionsForAttributeDefaultAddress()
     {
-    	return array(
-    	   array('value' => 'is_exists', 'label' => Mage::helper('enterprise_customersegment')->__('Is exists')),
-           array('value' => 'is_not_exists', 'label' => Mage::helper('enterprise_customersegment')->__('Is not exists')),
-    	);
+        return array(
+            array('value' => 'is_exists', 'label' => Mage::helper('enterprise_customersegment')->__('exists')),
+            array('value' => 'is_not_exists', 'label' => Mage::helper('enterprise_customersegment')->__('does not exist')),
+        );
     }
-    
+
+    /**
+     * Customer attributes are standalone conditions, hence they must be self-sufficient
+     *
+     * @return string
+     */
+    public function asHtml()
+    {
+        return Mage::helper('enterprise_customersegment')->__('Customer %s', parent::asHtml());
+    }
 }

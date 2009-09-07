@@ -24,56 +24,50 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
+    extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
+    protected $_inputType = 'select';
+
     public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_order_address');
     }
-    
+
     public function getNewChildSelectOptions()
     {
-        $conditions = array(
-            array('value'=>'enterprise_customersegment/segment_condition_order_address_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),    
-            Mage::getModel('enterprise_customersegment/segment_condition_order_address_attributes')->getNewChildSelectOptions()
-        ); 
+        $conditions = array(array(
+                'value' => 'enterprise_customersegment/segment_condition_order_address_combine',
+                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
+            Mage::getModel('enterprise_customersegment/segment_condition_order_address_attributes')
+                ->getNewChildSelectOptions()
+        );
         $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
         return $conditions;
     }
 
     public function loadValueOptions()
     {
-        $options = array(
-            'all'  => Mage::helper('enterprise_customersegment')->__('All'),
+        $this->setValueOption(array(
             'any'  => Mage::helper('enterprise_customersegment')->__('Any'),
+            'all'  => Mage::helper('enterprise_customersegment')->__('All'),
             'billing'  => Mage::helper('enterprise_customersegment')->__('Billing'),
             'shipping'  => Mage::helper('enterprise_customersegment')->__('Shipping'),
-        );
-        $this->setValueOption($options);
+        ));
         return $this;
-    }
-        
-    public function getInputType()
-    {
-        return 'select';
     }
 
     public function getValueElementType()
     {
         return 'select';
     }
-    
+
     public function asHtml()
     {
-        $html = $this->getTypeElement()->getHtml().
-        Mage::helper('enterprise_customersegment')->__("If order %s address(es) and match %s:",
-                $this->getValueElement()->getHtml(),
-                $this->getAggregatorElement()->getHtml()
-        );
-        $html.= $this->getRemoveLinkHtml();
-        return $html;
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_customersegment')->__('If Order %s Address(es) match %s of these Conditions:',
+                $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . $this->getRemoveLinkHtml();
     }
-    
-   
 }

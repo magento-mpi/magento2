@@ -27,11 +27,13 @@
 
 class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Uptodate extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
+    protected $_inputType = 'select';
+
     /**
      * Intialize model
      *
      * @return void
-     */    
+     */
     public function __construct()
     {
         parent::__construct();
@@ -43,29 +45,17 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Uptodate extends
     {
         return Mage::getModel('enterprise_customersegment/segment_condition_combine')->getNewChildSelectOptions();
     }
-    
-    public function getInputType()
-    {
-        return 'text';
-    }
 
     public function getValueElementType()
     {
         return 'text';
     }
-    
+
     public function asHtml()
     {
-       $html = $this->getTypeElement()->getHtml().
-       Mage::helper('enterprise_customersegment')->__("If period is last %s days and match %s:",
-              $this->getValueElement()->getHtml(),
-              $this->getAggregatorElement()->getHtml()
-       );
-       $html.= $this->getRemoveLinkHtml();
-       return $html;
-    }    
-
-    
-    
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_customersegment')->__('If Period %s Last %s Days and %s of these Conditions Match:',
+                $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . $this->getRemoveLinkHtml();
+    }
 }
-

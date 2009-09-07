@@ -27,6 +27,8 @@
 
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit extends Mage_Rule_Model_Condition_Abstract
 {
+    protected $_inputType = 'numeric';
+
     public function __construct()
     {
         parent::__construct();
@@ -42,12 +44,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit ex
 
     public function asHtml()
     {
-       $html = $this->getTypeElement()->getHtml().
-       Mage::helper('enterprise_customersegment')->__("Customer Store Credit Amount %s %s:",
-              $this->getOperatorElement()->getHtml(),
-              $this->getValueElement()->getHtml()
-       );
-       $html.= $this->getRemoveLinkHtml();
-       return $html;
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_customersegment')->__('Customer Store Credit Amount %s %s:',
+                $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . $this->getRemoveLinkHtml();
     }    
 }

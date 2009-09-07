@@ -31,28 +31,28 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine extends Mage_Ru
      * Intialize model
      *
      * @return void
-     */    
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_combine');
     }
-    
+
     /**
-     * Return options for check new condition elemtnt
+     * Return options for check new condition element
      *
      * @return array
-     */    
+     */
     public function getNewChildSelectOptions()
     {
     	$conditions = array(
     	    array('value'=>'enterprise_customersegment/segment_condition_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
             array('value'=>'enterprise_customersegment/segment_condition_period_uptodate', 'label'=>Mage::helper('enterprise_customersegment')->__('Up to Date Combination')),
             array('value'=>'enterprise_customersegment/segment_condition_period_daterange', 'label'=>Mage::helper('enterprise_customersegment')->__('Date Range Combination')),
-            array('value'=>'enterprise_customersegment/segment_condition_sales', 'label'=>Mage::helper('enterprise_customersegment')->__('Sales')),
-            array('value'=>'enterprise_customersegment/segment_condition_isproductin', 'label'=>Mage::helper('enterprise_customersegment')->__('Is Product In')),
-            array('value'=>'enterprise_customersegment/segment_condition_customer_address', 'label'=>Mage::helper('enterprise_customersegment')->__('Customer Address')),            
-            array('value'=>'enterprise_customersegment/segment_condition_order_address', 'label'=>Mage::helper('enterprise_customersegment')->__('Order Address')),            
+            array('value'=>'enterprise_customersegment/segment_condition_sales', 'label'=>Mage::helper('enterprise_customersegment')->__('Sales Combination')),
+            array('value'=>'enterprise_customersegment/segment_condition_isproductin', 'label'=>Mage::helper('enterprise_customersegment')->__('Product List Combination')),
+            array('value'=>'enterprise_customersegment/segment_condition_customer_address', 'label'=>Mage::helper('enterprise_customersegment')->__('Customer Address Combination')),
+            array('value'=>'enterprise_customersegment/segment_condition_order_address', 'label'=>Mage::helper('enterprise_customersegment')->__('Order Address Combination')),
             Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart')->getNewChildSelectOptions(),
             Mage::getModel('enterprise_customersegment/segment_condition_customer')->getNewChildSelectOptions(),
         );
@@ -61,6 +61,18 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine extends Mage_Ru
         return $conditions;
     }
 
-    
+    /**
+     * Add operator when loading array
+     *
+     * @param array $arr
+     * @param string $key
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+     */
+    public function loadArray($arr, $key = 'conditions')
+    {
+        if (isset($arr['operator'])) {
+            $this->setOperator($arr['operator']);
+        }
+        return parent::loadArray($arr, $key);
+    }
 }
-

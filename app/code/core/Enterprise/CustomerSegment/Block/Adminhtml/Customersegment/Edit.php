@@ -31,36 +31,35 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
      * Intialize form
      *
      * @return void
-     */        
+     */
     public function __construct()
     {
         $this->_objectId = 'id';
         $this->_controller = 'adminhtml_customersegment';
         $this->_blockGroup = 'enterprise_customersegment';
-        
+
         parent::__construct();
 
         $this->_updateButton('save', 'label', Mage::helper('enterprise_customersegment')->__('Save'));
         $this->_updateButton('delete', 'label', Mage::helper('enterprise_customersegment')->__('Delete'));
 
         $this->_addButton('save_and_continue_edit', array(
-            'class'=>'save',
-            'label'=>Mage::helper('enterprise_customersegment')->__('Save and Continue Edit'),
+            'class' => 'save',
+            'label' => Mage::helper('enterprise_customersegment')->__('Save and Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
         ), 3);
-        
-        $this->_formScripts[] = "
-            function saveAndContinueEdit(){
-                editForm.submit($('edit_form').action+'back/edit/');
-            }
-        ";
+
+        $this->_formScripts[] = '
+            function saveAndContinueEdit() {
+                editForm.submit($(\'edit_form\').action + \'back/edit/\');
+            }';
     }
 
     /**
      * Return form header text
      *
      * @return string
-     */        
+     */
     public function getHeaderText()
     {
         $segment = Mage::registry('current_customer_segment');
@@ -70,6 +69,5 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
         else {
             return Mage::helper('enterprise_customersegment')->__('New Segment');
         }
-    }    
-    
+    }
 }
