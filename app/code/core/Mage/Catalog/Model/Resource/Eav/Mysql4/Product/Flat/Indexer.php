@@ -793,6 +793,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
         }
         else {
             $columns = $attribute->getFlatColumns();
+            if (!$columns) {
+                return $this;
+            }
             foreach (array_keys($columns) as $columnName) {
                 if (!isset($describe[$columnName])) {
                     return $this;
