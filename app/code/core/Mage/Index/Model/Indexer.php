@@ -62,6 +62,22 @@ class Mage_Index_Model_Indexer
     }
 
     /**
+     * Get index process by specific code
+     *
+     * @param string $code
+     * @return Mage_Index_Model_Process | false
+     */
+    public function getProcessByCode($code)
+    {
+        foreach ($this->_processesCollection as $process) {
+            if ($process->getIndexerCode() == $code) {
+                return $process;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Lock indexer actions
      */
     public function lockIndexer()

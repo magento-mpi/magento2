@@ -62,7 +62,8 @@ class Mage_CatalogRule_Model_Observer
     }
 
     /**
-     * Apply all price rules for current date
+     * Apply all price rules for current date.
+     * Handle cataolg_product_import_after event
      *
      * @param   Varien_Event_Observer $observer
      * @return  Mage_CatalogRule_Model_Observer

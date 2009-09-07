@@ -104,7 +104,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     public function getDescription()
     {
-        return Mage::helper('cataloginventory')->__('Index product stock status for product list');
+        return Mage::helper('cataloginventory')->__('Index product stock status');
     }
 
     /**

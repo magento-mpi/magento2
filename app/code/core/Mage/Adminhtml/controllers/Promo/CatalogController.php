@@ -236,8 +236,7 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
     public function applyRulesAction()
     {
         try {
-            $resource = Mage::getResourceSingleton('catalogrule/rule');
-            $resource->applyAllRulesForDateRange();
+            Mage::getModel('catalogrule/rule')->applyAll();
             Mage::app()->removeCache('catalog_rules_dirty');
             Mage::getSingleton('adminhtml/session')->addSuccess(
                 Mage::helper('catalogrule')->__('Rules were successfully applied')
@@ -248,7 +247,6 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
             );
             throw $e;
         }
-
         $this->_redirect('*/*');
     }
 

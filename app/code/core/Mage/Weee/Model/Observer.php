@@ -236,6 +236,10 @@ class Mage_Weee_Model_Observer extends Mage_Core_Model_Abstract
      */
     public function updateDiscountPercents(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('weee')->isEnabled()) {
+            return $this;
+        }
+
         $eventProduct = $observer->getEvent()->getProduct();
         $productCondition = $observer->getEvent()->getProductCondition();
         if ($productCondition) {
