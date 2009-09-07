@@ -28,6 +28,9 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
 {
     protected $_processModel;
 
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -37,6 +40,9 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         $this->_pagerVisibility  = false;
     }
 
+    /**
+     * Prepare grid collection
+     */
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('index/process_collection');
@@ -44,6 +50,9 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         return parent::_prepareCollection();
     }
 
+    /**
+     * Add name and description to collection elements
+     */
     protected function _afterLoadCollection()
     {
         foreach ($this->_collection as $item) {
@@ -53,7 +62,9 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         return $this;
     }
 
-
+    /**
+     * Prepare grid columns
+     */
     protected function _prepareColumns()
     {
         $baseUrl = $this->getUrl();
@@ -96,7 +107,8 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
             'type'      => 'datetime',
             'width'     => '180',
             'align'     => 'left',
-            'index'     => 'ended_at'
+            'index'     => 'ended_at',
+            'frame_callback' => array($this, 'decorateDate')
         ));
 
         $this->addColumn('action',
@@ -125,6 +137,11 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         return parent::_prepareColumns();
     }
 
+    /**
+     * Decorate status column values
+     *
+     * @return string
+     */
     public function decorateStatus($value, $row, $column, $isExport)
     {
         $class = '';
@@ -142,6 +159,24 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         return '<span class="'.$class.'"><span>'.$value.'</span></span>';
     }
 
+    /**
+     * Decorate last run date coumn
+     *
+     * @return string
+     */
+    public function decorateDate($value, $row, $column, $isExport)
+    {
+        if(!$value) {
+            return $this->__('Never');
+        }
+        return $value;
+    }
+
+    /**
+     * Get row edit url
+     *
+     * @return string
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('process'=>$row->getId()));
