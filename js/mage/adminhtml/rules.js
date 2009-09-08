@@ -71,11 +71,15 @@ VarienRulesForm.prototype = {
 
     showChooserElement: function (chooser) {
         this.chooserSelectedItems = $H({});
-        var values = this.updateElement.value.split(','), s='';
-        for (i=0; i<values.length; i++) {
-            s = values[i].strip();
-            if (s!='') {
-               this.chooserSelectedItems.set(s,1);
+        if (chooser.hasClassName('no-split')) {
+            this.chooserSelectedItems.set(this.updateElement.value, 1);
+        } else {
+            var values = this.updateElement.value.split(','), s = '';
+            for (i=0; i<values.length; i++) {
+                s = values[i].strip();
+                if (s!='') {
+                   this.chooserSelectedItems.set(s,1);
+                }
             }
         }
         new Ajax.Request(chooser.getAttribute('url'), {
