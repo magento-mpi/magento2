@@ -248,10 +248,10 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
         $curentDate     = new Zend_Db_Expr('cwd.date');
         $rulePrice      = 'rp.rule_price';
 
-        $specialExpr    = new Zend_Db_Expr("@special_price:=IF(IF({$specialFrom} IS NULL, 1, "
+        $specialExpr    = new Zend_Db_Expr("IF(IF({$specialFrom} IS NULL, 1, "
             . "IF({$specialFrom} <= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
             . "IF({$specialTo} >= {$curentDate}, 1, 0)) > 0 AND {$specialPrice} > 0, $specialPrice, 0)");
-        $tierExpr       = new Zend_Db_Expr("@tier:=tp.min_price");
+        $tierExpr       = new Zend_Db_Expr("tp.min_price");
 
         if ($priceType == Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
             $select->joinLeft(
@@ -260,14 +260,16 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
                     . ' AND rp.website_id = cw.website_id AND rp.rule_date = ' . $curentDate,
                 array()
             );
+            $priceExpr  = new Zend_Db_Expr("IF({$specialExpr} > 0,"
+                . " ROUND($price * ({$specialExpr} / 100), 4), {$price})");
 
-            $finalPrice     = new Zend_Db_Expr("@final_price:=IF((@price:=IF(@special_price > 0, "
-                . "ROUND($price * (@special_price / 100), 4), {$price})) AND {$rulePrice} < @price "
-                . "AND {$rulePrice} IS NOT NULL, {$rulePrice}, @price)");
-            $tierPrice      = new Zend_Db_Expr("IF(@tier IS NOT NULL, ROUND($price * (@tier / 100), 4), NULL)");
+            $finalPrice     = new Zend_Db_Expr("IF({$priceExpr} AND {$rulePrice} < {$priceExpr}"
+                . " AND {$rulePrice} IS NOT NULL, {$rulePrice}, {$priceExpr})");
+            $tierPrice      = new Zend_Db_Expr("IF({$tierExpr} IS NOT NULL,"
+                . " ROUND({$price} * ({$tierExpr} / 100), 4), NULL)");
         } else {
-            $finalPrice     = new Zend_Db_Expr("@final_price:=0");
-            $tierPrice      = new Zend_Db_Expr("IF(@tier IS NOT NULL, 0, NULL)");
+            $finalPrice     = new Zend_Db_Expr("0");
+            $tierPrice      = new Zend_Db_Expr("IF({$tierExpr} IS NOT NULL, 0, NULL)");
         }
 
         $select->columns(array(
@@ -275,9 +277,9 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
             'special_price' => $specialExpr,
             'tier_percent'  => $tierExpr,
             'price'         => $finalPrice,
-            'orig_price'    => $price,
-            'min_price'     => new Zend_Db_Expr('@final_price'),
-            'max_price'     => new Zend_Db_Expr('@final_price'),
+            'orig_price'    => new Zend_Db_Expr("IF({$price} IS NULL, 0, {$price})"),
+            'min_price'     => $finalPrice,
+            'max_price'     => $finalPrice,
             'tier_price'    => $tierPrice
         ));
 
