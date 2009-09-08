@@ -63,7 +63,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage_Admi
 
         $revisions = array();
 
-        foreach ($collection->getItems() as $item) {
+        $itemsCollection = array_reverse($collection->getItems(), true);
+
+        foreach ($itemsCollection as $item) {
             if (isset($revisions[$item->getVersionId()])) {
                 $revisions[$item->getVersionId()]['revisions'][] = $item;
             } else {

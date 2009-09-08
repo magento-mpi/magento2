@@ -39,7 +39,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Revisions
     {
         parent::__construct();
         $this->setId('revisionsGrid');
-        $this->setDefaultSort('created_at');
+        $this->setDefaultSort('revision_number');
         $this->setDefaultDir('DESC');
         $this->setUseAjax(true);
     }
