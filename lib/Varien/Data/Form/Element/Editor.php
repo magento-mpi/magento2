@@ -50,13 +50,10 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     {
         if($this->isEnabled())
         {
-            $element = ($this->getState() == 'html') ? '' : $this->getHtmlId();
-            $jsUrl = $this->getForm()->getParent()->getJsUrl();
             $jsSetupObject = 'wysiwyg' . $this->getHtmlId();
 
-            $html = '
-                <div>' . $this->_getToggleLinkHtml() . $this->_getLinksSeparatorHtml(false) . $this->_getLinksHtml(false) . '</div>
-                <textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
+            $html = $this->_getLinksHtml()
+                .'<textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'"'.($this->getDisabled() ? ' disabled="disabled"' : '').' class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
 
                 <script type="text/javascript">
                 //<![CDATA[
@@ -67,7 +64,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
 
 				'.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
 
-                '.($this->isHidden() ? '' : 'Event.observe(window, "load", '.$jsSetupObject.'.setup.bind('.$jsSetupObject.'));').'
+                '.($this->isHidden() || $this->getDisabled() ? '' : 'Event.observe(window, "load", '.$jsSetupObject.'.setup.bind('.$jsSetupObject.'));').'
 
 				Event.observe("toggle'.$this->getHtmlId().'", "click", '.$jsSetupObject.'.toggle.bind('.$jsSetupObject.'));
                 varienGlobalEvents.attachEventHandler("formSubmit", '.$jsSetupObject.'.onFormValidation.bind('.$jsSetupObject.'));
@@ -100,13 +97,36 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     }
 
     /**
+     * Return Editor top links HTML
+     *
+     * @return string
+     */
+    protected function _getLinksHtml()
+    {
+        $linksHtml = '<div id="links'.$this->getHtmlId().'"'.($this->getDisabled() ? ' style="display:none;"' : '').'>';
+        if ($this->isEnabled()) {
+            $linksHtml .= $this->_getToggleLinkHtml()
+                . $this->_getLinksSeparatorHtml(false)
+                . $this->_getPluginLinksHtml(false);
+        } else {
+            $linksHtml .= $this->_getPluginLinksHtml(true);
+        }
+        $linksHtml .= '</div>';
+
+        return $linksHtml;
+    }
+
+    /**
      * Return HTML link to toggling WYSIWYG
      *
      * @return string
      */
-    protected function _getToggleLinkHtml()
+    protected function _getToggleLinkHtml($visible = true)
     {
-        return '<a href="#" id="toggle'.$this->getHtmlId().'">'.$this->translate('Show / Hide Editor').'</a>';
+        if ($this->getDisabled()) {
+            $visible = false;
+        }
+        return '<a href="#" id="toggle'.$this->getHtmlId().'"'.($visible ? '' : ' style="display:none;"').'>'.$this->translate('Show / Hide Editor').'</a>';
     }
 
     /**
@@ -126,7 +146,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
      * @param bool $visible Display link or not
      * @return void
      */
-    protected function _getLinksHtml($visible = true)
+    protected function _getPluginLinksHtml($visible = true)
     {
         $links = array();
         $linksHtml = array();
@@ -214,9 +234,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
      */
     public function isHidden()
     {
-        if ($this->hasData('hidden')) {
-            return $this->getHidden();
-        }
         return Mage::getSingleton('cms/wysiwyg_config')->isHidden();
     }
 }

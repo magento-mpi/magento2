@@ -119,19 +119,33 @@ tinyMceWysiwygSetup.prototype =
     },
 
     toggle: function() {
-        if (!tinyMCE.get(this.id)) {
-            this.setup();
-            setTimeout('',1000);
-            tinyMCE.execCommand('mceAddControl', false, this.id);
-        } else {
-            tinyMCE.execCommand('mceRemoveControl', false, this.id);
-        }
+        this.toggleEditorControl();
+
         $$('a.' + this.id + '_link').each(function(e) {
             e.toggle();
         });
         $$('span.' + this.id + '_sep').each(function(e) {
             e.toggle();
         });
+    },
+
+    // Hide editor links, remove editor instance and disable textarea OR all opposite
+    toggleEnabled: function() {
+        var isEnabled = this.toggleEditorControl();
+        $(this.id).disabled = !isEnabled;
+        isEnabled ? $('links' + this.id).show() : $('links' + this.id).hide();
+    },
+
+    toggleEditorControl: function() {
+        if (!tinyMCE.get(this.id)) {
+            this.setup();
+            setTimeout('',1000);
+            tinyMCE.execCommand('mceAddControl', false, this.id);
+            return true;
+        } else {
+            tinyMCE.execCommand('mceRemoveControl', false, this.id);
+            return false;
+        }
     },
 
     onFormValidation: function() {
