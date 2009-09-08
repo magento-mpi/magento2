@@ -128,8 +128,11 @@ Product.Zoom.prototype = {
 
         this.imageZoom = this.floorZoom+(v*(this.ceilingZoom-this.floorZoom));
 
-        this.imageEl.style.width = (this.imageZoom*this.containerDim.width)+'px';
-        if(this.containerDim.ratio){
+        if (this.imageDim.width > this.containerDim.width) {
+            this.imageEl.style.width = (this.imageZoom*this.containerDim.width)+'px';
+        }
+
+        if(this.containerDim.ratio && this.imageDim.height > this.containerDim.height){
           this.imageEl.style.height = (this.imageZoom*this.containerDim.width*this.containerDim.ratio)+'px'; // for safari
         }
 
@@ -203,6 +206,14 @@ Product.Zoom.prototype = {
         x = x<xMax ? xMax : x;
         y = y>yMin ? yMin : y;
         y = y<yMax ? yMax : y;
+
+        if (this.containerDim.width > dim.width) {
+            x = (this.containerDim.width/2) - (dim.width/2);
+        }
+
+        if (this.containerDim.height > dim.height) {
+            y = (this.containerDim.height/2) - (dim.height/2);
+        }
 
         this.imageX = x;
         this.imageY = y;
