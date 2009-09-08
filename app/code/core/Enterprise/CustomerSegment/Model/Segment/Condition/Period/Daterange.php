@@ -24,11 +24,25 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Date range combo
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
+    /**
+     * Input type for operator options
+     *
+     * @var string
+     */
     protected $_inputType = 'select';
+
+    /**
+     * Value form element
+     *
+     * @var Varien_Data_Form_Element_Text
+     */
+    private $_valueElement = null;
 
     /**
      * Intialize model
@@ -42,18 +56,28 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange
         $this->setValue(null);
     }
 
+    /**
+     * Inherited hierarchy getter
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return Mage::getModel('enterprise_customersegment/segment_condition_combine')->getNewChildSelectOptions();
     }
 
+    /**
+     * Value element type getter
+     *
+     * @return string
+     */
     public function getValueElementType()
     {
         return 'text';
     }
 
     /**
-     * Retrieve Explicit Apply
+     * Enable chooser selection button
      *
      * @return bool
      */
@@ -63,41 +87,54 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange
     }
 
     /**
-     * Retrieve after element HTML
+     * Avoid value distortion by possible options
+     *
+     * @return array
+     */
+    public function getValueSelectOptions()
+    {
+        return array();
+    }
+
+    /**
+     * Chooser button HTML getter
      *
      * @return string
      */
     public function getValueAfterElementHtml()
     {
-        $html = '';
-        $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
-        if (!empty($image)) {
-            $html = '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . $image . '" alt="" class="v-middle rule-chooser-trigger" title="'
-            . Mage::helper('rule')->__('Open Chooser') . '" /></a>';
-        }
-        return $html;
+        return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
+            . Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') . '" alt="" class="v-middle rule-chooser-trigger"'
+            . 'title="' . Mage::helper('rule')->__('Open Chooser') . '" /></a>';
     }
+
     /**
-     * Retrieve value element chooser URL
+     * Chooser URL getter
      *
      * @return string
      */
     public function getValueElementChooserUrl()
     {
-        $url = 'adminhtml/customersegment/chooser';
-        if ($this->getJsFormObject()) {
-            $url .= '/form/'.$this->getJsFormObject();
-        }
-        return Mage::helper('adminhtml')->getUrl($url);
+        return Mage::helper('adminhtml')->getUrl('adminhtml/customersegment/chooser', array(
+            'chooser'          => 'daterange',
+            'value_element_id' => $this->_valueElement->getId(),
+        ));
     }
 
+    /**
+     * Render as HTML
+     *
+     * Chooser div is declared in such a way, that element value will be treated as is
+     *
+     * @return string
+     */
     public function asHtml()
     {
+        $this->_valueElement = $this->getValueElement();
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Period %s %s and %s of these Conditions Match:',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('enterprise_customersegment')->__('If Date Range %s %s and %s of these Conditions Match:',
+                $this->getOperatorElementHtml(), $this->_valueElement->getHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml()
-            . $this->getChooserContainerHtml();
+            . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }
 }

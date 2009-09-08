@@ -210,44 +210,25 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
             Mage::helper('enterprise_customersegment')->isEnabled();
     }
 
+    /**
+     * Choosers ajax action
+     */
     public function chooserAction()
     {
+        switch ($this->getRequest()->getParam('chooser')) {
+            case 'daterange':
+                $block = $this->getLayout()->createBlock('adminhtml/promo_widget_chooser_daterange');
+                if ($block) {
+                    // set block data from request
+                    $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));
+                    $selectedValues = $this->getRequest()->getParam('selected');
+                    if (!empty($selectedValues) && is_array($selectedValues) && 1 === count($selectedValues)) {
+                        $block->setRangeValue(array_shift($selectedValues));
+                    }
 
-        $block = $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_chooser_daterange');
-
-        if ($block) {
-            $this->getResponse()->setBody($block->toHtml());
-        }
-
-/*    	$block = $this->getLayout()->createBlock(
-            'adminhtml/promo_widget_chooser_sku', 'promo_widget_chooser_sku',
-            array('js_form_object' => $this->getRequest()->getParam('form'),
-        ));
-
-
-        $block = false;
-        switch ($this->getRequest()->getParam('attribute')) {
-            case 'sku':
-                $block = $this->getLayout()->createBlock(
-                    'adminhtml/promo_widget_chooser_sku', 'promo_widget_chooser_sku',
-                    array('js_form_object' => $this->getRequest()->getParam('form'),
-                ));
-                break;
-
-            case 'category_ids':
-                $block = $this->getLayout()->createBlock(
-                        'adminhtml/catalog_category_checkboxes_tree', 'promo_widget_chooser_category_ids',
-                        array('js_form_object' => $this->getRequest()->getParam('form'))
-                    )
-                    ->setCategoryIds($this->getRequest()->getParam('selected', array()))
-                ;
+                    $this->getResponse()->setBody($block->toHtml());
+                }
                 break;
         }
-        if ($block) {
-            $this->getResponse()->setBody($block->toHtml());
-        }
-*/
     }
-
-
 }
