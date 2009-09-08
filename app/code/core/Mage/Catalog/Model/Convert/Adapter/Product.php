@@ -727,12 +727,18 @@ class Mage_Catalog_Model_Convert_Adapter_Product
     /**
      * Process after import data
      * Init indexing process after catalog product import
+     *
      */
     public function finish()
     {
+        /**
+         * Back compatibility event
+         */
         Mage::dispatchEvent('catalog_product_import_after', array());
+
+        $entity = new Varien_Object();
         Mage::getSingleton('index/indexer')->processEntityAction(
-            $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
+            $entity, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
     }
 }
