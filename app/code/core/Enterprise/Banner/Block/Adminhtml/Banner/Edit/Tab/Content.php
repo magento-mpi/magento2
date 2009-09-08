@@ -80,9 +80,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
     }
 
     /**
-     * Enter description here...
+     * Prepare Banners Content Tab form, define Editor settings
      *
-     * @return unknown
+     * @return Mage_Adminhtml_Block_Widget_Form
      */
     protected function _prepareForm()
     {
@@ -117,21 +117,28 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                     'text'     => $group->getName(),
                 ));
                 foreach ($stores as $store) {
+                    $contentExists = isset($storeContents[$store->getId()]);
                     $field = $fieldset->addField('store_'.$store->getId().'_content', 'editor', array(
                         'name'      => 'store_contents['.$store->getId().']',
                         'required'  => false,
                         'label'     => $store->getName(),
-                        'disabled'  => isset($storeContents[$store->getId()]) ? false : true,
-                        'value'     => isset($storeContents[$store->getId()]) ? $storeContents[$store->getId()] : '',
+                        'disabled'  => !$contentExists,
+                        'value'     => $contentExists ? $storeContents[$store->getId()] : '',
                         'config'    => $wysiwygConfig,
                     ));
+
+                    if ($field->isEnabled()) {
+                        $onClick ='wysiwyg'.$field->getHtmlId().".toggleEnabled();";
+                    } else {
+                        $onClick = '$(\'links'.$field->getHtmlId().'\').toggle();toggleValueElements(this, Element.previous(Element.previous(this.parentNode).parentNode));';
+                    }
 
                     $fieldset->addField('store_'.$store->getId().'_content_use', 'checkbox', array(
                         'name'      => 'store_contents_not_use['.$store->getId().']',
                         'required'  => false,
-                        'onclick'   => 'toggleValueElements(this, Element.previous(Element.previous(this.parentNode).parentNode))',
+                        'onclick'   => $onClick,
                         'checked'   => isset($storeContents[$store->getId()]) ? false : true,
-                        'after_element_html'     => Mage::helper('enterprise_banner')->__('Use Default'),
+                        'after_element_html' => '<label class="normal" for="'.$form->getHtmlIdPrefix().'store_'.$store->getId().'_content_use">'.Mage::helper('enterprise_banner')->__('Use Default').'</label>',
                         'value'     => $store->getId()
                     ));
                 }
