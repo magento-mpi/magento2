@@ -1166,10 +1166,16 @@ ul.super-product-attributes { padding-left:15px; }
 .cms-tree { width:100%; /*height:300px;*/ overflow:auto; }
 .cms-tree .cms_node_root.x-tree-node-expanded .x-tree-node-icon,
 .cms-tree .cms_node_root.x-tree-node-collapsed .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_node_root.gif); }
-.cms-tree .x-tree-node-expanded .x-tree-node-icon,
-.cms-tree .x-tree-node-collapsed .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_node.gif); }
-.cms-tree .x-tree-node-leaf .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_page.gif); }
+
+.cms-tree .cms_node.x-tree-node-expanded .x-tree-node-icon,
+.cms-tree .cms_node.x-tree-node-collapsed .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_node.gif); }
+
+.cms-tree .cms_page.x-tree-node-expanded .x-tree-node-icon,
+.cms-tree .cms_page.x-tree-node-collapsed .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_page.gif); }
+
+.cms-tree .x-tree-node-leaf .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_page2.gif); }
 .cms-tree .disallowed.x-tree-node-leaf .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_page-disabled.gif); }
+
 .cms-tree .x-tree-node .disallowed a span,
 .cms-tree .x-dd-drag-ghost .disallowed a span { color:#aaa; }
 
