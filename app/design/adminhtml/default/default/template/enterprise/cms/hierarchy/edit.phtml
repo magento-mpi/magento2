@@ -27,492 +27,500 @@
 <?php
 /* @var $this Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Edit_Form */
 ?>
-<table cellspacing="0" width="100%">
-    <tr>
-        <td width="50%" style="border-right:1px solid #ddd; padding:0 23px 23px 0;">
-            <?php echo $this->getStoreSwitcherHtml() ?>
-            <div id="tree-container" style="width:100%;height:400px;overflow:auto" class="tree x-tree"></div>
-        </td>
-        <td style="padding:0 0 23px 23px;">
-            <div style="padding-bottom: 5px;">
-                <?php echo $this->getTreeButtonsHtml();?>
-                <?php echo $this->getPagePropertiesButtons();?>
-            </div>
-            <div id="node_prop_container" class="entry-edit">
-                <?php echo $this->getFormHtml() ?>
-            </div>
-        </td>
-    </tr>
-</table>
-
-<script type="text/javascript">
-/**
- * Fix ext compatibility with prototype 1.6
- */
-Ext.lib.Event.getTarget = function(e) {
-    var ee = e.browserEvent || e;
-    return ee.target ? Event.element(ee) : null;
-};
-hierarchyNodes = {
-    nodes: <?php echo $this->getNodesJson()?>,
-    removedNodes: $A(),
-    initialize: function(){
-        this.increment = 0;
-        this.pageIdentifiers = $H({});
-        this.tree = new Ext.tree.TreePanel('tree-container', {
-            animate: false,
-            loader: false,
-            enableDD: true,
-            containerScroll: true,
-            rootVisible: true,
-            lines: true
-        });
-        this.treeRoot = new Ext.tree.TreeNode({
-            text: '<?php echo $this->__("/")?>',
-            id: '_root',
-            allowDrop: true,
-            allowDrag: false,
-            expanded: true,
-            cls: 'cms_node_root'
-        });
-        this.tree.setRootNode(this.treeRoot);
-        this.createNodes();
-        this.tree.getSelectionModel().addListener('selectionchange', this.onNodeSelect.bind(this));
-        this.tree.addListener('beforeappend', this.onNodeAppend.bind(this));
-        this.tree.render();
-        this.treeRoot.select();
-        this.dataModification = false;
-        this.lastChangedNode = null;
-
-        $('node_label').removeClassName('required-entry');
-        $('node_identifier').removeClassName('required-entry');
-    },
-    createNodes: function(){
-        for (var i = 0, l = this.nodes.length; i < l; i++) {
-            var cssClass = '';
-            if (!this.nodes[i].assigned_to_store) {
-                cssClass = cssClass + ' disallowed';
-            }
-
-            if (this.nodes[i].page_id > 0) {
-                cssClass = cssClass + ' cms_page';
-            } else {
-                cssClass = cssClass + ' cms_node';
-            }
-
-            var node = new Ext.tree.TreeNode({
-                id: this.nodes[i].node_id,
-                text: this.nodes[i].label,
-                page_id: this.nodes[i].page_id,
-                identifier: this.nodes[i].identifier,
-                cls: cssClass,
-                expanded: false,
-                allowDrop: true,
-                allowDrag: true,
-                meta_first_last: this.nodes[i].meta_first_last,
-                meta_next_previous: this.nodes[i].meta_next_previous,
-                meta_chapter: this.nodes[i].meta_chapter,
-                meta_section: this.nodes[i].meta_section
+<div class="cms-hierarchy">
+    <?php echo $this->getStoreSwitcherHtml() ?>
+    <table cellspacing="0" width="100%">
+        <col width="50%" />
+        <col width="50%" />
+        <tr>
+            <td class="col-left">
+                <div id="tree-container" class="cms-tree tree x-tree"></div>
+            </td>
+            <td class="col-right">
+                <div class="buttons-set">
+                    <?php echo $this->getTreeButtonsHtml();?>
+                    <?php echo $this->getPagePropertiesButtons();?>
+                </div>
+                <div id="node_prop_container" class="entry-edit">
+                    <?php echo $this->getFormHtml() ?>
+                </div>
+            </td>
+        </tr>
+    </table>
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    /**
+     * Fix ext compatibility with prototype 1.6
+     */
+    Ext.lib.Event.getTarget = function(e) {
+        var ee = e.browserEvent || e;
+        return ee.target ? Event.element(ee) : null;
+    };
+    hierarchyNodes = {
+        nodes: <?php echo $this->getNodesJson()?>,
+        removedNodes: $A(),
+        initialize: function(){
+            this.increment = 0;
+            this.pageIdentifiers = $H({});
+            this.tree = new Ext.tree.TreePanel('tree-container', {
+                animate: false,
+                loader: false,
+                enableDD: true,
+                containerScroll: true,
+                rootVisible: true,
+                lines: true
             });
-
-            if (this.nodes[i].page_id) {
-                this.pageIdentifiers.set(this.nodes[i].identifier, this.nodes[i].identifier);
-            }
-
-            if (parentNode = this.tree.getNodeById(this.nodes[i].parent_node_id)) {
-                parentNode.appendChild(node);
-            } else {
-                this.treeRoot.appendChild(node);
-            }
-        }
-    },
-    onNodeSelect: function(model, node){
-        if (this.lastChangedNode) {
-            this.lastChangedNode.ui.removeClass('modified');
-            this.lastChangedNode = null;
-        }
-
-        if (!node || node.id == '_root') {
-            $('node_prop_container').hide();
-            $('cancel_node_button').hide();
-            $('save_node_button').hide();
-            $('delete_node_button').hide();
-            this.pageGridLoad();
-            return;
-        }
-        $('node_prop_container').show();
-
-        var isTreeNode = (node.parentNode.id == '_root');
-        <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
-        if (isTreeNode) {
-            this.showFieldSet('metadata_fieldset');
-            $('meta_first_last').value = node.attributes.meta_first_last;
-            $('meta_next_previous').value = node.attributes.meta_next_previous;
-// commented bc of changes in road map
-//            $('meta_chapter').value = node.attributes.meta_chapter;
-//            $('meta_section').value = node.attributes.meta_section;
-        } else {
-            this.hideFieldSet('metadata_fieldset');
-        }
-        <?php endif; ?>
-
-        $('node_id').value = node.id;
-        $('node_page_id').value = node.attributes.page_id;
-
-        var hasPageId = node.attributes.page_id != null;
-        this._changeNodePropShow(hasPageId);
-
-        if (!hasPageId) {
-            $('node_label').value = node.text;
-            $('node_identifier').value = node.attributes.identifier;
-        } else {
-            $('node_label_text').innerHTML = node.text;
-            $('node_identifier_text').innerHTML = node.attributes.identifier;
-        }
-
-        this.nodePropReset();
-
-        $('delete_node_button').show();
-        $('cancel_node_button').hide();
-
-        this.saveButton(!hasPageId || isTreeNode, false, false);
-
-        this.pageGridLoad();
-    },
-    onNodeAppend: function(tree,parent,node){
-        var identifier = node.attributes.identifier;
-        for(var i=0, l = parent.childNodes.length; i < l; i++) {
-            if (identifier == parent.childNodes[i].attributes.identifier) {
-                alert('<?php echo $this->__("Node with same Identifier alredy exists. Page do not added!")?>');
-                return false;
-            }
-        }
-        return true;
-    },
-    pageGridRowClick: function(container, evt){
-        var tr = evt.findElement('tr');
-        if (!tr.hasClassName('invalid')) {
-            var checkbox = tr.down('.checkbox');
-            var isInput = evt.element().tagName == 'INPUT';
-            var checked = isInput ? checkbox.checked : !checkbox.checked;
-            container.setCheckboxChecked(checkbox, checked);
-        }
-    },
-    pageGridAddSelected: function(){
-        var rows = $$('#cms_page_grid .grid table tbody tr');
-        rows.each(function(tr){
-            var checkbox = tr.down('.checkbox');
-            if (!checkbox || !checkbox.checked) {
-                return;
-            }
-            var page_id = tr.down('.checkbox').value;
-            var label = tr.down('.label').textContent;
-            var identifier = tr.down('.identifier').textContent;
-            var rootNode = this.tree.getSelectionModel().getSelectedNode();
-            if (!rootNode) {
-                rootNode = this.treeRoot;
-            }
-            rootNode.appendChild(new Ext.tree.TreeNode({
-                id: '_' + this.increment,
-                text: label,
-                identifier: identifier,
-                page_id: page_id,
-                cls: 'cms_page',
+            this.treeRoot = new Ext.tree.TreeNode({
+                text: '<?php echo $this->__("/")?>',
+                id: '_root',
+                allowDrop: true,
+                allowDrag: false,
                 expanded: true,
-                allowDrop: true,
-                allowDrag: true
-            }));
-            this.pageIdentifiers.set(identifier, page_id);
-
-            this.increment ++;
-
-            checkbox.checked = false;
-
-            rootNode.expand();
-        }.bind(this));
-        this.pageGridLoad();
-    },
-    collectChilds: function(node){
-        if (node.id == '_root') {
-            this.treeData = new Hash();
-        } else {
-            this.treeData.set(node.id, {
-                node_id: node.id,
-                parent_node_id: node.parentNode.id == '_root' ? null : node.parentNode.id,
-                page_id: node.attributes.page_id,
-                label: node.attributes.text,
-                identifier: node.attributes.identifier,
-                sort_order: node.parentNode.indexOf(node),
-                level: node.getDepth(),
-                meta_first_last: node.attributes.meta_first_last,
-                meta_next_previous: node.attributes.meta_next_previous,
-                meta_chapter: node.attributes.meta_chapter,
-                meta_section: node.attributes.meta_section
+                cls: 'cms_node_root'
             });
-        }
-        if (node.hasChildNodes()) {
-            node.eachChild(this.collectChilds.bind(this));
-        }
-    },
-    save: function(){
-        if (this.dataModification) {
-            if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are not saved node data. Are you sure you want to proceed?') ?>')) {
+            this.tree.setRootNode(this.treeRoot);
+            this.createNodes();
+            this.tree.getSelectionModel().addListener('selectionchange', this.onNodeSelect.bind(this));
+            this.tree.addListener('beforeappend', this.onNodeAppend.bind(this));
+            this.tree.render();
+            this.treeRoot.select();
+            this.dataModification = false;
+            this.lastChangedNode = null;
+    
+            $('node_label').removeClassName('required-entry');
+            $('node_identifier').removeClassName('required-entry');
+        },
+        createNodes: function(){
+            for (var i = 0, l = this.nodes.length; i < l; i++) {
+                var cssClass = '';
+                if (!this.nodes[i].assigned_to_store) {
+                    cssClass = cssClass + ' disallowed';
+                }
+    
+                if (this.nodes[i].page_id > 0) {
+                    cssClass = cssClass + ' cms_page';
+                } else {
+                    cssClass = cssClass + ' cms_node';
+                }
+    
+                var node = new Ext.tree.TreeNode({
+                    id: this.nodes[i].node_id,
+                    text: this.nodes[i].label,
+                    page_id: this.nodes[i].page_id,
+                    identifier: this.nodes[i].identifier,
+                    cls: cssClass,
+                    expanded: false,
+                    allowDrop: true,
+                    allowDrag: true,
+                    meta_first_last: this.nodes[i].meta_first_last,
+                    meta_next_previous: this.nodes[i].meta_next_previous,
+                    meta_chapter: this.nodes[i].meta_chapter,
+                    meta_section: this.nodes[i].meta_section
+                });
+    
+                if (this.nodes[i].page_id) {
+                    this.pageIdentifiers.set(this.nodes[i].identifier, this.nodes[i].identifier);
+                }
+    
+                if (parentNode = this.tree.getNodeById(this.nodes[i].parent_node_id)) {
+                    parentNode.appendChild(node);
+                } else {
+                    this.treeRoot.appendChild(node);
+                }
+            }
+        },
+        onNodeSelect: function(model, node){
+            if (this.lastChangedNode) {
+                this.lastChangedNode.ui.removeClass('modified');
+                this.lastChangedNode = null;
+            }
+    
+            if (!node || node.id == '_root') {
+                $('node_prop_container').hide();
+                $('cancel_node_button').hide();
+                $('save_node_button').hide();
+                $('delete_node_button').hide();
+                this.pageGridLoad();
                 return;
             }
-        }
-        this.collectChilds(this.treeRoot);
-        $('nodes_data').value = this.treeData.toJSON();
-        $('removed_nodes').value = this.removedNodes.join(',');
-        editForm.submit();
-    },
-    nodePropValidate: function(){
-        $('node_label').addClassName('required-entry');
-        $('node_identifier').addClassName('required-entry');
-
-        var isValid = true;
-        $('node_properties_fieldset').select('input').each(function(el){
-            isValid = Validation.validate(el) && isValid;
-        });
-
-        $('node_label').removeClassName('required-entry');
-        $('node_identifier').removeClassName('required-entry');
-
-        return isValid;
-    },
-    nodePropReset: function(){
-        $('node_properties_fieldset').select('input').each(function(el){
-            Validation.reset(el);
-        });
-    },
-    _changeNodePropShow: function(hasPageId){
-        var nodeElements = ['node_identifier','node_label'];
-        var pageElements = ['node_identifier_text','node_label_text'];
-        pageElements.each(function(id){
+            $('node_prop_container').show();
+    
+            var isTreeNode = (node.parentNode.id == '_root');
+            <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
+            if (isTreeNode) {
+                this.showFieldSet('metadata_fieldset');
+                $('meta_first_last').value = node.attributes.meta_first_last;
+                $('meta_next_previous').value = node.attributes.meta_next_previous;
+    // commented bc of changes in road map
+    //            $('meta_chapter').value = node.attributes.meta_chapter;
+    //            $('meta_section').value = node.attributes.meta_section;
+            } else {
+                this.hideFieldSet('metadata_fieldset');
+            }
+            <?php endif; ?>
+    
+            $('node_id').value = node.id;
+            $('node_page_id').value = node.attributes.page_id;
+    
+            var hasPageId = node.attributes.page_id != null;
+            this._changeNodePropShow(hasPageId);
+    
             if (!hasPageId) {
-                $(id).up('tr').hide();
+                $('node_label').value = node.text;
+                $('node_identifier').value = node.attributes.identifier;
             } else {
-                $(id).up('tr').show();
+                $('node_label_text').innerHTML = node.text;
+                $('node_identifier_text').innerHTML = node.attributes.identifier;
             }
-            $(id).innerHTML = '';
-        });
-        nodeElements.each(function(id){
-            if (hasPageId) {
-                $(id).up('tr').hide();
-            } else {
-                $(id).up('tr').show();
-            }
-            $(id).value = '';
-        });
-    },
-    newNodePage: function(){
-        this.nodePropReset();
-        $('node_id').value = '';
-        $('node_page_id').value = '';
-        this._changeNodePropShow(false);
-        this.saveButton(true, false, true);
-        //this.tree.getSelectionModel().clearSelections();
-
-        var selectedNode = this.tree.getSelectionModel().getSelectedNode();
-        <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
-        if (selectedNode.id == '_root') {
-            this.showFieldSet('metadata_fieldset');
-        } else {
-            this.hideFieldSet('metadata_fieldset');
-        }
-        <?php endif; ?>
-
-        $('delete_node_button').hide();
-        $('node_prop_container').show();
-        $('cancel_node_button').show();
-    },
-    cancelNodePage: function(){
-        var selectedNode = this.tree.getSelectionModel().getSelectedNode();
-        if (selectedNode && selectedNode.id != '_root') {
-            this.tree.getSelectionModel().clearSelections();
-            selectedNode.select();
-        } else {
-            this.saveButton(false);
+    
+            this.nodePropReset();
+    
+            $('delete_node_button').show();
             $('cancel_node_button').hide();
-            $('node_prop_container').hide();
-        }
-    },
-    saveNodePage: function(){
-        var hasNodeId = $('node_id').value != '';
-        var hasPageId = $('node_page_id').value != '';
-        if (!hasPageId) {
-            var isValid = this.nodePropValidate();
-            if (!isValid) {
-                return;
-            }
-        }
-
-        if (hasNodeId) {
-            var node_id = $('node_id').value;
-            var node = this.tree.getNodeById(node_id);
-
-            var identifier = $('node_identifier').value;
-            for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
-                checkNode = node.parentNode.childNodes[i];
-                if (checkNode.id != node_id && identifier == checkNode.attributes.identifier) {
-                    alert('<?php echo $this->__("Node with same Identifier alredy exists!")?>');
+    
+            this.saveButton(!hasPageId || isTreeNode, false, false);
+    
+            this.pageGridLoad();
+        },
+        onNodeAppend: function(tree,parent,node){
+            var identifier = node.attributes.identifier;
+            for(var i=0, l = parent.childNodes.length; i < l; i++) {
+                if (identifier == parent.childNodes[i].attributes.identifier) {
+                    alert('<?php echo $this->__("Node with same Identifier alredy exists. Page do not added!")?>');
                     return false;
                 }
             }
-
-            if (!hasPageId) {
-                node.setText($('node_label').value);
-                node.attributes.identifier = identifier;
+            return true;
+        },
+        pageGridRowClick: function(container, evt){
+            var tr = evt.findElement('tr');
+            if (!tr.hasClassName('invalid')) {
+                var checkbox = tr.down('.checkbox');
+                var isInput = evt.element().tagName == 'INPUT';
+                var checked = isInput ? checkbox.checked : !checkbox.checked;
+                container.setCheckboxChecked(checkbox, checked);
             }
-        } else {
-            var node = new Ext.tree.TreeNode({
-                id: '_' + this.increment,
-                text: $('node_label').value,
-                identifier: $('node_identifier').value,
-                page_id: null,
-                cls: 'cms_node',
-                expanded: true,
-                allowDrop: true,
-                allowDrag: true
-            });
-
-            this.increment ++;
-            var parentNode = this.tree.getSelectionModel().getSelectedNode();
-
-            if (!parentNode) {
-                parentNode = this.treeRoot;
-            }
-            parentNode.appendChild(node);
-            parentNode.expand();
-        }
-
-        <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()): ?>
-        if (node.parentNode.id == '_root') {
-            node.attributes.meta_first_last = $('meta_first_last').value;
-            node.attributes.meta_next_previous = $('meta_next_previous').value;
-// commented bc of changes in road map
-//            node.attributes.meta_chapter = $('meta_chapter').value;
-//            node.attributes.meta_section = $('meta_section').value;
-        }
-        <?php endif; ?>
-
-        node.getUI().removeClass('modified');
-        node.getUI().addClass('saved');
-
-        node.select();
-
-        this.saveButton(true, false);
-        this.dataModification = false;
-    },
-    deleteNodePage: function(){
-        if (!$('node_id').value) {
-            return;
-        }
-        var node = this.tree.getNodeById($('node_id').value);
-        if (node) {
-            if (node.attributes.page_id) {
-                this.pageIdentifiers.unset(node.attributes.identifier);
-            }
-            node.parentNode.select();
-            node.parentNode.removeChild(node);
-
-            if (!isNaN(node.id * 1)) {
-                this.removedNodes.push(node.id);
-            }
-
-            this.pageGridLoad();
-        }
-    },
-    pageGridLoad: function(){
-        var node = this.tree.getSelectionModel().getSelectedNode();
-        var fullReset = !node ? true : false;
-        var identifiers = $H([]);
-        if (node) {
-            node.eachChild(function(child){
-                identifiers.set(child.attributes.identifier, true);
-            });
-
+        },
+        pageGridAddSelected: function(){
             var rows = $$('#cms_page_grid .grid table tbody tr');
             rows.each(function(tr){
-                if (fullReset) {
-                    tr.removeClassName('invalid');
-                    tr.down('.checkbox').disabled = false;
+                var checkbox = tr.down('.checkbox');
+                if (!checkbox || !checkbox.checked) {
+                    return;
+                }
+                var page_id = tr.down('.checkbox').value;
+                var label = tr.down('.label').textContent;
+                var identifier = tr.down('.identifier').textContent;
+                var rootNode = this.tree.getSelectionModel().getSelectedNode();
+                if (!rootNode) {
+                    rootNode = this.treeRoot;
+                }
+                rootNode.appendChild(new Ext.tree.TreeNode({
+                    id: '_' + this.increment,
+                    text: label,
+                    identifier: identifier,
+                    page_id: page_id,
+                    cls: 'cms_page',
+                    expanded: true,
+                    allowDrop: true,
+                    allowDrag: true
+                }));
+                this.pageIdentifiers.set(identifier, page_id);
+    
+                this.increment ++;
+    
+                checkbox.checked = false;
+    
+                rootNode.expand();
+            }.bind(this));
+            this.pageGridLoad();
+        },
+        collectChilds: function(node){
+            if (node.id == '_root') {
+                this.treeData = new Hash();
+            } else {
+                this.treeData.set(node.id, {
+                    node_id: node.id,
+                    parent_node_id: node.parentNode.id == '_root' ? null : node.parentNode.id,
+                    page_id: node.attributes.page_id,
+                    label: node.attributes.text,
+                    identifier: node.attributes.identifier,
+                    sort_order: node.parentNode.indexOf(node),
+                    level: node.getDepth(),
+                    meta_first_last: node.attributes.meta_first_last,
+                    meta_next_previous: node.attributes.meta_next_previous,
+                    meta_chapter: node.attributes.meta_chapter,
+                    meta_section: node.attributes.meta_section
+                });
+            }
+            if (node.hasChildNodes()) {
+                node.eachChild(this.collectChilds.bind(this));
+            }
+        },
+        save: function(){
+            if (this.dataModification) {
+                if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are not saved node data. Are you sure you want to proceed?') ?>')) {
+                    return;
+                }
+            }
+            this.collectChilds(this.treeRoot);
+            $('nodes_data').value = this.treeData.toJSON();
+            $('removed_nodes').value = this.removedNodes.join(',');
+            editForm.submit();
+        },
+        nodePropValidate: function(){
+            $('node_label').addClassName('required-entry');
+            $('node_identifier').addClassName('required-entry');
+    
+            var isValid = true;
+            $('node_properties_fieldset').select('input').each(function(el){
+                isValid = Validation.validate(el) && isValid;
+            });
+    
+            $('node_label').removeClassName('required-entry');
+            $('node_identifier').removeClassName('required-entry');
+    
+            return isValid;
+        },
+        nodePropReset: function(){
+            $('node_properties_fieldset').select('input').each(function(el){
+                Validation.reset(el);
+            });
+        },
+        _changeNodePropShow: function(hasPageId){
+            var nodeElements = ['node_identifier','node_label'];
+            var pageElements = ['node_identifier_text','node_label_text'];
+            pageElements.each(function(id){
+                if (!hasPageId) {
+                    $(id).up('tr').hide();
                 } else {
-                    var identifierColumn = tr.down('.identifier');
-                    if (identifierColumn != undefined) {
-                        var identifier = identifierColumn.textContent;
-                        if (identifiers.get(identifier)) {
-                            tr.addClassName('invalid');
-                            var checkbox = tr.down('.checkbox');
-                            if (checkbox != undefined) {
-                                checkbox.disable();
-                            }
-                        } else {
-                            tr.removeClassName('invalid');
-                            var checkbox = tr.down('.checkbox');
-                            if (checkbox != undefined) {
-                                checkbox.enable();
+                    $(id).up('tr').show();
+                }
+                $(id).innerHTML = '';
+            });
+            nodeElements.each(function(id){
+                if (hasPageId) {
+                    $(id).up('tr').hide();
+                } else {
+                    $(id).up('tr').show();
+                }
+                $(id).value = '';
+            });
+        },
+        newNodePage: function(){
+            this.nodePropReset();
+            $('node_id').value = '';
+            $('node_page_id').value = '';
+            this._changeNodePropShow(false);
+            this.saveButton(true, false, true);
+            //this.tree.getSelectionModel().clearSelections();
+    
+            var selectedNode = this.tree.getSelectionModel().getSelectedNode();
+            <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
+            if (selectedNode.id == '_root') {
+                this.showFieldSet('metadata_fieldset');
+            } else {
+                this.hideFieldSet('metadata_fieldset');
+            }
+            <?php endif; ?>
+    
+            $('delete_node_button').hide();
+            $('node_prop_container').show();
+            $('cancel_node_button').show();
+        },
+        cancelNodePage: function(){
+            var selectedNode = this.tree.getSelectionModel().getSelectedNode();
+            if (selectedNode && selectedNode.id != '_root') {
+                this.tree.getSelectionModel().clearSelections();
+                selectedNode.select();
+            } else {
+                this.saveButton(false);
+                $('cancel_node_button').hide();
+                $('node_prop_container').hide();
+            }
+        },
+        saveNodePage: function(){
+            var hasNodeId = $('node_id').value != '';
+            var hasPageId = $('node_page_id').value != '';
+            if (!hasPageId) {
+                var isValid = this.nodePropValidate();
+                if (!isValid) {
+                    return;
+                }
+            }
+    
+            if (hasNodeId) {
+                var node_id = $('node_id').value;
+                var node = this.tree.getNodeById(node_id);
+    
+                var identifier = $('node_identifier').value;
+                for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
+                    checkNode = node.parentNode.childNodes[i];
+                    if (checkNode.id != node_id && identifier == checkNode.attributes.identifier) {
+                        alert('<?php echo $this->__("Node with same Identifier alredy exists!")?>');
+                        return false;
+                    }
+                }
+    
+                if (!hasPageId) {
+                    node.setText($('node_label').value);
+                    node.attributes.identifier = identifier;
+                }
+            } else {
+                var node = new Ext.tree.TreeNode({
+                    id: '_' + this.increment,
+                    text: $('node_label').value,
+                    identifier: $('node_identifier').value,
+                    page_id: null,
+                    cls: 'cms_node',
+                    expanded: true,
+                    allowDrop: true,
+                    allowDrag: true
+                });
+    
+                this.increment ++;
+                var parentNode = this.tree.getSelectionModel().getSelectedNode();
+    
+                if (!parentNode) {
+                    parentNode = this.treeRoot;
+                }
+                parentNode.appendChild(node);
+                parentNode.expand();
+            }
+    
+            <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()): ?>
+            if (node.parentNode.id == '_root') {
+                node.attributes.meta_first_last = $('meta_first_last').value;
+                node.attributes.meta_next_previous = $('meta_next_previous').value;
+    // commented bc of changes in road map
+    //            node.attributes.meta_chapter = $('meta_chapter').value;
+    //            node.attributes.meta_section = $('meta_section').value;
+            }
+            <?php endif; ?>
+    
+            node.getUI().removeClass('modified');
+            node.getUI().addClass('saved');
+    
+            node.select();
+    
+            this.saveButton(true, false);
+            this.dataModification = false;
+        },
+        deleteNodePage: function(){
+            if (!$('node_id').value) {
+                return;
+            }
+            var node = this.tree.getNodeById($('node_id').value);
+            if (node) {
+                if (node.attributes.page_id) {
+                    this.pageIdentifiers.unset(node.attributes.identifier);
+                }
+                node.parentNode.select();
+                node.parentNode.removeChild(node);
+    
+                if (!isNaN(node.id * 1)) {
+                    this.removedNodes.push(node.id);
+                }
+    
+                this.pageGridLoad();
+            }
+        },
+        pageGridLoad: function(){
+            var node = this.tree.getSelectionModel().getSelectedNode();
+            var fullReset = !node ? true : false;
+            var identifiers = $H([]);
+            if (node) {
+                node.eachChild(function(child){
+                    identifiers.set(child.attributes.identifier, true);
+                });
+    
+                var rows = $$('#cms_page_grid .grid table tbody tr');
+                rows.each(function(tr){
+                    if (fullReset) {
+                        tr.removeClassName('invalid');
+                        tr.down('.checkbox').disabled = false;
+                    } else {
+                        var identifierColumn = tr.down('.identifier');
+                        if (identifierColumn != undefined) {
+                            var identifier = identifierColumn.textContent;
+                            if (identifiers.get(identifier)) {
+                                tr.addClassName('invalid');
+                                var checkbox = tr.down('.checkbox');
+                                if (checkbox != undefined) {
+                                    checkbox.disable();
+                                }
+                            } else {
+                                tr.removeClassName('invalid');
+                                var checkbox = tr.down('.checkbox');
+                                if (checkbox != undefined) {
+                                    checkbox.enable();
+                                }
                             }
                         }
                     }
-                }
-            });
-        }
-    },
-    hideFieldSet: function(id) {
-        $(id).hide();
-        $(id).previous(0).hide();
-    },
-    showFieldSet: function(id) {
-        $(id).show();
-        $(id).previous(0).show();
-    },
-    saveButton: function(show, enabled, save) {
-        var btn = $('save_node_button');
-        if (show) {
-            btn.show();
-            btn.disabled = !enabled;
-            if (enabled) {
-                btn.removeClassName('disabled');
-            } else {
-                btn.addClassName('disabled');
+                });
             }
-
-            if (save != undefined) {
-                if (save) {
-                    btn.down('span').update('<?php echo $this->getButtonSaveLabel() ?>');
+        },
+        hideFieldSet: function(id) {
+            $(id).hide();
+            $(id).previous(0).hide();
+        },
+        showFieldSet: function(id) {
+            $(id).show();
+            $(id).previous(0).show();
+        },
+        saveButton: function(show, enabled, save) {
+            var btn = $('save_node_button');
+            if (show) {
+                btn.show();
+                btn.disabled = !enabled;
+                if (enabled) {
+                    btn.removeClassName('disabled');
                 } else {
-                    btn.down('span').update('<?php echo $this->getButtonUpdateLabel() ?>');
+                    btn.addClassName('disabled');
                 }
+    
+                if (save != undefined) {
+                    if (save) {
+                        btn.down('span').update('<?php echo $this->getButtonSaveLabel() ?>');
+                    } else {
+                        btn.down('span').update('<?php echo $this->getButtonUpdateLabel() ?>');
+                    }
+                }
+            } else {
+                btn.hide();
             }
-        } else {
-            btn.hide();
+        },
+        nodeChanged: function() {
+            var node = this.tree.getSelectionModel().getSelectedNode();
+            if (node.id != '_root') {
+                node.getUI().addClass('modified');
+                this.lastChangedNode = node;
+            }
+            this.dataModification = true;
+            this.saveButton(true, true);
         }
-    },
-    nodeChanged: function() {
-        var node = this.tree.getSelectionModel().getSelectedNode();
-        if (node.id != '_root') {
-            node.getUI().addClass('modified');
-            this.lastChangedNode = node;
-        }
-        this.dataModification = true;
-        this.saveButton(true, true);
-    }
-};
-Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
-</script>
-<br />
-<div id="cms_page_grid_container">
-    <div class="entry-edit">
-        <div class="entry-edit-head">
-            <div style="float: right;"><?php echo $this->getPageGridButtonsHtml() ?></div>
-            <h4 class="fieldset-legend head-cms-page-grid icon-head"><?php echo $this->__('CMS Pages')?></h4>
+    };
+    Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
+    //]]>
+    </script>
+    <br />
+    <div id="cms_page_grid_container">
+        <div class="entry-edit">
+            <div class="entry-edit-head">
+                <div class="f-right"><?php echo $this->getPageGridButtonsHtml() ?></div>
+                <h4 class="fieldset-legend head-cms-page-grid icon-head"><?php echo $this->__('CMS Pages')?></h4>
+            </div>
+            <fieldset>
+                <?php echo $this->getParentBlock()->getChildHtml('cms_page_grid')?>
+            </fieldset>
         </div>
-        <fieldset>
-            <?php echo $this->getParentBlock()->getChildHtml('cms_page_grid')?>
-        </fieldset>
     </div>
+    
+    <script type="text/javascript">
+    //<![CDATA[
+    <?php echo $this->getGridJsObject(); ?>.initCallback = hierarchyNodes.pageGridLoad.bind(hierarchyNodes);
+    //]]>
+    </script>
 </div>
-
-<script type="text/javascript">
-<?php echo $this->getGridJsObject(); ?>.initCallback = hierarchyNodes.pageGridLoad.bind(hierarchyNodes);
-</script>

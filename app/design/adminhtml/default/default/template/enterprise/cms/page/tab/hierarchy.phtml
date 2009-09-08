@@ -33,10 +33,11 @@
         <input type="hidden" name="node_ids" id="node_ids" value="<?php echo $this->getSelectedNodeIds() ?>" />
         <input type="hidden" name="website_root" id="website_root" value="<?php echo $this->getPage()->getWebsiteRoot() ?>" />
         <input type="hidden" name="nodes_data" id="nodes_data" value="" />
-        <div id="tree-container" class="tree x-tree"></div>
+        <div id="tree-container" class="cms-tree tree x-tree"></div>
     </div>
 </div>
 <script type="text/javascript">
+//<![CDATA[
 /**
  * Fix ext compatibility with prototype 1.6
  */
@@ -200,4 +201,5 @@ hierarchyNodes = {
 // Some issue with page laoout and js operations on layout.
 Event.observe(window, 'load', hierarchyNodes.initialize.bind(hierarchyNodes));
 // Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
+//]]>
 </script>

@@ -133,7 +133,7 @@
 .grid tbody                     { background:#fff; }    /* Zebra odd-row */
 .grid tr.even, .grid tr.even tr { background:#f6f6f6; } /* Zebra even-row */
 .grid tr.on-mouse               { background:#fcf5dd; cursor:pointer; } /* Rows mouse-over */
-.grid tr.invalid                { background-color:#d3a5ba !important; }
+.grid tr.invalid                { background-color:#f5d6c7; }
 .grid th, .grid td              { padding:2px 4px 2px 4px; }
 .grid th                        { white-space:nowrap; }
 .grid td input.input-text       { width:86%; }
@@ -357,8 +357,8 @@ select.multiselect option       { padding:3px 4px; border-bottom:1px solid #ddd;
 .form-list                      { width:auto; border:0 !important; }
 .form-list td                   { border:0 !important; padding-top:5px !important; padding-bottom:5px !important; background:0 !important;  }
 .form-list td.hidden            { border:0 !important; padding:0 !important; background:0 !important; }
-.form-list td.label             { width:150px; }
-.form-list td.label label       { display:block; width:150px; padding-right:15px; }
+.form-list td.label             { width:200px; }
+.form-list td.label label       { display:block; width:185px; padding-right:15px; }
 .form-list td.value input.input-text,
 .form-list td.value textarea    { width:274px; }
 .form-list td.value textarea    { height:12em; }
@@ -808,6 +808,7 @@ ul.item-options li { padding-left:.7em; }
 
 #tree-div { overflow:auto!important; padding-bottom:15px; width:200px; }
 
+.x-tree-node { margin:0 !important; }
 .x-tree-node .leaf .x-tree-node-icon        { background-image:url(images/fam_leaf.png); }
 .x-tree-node .system-leaf .x-tree-node-icon { background-image:url(images/fam_application_form_delete.png); }
 
@@ -841,7 +842,7 @@ ul.item-options li { padding-left:.7em; }
 
 /* Attributes */
 .edit-attribute-set .form-list td.label { width:105px; }
-.edit-attribute-set  .form-list td.label label { width:105px; }
+.edit-attribute-set .form-list td.label label { width:105px; }
 .edit-attribute-set .entry-edit fieldset input.input-text { width:200px; }
 /* Review & Ratings */
 .ratings                        { margin:0; }
@@ -1154,12 +1155,32 @@ ul.super-product-attributes { padding-left:15px; }
 #page-help-link:hover { color:white; }
 
 
-/* CMS Versioned
+/* CMS
 *******************************************************************************/
 .toolbar { padding:10px; }
 .cms-revision-preview { height:100%; }
 .cms-revision-preview iframe { width:100%; height:93%; border:0; }
 
+/* CMS Hierarchy */
+/*.cms-hierarchy .data .invalid { background-color:#f5d6c7; }*/
+.cms-tree { width:100%; /*height:300px;*/ overflow:auto; }
+.cms-tree .cms_node_root.x-tree-node-expanded .x-tree-node-icon,
+.cms-tree .cms_node_root.x-tree-node-collapsed .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_node_root.gif); }
+.cms-tree .x-tree-node-expanded .x-tree-node-icon,
+.cms-tree .x-tree-node-collapsed .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_node.gif); }
+.cms-tree .x-tree-node-leaf .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_page.gif); }
+.cms-tree .disallowed.x-tree-node-leaf .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_page-disabled.gif); }
+.cms-tree .x-tree-node .disallowed a span,
+.cms-tree .x-dd-drag-ghost .disallowed a span { color:#aaa; }
+
+.cms-hierarchy .switcher { margin-bottom:20px; }
+.cms-hierarchy .switcher select { width:auto !important; }
+.cms-hierarchy .col-left { padding:0 10px 0; border-right:1px solid #d6d6d6; }
+.cms-hierarchy .col-right { padding:0 10px 20px; }
+.cms-hierarchy .col-right .form-list td.label { width:120px; }
+.cms-hierarchy .col-right .form-list td.label label { width:105px; }
+.cms-hierarchy .buttons-set { margin:0 0 10px; }
+.cms-hierarchy .cms-tree { height:300px; }
 
 /*****************************************/
 /******** ALIGNMENTS AND CLEARS **********/
