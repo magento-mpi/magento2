@@ -61,8 +61,8 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                 <script type="text/javascript">
                 //<![CDATA[
 
-                function imagebrowser(field_name, url, object_type, w) {
-                    varienGlobalEvents.fireEvent("open_browser_callback", {win:w, type:object_type, field:field_name});
+                function imagebrowser(fieldName, url, objectType, w) {
+                    varienGlobalEvents.fireEvent("open_browser_callback", {win:w, type:objectType, field:fieldName});
                 }
 
 				'.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
@@ -201,7 +201,10 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
      */
     public function isEnabled()
     {
-        return $this->getWysiwyg() || Mage::getSingleton('cms/wysiwyg_config')->isEnabled();
+        if ($this->hasData('wysiwyg')) {
+            return $this->getWysiwyg();
+        }
+        return Mage::getSingleton('cms/wysiwyg_config')->isEnabled();
     }
 
     /**
@@ -211,6 +214,9 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
      */
     public function isHidden()
     {
+        if ($this->hasData('hidden')) {
+            return $this->getHidden();
+        }
         return Mage::getSingleton('cms/wysiwyg_config')->isHidden();
     }
 }
