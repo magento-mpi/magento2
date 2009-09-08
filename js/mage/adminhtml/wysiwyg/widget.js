@@ -21,12 +21,30 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
+var widgetTools = {
+    getDivHtml: function(id, html) {
+        if (!html) html = '';
+        return '<div id="' + id + '">' + html + '</div>';
+    },
+
+    onAjaxSuccess: function(transport) {
+        if (transport.responseText.isJSON()) {
+            var response = transport.responseText.evalJSON()
+            if (response.error) {
+                throw response;
+            } else if (response.ajaxExpired && response.ajaxRedirect) {
+                setLocation(response.ajaxRedirect);
+            }
+        }
+    }
+}
+
 var WysiwygWidget = {};
 WysiwygWidget.Widget = Class.create();
 WysiwygWidget.Widget.prototype = {
 
     initialize: function(formEl, widgetEl, widgetOptionsEl, optionsSourceUrl) {
-        $(formEl).insert({bottom: this.getDivHtml(widgetOptionsEl)});
+        $(formEl).insert({bottom: widgetTools.getDivHtml(widgetOptionsEl)});
         this.widgetEl = $(widgetEl);
         this.widgetOptionsEl = $(widgetOptionsEl);
         this.optionsUrl = optionsSourceUrl;
@@ -35,11 +53,6 @@ WysiwygWidget.Widget.prototype = {
         Event.observe(this.widgetEl, "change", this.loadOptions.bind(this));
 
         this.initOptionValues();
-    },
-
-    getDivHtml: function(id, html) {
-        if (!html) html = '';
-        return '<div id="' + id + '">' + html + '</div>';
     },
 
     getOptionsContainerId: function() {
@@ -126,9 +139,9 @@ WysiwygWidget.Widget.prototype = {
                 parameters: {widget: Object.toJSON(params)},
                 onSuccess: function(transport) {
                     try {
-                        this.onAjaxSuccess(transport);
+                        widgetTools.onAjaxSuccess(transport);
                         this.switchOptionsContainer();
-                        this.widgetOptionsEl.insert({bottom: this.getDivHtml(this.getOptionsContainerId(), transport.responseText)});
+                        this.widgetOptionsEl.insert({bottom: widgetTools.getDivHtml(this.getOptionsContainerId(), transport.responseText)});
                     } catch(e) {
                         alert(e.message);
                     }
@@ -168,7 +181,7 @@ WysiwygWidget.Widget.prototype = {
                 parameters: params,
                 onComplete: function(transport) {
                     try {
-                        this.onAjaxSuccess(transport);
+                        widgetTools.onAjaxSuccess(transport);
                         this.updateContent(transport.responseText);
                         this.getPopup().close();
                     } catch(e) {
@@ -191,18 +204,6 @@ WysiwygWidget.Widget.prototype = {
             var parent = this.getPopup().opener;
             var textarea = parent.document.getElementById(this.getPopup().name);
             updateElementAtCursor(textarea, content, this.getPopup().opener);
-        }
-    },
-
-
-    onAjaxSuccess: function(transport) {
-        if (transport.responseText.isJSON()) {
-            var response = transport.responseText.evalJSON()
-            if (response.error) {
-                throw response;
-            } else if (response.ajaxExpired && response.ajaxRedirect) {
-                setLocation(response.ajaxRedirect);
-            }
         }
     },
 
@@ -258,8 +259,8 @@ WysiwygWidget.chooser.prototype = {
                 parameters: {},
                 onSuccess: function(transport) {
                     try {
-                        wWidget.onAjaxSuccess(transport);
-                        chooser.next("label.widget-option-label").insert({after: wWidget.getDivHtml(responseContainerId, transport.responseText)});
+                        widgetTools.onAjaxSuccess(transport);
+                        chooser.next("label.widget-option-label").insert({after: widgetTools.getDivHtml(responseContainerId, transport.responseText)});
                     } catch(e) {
                         alert(e.message);
                     }
