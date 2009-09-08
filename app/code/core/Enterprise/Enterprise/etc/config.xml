@@ -71,9 +71,6 @@
             <package>
                 <name>enterprise</name>
             </package>
-            <theme>
-                <default>enterprise</default>
-            </theme>
             <head>
                 <default_title>Magento Enterprise Edition</default_title>
                 <default_keywords>Magento, Varien, E-commerce</default_keywords>
