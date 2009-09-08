@@ -137,6 +137,7 @@ class Mage_Adminhtml_Block_Catalog_Search_Edit_Form extends Mage_Adminhtml_Block
             'name'      => 'redirect',
             'label'     => Mage::helper('catalog')->__('Redirect URL'),
             'title'     => Mage::helper('catalog')->__('Redirect URL'),
+            'class'     => 'validate-url',
             'after_element_html' => $afterElementHtml,
         ));
 
