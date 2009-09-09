@@ -116,8 +116,19 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                     'label'    => $website->getName(),
                     'text'     => $group->getName(),
                 ));
+
+                $wysiwygConfig->setUseContainer(true);
+
                 foreach ($stores as $store) {
                     $contentExists = isset($storeContents[$store->getId()]);
+                    $wysiwygConfig = clone $wysiwygConfig;
+
+                    if (!$contentExists) {
+                        $wysiwygConfig->setNoDisplay(true);
+                    } else {
+                        $wysiwygConfig->setNoDisplay(false);
+                    }
+
                     $field = $fieldset->addField('store_'.$store->getId().'_content', 'editor', array(
                         'name'      => 'store_contents['.$store->getId().']',
                         'required'  => false,
@@ -128,9 +139,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                     ));
 
                     if ($field->isEnabled()) {
-                        $onClick ='wysiwyg'.$field->getHtmlId().".toggleEnabled();";
+                        $onClick ='$(\'editor'.$field->getHtmlId().'\').toggle();';
                     } else {
-                        $onClick = '$(\'links'.$field->getHtmlId().'\').toggle();toggleValueElements(this, Element.previous(Element.previous(this.parentNode).parentNode));';
+                        $onClick = 'toggleValueElements(this, Element.previous(Element.previous(this.parentNode).parentNode));';
                     }
 
                     $fieldset->addField('store_'.$store->getId().'_content_use', 'checkbox', array(
