@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
             $alertPriceAllow = Mage::getStoreConfig('catalog/productalert/allow_price');
             $alertStockAllow = Mage::getStoreConfig('catalog/productalert/allow_stock');
 
-            if ($alertPriceAllow || $alertStockAllow) {
+            if (($alertPriceAllow || $alertStockAllow) && !$product->isGrouped()) {
                 $this->addTab('productalert', array(
                     'label'     => Mage::helper('catalog')->__('Product Alerts'),
                     'content'   => $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_alerts', 'admin.alerts.products')->toHtml()
@@ -159,7 +159,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
              * @see Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs_Configurable
              * @see Mage_Bundle_Block_Adminhtml_Catalog_Product_Edit_Tabs
              */
-            if ($this->getProduct()->getTypeId() != Mage_Catalog_Model_Product_Type::TYPE_GROUPED) {
+            if (!$product->isGrouped()) {
                 $this->addTab('customer_options', array(
                     'label' => Mage::helper('catalog')->__('Custom Options'),
                     'url'   => $this->getUrl('*/*/options', array('_current' => true)),
