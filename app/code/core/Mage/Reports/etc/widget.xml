@@ -40,7 +40,7 @@
                 </page_size>
                 <template>
                     <required />
-                    <value>reports/product_viewed.phtml</value>
+                    <value>reports/product/widget/viewed.phtml</value>
                     <label>Template</label>
                     <type>text</type>
                 </template>
@@ -59,7 +59,7 @@
                 </page_size>
                 <template>
                     <required />
-                    <value>reports/product_compared.phtml</value>
+                    <value>reports/product/widget/compared.phtml</value>
                     <label>Template</label>
                     <type>text</type>
                 </template>
