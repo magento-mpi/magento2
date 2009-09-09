@@ -26,7 +26,7 @@
 
 
 class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquantity
-    extends Mage_Rule_Model_Condition_Abstract
+    extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     protected $_inputType = 'numeric';
 

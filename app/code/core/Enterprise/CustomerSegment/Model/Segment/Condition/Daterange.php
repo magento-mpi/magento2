@@ -27,8 +27,8 @@
 /**
  * Date range combo
  */
-class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange
-    extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
+    extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     /**
      * Input type for operator options
@@ -52,7 +52,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_period_daterange');
+        $this->setType('enterprise_customersegment/segment_condition_daterange');
         $this->setValue(null);
     }
 
@@ -63,7 +63,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange
      */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_combine')->getNewChildSelectOptions();
+        return array(
+            'value' => $this->getType(),
+            'label' => Mage::helper('enterprise_customersegment')->__('Date Range'),
+        );
     }
 
     /**
@@ -131,8 +134,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange
     {
         $this->_valueElement = $this->getValueElement();
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Date Range %s %s and %s of these Conditions Match:',
-                $this->getOperatorElementHtml(), $this->_valueElement->getHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('enterprise_customersegment')->__('Date Range %s %s',
+                $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
             . $this->getRemoveLinkHtml()
             . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }

@@ -25,7 +25,8 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
+    extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     protected $_inputType = 'numeric';
 
@@ -35,10 +36,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit ex
         $this->setType('enterprise_customersegment/segment_condition_customer_storecredit');
         $this->setValue(null);
     }
-    
+
     public function getNewChildSelectOptions()
     {
-        return array(array('value' => $this->getType(), 
+        return array(array('value' => $this->getType(),
             'label'=>Mage::helper('enterprise_customersegment')->__('Store Credit')));
     }
 
@@ -48,5 +49,5 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit ex
             . Mage::helper('enterprise_customersegment')->__('Customer Store Credit Amount %s %s:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
-    }    
+    }
 }

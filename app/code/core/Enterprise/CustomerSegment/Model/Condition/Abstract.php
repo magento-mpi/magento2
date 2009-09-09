@@ -24,34 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Combine extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Model_Condition_Abstract
 {
-    /**
-     * Intialize model
-     *
-     * @return void
-     */    
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_address_combine');
-    }
 
-    /**
-     * Return options for check new condition elemtnt
-     *
-     * @return array
-     */    
-    public function getNewChildSelectOptions()
-    {
-        $conditions = array(
-            array('value'=>$this->getType(), 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),    
-            Mage::getModel('enterprise_customersegment/segment_condition_customer_address_attributes')->getNewChildSelectOptions()
-        );
-        $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
-        return $conditions;
-    }
-    
 }
-

@@ -24,37 +24,50 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Uptodate extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
+    extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
     protected $_inputType = 'select';
 
-    /**
-     * Intialize model
-     *
-     * @return void
-     */
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_period_uptodate');
-        $this->setValue(null);
+        $this->setType('enterprise_customersegment/segment_condition_product_combine_list');
     }
 
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_combine')->getNewChildSelectOptions();
+        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')->getNewChildSelectOptions();
+    }
+
+    public function loadValueOptions()
+    {
+        $this->setValueOption(array(
+            'shopping_cart' => Mage::helper('enterprise_customersegment')->__('Shopping Cart'),
+            'wishlist'      => Mage::helper('enterprise_customersegment')->__('Wishlist'),
+        ));
+        return $this;
     }
 
     public function getValueElementType()
     {
-        return 'text';
+        return 'select';
+    }
+
+    public function loadOperatorOptions()
+    {
+        parent::loadOperatorOptions();
+        $this->setOperatorOption(array(
+            '=='  => Mage::helper('rule')->__('found'),
+            '!='  => Mage::helper('rule')->__('not found')
+        ));
+        return $this;
     }
 
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Period %s Last %s Days and %s of these Conditions Match:',
+            . Mage::helper('enterprise_customersegment')->__('If Product is %s in the %s with %s of these Conditions match:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }

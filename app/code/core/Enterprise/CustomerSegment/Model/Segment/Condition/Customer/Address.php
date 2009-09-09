@@ -24,11 +24,9 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
+    extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
-    protected $_inputType = 'select';
-
     public function __construct()
     {
         parent::__construct();
@@ -37,35 +35,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address extend
 
     public function getNewChildSelectOptions()
     {
-        $conditions = array(
-            array('value'=>'enterprise_customersegment/segment_condition_customer_address_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),    
-            Mage::getModel('enterprise_customersegment/segment_condition_customer_address_attributes')->getNewChildSelectOptions()
-        );
-        $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
-        return $conditions;
-    }
-    
-    public function loadValueOptions()
-    {
-        $this->setValueOption(array(
-            'any'  => Mage::helper('enterprise_customersegment')->__('Any'),
-            'all'  => Mage::helper('enterprise_customersegment')->__('All'),
-            'primary_billing'  => Mage::helper('enterprise_customersegment')->__('Default Billing'),
-            'primary_shipping'  => Mage::helper('enterprise_customersegment')->__('Default Shipping'),
+        return array_merge_recursive(parent::getNewChildSelectOptions(), array(
+            array(
+                'value' => $this->getType(),
+                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')
+            ),
+            Mage::getModel('enterprise_customersegment/segment_condition_customer_address_default')->getNewChildSelectOptions(),
+            Mage::getModel('enterprise_customersegment/segment_condition_customer_address_attributes')->getNewChildSelectOptions(),
         ));
-        return $this;
-    }
-
-    public function getValueElementType()
-    {
-        return 'select';
     }
 
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Customer %s Address(es) match %s of these Conditions:',
-                $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
+            . Mage::helper('enterprise_customersegment')->__('If Customer Addresses match %s of these Conditions:',
+                $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 }

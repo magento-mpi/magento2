@@ -25,7 +25,8 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart
+    extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     public function __construct()
     {
@@ -33,11 +34,18 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart extends Ma
         $this->setType('enterprise_customersegment/segment_condition_shoppingcart');
         $this->setValue(null);
     }
-    
+
     public function getNewChildSelectOptions()
     {
+        array('value' => array(
+                Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_amount')->getNewChildSelectOptions(),
+                Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_itemsquantity')->getNewChildSelectOptions(),
+            ),
+            'label' => Mage::helper('enterprise_customersegment')->__('Customer Shopping Cart')
+        );
+
         $conditions = array();
-        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_amount')->getNewChildSelectOptions(); 
+        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_amount')->getNewChildSelectOptions();
         $conditions = array_merge($conditions, Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_itemsquantity')->getNewChildSelectOptions());
         return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Shopping Cart'));
     }

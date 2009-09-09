@@ -46,4 +46,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes exte
 
         return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Product attributes'));;
     }
+
+    public function asHtml()
+    {
+        return Mage::helper('enterprise_customersegment')->__('Product %s', parent::asHtml());
+    }
 }

@@ -25,10 +25,9 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
+    extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
-    protected $_inputType = 'numeric';
-
     public function __construct()
     {
         parent::__construct();
@@ -36,26 +35,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber exte
         $this->setValue(null);
     }
 
-    public function getNewChildSelectOptions()
-    {
-        return array('value' => $this->getType(),
-            'label'=>Mage::helper('enterprise_customersegment')->__('Orders Number'));
-    }
-
-    public function loadAttributeOptions()
-    {
-        $this->setAttributeOption(array(
-            'total'  => Mage::helper('enterprise_customersegment')->__('Total'),
-            'average'  => Mage::helper('enterprise_customersegment')->__('Average'),
-        ));
-        return $this;
-    }
-
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('%s Orders Number %s %s:',
-                $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . Mage::helper('enterprise_customersegment')->__('%s Orders Number %s %s while %s of these Conditions match:',
+                $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml(),
+                $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
 }

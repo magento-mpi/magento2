@@ -25,7 +25,7 @@
  */
 
 class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
-    extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+    extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
     protected $_inputType = 'select';
 
@@ -37,37 +37,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
 
     public function getNewChildSelectOptions()
     {
-        $conditions = array(array(
-                'value' => 'enterprise_customersegment/segment_condition_order_address_combine',
-                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
-            Mage::getModel('enterprise_customersegment/segment_condition_order_address_attributes')
-                ->getNewChildSelectOptions()
-        );
-        $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
-        return $conditions;
-    }
-
-    public function loadValueOptions()
-    {
-        $this->setValueOption(array(
-            'any'  => Mage::helper('enterprise_customersegment')->__('Any'),
-            'all'  => Mage::helper('enterprise_customersegment')->__('All'),
-            'billing'  => Mage::helper('enterprise_customersegment')->__('Billing'),
-            'shipping'  => Mage::helper('enterprise_customersegment')->__('Shipping'),
-        ));
-        return $this;
-    }
-
-    public function getValueElementType()
-    {
-        return 'select';
+        return Mage::getModel('enterprise_customersegment/segment_condition_order_address_combine')
+            ->getNewChildSelectOptions();
     }
 
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Order %s Address(es) match %s of these Conditions:',
-                $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+            . Mage::helper('enterprise_customersegment')->__('If Order Addresses match %s of these Conditions:',
+                $this->getAggregatorElement()->getHtml()) . $this->getRemoveLinkHtml();
     }
 }

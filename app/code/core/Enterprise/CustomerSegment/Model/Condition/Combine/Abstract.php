@@ -24,23 +24,25 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
-    extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
+class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
 {
-    public function __construct()
+    /**
+     * Add operator when loading array
+     *
+     * @param array $arr
+     * @param string $key
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+     */
+    public function loadArray($arr, $key = 'conditions')
     {
-        parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_sales_salesamount');
-        $this->setValue(null);
-    }
+        if (isset($arr['operator'])) {
+            $this->setOperator($arr['operator']);
+        }
 
-    public function asHtml()
-    {
-        return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('%s Sales Amount %s %s while %s of these Conditions match:',
-                $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml(),
-                $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        if (isset($arr['attribute'])) {
+            $this->setAttribute($arr['attribute']);
+        }
+
+        return parent::loadArray($arr, $key);
     }
 }

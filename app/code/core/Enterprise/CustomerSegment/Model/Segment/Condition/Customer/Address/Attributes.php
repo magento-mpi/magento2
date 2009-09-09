@@ -25,16 +25,15 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes
+    extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
-
     public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_customer_address_attributes');
         $this->setValue(null);
     }
-
 
     public function getNewChildSelectOptions()
     {
@@ -44,7 +43,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
 
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Address attributes'));;
+        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Address Attributes'));
     }
 
     /**
@@ -129,5 +128,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         return 'text';
     }
 
-
+    public function asHtml()
+    {
+        return Mage::helper('enterprise_customersegment')->__('Customer Address %s', parent::asHtml());
+    }
 }

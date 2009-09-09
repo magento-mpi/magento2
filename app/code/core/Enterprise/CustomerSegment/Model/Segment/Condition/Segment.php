@@ -27,7 +27,8 @@
 /**
  * Segment condition for rules
  */
-class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Segment
+    extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     /**
      * @var string

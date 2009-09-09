@@ -24,34 +24,28 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-class Enterprise_CustomerSegment_Model_Segment_Condition_Isproductin extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
+    extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
     protected $_inputType = 'select';
 
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_isproductin');
+        $this->setType('enterprise_customersegment/segment_condition_product_combine_list');
     }
 
     public function getNewChildSelectOptions()
     {
-        $conditions = array(
-            array('value'=>'enterprise_customersegment/segment_condition_isproductin_combine', 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
-            Mage::getModel('enterprise_customersegment/segment_condition_product_attributes')->getNewChildSelectOptions()
-        );
-        $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
-        return $conditions;
+        // add date range and up to date
+        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')->getNewChildSelectOptions();
     }
 
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            'shopping_cart'   => Mage::helper('enterprise_customersegment')->__('Shopping Cart'),
-            'wishlist'        => Mage::helper('enterprise_customersegment')->__('Wishlist'),
-            'viewed_history'  => Mage::helper('enterprise_customersegment')->__('Viewed History'),
-            'ordered_history' => Mage::helper('enterprise_customersegment')->__('Ordered History'),
+            'viewed_history'  => Mage::helper('enterprise_customersegment')->__('viewed'),
+            'ordered_history' => Mage::helper('enterprise_customersegment')->__('ordered'),
         ));
         return $this;
     }
@@ -61,10 +55,20 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Isproductin extends Ent
         return 'select';
     }
 
+    public function loadOperatorOptions()
+    {
+        parent::loadOperatorOptions();
+        $this->setOperatorOption(array(
+            '=='  => Mage::helper('rule')->__('was'),
+            '!='  => Mage::helper('rule')->__('was not')
+        ));
+        return $this;
+    }
+
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('If Product %s in %s and matches %s of these Conditions:',
+            . Mage::helper('enterprise_customersegment')->__('If Product %s %s and matches %s of these Conditions:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }

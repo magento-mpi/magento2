@@ -25,22 +25,23 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
-    extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
+    extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_sales_salesamount');
-        $this->setValue(null);
+        $this->setType('enterprise_customersegment/segment_condition_product_combine');
     }
 
-    public function asHtml()
+    public function getNewChildSelectOptions()
     {
-        return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('%s Sales Amount %s %s while %s of these Conditions match:',
-                $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml(),
-                $this->getAggregatorElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        return array_merge_recursive(parent::getNewChildSelectOptions(), array(
+            array( // self
+                'value' => $this->getType(),
+                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
+            // product attributes
+            Mage::getModel('enterprise_customersegment/segment_condition_product_attributes')->getNewChildSelectOptions()
+        ));
     }
 }

@@ -25,7 +25,8 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Customer extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
+    extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     public function __construct()
     {
@@ -41,4 +42,3 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer extends Mage_R
         return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Customer Attribute'));;
     }
 }
-

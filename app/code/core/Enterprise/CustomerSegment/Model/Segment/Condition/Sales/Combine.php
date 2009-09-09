@@ -24,34 +24,37 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
-    extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+    extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
-    /**
-     * Intialize model
-     *
-     * @return void
-     */
+    protected $_inputType = 'numeric';
+
     public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_sales_combine');
     }
 
-    /**
-     * Return options for check new condition elemtnt
-     *
-     * @return array
-     */
     public function getNewChildSelectOptions()
     {
-        $conditions = array();
-        $conditions[] = array('value'=>$this->getType(), 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination'));
-        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_salesamount')->getNewChildSelectOptions();
-        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_ordersnumber')->getNewChildSelectOptions();
-        $conditions[] = Mage::getModel('enterprise_customersegment/segment_condition_sales_purchasedquantity')->getNewChildSelectOptions();
-        $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
-        return $conditions;
+        return array_merge_recursive(parent::getNewChildSelectOptions(), array(
+            Mage::getModel('enterprise_customersegment/segment_condition_uptodate')->getNewChildSelectOptions(),
+            Mage::getModel('enterprise_customersegment/segment_condition_daterange')->getNewChildSelectOptions(),
+            Mage::getModel('enterprise_customersegment/segment_condition_order_status')->getNewChildSelectOptions(),
+        ));
+    }
+
+    public function loadAttributeOptions()
+    {
+        $this->setAttributeOption(array(
+            'total'   => Mage::helper('enterprise_customersegment')->__('Total'),
+            'average' => Mage::helper('enterprise_customersegment')->__('Average'),
+        ));
+        return $this;
+    }
+
+    public function getValueElementType()
+    {
+        return 'text';
     }
 }

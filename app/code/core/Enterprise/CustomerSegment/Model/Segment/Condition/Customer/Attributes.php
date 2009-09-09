@@ -25,9 +25,9 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes extends Mage_Rule_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
+    extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
-
     public function __construct()
     {
         parent::__construct();

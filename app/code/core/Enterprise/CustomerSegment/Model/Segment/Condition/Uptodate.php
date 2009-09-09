@@ -25,32 +25,41 @@
  */
 
 
-class Enterprise_CustomerSegment_Model_Segment_Condition_Isproductin_Combine
-    extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
+class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
+    extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    protected $_inputType = 'select';
+
     /**
      * Intialize model
      *
      * @return void
-     */    
+     */
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_isproductin_combine');
+        $this->setType('enterprise_customersegment/segment_condition_uptodate');
+        $this->setValue(null);
     }
 
-    /**
-     * Return options for check new condition elemtnt
-     *
-     * @return array
-     */    
     public function getNewChildSelectOptions()
     {
-        $conditions = array(
-            array('value'=>$this->getType(), 'label'=>Mage::helper('enterprise_customersegment')->__('Conditions Combination')),    
-            Mage::getModel('enterprise_customersegment/segment_condition_product_attributes')->getNewChildSelectOptions()        
+        return array(
+            'value' => $this->getType(),
+            'label' => Mage::helper('enterprise_customersegment')->__('Up To Date'),
         );
-        $conditions = array_merge_recursive(Mage_Rule_Model_Condition_Combine::getNewChildSelectOptions(), $conditions);
-        return $conditions;
+    }
+
+    public function getValueElementType()
+    {
+        return 'text';
+    }
+
+    public function asHtml()
+    {
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_customersegment')->__('Period %s Last %s Days',
+                $this->getOperatorElementHtml(), $this->getValueElementHtml())
+            . $this->getRemoveLinkHtml();
     }
 }
