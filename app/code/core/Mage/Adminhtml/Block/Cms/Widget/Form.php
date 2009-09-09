@@ -69,7 +69,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
      */
     protected function _getWidgetSelectOptions()
     {
-        $options = array('' => $this->helper('cms')->__('Select widget to load its options'));
+        $options = array('' => $this->helper('cms')->__('--Select widget to load its options--'));
         foreach ($this->_getAvailableWidgets() as $data) {
             $options[$data['type']] = $data['name'];
         }
