@@ -50,6 +50,8 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
     {
         $config = new Varien_Object();
         $config->setData(array(
+            'enabled'                       => $this->isEnabled(),
+            'hidden'                        => $this->isHidden(),
             'translator'                    => Mage::helper('cms'),
             'files_browser_window_url'      => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_wysiwyg_images/index'),
             'files_browser_window_width'    => Mage::getStoreConfig('cms/wysiwyg/browser_window_width'),

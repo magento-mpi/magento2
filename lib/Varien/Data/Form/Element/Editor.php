@@ -224,7 +224,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         if ($this->hasData('wysiwyg')) {
             return $this->getWysiwyg();
         }
-        return Mage::getSingleton('cms/wysiwyg_config')->isEnabled();
+        return $this->getConfig('enabled');
     }
 
     /**
@@ -234,6 +234,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
      */
     public function isHidden()
     {
-        return Mage::getSingleton('cms/wysiwyg_config')->isHidden();
+        return $this->getConfig('hidden');
     }
 }
