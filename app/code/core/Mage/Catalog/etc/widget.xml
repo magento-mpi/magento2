@@ -67,8 +67,8 @@
                 </id_path>
                 <anchor_text translate="label">
                     <visible />
-                    <required />
                     <label>Anchor Text</label>
+                    <note>If blank, Product Name will be displayed</note>
                     <type>text</type>
                 </anchor_text>
                 <title translate="label">
@@ -94,8 +94,8 @@
                 </id_path>
                 <anchor_text translate="label">
                     <visible />
-                    <required />
                     <label>Anchor Text</label>
+                    <note>If blank, Category Name will be displayed</note>
                     <type>text</type>
                 </anchor_text>
                 <title translate="label">
