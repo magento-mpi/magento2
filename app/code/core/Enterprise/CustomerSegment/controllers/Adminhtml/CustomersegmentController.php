@@ -211,24 +211,37 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     }
 
     /**
-     * Choosers ajax action
+     * Date range chooser action
      */
-    public function chooserAction()
+    public function chooserDaterangeAction()
     {
-        switch ($this->getRequest()->getParam('chooser')) {
-            case 'daterange':
-                $block = $this->getLayout()->createBlock('adminhtml/promo_widget_chooser_daterange');
-                if ($block) {
-                    // set block data from request
-                    $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));
-                    $selectedValues = $this->getRequest()->getParam('selected');
-                    if (!empty($selectedValues) && is_array($selectedValues) && 1 === count($selectedValues)) {
-                        $block->setRangeValue(array_shift($selectedValues));
-                    }
+        $block = $this->getLayout()->createBlock('adminhtml/promo_widget_chooser_daterange');
+        if ($block) {
+            // set block data from request
+            $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));
+            $selectedValues = $this->getRequest()->getParam('selected');
+            if (!empty($selectedValues) && is_array($selectedValues) && 1 === count($selectedValues)) {
+                $block->setRangeValue(array_shift($selectedValues));
+            }
 
-                    $this->getResponse()->setBody($block->toHtml());
-                }
-                break;
+            $this->getResponse()->setBody($block->toHtml());
         }
+    }
+
+    /**
+     * Grid ajax action
+     */
+    public function gridAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Grid ajax action in chooser mode
+     */
+    public function chooserGridAction()
+    {
+        return $this->gridAction();
     }
 }

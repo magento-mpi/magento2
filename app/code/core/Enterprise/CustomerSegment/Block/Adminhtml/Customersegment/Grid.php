@@ -33,10 +33,8 @@
 class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
-     * Intialize form
-     *
-     * @return void
-     */        
+     * Intialize grid
+     */
     public function __construct()
     {
         parent::__construct();
@@ -44,6 +42,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
+        $this->setUseAjax(true);
     }
 
     /**
@@ -65,6 +64,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
      */
     protected function _prepareColumns()
     {
+        // this column is mandatory for the chooser mode. It needs to be first
         $this->addColumn('segment_id', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
             'align'     =>'right',
@@ -77,14 +77,14 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
             'align'     =>'left',
             'index'     => 'name',
         ));
-        
+
         $this->addColumn('processing_frequency', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Processing Frequency'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'processing_frequency',
         ));
-        
+
         $this->addColumn('is_active', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Status'),
             'align'     => 'left',
@@ -103,12 +103,42 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
     /**
      * Return url for current row
      *
-     * @param Enterprise_CustomerSegment_Model_Segment $row 
+     * @param Enterprise_CustomerSegment_Model_Segment $row
      * @return string
      */
     public function getRowUrl($row)
     {
+        if ($this->getIsChooserMode()) {
+            return null;
+        }
         return $this->getUrl('*/*/edit', array('id' => $row->getSegmentId()));
     }
-    
+
+    /**
+     * Row click javasctipt callback getter
+     *
+     * @return string
+     */
+    public function getRowClickCallback()
+    {
+        if ($this->getIsChooserMode() && $elementId = $this->getRequest()->getParam('value_element_id')) {
+            return 'function (grid, event) {
+                var trElement = Event.findElement(event, "tr");
+                if (trElement) {
+                    $(\'' . $elementId . '\').value = trElement.down("td").innerHTML;
+                    $(grid.containerId).up().hide();
+                }}';
+        }
+        return 'openGridRow';
+    }
+
+    /**
+     * Grid URL getter for ajax mode
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('adminhtml/customersegment/grid', array('_current' => true));
+    }
 }

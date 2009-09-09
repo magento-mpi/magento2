@@ -37,6 +37,9 @@ class Enterprise_CustomerSegment_Model_Observer
      */
     public function addProductAttributeField(Varien_Event_Observer $observer)
     {
+        if (!Mage::helper('enterprise_customersegment')->isEnabled()) {
+            return;
+        }
         /* @var $form Varien_Data_Form */
         $form = $observer->getForm();
         /* @var $fieldset Varien_Data_Form_Element_Fieldset */
@@ -47,5 +50,22 @@ class Enterprise_CustomerSegment_Model_Observer
             'title' => Mage::helper('enterprise_customersegment')->__('Use for Customer Segment Conditions'),
             'values' => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
         ), 'is_used_for_customer_segment');
+    }
+
+    /**
+     * Add Customer Segment condition to the salesrule management
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function addSegmentsToSalesRuleCombine(Varien_Event_Observer $observer)
+    {
+        if (!Mage::helper('enterprise_customersegment')->isEnabled()) {
+            return;
+        }
+        $additional = $observer->getEvent()->getAdditional();
+        $additional->setConditions(array(array(
+            'label' => Mage::helper('enterprise_customersegment')->__('Customer Segment'),
+            'value' => 'enterprise_customersegment/segment_condition_segment'
+        )));
     }
 }

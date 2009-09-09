@@ -108,6 +108,14 @@
                     </enterprise_targetrule>
                 </observers>
             </adminhtml_block_eav_attribute_edit_form_init>
+            <salesrule_rule_condition_combine><!-- possibly it should be in global section -->
+                <observers>
+                    <enterprise_targetrule>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>addSegmentsToSalesRuleCombine</method>
+                    </enterprise_targetrule>
+                </observers>
+            </salesrule_rule_condition_combine>
         </events>
 
         <translate>

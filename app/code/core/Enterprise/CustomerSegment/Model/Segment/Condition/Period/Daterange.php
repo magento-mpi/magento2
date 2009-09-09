@@ -115,8 +115,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Period_Daterange
      */
     public function getValueElementChooserUrl()
     {
-        return Mage::helper('adminhtml')->getUrl('adminhtml/customersegment/chooser', array(
-            'chooser'          => 'daterange',
+        return Mage::helper('adminhtml')->getUrl('adminhtml/customersegment/chooserDaterange', array(
             'value_element_id' => $this->_valueElement->getId(),
         ));
     }
