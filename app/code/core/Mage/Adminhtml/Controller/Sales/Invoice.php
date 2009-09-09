@@ -87,6 +87,20 @@ class Mage_Adminhtml_Controller_Sales_Invoice extends Mage_Adminhtml_Controller_
         }
     }
 
+    public function emailAction()
+    {
+        if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
+            if ($invoice = Mage::getModel('sales/order_invoice')->load($invoiceId)) {
+                $invoice->sendEmail();
+                $this->_getSession()->addSuccess(Mage::helper('sales')->__('Mail send success'));
+                $this->_redirect('*/sales_invoice/view', array(
+                    'order_id'  => $invoice->getOrder()->getId(),
+                    'invoice_id'=> $invoiceId,
+                ));
+            }
+        }
+    }
+
     public function printAction()
     {
         if ($invoiceId = $this->getRequest()->getParam('invoice_id')) {
