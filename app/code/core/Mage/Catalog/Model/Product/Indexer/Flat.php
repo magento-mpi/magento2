@@ -98,7 +98,7 @@ class Mage_Catalog_Model_Product_Indexer_Flat extends Mage_Index_Model_Indexer_A
         $entity = $event->getEntity();
         if ($entity == Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $attribute      = $event->getEntity();
+            $attribute      = $event->getDataObject();
             $addFilterable  = Mage::helper('catalog/product_flat')->isAddFilterableAttributes();
 
             $enableBefore   = ($attribute->getOrigData('backend_type') == 'static')
