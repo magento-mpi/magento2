@@ -45,6 +45,11 @@
                     <label>Scroll Size</label>
                     <type>text</type>
                 </scroll>
+                <width translate="label">
+                    <visible />
+                    <label>Width</label>
+                    <type>text</type>
+                </width>
                 <template>
                     <required />
                     <value>catalogevent/lister.phtml</value>
