@@ -243,10 +243,11 @@ class Mage_Core_Model_Layout_Update
      */
     public function merge($handle)
     {
-        if (!$this->fetchPackageLayoutUpdates($handle)
-            && !$this->fetchDbLayoutUpdates($handle)) {
-            #$this->removeHandle($handle);
-        }
+        $packageUpdatesStatus = $this->fetchPackageLayoutUpdates($handle);
+//        if (!$this->fetchPackageLayoutUpdates($handle)
+//            && !$this->fetchDbLayoutUpdates($handle)) {
+//            #$this->removeHandle($handle);
+//        }
         return $this;
     }
 
@@ -337,17 +338,15 @@ class Mage_Core_Model_Layout_Update
     {
         $_profilerKey = 'layout/package_update: '.$handle;
         Varien_Profiler::start($_profilerKey);
-
         if (empty($this->_packageLayout)) {
             $this->fetchFileLayoutUpdates();
         }
         foreach ($this->_packageLayout->$handle as $updateXml) {
 #echo '<textarea style="width:600px; height:400px;">'.$handle.':'.print_r($updateXml,1).'</textarea>';
             $this->fetchRecursiveUpdates($updateXml);
-
             $this->addUpdate($updateXml->innerXml());
         }
-
+        $this->fetchDbLayoutUpdates($handle);
         Varien_Profiler::stop($_profilerKey);
 
         return true;
@@ -357,22 +356,15 @@ class Mage_Core_Model_Layout_Update
     {
         $_profilerKey = 'layout/db_update: '.$handle;
         Varien_Profiler::start($_profilerKey);
-
-        try {
-            $updateStr = Mage::getResourceModel('core/layout')->fetchUpdatesByHandle($handle);
-            if (!$updateStr) {
-                return false;
-            }
-            $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);
-            $updateXml = simplexml_load_string($updateStr, $this->getElementClass());
-            $this->fetchRecursiveUpdates($updateXml);
-
-            $this->addUpdate($update);
-        } catch (PDOException $e) {
-            throw $e;
-        } catch (Exception $e) {
-
+        $updateStr = Mage::getResourceModel('core/layout')->fetchUpdatesByHandle($handle);
+        if (!$updateStr) {
+            return false;
         }
+        $updateStr = '<update_xml>' . $updateStr . '</update_xml>';
+        $updateStr = str_replace($this->_subst['from'], $this->_subst['to'], $updateStr);
+        $updateXml = simplexml_load_string($updateStr, $this->getElementClass());
+        $this->fetchRecursiveUpdates($updateXml);
+        $this->addUpdate($updateXml->innerXml());
 
         Varien_Profiler::stop($_profilerKey);
         return true;
