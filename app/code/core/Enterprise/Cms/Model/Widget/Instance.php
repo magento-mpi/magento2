@@ -33,12 +33,82 @@
  */
 class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
 {
+    const SPECIFIC_ENTITIES = 'specific';
+    const ALL_ENTITIES      = 'all';
+
+    protected $_pageGroups = array(
+        'anchor_categories' => 'catalog_category_layered',
+        'notanchor_categories' => 'catalog_category_default',
+        'simple_products' => 'PRODUCT_TYPE_simple',
+        'grouped_products' => 'PRODUCT_TYPE_grouped',
+        'all_pages' => 'default'
+    );
+
+    protected $_specificEntitiesLayouHandles = array(
+        'anchor_categories' => 'CATEGORY_{{ID}}',
+        'notanchor_categories' => 'CATEGORY_{{ID}}',
+        'simple_products' => 'PRODUCT_{{ID}}',
+        'grouped_products' => 'PRODUCT_{{ID}}',
+    );
+
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->_init('enterprise_cms/widget_instance');
+    }
+
+    /**
+     * Processing object before save data
+     *
+     * @return Enterprise_Cms_Model_Widget_Instance
+     */
+    protected function _beforeSave()
+    {
+        $pageGroupIds = array();
+        $tmpPageGroups = array();
+        $pageGroups = $this->getData('page_groups');
+        if ($pageGroups) {
+            foreach ($pageGroups as $pageGroup) {
+                $tmpPageGroup = array();
+                if (isset($pageGroup[$pageGroup['page_group']])) {
+                    $pageGroupData = $pageGroup[$pageGroup['page_group']];
+                    if ($pageGroupData['page_id']) {
+                        $pageGroupIds[] = $pageGroupData['page_id'];
+                    }
+                    if ($pageGroup['page_group'] == 'pages') {
+                        $layoutHandle = $pageGroupData['layout_handle'];
+                    } else {
+                        $layoutHandle = $this->_pageGroups[$pageGroup['page_group']];
+                    }
+                    $tmpPageGroup = array(
+                        'page_id' => $pageGroupData['page_id'],
+                        'group' => $pageGroup['page_group'],
+                        'layout_handle' => $layoutHandle,
+                        'for' => $pageGroupData['for'],
+                        'block_reference' => $pageGroupData['block'],
+                        'entities' => ''
+                    );
+                    if ($pageGroupData['for'] == self::SPECIFIC_ENTITIES) {
+                        $tmpPageGroup = array_merge($tmpPageGroup, array(
+                            'entities' => $pageGroupData['entities'],
+                            'specific_layout_handle' => $this->_specificEntitiesLayouHandles[$pageGroup['page_group']]
+                        ));
+                    }
+                    $tmpPageGroups[] = $tmpPageGroup;
+                }
+            }
+        }
+        if (is_array($this->getData('store_ids'))) {
+            $this->setData('store_ids', implode(',', $this->getData('store_ids')));
+        }
+        if (is_array($this->getData('widget_parameters'))) {
+            $this->setData('widget_parameters', serialize($this->getData('widget_parameters')));
+        }
+        $this->setData('page_groups', $tmpPageGroups);
+        $this->setData('page_group_ids', $pageGroupIds);
+        return parent::_beforeSave();
     }
 
     /**
@@ -164,5 +234,33 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
             $this->setData('theme', $theme);
         }
         return $this;
+    }
+
+    /**
+     * Getter
+     * Explode to array if string setted
+     *
+     * @return array
+     */
+    public function getStoreIds()
+    {
+        if (null !== ($storeIds = $this->getData('store_ids')) && is_string($storeIds)) {
+            $this->setData('store_ids', explode(',', $storeIds));
+        }
+        return $this->getData('store_ids');
+    }
+
+    /**
+     * Getter
+     * Unserialize if serialized string setted
+     *
+     * @return array
+     */
+    public function getWidgetParameters()
+    {
+        if (($widgetParameters = $this->getData('widget_parameters')) && is_string($widgetParameters)) {
+            $this->setData('widget_parameters', unserialize($widgetParameters));
+        }
+        return $this->getData('widget_parameters');
     }
 }

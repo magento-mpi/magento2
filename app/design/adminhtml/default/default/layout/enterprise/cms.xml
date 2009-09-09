@@ -164,6 +164,7 @@
     <adminhtml_cms_widget_instance_edit>
         <reference name="head">
             <action method="setCanLoadExtJs"><flag>1</flag></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
         </reference>
         <reference name="content">
             <block type="enterprise_cms/adminhtml_cms_widget_instance_edit" name="cms_widget_instance_edit" />

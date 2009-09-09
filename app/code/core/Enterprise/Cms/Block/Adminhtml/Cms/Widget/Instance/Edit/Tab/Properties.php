@@ -89,9 +89,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Properties
     {
         $widgetPropertiesBlock = $this->getLayout()
             ->createBlock('adminhtml/cms_widget_options')
-            ->setWidgetType($this->getWidgetInstance()->getType());
-//        Zend_Debug::dump(get_class($widgetPropertiesBlock));
-//        Zend_Debug::dump($widgetPropertiesBlock->toHtml());
+            ->setWidgetType($this->getWidgetInstance()->getType())
+            ->setWidgetValues($this->getWidgetInstance()->getWidgetParameters());
         $this->setChild('widget_properties', $widgetPropertiesBlock);
         return parent::_prepareLayout();
     }

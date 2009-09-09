@@ -132,9 +132,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
     protected function _toHtml()
     {
         $selectBlock = $this->getLayout()->createBlock('core/html_select')
-            ->setName('pages')
+            ->setName('block')
 //            ->setExtraParams('multiple="multiple"')
-            ->setOptions($this->getBlocks());
+            ->setOptions($this->getBlocks())
+            ->setValue($this->getSelected());
         return parent::_toHtml().$selectBlock->toHtml();
     }
 
@@ -188,7 +189,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
                 if ((string)$item == 'block') {
                     $attributes = $itemXml->attributes();
                     if ((string)$attributes['name'] && $this->_filterBlockType((string)$attributes['type'])) {
-                        $this->_blocks[(string)$attributes['type']] = (string)$attributes['name'];
+                        $this->_blocks[(string)$attributes['name']] = (string)$attributes['name'];
                     }
                 }
                 if ($itemXml->children()) {

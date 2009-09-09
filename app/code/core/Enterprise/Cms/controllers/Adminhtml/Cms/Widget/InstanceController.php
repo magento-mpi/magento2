@@ -142,20 +142,26 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
      */
     public function saveAction()
     {
-        /**
-         * @todo logic to prepare data for save
-         */
         $widgetInstance = $this->_initWidgetInstance();
-        $data = $this->getRequest()->getPost();
-        /**
-         * @todo remove type field form $data array
-         */
-        $widgetInstance->addData($data);
+        $widgetTitle = $this->getRequest()->getPost('title');
+        $storeIds = $this->getRequest()->getPost('store_ids', array(0));
+        $widgetInstanceData = $this->getRequest()->getPost('widget_instance');
+        $widgetParameters = $this->getRequest()->getPost('parameters');
+        $widgetInstance->setTitle($widgetTitle)
+            ->setStoreIds($storeIds)
+            ->setPageGroups($widgetInstanceData)
+            ->setWidgetParameters($widgetParameters);
         try {
             $widgetInstance->save();
+            if ($this->getRequest()->getParam('back', false)) {
+                    $this->_redirect('*/*/edit', array('instance_id' => $widgetInstance->getId(), '_current' => true));
+            } else {
+                $this->_redirect('*/*/');
+            }
+            return;
         } catch (Exception $e) {
-            $this->_getSession()->addError();
-            $this->_redirect('*/*/*');
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/edit', array('_current' => true));
             return;
         }
         $this->_redirect('*/*/');
@@ -179,12 +185,14 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         /* @var $widgetInstance Enterprise_Cms_Model_Widget_Instance */
         $widgetInstance = $this->_initWidgetInstance();
         $layout = $this->getRequest()->getParam('layout');
+        $selected = $this->getRequest()->getParam('selected', null);
         $blocksChooser = $this->getLayout()
             ->createBlock('enterprise_cms/adminhtml_cms_widget_instance_edit_chooser_block')
             ->setArea($widgetInstance->getArea())
             ->setPackage($widgetInstance->getPackage())
             ->setTheme($widgetInstance->getTheme())
-            ->setLayoutHandle($layout);
+            ->setLayoutHandle($layout)
+            ->setSelected($selected);
         $html = $blocksChooser->toHtml();
         $this->getResponse()->setBody($html);
     }

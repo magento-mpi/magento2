@@ -119,9 +119,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
     protected function _toHtml()
     {
         $selectBlock = $this->getLayout()->createBlock('core/html_select')
-            ->setName('layout_handle')
+            ->setName($this->getSelectName())
             ->setId('layout_handle')
-            ->setExtraParams('onchange="WidgetInstance.showBlocksByPageGroup(this.up(\'div.pages\'), this.value)"')
+            ->setExtraParams('onchange="WidgetInstance.showLayoutBlocksReferance(this.up(\'div.pages\'), this.value)"')
             ->setOptions($this->getLayoutHandles(
                 $this->getArea(),
                 $this->getPackage(),
@@ -156,7 +156,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
      */
     protected function _collectLayoutHandles($layoutHandles)
     {
-        Zend_Debug::dump(get_class($layoutHandles));
         foreach ($layoutHandles as $node => $nodeXml) {
             if ($this->_filterLayoutHandle((string)$node)) {
                 $this->_layoutHandles[(string)$node] = (string)$node;

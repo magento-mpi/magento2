@@ -132,6 +132,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
             'class' => '',
             'required' => true,
         ));
+
+        if (!Mage::app()->isSingleStoreMode()) {
+            $fieldset->addField('store_ids', 'multiselect', array(
+                'name'      => 'store_ids[]',
+                'label'     => Mage::helper('enterprise_cms')->__('Store View'),
+                'title'     => Mage::helper('enterprise_cms')->__('Store View'),
+                'required'  => true,
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
+            ));
+        }
+
         $fieldset = $form->addFieldset('layout_fildset',
             array('legend' => Mage::helper('enterprise_cms')->__('Widget Instance Page Settings'))
         );

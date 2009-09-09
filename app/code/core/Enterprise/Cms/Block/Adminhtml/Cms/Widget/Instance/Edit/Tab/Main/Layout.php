@@ -50,7 +50,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
         return $this->getUrl('*/*/blocks', array('_current' => true));
     }
 
-    public function getCategoriesChooser()
+    public function getAnchorCategoriesChooser()
+    {
+        return $this->_getCategoriesChooser();
+    }
+
+    public function getNotanchorCategoriesChooser()
+    {
+        return $this->_getCategoriesChooser();
+    }
+
+    protected function _getCategoriesChooser()
     {
         $categories = $this->getLayout()
             ->createBlock('adminhtml/catalog_category_widget_chooser')
@@ -62,14 +72,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
     {
         $productsGrid = $this->getLayout()
             ->createBlock('adminhtml/catalog_product_widget_chooser')
-            ->setUseMassaction(true)
-            ->setSelectedProducts($this->_getSelectedProducts());
+            ->setUseMassaction(true);
         return $productsGrid->toHtml();
     }
 
     protected function _getSelectedProducts()
     {
-        return array('1');
         $products = $this->getWidgetInstance()->getProducts();
         return unserialize($products);
     }
@@ -85,6 +93,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
     {
         $layouts = $this->getLayout()
             ->createBlock('enterprise_cms/adminhtml_cms_widget_instance_edit_chooser_layout')
+            ->setSelectName('widget_instance[{{id}}][pages][layout_handle]')
             ->setArea($this->getWidgetInstance()->getArea())
             ->setPackage($this->getWidgetInstance()->getPackage())
             ->setTheme($this->getWidgetInstance()->getTheme());
@@ -111,5 +120,31 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
                 'class'     => 'save'
             ));
         return $button->toHtml();
+    }
+
+    /**
+     * Prepare and retrieve page groups data of widget instance
+     *
+     * @return array
+     */
+    public function getPageGroups()
+    {
+        $widgetInstance = $this->getWidgetInstance();
+        $pageGroups = array();
+        if ($widgetInstance->getPageGroups()) {
+            foreach ($widgetInstance->getPageGroups() as $pageGroup) {
+                $pageGroups[] = array(
+                    'id' => $pageGroup['page_id'],
+                    'page_id' => $pageGroup['page_id'],
+                    'group' => $pageGroup['group'],
+                    'block' => $pageGroup['block_reference'],
+                    'for'   => $pageGroup['for'],
+                    'layout_handle' => $pageGroup['layout_handle'],
+                    'entities' => $pageGroup['entities'],
+                    'entities_array' => explode(',', $pageGroup['entities'])
+                );
+            }
+        }
+        return $pageGroups;
     }
 }

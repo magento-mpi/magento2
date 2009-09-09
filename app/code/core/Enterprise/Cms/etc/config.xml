@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.12</version>
+             <version>0.1.13</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -52,6 +52,12 @@
                     <widget_instance>
                         <table>enterprise_cms_widget_instance</table>
                     </widget_instance>;
+                    <widget_instance_page>
+                        <table>enterprise_cms_widget_instance_page</table>
+                    </widget_instance_page>;
+                    <widget_instance_page_layout>
+                        <table>enterprise_cms_widget_instance_page_layout</table>
+                    </widget_instance_page_layout>;
                 </entities>
             </enterprise_cms_mysql4>
         </models>
