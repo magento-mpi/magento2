@@ -43,6 +43,18 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
     /**
      * Return Wysiwyg config as Varien_Object
      *
+     * Config options description:
+     *
+     * enabled:                 Enabled Visual Editor or not
+     * hidden:                  Show Visual Editor on page load or not
+     * use_container:           Wrap Editor contents into div or not
+     * no_display:              Hide Editor container or not (related to use_container)
+     * translator:              Helper to translate phrases in lib
+     * files_browser_*:         Files Browser (media, images) settings
+     * encode_directives:       Encode template directives with JS or not
+     * widget_window_*:         Widget plugin insertion settings
+     * widget_image_url:        Default image placeholder fot widget insertion
+     *
      * @param $data Varien_Object constructor params to override default config values
      * @return Varien_Object
      */
@@ -52,6 +64,8 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
         $config->setData(array(
             'enabled'                       => $this->isEnabled(),
             'hidden'                        => $this->isHidden(),
+            'use_container'                 => false,
+            'no_display'                    => false,
             'translator'                    => Mage::helper('cms'),
             'files_browser_window_url'      => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_wysiwyg_images/index'),
             'files_browser_window_width'    => Mage::getStoreConfig('cms/wysiwyg/browser_window_width'),

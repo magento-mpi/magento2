@@ -53,7 +53,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             $jsSetupObject = 'wysiwyg' . $this->getHtmlId();
 
             $html = $this->_getLinksHtml()
-                .'<textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'"'.($this->getDisabled() ? ' disabled="disabled"' : '').' class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
+                .'<textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
 
                 <script type="text/javascript">
                 //<![CDATA[
@@ -64,7 +64,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
 
 				'.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
 
-                '.($this->isHidden() || $this->getDisabled() ? '' : 'Event.observe(window, "load", '.$jsSetupObject.'.setup.bind('.$jsSetupObject.'));').'
+                '.($this->isHidden() ? '' : 'Event.observe(window, "load", '.$jsSetupObject.'.setup.bind('.$jsSetupObject.'));').'
 
 				Event.observe("toggle'.$this->getHtmlId().'", "click", '.$jsSetupObject.'.toggle.bind('.$jsSetupObject.'));
                 varienGlobalEvents.attachEventHandler("formSubmit", '.$jsSetupObject.'.onFormValidation.bind('.$jsSetupObject.'));
@@ -75,13 +75,17 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
 				//]]>
                 </script>';
 
+            $html = $this->_wrapIntoContainer($html);
             $html.= $this->getAfterElementHtml();
             return $html;
         }
         else
         {
+            // Display only links to additional features
             if ($this->getConfig('widget_window_url')) {
-                return $this->_getLinksHtml() . parent::getElementHtml();
+                $html = $this->_getLinksHtml() . parent::getElementHtml();
+                $html = $this->_wrapIntoContainer($html);
+                return $html;
             }
             return parent::getElementHtml();
         }
@@ -103,7 +107,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
      */
     protected function _getLinksHtml()
     {
-        $linksHtml = '<div id="links'.$this->getHtmlId().'"'.($this->getDisabled() ? ' style="display:none;"' : '').'>';
+        $linksHtml = '<div id="links'.$this->getHtmlId().'">';
         if ($this->isEnabled()) {
             $linksHtml .= $this->_getToggleLinkHtml()
                 . $this->_getLinksSeparatorHtml(false)
@@ -123,10 +127,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
      */
     protected function _getToggleLinkHtml($visible = true)
     {
-        if ($this->getDisabled()) {
-            $visible = false;
-        }
-        return '<a href="#" id="toggle'.$this->getHtmlId().'"'.($visible ? '' : ' style="display:none;"').'>'.$this->translate('Show / Hide Editor').'</a>';
+        return '<a href="javascript:void(0)" id="toggle'.$this->getHtmlId().'"'.($visible ? '' : ' style="display:none;"').'>'.$this->translate('Show / Hide Editor').'</a>';
     }
 
     /**
@@ -154,7 +155,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         // Link to media images insertion window
         $winUrl = $this->getConfig('files_browser_window_url');
         $links[] = new Varien_Data_Form_Element_Link(array(
-            'href'      => '#',
+            'href'      => 'javascript:void(0)',
             'title'     => $this->translate('Insert Image'),
             'value'     => $this->translate('Insert Image'),
             'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
@@ -165,7 +166,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         // Link to widget insertion window
         $winUrl = $this->getConfig('widget_window_no_wysiwyg_url');
         $links[] = new Varien_Data_Form_Element_Link(array(
-            'href'      => '#',
+            'href'      => 'javascript:void(0)',
             'title'     => $this->translate('Insert Widget'),
             'value'     => $this->translate('Insert Widget'),
             'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
@@ -180,6 +181,25 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
 
         $linksHtml = implode($this->_getLinksSeparatorHtml($visible), $linksHtml);
         return $linksHtml;
+    }
+
+    /**
+     * Wraps Editor HTML into div if 'use_container' config option is set to true
+     * If 'no_display' config option is set to true, the div will be invisible
+     *
+     * @param string $html HTML code to wrap
+     * @return string
+     */
+    protected function _wrapIntoContainer($html)
+    {
+        if (!$this->getConfig('use_container')) {
+            return $html;
+        }
+        $html = '<div id="editor'.$this->getHtmlId().'"'.($this->getConfig('no_display') ? ' style="display:none;"' : '').'>'
+            . $html
+            . '</div>';
+
+        return $html;
     }
 
     /**
