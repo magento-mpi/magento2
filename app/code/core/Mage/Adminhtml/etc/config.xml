@@ -135,6 +135,9 @@
                 <customer>
                     <file>customer.xml</file>
                 </customer>
+                <promo>
+                    <file>promo.xml</file>
+                </promo>
             </updates>
         </layout>
         <sales>
