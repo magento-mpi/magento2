@@ -28,7 +28,6 @@ tinyMceWysiwygSetup.prototype =
     {
         this.id = htmlId;
         this.config = config;
-
         varienGlobalEvents.attachEventHandler('tinymceChange', this.onChangeContent.bind(this));
     },
 
@@ -127,13 +126,6 @@ tinyMceWysiwygSetup.prototype =
         $$('span.' + this.id + '_sep').each(function(e) {
             e.toggle();
         });
-    },
-
-    // Hide editor links, remove editor instance and disable textarea OR all opposite
-    toggleEnabled: function() {
-        var isEnabled = this.toggleEditorControl();
-        $(this.id).disabled = !isEnabled;
-        isEnabled ? $('links' + this.id).show() : $('links' + this.id).hide();
     },
 
     toggleEditorControl: function() {
