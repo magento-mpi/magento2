@@ -68,7 +68,6 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                 Mage::helper('index')->__('Can\'t initialize indexer process.')
             );
             $this->_redirect('*/*/list');
-            return $this;
         }
     }
 
@@ -101,7 +100,6 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                 Mage::helper('index')->__('Can\'t initialize indexer process.')
             );
             $this->_redirect('*/*/list');
-            return $this;
         }
     }
 
@@ -122,7 +120,6 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                echo $e;die();
                 $this->_getSession()->addException($e,
                      Mage::helper('index')->__('Some problem with reindexing process.')
                 );
@@ -132,8 +129,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                 Mage::helper('index')->__('Can\'t initialize indexer process.')
             );
         }
-//        $this->loadLayout();
-//        $this->renderLayout();
+
         $this->_redirect('*/*/list');
     }
 
@@ -151,5 +147,71 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
     public function reindexAllAction()
     {
 
+    }
+
+    /**
+     * Mass rebuild selected processes index
+     *
+     */
+    public function massReindexAction()
+    {
+        $processIds = $this->getRequest()->getParam('process');
+        if (empty($processIds) || !is_array($processIds)) {
+            $this->_getSession()->addError(Mage::helper('index')->__('Please select Indexes'));
+        } else {
+            try {
+                foreach ($processIds as $processId) {
+                    /* @var $process Mage_Index_Model_Process */
+                    $process = Mage::getModel('index/process')->load($processId);
+                    if ($process->getId()) {
+                        $process->reindexAll();
+                    }
+                }
+                $count = count($processIds);
+                $this->_getSession()->addSuccess(
+                    Mage::helper('index')->__('Total of %d index(es) were successfully reindexed data', $count)
+                );
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addException($e, Mage::helper('index')->__('Can\'t initialize indexer process.'));
+            }
+        }
+
+        $this->_redirect('*/*/list');
+    }
+
+    /**
+     * Mass change index mode of selected processes index
+     *
+     */
+    public function massChangeModeAction()
+    {
+        $processIds = $this->getRequest()->getParam('process');
+        if (empty($processIds) || !is_array($processIds)) {
+            $this->_getSession()->addError(Mage::helper('index')->__('Please select Index(es)'));
+        } else {
+            try {
+                $mode = $this->getRequest()->getParam('index_mode');
+                foreach ($processIds as $processId) {
+                    /* @var $process Mage_Index_Model_Process */
+                    $process = Mage::getModel('index/process')->load($processId);
+                    if ($process->getId()) {
+                        $process->setMode($mode)
+                            ->save();
+                    }
+                }
+                $count = count($processIds);
+                $this->_getSession()->addSuccess(
+                    Mage::helper('index')->__('Total of %d index(es) were successfully changed index mode', $count)
+                );
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addException($e, Mage::helper('index')->__('Can\'t initialize indexer process.'));
+            }
+        }
+
+        $this->_redirect('*/*/list');
     }
 }

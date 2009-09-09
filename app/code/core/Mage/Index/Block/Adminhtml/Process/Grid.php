@@ -182,31 +182,32 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         return $this->getUrl('*/*/edit', array('process'=>$row->getId()));
     }
 
-//    protected function _prepareMassaction()
-//    {
-//        $this->setMassactionIdField('process_id');
-//        $this->getMassactionBlock()->setFormFieldName('process');
-//
-////        $this->getMassactionBlock()->addItem('delete', array(
-////             'label'    => Mage::helper('customer')->__('Run Indexing Process'),
-////             'url'      => $this->getUrl('*/*/run'),
-////             //'confirm'  => Mage::helper('customer')->__('Are you sure?')
-////        ));
-//
-//        $this->getMassactionBlock()->addItem('change_mode', array(
-//             'label'        => Mage::helper('index')->__('Change Indexing Mode'),
-//             'url'          => $this->getUrl('*/*/massChangeMode'),
-//             'additional'   => array(
-//                'visibility'    => array(
-//                     'name'     => 'group',
-//                     'type'     => 'select',
-//                     'class'    => 'required-entry',
-//                     'label'    => Mage::helper('index')->__('Mode'),
-//                     'values'   => $this->_processModel->getModesOptions()
-//                 )
-//            )
-//        ));
-//
-//        return $this;
-//    }
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('process_id');
+        $this->getMassactionBlock()->setFormFieldName('process');
+
+        $modeOptions = Mage::getModel('index/process')->getModesOptions();
+
+        $this->getMassactionBlock()->addItem('change_mode', array(
+            'label'         => Mage::helper('index')->__('Change Index Mode'),
+            'url'           => $this->getUrl('*/*/massChangeMode'),
+            'additional'    => array(
+                'mode'      => array(
+                    'name'      => 'index_mode',
+                    'type'      => 'select',
+                    'class'     => 'required-entry',
+                    'label'     => Mage::helper('index')->__('Index mode'),
+                    'values'    => $modeOptions
+                )
+            )
+        ));
+
+        $this->getMassactionBlock()->addItem('reindex', array(
+             'label'        => Mage::helper('index')->__('Reindex Data'),
+             'url'          => $this->getUrl('*/*/massReindex')
+        ));
+
+        return $this;
+    }
 }
