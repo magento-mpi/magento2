@@ -85,7 +85,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
     {
         $form = $this->getForm();
         $fieldset = $form->getElement('options_fieldset');
-        $values = $this->_getRequestOptionValues('values');
+        $values = $this->getWidgetValues();
 
         // renderer, filter and type for option
         $_renderer = false;
@@ -169,8 +169,8 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
         return $result;
     }
     /**
-     * Getter.
-     * If widget type was not set befor, try to retrieve it from request
+     * Getter
+     * If widget type was not set before, try to retrieve it from request
      *
      * @return string
      */
@@ -180,6 +180,20 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
             return $this->_getRequestOptionValues('widget_type');
         }
         return $this->_getData('widget_type');
+    }
+
+    /**
+     * Getter
+     * If widget values was not set before, try to retrieve it from request
+     *
+     * @return array
+     */
+    public function getWidgetValues()
+    {
+        if (!$this->_getData('widget_values')) {
+            return $this->_getRequestOptionValues('values');
+        }
+        return $this->_getData('widget_values');
     }
 
     /**

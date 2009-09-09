@@ -87,30 +87,45 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
      */
     public function getRowClickCallback()
     {
-        $js = '
-            function (grid, event) {
-                var trElement = Event.findElement(event, "tr");
-
-                var productId = trElement.down("td").innerHTML;
-                var productName = trElement.down("td").next().next().innerHTML;
-                var chooser = $(grid.containerId).up().previous("a.widget-option-chooser");
-
-                var optionLabel = productName;
-                var optionValue = "product/" + productId;
-                if (grid.categoryId) {
-                    optionValue += "/" + grid.categoryId;
+        if ($this->getUseMassaction()) {
+            $js = "function (grid, event) {
+                if (Event.element(event).tagName != 'INPUT') {
+                    var trElement = Event.findElement(event, 'tr');
+                    if (checkboxElement = trElement.down('input.checkbox')) {
+                        if (checkboxElement.checked) {
+                            checkboxElement.checked = false;
+                        } else {
+                            checkboxElement.checked = true;
+                        }
+                    }
                 }
-                if (grid.categoryName) {
-                    optionLabel = grid.categoryName + " / " + optionLabel;
+            }";
+        } else {
+            $js = '
+                function (grid, event) {
+                    var trElement = Event.findElement(event, "tr");
+
+                    var productId = trElement.down("td").innerHTML;
+                    var productName = trElement.down("td").next().next().innerHTML;
+                    var chooser = $(grid.containerId).up().previous("a.widget-option-chooser");
+
+                    var optionLabel = productName;
+                    var optionValue = "product/" + productId;
+                    if (grid.categoryId) {
+                        optionValue += "/" + grid.categoryId;
+                    }
+                    if (grid.categoryName) {
+                        optionLabel = grid.categoryName + " / " + optionLabel;
+                    }
+
+                    chooser.previous("input.widget-option").value = optionValue;
+                    chooser.next("label.widget-option-label").update(optionLabel);
+
+                    var responseContainerId = "responseCnt" + chooser.id;
+                    $(responseContainerId).hide();
                 }
-
-                chooser.previous("input.widget-option").value = optionValue;
-                chooser.next("label.widget-option-label").update(optionLabel);
-
-                var responseContainerId = "responseCnt" + chooser.id;
-                $(responseContainerId).hide();
-            }
-        ';
+            ';
+        }
         return $js;
     }
 
@@ -172,8 +187,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
                 'header_css_class' => 'a-center',
                 'type'      => 'checkbox',
                 'name'      => 'in_products',
-//                'field_name' => 'selected_products',
-                'values'    => $this->getSelectedProducts(),
+                'inline_css' => 'checkbox products',
                 'align'     => 'center',
                 'index'     => 'entity_id',
                 'use_index' => true,
@@ -214,19 +228,5 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
             'uniq_id' => $this->getId(),
             'use_massaction' => $this->getUseMassaction()
         ));
-    }
-
-    public function setSelectedProducts($selectedProducts)
-    {
-        $this->_selectedProducts = $selectedProducts;
-        return $this;
-    }
-
-    public function getSelectedProducts()
-    {
-//        if (empty($this->_selectedProducts)) {
-//            $this->_selectedProducts = $this->getRequest()->getParam('selected', array());
-//        }
-        return $this->_selectedProducts;
     }
 }
