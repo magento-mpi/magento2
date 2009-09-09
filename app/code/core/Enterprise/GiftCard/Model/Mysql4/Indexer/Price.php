@@ -35,6 +35,65 @@ class Enterprise_GiftCard_Model_Mysql4_Indexer_Price
     extends Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
 {
     /**
+     * Register data required by product type process in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    public function registerEvent(Mage_Index_Model_Event $event)
+    {
+        $attributes = array(
+            'allow_open_amount',
+            'open_amount_min',
+            'open_amount_max',
+        );
+
+        $entity = $event->getEntity();
+        if ($entity == Mage_Catalog_Model_Product::ENTITY) {
+            switch ($event->getType()) {
+                case Mage_Index_Model_Event::TYPE_SAVE:
+                    /* @var $product Mage_Catalog_Model_Product */
+                    $product      = $event->getDataObject();
+                    $reindexPrice = $product->getAmountsHasChanged();
+                    foreach ($attributes as $code) {
+                        if ($product->dataHasChangedFor($code)) {
+                            $reindexPrice = true;
+                            break;
+                        }
+                    }
+
+                    if ($reindexPrice) {
+                        $event->addNewData('product_type_id', $product->getTypeId());
+                        $event->addNewData('reindex_price', 1);
+                    }
+
+                    break;
+
+                case Mage_Index_Model_Event::TYPE_MASS_ACTION:
+                    /* @var $actionObject Varien_Object */
+                    $actionObject = $event->getDataObject();
+                    $reindexPrice = false;
+
+                    // check if attributes changed
+                    $attrData = $actionObject->getAttributesData();
+                    if (is_array($attrData)) {
+                        foreach ($attributes as $code) {
+                            if (array_key_exists($code, $attrData)) {
+                                $reindexPrice = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($reindexPrice) {
+                        $event->addNewData('reindex_price_product_ids', $actionObject->getProductIds());
+                    }
+
+                    break;
+            }
+        }
+    }
+
+    /**
      * Prepare giftCard products prices in temporary index table
      *
      * @param int|array $entityIds  the entity ids limitation
@@ -94,6 +153,16 @@ class Enterprise_GiftCard_Model_Mysql4_Indexer_Price
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);
         }
+
+        /**
+         * Add additional external limitation
+         */
+        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+            'select'        => $select,
+            'entity_field'  => new Zend_Db_Expr('e.entity_id'),
+            'website_field' => new Zend_Db_Expr('cw.website_id'),
+            'store_field'   => new Zend_Db_Expr('cs.store_id')
+        ));
 
         $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable());
         $write->query($query);
