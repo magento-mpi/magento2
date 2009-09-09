@@ -66,6 +66,7 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
      */
     protected $_relatedConfigSettings = array(
         Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK,
+        Mage_CatalogInventory_Helper_Data::XML_PATH_SHOW_OUT_OF_STOCK
     );
 
     /**
@@ -151,11 +152,11 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
     {
         switch ($event->getEntity()) {
             case Mage_CatalogInventory_Model_Stock_Item::ENTITY:
-                $this->_registerCatalogProductEvent($event);
+                $this->_registerCatalogInventoryStockItemEvent($event);
                 break;
 
             case Mage_Catalog_Model_Product::ENTITY:
-                $this->_registerCatalogInventoryStockItemEvent($event);
+                $this->_registerCatalogProductEvent($event);
                 break;
 
             case Mage_Catalog_Model_Convert_Adapter_Product::ENTITY:
@@ -168,6 +169,16 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
                 $event->addNewData('cataloginventory_stock_skip_call_event_handler', true);
                 $process = $event->getProcess();
                 $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+
+                if ($event->getEntity() == Mage_Core_Model_Config_Data::ENTITY) {
+                    $configData = $event->getDataObject();
+                    if ($configData->getPath() == Mage_CatalogInventory_Helper_Data::XML_PATH_SHOW_OUT_OF_STOCK) {
+                        Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_price')
+                            ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                        Mage::getSingleton('index/indexer')->getProcessByCode('catalog_product_attribute')
+                            ->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
+                    }
+                }
                 break;
         }
     }
@@ -215,8 +226,25 @@ class Mage_CatalogInventory_Model_Indexer_Stock extends Mage_Index_Model_Indexer
         /* @var $object Mage_CatalogInventory_Model_Stock_Item */
         $object      = $event->getDataObject();
 
+//        $properties = array(
+//            'manage_stock',
+//            'use_config_manage_stock',
+//            'is_in_stock'
+//        );
+
+//        $reindexStock = false;
+//        foreach ($properties as $property) {
+//            if ($event->dataHasChangedFor($property)) {
+//                $reindexStock = true;
+//                break;
+//            }
+//        }
+
         $event->addNewData('reindex_stock', 1);
         $event->addNewData('product_id', $object->getProductId());
+
+//        if ($reindexStock && !Mage::helper('cataloginventory')->isShowOutOfStock()) {
+//        }
 
         return $this;
     }

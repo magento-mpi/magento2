@@ -72,13 +72,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
         $table = $this->getIdxTable();
 
         $select = $write->select()
-            ->from(array('l' => $this->getTable('catalog/product_link')), array('product_id'))
+            ->from(array('e' => $this->getTable('catalog/product')), 'entity_id')
+            ->join(
+                array('l' => $this->getTable('catalog/product_link')),
+                'e.entity_id = l.product_id',
+                array())
+            ->join(
+                array('cg' => $this->getTable('customer/customer_group')),
+                '',
+                array('customer_group_id'));
+        $this->_addWebsiteJoinToSelect($select, true);
+        $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
+        $select->columns('website_id', 'cw')
             ->join(
                 array('i' => $table),
-                'l.linked_product_id = i.entity_id',
+                'i.entity_id = l.linked_product_id AND i.website_id = cw.website_id'
+                    . ' AND i.customer_group_id = cg.customer_group_id',
                 array(
-                    'customer_group_id',
-                    'website_id',
                     'tax_class_id',
                     'price'       => new Zend_Db_Expr('NULL'),
                     'final_price' => new Zend_Db_Expr('NULL'),
@@ -86,12 +96,23 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
                     'max_price'   => new Zend_Db_Expr('MAX(i.max_price)'),
                     'tier_price'  => new Zend_Db_Expr('NULL')
                 ))
-            ->group(array('l.product_id', 'i.customer_group_id', 'i.website_id', 'i.tax_class_id'))
+            ->group(array('e.entity_id', 'i.customer_group_id', 'i.website_id', 'i.tax_class_id'))
+            ->where('e.type_id=?', $this->getTypeId())
             ->where('l.link_type_id=?', Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
 
         if (!is_null($entityIds)) {
             $select->where('l.product_id IN(?)', $entityIds);
         }
+
+        /**
+         * Add additional external limitation
+         */
+        Mage::dispatchEvent('prepare_catalog_product_price_index_select', array(
+            'select'        => $select,
+            'entity_field'  => new Zend_Db_Expr('e.entity_id'),
+            'website_field' => new Zend_Db_Expr('cw.website_id'),
+            'store_field'   => new Zend_Db_Expr('cs.store_id')
+        ));
 
         $query = $select->insertFromSelect($table);
         $write->query($query);

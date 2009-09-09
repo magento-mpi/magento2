@@ -244,6 +244,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
             $select->where('pid.entity_id IN(?)', $entityIds);
         }
 
+        /**
+         * Add additional external limitation
+         */
+        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+            'select'        => $select,
+            'entity_field'  => new Zend_Db_Expr('pid.entity_id'),
+            'website_field' => new Zend_Db_Expr('cs.website_id'),
+            'store_field'   => new Zend_Db_Expr('cs.store_id')
+        ));
+
         $query = $select->insertFromSelect($idxTable);
         $write->query($query);
 
@@ -298,6 +308,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
             $select->where('pvd.entity_id IN(?)', $entityIds);
         }
 
+        /**
+         * Add additional external limitation
+         */
+        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+            'select'        => $select,
+            'entity_field'  => new Zend_Db_Expr('pvd.entity_id'),
+            'website_field' => new Zend_Db_Expr('cs.website_id'),
+            'store_field'   => new Zend_Db_Expr('cs.store_id')
+        ));
+
         $query = $select->insertFromSelect($idxTable);
         $write->query($query);
 
@@ -318,12 +338,26 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
         $select = $write->select()
             ->from(array('l' => $this->getTable('catalog/product_relation')), 'parent_id')
             ->join(
+                array('cs' => $this->getTable('core/store')),
+                '',
+                array())
+            ->join(
                 array('i' => $idxTable),
-                'l.child_id=i.entity_id',
+                'l.child_id=i.entity_id AND cs.store_id = i.store_id',
                 array('attribute_id', 'store_id', 'value'));
         if (!is_null($parentIds)) {
             $select->where('l.parent_id IN(?)', $parentIds);
         }
+
+        /**
+         * Add additional external limitation
+         */
+        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+            'select'        => $select,
+            'entity_field'  => new Zend_Db_Expr('l.parent_id'),
+            'website_field' => new Zend_Db_Expr('cs.website_id'),
+            'store_field'   => new Zend_Db_Expr('cs.store_id')
+        ));
 
         $query = $select->insertIgnoreFromSelect($idxTable);
         $write->query($query);

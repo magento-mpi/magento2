@@ -290,21 +290,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         $specialTo      = $this->_addAttributeToSelect($select, 'special_to_date', 'e.entity_id', 'cs.store_id');
         $curentDate     = new Zend_Db_Expr('cwd.date');
 
-        $select->joinLeft(
-            array('rp' => $this->getTable('catalogrule/rule_product_price')),
-            'rp.product_id = e.entity_id AND rp.customer_group_id = cg.customer_group_id '
-                . ' AND rp.website_id = cw.website_id AND rp.rule_date = ' . $curentDate,
-            array()
-        );
-
-        /**
-         * @todo remove relation with price rules table
-         */
-        $rulePrice      = 'rp.rule_price';
-        $finalPrice     = new Zend_Db_Expr("@final_price:=IF((@price:=IF(IF({$specialFrom} IS NULL, 1,"
-            . " IF({$specialFrom} <= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
-            . "IF({$specialTo} >= {$curentDate}, 1, 0)) > 0 AND {$specialPrice} < {$price}, {$specialPrice}, {$price})"
-            . ") > {$rulePrice} AND {$rulePrice} IS NOT NULL, {$rulePrice}, @price)");
+        $finalPrice     = new Zend_Db_Expr("IF(IF({$specialFrom} IS NULL, 1, "
+            . "IF({$specialFrom} <= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
+            . "IF({$specialTo} >= {$curentDate}, 1, 0)) > 0 AND {$specialPrice} < {$price}, "
+            . "{$specialPrice}, {$price})");
         $select->columns(array(
             'orig_price'    => $price,
             'price'         => $finalPrice,
@@ -316,9 +305,36 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);
         }
-        Mage::dispatchEvent('prepare_final_price_index_select', array('select'=>$select));
+
+        /**
+         * Add additional external limitation
+         */
+        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+            'select'        => $select,
+            'entity_field'  => new Zend_Db_Expr('e.entity_id'),
+            'website_field' => new Zend_Db_Expr('cw.website_id'),
+            'store_field'   => new Zend_Db_Expr('cs.store_id')
+        ));
+
         $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable());
         $write->query($query);
+
+        /**
+         * Add possibility modify prices from external events
+         */
+        $select = $write->select()
+            ->join(array('wd' => $this->_getWebsiteDateTable()),
+                'i.website_id = wd.website_id',
+                array());
+        Mage::dispatchEvent('prepare_catalog_product_price_index_table', array(
+            'index_table'       => array('i' => $this->_getDefaultFinalPriceTable()),
+            'select'            => $select,
+            'entity_id'         => 'i.entity_id',
+            'customer_group_id' => 'i.customer_group_id',
+            'website_id'        => 'i.website_id',
+            'website_date'      => 'wd.date',
+            'update_fields'     => array('price', 'min_price', 'max_price')
+        ));
 
         return $this;
     }
@@ -584,4 +600,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
     {
         return $this->getIdxTable($this->getValueTable('catalog/product', 'tier_price'));
     }
+
+    /**
+     * Register data required by product type process in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    public function registerEvent(Mage_Index_Model_Event $event)
+    {}
 }

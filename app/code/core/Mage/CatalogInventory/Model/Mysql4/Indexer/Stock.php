@@ -240,7 +240,6 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
         $this->cloneIndexTable(true);
 
         foreach ($this->_getTypeIndexers() as $indexer) {
-            Mage::log($indexer->getTypeId());
             $indexer->reindexAll();
         }
 

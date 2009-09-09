@@ -285,7 +285,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
             $this->_copyRelationIndexData($compositeIds, $notCompositeIds);
         }
 
-        $indexers = $this->_getProductTypes();
+        $indexers = $this->getTypeIndexers();
         foreach ($indexers as $indexer) {
             if (!empty($byType[$indexer->getTypeId()])) {
                 $indexer->reindexEntity($byType[$indexer->getTypeId()]);
@@ -305,7 +305,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
      */
     protected function _getIndexer($productTypeId)
     {
-        $types = $this->_getProductTypes();
+        $types = $this->getTypeIndexers();
         if (!isset($types[$productTypeId])) {
             Mage::throwException(Mage::helper('catalog')->__('Unsupported product type "%s"', $productTypeId));
         }
@@ -313,11 +313,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
     }
 
     /**
-     * Retrieve product type indexers
+     * Retrieve price indexers per product type
      *
      * @return array
      */
-    protected function _getProductTypes()
+    public function getTypeIndexers()
     {
         if (is_null($this->_indexers)) {
             $this->_indexers = array();
@@ -350,7 +350,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
         $this->cloneIndexTable(true);
         $this->_prepareTierPriceIndex();
 
-        $indexers = $this->_getProductTypes();
+        $indexers = $this->getTypeIndexers();
         foreach ($indexers as $indexer) {
             /* @var $indexer Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface */
             $indexer->reindexAll();

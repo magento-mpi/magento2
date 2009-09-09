@@ -211,6 +211,12 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
                     $this->_registerCatalogProductMassActionEvent($event);
                     break;
             }
+
+            // call product type indexers registerEvent
+            $indexers = $this->_getResource()->getTypeIndexers();
+            foreach ($indexers as $indexer) {
+                $indexer->registerEvent($event);
+            }
         }
     }
 

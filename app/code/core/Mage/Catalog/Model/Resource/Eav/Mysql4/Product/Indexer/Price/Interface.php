@@ -35,7 +35,7 @@
 interface Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
 {
     /**
-     * Reindex temparary (price result data) for all products
+     * Reindex temporary (price result data) for all products
      *
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
@@ -49,4 +49,11 @@ interface Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Interface
      */
     public function reindexEntity($entityIds);
+
+    /**
+     * Register data required by product type process in event object
+     *
+     * @param Mage_Index_Model_Event $event
+     */
+    public function registerEvent(Mage_Index_Model_Event $event);
 }

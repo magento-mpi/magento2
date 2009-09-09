@@ -203,26 +203,13 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
             ->join(
                 array('cg' => $this->getTable('customer/customer_group')),
                 '',
-                array('customer_group_id'))
-            ->join(
-                array('cw' => $this->getTable('core/website')),
-                '',
-                array('website_id'))
+                array('customer_group_id'));
+        $this->_addWebsiteJoinToSelect($select, true);
+        $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
+        $select->columns('website_id', 'cw')
             ->join(
                 array('cwd' => $this->_getWebsiteDateTable()),
                 'cw.website_id = cwd.website_id',
-                array())
-            ->join(
-                array('csg' => $this->getTable('core/store_group')),
-                'csg.website_id = cw.website_id AND cw.default_group_id = csg.group_id',
-                array())
-            ->join(
-                array('cs' => $this->getTable('core/store')),
-                'csg.default_store_id = cs.store_id AND cs.store_id != 0',
-                array())
-            ->join(
-                array('pw' => $this->getTable('catalog/product_website')),
-                'pw.product_id = e.entity_id AND pw.website_id = cw.website_id',
                 array())
             ->joinLeft(
                 array('tp' => $this->_getTierPriceIndexTable()),
@@ -246,7 +233,6 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
         $specialFrom    = $this->_addAttributeToSelect($select, 'special_from_date', 'e.entity_id', 'cs.store_id');
         $specialTo      = $this->_addAttributeToSelect($select, 'special_to_date', 'e.entity_id', 'cs.store_id');
         $curentDate     = new Zend_Db_Expr('cwd.date');
-        $rulePrice      = 'rp.rule_price';
 
         $specialExpr    = new Zend_Db_Expr("IF(IF({$specialFrom} IS NULL, 1, "
             . "IF({$specialFrom} <= {$curentDate}, 1, 0)) > 0 AND IF({$specialTo} IS NULL, 1, "
@@ -254,17 +240,8 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
         $tierExpr       = new Zend_Db_Expr("tp.min_price");
 
         if ($priceType == Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED) {
-            $select->joinLeft(
-                array('rp' => $this->getTable('catalogrule/rule_product_price')),
-                'rp.product_id = e.entity_id AND rp.customer_group_id = cg.customer_group_id '
-                    . ' AND rp.website_id = cw.website_id AND rp.rule_date = ' . $curentDate,
-                array()
-            );
-            $priceExpr  = new Zend_Db_Expr("IF({$specialExpr} > 0,"
+            $finalPrice  = new Zend_Db_Expr("IF({$specialExpr} > 0,"
                 . " ROUND($price * ({$specialExpr} / 100), 4), {$price})");
-
-            $finalPrice     = new Zend_Db_Expr("IF({$priceExpr} AND {$rulePrice} < {$priceExpr}"
-                . " AND {$rulePrice} IS NOT NULL, {$rulePrice}, {$priceExpr})");
             $tierPrice      = new Zend_Db_Expr("IF({$tierExpr} IS NOT NULL,"
                 . " ROUND({$price} * ({$tierExpr} / 100), 4), NULL)");
         } else {
@@ -286,6 +263,16 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);
         }
+
+        /**
+         * Add additional external limitation
+         */
+        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+            'select'        => $select,
+            'entity_field'  => new Zend_Db_Expr('e.entity_id'),
+            'website_field' => new Zend_Db_Expr('cw.website_id'),
+            'store_field'   => new Zend_Db_Expr('cs.store_id')
+        ));
 
         $query = $select->insertFromSelect($table);
         $write->query($query);
@@ -424,6 +411,24 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
         $this->_prepareBundlePriceTable();
         $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED, $entityIds);
         $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC, $entityIds);
+
+        /**
+         * Add possibility modify prices from external events
+         */
+        $select = $this->_getWriteAdapter()->select()
+            ->join(array('wd' => $this->_getWebsiteDateTable()),
+                'i.website_id = wd.website_id',
+                array());
+        Mage::dispatchEvent('prepare_catalog_product_price_index_table', array(
+            'index_table'       => array('i' => $this->_getDefaultFinalPriceTable()),
+            'select'            => $select,
+            'entity_id'         => 'i.entity_id',
+            'customer_group_id' => 'i.customer_group_id',
+            'website_id'        => 'i.website_id',
+            'website_date'      => 'wd.date',
+            'update_fields'     => array('price', 'min_price', 'max_price')
+        ));
+
         $this->_calculateBundleOptionPrice();
         $this->_applyCustomOption();
         $this->_movePriceDataToIndexTable();

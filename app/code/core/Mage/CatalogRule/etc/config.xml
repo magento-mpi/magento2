@@ -59,6 +59,16 @@
                 </setup>
             </catalogrule_setup>
         </resources>
+        <events>
+            <prepare_catalog_product_price_index_table>
+                <observers>
+                    <catalogrule>
+                        <class>catalogrule/observer</class>
+                        <method>prepareCatalogProductPriceIndexTable</method>
+                    </catalogrule>
+                </observers>
+            </prepare_catalog_product_price_index_table>
+        </events>
     </global>
     <frontend>
         <events>

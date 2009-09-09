@@ -114,9 +114,10 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
     }
 
     /**
-     * Retrieve in
+     * Check is attribute indexable in EAV
      *
-     * @param unknown_type $product
+     * @param Mage_Catalog_Model_Resource_Eav_Attribute|string $attribute
+     * @return bool
      */
     protected function _attributeIsIndexable($attribute)
     {
