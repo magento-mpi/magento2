@@ -116,7 +116,7 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
         $entity = $event->getEntity();
         if ($entity == Mage_Catalog_Model_Resource_Eav_Attribute::ENTITY) {
             /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            $attribute      = $event->getEntity();
+            $attribute      = $event->getDataObject();
 
             if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
                 return $attribute->getIsSearchable();
