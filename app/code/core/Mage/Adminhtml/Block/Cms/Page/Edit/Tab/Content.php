@@ -75,7 +75,6 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Content
         $contentField = $fieldset->addField('content', 'editor', array(
             'name'      => 'content',
             'style'     => 'height:36em;',
-            'wysiwyg'   => false,
             'required'  => true,
             'disabled'  => $isElementDisabled,
             'config'    => $wysiwygConfig

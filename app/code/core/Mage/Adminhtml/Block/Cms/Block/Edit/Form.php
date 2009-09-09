@@ -123,7 +123,6 @@ class Mage_Adminhtml_Block_Cms_Block_Edit_Form extends Mage_Adminhtml_Block_Widg
             'label'     => Mage::helper('cms')->__('Content'),
             'title'     => Mage::helper('cms')->__('Content'),
             'style'     => 'height:36em',
-            'wysiwyg'   => false,
             'required'  => true,
             'config'    => Mage::getSingleton('cms/wysiwyg_config')->getConfig()
         ));
