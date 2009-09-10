@@ -46,16 +46,19 @@ class Mage_Core_Model_Mysql4_Layout extends Mage_Core_Model_Mysql4_Abstract
 
         $updateStr = '';
 
-        $select = $this->_getReadAdapter()->select()
-            ->from(array('update'=>$this->getMainTable()), array('xml'))
-            ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=update.layout_update_id', '')
-            ->where('link.store_id=?', $storeId)
-            ->where('link.package=?', $package)
-            ->where('link.theme=?', $theme)
-            ->where('update.handle = ?', $handle);
-//
-        foreach ($this->_getReadAdapter()->fetchAll($select) as $update) {
-            $updateStr .= $update['xml'];
+        $readAdapter = $this->_getReadAdapter();
+        if ($readAdapter) {
+            $select = $readAdapter->select()
+                ->from(array('update'=>$this->getMainTable()), array('xml'))
+                ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=update.layout_update_id', '')
+                ->where('link.store_id=?', $storeId)
+                ->where('link.package=?', $package)
+                ->where('link.theme=?', $theme)
+                ->where('update.handle = ?', $handle);
+
+            foreach ($readAdapter->fetchAll($select) as $update) {
+                $updateStr .= $update['xml'];
+            }
         }
         return $updateStr;
     }
