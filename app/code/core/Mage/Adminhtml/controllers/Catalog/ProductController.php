@@ -303,33 +303,39 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
-     * Get related products grid and serializer block
+     * Get related products grid
      */
     public function related_gridAction()
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->renderLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_related')->toHtml()
+        );
     }
 
     /**
-     * Get upsell products grid and serializer block
+     * Get upsell products grid
      */
     public function upsell_gridAction()
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->renderLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_upsell')->toHtml()
+        );
     }
 
     /**
-     * Get crosssell products grid and serializer block
+     * Get crosssell products grid
      */
     public function crosssell_gridAction()
     {
         $this->_initProduct();
         $this->loadLayout();
-        $this->renderLayout();
+        $this->getResponse()->setBody(
+            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_crosssell')->toHtml()
+        );
     }
 
     /**
