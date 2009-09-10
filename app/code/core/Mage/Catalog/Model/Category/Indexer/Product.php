@@ -154,7 +154,8 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
         /**
          * Check if product categories data was changed
          */
-        if ($product->getIsChangedCategories()) {
+        if ($product->getIsChangedCategories() || $product->dataHasChangedFor('status')
+            || $product->dataHasChangedFor('visibility')) {
             $event->addNewData('category_ids', $product->getCategoryIds());
         }
     }
