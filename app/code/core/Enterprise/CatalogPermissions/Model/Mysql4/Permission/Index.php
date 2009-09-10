@@ -361,7 +361,7 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             'grant_checkout_items'
         );
 
-        $this->_getReadAdapter()->delete($this->getTable('permission_index_product'), $condition);
+        $this->_getWriteAdapter()->delete($this->getTable('permission_index_product'), $condition);
         $this->_getWriteAdapter()->query($selectCategory->insertFromSelect($this->getTable('permission_index_product'), $fields));
         $this->_getWriteAdapter()->query($selectAnchorCategory->insertFromSelect($this->getTable('permission_index_product'), $fields));
 
@@ -454,12 +454,12 @@ class Enterprise_CatalogPermissions_Model_Mysql4_Permission_Index extends Mage_C
             'grant_checkout_items', 'is_config'
         );
 
-        $this->_getReadAdapter()->delete($this->getTable('permission_index_product'), $condition);
-        $this->_getReadAdapter()->query($selectConfig->insertFromSelect($this->getTable('permission_index_product'), $fields));
-        $this->_getReadAdapter()->query($selectStandalone->insertFromSelect($this->getTable('permission_index_product'), $fields));
+        $this->_getWriteAdapter()->delete($this->getTable('permission_index_product'), $condition);
+        $this->_getWriteAdapter()->query($selectConfig->insertFromSelect($this->getTable('permission_index_product'), $fields));
+        $this->_getWriteAdapter()->query($selectStandalone->insertFromSelect($this->getTable('permission_index_product'), $fields));
         // Fix inherited permissions
         $deny = (int) Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
-        $this->_getReadAdapter()->query(
+        $this->_getWriteAdapter()->query(
             "UPDATE {$this->getTable('permission_index_product')}
                 SET
                     grant_catalog_product_price = IF(grant_catalog_category_view = {$deny}, {$deny}, grant_catalog_product_price),
