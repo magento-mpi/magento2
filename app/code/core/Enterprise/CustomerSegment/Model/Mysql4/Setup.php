@@ -24,7 +24,10 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_CustomerSegment_Model_Mysql4_Setup extends Mage_Sales_Model_Mysql4_Setup
+/**
+ * CustomerSegment resource setup
+ */
+class Enterprise_CustomerSegment_Model_Mysql4_Setup extends Mage_Eav_Model_Entity_Setup
 {
 
 }

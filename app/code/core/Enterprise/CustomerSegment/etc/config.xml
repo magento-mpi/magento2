@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerSegment>
-             <version>0.0.2</version>
+             <version>0.0.3</version>
         </Enterprise_CustomerSegment>
     </modules>
 
@@ -102,18 +102,18 @@
         <events>
             <adminhtml_block_eav_attribute_edit_form_init>
                 <observers>
-                    <enterprise_targetrule>
+                    <enterprise_customersegment>
                         <class>enterprise_customersegment/observer</class>
                         <method>addProductAttributeField</method>
-                    </enterprise_targetrule>
+                    </enterprise_customersegment>
                 </observers>
             </adminhtml_block_eav_attribute_edit_form_init>
             <salesrule_rule_condition_combine><!-- possibly it should be in global section -->
                 <observers>
-                    <enterprise_targetrule>
+                    <enterprise_customersegment>
                         <class>enterprise_customersegment/observer</class>
                         <method>addSegmentsToSalesRuleCombine</method>
-                    </enterprise_targetrule>
+                    </enterprise_customersegment>
                 </observers>
             </salesrule_rule_condition_combine>
         </events>

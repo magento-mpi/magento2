@@ -24,12 +24,9 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-$this->run("CREATE TABLE `{$this->getTable('enterprise_customersegment_segment')}` (
-        `segment_id` int(10) unsigned NOT NULL auto_increment,
-        `name` varchar(255) NOT NULL default '',
-        `description` text NOT NULL,
-        `is_active` tinyint(1) NOT NULL default '0',
-        `conditions_serialized` mediumtext NOT NULL,
-        `processing_frequency` int(100) NOT NULL,
-    PRIMARY KEY  (`segment_id`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;");
+$installer = $this;
+/* @var $installer Enterprise_CustomerSegment_Model_Mysql4_Setup */
+
+// use all product attributes that are used for price rules, for customer segments as well
+$installer->run("UPDATE {$installer->getTable('catalog/eav_attribute')}
+    SET is_used_for_customer_segment = is_used_for_price_rules");
