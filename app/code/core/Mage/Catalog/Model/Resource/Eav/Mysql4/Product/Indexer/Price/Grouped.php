@@ -96,7 +96,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Grouped
                     'max_price'   => new Zend_Db_Expr('MAX(i.max_price)'),
                     'tier_price'  => new Zend_Db_Expr('NULL')
                 ))
-            ->group(array('e.entity_id', 'i.customer_group_id', 'i.website_id', 'i.tax_class_id'))
+            ->group(array('e.entity_id', 'i.customer_group_id', 'i.website_id'))
             ->where('e.type_id=?', $this->getTypeId())
             ->where('l.link_type_id=?', Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
 
