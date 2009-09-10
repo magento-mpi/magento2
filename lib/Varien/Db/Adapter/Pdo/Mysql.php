@@ -1061,8 +1061,7 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         }
 
         $nl   = "\n";
-        $code = 'EXCEPTION ' . $e->getMessage() . $nl
-            . 'E TRACE: ' . print_r($e->getTrace(), true) . $nl . $nl;
+        $code = 'EXCEPTION ' . $nl . $e . $nl . $nl;
         $this->_debugWriteToFile($code);
 
         throw $e;
