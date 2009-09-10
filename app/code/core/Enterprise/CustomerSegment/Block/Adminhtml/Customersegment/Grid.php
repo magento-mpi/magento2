@@ -65,27 +65,27 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
     protected function _prepareColumns()
     {
         // this column is mandatory for the chooser mode. It needs to be first
-        $this->addColumn('segment_id', array(
+        $this->addColumn('grid_segment_id', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'segment_id',
         ));
 
-        $this->addColumn('name', array(
+        $this->addColumn('grid_segment_name', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Segment Name'),
             'align'     =>'left',
             'index'     => 'name',
         ));
 
-        $this->addColumn('processing_frequency', array(
+        $this->addColumn('grid_segment_processing_frequency', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Processing Frequency'),
             'align'     =>'right',
             'width'     => '50px',
             'index'     => 'processing_frequency',
         ));
 
-        $this->addColumn('is_active', array(
+        $this->addColumn('grid_segment_is_active', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Status'),
             'align'     => 'left',
             'width'     => '80px',
