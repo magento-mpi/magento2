@@ -46,7 +46,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales
                     'label' => Mage::helper('enterprise_customersegment')->__('Sales Amount')),
                 array(
                     'value' => 'enterprise_customersegment/segment_condition_sales_ordersnumber',
-                    'label' => Mage::helper('enterprise_customersegment')->__('Orders Number')),
+                    'label' => Mage::helper('enterprise_customersegment')->__('Number of Orders')),
                 array(
                     'value' => 'enterprise_customersegment/segment_condition_sales_purchasedquantity',
                     'label' => Mage::helper('enterprise_customersegment')->__('Purchased Quantity')),

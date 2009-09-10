@@ -51,12 +51,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
                 'value' => 'enterprise_customersegment/segment_condition_combine',
                 'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
 
-            // customer attribute group
-            Mage::getModel('enterprise_customersegment/segment_condition_customer')->getNewChildSelectOptions(),
-
             array( // customer address combo
                 'value' => 'enterprise_customersegment/segment_condition_customer_address',
                 'label' => Mage::helper('enterprise_customersegment')->__('Customer Address')),
+
+            // customer attribute group
+            Mage::getModel('enterprise_customersegment/segment_condition_customer')->getNewChildSelectOptions(),
 
             // shopping cart group
             Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart')->getNewChildSelectOptions(),

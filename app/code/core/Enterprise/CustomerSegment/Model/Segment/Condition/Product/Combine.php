@@ -39,7 +39,15 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         return array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array( // self
                 'value' => $this->getType(),
-                'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
+                'label' => Mage::helper('rule')->__('Conditions Combination')),
+            // date ranges
+            array(
+                'value' => array(
+                    Mage::getModel('enterprise_customersegment/segment_condition_uptodate')->getNewChildSelectOptions(),
+                    Mage::getModel('enterprise_customersegment/segment_condition_daterange')->getNewChildSelectOptions(),
+                ),
+                'label' => Mage::helper('enterprise_customersegment')->__('Date Ranges')
+            ),
             // product attributes
             Mage::getModel('enterprise_customersegment/segment_condition_product_attributes')->getNewChildSelectOptions()
         ));

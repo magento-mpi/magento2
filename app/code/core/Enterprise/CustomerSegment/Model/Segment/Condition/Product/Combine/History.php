@@ -37,7 +37,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
 
     public function getNewChildSelectOptions()
     {
-        // add date range and up to date
         return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')->getNewChildSelectOptions();
     }
 
