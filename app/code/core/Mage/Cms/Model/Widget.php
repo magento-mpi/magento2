@@ -99,10 +99,11 @@ class Mage_Cms_Model_Widget extends Varien_Object
             return $directive;
         }
 
-        if (is_file(Mage::getDesign()->getSkinBaseDir() . DS . 'images' . DS . $widget->getName() . '.gif')) {
-            $image = Mage::getDesign()->getSkinUrl('images/' . $widget->getName() . '.gif');
+        $imageName = str_replace('/', '__', $type) . '.gif';
+        if (is_file(Mage::getDesign()->getSkinBaseDir() . DS . 'images' . DS . 'widget' . DS . $imageName)) {
+            $image = Mage::getDesign()->getSkinUrl('images/widget/' . $imageName);
         } else {
-            $image = Mage::getDesign()->getSkinUrl('images/widget_placeholder.gif');
+            $image = Mage::getDesign()->getSkinUrl('images/widget/default.gif');
         }
         $html = sprintf('<img id="%s" src="%s" class="widget" title="%s">',
             $this->_idEncode($directive),

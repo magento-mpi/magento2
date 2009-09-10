@@ -163,8 +163,10 @@ tinyMceWysiwygSetup.prototype =
     },
 
 	encodeWidgets: function(content) {
-        return content.gsub(/\{\{widget.*?\}\}/i, function(match){
-            return '<img id="' + Base64.idEncode(match[0]) + '" src="' + this.config.widget_image_url + '" class="widget" title="'+ match[0].replace(/\"/g, '&quot;') + '">';
+        return content.gsub(/\{\{widget(.*?)\}\}/i, function(match){
+            var attributes = this.parseAttributesString(match[1]);
+            var imageSrc = this.config.widget_images_url + attributes.type.replace(/\//g, "__") + ".gif";
+            return '<img id="' + Base64.idEncode(match[0]) + '" src="' + imageSrc + '" class="widget" title="'+ match[0].replace(/\"/g, '&quot;') + '">';
         }.bind(this));
     },
 
@@ -176,9 +178,21 @@ tinyMceWysiwygSetup.prototype =
     },
 
     decodeWidgets: function(content) {
-        return content.gsub(/\<img\s+id\=\"([a-zA-Z0-9\-\_\:]+)\"[^\>]+\>/i, function(match){
-            return Base64.idDecode(match[1]);
+        return content.gsub(/<img([^>]+class=\"widget\"[^>]*)>/i, function(match) {
+            var attributes = this.parseAttributesString(match[1]);
+            if(attributes.id) {
+                return Base64.idDecode(attributes.id);
+            }
+            return match[0];
         }.bind(this));
+    },
+
+    parseAttributesString: function(attributes) {
+        var result = {};
+        attributes.gsub(/(\w+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/, function(match){
+            result[match[1]] = match[2];
+        });
+        return result;
     },
 
     beforeSetContent: function(o) {
