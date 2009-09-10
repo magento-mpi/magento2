@@ -244,6 +244,9 @@ class Mage_Core_Model_Layout_Update
     public function merge($handle)
     {
         $packageUpdatesStatus = $this->fetchPackageLayoutUpdates($handle);
+        if (Mage::app()->isInstalled()) {
+            $this->fetchDbLayoutUpdates($handle);
+        }
 //        if (!$this->fetchPackageLayoutUpdates($handle)
 //            && !$this->fetchDbLayoutUpdates($handle)) {
 //            #$this->removeHandle($handle);
@@ -346,7 +349,6 @@ class Mage_Core_Model_Layout_Update
             $this->fetchRecursiveUpdates($updateXml);
             $this->addUpdate($updateXml->innerXml());
         }
-        $this->fetchDbLayoutUpdates($handle);
         Varien_Profiler::stop($_profilerKey);
 
         return true;
