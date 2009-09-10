@@ -40,8 +40,9 @@ class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Acti
     public function indexAction()
     {
         $this->loadLayout('popup');
-        $header = $this->getLayout()->getBlock('head');
+        $this->getLayout()->getBlock('root')->addBodyClass('page-popup');
 
+        $header = $this->getLayout()->getBlock('head');
         $header->setCanLoadExtJs(true);
 
         // Include WYSIWYG popup helper if WYSIWYG instance exists

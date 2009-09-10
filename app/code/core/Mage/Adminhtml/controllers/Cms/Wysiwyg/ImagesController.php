@@ -54,6 +54,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
         }
         $this->_initAction();
         $this->loadLayout('popup');
+        $this->getLayout()->getBlock('root')->addBodyClass('page-popup');
         $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         $this->renderLayout();
     }
