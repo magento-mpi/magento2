@@ -303,6 +303,36 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
+     * Get related products grid and serializer block
+     */
+    public function related_gridAction()
+    {
+        $this->_initProduct();
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Get upsell products grid and serializer block
+     */
+    public function upsell_gridAction()
+    {
+        $this->_initProduct();
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
+     * Get crosssell products grid and serializer block
+     */
+    public function crosssell_gridAction()
+    {
+        $this->_initProduct();
+        $this->loadLayout();
+        $this->renderLayout();
+    }
+
+    /**
      * Get associated grouped products grid and serializer block
      */
     public function superGroupAction()

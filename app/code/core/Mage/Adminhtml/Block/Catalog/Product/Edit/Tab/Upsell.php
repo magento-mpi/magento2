@@ -200,7 +200,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
 
     public function getGridUrl()
     {
-        return $this->_getData('grid_url') ? $this->_getData('grid_url') : $this->getUrl('*/*/upsell', array('_current'=>true));
+        return $this->_getData('grid_url') ? $this->_getData('grid_url') : $this->getUrl('*/*/upsell_grid', array('_current'=>true));
     }
 
     protected function _getSelectedProducts()
