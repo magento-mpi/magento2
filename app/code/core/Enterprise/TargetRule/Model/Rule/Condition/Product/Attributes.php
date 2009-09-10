@@ -28,6 +28,12 @@
 class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
     extends Mage_CatalogRule_Model_Rule_Condition_Product
 {
+    /**
+     * Attribute property that defines whether to use it for target rules
+     *
+     * @var string
+     */
+    protected $_isUsedForRuleProperty = 'is_used_for_target_rules';
 
     /**
      * Set condition type and value
@@ -54,32 +60,5 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
         }
 
         return array('value' => $conditions, 'label'=>Mage::helper('enterprise_targetrule')->__('Product Attributes'));
-    }
-
-    /**
-     * Get attributes used in target rules
-     *
-     * @return Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes object
-     */
-    public function loadAttributeOptions()
-    {
-        $productAttributes = Mage::getResourceSingleton('catalog/product')
-            ->loadAllAttributes()
-            ->getAttributesByCode();
-
-        $attributes = array();
-        foreach ($productAttributes as $attribute) {
-            /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
-            if ($attribute->getIsUsedForTargetRules()) {
-                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
-            }
-        }
-
-        $this->_addSpecialAttributes($attributes);
-
-        asort($attributes);
-        $this->setAttributeOption($attributes);
-
-        return $this;
     }
 }

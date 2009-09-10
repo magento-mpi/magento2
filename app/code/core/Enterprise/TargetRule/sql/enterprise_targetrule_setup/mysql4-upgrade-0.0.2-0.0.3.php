@@ -24,10 +24,9 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Target Rule resource setup
- */
-class Enterprise_TargetRule_Model_Mysql4_Setup extends Mage_Catalog_Model_Resource_Eav_Mysql4_Setup
-{
+$installer = $this;
+/* @var $installer Enterprise_TargetRule_Model_Mysql4_Setup */
 
-}
+// use all product attributes that are used for price rules, for customer segments as well
+$installer->run("UPDATE {$installer->getTable('catalog/eav_attribute')}
+    SET is_used_for_target_rules = is_used_for_price_rules");
