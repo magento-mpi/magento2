@@ -28,18 +28,23 @@
 <config>
     <modules>
         <Enterprise_TargetRule>
-             <version>0.0.1</version>
+             <version>0.0.2</version>
         </Enterprise_TargetRule>
     </modules>
     <global>
         <models>
+            <enterprise_targetrule_mysql4>
+                <class>Enterprise_TargetRule_Model_Mysql4</class>
+                <entities>
+                    <rule>
+                        <table>enterprise_targetrule</table>
+                    </rule>
+                </entities>
+            </enterprise_targetrule_mysql4>
             <enterprise_targetrule>
                 <class>Enterprise_TargetRule_Model</class>
                 <resourceModel>enterprise_targetrule_mysql4</resourceModel>
             </enterprise_targetrule>
-            <enterprise_targetrule_mysql4>
-                <class>Enterprise_TargetRule_Model_Mysql4</class>
-            </enterprise_targetrule_mysql4>
         </models>
         <resources>
             <enterprise_targetrule_setup>
@@ -70,6 +75,14 @@
                     </enterprise_targetrule>
                 </observers>
             </catalog_product_prepare_save>
+            <adminhtml_block_eav_attribute_edit_form_init>
+                <observers>
+                    <enterprise_targetrule>
+                        <class>enterprise_targetrule/observer</class>
+                        <method>addProductAttributeField</method>
+                    </enterprise_targetrule>
+                </observers>
+            </adminhtml_block_eav_attribute_edit_form_init>
         </events>
         <translate>
             <modules>
@@ -88,15 +101,15 @@
             </updates>
         </layout>
     </adminhtml>
-    <!-- admin>
+    <admin>
         <routers>
             <adminhtml>
                 <args>
                     <modules>
-                        <Enterprise_TargetRule before="Mage_Adminhtml">Enterprise_Targetrule_Adminhtml</Enterprise_TargetRule>
+                        <Enterprise_TargetRule before="Mage_Adminhtml">Enterprise_TargetRule_Adminhtml</Enterprise_TargetRule>
                     </modules>
                 </args>
             </adminhtml>
         </routers>
-    </admin-->
+    </admin>
 </config>

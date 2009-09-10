@@ -24,28 +24,20 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-/**
- * Target Rule resource setup
- *
- * @category   Enterprise
- * @package    Enterprise_TargetRule
- */
-class Enterprise_TargetRule_Model_Mysql4_Setup extends Mage_Catalog_Model_Resource_Eav_Mysql4_Setup
+class Enterprise_TargetRule_Block_Adminhtml_Targetrule extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
-
     /**
-     * Prepare catalog attribute values to save
+     * Initialize invitation manage page
      *
-     * @param array $attr
-     * @return array
+     * @return void
      */
-    protected function _prepareValues($attr)
+    public function __construct()
     {
-        $data = parent::_prepareValues($attr);
-        $data = array_merge($data, array(
-            'is_used_for_target_rules'   => $this->_getValue($attr, 'is_used_for_target_rules', 1)
-        ));
-        return $data;
+        $this->_controller = 'adminhtml_targetrule';
+        $this->_blockGroup = 'enterprise_targetrule';
+        $this->_headerText = Mage::helper('enterprise_targetrule')->__('Manage Target Rules');
+        $this->_addButtonLabel = Mage::helper('enterprise_targetrule')->__('Add Rule');
+        parent::__construct();
     }
+
 }

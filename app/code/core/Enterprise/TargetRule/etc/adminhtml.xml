@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Magento Enterprise Edition
  *
@@ -23,29 +24,18 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
-
-
-/**
- * Target Rule resource setup
- *
- * @category   Enterprise
- * @package    Enterprise_TargetRule
- */
-class Enterprise_TargetRule_Model_Mysql4_Setup extends Mage_Catalog_Model_Resource_Eav_Mysql4_Setup
-{
-
-    /**
-     * Prepare catalog attribute values to save
-     *
-     * @param array $attr
-     * @return array
-     */
-    protected function _prepareValues($attr)
-    {
-        $data = parent::_prepareValues($attr);
-        $data = array_merge($data, array(
-            'is_used_for_target_rules'   => $this->_getValue($attr, 'is_used_for_target_rules', 1)
-        ));
-        return $data;
-    }
-}
+-->
+<config>
+    <menu>
+         <promo>
+            <children>
+                <targetrule translate="title" module="enterprise_targetrule">
+                    <title>Targeted Product Rules</title>
+                    <action>adminhtml/targetrule/</action>
+                    <depends><module>Enterprise_TargetRule</module></depends>
+                    <sort_order>20</sort_order>
+                </targetrule>
+            </children>
+         </promo>
+    </menu>
+</config>

@@ -24,28 +24,16 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
 /**
- * Target Rule resource setup
- *
- * @category   Enterprise
- * @package    Enterprise_TargetRule
+ * Target rules collection
  */
-class Enterprise_TargetRule_Model_Mysql4_Setup extends Mage_Catalog_Model_Resource_Eav_Mysql4_Setup
+class Enterprise_TargetRule_Model_Mysql4_Collection extends  Mage_Core_Model_Mysql4_Collection_Abstract
 {
-
     /**
-     * Prepare catalog attribute values to save
-     *
-     * @param array $attr
-     * @return array
+     * Initialize resource
      */
-    protected function _prepareValues($attr)
+    protected function _construct()
     {
-        $data = parent::_prepareValues($attr);
-        $data = array_merge($data, array(
-            'is_used_for_target_rules'   => $this->_getValue($attr, 'is_used_for_target_rules', 1)
-        ));
-        return $data;
+        $this->_init('enterprise_targetrule/rule');
     }
 }

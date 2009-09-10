@@ -24,28 +24,32 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-/**
- * Target Rule resource setup
- *
- * @category   Enterprise
- * @package    Enterprise_TargetRule
- */
-class Enterprise_TargetRule_Model_Mysql4_Setup extends Mage_Catalog_Model_Resource_Eav_Mysql4_Setup
+class Enterprise_TargetRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 {
+   /**
+    * Constructor
+    */
+    protected function _construct()
+    {
+        $this->_init('enterprise_targetrule/rule', 'rule_id');
+    }
 
     /**
-     * Prepare catalog attribute values to save
-     *
-     * @param array $attr
-     * @return array
+     * Prepare target rule before save
+     * @param Mage_Core_Model_Abstract $object
      */
-    protected function _prepareValues($attr)
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
     {
-        $data = parent::_prepareValues($attr);
-        $data = array_merge($data, array(
-            'is_used_for_target_rules'   => $this->_getValue($attr, 'is_used_for_target_rules', 1)
-        ));
-        return $data;
+        if ($object->getFromDate() instanceof Zend_Date) {
+            $object->setFromDate($object->getFromDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        } else {
+            $object->setFromDate(null);
+        }
+
+        if ($object->getToDate() instanceof Zend_Date) {
+            $object->setToDate($object->getToDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
+        } else {
+            $object->setToDate(null);
+        }
     }
 }

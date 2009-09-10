@@ -24,11 +24,50 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_TargetRule_Model_Rule
+class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
 {
-    const RULE_AMPLIFY = 0;
-    const SELECTED_REPLACE = 1;
-    const RULE_REPLACE = 2;
+    const BOTH_SELECTED_AND_RULE_BASED = 0;
+    const SELECTED_ONLY = 1;
+    const RULE_BASED_ONLY = 2;
+
+    const RELATED_PRODUCTS = 0;
+    const UP_SELLS = 1;
+    const CROSS_SELLS = 2;
 
     const CONFIG_VALUES_XPATH = 'catalog/enterprise_targetrule/';
+
+    /**
+     * Init resource model
+     */
+    public function __construct()
+    {
+        $this->_init('enterprise_targetrule/rule');
+    }
+
+    /**
+     * Return conditions instance
+     *
+     * @return Enterprise_TargetRule_Model_Rule_Condition_Combine
+     */
+    public function getConditionsInstance()
+    {
+        return Mage::getModel('enterprise_targetrule/rule_condition_combine');
+    }
+
+    /**
+     * Get options for `Apply to` field
+     *
+     * @return array
+     */
+    public function getAppliesToOptions()
+    {
+        return array(
+                Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS
+                    => Mage::helper('enterprise_targetrule')->__('Related Products'),
+                Enterprise_TargetRule_Model_Rule::UP_SELLS
+                    => Mage::helper('enterprise_targetrule')->__('Up-sells'),
+                Enterprise_TargetRule_Model_Rule::CROSS_SELLS
+                    => Mage::helper('enterprise_targetrule')->__('Cross-sells'),
+            );
+    }
 }

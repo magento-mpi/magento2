@@ -107,6 +107,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     public function getDefaultValue($value)
     {
+        $value = $this->getFormPrefix() .'_'. $value;
         return Mage::getStoreConfig(Enterprise_TargetRule_Model_Rule::CONFIG_VALUES_XPATH . $value);
     }
 }

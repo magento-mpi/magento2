@@ -36,22 +36,56 @@
                     <show_in_store>0</show_in_store>
                     <sort_order>900</sort_order>
                     <fields>
-                        <rule_based_positions translate="label">
-                            <label>Rule-based Positions</label>
+                        <related_rule_based_positions translate="label">
+                            <label>Maximum Number of Products in Related Products List</label>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </rule_based_positions>
-                        <position_behavior translate="label">
-                            <label>Position Behavior</label>
+                        </related_rule_based_positions>
+                        <related_position_behavior translate="label">
+                            <label>Show Related Products</label>
                             <frontend_type>select</frontend_type>
                             <source_model>enterprise_targetrule/source_position</source_model>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </position_behavior>
+                        </related_position_behavior>
+
+                        <crosssell_rule_based_positions translate="label">
+                            <label>Maximum Number of Products in Cross-Sell Product List</label>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </crosssell_rule_based_positions>
+                        <crosssell_position_behavior translate="label">
+                            <label>Show Cross-Sell Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>enterprise_targetrule/source_position</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </crosssell_position_behavior>
+
+                        <upsell_rule_based_positions translate="label">
+                            <label>Maximum Number of Products in Upsell Product List</label>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </upsell_rule_based_positions>
+                        <upsell_position_behavior translate="label">
+                            <label>Show Upsell Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>enterprise_targetrule/source_position</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </upsell_position_behavior>
                     </fields>
                 </enterprise_targetrule>
             </groups>
