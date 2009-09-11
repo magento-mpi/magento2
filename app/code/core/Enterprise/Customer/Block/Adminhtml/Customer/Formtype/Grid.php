@@ -82,22 +82,19 @@ class Enterprise_Customer_Block_Adminhtml_Customer_Formtype_Grid extends Mage_Ad
             'type'      => 'store'
         ));
 
-        $design = Mage::getModel('core/design_source_design')->getAllOptions(false, true);
+        $design = Mage::getModel('core/design_source_design')
+            ->setIsFullLabel(true)->getAllOptions(false);
         array_unshift($design, array(
             'value' => 'all',
             'label' => Mage::helper('enterprise_customer')->__('All Themes')
         ));
-        array_unshift($design, array(
-            'value' => '',
-            'label' => ''
-        ));
         $this->addColumn('theme', array(
-            'header'    => Mage::helper('enterprise_customer')->__('For Theme'),
-            'index'     => 'theme',
-            'options'   => $design,
-            'filter'    => 'enterprise_customer/adminhtml_customer_formtype_grid_filter_theme',
-            'renderer'  => 'enterprise_customer/adminhtml_customer_formtype_grid_renderer_theme',
-            'default'   => Mage::helper('enterprise_customer')->__('All Themes')
+            'header'     => Mage::helper('enterprise_customer')->__('For Theme'),
+            'type'       => 'theme',
+            'index'      => 'theme',
+            'options'    => $design,
+            'with_empty' => true,
+            'default'    => Mage::helper('enterprise_customer')->__('All Themes')
         ));
 
         $this->addColumn('is_system', array(
