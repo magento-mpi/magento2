@@ -74,14 +74,30 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
             }
         }
 
-        // set session cookie params
-        session_set_cookie_params(
-            $this->getCookie()->getLifetime(),
-            $this->getCookie()->getPath(),
-            $this->getCookie()->getDomain(),
-            $this->getCookie()->isSecure(),
-            $this->getCookie()->getHttponly()
+        // session cookie params
+        $cookieParams = array(
+            'lifetime' => $this->getCookie()->getLifetime(),
+            'path'     => $this->getCookie()->getPath(),
+            'domain'   => $this->getCookie()->getConfigDomain(),
+            'secure'   => $this->getCookie()->isSecure(),
+            'httponly' => $this->getCookie()->getHttponly()
         );
+
+        if (!$cookieParams['httponly']) {
+            unset($cookieParams['httponly']);
+            if (!$cookieParams['secure']) {
+                unset($cookieParams['secure']);
+                if (!$cookieParams['domain']) {
+                    unset($cookieParams['domain']);
+                }
+            }
+        }
+
+        if (isset($cookieParams['domain'])) {
+            $cookieParams['domain'] = $this->getCookie()->getDomain();
+        }
+
+        call_user_func_array('session_set_cookie_params', $cookieParams);
 
         if (!empty($sessionName)) {
             $this->setSessionName($sessionName);

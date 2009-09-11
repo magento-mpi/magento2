@@ -1060,19 +1060,11 @@
                         <cookie_lifetime translate="label">
                             <label>Cookie Lifetime</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </cookie_lifetime>
-                        <cookie_domain translate="label">
-                            <label>Cookie Domain</label>
-                            <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </cookie_domain>
+                        </cookie_lifetime>
                         <cookie_path translate="label">
                             <label>Cookie Path</label>
                             <frontend_type>text</frontend_type>
@@ -1081,6 +1073,14 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </cookie_path>
+                        <cookie_domain translate="label">
+                            <label>Cookie Domain</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </cookie_domain>
                         <cookie_httponly translate="label">
                             <label>Use HTTP Only</label>
                             <frontend_type>select</frontend_type>
