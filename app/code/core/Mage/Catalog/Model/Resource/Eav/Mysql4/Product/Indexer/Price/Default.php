@@ -297,8 +297,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         $select->columns(array(
             'orig_price'    => $price,
             'price'         => $finalPrice,
-            'min_price'     => new Zend_Db_Expr('@final_price'),
-            'max_price'     => new Zend_Db_Expr('@final_price'),
+            'min_price'     => $finalPrice,
+            'max_price'     => $finalPrice,
             'tier_price'    => new Zend_Db_Expr('tp.min_price')
         ));
 
