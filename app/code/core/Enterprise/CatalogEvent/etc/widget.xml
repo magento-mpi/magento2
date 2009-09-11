@@ -28,21 +28,21 @@
 <config>
     <widgets>
         <event_lister type="enterprise_catalogevent/widget_lister" translate="name description" module="enterprise_catalogevent">
-            <name>Catalog Events Lister</name>
-            <description>Widget that shows Upcoming and Past Catalog Events</description>
+            <name>Catalog Events Carousel</name>
+            <description>Widget that Lists all non-closed Catalog Events as a paginated Carousel</description>
             <parameters>
                 <limit translate="label">
                     <required />
                     <visible />
-                    <value>1</value>
-                    <label>Page Size</label>
+                    <value>5</value>
+                    <label>Number of Events to be displayed</label>
                     <type>text</type>
                 </limit>
                 <scroll translate="label">
                     <required />
                     <visible />
-                    <value>1</value>
-                    <label>Scroll Size</label>
+                    <value>2</value>
+                    <label>Events to scroll per click</label>
                     <type>text</type>
                 </scroll>
                 <width translate="label">
