@@ -109,6 +109,9 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
     protected function _getNodeJson($node, $level = 0)
     {
         $item = parent::_getNodeJson($node, $level);
+        if (in_array($node->getId(), $this->getSelectedNodes())) {
+            $item['checked'] = true;
+        }
         $item['url_key'] = $node->getData('url_key');
         return $item;
     }
