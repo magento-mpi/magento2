@@ -41,7 +41,7 @@ tinyMceWysiwygSetup.prototype =
 
     getSettings: function()
     {
-        var plugins = 'inlinepopups,safari,pagebreak,style,layer,table,advhr,advimage,emotions,iespell,media,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras';
+        var plugins = 'safari,pagebreak,style,layer,table,advhr,advimage,emotions,iespell,media,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras';
 
         if (this.config.widget_plugin_src) {
             plugins = '-magentowidget,' + plugins;
