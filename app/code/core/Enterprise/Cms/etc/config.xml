@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>0.1.13</version>
+             <version>0.1.14</version>
         </Enterprise_Cms>
     </modules>
     <global>

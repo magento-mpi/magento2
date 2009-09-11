@@ -44,6 +44,8 @@ class Enterprise_Cms_Model_Config
             'sort_order',
             'layout_update_xml',
             'custom_theme',
+            'custom_root_template',
+            'custom_layout_update_xml',
             'custom_theme_from',
             'custom_theme_to'
         ));
