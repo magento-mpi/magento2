@@ -32,61 +32,51 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
-    extends Mage_Adminhtml_Block_Template
+    extends Mage_Adminhtml_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
 {
+    protected $_element = null;
+
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('enterprise/cms/widget/instance/edit/layout.phtml');
     }
 
-    protected function _prepareLayout()
+    public function getLabel()
     {
-        return parent::_prepareLayout();
+        return Mage::helper('enterprise_cms')->__('Layout Updates');
+    }
+
+    public function render(Varien_Data_Form_Element_Abstract $element)
+    {
+        $this->setElement($element);
+        return $this->toHtml();
+    }
+
+    public function setElement(Varien_Data_Form_Element_Abstract $element)
+    {
+        $this->_element = $element;
+        return $this;
+    }
+
+    public function getElement()
+    {
+        return $this->_element;
+    }
+
+    public function getCategoriesChooserUrl()
+    {
+        return $this->getUrl('*/*/categories', array('_current' => true));
+    }
+
+    public function getProductsChooserUrl()
+    {
+        return $this->getUrl('*/*/products', array('_current' => true));
     }
 
     public function getBlockChooserUrl()
     {
         return $this->getUrl('*/*/blocks', array('_current' => true));
-    }
-
-    public function getAnchorCategoriesChooser()
-    {
-        return $this->_getCategoriesChooser();
-    }
-
-    public function getNotanchorCategoriesChooser()
-    {
-        return $this->_getCategoriesChooser();
-    }
-
-    protected function _getCategoriesChooser()
-    {
-        $categories = $this->getLayout()
-            ->createBlock('adminhtml/catalog_category_widget_chooser')
-            ->setUseMassaction(true);
-        return $categories->toHtml();
-    }
-
-    public function getProductsChooser()
-    {
-        $productsGrid = $this->getLayout()
-            ->createBlock('adminhtml/catalog_product_widget_chooser')
-            ->setUseMassaction(true);
-        return $productsGrid->toHtml();
-    }
-
-    protected function _getSelectedProducts()
-    {
-        $products = $this->getWidgetInstance()->getProducts();
-        return unserialize($products);
-    }
-
-    public function getProductTypesChooser()
-    {
-        $productTypes = $this->getLayout()
-            ->createBlock('enterprise_cms/adminhtml_cms_widget_instance_edit_chooser_producttype');
-        return $productTypes->toHtml();
     }
 
     public function getLayoutsChooser()
@@ -141,7 +131,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
                     'for'   => $pageGroup['for'],
                     'layout_handle' => $pageGroup['layout_handle'],
                     'entities' => $pageGroup['entities'],
-                    'entities_array' => explode(',', $pageGroup['entities'])
+                    'entities_array' => explode(',', $pageGroup['entities']),
+                    'position' => $pageGroup['position']
                 );
             }
         }

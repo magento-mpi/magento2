@@ -58,7 +58,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Grid extends Mage_Admin
         ));
 
         $this->addColumn('title', array(
-            'header'    => Mage::helper('enterprise_cms')->__('Title'),
+            'header'    => Mage::helper('enterprise_cms')->__('Widget Instance Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
@@ -75,8 +75,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Grid extends Mage_Admin
             'header'    => Mage::helper('enterprise_cms')->__('Design Package/Theme'),
             'align'     => 'left',
             'index'     => 'package_theme',
-            'type'      => 'options',
-            'options'   => $this->getPackageThemeOptionsArray()
+            'type'      => 'theme',
+            'with_empty' => true,
         ));
 
         $this->addColumn('layout_handler', array(
@@ -114,7 +114,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Grid extends Mage_Admin
     public function getPackageThemeOptionsArray()
     {
         $packageThemeArray = array();
-        foreach (Mage::getModel('core/design_source_design')->getAllOptions(false, true) as $item) {
+        $packageThemeOptions = Mage::getModel('core/design_source_design')
+            ->setIsFullLabel(true)->getAllOptions(false);
+        foreach ($packageThemeOptions as $item) {
             if (is_array($item['value'])) {
                 foreach ($item['value'] as $valueItem) {
                     $packageThemeArray[$valueItem['value']] = $valueItem['label'];

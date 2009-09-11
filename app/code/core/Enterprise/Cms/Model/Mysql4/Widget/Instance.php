@@ -44,7 +44,8 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
     /**
      * Perform actions after object load
      *
-     * @param Varien_Object $object
+     * @param Enterprise_Cms_Model_Widget_Instance $object
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
      */
     protected function _afterLoad(Mage_Core_Model_Abstract $object)
     {
@@ -52,13 +53,14 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
             ->from($this->getTable('enterprise_cms/widget_instance_page'))
             ->where('instance_id = ?', $object->getId());
         $object->setData('page_groups', $this->_getReadAdapter()->fetchAll($select));
-        return $this;
+        return parent::_afterLoad($object);
     }
 
     /**
      * Perform actions after object save
      *
-     * @param Varien_Object $object
+     * @param Enterprise_Cms_Model_Widget_Instance $object
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
@@ -96,7 +98,8 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
                 'layout_handle' => $pageGroup['layout_handle'],
                 'block_reference' => $pageGroup['block_reference'],
                 'for' => $pageGroup['for'],
-                'entities' => $pageGroup['entities']
+                'entities' => $pageGroup['entities'],
+                'position' => $pageGroup['position']
             );
             $pageId = $pageGroup['page_id'];
             if (in_array($pageGroup['page_id'], $pageIds)) {
@@ -146,7 +149,8 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
                         $handle,
                         $pageGroupData['block_reference'],
                         $widgetInstance->getType(),
-                        $widgetInstance->getWidgetParameters())
+                        $widgetInstance->getWidgetParameters(),
+                        $pageGroupData['position'])
             ));
             $layoutUpdateId = $this->_getWriteAdapter()->lastInsertId();
             $pageLayoutUpdateIds[] = $layoutUpdateId;
@@ -196,5 +200,46 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
         }
         $xml .= '</block></reference>';
         return $xml;
+    }
+
+    /**
+     * Perform actions after object delete
+     *
+     * @param Enterprise_Cms_Model_Widget_Instance $object
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
+     */
+    protected function _afterDelete(Mage_Core_Model_Abstract $object)
+    {
+        $pageIds = array();
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getTable('enterprise_cms/widget_instance_page'))
+            ->where('instance_id = ?', $object->getId());
+        foreach ($this->_getWriteAdapter()->fetchAll($select) as $row) {
+            $pageIds[] = $row['page_id'];
+        }
+        $layoutUpdateIds = array();
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getTable('enterprise_cms/widget_instance_page_layout'))
+            ->where('page_id in (?)', $pageIds);
+        foreach ($this->_getWriteAdapter()->fetchAll($select) as $row) {
+            $layoutUpdateIds[] = $row['layout_update_id'];
+        }
+        $this->_getWriteAdapter()->delete(
+            $this->getTable('enterprise_cms/widget_instance_page'),
+            $this->_getWriteAdapter()->quoteInto('instance_id = ?', $object->getId())
+        );
+        $this->_getWriteAdapter()->delete(
+            $this->getTable('enterprise_cms/widget_instance_page_layout'),
+            $this->_getWriteAdapter()->quoteInto('page_id in (?)', $pageIds)
+        );
+        $this->_getWriteAdapter()->delete(
+            $this->getTable('core/layout_update'),
+            $this->_getWriteAdapter()->quoteInto('layout_update_id in (?)', $layoutUpdateIds)
+        );
+        $this->_getWriteAdapter()->delete(
+            $this->getTable('core/layout_link'),
+            $this->_getWriteAdapter()->quoteInto('layout_update_id in (?)', $layoutUpdateIds)
+        );
+        return parent::_afterDelete($object);
     }
 }

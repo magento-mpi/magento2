@@ -48,7 +48,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_cms')->__('Widget Settings');
+        return Mage::helper('enterprise_cms')->__('Settings');
     }
 
     /**
@@ -58,7 +58,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_cms')->__('Widget Settings');
+        return Mage::helper('enterprise_cms')->__('Settings');
     }
 
     /**
@@ -101,7 +101,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
         ));
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('enterprise_cms')->__('Widget Settings'))
+            array('legend'=>Mage::helper('enterprise_cms')->__('Settings'))
         );
 
         $this->_addElementTypes($fieldset);
@@ -163,11 +163,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
                 );
             }
         }
+        array_unshift($widgets, array(
+            'value' => '',
+            'label' => Mage::helper('enterprise_cms')->__('-- Please Select --')
+        ));
         return $widgets;
     }
 
     public function getPackegeThemeOptionsArray()
     {
-        return Mage::getModel('core/design_source_design')->getAllOptions(true, true);
+        return Mage::getModel('core/design_source_design')
+            ->setIsFullLabel(true)->getAllOptions(true);
     }
 }

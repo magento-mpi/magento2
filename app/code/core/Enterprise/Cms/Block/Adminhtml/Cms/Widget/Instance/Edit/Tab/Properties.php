@@ -42,7 +42,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Properties
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_cms')->__('Widget Block Properties');
+        return Mage::helper('enterprise_cms')->__('Widget Options');
     }
 
     /**
@@ -52,7 +52,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Properties
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_cms')->__('Widget Block Properties');
+        return Mage::helper('enterprise_cms')->__('Widget Options');
     }
 
     /**

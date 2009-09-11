@@ -24,85 +24,187 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<?php echo $this->getAddLayoutButtonHtml() ?>
-<div class="no-display" id="page_group_container_template">
-    <div class="page_group_container" id="page_group_container_{{id}}">
-        <select class="page_group_select" name="widget_instance[{{id}}][page_group]" onchange="WidgetInstance.displayPageGroup(this.value+'_{{id}}')">
-            <option value="">-- Please Select --</option>
-            <optgroup label="Categories">
-                <option value="anchor_categories">Anchor Categories</option>
-                <option value="notanchor_categories">Not Anchor Categories</option>
-            </optgroup>
-            <optgroup label="Products">
-                <option value="simple_products">Simple Products</option>
-                <option value="grouped_products">Grouped Products</option>
-            </optgroup>
-            <optgroup label="Another Pages">
-                <option value="all_pages">All Pages</option>
-                <option value="pages">Specific Pages</option>
-            </optgroup>
-        </select>
-        <div>
-            <div class="no-display categories" id="anchor_categories_{{id}}">
-                <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][anchor_categories]" />
-                <input type="hidden" name="widget_instance[{{id}}][anchor_categories][page_id]" value="{{page_id}}" />
-                <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][anchor_categories][layout_handle]" value="^default$,^catalog_category_layered*" />
-                <input type="radio" name="widget_instance[{{id}}][anchor_categories][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />All
-                <input type="radio" name="widget_instance[{{id}}][anchor_categories][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />Specific Categories
-                <div class="no-display chooser" id="anchor_category_ids_{{id}}">
-                    <?php echo $this->getAnchorCategoriesChooser() ?>
+<div class="entry-edit-head">
+    <h4><?php echo $this->getLabel() ?></h4>
+    <div class="right"><?php echo $this->getAddLayoutButtonHtml() ?></div>
+</div>
+<div class="fieldset">
+    <div class="hor-scroll"><table class="form-list" cellspacing="0">
+        <tbody><tr><td>
+            <div class="no-display" id="page_group_container_template">
+                <div class="box page_group_container" id="page_group_container_{{id}}">
+                    <div>
+                        <?php echo $this->getRemoveLayoutButtonHtml() ?>
+                    </div>
+                    Display On
+                    <select class="page_group_select" name="widget_instance[{{id}}][page_group]" onchange="WidgetInstance.displayPageGroup(this.value+'_{{id}}')">
+                        <option value="">-- Please Select --</option>
+                        <optgroup label="Categories">
+                            <option value="anchor_categories">Anchor Categories</option>
+                            <option value="notanchor_categories">Not Anchor Categories</option>
+                        </optgroup>
+                        <optgroup label="Products">
+                            <option value="simple_products">Simple Products</option>
+                            <option value="grouped_products">Grouped Products</option>
+                        </optgroup>
+                        <optgroup label="Generic Pages">
+                            <option value="all_pages">All Pages</option>
+                            <option value="pages">Specified Page</option>
+                        </optgroup>
+                    </select>
+                    <div>
+                        <div class="no-display categories" id="anchor_categories_{{id}}">
+                            <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][anchor_categories]" />
+                            <input type="hidden" name="widget_instance[{{id}}][anchor_categories][page_id]" value="{{page_id}}" />
+                            <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][anchor_categories][layout_handle]" value="^default$,^catalog_category_layered*" />
+                            <input type="radio" class="for_all" name="widget_instance[{{id}}][anchor_categories][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />All
+                            <input type="radio" class="for_specific" name="widget_instance[{{id}}][anchor_categories][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />Specific Categories
+                            <div class="no-display chooser_container" id="anchor_categories_ids_{{id}}">
+                                <div>
+                                    <input type="text" class="entities" name="widget_instance[{{id}}][anchor_categories][entities]" value="{{entities}}" />
+                                    <a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayCategoriesChooser('anchor_categories_ids_{{id}}')">
+                                        <img title="Open Chooser" src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>"/>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="WidgetInstance.hideCategoriesChooser('anchor_categories_ids_{{id}}')">
+                                        <img class="v-middle" title="Apply" alt="Apply" src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>"/>
+                                    </a>
+                                </div>
+                                <div class="chooser"></div
+                            </div>
+                            <div class="block_reference_container">
+                                Block Reference<div class="block_reference"></div
+                            </div>
+                            <div class="position">
+                                Position
+                                <select class="position" id="position" name="widget_instance[{{id}}][anchor_categories][position]">
+                                    <option value="before" selected="selected">First</option>
+                                    <option value="after">Last</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="no-display categories" id="notanchor_categories_{{id}}">
+                            <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][notanchor_categories]" />
+                            <input type="hidden" name="widget_instance[{{id}}][notanchor_categories][page_id]" value="{{page_id}}" />
+                            <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][notanchor_categories][layout_handle]" value="^default$,catalog_category_default" />
+                            <input type="radio" name="widget_instance[{{id}}][notanchor_categories][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />All
+                            <input type="radio" name="widget_instance[{{id}}][notanchor_categories][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />Specific Categories
+                            <div class="no-display chooser_container" id="notanchor_categories_ids_{{id}}">
+                                <div>
+                                    <input type="text" class="entities" name="widget_instance[{{id}}][notanchor_categories][entities]" value="{{entities}}" />
+                                    <a id="" class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayCategoriesChooser('notanchor_categories_ids_{{id}}')">
+                                        <img title="Open Chooser" src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>"/>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="WidgetInstance.hideCategoriesChooser('notanchor_categories_ids_{{id}}')">
+                                        <img class="v-middle" title="Apply" alt="Apply" src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>"/>
+                                    </a>
+                                </div>
+                                <div class="chooser"></div
+                            </div>
+                            <div class="block_reference_container">
+                                Block Reference<div class="block_reference"></div
+                            </div>
+                            <div class="position">
+                                Position
+                                <select class="position" id="position" name="widget_instance[{{id}}][notanchor_categoriess][position]">
+                                    <option value="before" selected="selected">First</option>
+                                    <option value="after">Last</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="no-display products" id="simple_products_{{id}}">
+                            <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][simple_products]" />
+                            <input type="hidden" name="widget_instance[{{id}}][simple_products][page_id]" value="{{page_id}}" />
+                            <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][simple_products][layout_handle]" value="^default$,,^catalog_product_view$,^PRODUCT_TYPE_simple$" />
+                            Products<input type="radio" class="for_all" name="widget_instance[{{id}}][simple_products][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />All
+                            <input type="radio" class="for_specific" name="widget_instance[{{id}}][simple_products][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />Specific Products
+                            <div class="no-display chooser_container" id="simple_products_ids_{{id}}">
+                                <div>
+                                    <input type="text" class="entities" name="widget_instance[{{id}}][simple_products][entities]" value="{{entities}}" />
+                                    <a id="" class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayProductsChooser('simple_products_ids_{{id}}')">
+                                        <img title="Open Chooser" src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>"/>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="WidgetInstance.hideProductsChooser('simple_products_ids_{{id}}')">
+                                        <img class="v-middle" title="Apply" alt="Apply" src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>"/>
+                                    </a>
+                                </div>
+                                <div class="chooser"></div
+                            </div>
+                            <div class="block_reference_container">
+                                Block Reference<div class="block_reference"></div
+                            </div>
+                            <div class="position">
+                                Position
+                                <select class="position" id="position" name="widget_instance[{{id}}][simple_products][position]">
+                                    <option value="before" selected="selected">First</option>
+                                    <option value="after">Last</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="no-display products" id="grouped_products_{{id}}">
+                            <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][grouped_products]" />
+                            <input type="hidden" name="widget_instance[{{id}}][grouped_products][page_id]" value="{{page_id}}" />
+                            <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][grouped_products][layout_handle]" value="^catalog_product_view$,^PRODUCT_TYPE_grouped$" />
+                            <input type="radio" class="for_all"  name="widget_instance[{{id}}][grouped_products][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />All
+                            <input type="radio" class="for_specific" name="widget_instance[{{id}}][grouped_products][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />Specific Products
+                            <div class="no-display chooser_container" id="grouped_products_ids_{{id}}">
+                                <div>
+                                    <input type="text" class="entities" name="widget_instance[{{id}}][grouped_products][entities]" value="{{entities}}" />
+                                    <a id="" class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayProductsChooser('grouped_products_ids_{{id}}')">
+                                        <img title="Open Chooser" src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>"/>
+                                    </a>
+                                    <a href="javascript:void(0)" onclick="WidgetInstance.hideProductsChooser('grouped_products_ids_{{id}}')">
+                                        <img class="v-middle" title="Apply" alt="Apply" src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>"/>
+                                    </a>
+                                </div>
+                                <div class="chooser"></div
+                            </div>
+                            <div class="block_reference_container">
+                                Block Reference<div class="block_reference"></div
+                            </div>
+                            <div class="position">
+                                <select class="position" id="position" name="widget_instance[{{id}}][grouped_products][position]">
+                                    <option value="before" selected="selected">First</option>
+                                    <option value="after">Last</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="no-display all_pages" id="all_pages_{{id}}">
+                            <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][all_pages]" />
+                            <input type="hidden" name="widget_instance[{{id}}][all_pages][page_id]" value="{{page_id}}" />
+                            <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][all_pages][layout_handle]" value="^default$" />
+                            <input type="hidden" class="for_all" name="widget_instance[{{id}}][all_pages][for]" value="all" />
+                            <div class="block_reference_container">
+                                Block Reference<div class="block_reference"></div
+                            </div>
+                            <div class="position">
+                                <select class="position" id="position" name="widget_instance[{{id}}][all_pages][position]">
+                                    <option value="before" selected="selected">First</option>
+                                    <option value="after">Last</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="no-display pages" id="pages_{{id}}">
+                            <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][pages]" />
+                            <input type="hidden" name="widget_instance[{{id}}][pages][page_id]" value="{{page_id}}" />
+                            <input type="hidden" class="for_all" name="widget_instance[{{id}}][pages][for]" value="all" />
+                            <div><?php echo $this->getLayoutsChooser() ?></div>
+                            <div class="block_reference_container">
+                                Block Reference<div class="block_reference"></div
+                            </div>
+                            <div class="position">
+                                <select class="position" id="position" name="widget_instance[{{id}}][pages][position]">
+                                    <option value="before" selected="selected">First</option>
+                                    <option value="after">Last</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="no-display categories" id="notanchor_categories_{{id}}">
-                <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][notanchor_categories]" />
-                <input type="hidden" name="widget_instance[{{id}}][notanchor_categories][page_id]" value="{{page_id}}" />
-                <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][notanchor_categories][layout_handle]" value="^default$,catalog_category_default" />
-                <input type="radio" name="widget_instance[{{id}}][notanchor_categories][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />All
-                <input type="radio" name="widget_instance[{{id}}][notanchor_categories][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />Specific Categories
-                <div class="no-display chooser" id="notanchor_category_ids_{{id}}">
-                    <?php echo $this->getNotanchorCategoriesChooser() ?>
-                </div>
-            </div>
-            <div class="no-display products" id="simple_products_{{id}}">
-                <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][simple_products]" />
-                <input type="hidden" name="widget_instance[{{id}}][simple_products][page_id]" value="{{page_id}}" />
-                <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][simple_products][layout_handle]" value="^default$,,^catalog_product_view$,^PRODUCT_TYPE_simple$" />
-                <input type="radio" class="for_all" name="widget_instance[{{id}}][simple_products][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />All
-                <input type="radio" class="for_specific" name="widget_instance[{{id}}][simple_products][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />Specific Products
-                <input type="hidden" class="entities" name="widget_instance[{{id}}][simple_products][entities]" value="{{entities}}" />
-                <div class="no-display chooser" id="simple_products_ids_{{id}}">
-                    <?php echo $this->getProductsChooser() ?>
-                </div>
-            </div>
-            <div class="no-display products" id="grouped_products_{{id}}">
-                <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][grouped_products]" />
-                <input type="hidden" name="widget_instance[{{id}}][grouped_products][page_id]" value="{{page_id}}" />
-                <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][grouped_products][layout_handle]" value="^catalog_product_view$,^PRODUCT_TYPE_grouped$" />
-                <input type="radio" class="for_all"  name="widget_instance[{{id}}][grouped_products][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />All
-                <input type="radio" class="for_specific" name="widget_instance[{{id}}][grouped_products][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />Specific Products
-                <div class="no-display chooser" id="grouped_products_ids_{{id}}">
-                    <?php echo $this->getProductsChooser() ?>
-                </div>
-            </div>
-            <div class="no-display all_pages" id="all_pages_{{id}}">
-                <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][all_pages]" />
-                <input type="hidden" name="widget_instance[{{id}}][all_pages][page_id]" value="{{page_id}}" />
-                <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][all_pages][layout_handle]" value="^default$" />
-                <input type="hidden" class="for_all" name="widget_instance[{{id}}][all_pages][for]" value="all" />
-            </div>
-            <div class="no-display pages" id="pages_{{id}}">
-                <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][pages]" />
-                <input type="hidden" name="widget_instance[{{id}}][pages][page_id]" value="{{page_id}}" />
-                <input type="hidden" class="for_all" name="widget_instance[{{id}}][pages][for]" value="all" />
-                <div><?php echo $this->getLayoutsChooser() ?></div>
-            </div>
-        </div>
-        <div>
-            <?php echo $this->getRemoveLayoutButtonHtml() ?>
-        </div>
+            <div id="page_group_container"></div>
+        </td></tr></tbody></table>
     </div>
 </div>
-<div id="page_group_container"></div>
 <script type="text/javascript">
 
 var pageGroupTemplateId = 'page_group_container_template';
@@ -130,6 +232,7 @@ var WidgetInstance = {
                 if (data.entities_array) {
                     additional.entities_array = data.entities_array;
                 }
+                additional.position = data.position;
                 this.displayPageGroup(pageGroup, additional);
                 if ($(this.pageGroupContainerId+'_'+data.id)) {
                     selectGroupElm = $(this.pageGroupContainerId+'_'+data.id).down('select.page_group_select');
@@ -192,63 +295,144 @@ var WidgetInstance = {
         }
         this.activePageGroups.set(container.up('div.page_group_container').id, container.id);
         this.showBlockContainer(container);
-        if (chooser = container.down('div.chooser')) {
-            entities = [];
-            if (additional && additional.entities_array) {
-                entities = additional.entities_array
-            }
-            chooser.select('input[type="checkbox"].products').each(function(elm){
-//                alert('Collection Set Page');
-                for (var i=0; i<entities.length; i++) {
-                    if (entities[i] == elm.value) {
-                        elm.checked = true;
-                        break;
-                    }
-                }
-                Event.observe(elm, 'change', function(){
-                    value = '';
-                    chooser.select('input[type="checkbox"].products').each(function(elm){
-                        if (elm.checked) {
-                            if (value) value = value+','+elm.value;
-                            else value = elm.value;
-                        }
-                    });
-                    entitiesElm = container.down('input[type="hidden"].entities');
-                    if (entitiesElm) {
-                        entitiesElm.value = value;
-                    }
-                });
-            });
-        }
-        if (!container.down('div.block_container')) {
+        blockContainer = container.down('div.block_reference');
+        if (blockContainer && blockContainer.innerHTML == '') {
             layoutHandle = '';
             if (layoutHandleField = container.down('input.layout_handle_pattern')) {
                 layoutHandle = layoutHandleField.value;
             }
             this.showLayoutBlocksReferance(container, layoutHandle, additional);
         }
+        if ((positionElm = container.down('select.position')) && additional.position) {
+            for (var i=0; i<positionElm.options.length; i++) {
+                if(positionElm.options[i].value == additional.position) {
+                    positionElm.options[i].selected = true;
+                    break;
+                }
+            }
+        }
+    },
+    displayCategoriesChooser : function(chooser) {
+        this.displayChooser(chooser, {type:'categories',url:'<?php echo $this->getCategoriesChooserUrl() ?>'});
+    },
+    hideCategoriesChooser : function(chooser) {
+        chooser = $(chooser).down('div.chooser');
+        if (chooser) {
+            chooser.addClassName('no-display');
+            chooser.hide();
+        }
+    },
+    displayProductsChooser : function(chooser, additional) {
+        if (!additional) {
+            additional = {};
+        }
+        additional.type = 'products';
+        additional.url = '<?php echo $this->getProductsChooserUrl() ?>';
+        this.displayChooser(chooser, additional);
+    },
+    hideProductsChooser : function(chooser) {
+        chooser = $(chooser).down('div.chooser');
+        if (chooser) {
+            chooser.addClassName('no-display');
+            chooser.hide();
+        }
+    },
+    displayChooser : function(chooser, additional) {
+        chooser = $(chooser).down('div.chooser');
+        entities = chooser.up('div.chooser_container').down('input[type="text"].entities').value;
+        url = '';
+        type = '';
+        if (additional) {
+            if (additional.url) {
+                url = additional.url;
+            }
+            if (additional.type) {
+                type = additional.type;
+            }
+        }
+        if (chooser && url) {
+            if (chooser.innerHTML == '') {
+                new Ajax.Request(url, {
+                    method: 'post',
+                    parameters: {selected:entities},
+                    onSuccess: function(transport) {
+                        try {
+                            if (transport.responseText) {
+                                Element.insert(chooser, transport.responseText);
+                                if (type == 'products') {
+                                    chooser.select('input[type="checkbox"].entities').each(function(elm){
+                                        Event.observe(elm, 'change', WidgetInstance.checkEntity.bind(WidgetInstance, chooser));
+                                    });
+                                }
+                                chooser.removeClassName('no-display');
+                                chooser.show();
+                            }
+                        } catch (e) {
+                            alert('Error occurs during loading chooser.');
+                        }
+                    }
+                });
+            } else {
+                chooser.removeClassName('no-display');
+                chooser.show();
+//                chooser.toggleClassName('no-display');
+//                chooser.toggle();
+            }
+        }
+    },
+    checkEntity : function(chooser) {
+        value = '';
+        chooser.select('input[type="checkbox"].entities').each(function(elm){
+            if (elm.checked) {
+                if (value) value = value+','+elm.value;
+                else value = elm.value;
+            }
+        });
+        entitiesElm = chooser.up('div.chooser_container').down('input[type="text"].entities');
+        if (entitiesElm) {
+            entitiesElm.setValue(value);
+        }
+    },
+    addCategoryEntity : function(event) {
+        node = event.memo.node;
+        container = event.target.up('div.chooser_container');
+        ids = container.down('input[type="text"].entities').value.toArray(',');
+        console.log(ids.length);
+        if (-1 == ids.indexOf(node.id)) {
+            ids.push(node.id);
+            container.down('input[type="text"].entities').value = ids.join(',');
+        }
+    },
+    removeCategoryEntity : function(event) {
+        node = event.memo.node;
+        container = event.target.up('div.chooser_container');
+        ids = container.down('input[type="text"].entities').value.toArray(',');
+        while (-1 != ids.indexOf(node.id)) {
+            ids.splice(ids.indexOf(node.id), 1);
+            container.down('input[type="text"].entities').value = ids.join(',');
+        }
     },
     togglePageGroupChooser : function(element) {
         element = $(element);
-        if (element && (chooser = element.next('div.chooser'))) {
-            if (chooser.hasClassName('no-display')) {
-                chooser.removeClassName('no-display');
-                chooser.show();
-            } else {
+        if (element && (chooser = element.next('div.chooser_container'))) {
+            if (element.value == 'all') {
                 chooser.addClassName('no-display');
                 chooser.hide();
+            } else {
+                chooser.removeClassName('no-display');
+                chooser.show();
             }
         }
     },
     showPageGroupChooser : function(element) {
         element = $(element);
-        if (element && (chooser = element.next('div.chooser'))) {
+        if (element && (chooser = element.next('div.chooser_container'))) {
             this.showBlockContainer(chooser);
         }
     },
     hidePageGroupChooser : function(element) {
         element = $(element);
-        if (element && (chooser = element.next('div.chooser'))) {
+        if (element && (chooser = element.next('div.chooser_container'))) {
             this.hideBlockContainer(chooser);
         }
     },
@@ -256,9 +440,9 @@ var WidgetInstance = {
         if (!additional) {
             additional = {};
         }
-        if (element) {
-            if (blockContainer = element.down('div.block_container')) {
-                blockContainer.remove();
+        if (element && (blockContainer = element.down('div.block_reference'))) {
+            if (blockContainer.innerHtml != '') {
+                blockContainer.update('');
             }
             if (group) {
                 var url = '<?php echo $this->getBlockChooserUrl() ?>';
@@ -272,9 +456,9 @@ var WidgetInstance = {
                     onSuccess: function(transport) {
                         try {
                             if (transport.responseText) {
-                                blockContainerTemplate = '<div class="block_container">'+transport.responseText+'</div>';
-                                Element.insert(element, {'bottom':blockContainerTemplate});
-                                selectElm = element.down('div.block_container').down('select');
+                                alert(blockContainer.up('div.page_group_container').id);
+                                Element.insert(blockContainer, transport.responseText);
+                                selectElm = blockContainer.down('select');
                                 if (selectElm) {
                                     selectElm.name = element.down('input.container_name').value+'['+selectElm.name+']';
                                 }
@@ -289,8 +473,16 @@ var WidgetInstance = {
     }
 };
 
-<?php foreach ($this->getPageGroups() as $pageGroup): ?>
-    WidgetInstance.addPageGroup(<?php echo Zend_Json::encode($pageGroup) ?>);
-<?php endforeach; ?>
+Ext.onReady(function(){
+    <?php foreach ($this->getPageGroups() as $pageGroup): ?>
+        WidgetInstance.addPageGroup(<?php echo Zend_Json::encode($pageGroup) ?>);
+    <?php endforeach; ?>
+    Event.observe(document, 'node:checked', function(event){
+        WidgetInstance.addCategoryEntity(event);
+    });
+    Event.observe(document, 'node:unchecked', function(event){
+        WidgetInstance.removeCategoryEntity(event);
+    });
+});
 
 </script>

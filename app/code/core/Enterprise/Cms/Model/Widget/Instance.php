@@ -88,7 +88,8 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
                         'layout_handle' => $layoutHandle,
                         'for' => $pageGroupData['for'],
                         'block_reference' => $pageGroupData['block'],
-                        'entities' => ''
+                        'entities' => '',
+                        'position' => $pageGroupData['position']
                     );
                     if ($pageGroupData['for'] == self::SPECIFIC_ENTITIES) {
                         $tmpPageGroup = array_merge($tmpPageGroup, array(

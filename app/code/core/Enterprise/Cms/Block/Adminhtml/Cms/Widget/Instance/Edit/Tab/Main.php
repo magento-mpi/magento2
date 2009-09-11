@@ -48,7 +48,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_cms')->__('Widget Frontend Properties');
+        return Mage::helper('enterprise_cms')->__('Frontend Properties');
     }
 
     /**
@@ -58,7 +58,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_cms')->__('Widget Frontend Properties');
+        return Mage::helper('enterprise_cms')->__('Frontend Properties');
     }
 
     /**
@@ -96,7 +96,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
         ));
 
         $fieldset = $form->addFieldset('base_fieldset',
-            array('legend' => Mage::helper('enterprise_cms')->__('Widget Frontend Properties'))
+            array('legend' => Mage::helper('enterprise_cms')->__('Frontend Properties'))
         );
 
         if ($widgetInstance->getId()) {
@@ -127,8 +127,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
 
         $fieldset->addField('title', 'text', array(
             'name'  => 'title',
-            'label' => Mage::helper('enterprise_cms')->__('Widget Title'),
-            'title' => Mage::helper('enterprise_cms')->__('Widget Title'),
+            'label' => Mage::helper('enterprise_cms')->__('Widget Instance Title'),
+            'title' => Mage::helper('enterprise_cms')->__('Widget Instance Title'),
             'class' => '',
             'required' => true,
         ));
@@ -136,26 +136,22 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
         if (!Mage::app()->isSingleStoreMode()) {
             $fieldset->addField('store_ids', 'multiselect', array(
                 'name'      => 'store_ids[]',
-                'label'     => Mage::helper('enterprise_cms')->__('Store View'),
-                'title'     => Mage::helper('enterprise_cms')->__('Store View'),
+                'label'     => Mage::helper('enterprise_cms')->__('Assign to Store Views'),
+                'title'     => Mage::helper('enterprise_cms')->__('Assign to Store Views'),
                 'required'  => true,
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
             ));
         }
-
-        $fieldset = $form->addFieldset('layout_fildset',
-            array('legend' => Mage::helper('enterprise_cms')->__('Widget Instance Page Settings'))
-        );
         /* @var $layoutBlock Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout */
         $layoutBlock = $this->getLayout()
             ->createBlock('enterprise_cms/adminhtml_cms_widget_instance_edit_tab_main_layout')
             ->setWidgetInstance($widgetInstance);
-        $fieldset->addField('layout', 'note', array(
-            'label' => Mage::helper('enterprise_cms')->__('Page Groups'),
-            'title' => Mage::helper('enterprise_cms')->__('Page Groups'),
-            'text' => $layoutBlock->toHtml()
+        $fieldset = $form->addFieldset('layout_updates_fieldset',
+            array('legend' => Mage::helper('enterprise_cms')->__('Layout Updates'))
+        );
+        $fieldset->addField('layout_updates', 'note', array(
         ));
-
+        $form->getElement('layout_updates_fieldset')->setRenderer($layoutBlock);
         $this->setForm($form);
 
         return parent::_prepareForm();
@@ -183,7 +179,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
 
     public function getPackegeThemeOptionsArray()
     {
-        return Mage::getModel('core/design_source_design')->getAllOptions(false, true);
+        return Mage::getModel('core/design_source_design')
+            ->setIsFullLabel(true)->getAllOptions(true);
     }
 
     protected function _initFormValues()

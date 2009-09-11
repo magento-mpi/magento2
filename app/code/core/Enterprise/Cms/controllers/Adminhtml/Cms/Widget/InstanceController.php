@@ -87,14 +87,6 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         return $widgetInstance;
     }
 
-    protected function _initWidgetInstanceForSave()
-    {
-        $widgetInstance = $this->_initWidgetInstance();
-        $data = $this->getRequest()->getPost();
-        $widgetInstance->setData($data);
-        return $widgetInstance;
-    }
-
     /**
      * Widget Instances Grid
      *
@@ -168,12 +160,44 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         return;
     }
 
-    public function gridAction()
+    /**
+     * Delete Action
+     *
+     */
+    public function deleteAction()
     {
-        $gridType = $this->getRequest()->getParam('gridType', null);
-        if ($gridType) {
-            $this->getResponse()->setBody($gridType);
+        $widgetInstance = $this->_initWidgetInstance();
+        if ($widgetInstance->getId()) {
+            try {
+                $widgetInstance->delete();
+            } catch (Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            }
         }
+        $this->_redirect('*/*/');
+        return;
+    }
+
+    public function categoriesAction()
+    {
+        $selected = $this->getRequest()->getParam('selected', '');
+        $chooser = $this->getLayout()
+            ->createBlock('adminhtml/catalog_category_widget_chooser')
+            ->setUseMassaction(true)
+            ->setSelectedNodes(explode(',', $selected))
+            ->setId('categories'.md5(microtime()));
+        $this->getResponse()->setBody($chooser->toHtml());
+    }
+
+    public function productsAction()
+    {
+        $selected = $this->getRequest()->getParam('selected', '');
+        $chooser = $this->getLayout()
+            ->createBlock('adminhtml/catalog_product_widget_chooser')
+            ->setUseMassaction(true)
+            ->setSelectedProducts(explode(',', $selected))
+            ->setId('products'.md5(microtime()));
+        $this->getResponse()->setBody($chooser->toHtml());
     }
 
     /**
