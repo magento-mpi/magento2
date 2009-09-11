@@ -74,8 +74,10 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             return false;
         }
 
+        $inRange = Mage::app()->getLocale()->IsStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo());
+
         if ($page->getCustomTheme()) {
-            if (Mage::app()->getLocale()->IsStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo())) {
+            if ($inRange) {
                 list($package, $theme) = explode('/', $page->getCustomTheme());
                 Mage::getSingleton('core/design_package')
                     ->setPackageName($package)
@@ -89,12 +91,15 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
 
         $action->addActionLayoutHandles();
         if ($page->getRootTemplate()) {
-            $action->getLayout()->helper('page/layout')
-                ->applyHandle($page->getRootTemplate());
+            $handle = ($page->getCustomRootTemplate()
+                        && $page->getCustomRootTemplate() != 'empty'
+                        && $inRange) ? $page->getCustomRootTemplate() : $page->getRootTemplate();
+            $action->getLayout()->helper('page/layout')->applyHandle($handle);
         }
 
         $action->loadLayoutUpdates();
-        $action->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
+        $layoutUpdate = ($page->getCustomLayoutUpdateXml() && $inRange) ? $page->getCustomLayoutUpdateXml() : $page->getLayoutUpdateXml();
+        $action->getLayout()->getUpdate()->addUpdate($layoutUpdate);
         $action->generateLayoutXml()->generateLayoutBlocks();
 
         if ($page->getRootTemplate()) {
