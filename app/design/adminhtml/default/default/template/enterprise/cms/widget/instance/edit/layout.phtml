@@ -397,7 +397,6 @@ var WidgetInstance = {
         node = event.memo.node;
         container = event.target.up('div.chooser_container');
         ids = container.down('input[type="text"].entities').value.toArray(',');
-        console.log(ids.length);
         if (-1 == ids.indexOf(node.id)) {
             ids.push(node.id);
             container.down('input[type="text"].entities').value = ids.join(',');
@@ -456,7 +455,6 @@ var WidgetInstance = {
                     onSuccess: function(transport) {
                         try {
                             if (transport.responseText) {
-                                alert(blockContainer.up('div.page_group_container').id);
                                 Element.insert(blockContainer, transport.responseText);
                                 selectElm = blockContainer.down('select');
                                 if (selectElm) {
