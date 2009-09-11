@@ -58,14 +58,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Preview_Revision extends Mage_Admi
         $collection = Mage::getModel('enterprise_cms/page_revision')->getCollection()
             ->addPageFilter($this->getRequest()->getParam('page_id'))
             ->joinVersions()
+            ->addNumberSort()
             ->addVisibilityFilter(Mage::getSingleton('admin/session')->getUser()->getId(),
                 Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel());
 
         $revisions = array();
 
-        $itemsCollection = array_reverse($collection->getItems(), true);
-
-        foreach ($itemsCollection as $item) {
+        foreach ($collection->getItems() as $item) {
             if (isset($revisions[$item->getVersionId()])) {
                 $revisions[$item->getVersionId()]['revisions'][] = $item;
             } else {
