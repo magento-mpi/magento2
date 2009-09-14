@@ -39,6 +39,7 @@
                         <element_type>label</element_type>
                         <element_helper>adminhtml/cms_page_widget_chooser</element_helper>
                     </type>
+                    <sort_order>10</sort_order>
                 </href>
                 <anchor_text translate="label">
                     <visible />

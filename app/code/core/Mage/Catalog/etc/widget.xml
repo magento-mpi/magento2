@@ -64,6 +64,7 @@
                         <element_type>label</element_type>
                         <element_helper>adminhtml/catalog_product_widget_chooser</element_helper>
                     </type>
+                    <sort_order>10</sort_order>
                 </id_path>
                 <anchor_text translate="label">
                     <visible />
@@ -91,6 +92,7 @@
                         <element_type>label</element_type>
                         <element_helper>adminhtml/catalog_category_widget_chooser</element_helper>
                     </type>
+                    <sort_order>10</sort_order>
                 </id_path>
                 <anchor_text translate="label">
                     <visible />

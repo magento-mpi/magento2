@@ -68,10 +68,24 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
             return;
         }
 
-        // Add Widget Options
+        // Sort Widget parameters and Add them to form
+        $sortOrder = 0;
         foreach ($widget->parameters->children() as $option) {
+            $option->sort_order = $option->sort_order ? (int)$option->sort_order : $sortOrder;
+            $options[$option->getName()] = $option;
+            $sortOrder++;
+        }
+        uasort($options, array($this, '_sortParameters'));
+        foreach ($options as $option) {
             $this->_addField($option, $widgetHelper);
         }
+    }
+
+    protected function _sortParameters($a, $b)
+    {
+        $aOrder = (int)$a->sort_order;
+        $bOrder = (int)$b->sort_order;
+        return $aOrder < $bOrder ? -1 : ($aOrder > $bOrder ? 1 : 0);
     }
 
     /**
@@ -85,7 +99,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
     {
         $form = $this->getForm();
         $fieldset = $form->getElement('options_fieldset');
-        $values = $this->getWidgetValues();
+        $values = $this->_getRequestOptionValues('values');
 
         // renderer, filter and type for option
         $_renderer = false;
@@ -180,20 +194,6 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
             return $this->_getRequestOptionValues('widget_type');
         }
         return $this->_getData('widget_type');
-    }
-
-    /**
-     * Getter
-     * If widget values was not set before, try to retrieve it from request
-     *
-     * @return array
-     */
-    public function getWidgetValues()
-    {
-        if (!$this->_getData('widget_values')) {
-            return $this->_getRequestOptionValues('values');
-        }
-        return $this->_getData('widget_values');
     }
 
     /**
