@@ -52,7 +52,7 @@
                                         <tr>
                                             <th><label>Categories</label></th>
                                             <th><label>Block Reference</label></th>
-                                            <th><label>Position</label></th>
+                                            <th><label for="position">Position</label></th>
                                             <th>&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -64,13 +64,7 @@
                                                 <input type="radio" class="radio for_specific" id="specific_<?php echo $container['name'] ?>" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />&nbsp;
                                                 <label for="specific_<?php echo $container['name'] ?>">Specific Categories</label>
                                                 <div class="no-display chooser_container" id="<?php echo $container['name'] ?>_ids_{{id}}">
-                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{entities}}" style="width:290px;" />&nbsp;
-                                                    <a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser">
-                                                        <img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" />
-                                                    </a>&nbsp;
-                                                    <a href="javascript:void(0)" onclick="WidgetInstance.hideCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply">
-                                                        <img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" />
-                                                    </a>
+                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{entities}}" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
                                                     <div class="chooser"></div>
                                                 </div>
                                             </td>
@@ -106,7 +100,7 @@
                                         <tr>
                                             <th><label>Products</label></th>
                                             <th><label>Block Reference</label></th>
-                                            <th><label>Position</label></th>
+                                            <th><label for="position">Position</label></th>
                                             <th>&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -119,13 +113,7 @@
                                                 <label for="specific_<?php echo $container['name'] ?>">Specific Products</label>
                                                 <div class="no-display chooser_container" id="<?php echo $container['name'] ?>_ids_{{id}}">
                                                     <input type="hidden" class="product_type_id" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][product_type_id]" value="<?php echo $container['product_type_id'] ?>" />
-                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{entities}}" style="width:290px;" />&nbsp;
-                                                    <a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser">
-                                                        <img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" />
-                                                    </a>&nbsp;
-                                                    <a href="javascript:void(0)" onclick="WidgetInstance.hideProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply">
-                                                        <img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" />
-                                                    </a>
+                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{entities}}" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
                                                     <div class="chooser"></div>
                                                 </div>
                                             </td>
@@ -142,6 +130,7 @@
                                                     </select>
                                                 </div>
                                             </td>
+                                            <td>&nbsp;</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -152,30 +141,74 @@
                             <input type="hidden" name="widget_instance[{{id}}][all_pages][page_id]" value="{{page_id}}" />
                             <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][all_pages][layout_handle]" value="^default$" />
                             <input type="hidden" class="for_all" name="widget_instance[{{id}}][all_pages][for]" value="all" />
-                            <div class="block_reference_container">
-                                Block Reference<div class="block_reference"></div>
-                            </div>
-                            <div class="position">
-                                <select class="position" id="position" name="widget_instance[{{id}}][all_pages][position]">
-                                    <option value="before" selected="selected">First</option>
-                                    <option value="after">Last</option>
-                                </select>
-                            </div>
+                            <table cellspacing="0" class="option-header">
+                                <col width="220" />
+                                <col width="120" />
+                                <col />
+                                <thead>
+                                    <tr>
+                                        <th><label>Block Reference</label></th>
+                                        <th><label for="position">Position</label></th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="block_reference_container">
+                                                <div class="block_reference"></div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="position">
+                                                <select class="position" id="position" name="widget_instance[{{id}}][all_pages][position]">
+                                                    <option value="before" selected="selected">First</option>
+                                                    <option value="after">Last</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="no-display pages" id="pages_{{id}}">
                             <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][pages]" />
                             <input type="hidden" name="widget_instance[{{id}}][pages][page_id]" value="{{page_id}}" />
                             <input type="hidden" class="for_all" name="widget_instance[{{id}}][pages][for]" value="all" />
-                            <div><?php echo $this->getLayoutsChooser() ?></div>
-                            <div class="block_reference_container">
-                                Block Reference<div class="block_reference"></div>
-                            </div>
-                            <div class="position">
-                                <select class="position" id="position" name="widget_instance[{{id}}][pages][position]">
-                                    <option value="before" selected="selected">First</option>
-                                    <option value="after">Last</option>
-                                </select>
-                            </div>
+                            <table cellspacing="0" class="option-header">
+                                <col width="350" />
+                                <col width="220" />
+                                <col width="120" />
+                                <col />
+                                <thead>
+                                    <tr>
+                                        <th><label>Page</label></th>
+                                        <th><label>Block Reference</label></th>
+                                        <th><label>Position</label></th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><?php echo $this->getLayoutsChooser() ?></td>
+                                        <td>
+                                            <div class="block_reference_container">
+                                                <div class="block_reference"></div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="position">
+                                                <select class="position" id="position" name="widget_instance[{{id}}][pages][position]">
+                                                    <option value="before" selected="selected">First</option>
+                                                    <option value="after">Last</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -184,7 +217,7 @@
     </div>
 </div>
 <script type="text/javascript">
-
+//<![CDATA[
 var pageGroupTemplateId = 'page_group_container_template';
 
 var WidgetInstance = {
@@ -470,5 +503,5 @@ Ext.onReady(function(){
         WidgetInstance.removeCategoryEntity(event);
     });
 });
-
+//]]>
 </script>

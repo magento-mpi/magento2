@@ -193,7 +193,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
             ->setData(array(
                 'label'     => Mage::helper('enterprise_cms')->__('Add Layout'),
                 'onclick'   => 'WidgetInstance.addPageGroup({})',
-                'class'     => 'save'
+                'class'     => 'add'
             ));
         return $button->toHtml();
     }
