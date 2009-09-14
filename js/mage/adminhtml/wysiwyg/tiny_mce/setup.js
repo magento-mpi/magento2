@@ -166,7 +166,16 @@ tinyMceWysiwygSetup.prototype =
         return content.gsub(/\{\{widget(.*?)\}\}/i, function(match){
             var attributes = this.parseAttributesString(match[1]);
             var imageSrc = this.config.widget_images_url + attributes.type.replace(/\//g, "__") + ".gif";
-            return '<img id="' + Base64.idEncode(match[0]) + '" src="' + imageSrc + '" class="widget" title="'+ match[0].replace(/\"/g, '&quot;') + '">';
+
+            var imageHtml = '<img';
+                imageHtml+= ' id="' + Base64.idEncode(match[0]) + '"';
+                imageHtml+= ' src="' + imageSrc + '"';
+                imageHtml+= ' class="widget"';
+                imageHtml+= ' title="' + match[0].replace(/\{\{/g, '{').replace(/\}\}/g, '}').replace(/\"/g, '&quot;') + '"';
+                imageHtml+= '>';
+
+            return imageHtml;
+
         }.bind(this));
     },
 
