@@ -162,7 +162,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
                 $helper = Mage::helper('enterprise_cms');
             }
             $widgets[] = array(
-                'value' => $items->getAttribute('type'),
+                'value' => $item->getAttribute('type'),
                 'label' => $helper->__((string)$item->name)
             );
         }
