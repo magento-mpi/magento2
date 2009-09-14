@@ -33,6 +33,8 @@
  */
 class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtml_Block_Catalog_Category_Tree
 {
+    protected $_selectedCategories = array();
+
     /**
      * Block construction
      * Defines tree template and init tree params
@@ -42,6 +44,28 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
         parent::__construct();
         $this->setTemplate('catalog/category/widget/tree.phtml');
         $this->_withProductCount = false;
+    }
+
+    /**
+     * Setter
+     *
+     * @param array $selectedCategories
+     * @return Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser
+     */
+    public function setSelectedCategories($selectedCategories)
+    {
+        $this->_selectedCategories = $selectedCategories;
+        return $this;
+    }
+
+    /**
+     * Getter
+     *
+     * @return array
+     */
+    public function getSelectedCategories()
+    {
+        return $this->_selectedCategories;
     }
 
     /**
@@ -82,20 +106,28 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
         if ($this->getData('node_click_listener')) {
             return $this->getData('node_click_listener');
         }
-        $js = '
-            function (node, e) {
-                var chooser = $("tree'.$this->getId().'").up().previous("a.widget-option-chooser");
+        if ($this->getUseMassaction()) {
+            $js = '
+                function (node, e) {
+                    node.ui.toggleCheck(true);
+                }
+            ';
+        } else {
+            $js = '
+                function (node, e) {
+                    var chooser = $("tree'.$this->getId().'").up().previous("a.widget-option-chooser");
 
-                var optionLabel = node.text;
-                var optionValue = node.attributes.id;
+                    var optionLabel = node.text;
+                    var optionValue = node.attributes.id;
 
-                chooser.previous("input.widget-option").value = "category/" + optionValue;
-                chooser.next("label.widget-option-label").update(optionLabel);
+                    chooser.previous("input.widget-option").value = "category/" + optionValue;
+                    chooser.next("label.widget-option-label").update(optionLabel);
 
-                var responseContainerId = "responseCnt" + chooser.id;
-                $(responseContainerId).hide();
-            }
-        ';
+                    var responseContainerId = "responseCnt" + chooser.id;
+                    $(responseContainerId).hide();
+                }
+            ';
+        }
         return $js;
     }
 
@@ -109,7 +141,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
     protected function _getNodeJson($node, $level = 0)
     {
         $item = parent::_getNodeJson($node, $level);
-        if (in_array($node->getId(), $this->getSelectedNodes())) {
+        if (in_array($node->getId(), $this->getSelectedCategories())) {
             $item['checked'] = true;
         }
         $item['url_key'] = $node->getData('url_key');
