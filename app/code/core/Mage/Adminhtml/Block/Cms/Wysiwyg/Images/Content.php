@@ -64,10 +64,18 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
 
         $this->_addButton('delete_files', array(
             'class'   => 'delete no-display',
-            'label'   => $this->helper('cms')->__('Delete Files'),
+            'label'   => $this->helper('cms')->__('Delete File'),
             'type'    => 'button',
             'onclick' => 'Images.deleteFiles();',
             'id'      => 'button_delete_files'
+        ));
+
+        $this->_addButton('insert_files', array(
+            'class'   => 'save no-display',
+            'label'   => $this->helper('cms')->__('Insert File'),
+            'type'    => 'button',
+            'onclick' => 'Images.insert();',
+            'id'      => 'button_insert_files'
         ));
     }
 

@@ -79,11 +79,16 @@ Wysiwyg.Images.prototype = {
 
     selectFile: function (event) {
         var div = Event.findElement(event, 'DIV');
+        $$('div.filecnt.selected[id!="' + div.id + '"]').each(function(e) {
+            e.removeClassName('selected');
+        })
         div.toggleClassName('selected');
         if($$('div.selected').length > 0) {
             this.showElement('button_delete_files');
+            this.showElement('button_insert_files');
         } else {
             this.hideElement('button_delete_files');
+            this.hideElement('button_insert_files');
         }
     },
 
@@ -109,7 +114,17 @@ Wysiwyg.Images.prototype = {
     },
 
     insert: function(event) {
-        var div = Event.findElement(event, 'DIV');
+        var div;
+        if (event != undefined) {
+            div = Event.findElement(event, 'DIV');
+        } else {
+            $$('div.selected').each(function (e) {
+                div = $(e.id);
+            });
+        }
+        if ($(div.id) == undefined) {
+            return false;
+        }
         var targetEl = this.getTargetElement();
         if ($(targetEl) == undefined) {
             alert("Target element not found for content update");
