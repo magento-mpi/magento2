@@ -28,7 +28,7 @@ class Enterprise_Banner_Model_Mysql4_Catalogrule extends Mage_Core_Model_Mysql4_
 {
 
     /**
-     * Initialize banner resource model
+     * Initialize banner catalog rule resource model
      *
      */
     protected function _construct()

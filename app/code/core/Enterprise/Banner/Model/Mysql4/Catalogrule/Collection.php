@@ -24,16 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_CatalogRule_Model_Mysql4_Rule_Collection
 {
-    protected function _construct()
-    {
-        $this->_init('enterprise_banner/catalogrule');
-    }
 
-    protected function _initSelect()
-    {
-        parent::_initSelect();
-        $this->getSelect()->join(array('rules' => $this->getTable('catalogrule/rule')), '`main_table`.rule_id = `rules`.rule_id');
-    }
 }

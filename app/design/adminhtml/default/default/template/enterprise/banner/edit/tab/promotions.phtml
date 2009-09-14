@@ -24,15 +24,20 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
+<?php
+/**
+ * @var Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions
+ */
+?>
 <div class="entry-edit">
     <div class="entry-edit-head">
         <h4 class="icon-head head-account"><?php echo $this->helper('enterprise_banner')->__('Related Shopping Cart Price Rules')?></h4>
     </div>
     <div class="fieldset">
         <?php echo $this->getChildHtml('banner_salesrule_grid'); ?>
+        <?php echo $this->getChildHtml('salesrule_grid_serializer'); ?>
     </div>
 </div>
-<input type="hidden" name="banner_sales_rules" id="banner_sales_rules" value="" />
 
 <div class="entry-edit">
     <div class="entry-edit-head">
@@ -40,78 +45,6 @@
     </div>
     <div class="fieldset">
         <?php echo $this->getChildHtml('banner_catalogrule_grid'); ?>
+         <?php echo $this->getChildHtml('catalogrule_grid_serializer'); ?>
     </div>
 </div>
-<input type="hidden" name="banner_catalog_rules" id="banner_catalog_rules" value="" />
-<script type="text/javascript">
-//<![CDATA[
-<?php if(($block = $this->getLayout()->getBlock('banner_salesrule_grid')) && ($_gridJsObject=$block->getJsObjectName())): ?>
-
-    var bannerSalesRule = $H(<?php echo $this->getBannersSalesRuleJson() ?>);
-    $('banner_sales_rules').value = bannerSalesRule.toQueryString();
-
-    function registerBannerSalesRule(grid, element, checked)
-    {
-        if(checked){
-            bannerSalesRule.set(element.value, element.value);
-        }
-        else{
-            bannerSalesRule.unset(element.value);
-        }
-        $('banner_sales_rules').value = bannerSalesRule.toQueryString();
-        grid.reloadParams = {'selected_salesrules[]':bannerSalesRule.keys()};
-    }
-
-    function bannerSalesRuleRowClick(grid, event)
-    {
-        var trElement = Event.findElement(event, 'tr');
-        var isInput   = Event.element(event).tagName == 'INPUT';
-        if(trElement){
-            var checkbox = Element.getElementsBySelector(trElement, 'input');
-            if(checkbox[0]){
-                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
-                <?php echo $_gridJsObject ?>.setCheckboxChecked(checkbox[0], checked);
-            }
-        }
-    }
-
-    <?php echo $_gridJsObject ?>.rowClickCallback       = bannerSalesRuleRowClick;
-    <?php echo $_gridJsObject ?>.checkboxCheckCallback  = registerBannerSalesRule;
-<?php endif; ?>
-
-<?php if(($block = $this->getLayout()->getBlock('banner_catalogrule_grid')) && ($_gridJsObject=$block->getJsObjectName())): ?>
-
-    var bannerCatalogRule = $H(<?php echo $this->getBannersCatalogRuleJson() ?>);
-    $('banner_catalog_rules').value = bannerCatalogRule.toQueryString();
-
-    function registerBannerCatalogRule(grid, element, checked)
-    {
-        if(checked){
-            bannerCatalogRule.set(element.value, element.value);
-        }
-        else{
-            bannerCatalogRule.unset(element.value);
-        }
-        $('banner_catalog_rules').value = bannerCatalogRule.toQueryString();
-        grid.reloadParams = {'selected_catalogrules[]':bannerCatalogRule.keys()};
-    }
-
-    function bannerCatalogRuleRowClick(grid, event)
-    {
-        var trElement = Event.findElement(event, 'tr');
-        var isInput   = Event.element(event).tagName == 'INPUT';
-        if(trElement){
-            var checkbox = Element.getElementsBySelector(trElement, 'input');
-            if(checkbox[0]){
-                var checked = isInput ? checkbox[0].checked : !checkbox[0].checked;
-                <?php echo $_gridJsObject ?>.setCheckboxChecked(checkbox[0], checked);
-            }
-        }
-    }
-
-    <?php echo $_gridJsObject ?>.rowClickCallback       = bannerCatalogRuleRowClick;
-    <?php echo $_gridJsObject ?>.checkboxCheckCallback  = registerBannerCatalogRule;
-<?php endif; ?>
-
-//]]>
-</script>

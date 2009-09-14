@@ -61,56 +61,20 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
     }
 
     /**
-     * Get sales rule that associated to banner
-     *
-     * @param   int $bannerId
-     * @return  array
-     */
-    public function getRelatedSalesRule($bannerId)
-    {
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->_salesRuleTable, array())
-            ->join(
-                array('rules' => $this->getTable('salesrule/rule')),
-                $this->_salesRuleTable . '.rule_id = `rules`.rule_id',
-                array('rule_id', 'is_active')
-            )
-            ->where('banner_id=?', $bannerId);
-        $rules = $this->_getWriteAdapter()->fetchPairs($select);
-        return $rules;
-    }
-
-    /**
-     * Get catalog rule that associated to banner
-     *
-     * @param   int $banner
-     * @return  array
-     */
-    public function getRelatedCatalogRule($bannerId)
-    {
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->_catalogRuleTable, array())
-            ->join(
-                array('rules' => $this->getTable('catalogrule/rule')),
-                $this->_catalogRuleTable . '.rule_id = `rules`.rule_id',
-                array('rule_id', 'is_active')
-            )
-            ->where('banner_id=?', $bannerId);
-        $rules = $this->_getWriteAdapter()->fetchPairs($select);
-        return $rules;
-    }
-
-    /**
      * Save banner contents for different store views
      *
      * @param   int $bannerId
      * @param   array $contents
      * @param   array $notuse
+     *
      * @return  Enterprise_Banner_Model_Mysql4_Banner
      */
     public function saveStoreContents($bannerId, $contents, $notuse = array())
     {
         $deleteContentsByStores = array();
+        if (!is_array($notuse)) {
+            $notuse = array();
+        }
         $adapter = $this->_getWriteAdapter();
 
         foreach ($contents as $storeId => $content) {
@@ -135,38 +99,59 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
     }
 
     /**
-     * Enter description here...
+     * Delete unckecked catalog rules
      *
-     * @param unknown_type $bannerId
-     * @param unknown_type $rules
-     * @return unknown
+     * @param int $bannerId
+     * @param array $rules
+     *
+     * @return Enterprise_Banner_Model_Mysql4_Banner
      */
     public function saveCatalogRules($bannerId, $rules)
     {
         $adapter = $this->_getWriteAdapter();
-        if (!empty($rules)) {
-            $adapter->delete($this->_catalogRuleTable,
-                $adapter->quoteInto('banner_id=? AND ', $bannerId) . $adapter->quoteInto('rule_id NOT IN (?)', $rules)
-            );
+        if (empty($rules)) {
+            $rules = array(0);
         }
+        else {
+            foreach ($rules as $ruleId) {
+                $adapter->insertOnDuplicate(
+                    $this->_catalogRuleTable,
+                    array('banner_id' => $bannerId, 'rule_id' => $ruleId),
+                    array('rule_id')
+                );
+            }
+        }
+        $adapter->delete($this->_catalogRuleTable,
+            $adapter->quoteInto('banner_id=? AND ', $bannerId) . $adapter->quoteInto('rule_id NOT IN (?)', $rules)
+        );
         return $this;
     }
 
     /**
-     * Enter description here...
+     * Delete unckecked sale rules
      *
-     * @param unknown_type $bannerId
-     * @param unknown_type $rules
-     * @return unknown
+     * @param int $bannerId
+     * @param array $rules
+     * @return Enterprise_Banner_Model_Mysql4_Banner
      */
     public function saveSalesRules($bannerId, $rules)
     {
         $adapter = $this->_getWriteAdapter();
-        if (!empty($rules)) {
-            $adapter->delete($this->_salesRuleTable,
-                $adapter->quoteInto('banner_id=? AND ', $bannerId) . $adapter->quoteInto('rule_id NOT IN (?)', $rules)
-            );
+        if (empty($rules)) {
+            $rules = array(0);
         }
+        else {
+            foreach ($rules as $ruleId) {
+                $adapter->insertOnDuplicate(
+                    $this->_salesRuleTable,
+                    array('banner_id' => $bannerId, 'rule_id' => $ruleId),
+                    array('rule_id')
+                );
+            }
+        }
+        $adapter->delete($this->_salesRuleTable,
+            $adapter->quoteInto('banner_id=? AND ', $bannerId) . $adapter->quoteInto('rule_id NOT IN (?)', $rules)
+        );
         return $this;
     }
 
@@ -201,4 +186,129 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
         return $this->_getReadAdapter()->fetchOne($select);
     }
 
+    /**
+     * Get sales rule that associated to banner
+     *
+     * @param   int $bannerId
+     * @return  array
+     */
+    public function getRelatedSalesRule($bannerId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_salesRuleTable, array())
+            ->join(
+                array('rules' => $this->getTable('salesrule/rule')),
+                $this->_salesRuleTable . '.rule_id = `rules`.rule_id',
+                array('rule_id')
+            )
+            ->where('banner_id=?', $bannerId);
+        $rules = $this->_getWriteAdapter()->fetchCol($select);
+        return $rules;
+    }
+
+    /**
+     * Get catalog rule that associated to banner
+     *
+     * @param   int $banner
+     * @return  array
+     */
+    public function getRelatedCatalogRule($bannerId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_catalogRuleTable, array())
+            ->join(
+                array('rules' => $this->getTable('catalogrule/rule')),
+                $this->_catalogRuleTable . '.rule_id = `rules`.rule_id',
+                array('rule_id')
+            )
+            ->where('banner_id=?', $bannerId);
+        $rules = $this->_getWriteAdapter()->fetchCol($select);
+        return $rules;
+    }
+
+    /**
+     * Get banners that associated to catalog rule
+     *
+     * @param int $ruleId
+     * @return array
+     */
+    public function getRelatedBannersByCatalogRuleId($ruleId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_catalogRuleTable, array('banner_id'))
+            ->where('rule_id=?', $ruleId);
+        return $this->_getWriteAdapter()->fetchCol($select);
+    }
+
+    /**
+     * Get banners that associated to sales rule
+     *
+     * @param int $ruleId
+     * @return array
+     */
+    public function getRelatedBannersBySalesRuleId($ruleId)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->_salesRuleTable, array('banner_id'))
+            ->where('rule_id=?', $ruleId);
+        return $this->_getWriteAdapter()->fetchCol($select);
+    }
+
+    /**
+     * Bind specified banners to catalog rule by rule id
+     *
+     * @param int $ruleId
+     * @param array $banners
+     *
+     * @return Enterprise_Banner_Model_Mysql4_Banner
+     */
+    public function bindBannersToCatalogRule($ruleId, $banners)
+    {
+        $adapter = $this->_getWriteAdapter();
+        foreach ($banners as $bannerId) {
+            $adapter->insertOnDuplicate(
+                $this->_catalogRuleTable,
+                array('banner_id' => $bannerId, 'rule_id' => $ruleId),
+                array('rule_id')
+            );
+        }
+
+        if (empty($banners)) {
+            $banners = array(0);
+        }
+
+        $adapter->delete($this->_catalogRuleTable,
+            $adapter->quoteInto('rule_id=? AND ', $ruleId) . $adapter->quoteInto('banner_id NOT IN (?)', $banners)
+        );
+        return $this;
+    }
+
+    /**
+     * Bind specified banners to sales rule by rule id
+     *
+     * @param int $ruleId
+     * @param array $banners
+     *
+     * @return Enterprise_Banner_Model_Mysql4_Banner
+     */
+    public function bindBannersToSalesRule($ruleId, $banners)
+    {
+        $adapter = $this->_getWriteAdapter();
+        foreach ($banners as $bannerId) {
+            $adapter->insertOnDuplicate(
+                $this->_salesRuleTable,
+                array('banner_id' => $bannerId, 'rule_id' => $ruleId),
+                array('rule_id')
+            );
+        }
+
+        if (empty($banners)) {
+            $banners = array(0);
+        }
+
+        $adapter->delete($this->_salesRuleTable,
+            $adapter->quoteInto('rule_id=? AND ', $ruleId) . $adapter->quoteInto('banner_id NOT IN (?)', $banners)
+        );
+        return $this;
+    }
 }

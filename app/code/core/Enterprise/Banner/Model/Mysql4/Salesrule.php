@@ -28,7 +28,7 @@ class Enterprise_Banner_Model_Mysql4_Salesrule extends Mage_Core_Model_Mysql4_Ab
 {
 
     /**
-     * Initialize banner resource model
+     * Initialize banner sales rule resource model
      *
      */
     protected function _construct()

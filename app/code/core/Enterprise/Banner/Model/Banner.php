@@ -27,34 +27,37 @@
 class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
 {
     /**
-     * Enter description here...
+     * Representation value of enabled banner
      *
      */
     const STATUS_ENABLED = 1;
+
     /**
-     * Enter description here...
+     * Representation value of disabled banner
      *
      */
     const STATUS_DISABLED  = 0;
 
     /**
-     * Enter description here...
+     * Prefix of model events names
      *
-     * @var unknown_type
+     * @var string
      */
     protected $_eventPrefix = 'enterprise_banner';
 
     /**
-     * Enter description here...
+     * Parameter name in event
      *
-     * @var unknown_type
+     * In observe method you can use $observer->getEvent()->getBanner() in this case
+     *
+     * @var string
      */
     protected $_eventObject = 'banner';
 
     /**
-     * Enter description here...
+     * Store banner contents per store view
      *
-     * @var unknown_type
+     * @var array
      */
     protected $_contents = array();
 
@@ -68,33 +71,7 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Enter description here...
-     *
-     */
-    protected function _beforeSave()
-    {
-//        $banner_name = $this->getBannerName();
-//        if (empty($banner_name)) {
-//            Mage::throwException(Mage::helper('enterprise_banner')->__('Banner name must be specified'));
-//        }
-        // content
-        return parent::_beforeSave();
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return unknown
-     */
-    public function _afterLoad()
-    {
-        return parent::_afterLoad();
-    }
-
-    /**
      * Retrieve array of sales rules id's for banner
-     *
-     * array($ruleId => $is_active)
      *
      * @return array
      */
@@ -114,8 +91,6 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     /**
      * Retrieve array of catalog rules id's for banner
      *
-     * array($ruleId => $is_active)
-     *
      * @return array
      */
     public function getRelatedCatalogRule()
@@ -129,28 +104,6 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
             $this->setData('related_catalog_rule', $array);
         }
         return $array;
-    }
-
-
-    /**
-     * Save banner content after banner save
-     *
-     * @return Enterprise_Banner_Model_Banner
-     */
-    protected function _afterSave()
-    {
-        if ($this->hasStoreContents()) {
-            $this->_getResource()->saveStoreContents($this->getId(), $this->getStoreContents(), $this->getStoreContentsNotUse());
-        }
-        if ($this->hasBannerCatalogRules()) {
-            parse_str($this->getBannerCatalogRules(), $rules);
-        	$this->_getResource()->saveCatalogRules($this->getId(), array_keys($rules));
-        }
-        if ($this->hasBannerSalesRules()) {
-            parse_str($this->getBannerSalesRules(), $rules);
-        	$this->_getResource()->saveSalesRules($this->getId(), array_keys($rules));
-        }
-        return parent::_afterSave();
     }
 
     /**
@@ -193,30 +146,57 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get all existing banner related catalog rules
+     * Get banners ids by catalog rule id
      *
+     * @param int $ruleId
      * @return array
      */
-    public function getBannerCatalogRules()
+    public function getRelatedBannersByCatalogRuleId($ruleId)
     {
-        if (!$this->hasBannerCatalogRules()) {
-            $rules = array_keys($this->_getResource()->getRelatedCatalogRule($this->getId()));
-            $this->setBannerCatalogRules($rules);
+        if (!$this->hasRelatedCatalogRuleBanners()) {
+            $banners = $this->_getResource()->getRelatedBannersByCatalogRuleId($ruleId);
+            $this->setRelatedCatalogRuleBanners($banners);
         }
-        return $this->_getData('banner_catalog_rules');
+        return $this->_getData('related_catalog_rule_banners');
     }
 
     /**
-     * Get all existing banner related sales rules
+     * Get banners ids by sales rule id
      *
+     * @param int $ruleId
      * @return array
      */
-    public function getBannerSalesRules()
+    public function getRelatedBannersBySalesRuleId($ruleId)
     {
-        if (!$this->hasBannerSalesRules()) {
-            $rules = array_keys($this->_getResource()->getRelatedSalesRule($this->getId()));
-            $this->setBannerSalesRules($rules);
+        if (!$this->hasRelatedSalesRuleBanners()) {
+            $banners = $this->_getResource()->getRelatedBannersBySalesRuleId($ruleId);
+            $this->setRelatedSalesRuleBanners($banners);
         }
-        return $this->_getData('banner_sales_rules');
+        return $this->_getData('related_sales_rule_banners');
+    }
+
+    /**
+     * Save banner content, bind banner to catalog and sales rules after banner save
+     *
+     * @return Enterprise_Banner_Model_Banner
+     */
+    protected function _afterSave()
+    {
+        if ($this->hasStoreContents()) {
+            $this->_getResource()->saveStoreContents($this->getId(), $this->getStoreContents(), $this->getStoreContentsNotUse());
+        }
+        if ($this->hasBannerCatalogRules()) {
+            $this->_getResource()->saveCatalogRules(
+                $this->getId(),
+                $this->getBannerCatalogRules()
+            );
+        }
+        if ($this->hasBannerSalesRules()) {
+            $this->_getResource()->saveSalesRules(
+                $this->getId(),
+                $this->getBannerSalesRules()
+            );
+        }
+        return parent::_afterSave();
     }
 }

@@ -28,6 +28,22 @@
 class Mage_CatalogRule_Model_Rule extends Mage_Rule_Model_Rule
 {
     /**
+     * Prefix of model events names
+     *
+     * @var string
+     */
+    protected $_eventPrefix = 'catalogrule_rule';
+
+    /**
+     * Parameter name in event
+     *
+     * In observe method you can use $observer->getEvent()->getRule() in this case
+     *
+     * @var string
+     */
+    protected $_eventObject = 'rule';
+
+    /**
      * Matched product ids array
      *
      * @var array

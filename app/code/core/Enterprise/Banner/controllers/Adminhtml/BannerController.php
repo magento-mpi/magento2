@@ -83,6 +83,20 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         $redirectBack = $this->getRequest()->getParam('back', false);
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
+            if (isset($data['banner_catalog_rules'])) {
+                $related = Mage::helper('adminhtml/js')->decodeInput($data['banner_catalog_rules']);
+                foreach ($related as $_key => $_rid) {
+                    $related[$_key] = (int)$_rid;
+                }
+                $data['banner_catalog_rules'] = $related;
+            }
+            if (isset($data['banner_sales_rules'])) {
+                $related = Mage::helper('adminhtml/js')->decodeInput($data['banner_sales_rules']);
+                foreach ($related as $_key => $_rid) {
+                    $related[$_key] = (int)$_rid;
+                }
+                $data['banner_sales_rules'] = $related;
+            }
             // init model and set data
             $model = Mage::getModel('enterprise_banner/banner');
             if (!empty($data)) {
@@ -128,6 +142,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
 
     /**
      * Delete action
+     *
      */
     public function deleteAction()
     {
@@ -146,7 +161,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('Error while deletion banner data. Please review log and try again.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('Error while deleting banner data. Please review log and try again.'));
                 Mage::logException($e);
                 // save data in session
                 Mage::getSingleton('adminhtml/session')->setFormData($data);
@@ -163,6 +178,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
 
     /**
      * Delete specified banners using grid massaction
+     *
      */
     public function massDeleteAction()
     {
@@ -227,22 +243,102 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     }
 
     /**
-     * Enter description here...
+     * Banner sales rule grid action on promotions tab
+     * Load banner by ID from post data
+     * Register banner model
      *
      */
     public function salesRuleGridAction()
     {
+        $id = $this->getRequest()->getParam('id');
+        $this->_initBanner('id');
+        $model = Mage::registry('current_banner');
+
+        if (!$model->getId() && $id) {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));
+            $this->_redirect('*/*/');
+            return;
+        }
+
         $this->loadLayout();
+        $this->getLayout()
+            ->getBlock('banner_salesrule_grid')
+            ->setSelectedSalesRules($this->getRequest()->getPost('selected_salesrules'));
         $this->renderLayout();
     }
 
     /**
-     * Enter description here...
+     * Banner catalog rule grid action on promotions tab
+     * Load banner by ID from post data
+     * Register banner model
      *
      */
     public function catalogRuleGridAction()
     {
+        $id = $this->getRequest()->getParam('id');
+        $this->_initBanner('id');
+        $model = Mage::registry('current_banner');
+
+        if (!$model->getId() && $id) {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));
+            $this->_redirect('*/*/');
+            return;
+        }
+
         $this->loadLayout();
+        $this->getLayout()
+            ->getBlock('banner_catalogrule_grid')
+            ->setSelectedCatalogRules($this->getRequest()->getPost('selected_catalogrules'));
+        $this->renderLayout();
+    }
+
+    /**
+     * Banner binding tab grid action on sales rule
+     *
+     */
+    public function salesRuleBannersGridAction()
+    {
+        $id = $this->getRequest()->getParam('id');
+        $model = Mage::getModel('salesrule/rule');
+
+        if ($id) {
+            $model->load($id);
+            if (! $model->getRuleId()) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('salesrule')->__('This rule no longer exists'));
+                $this->_redirect('*/*');
+                return;
+            }
+        }
+        Mage::register('current_promo_quote_rule', $model);
+        $this->loadLayout();
+        $this->getLayout()
+            ->getBlock('related_salesrule_banners_grid')
+            ->setSelectedSalesruleBanners($this->getRequest()->getPost('selected_salesrule_banners'));
+        $this->renderLayout();
+    }
+
+   /**
+     * Banner binding tab grid action on catalog rule
+     *
+     */
+    public function catalogRuleBannersGridAction()
+    {
+        $id = $this->getRequest()->getParam('id');
+        $model = Mage::getModel('catalogrule/rule');
+
+        if ($id) {
+            $model->load($id);
+            if (! $model->getRuleId()) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalogrule')->__('This rule no longer exists'));
+                $this->_redirect('*/*');
+                return;
+            }
+        }
+        Mage::register('current_promo_catalog_rule', $model);
+        $this->loadLayout();
+        $this->getLayout()
+            ->getBlock('related_catalogrule_banners_grid')
+            ->setSelectedCatalogruleBanners($this->getRequest()->getPost('selected_catalogrule_banners'));
         $this->renderLayout();
     }
 }

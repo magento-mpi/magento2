@@ -24,6 +24,13 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Banner content per store view edit page
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Banner
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
     extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
@@ -70,6 +77,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
 
     /**
      * Load Wysiwyg on demand and Prepare layout
+     *
      */
     protected function _prepareLayout()
     {
@@ -90,7 +98,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
         $form = new Varien_Data_Form();
         $form->setHtmlIdPrefix('_content');
         $fieldset = $form->addFieldset('action_fieldset', array(
-            'legend'=>Mage::helper('salesrule')->__('Content'))
+            'legend'=>Mage::helper('enterprise_banner')->__('Content'))
         );
 
         $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(
@@ -121,36 +129,32 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
 
                 foreach ($stores as $store) {
                     $contentExists = isset($storeContents[$store->getId()]);
+                    $contentFieldId = 'store_'.$store->getId().'_content';
                     $wysiwygConfig = clone $wysiwygConfig;
 
                     if (!$contentExists) {
                         $wysiwygConfig->setNoDisplay(true);
-                    } else {
+                    }
+                    else {
                         $wysiwygConfig->setNoDisplay(false);
                     }
-
-                    $field = $fieldset->addField('store_'.$store->getId().'_content', 'editor', array(
-                        'name'      => 'store_contents['.$store->getId().']',
-                        'required'  => false,
-                        'label'     => $store->getName(),
-                        'disabled'  => !$contentExists,
-                        'value'     => $contentExists ? $storeContents[$store->getId()] : '',
-                        'config'    => $wysiwygConfig,
-                    ));
-
-                    if ($field->isEnabled()) {
-                        $onClick ='$(\'editor'.$field->getHtmlId().'\').toggle();';
-                    } else {
-                        $onClick = 'toggleValueElements(this, Element.previous(Element.previous(this.parentNode).parentNode));';
-                    }
+                    $onClick ='$(\'editor'.$form->getHtmlIdPrefix() . $contentFieldId.'\').toggle();';
 
                     $fieldset->addField('store_'.$store->getId().'_content_use', 'checkbox', array(
                         'name'      => 'store_contents_not_use['.$store->getId().']',
                         'required'  => false,
+                        'label'     => $store->getName(),
                         'onclick'   => $onClick,
-                        'checked'   => isset($storeContents[$store->getId()]) ? false : true,
+                        'checked'   => $contentExists ? false : true,
                         'after_element_html' => '<label class="normal" for="'.$form->getHtmlIdPrefix().'store_'.$store->getId().'_content_use">'.Mage::helper('enterprise_banner')->__('Use Default').'</label>',
                         'value'     => $store->getId()
+                    ));
+
+                    $field = $fieldset->addField($contentFieldId, 'editor', array(
+                        'name'      => 'store_contents['.$store->getId().']',
+                        'required'  => false,
+                        'value'     => $contentExists ? $storeContents[$store->getId()] : '',
+                        'config'    => $wysiwygConfig,
                     ));
                 }
             }

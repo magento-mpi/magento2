@@ -26,6 +26,10 @@
 
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule extends Mage_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Initialize grid, set defaults
+     *
+     */
     public function __construct()
     {
         parent::__construct();
@@ -37,14 +41,52 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
         $this->setVarNameFilter('related_salesrule_filter');
     }
 
+    /**
+     * Set sales rule collection to grid data
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareCollection()
     {
-        $collection = Mage::getModel('enterprise_banner/salesrule')
-            ->getCollection();
+        $bannerId = Mage::registry('current_banner')->getId();
+        $collection = Mage::getResourceModel('enterprise_banner/salesrule_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
 
+    /**
+     * Set custom filter for in banner salesrule flag
+     *
+     * @param string $column
+     * @return Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule
+     */
+    protected function _addColumnFilterToCollection($column)
+    {
+        if ($column->getId() == 'in_banner_salesrule') {
+            $ruleIds = $this->_getSelectedRules();
+            if (empty($ruleIds)) {
+                $ruleIds = 0;
+            }
+            if ($column->getFilter()->getValue()) {
+                $this->getCollection()->addFieldToFilter('rule_id', array('in'=>$ruleIds));
+            }
+            else {
+                if($ruleIds) {
+                    $this->getCollection()->addFieldToFilter('rule_id', array('nin'=>$ruleIds));
+                }
+            }
+        }
+        else {
+            parent::_addColumnFilterToCollection($column);
+        }
+        return $this;
+    }
+
+    /**
+     * Create grid columns
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('in_banner_salesrule', array(
@@ -97,22 +139,39 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
             ),
         ));
 
-
         return parent::_prepareColumns();
     }
 
+    /**
+     * Ajax grid URL getter
+     *
+     */
     public function getGridUrl()
     {
         return $this->getUrl('*/*/salesRuleGrid', array('_current'=>true));
     }
 
+    /**
+     * Get selected rules ids for in banner salesrule flag
+     *
+     * @return array
+     */
     protected function _getSelectedRules()
     {
-        $rules = $this->getRequest()->getPost('selected_salesrules');
+        $rules = $this->getSelectedSalesRules();
         if (is_null($rules)) {
-            $rules = Mage::registry('current_banner')->getRelatedSalesRule();
-            return array_keys($rules);
+            $rules = $this->getRelatedSalesRule();
         }
         return $rules;
+    }
+
+    /**
+     * Get related sales rules by current banner
+     *
+     * @return array
+     */
+    public function getRelatedSalesRule()
+    {
+        return Mage::registry('current_banner')->getRelatedSalesRule();
     }
 }

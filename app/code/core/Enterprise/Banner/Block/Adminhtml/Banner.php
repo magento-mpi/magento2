@@ -27,6 +27,11 @@
 class Enterprise_Banner_Block_Adminhtml_Banner extends Mage_Adminhtml_Block_Widget_Grid_Container
 {
 
+    /**
+     * Initialize banners manage page
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->_controller = 'adminhtml_banner';

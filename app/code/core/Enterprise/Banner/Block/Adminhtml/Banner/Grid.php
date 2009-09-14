@@ -29,9 +29,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
     /**
      * Set defaults
      */
-    public function __construct()
+    protected function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setId('bannerGrid');
         $this->setDefaultSort('banner_id');
         $this->setDefaultDir('desc');
@@ -89,16 +89,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
                 ),
         ));
 
-        $this->addColumn('action', array(
-            'header'    => Mage::helper('enterprise_banner')->__('Action'),
-            'align'     => 'center',
-            'width'     => 20,
-            'format'    => '<a href="'.$this->getUrl('*/*/edit/id/$banner_id').'">'.Mage::helper('enterprise_banner')->__('Edit').'</a>',
-            'filter'    => false,
-            'sortable'  => false,
-            'is_system' => true
-        ));
-
         return parent::_prepareColumns();
     }
 
@@ -117,6 +107,11 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
         ));
 
         return $this;
+    }
+
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/edit', array('id' => $row->getBannerId()));
     }
 
     /**

@@ -27,6 +27,10 @@
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
 
+    /**
+     * Initialize banner edit page. Set management buttons
+     *
+     */
     public function __construct()
     {
         $this->_objectId = 'id';
@@ -49,11 +53,19 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
         );
     }
 
+    /**
+     * Get current loaded banner ID
+     *
+     */
     public function getBannerId()
     {
         return Mage::registry('current_banner')->getId();
     }
 
+    /**
+     * Get header text for banenr edit page
+     *
+     */
     public function getHeaderText()
     {
         if (Mage::registry('current_banner')->getId()) {
@@ -64,6 +76,10 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
         }
     }
 
+    /**
+     * Get form action URL
+     *
+     */
     public function getFormActionUrl()
     {
         return $this->getUrl('*/*/save');

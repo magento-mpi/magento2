@@ -93,10 +93,11 @@ class Mage_Adminhtml_Promo_QuoteController extends Mage_Adminhtml_Controller_Act
 
     public function saveAction()
     {
-        $data = $this->getRequest()->getPost();
-        if ($data) {
+        if ($this->getRequest()->getPost()) {
             try {
                 $model = Mage::getModel('salesrule/rule');
+                Mage::dispatchEvent('adminhtml_controller_salesrule_prepare_save', array('request' => $this->getRequest()));
+                $data = $this->getRequest()->getPost();
                 $id = $this->getRequest()->getParam('rule_id');
                 if ($id) {
                     $model->load($id);

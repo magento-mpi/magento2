@@ -28,7 +28,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tabs extends Mage_Adminhtml_
 {
 
     /**
-     * Enter description here...
+     * Initialize banner edit page tabs
      *
      */
     public function __construct()

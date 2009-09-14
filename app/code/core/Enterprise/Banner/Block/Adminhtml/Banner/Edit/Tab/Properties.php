@@ -24,6 +24,13 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Main banner properties edit form
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Banner
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
     extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface

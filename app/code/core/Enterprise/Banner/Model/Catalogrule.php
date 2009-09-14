@@ -28,7 +28,7 @@
 class Enterprise_Banner_Model_Catalogrule extends Mage_Core_Model_Abstract
 {
     /**
-     * Enter description here...
+     * Initialize promo catalog price rule model
      *
      */
     protected function _construct()

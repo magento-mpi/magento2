@@ -24,7 +24,17 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_Banner_Model_Mysql4_Salesrule_Collection extends Mage_SalesRule_Model_Mysql4_Rule_Collection
-{
+$installer = $this;
+/* @var $installer Enterprise_Banner_Model_Mysql4_Setup */
+$installer->startSetup();
 
-}
+$bannerCatalogRuleTable = $this->getTable('enterprise_banner/catalogrule');
+$bannerSalesRuleTable   = $this->getTable('enterprise_banner/salesrule');
+
+$installer->run("
+    ALTER TABLE `{$bannerCatalogRuleTable}` ADD PRIMARY KEY ( `banner_id` , `rule_id` );
+    ALTER TABLE `{$bannerSalesRuleTable}`   ADD PRIMARY KEY ( `banner_id` , `rule_id` );
+");
+
+
+$installer->endSetup();

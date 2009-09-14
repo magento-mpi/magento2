@@ -1,4 +1,5 @@
 <?php
+<?php
 /**
  * Magento Enterprise Edition
  *
@@ -25,15 +26,15 @@
  */
 
 /**
- * Banner promotions binding grids
+ * Related banners edit tab for promo catalog rule edit page
  *
  * @category   Enterprise
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions
-    extends Mage_Adminhtml_Block_Template
-    implements Mage_Adminhtml_Block_Widget_Tab_Interface
+class Enterprise_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners
+extends Mage_Adminhtml_Block_Text_List
+implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
      * Prepare label for tab
@@ -42,7 +43,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_banner')->__('Related Promotions');
+        return Mage::helper('enterprise_banner')->__('Related Banners');
     }
 
     /**
@@ -52,7 +53,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_banner')->__('Related Promotions');
+        return Mage::helper('enterprise_banner')->__('Related Banners');
     }
 
     /**

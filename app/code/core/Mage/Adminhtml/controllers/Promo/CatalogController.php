@@ -85,9 +85,11 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
 
     public function saveAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        if ($this->getRequest()->getPost()) {
             try {
                 $model = Mage::getModel('catalogrule/rule');
+                Mage::dispatchEvent('adminhtml_controller_catalogrule_prepare_save', array('request' => $this->getRequest()));
+                $data = $this->getRequest()->getPost();
                 if ($id = $this->getRequest()->getParam('rule_id')) {
                     $model->load($id);
                     if ($id != $model->getId()) {
@@ -105,7 +107,9 @@ class Mage_Adminhtml_Promo_CatalogController extends Mage_Adminhtml_Controller_A
                 }
 
                 $model->loadPost($data);
+
                 Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
+
                 $model->save();
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalogrule')->__('Rule was successfully saved'));
