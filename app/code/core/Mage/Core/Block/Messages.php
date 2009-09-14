@@ -192,7 +192,7 @@ class Mage_Core_Block_Messages extends Mage_Core_Block_Template
 
                 foreach ( $messages as $message ) {
                     $html.= '<li>';
-                    $html.= $message->getText();
+                    $html.= $this->htmlEscape($message->getText());
                     $html.= '</li>';
                 }
                 $html .= '</ul>';
