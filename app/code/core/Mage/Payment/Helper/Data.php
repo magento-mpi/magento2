@@ -44,7 +44,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         $key = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/model';
         $class = Mage::getStoreConfig($key);
         if (!$class) {
-            Mage::throwException($this->__('Can not configuration for payment method with code: %s', $code));
+            Mage::throwException($this->__('Cannot load configuration for payment method "%s"', $code));
         }
         return Mage::getModel($class);
     }
@@ -65,7 +65,16 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
         foreach ($methods as $code => $methodConfig) {
             $prefix = self::XML_PATH_PAYMENT_METHODS.'/'.$code.'/';
 
-            if (!Mage::getStoreConfigFlag($prefix.'active', $store)) {
+            // check whether payment method is active
+            $checkResult = new StdClass;
+            $checkResult->isMethodActive = Mage::getStoreConfigFlag($prefix . 'active', $store);
+            Mage::dispatchEvent('payment_method_is_active', array(
+                'result'        => $checkResult,
+                'method_code'   => $code,
+                'method_config' => $methodConfig,
+                'quote'         => $quote,
+            ));
+            if (!$checkResult->isMethodActive) {
                 continue;
             }
             if (!$model = Mage::getStoreConfig($prefix.'model', $store)) {
@@ -80,7 +89,7 @@ class Mage_Payment_Helper_Data extends Mage_Core_Helper_Abstract
                 continue;
             }
 
-            if ( !$methodInstance->isAvailable($quote) ) {
+            if (!$methodInstance->isAvailable($quote)) {
                 /* if the payment method can not be used at this time */
                 continue;
             }
