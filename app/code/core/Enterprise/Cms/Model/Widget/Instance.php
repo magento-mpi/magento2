@@ -39,16 +39,12 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_pageGroups = array(
         'anchor_categories' => 'catalog_category_layered',
         'notanchor_categories' => 'catalog_category_default',
-        'simple_products' => 'PRODUCT_TYPE_simple',
-        'grouped_products' => 'PRODUCT_TYPE_grouped',
         'all_pages' => 'default'
     );
 
     protected $_specificEntitiesLayouHandles = array(
         'anchor_categories' => 'CATEGORY_{{ID}}',
         'notanchor_categories' => 'CATEGORY_{{ID}}',
-        'simple_products' => 'PRODUCT_{{ID}}',
-        'grouped_products' => 'PRODUCT_{{ID}}',
     );
 
     /**
@@ -57,6 +53,10 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function __construct()
     {
         $this->_init('enterprise_cms/widget_instance');
+        foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
+            $this->_pageGroups[$typeId.'_products'] = 'PRODUCT_TYPE_'.$typeId;
+            $this->_specificEntitiesLayouHandles[$typeId.'_products'] = 'PRODUCT_{{ID}}';
+        }
     }
 
     /**
@@ -124,7 +124,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     /**
      * Setter
-     * Replase '-' to '/', if was passed from request(GET request)
+     * Replace '-' to '/', if was passed from request(GET request)
      *
      * @param string $type
      * @return Enterprise_Cms_Model_Widget_Instance
@@ -140,7 +140,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     /**
      * Getter
-     * Replase '-' to '/', if was set from request(GET request)
+     * Replace '-' to '/', if was set from request(GET request)
      *
      * @return string
      */
@@ -154,7 +154,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     /**
      * Setter
-     * Replase '_' to '/', if was passed from request(GET request)
+     * Replace '_' to '/', if was passed from request(GET request)
      *
      * @param string $packageTheme
      * @return Enterprise_Cms_Model_Widget_Instance
@@ -170,7 +170,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     /**
      * Getter.
-     * Replase '_' to '/', if was set from request(GET request)
+     * Replace '_' to '/', if was set from request(GET request)
      *
      * @return string
      */

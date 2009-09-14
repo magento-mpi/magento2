@@ -79,18 +79,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Grid extends Mage_Admin
             'with_empty' => true,
         ));
 
-        $this->addColumn('layout_handler', array(
-            'header'    => Mage::helper('enterprise_cms')->__('Layout Handler'),
-            'align'     => 'left',
-            'index'     => 'layout_handler',
-        ));
-
-        $this->addColumn('layout_reference', array(
-            'header'    => Mage::helper('enterprise_cms')->__('Layout Reference'),
-            'align'     => 'left',
-            'index'     => 'layout_reference',
-        ));
-
         return parent::_prepareColumns();
     }
 

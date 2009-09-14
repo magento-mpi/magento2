@@ -171,6 +171,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
             $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         }
 
+        if ($productTypeId = $this->getProductTypeId()) {
+            $collection->addAttributeToFilter('type_id', $productTypeId);
+        }
+
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -188,6 +192,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
                 'type'      => 'checkbox',
                 'name'      => 'in_products',
                 'inline_css' => 'checkbox entities',
+                'field_name' => 'in_products',
                 'values'    => $this->getSelectedProducts(),
                 'align'     => 'center',
                 'index'     => 'entity_id',

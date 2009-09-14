@@ -156,18 +156,34 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
         $widgets = array();
         $widgetsXml = Mage::getModel('cms/widget')->getXmlConfig();
         foreach ($widgetsXml->getNode('widgets')->children() as $item) {
-            if ($type = $item->getAttribute('type')) {
-                $widgets[] = array(
-                    'value' => $type,
-                    'label' => (string)Mage::helper('enterprise_cms')->__('%s', $item->name)
-                );
+            if ($item->getAttribute('module')) {
+                $helper = Mage::helper($item->getAttribute('module'));
+            } else {
+                $helper = Mage::helper('enterprise_cms');
             }
+            $widgets[] = array(
+                'value' => $items->getAttribute('type'),
+                'label' => $helper->__((string)$item->name)
+            );
         }
+        usort($widgets, array($this, "_sortWidgets"));
         array_unshift($widgets, array(
             'value' => '',
             'label' => Mage::helper('enterprise_cms')->__('-- Please Select --')
         ));
         return $widgets;
+    }
+
+    /**
+     * User-defined widgets sorting by Name
+     *
+     * @param array $a
+     * @param array $b
+     * @return boolean
+     */
+    protected function _sortWidgets($a, $b)
+    {
+        return strcmp($a["label"], $b["label"]);
     }
 
     public function getPackegeThemeOptionsArray()

@@ -184,19 +184,20 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         $chooser = $this->getLayout()
             ->createBlock('adminhtml/catalog_category_widget_chooser')
             ->setUseMassaction(true)
-            ->setSelectedNodes(explode(',', $selected))
-            ->setId('categories'.md5(microtime()));
+            ->setId('categories'.md5(microtime()))
+            ->setSelectedCategories(explode(',', $selected));
         $this->getResponse()->setBody($chooser->toHtml());
     }
 
     public function productsAction()
     {
         $selected = $this->getRequest()->getParam('selected', '');
+        $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
             ->createBlock('adminhtml/catalog_product_widget_chooser')
             ->setUseMassaction(true)
-            ->setSelectedProducts(explode(',', $selected))
-            ->setId('products'.md5(microtime()));
+            ->setProductTypeId($productTypeId)
+            ->setSelectedProducts(explode(',', $selected));
         $this->getResponse()->setBody($chooser->toHtml());
     }
 
