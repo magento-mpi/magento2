@@ -1199,6 +1199,19 @@ table.mceLayout { width:100% !important; }
 .cms-hierarchy .buttons-set { margin:0 0 10px; }
 .cms-hierarchy .cms-tree { height:300px; }
 
+/* CMS Widgets */
+.options-box .option-box { border:1px solid #cddddd; padding:1em; background:#e7efef; margin:1.5em 0; }
+.options-box .option-title { padding:0 0 10px; border-bottom:1px solid #cddddd; }
+.options-box .option-title button { float:right; }
+.options-box .option-title label {font-weight:bold; line-height:21px; padding-right:1em; float:left; }
+.options-box .option-title select { float:left; width:260px; vertical-align:middle; }
+.options-box .option-header { margin:5px 0 0; width:100%; border:0; background:#e7efef; border-bottom:1em solid #e7efef; }
+.options-box .option-header .input-text,
+.options-box .option-header select { width:95%; }
+.options-box .option-header th { padding:2px; }
+.options-box .option-header td { padding:5px 2px; }
+.options-box .option-header .tree { margin:5px 0 0; }
+
 /*****************************************/
 /******** ALIGNMENTS AND CLEARS **********/
 /*****************************************/
@@ -1232,7 +1245,7 @@ table.mceLayout { width:100% !important; }
 /* Clear */ /* This keeps our HTML free of buncha clearing elements */
 .login-form .form-buttons:after,
 .wrapper:after,
-.bundle .option-title:after,
+.option-title:after,
 .columns:after,
 .main-col:after,
 .content-header-floating:after,

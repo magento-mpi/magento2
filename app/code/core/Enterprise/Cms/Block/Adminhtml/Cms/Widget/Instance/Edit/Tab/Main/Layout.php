@@ -107,7 +107,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
             ->setData(array(
                 'label'     => Mage::helper('enterprise_cms')->__('Remove Layout'),
                 'onclick'   => 'WidgetInstance.removePageGroup(this)',
-                'class'     => 'save'
+                'class'     => 'delete'
             ));
         return $button->toHtml();
     }
