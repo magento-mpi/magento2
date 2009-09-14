@@ -122,4 +122,19 @@ class Mage_Core_Model_Mysql4_Website_Collection extends Mage_Core_Model_Mysql4_C
         }
         return $this;
     }
+
+    /**
+     * Adding filter by group id or array of ids but only if
+     * tables with appropriate information were joined before.
+     *
+     * @param int|array $groupIds
+     * @return Mage_Core_Model_Mysql4_Website_Collection
+     */
+    public function addFilterByGroupIds($groupIds)
+    {
+        if ($this->getFlag('groups_and_stores_joined')) {
+            $this->addFieldToFilter('group_table.group_id', $groupIds);
+        }
+        return $this;
+    }
 }
