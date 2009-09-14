@@ -126,7 +126,11 @@ Wysiwyg.Images.prototype = {
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
-                    updateElementAtCursor(targetEl, transport.responseText, self.opener);
+                    if (targetEl.tagName.toLowerCase() == 'input') {
+                        targetEl.value = transport.responseText;
+                    } else {
+                        updateElementAtCursor(targetEl, transport.responseText, self.opener);
+                    }
                     self.close();
                 } catch (e) {
                     alert(e.message);
