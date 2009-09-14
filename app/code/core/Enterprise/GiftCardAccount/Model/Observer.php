@@ -168,7 +168,7 @@ class Enterprise_GiftCardAccount_Model_Observer
 
 
     /**
-     * Process post data and set usage of customer balance into order creation model
+     * Process post data and set usage of GC into order creation model
      *
      * @param Varien_Event_Observer $observer
      */
@@ -195,7 +195,7 @@ class Enterprise_GiftCardAccount_Model_Observer
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session_quote')->addException(
                     $e,
-                    $this->__('Cannot apply Gift Card, please try again later.')
+                    $this->__('Cannot apply Gift Card')
                 );
             }
         }
@@ -219,11 +219,35 @@ class Enterprise_GiftCardAccount_Model_Observer
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session_quote')->addException(
                     $e,
-                    $this->__('Cannot remove Gift Card, please try again later.')
+                    $this->__('Cannot remove Gift Card')
                 );
             }
         }
         return $this;
+    }
+
+    /**
+     * Force Zero Subtotal Checkout if the grand total is completely covered by SC and/or GC
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function togglePaymentMethods($observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        if (!$quote) {
+            return;
+        }
+
+        // disable all payment methods and enable only Zero Subtotal Checkout
+        if ((0 == $quote->getBaseGrandTotal()) && (
+            (float)$quote->getGiftCardsAmountUsed() || $quote->getUseCustomerBalance())) {
+            $result = $observer->getEvent()->getResult();
+            if ('free' === $observer->getEvent()->getMethodCode()) {
+                $result->isMethodActive = true;
+            } else {
+                $result->isMethodActive = false;
+            }
+        }
     }
 
     /**

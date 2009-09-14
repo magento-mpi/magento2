@@ -141,6 +141,6 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
      */
     public function isFullyPaidAfterApplication()
     {
-        return $this->_getBalanceModel()->isFulAmountCovered($this->_getQuote());
+        return $this->_getBalanceModel()->isFullAmountCovered($this->_getQuote(), true);
     }
 }

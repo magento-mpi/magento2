@@ -151,6 +151,15 @@
                 </observers>
             </adminhtml_sales_order_create_process_data>
 
+            <payment_method_is_active>
+                <observers>
+                    <enterprise_customerbalance>
+                        <class>enterprise_customerbalance/observer</class>
+                        <method>togglePaymentMethods</method>
+                    </enterprise_customerbalance>
+                </observers>
+            </payment_method_is_active>
+
             <sales_quote_collect_totals_before>
                 <observers>
                     <enterprise_customerbalance>

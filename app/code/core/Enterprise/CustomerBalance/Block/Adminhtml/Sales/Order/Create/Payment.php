@@ -90,7 +90,7 @@ extends Mage_Core_Block_Template
         if (!$this->_getBalanceInstance()) {
             return false;
         }
-        return $this->_getBalanceInstance()->isFulAmountCovered($this->_getOrderCreateModel()->getQuote());
+        return $this->_getBalanceInstance()->isFullAmountCovered($this->_getOrderCreateModel()->getQuote());
     }
 
     /**

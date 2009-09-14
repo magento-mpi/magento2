@@ -85,37 +85,14 @@ class Enterprise_CustomerBalance_Model_Observer
         if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
             return;
         }
+
         $input = $observer->getEvent()->getInput();
         $payment = $observer->getEvent()->getPayment();
-        $quote = $payment->getQuote();
-
-        if (!$quote->getCustomerId()) {
-            return;
-        }
-
-        $store = Mage::app()->getStore($quote->getStoreId());
-
-        $balance = Mage::getModel('enterprise_customerbalance/balance')
-            ->setCustomerId($quote->getCustomerId())
-            ->setWebsiteId($store->getWebsiteId())
-            ->loadByCustomer()
-            ->getAmount();
-
-        if ($input->getUseCustomerBalance() && $balance < $quote->getBaseCustomerBalanceAmountUsed()) {
-            Mage::throwException(Mage::helper('enterprise_customerbalance')->__("You don't have enough store credit to complete this order."));
-
-        }
-
-        $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
-
-        $quote->setUseCustomerBalance($input->getUseCustomerBalance());
-        if ($input->getUseCustomerBalance() && $balance >= $total) {
-            $input->setMethod('free');
-        }
+        $this->_importPaymentData($payment->getQuote(), $input, $input->getUseCustomerBalance());
     }
 
     /**
-     * Check customer balance used in order
+     * Validate balance just before placing an order
      *
      * @param Varien_Event_Observer $observer
      */
@@ -141,7 +118,7 @@ class Enterprise_CustomerBalance_Model_Observer
                     ->setUpdateSection('payment-method')
                     ->setGotoSection('payment');
 
-                Mage::throwException(Mage::helper('enterprise_customerbalance')->__("You don't have enough store credit to complete this order."));
+                Mage::throwException(Mage::helper('enterprise_customerbalance')->__('Not enough Store Credit Amount to complete this Order.'));
             }
         }
     }
@@ -183,49 +160,84 @@ class Enterprise_CustomerBalance_Model_Observer
     }
 
     /**
-     * Process post data and set usage of customer balance into order creation model
+     * The same as paymentDataImport(), but for admin checkout
      *
      * @param Varien_Event_Observer $observer
      */
     public function processOrderCreationData(Varien_Event_Observer $observer)
     {
-        $model = $observer->getEvent()->getOrderCreateModel();
-        $request = $observer->getEvent()->getRequest();
-        $quote = $model->getQuote();
-        $payment = $quote->getPayment();
-        $store = Mage::app()->getStore($quote->getStoreId());
-
         if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
             return $this;
         }
-
-        if (!$quote->getCustomerId()) {
-            return $this;
-        }
-
+        $quote = $observer->getEvent()->getOrderCreateModel()->getQuote();
+        $request = $observer->getEvent()->getRequest();
         if (isset($request['payment']) && isset($request['payment']['use_customer_balance'])) {
-            $use = $request['payment']['use_customer_balance'];
+            $this->_importPaymentData($quote, $quote->getPayment(),
+                (bool)(int)$request['payment']['use_customer_balance']);
+        }
+    }
 
-            $quote->setUseCustomerBalance($request['payment']['use_customer_balance']);
-            if ($use) {
-                $balance = Mage::getModel('enterprise_customerbalance/balance')
-                    ->setCustomerId($quote->getCustomerId())
-                    ->setWebsiteId($store->getWebsiteId())
-                    ->loadByCustomer()
-                    ->getAmount();
-
-                if ($balance) {
-                    $total = $quote->getBaseGrandTotal()+$quote->getBaseCustomerBalanceAmountUsed();
-                    if ($balance >= $total) {
-                        $payment->setMethod('free');
-                    }
-                } else {
-                    $quote->setUseCustomerBalance(false);
+    /**
+     * Analyze payment data for quote and set free shipping if grand total is covered by balance
+     *
+     * @param Mage_Sales_Model_Quote $quote
+     * @param Varien_object|Mage_Sales_Model_Quote_Payment $payment
+     * @param bool $shouldUseBalance
+     */
+    protected function _importPaymentData($quote, $payment, $shouldUseBalance)
+    {
+        $store = Mage::app()->getStore($quote->getStoreId());
+        if (!$quote || !$quote->getCustomerId()) {
+            return;
+        }
+        $quote->setUseCustomerBalance($shouldUseBalance);
+        if ($shouldUseBalance) {
+            $balance = Mage::getModel('enterprise_customerbalance/balance')
+                ->setCustomerId($quote->getCustomerId())
+                ->setWebsiteId($store->getWebsiteId())
+                ->loadByCustomer();
+            if ($balance) {
+                $quote->setCustomerBalanceInstance($balance);
+                if ($balance->isFullAmountCovered($quote)) {
+                    $payment->setMethod('free');
                 }
             }
+            else {
+                $quote->setUseCustomerBalance(false);
+            }
+        }
+    }
+
+    /**
+     * Make only Zero Subtotal Checkout enabled if SC covers entire balance
+     *
+     * The Customerbalance instance must already be in the quote
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function togglePaymentMethods($observer)
+    {
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            return;
+        }
+        $quote = $observer->getEvent()->getQuote();
+        if (!$quote) {
+            return;
+        }
+        $balance = $quote->getCustomerBalanceInstance();
+        if (!$balance) {
+            return;
         }
 
-        return $this;
+        // disable all payment methods and enable only Zero Subtotal Checkout
+        if ($balance->isFullAmountCovered($quote)) {
+            $result = $observer->getEvent()->getResult();
+            if ('free' === $observer->getEvent()->getMethodCode()) {
+                $result->isMethodActive = true;
+            } else {
+                $result->isMethodActive = false;
+            }
+        }
     }
 
     /**

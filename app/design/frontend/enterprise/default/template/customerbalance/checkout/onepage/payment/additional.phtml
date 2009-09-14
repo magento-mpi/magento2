@@ -44,6 +44,7 @@
         </label>
     </div>
     <script type="text/javascript">
+    //<![CDATA[
     var isFullyPaidAfterCustomerBalanceApplication = <?php echo ($this->isFullyPaidAfterApplication() ? 'true' : 'false'); ?>;
 
     Payment.prototype.init = function () {
@@ -111,5 +112,6 @@
     }
 
     Event.observe($('use_customer_balance'), 'change', payment.switchCustomerBalanceCheckbox);
+    //]]>
     </script>
 <?php endif; ?>

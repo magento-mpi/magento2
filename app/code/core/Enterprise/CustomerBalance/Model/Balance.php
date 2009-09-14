@@ -223,10 +223,21 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
      * @param Mage_Sales_Model_Quote $quote
      * @return bool
      */
-    public function isFulAmountCovered(Mage_Sales_Model_Quote $quote)
+    public function isFullAmountCovered(Mage_Sales_Model_Quote $quote, $isEstimation = false)
     {
+        if (!$isEstimation && !$quote->getUseCustomerBalance()) {
+            return false;
+        }
         return $this->getAmount() >=
             ((float)$quote->getBaseGrandTotal() + (float)$quote->getBaseCustomerBalanceAmountUsed());
+    }
+
+    /**
+     * @deprecated after 1.3.2.3
+     */
+    public function isFulAmountCovered(Mage_Sales_Model_Quote $quote)
+    {
+        return $this->isFullAmountCovered($quote);
     }
 
     /**

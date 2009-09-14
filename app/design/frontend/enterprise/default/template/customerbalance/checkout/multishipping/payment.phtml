@@ -32,7 +32,8 @@
         <?php $balance = Mage::helper('core')->currency($this->getBalance()); ?>
         <label for="use_customer_balance"><strong><?php echo Mage::helper('enterprise_customerbalance')->__('Use Store Credit (%s available)', $balance); ?></strong></label>
     </div>
-    <script language="javascript">
+    <script type="text/javascript">
+    //<![CDATA[
     <?php if ($this->isFullyPaidAfterApplication()): ?>
         function switchCustomerBalanceCheckbox() {
             if ($('use_customer_balance').checked) {
@@ -73,5 +74,6 @@
     }
 
     Event.observe(window, 'load', setUseCustomerBalanceEnabled);
+    //]]>
     </script>
 <?php endif; ?>
