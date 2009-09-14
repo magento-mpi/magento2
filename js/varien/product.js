@@ -122,18 +122,22 @@ Product.Zoom.prototype = {
     },
 
     scale: function (v) {
-
-        var centerX = (this.containerDim.width*(1-this.imageZoom)/2-this.imageX)/this.imageZoom;
-        var centerY = (this.containerDim.height*(1-this.imageZoom)/2-this.imageY)/this.imageZoom;
-
+        var centerX  = (this.containerDim.width*(1-this.imageZoom)/2-this.imageX)/this.imageZoom;
+        var centerY  = (this.containerDim.height*(1-this.imageZoom)/2-this.imageY)/this.imageZoom;
+        var overSize = (this.imageDim.width > this.containerDim.width && this.imageDim.height > this.containerDim.height);
+        
         this.imageZoom = this.floorZoom+(v*(this.ceilingZoom-this.floorZoom));
 
-        if (this.imageDim.width > this.containerDim.width) {
-            this.imageEl.style.width = (this.imageZoom*this.containerDim.width)+'px';
-        }
+        if (overSize) {
+            if (this.imageDim.width > this.containerDim.width) {
+                this.imageEl.style.width = (this.imageZoom*this.containerDim.width)+'px';
+            }
 
-        if(this.containerDim.ratio && this.imageDim.height > this.containerDim.height){
-          this.imageEl.style.height = (this.imageZoom*this.containerDim.width*this.containerDim.ratio)+'px'; // for safari
+            if(this.containerDim.ratio){
+                this.imageEl.style.height = (this.imageZoom*this.containerDim.width*this.containerDim.ratio)+'px'; // for safari
+            }
+        } else {
+            this.slider.setDisabled();
         }
 
         this.imageX = this.containerDim.width*(1-this.imageZoom)/2-centerX*this.imageZoom;
@@ -146,19 +150,23 @@ Product.Zoom.prototype = {
 
     startZoomIn: function()
     {
-        this.zoomBtnPressed = true;
-        this.sliderAccel = .002;
-        this.periodicalZoom();
-        this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
+        if (!this.slider.disabled) {
+            this.zoomBtnPressed = true;
+            this.sliderAccel = .002;
+            this.periodicalZoom();
+            this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
+        }
         return this;
     },
 
     startZoomOut: function()
     {
-        this.zoomBtnPressed = true;
-        this.sliderAccel = -.002;
-        this.periodicalZoom();
-        this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
+        if (!this.slider.disabled) {
+            this.zoomBtnPressed = true;
+            this.sliderAccel = -.002;
+            this.periodicalZoom();
+            this.zoomer = new PeriodicalExecuter(this.periodicalZoom.bind(this), .05);
+        }
         return this;
     },
 
