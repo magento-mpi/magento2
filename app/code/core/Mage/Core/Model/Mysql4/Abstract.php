@@ -503,11 +503,11 @@ abstract class Mage_Core_Model_Mysql4_Abstract extends Mage_Core_Model_Resource_
     /**
      * Prepare data for passed table
      *
-     * @param Mage_Core_Model_Abstract $object
+     * @param Varien_Object $object
      * @param string $table
      * @return array
      */
-    protected function _prepareDataForTable(Mage_Core_Model_Abstract $object, $table)
+    protected function _prepareDataForTable(Varien_Object $object, $table)
     {
         $data = array();
         $fields = $this->_getWriteAdapter()->describeTable($table);
