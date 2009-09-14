@@ -43,6 +43,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
         $this->setTemplate('catalog/product/edit/price/tier.phtml');
     }
 
+    /**
+     * Retrieve current editing product instance
+     *
+     * @return Mage_Catalog_Model_Product
+     */
     public function getProduct()
     {
         return Mage::registry('product');
@@ -74,19 +79,24 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
             usort($data, array($this, '_sortTierPrices'));
             $values = $data;
         }
+
+        foreach ($values as &$v) {
+            $v['readonly'] = $v['website_id'] == 0 && $this->isShowWebsiteColumn() && !$this->isAllowChangeWebsite();
+        }
+
         return $values;
     }
 
     protected function _sortTierPrices($a, $b)
     {
-        if ($a['website_id']!=$b['website_id']) {
-            return $a['website_id']<$b['website_id'] ? -1 : 1;
+        if ($a['website_id'] != $b['website_id']) {
+            return $a['website_id'] < $b['website_id'] ? -1 : 1;
         }
-        if ($a['cust_group']!=$b['cust_group']) {
-            return $this->getCustomerGroups($a['cust_group'])<$this->getCustomerGroups($b['cust_group']) ? -1 : 1;
+        if ($a['cust_group'] != $b['cust_group']) {
+            return $this->getCustomerGroups($a['cust_group']) < $this->getCustomerGroups($b['cust_group']) ? -1 : 1;
         }
-        if ($a['price_qty']!=$b['price_qty']) {
-            return $a['price_qty']<$b['price_qty'] ? -1 : 1;
+        if ($a['price_qty'] != $b['price_qty']) {
+            return $a['price_qty'] < $b['price_qty'] ? -1 : 1;
         }
         return 0;
     }
@@ -112,6 +122,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
         return count($this->getWebsites());
     }
 
+    /**
+     * Show Website collumn and switcher for tier price table
+     *
+     * @return bool
+     */
     public function isMultiWebsites()
     {
         return !Mage::app()->isSingleStoreMode();
@@ -161,6 +176,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
         return Mage_Customer_Model_Group::CUST_GROUP_ALL;
     }
 
+    public function getDefaultWebsite()
+    {
+        if ($this->isShowWebsiteColumn() && !$this->isAllowChangeWebsite()) {
+            return Mage::app()->getStore($this->getProduct()->getStoreId())->getWebsiteId();
+        }
+        return 0;
+    }
+
     protected function _prepareLayout()
     {
         $this->setChild('add_button',
@@ -192,5 +215,55 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Price_Tier extends Mage_Admi
         } else {
             return $default;
         }
+    }
+
+    /**
+     * Retrieve Tier Price entity attribute
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     */
+    public function getAttribute()
+    {
+        return $this->getElement()->getEntityAttribute();
+    }
+
+    /**
+     * Check tier price attribute scope is global
+     *
+     * @return bool
+     */
+    public function isScopeGlobal()
+    {
+        return $this->getAttribute()->isScopeGlobal();
+    }
+
+    /**
+     * Show tier prices grid website column
+     *
+     * @return bool
+     */
+    public function isShowWebsiteColumn()
+    {
+        if ($this->isScopeGlobal()) {
+            return false;
+        } else if (Mage::app()->isSingleStoreMode()) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check is allow change website value for combination
+     *
+     * @return bool
+     */
+    public function isAllowChangeWebsite()
+    {
+        if (!$this->isShowWebsiteColumn()) {
+            return false;
+        } else if ($this->getProduct()->getStoreId()) {
+            return false;
+        }
+        return true;
     }
 }

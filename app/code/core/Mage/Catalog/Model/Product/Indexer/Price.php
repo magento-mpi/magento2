@@ -92,7 +92,6 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
             'special_to_date',
             'tax_class_id',
             'status',
-            'tier_price'
         );
     }
 
@@ -142,7 +141,8 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
         /* @var $product Mage_Catalog_Model_Product */
         $product      = $event->getDataObject();
         $attributes   = $this->_getDependentAttributes();
-        $reindexPrice = $product->getIsRelationsChanged() || $product->getIsCustomOptionChanged();
+        $reindexPrice = $product->getIsRelationsChanged() || $product->getIsCustomOptionChanged()
+            || $product->dataHasChangedFor('tier_price_changed');
 
         foreach ($attributes as $attributeCode) {
             $reindexPrice = $reindexPrice || $product->dataHasChangedFor($attributeCode);

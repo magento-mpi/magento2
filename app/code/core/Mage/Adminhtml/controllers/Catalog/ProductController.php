@@ -60,6 +60,7 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             }
         }
 
+        $product->setData('_edit_mode', true);
         if ($productId) {
             $product->load($productId);
         }
@@ -110,8 +111,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
             $product->addData($data)
                 ->setWebsiteIds($configProduct->getWebsiteIds());
         }
-
-        $product->setData('_edit_mode', true);
 
         Mage::register('product', $product);
         Mage::register('current_product', $product);
@@ -418,7 +417,8 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
                 $productData['stock_data']['use_config_manage_stock'] = 0;
             }
             $product = Mage::getModel('catalog/product');
-            if ($storeId = $this->getRequest()->getParam('store_id')) {
+            $product->setData('_edit_mode', true);
+            if ($storeId = $this->getRequest()->getParam('store')) {
                 $product->setStoreId($storeId);
             }
             if ($setId = $this->getRequest()->getParam('set')) {
