@@ -93,18 +93,28 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
         $chooserId = $element->getId() . md5(microtime());
         $chooserJsObject = $chooserId . 'JsChooser';
 
+        $chooseButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->setType('button')
+            ->setId($chooserId)
+            ->setClass('widget-option-chooser')
+            ->setLabel($this->getChooserLabel() ? $this->getChooserLabel() : $this->helper('cms')->__('Choose'))
+            ->setOnclick($chooserJsObject.'.choose()');
+
+        $cancelButton = $this->getLayout()->createBlock('adminhtml/widget_button')
+            ->setType('button')
+            ->setId($chooserId.'_cancel')
+            ->setStyle('display:none')
+            ->setClass('widget-option-chooser-cancel')
+            ->setLabel($this->getCancelLabel() ? $this->getCancelLabel() : $this->helper('cms')->__('Cancel'))
+            ->setOnclick($chooserJsObject.'.hide()');
+
         $html = '
-            '.$hiddenHtml.'
-            <a href="javascript:void(0)" id="'.$chooserId.'" class="widget-option-chooser">
-                <img src="'.$image.'" title="'.$this->helper('cms')->__('Open Chooser').'" />
-            </a>
-            <label class="widget-option-label">'.($this->getLabel() ? $this->getLabel() : '').'</label>
             <script type="text/javascript">
                 '.$chooserJsObject.' = new WysiwygWidget.chooser("'.$chooserId.'", "'.$this->getSourceUrl().'");
-                Event.observe("'.$chooserId.'", "click", '.$chooserJsObject.'.choose.bind('.$chooserJsObject.'));
             </script>
+            '.$hiddenHtml.$chooseButton->toHtml().'&nbsp;'.$cancelButton->toHtml().'
+            <label class="widget-option-label">'.($this->getLabel() ? $this->getLabel() : '').'</label>
         ';
-
         return $html;
     }
 

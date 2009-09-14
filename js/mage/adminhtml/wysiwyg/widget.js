@@ -240,17 +240,24 @@ WysiwygWidget.chooser.prototype = {
     initialize: function(chooserId, chooserUrl) {
         this.chooserId = chooserId;
         this.chooserUrl = chooserUrl;
+        this.cancelControl = $(this.chooserId + '_cancel');
+    },
+
+    getResponseContainerId: function() {
+        return 'responseCnt' + this.chooserId;
     },
 
     choose: function(event) {
         //var element = Event.findElement(event, 'A');
         var chooser = $(this.chooserId);
-        var responseContainerId = "responseCnt" + this.chooserId;
+        var responseContainerId = this.getResponseContainerId();
         if ($(responseContainerId) != undefined) {
             if ($(responseContainerId).visible()) {
                 $(responseContainerId).hide();
+                this.cancelControl.hide();
             } else {
                 $(responseContainerId).show();
+                this.cancelControl.show();
             }
             return;
         }
@@ -261,11 +268,17 @@ WysiwygWidget.chooser.prototype = {
                     try {
                         widgetTools.onAjaxSuccess(transport);
                         chooser.next("label.widget-option-label").insert({after: widgetTools.getDivHtml(responseContainerId, transport.responseText)});
+                        this.cancelControl.show();
                     } catch(e) {
                         alert(e.message);
                     }
                 }.bind(this)
             }
         );
+    },
+
+    hide: function() {
+        $(this.getResponseContainerId()).hide();
+        this.cancelControl.hide();
     }
 }

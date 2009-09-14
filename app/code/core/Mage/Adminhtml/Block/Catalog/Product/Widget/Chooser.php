@@ -107,7 +107,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
 
                     var productId = trElement.down("td").innerHTML;
                     var productName = trElement.down("td").next().next().innerHTML;
-                    var chooser = $(grid.containerId).up().previous("a.widget-option-chooser");
+                    var chooser = $(grid.containerId).up().previous("button.widget-option-chooser");
 
                     var optionLabel = productName;
                     var optionValue = "product/" + productId;
@@ -123,6 +123,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
 
                     var responseContainerId = "responseCnt" + chooser.id;
                     $(responseContainerId).hide();
+                    chooser.next("button.widget-option-chooser-cancel").hide();
                 }
             ';
         }
@@ -201,19 +202,19 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
         }
 
         $this->addColumn('entity_id', array(
-            'header'    => Mage::helper('sales')->__('ID'),
+            'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
         ));
         $this->addColumn('chooser_sku', array(
-            'header'    => Mage::helper('sales')->__('SKU'),
+            'header'    => Mage::helper('catalog')->__('SKU'),
             'name'      => 'chooser_sku',
             'width'     => '80px',
             'index'     => 'sku'
         ));
         $this->addColumn('chooser_name', array(
-            'header'    => Mage::helper('sales')->__('Product Name'),
+            'header'    => Mage::helper('catalog')->__('Product Name'),
             'name'      => 'chooser_name',
             'index'     => 'name'
         ));

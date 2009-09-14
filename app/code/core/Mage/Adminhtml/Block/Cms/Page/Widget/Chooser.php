@@ -84,13 +84,14 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
 
                 var pageTitle = trElement.down("td").innerHTML;
                 var pageId = trElement.down("td").next().innerHTML;
-                var chooser = $(grid.containerId).up().previous("a.widget-option-chooser");
+                var chooser = $(grid.containerId).up().previous("button.widget-option-chooser");
 
                 chooser.previous("input.widget-option").value = pageId;
                 chooser.next("label.widget-option-label").update(pageTitle);
 
                 var responseContainerId = "responseCnt" + chooser.id;
                 $(responseContainerId).hide();
+                chooser.next("button.widget-option-chooser-cancel").hide();
             }
         ';
         return $js;

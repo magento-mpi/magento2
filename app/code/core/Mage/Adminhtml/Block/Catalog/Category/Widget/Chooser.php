@@ -115,7 +115,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
         } else {
             $js = '
                 function (node, e) {
-                    var chooser = $("tree'.$this->getId().'").up().previous("a.widget-option-chooser");
+                    var chooser = $("tree'.$this->getId().'").up().previous("button.widget-option-chooser");
 
                     var optionLabel = node.text;
                     var optionValue = node.attributes.id;
@@ -125,6 +125,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
 
                     var responseContainerId = "responseCnt" + chooser.id;
                     $(responseContainerId).hide();
+                    chooser.next("button.widget-option-chooser-cancel").hide();
                 }
             ';
         }
