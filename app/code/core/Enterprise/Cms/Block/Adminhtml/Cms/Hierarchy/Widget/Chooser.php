@@ -95,7 +95,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                 });
                 tree'.$this->getId().'.setRootNode(treeRoot'.$this->getId().');
                 tree'.$this->getId().'.addListener("click", function (node, event) {
-                    var chooser = $("tree'.$this->getId().'").up().previous("a.widget-option-chooser");
+                    var chooser = $("tree'.$this->getId().'").up().previous("button.widget-option-chooser");
 
                     var optionLabel = node.text;
                     var optionValue = node.id;
@@ -105,6 +105,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
 
                     var responseContainerId = "responseCnt" + chooser.id;
                     $(responseContainerId).hide();
+                    chooser.next("button.widget-option-chooser-cancel").hide();
                 });
                 tree'.$this->getId().'.render();
                 treeRoot'.$this->getId().'.expand();
