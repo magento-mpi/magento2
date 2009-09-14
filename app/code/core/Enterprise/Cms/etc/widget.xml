@@ -39,6 +39,7 @@
                         <element_type>label</element_type>
                         <element_helper>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</element_helper>
                     </type>
+                    <sort_order>10</sort_order>
                 </node_id>
                 <anchor_text translate="label">
                     <visible />
