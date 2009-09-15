@@ -30,7 +30,7 @@
 Default layout, loads most of the pages
 -->
 
-    <default>
+    <default module="page" translate="label">
         <label>Default Layout Handle</label>
         <block type="page/html" name="root" output="toHtml" template="page/3columns.phtml">
 

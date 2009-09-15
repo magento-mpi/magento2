@@ -159,9 +159,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
     {
         foreach ($layoutHandles->xpath('/*/*/label/..') as $node) {
             if ($this->_filterLayoutHandle($node->getName())) {
-                $this->_layoutHandles[$node->getName()] = (string)$node->label;
+                if ($module = $node->getAttribute('module')) {
+                    $helper = Mage::helper($module);
+                } else {
+                    $helper = Mage::helper('core');
+                }
+                $this->_layoutHandles[$node->getName()] = $helper->__((string)$node->label);
             }
         }
+        asort($this->_layoutHandles, SORT_STRING);
     }
 
     /**

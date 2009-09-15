@@ -33,7 +33,9 @@
 
 var tree<?php echo $this->getId() ?>;
 
-var useMassaction = <?php echo $this->getUseMassaction()?1:0 ?>;
+var useMassaction = <?php echo $this->getUseMassaction()?1:0; ?>;
+
+var isAnchorOnly = <?php echo $this->getIsAnchorOnly()?1:0; ?>;
 
 Ext.tree.TreePanel.Enhanced = function(el, config)
 {
@@ -82,7 +84,7 @@ Ext.onReady(function()
         if (parent && config && config.length){
             for (var i = 0; i < config.length; i++) {
                 var node;
-                if (useMassaction) {
+                if (useMassaction && config[i].is_anchor == isAnchorOnly) {
                     config[i].uiProvider = Ext.tree.CheckboxNodeUI;
                 }
                 var _node = Object.clone(config[i]);
@@ -104,7 +106,7 @@ Ext.onReady(function()
 
     categoryLoader.createNode = function(config) {
         var node;
-        if (useMassaction) {
+        if (useMassaction && config.is_anchor == isAnchorOnly) {
             config.uiProvider = Ext.tree.CheckboxNodeUI;
         }
         var _node = Object.clone(config);
@@ -175,11 +177,11 @@ Ext.onReady(function()
 
     // set the root node
     var parameters = {
-        text:        '<?php echo htmlentities($this->getRoot()->getName()) ?>',
+        text:        'Psw',
         draggable:   false,
         id:          <?php echo (int) $this->getRoot()->getId() ?>,
         expanded:    <?php echo (int) $this->getIsWasExpanded() ?>,
-        category_id: <?php echo (int) $this->getCategoryId() ?>
+        category_id: <?php echo (int) $this->getCategoryId() ?>,
     };
 
     tree<?php echo $this->getId() ?>.loadTree({parameters:parameters, data:<?php echo $this->getTreeJson() ?>},true);

@@ -34,46 +34,78 @@
 class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
     extends Mage_Adminhtml_Block_Template implements Varien_Data_Form_Element_Renderer_Interface
 {
+    /**
+     * @var Varien_Data_Form_Element_Abstract
+     */
     protected $_element = null;
 
+    /**
+     * Constructor
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('enterprise/cms/widget/instance/edit/layout.phtml');
     }
 
-    public function getLabel()
-    {
-        return Mage::helper('enterprise_cms')->__('Layout Updates');
-    }
-
+    /**
+     * Render given element (return html of element)
+     *
+     * @return string
+     */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
         $this->setElement($element);
         return $this->toHtml();
     }
 
+    /**
+     * Setter
+     *
+     * @param Varien_Data_Form_Element_Abstract $element
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
+     */
     public function setElement(Varien_Data_Form_Element_Abstract $element)
     {
         $this->_element = $element;
         return $this;
     }
 
+    /**
+     * Getter
+     *
+     * @return Varien_Data_Form_Element_Abstract
+     */
     public function getElement()
     {
         return $this->_element;
     }
 
+    /**
+     * Generate url to get categories chooser by ajax query
+     *
+     * @return string
+     */
     public function getCategoriesChooserUrl()
     {
         return $this->getUrl('*/*/categories', array('_current' => true));
     }
 
+    /**
+     * Generate url to get products chooser by ajax query
+     *
+     * @return string
+     */
     public function getProductsChooserUrl()
     {
         return $this->getUrl('*/*/products', array('_current' => true));
     }
 
+    /**
+     * Generate url to get reference block chooser by ajax query
+     *
+     * @return string
+     */
     public function getBlockChooserUrl()
     {
         return $this->getUrl('*/*/blocks', array('_current' => true));
@@ -163,12 +195,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
                 $container['anchor'] = array(
                     'name' => 'anchor_categories',
 //                    'layout_handle' => '^default$,^catalog_category_layered*'
-                    'layout_handle' => 'default,catalog_category_layered'
+                    'layout_handle' => 'default,catalog_category_layered',
+                    'is_anchor_only' => 1
                 );
                 $container['notanchor'] = array(
                     'name' => 'notanchor_categories',
 //                    'layout_handle' => '^default$,catalog_category_default'
-                    'layout_handle' => 'default,catalog_category_default'
+                    'layout_handle' => 'default,catalog_category_default',
+                    'is_anchor_only' => 0
                 );
                 break;
             case 'products':
@@ -185,6 +219,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
         return $container;
     }
 
+    /**
+     * Retrieve layout select chooser html
+     *
+     * @return string
+     */
     public function getLayoutsChooser()
     {
         $layouts = $this->getLayout()
@@ -196,22 +235,32 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
         return $layouts->toHtml();
     }
 
+    /**
+     * Retrieve add layout button html
+     *
+     * @return string
+     */
     public function getAddLayoutButtonHtml()
     {
         $button = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label'     => Mage::helper('enterprise_cms')->__('Add Layout'),
+                'label'     => Mage::helper('enterprise_cms')->__('Add Layout Update'),
                 'onclick'   => 'WidgetInstance.addPageGroup({})',
                 'class'     => 'add'
             ));
         return $button->toHtml();
     }
 
+    /**
+     * Retrieve remove layout button html
+     *
+     * @return string
+     */
     public function getRemoveLayoutButtonHtml()
     {
         $button = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData(array(
-                'label'     => Mage::helper('enterprise_cms')->__('Remove Layout'),
+                'label'     => Mage::helper('enterprise_cms')->__('Remove Layout Update'),
                 'onclick'   => 'WidgetInstance.removePageGroup(this)',
                 'class'     => 'delete'
             ));

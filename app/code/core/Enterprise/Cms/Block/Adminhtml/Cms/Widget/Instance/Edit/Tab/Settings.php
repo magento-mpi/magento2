@@ -156,8 +156,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
         $widgets = array();
         $widgetsXml = Mage::getModel('cms/widget')->getXmlConfig();
         foreach ($widgetsXml->getNode('widgets')->children() as $item) {
-            if ($item->getAttribute('module')) {
-                $helper = Mage::helper($item->getAttribute('module'));
+            if ($item->is_context && (int)$item->is_context == 1) {
+                continue;
+            }
+            if ($module = $item->getAttribute('module')) {
+                $helper = Mage::helper($module);
             } else {
                 $helper = Mage::helper('enterprise_cms');
             }
@@ -166,7 +169,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
                 'label' => $helper->__((string)$item->name)
             );
         }
-        usort($widgets, array($this, "_sortWidgets"));
+        usort($widgets, array($this, '_sortWidgets'));
         array_unshift($widgets, array(
             'value' => '',
             'label' => Mage::helper('enterprise_cms')->__('-- Please Select --')

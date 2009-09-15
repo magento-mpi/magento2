@@ -174,11 +174,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
                     if ((string)$block->getAttribute('name')
                         && $this->_filterBlockType((string)$block->getAttribute('type')))
                     {
-                        $this->_blocks[(string)$block->getAttribute('name')] = (string)$block->label;
+                        if ($module = $block->getAttribute('module')) {
+                            $helper = Mage::helper($module);
+                        } else {
+                            $helper = Mage::helper('core');
+                        }
+                        $this->_blocks[(string)$block->getAttribute('name')] = $helper->__((string)$block->label);
                     }
                 }
             }
         }
+        asort($this->_blocks, SORT_STRING);
     }
 
     /**

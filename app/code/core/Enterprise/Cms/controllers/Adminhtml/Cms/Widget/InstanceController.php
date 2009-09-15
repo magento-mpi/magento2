@@ -181,10 +181,12 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
     public function categoriesAction()
     {
         $selected = $this->getRequest()->getParam('selected', '');
+        $isAnchorOnly = $this->getRequest()->getParam('is_anchor_only', 0);
         $chooser = $this->getLayout()
             ->createBlock('adminhtml/catalog_category_widget_chooser')
             ->setUseMassaction(true)
             ->setId('categories'.md5(microtime()))
+            ->setIsAnchorOnly($isAnchorOnly)
             ->setSelectedCategories(explode(',', $selected));
         $this->getResponse()->setBody($chooser->toHtml());
     }

@@ -145,6 +145,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
         if (in_array($node->getId(), $this->getSelectedCategories())) {
             $item['checked'] = true;
         }
+        $item['is_anchor'] = (int)$node->getIsAnchor();
         $item['url_key'] = $node->getData('url_key');
         return $item;
     }
@@ -156,7 +157,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
      */
     public function getCategoryCollection()
     {
-        return parent::getCategoryCollection()->addAttributeToSelect('url_key');
+        return parent::getCategoryCollection()->addAttributeToSelect('url_key')->addAttributeToSelect('is_anchor');
     }
 
     /**

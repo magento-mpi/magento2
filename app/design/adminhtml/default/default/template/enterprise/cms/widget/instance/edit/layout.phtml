@@ -25,7 +25,7 @@
  */
 ?>
 <div class="entry-edit-head">
-    <h4><?php echo $this->getLabel() ?></h4>
+    <h4><?php echo Mage::helper('enterprise_cms')->__('Layout Updates') ?></h4>
     <div class="right"><?php echo $this->getAddLayoutButtonHtml() ?></div>
 </div>
 <div class="fieldset">
@@ -64,6 +64,7 @@
                                                 <input type="radio" class="radio for_specific" id="specific_<?php echo $container['name'] ?>" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />&nbsp;
                                                 <label for="specific_<?php echo $container['name'] ?>">Specific Categories</label>
                                                 <div class="no-display chooser_container" id="<?php echo $container['name'] ?>_ids_{{id}}">
+                                                    <input type="hidden" class="is_anchor_only" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][is_anchor_only]" value="<?php echo $container['is_anchor_only'] ?>" />
                                                     <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{entities}}" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
                                                     <div class="chooser"></div>
                                                 </div>
@@ -240,9 +241,9 @@ var WidgetInstance = {
                 pageGroup = $(data.group+'_'+data.id);
                 additional = {};
                 additional.selectedBlock = data.block;
-                if (data.entities_array) {
-                    additional.entities_array = data.entities_array;
-                }
+//                if (data.entities_array) {
+//                    additional.entities_array = data.entities_array;
+//                }
                 additional.position = data.position;
                 this.displayPageGroup(pageGroup, additional);
                 if ($(this.pageGroupContainerId+'_'+data.id)) {
@@ -324,7 +325,13 @@ var WidgetInstance = {
         }
     },
     displayCategoriesChooser : function(chooser) {
-        this.displayChooser(chooser, {type:'categories',url:'<?php echo $this->getCategoriesChooserUrl() ?>'});
+        if (!additional) {
+            additional = {};
+        }
+        additional.type = 'categories';
+        additional.url = '<?php echo $this->getCategoriesChooserUrl() ?>';
+        additional.post_parameters = $H({'is_anchor_only':$(chooser).down('input.is_anchor_only').value});
+        this.displayChooser(chooser, additional);
     },
     hideCategoriesChooser : function(chooser) {
         chooser = $(chooser).down('div.chooser');
@@ -356,19 +363,16 @@ var WidgetInstance = {
         url = '';
         type = '';
         if (additional) {
-            if (additional.url) {
-                url = additional.url;
-            }
-            if (additional.type) {
-                type = additional.type;
-            }
+            if (additional.url) url = additional.url;
+
+            if (additional.type) type = additional.type;
+
             if (additional.post_parameters) {
                 additional.post_parameters.each(function(pair){
                     postParameters.set(pair.key,pair.value);
                 });
             }
         }
-        console.log(postParameters);
         if (chooser && url) {
             if (chooser.innerHTML == '') {
                 new Ajax.Request(url, {
@@ -394,8 +398,6 @@ var WidgetInstance = {
             } else {
                 chooser.removeClassName('no-display');
                 chooser.show();
-//                chooser.toggleClassName('no-display');
-//                chooser.toggle();
             }
         }
     },
@@ -473,7 +475,9 @@ var WidgetInstance = {
                 new Ajax.Request(url, {
                     method: 'post',
                     parameters: {layout:group, selected:selected},
+                    blockContainer: blockContainer,
                     onSuccess: function(transport) {
+                        blockContainer = transport.request.options.blockContainer
                         try {
                             if (transport.responseText) {
                                 Element.insert(blockContainer, transport.responseText);
