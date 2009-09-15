@@ -113,7 +113,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
             'value'     => isset($storeContents[0]) ? $storeContents[0] : '',
             'config'    => $wysiwygConfig,
         ));
-
+        $hideTr = '';
         foreach (Mage::app()->getWebsites() as $website) {
             foreach ($website->getGroups() as $group) {
                 $stores = $group->getStores();
@@ -133,12 +133,12 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                     $wysiwygConfig = clone $wysiwygConfig;
 
                     if (!$contentExists) {
-                        $wysiwygConfig->setNoDisplay(true);
+                         $hideTr = '<script language="javascript">Event.observe(window, \'load\', function(){$(\'' . $contentFieldId . '\').hide();})</script>';
                     }
                     else {
-                        $wysiwygConfig->setNoDisplay(false);
+                         $hideTr = '';
                     }
-                    $onClick ='$(\'editor'.$form->getHtmlIdPrefix() . $contentFieldId.'\').toggle();';
+                    $onClick ='$(\''. $contentFieldId.'\').toggle();';
 
                     $fieldset->addField('store_'.$store->getId().'_content_use', 'checkbox', array(
                         'name'      => 'store_contents_not_use['.$store->getId().']',
@@ -146,7 +146,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                         'label'     => $store->getName(),
                         'onclick'   => $onClick,
                         'checked'   => $contentExists ? false : true,
-                        'after_element_html' => '<label class="normal" for="'.$form->getHtmlIdPrefix().'store_'.$store->getId().'_content_use">'.Mage::helper('enterprise_banner')->__('Use Default').'</label>',
+                        'after_element_html' => '<label class="normal" for="'.$form->getHtmlIdPrefix().'store_'.$store->getId().'_content_use">'.Mage::helper('enterprise_banner')->__('Use Default').'</label>' . $hideTr,
                         'value'     => $store->getId()
                     ));
 

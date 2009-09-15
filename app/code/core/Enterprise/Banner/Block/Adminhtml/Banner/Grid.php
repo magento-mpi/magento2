@@ -74,7 +74,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
                 'index' => 'name',
         ));
 
-        $this->addColumn('is_enabled',
+        $this->addColumn('banner_is_enabled',
             array(
                 'header'    => Mage::helper('enterprise_banner')->__('Active'),
                 'width'     => 50,
