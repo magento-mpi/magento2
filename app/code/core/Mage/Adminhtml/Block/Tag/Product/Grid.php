@@ -37,7 +37,7 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
     public function __construct()
     {
         parent::__construct();
-        $this->setId('tag_product_grid' . Mage::registry('tagId'));
+        $this->setId('tag_product_grid' . Mage::registry('current_tag')->getId());
         $this->setDefaultSort('name');
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);
@@ -55,12 +55,13 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
 
     protected function _prepareCollection()
     {
-        $tagId = Mage::registry('tagId');
+        $tagId = Mage::registry('current_tag')->getId();
+        $storeId = Mage::registry('current_tag')->getStoreId();
         $collection = Mage::getModel('tag/tag')
             ->getEntityCollection()
             ->addTagFilter($tagId)
             ->addCustomerFilter('IS NOT NULL')
-            ->addStoreFilter($this->getRequest()->getParam('store'))
+            ->addStoreFilter($storeId)
             ->addPopularity($tagId);
 
         $this->setCollection($collection);

@@ -44,7 +44,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
 
     protected function _getTagId()
     {
-        return Mage::registry('tagId');
+        return Mage::registry('current_tag')->getId();
     }
 
     protected function _getStore()
@@ -209,12 +209,9 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('products', null);
+        $products = $this->getRequest()->getPost('assigned_products', null);
         if (!is_array($products)) {
-            $products = Mage::getModel('tag/tag')
-                ->setTagId($this->_getTagId())
-                ->setStoreId($this->_getStore()->getId())
-                ->getRelatedProducts();
+            $products = $this->getRelatedProducts();
         }
         return $products;
     }
@@ -227,5 +224,10 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
     public function getGridUrl()
     {
         return $this->getUrl('*/*/assignedGridOnly', array('_current' => true));
+    }
+
+    public function getRelatedProducts()
+    {
+        return Mage::registry('current_tag')->getRelatedProducts();
     }
 }

@@ -36,23 +36,22 @@ class Mage_Adminhtml_Block_Tag_Edit_Accordion extends Mage_Adminhtml_Block_Widge
 {
     protected function _prepareLayout()
     {
-        if (is_null(Mage::registry('tagId'))) {
+        if (is_null(Mage::registry('current_tag')->getId())) {
             return $this;
         }
 
-        $tag_id     = $this->getRequest()->getParam('tag_id');
-        $store_id   = $this->getRequest()->getParam('store');
+        $tagModel = Mage::registry('current_tag');
 
         $this->addItem('tag_customer', array(
             'title'   => Mage::helper('tag')->__('Customers Submitted this Tag'),
             'ajax'    => true,
-            'content_url' => $this->getUrl('*/*/customer', array('ret' => 'all', 'tag_id'=>$tag_id, 'store'=>$store_id)),
+            'content_url' => $this->getUrl('*/*/customer', array('ret' => 'all', 'tag_id'=>$tagModel->getId(), 'store'=>$tagModel->getStoreId())),
         ));
 
         $this->addItem('tag_product', array(
             'title'   => Mage::helper('tag')->__('Products Tagged by Customers'),
             'ajax'    => true,
-            'content_url' => $this->getUrl('*/*/product', array('ret' => 'all', 'tag_id'=>$tag_id, 'store'=>$store_id)),
+            'content_url' => $this->getUrl('*/*/product', array('ret' => 'all', 'tag_id'=>$tagModel->getId(), 'store'=>$tagModel->getStoreId())),
         ));
     }
 }

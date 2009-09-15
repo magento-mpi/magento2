@@ -44,21 +44,16 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         return $this;
     }
 
-    /**
-     * Create serializer block for a grid
-     *
-     * @param string $inputName
-     * @param Mage_Adminhtml_Block_Widget_Grid $gridBlock
-     * @param array $productsArray
-     * @return Mage_Adminhtml_Block_Tag_Edit_Serializer
-     */
-    protected function _createSerializerBlock($inputName, Mage_Adminhtml_Block_Widget_Grid $gridBlock, $productsArray)
+    protected function _initTag()
     {
-        return $this->getLayout()->createBlock('adminhtml/tag_edit_serializer')
-            ->setGridBlock($gridBlock)
-            ->setProducts($productsArray)
-            ->setInputElementName($inputName)
-        ;
+        $id = $this->getRequest()->getParam('tag_id');
+        $storeId = $this->getRequest()->getParam('store');
+        $model = Mage::getModel('tag/tag');
+        if ($id) {
+            $model->load($id);
+            $model->setStoreId($storeId);
+        }
+        Mage::register('current_tag', $model);
     }
 
     public function indexAction()
@@ -101,13 +96,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             return;
         }
 
-        $id = $this->getRequest()->getParam('tag_id');
-        Mage::register('tagId', $id);
-        $model = Mage::getModel('tag/tag');
-
-        if ($id) {
-            $model->load($id);
-        }
+        $this->_initTag();
+        $model = Mage::registry('current_tag');
 
         $model->addSummary($this->getRequest()->getParam('store'));
 
@@ -137,10 +127,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $model = Mage::getModel('tag/tag');
             $model->setData($data);
 
-            if (isset($postData['links']['related'])) {
-                parse_str($postData['links']['related'], $productIds);
+            if (isset($postData['tag_assigned_products'])) {
+                $productIds = Mage::helper('adminhtml/js')->decodeInput($postData['tag_assigned_products']);
                 $tagRelationModel = Mage::getModel('tag/tag_relation');
-                $tagRelationModel->addRelations($model, array_keys($productIds));
+                $tagRelationModel->addRelations($model, $productIds);
             }
 
             switch( $this->getRequest()->getParam('ret') ) {
@@ -252,20 +242,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function assignedAction()
     {
-        Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
-        $store_id = $this->getRequest()->getParam('store');
-
-        $relatedProducts = Mage::getModel('tag/tag')
-            ->setTagId(Mage::registry('tagId'))
-            ->setStoreId($store_id)
-            ->getRelatedProducts();
-
-        $assignedGridBlock = $this->getLayout()->createBlock('adminhtml/tag_assigned_grid');
-        $serializerBlock = $this->_createSerializerBlock('links[related]', $assignedGridBlock, $relatedProducts);
-
-        $this->getResponse()->setBody(
-            $assignedGridBlock->toHtml() . $serializerBlock->toHtml()
-        );
+        $this->_initTag();
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -274,9 +253,9 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function assignedGridOnlyAction()
     {
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/tag_assigned_grid')->toHtml()
-        );
+        $this->_initTag();
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -285,7 +264,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function productAction()
     {
-        Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
+        $this->_initTag();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/tag_product_grid')->toHtml()
         );
@@ -297,7 +276,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function customerAction()
     {
-        Mage::register('tagId', $this->getRequest()->getParam('tag_id'));
+        $this->_initTag();
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/tag_customer_grid')->toHtml()
         );
