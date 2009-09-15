@@ -208,10 +208,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
 
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('products', null);
+        $products = $this->getProductsCrossSell();
         if (!is_array($products)) {
-            $products = $this->_getProduct()->getCrossSellProductIds();
+            $products = $this->getSelectedCrossSellProducts();
         }
         return $products;
+    }
+
+    public function getSelectedCrossSellProducts()
+    {
+        return Mage::registry('current_product')->getCrossSellProductIds();
     }
 }

@@ -205,11 +205,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
 
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('products', null);
+        $products = $this->getProductsUpsell();
         if (!is_array($products)) {
-            $products = $this->_getProduct()->getUpSellProductIds();
+            $products = $this->getSelectedUpsellProducts();
         }
         return $products;
+    }
+
+    public function getSelectedUpsellProducts()
+    {
+        return Mage::registry('current_product')->getUpSellProductIds();
     }
 
 }

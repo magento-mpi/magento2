@@ -123,7 +123,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $this->addColumn('entity_id', array(
             'header'    => Mage::helper('catalog')->__('ID'),
             'sortable'  => true,
-            'width'     => '60px',
+            'width'     => 60,
             'index'     => 'entity_id'
         ));
         $this->addColumn('name', array(
@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $this->addColumn('type',
             array(
                 'header'=> Mage::helper('catalog')->__('Type'),
-                'width' => '100px',
+                'width' => 100,
                 'index' => 'type_id',
                 'type'  => 'options',
                 'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
@@ -148,7 +148,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $this->addColumn('set_name',
             array(
                 'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
-                'width' => '130px',
+                'width' => 130,
                 'index' => 'attribute_set_id',
                 'type'  => 'options',
                 'options' => $sets,
@@ -157,7 +157,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $this->addColumn('status',
             array(
                 'header'=> Mage::helper('catalog')->__('Status'),
-                'width' => '90px',
+                'width' => 90,
                 'index' => 'status',
                 'type'  => 'options',
                 'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
@@ -166,7 +166,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
         $this->addColumn('visibility',
             array(
                 'header'=> Mage::helper('catalog')->__('Visibility'),
-                'width' => '90px',
+                'width' => 90,
                 'index' => 'visibility',
                 'type'  => 'options',
                 'options' => Mage::getSingleton('catalog/product_visibility')->getOptionArray(),
@@ -174,7 +174,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
 
         $this->addColumn('sku', array(
             'header'    => Mage::helper('catalog')->__('SKU'),
-            'width'     => '80px',
+            'width'     => 80,
             'index'     => 'sku'
         ));
         $this->addColumn('price', array(
@@ -201,7 +201,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
             'type'      => 'number',
             'validate_class' => 'validate-number',
             'index'     => 'position',
-            'width'     => '60px',
+            'width'     => 60,
             'editable'  => !$this->isReadonly(),
             'edit_only' => !$this->_getProduct()->getId()
         ));
@@ -216,10 +216,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
 
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('products', null);
+        $products = $this->getProductsRelated();
         if (!is_array($products)) {
-            $products = $this->_getProduct()->getRelatedProductIds();
+            $products = $this->getSelectedRelatedProducts();
         }
         return $products;
+    }
+
+    public function getSelectedRelatedProducts()
+    {
+        return Mage::registry('current_product')->getRelatedProductIds();
     }
 }

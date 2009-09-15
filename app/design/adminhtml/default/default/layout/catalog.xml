@@ -65,12 +65,13 @@
     <adminhtml_catalog_product_related>
         <block type="core/text_list" name="root">
             <block type="adminhtml/catalog_product_edit_tab_related" name="catalog.product.edit.tab.related"/>
-            <block type="adminhtml/catalog_product_edit_tab_ajax_serializer" name="catalog.product.edit.tab.ajax.serializer">
-                <reference name="catalog.product.edit.tab.ajax.serializer">
+            <block type="adminhtml/widget_grid_serializer" name="related_grid_serializer">
+                <reference name="related_grid_serializer">
                     <action method="initSerializerBlock">
-                        <block_name>catalog.product.edit.tab.related</block_name>
-                        <get_products_function>getRelatedProducts</get_products_function>
-                        <input_name>links[related]</input_name>
+                        <grid_block_name>catalog.product.edit.tab.related</grid_block_name>
+                        <data_callback>getSelectedRelatedProducts</data_callback>
+                        <hidden_input_name>links[related]</hidden_input_name>
+                        <reload_param_name>products_related</reload_param_name>
                     </action>
                 </reference>
             </block>
@@ -86,12 +87,13 @@
     <adminhtml_catalog_product_upsell>
         <block type="core/text_list" name="root">
             <block type="adminhtml/catalog_product_edit_tab_upsell" name="catalog.product.edit.tab.upsell"/>
-            <block type="adminhtml/catalog_product_edit_tab_ajax_serializer" name="catalog.product.edit.tab.ajax.serializer">
-                <reference name="catalog.product.edit.tab.ajax.serializer">
+            <block type="adminhtml/widget_grid_serializer" name="upsell_grid_serializer">
+                <reference name="upsell_grid_serializer">
                     <action method="initSerializerBlock">
-                        <block_name>catalog.product.edit.tab.upsell</block_name>
-                        <get_products_function>getupsellProducts</get_products_function>
-                        <input_name>links[upsell]</input_name>
+                        <grid_block_name>catalog.product.edit.tab.upsell</grid_block_name>
+                        <data_callback>getSelectedUpsellProducts</data_callback>
+                        <hidden_input_name>links[upsell]</hidden_input_name>
+                        <reload_param_name>products_upsell</reload_param_name>
                     </action>
                 </reference>
             </block>
@@ -107,12 +109,13 @@
     <adminhtml_catalog_product_crosssell>
         <block type="core/text_list" name="root">
             <block type="adminhtml/catalog_product_edit_tab_crosssell" name="catalog.product.edit.tab.crosssell"/>
-            <block type="adminhtml/catalog_product_edit_tab_ajax_serializer" name="catalog.product.edit.tab.ajax.serializer">
-                <reference name="catalog.product.edit.tab.ajax.serializer">
+            <block type="adminhtml/widget_grid_serializer" name="crosssell_grid_serializer">
+                <reference name="crosssell_grid_serializer">
                     <action method="initSerializerBlock">
-                        <block_name>catalog.product.edit.tab.crosssell</block_name>
-                        <get_products_function>getcrosssellProducts</get_products_function>
-                        <input_name>links[crosssell]</input_name>
+                        <grid_block_name>catalog.product.edit.tab.crosssell</grid_block_name>
+                        <data_callback>getSelectedCrossSellProducts</data_callback>
+                        <hidden_input_name>links[crosssell]</hidden_input_name>
+                        <reload_param_name>products_crosssell</reload_param_name>
                     </action>
                 </reference>
             </block>
