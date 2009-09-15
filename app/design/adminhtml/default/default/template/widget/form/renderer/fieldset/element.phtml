@@ -26,7 +26,7 @@
 ?>
 <?php $_element = $this->getElement() ?>
 <?php if (!$_element->getNoDisplay()): ?>
-<tr>
+<tr id="<?php echo $_element->getId() ?>">
     <?php if ($_element->getType()=='hidden'): ?>
     <td colspan="3" class="hidden"><?php echo trim($_element->getElementHtml()) ?></td>
     <?php else: ?>
