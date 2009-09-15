@@ -49,7 +49,7 @@ class Mage_Payment_Model_Method_Free extends Mage_Payment_Model_Method_Abstract
      */
     public function isAvailable($quote = null)
     {
-        return parent::isAvailable() && (!empty($quote))
+        return parent::isAvailable($quote) && (!empty($quote))
             && (Mage::app()->getStore()->roundPrice($quote->getGrandTotal()) == 0);
     }
 }
