@@ -169,7 +169,7 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
                 }
                 $count = count($processIds);
                 $this->_getSession()->addSuccess(
-                    Mage::helper('index')->__('Total of %d index(es) were successfully reindexed data', $count)
+                    Mage::helper('index')->__('Total of %d index(es) have successfully reindexed data', $count)
                 );
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

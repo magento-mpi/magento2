@@ -110,10 +110,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
          */
         if (isset($data['affected_category_ids'])) {
             $categoryIds = $event->getNewData('affected_category_ids');
-        } elseif (isset($data['products_was_changed'])) {
+        } else if (isset($data['products_was_changed'])) {
             $categoryIds = array($event->getEntityPk());
         } else {
-            return $this;
+            return;
         }
 
         $select = $this->_getWriteAdapter()->select()
@@ -251,6 +251,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         if ($productIds) {
             $select->where('pw.product_id=?', $productIds);
         }
+
         $sql = $select->insertFromSelect($this->getMainTable());
         $this->_getWriteAdapter()->query($sql);
         return $this;
@@ -304,7 +305,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
     /**
      * Rebuild all index data
      *
-     * @return unknown_type
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product
      */
     public function reindexAll()
     {
