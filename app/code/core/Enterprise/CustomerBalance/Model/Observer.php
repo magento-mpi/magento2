@@ -232,10 +232,10 @@ class Enterprise_CustomerBalance_Model_Observer
         // disable all payment methods and enable only Zero Subtotal Checkout
         if ($balance->isFullAmountCovered($quote)) {
             $result = $observer->getEvent()->getResult();
-            if ('free' === $observer->getEvent()->getMethodCode()) {
-                $result->isMethodActive = true;
+            if ('free' === $observer->getEvent()->getMethodInstance()->getCode()) {
+                $result->isAvailable = true;
             } else {
-                $result->isMethodActive = false;
+                $result->isAvailable = false;
             }
         }
     }
