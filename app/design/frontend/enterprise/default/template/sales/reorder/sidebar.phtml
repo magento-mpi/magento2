@@ -38,7 +38,7 @@
     </div>
     <div class="block-content">
     <h3><?php echo $this->__('Last ordered items') ?></h3>
-    <form method="post" action="<?php echo $this->getUrl('checkout/cart/addgroup') ?>" id="reorder-validate-detail">
+    <form method="post" action="<?php echo $this->getFormActionUrl() ?>" id="reorder-validate-detail">
     <fieldset>
         <ol id="cart-sidebar-reorder">
             <?php $_showAddButtonFlag = false ?>

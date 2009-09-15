@@ -24,7 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<form action="<?php echo $this->getUrl('newsletter/subscriber/new') ?>" method="post" id="newsletter-validate-detail">
+<form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
     <div class="form-subscribe">
         <label for="newsletter"><?php echo $this->__('Sign up for our newsletter:') ?></label>
         <div class="v-fix"><input name="email" type="text" id="newsletter" value="Enter your email address" onclick="this.value=='Enter your email address'?this.value='':''" onblur="this.value==''?this.value='Enter your email address':''" class="input-text required-entry validate-email" /></div>
