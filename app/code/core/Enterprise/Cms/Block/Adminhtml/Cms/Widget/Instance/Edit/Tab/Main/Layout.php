@@ -149,6 +149,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
         return $options;
     }
 
+    /**
+     * Generate array of parameters for given container type to create html template
+     *
+     * @param string $type
+     * @return array
+     */
     public function getDisplayOnContainers($type)
     {
         $container = array();
@@ -156,18 +162,21 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
             case 'categories':
                 $container['anchor'] = array(
                     'name' => 'anchor_categories',
-                    'layout_handle' => '^default$,^catalog_category_layered*'
+//                    'layout_handle' => '^default$,^catalog_category_layered*'
+                    'layout_handle' => 'default,catalog_category_layered'
                 );
                 $container['notanchor'] = array(
                     'name' => 'notanchor_categories',
-                    'layout_handle' => '^default$,catalog_category_default'
+//                    'layout_handle' => '^default$,catalog_category_default'
+                    'layout_handle' => 'default,catalog_category_default'
                 );
                 break;
             case 'products':
                 foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
                     $container[$typeId] = array(
                         'name' => $typeId . '_products',
-                        'layout_handle' => '^default$,,^catalog_product_view$,^PRODUCT_TYPE_'.$typeId.'$',
+//                        'layout_handle' => '^default$,^catalog_product_view$,^PRODUCT_TYPE_'.$typeId.'$',
+                        'layout_handle' => 'default,catalog_product_view,PRODUCT_TYPE_'.$typeId,
                         'product_type_id' => $typeId
                     );
                 }

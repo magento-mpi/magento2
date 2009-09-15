@@ -31,6 +31,7 @@ Default layout, loads most of the pages
 -->
 
     <default>
+        <label>Default Layout Handle</label>
         <block type="page/html" name="root" output="toHtml" template="page/3columns.phtml">
 
             <block type="page/html_head" name="head" as="head">
@@ -67,38 +68,53 @@ Default layout, loads most of the pages
                 <block type="page/template_links" name="top.links" as="topLinks"/>
                 <block type="page/template_links" name="checkout.links" as="checkoutLinks"/>
                 <block type="core/text_list" name="top.switches" as="switches">
+                    <label>Top Switches Block</label>
                     <block type="page/switch" name="store_language" as="store_language" template="page/switch/languages.phtml"/>
                 </block>
-                <block type="core/text_list" name="top.menu" as="topMenu"/>
-                <block type="core/text_list" name="top.container" as="topContainer"/>
+                <block type="core/text_list" name="top.menu" as="topMenu">
+                    <label>Top Menu Block</label>
+                </block>
+                <block type="core/text_list" name="top.container" as="topContainer">
+                    <label>Top Container Block</label>
+                </block>
             </block>
 
 
             <block type="core/text_list" name="breadcrumbs.container" as="breadcrumbsContainer" >
+                <label>Breadcrumbs Container Block</label>
                 <block type="page/html_breadcrumbs" name="breadcrumbs"/>
             </block>
 
-            <block type="core/text_list" name="left" as="left"/>
+            <block type="core/text_list" name="left" as="left">
+                <label>Left Block</label>
+            </block>
 
             <block type="core/messages" name="global_messages" as="global_messages"/>
             <block type="core/messages" name="messages" as="messages"/>
 
-            <block type="core/text_list" name="content" as="content"/>
+            <block type="core/text_list" name="content" as="content">
+                <label>Content Block</label>
+            </block>
 
-            <block type="core/text_list" name="right" as="right"/>
+            <block type="core/text_list" name="right" as="right">
+                <label>Right Block</label>
+            </block>
 
             <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
                 <block type="page/switch" name="store_switcher" as="store_switcher" template="page/switch/stores.phtml"/>
                 <block type="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
             </block>
 
-            <block type="core/text_list" name="before_body_end" as="before_body_end"/>
+            <block type="core/text_list" name="before_body_end" as="before_body_end">
+                <label>Before Body End Block</label>
+            </block>
         </block>
 
         <block type="core/profiler" output="toHtml"/>
     </default>
 
     <print>
+        <label>Print Layout Handle</label>
         <!-- Mage_Page -->
         <block type="page/html" name="root" output="toHtml" template="page/print.phtml">
 
@@ -121,7 +137,9 @@ Default layout, loads most of the pages
                 <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
             </block>
 
-            <block type="core/text_list" name="content" as="content"/>
+            <block type="core/text_list" name="content" as="content">
+                <label>Content Block</label>
+            </block>
 
         </block>
     </print>

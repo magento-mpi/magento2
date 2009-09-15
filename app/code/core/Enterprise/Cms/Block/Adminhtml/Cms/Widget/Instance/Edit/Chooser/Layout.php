@@ -42,6 +42,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
      * @var array
      */
     protected $_layoutHandlePatterns = array(
+        '^default$',
         '^catalog_category_*',
         '^catalog_product_*',
         '^PRODUCT_*'
@@ -156,9 +157,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
      */
     protected function _collectLayoutHandles($layoutHandles)
     {
-        foreach ($layoutHandles as $node => $nodeXml) {
-            if ($this->_filterLayoutHandle((string)$node)) {
-                $this->_layoutHandles[(string)$node] = (string)$node;
+        foreach ($layoutHandles->xpath('/*/*/label/..') as $node) {
+            if ($this->_filterLayoutHandle($node->getName())) {
+                $this->_layoutHandles[$node->getName()] = (string)$node->label;
             }
         }
     }

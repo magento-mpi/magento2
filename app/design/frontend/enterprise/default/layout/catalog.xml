@@ -186,6 +186,7 @@ Product view
 -->
 
     <catalog_product_view>
+        <label>Catalog Product View layout Handle</label>
         <!-- Mage_Catalog -->
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
@@ -202,7 +203,9 @@ Product view
         <reference name="content">
             <block type="catalog/product_view" name="product.info" template="catalog/product/view.phtml">
                 <block type="catalog/product_view_media" name="product.info.media" as="media" template="catalog/product/view/media.phtml"/>
-                <block type="core/text_list" name="alert.urls" as="alert_urls" />
+                <block type="core/text_list" name="alert.urls" as="alert_urls">
+                    <label>Alert Urls Block</label>
+                </block>
                 <block type="catalog/product_view" name="product.tierprices" as="tierprices" template="catalog/product/view/tierprices.phtml"/>
 
                 <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml">
@@ -213,7 +216,9 @@ Product view
                 <block type="catalog/product_view_additional" name="product.info.additional" as="product_additional_data" />
                 <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml"/>
                 <block type="catalog/product_view_attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml"/>
-                <block type="core/text_list" name="product.tag.list" as="productTagList" />
+                <block type="core/text_list" name="product.tag.list" as="productTagList">
+                    <label>Product Tags Block</label>
+                </block>
                 <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
                 <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
 
@@ -256,7 +261,8 @@ Additional block dependant on product type
 -->
     <PRODUCT_TYPE_simple>
         <reference name="product.info">
-            <block type="catalog/product_view_type_simple" name="product.info.simple" as="product_type_data" template="catalog/product/view/type/simple.phtml"/>
+            <block type="catalog/product_view_type_simple" name="product.info.simple" as="product_type_data" template="catalog/product/view/type/simple.phtml">
+            </block>
         </reference>
     </PRODUCT_TYPE_simple>
     <PRODUCT_TYPE_configurable>
@@ -272,6 +278,7 @@ Additional block dependant on product type
         <reference name="product.info">
             <block type="catalog/product_view_type_grouped" name="product.info.grouped" as="product_type_data" template="catalog/product/view/type/grouped.phtml">
                 <block type="core/text_list" name="alert.urls.grouped" as="alert_urls_grouped">
+                    <label>Alert Urls Block (for Grouped Product only)</label>
                     <block type="productalert/price" name="productalert.price" as="productalert_price" template="productalert/price.phtml" />
                     <block type="productalert/stock" name="productalert.stock" as="productalert_stock" />               
                 </block>

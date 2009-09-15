@@ -149,51 +149,34 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
         if (empty($this->_blocks)) {
             /* @var $update Mage_Core_Model_Layout_Update */
             $update = Mage::getModel('core/layout')->getUpdate();
+            /* @var $layoutHandles Mage_Core_Model_Layout_Element */
             $layoutHandles = $update->getFileLayoutUpdatesXml(
                 $this->getArea(),
                 $this->getPackage(),
                 $this->getTheme(), Mage::app()->getDefaultStoreView()->getId());
-            foreach ($layoutHandles as $node => $nodeXml) {
-                if ($this->_filterLayoutHandle((string)$node)) {
-                    $this->_collectBlocks($nodeXml);
-                }
-            }
+            $this->_collectBlocks($layoutHandles);
         }
         return $this->_blocks;
     }
 
     /**
-     * Check if given layout handle match for specified layout handles
-     *
-     * @param string $layoutHandle
-     * @return boolean
-     */
-    protected function _filterLayoutHandle($layoutHandle)
-    {
-        $wildCard = '/('.implode(')|(', $this->getLayoutHandle()).')/';
-        if (preg_match($wildCard, $layoutHandle)) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Filter and collect blocks into array
      *
-     * @param Mage_Core_Model_Layout_Element $node
+     * @param Mage_Core_Model_Layout_Element $layoutHandles
      */
-    protected function _collectBlocks($node)
+    protected function _collectBlocks($layoutHandles)
     {
-        if ($node) {
-            foreach ($node as $item => $itemXml) {
-                if ((string)$item == 'block') {
-                    $attributes = $itemXml->attributes();
-                    if ((string)$attributes['name'] && $this->_filterBlockType((string)$attributes['type'])) {
-                        $this->_blocks[(string)$attributes['name']] = (string)$attributes['name'];
+        Zend_Debug::dump(get_class($layoutHandles));
+        foreach ($this->getLayoutHandle() as $handle) {
+            $wildCard = "//{$handle}//block/label/..";
+            if ($blocks = $layoutHandles->xpath($wildCard)) {
+                /* @var $block Mage_Core_Model_Layout_Element */
+                foreach ($blocks as $block) {
+                    if ((string)$block->getAttribute('name')
+                        && $this->_filterBlockType((string)$block->getAttribute('type')))
+                    {
+                        $this->_blocks[(string)$block->getAttribute('name')] = (string)$block->label;
                     }
-                }
-                if ($itemXml->children()) {
-                    $this->_collectBlocks($itemXml);
                 }
             }
         }
