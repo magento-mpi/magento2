@@ -166,7 +166,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
      */
     protected function _collectBlocks($layoutHandles)
     {
-        Zend_Debug::dump(get_class($layoutHandles));
         foreach ($this->getLayoutHandle() as $handle) {
             $wildCard = "//{$handle}//block/label/..";
             if ($blocks = $layoutHandles->xpath($wildCard)) {
