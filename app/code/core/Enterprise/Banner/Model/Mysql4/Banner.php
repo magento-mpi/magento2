@@ -163,10 +163,11 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
      */
     public function getStoreContents($bannerId)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->_contentsTable, array('store_id', 'banner_content'))
             ->where('banner_id=?', $bannerId);
-        return $this->_getReadAdapter()->fetchPairs($select);
+        return $adapter->fetchPairs($select);
     }
 
     /**
@@ -178,12 +179,13 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
      */
     public function getStoreContent($bannerId, $storeId)
     {
-        $select = $this->_getReadAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->_contentsTable, 'banner_content')
             ->where('banner_id=?', $bannerId)
             ->where('store_id IN(?)', array($storeId, 0))
             ->order('store_id DESC');
-        return $this->_getReadAdapter()->fetchOne($select);
+        return $adapter->fetchOne($select);
     }
 
     /**
@@ -194,7 +196,8 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
      */
     public function getRelatedSalesRule($bannerId)
     {
-        $select = $this->_getWriteAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->_salesRuleTable, array())
             ->join(
                 array('rules' => $this->getTable('salesrule/rule')),
@@ -202,7 +205,7 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
                 array('rule_id')
             )
             ->where('banner_id=?', $bannerId);
-        $rules = $this->_getWriteAdapter()->fetchCol($select);
+        $rules = $adapter->fetchCol($select);
         return $rules;
     }
 
@@ -214,7 +217,8 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
      */
     public function getRelatedCatalogRule($bannerId)
     {
-        $select = $this->_getWriteAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->_catalogRuleTable, array())
             ->join(
                 array('rules' => $this->getTable('catalogrule/rule')),
@@ -222,7 +226,7 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
                 array('rule_id')
             )
             ->where('banner_id=?', $bannerId);
-        $rules = $this->_getWriteAdapter()->fetchCol($select);
+        $rules = $adapter->fetchCol($select);
         return $rules;
     }
 
@@ -234,10 +238,11 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
      */
     public function getRelatedBannersByCatalogRuleId($ruleId)
     {
-        $select = $this->_getWriteAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->_catalogRuleTable, array('banner_id'))
             ->where('rule_id=?', $ruleId);
-        return $this->_getWriteAdapter()->fetchCol($select);
+        return $adapter->fetchCol($select);
     }
 
     /**
@@ -248,10 +253,11 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
      */
     public function getRelatedBannersBySalesRuleId($ruleId)
     {
-        $select = $this->_getWriteAdapter()->select()
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
             ->from($this->_salesRuleTable, array('banner_id'))
             ->where('rule_id=?', $ruleId);
-        return $this->_getWriteAdapter()->fetchCol($select);
+        return $adapter->fetchCol($select);
     }
 
     /**
@@ -310,5 +316,40 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
             $adapter->quoteInto('rule_id=? AND ', $ruleId) . $adapter->quoteInto('banner_id NOT IN (?)', $banners)
         );
         return $this;
+    }
+
+    /**
+     * Get real existing banner ids by specified ids
+     *
+     * @param array $bannerIds
+     * @param bool $isActive if true then only active banners will be get
+     * @return array
+     */
+    public function getExistingBannerIdsBySpecifiedIds($bannerIds, $isActive = true)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getMainTable(), array('banner_id'))
+            ->where('banner_id IN (?)', $bannerIds);
+        if ($isActive) {
+            $select->where('is_enabled = ?', (int)$isActive);
+        }
+        return $adapter->fetchCol($select);
+    }
+
+    /**
+     * Get banners content per store view
+     *
+     * @param array $bannerIds
+     * @param int $storeId
+     * @return array
+     */
+    public function getBannersContent($bannerIds, $storeId)
+    {
+        $content = array();
+        foreach ($bannerIds as $_id) {
+            $content[$_id] = $this->getStoreContent($_id, $storeId);
+        }
+        return $content;
     }
 }
