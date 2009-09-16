@@ -408,7 +408,9 @@ button.cancel span,
 button.delete span,
 button.save span,
 button.add span,
-button.back span { padding-left:20px; }
+button.back span,
+button.add-image span,
+button.add-widget span { padding-left:20px; }
 button.back { border-color:#ccc #aaa #aaa #ccc; background-color:#fff; background-image:url(images/btn_back_bg.gif); color:#555; }
 button.back span { background-image:url(images/icon_btn_back.gif); }
 button.cancel,
@@ -419,8 +421,11 @@ button.cancel:active,
 button.delete:active { background-image:url(images/cancel_btn_active_bg.gif); background-color:#e0612f; }
 button.cancel span,
 button.delete span { background-image:url(images/cancel_btn_icon.gif); }
-button.add span     { background-image:url(images/add_btn_icon.gif); }
-button.save span    { background-image:url(images/save_btn_icon.gif); }
+button.add span { background-image:url(images/add_btn_icon.gif); }
+button.save span { background-image:url(images/save_btn_icon.gif); }
+button.show-hide span { background-image:url(images/btn_show-hide_icon.gif); padding-left:24px; }
+button.add-image span { background-image:url(images/btn_add-image_icon.gif); padding-left:24px; }
+button.add-widget span { background-image:url(images/btn_add-widget_icon.gif); }
 
 button.disabled,
 button.disabled:hover,
@@ -429,6 +434,9 @@ button.add.disabled span { background-image:url(images/add_btn_icon-disabled.gif
 
 button.icon-btn { width:32px!important; }
 button.icon-btn span { text-indent:-999em; display:block; width:16px; padding:0; overflow:hidden; }
+
+.buttons-set { margin:0 0 10px; text-align:right; }
+.buttons-set button { margin-left:5px; }
 
 
 /* SWITCHER
@@ -1196,7 +1204,6 @@ table.mceLayout { width:100% !important; }
 .cms-hierarchy .col-right { padding:0 10px 20px; }
 .cms-hierarchy .col-right .form-list td.label { width:120px; }
 .cms-hierarchy .col-right .form-list td.label label { width:105px; }
-.cms-hierarchy .buttons-set { margin:0 0 10px; }
 .cms-hierarchy .cms-tree { height:300px; }
 
 /* CMS Widgets */
