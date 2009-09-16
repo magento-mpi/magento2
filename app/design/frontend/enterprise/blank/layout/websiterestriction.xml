@@ -27,7 +27,8 @@
 -->
 <layout version="0.1.0">
     <!-- stub-page for a closed website -->
-    <restriction_index_stub>
+    <restriction_index_stub translate="label" module="enterprise_websiterestriction">
+        <label>Website Closed Stub Page</label>
         <block type="page/html" name="root" output="toHtml" template="page/1column.phtml">
             <block type="page/html_head" name="head" as="head">
                 <!-- please remove non-required elements from this block -->
@@ -45,7 +46,8 @@
             </block>
             <block type="core/messages" name="global_messages" as="global_messages"/>
             <block type="core/messages" name="messages" as="messages"/>
-            <block type="core/text_list" name="content" as="content">
+            <block type="core/text_list" name="content" as="content" translate="label">
+                <label>Main Content Area</label>
                 <block type="core/template" name="cms.wrapper" template="cms/wrapper.phtml">
                     <block type="enterprise_websiterestriction/cms_stub" name="cms_page" as="cms_page" />
                 </block>
@@ -56,6 +58,7 @@
     </restriction_index_stub>
 
     <!-- private sales mode additional layout update -->
-    <restriction_privatesales_mode>
+    <restriction_privatesales_mode translate="label" module="enterprise_websiterestriction">
+        <label>Website Closed Private Sales Landing Page</label>
     </restriction_privatesales_mode>
 </layout>

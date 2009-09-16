@@ -33,7 +33,8 @@
         </reference>
     </customer_logged_in>
     
-    <enterprise_invitation_index_send>
+    <enterprise_invitation_index_send translate="label">
+        <label>Customer My Account Invitations Form</label>
         <update handle="customer_account"/>
         <reference name="customer_account_navigation">
             <action method="setActive"><path>enterprise_invitation/index/index</path></action>
@@ -43,7 +44,8 @@
         </reference>
     </enterprise_invitation_index_send>
 
-    <enterprise_invitation_index_index>
+    <enterprise_invitation_index_index translate="label">
+        <label>Customer My Account Invitations List</label>
         <update handle="customer_account"/>
         
         <reference name="content">
@@ -57,7 +59,8 @@
         </reference>
     </customer_account>
     
-    <enterprise_invitation_customer_account_create>
+    <enterprise_invitation_customer_account_create translate="label">
+        <label>Customer Account Registration by Invitation Form</label>
         <update handle="customer_account_create" />
         <reference name="content">
             <remove name="customer_form_register" />
