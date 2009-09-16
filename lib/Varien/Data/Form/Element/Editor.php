@@ -52,7 +52,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         {
             $jsSetupObject = 'wysiwyg' . $this->getHtmlId();
 
-            $html = $this->_getLinksHtml()
+            $html = $this->_getButtonsHtml()
                 .'<textarea name="'.$this->getName().'" title="'.$this->getTitle().'" id="'.$this->getHtmlId().'" class="textarea '.$this->getClass().'" '.$this->serialize($this->getHtmlAttributes()).' >'.$this->getEscapedValue().'</textarea>
 
                 <script type="text/javascript">
@@ -81,9 +81,9 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         }
         else
         {
-            // Display only links to additional features
+            // Display only buttons to additional features
             if ($this->getConfig('widget_window_url')) {
-                $html = $this->_getLinksHtml() . parent::getElementHtml();
+                $html = $this->_getButtonsHtml() . parent::getElementHtml();
                 $html = $this->_wrapIntoContainer($html);
                 return $html;
             }
@@ -101,86 +101,88 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     }
 
     /**
-     * Return Editor top links HTML
+     * Return Editor top Buttons HTML
      *
      * @return string
      */
-    protected function _getLinksHtml()
+    protected function _getButtonsHtml()
     {
-        $linksHtml = '<div id="links'.$this->getHtmlId().'">';
+        $buttonsHtml = '<div id="buttons'.$this->getHtmlId().'" class="buttons-set">';
         if ($this->isEnabled()) {
-            $linksHtml .= $this->_getToggleLinkHtml()
-                . $this->_getLinksSeparatorHtml(false)
-                . $this->_getPluginLinksHtml(false);
+            $buttonsHtml .= $this->_getPluginButtonsHtml(false) . $this->_getToggleButtonHtml();
         } else {
-            $linksHtml .= $this->_getPluginLinksHtml(true);
+            $buttonsHtml .= $this->_getPluginButtonsHtml(true);
         }
-        $linksHtml .= '</div>';
+        $buttonsHtml .= '</div>';
 
-        return $linksHtml;
+        return $buttonsHtml;
     }
 
     /**
-     * Return HTML link to toggling WYSIWYG
+     * Return HTML button to toggling WYSIWYG
      *
      * @return string
      */
-    protected function _getToggleLinkHtml($visible = true)
+    protected function _getToggleButtonHtml($visible = true)
     {
-        return '<a href="javascript:void(0)" id="toggle'.$this->getHtmlId().'"'.($visible ? '' : ' style="display:none;"').'>'.$this->translate('Show / Hide Editor').'</a>';
+        $html = $this->_getButtonHtml(array(
+            'title'     => $this->translate('Show / Hide Editor'),
+            'class'     => 'show-hide',
+            'style'     => $visible ? '' : 'display:none',
+            'id'        => 'toggle'.$this->getHtmlId(),
+        ));
+        return $html;
     }
 
     /**
-     * Return HTML separator between links
+     * Prepare Html buttons for additional WYSIWYG features
      *
-     * @param bool $visible
-     * @return string
-     */
-    protected function _getLinksSeparatorHtml($visible = true)
-    {
-        return '<span class="'.$this->getHtmlId().'_sep"'.($visible ? '' : ' style="display:none;"').'> | </span>';
-    }
-
-    /**
-     * Prepare Html links for additional WYSIWYG features
-     *
-     * @param bool $visible Display link or not
+     * @param bool $visible Display button or not
      * @return void
      */
-    protected function _getPluginLinksHtml($visible = true)
+    protected function _getPluginButtonsHtml($visible = true)
     {
-        $links = array();
-        $linksHtml = array();
+        $buttonsHtml = '';
 
-        // Link to media images insertion window
-        $winUrl = $this->getConfig('files_browser_window_url');
-        $links[] = new Varien_Data_Form_Element_Link(array(
-            'href'      => 'javascript:void(0)',
-            'title'     => $this->translate('Insert Image'),
-            'value'     => $this->translate('Insert Image'),
-            'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
-            'class'     => $this->getHtmlId().'_link',
-            'style'     => $visible ? '' : 'display:none',
-        ));
-
-        // Link to widget insertion window
+        // Button to widget insertion window
         $winUrl = $this->getConfig('widget_window_no_wysiwyg_url');
-        $links[] = new Varien_Data_Form_Element_Link(array(
-            'href'      => 'javascript:void(0)',
+        $buttonsHtml .= $this->_getButtonHtml(array(
             'title'     => $this->translate('Insert Widget'),
-            'value'     => $this->translate('Insert Widget'),
             'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
-            'class'     => $this->getHtmlId().'_link',
+            'class'     => 'add-widget plugin',
             'style'     => $visible ? '' : 'display:none',
         ));
 
-        foreach ($links as $link) {
-            $link->setForm($this->getForm());
-            $linksHtml[] = $link->getElementHtml();
-        }
+        // Button to media images insertion window
+        $winUrl = $this->getConfig('files_browser_window_url');
+        $buttonsHtml .= $this->_getButtonHtml(array(
+            'title'     => $this->translate('Insert Image'),
+            'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
+            'class'     => 'add-image plugin',
+            'style'     => $visible ? '' : 'display:none',
+        ));
 
-        $linksHtml = implode($this->_getLinksSeparatorHtml($visible), $linksHtml);
-        return $linksHtml;
+        return $buttonsHtml;
+    }
+
+    /**
+     * Return custom button HTML
+     *
+     * @param array $data Button params
+     * @return string
+     */
+    protected function _getButtonHtml($data)
+    {
+        $html = '<button type="button"';
+        $html.= ' class="scalable '.(isset($data['class']) ? $data['class'] : '').'"';
+        $html.= isset($data['onclick']) ? ' onclick="'.$data['onclick'].'"' : '';
+        $html.= isset($data['style']) ? ' style="'.$data['style'].'"' : '';
+        $html.= isset($data['id']) ? ' id="'.$data['id'].'"' : '';
+        $html.= '>';
+        $html.= isset($data['title']) ? '<span>'.$data['title'].'</span>' : '';
+        $html.= '</button>';
+
+        return $html;
     }
 
     /**

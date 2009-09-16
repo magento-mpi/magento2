@@ -120,10 +120,7 @@ tinyMceWysiwygSetup.prototype =
     toggle: function() {
         this.toggleEditorControl();
 
-        $$('a.' + this.id + '_link').each(function(e) {
-            e.toggle();
-        });
-        $$('span.' + this.id + '_sep').each(function(e) {
+        $$('#buttons' + this.id + ' > button.plugin').each(function(e) {
             e.toggle();
         });
     },
