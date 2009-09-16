@@ -110,6 +110,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('enterprise_cms')->__('URL Key')
         ));
 
+        $fieldset->addField('node_preview', 'link', array(
+            'label'     => Mage::helper('enterprise_cms')->__('Preview'),
+            'href'      => '#',
+            'value'     => Mage::helper('enterprise_cms')->__('No preview available'),
+        ));
+
         /*
          * Define field set with elements for root nodes
          */
@@ -334,6 +340,39 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     public function getButtonUpdateLabel()
     {
         return Mage::helper('enterprise_cms')->__('Update');
+    }
+
+    /**
+     * Return legend for Hierarchy node fieldset
+     *
+     * @return string
+     */
+    public function getNodeFieldsetLegend()
+    {
+        return Mage::helper('enterprise_cms')->__('Node Properties');
+    }
+
+    /**
+     * Return legend for Hierarchy page fieldset
+     *
+     * @return string
+     */
+    public function getPageFieldsetLegend()
+    {
+        return Mage::helper('enterprise_cms')->__('Page Properties');
+    }
+
+    /**
+     * Return URL query param for current store
+     *
+     * @return string
+     */
+    public function getCurrentStoreUrlParam()
+    {
+        if ($this->_currentStore) {
+            return '?___store=' . Mage::app()->getStore($this->_currentStore)->getCode();
+        }
+        return '';
     }
 
     /**

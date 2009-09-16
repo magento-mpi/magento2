@@ -47,7 +47,7 @@
             </td>
         </tr>
     </table>
-    
+
     <script type="text/javascript">
     //<![CDATA[
     /**
@@ -87,7 +87,7 @@
             this.treeRoot.select();
             this.dataModification = false;
             this.lastChangedNode = null;
-    
+
             $('node_label').removeClassName('required-entry');
             $('node_identifier').removeClassName('required-entry');
         },
@@ -97,13 +97,13 @@
                 if (!this.nodes[i].assigned_to_store) {
                     cssClass = cssClass + ' disallowed';
                 }
-    
+
                 if (this.nodes[i].page_id > 0) {
                     cssClass = cssClass + ' cms_page';
                 } else {
                     cssClass = cssClass + ' cms_node';
                 }
-    
+
                 var node = new Ext.tree.TreeNode({
                     id: this.nodes[i].node_id,
                     text: this.nodes[i].label,
@@ -118,11 +118,11 @@
                     meta_chapter: this.nodes[i].meta_chapter,
                     meta_section: this.nodes[i].meta_section
                 });
-    
+
                 if (this.nodes[i].page_id) {
                     this.pageIdentifiers.set(this.nodes[i].identifier, this.nodes[i].identifier);
                 }
-    
+
                 if (parentNode = this.tree.getNodeById(this.nodes[i].parent_node_id)) {
                     parentNode.appendChild(node);
                 } else {
@@ -130,12 +130,36 @@
                 }
             }
         },
+
+        getEditPageAnchorHtml: function(pageId, pageTitle) {
+            return '<a href="<?php echo $this->getUrl('*/cms_page/edit')?>page_id/' + pageId + '/" target="_blank">' + pageTitle + '</a>';
+        },
+
+        getNodePreviewUrlInfo: function(node) {
+            var urlKeys = [];
+            var i = 0;
+            while(node.id != '_root') {
+                urlKeys[i] = node.attributes.identifier;
+                node = node.parentNode;
+                i++;
+            }
+            if (urlKeys.length == 0) {
+                return false;
+            }
+            urlKeys.reverse();
+            var urlPath = urlKeys.join('/');
+            return {
+                path: urlPath,
+                url: '<?php echo Mage::getBaseUrl() ?>' + urlPath + '<?php echo $this->getCurrentStoreUrlParam() ?>'
+            };
+        },
+
         onNodeSelect: function(model, node){
             if (this.lastChangedNode) {
                 this.lastChangedNode.ui.removeClass('modified');
                 this.lastChangedNode = null;
             }
-    
+
             if (!node || node.id == '_root') {
                 $('node_prop_container').hide();
                 $('cancel_node_button').hide();
@@ -145,10 +169,11 @@
                 return;
             }
             $('node_prop_container').show();
-    
+
             var isTreeNode = (node.parentNode.id == '_root');
             <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
+                $('node_properties_fieldset').previous().down('.icon-head').innerHTML = '<?php echo $this->getNodeFieldsetLegend()?>';
                 this.showFieldSet('metadata_fieldset');
                 $('meta_first_last').value = node.attributes.meta_first_last;
                 $('meta_next_previous').value = node.attributes.meta_next_previous;
@@ -156,31 +181,39 @@
     //            $('meta_chapter').value = node.attributes.meta_chapter;
     //            $('meta_section').value = node.attributes.meta_section;
             } else {
+                $('node_properties_fieldset').previous().down('.icon-head').innerHTML = '<?php echo $this->getPageFieldsetLegend()?>';
                 this.hideFieldSet('metadata_fieldset');
             }
             <?php endif; ?>
-    
+
             $('node_id').value = node.id;
             $('node_page_id').value = node.attributes.page_id;
-    
+
             var hasPageId = node.attributes.page_id != null;
             this._changeNodePropShow(hasPageId);
-    
+
+            var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
+            if (nodeUrlInfo != false) {
+                $('node_preview').writeAttribute('target', '_blank');
+                $('node_preview').writeAttribute('href', nodeUrlInfo.url);
+                $('node_preview').innerHTML = nodeUrlInfo.path;
+            }
+
             if (!hasPageId) {
                 $('node_label').value = node.text;
                 $('node_identifier').value = node.attributes.identifier;
             } else {
-                $('node_label_text').innerHTML = node.text;
+                $('node_label_text').innerHTML = this.getEditPageAnchorHtml(node.attributes.page_id, node.text);
                 $('node_identifier_text').innerHTML = node.attributes.identifier;
             }
-    
+
             this.nodePropReset();
-    
+
             $('delete_node_button').show();
             $('cancel_node_button').hide();
-    
+
             this.saveButton(!hasPageId || isTreeNode, false, false);
-    
+
             this.pageGridLoad();
         },
         onNodeAppend: function(tree,parent,node){
@@ -227,11 +260,11 @@
                     allowDrag: true
                 }));
                 this.pageIdentifiers.set(identifier, page_id);
-    
+
                 this.increment ++;
-    
+
                 checkbox.checked = false;
-    
+
                 rootNode.expand();
             }.bind(this));
             this.pageGridLoad();
@@ -272,15 +305,15 @@
         nodePropValidate: function(){
             $('node_label').addClassName('required-entry');
             $('node_identifier').addClassName('required-entry');
-    
+
             var isValid = true;
             $('node_properties_fieldset').select('input').each(function(el){
                 isValid = Validation.validate(el) && isValid;
             });
-    
+
             $('node_label').removeClassName('required-entry');
             $('node_identifier').removeClassName('required-entry');
-    
+
             return isValid;
         },
         nodePropReset: function(){
@@ -315,7 +348,7 @@
             this._changeNodePropShow(false);
             this.saveButton(true, false, true);
             //this.tree.getSelectionModel().clearSelections();
-    
+
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
             <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
             if (selectedNode.id == '_root') {
@@ -324,7 +357,7 @@
                 this.hideFieldSet('metadata_fieldset');
             }
             <?php endif; ?>
-    
+
             $('delete_node_button').hide();
             $('node_prop_container').show();
             $('cancel_node_button').show();
@@ -349,11 +382,11 @@
                     return;
                 }
             }
-    
+
             if (hasNodeId) {
                 var node_id = $('node_id').value;
                 var node = this.tree.getNodeById(node_id);
-    
+
                 var identifier = $('node_identifier').value;
                 for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
                     checkNode = node.parentNode.childNodes[i];
@@ -362,7 +395,7 @@
                         return false;
                     }
                 }
-    
+
                 if (!hasPageId) {
                     node.setText($('node_label').value);
                     node.attributes.identifier = identifier;
@@ -378,17 +411,17 @@
                     allowDrop: true,
                     allowDrag: true
                 });
-    
+
                 this.increment ++;
                 var parentNode = this.tree.getSelectionModel().getSelectedNode();
-    
+
                 if (!parentNode) {
                     parentNode = this.treeRoot;
                 }
                 parentNode.appendChild(node);
                 parentNode.expand();
             }
-    
+
             <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()): ?>
             if (node.parentNode.id == '_root') {
                 node.attributes.meta_first_last = $('meta_first_last').value;
@@ -398,12 +431,12 @@
     //            node.attributes.meta_section = $('meta_section').value;
             }
             <?php endif; ?>
-    
+
             node.getUI().removeClass('modified');
             node.getUI().addClass('saved');
-    
+
             node.select();
-    
+
             this.saveButton(true, false);
             this.dataModification = false;
         },
@@ -418,11 +451,11 @@
                 }
                 node.parentNode.select();
                 node.parentNode.removeChild(node);
-    
+
                 if (!isNaN(node.id * 1)) {
                     this.removedNodes.push(node.id);
                 }
-    
+
                 this.pageGridLoad();
             }
         },
@@ -434,7 +467,7 @@
                 node.eachChild(function(child){
                     identifiers.set(child.attributes.identifier, true);
                 });
-    
+
                 var rows = $$('#cms_page_grid .grid table tbody tr');
                 rows.each(function(tr){
                     if (fullReset) {
@@ -480,7 +513,7 @@
                 } else {
                     btn.addClassName('disabled');
                 }
-    
+
                 if (save != undefined) {
                     if (save) {
                         btn.down('span').update('<?php echo $this->getButtonSaveLabel() ?>');
@@ -517,7 +550,7 @@
             </fieldset>
         </div>
     </div>
-    
+
     <script type="text/javascript">
     //<![CDATA[
     <?php echo $this->getGridJsObject(); ?>.initCallback = hierarchyNodes.pageGridLoad.bind(hierarchyNodes);
