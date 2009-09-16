@@ -68,7 +68,7 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
         $children = $this->_getChildConditionsSql($customer);
         if ($children) {
             foreach ($children as $criteria) {
-                $criteriaSql = "(($criteria) {$operator} 1)";
+                $criteriaSql = "(IFNULL(($criteria), 0) {$operator} 1)";
 
                 $select->$whereFunction($criteriaSql);
             }

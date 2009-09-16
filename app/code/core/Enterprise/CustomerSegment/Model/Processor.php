@@ -57,7 +57,7 @@ class Enterprise_CustomerSegment_Model_Processor extends Mage_Core_Model_Abstrac
         }
     }
 
-    public function process(Enterprise_CustomerSegment_Model_Segment $segment, Mage_Customer_Model_Customer $customer)
+    public function process(Enterprise_CustomerSegment_Model_Segment $segment, $customer = null)
     {
         $result = $segment->validate($customer);
         $resultText = ($result ? '<span style="color: #00CC00;">PASSED</span>' : '<span style="color: #CC0000;">FAILED</span>');
