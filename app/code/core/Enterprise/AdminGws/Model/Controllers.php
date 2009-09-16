@@ -933,4 +933,16 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $this->_forward();
         return false;
     }
+
+    /**
+     * Block index actions for all GWS limited users.
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     * @return bool
+     */
+    public function blockIndexAction($controller)
+    {
+        $this->_forward();
+        return false;
+    }
 }

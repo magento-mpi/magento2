@@ -473,4 +473,38 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
 
         return $this;
     }
+
+    /**
+     * Remove action column and massaction functionality
+     * from grid for users with limited permissions.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeProcessListButtons($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        $block->setMassactionIdField(false);
+        $column = $block->getColumn('action');
+        if ($column) {
+            $column->setActions(array());
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove buttons for save and reindex on process edit page.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeProcessEditButtons($observer)
+    {
+        $observer->getEvent()->getBlock()
+            ->removeButton('save')
+            ->removeButton('reindex');
+
+        return $this;
+    }
 }

@@ -473,6 +473,11 @@
                     <adminhtml__staging_backup__massDelete>blockStagingAction</adminhtml__staging_backup__massDelete>
                     <adminhtml__staging_backup__delete>blockStagingAction</adminhtml__staging_backup__delete>
                     <adminhtml__staging_backup__rollbackPost>blockStagingAction</adminhtml__staging_backup__rollbackPost>
+                    <adminhtml__process__save>blockIndexAction</adminhtml__process__save>
+                    <adminhtml__process__massChangeMode>blockIndexAction</adminhtml__process__massChangeMode>
+                    <adminhtml__process__massReindex>blockIndexAction</adminhtml__process__massReindex>
+                    <adminhtml__process__reindexProcess>blockIndexAction</adminhtml__process__reindexProcess>
+                    <adminhtml__process__reindexAllAction>blockIndexAction</adminhtml__process__reindexAllAction>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
@@ -491,6 +496,8 @@
                     <adminhtml__cms_block_edit>removeCmsBlockButtons</adminhtml__cms_block_edit>
                     <adminhtml__poll_edit>removePollButtons</adminhtml__poll_edit>
                     <adminhtml__tag_edit>removeTagButtons</adminhtml__tag_edit>
+                    <index__adminhtml_process_grid>removeProcessListButtons</index__adminhtml_process_grid>
+                    <index__adminhtml_process_edit>removeProcessEditButtons</index__adminhtml_process_edit>
                     <enterprise_staging__adminhtml_staging>removeStagingGridButtons</enterprise_staging__adminhtml_staging>
                     <enterprise_staging__adminhtml_staging_edit>removeStagingEditButtons</enterprise_staging__adminhtml_staging_edit>
                     <enterprise_staging__adminhtml_backup_grid>removeStagingBackupGridActions</enterprise_staging__adminhtml_backup_grid>
