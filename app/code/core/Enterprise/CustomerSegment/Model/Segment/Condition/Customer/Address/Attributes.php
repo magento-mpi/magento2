@@ -132,4 +132,46 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
     {
         return Mage::helper('enterprise_customersegment')->__('Customer Address %s', parent::asHtml());
     }
+
+    /**
+     * Retrieve attribute object
+     *
+     * @return Mage_Eav_Model_Entity_Attribute
+     */
+    public function getAttributeObject()
+    {
+        try {
+            $obj = Mage::getSingleton('eav/config')
+                ->getAttribute('customer_address', $this->getAttribute());
+        }
+        catch (Exception $e) {
+            $obj = new Varien_Object();
+            $obj->setEntity(Mage::getResourceSingleton('customer/customer_address'))
+                ->setFrontendInput('text');
+        }
+        return $obj;
+    }
+
+    public function getConditionsSql($customer)
+    {
+        $attribute = $this->getAttributeObject();
+
+        $table = $attribute->getBackendTable();
+
+        $operator = $this->_getSqlOperator();
+
+        $select = $this->_createSelect();
+        $select->from($table, array(new Zend_Db_Expr(1)))
+            ->where('entity_id = ?', $customer->getId())
+            ->limit(1);
+
+        if ($attribute->getBackendType() == 'static') {
+            $select->where("{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());
+        } else {
+            $select->where('attribute_id = ?', $attribute->getId())
+                ->where("value {$operator} ?", $this->getValue());
+        }
+
+        return $select;
+    }
 }

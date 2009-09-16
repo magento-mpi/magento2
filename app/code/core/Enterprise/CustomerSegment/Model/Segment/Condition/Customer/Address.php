@@ -52,4 +52,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
+
+    public function getValue()
+    {
+        return 1;
+    }
 }

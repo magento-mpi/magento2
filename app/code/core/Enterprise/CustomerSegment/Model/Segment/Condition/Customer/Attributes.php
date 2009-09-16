@@ -53,12 +53,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function getAttributeObject()
     {
-
         try {
             $obj = Mage::getSingleton('eav/config')
                 ->getAttribute('customer', $this->getAttribute());
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $obj = new Varien_Object();
             $obj->setEntity(Mage::getResourceSingleton('customer/customer'))
                 ->setFrontendInput('text');
@@ -259,21 +257,35 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     public function getConditionsSql($customer)
     {
         $attribute = $this->getAttributeObject();
-
         $table = $attribute->getBackendTable();
-
-        $operator = $this->_getSqlOperator();
+        $addressTable = $this->_getTable('customer/address_entity');
 
         $select = $this->_createSelect();
-        $select->from($table, array(new Zend_Db_Expr(1)))
-            ->where('entity_id = ?', $customer->getId())
+        $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)))
+            ->where('main.entity_id = ?', $customer->getId())
             ->limit(1);
 
-        if ($attribute->getBackendType() == 'static') {
-            $select->where("{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());
+        if ($attribute->getAttributeCode() != 'default_billing' && $attribute->getAttributeCode() != 'default_shipping') {
+            $operator = $this->_getSqlOperator();
+
+            if ($attribute->getBackendType() == 'static') {
+                $select->where("main.{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());
+            } else {
+                $select->where('main.attribute_id = ?', $attribute->getId())
+                    ->where("main.value {$operator} ?", $this->getValue());
+            }
         } else {
-            $select->where('attribute_id = ?', $attribute->getId())
-                ->where("value {$operator} ?", $this->getValue());
+            $joinFunction = 'joinLeft';
+
+            if ($this->getValue() == 'is_exists') {
+                $joinFunction = 'joinInner';
+            } else {
+                $select->where('address.entity_id IS NULL');
+            }
+
+            $select->$joinFunction(array('address'=>$addressTable), 'address.entity_id = main.value', array());
+
+            $select->where('main.attribute_id = ?', $attribute->getId());
         }
 
         return $select;
