@@ -244,4 +244,20 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     {
         return $this->gridAction();
     }
+
+    /* @TODO remove me */
+    public function testAction()
+    {
+        $websiteId = 1;
+        $customers = Mage::getModel('customer/customer')->getCollection();
+
+        foreach ($customers as $customer) {
+            $data = array(
+                'customer'   => $customer,
+                'website_id' => 1
+            );
+
+            Mage::dispatchEvent('customersegment_test_event', $data);
+        }
+    }
 }

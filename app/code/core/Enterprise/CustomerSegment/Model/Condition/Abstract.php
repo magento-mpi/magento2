@@ -26,5 +26,42 @@
 
 class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Model_Condition_Abstract
 {
+    protected function _getTable($name)
+    {
+        return Mage::getResourceSingleton('enterprise_customersegment/segment')->getTable($name);
+    }
 
+    protected function _createSelect()
+    {
+        return Mage::getResourceSingleton('enterprise_customersegment/segment')->createSelect();
+    }
+
+    protected function _getSqlOperator()
+    {
+        /*
+            '{}'  => Mage::helper('rule')->__('contains'),
+            '!{}' => Mage::helper('rule')->__('does not contain'),
+            '()'  => Mage::helper('rule')->__('is one of'),
+            '!()' => Mage::helper('rule')->__('is not one of'),
+
+            requires custom selects
+        */
+
+        switch ($this->getOperator()) {
+            case "==":
+                return '=';
+
+            case "!=":
+                return '<>';
+
+            case ">":
+            case "<":
+            case ">=":
+            case "<=":
+                return $this->getOperator();
+
+            default:
+                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified'));
+        }
+    }
 }

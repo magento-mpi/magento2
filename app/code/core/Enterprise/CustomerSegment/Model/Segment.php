@@ -57,6 +57,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         if (!empty($conditionsArr) && is_array($conditionsArr)) {
             $this->getConditions()->loadArray($conditionsArr);
         }
+        return $this;
     }
 
     /**
@@ -67,7 +68,50 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         if (!$this->getData('processing_frequency')){
             $this->setData('processing_frequency', '1');
         }
+
+        $events = array();
+        if ($this->getIsActive()) {
+            foreach ($this->getConditionModels() as $model) {
+                $eventName = Mage::getModel($model)->getValidationEvent();
+                if ($eventName && !in_array($eventName, $events)) {
+                    $events[] = $eventName;
+                }
+            }
+        }
+        $this->setValidationEvents($events);
+
         parent::_beforeSave();
     }
  
+
+    public function getConditionModels($conditions = null)
+    {
+        $result = array();
+
+        if (is_null($conditions)) {
+            $conditions = $this->getConditions();
+        }
+
+        $result[] = $conditions->getType();
+        $childConditions = $conditions->getConditions();
+        if ($childConditions) {
+            if (is_array($childConditions)) {
+                foreach ($childConditions as $child) {
+                    $result = array_merge($result, $this->getConditionModels($child));
+                }
+            } else {
+                $result = array_merge($result, $this->getConditionModels($childConditions));
+            }
+        }
+
+        return $result;
+    }
+
+    public function validate(Varien_Object $object)
+    {
+        $sql = $this->getConditions()->getConditionsSql($object);
+        echo "$sql\n<br />\n";
+
+        return $this->getResource()->runConditionSql($sql);
+    }
 }

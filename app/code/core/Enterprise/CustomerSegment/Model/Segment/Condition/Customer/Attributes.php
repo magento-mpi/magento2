@@ -255,4 +255,27 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     {
         return Mage::helper('enterprise_customersegment')->__('Customer %s', parent::asHtml());
     }
+
+    public function getConditionsSql($customer)
+    {
+        $attribute = $this->getAttributeObject();
+
+        $table = $attribute->getBackendTable();
+
+        $operator = $this->_getSqlOperator();
+
+        $select = $this->_createSelect();
+        $select->from($table, array(new Zend_Db_Expr(1)))
+            ->where('entity_id = ?', $customer->getId())
+            ->limit(1);
+
+        if ($attribute->getBackendType() == 'static') {
+            $select->where("{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());
+        } else {
+            $select->where('attribute_id = ?', $attribute->getId())
+                ->where("value {$operator} ?", $this->getValue());
+        }
+
+        return $select;
+    }
 }

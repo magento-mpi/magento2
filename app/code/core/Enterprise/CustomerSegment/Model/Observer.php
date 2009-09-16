@@ -68,4 +68,18 @@ class Enterprise_CustomerSegment_Model_Observer
             'value' => 'enterprise_customersegment/segment_condition_segment'
         )));
     }
+
+    /**
+     * Run segment validations based on supplied event
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function processEvent(Varien_Event_Observer $observer)
+    {
+        $eventName = $observer->getEvent()->getName();
+        $customer  = $observer->getEvent()->getCustomer();
+        $websiteId = $observer->getEvent()->getWebsiteId();
+
+        Mage::getSingleton('enterprise_customersegment/processor')->processEvent($eventName, $customer, $websiteId);
+    }
 }

@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerSegment>
-             <version>0.0.3</version>
+             <version>0.0.4</version>
         </Enterprise_CustomerSegment>
     </modules>
 
@@ -42,6 +42,7 @@
                 <class>Enterprise_CustomerSegment_Model_Mysql4</class>
                 <entities>
                     <segment><table>enterprise_customersegment_segment</table></segment>
+                    <event><table>enterprise_customersegment_event</table></event>
                 </entities>
             </enterprise_customersegment_mysql4>
         </models>
@@ -116,6 +117,14 @@
                     </enterprise_customersegment>
                 </observers>
             </salesrule_rule_condition_combine>
+            <customersegment_test_event>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </customersegment_test_event>
         </events>
 
         <translate>

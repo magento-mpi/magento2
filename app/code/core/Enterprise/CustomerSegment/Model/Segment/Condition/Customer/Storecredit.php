@@ -50,4 +50,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
+
+    public function getConditionsSql($customer)
+    {
+        $table = $this->_getTable('enterprise_customerbalance/balance');
+        $operator = $this->_getSqlOperator();
+
+        $select = $this->_createSelect();
+        $select->from($table, array(new Zend_Db_Expr(1)))
+            ->where('customer_id = ?', $customer->getId())
+            ->limit(1);
+
+        $select->where("amount {$operator} ?", $this->getValue());
+
+        return $select;
+    }
 }

@@ -45,4 +45,87 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
 
         return parent::loadArray($arr, $key);
     }
+
+    public function getConditionsSql($customer)
+    {
+        $select = $this->_createSelect();
+
+        if ($this->getAggregator() == 'all') {
+            $whereFunction = 'where';
+        } else {
+            $whereFunction = 'orWhere';
+        }
+
+        if ($this->getValue() == 1) {
+            $operator = '=';
+        } else {
+            $operator = '<>';
+        }
+
+        $select->from($this->_getTable('customer/entity'), array(new Zend_Db_Expr(1)));
+        $select->where('entity_id = ?', $customer->getId());
+
+        $children = $this->_getChildConditionsSql($customer);
+        if ($children) {
+            foreach ($children as $criteria) {
+                $criteriaSql = "(($criteria) {$operator} 1)";
+
+                $select->$whereFunction($criteriaSql);
+            }
+        } else {
+            $select->where('1=1');
+        }
+
+        return $select;
+    }
+
+    protected function _getChildConditionsSql($customer)
+    {
+        $result = array();
+        foreach ($this->getConditions() as $condition) {
+            if ($sql = $condition->getConditionsSql($customer)) {
+                $result[] = $sql;
+            }
+        }
+        return $result;
+    }
+
+    protected function _getTable($name)
+    {
+        return Mage::getResourceSingleton('enterprise_customersegment/segment')->getTable($name);
+    }
+
+    protected function _createSelect()
+    {
+        return Mage::getResourceSingleton('enterprise_customersegment/segment')->createSelect();
+    }
+
+    protected function _getSqlOperator()
+    {
+        /*
+            '{}'  => Mage::helper('rule')->__('contains'),
+            '!{}' => Mage::helper('rule')->__('does not contain'),
+            '()'  => Mage::helper('rule')->__('is one of'),
+            '!()' => Mage::helper('rule')->__('is not one of'),
+
+            requires custom selects
+        */
+
+        switch ($this->getOperator()) {
+            case "==":
+                return '=';
+
+            case "!=":
+                return '<>';
+
+            case ">":
+            case "<":
+            case ">=":
+            case "<=":
+                return $this->getOperator();
+
+            default:
+                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified'));
+        }
+    }
 }

@@ -23,41 +23,21 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
-class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
-{
-   /**
-     * Intialize collection
-     *
-     * @return void
-     */
-    protected function _construct()
-    {
-        $this->_init('enterprise_customersegment/segment');
-    }
 
-    public function addIsActiveFilter($value)
-    {
-        $this->getSelect()->where('main_table.is_active = ?', $value);
+$installer = $this;
+$installer->startSetup();
 
-        return $this;
-    }
+$installer->run("
+CREATE TABLE `{$this->getTable('enterprise_customersegment_event')}` (
+    `segment_id` int(10) unsigned NOT NULL,
+    `event` varchar(255) NOT NULL default '',
+    KEY `IDX_ENTERPRISE_CUSTOMERSEGMENT_EVENT_EVENT` (`event`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+");
 
-    public function addEventFilter($eventName)
-    {
-        $this->getSelect()->joinInner(
-            array('evt'=>$this->getTable('enterprise_customersegment/event')),
-            'main_table.segment_id = evt.segment_id',
-            array()
-        );
-        $this->getSelect()->where('evt.event = ?', $eventName);
+$installer->getConnection()->addConstraint('FK_ENTERPRISE_CUSTOMERSEGMENT_EVENT_SEGMENT',
+    $installer->getTable('enterprise_customersegment_event'), 'segment_id',
+    $installer->getTable('enterprise_customersegment_segment'), 'segment_id'
+);
 
-        return $this;
-    }
-
-    public function addWebsiteFilter($websiteId)
-    {
-        $this->getSelect()->where('website_id = ?', $websiteId);
-
-        return $this;
-    }
-}
+$installer->endSetup();

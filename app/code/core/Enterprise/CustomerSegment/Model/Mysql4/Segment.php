@@ -41,4 +41,39 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
     {
         $this->_init('enterprise_customersegment/segment', 'segment_id');
     }
+
+    /**
+     * Perform actions after object save
+     *
+     * @param Mage_Core_Model_Abstract $object
+     */
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        $id = $object->getId();
+
+        $condition = $this->_getWriteAdapter()->quoteInto("segment_id = ?", $id);
+        $this->_getWriteAdapter()->delete($this->getTable('enterprise_customersegment/event'), $condition);
+        if ($object->getValidationEvents() && is_array($object->getValidationEvents())) {
+            foreach ($object->getValidationEvents() as $event) {
+                $data = array(
+                    'segment_id' => $id,
+                    'event'      => $event,
+                );
+
+                $this->_getWriteAdapter()->insert($this->getTable('enterprise_customersegment/event'), $data);
+            }
+        }
+
+        return parent::_afterSave($object);
+    }
+
+    public function runConditionSql($sql)
+    {
+        return $this->_getReadAdapter()->fetchOne($sql) == 1;
+    }
+
+    public function createSelect()
+    {
+        return $this->_getReadAdapter()->select();
+    }
 }
