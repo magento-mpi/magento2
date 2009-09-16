@@ -725,6 +725,9 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
     protected function _updateAttributeAdditionalData($entityTypeId, $id, $field, $value=null)
     {
         $additionalTable = $this->getEntityType($entityTypeId, 'additional_attribute_table');
+        if (!$additionalTable) {
+            return $this;
+        }
         $additionalTableExists = $this->getConnection()->showTableStatus($this->getTable($additionalTable));
         if ($additionalTable && $additionalTableExists) {
             $attributeFields = $this->getConnection()->describeTable($this->getTable($additionalTable));
@@ -1180,6 +1183,9 @@ CONSTRAINT `FK_{$baseName}_{$type}_store` FOREIGN KEY (`store_id`) REFERENCES `c
     protected function _insertAttributeAdditionalData($entityTypeId, array $data)
     {
         $additionalTable = $this->getEntityType($entityTypeId, 'additional_attribute_table');
+        if (!$additionalTable) {
+            return $this;
+        }
         $additionalTableExists = $this->getConnection()->showTableStatus($this->getTable($additionalTable));
         if ($additionalTable && $additionalTableExists) {
             $bind   = array();
