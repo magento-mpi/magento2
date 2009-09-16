@@ -507,4 +507,26 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
 
         return $this;
     }
+
+    /**
+     * Removing not allowed massactions for user with store level permissions.
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeNotAllowedMassactionsForOrders($observer)
+    {
+        if ($this->_role->getIsWebsiteLevel()) {
+            return $this;
+        }
+        $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
+        /* @var $massBlock Mage_Adminhtml_Block_Widget_Grid_Massaction */
+        if ($massBlock) {
+            $massBlock->removeItem('cancel_order')
+                ->removeItem('hold_order')
+                ->removeItem('unhold_order');
+        }
+
+        return $this;
+    }
 }
