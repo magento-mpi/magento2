@@ -503,6 +503,8 @@
                     <enterprise_staging__adminhtml_staging_edit>removeStagingEditButtons</enterprise_staging__adminhtml_staging_edit>
                     <enterprise_staging__adminhtml_backup_grid>removeStagingBackupGridActions</enterprise_staging__adminhtml_backup_grid>
                     <enterprise_staging__adminhtml_backup_edit>removeStagingBackupEditButtons</enterprise_staging__adminhtml_backup_edit>
+                    <enterprise_cms__adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms__adminhtml_cms_page_revision_edit>
+                    <enterprise_cms__adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms__adminhtml_cms_page_preview_buttons>
                 </block_html_before>
             </admingws>
         </enterprise>

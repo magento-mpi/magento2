@@ -529,4 +529,31 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
 
         return $this;
     }
+
+    /**
+     * Removing buttons from revision edit page wich can't be used
+     * by users with limited permissions
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeRevisionEditButtons($observer)
+    {
+        $observer->getEvent()->getBlock()
+            ->removeButton('publish')
+            ->removeButton('save_publish');
+    }
+
+    /**
+     * Removing publish button from preview screen to disallow
+     * publishing for users with limited permissions
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removePreviewPublishButton($observer)
+    {
+        $observer->getEvent()->getBlock()
+            ->removeButton('publish');
+    }
 }
