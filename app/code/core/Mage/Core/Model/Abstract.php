@@ -251,6 +251,12 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
      */
     public function save()
     {
+        /**
+         * Direct deleted items to delete method
+         */
+        if ($this->isDeleted()) {
+            return $this->delete();
+        }
         $this->_getResource()->beginTransaction();
         $dataCommited = false;
         try {
