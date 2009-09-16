@@ -62,4 +62,67 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }    
+
+
+    public function getConditionsSql($customer)
+    {
+        $table = $this->_getTable('sales/quote');
+        $addressTable = $this->_getTable('sales/quote_address');
+
+        $operator = $this->_getSqlOperator();
+
+        $select = $this->_createSelect();
+        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))
+            ->limit(1);
+
+        $joinAddress = false;
+
+        switch ($this->getAttribute()) {
+            case 'subtotal':
+                $field = 'quote.base_subtotal';
+                break;
+            case 'grand_total':
+                $field = 'quote.base_grand_total';
+                break;
+            case 'tax':
+                $field = 'base_tax_amount';
+                $joinAddress = true;
+                break;
+            case 'shipping':
+                $field = 'base_shipping_amount';
+                $joinAddress = true;
+                break;
+            case 'store_credit': 
+                $field = 'quote.base_customer_balance_amount_used'; /* @TODO maybe without _used? */ 
+                break;
+            case 'gift_card':
+                $field = 'quote.base_gift_cards_amount_used'; /* @TODO maybe without _used? */ 
+                break;
+            default:
+                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown quote total specified'));
+        }
+
+        if ($joinAddress) {
+            $subselect = $this->_createSelect();
+
+            $subselect->from(
+                array('address'=>$addressTable),
+                array(
+                    'quote_id' => 'quote_id',
+                    $field     => new Zend_Db_Expr("SUM({$field})")
+                )
+            );
+
+            $subselect->group('quote_id');
+
+            $select->joinInner(array('address'=>$subselect), 'address.quote_id = quote.entity_id', array());
+
+            $field = "address.{$field}";
+        }
+
+        $select->where("{$field} {$operator} ?", $this->getValue())
+            ->where('customer_id = ?', $customer->getId());
+
+        return $select;
+    }
 }

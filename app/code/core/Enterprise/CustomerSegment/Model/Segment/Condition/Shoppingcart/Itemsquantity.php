@@ -50,4 +50,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
+
+    public function getConditionsSql($customer)
+    {
+        $table = $this->_getTable('sales/quote');
+        $operator = $this->_getSqlOperator();
+
+        $select = $this->_createSelect();
+        $select->from($table, array(new Zend_Db_Expr(1)))
+            ->limit(1);
+
+        $select->where("items_qty {$operator} ?", $this->getValue())
+            ->where('customer_id = ?', $customer->getId());
+
+        return $select;
+    }
 }
