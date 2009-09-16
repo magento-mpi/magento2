@@ -155,6 +155,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                         'required'  => false,
                         'value'     => $contentExists ? $storeContents[$store->getId()] : '',
                         'config'    => $wysiwygConfig,
+                        'container_id' => $contentFieldId
                     ));
                 }
             }
