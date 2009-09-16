@@ -65,8 +65,17 @@ $installer->getConnection()->addColumn($versionTableNew, 'version_number', 'varc
  * Creating initial versions and revisions
  */
 
-$attributes = Mage::getSingleton('enterprise_cms/config')
-    ->getPageRevisionControledAttributes();
+$attributes = array(
+            'root_template',
+            'meta_keywords',
+            'meta_description',
+            'content',
+            'sort_order',
+            'layout_update_xml',
+            'custom_theme',
+            'custom_theme_from',
+            'custom_theme_to'
+        );
 
 $select = 'SELECT `' . implode('`,`', $attributes) . '`
     FROM `' . $installer->getTable('cms/page') . '` as p
