@@ -37,6 +37,9 @@ class Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
         parent::_construct();
         $this->setId('related_salesrule_banners_grid');
         $this->setVarNameFilter('related_salesrule_banners_filter');
+        if ($this->_getRule()->getId()) {
+            $this->setDefaultFilter(array('in_banners'=>1));
+        }
     }
 
     /**
@@ -135,8 +138,16 @@ class Enterprise_Banner_Block_Adminhtml_Promo_Salesrule_Edit_Tab_Banners_Grid
      */
     public function getRelatedBannersByRule()
     {
-        $ruleId = Mage::registry('current_promo_quote_rule')->getRuleId();
-        return Mage::getModel('enterprise_banner/banner')->getRelatedBannersBySalesRuleId($ruleId);
+        return Mage::getModel('enterprise_banner/banner')->getRelatedBannersBySalesRuleId($this->_getRule()->getRuleId());
     }
 
+    /**
+     * Get current sales rule model
+     *
+     * @return Mage_SalesRule_Model_Rule
+     */
+    protected function _getRule()
+    {
+        return Mage::registry('current_promo_quote_rule');
+    }
 }

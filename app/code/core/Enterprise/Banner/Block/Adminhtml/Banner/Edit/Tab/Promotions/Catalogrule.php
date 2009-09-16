@@ -39,6 +39,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
         $this->setVarNameFilter('related_catalogrule_filter');
+        if ($this->_getBanner()->getId()) {
+            $this->setDefaultFilter(array('in_banner_catalogrule'=>1));
+        }
     }
 
     /**
@@ -168,6 +171,16 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Catalogrule e
      */
     public function getRelatedCatalogRule()
     {
-        return Mage::registry('current_banner')->getRelatedCatalogRule();
+        return $this->_getBanner()->getRelatedCatalogRule();
+    }
+
+    /**
+     * Get current banner model
+     *
+     * @return Enterprise_Banner_Model_Banner
+     */
+    protected function _getBanner()
+    {
+        return Mage::registry('current_banner');
     }
 }

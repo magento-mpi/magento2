@@ -39,6 +39,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
         $this->setVarNameFilter('related_salesrule_filter');
+        if ($this->_getBanner()->getId()) {
+            $this->setDefaultFilter(array('in_banner_salesrule'=>1));
+        }
     }
 
     /**
@@ -172,6 +175,16 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Promotions_Salesrule ext
      */
     public function getRelatedSalesRule()
     {
-        return Mage::registry('current_banner')->getRelatedSalesRule();
+        return $this->_getBanner()->getRelatedSalesRule();
+    }
+
+    /**
+     * Get current banner model
+     *
+     * @return Enterprise_Banner_Model_Banner
+     */
+    protected function _getBanner()
+    {
+        return Mage::registry('current_banner');
     }
 }
