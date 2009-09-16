@@ -73,9 +73,8 @@ hierarchyNodes = {
 
         this.createNodes();
 
-        this.fixNodes(this.treeRoot);
-
         this.tree.render();
+        this.fixNodes(this.treeRoot);
         this.tree.addListener('check', this.nodeChecked.bind(this));
         this.tree.addListener('nodedragover', this.onDragOver.bind(this));
         this.tree.addListener('move', this.saveTreeData.bind(this));
@@ -113,6 +112,11 @@ hierarchyNodes = {
         } else if (!node.attributes.checked && child) {
             node.removeChild(child);
         }
+
+        if (node.attributes.checked) {
+            node.ensureVisible();
+        }
+
         var children = node.childNodes;
         if (children) {
             for (var i = 0; i < children.length; i++){
