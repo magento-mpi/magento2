@@ -30,8 +30,8 @@
 Default layout, loads most of the pages
 -->
 
-    <default module="page" translate="label">
-        <label>Default Layout Handle</label>
+    <default translate="label" module="page">
+        <label>All Pages</label>
         <block type="page/html" name="root" output="toHtml" template="page/3columns.phtml">
 
             <block type="page/html_head" name="head" as="head">
@@ -67,37 +67,37 @@ Default layout, loads most of the pages
                 <block type="page/template_links" name="account.links" as="accountLinks"/>
                 <block type="page/template_links" name="top.links" as="topLinks"/>
                 <block type="page/template_links" name="checkout.links" as="checkoutLinks"/>
-                <block type="core/text_list" name="top.switches" as="switches">
-                    <label>Top Switches Block</label>
+                <block type="core/text_list" name="top.switches" as="switches" translate="label">
+                    <label>Top Switches</label>
                     <block type="page/switch" name="store_language" as="store_language" template="page/switch/languages.phtml"/>
                 </block>
-                <block type="core/text_list" name="top.menu" as="topMenu">
-                    <label>Top Menu Block</label>
+                <block type="core/text_list" name="top.menu" as="topMenu" translate="label">
+                    <label>Top Menu</label>
                 </block>
-                <block type="core/text_list" name="top.container" as="topContainer">
-                    <label>Top Container Block</label>
+                <block type="core/text_list" name="top.container" as="topContainer" translate="label">
+                    <label>Top Container</label>
                 </block>
             </block>
 
 
-            <block type="core/text_list" name="breadcrumbs.container" as="breadcrumbsContainer" >
+            <block type="core/text_list" name="breadcrumbs.container" as="breadcrumbsContainer" translate="label">
                 <label>Breadcrumbs Container Block</label>
                 <block type="page/html_breadcrumbs" name="breadcrumbs"/>
             </block>
 
-            <block type="core/text_list" name="left" as="left">
-                <label>Left Block</label>
+            <block type="core/text_list" name="left" as="left" translate="label">
+                <label>Left Column</label>
             </block>
 
             <block type="core/messages" name="global_messages" as="global_messages"/>
             <block type="core/messages" name="messages" as="messages"/>
 
-            <block type="core/text_list" name="content" as="content">
-                <label>Content Block</label>
+            <block type="core/text_list" name="content" as="content" translate="label">
+                <label>Main Content Area</label>
             </block>
 
-            <block type="core/text_list" name="right" as="right">
-                <label>Right Block</label>
+            <block type="core/text_list" name="right" as="right" translate="label">
+                <label>Right Column</label>
             </block>
 
             <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
@@ -105,16 +105,16 @@ Default layout, loads most of the pages
                 <block type="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
             </block>
 
-            <block type="core/text_list" name="before_body_end" as="before_body_end">
-                <label>Before Body End Block</label>
+            <block type="core/text_list" name="before_body_end" as="before_body_end" translate="label">
+                <label>Callout Before Body Closing Tag</label>
             </block>
         </block>
 
         <block type="core/profiler" output="toHtml"/>
     </default>
 
-    <print>
-        <label>Print Layout Handle</label>
+    <print translate="label" module="page">
+        <label>All Pages (Print Version)</label>
         <!-- Mage_Page -->
         <block type="page/html" name="root" output="toHtml" template="page/print.phtml">
 
@@ -137,15 +137,16 @@ Default layout, loads most of the pages
                 <action method="addCss"><stylesheet>css/print.css</stylesheet><params>media="print"</params></action>
             </block>
 
-            <block type="core/text_list" name="content" as="content">
-                <label>Content Block</label>
+            <block type="core/text_list" name="content" as="content" translate="label">
+                <label>Main Content Area</label>
             </block>
 
         </block>
     </print>
 
      <!-- Custom page layout handles -->
-    <page_empty>
+    <page_empty translate="label">
+        <label>All Empty Layout Pages</label>
         <reference name="root">
             <action method="setTemplate"><template>page/one-column.phtml</template></action>
             <!-- Mark root page block that template is applied -->
@@ -153,7 +154,8 @@ Default layout, loads most of the pages
         </reference>
     </page_empty>
 
-    <page_one_column>
+    <page_one_column translate="label">
+        <label>All One-Column Layout Pages</label>
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
             <!-- Mark root page block that template is applied -->
@@ -161,7 +163,8 @@ Default layout, loads most of the pages
         </reference>
     </page_one_column>
 
-    <page_two_columns_left>
+    <page_two_columns_left translate="label">
+        <label>All Two-Column Layout Pages (Left Column)</label>
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
             <!-- Mark root page block that template is applied -->
@@ -169,7 +172,8 @@ Default layout, loads most of the pages
         </reference>
     </page_two_columns_left>
 
-    <page_two_columns_right>
+    <page_two_columns_right translate="label">
+        <label>All Two-Column Layout Pages (Right Column)</label>
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
             <!-- Mark root page block that template is applied -->
@@ -177,7 +181,8 @@ Default layout, loads most of the pages
         </reference>
     </page_two_columns_right>
 
-    <page_three_columns>
+    <page_three_columns translate="label">
+        <label>All Three-Column Layout Pages</label>
         <reference name="root">
             <action method="setTemplate"><template>page/3columns.phtml</template></action>
             <!-- Mark root page block that template is applied -->

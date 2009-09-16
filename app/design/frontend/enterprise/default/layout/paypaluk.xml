@@ -43,7 +43,8 @@ Shopping cart
 PayPal Express Review page after shortcut link invocation and after getting express checkout details
 -->
 
-    <paypaluk_express_review>
+    <paypaluk_express_review translate="label">
+        <label>PayPalUK Express Order Review Form</label>
         <!-- Mage_Paypal -->
         <remove name="right"/>
         <remove name="left"/>
