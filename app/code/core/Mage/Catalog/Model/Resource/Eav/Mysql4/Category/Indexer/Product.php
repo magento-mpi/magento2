@@ -463,7 +463,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
      * @param   int $storeId
      * @return  string temporary table name
      */
-    protected function _prepareAnchorCategories($storeId)
+    protected function _prepareAnchorCategories($storeId, $rootPath)
     {
         $isAnchorAttribute = Mage::getSingleton('eav/config')->getAttribute('catalog_category', 'is_anchor');
         $anchorAttributeId = $isAnchorAttribute->getId();
@@ -487,7 +487,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
             LEFT JOIN {$anchorTable} AS cas
                 ON cas.entity_id=ce.entity_id AND cas.attribute_id={$anchorAttributeId} AND cas.store_id={$storeId}
         WHERE
-            IF(cas.value_id>0, cas.value, cad.value) = 1";
+            (IF(cas.value_id>0, cas.value, cad.value) = 1 AND ce.path LIKE '{$rootPath}/%')
+            OR ce.path='{$rootPath}'";
         $this->insertFromSelect($sql, $tmpTable, array('category_id' , 'path'));
         return $tmpTable;
     }
