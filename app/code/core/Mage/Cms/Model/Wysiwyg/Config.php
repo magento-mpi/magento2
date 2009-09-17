@@ -75,7 +75,8 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'widget_window_url'             => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_widget/index'),
             'widget_window_no_wysiwyg_url'  => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_widget/index', array('no_wysiwyg' => true)),
             'widget_plugin_src'             => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js',
-            'widget_images_url'             => Mage::getDesign()->getSkinUrl('images/widget/'),
+            'widget_images_url'             => Mage::getSingleton('cms/widget')->getPlaceholderImagesBaseUrl(),
+            'widget_placeholders'           => $this->getAvailablePlaceholderFilenames(),
         ));
 
         $config->setData('directives_url_quoted', preg_quote($config->getData('directives_url')));
@@ -85,6 +86,25 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
         }
 
         return $config;
+    }
+
+    /**
+     * Return list of existing widget image placeholders
+     *
+     * @return array
+     */
+    public function getAvailablePlaceholderFilenames()
+    {
+        $collection = new Varien_Data_Collection_Filesystem();
+        $collection->addTargetDir(Mage::getSingleton('cms/widget')->getPlaceholderImagesBaseDir())
+            ->setCollectDirs(false)
+            ->setCollectFiles(true)
+            ->setCollectRecursively(false);
+        $result = array();
+        foreach ($collection as $file) {
+            $result[] = $file->getBasename();
+        }
+        return $result;
     }
 
     /**

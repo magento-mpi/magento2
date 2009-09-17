@@ -100,10 +100,10 @@ class Mage_Cms_Model_Widget extends Varien_Object
         }
 
         $imageName = str_replace('/', '__', $type) . '.gif';
-        if (is_file(Mage::getDesign()->getSkinBaseDir() . DS . 'images' . DS . 'widget' . DS . $imageName)) {
-            $image = Mage::getDesign()->getSkinUrl('images/widget/' . $imageName);
+        if (is_file($this->getPlaceholderImagesBaseDir() . DS . $imageName)) {
+            $image = $this->getPlaceholderImagesBaseUrl() . $imageName;
         } else {
-            $image = Mage::getDesign()->getSkinUrl('images/widget/default.gif');
+            $image = $this->getPlaceholderImagesBaseUrl() . 'default.gif';
         }
         $html = sprintf('<img id="%s" src="%s" class="widget" title="%s">',
             $this->_idEncode($directive),
@@ -111,6 +111,26 @@ class Mage_Cms_Model_Widget extends Varien_Object
             Mage::helper('core')->urlEscape($directive)
         );
         return $html;
+    }
+
+    /**
+     * Return Widget placeholders images URL
+     *
+     * @return string
+     */
+    public function getPlaceholderImagesBaseUrl()
+    {
+        return Mage::getDesign()->getSkinUrl('images/widget/');
+    }
+
+    /**
+     * Return Widget placeholders images dir
+     *
+     * @return string
+     */
+    public function getPlaceholderImagesBaseDir()
+    {
+        return Mage::getDesign()->getSkinBaseDir() . DS . 'images' . DS . 'widget';
     }
 
     /**
