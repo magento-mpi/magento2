@@ -906,7 +906,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Prevent losigng disallowed websites from model
+     * Prevent loosing disallowed websites from model
      *
      * @param array $websiteIds
      * @throws Mage_Core_Exception
@@ -962,5 +962,30 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             'Enterprise_AdminGws_Controller',
             Mage::helper('enterprise_admingws')->__('Not enough permissions to view this item.')
         );
+    }
+
+    /**
+     * Validate if user has exclusive access to tag
+     *
+     * @param Mage_Tag_Model_Tag $model
+     */
+    public function tagSaveBefore($model)
+    {
+        $storeIds = $model->getVisibleInStoreIds();
+        // Remove admin store with id 0
+        $storeIds = array_filter((array)$storeIds);
+        if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+            $this->_throwSave();
+        }
+    }
+
+    /**
+     * Disallow remove tag for user with limited access
+     *
+     * @param Mage_Tag_Model_Tag $model
+     */
+    public function tagDeleteBefore($model)
+    {
+        $this->_throwDelete();
     }
 }
