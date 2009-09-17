@@ -247,7 +247,7 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract extends Mage
     }
 
     /**
-     * Remove existing massaction item by it's id
+     * Remove existing massaction item by its id
      *
      * @param string $itemId
      * @return Mage_Adminhtml_Block_Widget_Grid_Massaction_Abstract
