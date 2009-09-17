@@ -640,6 +640,7 @@ var varienStringArray = {
 
 var serializerController = Class.create();
 serializerController.prototype = {
+    oldCallbacks: {},
     initialize: function(hiddenDataHolder, predefinedData, inputsToManage, grid, reloadParamName){
         //Grid inputs
         this.tabIndex = 1000;
@@ -652,9 +653,15 @@ serializerController.prototype = {
         //Hidden input data holder
         this.hiddenDataHolder     = $(hiddenDataHolder);
         this.hiddenDataHolder.value = this.serializeObject();
+        
+        this.grid = grid;
+        
+        // Set old callbacks
+        this.setOldCallback('row_click', this.grid.rowClickCallback);
+        this.setOldCallback('init_row', this.grid.initRowCallback);
+        this.setOldCallback('checkbox_check', this.grid.checkboxCheckCallback);
 
         //Grid
-        this.grid = grid;
         this.reloadParamName = reloadParamName;
         this.grid.reloadParams = {};
         this.grid.reloadParams[this.reloadParamName+'[]'] = this.getDataForReloadParam();
@@ -663,7 +670,12 @@ serializerController.prototype = {
         this.grid.checkboxCheckCallback = this.registerData.bind(this);
         this.grid.rows.each(this.eachRow.bind(this));
     },
-
+    setOldCallback: function (callbackName, callback) {
+        this.oldCallbacks[callbackName] = callback;
+    },
+    getOldCallback: function (callbackName) {
+        return this.oldCallbacks[callbackName] ? this.oldCallbacks[callbackName] : Prototype.emptyFunction;
+    },
     registerData : function(grid, element, checked) {
         if(this.multidimensionalMode){
             if(checked){
@@ -696,6 +708,7 @@ serializerController.prototype = {
         this.hiddenDataHolder.value = this.serializeObject();
         this.grid.reloadParams = {};
         this.grid.reloadParams[this.reloadParamName+'[]'] = this.getDataForReloadParam();
+        this.getOldCallback('checkbox_check')(grid, element, checked);
     },
     eachRow : function(row) {
         this.rowInit(this.grid, row);
@@ -710,6 +723,7 @@ serializerController.prototype = {
                 this.grid.setCheckboxChecked(checkbox[0], checked);
             }
         }
+        this.getOldCallback('row_click')(grid, event);
     },
     inputChange : function(event) {
         var element = Event.element(event);
@@ -737,6 +751,7 @@ serializerController.prototype = {
                 }
             }
         }
+        this.getOldCallback('init_row')(grid, row);
     },
 
     //Stuff methods
