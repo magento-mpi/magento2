@@ -35,7 +35,7 @@
 class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Entity_Customer_Collection
 {
     protected $_allowDisableGrouping = true;
-    protected $_countAttribute = 'tr.tag_relation_id';
+    protected $_countAttribute = 'tr.tag_id';
 
     /**
      * @deprecated after 1.3.2.3
@@ -134,9 +134,9 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
     public function addGroupByTag()
     {
         $this->getSelect()
-            ->group('tr.tag_relation_id');
+            ->group('tr.tag_id');
 
-        $this->_allowDisableGrouping = false;
+        $this->_allowDisableGrouping = true;
         return $this;
     }
 
@@ -179,18 +179,14 @@ class Mage_Tag_Model_Mysql4_Customer_Collection extends Mage_Customer_Model_Enti
 
     public function getSelectCountSql()
     {
-        $countSelect = clone $this->getSelect();
-        $countSelect->reset(Zend_Db_Select::ORDER);
-        $countSelect->reset(Zend_Db_Select::LIMIT_COUNT);
-        $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
+        $countSelect = parent::getSelectCountSql();
 
-        if( $this->_allowDisableGrouping ) {
+        if ($this->_allowDisableGrouping) {
+            $countSelect->reset(Zend_Db_Select::COLUMNS);
             $countSelect->reset(Zend_Db_Select::GROUP);
+            $countSelect->from('', 'COUNT(DISTINCT ' . $this->getCountAttribute() . ')');
         }
-
-        $sql = $countSelect->__toString();
-        $sql = preg_replace('/^select\s+.+?\s+from\s+/is', "select count({$this->getCountAttribute()}) from ", $sql);
-        return $sql;
+        return $countSelect;
     }
 
     public function addProductName()

@@ -19,7 +19,7 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category   Mage
- * @package    Mage_Core
+ * @package    Mage_Tag
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
@@ -31,10 +31,15 @@ $installer = $this;
 $installer->startSetup();
 
 $installer->getConnection()->addColumn($this->getTable('tag_summary'),
-                                        'base_popularity',
-                                        'int(11) UNSIGNED DEFAULT \'0\' NOT NULL AFTER `popularity`');
-$installer->run(
-    'ALTER TABLE `' . $this->getTable('tag_relation') . '` CHANGE `customer_id` `customer_id` INT( 10 ) UNSIGNED NULL DEFAULT NULL'
+    'base_popularity',
+    'int(11) UNSIGNED DEFAULT \'0\' NOT NULL AFTER `popularity`'
+);
+
+$installer->getConnection()->changeColumn(
+    $this->getTable('tag_relation'),
+    'customer_id',
+    'customer_id',
+    'INT(10) UNSIGNED NULL DEFAULT NULL'
 );
 
 $installer->endSetup();

@@ -143,7 +143,7 @@ class Mage_Tag_Model_Mysql4_Tag_Relation extends Mage_Core_Model_Mysql4_Abstract
                     'store_id'      => $model->getStoreId(),
                     'product_id'    => $value,
                     'customer_id'   => $model->getCustomerId(),
-                    'created_at'    => date("Y-m-d H:i:s")
+                    'created_at'    => $this->formatDate(time())
                 );
             }
             $this->_getWriteAdapter()->insertMultiple($this->getMainTable(), $insertData);

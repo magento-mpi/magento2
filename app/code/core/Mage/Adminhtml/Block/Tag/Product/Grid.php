@@ -60,7 +60,7 @@ class Mage_Adminhtml_Block_Tag_Product_Grid extends Mage_Adminhtml_Block_Widget_
         $collection = Mage::getModel('tag/tag')
             ->getEntityCollection()
             ->addTagFilter($tagId)
-            ->addCustomerFilter('IS NOT NULL')
+            ->addCustomerFilter(array('notnull'=>true))
             ->addStoreFilter($storeId)
             ->addPopularity($tagId);
 

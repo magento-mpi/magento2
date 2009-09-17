@@ -33,6 +33,10 @@
  */
 class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Set grid params
+     *
+     */
     public function __construct()
     {
         parent::__construct();
@@ -40,19 +44,38 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
         $this->setDefaultSort('entity_id');
         $this->setDefaultDir('DESC');
         $this->setUseAjax(true);
+        if ($this->_getTagId()) {
+            $this->setDefaultFilter(array('in_products'=>1));
+        }
     }
 
+    /**
+     * Tag ID getter
+     *
+     * @return int
+     */
     protected function _getTagId()
     {
         return Mage::registry('current_tag')->getId();
     }
 
+    /**
+     * Store getter
+     *
+     * @return Mage_Core_Model_Store
+     */
     protected function _getStore()
     {
         $storeId = (int) $this->getRequest()->getParam('store', 0);
         return Mage::app()->getStore($storeId);
     }
 
+    /**
+     * Add filter to grid columns
+     *
+     * @param mixed $column
+     * @return Mage_Adminhtml_Block_Tag_Assigned_Grid
+     */
     protected function _addColumnFilterToCollection($column)
     {
         // Set custom filter for in product flag
@@ -74,6 +97,11 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
         return $this;
     }
 
+    /**
+     * Retrieve Products Collection
+     *
+     * @return Mage_Adminhtml_Block_Tag_Assigned_Grid
+     */
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
@@ -108,6 +136,11 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
         return $this;
     }
 
+    /**
+     * Prepeare columns for grid
+     *
+     * @return Mage_Adminhtml_Block_Widget_Grid
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('in_products', array(
@@ -203,7 +236,7 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
     }
 
     /**
-     * Retrieves related products
+     * Retrieve related products
      *
      * @return array
      */
@@ -216,8 +249,8 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
         return $products;
     }
 
-    /*
-     * Retrieves Grid Url
+    /**
+     * Retrieve Grid Url
      *
      * @return string
      */
@@ -226,8 +259,13 @@ class Mage_Adminhtml_Block_Tag_Assigned_Grid extends Mage_Adminhtml_Block_Widget
         return $this->getUrl('*/*/assignedGridOnly', array('_current' => true));
     }
 
+    /**
+     * Retrieve related products
+     *
+     * @return array
+     */
     public function getRelatedProducts()
     {
-        return Mage::registry('current_tag')->getRelatedProducts();
+        return Mage::registry('current_tag')->getRelatedProductIds();
     }
 }

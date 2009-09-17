@@ -53,6 +53,13 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         return $this;
     }
 
+    /**
+     * Loading tag by name
+     *
+     * @param Mage_Tag_Model_Tag $model
+     * @param string $name
+     * @return unknown
+     */
     public function loadByName($model, $name)
     {
         if( $name ) {
@@ -93,14 +100,17 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
      * Getting statistics, reading rows from summary table where tag_id = current  into buffer.
      * Replacing our buffer array with new statistics and incoming data.
      *
-     * @param object $object
-     * @return object
+     * @param Mage_Tag_Model_Tag $object
+     * @return Mage_Tag_Model_Tag
      */
     public function aggregate($object)
     {
         $tagId = (int)$object->getId();
         $storeId = (int)$object->getStoreId();
 
+        /**
+         * generating new statistics data for current tag
+         */
         $selectLocal = $this->_getWriteAdapter()->select()
             ->from(
                 array('main'  => $this->getTable('relation')),
@@ -180,6 +190,9 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
             ->where('main.tag_id = ?', $tagId)
             ->where('main.customer_id IS NOT NULL');
 
+        /**
+         * getting all summary rows for current tag
+         */
         $selectSummary = $this->_getWriteAdapter()->select()
             ->from(
                 array('main' => $this->getTable('summary')),
@@ -191,13 +204,18 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         $summaryAll = $this->_getWriteAdapter()->fetchAssoc($selectSummary);
 
         $historicalAll = $this->_getWriteAdapter()->fetchAll($selectHistorical);
+
         $historicalCache = array();
+
         foreach ($historicalAll as $historical) {
             $historicalCache[$historical['store_id']] = $historical['historical_uses'];
         }
 
         $summaries = $this->_getWriteAdapter()->fetchAll($selectLocal);
 
+        /**
+         * replacing old data with new one
+         */
         if ($row = $this->_getWriteAdapter()->fetchRow($selectGlobal)) {
             $historical = $this->_getWriteAdapter()->fetchOne($selectHistoricalGlobal);
 
@@ -224,8 +242,14 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
             $summaryAll[$key]['tag_id'] = $tagId;
         }
 
+        /**
+         * removing old data from table for current tag
+         */
         $this->_getWriteAdapter()->delete($this->getTable('summary'), $this->_getWriteAdapter()->quoteInto('tag_id = ?', $tagId));
 
+        /**
+         * inserting new data in table for current tag
+         */
         foreach ($summaryAll as $summary) {
             if(!isset($summary['historical_uses'])) {
                 $summary['historical_uses'] = isset($historicalCache[$summary['store_id']]) ? $historicalCache[$summary['store_id']] : 0;
@@ -244,6 +268,12 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         return $object;
     }
 
+    /**
+     * Add summary data
+     *
+     * @param Mage_Tag_Model_Tag $object
+     * @return Mage_Tag_Model_Tag
+     */
     public function addSummary($object)
     {
         $select = $this->_getWriteAdapter()->select()
@@ -260,7 +290,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
     }
 
     /**
-     * Fetching store ids in which tag visible
+     * Fetch store ids in which tag visible
      *
      * @param Mage_Tag_Model_Mysql4_Tag $object
      */

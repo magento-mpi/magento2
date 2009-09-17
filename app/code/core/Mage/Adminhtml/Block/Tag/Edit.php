@@ -35,6 +35,10 @@
 class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
 
+    /**
+     * Add and update buttons
+     *
+     */
     public function __construct()
     {
         $this->_objectId = 'tag_id';
@@ -45,16 +49,18 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
         $this->_updateButton('save', 'label', Mage::helper('tag')->__('Save Tag'));
         $this->_updateButton('delete', 'label', Mage::helper('tag')->__('Delete Tag'));
 
-        $this->addButton(
-            'save_and_edit_button',
-            array(
-                'label'     => Mage::helper('tag')->__('Save And Continue Edit'),
-                'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
-                'class'     => 'save'
-            )
-        );
+        $this->addButton('save_and_edit_button', array(
+            'label'     => Mage::helper('tag')->__('Save And Continue Edit'),
+            'onclick'   => 'saveAndContinueEdit(\''.$this->getSaveAndContinueUrl().'\')',
+            'class'     => 'save'
+        ), 1);
     }
 
+    /**
+     * Add child HTML to layout
+     *
+     * @return Mage_Adminhtml_Block_Tag_Edit
+     */
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
@@ -68,6 +74,11 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
         return $this;
     }
 
+    /**
+     * Retrieve Header text
+     *
+     * @return string
+     */
     public function getHeaderText()
     {
         if (Mage::registry('current_tag')->getId()) {
@@ -77,7 +88,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
     }
 
     /**
-     * Retrieves Accordions HTML
+     * Retrieve Accordions HTML
      *
      * @return string
      */
@@ -87,7 +98,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
     }
 
     /**
-     * Retrieves Assigned Tags Accordion HTML
+     * Retrieve Assigned Tags Accordion HTML
      *
      * @return string
      */
@@ -97,7 +108,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
     }
 
     /**
-     * Retrieves Store Switcher HTML
+     * Retrieve Store Switcher HTML
      *
      * @return string
      */
@@ -117,7 +128,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
     }
 
     /**
-     * Retrieves Tag Save URL
+     * Retrieve Tag Save URL
      *
      * @return string
      */
@@ -127,7 +138,7 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
     }
 
     /**
-     * Retrieves Tag SaveAndContinue URL
+     * Retrieve Tag SaveAndContinue URL
      *
      * @return string
      */

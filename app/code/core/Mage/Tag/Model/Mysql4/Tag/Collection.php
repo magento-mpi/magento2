@@ -123,24 +123,20 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
      * @param int $storeId
      * @return Mage_Tag_Model_Mysql4_Tag_Collection
      */
-    public function addPopularity($limit=null, $storeId)
+    public function addPopularity($limit=null)
     {
         if (!$this->getFlag('popularity')) {
             $this->getSelect()
-                ->joinLeft(
-                    array('relation'=>$this->getTable('tag/relation')),
-                    'main_table.tag_id=relation.tag_id'
-                )
-                ->joinLeft(
-                    array('summary'=>$this->getTable('tag/summary')),
-                    'main_table.tag_id=summary.tag_id',
+                ->joinLeft(array('relation'=>$this->getTable('tag/relation')), 'main_table.tag_id=relation.tag_id')
+                ->joinLeft(array('summary'=>$this->getTable('tag/summary')), 'main_table.tag_id=summary.tag_id',
                     array('popularity' => '(summary.popularity + summary.base_popularity)')
                 )
-                ->where('summary.store_id = ?', $storeId)
                 ->group('main_table.tag_id');
+
             if (! is_null($limit)) {
                 $this->getSelect()->limit($limit);
             }
+
             $this->setFlag('popularity');
         }
         return $this;

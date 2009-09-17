@@ -195,11 +195,12 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
      */
     public function addCustomerFilter($customerId)
     {
-        if ((int)$customerId == 0) {
-            $this->getSelect()->where('relation.customer_id ' . $customerId);
-        } else {
-            $this->getSelect()->where('relation.customer_id = ?', $customerId);
+        if (is_array($customerId) && isset($customerId['notnull'])) {
+            $condition = ($customerId['notnull']) ? 'IS NOT NULL' : 'IS NULL';
+            $this->getSelect()->where('relation.customer_id ' . $condition);
+            return $this;
         }
+        $this->getSelect()->where('relation.customer_id IN(?)', $customerId);
         $this->_customerFilterId = $customerId;
         return $this;
     }
@@ -255,9 +256,9 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
         $condition = array(
             'prelation.product_id=e.entity_id'
         );
+
         if (!is_null($storeId)) {
-            $condition[] = $this->getConnection()
-                ->quoteInto('prelation.store_id=?', $storeId);
+            $condition[] = $this->getConnection()->quoteInto('prelation.store_id = ?', $storeId);
         }
         $condition = join(' AND ', $condition);
 
@@ -362,21 +363,14 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
             ->addAttributeToSelect('small_image');
 
         $this->getSelect()
-            ->join(
-                array('relation' => $tagRelationTable),
-                'relation.product_id = e.entity_id',
-                array(
-                    'product_id'                => 'product_id',
-                    'item_store_id'             => 'store_id',
-                )
-            )
+            ->join(array('relation' => $tagRelationTable), 'relation.product_id = e.entity_id', array(
+                'product_id'                => 'product_id',
+                'item_store_id'             => 'store_id',
+            ))
             ->join(array('t' => $tagTable),
                 't.tag_id = relation.tag_id',
                 array('tag_id', 'name', 'tag_status' => 'status', 'tag_name' => 'name')
             );
-
-        $this->setFlag('url_data_object', true);
-        $this->setFlag('do_not_use_category_id', true);
 
         return $this;
     }

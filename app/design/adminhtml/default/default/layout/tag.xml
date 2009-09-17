@@ -28,7 +28,7 @@
 <layout>
     <adminhtml_tag_edit>
         <reference name="content">
-            <block type="adminhtml/tag_edit" name="tag_edit" template="tag/container.phtml"></block>
+            <block type="adminhtml/tag_edit" name="tag_edit" template="tag/edit/container.phtml"></block>
         </reference>
     </adminhtml_tag_edit>
     <adminhtml_tag_assigned>

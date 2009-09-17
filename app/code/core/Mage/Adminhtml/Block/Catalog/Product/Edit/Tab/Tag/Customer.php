@@ -49,7 +49,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Tag_Customer extends Mage_Ad
         $collection = Mage::getModel('tag/tag')
             ->getCustomerCollection()
             ->addProductFilter($this->getProductId())
-            ->addGroupByTag();
+            ->addGroupByTag()
+            ->addDescOrder();
 
         $this->setCollection($collection);
         return parent::_prepareCollection();
