@@ -78,10 +78,10 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
         $parentIds = $this->getRelationsByChild($productId);
         if ($parentIds) {
             $processIds = array_merge($parentIds, array($productId));
-            $this->_copyRelationIndexData($parentIds, array($productId));
         } else {
             $processIds = array($productId);
         }
+        $this->_copyRelationIndexData($processIds, array($productId));
 
         // retrieve product types by processIds
         $select = $write->select()
@@ -334,6 +334,7 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
                 ->from($this->getMainTable())
                 ->where('product_id IN(?)', $children);
             $query  = $select->insertFromSelect($this->getIdxTable());
+            Mage::log($query);
             $write->query($query);
         }
 
