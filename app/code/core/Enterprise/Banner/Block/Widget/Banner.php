@@ -128,7 +128,7 @@ class Enterprise_Banner_Block_Widget_Banner
         if (!$this->_getData('banner_ids')) {
             $this->setData('banner_ids', array(0));
         }
-        else {
+        elseif (is_string($this->_getData('banner_ids'))) {
             $bannerIds = explode(',', $this->_getData('banner_ids'));
             foreach ($bannerIds as $_key => $_id) {
                 $bannerIds[$_key] = (int)trim($_id);
