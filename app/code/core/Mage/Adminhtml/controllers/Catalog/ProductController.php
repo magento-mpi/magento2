@@ -392,6 +392,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         );
     }
 
+    /**
+     * Get super config grid
+     *
+     */
     public function superConfigAction()
     {
         $this->_initProduct();
@@ -566,8 +570,6 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     {
         $product = $this->_initProduct();
 
-
-
         $this->getResponse()->setBody(
             $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_categories')
                 ->getCategoryChildrenJson($this->getRequest()->getParam('category'))
@@ -674,6 +676,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         return $data;
     }
 
+    /**
+     * Delete product action
+     */
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('id')) {
@@ -691,6 +696,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->getResponse()->setRedirect($this->getUrl('*/*/', array('store'=>$this->getRequest()->getParam('store'))));
     }
 
+    /**
+     * Get tag grid
+     */
     public function tagGridAction()
     {
         $this->getResponse()->setBody(
@@ -700,6 +708,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         );
     }
 
+    /**
+     * Get alerts price grid
+     */
     public function alertsPriceGridAction()
     {
         $this->getResponse()->setBody(
@@ -707,6 +718,9 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         );
     }
 
+    /**
+     * Get alerts stock grid
+     */
     public function alertsStockGridAction()
     {
         $this->getResponse()->setBody(
@@ -810,6 +824,10 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->_redirect('*/*/', array('store'=> $storeId));
     }
 
+    /**
+     * Get tag customer grid
+     *
+     */
     public function tagCustomerGridAction()
     {
         $this->getResponse()->setBody(
@@ -924,6 +942,11 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
 
+    /**
+     * Check for is allowed
+     *
+     * @return boolean
+     */
     protected function _isAllowed()
     {
         return Mage::getSingleton('admin/session')->isAllowed('catalog/products');
