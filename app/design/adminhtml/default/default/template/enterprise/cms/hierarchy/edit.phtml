@@ -194,6 +194,7 @@
 
             var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
             if (nodeUrlInfo != false) {
+                $('node_preview').up(1).show();
                 $('node_preview').writeAttribute('target', '_blank');
                 $('node_preview').writeAttribute('href', nodeUrlInfo.url);
                 $('node_preview').innerHTML = nodeUrlInfo.path;
@@ -358,6 +359,7 @@
             }
             <?php endif; ?>
 
+            $('node_preview').up(1).hide();
             $('delete_node_button').hide();
             $('node_prop_container').show();
             $('cancel_node_button').show();
