@@ -295,10 +295,12 @@ class Varien_Data_Collection_Filesystem extends Varien_Data_Collection
         // paginate and add items
         $from = ($this->getCurPage() - 1) * $this->getPageSize();
         $to = $from + $this->getPageSize() - 1;
+        $isPaginated = $this->getPageSize() > 0;
+
         $cnt = 0;
         foreach ($this->_collectedFiles as $row) {
             $cnt++;
-            if ($cnt < $from || $cnt > $to) {
+            if ($isPaginated && ($cnt < $from || $cnt > $to)) {
                 continue;
             }
             $item = new $this->_itemObjectClass();
