@@ -362,13 +362,12 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
             $selectionsCollection = Mage::getResourceModel('bundle/selection_collection')
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->setFlag('require_stock_items', true)
+                ->setFlag('product_children', true)
                 ->setPositionOrder()
                 ->addStoreFilter($this->getStoreFilter($product))
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
 
-            Mage::getSingleton('catalog/product_visibility')
-                ->addVisibleInSiteFilterToCollection($selectionsCollection);
             $this->getProduct($product)->setData($this->_keySelectionsCollection, $selectionsCollection);
         }
         return $this->getProduct($product)->getData($this->_keySelectionsCollection);
