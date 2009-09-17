@@ -56,7 +56,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
         $uniqId = $element->getId() . md5(microtime());
-        $sourceUrl = $this->getUrl('*/catalog_product_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
+        $sourceUrl = $this->getUrl('*/catalog_product_widget/chooser', array(
+            'uniq_id' => $uniqId,
+            'use_massaction' => false,
+        ));
 
         $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
@@ -81,27 +84,28 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
     }
 
     /**
+     * Checkbox Check JS Callback
+     *
+     * @return string
+     */
+    public function getCheckboxCheckCallback()
+    {
+        if ($this->getUseMassaction()) {
+            return "function (grid, event) {
+                $(grid.containerId).fire('product:changed', {});
+            }";
+        }
+    }
+
+    /**
      * Grid Row JS Callback
      *
      * @return string
      */
     public function getRowClickCallback()
     {
-        if ($this->getUseMassaction()) {
-            $js = "function (grid, event) {
-                if (Event.element(event).tagName != 'INPUT') {
-                    var trElement = Event.findElement(event, 'tr');
-                    if (checkboxElement = trElement.down('input.checkbox')) {
-                        if (checkboxElement.checked) {
-                            checkboxElement.checked = false;
-                        } else {
-                            checkboxElement.checked = true;
-                        }
-                    }
-                }
-            }";
-        } else {
-            $js = '
+        if (!$this->getUseMassaction()) {
+            return '
                 function (grid, event) {
                     var trElement = Event.findElement(event, "tr");
 
@@ -127,7 +131,6 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
                 }
             ';
         }
-        return $js;
     }
 
     /**
@@ -147,6 +150,27 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
         ';
         $js = str_replace('{jsObject}', $this->getJsObjectName(), $js);
         return $js;
+    }
+
+    /**
+     * Filter checked/unchecked rows in grid
+     *
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column $column
+     * @return Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser
+     */
+    protected function _addColumnFilterToCollection($column)
+    {
+        if ($column->getId() == 'in_products') {
+            $selected = $this->getSelectedProducts();
+            if ($column->getFilter()->getValue()) {
+                $this->getCollection()->addFieldToFilter('entity_id', array('in'=>$selected));
+            } else {
+                $this->getCollection()->addFieldToFilter('entity_id', array('nin'=>$selected));
+            }
+        } else {
+            parent::_addColumnFilterToCollection($column);
+        }
+        return $this;
     }
 
     /**
@@ -233,7 +257,33 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
             'products_grid' => true,
             '_current' => true,
             'uniq_id' => $this->getId(),
-            'use_massaction' => $this->getUseMassaction()
+            'use_massaction' => $this->getUseMassaction(),
+            'product_type_id' => $this->getProductTypeId()
         ));
+    }
+
+    /**
+     * Setter
+     *
+     * @param array $selectedProducts
+     * @return Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser
+     */
+    public function setSelectedProducts($selectedProducts)
+    {
+        $this->_selectedProducts = $selectedProducts;
+        return $this;
+    }
+
+    /**
+     * Getter
+     *
+     * @return array
+     */
+    public function getSelectedProducts()
+    {
+        if ($selectedProducts = $this->getRequest()->getParam('selected_products', null)) {
+            $this->setSelectedProducts($selectedProducts);
+        }
+        return $this->_selectedProducts;
     }
 }

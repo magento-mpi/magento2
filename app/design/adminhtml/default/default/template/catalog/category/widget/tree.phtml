@@ -68,7 +68,7 @@ Ext.extend(Ext.tree.TreePanel.Enhanced, Ext.tree.TreePanel, {
         this.el.dom.innerHTML = '';
         // render the tree
         this.render();
-    },
+    }
 });
 
 Ext.onReady(function()
@@ -161,7 +161,7 @@ Ext.onReady(function()
         rootVisible:      '<?php echo $this->getRoot()->getIsVisible() ?>',
         useAjax:          true,
         currentNodeId:    <?php echo (int) $this->getCategoryId() ?>,
-        addNodeTo:        false,
+        addNodeTo:        false
     });
 
     if (useMassaction) {
@@ -181,7 +181,7 @@ Ext.onReady(function()
         draggable:   false,
         id:          <?php echo (int) $this->getRoot()->getId() ?>,
         expanded:    <?php echo (int) $this->getIsWasExpanded() ?>,
-        category_id: <?php echo (int) $this->getCategoryId() ?>,
+        category_id: <?php echo (int) $this->getCategoryId() ?>
     };
 
     tree<?php echo $this->getId() ?>.loadTree({parameters:parameters, data:<?php echo $this->getTreeJson() ?>},true);
