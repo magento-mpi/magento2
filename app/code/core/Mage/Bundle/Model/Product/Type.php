@@ -366,6 +366,9 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
                 ->addStoreFilter($this->getStoreFilter($product))
                 ->addFilterByRequiredOptions()
                 ->setOptionIdsFilter($optionIds);
+
+            Mage::getSingleton('catalog/product_visibility')
+                ->addVisibleInSiteFilterToCollection($selectionsCollection);
             $this->getProduct($product)->setData($this->_keySelectionsCollection, $selectionsCollection);
         }
         return $this->getProduct($product)->getData($this->_keySelectionsCollection);
@@ -797,10 +800,15 @@ class Mage_Bundle_Model_Product_Type extends Mage_Catalog_Model_Product_Type_Abs
      */
     public function hasOptions($product = null)
     {
+        $product    = $this->getProduct($product);
         $this->setStoreFilter($product->getStoreId(), $product);
-        if (count($this->getSelectionsCollection($this->getOptionsCollection($product)->getAllIds(), $product)->getItems()) || $this->getProduct($product)->getOptions()) {
+        $optionIds  = $this->getOptionsCollection($product)->getAllIds();
+        $collection = $this->getSelectionsCollection($optionIds, $product);
+
+        if (count($collection) > 0 || $product->getOptions()) {
             return true;
         }
+
         return false;
     }
 
