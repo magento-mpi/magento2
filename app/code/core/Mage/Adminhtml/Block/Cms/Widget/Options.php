@@ -34,53 +34,59 @@
 
 class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widget_Form
 {
-    /**
-     * Default type for widget option field
-     */
-    const DEFAULT_ELEMENT_TYPE = 'text';
+    protected $_defaultElementType = 'text';
+    protected $_translationHelper = null;
 
+    /**
+     * Prepare Widget Options Form and values according to specified type
+     *
+     * widget_type must be set in data before
+     * widget_values may be set before to render element values
+     */
     protected function _prepareForm()
     {
+        // prepare form instance
         $form = new Varien_Data_Form();
         $fieldset = $form->addFieldset('options_fieldset', array(
             'legend'    => $this->helper('cms')->__('Widget Options')
         ));
-
-
         $form->setUseContainer(false);
         $this->setForm($form);
 
-        $widget = Mage::getSingleton('cms/widget')
-            ->getXmlElementByType($this->getWidgetType());
-
-        if ( !($widget instanceof Varien_Simplexml_Element)) {
+        // get configuration node and translation helper
+        if (!$this->getWidgetType()) {
+            Mage::throwException($this->__('Widget Type is not specified'));
+        }
+        $config = Mage::getSingleton('cms/widget')->getXmlElementByType($this->getWidgetType());
+        if (!($config instanceof Varien_Simplexml_Element)) {
             return;
         }
-
-        // Define helper for translations
-        if ($widget->getAttribute('module')) {
-            $widgetHelper = Mage::helper($widget->getAttribute('module'));
-        } else {
-            $widgetHelper = Mage::helper('cms');
-        }
-
-        if (!$widget->parameters) {
+            if (!$config->parameters) {
             return;
         }
+        $module = (string)$config->getAttribute('module');
+        $this->_translationHelper = Mage::helper($module ? $module : 'cms');
 
-        // Sort Widget parameters and Add them to form
+        // sort widget parameters and add them to form
         $sortOrder = 0;
-        foreach ($widget->parameters->children() as $option) {
+        foreach ($config->parameters->children() as $option) {
             $option->sort_order = $option->sort_order ? (int)$option->sort_order : $sortOrder;
             $options[$option->getName()] = $option;
             $sortOrder++;
         }
         uasort($options, array($this, '_sortParameters'));
         foreach ($options as $option) {
-            $this->_addField($option, $widgetHelper);
+            $this->_addField($option);
         }
     }
 
+    /**
+     * Widget parameters sort callback
+     *
+     * @param $a
+     * @param $b
+     * @return int
+     */
     protected function _sortParameters($a, $b)
     {
         $aOrder = (int)$a->sort_order;
@@ -95,138 +101,74 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
      * @param Mage_Core_Helper_Abstract $helper
      * @return Varien_Data_Form_Element_Abstract
      */
-    protected function _addField($option, $helper)
+    protected function _addField($config)
     {
         $form = $this->getForm();
         $fieldset = $form->getElement('options_fieldset');
-        $values = $this->getWidgetValues();
 
-        // renderer, filter and type for option
-        $_renderer = false;
-        $_helper = false;
-        $_type = false;
-
+        // prepare element data with values (either from request of from default values)
+        $fieldName = (string)$config->getName();
         $data = array(
-            'name'      => $form->addSuffixToName($option->getName(), 'parameters'),
-            'label'     => $helper->__((string)$option->label),
-            'required'  => (bool)$option->required,
+            'name'      => $form->addSuffixToName($fieldName, 'parameters'),
+            'label'     => $this->_translationHelper->__((string)$config->label),
+            'required'  => (bool)(int)(string)$config->required,
             'class'     => 'widget-option',
-            'note'      => $helper->__((string)$option->note),
+            'note'      => $this->_translationHelper->__((string)$config->description),
         );
-
-        $defaultValue = (string)$option->value;
-
-        // Save Default option value in field note
-        if ($defaultValue) {
-            $data['required'] = false;
-            $data['note'] .= $this->helper('cms')->__("Leave blank for default value '%s'", $defaultValue);
+        if ($values = $this->getWidgetValues()) {
+            $data['value'] = (isset($values[$fieldName]) ? $values[$fieldName] : '');
+        }
+        else {
+            $data['value'] = (string)$config->value;
         }
 
-        if (isset($values[$option->getName()]) && $values[$option->getName()] != $defaultValue) {
-            $data['value'] = $values[$option->getName()];
-        }
-
-        if ($option->values) {
-            $data['values'] = $this->_prepareOptionValues($option->values, $helper);
-        }
-
-        $type = $option->type;
-        if ($type->hasChildren()) {
-            $_type = $type->element_type ? (string)$type->element_type : self::DEFAULT_ELEMENT_TYPE;
-            if ($type->element_helper) {
-                $_helper = $this->getLayout()->getBlockSingleton( (string)$type->element_helper );
+        // prepare element dropdown values, if any
+        if ($config->values) {
+            // dropdown options are specified in configuration
+            if ($config->values->hasChildren()) {
+                $data['values'] = array();
+                foreach ($config->values->children() as $option) {
+                    $data['values'][] = array(
+                        'value' => (string)$option->value,
+                        'label' => $this->_translationHelper->__((string)$option->label)
+                    );
+                }
             }
-        } elseif (strstr($type, '/')) {
-            $_type = self::DEFAULT_ELEMENT_TYPE;
-            $_renderer = $this->getLayout()->createBlock( (string)$type );
-        } elseif (!$option->visible) {
-            $_type = 'hidden';
-        } else {
-            $_type = (string)$type;
+            // a source model is specified
+            elseif ($model = Mage::getModel((string)$config->values)) {
+                $data['values'] = $model->toOptionArray();
+            }
         }
 
-        $field = $fieldset->addField('option_' . $option->getName(), $_type, $data);
+        // prepare field type and renderers
+        $fieldRenderer = false;
+        $fieldChooserRenderer = false;
+        $fieldType = (string)$config->type;
+        // hidden element
+        if (!(int)(string)$config->visible) {
+            $fieldType = 'hidden';
+        }
+        // element of specified type with a chooser
+        elseif ($config->type->hasChildren()) {
+            $fieldType = $config->type->element_type ? (string)$config->type->element_type : $this->_defaultElementType;
+            if ($config->type->element_helper) {
+                $fieldChooserRenderer = $this->getLayout()->getBlockSingleton((string)$config->type->element_helper);
+            }
+        }
+        // just an element renderer
+        elseif (false !== strpos($config->type, '/')) {
+            $fieldType = $this->_defaultElementType;
+            $fieldRenderer = $this->getLayout()->createBlock((string)$config->type);
+        }
 
-        // Render field or add extra html
-        if ($_renderer) {
-            $field->setRenderer($_renderer);
-        } elseif ($_helper) {
-            $_helper->prepareElementHtml($field);
+        // instantiate field and prepare extra html
+        $field = $fieldset->addField('option_' . $fieldName, $fieldType, $data);
+        if ($fieldRenderer) {
+            $field->setRenderer($fieldRenderer);
+        } elseif ($fieldChooserRenderer) {
+            $fieldChooserRenderer->prepareElementHtml($field);
         }
 
         return $field;
-    }
-
-    /**
-     * Prepare values array for HTML (multi)select form element
-     *
-     * @param Mage_Core_Model_Config_Element
-     * @param Mage_Core_Helper_Abstract $helper
-     * @return array
-     */
-    protected function _prepareOptionValues($values, $helper)
-    {
-        $result = array();
-        if ($values->hasChildren()) {
-            foreach ($values->children() as $child) {
-                $result[] = array(
-                    'value' => $child->getName(),
-                    'label' => $helper->__((string)$child)
-                );
-            }
-        } else {
-            $source = Mage::getModel( (string)$values );
-            if (is_object($source)) {
-                $result = $source->toOptionArray();
-            }
-        }
-        return $result;
-    }
-    /**
-     * Getter
-     * If widget type was not set before, try to retrieve it from request
-     *
-     * @return string
-     */
-    public function getWidgetType()
-    {
-        if (!$this->_getData('widget_type')) {
-            return $this->_getRequestOptionValues('widget_type');
-        }
-        return $this->_getData('widget_type');
-    }
-
-    /**
-     * Getter
-     * If widget values was not set before, try to retrieve it from request
-     *
-     * @return array
-     */
-    public function getWidgetValues()
-    {
-        if (!$this->_getData('widget_values')) {
-            return $this->_getRequestOptionValues('values');
-        }
-        return $this->_getData('widget_values');
-    }
-
-    /**
-     * Retrieve values for Options from Request (widget callback)
-     *
-     * @param string $key Key name to get specified Request data
-     * @return string|array
-     */
-    protected function _getRequestOptionValues($key = null)
-    {
-        if (!$this->hasData('request_values')) {
-            $values = $this->getRequest()->getParam('widget');
-            $values = Mage::helper('core')->jsonDecode($values);
-            $this->setData('request_values', $values);
-        }
-        $values = $this->getData('request_values');
-        if ($key !== null) {
-            return isset($values[$key]) ? $values[$key] : null;
-        }
-        return $values;
     }
 }

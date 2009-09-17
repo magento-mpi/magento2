@@ -29,39 +29,35 @@
     <widgets>
         <recently_viewed type="reports/product_widget_viewed" translate="name description" module="reports">
             <name>Recently Viewed Products</name>
-            <description>Widget that shows Recently Viewed Products by Customer</description>
+            <description>List of Products Recently Viewed by Visitor</description>
             <parameters>
                 <page_size translate="label">
-                    <required />
-                    <visible />
-                    <value>1</value>
-                    <label>Products Number to display</label>
+                    <required>1</required>
+                    <visible>1</visible>
+                    <value>5</value>
+                    <label>Number of Products to display</label>
                     <type>text</type>
                 </page_size>
                 <template>
-                    <required />
+                    <required>1</required>
                     <value>reports/product/widget/viewed.phtml</value>
-                    <label>Template</label>
-                    <type>text</type>
                 </template>
             </parameters>
         </recently_viewed>
         <recently_compared type="reports/product_widget_compared" translate="name description" module="reports">
             <name>Recently Compared Products</name>
-            <description>Widget shows recently compared products by customer</description>
+            <description>List of Products Recently Compared and Removed from the Compare List by Visitor</description>
             <parameters>
                 <page_size translate="label">
-                    <required />
-                    <visible />
-                    <value>1</value>
-                    <label>Products Number to display</label>
+                    <required>1</required>
+                    <visible>1</visible>
+                    <value>5</value>
+                    <label>Number of Products to display</label>
                     <type>text</type>
                 </page_size>
                 <template>
-                    <required />
+                    <required>1</required>
                     <value>reports/product/widget/compared.phtml</value>
-                    <label>Template</label>
-                    <type>text</type>
                 </template>
             </parameters>
         </recently_compared>

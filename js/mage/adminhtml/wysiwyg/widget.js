@@ -66,6 +66,7 @@ WysiwygWidget.Widget.prototype = {
         if(containerId != undefined) {
             this.enableOptionsContainer(containerId);
         }
+        this._showWidgetDescription();
     },
 
     enableOptionsContainer: function(containerId) {

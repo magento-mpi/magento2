@@ -31,7 +31,6 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-
 class Mage_Adminhtml_Block_Cms_Widget extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     public function __construct()
@@ -44,7 +43,7 @@ class Mage_Adminhtml_Block_Cms_Widget extends Mage_Adminhtml_Block_Widget_Form_C
 
         $this->removeButton('reset');
         $this->removeButton('back');
-        $this->_updateButton('save', 'label', $this->helper('cms')->__('Insert widget'));
+        $this->_updateButton('save', 'label', $this->helper('cms')->__('Insert Widget'));
         $this->_updateButton('save', 'id', 'insert_button');
         $this->_updateButton('save', 'onclick', 'wWidget.insertWidget()');
 

@@ -28,37 +28,36 @@
 <config>
     <widgets>
         <new_products type="catalog/product_widget_new" translate="name description" module="catalog">
-            <name>New Products</name>
-            <description>Widget to display Catalog Products that are marked as New</description>
+            <name>Catalog New Products List</name>
+            <description>List of Products that are marked as New</description>
             <parameters>
                 <products_count translate="label">
-                    <required />
-                    <visible />
-                    <value>1</value>
-                    <label>Products Number to display</label>
+                    <required>1</required>
+                    <visible>1</visible>
+                    <value>5</value>
+                    <label>Number of Products to Display</label>
                     <type>text</type>
                 </products_count>
                 <template>
-                    <required />
+                    <required>1</required>
                     <value>catalog/product/new.phtml</value>
-                    <label>Template</label>
-                    <type>text</type>
                 </template>
-                <cache_lifetime>
-                    <label>Widget's cache lifetime</label>
-                    <visible />
+                <cache_lifetime translate="label description">
+                    <label>Cache Lifetime (Seconds)</label>
+                    <description>86400 by default, if not set</description>
+                    <visible>1</visible>
                     <type>text</type>
                 </cache_lifetime>
             </parameters>
         </new_products>
 
         <catalog_product_link type="catalog/product_widget_link" translate="name description" module="catalog">
-            <name>Product Link</name>
-            <description>Widget that generates Link to specified Product</description>
+            <name>Catalog Product Link</name>
+            <description>Link to a Specified Product</description>
             <parameters>
                 <id_path translate="label">
-                    <visible />
-                    <required />
+                    <visible>1</visible>
+                    <required>1</required>
                     <label>Product</label>
                     <type>
                         <element_type>label</element_type>
@@ -66,14 +65,14 @@
                     </type>
                     <sort_order>10</sort_order>
                 </id_path>
-                <anchor_text translate="label">
-                    <visible />
+                <anchor_text translate="label description">
+                    <visible>1</visible>
                     <label>Anchor Text</label>
-                    <note>If blank, Product Name will be displayed</note>
+                    <description>If empty, the Product Name will be used</description>
                     <type>text</type>
                 </anchor_text>
                 <title translate="label">
-                    <visible />
+                    <visible>1</visible>
                     <label>Anchor Title</label>
                     <type>text</type>
                 </title>
@@ -81,12 +80,12 @@
         </catalog_product_link>
 
         <catalog_category_link type="catalog/category_widget_link" translate="name description" module="catalog">
-            <name>Category Link</name>
-            <description>Widget that generates Link to specified Category</description>
+            <name>Catalog Category Link</name>
+            <description>Link to a Specified Category</description>
             <parameters>
                 <id_path translate="label">
-                    <visible />
-                    <required />
+                    <visible>1</visible>
+                    <required>1</required>
                     <label>Category</label>
                     <type>
                         <element_type>label</element_type>
@@ -94,14 +93,14 @@
                     </type>
                     <sort_order>10</sort_order>
                 </id_path>
-                <anchor_text translate="label">
-                    <visible />
+                <anchor_text translate="label desctiption">
+                    <visible>1</visible>
                     <label>Anchor Text</label>
-                    <note>If blank, Category Name will be displayed</note>
+                    <description>If empty, the Category Name will be used</description>
                     <type>text</type>
                 </anchor_text>
                 <title translate="label">
-                    <visible />
+                    <visible>1</visible>
                     <label>Anchor Title</label>
                     <type>text</type>
                 </title>

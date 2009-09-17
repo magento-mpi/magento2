@@ -45,13 +45,14 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
             'legend'    => $this->helper('cms')->__('Widget')
         ));
 
+        $this->setEmptyOptionDescription($this->helper('cms')->__('Please select a Widget Type'));
         $select = $fieldset->addField('select_widget_type', 'select', array(
             'label'                 => $this->helper('cms')->__('Widget Type'),
             'title'                 => $this->helper('cms')->__('Widget Type'),
             'name'                  => 'widget_type',
             'required'              => true,
             'options'               => $this->_getWidgetSelectOptions(),
-            'note'                  => $this->helper('cms')->__('No options available'),
+            'note'                  => $this->getEmptyOptionDescription(),
             'after_element_html'    => $this->_getWidgetSelectAfterHtml(),
         ));
 
@@ -69,8 +70,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
      */
     protected function _getWidgetSelectOptions()
     {
-        $options = array('' => $this->helper('cms')->__('--Select widget to load its options--'));
-        foreach ($this->_getAvailableWidgets() as $data) {
+        foreach ($this->_getAvailableWidgets(true) as $data) {
             $options[$data['type']] = $data['name'];
         }
         return $options;
@@ -83,13 +83,11 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
      */
     protected function _getWidgetSelectAfterHtml()
     {
-        $html =  '';
+        $html = '';
         $i = 0;
-        foreach ($this->_getAvailableWidgets() as $data) {
-            $html .= sprintf('<div id="widget-description-%s" class="no-display">%s</div>',
-                ++$i,
-                $data['description']
-            );
+        foreach ($this->_getAvailableWidgets(true) as $data) {
+            $html .= sprintf('<div id="widget-description-%s" class="no-display">%s</div>', $i, $data['description']);
+            $i++;
         }
         return $html;
     }
@@ -99,12 +97,19 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
      *
      * @return array
      */
-    protected function _getAvailableWidgets()
+    protected function _getAvailableWidgets($withEmptyElement = false)
     {
         if (!$this->getData('available_widgets')) {
             $config = Mage::getSingleton('cms/widget')->getXmlConfig();
             $widgets = $config->getNode('widgets');
             $result = array();
+            if ($withEmptyElement) {
+                $result[] = array(
+                    'type'        => '',
+                    'name'        => $this->helper('adminhtml')->__('-- Please Select --'),
+                    'description' => $this->getEmptyOptionDescription(),
+                );
+            }
             foreach ($widgets->children() as $widget) {
                 if ($widget->getAttribute('module')) {
                     $helper = Mage::helper($widget->getAttribute('module'));

@@ -97,7 +97,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
             ->setType('button')
             ->setId($chooserId)
             ->setClass('widget-option-chooser')
-            ->setLabel($this->getChooserLabel() ? $this->getChooserLabel() : $this->helper('cms')->__('Choose'))
+            ->setLabel($this->getChooserLabel() ? $this->getChooserLabel() : $this->helper('cms')->__('Select...'))
             ->setOnclick($chooserJsObject.'.choose()');
 
         $cancelButton = $this->getLayout()->createBlock('adminhtml/widget_button')
@@ -105,7 +105,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
             ->setId($chooserId.'_cancel')
             ->setStyle('display:none')
             ->setClass('widget-option-chooser-cancel')
-            ->setLabel($this->getCancelLabel() ? $this->getCancelLabel() : $this->helper('cms')->__('Cancel'))
+            ->setLabel($this->getCancelLabel() ? $this->getCancelLabel() : $this->helper('cms')->__('Done'))
             ->setOnclick($chooserJsObject.'.hide()');
 
         $html = '
@@ -117,6 +117,4 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
         ';
         return $html;
     }
-
-
 }

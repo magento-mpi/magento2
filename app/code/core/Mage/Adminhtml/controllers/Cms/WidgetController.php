@@ -71,7 +71,19 @@ class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Acti
     {
         try {
             $this->loadLayout('empty');
-            $this->renderLayout();
+            $optionsBlock = $this->getLayout()->getBlock('wysiwyg_widget.options');
+            if ($optionsBlock && $paramsJson = $this->getRequest()->getParam('widget')) {
+                $request = Mage::helper('core')->jsonDecode($paramsJson);
+                if (is_array($request)) {
+                    if (isset($request['widget_type'])) {
+                        $optionsBlock->setWidgetType($request['widget_type']);
+                    }
+                    if (isset($request['values'])) {
+                        $optionsBlock->setWidgetValues($request['values']);
+                    }
+                }
+                $this->renderLayout();
+            }
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
             $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
