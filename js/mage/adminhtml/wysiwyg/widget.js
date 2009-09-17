@@ -240,12 +240,15 @@ WysiwygWidget.chooser.prototype = {
     initialize: function(chooserId, chooserUrl) {
         this.chooserId = chooserId;
         this.chooserUrl = chooserUrl;
-        this.cancelControl = $(this.chooserId + '_cancel');
     },
 
     getResponseContainerId: function() {
         return 'responseCnt' + this.chooserId;
     },
+
+    getCancelControl: function() {
+        return $(this.chooserId + '_cancel');
+    }
 
     choose: function(event) {
         //var element = Event.findElement(event, 'A');
@@ -254,10 +257,10 @@ WysiwygWidget.chooser.prototype = {
         if ($(responseContainerId) != undefined) {
             if ($(responseContainerId).visible()) {
                 $(responseContainerId).hide();
-                this.cancelControl.hide();
+                this.getCancelControl().hide();
             } else {
                 $(responseContainerId).show();
-                this.cancelControl.show();
+                this.getCancelControl().show();
             }
             return;
         }
@@ -268,7 +271,7 @@ WysiwygWidget.chooser.prototype = {
                     try {
                         widgetTools.onAjaxSuccess(transport);
                         chooser.next("label.widget-option-label").insert({after: widgetTools.getDivHtml(responseContainerId, transport.responseText)});
-                        this.cancelControl.show();
+                        this.getCancelControl().show();
                     } catch(e) {
                         alert(e.message);
                     }
@@ -279,6 +282,6 @@ WysiwygWidget.chooser.prototype = {
 
     hide: function() {
         $(this.getResponseContainerId()).hide();
-        this.cancelControl.hide();
+        this.getCancelControl().hide();
     }
 }
