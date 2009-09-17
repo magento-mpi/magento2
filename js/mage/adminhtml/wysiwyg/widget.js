@@ -248,7 +248,7 @@ WysiwygWidget.chooser.prototype = {
 
     getCancelControl: function() {
         return $(this.chooserId + '_cancel');
-    }
+    },
 
     choose: function(event) {
         //var element = Event.findElement(event, 'A');
