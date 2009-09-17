@@ -28,34 +28,65 @@
 <config>
     <widgets>
         <enterprise_banner type="enterprise_banner/widget_banner" translate="name description" module="enterprise_banner">
-            <name>Banner Widget Block</name>
-            <description>Widget that output banners that can be related to Shopping Cart Price or Catalog Rules</description>
+            <name>Banner Rotator</name>
+            <description>Displays Specified or Promotion Banners</description>
             <parameters>
                 <display_mode translate="label">
-                    <required />
-                    <visible />
+                    <required>1</required>
+                    <visible>1</visible>
                     <value>fixed</value>
-                    <label>Display Mode</label>
+                    <label>Banners to Display</label>
                     <type>select</type>
-                    <values>enterprise_banner/source_displaymode</values>
+                    <values>
+                        <fixed translate="label">
+                            <value>fixed</value>
+                            <label>Specified Banners</label>
+                        </fixed>
+                        <salesrule translate="label">
+                            <value>salesrule</value>
+                            <label>Shopping Cart Promotions Related</label>
+                        </salesrule>
+                        <catalogrule translate="label">
+                            <value>catalogrule</value>
+                            <label>Catalog Promotions Related</label>
+                        </catalogrule>
+                    </values>
                 </display_mode>
                 <rotate translate="label">
-                    <visible />
+                    <visible>1</visible>
                     <label>Rotation Mode</label>
                     <type>select</type>
-                    <values>enterprise_banner/source_rotationmode</values>
+                    <values>
+                        <none translate="label">
+                            <value></value>
+                            <label>Do not rotate, display All</label>
+                        </none>
+                        <random translate="label">
+                            <value>random</value>
+                            <label>One, Random</label>
+                        </random>
+                        <series translate="label">
+                            <value>series</value>
+                            <label>One, Series</label>
+                        </series>
+                        <shuffle translate="label">
+                            <value>shuffle</value>
+                            <label>One, Shuffle</label>
+                        </shuffle>
+                    </values>
                 </rotate >
                 <banner_ids translate="label">
-                    <required />
-                    <visible />
-                    <label>Banner IDs</label>
+                    <visible>1</visible>
+                    <label>Banners</label>
                     <type>text</type>
+                    <depends>
+                        <field>display_mode</field>
+                        <value>fixed</value>
+                    </depends>
                 </banner_ids>
                 <template>
-                    <required />
+                    <required>1</required>
                     <value>banner/widget.phtml</value>
-                    <label>Template</label>
-                    <type>text</type>
                 </template>
             </parameters>
         </enterprise_banner>

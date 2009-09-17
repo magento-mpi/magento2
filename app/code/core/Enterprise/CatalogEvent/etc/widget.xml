@@ -29,32 +29,33 @@
     <widgets>
         <event_lister type="enterprise_catalogevent/widget_lister" translate="name description" module="enterprise_catalogevent">
             <name>Catalog Events Carousel</name>
-            <description>Widget that Lists all non-closed Catalog Events as a paginated Carousel</description>
+            <description>List all non-closed Catalog Events as a Paginated Carousel</description>
             <parameters>
-                <limit translate="label">
-                    <required />
-                    <visible />
+                <limit translate="label description">
+                    <required>1</required>
+                    <visible>1</visible>
                     <value>5</value>
-                    <label>Number of Events to be displayed</label>
+                    <label>Frame Size</label>
+                    <description>Number of Items to display at once</description>
                     <type>text</type>
                 </limit>
-                <scroll translate="label">
-                    <required />
-                    <visible />
+                <scroll translate="label description">
+                    <required>1</required>
+                    <visible>1</visible>
                     <value>2</value>
-                    <label>Events to scroll per click</label>
+                    <label>Scroll</label>
+                    <description>Number of Items to scroll per click</description>
                     <type>text</type>
                 </scroll>
-                <width translate="label">
-                    <visible />
-                    <label>Width</label>
+                <width translate="label description">
+                    <visible>1</visible>
+                    <label>Block Width</label>
+                    <description>Use CSS-compatible syntax. If empty, will be determined automatically</description>
                     <type>text</type>
                 </width>
                 <template>
-                    <required />
+                    <required>1</required>
                     <value>catalogevent/lister.phtml</value>
-                    <label>Template</label>
-                    <type>text</type>
                 </template>
             </parameters>
         </event_lister>
