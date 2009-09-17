@@ -511,9 +511,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             }
         }
         $_tableSql .= $this->_columnsSql;
-        $_tableSql .= "KEY `CATEGORY_FLAT_CATEGORY_ID` (`entity_id`),
-                KEY `CATEGORY_FLAT_STORE_ID` (`store_id`),
-                KEY `path` (`path`),
+        $_tableSql .= "PRIMARY KEY (`entity_id`),
+                KEY `IDX_STORE` (`store_id`),
+                KEY `IDX_PATH` (`path`),
                 KEY `IDX_LEVEL` (`level`),
                 CONSTRAINT `FK_CATEGORY_FLAT_CATEGORY_ID_STORE_{$store}` FOREIGN KEY (`entity_id`)
                     REFERENCES `{$this->getTable('catalog/category')}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
