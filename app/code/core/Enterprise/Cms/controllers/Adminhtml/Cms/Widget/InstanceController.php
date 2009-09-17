@@ -197,10 +197,14 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
         $chooser = $this->getLayout()
             ->createBlock('adminhtml/catalog_product_widget_chooser')
+            ->setName('products_grid_'.md5(microtime()))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
-        $this->getResponse()->setBody($chooser->toHtml());
+        /* @var $serializer Mage_Adminhtml_Block_Widget_Grid_Serializer */
+        $serializer = $this->getLayout()->createBlock('adminhtml/widget_grid_serializer');
+        $serializer->initSerializerBlock($chooser, 'getSelectedProducts', 'selected_products', 'selected_products');
+        $this->getResponse()->setBody($chooser->toHtml().$serializer->toHtml());
     }
 
     /**

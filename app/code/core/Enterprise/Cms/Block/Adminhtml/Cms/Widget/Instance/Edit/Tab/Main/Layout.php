@@ -279,14 +279,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
         if ($widgetInstance->getPageGroups()) {
             foreach ($widgetInstance->getPageGroups() as $pageGroup) {
                 $pageGroups[] = array(
-                    'id' => $pageGroup['page_id'],
                     'page_id' => $pageGroup['page_id'],
                     'group' => $pageGroup['group'],
                     'block' => $pageGroup['block_reference'],
-                    'for'   => $pageGroup['for'],
+                    'for_value'   => $pageGroup['for'],
                     'layout_handle' => $pageGroup['layout_handle'],
-                    'entities' => $pageGroup['entities'],
-                    'entities_array' => explode(',', $pageGroup['entities']),
+                    $pageGroup['group'].'_entities' => $pageGroup['entities'],
                     'position' => $pageGroup['position']
                 );
             }

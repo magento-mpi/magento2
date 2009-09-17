@@ -65,7 +65,7 @@
                                                 <label for="specific_<?php echo $container['name'] ?>">Specific Categories</label>
                                                 <div class="no-display chooser_container" id="<?php echo $container['name'] ?>_ids_{{id}}">
                                                     <input type="hidden" class="is_anchor_only" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][is_anchor_only]" value="<?php echo $container['is_anchor_only'] ?>" />
-                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{entities}}" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
+                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{<?php echo $container['name'] ?>_entities}}" readonly="readonly" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
                                                     <div class="chooser"></div>
                                                 </div>
                                             </td>
@@ -108,13 +108,13 @@
                                     <tbody>
                                         <tr>
                                             <td>
-                                                <input type="radio" class="radio for_all" id="all_<?php echo $container['name'] ?>" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />&nbsp;
+                                                <input type="radio" class="radio for_all" id="all_<?php echo $container['name'] ?>" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="all" checked="checked" onclick="WidgetInstance.togglePageGroupChooser(this)" />&nbsp;
                                                 <label for="all_<?php echo $container['name'] ?>">All</label>&nbsp;&nbsp;&nbsp;
                                                 <input type="radio" class="radio for_specific" id="specific_<?php echo $container['name'] ?>" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />&nbsp;
                                                 <label for="specific_<?php echo $container['name'] ?>">Specific Products</label>
                                                 <div class="no-display chooser_container" id="<?php echo $container['name'] ?>_ids_{{id}}">
                                                     <input type="hidden" class="product_type_id" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][product_type_id]" value="<?php echo $container['product_type_id'] ?>" />
-                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{entities}}" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
+                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{<?php echo $container['name'] ?>_entities}}" readonly="readonly" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
                                                     <div class="chooser"></div>
                                                 </div>
                                             </td>
@@ -219,32 +219,28 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-var pageGroupTemplateId = 'page_group_container_template';
-
 var WidgetInstance = {
     pageGroupTemplateId : 'page_group_container_template',
     pageGroupContainerId : 'page_group_container',
     templatePattern : /(^|.|\r|\n)({{(\w+)}})/,
     count : 0,
     activePageGroups : $H({}),
-    activePageGroupChoosers : $H({}),
     addPageGroup : function(data) {
         if ((pageGroupTemplate= $(this.pageGroupTemplateId)) && (pageGroupContainer = $(this.pageGroupContainerId))) {
-            if (!data.id) {
+            if (!data.page_id) {
                 data = {};
-                data.id = this.count++;
                 data.page_id = 0;
+                data.entities = '';
             }
+            data.id = this.count++;
             pageGroupTemplateObj = new Template(pageGroupTemplate.innerHTML, this.templatePattern);
             Element.insert(pageGroupContainer, {'top':pageGroupTemplateObj.evaluate(data)});
             if (data.group) {
                 pageGroup = $(data.group+'_'+data.id);
                 additional = {};
                 additional.selectedBlock = data.block;
-//                if (data.entities_array) {
-//                    additional.entities_array = data.entities_array;
-//                }
                 additional.position = data.position;
+                additional.for_value = data.for_value;
                 this.displayPageGroup(pageGroup, additional);
                 if ($(this.pageGroupContainerId+'_'+data.id)) {
                     selectGroupElm = $(this.pageGroupContainerId+'_'+data.id).down('select.page_group_select');
@@ -267,12 +263,17 @@ var WidgetInstance = {
                         }
                     }
                 }
-                forElm = pageGroup.down('input.for_'+data.for);
+                forElm = pageGroup.down('input.for_'+data.for_value);
                 if (forElm) {
+                    /**
+                    * IE browsers fix: remove default checked attribute in radio form element
+                    * to check others radio form elements in future
+                    */
+                    pageGroup.down('input.for_all').defaultChecked = false;
+
+                    forElm.defaultChecked = true;
                     forElm.checked = true;
-                    if (data.for != 'all') {
-                        this.togglePageGroupChooser(forElm);
-                    }
+                    this.togglePageGroupChooser(forElm);
                 }
             }
         }
@@ -324,7 +325,7 @@ var WidgetInstance = {
             }
         }
     },
-    displayCategoriesChooser : function(chooser) {
+    displayCategoriesChooser : function(chooser, additional) {
         if (!additional) {
             additional = {};
         }
@@ -357,11 +358,11 @@ var WidgetInstance = {
         }
     },
     displayChooser : function(chooser, additional) {
-        chooser = $(chooser).down('div.chooser');
-        entities = chooser.up('div.chooser_container').down('input[type="text"].entities').value;
-        postParameters = $H({selected:entities});
-        url = '';
-        type = '';
+        var chooser = $(chooser).down('div.chooser');
+        var entities = chooser.up('div.chooser_container').down('input[type="text"].entities').value;
+        var postParameters = $H({selected:entities});
+        var url = '';
+        var type = '';
         if (additional) {
             if (additional.url) url = additional.url;
 
@@ -383,7 +384,7 @@ var WidgetInstance = {
                             if (transport.responseText) {
                                 Element.insert(chooser, transport.responseText);
                                 if (type == 'products') {
-                                    chooser.select('input[type="checkbox"].entities').each(function(elm){
+                                    chooser.select('input[type="hidden"]').each(function(elm){
                                         Event.observe(elm, 'change', WidgetInstance.checkEntity.bind(WidgetInstance, chooser));
                                     });
                                 }
@@ -500,6 +501,10 @@ Ext.onReady(function(){
     <?php foreach ($this->getPageGroups() as $pageGroup): ?>
         WidgetInstance.addPageGroup(<?php echo Zend_Json::encode($pageGroup) ?>);
     <?php endforeach; ?>
+    Event.observe(document, 'product:changed', function(event){
+        var chooser = event.target.up('div.chooser');
+        WidgetInstance.checkEntity(chooser);
+    });
     Event.observe(document, 'node:checked', function(event){
         WidgetInstance.addCategoryEntity(event);
     });

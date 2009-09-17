@@ -34,6 +34,12 @@
 class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
     extends Mage_Adminhtml_Block_Widget
 {
+    protected $_layoutHandlesXml = null;
+
+    protected $_layoutHandleUpdates = array();
+
+    protected $_layoutHandleUpdatesXml = null;
+
     protected $_layoutHandle = array();
 
     protected $_blocks = array();
@@ -76,7 +82,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
         if (is_string($layoutHandle)) {
             $layoutHandle = explode(',', $layoutHandle);
         }
-        $this->_layoutHandle = $layoutHandle;
+        $this->_layoutHandle = array_merge(array('default'), $layoutHandle);
         return $this;
     }
 
@@ -150,25 +156,49 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
             /* @var $update Mage_Core_Model_Layout_Update */
             $update = Mage::getModel('core/layout')->getUpdate();
             /* @var $layoutHandles Mage_Core_Model_Layout_Element */
-            $layoutHandles = $update->getFileLayoutUpdatesXml(
+            $this->_layoutHandlesXml = $update->getFileLayoutUpdatesXml(
                 $this->getArea(),
                 $this->getPackage(),
                 $this->getTheme(), Mage::app()->getDefaultStoreView()->getId());
-            $this->_collectBlocks($layoutHandles);
+            $this->_collectLayoutHandles();
+            $this->_collectBlocks();
         }
         return $this->_blocks;
     }
+
+    protected function _collectLayoutHandles()
+    {
+        foreach ($this->getLayoutHandle() as $handle) {
+            $this->_mergeLayoutHandles($handle);
+        }
+        $updatesStr = '<'.'?xml version="1.0"?'.'><layout>'.implode('', $this->_layoutHandleUpdates).'</layout>';
+        $this->_layoutHandleUpdatesXml = simplexml_load_string($updatesStr, 'Varien_Simplexml_Element');
+    }
+
+    public function _mergeLayoutHandles($handle)
+    {
+        foreach ($this->_layoutHandlesXml->{$handle} as $updateXml) {
+            foreach ($updateXml->children() as $child) {
+                if (strtolower($child->getName()) == 'update' && isset($child['handle'])) {
+                    $this->_mergeLayoutHandles((string)$child['handle']);
+                }
+            }
+            $this->_layoutHandleUpdates[] = $updateXml->asNiceXml();
+        }
+    }
+
 
     /**
      * Filter and collect blocks into array
      *
      * @param Mage_Core_Model_Layout_Element $layoutHandles
      */
-    protected function _collectBlocks($layoutHandles)
+    protected function _collectBlocks($layoutHandles = null)
     {
-        foreach ($this->getLayoutHandle() as $handle) {
-            $wildCard = "//{$handle}//block/label/..";
-            if ($blocks = $layoutHandles->xpath($wildCard)) {
+//        foreach ($this->getLayoutHandle() as $handle) {
+//            $wildCard = "//{$handle}//block/label/..";
+            if ($blocks = $this->_layoutHandleUpdatesXml->xpath('//block/label/..')) {
+//            if ($blocks = $this->_layoutHandlesXml->xpath($wildCard)) {
                 /* @var $block Mage_Core_Model_Layout_Element */
                 foreach ($blocks as $block) {
                     if ((string)$block->getAttribute('name')
@@ -183,7 +213,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
                     }
                 }
             }
-        }
+//        }
         asort($this->_blocks, SORT_STRING);
     }
 
