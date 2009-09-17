@@ -77,6 +77,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form_Grid extends Mage_A
             'type'              => 'checkbox',
             'align'             => 'center',
             'index'             => 'page_id',
+            'filter'            => false
         ));
         $this->addColumn('page_id', array(
             'header'            => Mage::helper('enterprise_cms')->__('Page ID'),
