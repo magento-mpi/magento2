@@ -52,15 +52,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
             if ($editBlock) {
                 $page = Mage::registry('cms_page');
                 if ($page) {
-                    if ($page->getUnderVersionControl()) {
-                        $formBlock = $editBlock->getChild('form');
-                        if ($formBlock) {
+                    $formBlock = $editBlock->getChild('form');
+                    if ($formBlock) {
+                        $formBlock->setTemplate('enterprise/cms/page/edit/form.phtml');
+                        if ($page->getUnderVersionControl()) {
                             $tabId = $this->getRequest()->getParam('tab');
                             if ($tabId) {
                                 $formBlock->setSelectedTabId($tabsBlock->getId() . '_' . $tabId)
                                     ->setTabJsObject($tabsBlock->getJsObjectName());
                             }
-                            $formBlock->setTemplate('enterprise/cms/page/edit/form.phtml');
                         }
                     }
                     // If user non-publisher he can save page only if it has disabled status

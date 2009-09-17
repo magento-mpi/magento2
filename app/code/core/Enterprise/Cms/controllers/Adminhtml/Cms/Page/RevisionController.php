@@ -240,6 +240,11 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
 
         $this->getLayout()->getBlock('preview_form')->setFormData($data);
 
+        // Remove revision switcher if page is out of version control
+        if (!$page->getUnderVersionControl()) {
+            $this->getLayout()->getBlock('tools')->unsetChild('revision_switcher');
+        }
+
         $this->renderLayout();
     }
 
