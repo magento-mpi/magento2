@@ -218,7 +218,7 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock
             $this->_copyRelationIndexData($compositeIds, $notCompositeIds);
         }
 
-        $indexers = $this->_getProductTypes();
+        $indexers = $this->_getTypeIndexers();
         foreach ($indexers as $indexer) {
             if (!empty($byType[$indexer->getTypeId()])) {
                 $indexer->reindexEntity($byType[$indexer->getTypeId()]);
