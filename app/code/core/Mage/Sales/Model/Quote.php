@@ -995,6 +995,9 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
         $totals = null;
         // Going through all quote addresses and sum their totals
         foreach ($this->getAddressesCollection() as $address) {
+            if ($address->isDeleted()) {
+                continue;
+            }
             if (!$totals) {
                 $totals = $address->getTotals();
             } else {
