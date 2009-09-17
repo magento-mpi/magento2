@@ -223,6 +223,13 @@ class Enterprise_CatalogPermissions_Model_Observer
 
         $collection = $observer->getEvent()->getCollection();
         foreach ($collection as $product) {
+            if ($collection->hasFlag('product_children')) {
+                $product->addData(array(
+                    'grant_catalog_category_view'   => -1,
+                    'grant_catalog_product_price'   => -1,
+                    'grant_checkout_items'          => -1,
+                ));
+            }
             $this->_applyPermissionsOnProduct($product);
         }
         return $this;
