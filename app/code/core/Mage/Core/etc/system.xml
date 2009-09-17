@@ -827,7 +827,7 @@
                         </use_form_key>
                         <session_cookie_lifetime translate="label comment">
                             <label>Session Lifetime (seconds)</label>
-                            <comment>Values less than 60 are ignored.</comment>
+                            <comment>Values less than 60 are ignored. Please note, that changes will apply after logout.</comment>
                             <sort_order>3</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

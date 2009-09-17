@@ -70,7 +70,7 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
         if (Mage::app()->getStore()->isAdmin()) {
             $adminSessionLifetime = (int)Mage::getStoreConfig('admin/security/session_cookie_lifetime');
             if ($adminSessionLifetime > 60) {
-                Mage::getSingleton('core/cookie')->setLifetime($adminSessionLifetime);
+                $this->getCookie()->setLifetime($adminSessionLifetime);
             }
         }
 
