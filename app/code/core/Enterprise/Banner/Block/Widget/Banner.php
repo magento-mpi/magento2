@@ -66,6 +66,12 @@ class Enterprise_Banner_Block_Widget_Banner
     const BANNER_WIDGET_RORATE_RANDOM = 'random';
 
     /**
+     * Rotation mode "shuffle" flag: same as "series" but firstly randomize banenrs scope
+     *
+     */
+    const BANNER_WIDGET_RORATE_SHUFFLE = 'shuffle';
+
+    /**
      * Store Banner resource instance
      *
      * @var Enterprise_Banner_Model_Mysql4_Banner
@@ -77,7 +83,7 @@ class Enterprise_Banner_Block_Widget_Banner
      *
      * @var Mage_Core_Model_Session
      */
-    protected $_sessionInstance = null;
+    public $_sessionInstance = null;
 
     /**
      * Store current store ID
@@ -100,7 +106,7 @@ class Enterprise_Banner_Block_Widget_Banner
     }
 
     /**
-     * Set default display mode if it had not set
+     * Set default display mode if its not set
      *
      * @return string
      */
@@ -141,10 +147,26 @@ class Enterprise_Banner_Block_Widget_Banner
      */
     public function getRotate()
     {
-        if (!$this->_getData('rotate') || ($this->_getData('rotate') != self::BANNER_WIDGET_RORATE_RANDOM && $this->_getData('rotate') != self::BANNER_WIDGET_RORATE_SERIES)) {
+        if (!$this->_getData('rotate') || ($this->_getData('rotate') != self::BANNER_WIDGET_RORATE_RANDOM &&
+                                           $this->_getData('rotate') != self::BANNER_WIDGET_RORATE_SERIES &&
+                                           $this->_getData('rotate') != self::BANNER_WIDGET_RORATE_SHUFFLE
+                                           )) {
             $this->setData('rotate', null);
         }
         return $this->_getData('rotate');
+    }
+
+    /**
+     * Set unique id of widget instance if its not set
+     *
+     * @return string
+     */
+    public function getUniqueId()
+    {
+        if (!$this->_getData('unique_id')){
+            $this->setData('unique_id', md5(implode('-', $this->getBannerIds())));
+        }
+        return $this->_getData('unique_id');
     }
 
     /**
@@ -155,18 +177,29 @@ class Enterprise_Banner_Block_Widget_Banner
     public function getBannersContent()
     {
         $banenrsContent = array();
-        $bannerIds      = $this->getBannerIds();
+
         //Choose display mode
         switch ($this->getDisplayMode()) {
+
             case self::BANNER_WIDGET_DISPLAY_SALESRULE:
-                $banenrsContent = self::BANNER_WIDGET_DISPLAY_SALESRULE;
+                $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds(
+                    Mage::app()->getWebsite()->getId(),
+                    Mage::getSingleton('customer/session')->getCustomerGroupId()
+                );
+                $banenrsContent = $this->_getBannersContent($bannerIds);
                 break;
+
             case self::BANNER_WIDGET_DISPLAY_CATALOGRULE:
-                $banenrsContent = self::BANNER_WIDGET_DISPLAY_CATALOGRULE;
+                $bannerIds = $this->_bannerResource->getCatalogRuleRelatedBannerIds(
+                    Mage::app()->getWebsite()->getId(),
+                    Mage::getSingleton('customer/session')->getCustomerGroupId()
+                );
+                $banenrsContent = $this->_getBannersContent($bannerIds);
                 break;
+
             case self::BANNER_WIDGET_DISPLAY_FIXED:
             default:
-                $banenrsContent = $this->_getFixedBannersContent($bannerIds);
+                $banenrsContent = $this->_getBannersContent($this->getBannerIds());
                 break;
         }
         return $banenrsContent;
@@ -179,35 +212,43 @@ class Enterprise_Banner_Block_Widget_Banner
      * @param int $storeId
      * @return array
      */
-    protected function _getFixedBannersContent($bannerIds)
+    protected function _getBannersContent($bannerIds)
     {
         $bannersSequence = $content = array();
         if (!empty($bannerIds)) {
+
             //Choose rotation mode
             switch ($this->getRotate()) {
+
                 case self::BANNER_WIDGET_RORATE_RANDOM :
                     $bannerId = $bannerIds[array_rand($bannerIds, 1)];
                     $content[$bannerId] = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
                     break;
+                case self::BANNER_WIDGET_RORATE_SHUFFLE :
                 case self::BANNER_WIDGET_RORATE_SERIES :
                     $bannerId = $bannerIds[0];
-                    if (!$this->_sessionInstance->hasBannersSequence()) {
-                        $this->_sessionInstance->setBannersSequence(array($bannerIds[0]));
+                    if (!$this->_sessionInstance->_getData($this->getUniqueId())) {
+                        $this->_sessionInstance->setData($this->getUniqueId(), array($bannerIds[0]));
                     }
                     else {
-                        $bannersSequence = $this->_sessionInstance->getBannersSequence();
+                        $bannersSequence = $this->_sessionInstance->_getData($this->getUniqueId());
                         $canShowIds = array_merge(array_diff($bannerIds, $bannersSequence), array());
                         if (!empty($canShowIds)) {
-                            $bannersSequence[] = $canShowIds[0];
-                            $bannerId = $canShowIds[0];
+                            $showId = 0;
+                            if ($this->getRotate() == self::BANNER_WIDGET_RORATE_SHUFFLE) {
+                                $showId = array_rand($canShowIds, 1);
+                            }
+                            $bannersSequence[] = $canShowIds[$showId];
+                            $bannerId = $canShowIds[$showId];
                         }
                         else {
                             $bannersSequence = array($bannerIds[0]);
                         }
-                        $this->_sessionInstance->setBannersSequence($bannersSequence);
+                        $this->_sessionInstance->setData($this->getUniqueId(), $bannersSequence);
                     }
                     $content[$bannerId] = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
                     break;
+
                 default:
                     $content = $this->_bannerResource->getBannersContent($bannerIds, $this->_currentStoreId);
                     break;

@@ -26,5 +26,40 @@
 
 class Enterprise_Banner_Model_Mysql4_Salesrule_Collection extends Mage_SalesRule_Model_Mysql4_Rule_Collection
 {
+    /**
+     * Reset collection columns
+     *
+     * @return Enterprise_Banner_Model_Mysql4_Salesrule_Collection
+     */
+    public function resetColumns()
+    {
+        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+        return $this;
+    }
 
+    /**
+     * Set related banners to sales rule
+     *
+     * @param bool $enabledOnly if true then only enabled banners will be joined
+     * @return Enterprise_Banner_Model_Mysql4_Salesrule_Collection
+     */
+    public function setBannersFilter($enabledOnly = false)
+    {
+        $this->getSelect()
+             ->join(
+                array('banner_rules' => $this->getTable('enterprise_banner/salesrule')),
+                'banner_rules.rule_id = main_table.rule_id',
+                array('banner_id')
+             );
+        if ($enabledOnly) {
+            $this->getSelect()
+                 ->join(
+                    array('banners' => $this->getTable('enterprise_banner/banner')),
+                    'banners.banner_id = banner_rules.banner_id AND banners.is_enabled=1',
+                    array()
+                 );
+        }
+        $this->getSelect()->group('banner_rules.banner_id');
+        return $this;
+    }
 }

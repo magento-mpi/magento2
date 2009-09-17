@@ -352,4 +352,38 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
         }
         return $content;
     }
+
+    /**
+     * Get banners IDs that related to sales rule and satisfy conditions
+     *
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @return array
+     */
+    public function getSalesRuleRelatedBannerIds($websiteId, $customerGroupId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $collection = Mage::getResourceModel('enterprise_banner/salesrule_collection');
+        $collection->resetColumns()
+               ->setValidationFilter($websiteId, $customerGroupId)
+               ->setBannersFilter(true);
+        return $adapter->fetchCol($collection->getSelect());
+    }
+
+    /**
+     * Get banners IDs that related to sales rule and satisfy conditions
+     *
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @return array
+     */
+    public function getCatalogRuleRelatedBannerIds($websiteId, $customerGroupId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $collection = Mage::getResourceModel('enterprise_banner/catalogrule_collection');
+        $collection->resetColumns()
+               ->setRuleValidationFilter($websiteId, $customerGroupId)
+               ->setBannersFilter(true);
+        return $adapter->fetchCol($collection->getSelect());
+    }
 }
