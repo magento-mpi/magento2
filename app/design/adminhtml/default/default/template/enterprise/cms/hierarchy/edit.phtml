@@ -150,7 +150,7 @@
             var urlPath = urlKeys.join('/');
             return {
                 path: urlPath,
-                url: '<?php echo Mage::getBaseUrl() ?>' + urlPath + '<?php echo $this->getCurrentStoreUrlParam() ?>'
+                url: '<?php echo $this->getStoreBaseUrl() ?>' + urlPath + '<?php echo $this->getCurrentStoreUrlParam() ?>'
             };
         },
 

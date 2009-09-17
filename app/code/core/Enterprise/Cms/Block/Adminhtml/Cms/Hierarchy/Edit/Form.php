@@ -369,10 +369,21 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getCurrentStoreUrlParam()
     {
-        if ($this->_currentStore) {
-            return '?___store=' . Mage::app()->getStore($this->_currentStore)->getCode();
-        }
-        return '';
+        /* @var $store Mage_Core_Model_Store */
+        $store = $this->_currentStore ? Mage::app()->getStore($this->_currentStore) : Mage::app()->getDefaultStoreView();
+        return '?___store=' . $store->getCode();
+    }
+
+    /**
+     * Return Base URL for current Store
+     *
+     * @return string
+     */
+    public function getStoreBaseUrl()
+    {
+        /* @var $store Mage_Core_Model_Store */
+        $store = $this->_currentStore ? Mage::app()->getStore($this->_currentStore) : Mage::app()->getDefaultStoreView();
+        return $store->getBaseUrl();
     }
 
     /**
