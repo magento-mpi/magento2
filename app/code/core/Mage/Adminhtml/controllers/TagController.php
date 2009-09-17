@@ -44,6 +44,11 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         return $this;
     }
 
+    /**
+     * Prepare tag model for manipulation
+     *
+     * @return Mage_Tag_Model_Tag
+     */
     protected function _initTag()
     {
         $id = $this->getRequest()->getParam('tag_id');
@@ -54,8 +59,14 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $model->setStoreId($storeId);
         }
         Mage::register('current_tag', $model);
+
+        return $model;
     }
 
+    /**
+     * Show grid action
+     *
+     */
     public function indexAction()
     {
         /**
@@ -76,6 +87,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             ->renderLayout();
     }
 
+    /**
+     * Action to draw grid loaded by ajax
+     *
+     */
     public function ajaxGridAction()
     {
         $this->loadLayout();
@@ -84,11 +99,19 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         );
     }
 
+    /**
+     * New tag action
+     *
+     */
     public function newAction()
     {
         $this->_forward('edit');
     }
 
+    /**
+     * Edit tag action
+     *
+     */
     public function editAction()
     {
         if (0 === (int)$this->getRequest()->getParam('store')) {
@@ -96,15 +119,14 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             return;
         }
 
-        $this->_initTag();
-        $model = Mage::registry('current_tag');
+        $model = $this->_initTag();
 
         $model->addSummary($this->getRequest()->getParam('store'));
 
         // set entered data if was error when we do save
         $data = Mage::getSingleton('adminhtml/session')->getTagData(true);
         if (! empty($data)) {
-            $model->setData($data);
+            $model->addData($data);
         }
 
         Mage::register('tag_tag', $model);
@@ -112,6 +134,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         $this->_initAction()->renderLayout();
     }
 
+    /**
+     * Save tag action
+     *
+     */
     public function saveAction()
     {
         if ($postData = $this->getRequest()->getPost()) {
@@ -124,8 +150,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $data['base_popularity']    = (isset($postData['base_popularity'])) ? $postData['base_popularity'] : 0;
             $data['store_id']           = $postData['store_id'];
 
-            $model = Mage::getModel('tag/tag');
-            $model->setData($data);
+            $model = $this->_initTag();
+            $model->addData($data);
 
             if (isset($postData['tag_assigned_products'])) {
                 $productIds = Mage::helper('adminhtml/js')->decodeInput($postData['tag_assigned_products']);
@@ -179,6 +205,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         $this->getResponse()->setRedirect($url);
     }
 
+    /**
+     * Delete tag action
+     *
+     */
     public function deleteAction()
     {
         if ($id = $this->getRequest()->getParam('tag_id')) {
@@ -206,8 +236,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             }
 
             try {
-                $model = Mage::getModel('tag/tag');
-                $model->setId($id);
+                $model = $this->_initTag();
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('adminhtml')->__('Tag was successfully deleted'));
                 $this->getResponse()->setRedirect($url);
@@ -282,6 +311,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         );
     }
 
+    /**
+     * Massaction for removing tags
+     *
+     */
     public function massDeleteAction()
     {
         $tagIds = $this->getRequest()->getParam('tag');
@@ -304,6 +337,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         $this->_redirect('*/*/'.$ret);
     }
 
+    /**
+     * Massaction for changing status of selected tags
+     *
+     */
     public function massStatusAction()
     {
         $tagIds = $this->getRequest()->getParam('tag');
@@ -330,6 +367,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         $this->_redirect('*/*/'.$ret);
     }
 
+    /**
+     * Check currently called action by permissions for current user
+     *
+     */
     protected function _isAllowed()
     {
         switch ($this->getRequest()->getActionName()) {
