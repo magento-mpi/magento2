@@ -75,16 +75,18 @@ hierarchyNodes = {
 
         this.tree.render();
         this.fixNodes(this.treeRoot);
+        this.tree.addListener('click', this.nodeClicked.bind(this));
         this.tree.addListener('check', this.nodeChecked.bind(this));
         this.tree.addListener('nodedragover', this.onDragOver.bind(this));
         this.tree.addListener('move', this.saveTreeData.bind(this));
         this.treeRoot.select();
+        this.treeRoot.getUI().removeClass('x-tree-selected');
         this.saveTreeData();
     },
     createNodes: function(){
         for (var i = 0, l = this.nodes.length; i < l; i++) {
             var dd = (this.nodes[i].parent_node_id && this.nodes[i].current_page) ? true : false;
-            var cls = this.nodes[i].current_page ? 'cur-page' : '';
+            var cls = this.nodes[i].current_page ? 'cms-current' : '';
             cls += this.nodes[i].page_id ? ' cms_page' : ' cms_node';
             var node = new Ext.tree.TreeNode({
                 id: this.nodes[i].node_id,
@@ -93,11 +95,11 @@ hierarchyNodes = {
                 expanded: this.nodes[i].page_exists,
                 allowDrop: true,
                 allowDrag: dd,
+                page_id: this.nodes[i].page_id,
                 uiProvider: this.nodes[i].current_page ? null : Ext.tree.CheckboxNodeUI,
                 checked: this.nodes[i].page_exists,
                 current_page: this.nodes[i].current_page
             });
-
             if (parentNode = this.tree.getNodeById(this.nodes[i].parent_node_id)) {
                 parentNode.appendChild(node);
             } else {
@@ -124,6 +126,12 @@ hierarchyNodes = {
             }
         }
     },
+    nodeClicked: function(node) {
+        node.getUI().removeClass('x-tree-selected');
+        if (node.attributes.uiProvider) {
+            node.getUI().check(!node.getUI().checked());
+        }
+    },
     nodeChecked: function(node) {
         var child = this.findCurrentPageChildNode(node);
         if(node.attributes.checked) {
@@ -148,7 +156,7 @@ hierarchyNodes = {
             current_page: true,
             allowDrop: false,
             allowDrag: true,
-            cls: 'cur-page cms_page'
+            cls: 'cms_page cms-current'
         });
         this.increment++;
         node.appendChild(newNode);
@@ -189,6 +197,7 @@ hierarchyNodes = {
         } else {
             this.treeData.set(node.id, {
                 node_id: node.id,
+                page_id: node.attributes.page_id,
                 parent_node_id: node.parentNode.id == '_root' ? null : node.parentNode.id,
                 label: node.attributes.text,
                 sort_order: node.parentNode.indexOf(node),
