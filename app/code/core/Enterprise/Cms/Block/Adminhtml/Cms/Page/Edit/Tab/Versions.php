@@ -42,11 +42,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
      */
     protected $_usersHash = null;
 
-    public function __construct()
+    public function _construct()
     {
-        parent::__construct();
+        parent::_construct();
         $this->setUseAjax(true);
-        $this->setId('versionGrid');
+        $this->setId('versions');
         $this->setSaveParametersInSession(true);
     }
 
