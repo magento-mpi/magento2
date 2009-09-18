@@ -613,7 +613,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
                 if (!empty($option['delete'][$optionId])) {
                     if ($intOptionId) {
                         $condition = $this->_conn->quoteInto('option_id=?', $intOptionId);
-                        $write->delete($optionTable, $condition);
+                        $this->delete($optionTable, $condition);
                     }
                     continue;
                 }
