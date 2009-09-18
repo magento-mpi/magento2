@@ -33,12 +33,59 @@
  */
 class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4_Abstract
 {
+    protected $_handlesToCleanCache = array();
+
     /**
      * Constructor
      */
     protected function _construct()
     {
         $this->_init('enterprise_cms/widget_instance', 'instance_id');
+    }
+
+    /**
+     * Reset handles to clean in cache
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
+     */
+    public function resetHandlesToCleanCache()
+    {
+        $this->_handlesToCleanCache = array();
+        return $this;
+    }
+
+    /**
+     * Setter
+     *
+     * @param array $handles
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
+     */
+    public function setHandlesToCleanCache($handles)
+    {
+        $this->_handlesToCleanCache = $handles;
+        return $this;
+    }
+
+    /**
+     * Add handle to clean in cache
+     *
+     * @param string $handle
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
+     */
+    public function addHandleToCleanCache($handle)
+    {
+        $this->_handlesToCleanCache[] = $handle;
+        return $this;
+    }
+
+    /**
+     * Getter
+     *
+     * @return array
+     */
+    public function getHandlesToCleanCache()
+    {
+        return $this->_handlesToCleanCache;
     }
 
     /**
@@ -64,33 +111,35 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
+        $this->resetHandlesToCleanCache();
+
         $pageTable = $this->getTable('enterprise_cms/widget_instance_page');
         $pageLayoutTable = $this->getTable('enterprise_cms/widget_instance_page_layout');
         $layoutUpdateTable = $this->getTable('core/layout_update');
         $layoutLinkTable = $this->getTable('core/layout_link');
         $write = $this->_getWriteAdapter();
-        $pageIds = array();
-        $removePageIds = array();
-        $removeLayoutUpdateIds = array();
+
         $select = $write->select()
             ->from($pageTable, array('page_id'))
             ->where('instance_id = ?', $object->getId());
-        foreach ($write->fetchAll($select) as $row) {
-            if (!in_array($row['page_id'], $object->getData('page_group_ids'))) {
-                $removePageIds[] = $row['page_id'];
-            }
-            $pageIds[] = $row['page_id'];
-        }
+        $pageIds = $write->fetchCol($select);
+
+        $removePageIds = array_diff($pageIds, $object->getData('page_group_ids'));
+
         $select = $write->select()
             ->from($pageLayoutTable, array('layout_update_id'))
             ->where('page_id in (?)', $pageIds);
-        foreach ($write->fetchAll($select) as $row) {
-            $removeLayoutUpdateIds[] = $row['layout_update_id'];
-        }
-        $write->delete($pageTable, $write->quoteInto('page_id in (?)', $removePageIds));
+        $removeLayoutUpdateIds = $write->fetchCol($select);
+
+        $select = $write->select()
+            ->from($layoutUpdateTable, array('handle'))
+            ->where('layout_update_id in (?)', $removeLayoutUpdateIds);
+        $this->setHandlesToCleanCache($write->fetchCol($select));
+
+        $this->_deleteWidgetInstancePages($removePageIds);
         $write->delete($pageLayoutTable, $write->quoteInto('page_id in (?)', $pageIds));
-        $write->delete($layoutUpdateTable, $write->quoteInto('layout_update_id in (?)', $removeLayoutUpdateIds));
-        $write->delete($layoutLinkTable, $write->quoteInto('layout_update_id in (?)', $removeLayoutUpdateIds));
+        $this->_deleteLayoutUpdates($removeLayoutUpdateIds);
+
         foreach ($object->getData('page_groups') as $pageGroup) {
             $pageLayoutUpdateIds = $this->_saveLayoutUpdates($object, $pageGroup);
             $data = array(
@@ -118,6 +167,9 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
                 ));
             }
         }
+
+        $this->_cleanLayoutCache();
+
         return parent::_afterSave($object);
     }
 
@@ -131,17 +183,9 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
     protected function _saveLayoutUpdates($widgetInstance, $pageGroupData)
     {
         $write = $this->_getWriteAdapter();
-        $layoutHandle = array();
-        if ($pageGroupData['for'] == Enterprise_Cms_Model_Widget_Instance::SPECIFIC_ENTITIES) {
-            foreach (explode(',', $pageGroupData['entities']) as $entity) {
-                $layoutHandle[] = str_replace('{{ID}}', $entity, $pageGroupData['specific_layout_handle']);
-            }
-        } else {
-            $layoutHandle = array($pageGroupData['layout_handle']);
-        }
         $pageLayoutUpdateIds = array();
         $storeIds = $this->_prepareStoreIds($widgetInstance->getStoreIds());
-        foreach ($layoutHandle as $handle) {
+        foreach ($pageGroupData['layout_handle_updates'] as $handle) {
             $this->_getWriteAdapter()->insert(
                 $this->getTable('core/layout_update'), array(
                     'handle' => $handle,
@@ -153,6 +197,7 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
                         $pageGroupData['position'])
             ));
             $layoutUpdateId = $this->_getWriteAdapter()->lastInsertId();
+            $this->addHandleToCleanCache($handle);
             $pageLayoutUpdateIds[] = $layoutUpdateId;
             foreach ($storeIds as $storeId) {
                 $this->_getWriteAdapter()->insert(
@@ -203,35 +248,77 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
     }
 
     /**
-     * Perform actions after object delete
+     * Perform actions before object delete.
+     * Collect page ids and layout update ids and set to object for further delete
+     *
+     * @param Varien_Object $object
+     */
+    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
+    {
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getTable('enterprise_cms/widget_instance_page'), array('page_id'))
+            ->where('instance_id = ?', $object->getId());
+        $object->setPageIdsToDelete($this->_getWriteAdapter()->fetchCol($select));
+        $select = $this->_getWriteAdapter()->select()
+            ->from($this->getTable('enterprise_cms/widget_instance_page_layout'), array('layout_update_id'))
+            ->where('page_id in (?)', $object->getPageIdsToDelete());
+        $object->setLayoutUpdateIdsToDelete($this->_getWriteAdapter()->fetchCol($select));
+        return $this;
+    }
+
+    /**
+     * Perform actions after object delete.
+     * Delete layout updates by layout update ids collected in _beforeSave
+     * and clean cache
      *
      * @param Enterprise_Cms_Model_Widget_Instance $object
      * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
      */
     protected function _afterDelete(Mage_Core_Model_Abstract $object)
     {
-        $pageIds = array();
+        $this->resetHandlesToCleanCache();
+
+        $this->_deleteWidgetInstancePages($object->getPageIdsToDelete());
+
         $select = $this->_getWriteAdapter()->select()
-            ->from($this->getTable('enterprise_cms/widget_instance_page'))
-            ->where('instance_id = ?', $object->getId());
-        foreach ($this->_getWriteAdapter()->fetchAll($select) as $row) {
-            $pageIds[] = $row['page_id'];
-        }
-        $layoutUpdateIds = array();
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->getTable('enterprise_cms/widget_instance_page_layout'))
-            ->where('page_id in (?)', $pageIds);
-        foreach ($this->_getWriteAdapter()->fetchAll($select) as $row) {
-            $layoutUpdateIds[] = $row['layout_update_id'];
-        }
+            ->from($this->getTable('core/layout_update'), array('handle'))
+            ->where('layout_update_id in (?)', $object->getLayoutUpdateIdsToDelete());
+        $this->setHandlesToCleanCache($this->_getWriteAdapter()->fetchCol($select));
+
+        $this->_deleteLayoutUpdates($object->getLayoutUpdateIdsToDelete());
+
+        $this->_cleanLayoutCache();
+
+        return parent::_afterDelete($object);
+    }
+
+    /**
+     * Delete pages by given ids
+     *
+     * @param array $pageIds
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
+     */
+    protected function _deleteWidgetInstancePages($pageIds)
+    {
         $this->_getWriteAdapter()->delete(
             $this->getTable('enterprise_cms/widget_instance_page'),
-            $this->_getWriteAdapter()->quoteInto('instance_id = ?', $object->getId())
+            $this->_getWriteAdapter()->quoteInto('instance_id = ?', $pageIds)
         );
         $this->_getWriteAdapter()->delete(
             $this->getTable('enterprise_cms/widget_instance_page_layout'),
             $this->_getWriteAdapter()->quoteInto('page_id in (?)', $pageIds)
         );
+        return $this;
+    }
+
+    /**
+     * Delete layout updates by given ids
+     *
+     * @param array $layoutUpdateIds
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
+     */
+    protected function _deleteLayoutUpdates($layoutUpdateIds)
+    {
         $this->_getWriteAdapter()->delete(
             $this->getTable('core/layout_update'),
             $this->_getWriteAdapter()->quoteInto('layout_update_id in (?)', $layoutUpdateIds)
@@ -240,6 +327,20 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
             $this->getTable('core/layout_link'),
             $this->_getWriteAdapter()->quoteInto('layout_update_id in (?)', $layoutUpdateIds)
         );
-        return parent::_afterDelete($object);
+        return $this;
+    }
+
+    /**
+     * Clean cache by handles
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
+     */
+    protected function _cleanLayoutCache()
+    {
+        $handles = $this->getHandlesToCleanCache();
+        if (!empty($handles) && Mage::app()->useCache('layout')) {
+            Mage::app()->cleanCache($handles);
+        }
+        return $this;
     }
 }

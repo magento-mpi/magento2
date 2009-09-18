@@ -89,13 +89,17 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
                         'for' => $pageGroupData['for'],
                         'block_reference' => $pageGroupData['block'],
                         'entities' => '',
+                        'layout_handle_updates' => array($layoutHandle),
                         'position' => $pageGroupData['position']
                     );
                     if ($pageGroupData['for'] == self::SPECIFIC_ENTITIES) {
-                        $tmpPageGroup = array_merge($tmpPageGroup, array(
-                            'entities' => $pageGroupData['entities'],
-                            'specific_layout_handle' => $this->_specificEntitiesLayouHandles[$pageGroup['page_group']]
-                        ));
+                        $layoutHandleUpdates = array();
+                        foreach (explode(',', $pageGroupData['entities']) as $entity) {
+                            $layoutHandleUpdates[] = str_replace('{{ID}}', $entity,
+                                $this->_specificEntitiesLayouHandles[$pageGroup['page_group']]);
+                        }
+                        $tmpPageGroup['entities'] = $pageGroupData['entities'];
+                        $tmpPageGroup['layout_handle_updates'] = $layoutHandleUpdates;
                     }
                     $tmpPageGroups[] = $tmpPageGroup;
                 }
