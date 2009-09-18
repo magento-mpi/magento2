@@ -42,6 +42,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance extends Mage_Adminhtml_
         $this->_controller = 'adminhtml_cms_widget_instance';
         $this->_headerText = Mage::helper('enterprise_cms')->__('Manage Widget Instances');
         parent::__construct();
-        $this->_updateButton('add', 'label', Mage::helper('enterprise_cms')->__('Add New Widget'));
+        $this->_updateButton('add', 'label', Mage::helper('enterprise_cms')->__('Add New Widget Instance'));
     }
 }
