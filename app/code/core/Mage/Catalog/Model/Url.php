@@ -282,9 +282,17 @@ class Mage_Catalog_Model_Url
         $originalRewrites = $this->_rewrites;
         $process = true;
         $lastEntityId = 0;
+        $firstIteration = true;
         while ($process == true) {
             $products = $this->getResource()->getProductsByCategory($category, $lastEntityId);
             if (!$products) {
+                if ($firstIteration) {
+                    $this->getResource()->deleteCategoryProductStoreRewrites(
+                        $category->getId(),
+                        array(),
+                        $category->getStoreId()
+                    );
+                }
                 $process = false;
                 break;
             }
@@ -294,6 +302,7 @@ class Mage_Catalog_Model_Url
             foreach ($products as $product) {
                 $this->_refreshProductRewrite($product, $category);
             }
+            $firstIteration = false;
             unset($products);
         }
         $this->_rewrites = $originalRewrites;

@@ -904,13 +904,33 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Url extends Mage_Core_Model_Mysql4_
      */
     public function deleteCategoryProductRewrites($categoryId, $productIds)
     {
-        $condition = $this->_getWriteAdapter()->quoteInto('category_id=?', $categoryId);
-        $condition = $this->_getWriteAdapter()->quoteInto(
-            $condition.' AND product_id IN (?)',
-            $productIds
-        );
+        $this->deleteCatagoryProductStoreRewrites($categoryId, $productIds);
+        return $this;
+    }
+
+    /**
+     * Delete URL rewrites for category products of specific store \
+     *
+     * @param int $categoryId
+     * @param array|int|null $productIds
+     * @param null|int $storeId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Url
+     */
+    public function deleteCategoryProductStoreRewrites($categoryId, $productIds=null, $storeId=null)
+    {
+        $adapter = $this->_getWriteAdapter();
+        $condition = $adapter->quoteInto('category_id=?', $categoryId);
+        if (empty($productIds)) {
+            $condition.= ' AND product_id IS NOT NULL';
+        } else {
+            $condition.= $adapter->quoteInto(' AND product_id IN (?)', $productIds);
+        }
+        if ($storeId !== null) {
+            $condition.= $adapter->quoteInto(' AND store_id IN(?)', $storeId);
+        }
         $this->_getWriteAdapter()->delete($this->getMainTable(), $condition);
         return $this;
+
     }
 
     /**
