@@ -256,12 +256,13 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
     protected function _beforeDelete(Mage_Core_Model_Abstract $object)
     {
         $select = $this->_getWriteAdapter()->select()
-            ->from($this->getTable('enterprise_cms/widget_instance_page'), array('page_id'))
-            ->where('instance_id = ?', $object->getId());
-        $object->setPageIdsToDelete($this->_getWriteAdapter()->fetchCol($select));
-        $select = $this->_getWriteAdapter()->select()
-            ->from($this->getTable('enterprise_cms/widget_instance_page_layout'), array('layout_update_id'))
-            ->where('page_id in (?)', $object->getPageIdsToDelete());
+            ->from(array('main_table' => $this->getTable('enterprise_cms/widget_instance_page')), array())
+            ->joinInner(
+                array('layout_page_table' => $this->getTable('enterprise_cms/widget_instance_page_layout')),
+                'layout_page_table.page_id = main_table.page_id',
+                array('layout_page_table.layout_update_id')
+            )
+            ->where('main_table.instance_id = ?', $object->getId());
         $object->setLayoutUpdateIdsToDelete($this->_getWriteAdapter()->fetchCol($select));
         return $this;
     }
@@ -278,8 +279,6 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
     {
         $this->resetHandlesToCleanCache();
 
-        $this->_deleteWidgetInstancePages($object->getPageIdsToDelete());
-
         $select = $this->_getWriteAdapter()->select()
             ->from($this->getTable('core/layout_update'), array('handle'))
             ->where('layout_update_id in (?)', $object->getLayoutUpdateIdsToDelete());
@@ -293,7 +292,7 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
     }
 
     /**
-     * Delete pages by given ids
+     * Delete widget instance pages by given ids
      *
      * @param array $pageIds
      * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
@@ -302,7 +301,7 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
     {
         $this->_getWriteAdapter()->delete(
             $this->getTable('enterprise_cms/widget_instance_page'),
-            $this->_getWriteAdapter()->quoteInto('instance_id = ?', $pageIds)
+            $this->_getWriteAdapter()->quoteInto('page_id in (?)', $pageIds)
         );
         $this->_getWriteAdapter()->delete(
             $this->getTable('enterprise_cms/widget_instance_page_layout'),
