@@ -982,4 +982,28 @@
             </adminhtml_tax_rate_delete>
         </actions>
     </tax_rates>
+
+    <google_sitemap translate="label">
+        <label>Google Sitemap</label>
+        <expected_models>
+            <sitemap__sitemap/>
+        </expected_models>
+        <actions>
+            <adminhtml_sitemap_edit>
+                <action>view</action>
+            </adminhtml_sitemap_edit>
+
+            <adminhtml_sitemap_save>
+                <action>save</action>
+            </adminhtml_sitemap_save>
+
+            <adminhtml_sitemap_delete>
+                <action>delete</action>
+            </adminhtml_sitemap_delete>
+
+            <adminhtml_sitemap_generate>
+                <action>save</action>
+            </adminhtml_sitemap_generate>
+        </actions>
+    </google_sitemap>
 </logging>
