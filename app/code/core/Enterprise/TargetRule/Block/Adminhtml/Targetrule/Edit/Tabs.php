@@ -54,11 +54,11 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tabs extends Mage_Ad
             'content'   => $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit_tab_conditions')->toHtml(),
         ));
 
-//        $this->addTab('actions_section', array(
-//            'label'     => Mage::helper('enterprise_targetrule')->__('Actions'),
-//            'title'     => Mage::helper('enterprise_targetrule')->__('Actions'),
-//            'content'   => $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_promo_edit_tab_actions')->toHtml(),
-//        ));
+        $this->addTab('targeted_products', array(
+            'label'     => Mage::helper('enterprise_targetrule')->__('Targeted Products'),
+            'title'     => Mage::helper('enterprise_targetrule')->__('Targeted Products'),
+            'content'   => $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit_tab_actions')->toHtml(),
+        ));
 
         return parent::_beforeToHtml();
     }

@@ -55,6 +55,34 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     }
 
     /**
+     * Return conditions instance
+     *
+     * @return Enterprise_TargetRule_Model_Rule_Condition_Combine
+     */
+    public function getActionsInstance()
+    {
+        return Mage::getModel('enterprise_targetrule/actions_condition_combine');
+    }
+
+    /**
+     * Initialize rule model data from array
+     *
+     * @param   array $rule
+     * @return  Enterprise_TargetRule_Model_Rule
+     */
+    public function loadPost(array $rule)
+    {
+        $arr = $this->_convertFlatToRecursive($rule);
+        if (isset($arr['conditions'])) {
+            $this->getConditions()->setConditions(array())->loadArray($arr['conditions'][1]);
+        }
+        if (isset($arr['actions'])) {
+            $this->getActions()->setActions(array())->loadArray($arr['actions'][1], 'actions');
+        }
+        return $this;
+    }
+
+    /**
      * Get options for `Apply to` field
      *
      * @return array

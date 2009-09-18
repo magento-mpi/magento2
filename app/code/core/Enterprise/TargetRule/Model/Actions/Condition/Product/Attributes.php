@@ -25,40 +25,14 @@
  */
 
 
-class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
-    extends Mage_CatalogRule_Model_Rule_Condition_Product
+class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
+    extends Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
 {
-    /**
-     * Attribute property that defines whether to use it for target rules
-     *
-     * @var string
-     */
-    protected $_isUsedForRuleProperty = 'is_used_for_target_rules';
-
-    /**
-     * Set condition type and value
-     *
-     */
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/rule_condition_product_attributes');
-        $this->setValue(null);
-    }
-
-    /**
-     * Prepare child rules option list
-     *
-     * @return array
-     */
-    public function getNewChildSelectOptions()
-    {
-        $attributes = $this->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
-        foreach ($attributes as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
-        }
-
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_targetrule')->__('Product Attributes'));
+        $this->setType('enterprise_targetrule/actions_condition_product_attributes');
+        $this->setValue('same');
     }
 }
+

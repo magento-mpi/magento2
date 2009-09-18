@@ -24,41 +24,25 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
-    extends Mage_CatalogRule_Model_Rule_Condition_Product
+class Enterprise_TargetRule_Model_Products extends Mage_Rule_Model_Rule
 {
-    /**
-     * Attribute property that defines whether to use it for target rules
-     *
-     * @var string
-     */
-    protected $_isUsedForRuleProperty = 'is_used_for_target_rules';
 
     /**
-     * Set condition type and value
-     *
+     * Init resource model
      */
     public function __construct()
     {
-        parent::__construct();
-        $this->setType('enterprise_targetrule/rule_condition_product_attributes');
-        $this->setValue(null);
+        $this->_init('enterprise_targetrule/rule');
     }
 
     /**
-     * Prepare child rules option list
+     * Return conditions instance
      *
-     * @return array
+     * @return Enterprise_TargetRule_Model_Rule_Condition_Combine
      */
-    public function getNewChildSelectOptions()
+    public function getConditionsInstance()
     {
-        $attributes = $this->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
-        foreach ($attributes as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
-        }
-
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_targetrule')->__('Product Attributes'));
+        Mage::log(__CLASS__.':'.__FUNCTION__);
+        return Mage::getModel('enterprise_targetrule/products_condition_combine');
     }
 }

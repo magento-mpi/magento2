@@ -109,27 +109,12 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     public function newConditionHtmlAction()
     {
-        $id = $this->getRequest()->getParam('id');
-        $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
-        $type = $typeArr[0];
+        $this->conditionsHtmlAction('conditions');
+    }
 
-        $model = Mage::getModel($type)
-            ->setId($id)
-            ->setType($type)
-            ->setRule(Mage::getModel('enterprise_targetrule/rule'))
-            ->setPrefix('conditions');
-
-        if (!empty($typeArr[1])) {
-            $model->setAttribute($typeArr[1]);
-        }
-
-        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
-            $model->setJsFormObject($this->getRequest()->getParam('form'));
-            $html = $model->asHtmlRecursive();
-        } else {
-            $html = '';
-        }
-        $this->getResponse()->setBody($html);
+    public function newActionsHtmlAction()
+    {
+        $this->conditionsHtmlAction('actions');
     }
 
     /**
@@ -144,10 +129,11 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 if ($id = $this->getRequest()->getParam('rule_id')) {
                     $model->load($id);
                     if ($id != $model->getId()) {
-                        Mage::throwException(Mage::helper('enterprise_targetrule')->__('Wrong segment specified.'));
+                        Mage::throwException(Mage::helper('enterprise_targetrule')->__('Wrong rule specified.'));
                     }
                 }
                 $data['conditions'] = $data['rule']['conditions'];
+                $data['actions'] = $data['rule']['actions'];
                 unset($data['rule']);
 
                 $model->loadPost($data);
@@ -200,5 +186,34 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
         Mage::getSingleton('adminhtml/session')
             ->addError(Mage::helper('enterprise_targetrule')->__('Unable to find a page to delete'));
         $this->_redirect('*/*/');
+    }
+
+    /**
+     * Generate elements for condition forms
+     *
+     * @param string $prefix Form prefix
+     */
+    protected function conditionsHtmlAction($prefix)
+    {
+        $id = $this->getRequest()->getParam('id');
+        $typeArr = explode('|', str_replace('-', '/', $this->getRequest()->getParam('type')));
+        $type = $typeArr[0];
+
+        $model = Mage::getModel($type)
+            ->setId($id)
+            ->setType($type)
+            ->setRule(Mage::getModel('enterprise_targetrule/rule'))
+            ->setPrefix($prefix);
+        if (!empty($typeArr[1])) {
+            $model->setAttribute($typeArr[1]);
+        }
+
+        if ($model instanceof Mage_Rule_Model_Condition_Abstract) {
+            $model->setJsFormObject($this->getRequest()->getParam('form'));
+            $html = $model->asHtmlRecursive();
+        } else {
+            $html = '';
+        }
+        $this->getResponse()->setBody($html);
     }
 }

@@ -25,16 +25,9 @@
  */
 
 
-class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
+class Enterprise_TargetRule_Model_Actions_Condition_Product_Special
     extends Mage_CatalogRule_Model_Rule_Condition_Product
 {
-    /**
-     * Attribute property that defines whether to use it for target rules
-     *
-     * @var string
-     */
-    protected $_isUsedForRuleProperty = 'is_used_for_target_rules';
-
     /**
      * Set condition type and value
      *
@@ -42,23 +35,27 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/rule_condition_product_attributes');
+        $this->setType('enterprise_targetrule/actions_condition_product_special');
         $this->setValue(null);
     }
 
     /**
-     * Prepare child rules option list
+     * Prepare
      *
      * @return array
      */
     public function getNewChildSelectOptions()
     {
-        $attributes = $this->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
-        foreach ($attributes as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
-        }
-
+        $conditions = array(
+            array('value'=>'enterprise_targetrule/actions_condition_product_special_price',
+                'label'=>Mage::helper('enterprise_targetrule')->__('Price (percentage)')),
+            array('value'=>'enterprise_targetrule/actions_condition_product_special_category',
+                'label'=>Mage::helper('enterprise_targetrule')->__('Category')),
+            array('value'=>'enterprise_targetrule/actions_condition_product_special_type',
+                'label'=>Mage::helper('enterprise_targetrule')->__('Type')),
+            array('value'=>'enterprise_targetrule/actions_condition_product_special_attributes',
+                'label'=>Mage::helper('enterprise_targetrule')->__('Attribute Set')),
+        );
         return array('value' => $conditions, 'label'=>Mage::helper('enterprise_targetrule')->__('Product Attributes'));
     }
 }

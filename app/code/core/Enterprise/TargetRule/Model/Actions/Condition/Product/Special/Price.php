@@ -25,40 +25,46 @@
  */
 
 
-class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
-    extends Mage_CatalogRule_Model_Rule_Condition_Product
+class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
+    extends Enterprise_TargetRule_Model_Actions_Condition_Product_Special
 {
-    /**
-     * Attribute property that defines whether to use it for target rules
-     *
-     * @var string
-     */
-    protected $_isUsedForRuleProperty = 'is_used_for_target_rules';
 
     /**
-     * Set condition type and value
+     * Set rule type
      *
      */
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_targetrule/rule_condition_product_attributes');
+        $this->setType('enterprise_targetrule/actions_condition_product_special_price');
         $this->setValue(null);
     }
 
     /**
-     * Prepare child rules option list
+     * Set operator options
      *
-     * @return array
+     * @return Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
      */
-    public function getNewChildSelectOptions()
+    public function loadOperatorOptions()
     {
-        $attributes = $this->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
-        foreach ($attributes as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
-        }
+        parent::loadOperatorOptions();
+        $this->setOperatorOption(array(
+            '>'  => Mage::helper('enterprise_targetrule')->__('more'),
+            '<'  => Mage::helper('enterprise_targetrule')->__('less')
+        ));
+        return $this;
+    }
 
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_targetrule')->__('Product Attributes'));
+    /**
+     * Retrieve rule as HTML formated string
+     *
+     * @return string
+     */
+    public function asHtml()
+    {
+        return $this->getTypeElementHtml()
+            . Mage::helper('enterprise_targetrule')->__('Product Price %s%% %s price of matched product',
+                $this->getValueElementHtml(), $this->getOperatorElementHtml())
+            . $this->getRemoveLinkHtml();
     }
 }
