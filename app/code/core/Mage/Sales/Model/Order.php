@@ -571,7 +571,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         Mage::dispatchEvent('sales_order_place_before', array('order'=>$this));
         $this->setState(self::STATE_NEW, true)->save();
         try {
-            $this->_placePayment(); 
+            $this->_placePayment();
         } catch (Mage_Core_Exception $e){
             $message = $e->getMessage();
             Mage::logException($e);
@@ -1442,6 +1442,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
                 }
             }
         }
+
+        $this->setData('protect_code', substr(md5(uniqid(mt_rand(), true) . ':' . microtime(true)), 5, 6));
 
         return $this;
     }
