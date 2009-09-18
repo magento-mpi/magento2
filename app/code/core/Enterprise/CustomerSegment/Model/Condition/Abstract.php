@@ -26,6 +26,15 @@
 
 class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Model_Condition_Abstract
 {
+    /**
+     * Remove "in" and "not in" for numeric operator options
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
+    }
+
     protected function _getTable($name)
     {
         return Mage::getResourceSingleton('enterprise_customersegment/segment')->getTable($name);
