@@ -178,6 +178,10 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         return;
     }
 
+    /**
+     * Categories chooser Action (Ajax request)
+     *
+     */
     public function categoriesAction()
     {
         $selected = $this->getRequest()->getParam('selected', '');
@@ -191,6 +195,10 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         $this->getResponse()->setBody($chooser->toHtml());
     }
 
+    /**
+     * Products chooser Action (Ajax request)
+     *
+     */
     public function productsAction()
     {
         $selected = $this->getRequest()->getParam('selected', '');
