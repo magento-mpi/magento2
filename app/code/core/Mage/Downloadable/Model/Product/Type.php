@@ -372,6 +372,13 @@ class Mage_Downloadable_Model_Product_Type extends Mage_Catalog_Model_Product_Ty
                 }
             }
         }
+
+        /*
+         * After "Downloadable Information" tab was made non-ajax we should
+         * set this flag "true" to force saving of 'required_options' attribute
+         */
+        $this->getProduct($product)->setCanSaveCustomOptions(true);
+
         $this->getProduct($product)->setLinksExist($linksExist);
     }
 
