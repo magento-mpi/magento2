@@ -91,8 +91,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
             $this->_getWriteAdapter()->quoteInto('product_id=?', $productId)
         );
 
-        $this->_refreshDirectRelations($categoryIds, $productId);
         $this->_refreshAnchorRelations($allCategoryIds, $productId);
+        $this->_refreshDirectRelations($categoryIds, $productId);
         return $this;
     }
 
@@ -129,9 +129,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
             $this->getMainTable(),
             $this->_getWriteAdapter()->quoteInto('category_id IN(?)', $allCategoryIds)
         );
+
         $allCategoryIds = array_diff($allCategoryIds, $categoryIds);
-        $this->_refreshDirectRelations($categoryIds);
+
         $this->_refreshAnchorRelations($allCategoryIds);
+        $this->_refreshDirectRelations($categoryIds);
     }
 
     /**
@@ -151,7 +153,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
          * product_ids (enabled filter) X category_ids X store_ids
          * Validate store root category
          */
-        $isParent = new Zend_Db_Expr('1');
+        $isParent = new Zend_Db_Expr('1 AS is_parent');
         $select = $this->_getWriteAdapter()->select()
             ->from(array('cp' => $this->_categoryProductTable),
                 array('category_id', 'product_id', 'position', $isParent))
@@ -186,7 +188,11 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         if ($productIds) {
             $select->where('cp.product_id IN(?)', $productIds);
         }
-        $sql = $select->insertFromSelect($this->getMainTable());
+        $sql = $select->insertFromSelect(
+            $this->getMainTable(),
+            array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
+            true
+        );
         $this->_getWriteAdapter()->query($sql);
         return $this;
     }
@@ -209,9 +215,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
          */
         $isParent = new Zend_Db_Expr('0');
         $position = new Zend_Db_Expr('0');
-        $select = $this->_getReadAdapter()->select( )
+        $select = $this->_getReadAdapter()->select()
+            ->distinct(true)
             ->from(array('ce' => $this->_categoryTable), array('entity_id'))
-            ->joinInner(array('pw'  => $this->_productWebsiteTable), '', array('product_id', $position, $isParent))
+            ->joinInner(array('cc'   => $this->_categoryTable), 'cc.path LIKE CONCAT(ce.path, \'/%\')', array())
+            ->joinInner(array('cp'   => $this->_categoryProductTable), 'cp.category_id=cc.entity_id', array())
+            ->joinInner(
+                array('pw'  => $this->_productWebsiteTable),
+                'pw.product_id=cp.product_id',
+                array('product_id', $position, $isParent)
+            )
             ->joinInner(array('g'   => $this->_groupTable), 'g.website_id=pw.website_id', array())
             ->joinInner(array('s'   => $this->_storeTable), 's.group_id=g.group_id', array('store_id'))
             ->joinInner(array('rc'  => $this->_categoryTable), 'rc.entity_id=g.root_category_id', array())
@@ -253,6 +266,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         }
 
         $sql = $select->insertFromSelect($this->getMainTable());
+        Mage::log($sql);
         $this->_getWriteAdapter()->query($sql);
         return $this;
     }
