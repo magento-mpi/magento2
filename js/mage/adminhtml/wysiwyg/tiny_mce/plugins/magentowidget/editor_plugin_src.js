@@ -43,7 +43,8 @@ tinyMCE.addI18n({en:{
                     file : ed.settings.magentowidget_url,
                     width : 1024,
                     height : 800,
-                    inline : 1
+                    popup_css : ed.settings.custom_popup_css,
+                    scrollbars : 'yes'
                 }, {
                     plugin_url : url
                 });

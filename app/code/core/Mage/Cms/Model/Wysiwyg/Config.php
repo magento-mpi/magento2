@@ -78,6 +78,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'widget_images_url'             => Mage::getSingleton('cms/widget')->getPlaceholderImagesBaseUrl(),
             'widget_placeholders'           => $this->getAvailablePlaceholderFilenames(),
             'popup_css'                     => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css',
+            'content_css'                   => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css',
         ));
 
         $config->setData('directives_url_quoted', preg_quote($config->getData('directives_url')));
