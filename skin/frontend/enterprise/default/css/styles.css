@@ -868,7 +868,8 @@ dd.even { background:#f6f6f6; }*/
 .category-view { margin:0 -20px -20px; }
 .category-title { margin-bottom:0; padding:23px 20px 11px; background:#f6f6f6 url(../images/bkg_page-title.gif) repeat-x 0 0; border:1px solid #cfcfcf; border-bottom:0; text-align:left; }
 .category-title h2 { font:normal 22px/27px Arial, Helvetica, sans-serif; color:#d12c01; }
-.category-title .rss-feed { float:right; margin:2px 0 0; width:12px; height:12px; font-size:0; line-height:0; background:url(../images/icon_rss.gif) 0 0 no-repeat; text-indent:-999em; }
+.category-title .rss-feed { float:right; margin:7px 0 0; padding-left:17px; line-height:12px; background:url(../images/icon_rss.gif) 0 0 no-repeat; white-space:nowrap; text-decoration:none; }
+.category-title .rss-feed:hover { text-decoration:underline; }
 .category-view .note-msg,
 .category-description { padding:20px; }
 
