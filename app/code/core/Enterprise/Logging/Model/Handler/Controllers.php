@@ -310,30 +310,6 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
-     * Handler for cms hierarchy view
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
-     */
-    public function postDispatchCmsHierachyView($config, $eventModel)
-    {
-        return $eventModel->setInfo(Mage::helper('enterprise_cms')->__('Tree Viewed'));
-    }
-
-    /**
-     * Handler for cms revision preview
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event|false
-     */
-    public function postDispatchCmsRevisionPreview($config, $eventModel)
-    {
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('revision_id'));
-    }
-
-    /**
      * Custom handler for catalog product mass attribute update
      *
      * @param Varien_Simplexml_Element $config
