@@ -316,6 +316,14 @@ WysiwygWidget.chooser.prototype = {
         );
     },
 
+    getElementValue: function(value) {
+        return this.getElement().value;
+    },
+
+    getElementLabel: function(value) {
+        return this.getElementLabel().innerHTML;
+    },
+
     setElementValue: function(value) {
         this.getElement().value = value;
     },
