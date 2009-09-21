@@ -200,6 +200,25 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
+     * Custom handler for catalog price rules save & apply
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchPromoCatalogSaveAndApply($config, $eventModel)
+    {
+        $request = Mage::app()->getRequest();
+        if ($request->getParam('auto_apply')) {
+            $eventModel->setInfo($request->getParam('rule_id')
+                                        . ' ' . Mage::helper('enterprise_logging')->__('& applied'));
+        } else {
+            $eventModel->setInfo($request->getParam('rule_id'));
+        }
+        return $eventModel;
+    }
+
+    /**
      * Special handler for myaccount action
      *
      * @param Varien_Simplexml_Element $config
@@ -312,5 +331,43 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchCmsRevisionPreview($config, $eventModel)
     {
         return $eventModel->setInfo(Mage::app()->getRequest()->getParam('revision_id'));
+    }
+
+    /**
+     * Custom handler for catalog product mass attribute update
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchProductUpdateAttributes($config, $eventModel, $processor)
+    {
+        $request = Mage::app()->getRequest();
+        $change = Mage::getModel('enterprise_logging/event_changes');
+
+        $products = Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds();
+        $processor->addEventChange(clone $change->setModelName('product')
+                ->setOriginalData(false)
+                ->setResultData(array('ids' => implode(', ', $products))));
+
+        $processor->addEventChange(clone $change->setModelName('inventory')
+                ->setOriginalData(false)
+                ->setResultData($request->getParam('inventory', array())));
+
+        $processor->addEventChange(clone $change->setModelName('attributes')
+                ->setOriginalData(false)
+                ->setResultData($request->getParam('attributes', array())));
+
+        $websiteIds = $request->getParam('remove_website', array());
+        $processor->addEventChange(clone $change->setModelName('remove_website_ids')
+                ->setOriginalData(false)
+                ->setResultData(array('ids' => implode(', ', $websiteIds))));
+
+        $websiteIds = $request->getParam('add_website', array());
+        $processor->addEventChange(clone $change->setModelName('add_website_ids')
+                ->setOriginalData(false)
+                ->setResultData(array('ids' => implode(', ', $websiteIds))));
+
+        return $eventModel->setInfo(Mage::helper('enterprise_logging')->__('Attributes Updated'));
     }
 }

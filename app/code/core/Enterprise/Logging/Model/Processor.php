@@ -217,7 +217,7 @@ class Enterprise_Logging_Model_Processor
                     if ($changes = $handler->$callback($model, $this)) {
                         $changes->setModelName($className);
                         $changes->setModelId($model->getId());
-                        $this->_eventChanges[] = $changes;
+                        $this->addEventChanges($changes);
                     }
                 }
             }
@@ -374,5 +374,17 @@ class Enterprise_Logging_Model_Processor
             }
         }
         return $clearData;
+    }
+
+    /**
+     * Add new event changes
+     *
+     * @param Enterprise_Logging_Model_Event_Changes $eventChange
+     * @return Enterprise_Logging_Model_Processor
+     */
+    public function addEventChanges($eventChange)
+    {
+        $this->_eventChanges[] = $eventChange;
+        return $this;
     }
 }

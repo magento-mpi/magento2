@@ -55,6 +55,7 @@
 
             <adminhtml_catalog_product_action_attribute_save>
                 <action>massUpdate</action>
+                <post_dispatch>postDispatchProductUpdateAttributes</post_dispatch>
             </adminhtml_catalog_product_action_attribute_save>
         </actions>
     </catalog_products>
@@ -180,7 +181,7 @@
     <catalog_attributes translate="label">
         <label>Catalog Attributes</label>
         <expected_models>
-            <catalog__entity_attribute/>
+            <catalog__resource_eav_attribute/>
         </expected_models>
         <actions>
             <adminhtml_catalog_product_attribute_edit>
@@ -535,7 +536,7 @@
     <catalogrule translate="label">
         <label>Catalog Price Rules</label>
         <expected_models>
-            <catalog__rule/>
+            <catalogrule__rule/>
         </expected_models>
         <actions>
             <adminhtml_promo_catalog_edit>
@@ -544,6 +545,7 @@
 
             <adminhtml_promo_catalog_save>
                 <action>save</action>
+                <post_dispatch>postDispatchPromoCatalogSaveAndApply</post_dispatch>
             </adminhtml_promo_catalog_save>
 
             <adminhtml_promo_catalog_delete>
@@ -594,6 +596,9 @@
 
     <newsletter_queue translate="label">
         <label>Newsletter Queue</label>
+        <expected_models>
+            <newsletter__queue/>
+        </expected_models>
         <actions>
             <adminhtml_newsletter_queue_edit>
                 <action>view</action>
@@ -601,9 +606,6 @@
 
             <adminhtml_newsletter_queue_save>
                 <action>save</action>
-                <expected_models>
-                    <newsletter__queue/>
-                </expected_models>
                 <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_newsletter_queue_save>
         </actions>
@@ -626,6 +628,10 @@
             <adminhtml_newsletter_template_delete>
                 <action>delete</action>
             </adminhtml_newsletter_template_delete>
+
+            <adminhtml_newsletter_template_preview>
+                <action>preview</action>
+            </adminhtml_newsletter_template_preview>
         </actions>
     </newsletter_templates>
 
