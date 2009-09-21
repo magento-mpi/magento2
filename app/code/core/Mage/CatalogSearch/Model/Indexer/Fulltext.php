@@ -119,9 +119,9 @@ class Mage_CatalogSearch_Model_Indexer_Fulltext extends Mage_Index_Model_Indexer
             $attribute      = $event->getDataObject();
 
             if ($event->getType() == Mage_Index_Model_Event::TYPE_SAVE) {
-                return $attribute->getIsSearchable();
-            } else if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
                 return $attribute->dataHasChangedFor('is_searchable');
+            } else if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
+                return $attribute->getIsSearchable();
             }
         } else if ($entity == Mage_Core_Model_Store::ENTITY) {
             if ($event->getType() == Mage_Index_Model_Event::TYPE_DELETE) {
