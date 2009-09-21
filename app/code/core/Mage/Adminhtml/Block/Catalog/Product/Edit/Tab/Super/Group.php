@@ -56,7 +56,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
     }
 
     /**
-     * Retirve currently edited product model
+     * Retrieve currently edited product model
      *
      * @return Mage_Catalog_Model_Product
      */
