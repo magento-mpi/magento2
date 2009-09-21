@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Cms_Widget extends Mage_Adminhtml_Block_Widget_Form_C
 
         $this->_controller = 'cms';
         $this->_mode = 'widget';
-        $this->_headerText = '';
+        $this->_headerText = 'CMS Widget Insertion';
 
         $this->removeButton('reset');
         $this->removeButton('back');
