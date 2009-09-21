@@ -1004,6 +1004,8 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
                 foreach ($address->getTotals() as $code => $total) {
                     if (isset($totals[$code])) {
                         $totals[$code]->setValue($totals[$code]->getValue()+$total->getValue());
+                        $totals[$code]->setValueExclTax($totals[$code]->getValueExclTax()+$total->getValueExclTax());
+                        $totals[$code]->setValueInclTax($totals[$code]->getValueInclTax()+$total->getValueInclTax());
                     } else {
                         $totals[$code] = $total;
                     }
