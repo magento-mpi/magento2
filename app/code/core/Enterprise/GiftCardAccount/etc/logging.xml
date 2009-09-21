@@ -44,6 +44,10 @@
             <adminhtml_giftcardaccount_delete>
                 <action>delete</action>
             </adminhtml_giftcardaccount_delete>
+
+            <adminhtml_giftcardaccount_massDelete>
+                <action>massDelete</action>
+            </adminhtml_giftcardaccount_massDelete>
         </actions>
     </enterprise_giftcardaccount>
 </logging>
