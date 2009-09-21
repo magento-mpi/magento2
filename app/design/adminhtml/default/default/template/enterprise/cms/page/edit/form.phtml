@@ -42,7 +42,7 @@
 <?php endif;*/ ?>
 </div>
 <script type="text/javascript">
-<!--
+//<![CDATA[
 <?php if ($this->getSelectedTabId()): ?>
 Event.observe(window, 'load', function() {
     var objName = '<?php echo $this->getSelectedTabId() ?>';
@@ -64,6 +64,6 @@ function pagePreviewAction() {
     formElem.action = oldUrl;
     return true;
 }
-//-->
+//]]>
 </script>
 

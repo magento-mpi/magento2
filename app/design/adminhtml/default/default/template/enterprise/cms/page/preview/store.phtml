@@ -29,7 +29,7 @@
 
 <?php if ($websites = $this->getWebsites()): ?>
 <label for="store_switcher"><?php echo $this->__('Choose Store View') ?>:</label>
-<select name="store_switcher" id="store_switcher" class="left-col-block">
+<select name="store_switcher" id="store_switcher">
     <?php foreach ($websites as $website): ?>
         <?php $showWebsite=false; ?>
         <?php foreach ($website->getGroups() as $group): ?>
@@ -52,10 +52,12 @@
     <?php endforeach; ?>
 </select>
 <script type="text/javascript">
+//<![CDATA[
 Event.observe($('store_switcher'), 'change', function(event) {
     var element = Event.element(event);
     $('preview_selected_store').value = element.value;
 });
+//]]>
 </script>
 <?php endif; ?>
 

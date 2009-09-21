@@ -29,7 +29,7 @@
 
 <?php if ($data = $this->getRevisions()): ?>
 <label for="revision_switcher"><?php echo $this->__('Choose Revision') ?>:</label>
-<select name="revision_switcher" id="revision_switcher" class="left-col-block">
+<select name="revision_switcher" id="revision_switcher">
     <option value=""><?php echo $this->__('Current Modification') ?></option>
     <?php foreach ($data as $row): ?>
         <optgroup label="<?php echo $row['label'] ?>">
@@ -39,11 +39,13 @@
     <?php endforeach; ?>
 </select>
 <script type="text/javascript">
+//<![CDATA[
 Event.observe($('revision_switcher'), 'change', function(event) {
     var element = Event.element(event);
     $('preview_selected_revision').value = element.value;
     togglePublish(element.value);
 });
+//]]>
 </script>
 <?php endif; ?>
 
