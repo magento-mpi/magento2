@@ -73,12 +73,15 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         if ($this->getIsActive()) {
             foreach ($this->getConditionModels() as $model) {
                 $eventName = Mage::getModel($model)->getValidationEvent();
-                if ($eventName && !in_array($eventName, $events)) {
-                    $events[] = $eventName;
+
+                if (!is_array($eventName)) {
+                    $eventName = array($eventName);
                 }
+
+                $events = array_merge($events, $eventName);
             }
         }
-        $this->setValidationEvents($events);
+        $this->setValidationEvents(array_unique($events));
 
         parent::_beforeSave();
     }
