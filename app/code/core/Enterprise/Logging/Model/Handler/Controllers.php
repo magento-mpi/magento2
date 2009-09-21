@@ -231,21 +231,6 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
-     * Custom switcher for tax_class_save, to distinguish product and customer tax classes
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
-     */
-    public function postDispatchTaxClassSave($config, $eventModel)
-    {
-        if (Mage::app()->getRequest()->getParam('class_type') == 'PRODUCT') {
-            $eventModel->setEventCode('tax_product_tax_classes');
-        }
-        return $this->postDispatchGenericSave($config, $eventModel);
-    }
-
-    /**
      * Custom tax import handler
      *
      * @param Varien_Simplexml_Element $config

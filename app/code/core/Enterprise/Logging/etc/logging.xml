@@ -920,7 +920,6 @@
 
             <adminhtml_tax_class_save>
                 <action>save</action>
-                <post_dispatch>postDispatchTaxClassSave</post_dispatch>
             </adminhtml_tax_class_save>
         </actions>
     </tax_customer_tax_classes>
