@@ -35,13 +35,6 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
     extends Enterprise_Invitation_Model_Mysql4_Report_Invitation_Collection
 {
     /**
-     * Add map property
-     *
-     * @var array
-     */
-    protected $_map = array();
-
-    /**
      * Join custom fields
      *
      * @return Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
@@ -49,14 +42,46 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
     protected function _joinFields()
     {
         $this->getSelect()
-            ->joinLeft(array('order'=>$this->getTable('sales/order')),
-                       'order.customer_id = main_table.referral_id AND order.store_id = main_table.store_id',
-                       array(
-                            'purchased' => new Zend_Db_Expr('COUNT(DISTINCT order.customer_id)'),
-                            'purchased_rate' =>  new Zend_Db_Expr('IF(COUNT(DISTINCT main_table.referral_id), COUNT(DISTINCT order.customer_id) / COUNT(DISTINCT main_table.referral_id) > 0, 0) * 100'),
-                       ));
+            ->from('', array('sent' => new Zend_Db_Expr('COUNT(main_table.invitation_id)')))
+            ->from('', array('accepted' => new Zend_Db_Expr('SUM(IF(main_table.status = "accepted", 1, 0))')))
+            ->from('', array('canceled' => new Zend_Db_Expr('SUM(IF(main_table.status = "canceled", 1, 0))')));
 
-        $this->_map['fields']['order_store_id'] = 'order.store_id';
         return $this;
+    }
+
+    /**
+     * Additional data manipulation after collection was loaded
+     *
+     * @return Mage_Core_Model_Mysql4_Collection_Abstract
+     */
+    protected function _afterLoad()
+    {
+        parent::_afterLoad();
+
+        foreach ($this->getItems() as $item) {
+            $item->setCanceledRate($item->getCanceled() / $item->getSent() * 100);
+            $item->setAcceptedRate($item->getAccepted() / $item->getSent() * 100);
+            $item->setPurchased($this->_getPurchaseNumber(clone $this->getSelect()));
+            $item->setPurchasedRate($item->getPurchased() / $item->getAccepted() * 100);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Calculate number of purchase from invited customers
+     *
+     * @param Zend_Db_Select $select
+     * @return bool|int
+     */
+    protected function _getPurchaseNumber($select)
+    {
+        /* var $select Zend_Db_Select */
+        $select->reset(Zend_Db_Select::COLUMNS)
+            ->joinRight(array('o' => $this->getTable('sales/order')),
+                'o.customer_id = main_table.referral_id AND o.store_id = main_table.store_id',
+                array('COUNT(DISTINCT main_table.invitation_id)'));
+
+       return $this->getConnection()->fetchOne($select);
     }
 }
