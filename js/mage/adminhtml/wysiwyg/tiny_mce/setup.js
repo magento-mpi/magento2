@@ -63,6 +63,8 @@ tinyMceWysiwygSetup.prototype =
             convert_urls : false,
             relative_urls : false,
             content_css: '',
+            popup_css: this.config.popup_css,
+
             magentowidget_url: this.config.widget_window_url,
             doctype : '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
 
