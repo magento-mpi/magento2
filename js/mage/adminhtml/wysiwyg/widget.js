@@ -320,7 +320,7 @@ WysiwygWidget.chooser.prototype = {
         return this.getElement().value;
     },
 
-    getElementLabel: function(value) {
+    getElementLabelText: function(value) {
         return this.getElementLabel().innerHTML;
     },
 
