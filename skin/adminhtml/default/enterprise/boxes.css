@@ -1198,6 +1198,8 @@ table.mceLayout { width:100% !important; }
 .cms-tree .x-tree-node .disallowed a span,
 .cms-tree .x-dd-drag-ghost .disallowed a span { color:#aaa; }
 
+.cms-tree .cms-current a span { background-color:#f5d6c7; color:#000; }
+
 .cms-hierarchy .switcher { margin-bottom:20px; }
 .cms-hierarchy .switcher select { width:auto !important; }
 .cms-hierarchy .col-left { padding:0 10px 0; border-right:1px solid #d6d6d6; }
