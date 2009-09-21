@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerSegment>
-             <version>0.0.5</version>
+             <version>0.0.6</version>
         </Enterprise_CustomerSegment>
     </modules>
 
@@ -43,6 +43,7 @@
                 <entities>
                     <segment><table>enterprise_customersegment_segment</table></segment>
                     <event><table>enterprise_customersegment_event</table></event>
+                    <customer><table>enterprise_customersegment_customer</table></customer>
                 </entities>
             </enterprise_customersegment_mysql4>
         </models>
