@@ -101,12 +101,18 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
             'legend'=>Mage::helper('enterprise_banner')->__('Content'))
         );
 
+        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(
+            array('tab_id' => $this->getTabId())
+        );
+
         $storeContents = $banner->getStoreContents();
         $field = $fieldset->addField('store_default_content', 'editor', array(
             'name'      => 'store_contents[0]',
             'required'  => true,
             'label'     => Mage::helper('enterprise_banner')->__('All Store Views'),
-            'value'     => isset($storeContents[0]) ? $storeContents[0] : ''
+            'value'     => isset($storeContents[0]) ? $storeContents[0] : '',
+            'config'    => $wysiwygConfig,
+            'wysiwyg'   => false
         ));
         $hideTr = '';
         foreach (Mage::app()->getWebsites() as $website) {
@@ -121,9 +127,12 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                     'text'     => $group->getName(),
                 ));
 
+                $wysiwygConfig->setUseContainer(true);
+
                 foreach ($stores as $store) {
                     $contentExists = isset($storeContents[$store->getId()]);
                     $contentFieldId = 'store_'.$store->getId().'_content';
+                    $wysiwygConfig = clone $wysiwygConfig;
 
                     if (!$contentExists) {
                          $hideTr = '<script language="javascript">Event.observe(window, \'load\', function(){$(\'' . $contentFieldId . '\').hide();})</script>';
@@ -147,7 +156,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
                         'name'      => 'store_contents['.$store->getId().']',
                         'required'  => false,
                         'value'     => $contentExists ? $storeContents[$store->getId()] : '',
-                        'container_id' => $contentFieldId
+                        'container_id' => $contentFieldId,
+                        'config'    => $wysiwygConfig,
+                        'wysiwyg'   => false
                     ));
                 }
             }
