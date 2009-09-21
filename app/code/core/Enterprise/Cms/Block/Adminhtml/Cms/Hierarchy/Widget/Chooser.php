@@ -46,7 +46,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
 
         $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
-            ->setSourceUrl($sourceUrl);
+            ->setTranslationHelper($this->getTranslationHelper())
+            ->setConfig($this->getConfig())
+            ->setFieldsetId($this->getFieldsetId())
+            ->setSourceUrl($sourceUrl)
+            ->setUniqId($uniqId);
+
 
         if ($element->getValue()) {
             $node = Mage::getModel('enterprise_cms/hierarchy_node')->load($element->getValue());
@@ -66,6 +71,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
      */
     public function getTreeHtml()
     {
+        $chooserJsObject = $this->getId();
         $html = '
             <div id="tree'.$this->getId().'"></div>
             <script type="text/javascript">
@@ -95,17 +101,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                 });
                 tree'.$this->getId().'.setRootNode(treeRoot'.$this->getId().');
                 tree'.$this->getId().'.addListener("click", function (node, event) {
-                    var chooser = $("tree'.$this->getId().'").up().previous("button.widget-option-chooser");
-
-                    var optionLabel = node.text;
-                    var optionValue = node.id;
-
-                    chooser.previous("input.widget-option").value = optionValue;
-                    chooser.next("label.widget-option-label").update(optionLabel);
-
-                    var responseContainerId = "responseCnt" + chooser.id;
-                    $(responseContainerId).hide();
-                    chooser.next("button.widget-option-chooser-cancel").hide();
+                    '.$chooserJsObject.'.setElementValue(node.id);
+                    '.$chooserJsObject.'.setElementLabel(node.text);
+                    '.$chooserJsObject.'.close();
                 });
                 tree'.$this->getId().'.render();
                 treeRoot'.$this->getId().'.expand();
