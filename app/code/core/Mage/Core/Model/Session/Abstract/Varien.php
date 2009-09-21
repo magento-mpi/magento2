@@ -330,9 +330,9 @@ class Mage_Core_Model_Session_Abstract_Varien extends Varien_Object
      *
      * @return bool
      */
-    public function useValidateFrontendSid()
+    public function useFrontendSid()
     {
-        return true;
+        return false;
     }
 
     /**

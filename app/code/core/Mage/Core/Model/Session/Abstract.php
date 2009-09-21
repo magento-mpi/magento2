@@ -177,11 +177,11 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      *
      * @return bool
      */
-    public function useValidateFrontendSid()
+    public function useFrontendSid()
     {
         $use = Mage::getStoreConfig(self::XML_PATH_USE_FRONTEND_SID);
         if (is_null($use)) {
-            return parent::useValidateFrontendSid();
+            return parent::useFrontendSid();
         }
         return (bool)$use;
     }
@@ -326,7 +326,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function setSessionId($id=null)
     {
-        if (is_null($id) && $this->useValidateFrontendSid()) {
+        if (is_null($id) && $this->useFrontendSid()) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam])) {
                 $id = $_GET[$_queryParam];
