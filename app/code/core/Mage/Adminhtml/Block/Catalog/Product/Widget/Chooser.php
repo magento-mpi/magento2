@@ -63,7 +63,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
 
         $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
-            ->setSourceUrl($sourceUrl);
+            ->setTranslationHelper($this->getTranslationHelper())
+            ->setConfig($this->getConfig())
+            ->setFieldsetId($this->getFieldsetId())
+            ->setSourceUrl($sourceUrl)
+            ->setUniqId($uniqId);
+
 
         if ($element->getValue()) {
             $value = explode('/', $element->getValue());
@@ -105,14 +110,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
     public function getRowClickCallback()
     {
         if (!$this->getUseMassaction()) {
+            $chooserJsObject = $this->getId();
             return '
                 function (grid, event) {
                     var trElement = Event.findElement(event, "tr");
-
                     var productId = trElement.down("td").innerHTML;
                     var productName = trElement.down("td").next().next().innerHTML;
-                    var chooser = $(grid.containerId).up().previous("button.widget-option-chooser");
-
                     var optionLabel = productName;
                     var optionValue = "product/" + productId;
                     if (grid.categoryId) {
@@ -121,13 +124,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
                     if (grid.categoryName) {
                         optionLabel = grid.categoryName + " / " + optionLabel;
                     }
-
-                    chooser.previous("input.widget-option").value = optionValue;
-                    chooser.next("label.widget-option-label").update(optionLabel);
-
-                    var responseContainerId = "responseCnt" + chooser.id;
-                    $(responseContainerId).hide();
-                    chooser.next("button.widget-option-chooser-cancel").hide();
+                    '.$chooserJsObject.'.setElementValue(optionValue);
+                    '.$chooserJsObject.'.setElementLabel(optionLabel);
+                    '.$chooserJsObject.'.close();
                 }
             ';
         }

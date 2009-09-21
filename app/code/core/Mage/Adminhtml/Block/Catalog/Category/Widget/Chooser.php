@@ -81,7 +81,11 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
 
         $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
-            ->setSourceUrl($sourceUrl);
+            ->setTranslationHelper($this->getTranslationHelper())
+            ->setConfig($this->getConfig())
+            ->setFieldsetId($this->getFieldsetId())
+            ->setSourceUrl($sourceUrl)
+            ->setUniqId($uniqId);
 
         if ($element->getValue()) {
             $value = explode('/', $element->getValue());
@@ -113,19 +117,12 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
                 }
             ';
         } else {
+            $chooserJsObject = $this->getId();
             $js = '
                 function (node, e) {
-                    var chooser = $("tree'.$this->getId().'").up().previous("button.widget-option-chooser");
-
-                    var optionLabel = node.text;
-                    var optionValue = node.attributes.id;
-
-                    chooser.previous("input.widget-option").value = "category/" + optionValue;
-                    chooser.next("label.widget-option-label").update(optionLabel);
-
-                    var responseContainerId = "responseCnt" + chooser.id;
-                    $(responseContainerId).hide();
-                    chooser.next("button.widget-option-chooser-cancel").hide();
+                    '.$chooserJsObject.'.setElementValue("category/" + node.attributes.id);
+                    '.$chooserJsObject.'.setElementLabel(node.text);
+                    '.$chooserJsObject.'.close();
                 }
             ';
         }

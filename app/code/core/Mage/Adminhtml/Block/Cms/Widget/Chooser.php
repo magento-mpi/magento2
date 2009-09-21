@@ -55,6 +55,77 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
     }
 
     /**
+     * Convert XML config to Object
+     *
+     * @return Varien_Object
+     */
+    public function getConfig()
+    {
+        if ($this->getData('config') instanceof Varien_Object) {
+            return $this->getData('config');
+        }
+
+        $configXml = $this->getData('config');
+        $config = new Varien_Object();
+        $this->setConfig($config);
+        if (!($configXml instanceof Varien_Simplexml_Element)) {
+            return $this->getData('config');
+        }
+
+        // define chooser label
+        if ($configXml->label) {
+            $config->setData('label', $this->getTranslationHelper()->__((string)$configXml->label));
+        }
+
+        // chooser control buttons
+        $buttons = array(
+            'open' => Mage::helper('cms')->__('Choose'),
+            'close' => Mage::helper('cms')->__('Close')
+        );
+        if ($configXml->button && $configXml->button->hasChildren()) {
+            foreach ($configXml->button->children() as $button) {
+                $buttons[(string)$button->getName()] = $this->getTranslationHelper()->__((string)$button);
+            }
+        }
+        $config->setButtons($buttons);
+
+        return $this->getData('config');
+    }
+
+    /**
+     * Helper getter for translations
+     *
+     * @return Mage_Core_Helper_Abstract
+     */
+    public function getTranslationHelper()
+    {
+        if ($this->getData('translation_helper') instanceof Mage_Core_Helper_Abstract) {
+            return $this->getData('translation_helper');
+        }
+        return $this->helper('cms');
+    }
+
+    /**
+     * Unique identifier for block that uses Chooser
+     *
+     * @return string
+     */
+    public function getUniqId()
+    {
+        return $this->getData('uniq_id');
+    }
+
+    /**
+     * Form element fieldset id getter for working with form in chooser
+     *
+     * @return string
+     */
+    public function getFieldsetId()
+    {
+        return $this->getData('fieldset_id');
+    }
+
+    /**
      * Flag to indicate include hidden field before chooser or not
      *
      * @return bool
@@ -72,6 +143,10 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
     protected function _toHtml()
     {
         $element = $this->getElement();
+        /* @var $fieldset Varien_Data_Form_Element_Fieldset */
+        $fieldset = $element->getForm()->getElement($this->getFieldsetId());
+
+        $chooserId = $this->getUniqId();
 
         $hiddenHtml = '';
         if ($this->getHiddenEnabled()) {
@@ -81,7 +156,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
                 'value'     => $element->getValue(),
                 'class'     => $element->getClass(),
             ));
-            $hidden->setId($element->getId());
+            $hidden->setId($chooserId . 'value');
             $hidden->setForm($element->getForm());
             $hiddenHtml = $hidden->getElementHtml();
 
@@ -89,32 +164,31 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
             $element->setValue("");
         }
 
-        $image = Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif');
-        $chooserId = $element->getId() . md5(microtime());
-        $chooserJsObject = $chooserId . 'JsChooser';
+        $config = $this->getConfig();
 
+        $chooser = $fieldset->addField('chooser' . $element->getId(), 'label', array(
+            'label' => $config->getLabel() ? $config->getLabel() : ''
+        ));
+
+        $buttons = $config->getButtons();
         $chooseButton = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setType('button')
-            ->setId($chooserId)
+            ->setId($chooserId . 'control')
             ->setClass('widget-option-chooser')
-            ->setLabel($this->getChooserLabel() ? $this->getChooserLabel() : $this->helper('cms')->__('Select...'))
-            ->setOnclick($chooserJsObject.'.choose()');
+            ->setLabel($buttons['open'])
+            ->setOnclick($chooserId.'.choose()');
 
-        $cancelButton = $this->getLayout()->createBlock('adminhtml/widget_button')
-            ->setType('button')
-            ->setId($chooserId.'_cancel')
-            ->setStyle('display:none')
-            ->setClass('widget-option-chooser-cancel')
-            ->setLabel($this->getCancelLabel() ? $this->getCancelLabel() : $this->helper('cms')->__('Done'))
-            ->setOnclick($chooserJsObject.'.hide()');
-
+        $configJson = Mage::helper('core')->jsonEncode($config->getData());
         $html = '
             <script type="text/javascript">
-                '.$chooserJsObject.' = new WysiwygWidget.chooser("'.$chooserId.'", "'.$this->getSourceUrl().'");
+                '.$chooserId.' = new WysiwygWidget.chooser("'.$chooserId.'", "'.$this->getSourceUrl().'", '.$configJson.');
             </script>
-            '.$hiddenHtml.$chooseButton->toHtml().'&nbsp;'.$cancelButton->toHtml().'
-            <label class="widget-option-label">'.($this->getLabel() ? $this->getLabel() : '').'</label>
+            <label class="widget-option-label" id="'.$chooserId . 'label">'.(Mage::helper('cms')->__('Not Selected')).'</label>
         ';
+
+        $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
         return $html;
     }
+
+
 }

@@ -166,7 +166,10 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
         if ($fieldRenderer) {
             $field->setRenderer($fieldRenderer);
         } elseif ($fieldChooserRenderer) {
-            $fieldChooserRenderer->prepareElementHtml($field);
+            $fieldChooserRenderer->setFieldsetId($fieldset->getId())
+                ->setTranslationHelper($this->_translationHelper)
+                ->setConfig($config->type)
+                ->prepareElementHtml($field);
         }
 
         return $field;

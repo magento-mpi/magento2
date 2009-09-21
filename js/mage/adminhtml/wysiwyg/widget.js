@@ -238,41 +238,76 @@ WysiwygWidget.chooser.prototype = {
     // Source URL for Ajax requests
     chooserUrl: null,
 
-    initialize: function(chooserId, chooserUrl) {
+    // Chooser config
+    config: null,
+
+    initialize: function(chooserId, chooserUrl, config) {
         this.chooserId = chooserId;
         this.chooserUrl = chooserUrl;
+        this.config = config;
     },
 
     getResponseContainerId: function() {
         return 'responseCnt' + this.chooserId;
     },
 
-    getCancelControl: function() {
-        return $(this.chooserId + '_cancel');
+    getChooserControl: function() {
+        return $(this.chooserId + 'control');
+    },
+
+    getElement: function() {
+        return $(this.chooserId + 'value');
+    },
+
+    getElementLabel: function() {
+        return $(this.chooserId + 'label');
+    },
+
+    makeControlOpened: function() {
+        this.toggleControl(true);
+    },
+
+    makeControlClosed: function() {
+        this.toggleControl(false);
+    },
+
+    toggleControl: function(opened) {
+        this.getChooserControl().down('span').innerHTML = (opened ? this.config.buttons.close : this.config.buttons.open);
+        if(opened) {
+            this.getChooserControl().addClassName('opened');
+        } else {
+            this.getChooserControl().removeClassName('opened');
+        }
+    },
+
+    open: function() {
+        this.makeControlOpened();
+        $(this.getResponseContainerId()).show();
+    },
+
+    close: function() {
+        this.makeControlClosed();
+        $(this.getResponseContainerId()).hide();
     },
 
     choose: function(event) {
-        //var element = Event.findElement(event, 'A');
-        var chooser = $(this.chooserId);
+
+        // Show or hide chooser content if it was already loaded
         var responseContainerId = this.getResponseContainerId();
         if ($(responseContainerId) != undefined) {
-            if ($(responseContainerId).visible()) {
-                $(responseContainerId).hide();
-                this.getCancelControl().hide();
-            } else {
-                $(responseContainerId).show();
-                this.getCancelControl().show();
-            }
+            $(responseContainerId).visible() ? this.close() : this.open();
             return;
         }
+
+        // Otherwise load content from server
         new Ajax.Request(this.chooserUrl,
             {
                 parameters: {},
                 onSuccess: function(transport) {
                     try {
                         widgetTools.onAjaxSuccess(transport);
-                        chooser.next("label.widget-option-label").insert({after: widgetTools.getDivHtml(responseContainerId, transport.responseText)});
-                        this.getCancelControl().show();
+                        this.getChooserControl().insert({after: widgetTools.getDivHtml(responseContainerId, transport.responseText)});
+                        this.makeControlOpened();
                     } catch(e) {
                         alert(e.message);
                     }
@@ -281,8 +316,11 @@ WysiwygWidget.chooser.prototype = {
         );
     },
 
-    hide: function() {
-        $(this.getResponseContainerId()).hide();
-        this.getCancelControl().hide();
+    setElementValue: function(value) {
+        this.getElement().value = value;
+    },
+
+    setElementLabel: function(value) {
+        this.getElementLabel().innerHTML = value;
     }
 }

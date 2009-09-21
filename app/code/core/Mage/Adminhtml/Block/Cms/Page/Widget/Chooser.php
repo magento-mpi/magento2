@@ -58,7 +58,12 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
 
         $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
             ->setElement($element)
-            ->setSourceUrl($sourceUrl);
+            ->setTranslationHelper($this->getTranslationHelper())
+            ->setConfig($this->getConfig())
+            ->setFieldsetId($this->getFieldsetId())
+            ->setSourceUrl($sourceUrl)
+            ->setUniqId($uniqId);
+
 
         if ($element->getValue()) {
             $page = Mage::getModel('cms/page')->load($element->getValue());
@@ -78,20 +83,15 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
      */
     public function getRowClickCallback()
     {
+        $chooserJsObject = $this->getId();
         $js = '
             function (grid, event) {
                 var trElement = Event.findElement(event, "tr");
-
                 var pageTitle = trElement.down("td").innerHTML;
                 var pageId = trElement.down("td").next().innerHTML;
-                var chooser = $(grid.containerId).up().previous("button.widget-option-chooser");
-
-                chooser.previous("input.widget-option").value = pageId;
-                chooser.next("label.widget-option-label").update(pageTitle);
-
-                var responseContainerId = "responseCnt" + chooser.id;
-                $(responseContainerId).hide();
-                chooser.next("button.widget-option-chooser-cancel").hide();
+                '.$chooserJsObject.'.setElementValue(pageId);
+                '.$chooserJsObject.'.setElementLabel(pageTitle);
+                '.$chooserJsObject.'.close();
             }
         ';
         return $js;
