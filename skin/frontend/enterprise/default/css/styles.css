@@ -1481,8 +1481,8 @@ button.btn-cart span {}
 .col-main .opc-block-progress dt.complete a { font-weight:normal; text-transform:lowercase; }
 .col-main .opc-block-progress dd.complete { margin:5px 0 8px; padding:5px; }
 
-.opc { position:relative; float:right; width:755px; }
-.opc li.section {}
+.opc { float:right; width:755px; }
+.opc li.section { position:relative; }
 .opc .step-title { margin:0 0 1px; }
 .opc .step-title .number { display:none; }
 .opc .step-title h3 { background-color:#e6e6e6; color:#686868; font-size:11px; line-height:22px; padding:0 14px; font-weight:bold; text-transform:uppercase; }
@@ -1491,7 +1491,7 @@ button.btn-cart span {}
 .opc .active {}
 .opc .active .step-title { margin:0 0 0; padding:0 0 0 0; }
 .opc .active .step-title h3 { background:#d12c01 url(../images/bkg_active-step.gif) repeat-x 0 0; color:#fff; text-transform:capitalize; font-weight:normal; border-bottom:1px solid #cfcfcf; cursor:default; font-size:16px; padding:5px 20px 2px; line-height:24px; height:24px; }
-.opc .step { padding:20px; min-height:300px; font-size:12px; background:#fcfcfc; position:relative; border-top:0; }
+.opc .step { padding:20px; min-height:300px; font-size:12px; background:#fcfcfc; border-top:0; }
 .opc .step .tool-tip { right:10px; }
 .opc .order-review {}
 
@@ -1594,7 +1594,7 @@ button.btn-cart span {}
 .sp-methods .v-fix .validation-advice { margin-right:-250px; position:relative; z-index:1; width:250px; }
 .sp-methods .adv-container { padding-left:170px; }
 
-.please-wait { float:right; z-index:99; position:absolute; top:50%; left:50%; margin:-34px 0 0 -90px; display:block; border:5px solid #f3b66f; font-size:12px; color:#f18200; font-weight:bold; background:#fff; padding:20px; white-space:nowrap; }
+.please-wait { position:absolute; z-index:99; top:50%; left:50%; margin:-34px 0 0 -90px; border:5px solid #f3b66f; font-size:12px; color:#f18200; font-weight:bold; background:#fff; padding:20px; white-space:nowrap; }
 .cvv-what-is-this { cursor:help; margin-left:5px; }
 
 /* Tooltip */
