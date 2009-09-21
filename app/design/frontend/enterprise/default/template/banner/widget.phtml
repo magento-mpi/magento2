@@ -25,18 +25,10 @@
  */
 ?>
 <div class="block block-banner">
-    Block Unique ID: <?php echo $this->getUniqueId() ?><br />
     <?php $bannersContent =  $this->getBannersContent() ?>
     <?php foreach ($bannersContent as $bannerId => $content): ?>
     <div class="block-content" style="text-align:left">
-        <strong>
-        Banner ID: <?php echo $bannerId ?>,
-        Rotation: <?php echo $this->getRotate() ?>
-        <?php if($this->getRotate() == 'series' || $this->getRotate() == 'shuffle'): ?>
-        <?php echo '[' . implode(',', $this->_sessionInstance->_getData($this->getUniqueId())) . ']' ?>
-        <?php endif; ?>
-        </strong>
-        <br /><?php echo $content?>
+        <?php echo $content?>
     </div>
     <?php endforeach; ?>
 </div>

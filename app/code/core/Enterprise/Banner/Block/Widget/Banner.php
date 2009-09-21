@@ -83,7 +83,7 @@ class Enterprise_Banner_Block_Widget_Banner
      *
      * @var Mage_Core_Model_Session
      */
-    public $_sessionInstance = null;
+    protected $_sessionInstance = null;
 
     /**
      * Store current store ID

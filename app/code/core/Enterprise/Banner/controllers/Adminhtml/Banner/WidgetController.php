@@ -18,17 +18,33 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design
- * @package    enterprise_blank
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @category   Enterprise
+ * @package    Enterprise_Banner
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
-?>
-<div class="block block-banner">
-    <?php $bannersContent =  $this->getBannersContent() ?>
-    <?php foreach ($bannersContent as $bannerId => $content): ?>
-    <div class="block-content" style="text-align:left">
-        <?php echo $content?>
-    </div>
-    <?php endforeach; ?>
-</div>
+
+/**
+ * Catalog Product widgets controller for CMS WYSIWYG
+ *
+ * @category   Enterprise
+ * @package    Enterprise_Banner
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
+class Enterprise_Banner_Adminhtml_Banner_WidgetController extends Mage_Adminhtml_Controller_Action
+{
+    /**
+     * Chooser Source action
+     */
+    public function chooserAction()
+    {
+        $uniqId = $this->getRequest()->getParam('uniq_id');
+
+        $bannersGrid = $this->getLayout()->createBlock('enterprise_banner/widget_chooser', '', array(
+            'id' => $uniqId
+        ));
+        $html = $bannersGrid->toHtml();
+
+        $this->getResponse()->setBody($html);
+    }
+}
