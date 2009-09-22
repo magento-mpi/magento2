@@ -183,7 +183,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
             <script type="text/javascript">
                 '.$chooserId.' = new WysiwygWidget.chooser("'.$chooserId.'", "'.$this->getSourceUrl().'", '.$configJson.');
             </script>
-            <label class="widget-option-label" id="'.$chooserId . 'label">'.(Mage::helper('cms')->__('Not Selected')).'</label>
+            <label class="widget-option-label" id="'.$chooserId . 'label">'.($this->getLabel() ? $this->getLabel() : Mage::helper('cms')->__('Not Selected')).'</label>
         ';
 
         $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
