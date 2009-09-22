@@ -302,7 +302,7 @@ WysiwygWidget.chooser.prototype = {
         // Otherwise load content from server
         new Ajax.Request(this.chooserUrl,
             {
-                parameters: {},
+                parameters: {element_value: this.getElementValue(), element_label: this.getElementLabelText()},
                 onSuccess: function(transport) {
                     try {
                         widgetTools.onAjaxSuccess(transport);
