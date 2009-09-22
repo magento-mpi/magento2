@@ -35,14 +35,9 @@ class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Mode
         $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
     }
 
-    protected function _getTable($name)
+    public function getResource()
     {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment')->getTable($name);
-    }
-
-    protected function _createSelect()
-    {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment')->createSelect();
+        return Mage::getResourceSingleton('enterprise_customersegment/segment');
     }
 
     protected function _getSqlOperator()

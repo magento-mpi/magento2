@@ -66,12 +66,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
 
     public function getConditionsSql($customer)
     {
-        $table = $this->_getTable('sales/quote');
-        $addressTable = $this->_getTable('sales/quote_address');
+        $table = $this->getResource()->getTable('sales/quote');
+        $addressTable = $this->getResource()->getTable('sales/quote_address');
 
         $operator = $this->_getSqlOperator();
 
-        $select = $this->_createSelect();
+        $select = $this->getResource()->createSelect();
         $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))
             ->limit(1);
 
@@ -103,7 +103,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         }
 
         if ($joinAddress) {
-            $subselect = $this->_createSelect();
+            $subselect = $this->getResource()->createSelect();
 
             $subselect->from(
                 array('address'=>$addressTable),

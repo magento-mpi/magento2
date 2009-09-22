@@ -62,4 +62,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
+
+    public function getSubfilterType()
+    {
+        return 'date';
+    }
+
+    public function getSubfilterSql($fieldName, $requireValid)
+    {
+        $value = $this->getValue();
+        if (!$value || !is_numeric($value)) {
+            return false;
+        }
+
+        $limit = date('Y-m-d', strtotime("now -{$value} days"));
+
+        $operator = (($requireValid && $this->getOperator() == '==') ? '>' : '<');
+
+        return sprintf("%s %s '%s'", $fieldName, $operator, $limit);
+    }
 }

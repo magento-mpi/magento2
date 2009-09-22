@@ -46,58 +46,9 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
         return parent::loadArray($arr, $key);
     }
 
-    public function getConditionsSql($customer)
+    public function getResource()
     {
-        $select = $this->_createSelect();
-
-        if ($this->getAggregator() == 'all') {
-            $whereFunction = 'where';
-        } else {
-            $whereFunction = 'orWhere';
-        }
-
-        if ($this->getValue() == 1) {
-            $operator = '=';
-        } else {
-            $operator = '<>';
-        }
-
-        $select->from($this->_getTable('customer/entity'), array(new Zend_Db_Expr(1)));
-        $select->where('entity_id = ?', $customer->getId());
-
-        $children = $this->_getChildConditionsSql($customer);
-        if ($children) {
-            foreach ($children as $criteria) {
-                $criteriaSql = "(IFNULL(($criteria), 0) {$operator} 1)";
-
-                $select->$whereFunction($criteriaSql);
-            }
-        } else {
-            $select->where('1=1');
-        }
-
-        return $select;
-    }
-
-    protected function _getChildConditionsSql($customer)
-    {
-        $result = array();
-        foreach ($this->getConditions() as $condition) {
-            if ($sql = $condition->getConditionsSql($customer)) {
-                $result[] = $sql;
-            }
-        }
-        return $result;
-    }
-
-    protected function _getTable($name)
-    {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment')->getTable($name);
-    }
-
-    protected function _createSelect()
-    {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment')->createSelect();
+        return Mage::getResourceSingleton('enterprise_customersegment/segment');
     }
 
     protected function _getSqlOperator()
@@ -127,5 +78,91 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
             default:
                 Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified'));
         }
+    }
+
+    protected function _prepareConditionsSql($customer) {
+        $select = $this->getResource()->createSelect();
+
+        $select->from($this->getResource()->getTable('customer/entity'), array(new Zend_Db_Expr(1)));
+        $select->where('entity_id = ?', $customer->getId());
+
+        return $select;
+    }
+
+    protected function _getRequiredValidation()
+    {
+        return ($this->getValue() == 1);
+    }
+
+    public function getConditionsSql($customer)
+    {
+        $select = $this->_prepareConditionsSql($customer);
+
+        if ($this->getAggregator() == 'all') {
+            $whereFunction = 'where';
+        } else {
+            $whereFunction = 'orWhere';
+        }
+
+        if ($this->_getRequiredValidation()) {
+            $operator = '=';
+        } else {
+            $operator = '<>';
+        }
+
+        $gotConditions = false;
+
+        $children = $this->_getChildConditionsSql($customer);
+        if ($children) {
+            foreach ($children as $criteria) {
+                if ($criteria) {
+                    $criteriaSql = "(IFNULL(($criteria), 0) {$operator} 1)";
+
+                    $select->$whereFunction($criteriaSql);
+
+                    $gotConditions = true;
+                }
+            }
+        }
+
+        foreach ($this->getConditions() as $condition) {
+            if ($condition->getSubfilterType()) {
+                switch ($condition->getSubfilterType()) {
+                    case 'date':
+                        $subfilter = $condition->getSubfilterSql($this->_getDateSubfilterField(), $this->_getRequiredValidation());
+                        if ($subfilter) {
+                            $select->$whereFunction($subfilter);
+                            $gotConditions = true;
+                        }
+                        break;
+
+                    case 'product':
+                        $subfilter = $condition->getSubfilterSql($this->_getProductSubfilterField(), $this->_getRequiredValidation());
+                        if ($subfilter) {
+                            $select->$whereFunction($subfilter);
+                            $gotConditions = true;
+                        }
+                        break;
+                }
+            }
+        }
+
+        if (!$gotConditions) {
+            $select->where('1=1');
+        }
+
+        return $select;
+    }
+
+
+    protected function _getChildConditionsSql($customer)
+    {
+        $result = array();
+        foreach ($this->getConditions() as $condition) {
+            if ($sql = $condition->getConditionsSql($customer)) {
+                $result[] = $sql;
+            }
+        }
+        return $result;
     }
 }

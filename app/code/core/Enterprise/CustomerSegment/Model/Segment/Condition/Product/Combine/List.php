@@ -37,7 +37,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
 
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')->getNewChildSelectOptions();
+        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')->setDateConditions(true)->getNewChildSelectOptions();
     }
 
     public function loadValueOptions()
@@ -70,5 +70,47 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
             . Mage::helper('enterprise_customersegment')->__('If Product is %s in the %s with %s of these Conditions match:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
+    }
+
+    protected function _prepareConditionsSql($customer)
+    {
+        $select = $this->getResource()->createSelect();
+
+        switch ($this->getValue()) {
+            case 'wishlist':
+                $select->from(array('item' => $this->getResource()->getTable('wishlist/item')), array(new Zend_Db_Expr(1)));
+                $conditions = "item.wishlist_id = list.wishlist_id AND list.customer_id = '{$customer->getId()}'";
+                $select->joinInner(array('list' => $this->getResource()->getTable('wishlist/wishlist')), $conditions, array());
+                break;
+            default:
+                $select->from(array('item' => $this->getResource()->getTable('sales/quote_item')), array(new Zend_Db_Expr(1)));
+                $conditions = "item.quote_id = list.entity_id AND list.customer_id = '{$customer->getId()}'";
+                $select->joinInner(array('list' => $this->getResource()->getTable('sales/quote')), $conditions, array());
+                break;
+        }
+
+        $select->limit(1);
+
+        return $select;
+    }
+
+    protected function _getRequiredValidation()
+    {
+        return ($this->getOperator() == '==');
+    }
+
+    protected function _getDateSubfilterField()
+    {
+        switch ($this->getValue()) {
+            case 'wishlist':
+                return 'item.added_at';
+            default:
+                return 'item.created_at';
+        }
+    }
+
+    protected function _getProductSubfilterField()
+    {
+        return 'item.product_id';
     }
 }

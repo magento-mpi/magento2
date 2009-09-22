@@ -53,10 +53,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
 
     public function getConditionsSql($customer)
     {
-        $table = $this->_getTable('sales/quote');
+        $table = $this->getResource()->getTable('sales/quote');
         $operator = $this->_getSqlOperator();
 
-        $select = $this->_createSelect();
+        $select = $this->getResource()->createSelect();
         $select->from($table, array(new Zend_Db_Expr(1)))
             ->limit(1);
 

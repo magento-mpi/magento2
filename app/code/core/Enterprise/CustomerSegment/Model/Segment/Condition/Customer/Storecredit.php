@@ -53,10 +53,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
 
     public function getConditionsSql($customer)
     {
-        $table = $this->_getTable('enterprise_customerbalance/balance');
+        $table = $this->getResource()->getTable('enterprise_customerbalance/balance');
         $operator = $this->_getSqlOperator();
 
-        $select = $this->_createSelect();
+        $select = $this->getResource()->createSelect();
         $select->from($table, array(new Zend_Db_Expr(1)))
             ->where('customer_id = ?', $customer->getId())
             ->limit(1);

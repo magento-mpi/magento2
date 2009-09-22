@@ -36,20 +36,85 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
 
     public function getNewChildSelectOptions()
     {
-        return array_merge_recursive(parent::getNewChildSelectOptions(), array(
-            array( // self
-                'value' => $this->getType(),
-                'label' => Mage::helper('rule')->__('Conditions Combination')),
-            // date ranges
+        $children = array_merge_recursive(
+            parent::getNewChildSelectOptions(),
             array(
-                'value' => array(
-                    Mage::getModel('enterprise_customersegment/segment_condition_uptodate')->getNewChildSelectOptions(),
-                    Mage::getModel('enterprise_customersegment/segment_condition_daterange')->getNewChildSelectOptions(),
-                ),
-                'label' => Mage::helper('enterprise_customersegment')->__('Date Ranges')
-            ),
-            // product attributes
-            Mage::getModel('enterprise_customersegment/segment_condition_product_attributes')->getNewChildSelectOptions()
-        ));
+                array( // self
+                    'value' => $this->getType(),
+                    'label' => Mage::helper('rule')->__('Conditions Combination')
+                )
+            )
+        );
+
+        if ($this->getDateConditions()) {
+            $children = array_merge_recursive(
+                $children,
+                array(
+                    array(
+                        'value' => array(
+                            Mage::getModel('enterprise_customersegment/segment_condition_uptodate')->getNewChildSelectOptions(),
+                            Mage::getModel('enterprise_customersegment/segment_condition_daterange')->getNewChildSelectOptions(),
+                        ),
+                        'label' => Mage::helper('enterprise_customersegment')->__('Date Ranges')
+                    )
+                )
+            );
+        }
+
+        $children = array_merge_recursive(
+            $children,
+            array(
+                Mage::getModel('enterprise_customersegment/segment_condition_product_attributes')->getNewChildSelectOptions()
+            )
+        );
+
+        return $children;
+    }
+
+    public function getConditionsSql($customer) {
+        return false;
+    }
+
+    public function getSubfilterType()
+    {
+        return 'product';
+    }
+
+    public function getSubfilterSql($fieldName, $requireValid)
+    {
+        $table = $this->getResource()->getTable('catalog/product');
+
+        $select = $this->getResource()->createSelect();
+        $select->from(array('main'=>$table), array('entity_id'));
+
+        if ($this->getAggregator() == 'all') {
+            $whereFunction = 'where';
+        } else {
+            $whereFunction = 'orWhere';
+        }
+
+        $gotConditions = false;
+
+        foreach ($this->getConditions() as $condition) {
+            if ($condition->getSubfilterType()) {
+                switch ($condition->getSubfilterType()) {
+                    case 'product':
+                        $subfilter = $condition->getSubfilterSql('product.entity_id', ($this->getValue() == 1));
+                        if ($subfilter) {
+                            $select->$whereFunction($subfilter);
+                            $gotConditions = true;
+                        }
+                        break;
+                }
+            }
+        }
+
+        if (!$gotConditions) {
+            $select->where('1=1');
+        }
+
+        $inOperator = ($requireValid ? 'IN' : 'NOT IN');
+
+        return sprintf("%s %s (%s)", $fieldName, $inOperator, $select);
     }
 }

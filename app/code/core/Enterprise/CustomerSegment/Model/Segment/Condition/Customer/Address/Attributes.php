@@ -160,7 +160,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
 
         $operator = $this->_getSqlOperator();
 
-        $select = $this->_createSelect();
+        $select = $this->getResource()->createSelect();
         $select->from($table, array(new Zend_Db_Expr(1)))
             ->where('entity_id = ?', $customer->getId())
             ->limit(1);

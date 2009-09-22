@@ -139,4 +139,28 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
             . $this->getRemoveLinkHtml()
             . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }
+
+    public function getSubfilterType()
+    {
+        return 'date';
+    }
+
+    public function getSubfilterSql($fieldName, $requireValid)
+    {
+        $value = explode('...', $this->getValue());
+        if (!isset($value[0]) || !isset($value[1])) {
+            return false;
+        }
+
+        $start = $value[0];
+        $end = $value[1];
+
+        if (!$start || !$end) {
+            return false;
+        }
+
+        $inOperator = (($requireValid && $this->getOperator() == '==') ? 'BETWEEN' : 'NOT BETWEEN');
+
+        return sprintf("%s %s '%s' AND '%s'", $fieldName, $inOperator, $start, $end);
+    }
 }

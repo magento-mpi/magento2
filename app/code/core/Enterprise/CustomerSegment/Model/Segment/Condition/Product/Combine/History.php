@@ -32,12 +32,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_product_combine_list');
+        $this->setType('enterprise_customersegment/segment_condition_product_combine_history');
     }
 
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')->getNewChildSelectOptions();
+        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')->setDateConditions(true)->getNewChildSelectOptions();
     }
 
     public function loadValueOptions()
@@ -70,5 +70,46 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             . Mage::helper('enterprise_customersegment')->__('If Product %s %s and matches %s of these Conditions:',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml(), $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
+    }
+
+    protected function _prepareConditionsSql($customer)
+    {
+        $select = $this->getResource()->createSelect();
+
+        switch ($this->getValue()) {
+            case 'ordered_history':
+                $select->from(array('item' => $this->getResource()->getTable('sales/order_item')), array(new Zend_Db_Expr(1)));
+                $select->joinInner(array('order' => $this->getResource()->getTable('sales/order')), 'item.order_id = order.entity_id', array());
+                $select->where('order.customer_id = ?', $customer->getId());
+                break;
+            default:
+                $select->from(array('item' => $this->getResource()->getTable('reports/viewed_product_index')), array(new Zend_Db_Expr(1)));
+                $select->where('item.customer_id = ?', $customer->getId());
+                break;
+        }
+
+        $select->limit(1);
+
+        return $select;
+    }
+
+    protected function _getRequiredValidation()
+    {
+        return ($this->getOperator() == '==');
+    }
+
+    protected function _getProductSubfilterField()
+    {
+        return 'item.product_id';
+    }
+
+    protected function _getDateSubfilterField()
+    {
+        switch ($this->getValue()) {
+            case 'ordered_history':
+                return 'item.created_at';
+            default:
+                return 'item.added_at';
+        }
     }
 }
