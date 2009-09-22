@@ -72,8 +72,6 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'files_browser_window_height'   => Mage::getStoreConfig('cms/wysiwyg/browser_window_height'),
             'encode_directives'             => true,
             'directives_url'                => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_wysiwyg/directive'),
-            'widget_window_url'             => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_widget/index'),
-            'widget_window_no_wysiwyg_url'  => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_widget/index', array('no_wysiwyg' => true)),
             'widget_plugin_src'             => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js',
             'widget_images_url'             => Mage::getSingleton('cms/widget')->getPlaceholderImagesBaseUrl(),
             'widget_placeholders'           => $this->getAvailablePlaceholderFilenames(),
@@ -87,7 +85,38 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             $config->addData($data);
         }
 
+        if (!$config->hasData('widget_window_url')) {
+            $config->setData('widget_window_url', $this->getWidgetWindowUrl($config));
+        }
+        if (!$config->hasData('widget_window_no_wysiwyg_url')) {
+            $config->setData('widget_window_no_wysiwyg_url', $this->getWidgetWindowUrl($config, false));
+        }
+
         return $config;
+    }
+
+    /**
+     * Return Widgets Insertion Plugin Window URL
+     *
+     * @param array $params URL params
+     * @return string
+     */
+    public function getWidgetWindowUrl($config, $wysiwygMode = true)
+    {
+        $params = $wysiwygMode ? array() : array('no_wysiwyg' => true);
+
+        if ($config->getData('skip_context_widgets')) {
+            $params['skip_context_widgets'] = 1;
+        }
+
+        if ($config->hasData('skip_widgets')) {
+            $skipped = $config->getData('skip_widgets');
+            $skipped = is_array($skipped) ? $skipped : array($skipped);
+            $skipped = implode(',', $skipped);
+            $params['skip_widgets'] = Mage::helper('core')->urlEncode($skipped);
+        }
+
+        return Mage::getSingleton('adminhtml/url')->getUrl('*/cms_widget/index', $params);
     }
 
     /**

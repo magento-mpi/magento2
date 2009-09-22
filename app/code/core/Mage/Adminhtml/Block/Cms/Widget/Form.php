@@ -110,7 +110,14 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
                     'description' => $this->getEmptyOptionDescription(),
                 );
             }
+            $skipped = $this->_getSkippedWidgets();
             foreach ($widgets->children() as $widget) {
+                if ($widget->is_context && $this->_skipContextWidgets()) {
+                    continue;
+                }
+                if (is_array($skipped) && in_array($widget->getAttribute('type'), $skipped)) {
+                    continue;
+                }
                 if ($widget->getAttribute('module')) {
                     $helper = Mage::helper($widget->getAttribute('module'));
                 } else {
@@ -127,6 +134,32 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
             $this->setData('available_widgets', $result);
         }
         return $this->getData('available_widgets');
+    }
+
+    /**
+     * Disable insertion of context(is_context) widgets or not
+     *
+     * @return bool
+     */
+    protected function _skipContextWidgets()
+    {
+        return (bool)$this->getParentBlock()->getData('skip_context_widgets');
+    }
+
+    /**
+     * Return array of widgets disabled for selection
+     *
+     * @return array
+     */
+    protected function _getSkippedWidgets()
+    {
+        $skipped = $this->getParentBlock()->getData('skip_widgets');
+        if (is_array($skipped)) {
+            return $skipped;
+        }
+        $skipped = Mage::helper('core')->urlDecode($skipped);
+        $skipped = explode(',', $skipped);
+        return $skipped;
     }
 
     /**

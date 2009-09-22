@@ -45,6 +45,12 @@ class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Acti
         $header = $this->getLayout()->getBlock('head');
         $header->setCanLoadExtJs(true);
 
+        // set extra params to widgets insertion form
+        $this->getLayout()->getBlock('wysiwyg_widget')->addData(array(
+            'skip_context_widgets' => $this->getRequest()->getParam('skip_context_widgets'),
+            'skip_widgets' => $this->getRequest()->getParam('skip_widgets'),
+        ));
+
         // Include WYSIWYG popup helper if WYSIWYG instance exists
         if (!$this->getRequest()->getParam('no_wysiwyg')) {
             $header->addJs('tiny_mce/tiny_mce_popup.js');
