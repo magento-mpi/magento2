@@ -65,16 +65,6 @@ varienGrid.prototype = {
                 Event.observe(this.rows[row],'mouseout',this.trOnMouseOut);
                 Event.observe(this.rows[row],'click',this.trOnClick);
                 Event.observe(this.rows[row],'dblclick',this.trOnDblClick);
-
-                if(this.initRowCallback){
-                    try {
-                        this.initRowCallback(this, this.rows[row]);
-                    } catch (e) {
-                        if(console) {
-                            console.log(e);
-                        }
-                    }
-                }
             }
         }
         if(this.sortVar && this.dirVar){
@@ -93,6 +83,19 @@ varienGrid.prototype = {
             catch (e) {
                 if(console) {
                     console.log(e);
+                }
+            }
+        }
+    },
+    initGridRows: function() {
+        if(this.initRowCallback){
+            for (var row=0; row<this.rows.length; row++) {
+                try {
+                    this.initRowCallback(this, this.rows[row]);
+                } catch (e) {
+                    if(console) {
+                        console.log(e);
+                    }
                 }
             }
         }
@@ -653,9 +656,9 @@ serializerController.prototype = {
         //Hidden input data holder
         this.hiddenDataHolder     = $(hiddenDataHolder);
         this.hiddenDataHolder.value = this.serializeObject();
-        
+
         this.grid = grid;
-        
+
         // Set old callbacks
         this.setOldCallback('row_click', this.grid.rowClickCallback);
         this.setOldCallback('init_row', this.grid.initRowCallback);
