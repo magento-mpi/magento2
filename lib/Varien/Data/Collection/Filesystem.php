@@ -282,7 +282,6 @@ class Varien_Data_Collection_Filesystem extends Varien_Data_Collection
         $this->_collectedFiles = array();
         $this->_collectedDirs = array();
         $this->_collectRecursive($this->_targetDirs);
-//Mage::log($this->_collectedDirs);
         $this->_generateAndFilterAndSort('_collectedFiles');
         if ($this->_dirsFirst) {
             $this->_generateAndFilterAndSort('_collectedDirs');
