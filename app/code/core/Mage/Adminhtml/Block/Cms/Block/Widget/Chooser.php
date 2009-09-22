@@ -118,27 +118,27 @@ class Mage_Adminhtml_Block_Cms_Block_Widget_Chooser extends Mage_Adminhtml_Block
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('id', array(
+        $this->addColumn('chooser_id', array(
             'header'    => Mage::helper('cms')->__('ID'),
             'align'     => 'right',
             'index'     => 'block_id',
             'width'     => 50
         ));
 
-        $this->addColumn('title', array(
+        $this->addColumn('chooser_title', array(
             'header'    => Mage::helper('cms')->__('Title'),
             'align'     => 'left',
             'index'     => 'title',
         ));
 
-        $this->addColumn('identifier', array(
+        $this->addColumn('chooser_identifier', array(
             'header'    => Mage::helper('cms')->__('Identifier'),
             'align'     => 'left',
             'index'     => 'identifier'
         ));
 
 
-        $this->addColumn('is_active', array(
+        $this->addColumn('chooser_is_active', array(
             'header'    => Mage::helper('cms')->__('Status'),
             'index'     => 'is_active',
             'type'      => 'options',
