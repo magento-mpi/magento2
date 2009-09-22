@@ -81,7 +81,7 @@ class Varien_Data_Collection_Filesystem extends Varien_Data_Collection
      *
      * @var string
      */
-    protected $_allowedDirsMask  = '/^[a-z0-9\.\-]+$/i';
+    protected $_allowedDirsMask  = '/^[a-z0-9\.\-\_]+$/i';
 
     /**
      * Filenames regex pre-filter
@@ -282,6 +282,7 @@ class Varien_Data_Collection_Filesystem extends Varien_Data_Collection
         $this->_collectedFiles = array();
         $this->_collectedDirs = array();
         $this->_collectRecursive($this->_targetDirs);
+//Mage::log($this->_collectedDirs);
         $this->_generateAndFilterAndSort('_collectedFiles');
         if ($this->_dirsFirst) {
             $this->_generateAndFilterAndSort('_collectedDirs');
