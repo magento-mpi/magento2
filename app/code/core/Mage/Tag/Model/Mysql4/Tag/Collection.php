@@ -120,10 +120,9 @@ class Mage_Tag_Model_Mysql4_Tag_Collection extends Mage_Core_Model_Mysql4_Collec
      * Replacing popularity by sum of popularity and base_popularity
      *
      * @param int $limit
-     * @param int $storeId
      * @return Mage_Tag_Model_Mysql4_Tag_Collection
      */
-    public function addPopularity($limit=null)
+    public function addPopularity($limit = null)
     {
         if (!$this->getFlag('popularity')) {
             $this->getSelect()

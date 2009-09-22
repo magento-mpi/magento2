@@ -30,15 +30,11 @@ $installer = $this;
 
 $installer->startSetup();
 
-$installer->getConnection()->addColumn($this->getTable('tag_summary'),
-    'base_popularity',
+$installer->getConnection()->addColumn($this->getTable('tag_summary'), 'base_popularity',
     'int(11) UNSIGNED DEFAULT \'0\' NOT NULL AFTER `popularity`'
 );
 
-$installer->getConnection()->changeColumn(
-    $this->getTable('tag_relation'),
-    'customer_id',
-    'customer_id',
+$installer->getConnection()->changeColumn($this->getTable('tag_relation'), 'customer_id', 'customer_id',
     'INT(10) UNSIGNED NULL DEFAULT NULL'
 );
 

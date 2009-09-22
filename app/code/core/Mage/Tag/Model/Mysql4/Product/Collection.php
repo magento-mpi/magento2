@@ -189,14 +189,17 @@ class Mage_Tag_Model_Mysql4_Product_Collection extends Mage_Catalog_Model_Resour
 
     /**
      * Set Customer filter
+     * If incoming parameter is array and has element with key 'null'
+     * then condition with IS NULL or IS NOT NULL will be added.
+     * Otherwise condition with IN() will be added
      *
-     * @param int $customerId
+     * @param int|array $customerId
      * @return Mage_Tag_Model_Mysql4_Product_Collection
      */
     public function addCustomerFilter($customerId)
     {
-        if (is_array($customerId) && isset($customerId['notnull'])) {
-            $condition = ($customerId['notnull']) ? 'IS NOT NULL' : 'IS NULL';
+        if (is_array($customerId) && isset($customerId['null'])) {
+            $condition = ($customerId['null']) ? 'IS NULL' : 'IS NOT NULL';
             $this->getSelect()->where('relation.customer_id ' . $condition);
             return $this;
         }

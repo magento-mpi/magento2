@@ -46,16 +46,19 @@ class Mage_Adminhtml_Block_Tag_Edit_Accordion extends Mage_Adminhtml_Block_Widge
 
         $tagModel = Mage::registry('current_tag');
 
+        $this->setId('tag_customer_and_product_accordion');
+
         $this->addItem('tag_customer', array(
-            'title'   => Mage::helper('tag')->__('Customers Submitted this Tag'),
-            'ajax'    => true,
-            'content_url' => $this->getUrl('*/*/customer', array('ret' => 'all', 'tag_id'=>$tagModel->getId(), 'store'=>$tagModel->getStoreId())),
+            'title'         => Mage::helper('tag')->__('Customers Submitted this Tag'),
+            'ajax'          => true,
+            'content_url'   => $this->getUrl('*/*/customer', array('ret' => 'all', 'tag_id'=>$tagModel->getId(), 'store'=>$tagModel->getStoreId())),
         ));
 
         $this->addItem('tag_product', array(
-            'title'   => Mage::helper('tag')->__('Products Tagged by Customers'),
-            'ajax'    => true,
-            'content_url' => $this->getUrl('*/*/product', array('ret' => 'all', 'tag_id'=>$tagModel->getId(), 'store'=>$tagModel->getStoreId())),
+            'title'         => Mage::helper('tag')->__('Products Tagged by Customers'),
+            'ajax'          => true,
+            'content_url'   => $this->getUrl('*/*/product', array('ret' => 'all', 'tag_id'=>$tagModel->getId(), 'store'=>$tagModel->getStoreId())),
         ));
+        return parent::_prepareLayout();
     }
 }
