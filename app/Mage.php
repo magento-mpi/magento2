@@ -130,13 +130,32 @@ final class Mage
     static private $_isInstalled;
 
     /**
-     * Retrieve current Magento version
+     * Gets the current Magento version string
+     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
      *
      * @return string
      */
     public static function getVersion()
     {
         return '1.4.0.0-alpha2';
+    }
+
+    /**
+     * Gets the detailed Magento version information
+     * @link http://www.magentocommerce.com/blog/new-community-edition-release-process/
+     *
+     * @return array
+     */
+    public static function getVersionInfo()
+    {
+        return array(
+            'major'     => '1',
+            'minor'     => '4',
+            'revision'  => '0',
+            'patch'     => '0',
+            'stability' => 'alpha',
+            'number'    => '2',
+        );
     }
 
     /**
