@@ -251,7 +251,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
 
         // create final summary from existing data and add specified base popularity
         $finalSummary = $this->_getExistingBasePopularity($tagId);
-        if ($object->hasBasePopularity() && $storeId ) {
+        if ($object->hasBasePopularity() && $storeId) {
             $finalSummary[$storeId]['store_id'] = $storeId;
             $finalSummary[$storeId]['base_popularity'] = $object->getBasePopularity();
         }
@@ -274,13 +274,12 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
         // prepare static parameters to final summary for insertion
         foreach ($finalSummary as $key => $row) {
             $finalSummary[$key]['tag_id'] = $tagId;
-            $finalSummary[$key]['popularity'] = $row['historical_uses'];
-            if (!isset($row['base_popularity'])) {
-                $finalSummary[$key]['base_popularity'] = 0;
+            foreach (array('base_popularity', 'popularity', 'historical_uses', 'uses', 'products', 'customers') as $k) {
+                if (!isset($row[$k])) {
+                    $finalSummary[$key][$k] = 0;
+                }
             }
-            if (isset($row['uses']) && is_null($row['uses'])) {
-                $finalSummary[$key]['uses'] = 0;
-            }
+            $finalSummary[$key]['popularity'] = $finalSummary[$key]['historical_uses'];
         }
 
         // remove old and insert new data
