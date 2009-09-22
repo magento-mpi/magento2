@@ -83,8 +83,8 @@ class Mage_Bundle_Model_Mysql4_Indexer_Stock extends Mage_CatalogInventory_Model
 
         $query = sprintf('CREATE TABLE %s ('
             . ' `entity_id` INT(10) UNSIGNED NOT NULL,'
-            . ' `stock_id` SMALLINT(5) UNSIGNED NOT NULL,'
             . ' `website_id` SMALLINT(5) UNSIGNED NOT NULL,'
+            . ' `stock_id` SMALLINT(5) UNSIGNED NOT NULL,'
             . ' `option_id` INT(10) UNSIGNED DEFAULT \'0\','
             . ' `stock_status` TINYINT(1) DEFAULT 0,'
             . ' PRIMARY KEY (`entity_id`,`stock_id`,`website_id`, `option_id`)'
@@ -182,6 +182,8 @@ class Mage_Bundle_Model_Mysql4_Indexer_Stock extends Mage_CatalogInventory_Model
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);
         }
+
+        Mage::log($select->assemble());
 
         $query = $select->insertFromSelect($this->getIdxTable());
         $write->query($query);
