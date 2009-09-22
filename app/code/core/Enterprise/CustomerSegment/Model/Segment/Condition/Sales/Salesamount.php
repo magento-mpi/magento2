@@ -43,4 +43,20 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
     }
+
+    protected function _prepareConditionsSql($customer)
+    {
+        $select = $this->getResource()->createSelect();
+
+        if ($this->getAttribute() == 'total') {
+            $result = "IF (SUM(order.base_grand_total) {$this->_getSqlOperator()} {$this->getValue()}, 1, 0)";
+        } else {
+            $result = "IF (SUM(order.base_grand_total)/COUNT(order.entity_id) {$this->_getSqlOperator()} {$this->getValue()}, 1, 0)";
+        }
+
+        $select->from(array('order' => $this->getResource()->getTable('sales/order')), array(new Zend_Db_Expr($result)));
+        $select->where('order.customer_id = ?', $customer->getId());
+
+        return $select;
+    }
 }

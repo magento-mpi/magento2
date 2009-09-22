@@ -112,16 +112,13 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
 
         $gotConditions = false;
 
-        $children = $this->_getChildConditionsSql($customer);
-        if ($children) {
-            foreach ($children as $criteria) {
-                if ($criteria) {
-                    $criteriaSql = "(IFNULL(($criteria), 0) {$operator} 1)";
+        foreach ($this->getConditions() as $condition) {
+            if ($sql = $condition->getConditionsSql($customer)) {
+                $criteriaSql = "(IFNULL(($sql), 0) {$operator} 1)";
 
-                    $select->$whereFunction($criteriaSql);
+                $select->$whereFunction($criteriaSql);
 
-                    $gotConditions = true;
-                }
+                $gotConditions = true;
             }
         }
 
@@ -143,6 +140,14 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
                             $gotConditions = true;
                         }
                         break;
+
+                    case 'order_status':
+                        $subfilter = $condition->getSubfilterSql($this->_getOrderSubfilterField(), $this->_getRequiredValidation());
+                        if ($subfilter) {
+                            $select->$whereFunction($subfilter);
+                            $gotConditions = true;
+                        }
+                        break;
                 }
             }
         }
@@ -152,17 +157,5 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
         }
 
         return $select;
-    }
-
-
-    protected function _getChildConditionsSql($customer)
-    {
-        $result = array();
-        foreach ($this->getConditions() as $condition) {
-            if ($sql = $condition->getConditionsSql($customer)) {
-                $result[] = $sql;
-            }
-        }
-        return $result;
     }
 }

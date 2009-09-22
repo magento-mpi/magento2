@@ -63,4 +63,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     {
         return 'text';
     }
+
+    protected function _getRequiredValidation()
+    {
+        return true;
+    }
+
+    protected function _getOrderSubfilterField()
+    {
+        return 'order.entity_id';
+    }
+
+    protected function _getDateSubfilterField()
+    {
+        return 'order.created_at';
+    }
 }

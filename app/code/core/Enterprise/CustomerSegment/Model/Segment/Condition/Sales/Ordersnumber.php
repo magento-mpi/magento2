@@ -38,9 +38,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('%s Number of Orders %s %s while %s of these Conditions match:',
-                $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml(),
+            . Mage::helper('enterprise_customersegment')->__('Number of Orders %s %s while %s of these Conditions match:',
+                $this->getOperatorElementHtml(), $this->getValueElementHtml(),
                 $this->getAggregatorElement()->getHtml())
             . $this->getRemoveLinkHtml();
+    }
+
+    protected function _prepareConditionsSql($customer)
+    {
+        $select = $this->getResource()->createSelect();
+
+        $result = "IF (COUNT(*) {$this->_getSqlOperator()} {$this->getValue()}, 1, 0)";
+
+        $select->from(array('order' => $this->getResource()->getTable('sales/order')), array(new Zend_Db_Expr($result)));
+        $select->where('order.customer_id = ?', $customer->getId());
+
+        return $select;
     }
 }

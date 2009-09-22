@@ -40,4 +40,40 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
+
+    public function getAttributeObject()
+    {
+        try {
+            $obj = Mage::getSingleton('eav/config')
+                ->getAttribute('order', 'status');
+        } catch (Exception $e) {
+            $obj = new Varien_Object();
+            $obj->setEntity(Mage::getResourceSingleton('sales/order'))
+                ->setFrontendInput('text');
+        }
+        return $obj;
+    }
+
+    public function getSubfilterType()
+    {
+        return 'order_status';
+    }
+
+    public function getSubfilterSql($fieldName, $requireValid)
+    {
+        $attribute = $this->getAttributeObject();
+        $table = $attribute->getBackendTable();
+
+        $select = $this->getResource()->createSelect();
+        $select->from(array('main'=>$table), array('entity_id'));
+
+        $operator = $this->_getSqlOperator();
+
+        $select->where('main.attribute_id = ?', $attribute->getId())
+            ->where("main.value {$operator} ?", $this->getValue());
+
+        $inOperator = ($requireValid ? 'IN' : 'NOT IN');
+
+        return sprintf("%s %s (%s)", $fieldName, $inOperator, $select);
+    }
 }
