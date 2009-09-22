@@ -26,6 +26,16 @@
 
 class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Notification_Toolbar
 {
+    const XML_USE_HTTPS_PATH           = 'system/adminnotification/use_https';
+    const XML_SEVERITY_ICONS_URL_PATH  = 'system/adminnotification/severity_icons_url';
+
+    /**
+     * Severity icons url
+     *
+     * @var string
+     */
+    protected $_severityIconsUrl;
+
     /**
      * Is available flag
      *
@@ -124,6 +134,20 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
     public function getLastNotice()
     {
         return $this->_getHelper()->getLatestNotice();
+    }
+
+    /**
+     * Retrieve severity icons url
+     *
+     * @return string
+     */
+    public function getSeverityIconsUrl()
+    {
+        if (is_null($this->_severityIconsUrl)) {
+            $this->_severityIconsUrl = (Mage::getStoreConfigFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://')
+                . sprintf(Mage::getStoreConfig(self::XML_SEVERITY_ICONS_URL_PATH), Mage::getVersion(), $this->getNoticeSeverity());
+        }
+        return $this->_severityIconsUrl;
     }
 
     /**

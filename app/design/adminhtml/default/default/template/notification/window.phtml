@@ -31,99 +31,33 @@
 ?>
 <?php if ($this->canShow()): ?>
 <script type="text/javascript">
-//<![CDATA[
-AC_FL_RunContent = 0;
-//]]>
+    function openMessagePopup() {
+        toggleSelectsUnderBlock($('message-popup-window-mask'), false);
+        Element.show('message-popup-window-mask');
+    }
+
+    function closeMessagePopup() {
+        toggleSelectsUnderBlock($('message-popup-window-mask'), true);
+        Element.hide('message-popup-window-mask');
+    }
+
+    Event.observe(window, 'load', openMessagePopup);
 </script>
-<script src="<?php echo $this->getJsUrl() ?>flash/AC_RunActiveContent.js" type="text/javascript"></script>
-<script type="text/javascript">
-//<![CDATA[
-function openMessagePopupWindow()
-{
-    var height = $('html-body').getHeight();
-    // instead of Element.clonePosition() get height from $$('#html-body .wrapper') and set it for mask block
-    $('message-popup-window-mask').setStyle({'height':height+'px'});
-    toggleSelectsUnderBlock($('message-popup-window-mask'), false);
-    Element.show('message-popup-window-mask');
-}
-
-function popupMessageDetailsWindow(url)
-{
-    window.open(url);
-}
-
-function closeMessagePopupWindow()
-{
-    toggleSelectsUnderBlock($('message-popup-window-mask'), true);
-    Element.hide('message-popup-window-mask');
-}
-
-function messagePopupWindow_DoFSCommand(command, args) {
-	window[command].call(null, args);
-}
-
-if (navigator.appName && navigator.appName.indexOf("Microsoft") != -1 && navigator.userAgent.indexOf("Windows") != -1 && navigator.userAgent.indexOf("Windows 3.1") == -1) {
-	document.write('<script language=\"VBScript\"\>\n');
-	document.write('On Error Resume Next\n');
-	document.write('Sub messagePopupWindow_FSCommand(ByVal command, ByVal args)\n');
-	document.write('	Call messagePopupWindow_DoFSCommand(command, args)\n');
-	document.write('End Sub\n');
-	document.write('<\/script\>\n');
-}
-
-function getFlashVars()
-{
-    var result = '';
-    result += 'headerText=<b><?php echo $this->getHeaderText(); ?></b>&';
-    result += 'closeText=<?php echo $this->getCloseText(); ?>&';
-    result += 'readDetailsText=<?php echo $this->getReadDetailsText(); ?>&';
-    result += 'noticeText=<?php echo $this->getNoticeText(); ?>&';
-    result += 'minorText=<?php echo $this->getMinorText(); ?>&';
-    result += 'majorText=<?php echo $this->getMajorText(); ?>&';
-    result += 'criticalText=<?php echo $this->getCriticalText(); ?>&';
-    result += 'messageText=<?php echo $this->getNoticeMessageText(); ?>&';
-    result += 'detailsUrl=<?php echo $this->getNoticeMessageUrl(); ?>&';
-    result += 'messageSeverity=<?php echo $this->getNoticeSeverity(); ?>';
-
-    return result;
-}
-//]]>
-</script>
-
 <div id="message-popup-window-mask" style="display:none;">
-<script type="text/javascript">
-//<![CDATA[
-if (AC_FL_RunContent == 0) {
-    alert("This page requires AC_RunActiveContent.js.");
-} else {
-    AC_FL_RunContent(
-        'codebase', 'https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,0,0',
-        'width', '415',
-        'height', '140',
-        'src', '<?php echo $this->getObjectUrl(); ?>',
-        'quality', 'high',
-        'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
-        'align', 'middle',
-        'play', 'true',
-        'loop', 'true',
-        'scale', 'showall',
-        'wmode', 'window',
-        'devicefont', 'false',
-        'id', 'messagePopupWindow',
-        'bgcolor', '#fdf4eb',
-        'name', 'messagePopupWindow',
-        'menu', 'false',
-        'allowFullScreen', 'false',
-        'allowScriptAccess','always',
-        'movie', '<?php echo $this->getObjectUrl(); ?>',
-        'salign', '',
-        'FlashVars', getFlashVars(),
-        'class', 'flash-window'
-    );
-
-    Event.observe(window, 'load', openMessagePopupWindow);
-}
-//]]>
-</script>
+    <div style="width:600px; border:2px solid red; margin-left:auto; margin-right:auto; margin-top:300px;">
+        headerText=<b><?php echo $this->getHeaderText(); ?></b><br>
+        closeText=<?php echo $this->getCloseText(); ?><br>
+        readDetailsText=<?php echo $this->getReadDetailsText(); ?><br>
+        noticeText=<?php echo $this->getNoticeText(); ?><br>
+        minorText=<?php echo $this->getMinorText(); ?><br>
+        majorText=<?php echo $this->getMajorText(); ?><br>
+        criticalText=<?php echo $this->getCriticalText(); ?><br>
+        messageText=<?php echo $this->getNoticeMessageText(); ?><br>
+        detailsUrl=<?php echo $this->getNoticeMessageUrl(); ?><br>
+        swfObjectUrl=<?php echo $this->getObjectUrl(); ?><br>
+        link to image = <?php echo $this->getSeverityIconsUrl() ?>
+        <br>
+        <button type="button" onclick="closeMessagePopup();return false;"><?php echo $this->getCloseText(); ?></button>
+    </div>
 </div>
 <?php endif; ?>
