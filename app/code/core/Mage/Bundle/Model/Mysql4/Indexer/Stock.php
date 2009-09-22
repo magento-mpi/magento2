@@ -95,6 +95,12 @@ class Mage_Bundle_Model_Mysql4_Indexer_Stock extends Mage_CatalogInventory_Model
         return $this;
     }
 
+    /**
+     * Prepare stock status per Bundle options, website and stock
+     *
+     * @param int|array $entityIds
+     * @return Mage_Bundle_Model_Mysql4_Indexer_Stock
+     */
     protected function _prepareBundleOptionStockData($entityIds = null)
     {
         $write = $this->_getWriteAdapter();
@@ -130,6 +136,8 @@ class Mage_Bundle_Model_Mysql4_Indexer_Stock extends Mage_CatalogInventory_Model
 
         $query = $select->insertFromSelect($this->_getBundleOptionTable());
         $write->query($query);
+
+        return $this;
     }
 
     /**
@@ -182,8 +190,6 @@ class Mage_Bundle_Model_Mysql4_Indexer_Stock extends Mage_CatalogInventory_Model
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);
         }
-
-        Mage::log($select->assemble());
 
         $query = $select->insertFromSelect($this->getIdxTable());
         $write->query($query);
