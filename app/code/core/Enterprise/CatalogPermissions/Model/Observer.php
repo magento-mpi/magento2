@@ -65,6 +65,18 @@ class Enterprise_CatalogPermissions_Model_Observer
     protected $_permissionsQuoteCache = array();
 
     /**
+     * Catalog permission helper
+     *
+     * @var Enterprise_CatalogPermissions_Helper_Data
+     */
+    protected $_helper;
+
+    public function __construct()
+    {
+        $this->_helper = Mage::helper('enterprise_catalogpermissions');
+    }
+
+    /**
      * Apply category permissions for category collection
      *
      * @param Varien_Event_Observer $observer
@@ -72,7 +84,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnIsActiveFilterToCollection(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -90,7 +102,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnLoadCollection(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -118,7 +130,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryInactiveIds(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -137,7 +149,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyPriceGrantOnPriceIndex(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -153,7 +165,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermissionOnProductCount(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -170,7 +182,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyCategoryPermission(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -185,9 +197,9 @@ class Enterprise_CatalogPermissions_Model_Observer
         if ($observer->getEvent()->getCategory()->getIsHidden()) {
 
             $observer->getEvent()->getControllerAction()->getResponse()
-                ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
+                ->setRedirect($this->_helper->getLandingPageUrl());
 
-            Mage::throwException(Mage::helper('enterprise_catalogpermissions')->__('You have no permissions to access this category'));
+            Mage::throwException($this->_helper->__('You have no permissions to access this category'));
         }
         return $this;
     }
@@ -200,7 +212,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyProductPermissionOnCollection(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -217,7 +229,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyProductPermissionOnCollectionAfterLoad(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -243,7 +255,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkQuoteItem(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -263,12 +275,12 @@ class Enterprise_CatalogPermissions_Model_Observer
             if ($parentItem) {
                 $quoteItem->getQuote()->setHasError(true)
                         ->addMessage(
-                            Mage::helper('enterprise_catalogpermissions')->__('You cannot add product "%s" to cart.', $parentItem->getName())
+                            $this->_helper->__('You cannot add product "%s" to cart.', $parentItem->getName())
                         );
             } else {
                  $quoteItem->getQuote()->setHasError(true)
                         ->addMessage(
-                            Mage::helper('enterprise_catalogpermissions')->__('You cannot add product "%s" to cart.', $quoteItem->getName())
+                            $this->_helper->__('You cannot add product "%s" to cart.', $quoteItem->getName())
                         );
             }
         }
@@ -284,7 +296,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkQuoteItemSetProduct(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -306,11 +318,11 @@ class Enterprise_CatalogPermissions_Model_Observer
             $quoteItem->getQuote()->removeItem($quoteItem->getId());
             if ($parentItem) {
                 Mage::throwException(
-                    Mage::helper('enterprise_catalogpermissions')->__('You cannot add product "%s" to cart.', $parentItem->getName())
+                    $this->_helper->__('You cannot add product "%s" to cart.', $parentItem->getName())
                 );
             } else {
                 Mage::throwException(
-                            Mage::helper('enterprise_catalogpermissions')->__('You cannot add product "%s" to cart.', $quoteItem->getName())
+                            $this->_helper->__('You cannot add product "%s" to cart.', $quoteItem->getName())
                 );
             }
         }
@@ -350,9 +362,9 @@ class Enterprise_CatalogPermissions_Model_Observer
         }
 
         $defaultGrants = array(
-            'grant_catalog_category_view' => Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView(),
-            'grant_catalog_product_price' => Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice(),
-            'grant_checkout_items' => Mage::helper('enterprise_catalogpermissions')->isAllowedCheckoutItems()
+            'grant_catalog_category_view' => $this->_helper->isAllowedCategoryView(),
+            'grant_catalog_product_price' => $this->_helper->isAllowedProductPrice(),
+            'grant_checkout_items' => $this->_helper->isAllowedCheckoutItems()
         );
 
         foreach ($quote->getAllItems() as $item) {
@@ -385,7 +397,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function applyProductPermission(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -394,9 +406,9 @@ class Enterprise_CatalogPermissions_Model_Observer
         $this->_applyPermissionsOnProduct($product);
         if ($observer->getEvent()->getProduct()->getIsHidden()) {
             $observer->getEvent()->getControllerAction()->getResponse()
-                ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
+                ->setRedirect($this->_helper->getLandingPageUrl());
 
-            Mage::throwException(Mage::helper('enterprise_catalogpermissions')->__('You have no permissions to access this product'));
+            Mage::throwException($this->_helper->__('You have no permissions to access this product'));
         }
 
         return $this;
@@ -412,7 +424,7 @@ class Enterprise_CatalogPermissions_Model_Observer
     {
         if ($category->getData('permissions/grant_catalog_category_view') == -2 ||
             ($category->getData('permissions/grant_catalog_category_view')!= -1 &&
-                !Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView())) {
+                !$this->_helper->isAllowedCategoryView())) {
             $category->setIsActive(0);
             $category->setIsHidden(true);
         }
@@ -430,21 +442,21 @@ class Enterprise_CatalogPermissions_Model_Observer
     {
         if ($product->getData('grant_catalog_category_view') == -2 ||
             ($product->getData('grant_catalog_category_view')!= -1 &&
-                !Mage::helper('enterprise_catalogpermissions')->isAllowedCategoryView())) {
+                !$this->_helper->isAllowedCategoryView())) {
             $product->setIsHidden(true);
         }
 
 
         if ($product->getData('grant_catalog_product_price') == -2 ||
             ($product->getData('grant_catalog_product_price')!= -1 &&
-                !Mage::helper('enterprise_catalogpermissions')->isAllowedProductPrice())) {
+                !$this->_helper->isAllowedProductPrice())) {
             $product->setCanShowPrice(false);
             $product->setDisableAddToCart(true);
         }
 
         if ($product->getData('grant_checkout_items') == -2 ||
             ($product->getData('grant_checkout_items')!= -1 &&
-                !Mage::helper('enterprise_catalogpermissions')->isAllowedCheckoutItems())) {
+                !$this->_helper->isAllowedCheckoutItems())) {
             $product->setDisableAddToCart(true);
         }
 
@@ -474,11 +486,11 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkCatalogSearchLayout(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
-        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCatalogSearch()) {
+        if (!$this->_helper->isAllowedCatalogSearch()) {
             $observer->getEvent()->getLayout()->getUpdate()->addHandle(
                 'CATALOGPERMISSIONS_DISABLED_CATALOG_SEARCH'
             );
@@ -494,16 +506,15 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkCatalogSearchPreDispatch(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
-        if (!Mage::helper('enterprise_catalogpermissions')->isAllowedCatalogSearch()
-            && !$observer->getEvent()->getControllerAction()->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true)
-            && $observer->getEvent()->getControllerAction()->getRequest()->isDispatched()) {
-            $observer->getEvent()->getControllerAction()->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
-            $observer->getEvent()->getControllerAction()->getResponse()
-                ->setRedirect(Mage::helper('enterprise_catalogpermissions')->getLandingPageUrl());
+        $action = $observer->getEvent()->getControllerAction();
+        if (!$this->_helper->isAllowedCatalogSearch() && !$action->getFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH)
+                && $action->getRequest()->isDispatched()) {
+            $action->setFlag('', Mage_Core_Controller_Varien_Action::FLAG_NO_DISPATCH, true);
+            $action->getResponse()->setRedirect($this->_helper->getLandingPageUrl());
         }
 
         return $this;
@@ -547,7 +558,7 @@ class Enterprise_CatalogPermissions_Model_Observer
      */
     public function checkIfProductAllowedInRss(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+        if (!$this->_helper->isEnabled()) {
             return $this;
         }
 
@@ -594,7 +605,7 @@ class Enterprise_CatalogPermissions_Model_Observer
             $data[$permission] = null;
         }
 
-        if (!Mage::helper('enterprise_catalogpermissions')->$method()) {
+        if (!$this->_helper->$method()) {
             if ($data[$permission] == Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW) {
                 $result = true;
             } else {
