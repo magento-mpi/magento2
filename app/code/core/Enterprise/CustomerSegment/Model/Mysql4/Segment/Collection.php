@@ -25,6 +25,8 @@
  */
 class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
+    protected $_customerCountAdded = false;
+
    /**
      * Intialize collection
      *
@@ -58,6 +60,54 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
     {
         $this->getSelect()->where('website_id = ?', $websiteId);
 
+        return $this;
+    }
+
+    /**
+     * Get SQL for get record count.
+     * Reset left join, group and having parts
+     *
+     * @return Varien_Db_Select
+     */
+    public function getSelectCountSql()
+    {
+        $countSelect = parent::getSelectCountSql();
+        if ($this->_customerCountAdded) {
+            $countSelect->reset(Zend_Db_Select::GROUP);
+            $countSelect->reset(Zend_Db_Select::HAVING);
+            $countSelect->resetJoinLeft();
+        }
+        return $countSelect;
+    }
+
+    /**
+     * Aggregate customer count by each segment
+     *
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
+     */
+    public function addCustomerCountToSelect()
+    {
+        $this->_customerCountAdded = true;
+        $this->getSelect()
+            ->joinLeft(
+                array('customer_count_table' => $this->getTable('enterprise_customersegment/customer')),
+                'customer_count_table.segment_id = main_table.segment_id',
+                array('customer_count' => new Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
+            )
+            ->group('main_table.segment_id');
+        return $this;
+    }
+
+    /**
+     * Add custom count filter
+     *
+     * @param integer $customerCount
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
+     */
+    public function addCustomerCountFilter($customerCount)
+    {
+        $this->getSelect()
+            ->having('`customer_count` = ?', $customerCount);
         return $this;
     }
 }

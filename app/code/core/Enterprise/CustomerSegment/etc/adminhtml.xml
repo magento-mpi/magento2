@@ -27,16 +27,28 @@
 -->
 <config>
     <acl>
-      <resources>
-        <admin>
-          <children>
-            <customer>
+        <resources>
+            <admin>
                 <children>
-                    <customersegment  translate="title" module="enterprise_customersegment">
-                        <title>Customer Segment</title>
-                    </customersegment>
-              </children>
-            </customer>
+                    <customer>
+                        <children>
+                            <customersegment  translate="title" module="enterprise_customersegment">
+                                <title>Customer Segment</title>
+                            </customersegment>
+                        </children>
+                    </customer>
+                    <report>
+                        <children>
+                            <customers>
+                                <children>
+                                    <segment translate="title" module="enterprise_customersegment">
+                                        <title>Segments</title>
+                                        <sort_order>100</sort_order>
+                                    </segment>
+                                </children>
+                            </customers>
+                        </children>
+                    </report>
           </children>
         </admin>
       </resources>
@@ -55,5 +67,22 @@
                 </customersegment>
             </children>
          </customer>
+         <report>
+            <children>
+                <customers>
+                    <children>
+                        <segment translate="title" module="enterprise_customersegment">
+                            <title>Segments</title>
+                            <action>adminhtml/report_customer_customersegment/segment</action>
+                            <depends>
+                                <module>Enterprise_CustomerSegment</module>
+                                <config>customer/enterprise_customersegment/is_enabled</config>
+                            </depends>
+                            <sort_order>100</sort_order>
+                        </segment>
+                    </children>
+                </customers>
+            </children>
+        </report>
     </menu>
 </config>
