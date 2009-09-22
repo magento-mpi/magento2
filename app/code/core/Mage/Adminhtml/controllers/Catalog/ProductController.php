@@ -349,31 +349,23 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     public function superGroupAction()
     {
         $this->_initProduct();
-
-        $gridBlock = $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group')
-            ->setProductId(Mage::registry('product')->getId())
-            ->setGridUrl($this->getUrl('*/*/superGroupGridOnly', array('_current' => true)))
-        ;
-        $serializerBlock = $this->_createSerializerBlock('links[grouped]', $gridBlock, Mage::registry('product')->getTypeInstance()->getAssociatedProducts())
-            ->setIsEntityId(true)
-        ;
-
-        $this->_outputBlocks($gridBlock, $serializerBlock);
+        $this->loadLayout();
+        $this->getLayout()->getBlock('catalog.product.edit.tab.super.group')
+            ->setProductsGrouped($this->getRequest()->getPost('products_grouped', null));
+        $this->renderLayout();
     }
 
     /**
-     * Get associated grouped products grid
+     * Get associated grouped products grid only
      *
      */
     public function superGroupGridOnlyAction()
     {
         $this->_initProduct();
-
-        $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('adminhtml/catalog_product_edit_tab_super_group')
-                ->setProductId(Mage::registry('product')->getId())
-                ->toHtml()
-        );
+        $this->loadLayout();
+        $this->getLayout()->getBlock('catalog.product.edit.tab.super.group')
+            ->setProductsGrouped($this->getRequest()->getPost('products_grouped', null));
+        $this->renderLayout();
     }
 
     /**

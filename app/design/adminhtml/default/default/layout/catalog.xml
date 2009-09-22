@@ -136,13 +136,33 @@ Layout handle for simple products
 <!--
 Layout handle for grouped products
 -->
-
     <adminhtml_catalog_product_grouped>
         <reference name="product_tabs">
             <action method="addTab"><name>super</name><block>adminhtml/catalog_product_edit_tab_super_group</block></action>
         </reference>
     </adminhtml_catalog_product_grouped>
-
+ 
+    <adminhtml_catalog_product_supergroup>
+        <block type="core/text_list" name="root">
+            <block type="adminhtml/catalog_product_edit_tab_super_group" name="catalog.product.edit.tab.super.group" />
+            <block type="adminhtml/widget_grid_serializer" name="grouped_grid_serializer">
+                <reference name="grouped_grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>catalog.product.edit.tab.super.group</grid_block_name>
+                        <data_callback>getSelectedGroupedProducts</data_callback>
+                        <hidden_input_name>links[grouped]</hidden_input_name>
+                        <reload_param_name>products_grouped</reload_param_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_catalog_product_supergroup>
+    
+    <adminhtml_catalog_product_supergroupgridonly>
+        <block type="core/text_list" name="root">
+            <block type="adminhtml/catalog_product_edit_tab_super_group" name="catalog.product.edit.tab.super.group" />
+        </block>
+    </adminhtml_catalog_product_supergroupgridonly>
 <!--
 Layout handle for configurable products
 -->
