@@ -81,7 +81,7 @@
         </design>
         <system>
             <adminnotification>
-                <feed_url>notifications.magentocommerce.com/enterprise/notifications-feed</feed_url>
+                <feed_url>notifications.magentocommerce.com/enterprise/notifications.rss</feed_url>
             </adminnotification>
         </system>
     </default>
