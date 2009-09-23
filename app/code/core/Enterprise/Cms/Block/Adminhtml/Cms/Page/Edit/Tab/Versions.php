@@ -65,8 +65,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             ->addVisibilityFilter($userId,
                 Mage::getSingleton('enterprise_cms/config')->getAllowedAccessLevel())
             ->addUserColumn()
-            ->addUserNameColumn()
-            ->addNumberSort();
+            ->addUserNameColumn();
+
+        if (!$this->getParam($this->getVarNameSort())) {
+            $collection->addNumberSort();
+        }
 
         $this->setCollection($collection);
 
@@ -113,9 +116,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
 
         $this->addColumn('owner', array(
             'header' => Mage::helper('enterprise_cms')->__('Owner'),
-            'index' => 'user',
+            'index' => 'username',
             'type' => 'options',
-            'options' => $this->getCollection()->getUsersArray(),
+            'options' => $this->getCollection()->getUsersArray(false),
             'width' => 250
         ));
 

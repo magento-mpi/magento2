@@ -128,10 +128,12 @@ abstract class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage
     public function addUserNameColumn()
     {
         if (!$this->getFlag('user_name_column_joined')) {
+            $userField = new Zend_Db_Expr('IFNULL(ut.username, -1)');
+
             $this->getSelect()->joinLeft(
                 array('ut' => $this->getTable('admin/user')),
                 'ut.user_id = main_table.user_id',
-                array('username'));
+                array('username' => $userField));
             $this->setFlag('user_name_column_joined', true);
         }
 
@@ -141,15 +143,20 @@ abstract class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage
     /**
      * Retrieve array of admin users in collection
      *
+     * @param bool $idAsKey default true if false then name will be used as key and value
      * @return array
      */
-    public function getUsersArray()
+    public function getUsersArray($idAsKey = true)
     {
         if (!$this->_usersHash) {
             $this->_usersHash = array();
             foreach ($this->_toOptionHash('user_id', 'username') as $userId => $username) {
                 if ($userId) {
-                    $this->_usersHash[$userId] = $username;
+                    if ($idAsKey) {
+                        $this->_usersHash[$userId] = $username;
+                    } else {
+                        $this->_usersHash[$username] = $username;
+                    }
                 } else {
                     $this->_usersHash['-1'] = Mage::helper('enterprise_cms')->__('[No Owner]');
                 }
