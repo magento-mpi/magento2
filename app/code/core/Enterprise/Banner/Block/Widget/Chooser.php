@@ -46,7 +46,7 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
         $this->setVarNameFilter('banners_filter');
         $this->setDefaultSort('banner_id');
         $this->setUseAjax(true);
-
+        $this->setDefaultFilter(array('in_banners'=>1));
     }
 
     /**
@@ -70,8 +70,38 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
             ->setSourceUrl($sourceUrl)
             ->setUniqId($uniqId);
 
+        if ($element->getValue()) {
+            $chooser->setLabel($element->getValue());
+        }
+
         $element->setData('after_element_html', $chooser->toHtml());
         return $element;
+    }
+
+    /**
+     * Grid row init js callback
+     *
+     * @return string
+     */
+    public function getRowInitCallback()
+    {
+        $chooserJsObject = $this->getId();
+        return '
+        function(grid, row){
+            if(typeof(grid.selBannersIds) == \'undefined\'){
+                grid.selBannersIds = [];
+                if('.$chooserJsObject.'.getElementValue() != \'\'){
+                    grid.selBannersIds = '.$chooserJsObject.'.getElementValue().split(\',\');
+                }
+                grid.reloadParams = {};
+                grid.reloadParams[\'selected_banners[]\'] = grid.selBannersIds;
+            }
+            var checkbox = $(row).select(\'.checkbox\')[0];
+            if(grid.selBannersIds.indexOf(checkbox.value) >= 0){
+                checkbox.checked = true;
+            }
+        }
+        ';
     }
 
     /**
@@ -124,9 +154,7 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
             'name'      => 'in_banners',
             'values'    => $this->getSelectedBanners(),
             'align'     => 'center',
-            'index'     => 'banner_id',
-            'filter'    => false,
-            'display' => false
+            'index'     => 'banner_id'
         ));
         parent::_prepareColumns();
         return $this;
@@ -202,7 +230,11 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
      */
     public function getSelectedBanners()
     {
-        if ($selectedBanners = $this->getRequest()->getParam('selected_banners', null)) {
+        $elementValue = $this->getRequest()->getParam('element_value', null);
+        if ($elementValue) {
+            $elementValue = explode(',', $elementValue);
+        }
+        if ($selectedBanners = $this->getRequest()->getParam('selected_banners', $elementValue)) {
             $this->setSelectedBanners($selectedBanners);
         }
         return $this->_selectedBanners;

@@ -101,9 +101,11 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
             'legend'=>Mage::helper('enterprise_banner')->__('Content'))
         );
 
-        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(
-            array('tab_id' => $this->getTabId())
-        );
+        $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
+            'tab_id' => $this->getTabId(),
+            'skip_context' => true,
+            'skip_widgets' => array('enterprise_banner/widget_banner')
+        ));
 
         $storeContents = $banner->getStoreContents();
         $field = $fieldset->addField('store_default_content', 'editor', array(
