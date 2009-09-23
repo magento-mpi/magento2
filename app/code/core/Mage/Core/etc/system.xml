@@ -1136,16 +1136,6 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </use_http_user_agent>
-                        <use_frontend_sid translate="label">
-                            <label>Share Session ID between Stores</label>
-                            <comment>This allows customers to stay logged in when switching between stores. Note that accidental SID sharing may compromise your customers security.</comment>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </use_frontend_sid>
                     </fields>
                 </session>
                 <browser_capabilities translate="label">
