@@ -487,7 +487,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         $this->_getIndexAdapter()->query($sql);
         $sql = "CREATE TABLE {$tmpTable} (
             `category_id` int(10) unsigned NOT NULL DEFAULT '0',
-            `path` varchar(257) CHARACTER SET utf8 NOT NULL DEFAULT '',
+            `path` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
             KEY `IDX_CATEGORY` (`category_id`)
         ) ENGINE=MyISAM";
         $this->_getIndexAdapter()->query($sql);
