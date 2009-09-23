@@ -44,6 +44,7 @@ class Mage_Adminhtml_Block_Cms_Block_Widget_Chooser extends Mage_Adminhtml_Block
         $this->setDefaultSort('block_identifier');
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);
+        $this->setDefaultFilter(array('chooser_is_active' => '1'));
     }
 
     /**
