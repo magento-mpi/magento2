@@ -64,6 +64,16 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
     }
 
     /**
+     * Retrieve collection items as option array
+     *
+     * @return array
+     */
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('segment_id', 'name');
+    }
+
+    /**
      * Get SQL for get record count.
      * Reset left join, group and having parts
      *
