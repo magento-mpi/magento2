@@ -58,9 +58,9 @@ class Mage_Ogone_Helper_Data extends Mage_Core_Helper_Abstract
     public function shaCryptValidation($data, $hash, $key='')
     {
         if (is_array($data)) {
-            return (bool) bin2hex(mhash(MHASH_SHA1, implode("", $data), $key))== $hash;
+            return (bool) (strtoupper(bin2hex(mhash(MHASH_SHA1, implode("", $data), $key)))== $hash);
         } elseif (is_string($data)) {
-            return (bool) bin2hex(mhash(MHASH_SHA1, $data, $key))== $hash;
+            return (bool) (strtoupper(bin2hex(mhash(MHASH_SHA1, $data, $key)))== $hash);
         } else {
             return false;
         }

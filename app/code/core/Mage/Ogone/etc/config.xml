@@ -64,29 +64,8 @@
                     <decline_ogone translate="label"><label>Declined Ogone</label></decline_ogone>
                     <processing_ogone translate="label"><label>Processing Ogone Payment</label></processing_ogone>
                     <processed_ogone translate="label"><label>Processed Ogone Payment</label></processed_ogone>
+                    <waiting_authorozation translate="label"><label>Waiting Authorization</label></waiting_authorozation>
                 </statuses>
-                <states>
-                    <!--
-                        pending payment state order will not see in front end
-                    -->
-                    <pending_payment>
-                        <statuses>
-                            <pending_ogone/>
-                        </statuses>
-                    </pending_payment>
-                    <processing>
-                        <statuses>
-                            <processing_ogone/>
-                            <processed_ogone/>
-                        </statuses>
-                    </processing>
-                    <canceled>
-                        <statuses>
-                            <cancel_ogone/>
-                            <decline_ogone/>
-                        </statuses>
-                    </canceled>
-                </states>
             </order>
         </sales>
     </global>
@@ -121,6 +100,12 @@
                  <payment_action>authorize</payment_action>
                  <template>ogone</template>
                  <ogone_gateway>https://secure.ogone.com/ncol/test/orderstandard.asp</ogone_gateway>
+                 <pending_ogone>pending_ogone</pending_ogone>
+                 <cancel_ogone>cancel_ogone</cancel_ogone>
+                 <decline_ogone>decline_ogone</decline_ogone>
+                 <processing_ogone>processing_ogone</processing_ogone>
+                 <processed_ogone>processed_ogone</processed_ogone>
+                 <waiting_authorozation>waiting_authorozation</waiting_authorozation>
             </ogone>
         </payment>
     </default>

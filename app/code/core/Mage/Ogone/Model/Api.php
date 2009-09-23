@@ -26,7 +26,7 @@
 
 /**
  * Ogone payment method model
- */ 
+ */
 class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
 {
     protected $_code  = 'ogone';
@@ -56,6 +56,7 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
     const CANCEL_OGONE_STATUS       = 'cancel_ogone';
     const DECLINE_OGONE_STATUS      = 'decline_ogone';
     const PROCESSING_OGONE_STATUS   = 'processing_ogone';
+    const WAITING_AUTHORIZATION     = 'waiting_authorozation';
     const PROCESSED_OGONE_STATUS    = 'processed_ogone';
 
     /* Ogone responce statuses */
@@ -67,11 +68,16 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
     const OGONE_AUTH_REFUZED                = 2;
     const OGONE_AUTH_PROCESSING             = 51;
     const OGONE_TECH_PROBLEM                = 93;
+    const OGONE_AUTHORIZED                  = 5;
 
     /* Layout of the payment method */
     const PMLIST_HORISONTAL_LEFT            = 0;
     const PMLIST_HORISONTAL                 = 1;
     const PMLIST_VERTICAL                   = 2;
+
+    /* ogone paymen action constant*/
+    const OGONE_AUTHORIZE_ACTION = 'RES';
+    const OGONE_AUTHORIZE_CAPTURE_ACTION = 'SAL';
 
     /**
      * Init Ogone Api instance, detup default values
@@ -148,7 +154,6 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
                 return array();
             }
         }
-
         $billingAddress = $order->getBillingAddress();
         $formFields = array();
         $formFields['PSPID']    = $this->getConfig()->getPSPID();
@@ -157,19 +162,23 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
         $formFields['currency'] = Mage::app()->getStore()->getBaseCurrencyCode();
         $formFields['language'] = Mage::app()->getLocale()->getLocaleCode();
 
-        $formFields['CN']       = $billingAddress->getFirstname(); //@todo not shure if it correct
+        $formFields['CN']       = $this->_translate($billingAddress->getFirstname().' '.$billingAddress->getLastname());
         $formFields['EMAIL']    = $order->getCustomerEmail();
         $formFields['ownerZIP'] = $billingAddress->getPostcode();
         $formFields['ownercty'] = $billingAddress->getCountry();
-        $formFields['ownertown']= $billingAddress->getCity();
-        $formFields['COM']      = $this->_getOrderDescription($order);
+        $formFields['ownertown']= $this->_translate($billingAddress->getCity());
+        $formFields['COM']      = $this->_translate($this->_getOrderDescription($order));
         $formFields['ownertelno']   = $billingAddress->getTelephone();
-        $formFields['owneraddress'] = $this->_getFormatedAddress($order);
-        $formFields['operation']    = 'SAL'; //@todo SAL -sale, RES - auth
+        $formFields['owneraddress'] =  $this->_translate(str_replace("\n", ' ',$billingAddress->getStreet(-1)));
+
+        $paymentAction = $this->_getOgonePaymentOperation();
+        if ($paymentAction ) {
+            $formFields['operation'] = $paymentAction;
+        }
 
         $secretCode = $this->getConfig()->getShaOutCode();
         $secretSet  = $formFields['orderID'] . $formFields['amount'] . $formFields['currency'] .
-            $formFields['PSPID'] . $formFields['operation'] . $secretCode;
+            $formFields['PSPID'] . $paymentAction . $secretCode;
 
         $formFields['SHASign']  = Mage::helper('ogone')->shaCrypt($secretSet);
 
@@ -186,7 +195,7 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
         } else {
             $formFields['TP']= $this->getConfig()->getPayPageTemplate();
         }
-        $formFields['TITLE']            = $this->getConfig()->getConfigData('html_title');
+        $formFields['TITLE']            = $this->_translate($this->getConfig()->getConfigData('html_title'));
         $formFields['BGCOLOR']          = $this->getConfig()->getConfigData('bgcolor');
         $formFields['TXTCOLOR']         = $this->getConfig()->getConfigData('txtcolor');
         $formFields['TBLBGCOLOR']       = $this->getConfig()->getConfigData('tblbgcolor');
@@ -195,28 +204,33 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
         $formFields['BUTTONTXTCOLOR']   = $this->getConfig()->getConfigData('buttontxtcolor');
         $formFields['FONTTYPE']         = $this->getConfig()->getConfigData('fonttype');
         $formFields['LOGO']             = $this->getConfig()->getConfigData('logo');
-
         return $formFields;
     }
 
     /**
-     * Get formated customer address by billing address grouping
+     * to translate UTF 8 to ISO 8859-1
+     * Ogone system is only compatible with iso-8859-1 and does not (yet) fully support the utf-8
+     */
+    protected function _translate($text)
+    {
+        return htmlentities(iconv("UTF-8", "ISO-8859-1", $text));
+    }
+
+    /**
+     * Get Ogone Payment Action value
      *
-     * @param Mage_Sales_Model_Order
+     * @param string
      * @return string
      */
-    protected function _getFormatedAddress($order)
+    protected function _getOgonePaymentOperation()
     {
-        $address = $order->getBillingAddress();
-        $address->unsFirstname();
-        $address->unsLastname();
-        $address->unsPostcode();
-        $formatedAddress = '';
-        $tmpAddress = explode(' ', str_replace("\n", ' ', trim($address->format('text'))));
-        foreach ($tmpAddress as $part) {
-            if (strlen($part) > 0) $formatedAddress .= $part . ' ';
+        $value = $this->getPaymentAction();
+        if ($value==Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE) {
+            $value = Mage_Ogone_Model_Api::OGONE_AUTHORIZE_ACTION;
+        } elseif ($value==Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE) {
+            $value = Mage_Ogone_Model_Api::OGONE_AUTHORIZE_CAPTURE_ACTION;
         }
-        return $formatedAddress;
+        return $value;
     }
 
     /**

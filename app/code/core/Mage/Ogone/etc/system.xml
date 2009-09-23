@@ -76,14 +76,18 @@
                         <pspid translate="label">
                             <label>PSPID</label>
                             <frontend_type>text</frontend_type>
+                            <comment> PSPID is a case sensitive field</comment>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </pspid>
-                        <secret_key_in translate="label,comment">
-                            <label>SHA-IN Signature</label>
-                            <comment>use in posting data from Ogone to Magento</comment>
+                        <secret_key_in translate="label comment">
+                            <label>SHA Signature (used by Magento)</label>
+                            <comment><![CDATA[
+                                Use in posting data from Ogone to Magento. <br/>
+                                Use in Feedback data checking by Magento
+                            ]]></comment>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <frontend_type>obscure</frontend_type>
                             <sort_order>5</sort_order>
@@ -91,9 +95,12 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </secret_key_in>
-                        <secret_key_out translate="label,comment">
-                            <label>SHA-OUT Signature</label>
-                            <comment>use in posting data from Magento to Ogone</comment>
+                        <secret_key_out translate="label comment">
+                            <label>SHA Signature (used by Ogone)</label>
+                            <comment><![CDATA[
+                                Use in posting data from Magento to Ogone. <br/>
+                                Use in data checking by Ogone before the payment.
+                            ]]></comment>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
                             <frontend_type>obscure</frontend_type>
                             <sort_order>6</sort_order>
@@ -101,7 +108,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </secret_key_out>
-                        <ogone_gateway translate="label,comment">
+                        <ogone_gateway translate="label comment">
                             <label>Gate Way url</label>
                             <frontend_type>text</frontend_type>
                             <comment>For production, replace "test" with "prod" Example: https://secure.ogone.com/ncol/prod/orderstandard.asp</comment>
@@ -110,7 +117,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </ogone_gateway>
-                        <payment_action translate="label,comment">
+                        <payment_action translate="label comment">
                             <label>Payment Action</label>
                             <frontend_type>select</frontend_type>
                             <source_model>ogone/source_paymentAction</source_model>
@@ -120,17 +127,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </payment_action>
-                        <payment_action translate="label,comment">
-                            <label>Payment Action</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>ogone/source_paymentAction</source_model>
-                            <comment>If you choose "No Operation", Ogone will use default Payment procedure setup in Ogone configuration</comment>
-                            <sort_order>9</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </payment_action>
-                        <template translate="label,comment">
+                        <template translate="label comment">
                             <label>Payment Template</label>
                             <frontend_type>select</frontend_type>
                             <source_model>ogone/source_template</source_model>
@@ -140,7 +137,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </template>
-                        <html_title translate="label,comment">
+                        <html_title translate="label comment">
                             <label>Title of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>11</sort_order>
@@ -148,7 +145,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </html_title>
-                        <bgcolor translate="label,comment">
+                        <bgcolor translate="label comment">
                             <label>Background color of Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: white]]></comment>
@@ -157,7 +154,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </bgcolor>
-                        <txtcolor translate="label,comment">
+                        <txtcolor translate="label comment">
                             <label>Text Color of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: black]]></comment>
@@ -166,7 +163,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </txtcolor>
-                        <tblbgcolor translate="label,comment">
+                        <tblbgcolor translate="label comment">
                             <label>Table background color of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: white]]></comment>
@@ -175,7 +172,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </tblbgcolor>
-                        <tbltxtcolor translate="label,comment">
+                        <tbltxtcolor translate="label comment">
                             <label>Table text color of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: black]]></comment>
@@ -192,7 +189,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </buttonbgcolor>
-                        <buttontxtcolor translate="label,comment">
+                        <buttontxtcolor translate="label comment">
                             <label>Button text color of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: white]]></comment>
@@ -201,7 +198,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </buttontxtcolor>
-                        <fonttype translate="label,comment">
+                        <fonttype translate="label comment">
                             <label>Font Family of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[e.g: Verdana]]></comment>
@@ -210,7 +207,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </fonttype>
-                        <logo translate="label,comment">
+                        <logo translate="label comment">
                             <label>Logo of the Ogone Template</label>
                             <frontend_type>text</frontend_type>
                             <comment><![CDATA[URL/filename of the logo.
@@ -221,7 +218,7 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </logo>
-                        <pmlist translate="label,comment">
+                        <pmlist translate="label comment">
                             <label>Layout of Payment Methods</label>
                             <frontend_type>select</frontend_type>
                             <source_model>ogone/source_pmlist</source_model>
@@ -230,7 +227,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </pmlist>                        
+                        </pmlist>
                     </fields>
                 </ogone>
             </groups>
