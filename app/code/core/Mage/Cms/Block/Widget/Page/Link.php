@@ -37,16 +37,25 @@ class Mage_Cms_Block_Widget_Page_Link
     implements Mage_Cms_Block_Widget_Interface
 {
     /**
-     * Initialize block
+     * Prepared href attribute
+     *
+     * @var string
      */
-    protected function _construct()
-    {
-        /*
-         * Saving original data to make sure we
-         * have it without any other data manipulations.
-         */
-        $this->setOrigData();
-    }
+    protected $_href;
+
+    /**
+     * Prepared title attribute
+     *
+     * @var string
+     */
+    protected $_title;
+
+    /**
+     * Prepared anchor text
+     *
+     * @var string
+     */
+    protected $_anchorText;
 
     /**
      * Prepare page url. Use passed identifier
@@ -56,15 +65,17 @@ class Mage_Cms_Block_Widget_Page_Link
      */
     public function getHref()
     {
-        $href = "";
-        if ($this->getOrigData('href')) {
-            $href = $this->getOrigData('href');
-        } else if ($this->getOrigData('page_id')) {
-            $href = Mage::getResourceSingleton('cms/page')->getCmsPageIdentifierById($this->getOrigData('page_id'));
-            $this->setData('href', $href);
+        if (!$this->_href) {
+            $this->_href = '';
+            if ($this->getData('href')) {
+                $this->_href = $this->getData('href');
+            } else if ($this->getData('page_id')) {
+                $href = Mage::getResourceSingleton('cms/page')->getCmsPageIdentifierById($this->getData('page_id'));
+                $this->_href = Mage::app()->getStore()->getUrl('', array('_direct' => $href));
+            }
         }
 
-        return Mage::app()->getStore()->getUrl('', array('_direct' => $href));
+        return $this->_href;
     }
 
     /**
@@ -75,19 +86,19 @@ class Mage_Cms_Block_Widget_Page_Link
      */
     public function getTitle()
     {
-        $title = '';
-        if ($this->getOrigData('title') !== null) {
-            // compare to null used here bc user can specify blank title
-            $title = $this->getOrigData('title');
-        } else if ($this->getOrigData('href')) {
-            $title = Mage::getResourceSingleton('cms/page')->getCmsPageTitleByIdentifier($this->getOrigData('href'));
-        } else if ($this->getOrigData('page_id')) {
-            $title = Mage::getResourceSingleton('cms/page')->getCmsPageTitleById($this->getOrigData('page_id'));
+        if (!$this->_title) {
+            $this->_title = '';
+            if ($this->getData('title') !== null) {
+                // compare to null used here bc user can specify blank title
+                $this->_title = $this->getData('title');
+            } else if ($this->getData('href')) {
+                $this->_title = Mage::getResourceSingleton('cms/page')->getCmsPageTitleByIdentifier($this->getData('href'));
+            } else if ($this->getData('page_id')) {
+                $this->_title = Mage::getResourceSingleton('cms/page')->getCmsPageTitleById($this->getData('page_id'));
+            }
         }
 
-        $this->setData('title', $title);
-
-        return $title;
+        return $this->_title;
     }
 
     /**
@@ -99,18 +110,18 @@ class Mage_Cms_Block_Widget_Page_Link
      */
     public function getAnchorText()
     {
-        if ($this->getOrigData('anchor_text')) {
-            return $this->getOrigData('anchor_text');
+        if ($this->getData('anchor_text')) {
+            $this->_anchorText = $this->getData('anchor_text');
+        } else if ($this->getTitle()) {
+            $this->_anchorText = $this->getTitle();
+        } else if ($this->getData('href')) {
+            $this->_anchorText = Mage::getResourceSingleton('cms/page')->getCmsPageTitleByIdentifier($this->getData('href'));
+        } else if ($this->getData('page_id')) {
+            $this->_anchorText = Mage::getResourceSingleton('cms/page')->getCmsPageTitleById($this->getData('page_id'));
+        } else {
+            $this->_anchorText = $this->getData('href');
         }
 
-        if ($this->getTitle()) {
-            return $this->getTitle();
-        }
-
-        if (!$this->getOrigData('href') && $this->getOrigData('page_id')) {
-            return Mage::getResourceSingleton('cms/page')->getCmsPageTitleById($this->getOrigData('page_id'));
-        }
-
-        return $this->getOrigData('href');
+        return $this->_anchorText;
     }
 }

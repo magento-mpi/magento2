@@ -43,17 +43,18 @@ class Mage_Catalog_Block_Widget_Link
     protected $_entityResource = null;
 
     /**
-     * Initialize block
+     * Prepared href attribute
+     *
+     * @var string
      */
-    protected function _construct()
-    {
-        parent::_construct();
-        /*
-         * Saving original data to make sure we
-         * have it without any other data manipulations.
-         */
-        $this->setOrigData();
-    }
+    protected $_href;
+
+    /**
+     * Prepared anchor text
+     *
+     * @var string
+     */
+    protected $_anchorText;
 
     /**
      * Prepare url using passed id path.
@@ -62,16 +63,20 @@ class Mage_Catalog_Block_Widget_Link
      */
     public function getHref()
     {
-        $store = Mage::app()->getStore();
-        /* @var $store Mage_Core_Model_Store */
-        $href = "";
-        if ($this->getOrigData('id_path')) {
-            $urlRewriteResource = Mage::getResourceSingleton('core/url_rewrite');
-            /* @var $urlRewriteResource Mage_Core_Model_Mysql4_Url_Rewrite */
-            $href = $urlRewriteResource->getRequestPathByIdPath($this->getOrigData('id_path'), $store);
+        if (!$this->_href) {
+            $store = Mage::app()->getStore();
+            /* @var $store Mage_Core_Model_Store */
+            $href = "";
+            if ($this->getData('id_path')) {
+                $urlRewriteResource = Mage::getResourceSingleton('core/url_rewrite');
+                /* @var $urlRewriteResource Mage_Core_Model_Mysql4_Url_Rewrite */
+                $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
+            }
+
+            $this->_href = $store->getUrl('', array('_direct' => $href));
         }
 
-        return $store->getUrl('', array('_direct' => $href));
+        return $this->_href;
     }
 
     /**
@@ -82,15 +87,18 @@ class Mage_Catalog_Block_Widget_Link
      */
     public function getAnchorText()
     {
-        if (!$this->hasData('anchor_text') && $this->_entityResource) {
-            $idPath = explode('/', $this->_getData('id_path'));
-            $id = array_pop($idPath);
-            if ($id) {
-                $name = $this->_entityResource->getAttributeRawValue($id, 'name', Mage::app()->getStore());
-                $this->setData('anchor_text', $name);
+        if (!$this->_anchorText && $this->_entityResource) {
+            if (!$this->getData('anchor_text')) {
+                $idPath = explode('/', $this->_getData('id_path'));
+                $id = array_pop($idPath);
+                if ($id) {
+                    $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name', Mage::app()->getStore());
+                }
+            } else {
+                $this->_anchorText = $this->getData('anchor_text');
             }
         }
 
-        return $this->_getData('anchor_text');
+        return $this->_anchorText;
     }
 }

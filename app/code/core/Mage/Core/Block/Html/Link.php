@@ -54,8 +54,7 @@ class Mage_Core_Block_Html_Link extends Mage_Core_Block_Abstract
         foreach ($allow as $attribute) {
             $value = $this->getDataUsingMethod($attribute);
             if (!is_null($value)) {
-                $this->setData($attribute, $this->htmlEscape($value));
-                $attributes[] = $attribute;
+                $attributes[$attribute] = $this->htmlEscape($value);
             }
         }
 
@@ -63,6 +62,27 @@ class Mage_Core_Block_Html_Link extends Mage_Core_Block_Abstract
             return $this->serialize($attributes);
         }
         return '';
+    }
+
+    /**
+     * serialize attributes
+     *
+     * @param   array $attributes
+     * @param   string $valueSeparator
+     * @param   string $fieldSeparator
+     * @param   string $quote
+     * @return  string
+     */
+    public function serialize($attributes = array(), $valueSeparator='=', $fieldSeparator=' ', $quote='"')
+    {
+        $res  = '';
+        $data = array();
+
+        foreach ($attributes as $key => $value) {
+            $data[] = $key . $valueSeparator . $quote . $value . $quote;
+        }
+        $res = implode($fieldSeparator, $data);
+        return $res;
     }
 
     /**
