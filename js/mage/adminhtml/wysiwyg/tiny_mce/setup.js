@@ -29,6 +29,24 @@ tinyMceWysiwygSetup.prototype =
         this.id = htmlId;
         this.config = config;
         varienGlobalEvents.attachEventHandler('tinymceChange', this.onChangeContent.bind(this));
+        this.notifyFirebug();
+    },
+
+    notifyFirebug: function() {
+        if (firebugEnabled() && $('fb' + this.id) == undefined) {
+            var noticeHtml = '<ul class="messages message-firebug" id="fb' + this.id + '"><li class="notice-msg">';
+                noticeHtml+= '<ul><li>';
+                noticeHtml+= '<b>' + this.config.firebug_warning_title + ':</b> ';
+                noticeHtml+= this.config.firebug_warning_text;
+                noticeHtml+= ' <a id="hidefb' + this.id + '" href="">' + this.config.firebug_warning_anchor + '</a>';
+                noticeHtml+= '</li></ul>';
+                noticeHtml+= '</li></ul>';
+            $('buttons' + this.id).insert({after: noticeHtml});
+            Event.observe($('hidefb' + this.id), "click", function(e) {
+                $('fb' + this.id).remove();
+                Event.stop(e);
+            }.bind(this));
+        }
     },
 
     setup: function()

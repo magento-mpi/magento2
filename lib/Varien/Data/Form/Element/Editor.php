@@ -50,6 +50,13 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     {
         if($this->isEnabled())
         {
+            // add Firebug notice translations
+            $this->getConfig()->addData(array(
+                'firebug_warning_title'  => $this->translate('Warning'),
+                'firebug_warning_text'   => $this->translate('Firebug is known to make the WYSIWYG editor slow unless it is turned off or configured properly.'),
+                'firebug_warning_anchor' => $this->translate('Hide'),
+            ));
+
             $jsSetupObject = 'wysiwyg' . $this->getHtmlId();
 
             $html = $this->_getButtonsHtml()
