@@ -136,7 +136,7 @@
                             <show_in_store>0</show_in_store>
                         </continue_shopping_url>
                         <hide_cart_contents translate="label comment">
-                            <label>Hide Cart Contents During Checkout</label>
+                            <label>Hide Cart Contents</label>
                             <comment>If enabled, cart contents will be hidden after clicking on the Google Checkout button in the shopping cart, and restored if "Edit Cart" link was activated.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
