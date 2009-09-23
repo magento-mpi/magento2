@@ -41,6 +41,7 @@ tinyMCE.addI18n({en:{
             ed.addCommand('mceMagentowidget', function() {
                 ed.windowManager.open({
                     file : ed.settings.magentowidget_url,
+                    name : 'widget' + ed.settings.elements,
                     width : 1024,
                     height : 800,
                     popup_css : ed.settings.custom_popup_css,

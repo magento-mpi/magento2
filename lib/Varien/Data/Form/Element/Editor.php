@@ -148,7 +148,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         $winUrl = $this->getConfig('widget_window_no_wysiwyg_url');
         $buttonsHtml .= $this->_getButtonHtml(array(
             'title'     => $this->translate('Insert Widget'),
-            'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
+            'onclick'   => "window.open('" . $winUrl . "', 'widget" . $this->getHtmlId() . "', 'width=1024,height=800')",
             'class'     => 'add-widget plugin',
             'style'     => $visible ? '' : 'display:none',
         ));
@@ -157,7 +157,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         $winUrl = $this->getConfig('files_browser_window_url');
         $buttonsHtml .= $this->_getButtonHtml(array(
             'title'     => $this->translate('Insert Image'),
-            'onclick'   => "window.open('" . $winUrl . "', '" . $this->getHtmlId() . "', 'width=1024,height=800')",
+            'onclick'   => "window.open('" . $winUrl . "', 'image" . $this->getHtmlId() . "', 'width=1024,height=800')",
             'class'     => 'add-image plugin',
             'style'     => $visible ? '' : 'display:none',
         ));
