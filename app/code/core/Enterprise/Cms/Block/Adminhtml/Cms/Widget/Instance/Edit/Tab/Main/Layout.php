@@ -161,6 +161,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
                'label' => $type['label']
             );
         }
+        array_unshift($productsOptions, array(
+            'value' => 'all_products',
+            'label' => Mage::helper('enterprise_cms')->__('All Products')
+        ));
         $options[] = array(
             'label' => Mage::helper('enterprise_cms')->__('Products'),
             'value' => $productsOptions
@@ -194,22 +198,24 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
             case 'categories':
                 $container['anchor'] = array(
                     'name' => 'anchor_categories',
-//                    'layout_handle' => '^default$,^catalog_category_layered*'
                     'layout_handle' => 'default,catalog_category_layered',
                     'is_anchor_only' => 1
                 );
                 $container['notanchor'] = array(
                     'name' => 'notanchor_categories',
-//                    'layout_handle' => '^default$,catalog_category_default'
                     'layout_handle' => 'default,catalog_category_default',
                     'is_anchor_only' => 0
                 );
                 break;
             case 'products':
+                $container['all_products'] = array(
+                    'name' => 'all_products',
+                    'layout_handle' => 'default,catalog_product_view',
+                    'product_type_id' => ''
+                );
                 foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
                     $container[$typeId] = array(
                         'name' => $typeId . '_products',
-//                        'layout_handle' => '^default$,^catalog_product_view$,^PRODUCT_TYPE_'.$typeId.'$',
                         'layout_handle' => 'default,catalog_product_view,PRODUCT_TYPE_'.$typeId,
                         'product_type_id' => $typeId
                     );

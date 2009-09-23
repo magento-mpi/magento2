@@ -36,16 +36,17 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     const SPECIFIC_ENTITIES = 'specific';
     const ALL_ENTITIES      = 'all';
 
-    protected $_pageGroups = array(
-        'anchor_categories' => 'catalog_category_layered',
-        'notanchor_categories' => 'catalog_category_default',
-        'all_pages' => 'default'
-    );
+    const DEFAULT_LAYOUT_HANDLE            = 'default';
+    const PRODUCT_LAYOUT_HANDLE            = 'catalog_product_view';
+    const SINGLE_PRODUCT_LAYOUT_HANLDE     = 'PRODUCT_{{ID}}';
+    const PRODUCT_TYPE_LAYOUT_HANDLE       = 'PRODUCT_TYPE_{{TYPE}}';
+    const ANCHOR_CATEGORY_LAYOUT_HANDLE    = 'catalog_category_layered';
+    const NOTANCHOR_CATEGORY_LAYOUT_HANDLE = 'catalog_category_default';
+    const SINGLE_CATEGORY_LAYOUT_HANDLE    = 'CATEGORY_{{ID}}';
 
-    protected $_specificEntitiesLayouHandles = array(
-        'anchor_categories' => 'CATEGORY_{{ID}}',
-        'notanchor_categories' => 'CATEGORY_{{ID}}',
-    );
+    protected $_layoutHandles = array();
+
+    protected $_specificEntitiesLayoutHandles = array();
 
     /**
      * Constructor
@@ -53,9 +54,20 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function __construct()
     {
         $this->_init('enterprise_cms/widget_instance');
+        $this->_layoutHandles = array(
+            'anchor_categories' => self::ANCHOR_CATEGORY_LAYOUT_HANDLE,
+            'notanchor_categories' => self::NOTANCHOR_CATEGORY_LAYOUT_HANDLE,
+            'all_products' => self::PRODUCT_LAYOUT_HANDLE,
+            'all_pages' => self::DEFAULT_LAYOUT_HANDLE
+        );
+        $this->_specificEntitiesLayoutHandles = array(
+            'anchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
+            'notanchor_categories' => self::SINGLE_CATEGORY_LAYOUT_HANDLE,
+            'all_products' => self::SINGLE_PRODUCT_LAYOUT_HANLDE,
+        );
         foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
-            $this->_pageGroups[$typeId.'_products'] = 'PRODUCT_TYPE_'.$typeId;
-            $this->_specificEntitiesLayouHandles[$typeId.'_products'] = 'PRODUCT_{{ID}}';
+            $this->_layoutHandles[$typeId.'_products'] = str_replace('{{TYPE}}', $typeId, self::PRODUCT_TYPE_LAYOUT_HANDLE) ;
+            $this->_specificEntitiesLayoutHandles[$typeId.'_products'] = self::SINGLE_PRODUCT_LAYOUT_HANLDE;
         }
     }
 
@@ -80,7 +92,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
                     if ($pageGroup['page_group'] == 'pages') {
                         $layoutHandle = $pageGroupData['layout_handle'];
                     } else {
-                        $layoutHandle = $this->_pageGroups[$pageGroup['page_group']];
+                        $layoutHandle = $this->_layoutHandles[$pageGroup['page_group']];
                     }
                     $tmpPageGroup = array(
                         'page_id' => $pageGroupData['page_id'],
@@ -96,7 +108,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
                         $layoutHandleUpdates = array();
                         foreach (explode(',', $pageGroupData['entities']) as $entity) {
                             $layoutHandleUpdates[] = str_replace('{{ID}}', $entity,
-                                $this->_specificEntitiesLayouHandles[$pageGroup['page_group']]);
+                                $this->_specificEntitiesLayoutHandles[$pageGroup['page_group']]);
                         }
                         $tmpPageGroup['entities'] = $pageGroupData['entities'];
                         $tmpPageGroup['layout_handle_updates'] = $layoutHandleUpdates;
