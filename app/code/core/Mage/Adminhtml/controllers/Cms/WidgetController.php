@@ -57,14 +57,8 @@ class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Acti
         }
 
         // Add extra JS files required for widgets
-        $config = Mage::getSingleton('cms/widget')->getXmlConfig();
-        $widgets = $config->getNode('widgets');
-        foreach ($widgets->children() as $widget) {
-            if ($widget->js) {
-                foreach (explode(',', (string)$widget->js) as $js) {
-                    $header->addJs($js);
-                }
-            }
+        foreach (Mage::getModel('cms/widget')->getWidgetsRequiredJsFiles() as $file) {
+            $header->addJs($file);
         }
 
         $this->renderLayout();

@@ -99,40 +99,29 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
      */
     protected function _getAvailableWidgets($withEmptyElement = false)
     {
-        if (!$this->getData('available_widgets')) {
-            $config = Mage::getSingleton('cms/widget')->getXmlConfig();
-            $widgets = $config->getNode('widgets');
+        if (!$this->hasData('available_widgets')) {
             $result = array();
+            $allWidgets = Mage::getModel('cms/widget')->getWidgetsArray();
+            $skipped = $this->_getSkippedWidgets();
+            foreach ($allWidgets as $widget) {
+                if ($widget['is_context'] && $this->_skipContextWidgets()) {
+                    continue;
+                }
+                if (is_array($skipped) && in_array($widget['type'], $skipped)) {
+                    continue;
+                }
+                $result[] = $widget;
+            }
             if ($withEmptyElement) {
-                $result[] = array(
+                array_unshift($result, array(
                     'type'        => '',
                     'name'        => $this->helper('adminhtml')->__('-- Please Select --'),
                     'description' => $this->getEmptyOptionDescription(),
-                );
+                ));
             }
-            $skipped = $this->_getSkippedWidgets();
-            foreach ($widgets->children() as $widget) {
-                if ($widget->is_context && $this->_skipContextWidgets()) {
-                    continue;
-                }
-                if (is_array($skipped) && in_array($widget->getAttribute('type'), $skipped)) {
-                    continue;
-                }
-                if ($widget->getAttribute('module')) {
-                    $helper = Mage::helper($widget->getAttribute('module'));
-                } else {
-                    $helper = Mage::helper('cms');
-                }
-                $result[$widget->getName()] = array(
-                    'name'          => $helper->__((string)$widget->name),
-                    'code'          => $widget->getName(),
-                    'type'          => $widget->getAttribute('type'),
-                    'description'   => $helper->__((string)$widget->description),
-                );
-            }
-            usort($result, array($this, "_sortWidgets"));
             $this->setData('available_widgets', $result);
         }
+
         return $this->getData('available_widgets');
     }
 
@@ -162,15 +151,4 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
         return $skipped;
     }
 
-    /**
-     * User-defined widgets sorting by Name
-     *
-     * @param array $a
-     * @param array $b
-     * @return boolean
-     */
-    protected function _sortWidgets($a, $b)
-    {
-        return strcmp($a["name"], $b["name"]);
-    }
 }

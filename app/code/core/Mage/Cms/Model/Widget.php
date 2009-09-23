@@ -72,6 +72,42 @@ class Mage_Cms_Model_Widget extends Varien_Object
     }
 
     /**
+     * Return list of widgets as SimpleXml object
+     *
+     * @return Varien_Simplexml_Element
+     */
+    public function getWidgetsXml()
+    {
+        return $this->getXmlConfig()->getNode('widgets')->children();
+    }
+
+    /**
+     * Return list of widgets as array
+     *
+     * @return array
+     */
+    public function getWidgetsArray($withEmptyElement = false)
+    {
+        if (!$this->getData('widgets_array')) {
+            $result = array();
+            foreach ($this->getWidgetsXml() as $widget) {
+                $helper = $widget->getAttribute('module') ? $widget->getAttribute('module') : 'cms';
+                $helper = Mage::helper($helper);
+                $result[$widget->getName()] = array(
+                    'name'          => $helper->__((string)$widget->name),
+                    'code'          => $widget->getName(),
+                    'type'          => $widget->getAttribute('type'),
+                    'description'   => $helper->__((string)$widget->description),
+                    'is_context'    => (string)$widget->is_context
+                );
+            }
+            usort($result, array($this, "_sortWidgets"));
+            $this->setData('widgets_array', $result);
+        }
+        return $this->getData('widgets_array');
+    }
+
+    /**
      * Return widget presentation code in WYSIWYG editor
      *
      * @param string $type Widget Type
@@ -114,6 +150,24 @@ class Mage_Cms_Model_Widget extends Varien_Object
     }
 
     /**
+     * Return list of required JS files to be included on the top of the page before insertion plugin loaded
+     *
+     * @return array
+     */
+    public function getWidgetsRequiredJsFiles()
+    {
+        $result = array();
+        foreach ($this->getWidgetsXml() as $widget) {
+            if ($widget->js) {
+                foreach (explode(',', (string)$widget->js) as $js) {
+                    $result[] = $js;
+                }
+            }
+       }
+       return $result;
+    }
+
+    /**
      * Return Widget placeholders images URL
      *
      * @return string
@@ -142,5 +196,17 @@ class Mage_Cms_Model_Widget extends Varien_Object
     protected function _idEncode($string)
     {
         return strtr(base64_encode($string), '+/=', ':_-');
+    }
+
+    /**
+     * User-defined widgets sorting by Name
+     *
+     * @param array $a
+     * @param array $b
+     * @return boolean
+     */
+    protected function _sortWidgets($a, $b)
+    {
+        return strcmp($a["name"], $b["name"]);
     }
 }
