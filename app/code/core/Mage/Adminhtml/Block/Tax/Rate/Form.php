@@ -55,9 +55,14 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             ->toOptionArray();
         unset($countries[0]);
 
+        $countryId = $rateObject->getTaxCountryId();
+        if (!$countryId) {
+            $countryId = Mage::getStoreConfig('general/country/default');
+        }
+
         $regionCollection = Mage::getModel('directory/region')
             ->getCollection()
-            ->addCountryFilter($rateModel->getTaxCountryId());
+            ->addCountryFilter($countryId);
 
         $regions = $regionCollection->toOptionArray();
 
@@ -76,11 +81,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
                     'value' => $rateObject->getTaxCalculationRateId()
                 )
             );
-        }
-
-        $countryId = $rateObject->getTaxCountryId();
-        if (!$countryId) {
-            $countryId = Mage::getStoreConfig('general/country/default');
         }
 
         $fieldset->addField('code', 'text',
