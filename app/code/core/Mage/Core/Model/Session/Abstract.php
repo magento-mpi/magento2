@@ -44,6 +44,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
     const XML_PATH_USE_HTTP_VIA         = 'web/session/use_http_via';
     const XML_PATH_USE_X_FORWARDED      = 'web/session/use_http_x_forwarded_for';
     const XML_PATH_USE_USER_AGENT       = 'web/session/use_http_user_agent';
+    const XML_PATH_USE_FRONTEND_SID     = 'web/session/use_frontend_sid';
 
     const XML_NODE_USET_AGENT_SKIP      = 'global/session/validation/http_user_agent_skip';
     const XML_PATH_LOG_EXCEPTION_FILE   = 'dev/log/exception_file';
@@ -169,6 +170,17 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
             return parent::useValidateHttpUserAgent();
         }
         return (bool)$use;
+    }
+
+    /**
+     * Check whether SID can be used for session initialization
+     * Admin area will always have this feature enabled
+     *
+     * @return bool
+     */
+    public function useSid()
+    {
+        return Mage::app()->getStore()->isAdmin() || Mage::getStoreConfig(self::XML_PATH_USE_FRONTEND_SID);
     }
 
     /**
@@ -311,7 +323,7 @@ class Mage_Core_Model_Session_Abstract extends Mage_Core_Model_Session_Abstract_
      */
     public function setSessionId($id=null)
     {
-        if (is_null($id)) {
+        if (is_null($id) && $this->useSid()) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam])) {
                 $id = $_GET[$_queryParam];
