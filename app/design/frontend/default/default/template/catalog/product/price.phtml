@@ -62,7 +62,7 @@
     <?php $_finalPriceInclTax = $_taxHelper->getPrice($_product, $_product->getFinalPrice(), true) ?>
     <?php $_weeeDisplayType = $_weeeHelper->getPriceDisplayType(); ?>
     <?php if ($_finalPrice == $_price): ?>
-        <?php if ($_taxHelper->displayBothPrices() && $_finalPriceInclTax != $_finalPrice): ?>
+        <?php if ($_taxHelper->displayBothPrices()): ?>
             <?php if ($_weeeTaxAmount && $_weeeHelper->typeOfDisplay($_product, 0)): // including ?>
                 <span class="price-excluding-tax">
                     <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax:') ?></span>
@@ -213,7 +213,7 @@
                 </span>
             </p>
 
-            <?php if ($_taxHelper->displayBothPrices() && $_finalPriceInclTax != $_finalPrice): ?>
+            <?php if ($_taxHelper->displayBothPrices()): ?>
                 <p class="special-price">
                     <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
                     <span class="price-excluding-tax">
@@ -337,7 +337,7 @@
                 </span>
             </p>
 
-            <?php if ($_taxHelper->displayBothPrices() && $_finalPriceInclTax != $_finalPrice): ?>
+            <?php if ($_taxHelper->displayBothPrices()): ?>
                 <p class="special-price">
                     <span class="price-label"><?php echo $this->__('Special Price:') ?></span>
                     <span class="price-excluding-tax">
@@ -389,7 +389,7 @@
     <?php if ($this->getDisplayMinimalPrice() && $_minimalPriceValue): ?>
         <div class="price-box">
             <span class="label"><?php echo $this->__('Starting at:') ?></span>
-            <?php if ($_taxHelper->displayBothPrices() && ($_exclTax !== $_inclTax)): ?>
+            <?php if ($_taxHelper->displayBothPrices()): ?>
                 <span class="price-excluding-tax">
                     <span class="label"><?php echo Mage::helper('tax')->__('Excl. Tax:') ?></span>
                     <span class="price" id="price-excluding-tax-<?php echo $_id ?><?php echo $this->getIdSuffix() ?>">
