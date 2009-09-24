@@ -119,5 +119,29 @@
     toggleDefault('is_redeemable');
     toggleDefault('lifetime');
     toggleDefault('allow_message');
+
+    /**
+     * Adding event on card type select box of product to set weight to required or not
+     */
+    function togglecardType() {
+        if ($('weight') != undefined) {
+            var weight = $('weight');
+            if ($('giftcard_type').value == '0') {
+                while(weight.hasClassName('required-entry')) {
+                    weight.removeClassName('required-entry');
+                }
+            } else {
+                weight.addClassName('required-entry');
+            }
+            var span = weight.up('tr').down('td').down('label > span');
+            if (span != undefined) {
+                span.toggle();
+            }
+        }
+    }
+
+    togglecardType();
+    Event.observe('giftcard_type', 'change', togglecardType);
+
     </script>
 </div>
