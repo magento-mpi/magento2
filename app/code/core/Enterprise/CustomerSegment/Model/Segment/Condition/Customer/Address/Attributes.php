@@ -163,7 +163,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         $select = $this->getResource()->createSelect();
         $select->from($table, array(new Zend_Db_Expr(1)))
             ->limit(1);
-        $select->where($this->_createCustomerFilter($customer, 'main.entity_id', $isRoot));
+        $select->where($this->_createCustomerFilter($customer, 'entity_id', $isRoot));
 
         if ($attribute->getBackendType() == 'static') {
             $select->where("{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());

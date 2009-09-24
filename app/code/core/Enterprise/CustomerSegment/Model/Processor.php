@@ -35,13 +35,10 @@ class Enterprise_CustomerSegment_Model_Processor extends Mage_Core_Model_Abstrac
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {
         if (!isset($this->_segmentMap[$eventName])) {
-            $this->_segmentMap[$eventName] =
-                Mage::getModel('enterprise_customersegment/segment')
-                    ->getCollection()
+            $this->_segmentMap[$eventName] = Mage::getResourceModel('enterprise_customersegment/segment_collection')
                     ->addEventFilter($eventName)
                     ->addWebsiteFilter($websiteId)
                     ->addIsActiveFilter(1);
-
             $this->_segmentMap[$eventName]->walk('afterLoad');
         }
 

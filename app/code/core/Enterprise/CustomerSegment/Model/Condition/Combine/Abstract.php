@@ -24,7 +24,7 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
+abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
 {
     /**
      * Add operator when loading array
@@ -118,6 +118,7 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
     public function getConditionsSql($customer, $isRoot = true)
     {
         $select = $this->_prepareConditionsSql($customer, $isRoot);
+        $required = $this->_getRequiredValidation();
 
         if ($this->getAggregator() == 'all') {
             $whereFunction = 'where';
@@ -125,7 +126,7 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
             $whereFunction = 'orWhere';
         }
 
-        if ($this->_getRequiredValidation()) {
+        if ($required) {
             $operator = '=';
         } else {
             $operator = '<>';
@@ -136,48 +137,30 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, false)) {
                 $criteriaSql = "(IFNULL(($sql), 0) {$operator} 1)";
-
                 $select->$whereFunction($criteriaSql);
-
                 $gotConditions = true;
             }
         }
 
         foreach ($this->getConditions() as $condition) {
-            if ($condition->getSubfilterType()) {
-                switch ($condition->getSubfilterType()) {
-                    case 'date':
-                        $subfilter = $condition->getSubfilterSql($this->_getDateSubfilterField(), $this->_getRequiredValidation());
-                        if ($subfilter) {
-                            $select->$whereFunction($subfilter);
-                            $gotConditions = true;
-                        }
-                        break;
-
-                    case 'product':
-                        $subfilter = $condition->getSubfilterSql($this->_getProductSubfilterField(), $this->_getRequiredValidation());
-                        if ($subfilter) {
-                            $select->$whereFunction($subfilter);
-                            $gotConditions = true;
-                        }
-                        break;
-
-                    case 'order_status':
-                        $subfilter = $condition->getSubfilterSql($this->_getOrderSubfilterField(), $this->_getRequiredValidation());
-                        if ($subfilter) {
-                            $select->$whereFunction($subfilter);
-                            $gotConditions = true;
-                        }
-                        break;
-
-                    case 'order_address_type':
-                        $subfilter = $condition->getSubfilterSql($this->_getOrderAddressTypeSubfilterField(), $this->_getRequiredValidation());
-                        if ($subfilter) {
-                            $select->$whereFunction($subfilter);
-                            $gotConditions = true;
-                        }
-                        break;
-                }
+            $sufilter = false;
+            switch ($condition->getSubfilterType()) {
+                case 'date':
+                    $subfilter = $condition->getSubfilterSql($this->_getDateSubfilterField(), $required);
+                    break;
+                case 'product':
+                    $subfilter = $condition->getSubfilterSql($this->_getProductSubfilterField(), $required);
+                    break;
+                case 'order_status':
+                    $subfilter = $condition->getSubfilterSql($this->_getOrderSubfilterField(), $required);
+                    break;
+                case 'order_address_type':
+                    $subfilter = $condition->getSubfilterSql($this->_getOrderAddressTypeSubfilterField(), $required);
+                    break;
+            }
+            if ($subfilter) {
+                $select->$whereFunction($subfilter);
+                $gotConditions = true;
             }
         }
 

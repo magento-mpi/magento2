@@ -67,16 +67,6 @@
                     <use>core_setup</use>
                 </connection>
             </enterprise_customersegment_setup>
-            <enterprise_customersegment_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </enterprise_customersegment_write>
-            <enterprise_customersegment_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </enterprise_customersegment_read>
         </resources>
     </global>
 

@@ -35,10 +35,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         $this->setType('enterprise_customersegment/segment_condition_shoppingcart_amount');
         $this->setValue(null);
     }
-    
+
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 
+        return array('value' => $this->getType(),
             'label'=>Mage::helper('enterprise_customersegment')->__('Shopping Cart Total'));
     }
 
@@ -54,14 +54,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         ));
         return $this;
     }
-    
+
     public function asHtml()
     {
         return $this->getTypeElementHtml()
             . Mage::helper('enterprise_customersegment')->__('Shopping Cart %s Amount %s %s:',
                 $this->getAttributeElementHtml(), $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
-    }    
+    }
 
 
     public function getConditionsSql($customer, $isRoot = false)
@@ -92,11 +92,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
                 $field = 'base_shipping_amount';
                 $joinAddress = true;
                 break;
-            case 'store_credit': 
-                $field = 'quote.base_customer_balance_amount_used'; /* @TODO maybe without _used? */ 
+            case 'store_credit':
+                $field = 'quote.base_customer_balance_amount_used';
                 break;
             case 'gift_card':
-                $field = 'quote.base_gift_cards_amount_used'; /* @TODO maybe without _used? */ 
+                $field = 'quote.base_gift_cards_amount_used';
                 break;
             default:
                 Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown quote total specified'));

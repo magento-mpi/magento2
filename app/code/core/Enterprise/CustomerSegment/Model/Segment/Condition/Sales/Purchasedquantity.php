@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
         if ($this->getAttribute() == 'total') {
             $result = "IF (SUM(order.total_qty_ordered) {$this->_getSqlOperator()} {$this->getValue()}, 1, 0)";
         } else {
-            $result = "IF (SUM(order.total_qty_ordered)/COUNT(order.entity_id) {$this->_getSqlOperator()} {$this->getValue()}, 1, 0)";
+            $result = "IF (AVG(order.total_qty_ordered) {$this->_getSqlOperator()} {$this->getValue()}, 1, 0)";
         }
 
         $select->from(array('order' => $this->getResource()->getTable('sales/order')), array(new Zend_Db_Expr($result)));

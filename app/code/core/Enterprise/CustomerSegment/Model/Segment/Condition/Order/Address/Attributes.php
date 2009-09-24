@@ -159,7 +159,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         $operator = $this->_getSqlOperator();
 
         $select->where('val.attribute_id = ?', $attribute->getId())
-            ->where("val.entity_id = order_address.entity_id", $this->getValue())
+            ->where("val.entity_id = order_address.entity_id")
             ->where("val.value {$operator} ?", $this->getValue());
 
         return $select;
