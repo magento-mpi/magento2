@@ -91,6 +91,9 @@
                     <required>1</required>
                     <value>banner/widget.phtml</value>
                 </template>
+                <unique_id>
+                    <required>1</required>
+                </unique_id>
             </parameters>
         </enterprise_banner>
     </widgets>
