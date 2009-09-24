@@ -77,6 +77,8 @@ input.checkbox { width:13px; height:13px; }
 
 #nav ul li { vertical-align:top; }
 
+.image-zoom.disabled { filter:alpha(opacity=30); }
+
 .one-page-checkout li.section { zoom:1; vertical-align:top; }
 
 .product-options dd ul.options-list input.form-radio { margin-top:4px; }

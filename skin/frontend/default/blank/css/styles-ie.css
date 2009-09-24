@@ -48,6 +48,8 @@ input.checkbox { width:13px; height:13px; }
 button.button { height:21px; }
 button.button span { position:relative; }
 
+.product-view .product-img-box .zoom.disabled { filter:alpha(opacity=30); }
+
 /* Clearer */
 .clearer { display:block; clear:both; font-size:0; line-height:0; height:0; overflow:hidden; }
 
