@@ -17,7 +17,7 @@
  * @package    Zend_Db
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 16203 2009-06-21 18:56:17Z thomas $
+ * @version    $Id: Db.php 18329 2009-09-20 21:50:43Z ralph $
  */
 
 
@@ -241,8 +241,10 @@ class Zend_Db
             }
             unset($config['adapterNamespace']);
         }
-        $adapterName = strtolower($adapterNamespace . '_' . $adapter);
-        $adapterName = str_replace(' ', '_', ucwords(str_replace('_', ' ', $adapterName)));
+
+        // Adapter no longer normalized- see http://framework.zend.com/issues/browse/ZF-5606
+        $adapterName = $adapterNamespace . '_';
+        $adapterName .= str_replace(' ', '_', ucwords(str_replace('_', ' ', $adapter)));
 
         /*
          * Load the adapter class.  This throws an exception

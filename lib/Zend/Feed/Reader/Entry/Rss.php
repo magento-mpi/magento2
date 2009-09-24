@@ -16,7 +16,7 @@
  * @package    Zend_Feed_Reader
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Rss.php 16966 2009-07-22 15:22:18Z padraic $
+ * @version    $Id: Rss.php 18341 2009-09-21 15:15:46Z padraic $
  */
 
 /**
@@ -263,13 +263,17 @@ class Zend_Feed_Reader_Entry_Rss extends Zend_Feed_Reader_EntryAbstract implemen
                         $date->set($dateModified, Zend_Date::RFC_2822);
                     } catch (Zend_Date_Exception $e) {
                         try {
-                            $date->set($dateModified, Zend_Date::DATES);
+                            $date->set($dateModified, Zend_Date::RSS);
                         } catch (Zend_Date_Exception $e) {
-                            #require_once 'Zend/Feed/Exception.php';
-                            throw new Zend_Feed_Exception(
-                                'Could not load date due to unrecognised format (should follow RFC 822 or 2822): '
-                                . $e->getMessage()
-                            );
+                            try {
+                                $date->set($dateModified, Zend_Date::DATES);
+                            } catch (Zend_Date_Exception $e) {
+                                #require_once 'Zend/Feed/Exception.php';
+                                throw new Zend_Feed_Exception(
+                                    'Could not load date due to unrecognised format (should follow RFC 822 or 2822): '
+                                    . $e->getMessage()
+                                );
+                            }
                         }
                     }
                 }
