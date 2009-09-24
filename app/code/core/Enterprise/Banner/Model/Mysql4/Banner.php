@@ -348,7 +348,10 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
     {
         $content = array();
         foreach ($bannerIds as $_id) {
-            $content[$_id] = $this->getStoreContent($_id, $storeId);
+            $_content = $this->getStoreContent($_id, $storeId);
+            if (!empty($_content)) {
+                $content[$_id] = $_content;
+            }
         }
         return $content;
     }

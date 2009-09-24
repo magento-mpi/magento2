@@ -223,7 +223,10 @@ class Enterprise_Banner_Block_Widget_Banner
 
                 case self::BANNER_WIDGET_RORATE_RANDOM :
                     $bannerId = $bannerIds[array_rand($bannerIds, 1)];
-                    $content[$bannerId] = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
+                    $_content = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
+                    if (!empty($_content)) {
+                        $content[$bannerId] = $_content;
+                    }
                     break;
                 case self::BANNER_WIDGET_RORATE_SHUFFLE :
                 case self::BANNER_WIDGET_RORATE_SERIES :
@@ -247,7 +250,10 @@ class Enterprise_Banner_Block_Widget_Banner
                         }
                         $this->_sessionInstance->setData($this->getUniqueId(), $bannersSequence);
                     }
-                    $content[$bannerId] = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
+                    $_content = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
+                    if (!empty($_content)) {
+                        $content[$bannerId] = $_content;
+                    }
                     break;
 
                 default:

@@ -110,8 +110,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
         $storeContents = $banner->getStoreContents();
         $field = $fieldset->addField('store_default_content', 'editor', array(
             'name'      => 'store_contents[0]',
-            'required'  => true,
-            'label'     => Mage::helper('enterprise_banner')->__('All Store Views'),
+            'label'     => Mage::helper('enterprise_banner')->__('Default'),
             'value'     => isset($storeContents[0]) ? $storeContents[0] : '',
             'config'    => $wysiwygConfig,
             'wysiwyg'   => false
