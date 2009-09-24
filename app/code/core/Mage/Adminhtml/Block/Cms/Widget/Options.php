@@ -115,11 +115,16 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
             'class'     => 'widget-option',
             'note'      => $this->_translationHelper->__((string)$config->description),
         );
+
         if ($values = $this->getWidgetValues()) {
             $data['value'] = (isset($values[$fieldName]) ? $values[$fieldName] : '');
         }
         else {
             $data['value'] = (string)$config->value;
+            //prepare unique id value
+            if ($fieldName == 'unique_id' && (string)$config->value == '') {
+                $data['value'] = md5(microtime(1));
+            }
         }
 
         // prepare element dropdown values, if any
@@ -139,6 +144,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
                 $data['values'] = $model->toOptionArray();
             }
         }
+
 
         // prepare field type and renderers
         $fieldRenderer = false;
