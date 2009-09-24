@@ -309,6 +309,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             /*
              * Emulating front environment
              */
+            Mage::app()->getLocale()->emulate($selectedStoreId);
             Mage::app()->setCurrentStore(Mage::app()->getStore($selectedStoreId));
 
             Mage::getDesign()->setArea('frontend')
@@ -323,6 +324,7 @@ class Enterprise_Cms_Adminhtml_Cms_Page_RevisionController extends Enterprise_Cm
             }
 
             Mage::helper('cms/page')->renderPageExtended($this);
+            Mage::app()->getLocale()->revert();
 
         } else {
             $this->_forward('noRoute');
