@@ -144,7 +144,7 @@ varienLoader.prototype = {
         }
 
         if (typeof(params.updaterId) != 'undefined') {
-            new Ajax.Updater(params.updaterId, url, {
+            new varienUpdater(params.updaterId, url, {
                 evalScripts : true,
                 onComplete: this.processResult.bind(this),
                 onFailure: this._processFailure.bind(this)
@@ -256,3 +256,17 @@ function toggleSelectsUnderBlock(block, flag){
 }
 
 Ajax.Responders.register(varienLoaderHandler.handler);
+
+var varienUpdater = Class.create(Ajax.Updater, {
+    updateContent: function($super, responseText) {
+        if (responseText.isJSON()) {
+            var responseJSON = responseText.evalJSON();
+            console.log(responseJSON);
+            if (responseJSON.ajaxExpired && responseJSON.ajaxRedirect) {
+                window.location.replace(responseJSON.ajaxRedirect);
+            }
+        } else {
+            $super(responseText);
+        }
+    }
+});
