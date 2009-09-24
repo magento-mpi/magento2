@@ -52,7 +52,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     protected function _initTag()
     {
         $id = $this->getRequest()->getParam('tag_id');
-        $storeId = $this->getRequest()->getParam('store');
+        $storeId = $this->getRequest()->getParam('store_id');
         $model = Mage::getModel('tag/tag');
         if ($id) {
             $model->load($id);
@@ -148,7 +148,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $data['name']               = trim($postData['tag_name']);
             $data['status']             = $postData['tag_status'];
             $data['base_popularity']    = (isset($postData['base_popularity'])) ? $postData['base_popularity'] : 0;
-            $data['store_id']           = $postData['store_id'];
+            $data['store']              = $postData['store_id'];
 
             $model = $this->_initTag();
             $model->addData($data);
@@ -189,7 +189,8 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
                 if ($this->getRequest()->getParam('ret') == 'edit') {
                     $url = $this->getUrl('*/tag/edit', array(
-                        'tag_id' => $model->getId()
+                        'tag_id'    => $model->getId(),
+                        'store'  => $model->getStoreId()
                     ));
                 }
 
@@ -198,7 +199,10 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             } catch (Exception $e) {
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setTagData($data);
-                $this->_redirect('*/*/edit', array('tag_id' => $this->getRequest()->getParam('tag_id')));
+                $this->_redirect('*/*/edit', array(
+                    'tag_id' => $model->getId(),
+                    'store'  => $model->getStoreId()
+                ));
                 return;
             }
         }

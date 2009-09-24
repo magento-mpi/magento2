@@ -144,6 +144,6 @@ class Mage_Adminhtml_Block_Tag_Edit extends Mage_Adminhtml_Block_Widget_Form_Con
      */
     public function getSaveAndContinueUrl()
     {
-        return $this->getUrl('*/*/save', array('_current' => true, 'ret' => 'edit'));
+        return $this->getUrl('*/*/save', array('_current' => true, 'ret' => 'edit', 'store' => Mage::registry('current_tag')->getStoreId()));
     }
 }
