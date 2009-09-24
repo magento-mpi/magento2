@@ -114,7 +114,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit_Form extends Mage_Adminhtml_
 
         $fieldset->addField('text', 'editor', array(
             'name'      => 'text',
-            'wysiwyg'   => (!$model->isPlain()),
+            'wysiwyg'   => false, //(!$model->isPlain()),
             'label'     => Mage::helper('newsletter')->__('Template Content'),
             'title'     => Mage::helper('newsletter')->__('Template Content'),
             'theme'     => 'advanced',

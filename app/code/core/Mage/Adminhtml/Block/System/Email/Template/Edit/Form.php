@@ -58,7 +58,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
 
         $fieldset->addField('template_text', 'editor', array(
             'name'=>'template_text',
-            'wysiwyg' => !Mage::registry('email_template')->isPlain(),
+            'wysiwyg' => false, //!Mage::registry('email_template')->isPlain(),
             'label' => Mage::helper('adminhtml')->__('Template Content'),
             'required' => true,
             'theme' => 'advanced',
