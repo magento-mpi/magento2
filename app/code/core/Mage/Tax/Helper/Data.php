@@ -381,6 +381,9 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function getPrice($product, $price, $includingTax = null, $shippingAddress = null, $billingAddress = null, $ctc = null, $store = null, $priceIncludesTax = null)
     {
+        if (!$price) {
+            return $price;
+        }
         $store = Mage::app()->getStore($store);
         if (!$this->needPriceConversion($store)) {
         	return $store->roundPrice($price);
@@ -420,8 +423,13 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
                      */
                     if ($includingPercent != $percent) {
                         $price = $this->_calculatePrice($price, $includingPercent, false);
-                        $price = $this->getCalculator()->roundUp($price);
-                        $price = $this->_calculatePrice($price, $percent, true);
+                        /**
+                         * Round up price excluding tax if customer tax rate !=0
+                         */
+                        if ($percent != 0) {
+                            $price = $this->getCalculator()->roundUp($price);
+                            $price = $this->_calculatePrice($price, $percent, true);
+                        }
                     }
                 } else {
                     $price = $this->_calculatePrice($price, $includingPercent, false);
@@ -442,6 +450,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
                     case Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
                         $price = $this->_calculatePrice($price, $includingPercent, false);
                         $price = $this->_calculatePrice($price, $percent, true);
+                        var_dump($price);
                         break;
                 }
             } else {
