@@ -157,17 +157,19 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
      */
     protected function _collectLayoutHandles($layoutHandles)
     {
-        foreach ($layoutHandles->xpath('/*/*/label/..') as $node) {
-            if ($this->_filterLayoutHandle($node->getName())) {
-                if ($module = $node->getAttribute('module')) {
-                    $helper = Mage::helper($module);
-                } else {
-                    $helper = Mage::helper('core');
+        if ($layoutHandlesArr = $layoutHandles->xpath('/*/*/label/..')) {
+            foreach ($layoutHandlesArr as $node) {
+                if ($this->_filterLayoutHandle($node->getName())) {
+                    if ($module = $node->getAttribute('module')) {
+                        $helper = Mage::helper($module);
+                    } else {
+                        $helper = Mage::helper('core');
+                    }
+                    $this->_layoutHandles[$node->getName()] = $helper->__((string)$node->label);
                 }
-                $this->_layoutHandles[$node->getName()] = $helper->__((string)$node->label);
             }
+            asort($this->_layoutHandles, SORT_STRING);
         }
-        asort($this->_layoutHandles, SORT_STRING);
     }
 
     /**
