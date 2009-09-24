@@ -104,7 +104,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             return 'simple';
         }
 
-        return $this->getData('theme');
+        return $this->_getData('theme');
     }
 
     /**
@@ -219,14 +219,14 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
      */
     public function getConfig($key = null)
     {
-        if ( !($this->getData('config') instanceof Varien_Object) ) {
+        if ( !($this->_getData('config') instanceof Varien_Object) ) {
             $config = new Varien_Object();
             $this->setConfig($config);
         }
         if ($key !== null) {
-            return $this->getData('config')->getData($key);
+            return $this->_getData('config')->getData($key);
         }
-        return $this->getData('config');
+        return $this->_getData('config');
     }
 
     /**

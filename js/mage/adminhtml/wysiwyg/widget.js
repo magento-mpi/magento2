@@ -152,7 +152,7 @@ WysiwygWidget.Widget.prototype = {
     },
 
     _showWidgetDescription: function() {
-        var noteCnt = this.widgetEl.up().next().down('small');
+        var noteCnt = this.widgetEl.next().down('small');
         var descrCnt = $('widget-description-' + this.widgetEl.selectedIndex);
         if(noteCnt != undefined) {
             var description = (descrCnt != undefined ? descrCnt.innerHTML : '');

@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
         if (!($config instanceof Varien_Simplexml_Element)) {
             return;
         }
-            if (!$config->parameters) {
+        if (!$config->parameters) {
             return;
         }
         $module = (string)$config->getAttribute('module');
@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
         $data = array(
             'name'      => $form->addSuffixToName($fieldName, 'parameters'),
             'label'     => $this->_translationHelper->__((string)$config->label),
-            'required'  => (bool)(int)(string)$config->required,
+            'required'  => (bool)$config->required,
             'class'     => 'widget-option',
             'note'      => $this->_translationHelper->__((string)$config->description),
         );
@@ -127,7 +127,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
             }
         }
 
-        // prepare element dropdown values, if any
+        // prepare element dropdown values
         if ($config->values) {
             // dropdown options are specified in configuration
             if ($config->values->hasChildren()) {
@@ -139,15 +139,16 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
                     );
                 }
             }
-            // a source model is specified
-            elseif ($model = Mage::getModel((string)$config->values)) {
-                $data['values'] = $model->toOptionArray();
-            }
+        }
+        // otherwise, a source model is specified
+        elseif ($config->source_model) {
+            $model = Mage::getModel((string)$config->source_model);
+            $data['values'] = $model->toOptionArray();
         }
 
 
         // prepare field type and renderers
-        $fieldRenderer = false;
+        $fieldRenderer = 'adminhtml/cms_widget_options_renderer_element';
         $fieldChooserRenderer = false;
         $fieldType = (string)$config->type;
         // hidden element
@@ -164,14 +165,14 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
         // just an element renderer
         elseif (false !== strpos($config->type, '/')) {
             $fieldType = $this->_defaultElementType;
-            $fieldRenderer = $this->getLayout()->createBlock((string)$config->type);
+            $fieldRenderer = (string)$config->type;
         }
 
         // instantiate field and prepare extra html
-        $field = $fieldset->addField('option_' . $fieldName, $fieldType, $data);
-        if ($fieldRenderer) {
-            $field->setRenderer($fieldRenderer);
-        } elseif ($fieldChooserRenderer) {
+        $field = $fieldset->addField('option_' . $fieldName, $fieldType, $data)
+            ->setRenderer($this->getLayout()->createBlock($fieldRenderer));
+
+        if ($fieldChooserRenderer) {
             $fieldChooserRenderer->setFieldsetId($fieldset->getId())
                 ->setTranslationHelper($this->_translationHelper)
                 ->setConfig($config->type)

@@ -86,6 +86,16 @@
                 </Mage_Cms>
             </modules>
         </translate>
+        <events>
+            <cms_wysiwyg_config_prepare>
+                <observers>
+                    <cms_widget_observer>
+                        <class>cms/observer</class>
+                        <method>prepareWidgetsPluginConfig</method>
+                    </cms_widget_observer>
+                </observers>
+            </cms_wysiwyg_config_prepare>
+        </events>
         <layout>
             <updates>
                 <cms>

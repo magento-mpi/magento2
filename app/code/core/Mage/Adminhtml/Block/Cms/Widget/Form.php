@@ -45,14 +45,12 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
             'legend'    => $this->helper('cms')->__('Widget')
         ));
 
-        $this->setEmptyOptionDescription($this->helper('cms')->__('Please select a Widget Type'));
         $select = $fieldset->addField('select_widget_type', 'select', array(
             'label'                 => $this->helper('cms')->__('Widget Type'),
             'title'                 => $this->helper('cms')->__('Widget Type'),
             'name'                  => 'widget_type',
             'required'              => true,
             'options'               => $this->_getWidgetSelectOptions(),
-            'note'                  => $this->getEmptyOptionDescription(),
             'after_element_html'    => $this->_getWidgetSelectAfterHtml(),
         ));
 
@@ -83,7 +81,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
      */
     protected function _getWidgetSelectAfterHtml()
     {
-        $html = '';
+        $html = '<p class="nm"><small></small></p>';
         $i = 0;
         foreach ($this->_getAvailableWidgets(true) as $data) {
             $html .= sprintf('<div id="widget-description-%s" class="no-display">%s</div>', $i, $data['description']);
@@ -116,13 +114,13 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
                 array_unshift($result, array(
                     'type'        => '',
                     'name'        => $this->helper('adminhtml')->__('-- Please Select --'),
-                    'description' => $this->getEmptyOptionDescription(),
+                    'description' => '',
                 ));
             }
             $this->setData('available_widgets', $result);
         }
 
-        return $this->getData('available_widgets');
+        return $this->_getData('available_widgets');
     }
 
     /**
@@ -132,7 +130,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
      */
     protected function _skipContextWidgets()
     {
-        return (bool)$this->getParentBlock()->getData('skip_context_widgets');
+        return Mage::registry('skip_context_widgets');
     }
 
     /**
@@ -142,13 +140,6 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
      */
     protected function _getSkippedWidgets()
     {
-        $skipped = $this->getParentBlock()->getData('skip_widgets');
-        if (is_array($skipped)) {
-            return $skipped;
-        }
-        $skipped = Mage::helper('core')->urlDecode($skipped);
-        $skipped = explode(',', $skipped);
-        return $skipped;
+        return Mage::registry('skip_widgets');
     }
-
 }

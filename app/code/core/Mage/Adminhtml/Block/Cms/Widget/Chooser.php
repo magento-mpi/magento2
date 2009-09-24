@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
      */
     public function getSourceUrl()
     {
-        return $this->getData('source_url');
+        return $this->_getData('source_url');
     }
 
     /**
@@ -51,7 +51,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
      */
     public function getElement()
     {
-        return $this->getData('element');
+        return $this->_getData('element');
     }
 
     /**
@@ -61,15 +61,15 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
      */
     public function getConfig()
     {
-        if ($this->getData('config') instanceof Varien_Object) {
-            return $this->getData('config');
+        if ($this->_getData('config') instanceof Varien_Object) {
+            return $this->_getData('config');
         }
 
-        $configXml = $this->getData('config');
+        $configXml = $this->_getData('config');
         $config = new Varien_Object();
         $this->setConfig($config);
         if (!($configXml instanceof Varien_Simplexml_Element)) {
-            return $this->getData('config');
+            return $this->_getData('config');
         }
 
         // define chooser label
@@ -89,7 +89,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
         }
         $config->setButtons($buttons);
 
-        return $this->getData('config');
+        return $this->_getData('config');
     }
 
     /**
@@ -99,8 +99,8 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
      */
     public function getTranslationHelper()
     {
-        if ($this->getData('translation_helper') instanceof Mage_Core_Helper_Abstract) {
-            return $this->getData('translation_helper');
+        if ($this->_getData('translation_helper') instanceof Mage_Core_Helper_Abstract) {
+            return $this->_getData('translation_helper');
         }
         return $this->helper('cms');
     }
@@ -112,7 +112,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
      */
     public function getUniqId()
     {
-        return $this->getData('uniq_id');
+        return $this->_getData('uniq_id');
     }
 
     /**
@@ -122,7 +122,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
      */
     public function getFieldsetId()
     {
-        return $this->getData('fieldset_id');
+        return $this->_getData('fieldset_id');
     }
 
     /**
@@ -132,7 +132,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
      */
     public function getHiddenEnabled()
     {
-        return $this->hasData('hidden_enabled') ? (bool)$this->getData('hidden_enabled') : true;
+        return $this->hasData('hidden_enabled') ? (bool)$this->_getData('hidden_enabled') : true;
     }
 
     /**

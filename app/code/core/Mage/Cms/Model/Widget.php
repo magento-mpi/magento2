@@ -88,7 +88,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
      */
     public function getWidgetsArray($withEmptyElement = false)
     {
-        if (!$this->getData('widgets_array')) {
+        if (!$this->_getData('widgets_array')) {
             $result = array();
             foreach ($this->getWidgetsXml() as $widget) {
                 $helper = $widget->getAttribute('module') ? $widget->getAttribute('module') : 'cms';
@@ -104,7 +104,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
             usort($result, array($this, "_sortWidgets"));
             $this->setData('widgets_array', $result);
         }
-        return $this->getData('widgets_array');
+        return $this->_getData('widgets_array');
     }
 
     /**
@@ -135,11 +135,12 @@ class Mage_Cms_Model_Widget extends Varien_Object
             return $directive;
         }
 
+        $config = Mage::getSingleton('cms/widget_config');
         $imageName = str_replace('/', '__', $type) . '.gif';
-        if (is_file($this->getPlaceholderImagesBaseDir() . DS . $imageName)) {
-            $image = $this->getPlaceholderImagesBaseUrl() . $imageName;
+        if (is_file($config->getPlaceholderImagesBaseDir() . DS . $imageName)) {
+            $image = $config->getPlaceholderImagesBaseUrl() . $imageName;
         } else {
-            $image = $this->getPlaceholderImagesBaseUrl() . 'default.gif';
+            $image = $config->getPlaceholderImagesBaseUrl() . 'default.gif';
         }
         $html = sprintf('<img id="%s" src="%s" class="widget" title="%s">',
             $this->_idEncode($directive),
@@ -165,26 +166,6 @@ class Mage_Cms_Model_Widget extends Varien_Object
             }
        }
        return $result;
-    }
-
-    /**
-     * Return Widget placeholders images URL
-     *
-     * @return string
-     */
-    public function getPlaceholderImagesBaseUrl()
-    {
-        return Mage::getDesign()->getSkinUrl('images/widget/');
-    }
-
-    /**
-     * Return Widget placeholders images dir
-     *
-     * @return string
-     */
-    public function getPlaceholderImagesBaseDir()
-    {
-        return Mage::getDesign()->getSkinBaseDir() . DS . 'images' . DS . 'widget';
     }
 
     /**
