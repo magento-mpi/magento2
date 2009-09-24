@@ -81,7 +81,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Type_Configurable extends M
         if (!empty($insert)) {
             $data = array();
             foreach ($insert as $childId) {
-                $data = array(
+                $data[] = array(
                     'product_id' => $childId,
                     'parent_id'  => $mainProductId
                 );
