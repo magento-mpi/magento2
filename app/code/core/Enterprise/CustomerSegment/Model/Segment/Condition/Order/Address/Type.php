@@ -39,4 +39,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
             . Mage::helper('enterprise_customersegment')->__('Order Address %s a %s Address',
                 $this->getOperatorElementHtml(), $this->getValueElement()->getHtml()) . $this->getRemoveLinkHtml();
     }
+
+    public function getSubfilterType()
+    {
+        return 'order_address_type';
+    }
+
+    public function getSubfilterSql($fieldName, $requireValid)
+    {
+        $operator = (($this->getOperator() == '==') == $requireValid);
+        if ($operator) {
+            $operator = '=';
+        } else {
+            $operator = '<>';
+        }
+
+        return sprintf("%s %s '%s'", $fieldName, $operator, $this->getValue());
+    }
 }

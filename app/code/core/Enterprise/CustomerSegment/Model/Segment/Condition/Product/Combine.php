@@ -71,7 +71,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         return $children;
     }
 
-    public function getConditionsSql($customer) {
+    public function getConditionsSql($customer, $isRoot = false) {
         return false;
     }
 

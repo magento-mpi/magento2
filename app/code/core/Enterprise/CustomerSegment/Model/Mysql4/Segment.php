@@ -76,4 +76,9 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
     {
         return $this->_getReadAdapter()->select();
     }
+
+    public function quoteInto($string, $param)
+    {
+        return $this->_getReadAdapter()->quoteInto($string, $param);
+    }
 }

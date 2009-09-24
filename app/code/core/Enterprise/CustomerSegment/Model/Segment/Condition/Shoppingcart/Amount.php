@@ -64,7 +64,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     }    
 
 
-    public function getConditionsSql($customer)
+    public function getConditionsSql($customer, $isRoot = false)
     {
         $table = $this->getResource()->getTable('sales/quote');
         $addressTable = $this->getResource()->getTable('sales/quote_address');
@@ -120,8 +120,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
             $field = "address.{$field}";
         }
 
-        $select->where("{$field} {$operator} ?", $this->getValue())
-            ->where('customer_id = ?', $customer->getId());
+        $select->where("{$field} {$operator} ?", $this->getValue());
+        $select->where($this->_createCustomerFilter($customer, 'customer_id', $isRoot));
 
         return $select;
     }

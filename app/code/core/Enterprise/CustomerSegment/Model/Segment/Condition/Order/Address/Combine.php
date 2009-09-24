@@ -54,4 +54,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Combine
             Mage::getModel('enterprise_customersegment/segment_condition_order_address_attributes')->getNewChildSelectOptions(),
         ));
     }
+
+    protected function _getOrderAddressTypeSubfilterField()
+    {
+        return 'order_address_type.value';
+    }
 }

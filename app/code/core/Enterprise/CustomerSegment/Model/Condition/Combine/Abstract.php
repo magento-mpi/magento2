@@ -80,11 +80,32 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
         }
     }
 
-    protected function _prepareConditionsSql($customer) {
+    protected function _createCustomerFilter($customer, $fieldName, $isRoot)
+    {
+        if ($isRoot) {
+            if ($customer instanceof Mage_Customer_Model_Customer) {
+                $customer = $customer->getId();
+            } else if ($customer instanceof Zend_Db_Select) {
+                $customer = new Zend_Db_Expr($customer);
+            }
+
+            return $this->getResource()->quoteInto("{$fieldName} IN (?)", $customer);
+        } else {
+            return "{$fieldName} = root.entity_id";
+        }
+    }
+
+    protected function _prepareConditionsSql($customer, $isRoot) {
         $select = $this->getResource()->createSelect();
 
-        $select->from($this->getResource()->getTable('customer/entity'), array(new Zend_Db_Expr(1)));
-        $select->where('entity_id = ?', $customer->getId());
+        if ($isRoot) {
+            $table = array('root' => $this->getResource()->getTable('customer/entity'));
+        } else {
+            $table = $this->getResource()->getTable('customer/entity');
+        }
+
+        $select->from($table, array(new Zend_Db_Expr(1)));
+        $select->where($this->_createCustomerFilter($customer, 'entity_id', $isRoot));
 
         return $select;
     }
@@ -94,9 +115,9 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
         return ($this->getValue() == 1);
     }
 
-    public function getConditionsSql($customer)
+    public function getConditionsSql($customer, $isRoot = true)
     {
-        $select = $this->_prepareConditionsSql($customer);
+        $select = $this->_prepareConditionsSql($customer, $isRoot);
 
         if ($this->getAggregator() == 'all') {
             $whereFunction = 'where';
@@ -113,7 +134,7 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
         $gotConditions = false;
 
         foreach ($this->getConditions() as $condition) {
-            if ($sql = $condition->getConditionsSql($customer)) {
+            if ($sql = $condition->getConditionsSql($customer, false)) {
                 $criteriaSql = "(IFNULL(($sql), 0) {$operator} 1)";
 
                 $select->$whereFunction($criteriaSql);
@@ -143,6 +164,14 @@ class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_R
 
                     case 'order_status':
                         $subfilter = $condition->getSubfilterSql($this->_getOrderSubfilterField(), $this->_getRequiredValidation());
+                        if ($subfilter) {
+                            $select->$whereFunction($subfilter);
+                            $gotConditions = true;
+                        }
+                        break;
+
+                    case 'order_address_type':
+                        $subfilter = $condition->getSubfilterSql($this->_getOrderAddressTypeSubfilterField(), $this->_getRequiredValidation());
                         if ($subfilter) {
                             $select->$whereFunction($subfilter);
                             $gotConditions = true;

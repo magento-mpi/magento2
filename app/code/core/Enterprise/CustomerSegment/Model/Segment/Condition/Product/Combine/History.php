@@ -72,7 +72,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer)
+    protected function _prepareConditionsSql($customer, $isRoot)
     {
         $select = $this->getResource()->createSelect();
 
@@ -80,11 +80,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             case 'ordered_history':
                 $select->from(array('item' => $this->getResource()->getTable('sales/order_item')), array(new Zend_Db_Expr(1)));
                 $select->joinInner(array('order' => $this->getResource()->getTable('sales/order')), 'item.order_id = order.entity_id', array());
-                $select->where('order.customer_id = ?', $customer->getId());
+                $select->where($this->_createCustomerFilter($customer, 'order.customer_id', $isRoot));
                 break;
             default:
                 $select->from(array('item' => $this->getResource()->getTable('reports/viewed_product_index')), array(new Zend_Db_Expr(1)));
-                $select->where('item.customer_id = ?', $customer->getId());
+                $select->where($this->_createCustomerFilter($customer, 'item.customer_id', $isRoot));
                 break;
         }
 

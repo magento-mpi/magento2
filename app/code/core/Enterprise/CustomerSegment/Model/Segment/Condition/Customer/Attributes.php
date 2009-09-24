@@ -254,7 +254,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return Mage::helper('enterprise_customersegment')->__('Customer %s', parent::asHtml());
     }
 
-    public function getConditionsSql($customer)
+    public function getConditionsSql($customer, $isRoot = false)
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
@@ -262,8 +262,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
 
         $select = $this->getResource()->createSelect();
         $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)))
-            ->where('main.entity_id = ?', $customer->getId())
             ->limit(1);
+        $select->where($this->_createCustomerFilter($customer, 'main.entity_id', $isRoot));
 
         if ($attribute->getAttributeCode() != 'default_billing' && $attribute->getAttributeCode() != 'default_shipping') {
             $operator = $this->_getSqlOperator();

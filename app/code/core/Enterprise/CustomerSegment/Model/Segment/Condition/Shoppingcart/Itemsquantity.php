@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
             . $this->getRemoveLinkHtml();
     }
 
-    public function getConditionsSql($customer)
+    public function getConditionsSql($customer, $isRoot = false)
     {
         $table = $this->getResource()->getTable('sales/quote');
         $operator = $this->_getSqlOperator();
@@ -60,8 +60,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
         $select->from($table, array(new Zend_Db_Expr(1)))
             ->limit(1);
 
-        $select->where("items_count {$operator} ?", $this->getValue())
-            ->where('customer_id = ?', $customer->getId());
+        $select->where("items_count {$operator} ?", $this->getValue());
+        $select->where($this->_createCustomerFilter($customer, 'customer_id', $isRoot));
 
         return $select;
     }

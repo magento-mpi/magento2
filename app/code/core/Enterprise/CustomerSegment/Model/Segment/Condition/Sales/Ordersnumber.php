@@ -44,14 +44,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer)
+    protected function _prepareConditionsSql($customer, $isRoot)
     {
         $select = $this->getResource()->createSelect();
 
         $result = "IF (COUNT(*) {$this->_getSqlOperator()} {$this->getValue()}, 1, 0)";
 
         $select->from(array('order' => $this->getResource()->getTable('sales/order')), array(new Zend_Db_Expr($result)));
-        $select->where('order.customer_id = ?', $customer->getId());
+        $select->where($this->_createCustomerFilter($customer, 'order.customer_id', $isRoot));
 
         return $select;
     }

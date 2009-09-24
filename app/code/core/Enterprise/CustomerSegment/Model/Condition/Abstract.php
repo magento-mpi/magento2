@@ -68,4 +68,19 @@ class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Mode
                 Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified'));
         }
     }
+
+    protected function _createCustomerFilter($customer, $fieldName, $isRoot)
+    {
+        if ($isRoot) {
+            if ($customer instanceof Mage_Customer_Model_Customer) {
+                $customer = $customer->getId();
+            } else if ($customer instanceof Zend_Db_Select) {
+                $customer = new Zend_Db_Expr($customer);
+            }
+
+            return $this->getResource()->quoteInto("{$fieldName} IN (?)", $customer);
+        } else {
+            return "{$fieldName} = root.entity_id";
+        }
+    }
 }

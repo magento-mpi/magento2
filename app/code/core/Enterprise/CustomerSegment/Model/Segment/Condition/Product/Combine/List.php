@@ -72,23 +72,24 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer)
+    protected function _prepareConditionsSql($customer, $isRoot)
     {
         $select = $this->getResource()->createSelect();
 
         switch ($this->getValue()) {
             case 'wishlist':
                 $select->from(array('item' => $this->getResource()->getTable('wishlist/item')), array(new Zend_Db_Expr(1)));
-                $conditions = "item.wishlist_id = list.wishlist_id AND list.customer_id = '{$customer->getId()}'";
+                $conditions = "item.wishlist_id = list.wishlist_id";
                 $select->joinInner(array('list' => $this->getResource()->getTable('wishlist/wishlist')), $conditions, array());
                 break;
             default:
                 $select->from(array('item' => $this->getResource()->getTable('sales/quote_item')), array(new Zend_Db_Expr(1)));
-                $conditions = "item.quote_id = list.entity_id AND list.customer_id = '{$customer->getId()}'";
+                $conditions = "item.quote_id = list.entity_id";
                 $select->joinInner(array('list' => $this->getResource()->getTable('sales/quote')), $conditions, array());
                 break;
         }
 
+        $select->where($this->_createCustomerFilter($customer, 'list.customer_id', $isRoot));
         $select->limit(1);
 
         return $select;

@@ -47,4 +47,43 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
             . Mage::helper('enterprise_customersegment')->__('If Order Addresses match %s of these Conditions:',
                 $this->getAggregatorElement()->getHtml()) . $this->getRemoveLinkHtml();
     }
+
+    public function getValue()
+    {
+        return 1;
+    }
+
+
+    protected function _prepareConditionsSql($customer, $isRoot)
+    {
+        $select = $this->getResource()->createSelect();
+
+        $orderAddressEntityId = Mage::getSingleton('eav/config')->getEntityType('order_address')->getId();
+
+        $addressTypeAttribute = Mage::getSingleton('eav/config')->getAttribute('order_address', 'address_type');
+
+        $select->from(array('order_address' => $this->getResource()->getTable('sales/order_entity')), array(new Zend_Db_Expr(1)));
+        $select->where('order_address.entity_type_id = ?', $orderAddressEntityId);
+
+        $orderJoinConditions = 'order_address.parent_id = order_address_order.entity_id';
+        $select->joinInner(array('order_address_order' => $this->getResource()->getTable('sales/order')), $orderJoinConditions, array());
+
+        $addressTypeJoinConditions = array();
+        $addressTypeJoinConditions[] = "order_address.entity_id = order_address_type.entity_id";
+        $addressTypeJoinConditions[] = "order_address_type.attribute_id = '{$addressTypeAttribute->getId()}'";
+        $addressTypeJoinConditions = implode(' AND ', $addressTypeJoinConditions);
+
+        $select->joinInner(array('order_address_type' => $addressTypeAttribute->getBackendTable()), $addressTypeJoinConditions, array());
+
+        $select->where($this->_createCustomerFilter($customer, 'order_address_order.customer_id', $isRoot));
+
+        $select->limit(1);
+
+        return $select;
+    }
+
+    protected function _getOrderAddressTypeSubfilterField()
+    {
+        return 'order_address_type.value';
+    }
 }

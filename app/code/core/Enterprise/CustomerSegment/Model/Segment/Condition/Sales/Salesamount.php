@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer)
+    protected function _prepareConditionsSql($customer, $isRoot)
     {
         $select = $this->getResource()->createSelect();
 
@@ -55,7 +55,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
         }
 
         $select->from(array('order' => $this->getResource()->getTable('sales/order')), array(new Zend_Db_Expr($result)));
-        $select->where('order.customer_id = ?', $customer->getId());
+        $select->where($this->_createCustomerFilter($customer, 'order.customer_id', $isRoot));
 
         return $select;
     }
