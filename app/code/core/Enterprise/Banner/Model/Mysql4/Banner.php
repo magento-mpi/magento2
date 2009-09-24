@@ -358,14 +358,15 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
      *
      * @param int $websiteId
      * @param int $customerGroupId
+     * @param int $customerId
      * @return array
      */
-    public function getSalesRuleRelatedBannerIds($websiteId, $customerGroupId)
+    public function getSalesRuleRelatedBannerIds($websiteId, $customerGroupId, $customerId)
     {
         $adapter = $this->_getReadAdapter();
         $collection = Mage::getResourceModel('enterprise_banner/salesrule_collection');
         $collection->resetColumns()
-               ->setValidationFilter($websiteId, $customerGroupId)
+               ->setRuleValidationFilter($websiteId, $customerGroupId, $customerId)
                ->setBannersFilter(true);
         return $adapter->fetchCol($collection->getSelect());
     }

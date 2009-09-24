@@ -38,6 +38,49 @@ class Enterprise_Banner_Model_Mysql4_Salesrule_Collection extends Mage_SalesRule
     }
 
     /**
+     * Apply only valid rules
+     *
+     * @param int $websiteId
+     * @param int $customerGroupId
+     * @param int $customerId
+     * @param string $now
+     * @return Enterprise_Banner_Model_Mysql4_Salesrule_Collection
+     */
+    public function setRuleValidationFilter($websiteId, $customerGroupId, $customerId, $now=null)
+    {
+        if (is_null($now)) {
+            $now = Mage::getModel('core/date')->date('Y-m-d');
+        }
+
+        //Join salesrule customer to check times used per customer
+        $this->getSelect()->joinLeft(
+            array('customer_rules' => $this->getTable('salesrule/rule_customer')),
+            $this->getConnection()->quoteInto('(customer_rules.rule_id = main_table.rule_id AND customer_rules.customer_id = ?)', $customerId),
+            array()
+        );
+
+        //Coupon code validation
+        $this->getSelect()->where("(
+                                       (coupon_code != '' AND coupon_code IS NOT NULL) AND
+                                       (
+                                           (main_table.times_used < uses_per_coupon) AND
+                                           (customer_rules.rule_customer_id IS NULL OR customer_rules.times_used < uses_per_customer)
+                                       )
+                                   ) OR
+                                   (coupon_code = '') OR
+                                   (coupon_code IS NULL)");
+
+        $this->getSelect()->where('is_active=1');
+        $this->getSelect()->where('find_in_set(?, website_ids)', (int)$websiteId);
+        $this->getSelect()->where('find_in_set(?, customer_group_ids)', (int)$customerGroupId);
+        $this->getSelect()->where('from_date is null or from_date<=?', $now);
+        $this->getSelect()->where('to_date is null or to_date>=?', $now);
+	    $this->getSelect()->order('sort_order');
+
+	    return $this;
+    }
+
+    /**
      * Set related banners to sales rule
      *
      * @param bool $enabledOnly if true then only enabled banners will be joined

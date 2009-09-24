@@ -184,7 +184,8 @@ class Enterprise_Banner_Block_Widget_Banner
             case self::BANNER_WIDGET_DISPLAY_SALESRULE:
                 $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds(
                     Mage::app()->getWebsite()->getId(),
-                    Mage::getSingleton('customer/session')->getCustomerGroupId()
+                    Mage::getSingleton('customer/session')->getCustomerGroupId(),
+                    Mage::getSingleton('customer/session')->getCustomerId()
                 );
                 $banenrsContent = $this->_getBannersContent($bannerIds);
                 break;
