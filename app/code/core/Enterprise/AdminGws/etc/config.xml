@@ -322,6 +322,7 @@
                     <sales__order_creditmemo_collection>addStoreAttributeToFilter</sales__order_creditmemo_collection>
                     <checkout__agreement_collection>limitCheckoutAgreements</checkout__agreement_collection>
                     <newsletter__queue_collection>addStoreFilter</newsletter__queue_collection>
+                    <newsletter__subscriber_collection>addStoreFilter</newsletter__subscriber_collection>
                     <core__design_collection>addStoreFilter</core__design_collection>
                     <dataflow__profile_collection>addStoreFilter</dataflow__profile_collection>
                     <admin__roles_collection>limitAdminPermissionRoles</admin__roles_collection>
