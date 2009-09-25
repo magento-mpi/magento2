@@ -47,17 +47,21 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
     /**
      * Prepare tag model for manipulation
      *
-     * @return Mage_Tag_Model_Tag
+     * @return Mage_Tag_Model_Tag | false
      */
     protected function _initTag()
     {
         $id = $this->getRequest()->getParam('tag_id');
-        $storeId = $this->getRequest()->getParam('store_id');
+        $storeId = $this->getRequest()->getParam('store');
         $model = Mage::getModel('tag/tag');
         if ($id) {
             $model->load($id);
+            if (!$model->getId()) {
+                return false;
+            }
             $model->setStoreId($storeId);
         }
+
         Mage::register('current_tag', $model);
 
         return $model;
@@ -119,7 +123,13 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             return;
         }
 
-        $model = $this->_initTag();
+        if (!$model = $this->_initTag()) {
+            Mage::getSingleton('adminhtml/session')->addError('Tag with specified ID doesn\'t exists');
+            $this->_redirect('*/*/index', array(
+                'store' => $this->getRequest()->getParam('store')
+            ));
+            return;
+        }
 
         $model->addSummary($this->getRequest()->getParam('store'));
 
@@ -150,7 +160,13 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             $data['base_popularity']    = (isset($postData['base_popularity'])) ? $postData['base_popularity'] : 0;
             $data['store']              = $postData['store_id'];
 
-            $model = $this->_initTag();
+            if (!$model = $this->_initTag()) {
+                Mage::getSingleton('adminhtml/session')->addError('Tag with specified ID doesn\'t exists');
+                $this->_redirect('*/*/index', array(
+                    'store' => $data['store']
+                ));
+                return;
+            }
             $model->addData($data);
 
             if (isset($postData['tag_assigned_products'])) {
