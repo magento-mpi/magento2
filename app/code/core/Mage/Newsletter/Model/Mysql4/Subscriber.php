@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Newsletter
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Newsletter
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
@@ -103,7 +103,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
      */
     public function setMessagesScope($scope)
     {
-    	$this->_messagesScope = $scope;
+        $this->_messagesScope = $scope;
     }
 
     /**
@@ -214,7 +214,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
         $data['subscriber_confirm_code'] = $subscriber->getCode();
 
         if($subscriber->getIsStatusChanged()) {
-        	$data['change_status_at'] = Mage::getSingleton('core/date')->gmtDate();
+            $data['change_status_at'] = Mage::getSingleton('core/date')->gmtDate();
         }
 
         $validators = array('subscriber_email' => 'EmailAddress');
@@ -225,10 +225,10 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
             foreach ($input->getMessages() as $message) {
                 if(is_array($message)) {
                     foreach( $message as $error ) {
-                    	$session->addError($error);
+                        $session->addError($error);
                     }
                 } else {
-                	$session->addError($message);
+                    $session->addError($message);
                 }
             }
             Mage::throwException(Mage::helper('newsletter')->__('Form was filled incorrectly'));
@@ -262,19 +262,19 @@ class Mage_Newsletter_Model_Mysql4_Subscriber
 
     public function received(Mage_Newsletter_Model_Subscriber $subscriber, Mage_Newsletter_Model_Queue $queue)
     {
-    	$this->_write->beginTransaction();
-    	 try {
-    	 	$data['letter_sent_at'] = now();
+        $this->_write->beginTransaction();
+         try {
+             $data['letter_sent_at'] = now();
             $this->_write->update($this->_subscriberLinkTable,
-            					  $data,
+                                  $data,
                                   array($this->_write->quoteInto('subscriber_id=?', $subscriber->getId()),
-                                  		$this->_write->quoteInto('queue_id=?', $queue->getId())));
+                                          $this->_write->quoteInto('queue_id=?', $queue->getId())));
             $this->_write->commit();
         }
         catch (Exception $e) {
             $this->_write->rollBack();
             Mage::throwException(Mage::helper('newsletter')->__('Cannot mark as received subscriber'));
         }
-    	return $this;
+        return $this;
     }
 }

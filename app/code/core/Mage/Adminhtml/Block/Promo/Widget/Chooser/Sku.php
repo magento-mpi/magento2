@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category    Mage
+ * @package     Mage_Adminhtml
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
@@ -73,9 +73,9 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
                 $selected = '';
             }
             if ($column->getFilter()->getValue()) {
-            	$this->getCollection()->addFieldToFilter('sku', array('in'=>$selected));
+                $this->getCollection()->addFieldToFilter('sku', array('in'=>$selected));
             } else {
-            	$this->getCollection()->addFieldToFilter('sku', array('nin'=>$selected));
+                $this->getCollection()->addFieldToFilter('sku', array('nin'=>$selected));
             }
         } else {
             parent::_addColumnFilterToCollection($column);
@@ -87,7 +87,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
     {
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->setStoreId(0)
-        	->addAttributeToSelect('name')
+            ->addAttributeToSelect('name')
             ->addAttributeToFilter('type_id', array('in'=>array(
                 Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
                 Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
