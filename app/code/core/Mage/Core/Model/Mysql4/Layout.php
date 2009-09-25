@@ -54,7 +54,8 @@ class Mage_Core_Model_Mysql4_Layout extends Mage_Core_Model_Mysql4_Abstract
                 ->where('link.store_id=?', $storeId)
                 ->where('link.package=?', $package)
                 ->where('link.theme=?', $theme)
-                ->where('update.handle = ?', $handle);
+                ->where('update.handle = ?', $handle)
+                ->order('update.sort_order DESC');
 
             foreach ($readAdapter->fetchAll($select) as $update) {
                 $updateStr .= $update['xml'];
