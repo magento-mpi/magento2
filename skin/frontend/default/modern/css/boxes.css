@@ -17,8 +17,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ * @category    design
+ * @package     default_modern
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
 /****************************************************/
@@ -613,7 +615,7 @@ a.minimal-price-link .price { font-weight:normal; color:#444; }
     color:#fff;
     font-size:1.1em;
     }
-.narrowed-category li {clear:both; }	
+.narrowed-category li {clear:both; }
 .layered-nav .narrow-by dt { border-top:1px solid #fff; padding:8px 8px 0 8px; font-size:1.1em; }
 .layered-nav .narrow-by dd { padding:0 8px 8px 8px; border-bottom:1px solid #ddd; }
 .layered-nav .narrow-by a,
