@@ -458,6 +458,11 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         if (!is_numeric($groupId)) {
             $groupId = $this->getAttributeGroup($entityTypeId, $setId, $groupId, 'attribute_group_id');
         }
+
+        if (!is_numeric($groupId)) {
+            $groupId = $this->getDefaultAttributeGroupId($entityTypeId, $setId);
+        }
+
         if (!is_numeric($groupId)) {
             throw Mage::exception('Mage_Eav', Mage::helper('eav')->__('Wrong attribute group ID'));
         }

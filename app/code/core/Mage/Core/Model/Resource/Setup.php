@@ -63,7 +63,7 @@ class Mage_Core_Model_Resource_Setup
         } else {
             $this->_connectionConfig = $config->getResourceConnectionConfig(self::DEFAULT_SETUP_CONNECTION);
         }
-        
+
         $modName = (string)$this->_resourceConfig->setup->module;
         $this->_moduleConfig = $config->getModuleConfig($modName);
         $this->_conn = Mage::getSingleton('core/resource')->getConnection($this->_resourceName);
@@ -388,7 +388,6 @@ class Mage_Core_Model_Resource_Setup
                 $sql .= $this->_conn->quoteInto(" and $parentField=?", $parentId);
             }
             $this->_setupCache[$table][$parentId][$id] = $this->_conn->fetchRow($sql, $id);
-            $this->_conn->fetchAll($sql, $id);
         }
         if (is_null($field)) {
             return $this->_setupCache[$table][$parentId][$id];
