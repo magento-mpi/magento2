@@ -81,6 +81,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
         return false;
     }
 
+    /**
+     * Getter
+     *
+     * @return Enterprise_Cms_Model_Widget_Instance
+     */
     public function getWidgetInstance()
     {
         return Mage::registry('widget_instance');
@@ -142,6 +147,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
                 'values'    => Mage::getSingleton('adminhtml/system_store')->getStoreValuesForForm(false, true),
             ));
         }
+
+        $fieldset->addField('sort_order', 'text', array(
+            'name'  => 'sort_order',
+            'label' => Mage::helper('enterprise_cms')->__('Sort Order'),
+            'title' => Mage::helper('enterprise_cms')->__('Sort Order'),
+            'class' => '',
+            'required' => false,
+            'note' => Mage::helper('enterprise_cms')->__('Sort Order of widget instances in the same block reference')
+        ));
+
         /* @var $layoutBlock Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout */
         $layoutBlock = $this->getLayout()
             ->createBlock('enterprise_cms/adminhtml_cms_widget_instance_edit_tab_main_layout')
@@ -164,17 +179,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
      */
     public function getTypesOptionsArray()
     {
-        $widgets = array();
-        $widgetsXml = Mage::getModel('cms/widget')->getXmlConfig();
-        foreach ($widgetsXml->getNode('widgets')->children() as $item) {
-            if ($type = $item->getAttribute('type')) {
-                $widgets[] = array(
-                    'value' => $type,
-                    'label' => (string)Mage::helper('enterprise_cms')->__('%s', $item->name)
-                );
-            }
-        }
-        return $widgets;
+        return $this->getWidgetInstance()->getWidgetsOptionArray();
     }
 
     public function getPackegeThemeOptionsArray()

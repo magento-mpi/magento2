@@ -280,4 +280,50 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
         }
         return $this->getData('widget_parameters');
     }
+
+    /**
+     * Retrieve option arra of widget types
+     *
+     * @return array
+     */
+    public function getWidgetsOptionArray()
+    {
+        $widgets = array();
+        $widgetsArr = Mage::getModel('cms/widget')->getWidgetsArray();
+        foreach ($widgetsArr as $widget) {
+            $widgets[] = array(
+                'value' => $widget['type'],
+                'label' => $widget['name']
+            );
+        }
+        return $widgets;
+    }
+
+    /**
+     * Generate layout update xml
+     *
+     * @param string $blockReference
+     * @param string $position
+     * @return string
+     */
+    public function generateLayoutUpdateXml($blockReference, $position = 'before')
+    {
+        if (!$this->getId() && !$this->isCompleteToCreate()) {
+            return '';
+        }
+        $parameters = $this->getWidgetParameters();
+        $xml = '<reference name="'.$blockReference.'">';
+        $template = '';
+        if (isset($parameters['template'])) {
+            $template = ' template="'.$parameters['template'].'"';
+            unset($parameters['template']);
+        }
+        $xml .= '<block type="'.$this->getType().'" name="'.md5(microtime()).'"'.$template.' '.$position.'="-">';
+        foreach ($parameters as $name => $value) {
+            $xml .= '<action method="setData"><name>'.$name.'</name><value>'.Mage::helper('enterprise_cms')->htmlEscape($value).'</value></action>';
+        }
+        $xml .= '</block></reference>';
+        return $xml;
+    }
+
 }

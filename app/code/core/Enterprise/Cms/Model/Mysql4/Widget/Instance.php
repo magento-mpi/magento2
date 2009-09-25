@@ -189,12 +189,10 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
             $this->_getWriteAdapter()->insert(
                 $this->getTable('core/layout_update'), array(
                     'handle' => $handle,
-                    'xml' => $this->_prepareLayoutXml(
-                        $handle,
-                        $pageGroupData['block_reference'],
-                        $widgetInstance->getType(),
-                        $widgetInstance->getWidgetParameters(),
-                        $pageGroupData['position'])
+                    'xml' => $widgetInstance->generateLayoutUpdateXml(
+                                $pageGroupData['block_reference'],
+                                $pageGroupData['position']),
+                    'sort_order' => $widgetInstance->getSortOrder()
             ));
             $layoutUpdateId = $this->_getWriteAdapter()->lastInsertId();
             $this->addHandleToCleanCache($handle);
@@ -225,26 +223,6 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
             $storeIds = array_keys(Mage::app()->getStores(false));
         }
         return $storeIds;
-    }
-
-    /**
-     * Generate xml layout update
-     *
-     * @param string $layoutHandle
-     * @param string $blockReference
-     * @param string $widgetType
-     * @param array $properties
-     * @return string
-     */
-    protected function _prepareLayoutXml($layoutHandle, $blockReference, $widgetType, $properties, $position = 'before')
-    {
-        $xml = '<reference name="'.$blockReference.'">';
-        $xml .= '<block type="'.$widgetType.'" name="'.md5(microtime()).'" '.$position.'="-">';
-        foreach ($properties as $propertyName => $propertyValue) {
-            $xml .= '<action method="setData"><name>'.$propertyName.'</name><value>'.$propertyValue.'</value></action>';
-        }
-        $xml .= '</block></reference>';
-        return $xml;
     }
 
     /**

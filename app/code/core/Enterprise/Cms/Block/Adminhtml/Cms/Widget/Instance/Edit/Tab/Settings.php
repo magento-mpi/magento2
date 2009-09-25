@@ -81,6 +81,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
         return false;
     }
 
+    /**
+     * Getter
+     *
+     * @return Enterprise_Cms_Model_Widget_Instance
+     */
     public function getWidgetInstance()
     {
         return Mage::registry('widget_instance');
@@ -153,23 +158,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
      */
     public function getTypesOptionsArray()
     {
-        $widgets = array();
-        $widgetsXml = Mage::getModel('cms/widget')->getXmlConfig();
-        foreach ($widgetsXml->getNode('widgets')->children() as $item) {
-            if ($item->is_context && (int)$item->is_context == 1) {
-                continue;
-            }
-            if ($module = $item->getAttribute('module')) {
-                $helper = Mage::helper($module);
-            } else {
-                $helper = Mage::helper('enterprise_cms');
-            }
-            $widgets[] = array(
-                'value' => $item->getAttribute('type'),
-                'label' => $helper->__((string)$item->name)
-            );
-        }
-        usort($widgets, array($this, '_sortWidgets'));
+        $widgets = $this->getWidgetInstance()->getWidgetsOptionArray();
         array_unshift($widgets, array(
             'value' => '',
             'label' => Mage::helper('enterprise_cms')->__('-- Please Select --')
@@ -189,6 +178,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
         return strcmp($a["label"], $b["label"]);
     }
 
+    /**
+     * Retrieve package/theme options array
+     *
+     * @return array
+     */
     public function getPackegeThemeOptionsArray()
     {
         return Mage::getModel('core/design_source_design')

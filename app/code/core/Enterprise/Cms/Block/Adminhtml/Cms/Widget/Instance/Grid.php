@@ -79,6 +79,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Grid extends Mage_Admin
             'with_empty' => true,
         ));
 
+        $this->addColumn('sort_order', array(
+            'header'    => Mage::helper('enterprise_cms')->__('Sort Order'),
+            'width'     => '100',
+            'align'     => 'center',
+            'index'     => 'sort_order',
+        ));
+
         return parent::_prepareColumns();
     }
 

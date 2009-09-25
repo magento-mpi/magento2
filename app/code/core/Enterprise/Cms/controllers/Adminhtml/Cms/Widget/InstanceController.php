@@ -125,6 +125,15 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
     {
         $response = new Varien_Object();
         $response->setError(false);
+        $widgetInstance = $this->_initWidgetInstance();
+        if (!$widgetInstance->isCompleteToCreate()) {
+            $this->_getSession()->addError(
+                Mage::helper('enterprise_cms')->__('Widget instance is not full complete to create.')
+            );
+            $this->_initLayoutMessages('adminhtml/session');
+            $response->setError(true);
+            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+        }
         $this->getResponse()->setBody($response->toJson());
     }
 
@@ -137,16 +146,24 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         $widgetInstance = $this->_initWidgetInstance();
         $widgetTitle = $this->getRequest()->getPost('title');
         $storeIds = $this->getRequest()->getPost('store_ids', array(0));
+        $sortOrder = $this->getRequest()->getPost('sort_order', 0);
         $widgetInstanceData = $this->getRequest()->getPost('widget_instance');
         $widgetParameters = $this->getRequest()->getPost('parameters');
         $widgetInstance->setTitle($widgetTitle)
             ->setStoreIds($storeIds)
+            ->setSortOrder($sortOrder)
             ->setPageGroups($widgetInstanceData)
             ->setWidgetParameters($widgetParameters);
         try {
             $widgetInstance->save();
+            $this->_getSession()->addSuccess(
+                Mage::helper('enterprise_cms')->__('Widget instance was successfully saved .')
+            );
             if ($this->getRequest()->getParam('back', false)) {
-                    $this->_redirect('*/*/edit', array('instance_id' => $widgetInstance->getId(), '_current' => true));
+                    $this->_redirect('*/*/edit', array(
+                        'instance_id' => $widgetInstance->getId(),
+                        '_current' => true
+                    ));
             } else {
                 $this->_redirect('*/*/');
             }
@@ -170,6 +187,9 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         if ($widgetInstance->getId()) {
             try {
                 $widgetInstance->delete();
+                $this->_getSession()->addSuccess(
+                    Mage::helper('enterprise_cms')->__('Widget instance was successfully deleted.')
+                );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
             }
