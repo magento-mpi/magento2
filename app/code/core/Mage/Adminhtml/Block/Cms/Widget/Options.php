@@ -45,14 +45,50 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
      */
     protected function _prepareForm()
     {
-        // prepare form instance
+        $this->getForm()->setUseContainer(false);
+        $this->addFields();
+        return $this;
+    }
+
+    /**
+     * Form getter/instantiation
+     *
+     * @return Varien_Data_Form
+     */
+    public function getForm()
+    {
+        if ($this->_form instanceof Varien_Data_Form) {
+            return $this->_form;
+        }
         $form = new Varien_Data_Form();
-        $fieldset = $form->addFieldset('options_fieldset', array(
+        $this->setForm($form);
+        return $form;
+    }
+
+    /**
+     * Fieldset getter/instantiation
+     *
+     * @return Varien_Data_Form_Element_Fieldset
+     */
+    public function getMainFieldset()
+    {
+        if ($this->_getData('main_fieldset') instanceof Varien_Data_Form_Element_Fieldset) {
+            return $this->_getData('main_fieldset');
+        }
+        $fieldset = $this->getForm()->addFieldset('options_fieldset', array(
             'legend'    => $this->helper('cms')->__('Widget Options')
         ));
-        $form->setUseContainer(false);
-        $this->setForm($form);
+        $this->setData('main_fieldset', $fieldset);
+        return $fieldset;
+    }
 
+    /**
+     * Add fields to main fieldset based on specified widget type
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
+    public function addFields()
+    {
         // get configuration node and translation helper
         if (!$this->getWidgetType()) {
             Mage::throwException($this->__('Widget Type is not specified'));
@@ -78,20 +114,8 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
         foreach ($options as $option) {
             $this->_addField($option);
         }
-    }
 
-    /**
-     * Widget parameters sort callback
-     *
-     * @param $a
-     * @param $b
-     * @return int
-     */
-    protected function _sortParameters($a, $b)
-    {
-        $aOrder = (int)$a->sort_order;
-        $bOrder = (int)$b->sort_order;
-        return $aOrder < $bOrder ? -1 : ($aOrder > $bOrder ? 1 : 0);
+        return $this;
     }
 
     /**
@@ -104,7 +128,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
     protected function _addField($config)
     {
         $form = $this->getForm();
-        $fieldset = $form->getElement('options_fieldset');
+        $fieldset = $this->getMainFieldset(); //$form->getElement('options_fieldset');
 
         // prepare element data with values (either from request of from default values)
         $fieldName = (string)$config->getName();
@@ -180,5 +204,19 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
         }
 
         return $field;
+    }
+
+    /**
+     * Widget parameters sort callback
+     *
+     * @param $a
+     * @param $b
+     * @return int
+     */
+    protected function _sortParameters($a, $b)
+    {
+        $aOrder = (int)$a->sort_order;
+        $bOrder = (int)$b->sort_order;
+        return $aOrder < $bOrder ? -1 : ($aOrder > $bOrder ? 1 : 0);
     }
 }
