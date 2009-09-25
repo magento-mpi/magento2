@@ -73,7 +73,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
      */
     protected function _getConfigurableOptionAggregateTable()
     {
-        return $this->getIdxTable() . '_configurable_option_aggregate';
+        return $this->getIdxTable() . '_cfg_opt_aggregate';
     }
 
     /**
@@ -83,7 +83,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Configurable
      */
     protected function _getConfigurableOptionPriceTable()
     {
-        return $this->getIdxTable() . '_configurable_option';
+        return $this->getIdxTable() . '_cfg_option';
     }
 
     /**
