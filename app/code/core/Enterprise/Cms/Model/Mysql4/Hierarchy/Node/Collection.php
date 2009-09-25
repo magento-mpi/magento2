@@ -112,7 +112,15 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
                     'meta_first_last',
                     'meta_next_previous',
                     'meta_chapter',
-                    'meta_section'
+                    'meta_section',
+                    'pager_visibility',
+                    'pager_frame',
+                    'pager_jump',
+                    'menu_visibility',
+                    'menu_levels_up',
+                    'menu_levels_down',
+                    'menu_ordered',
+                    'menu_list_type'
                 ));
         }
         $this->setFlag('meta_data_joined', true);

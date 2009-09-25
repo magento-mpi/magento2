@@ -145,6 +145,64 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'tabindex'   => '4'
             ));
 
+            $pagerFieldset   = $form->addFieldset('pager_fieldset', array(
+                'legend'    => Mage::helper('enterprise_cms')->__('Node Pagination Options')
+            ));
+
+            $pagerFieldset->addField('pager_visibility', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Visibility'),
+                'title'     => Mage::helper('enterprise_cms')->__('Visibility'),
+                'name'      => 'pager_visibility',
+                'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
+                'onchange'   => "hierarchyNodes.metadataChanged('pager_visibility', 'pager_fieldset')",
+            ));
+            $pagerFieldset->addField('pager_frame', 'text', array(
+                'name'      => 'pager_frame',
+                'label'     => Mage::helper('enterprise_cms')->__('Frame'),
+                'onchange'  => 'hierarchyNodes.nodeChanged()',
+            ));
+            $pagerFieldset->addField('pager_jump', 'text', array(
+                'name'      => 'pager_jump',
+                'label'     => Mage::helper('enterprise_cms')->__('Frame Skip'),
+                'onchange'  => 'hierarchyNodes.nodeChanged()',
+            ));
+
+            $menuFieldset   = $form->addFieldset('menu_fieldset', array(
+                'legend'    => Mage::helper('enterprise_cms')->__('Node Context Menu Options')
+            ));
+
+            $menuFieldset->addField('menu_visibility', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Visibility'),
+                'title'     => Mage::helper('enterprise_cms')->__('Visibility'),
+                'name'      => 'menu_visibility',
+                'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
+                'onchange'   => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
+            ));
+            $menuFieldset->addField('menu_levels_up', 'text', array(
+                'name'      => 'menu_levels_up',
+                'label'     => Mage::helper('enterprise_cms')->__('Levels Up'),
+                'onchange'  => 'hierarchyNodes.nodeChanged()',
+            ));
+            $menuFieldset->addField('menu_levels_down', 'text', array(
+                'name'      => 'menu_levels_down',
+                'label'     => Mage::helper('enterprise_cms')->__('Levels Down'),
+                'onchange'  => 'hierarchyNodes.nodeChanged()',
+            ));
+            $menuFieldset->addField('menu_ordered', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('List Type'),
+                'title'     => Mage::helper('enterprise_cms')->__('List Type'),
+                'name'      => 'menu_ordered',
+                'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listtype')->toOptionArray(),
+                'onchange'  => 'hierarchyNodes.nodeChanged()',
+            ));
+            $menuFieldset->addField('menu_list_type', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('List Style'),
+                'title'     => Mage::helper('enterprise_cms')->__('List Style'),
+                'name'      => 'menu_list_type',
+                'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listmode')->toOptionArray(),
+                'onchange'  => 'hierarchyNodes.nodeChanged()',
+            ));
+
     // commented bc of changes in road map
     //        $fieldset->addField('meta_chapter', 'select', array(
     //            'label'     => Mage::helper('enterprise_cms')->__('Chapter'),

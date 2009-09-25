@@ -67,7 +67,15 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
             'meta_first_last',
             'meta_next_previous',
             'meta_chapter',
-            'meta_section'
+            'meta_section',
+            'pager_visibility',
+            'pager_frame',
+            'pager_jump',
+            'menu_visibility',
+            'menu_levels_up',
+            'menu_levels_down',
+            'menu_ordered',
+            'menu_list_type',
         );
     }
 
@@ -84,6 +92,20 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
             return $target;
         }
 
+        if (isset($source['pager_visibility'])) {
+            $default = $this->_getDefaultMetadataValues('pager_visibility', $source['pager_visibility']);
+            if (is_array($default)) {
+                $source = array_merge($source, $default);
+            }
+        }
+
+        if (isset($source['menu_visibility'])) {
+            $default = $this->_getDefaultMetadataValues('menu_visibility', $source['menu_visibility']);
+            if (is_array($default)) {
+                $source = array_merge($source, $default);
+            }
+        }
+
         $fields = $this->getMetadataFields();
         foreach ($fields as $element) {
             if (isset($source[$element])) {
@@ -92,5 +114,35 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
         }
 
         return $target;
+    }
+
+    /**
+     * Return default values for metadata fields based on other field values
+     * Ex: if 'pager_visibility' == '0' then set to zeros pagination params
+     *
+     * @param string $field Field name to search for
+     * @param string $value Field value
+     * @return array|null
+     */
+    protected function _getDefaultMetadataValues($field, $value)
+    {
+        $paganationDefault = array(
+            'pager_frame' => '0',
+            'pager_jump' => '0',
+        );
+
+        $menuDefault = array(
+            'menu_levels_up' => '0',
+            'menu_levels_down' => '0',
+            'menu_ordered' => '0',
+            'menu_list_type' => '',
+        );
+
+        $default = array(
+            'pager_visibility' => array('0' => $paganationDefault, '2' => $paganationDefault),
+            'menu_visibility' => array('0' => $menuDefault, '2' => $menuDefault),
+        );
+
+        return isset($default[$field][$value]) ? $default[$field][$value] : null;
     }
 }

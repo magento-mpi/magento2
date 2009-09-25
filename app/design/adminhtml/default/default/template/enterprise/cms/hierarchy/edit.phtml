@@ -91,6 +91,7 @@
             $('node_label').removeClassName('required-entry');
             $('node_identifier').removeClassName('required-entry');
         },
+
         createNodes: function(){
             for (var i = 0, l = this.nodes.length; i < l; i++) {
                 var cssClass = '';
@@ -113,11 +114,10 @@
                     expanded: false,
                     allowDrop: true,
                     allowDrag: true,
-                    meta_first_last: this.nodes[i].meta_first_last,
-                    meta_next_previous: this.nodes[i].meta_next_previous,
-                    meta_chapter: this.nodes[i].meta_chapter,
-                    meta_section: this.nodes[i].meta_section
                 });
+
+                // Add metadata
+                this.copyMetadata(this.nodes[i], node.attributes);
 
                 if (this.nodes[i].page_id) {
                     this.pageIdentifiers.set(this.nodes[i].identifier, this.nodes[i].identifier);
@@ -174,15 +174,11 @@
             <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
                 $('node_properties_fieldset').previous().down('.icon-head').innerHTML = '<?php echo $this->getNodeFieldsetLegend()?>';
-                this.showFieldSet('metadata_fieldset');
-                $('meta_first_last').value = node.attributes.meta_first_last;
-                $('meta_next_previous').value = node.attributes.meta_next_previous;
-    // commented bc of changes in road map
-    //            $('meta_chapter').value = node.attributes.meta_chapter;
-    //            $('meta_section').value = node.attributes.meta_section;
+                this.assignNodeMetadataToValues(node);
+                this.showMetadataFieldsets();
             } else {
                 $('node_properties_fieldset').previous().down('.icon-head').innerHTML = '<?php echo $this->getPageFieldsetLegend()?>';
-                this.hideFieldSet('metadata_fieldset');
+                this.hideMetadataFieldsets();
             }
             <?php endif; ?>
 
@@ -217,6 +213,7 @@
 
             this.pageGridLoad();
         },
+
         onNodeAppend: function(tree,parent,node){
             var identifier = node.attributes.identifier;
             for(var i=0, l = parent.childNodes.length; i < l; i++) {
@@ -227,6 +224,7 @@
             }
             return true;
         },
+
         pageGridRowClick: function(container, evt){
             var tr = evt.findElement('tr');
             if (!tr.hasClassName('invalid')) {
@@ -236,6 +234,7 @@
                 container.setCheckboxChecked(checkbox, checked);
             }
         },
+
         pageGridAddSelected: function(){
             var rows = $$('#cms_page_grid .grid table tbody tr');
             rows.each(function(tr){
@@ -270,11 +269,12 @@
             }.bind(this));
             this.pageGridLoad();
         },
+
         collectChilds: function(node){
             if (node.id == '_root') {
                 this.treeData = new Hash();
             } else {
-                this.treeData.set(node.id, {
+                var data = {
                     node_id: node.id,
                     parent_node_id: node.parentNode.id == '_root' ? null : node.parentNode.id,
                     page_id: node.attributes.page_id,
@@ -282,16 +282,16 @@
                     identifier: node.attributes.identifier,
                     sort_order: node.parentNode.indexOf(node),
                     level: node.getDepth(),
-                    meta_first_last: node.attributes.meta_first_last,
-                    meta_next_previous: node.attributes.meta_next_previous,
-                    meta_chapter: node.attributes.meta_chapter,
-                    meta_section: node.attributes.meta_section
-                });
+                };
+                this.copyMetadata(node.attributes, data);
+
+                this.treeData.set(node.id, data);
             }
             if (node.hasChildNodes()) {
                 node.eachChild(this.collectChilds.bind(this));
             }
         },
+
         save: function(){
             if (this.dataModification) {
                 if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are not saved node data. Are you sure you want to proceed?') ?>')) {
@@ -303,6 +303,7 @@
             $('removed_nodes').value = this.removedNodes.join(',');
             editForm.submit();
         },
+
         nodePropValidate: function(){
             $('node_label').addClassName('required-entry');
             $('node_identifier').addClassName('required-entry');
@@ -317,11 +318,13 @@
 
             return isValid;
         },
+
         nodePropReset: function(){
             $('node_properties_fieldset').select('input').each(function(el){
                 Validation.reset(el);
             });
         },
+
         _changeNodePropShow: function(hasPageId){
             var nodeElements = ['node_identifier','node_label'];
             var pageElements = ['node_identifier_text','node_label_text'];
@@ -342,6 +345,7 @@
                 $(id).value = '';
             });
         },
+
         newNodePage: function(){
             this.nodePropReset();
             $('node_id').value = '';
@@ -364,6 +368,7 @@
             $('node_prop_container').show();
             $('cancel_node_button').show();
         },
+
         cancelNodePage: function(){
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
             if (selectedNode && selectedNode.id != '_root') {
@@ -375,6 +380,7 @@
                 $('node_prop_container').hide();
             }
         },
+
         saveNodePage: function(){
             var hasNodeId = $('node_id').value != '';
             var hasPageId = $('node_page_id').value != '';
@@ -426,11 +432,7 @@
 
             <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()): ?>
             if (node.parentNode.id == '_root') {
-                node.attributes.meta_first_last = $('meta_first_last').value;
-                node.attributes.meta_next_previous = $('meta_next_previous').value;
-    // commented bc of changes in road map
-    //            node.attributes.meta_chapter = $('meta_chapter').value;
-    //            node.attributes.meta_section = $('meta_section').value;
+                this.assignValuesMetadataToNode(node);
             }
             <?php endif; ?>
 
@@ -442,6 +444,7 @@
             this.saveButton(true, false);
             this.dataModification = false;
         },
+
         deleteNodePage: function(){
             if (!$('node_id').value) {
                 return;
@@ -461,6 +464,7 @@
                 this.pageGridLoad();
             }
         },
+
         pageGridLoad: function(){
             var node = this.tree.getSelectionModel().getSelectedNode();
             var fullReset = !node ? true : false;
@@ -497,14 +501,17 @@
                 });
             }
         },
+
         hideFieldSet: function(id) {
             $(id).hide();
             $(id).previous(0).hide();
         },
+
         showFieldSet: function(id) {
             $(id).show();
             $(id).previous(0).show();
         },
+
         saveButton: function(show, enabled, save) {
             var btn = $('save_node_button');
             if (show) {
@@ -527,6 +534,7 @@
                 btn.hide();
             }
         },
+
         nodeChanged: function() {
             var node = this.tree.getSelectionModel().getSelectedNode();
             if (node.id != '_root') {
@@ -535,6 +543,83 @@
             }
             this.dataModification = true;
             this.saveButton(true, true);
+        },
+
+        getMetadataFields: function() {
+            return [
+                'meta_first_last',
+                'meta_next_previous',
+                'meta_chapter',
+                'meta_section',
+                'pager_visibility',
+                'pager_frame',
+                'pager_jump',
+                'menu_visibility',
+                'menu_levels_up',
+                'menu_levels_down',
+                'menu_ordered',
+                'menu_list_type'
+            ];
+        },
+
+        showMetadataFieldsets: function() {
+            this.showFieldSet('metadata_fieldset');
+            this.showFieldSet('pager_fieldset');
+            this.showFieldSet('menu_fieldset');
+            this.toggleMetadataFieldset('pager_visibility', 'pager_fieldset');
+            this.toggleMetadataFieldset('menu_visibility', 'menu_fieldset');
+        },
+
+        hideMetadataFieldsets: function() {
+            this.hideFieldSet('metadata_fieldset');
+            this.hideFieldSet('pager_fieldset');
+            this.hideFieldSet('menu_fieldset');
+        },
+
+        copyMetadata: function(source, dest) {
+            this.getMetadataFields().each(function(f) {
+                dest[f] = source[f];
+            }.bind(this));
+        },
+
+        assignNodeMetadataToValues: function(node) {
+            this.getMetadataFields().each(function(f) {
+                if ($(f) != undefined) {
+                    $(f).value = node.attributes[f] == '0' ? '' : node.attributes[f];
+                }
+            }.bind(this));
+        },
+
+        assignValuesMetadataToNode: function(node) {
+            this.getMetadataFields().each(function(f) {
+                if ($(f) != undefined) {
+                    node.attributes[f] = $(f).value;
+                }
+            }.bind(this));
+        },
+
+        metadataChanged: function(switcher, fieldsetId) {
+            this.nodeChanged();
+            this.toggleMetadataFieldset(switcher, fieldsetId);
+        },
+
+        toggleMetadataFieldset: function(switcher, fieldsetId) {
+            if($(fieldsetId) != undefined && $(switcher) != undefined) {
+                var disabled = ($(switcher).value == '0' || $(switcher).value == '2');
+                this.toggleFieldset($(switcher), $(fieldsetId), disabled);
+            }
+        },
+
+        toggleFieldset: function(switcher, container, disabled) {
+            if (disabled == undefined) {
+                disabled = true;
+            }
+            var elems = Element.select(container, ['select', 'input', 'textarea', 'button']);
+            elems.each(function (elem) {
+                if(elem!=switcher) {
+                    elem.disabled = disabled;
+                };
+            });
         }
     };
     Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
