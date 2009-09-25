@@ -96,9 +96,13 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
                 grid.reloadParams = {};
                 grid.reloadParams[\'selected_banners[]\'] = grid.selBannersIds;
             }
-            var checkbox = $(row).select(\'.checkbox\')[0];
-            if(grid.selBannersIds.indexOf(checkbox.value) >= 0){
+            var inputs      = Element.select($(row), \'input\');
+            var checkbox    = inputs[0];
+            var position    = inputs[1];
+            var indexOf = grid.selBannersIds.indexOf(checkbox.value);
+            if(indexOf >= 0){
                 checkbox.checked = true;
+                position.value = indexOf+1;
             }
         }
         ';
@@ -120,7 +124,10 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
 
                 var trElement   = Event.findElement(event, "tr");
                 var isInput     = Event.element(event).tagName == \'INPUT\';
-                var checkbox    = Element.select(trElement, \'input\')[0];
+                var inputs      = Element.select(trElement, \'input\');
+                var checkbox    = inputs[0];
+                var position    = inputs[1].value;
+                var bannersNum  = grid.selBannersIds.length;
                 var checked     = isInput ? checkbox.checked : !checkbox.checked;
                 checkbox.checked = checked;
 
@@ -128,7 +135,17 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
                 var bannerId    = checkbox.value;
 
                 if(checked){
-                    grid.selBannersIds.push(bannerId);
+                    if(grid.selBannersIds.indexOf(bannerId) < 0){
+                        if(position-1 >= bannersNum || bannersNum == 0){
+                            grid.selBannersIds.push(bannerId);
+                        }
+                        else if(position == \'0\' || position == \'\'){
+                            grid.selBannersIds.splice(0, 0, bannerId);
+                        }
+                        else{
+                            grid.selBannersIds.splice(position-1, 0, bannerId);
+                        }
+                    }
                 }
                 else{
                     grid.selBannersIds = grid.selBannersIds.without(bannerId);
@@ -156,7 +173,19 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
             'align'     => 'center',
             'index'     => 'banner_id'
         ));
+
+        $this->addColumn('position', array(
+            'header'            => Mage::helper('enterprise_banner')->__('Position'),
+            'name'              => 'position',
+            'type'              => 'number',
+            'validate_class'    => 'validate-number',
+            'index'             => 'position',
+            'width'             => 60,
+            'editable'          => true
+        ));
+
         parent::_prepareColumns();
+
         return $this;
     }
 
