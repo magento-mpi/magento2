@@ -157,14 +157,21 @@ class Mage_Customer_Model_Entity_Setup extends Mage_Eav_Model_Entity_Setup
                         'backend'       => 'customer/customer_attribute_backend_shipping',
                     ),
                     'taxvat' => array(
-                        'label'         => 'Tax/VAT number',
+                        'label'         => 'Tax/VAT Number',
                         'visible'       => true,
                         'required'      => false,
                     ),
                     'confirmation' => array(
-                        'label'         => 'Is confirmed',
+                        'label'         => 'Is Confirmed',
                         'visible'       => false,
                         'required'      => false,
+                    ),
+                    'created_at' => array(
+                        'type'          => 'static',
+                        'label'         => 'Created At',
+                        'visible'       => false,
+                        'required'      => false,
+                        'input'         => 'date',
                     ),
                 ),
             ),
