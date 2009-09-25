@@ -193,7 +193,9 @@ class Mage_Newsletter_Model_Mysql4_Queue_Collection extends Mage_Core_Model_Mysq
         if (!$this->_isStoreFilter) {
             $this->getSelect()->joinInner(array('store_link' => $this->getTable('queue_store_link')),
                 'main_table.queue_id = store_link.queue_id', array()
-            )->where('store_link.store_id IN (?)', $storeIds);
+            )
+            ->where('store_link.store_id IN (?)', $storeIds)
+            ->group('main_table.queue_id');
             $this->_isStoreFilter = true;
         }
         return $this;

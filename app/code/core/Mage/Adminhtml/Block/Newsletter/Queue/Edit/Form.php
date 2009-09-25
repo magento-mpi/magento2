@@ -134,7 +134,7 @@ class Mage_Adminhtml_Block_Newsletter_Queue_Edit_Form extends Mage_Adminhtml_Blo
 
             $fieldset->addField('text','editor', array(
                 'name'      => 'text',
-                'wysiwyg'   => !$queue->getTemplate()->isPlain(),
+                'wysiwyg'   => false,
                 'label'     => Mage::helper('newsletter')->__('Message'),
                 'state'     => 'html',
                 'theme'     => 'advanced',

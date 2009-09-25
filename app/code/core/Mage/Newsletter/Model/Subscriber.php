@@ -31,7 +31,7 @@
  * @package    Mage_Newsletter
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Newsletter_Model_Subscriber extends Varien_Object
+class Mage_Newsletter_Model_Subscriber extends Mage_Core_Model_Abstract
 {
     const STATUS_SUBSCRIBED     = 1;
     const STATUS_NOT_ACTIVE     = 2;
@@ -48,6 +48,14 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
     const XML_PATH_SENDING_SET_RETURN_PATH      = Mage_Core_Model_Email_Template::XML_PATH_SENDING_SET_RETURN_PATH;
 
     protected $_isStatusChanged = false;
+
+    /**
+     * Initialize resource model
+     */
+    protected function _construct()
+    {
+        $this->_init('newsletter/subscriber');
+    }
 
     /**
      * Alias for getSubscriberId()
@@ -191,26 +199,6 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         return false;
     }
 
-    /**
-     * Return resource model
-     *
-     * @return Mage_Subscriber_Model_Mysql4_Subscriber
-     */
-    public function getResource()
-    {
-        return Mage::getResourceSingleton('newsletter/subscriber');
-    }
-
-    /**
-     * Load subscriber data from resource model
-     *
-     * @param int $subscriberId
-     */
-    public function load($subscriberId)
-    {
-        $this->addData($this->getResource()->load($subscriberId));
-        return $this;
-    }
 
      /**
      * Load subscriber data from resource model by email
@@ -244,23 +232,6 @@ class Mage_Newsletter_Model_Subscriber extends Varien_Object
         return $this;
     }
 
-    /**
-     * Save subscriber data to resource model
-     *
-     */
-    public function save()
-    {
-        return $this->getResource()->save($this);
-    }
-
-    /**
-     * Deletes subscriber data
-     */
-    public function delete()
-    {
-        $this->getResource()->delete($this->getId());
-        $this->setId(null);
-    }
 
     public function randomSequence($length=32)
     {
