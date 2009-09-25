@@ -61,7 +61,7 @@ $installer->getConnection()->addKey($installer->getTable('enterprise_targetrule/
 $installer->getConnection()->addKey($installer->getTable('enterprise_targetrule/rule'),
     'IDX_SORT_ORDER', 'sort_order');
 $installer->getConnection()->addKey($installer->getTable('enterprise_targetrule/rule'),
-    'IDX_USE_CUSTOMER_SEGMENT', 'use_customersegment');
+    'IDX_USE_CUSTOMER_SEGMENT', 'use_customer_segment');
 $installer->getConnection()->addKey($installer->getTable('enterprise_targetrule/rule'),
     'IDX_DATE', array('from_date', 'to_date'));
 
