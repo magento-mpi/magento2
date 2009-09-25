@@ -217,8 +217,10 @@ class Enterprise_CatalogPermissions_Model_Adminhtml_Observer
      */
     public function addCategoryPermissionTab(Varien_Event_Observer $observer)
     {
-        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled() &&
-            Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions')) {
+        if (!Mage::helper('enterprise_catalogpermissions')->isEnabled()) {
+            return $this;
+        }
+        if (!Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions')) {
             return $this;
         }
 
