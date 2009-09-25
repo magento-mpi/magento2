@@ -32,8 +32,18 @@
  * @package    Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Block_Html_Link extends Mage_Core_Block_Abstract
+class Mage_Core_Block_Html_Link extends Mage_Core_Block_Template
 {
+
+    /**
+     * Internal constructor
+     *
+     */
+    protected function _construct()
+    {
+        parent::_construct();
+        $this->setTemplate('core/link.phtml');
+    }
     /**
      * Prepare link attributes as serialized and formated string
      *
@@ -90,8 +100,8 @@ class Mage_Core_Block_Html_Link extends Mage_Core_Block_Abstract
      *
      * @return string
      */
-    protected function _toHtml()
-    {
-        return '<a ' . $this->getLinkAttributes() . '>' . $this->htmlEscape($this->getAnchorText()) . '</a>';
-    }
+//    protected function _toHtml()
+//    {
+//        return '<a ' . $this->getLinkAttributes() . '>' . $this->htmlEscape($this->getAnchorText()) . '</a>';
+//    }
 }
