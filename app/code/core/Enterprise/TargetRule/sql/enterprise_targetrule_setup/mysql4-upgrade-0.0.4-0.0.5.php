@@ -51,7 +51,7 @@ $installer->getConnection()->modifyColumn($installer->getTable('enterprise_targe
 $installer->getConnection()->modifyColumn($installer->getTable('enterprise_targetrule/rule'), 'apply_to',
     'TINYINT UNSIGNED NOT NULL');
 $installer->getConnection()->changeColumn($installer->getTable('enterprise_targetrule/rule'), 'positions_limit',
-    'result_limit', 'TINYINT(3) NOT NULL UNSIGNED DEFAULT 0', true);
+    'result_limit', 'TINYINT(3) UNSIGNED NOT NULL DEFAULT 0', true);
 $installer->getConnection()->addColumn($installer->getTable('enterprise_targetrule/rule'), 'use_customer_segment',
     'TINYINT(1) UNSIGNED NOT NULL DEFAULT 0');
 $installer->getConnection()->addKey($installer->getTable('enterprise_targetrule/rule'),
