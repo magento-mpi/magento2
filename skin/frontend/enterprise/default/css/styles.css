@@ -1394,8 +1394,10 @@ button.btn-cart span {}
 .cart .messages,
 .cart .messages li { margin:0; }
 .cart .checkout-types { float:right; text-align:center; }
+.cart .checkout-types fieldset { display:inline; }
 .cart .checkout-types .btn-proceed-checkout span { background-image:url(../images/bkg_btn-co.gif); height:27px !important; padding:0 0 0 13px !important; }
 .cart .checkout-types .btn-proceed-checkout span span { border:0; background-image:url(../images/bkg_btn-co.gif); padding:1px 32px 0 19px !important; color:#fff; font:bold 15px/26px Arial, Helvetica, sans-serif !important; height:26px; text-transform:none; margin:0 !important; }
+.cart .title-buttons .checkout-types li { margin:0 0 5px; }
 
 /* Shopping Cart Table */
 .cart-table { border-width:1px 0; }
