@@ -20,35 +20,54 @@
  *
  * @category   Enterprise
  * @package    Enterprise_TargetRule
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
+/**
+ * TargetRule Adminhtml Edit Tab Conditions Block
+ *
+ * @category   Enterprise
+ * @package    Enterprise_TargetRule
+ */
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Prepare target rule actions form before rendering HTML
+     *
+     * @return Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions
+     */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_target_rule');
+        /* @var $model Enterprise_TargetRule_Model_Rule */
+        $model  = Mage::registry('current_target_rule');
 
-        $form = new Varien_Data_Form();
-
+        $form   = new Varien_Data_Form();
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
+        $fieldset   = $form->addFieldset('conditions_fieldset', array(
+            'legend'    => Mage::helper('enterprise_targetrule')->__('Conditions (leave blank for all products)'))
+        );
+        $newCondUrl = $this->getUrl('*/targetrule/newConditionHtml/', array(
+            'form'  => $fieldset->getHtmlId()
+        ));
+        $renderer   = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('enterprise/targetrule/edit/conditions/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('*/targetrule/newConditionHtml/'));
+            ->setNewChildUrl($newCondUrl);
+        $fieldset->setRenderer($renderer);
 
-        $fieldset = $form->addFieldset('conditions_fieldset', array(
-            'legend'=>Mage::helper('enterprise_targetrule')->__('Conditions (leave blank for all products)'))
-        )->setRenderer($renderer);
+        $element    = $fieldset->addField('conditions', 'text', array(
+            'name'      => 'conditions',
+            'label'     => Mage::helper('enterprise_targetrule')->__('Conditions'),
+            'title'     => Mage::helper('enterprise_targetrule')->__('Conditions'),
+            'required'  => true,
+        ));
 
-        $fieldset->addField('conditions', 'text', array(
-            'name' => 'conditions',
-            'label' => Mage::helper('enterprise_targetrule')->__('Conditions'),
-            'title' => Mage::helper('enterprise_targetrule')->__('Conditions'),
-            'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('enterprise_targetrule/adminhtml_rule_conditions'));
+        $element->setRule($model);
+        $element->setRenderer(Mage::getBlockSingleton('enterprise_targetrule/adminhtml_rule_conditions'));
 
+        $model->getConditions()->setJsFormObejct($fieldset->getHtmlId());
         $form->setValues($model->getData());
 
         $this->setForm($form);

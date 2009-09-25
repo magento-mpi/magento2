@@ -20,14 +20,17 @@
  *
  * @category   Enterprise
  * @package    Enterprise_TargetRule
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
- * Target Rule resource setup
+ * TargetRule Setup Resource Model
+ *
+ * @category   Enterprise
+ * @package    Enterprise_TargetRule
  */
 class Enterprise_TargetRule_Model_Mysql4_Setup extends Mage_Catalog_Model_Resource_Eav_Mysql4_Setup
 {
-
 }

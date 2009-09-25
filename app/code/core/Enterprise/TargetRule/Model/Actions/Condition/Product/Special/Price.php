@@ -20,15 +20,20 @@
  *
  * @category   Enterprise
  * @package    Enterprise_TargetRule
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
+/**
+ * TargetRule Action Product Price (percentage) Condition Model
+ *
+ * @category   Enterprise
+ * @package    Enterprise_TargetRule
+ */
 class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     extends Enterprise_TargetRule_Model_Actions_Condition_Product_Special
 {
-
     /**
      * Set rule type
      *
@@ -49,6 +54,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
+            '='  => Mage::helper('enterprise_targetrule')->__('equal to'),
             '>'  => Mage::helper('enterprise_targetrule')->__('more'),
             '<'  => Mage::helper('enterprise_targetrule')->__('less')
         ));
@@ -63,8 +69,9 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_targetrule')->__('Product Price %s%% %s price of matched product',
-                $this->getValueElementHtml(), $this->getOperatorElementHtml())
+            . Mage::helper('enterprise_targetrule')->__('Product Price is %s %s%% of matched product(s)',
+                $this->getOperatorElementHtml(),
+                $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
 }

@@ -45,14 +45,28 @@ class Enterprise_TargetRule_Model_Rule_Condition_Combine extends Mage_Rule_Model
     public function getNewChildSelectOptions()
     {
         $conditions = array(
-            array('value'=>$this->getType(),
-                'label'=>Mage::helper('enterprise_targetrule')->__('Conditions Combination')),
-            array('value'=>'enterprise_customersegment/segment_condition_segment',
-                'label'=>Mage::helper('enterprise_targetrule')->__('Customer Segment')),
+            array(
+                'value' => $this->getType(),
+                'label' => Mage::helper('enterprise_targetrule')->__('Conditions Combination')
+            ),
             Mage::getModel('enterprise_targetrule/rule_condition_product_attributes')->getNewChildSelectOptions(),
-            );
+        );
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $conditions;
+    }
+
+    /**
+     * Collect validated attributes for Product Collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $productCollection
+     * @return Enterprise_TargetRule_Model_Rule_Condition_Combine
+     */
+    public function collectValidatedAttributes($productCollection)
+    {
+        foreach ($this->getConditions() as $condition) {
+            $condition->collectValidatedAttributes($productCollection);
+        }
+        return $this;
     }
 }

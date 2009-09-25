@@ -33,9 +33,14 @@
  */
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main extends Mage_Adminhtml_Block_Widget_Form
 {
-
+    /**
+     * Prepare Mail Target Rule Edit form
+     *
+     * @return Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main
+     */
     protected function _prepareForm()
     {
+        /* @var $model Enterprise_TargetRule_Model_Rule */
         $model = Mage::registry('current_target_rule');
 
         $form = new Varien_Data_Form();
@@ -81,6 +86,45 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main extends Mag
             'options'   => Mage::getSingleton('enterprise_targetrule/rule')->getAppliesToOptions(),
         ));
 
+//        $fieldset->addField('use_customer_segment', 'select', array(
+//            'label'     => Mage::helper('enterprise_targetrule')->__('Use Customer Segment'),
+//            'title'     => Mage::helper('enterprise_targetrule')->__('Use Customer Segment'),
+//            'name'      => 'use_customer_segment',
+//            'required'  => true,
+//            'values'    => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray(),
+//        ));
+//
+//        $customerSegmentOptions = Mage::getModel('enterprise_customersegment/segment')
+//            ->getCollection()
+//            ->toOptionArray();
+//
+//        $afterElementHtml = '<script type="text/javascript">'
+//            . 'var useCustomerSegment = $("rule_use_customer_segment");'
+//            . 'var customerSegmentRelations = $("rule_customer_segment_relations");'
+//            . 'function changeUseCustomerSegment() {'
+//            . 'if (useCustomerSegment.value == "1") {'
+//            . 'customerSegmentRelations.up("tr").show();'
+//            . 'customerSegmentRelations.disabled = false;'
+//            . '} else {'
+//            . 'customerSegmentRelations.disabled = true;'
+//            . 'customerSegmentRelations.up("tr").hide();'
+//            . '}'
+//            . '}'
+//            . 'useCustomerSegment.observe("change", changeUseCustomerSegment);'
+//            . 'changeUseCustomerSegment();'
+//            . '</script>';
+//
+//        $fieldset->addField('customer_segment_relations', 'multiselect', array(
+//            'label'     => Mage::helper('enterprise_targetrule')->__('Customer Segments'),
+//            'title'     => Mage::helper('enterprise_targetrule')->__('Customer Segments'),
+//            'name'      => 'customer_segment_relations',
+//            'required'  => true,
+//            'values'    => $customerSegmentOptions,
+//            'value'     => $model->getCustomerSegmentRelations(),
+//            'after_element_html'
+//                        => $afterElementHtml
+//        ));
+
         $dateFormatIso = Mage::app()->getLocale()->getDateFormat(Mage_Core_Model_Locale::FORMAT_TYPE_SHORT);
         $fieldset->addField('from_date', 'date', array(
             'name'         => 'from_date',
@@ -100,8 +144,8 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Main extends Mag
         ));
 
         $fieldset->addField('positions_limit', 'text', array(
-            'name' => 'positions_limit',
-            'label' => Mage::helper('enterprise_targetrule')->__('Positions Limit'),
+            'name'          => 'positions_limit',
+            'label'         => Mage::helper('enterprise_targetrule')->__('Result Limit'),
         ));
 
         $form->setValues($model->getData());

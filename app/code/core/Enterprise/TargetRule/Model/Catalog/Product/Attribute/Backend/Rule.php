@@ -20,20 +20,35 @@
  *
  * @category   Enterprise
  * @package    Enterprise_TargetRule
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
 /**
- * Target rules collection
+ * TargetRule Catalog Product Attributes Backend Model
+ *
+ * @category   Enterprise
+ * @package    Enterprise_TargetRule
  */
-class Enterprise_TargetRule_Model_Mysql4_Collection extends  Mage_Core_Model_Mysql4_Collection_Abstract
+class Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule
+    extends Mage_Eav_Model_Entity_Attribute_Backend_Abstract
 {
     /**
-     * Initialize resource
+     * Before attribute save prepare data
+     *
+     * @param Mage_Catalog_Model_Product $object
+     * @return Enterprise_TargetRule_Model_Catalog_Product_Attribute_Backend_Rule
      */
-    protected function _construct()
+    public function beforeSave($object)
     {
-        $this->_init('enterprise_targetrule/rule');
+        $attributeName  = $this->getAttribute()->getName();
+        $useDefault     = $object->getData($attributeName . '_default');
+
+        if ($useDefault == 1) {
+            $object->setData($attributeName, null);
+        }
+
+        return $this;
     }
 }

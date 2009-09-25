@@ -26,20 +26,28 @@
 
 class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
 {
-    const BOTH_SELECTED_AND_RULE_BASED = 0;
-    const SELECTED_ONLY = 1;
-    const RULE_BASED_ONLY = 2;
+    const BOTH_SELECTED_AND_RULE_BASED  = 0;
+    const SELECTED_ONLY                 = 1;
+    const RULE_BASED_ONLY               = 2;
 
-    const RELATED_PRODUCTS = 0;
-    const UP_SELLS = 1;
-    const CROSS_SELLS = 2;
+    const RELATED_PRODUCTS              = 0;
+    const UP_SELLS                      = 1;
+    const CROSS_SELLS                   = 2;
 
-    const CONFIG_VALUES_XPATH = 'catalog/enterprise_targetrule/';
+    const XML_PATH_DEFAULT_VALUES       = 'catalog/enterprise_targetrule/';
 
     /**
-     * Init resource model
+     * Matched product ids array
+     *
+     * @var array
      */
-    public function __construct()
+    protected $_productIds;
+
+    /**
+     * Initialize resource model
+     *
+     */
+    protected function _construct()
     {
         $this->_init('enterprise_targetrule/rule');
     }
@@ -90,12 +98,96 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     public function getAppliesToOptions()
     {
         return array(
-                Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS
-                    => Mage::helper('enterprise_targetrule')->__('Related Products'),
-                Enterprise_TargetRule_Model_Rule::UP_SELLS
-                    => Mage::helper('enterprise_targetrule')->__('Up-sells'),
-                Enterprise_TargetRule_Model_Rule::CROSS_SELLS
-                    => Mage::helper('enterprise_targetrule')->__('Cross-sells'),
+            Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS
+                => Mage::helper('enterprise_targetrule')->__('Related Products'),
+            Enterprise_TargetRule_Model_Rule::UP_SELLS
+                => Mage::helper('enterprise_targetrule')->__('Up-sells'),
+            Enterprise_TargetRule_Model_Rule::CROSS_SELLS
+                => Mage::helper('enterprise_targetrule')->__('Cross-sells'),
+        );
+    }
+
+    /**
+     * Retrieve Customer Segment Relations
+     * Return empty array for rule didn't save or didn't use customer segment limitation
+     *
+     * @return array
+     */
+    public function getCustomerSegmentRelations()
+    {
+        if (!$this->getUseCustomerSegment() || !$this->getId()) {
+            return array();
+        }
+        $relations = $this->_getData('customer_segment_relations');
+        if (!is_array($relations)) {
+            $relations = $this->_getResource()->getCustomerSegmentRelations($this->getId());
+            $this->setData('customer_segment_relations', $relations);
+        }
+
+        return $relations;
+    }
+
+    /**
+     * Set customer segment relations
+     *
+     * @param array|string $relations
+     * @return Enterprise_TargetRule_Model_Rule
+     */
+    public function setCustomerSegmentRelations($relations)
+    {
+        if (is_array($relations)) {
+            $this->setData('customer_segment_relations', $relations);
+        } else if (is_string($relations)) {
+            if (empty($relations)) {
+                $relations = array();
+            } else {
+                $relations = explode(',', $relations);
+            }
+            $this->setData('customer_segment_relations', $relations);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve array of product ids which are matched by rule
+     *
+     * @return array
+     */
+    public function getMatchingProductIds()
+    {
+        if (is_null($this->_productIds)) {
+            $productCollection = Mage::getResourceModel('catalog/product_collection');
+
+            $this->setCollectedAttributes(array());
+            $this->getConditions()->collectValidatedAttributes($productCollection);
+
+            $this->_productIds = array();
+            Mage::getSingleton('core/resource_iterator')->walk(
+                $productCollection->getSelect(),
+                array(
+                    array($this, 'callbackValidateProduct')
+                ),
+                array(
+                    'attributes' => $this->getCollectedAttributes(),
+                    'product'    => Mage::getModel('catalog/product'),
+                )
             );
+        }
+
+        return $this->_productIds;
+    }
+
+    /**
+     * Callback function for product matching
+     *
+     * @param array $args
+     */
+    public function callbackValidateProduct($args)
+    {
+        $product = $args['product']->setData($args['row']);
+        if ($this->getConditions()->validate($product)) {
+            $this->_productIds[] = $product->getId();
+        }
     }
 }

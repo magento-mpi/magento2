@@ -24,6 +24,13 @@
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
+
+/**
+ * TargetRule Rule Resource Model
+ *
+ * @category   Enterprise
+ * @package    Enterprise_TargetRule
+ */
 class Enterprise_TargetRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
 {
    /**
@@ -51,5 +58,163 @@ class Enterprise_TargetRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abs
         } else {
             $object->setToDate(null);
         }
+    }
+
+    /**
+     * Save Customer Segment relations after save rule
+     *
+     * @param Enterprise_TargetRule_Model_Rule $object
+     * @return Enterprise_TargetRule_Model_Mysql4_Rule
+     */
+    protected function _afterSave(Mage_Core_Model_Abstract $object)
+    {
+        parent::_afterSave($object);
+//        $this->_saveCustomerSegmentRelations($object);
+        $this->_prepareRuleProducts($object);
+        return $this;
+    }
+
+    /**
+     * Retrieve target rule and customer segment relations table name
+     *
+     * @return string
+     */
+    protected function _getCustomerSegmentRelationsTable()
+    {
+        return $this->getTable('enterprise_targetrule/customersegment');
+    }
+
+    /**
+     * Retrieve target rule matched by condition products table name
+     *
+     * @return string
+     */
+    protected function _getRuleProductsTable()
+    {
+        return $this->getTable('enterprise_targetrule/product');
+    }
+
+    /**
+     * Retrieve customer segment relations by target rule id
+     *
+     * @param int $ruleId
+     * @return array
+     */
+    public function getCustomerSegmentRelations($ruleId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->_getCustomerSegmentRelationsTable(), 'segment_id')
+            ->where('rule_id=?', $ruleId);
+        return $adapter->fetchCol($select);
+    }
+
+    /**
+     * Save Customer Segment Relations
+     *
+     * @param Enterprise_TargetRule_Model_Rule $object
+     * @return Enterprise_TargetRule_Model_Mysql4_Rule
+     */
+    protected function _saveCustomerSegmentRelations(Mage_Core_Model_Abstract $object)
+    {
+        $adapter = $this->_getWriteAdapter();
+        $ruleId  = $object->getId();
+        if (!$object->getUseCustomerSegment()) {
+            $adapter->delete($this->_getCustomerSegmentRelationsTable(), array('rule_id=?' => $ruleId));
+            return $this;
+        }
+
+        $old = $this->getCustomerSegmentRelations($ruleId);
+        $new = $object->getCustomerSegmentRelations();
+
+        $insert = array_diff($new, $old);
+        $delete = array_diff($old, $new);
+
+        if (!empty($insert)) {
+            $data = array();
+            foreach ($insert as $segmentId) {
+                $data[] = array(
+                    'rule_id'       => $ruleId,
+                    'segment_id'    => $segmentId
+                );
+            }
+            $adapter->insertMultiple($this->_getCustomerSegmentRelationsTable(), $data);
+        }
+
+        if (!empty($delete)) {
+            $where = join(' AND ', array(
+                $adapter->quoteInto('rule_id=?', $ruleId),
+                $adapter->quoteInto('segment_id IN(?)', $delete)
+            ));
+            $adapter->delete($this->_getCustomerSegmentRelationsTable(), $where);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Prepare and Save Matched products for Rule
+     *
+     * @param Enterprise_TargetRule_Model_Rule $object
+     * @return Enterprise_TargetRule_Model_Mysql4_Rule
+     */
+    protected function _prepareRuleProducts($object)
+    {
+        $adapter = $this->_getWriteAdapter();
+
+        // remove old matched products
+        $ruleId  = $object->getId();
+        $adapter->delete($this->_getRuleProductsTable(), array('rule_id=?' => $ruleId));
+
+        // retrieve and save new matched product ids
+        $chunk = array_chunk($object->getMatchingProductIds(), 1000);
+        foreach ($chunk as $productIds) {
+            $data = array();
+            foreach ($productIds as $productId) {
+                $data[] = array(
+                    'rule_id'       => $ruleId,
+                    'product_id'    => $productId,
+                    'store_id'      => 0
+                );
+            }
+            if ($data) {
+                $adapter->insertMultiple($this->_getRuleProductsTable(), $data);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add Customer segment relations to Rule Resource Collection
+     *
+     * @param Enterprise_TargetRule_Model_Mysql4_Rule_Collection $collection
+     * @return Enterprise_TargetRule_Model_Mysql4_Rule
+     */
+    public function addCustomerSegmentRelationsToCollection(Mage_Core_Model_Mysql4_Collection_Abstract $collection)
+    {
+        $ruleIds    = array_keys($collection->getItems());
+        $segments   = array();
+        if ($ruleIds) {
+            $adapter = $this->_getReadAdapter();
+            $select = $adapter->select()
+                ->from($this->_getCustomerSegmentRelationsTable())
+                ->where('rule_id IN(?)', $ruleIds);
+            $rowSet = $adapter->fetchAll($select);
+
+            foreach ($rowSet as $row) {
+                $segments[$row['rule_id']][$row['segment_id']] = $row['segment_id'];
+            }
+        }
+
+        foreach ($collection->getItems() as $rule) {
+            /* @var $rule Enterprise_TargetRule_Model_Rule */
+            if ($rule->getUseCustomerSegment()) {
+                $data = isset($segments[$rule->getId()]) ? $segments[$rule->getId()] : array();
+                $rule->setCustomerSegmentRelations($data);
+            }
+        }
+
+        return $this;
     }
 }

@@ -33,4 +33,57 @@
  */
 class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_TARGETRULE_CONFIG    = 'catalog/enterprise_targetrule/';
+
+    /**
+     * Retrieve Maximum Number of Products in Product List
+     *
+     * @param int $type product list type
+     * @throws Mage_Core_Exception
+     * @return int
+     */
+    public function getMaximumNumberOfProduct($type)
+    {
+        switch ($type) {
+            case Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS:
+                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_rule_based_positions');
+                break;
+            case Enterprise_TargetRule_Model_Rule::UP_SELLS:
+                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_rule_based_positions');
+                break;
+            case Enterprise_TargetRule_Model_Rule::CROSS_SELLS:
+                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rule_based_positions');
+                break;
+            default:
+                Mage::throwException(Mage::helper('enterprise_targetrule')->__('Invalid product list type'));
+        }
+
+        return $number;
+    }
+
+    /**
+     * Show Related/Upsell/Cross-Sell Products
+     *
+     * @param int $type
+     * @throws Mage_Core_Exception
+     * @return int
+     */
+    public function getShowProducts($type)
+    {
+        switch ($type) {
+            case Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS:
+                $show = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_behavior');
+                break;
+            case Enterprise_TargetRule_Model_Rule::UP_SELLS:
+                $show = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_behavior');
+                break;
+            case Enterprise_TargetRule_Model_Rule::CROSS_SELLS:
+                $show = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_behavior');
+                break;
+            default:
+                Mage::throwException(Mage::helper('enterprise_targetrule')->__('Invalid product list type'));
+        }
+
+        return $show;
+    }
 }

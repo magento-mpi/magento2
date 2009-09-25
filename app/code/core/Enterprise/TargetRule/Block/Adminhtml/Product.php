@@ -27,6 +27,48 @@
 class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block_Widget
 {
     /**
+     * Retrieve TargetRule Data Helper
+     *
+     * @return Enterprise_TargetRule_Helper_Data
+     */
+    protected function _getRuleHelper()
+    {
+        return Mage::helper('enterprise_targetrule');
+    }
+
+    /**
+     * Retrieve Product List Type by current Form Prefix
+     *
+     * @return int
+     */
+    protected function _getProductListType()
+    {
+        $listType = '';
+        switch ($this->getFormPrefix()) {
+            case 'related':
+                $listType = Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS;
+                break;
+            case 'upsell':
+                $listType = Enterprise_TargetRule_Model_Rule::UP_SELLS;
+                break;
+            case 'crosssell':
+                $listType = Enterprise_TargetRule_Model_Rule::CROSS_SELLS;
+                break;
+        }
+        return $listType;
+    }
+
+    /**
+     * Retrieve current edit product instance
+     *
+     * @return Mage_Catalog_Model_Product
+     */
+    protected function _getProduct()
+    {
+        return Mage::registry('current_product');
+    }
+
+    /**
      * Get data for Position Behavior selector
      *
      * @return array
@@ -43,11 +85,11 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     public function getRuleBasedPositions()
     {
-        $return = $this->_getValue('rule_based_positions');
-        if (null === $return) {
-            $return = $this->getDefaultValue('rule_based_positions');
+        $position = $this->_getValue('rule_based_positions');
+        if (is_null($position)) {
+            $position = $this->_getRuleHelper()->getMaximumNumberOfProduct($this->_getProductListType());
         }
-        return $return;
+        return $position;
     }
 
     /**
@@ -57,11 +99,11 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     public function getPositionBehavior()
     {
-        $return = $this->_getValue('position_behavior');
-        if (null === $return) {
-            $return = $this->getDefaultValue('position_behavior');
+        $show = $this->_getValue('position_behavior');
+        if (is_null($show)) {
+            $show = $this->_getRuleHelper()->getShowProducts($this->_getProductListType());
         }
-        return $return;
+        return $show;
     }
 
     /**
@@ -70,11 +112,9 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      * @param string $var
      * @return mixed
      */
-    protected function _getValue($var)
+    protected function _getValue($field)
     {
-        $var = str_replace(' ', '', ucwords(str_replace('_', ' ', $var)));
-        $_getFunction = 'get' . ucfirst($this->getFormPrefix()) . 'Targetrule' . $var;
-        return Mage::registry('current_product')->$_getFunction();
+        return $this->_getProduct()->getDataUsingMethod($this->getFieldName($field));
     }
 
     /**
@@ -97,17 +137,5 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
     public function isDefault($value)
     {
         return ($this->_getValue($value) === null) ? true : false;
-    }
-
-    /**
-     * Get default value
-     *
-     * @param string $value
-     * @return mixed
-     */
-    public function getDefaultValue($value)
-    {
-        $value = $this->getFormPrefix() .'_'. $value;
-        return Mage::getStoreConfig(Enterprise_TargetRule_Model_Rule::CONFIG_VALUES_XPATH . $value);
     }
 }

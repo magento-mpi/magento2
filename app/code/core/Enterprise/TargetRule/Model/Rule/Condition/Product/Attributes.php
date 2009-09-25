@@ -56,9 +56,15 @@ class Enterprise_TargetRule_Model_Rule_Condition_Product_Attributes
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
-            $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
+            $conditions[] = array(
+                'value' => $this->getType() . '|' . $code,
+                'label' => $label
+            );
         }
 
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_targetrule')->__('Product Attributes'));
+        return array(
+            'value' => $conditions,
+            'label' => Mage::helper('enterprise_targetrule')->__('Product Attributes')
+        );
     }
 }

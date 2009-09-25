@@ -1,13 +1,13 @@
 <?php
 /**
- * Magento
+ * Magento Enterprise Edition
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
  * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
+ * http://www.magentocommerce.com/license/enterprise-edition
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
  * to license@magentocommerce.com so we can send you a copy immediately.
@@ -18,38 +18,54 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Mage
- * @package    Mage_Adminhtml
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @category   Enterprise
+ * @package    Enterprise_TargetRule
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
+/**
+ * TargetRule Adminhtml Edit Tab Actions Block
+ *
+ * @category   Enterprise
+ * @package    Enterprise_TargetRule
+ */
 class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Prepare target rule actions form before rendering HTML
+     *
+     * @return Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions
+     */
     protected function _prepareForm()
     {
-        $model = Mage::registry('current_target_rule');
-
-        $form = new Varien_Data_Form();
-
+        /* @var $model Enterprise_TargetRule_Model_Rule */
+        $model  = Mage::registry('current_target_rule');
+        $form   = new Varien_Data_Form();
         $form->setHtmlIdPrefix('rule_');
 
-        $renderer = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
+        $fieldset   = $form->addFieldset('actions_fieldset', array(
+            'legend'    => Mage::helper('enterprise_targetrule')->__('Conditions'))
+        );
+        $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
+            'form'  => $fieldset->getHtmlId()
+        ));
+        $renderer   = Mage::getBlockSingleton('adminhtml/widget_form_renderer_fieldset')
             ->setTemplate('enterprise/targetrule/edit/conditions/fieldset.phtml')
-            ->setNewChildUrl($this->getUrl('*/targetrule/newActionsHtml/'));
+            ->setNewChildUrl($newCondUrl);
+        $fieldset->setRenderer($renderer);
 
-        $fieldset = $form->addFieldset('actions_fieldset', array(
-            'legend'=>Mage::helper('enterprise_targetrule')->__('Conditions'))
-        )->setRenderer($renderer);
+        $element    = $fieldset->addField('actions', 'text', array(
+            'name'      => 'actions',
+            'label'     => Mage::helper('enterprise_targetrule')->__('Actions'),
+            'title'     => Mage::helper('enterprise_targetrule')->__('Actions'),
+            'required'  => true
+        ));
+        $element->setRule($model);
+        $element->setRenderer(Mage::getBlockSingleton('enterprise_targetrule/adminhtml_actions_conditions'));
 
-        $fieldset->addField('actions', 'text', array(
-            'name' => 'actions',
-            'label' => Mage::helper('enterprise_targetrule')->__('Actions'),
-            'title' => Mage::helper('enterprise_targetrule')->__('Actions'),
-            'required' => true,
-        ))->setRule($model)->setRenderer(Mage::getBlockSingleton('enterprise_targetrule/adminhtml_actions_conditions'));
-
+        $model->getActions()->setJsFormObject($fieldset->getHtmlId());
         $form->setValues($model->getData());
 
         $this->setForm($form);
@@ -57,4 +73,3 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions extends 
         return parent::_prepareForm();
     }
 }
-

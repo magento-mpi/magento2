@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_TargetRule>
-             <version>0.0.4</version>
+             <version>0.0.5</version>
         </Enterprise_TargetRule>
     </modules>
     <global>
@@ -39,6 +39,21 @@
                     <rule>
                         <table>enterprise_targetrule</table>
                     </rule>
+                    <customersegment>
+                        <table>enterprise_targetrule_customersegment</table>
+                    </customersegment>
+                    <product>
+                        <table>enterprise_targetrule_product</table>
+                    </product>
+                    <index_related>
+                        <table>enterprise_targetrule_index_related</table>
+                    </index_related>
+                    <index_crosssell>
+                        <table>enterprise_targetrule_index_crosssell</table>
+                    </index_crosssell>
+                    <index_upsell>
+                        <table>enterprise_targetrule_index_upsell</table>
+                    </index_upsell>
                 </entities>
             </enterprise_targetrule_mysql4>
             <enterprise_targetrule>
@@ -67,14 +82,14 @@
     </global>
     <adminhtml>
         <events>
-            <catalog_product_prepare_save>
-                <observers>
-                    <enterprise_targetrule>
-                        <class>enterprise_targetrule/observer</class>
-                        <method>prepareTargetRuleSave</method>
-                    </enterprise_targetrule>
-                </observers>
-            </catalog_product_prepare_save>
+<!--            <catalog_product_prepare_save>-->
+<!--                <observers>-->
+<!--                    <enterprise_targetrule>-->
+<!--                        <class>enterprise_targetrule/observer</class>-->
+<!--                        <method>prepareTargetRuleSave</method>-->
+<!--                    </enterprise_targetrule>-->
+<!--                </observers>-->
+<!--            </catalog_product_prepare_save>-->
             <adminhtml_block_eav_attribute_edit_form_init>
                 <observers>
                     <enterprise_targetrule>
@@ -112,4 +127,17 @@
             </adminhtml>
         </routers>
     </admin>
+    
+    <default>
+        <catalog>
+            <enterprise_targetrule>
+                <related_rule_based_positions>10</related_rule_based_positions>
+                <related_position_behavior>0</related_position_behavior>
+                <crosssell_rule_based_positions>10</crosssell_rule_based_positions>
+                <crosssell_position_behavior>0</crosssell_position_behavior>
+                <upsell_rule_based_positions>10</upsell_rule_based_positions>
+                <upsell_position_behavior>0</upsell_position_behavior>
+            </enterprise_targetrule>
+        </catalog>
+    </default>
 </config>

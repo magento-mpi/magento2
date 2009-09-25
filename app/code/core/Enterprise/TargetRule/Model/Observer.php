@@ -63,11 +63,10 @@ class Enterprise_TargetRule_Model_Observer
         /* @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset = $form->getElement('front_fieldset');
         $fieldset->addField('is_used_for_target_rules', 'select', array(
-            'name' => 'is_used_for_target_rules',
-            'label' => Mage::helper('enterprise_targetrule')->__('Use for Target Rule Conditions'),
-            'title' => Mage::helper('enterprise_targetrule')->__('Use for Target Rule Conditions'),
-            'values' => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
+            'name'      => 'is_used_for_target_rules',
+            'label'     => Mage::helper('enterprise_targetrule')->__('Use for Target Rule Conditions'),
+            'title'     => Mage::helper('enterprise_targetrule')->__('Use for Target Rule Conditions'),
+            'values'    => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
         ), 'is_used_for_price_rules');
     }
-
 }

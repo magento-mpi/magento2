@@ -20,11 +20,17 @@
  *
  * @category   Enterprise
  * @package    Enterprise_TargetRule
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
+/**
+ * TargetRule Action Special Product Attributes Condition Model
+ *
+ * @category   Enterprise
+ * @package    Enterprise_TargetRule
+ */
 class Enterprise_TargetRule_Model_Actions_Condition_Product_Special
     extends Mage_CatalogRule_Model_Rule_Condition_Product
 {
@@ -40,22 +46,22 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special
     }
 
     /**
-     * Prepare
+     * Retrieve new child select options
      *
      * @return array
      */
     public function getNewChildSelectOptions()
     {
         $conditions = array(
-            array('value'=>'enterprise_targetrule/actions_condition_product_special_price',
-                'label'=>Mage::helper('enterprise_targetrule')->__('Price (percentage)')),
-            array('value'=>'enterprise_targetrule/actions_condition_product_special_category',
-                'label'=>Mage::helper('enterprise_targetrule')->__('Category')),
-            array('value'=>'enterprise_targetrule/actions_condition_product_special_type',
-                'label'=>Mage::helper('enterprise_targetrule')->__('Type')),
-            array('value'=>'enterprise_targetrule/actions_condition_product_special_attributes',
-                'label'=>Mage::helper('enterprise_targetrule')->__('Attribute Set')),
+            array(
+                'value' => 'enterprise_targetrule/actions_condition_product_special_price',
+                'label' => Mage::helper('enterprise_targetrule')->__('Price (percentage)')
+            )
         );
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_targetrule')->__('Product Attributes'));
+
+        return array(
+            'value' => $conditions,
+            'label' => Mage::helper('enterprise_targetrule')->__('Product Special')
+        );
     }
 }

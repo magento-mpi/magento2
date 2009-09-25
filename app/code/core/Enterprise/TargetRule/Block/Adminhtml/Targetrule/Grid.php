@@ -43,11 +43,17 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
     }
 
     /**
-     * PrepareCollection method.
+     * Prepare grid collection object
+     *
+     * @return Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid
      */
     protected function _prepareCollection()
     {
-        $this->setCollection(Mage::getResourceModel('enterprise_targetrule/collection'));
+        /* @var $collection Enterprise_TargetRule_Model_Mysql4_Rule_Collection */
+        $collection = Mage::getModel('enterprise_targetrule/rule')
+            ->getCollection();
+        $this->setCollection($collection);
+
         return parent::_prepareCollection();
     }
 
@@ -60,17 +66,21 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
     }
 
     /**
-     * Grid URL
+     * Retrieve URL for Row click
      *
      * @return string
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('id'=>$row->getId()));
+        return $this->getUrl('*/*/edit', array(
+            'id'    => $row->getId()
+        ));
     }
 
     /**
-     * Configuration of grid
+     * Define grid columns
+     *
+     * @return Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid
      */
     protected function _prepareColumns()
     {
@@ -123,8 +133,8 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
-                1 => 'Active',
-                0 => 'Inactive',
+                1 => Mage::helper('enterprise_targetrule')->__('Active'),
+                0 => Mage::helper('enterprise_targetrule')->__('Inactive'),
             ),
         ));
 
