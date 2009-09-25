@@ -75,6 +75,11 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
     protected function _beforeSave(Varien_Object $customer)
     {
         parent::_beforeSave($customer);
+
+        if (!$customer->getEmail()) {
+            Mage::throwException(Mage::helper('customer')->__('Customer email is required'));
+        }
+
         $select = $this->_getReadAdapter()->select()
             ->from($this->getEntityTable(), array($this->getEntityIdField()))
             ->where('email=?', $customer->getEmail());

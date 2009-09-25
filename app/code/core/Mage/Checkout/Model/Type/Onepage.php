@@ -411,12 +411,24 @@ class Mage_Checkout_Model_Type_Onepage
      */
     public function saveOrder()
     {
-
         $this->validateOrder();
         $billing = $this->getQuote()->getBillingAddress();
         if (!$this->getQuote()->isVirtual()) {
             $shipping = $this->getQuote()->getShippingAddress();
         }
+
+        /*
+         * Check if before this step checkout method was not defined use default values.
+         * Related to issue with some browsers when checkout method was not saved during first step.
+         */
+        if (!$this->getQuote()->getCheckoutMethod()) {
+            if (Mage::helper('checkout')->isAllowedGuestCheckout($this->getQuote(), $this->getQuote()->getStore())) {
+                $this->getQuote()->setCheckoutMethod(Mage_Sales_Model_Quote::CHECKOUT_METHOD_GUEST);
+            } else {
+                $this->getQuote()->setCheckoutMethod(Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER);
+            }
+        }
+
         switch ($this->getQuote()->getCheckoutMethod()) {
         case Mage_Sales_Model_Quote::CHECKOUT_METHOD_GUEST:
             if (!$this->getQuote()->isAllowedGuestCheckout()) {
