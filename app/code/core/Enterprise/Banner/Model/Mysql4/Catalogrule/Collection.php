@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Enterprise
- * @package    Enterprise_Banner
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://www.magentocommerce.com/license/enterprise-edition
+ * @category    Enterprise
+ * @package     Enterprise_Banner
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
 class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_CatalogRule_Model_Mysql4_Rule_Collection

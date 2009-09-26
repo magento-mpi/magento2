@@ -19,10 +19,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   design
- * @package    enterprise_default
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://www.magentocommerce.com/license/enterprise-edition
+ * @category    design
+ * @package     enterprise_blank
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
 -->
@@ -32,7 +32,7 @@
             <action ifconfig="enterprise_invitation/general/enabled" method="addLink" translate="label title" module="enterprise_invitation"><label>Send Invitations</label><url helper="enterprise_invitation/data/getCustomerInvitationFormUrl" /><title>Send Invitations</title><prepare /><urlParams /><position>99</position><li>id="invitation-send-link"</li></action>
         </reference>
     </customer_logged_in>
-    
+
     <enterprise_invitation_index_send translate="label">
         <label>Customer My Account Invitations Form</label>
         <update handle="customer_account"/>
@@ -47,7 +47,7 @@
     <enterprise_invitation_index_index translate="label">
         <label>Customer My Account Invitations List</label>
         <update handle="customer_account"/>
-        
+
         <reference name="content">
             <block type="enterprise_invitation/customer_list" name="invitations_list" template="invitation/list.phtml"/>
         </reference>
@@ -58,7 +58,7 @@
             <action  ifconfig="enterprise_invitation/general/enabled" method="addLink" translate="label" module="enterprise_invitation"><name>invitations</name><path>enterprise_invitation/</path><label>My Invitations</label></action>
         </reference>
     </customer_account>
-    
+
     <enterprise_invitation_customer_account_create translate="label">
         <label>Customer Account Registration by Invitation Form</label>
         <update handle="customer_account_create" />

@@ -19,39 +19,39 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category   Enterprise
- * @package    Enterprise_Banner
- * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license    http://www.magentocommerce.com/license/enterprise-edition
+ * @category    Enterprise
+ * @package     Enterprise_Banner
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 -->
 <config>
     <menu>
-		<cms>
-			<children>
-				<enterprise_banner translate="title" module="enterprise_banner">
-					<title>Banners Management</title>
-					<action>adminhtml/banner</action>
+        <cms>
+            <children>
+                <enterprise_banner translate="title" module="enterprise_banner">
+                    <title>Banners Management</title>
+                    <action>adminhtml/banner</action>
                     <sort_order>30</sort_order>
                     <resource>cms/enterprise_banner</resource>
-				</enterprise_banner>
-			</children>
-		 </cms>
-	</menu>
-	<acl>
-	  <resources>
-		<admin>
-		  <children>
-			<cms>
-				<children>
-					<enterprise_banner translate="title" module="enterprise_banner">
-						<title>Banners Management</title>
-						<sort_order>50</sort_order>
-					</enterprise_banner>
-			  </children>
-			</cms>
-		  </children>
-		</admin>
-	  </resources>
-	</acl>
+                </enterprise_banner>
+            </children>
+         </cms>
+    </menu>
+    <acl>
+      <resources>
+        <admin>
+          <children>
+            <cms>
+                <children>
+                    <enterprise_banner translate="title" module="enterprise_banner">
+                        <title>Banners Management</title>
+                        <sort_order>50</sort_order>
+                    </enterprise_banner>
+              </children>
+            </cms>
+          </children>
+        </admin>
+      </resources>
+    </acl>
 </config>
