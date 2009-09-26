@@ -76,10 +76,6 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
      */
     protected function _validateOgoneData()
     {
-        $params = $this->getRequest()->getParams();
-        $secureKey = $this->_getApi()->getConfig()->getShaInCode();
-        $secureSet = $this->_getSHAInSet($params, $secureKey);
-
         if ($this->_getApi()->getDebug()) {
             $debug = Mage::getModel('ogone/api_debug')
                 ->setDir('in')
@@ -87,6 +83,10 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                 ->setData('data',http_build_query($this->getRequest()->getParams()))
                 ->save();
         }
+
+        $params = $this->getRequest()->getParams();
+        $secureKey = $this->_getApi()->getConfig()->getShaInCode();
+        $secureSet = $this->_getSHAInSet($params, $secureKey);
 
         if (Mage::helper('ogone')->shaCryptValidation($secureSet, $params['SHASIGN'])!=true) {
             $this->_getCheckout()->addError($this->__('Hash is not valid'));
@@ -467,8 +467,15 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
      */
     protected function _getSHAInSet($params, $key)
     {
-        return $params['orderID'] . $params['currency'] . $params['amount'] .
-               $params['PM'] . $params['ACCEPTANCE'] . $params['STATUS']. $params['CARDNO'] . $params['PAYID'] .
-               $params['NCERROR'] . $params['BRAND'] . $key;
+        return $this->getRequest()->getParam('orderID') .
+               $this->getRequest()->getParam('currency') .
+               $this->getRequest()->getParam('amount') .
+               $this->getRequest()->getParam('PM') .
+               $this->getRequest()->getParam('ACCEPTANCE') .
+               $this->getRequest()->getParam('STATUS') .
+               $this->getRequest()->getParam('CARDNO') .
+               $this->getRequest()->getParam('PAYID') .
+               $this->getRequest()->getParam('NCERROR') .
+               $this->getRequest()->getParam('BRAND') . $key;
     }
 }
