@@ -42,11 +42,24 @@ updateLicense(array(
         'app/design/frontend/default/default/template',
         'app/design/frontend/default/blank/template',
         'app/design/frontend/default/modern/template',
-        'app/design/frontend/default/iphone/template'
+        'app/design/frontend/default/iphone/template',
+        'app/design/install/default/default/template',
     ), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_AFL, 'themeCallback', true, true, true
 );
 
-// frontend skins
+// design layouts
+updateLicense(array(
+        'app/design/adminhtml/default/default/layout',
+        '!app/design/adminhtml/default/default/layout/enterprise', // "!" = skip
+        'app/design/frontend/default/default/layout',
+        'app/design/frontend/default/blank/layout',
+        'app/design/frontend/default/modern/layout',
+        'app/design/frontend/default/iphone/layout',
+        'app/design/install/default/default/layout',
+    ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'themeCallback',  true, true, true
+);
+
+// frontend skins for default theme
 updateLicense(array(
         'skin/frontend/default/default',
         'skin/frontend/default/blank',
@@ -56,15 +69,17 @@ updateLicense(array(
         'skin/frontend/default/iphone',
         'skin/frontend/default/modern',
     ), array('*.css', '*.js'),
-    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'default_default'), true, false, true
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'default_default'), true, true, true
 );
-
-// layouts
-echo updateLicense(array(
-        'app/design/adminhtml/default/default/layout',
-        '!app/design/adminhtml/default/default/layout/enterprise', // "!" = skip
-        'app/design/frontend/default/default/layout'
-    ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_AFL, 'themeCallback',  true, true, true
+// frontend skins for blank, modern and iphone themes
+updateLicense('skin/frontend/default/blank', array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'default_blank'), true, true, true
+);
+updateLicense('skin/frontend/default/modern', array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'default_modern'), true, true, true
+);
+echo updateLicense('skin/frontend/default/iphone', array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'default_iphone'), true, true, true
 );
 
 exit;

@@ -43,21 +43,27 @@ updateLicense(array(
     ), '*.phtml', REGEX_PHP, REPLACEMENT_PHP, NOTICE_EE, 'themeCallback', true, true, true
 );
 
-// frontend skins
-updateLicense('skin/frontend/enterprise/default', array('*.css', '*.js'),
-    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('design', 'enterprise_default'), true, false, true
+// skins
+updateLicense(array(
+        'skin/frontend/enterprise',
+        '!skin/frontend/enterprise/blank/js/jqzoom', // ! = skip
+        '!skin/frontend/enterprise/default/js/jqzoom', // ! = skip
+        'skin/install/default/enterprise'
+    ), array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE, array('design', 'enterprise_default'), true, true, true
 );
 
 // layouts
-echo updateLicense(array(
+updateLicense(array(
         'app/design/adminhtml/default/default/layout/enterprise',
-        'app/design/frontend/enterprise/default/layout'
+        'app/design/frontend/enterprise/default/layout',
+        'app/design/frontend/enterprise/blank/layout',
     ), '*.xml', REGEX_XML, REPLACEMENT_XML, NOTICE_EE, 'themeCallback', true, true, true
 );
 
 // additional javascript
-updateLicense('js/enterprise', '*.js', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE,
-    array('design', 'enterprise_default'), true, false, true
+echo updateLicense('js/enterprise/adminhtml', '*.js', REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_EE,
+    array('design', 'default_default'), true, true, true
 );
 
 exit;

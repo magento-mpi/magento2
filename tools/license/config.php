@@ -135,7 +135,7 @@ define('REPLACEMENT_XML', "<?xml version=\"1.0\"?" . ">\n<!--\n{notice}\n\\2");
  * @param string|array $fileMasks
  * @param array &$result
  */
-function globRecursive($directories, $fileMasks, &$result)
+function globRecursive($directories, $fileMasks, &$result, $isRecursion = false)
 {
     static $skipDirectories = null;
 
@@ -143,7 +143,7 @@ function globRecursive($directories, $fileMasks, &$result)
         if (!is_array($directories)) {
             $directories = array($directories);
         }
-        if (null === $skipDirectories) {
+        if (!$isRecursion) {
             $skipDirectories = array();
             foreach ($directories as $k => $dir) {
                 if (false !== strpos($dir, '!')) {
@@ -163,7 +163,7 @@ function globRecursive($directories, $fileMasks, &$result)
             if ($skip) {
                 continue;
             }
-            globRecursive(glob($dir . '/*', GLOB_ONLYDIR), $fileMasks, $result);
+            globRecursive(glob($dir . '/*', GLOB_ONLYDIR), $fileMasks, $result, true);
             if (!is_array($fileMasks)) {
                 $fileMasks = array($fileMasks);
             }
