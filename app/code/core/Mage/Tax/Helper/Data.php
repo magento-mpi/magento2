@@ -450,7 +450,6 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
                     case Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX:
                         $price = $this->_calculatePrice($price, $includingPercent, false);
                         $price = $this->_calculatePrice($price, $percent, true);
-                        var_dump($price);
                         break;
                 }
             } else {
