@@ -63,6 +63,16 @@ class Mage_Checkout_Model_Type_Onepage
                 }
             }
         }
+
+        /**
+         * Reset multishipping flag before any manipulations with quote address
+         * addAddress method for quote object related on this flag
+         */
+        if ($this->getQuote()->getIsMultiShipping()) {
+            $this->getQuote()->setIsMultiShipping(false);
+            $this->getQuote()->save();
+        }
+
         /*
         * want to laod the correct customer information by assiging to address
         * instead of just loading from sales/quote_address
@@ -70,10 +80,6 @@ class Mage_Checkout_Model_Type_Onepage
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         if ($customer) {
             $this->getQuote()->assignCustomer($customer);
-        }
-        if ($this->getQuote()->getIsMultiShipping()) {
-            $this->getQuote()->setIsMultiShipping(false);
-            $this->getQuote()->save();
         }
         return $this;
     }

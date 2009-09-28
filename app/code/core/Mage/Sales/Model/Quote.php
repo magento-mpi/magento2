@@ -992,23 +992,18 @@ class Mage_Sales_Model_Quote extends Mage_Core_Model_Abstract
             return $this->getBillingAddress()->getTotals();
         }
 
-        $totals = null;
-        // Going through all quote addresses and sum their totals
+        $shippingAddress = $this->getShippingAddress();
+        $totals = $shippingAddress->getTotals();
+        // Going through all quote addresses and merge their totals
         foreach ($this->getAddressesCollection() as $address) {
-            if ($address->isDeleted()) {
+            if ($address->isDeleted() || $address === $shippingAddress) {
                 continue;
             }
-            if (!$totals) {
-                $totals = $address->getTotals();
-            } else {
-                foreach ($address->getTotals() as $code => $total) {
-                    if (isset($totals[$code])) {
-                        $totals[$code]->setValue($totals[$code]->getValue()+$total->getValue());
-                        $totals[$code]->setValueExclTax($totals[$code]->getValueExclTax()+$total->getValueExclTax());
-                        $totals[$code]->setValueInclTax($totals[$code]->getValueInclTax()+$total->getValueInclTax());
-                    } else {
-                        $totals[$code] = $total;
-                    }
+            foreach ($address->getTotals() as $code => $total) {
+                if (isset($totals[$code])) {
+                    $totals[$code]->merge($total);
+                } else {
+                    $totals[$code] = $total;
                 }
             }
         }

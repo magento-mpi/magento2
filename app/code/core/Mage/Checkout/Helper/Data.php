@@ -110,7 +110,7 @@ class Mage_Checkout_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Get sales item (quote item, order item etc) row total price including tax 
+     * Get sales item (quote item, order item etc) row total price including tax
      *
      * @param   Varien_Object $item
      * @return  float
