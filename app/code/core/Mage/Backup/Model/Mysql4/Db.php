@@ -101,7 +101,7 @@ class Mage_Backup_Model_Mysql4_Db
         $sql = 'SHOW CREATE TABLE ' . $quotedTableName;
         $row = $this->_read->fetchRow($sql);
 
-        if (!$row) {
+        if (!$row || !isset($row['Table']) || !isset($row['Create Table'])) {
             return false;
         }
 
