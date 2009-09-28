@@ -30,9 +30,9 @@
         <cms>
             <children>
                 <enterprise_banner translate="title" module="enterprise_banner">
-                    <title>Banners Management</title>
+                    <title>Banners</title>
                     <action>adminhtml/banner</action>
-                    <sort_order>30</sort_order>
+                    <sort_order>15</sort_order>
                     <resource>cms/enterprise_banner</resource>
                 </enterprise_banner>
             </children>
@@ -45,8 +45,8 @@
             <cms>
                 <children>
                     <enterprise_banner translate="title" module="enterprise_banner">
-                        <title>Banners Management</title>
-                        <sort_order>50</sort_order>
+                        <title>Banners</title>
+                        <sort_order>15</sort_order>
                     </enterprise_banner>
               </children>
             </cms>

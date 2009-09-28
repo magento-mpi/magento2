@@ -33,7 +33,8 @@
                     <customer>
                         <children>
                             <customersegment  translate="title" module="enterprise_customersegment">
-                                <title>Customer Segment</title>
+                                <title>Customer Segments</title>
+                                <sort_order>20</sort_order>
                             </customersegment>
                         </children>
                     </customer>
@@ -57,17 +58,18 @@
         <customer>
             <children>
                 <customersegment translate="title" module="enterprise_customersegment">
-                    <title>Customer Segment</title>
+                    <title>Customer Segments</title>
                     <action>adminhtml/customersegment</action>
                     <resource>customer/customersegment</resource>
                     <depends>
                         <module>Enterprise_CustomerSegment</module>
                         <config>customer/enterprise_customersegment/is_enabled</config>
                     </depends>
+                    <sort_order>20</sort_order>
                 </customersegment>
             </children>
-         </customer>
-         <report>
+        </customer>
+        <report>
             <children>
                 <customers>
                     <children>

@@ -34,7 +34,7 @@
                         <children>
                              <enterprise_invitation translate="title" module="enterprise_invitation">
                                 <title>Invitations</title>
-                                <sort_order>40</sort_order>
+                                <sort_order>30</sort_order>
                             </enterprise_invitation>
                         </children>
                     </customer>
@@ -79,7 +79,7 @@
         <customer>
             <children>
                 <enterprise_invitation translate="title" module="enterprise_invitation">
-                       <title>Manage Invitations</title>
+                       <title>Invitations</title>
                        <action>adminhtml/invitation</action>
                        <resource>customer/enterprise_invitation</resource>
                        <sort_order>30</sort_order>

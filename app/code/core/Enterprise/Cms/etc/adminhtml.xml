@@ -49,12 +49,12 @@
                                 </children>
                             </page>
                             <hierarchy translate="title" module="enterprise_cms">
-                                <title>Manage Hierarchy</title>
-                                <sort_order>0</sort_order>
+                                <title>Pages Hierarchy</title>
+                                <sort_order>5</sort_order>
                             </hierarchy>
                             <widget_instance translate="title" module="enterprise_cms">
                                 <title>Widgets</title>
-                                <sort_order>0</sort_order>
+                                <sort_order>15</sort_order>
                             </widget_instance>
                         </children>
                     </cms>
@@ -66,7 +66,7 @@
         <cms>
             <children>
                 <hierarchy translate="title" module="enterprise_cms">
-                    <title>Manage Pages Hierarchy</title>
+                    <title>Pages Hierarchy</title>
                     <sort_order>5</sort_order>
                     <action>adminhtml/cms_hierarchy</action>
                     <depends>
@@ -75,7 +75,7 @@
                </hierarchy>
                <widget_instance translate="title" module="enterprise_cms">
                     <title>Widgets</title>
-                    <sort_order>70</sort_order>
+                    <sort_order>15</sort_order>
                     <action>adminhtml/cms_widget_instance</action>
                </widget_instance>
             </children>
