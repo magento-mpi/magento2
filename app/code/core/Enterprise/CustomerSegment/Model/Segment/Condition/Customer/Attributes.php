@@ -53,15 +53,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
      */
     public function getAttributeObject()
     {
-        try {
-            $obj = Mage::getSingleton('eav/config')
-                ->getAttribute('customer', $this->getAttribute());
-        } catch (Exception $e) {
-            $obj = new Varien_Object();
-            $obj->setEntity(Mage::getResourceSingleton('customer/customer'))
-                ->setFrontendInput('text');
-        }
-        return $obj;
+        return Mage::getSingleton('eav/config')->getAttribute('customer', $this->getAttribute());
     }
 
     /**
@@ -254,7 +246,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return Mage::helper('enterprise_customersegment')->__('Customer %s', parent::asHtml());
     }
 
-    public function getConditionsSql($customer, $isRoot = false)
+    public function getConditionsSql($customer, $store)
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
@@ -263,10 +255,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         $select = $this->getResource()->createSelect();
         $select->from(array('main'=>$table), array(new Zend_Db_Expr(1)))
             ->limit(1);
-        $select->where($this->_createCustomerFilter($customer, 'main.entity_id', $isRoot));
+        $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
 
         if ($attribute->getAttributeCode() != 'default_billing' && $attribute->getAttributeCode() != 'default_shipping') {
-            $operator = $this->_getSqlOperator();
+            $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
             if ($attribute->getBackendType() == 'static') {
                 $select->where("main.{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());

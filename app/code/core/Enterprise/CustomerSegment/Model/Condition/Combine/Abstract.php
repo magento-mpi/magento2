@@ -65,61 +65,18 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         return Mage::getResourceSingleton('enterprise_customersegment/segment');
     }
 
-    protected function _getSqlOperator()
+    protected function _createCustomerFilter($customer, $fieldName)
     {
-        /*
-            '{}'  => Mage::helper('rule')->__('contains'),
-            '!{}' => Mage::helper('rule')->__('does not contain'),
-            '()'  => Mage::helper('rule')->__('is one of'),
-            '!()' => Mage::helper('rule')->__('is not one of'),
-
-            requires custom selects
-        */
-
-        switch ($this->getOperator()) {
-            case "==":
-                return '=';
-
-            case "!=":
-                return '<>';
-
-            case ">":
-            case "<":
-            case ">=":
-            case "<=":
-                return $this->getOperator();
-
-            default:
-                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified'));
-        }
+        return "{$fieldName} = root.entity_id";
     }
 
-    protected function _createCustomerFilter($customer, $fieldName, $isRoot)
-    {
-        if ($isRoot) {
-            if ($customer instanceof Mage_Customer_Model_Customer) {
-                $customer = $customer->getId();
-            } else if ($customer instanceof Zend_Db_Select) {
-                $customer = new Zend_Db_Expr($customer);
-            }
-
-            return $this->getResource()->quoteInto("{$fieldName} IN (?)", $customer);
-        } else {
-            return "{$fieldName} = root.entity_id";
-        }
-    }
-
-    protected function _prepareConditionsSql($customer, $isRoot) {
+    protected function _prepareConditionsSql($customer, $store) {
         $select = $this->getResource()->createSelect();
 
-        if ($isRoot) {
-            $table = array('root' => $this->getResource()->getTable('customer/entity'));
-        } else {
-            $table = $this->getResource()->getTable('customer/entity');
-        }
+        $table = $this->getResource()->getTable('customer/entity');
 
         $select->from($table, array(new Zend_Db_Expr(1)));
-        $select->where($this->_createCustomerFilter($customer, 'entity_id', $isRoot));
+        $select->where($this->_createCustomerFilter($customer, 'entity_id'));
 
         return $select;
     }
@@ -129,9 +86,9 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         return ($this->getValue() == 1);
     }
 
-    public function getConditionsSql($customer, $isRoot = true)
+    public function getConditionsSql($customer, $store)
     {
-        $select = $this->_prepareConditionsSql($customer, $isRoot);
+        $select = $this->_prepareConditionsSql($customer, $store);
         $required = $this->_getRequiredValidation();
 
         if ($this->getAggregator() == 'all') {
@@ -149,32 +106,25 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         $gotConditions = false;
 
         foreach ($this->getConditions() as $condition) {
-            if ($sql = $condition->getConditionsSql($customer, false)) {
+            if ($sql = $condition->getConditionsSql($customer, $store)) {
                 $criteriaSql = "(IFNULL(($sql), 0) {$operator} 1)";
                 $select->$whereFunction($criteriaSql);
                 $gotConditions = true;
             }
         }
 
-        foreach ($this->getConditions() as $condition) {
-            $sufilter = false;
-            switch ($condition->getSubfilterType()) {
-                case 'date':
-                    $subfilter = $condition->getSubfilterSql($this->_getDateSubfilterField(), $required);
-                    break;
-                case 'product':
-                    $subfilter = $condition->getSubfilterSql($this->_getProductSubfilterField(), $required);
-                    break;
-                case 'order_status':
-                    $subfilter = $condition->getSubfilterSql($this->_getOrderSubfilterField(), $required);
-                    break;
-                case 'order_address_type':
-                    $subfilter = $condition->getSubfilterSql($this->_getOrderAddressTypeSubfilterField(), $required);
-                    break;
-            }
-            if ($subfilter) {
-                $select->$whereFunction($subfilter);
-                $gotConditions = true;
+        $subfilterMap = $this->_getSubfilterMap();
+        if ($subfilterMap) {
+            foreach ($this->getConditions() as $condition) {
+                $subfilterType = $condition->getSubfilterType();
+                if (isset($subfilterMap[$subfilterType])) {
+                    $subfilter = $condition->getSubfilterSql($subfilterMap[$subfilterType], $required, $store);
+
+                    if ($subfilter) {
+                        $select->$whereFunction($subfilter);
+                        $gotConditions = true;
+                    }
+                }
             }
         }
 
@@ -183,5 +133,10 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         }
 
         return $select;
+    }
+
+    protected function _getSubfilterMap()
+    {
+        return array();
     }
 }

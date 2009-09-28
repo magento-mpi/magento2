@@ -72,7 +72,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer, $isRoot)
+    protected function _prepareConditionsSql($customer, $store)
     {
         $select = $this->getResource()->createSelect();
 
@@ -80,11 +80,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             case 'ordered_history':
                 $select->from(array('item' => $this->getResource()->getTable('sales/order_item')), array(new Zend_Db_Expr(1)));
                 $select->joinInner(array('order' => $this->getResource()->getTable('sales/order')), 'item.order_id = order.entity_id', array());
-                $select->where($this->_createCustomerFilter($customer, 'order.customer_id', $isRoot));
+                $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
                 break;
             default:
                 $select->from(array('item' => $this->getResource()->getTable('reports/viewed_product_index')), array(new Zend_Db_Expr(1)));
-                $select->where($this->_createCustomerFilter($customer, 'item.customer_id', $isRoot));
+                $select->where($this->_createCustomerFilter($customer, 'item.customer_id'));
                 break;
         }
 
@@ -98,18 +98,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
         return ($this->getOperator() == '==');
     }
 
-    protected function _getProductSubfilterField()
-    {
-        return 'item.product_id';
-    }
-
-    protected function _getDateSubfilterField()
+    protected function _getSubfilterMap()
     {
         switch ($this->getValue()) {
             case 'ordered_history':
-                return 'item.created_at';
+                $dateField = 'item.created_at';
+                break;
+
             default:
-                return 'item.added_at';
+                $dateField = 'item.added_at';
+                break;
         }
+
+        return array(
+            'product' => 'item.product_id',
+            'date'    => $dateField
+        );
     }
 }

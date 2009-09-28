@@ -23,14 +23,9 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-class Enterprise_CustomerSegment_Model_Processor extends Mage_Core_Model_Abstract
+class Enterprise_CustomerSegment_Model_Processor
 {
     protected $_segmentMap = array();
-
-    protected function _construct()
-    {
-        $this->_init('enterprise_customersegment/processor');
-    }
 
     public function getActiveSegmentsForEvent($eventName, $websiteId)
     {
@@ -54,11 +49,20 @@ class Enterprise_CustomerSegment_Model_Processor extends Mage_Core_Model_Abstrac
         }
     }
 
-    public function process(Enterprise_CustomerSegment_Model_Segment $segment, $customer = null)
+    public function process(Enterprise_CustomerSegment_Model_Segment $segment, $customer = null, $store = null)
     {
-        $result = $segment->validate($customer);
-        $resultText = ($result ? '<span style="color: #00CC00;">PASSED</span>' : '<span style="color: #CC0000;">FAILED</span>');
-        echo "SEGMENT #{$segment->getId()} VALIDATION AGAINST CUSTOMER #{$customer->getId()} {$resultText}\n<br /><br />\n";
-        return $result;
+        if (is_null($customer)) {
+            if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
+                return;
+            }
+
+            $customer = Mage::getSingleton('customer/session')->getCustomer();
+        }
+
+        if (is_null($store)) {
+            $storeId = Mage::app()->getStore();
+        }
+
+        return $segment->validate($customer, $store);
     }
 }

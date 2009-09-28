@@ -81,4 +81,38 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
     {
         return $this->_getReadAdapter()->quoteInto($string, $param);
     }
+
+    public function getSqlOperator($operator)
+    {
+        /*
+            '{}'  => Mage::helper('rule')->__('contains'),
+            '!{}' => Mage::helper('rule')->__('does not contain'),
+            '()'  => Mage::helper('rule')->__('is one of'),
+            '!()' => Mage::helper('rule')->__('is not one of'),
+
+            requires custom selects
+        */
+
+        switch ($operator) {
+            case "==":
+                return '=';
+
+            case "!=":
+                return '<>';
+
+            case ">":
+            case "<":
+            case ">=":
+            case "<=":
+                return $this->getOperator();
+
+            default:
+                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified'));
+        }
+    }
+
+    public function createConditionSql($field, $operator, $value)
+    {
+        
+    }
 }

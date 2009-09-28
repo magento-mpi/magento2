@@ -63,9 +63,6 @@
                     <module>Enterprise_CustomerSegment</module>
                     <class>Enterprise_CustomerSegment_Model_Mysql4_Setup</class>
                 </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
             </enterprise_customersegment_setup>
         </resources>
     </global>

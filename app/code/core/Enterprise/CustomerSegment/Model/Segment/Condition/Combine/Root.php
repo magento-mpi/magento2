@@ -24,29 +24,40 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Model_Condition_Abstract
+
+class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
+    extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
-    /**
-     * Customize default operator input by type mapper for some types
-     * @return array
-     */
-    public function getDefaultOperatorInputByType()
+    public function getValidationEvent()
     {
-        if (null === $this->_defaultOperatorInputByType) {
-            parent::getDefaultOperatorInputByType();
-            $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
-            $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
-        }
-        return $this->_defaultOperatorInputByType;
+        return 'customersegment_test_event';
     }
 
-    public function getResource()
+    public function __construct()
     {
-        return Mage::getResourceSingleton('enterprise_customersegment/segment');
+        parent::__construct();
+        $this->setType('enterprise_customersegment/segment_condition_combine_root');
     }
 
     protected function _createCustomerFilter($customer, $fieldName)
     {
-        return "{$fieldName} = root.entity_id";
+        if ($customer instanceof Mage_Customer_Model_Customer) {
+            $customer = $customer->getId();
+        } else if ($customer instanceof Zend_Db_Select) {
+            $customer = new Zend_Db_Expr($customer);
+        }
+
+        return $this->getResource()->quoteInto("{$fieldName} IN (?)", $customer);
+    }
+
+    protected function _prepareConditionsSql($customer, $store) {
+        $select = $this->getResource()->createSelect();
+
+        $table = array('root' => $this->getResource()->getTable('customer/entity'));
+
+        $select->from($table, array(new Zend_Db_Expr(1)));
+        $select->where($this->_createCustomerFilter($customer, 'entity_id'));
+
+        return $select;
     }
 }

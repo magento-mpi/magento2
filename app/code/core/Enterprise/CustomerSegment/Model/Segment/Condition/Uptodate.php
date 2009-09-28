@@ -68,7 +68,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
         return 'date';
     }
 
-    public function getSubfilterSql($fieldName, $requireValid)
+    public function getSubfilterSql($fieldName, $requireValid, $store)
     {
         $value = $this->getValue();
         if (!$value || !is_numeric($value)) {

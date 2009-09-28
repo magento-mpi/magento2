@@ -78,8 +78,8 @@ class Enterprise_CustomerSegment_Model_Observer
     {
         $eventName = $observer->getEvent()->getName();
         $customer  = $observer->getEvent()->getCustomer();
-        $websiteId = $observer->getEvent()->getWebsiteId();
+        $store     = $observer->getEvent()->getStore();
 
-        Mage::getSingleton('enterprise_customersegment/processor')->processEvent($eventName, $customer, $websiteId);
+        Mage::getSingleton('enterprise_customersegment/processor')->processEvent($eventName, $customer, $store);
     }
 }

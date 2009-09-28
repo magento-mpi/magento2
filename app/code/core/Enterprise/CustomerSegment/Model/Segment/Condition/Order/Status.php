@@ -67,23 +67,15 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
 
     public function getAttributeObject()
     {
-        try {
-            $obj = Mage::getSingleton('eav/config')
-                ->getAttribute('order', 'status');
-        } catch (Exception $e) {
-            $obj = new Varien_Object();
-            $obj->setEntity(Mage::getResourceSingleton('sales/order'))
-                ->setFrontendInput('text');
-        }
-        return $obj;
+        return Mage::getSingleton('eav/config')->getAttribute('order', 'status');
     }
 
     public function getSubfilterType()
     {
-        return 'order_status';
+        return 'order';
     }
 
-    public function getSubfilterSql($fieldName, $requireValid)
+    public function getSubfilterSql($fieldName, $requireValid, $store)
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
@@ -91,7 +83,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
         $select = $this->getResource()->createSelect();
         $select->from(array('main'=>$table), array('entity_id'));
 
-        $operator = $this->_getSqlOperator();
+        $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select->where('main.attribute_id = ?', $attribute->getId())
             ->where("main.value {$operator} ?", $this->getValue());

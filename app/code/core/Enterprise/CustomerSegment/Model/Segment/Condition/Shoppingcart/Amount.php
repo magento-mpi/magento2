@@ -64,12 +64,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     }
 
 
-    public function getConditionsSql($customer, $isRoot = false)
+    public function getConditionsSql($customer, $store)
     {
         $table = $this->getResource()->getTable('sales/quote');
         $addressTable = $this->getResource()->getTable('sales/quote_address');
 
-        $operator = $this->_getSqlOperator();
+        $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
         $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))
@@ -121,7 +121,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         }
 
         $select->where("{$field} {$operator} ?", $this->getValue());
-        $select->where($this->_createCustomerFilter($customer, 'customer_id', $isRoot));
+        $select->where($this->_createCustomerFilter($customer, 'customer_id'));
 
         return $select;
     }

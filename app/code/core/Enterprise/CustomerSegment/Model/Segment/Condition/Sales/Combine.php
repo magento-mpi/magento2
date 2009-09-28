@@ -69,13 +69,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
         return true;
     }
 
-    protected function _getOrderSubfilterField()
+    protected function _getSubfilterMap()
     {
-        return 'order.entity_id';
-    }
-
-    protected function _getDateSubfilterField()
-    {
-        return 'order.created_at';
+        return array(
+            'order' => 'order.entity_id',
+            'date' => 'order.created_at',
+        );
     }
 }

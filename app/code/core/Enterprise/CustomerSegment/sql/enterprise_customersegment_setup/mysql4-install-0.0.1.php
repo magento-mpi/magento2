@@ -24,7 +24,10 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-$this->run("CREATE TABLE `{$this->getTable('enterprise_customersegment_segment')}` (
+$installer = $this;
+/* @var $installer Enterprise_CustomerSegment_Model_Mysql4_Setup */
+
+$installer->run("CREATE TABLE `{$this->getTable('enterprise_customersegment_segment')}` (
         `segment_id` int(10) unsigned NOT NULL auto_increment,
         `name` varchar(255) NOT NULL default '',
         `description` text NOT NULL,

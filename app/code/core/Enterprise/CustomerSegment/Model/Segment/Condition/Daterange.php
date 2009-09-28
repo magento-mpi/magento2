@@ -145,10 +145,15 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
         return 'date';
     }
 
-    public function getSubfilterSql($fieldName, $requireValid)
+    public function getSubfilterSql($fieldName, $requireValid, $store)
     {
         $value = explode('...', $this->getValue());
         if (!isset($value[0]) || !isset($value[1])) {
+            return false;
+        }
+
+        $regexp = '#^\d{4}-\d{2}-\d{2}$#';
+        if (!preg_match($regexp, $value[0]) || !preg_match($regexp, $value[1])) {
             return false;
         }
 

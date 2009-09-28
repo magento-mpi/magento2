@@ -25,6 +25,8 @@
  */
 
 $installer = $this;
+/* @var $installer Enterprise_CustomerSegment_Model_Mysql4_Setup */
+
 $installer->startSetup();
 
 $installer->run("

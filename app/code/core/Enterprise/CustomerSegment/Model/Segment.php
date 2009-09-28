@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
      */    
     public function getConditionsInstance()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_combine');
+        return Mage::getModel('enterprise_customersegment/segment_condition_combine_root');
     }
 
     /**
@@ -113,12 +113,17 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         return $result;
     }
 
-    public function validate(Varien_Object $object)
+    public function validate($object, $store = null)
     {
-        $sql = $this->getConditions()->getConditionsSql($object);
+        $sql = $this->getConditions()->getConditionsSql($object, $store);
         echo "$sql\n<br />\n";
 
-        return $this->getResource()->runConditionSql($sql);
+        $result = $this->getResource()->runConditionSql($sql);
+
+        $resultText = ($result ? '<span style="color: #00CC00;">PASSED</span>' : '<span style="color: #CC0000;">FAILED</span>');
+        echo "SEGMENT #{$segment->getId()} VALIDATION AGAINST CUSTOMER #{$customer->getId()} {$resultText}\n<br /><br />\n";
+
+        return $result;
     }
 
     public function getMatchedSegmentsByCustomer($customer = null)

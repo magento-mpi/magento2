@@ -136,18 +136,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
 
     public function getAttributeObject()
     {
-        try {
-            $obj = Mage::getSingleton('eav/config')
-                ->getAttribute('order_address', $this->getAttribute());
-        } catch (Exception $e) {
-            $obj = new Varien_Object();
-            $obj->setEntity(Mage::getResourceSingleton('sales/order_entity'))
-                ->setFrontendInput('text');
-        }
-        return $obj;
+        return Mage::getSingleton('eav/config')->getAttribute('order_address', $this->getAttribute());
     }
 
-    public function getConditionsSql($customer, $isRoot = true)
+    public function getConditionsSql($customer, $store)
     {
         $select = $this->getResource()->createSelect();
 
@@ -156,7 +148,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         $select->from(array('val'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
         $select->limit(1);
 
-        $operator = $this->_getSqlOperator();
+        $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select->where('val.attribute_id = ?', $attribute->getId())
             ->where("val.entity_id = order_address.entity_id")

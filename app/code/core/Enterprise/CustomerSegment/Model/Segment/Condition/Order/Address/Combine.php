@@ -55,8 +55,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Combine
         ));
     }
 
-    protected function _getOrderAddressTypeSubfilterField()
+    protected function _getSubfilterMap()
     {
-        return 'order_address_type.value';
+        return array(
+            'order_address_type' => 'order_address_type.value',
+        );
     }
 }

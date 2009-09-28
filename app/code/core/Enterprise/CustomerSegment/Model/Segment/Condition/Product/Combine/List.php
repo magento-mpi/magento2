@@ -72,7 +72,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer, $isRoot)
+    protected function _prepareConditionsSql($customer, $store)
     {
         $select = $this->getResource()->createSelect();
 
@@ -89,7 +89,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
                 break;
         }
 
-        $select->where($this->_createCustomerFilter($customer, 'list.customer_id', $isRoot));
+        $select->where($this->_createCustomerFilter($customer, 'list.customer_id'));
         $select->limit(1);
 
         return $select;
@@ -100,18 +100,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
         return ($this->getOperator() == '==');
     }
 
-    protected function _getDateSubfilterField()
+    protected function _getSubfilterMap()
     {
         switch ($this->getValue()) {
             case 'wishlist':
-                return 'item.added_at';
-            default:
-                return 'item.created_at';
-        }
-    }
+                $dateField = 'item.added_at';
+                break;
 
-    protected function _getProductSubfilterField()
-    {
-        return 'item.product_id';
+            default:
+                $dateField = 'item.created_at';
+                break;
+        }
+
+        return array(
+            'product' => 'item.product_id',
+            'date'    => $dateField
+        );
     }
 }

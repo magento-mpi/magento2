@@ -71,7 +71,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         return $children;
     }
 
-    public function getConditionsSql($customer, $isRoot = false) {
+    public function getConditionsSql($customer, $store) {
         return false;
     }
 
@@ -80,7 +80,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         return 'product';
     }
 
-    public function getSubfilterSql($fieldName, $requireValid)
+    public function getSubfilterSql($fieldName, $requireValid, $store)
     {
         $table = $this->getResource()->getTable('catalog/product');
 
@@ -96,15 +96,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         $gotConditions = false;
 
         foreach ($this->getConditions() as $condition) {
-            if ($condition->getSubfilterType()) {
-                switch ($condition->getSubfilterType()) {
-                    case 'product':
-                        $subfilter = $condition->getSubfilterSql('product.entity_id', ($this->getValue() == 1));
-                        if ($subfilter) {
-                            $select->$whereFunction($subfilter);
-                            $gotConditions = true;
-                        }
-                        break;
+            if ($condition->getSubfilterType() == 'product') {
+                $subfilter = $condition->getSubfilterSql('product.entity_id', ($this->getValue() == 1), $store);
+
+                if ($subfilter) {
+                    $select->$whereFunction($subfilter);
+                    $gotConditions = true;
                 }
             }
         }

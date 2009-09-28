@@ -44,18 +44,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer, $isRoot)
+    protected function _prepareConditionsSql($customer, $store)
     {
         $select = $this->getResource()->createSelect();
 
+        $operator = $this->getResource()->getSqlOperator($this->getOperator());
         if ($this->getAttribute() == 'total') {
-            $result = "IF (SUM(order.base_grand_total) {$this->_getSqlOperator()} {$this->getValue()}, 1, 0)";
+            $result = "IF (SUM(order.base_grand_total) {$operator} {$this->getValue()}, 1, 0)";
         } else {
-            $result = "IF (AVG(order.base_grand_total) {$this->_getSqlOperator()} {$this->getValue()}, 1, 0)";
+            $result = "IF (AVG(order.base_grand_total) {$operator} {$this->getValue()}, 1, 0)";
         }
 
         $select->from(array('order' => $this->getResource()->getTable('sales/order')), array(new Zend_Db_Expr($result)));
-        $select->where($this->_createCustomerFilter($customer, 'order.customer_id', $isRoot));
+        $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
 
         return $select;
     }

@@ -28,11 +28,6 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
-    public function getValidationEvent()
-    {
-        return 'customersegment_test_event';
-    }
-
     /**
      * Intialize model
      *

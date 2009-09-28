@@ -54,15 +54,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes exte
 
     public function getAttributeObject()
     {
-        try {
-            $obj = Mage::getSingleton('eav/config')
-                ->getAttribute('catalog_product', $this->getAttribute());
-        } catch (Exception $e) {
-            $obj = new Varien_Object();
-            $obj->setEntity(Mage::getResourceSingleton('catalog/product'))
-                ->setFrontendInput('text');
-        }
-        return $obj;
+        return Mage::getSingleton('eav/config')->getAttribute('catalog_product', $this->getAttribute());
     }
 
     public function getResource()
@@ -70,41 +62,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes exte
         return Mage::getResourceSingleton('enterprise_customersegment/segment');
     }
 
-    protected function _getSqlOperator()
-    {
-        /*
-            '{}'  => Mage::helper('rule')->__('contains'),
-            '!{}' => Mage::helper('rule')->__('does not contain'),
-            '()'  => Mage::helper('rule')->__('is one of'),
-            '!()' => Mage::helper('rule')->__('is not one of'),
-
-            requires custom selects
-        */
-
-        switch ($this->getOperator()) {
-            case "==":
-                return '=';
-
-            case "!=":
-                return '<>';
-
-            case ">":
-            case "<":
-            case ">=":
-            case "<=":
-                return $this->getOperator();
-
-            default:
-                Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified'));
-        }
-    }
-
     public function getSubfilterType()
     {
         return 'product';
     }
 
-    public function getSubfilterSql($fieldName, $requireValid)
+    public function getSubfilterSql($fieldName, $requireValid, $store)
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
@@ -112,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes exte
         $select = $this->getResource()->createSelect();
         $select->from(array('main'=>$table), array('entity_id'));
 
-        $operator = $this->_getSqlOperator();
+        $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         if ($attribute->getBackendType() == 'static') {
             $select->where("main.{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());
