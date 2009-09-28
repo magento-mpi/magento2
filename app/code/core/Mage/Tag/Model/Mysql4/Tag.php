@@ -144,7 +144,6 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
             )
             ->where('main.tag_id = ?', $tagId)
             ->where('main.active')
-            ->where('main.customer_id IS NOT NULL')
             ->group('main.store_id');
 
         $selectLocalResult = $this->_getWriteAdapter()->fetchAll($selectLocal);
@@ -164,7 +163,6 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
                 array()
             )
             ->group('main.store_id')
-            ->where('main.customer_id IS NOT NULL')
             ->where('main.tag_id = ?', $tagId);
 
         $selectHistoricalResult = $this->_getWriteAdapter()->fetchAll($selectHistorical);
@@ -209,7 +207,6 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
                 array()
             )
             ->where('main.tag_id = ?', $tagId)
-            ->where('main.customer_id IS NOT NULL')
             ->where('main.active');
         $result = $this->_getWriteAdapter()->fetchRow($selectGlobal);
         if (!$result) {
@@ -230,8 +227,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
                 'product_website.website_id=store.website_id AND product_website.product_id=main.product_id',
                 array()
             )
-            ->where('main.tag_id = ?', $tagId)
-            ->where('main.customer_id IS NOT NULL');
+            ->where('main.tag_id = ?', $tagId);
         $result['historical_uses'] = (int)$this->_getWriteAdapter()->fetchOne($selectHistoricalGlobal);
 
         return $result;
@@ -247,7 +243,7 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
     public function aggregate($object)
     {
         $tagId   = (int)$object->getId();
-        $storeId = (int)$object->getStoreId();
+        $storeId = (int)$object->getStore();
 
         // create final summary from existing data and add specified base popularity
         $finalSummary = $this->_getExistingBasePopularity($tagId);

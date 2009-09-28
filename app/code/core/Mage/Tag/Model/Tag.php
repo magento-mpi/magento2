@@ -163,6 +163,18 @@ class Mage_Tag_Model_Tag extends Mage_Core_Model_Abstract
             ->getProductIds();
     }
 
+    /**
+     * Checks is available current tag in specified store
+     *
+     * @param int $storeId
+     * @return bool
+     */
+    public function isAvailableInStore($storeId = null)
+    {
+        $storeId = (is_null($storeId)) ? Mage::app()->getStore()->getId() : $storeId;
+        return in_array($storeId, $this->getVisibleInStoreIds());
+    }
+
     protected function _beforeDelete()
     {
         $this->_protectFromNonAdmin();

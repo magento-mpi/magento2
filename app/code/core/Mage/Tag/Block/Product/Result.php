@@ -83,7 +83,7 @@ class Mage_Tag_Block_Product_Result extends Mage_Catalog_Block_Product_Abstract
             $this->_productCollection = $tagModel->getEntityCollection()
                 ->addAttributeToSelect(Mage::getSingleton('catalog/config')->getProductAttributes())
                 ->addTagFilter($this->getTag()->getId())
-                ->addStoreFilter()
+                ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->addMinimalPrice()
                 ->addUrlRewrite()
                 ->setActiveFilter();

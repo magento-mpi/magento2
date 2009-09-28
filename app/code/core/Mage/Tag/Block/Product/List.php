@@ -52,11 +52,12 @@ class Mage_Tag_Block_Product_List extends Mage_Core_Block_Template
 
             $model = Mage::getModel('tag/tag');
             $this->_collection = $model->getResourceCollection()
-                ->addPopularity(null, Mage::app()->getStore()->getId())
+                ->addPopularity()
                 ->addStatusFilter($model->getApprovedStatus())
                 ->addProductFilter($this->getProductId())
                 ->addStoreFilter(Mage::app()->getStore()->getId())
                 ->setActiveFilter()
+                ->setFlag('relation', true)
                 ->load();
         }
         return $this->_collection;

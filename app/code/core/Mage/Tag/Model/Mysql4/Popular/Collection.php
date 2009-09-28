@@ -51,16 +51,18 @@ class Mage_Tag_Model_Mysql4_Popular_Collection extends Mage_Core_Model_Mysql4_Co
         $this->getSelect()
             ->reset()
             ->from(
-                array('main_table' => $this->getTable('tag/summary')),
+                array('tag_summary' => $this->getTable('tag/summary')),
                 array(
                     'tag_id',
-                    'popularity' => '(main_table.popularity + main_table.base_popularity)'
+                    'popularity' => '(tag_summary.popularity + tag_summary.base_popularity)'
                 )
             )
-            ->join(
+            ->joinInner(
                 array('tag' => $this->getTable('tag/tag')),
-                'tag.tag_id = main_table.tag_id AND tag.status = '.Mage_Tag_Model_Tag::STATUS_APPROVED)
-            ->where('main_table.store_id = ?', $storeId)
+                'tag.tag_id = tag_summary.tag_id AND tag.status = '.Mage_Tag_Model_Tag::STATUS_APPROVED
+            )
+            ->where('tag_summary.store_id = ?', $storeId)
+            ->where('tag_summary.products > 0')
             ->order('popularity desc');
         return $this;
     }

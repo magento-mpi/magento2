@@ -58,9 +58,6 @@ class Mage_Tag_Block_All extends Mage_Core_Block_Template
             $range = $this->_maxPopularity - $this->_minPopularity;
             $range = ( $range == 0 ) ? 1 : $range;
             foreach ($tags as $tag) {
-                if( !$tag->getPopularity() ) {
-                    continue;
-                }
                 $tag->setRatio(($tag->getPopularity()-$this->_minPopularity)/$range);
                 $this->_tags[$tag->getName()] = $tag;
             }
