@@ -27,12 +27,17 @@
 class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Model_Condition_Abstract
 {
     /**
-     * Remove "in" and "not in" for numeric operator options
+     * Customize default operator input by type mapper for some types
+     * @return array
      */
-    public function __construct()
+    public function getDefaultOperatorInputByType()
     {
-        parent::__construct();
-        $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
+        if (null === $this->_defaultOperatorInputByType) {
+            parent::getDefaultOperatorInputByType();
+            $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
+            $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
+        }
+        return $this->_defaultOperatorInputByType;
     }
 
     public function getResource()

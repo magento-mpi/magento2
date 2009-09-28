@@ -27,6 +27,20 @@
 abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
 {
     /**
+     * Customize default operator input by type mapper for some types
+     * @return array
+     */
+    public function getDefaultOperatorInputByType()
+    {
+        if (null === $this->_defaultOperatorInputByType) {
+            parent::getDefaultOperatorInputByType();
+            $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
+            $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
+        }
+        return $this->_defaultOperatorInputByType;
+    }
+
+    /**
      * Add operator when loading array
      *
      * @param array $arr
