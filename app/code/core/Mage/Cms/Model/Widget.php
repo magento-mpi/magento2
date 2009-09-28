@@ -84,6 +84,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
     /**
      * Return list of widgets as array
      *
+     * @param bool $withEmptyElement
      * @return array
      */
     public function getWidgetsArray($withEmptyElement = false)
