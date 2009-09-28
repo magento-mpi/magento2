@@ -42,6 +42,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
 
     const EXCEPTION_EMAIL_NOT_CONFIRMED       = 1;
     const EXCEPTION_INVALID_EMAIL_OR_PASSWORD = 2;
+    const EXCEPTION_EMAIL_EXISTS              = 3;
 
     const SUBSCRIBED_YES = 'yes';
     const SUBSCRIBED_NO  = 'no';

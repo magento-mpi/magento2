@@ -235,10 +235,12 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
      */
     public function createPostAction()
     {
-        if ($this->_getSession()->isLoggedIn()) {
+        $session = $this->_getSession();
+        if ($session->isLoggedIn()) {
             $this->_redirect('*/*/');
             return;
         }
+        $session->setEscapeMessages(true); // prevent XSS injection in user input
         if ($this->getRequest()->isPost()) {
             $errors = array();
 
@@ -289,45 +291,49 @@ class Mage_Customer_AccountController extends Mage_Core_Controller_Front_Action
                     $customer->save();
 
                     if ($customer->isConfirmationRequired()) {
-                        $customer->sendNewAccountEmail('confirmation', $this->_getSession()->getBeforeAuthUrl());
-                        $this->_getSession()->addSuccess($this->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.',
+                        $customer->sendNewAccountEmail('confirmation', $session->getBeforeAuthUrl());
+                        $session->addSuccess($this->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.',
                             Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail())
                         ));
                         $this->_redirectSuccess(Mage::getUrl('*/*/index', array('_secure'=>true)));
                         return;
                     }
                     else {
-                        $this->_getSession()->setCustomerAsLoggedIn($customer);
+                        $session->setCustomerAsLoggedIn($customer);
                         $url = $this->_welcomeCustomer($customer);
                         $this->_redirectSuccess($url);
                         return;
                     }
                 } else {
-                    $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
+                    $session->setCustomerFormData($this->getRequest()->getPost());
                     if (is_array($errors)) {
                         foreach ($errors as $errorMessage) {
-                            $this->_getSession()->addError($errorMessage);
+                            $session->addError($errorMessage);
                         }
                     }
                     else {
-                        $this->_getSession()->addError($this->__('Invalid customer data'));
+                        $session->addError($this->__('Invalid customer data'));
                     }
                 }
             }
             catch (Mage_Core_Exception $e) {
-                $this->_getSession()->addError($e->getMessage())
-                    ->setCustomerFormData($this->getRequest()->getPost());
+                $session->setCustomerFormData($this->getRequest()->getPost());
+                if ($e->getCode() === Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS) {
+                    $url = Mage::getUrl('customer/account/forgotpassword');
+                    $message = $this->__('There is already an account with this emails address. If you are sure that it is your email address, <a href="%s">click here</a> to get your password and access your account.', $url);
+                    $session->setEscapeMessages(false);
+                }
+                else {
+                    $message = $e->getMessage();
+                }
+                $session->addError($message);
             }
             catch (Exception $e) {
-                $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
+                $session->setCustomerFormData($this->getRequest()->getPost())
                     ->addException($e, $this->__('Can\'t save customer'));
             }
         }
-        /**
-         * Protect XSS injection in user input
-         */
-        $this->_getSession()->setEscapeMessages(true);
-        $this->_redirectError(Mage::getUrl('*/*/create', array('_secure'=>true)));
+        $this->_redirectError(Mage::getUrl('*/*/create', array('_secure' => true)));
     }
 
     /**

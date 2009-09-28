@@ -91,7 +91,9 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         }
 
         if ($this->_getWriteAdapter()->fetchOne($select)) {
-            Mage::throwException(Mage::helper('customer')->__('Customer email already exists'));
+            throw Mage::exception('Mage_Core', Mage::helper('customer')->__('Customer email already exists'),
+                Mage_Customer_Model_Customer::EXCEPTION_EMAIL_EXISTS
+            );
         }
 
         // set confirmation key logic
