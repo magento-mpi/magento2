@@ -38,6 +38,12 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     protected $_priceBlockDefaultTemplate = 'catalog/product/price.phtml';
     protected $_tierPriceDefaultTemplate  = 'catalog/product/view/tierprices.phtml';
     protected $_priceBlockTypes = array();
+    /**
+     * Flag which allow/disallow to use link for as low as price
+     *
+     * @var bool
+     */
+    protected $_useLinkForAsLowAs = true;
 
     protected $_reviewsHelperBlock;
 
@@ -132,6 +138,7 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
             ->setProduct($product)
             ->setDisplayMinimalPrice($displayMinimalPrice)
             ->setIdSuffix($idSuffix)
+            ->setUseLinkForAsLowAs($this->_useLinkForAsLowAs)
             ->toHtml();
     }
 
