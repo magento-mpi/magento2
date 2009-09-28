@@ -240,7 +240,7 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
 
         // prepare data for save
         foreach ($tierPrices as $data) {
-            if (empty($data['price_qty']) || !isset($data['price_qty']) || !empty($data['delete'])) {
+            if (empty($data['price_qty']) || !isset($data['cust_group']) || !empty($data['delete'])) {
                 continue;
             }
             if ($this->getAttribute()->isScopeGlobal() && $data['website_id'] > 0) {

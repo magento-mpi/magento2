@@ -92,10 +92,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Tierprice
             $adapter->quoteInto('entity_id=?', $productId)
         );
         if (!is_null($websiteId)) {
-            $where[] = $adapter->quoteInto('website_id=?', $websiteId);
+            $conds[] = $adapter->quoteInto('website_id=?', $websiteId);
         }
         if (!is_null($priceId)) {
-            $where[] = $adapter->quoteInto($this->getIdFieldName() . '=?', $priceId);
+            $conds[] = $adapter->quoteInto($this->getIdFieldName() . '=?', $priceId);
         }
         $where = join(' AND ', $conds);
 
