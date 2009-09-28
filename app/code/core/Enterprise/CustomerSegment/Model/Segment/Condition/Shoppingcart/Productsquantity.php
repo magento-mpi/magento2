@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
             . $this->getRemoveLinkHtml();
     }
 
-    public function getConditionsSql($customer, $store)
+    public function getConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('sales/quote');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());

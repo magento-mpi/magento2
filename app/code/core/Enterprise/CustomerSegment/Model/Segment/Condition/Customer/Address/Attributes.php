@@ -143,7 +143,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         return Mage::getSingleton('eav/config')->getAttribute('customer_address', $this->getAttribute());
     }
 
-    public function getConditionsSql($customer, $store)
+    public function getConditionsSql($customer, $website)
     {
         $attribute = $this->getAttributeObject();
 

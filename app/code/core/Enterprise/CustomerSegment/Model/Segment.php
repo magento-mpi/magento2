@@ -113,9 +113,9 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         return $result;
     }
 
-    public function validate($object, $store = null)
+    public function validate($object, $website = null)
     {
-        $sql = $this->getConditions()->getConditionsSql($object, $store);
+        $sql = $this->getConditions()->getConditionsSql($object, $website);
         echo "$sql\n<br />\n";
 
         $result = $this->getResource()->runConditionSql($sql);

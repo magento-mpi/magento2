@@ -70,7 +70,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         return "{$fieldName} = root.entity_id";
     }
 
-    protected function _prepareConditionsSql($customer, $store) {
+    protected function _prepareConditionsSql($customer, $website) {
         $select = $this->getResource()->createSelect();
 
         $table = $this->getResource()->getTable('customer/entity');
@@ -86,9 +86,9 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         return ($this->getValue() == 1);
     }
 
-    public function getConditionsSql($customer, $store)
+    public function getConditionsSql($customer, $website)
     {
-        $select = $this->_prepareConditionsSql($customer, $store);
+        $select = $this->_prepareConditionsSql($customer, $website);
         $required = $this->_getRequiredValidation();
 
         if ($this->getAggregator() == 'all') {
@@ -106,7 +106,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         $gotConditions = false;
 
         foreach ($this->getConditions() as $condition) {
-            if ($sql = $condition->getConditionsSql($customer, $store)) {
+            if ($sql = $condition->getConditionsSql($customer, $website)) {
                 $criteriaSql = "(IFNULL(($sql), 0) {$operator} 1)";
                 $select->$whereFunction($criteriaSql);
                 $gotConditions = true;
@@ -118,7 +118,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
             foreach ($this->getConditions() as $condition) {
                 $subfilterType = $condition->getSubfilterType();
                 if (isset($subfilterMap[$subfilterType])) {
-                    $subfilter = $condition->getSubfilterSql($subfilterMap[$subfilterType], $required, $store);
+                    $subfilter = $condition->getSubfilterSql($subfilterMap[$subfilterType], $required, $website);
 
                     if ($subfilter) {
                         $select->$whereFunction($subfilter);

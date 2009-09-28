@@ -246,7 +246,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return Mage::helper('enterprise_customersegment')->__('Customer %s', parent::asHtml());
     }
 
-    public function getConditionsSql($customer, $store)
+    public function getConditionsSql($customer, $website)
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();

@@ -67,7 +67,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes exte
         return 'product';
     }
 
-    public function getSubfilterSql($fieldName, $requireValid, $store)
+    public function getSubfilterSql($fieldName, $requireValid, $website)
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
@@ -82,6 +82,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes exte
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId())
                 ->where("main.value {$operator} ?", $this->getValue());
+
+            $storeIds = $website->getStoreIds();
+            $storeIds = array_merge(array(0), $storeIds);
+
+            $select->where('main.store_id IN (?)', $storeIds);
         }
 
         $inOperator = ($requireValid ? 'IN' : 'NOT IN');

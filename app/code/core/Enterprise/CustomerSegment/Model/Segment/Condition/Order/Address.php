@@ -54,7 +54,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
     }
 
 
-    protected function _prepareConditionsSql($customer, $store)
+    protected function _prepareConditionsSql($customer, $website)
     {
         $resource = $this->getResource();
         $select = $resource->createSelect();

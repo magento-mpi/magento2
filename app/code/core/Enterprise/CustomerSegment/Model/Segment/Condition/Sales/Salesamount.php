@@ -44,7 +44,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer, $store)
+    protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
 

@@ -139,7 +139,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         return Mage::getSingleton('eav/config')->getAttribute('order_address', $this->getAttribute());
     }
 
-    public function getConditionsSql($customer, $store)
+    public function getConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
 

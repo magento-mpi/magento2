@@ -64,7 +64,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     }
 
 
-    public function getConditionsSql($customer, $store)
+    public function getConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('sales/quote');
         $addressTable = $this->getResource()->getTable('sales/quote_address');

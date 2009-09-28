@@ -72,19 +72,24 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer, $store)
+    protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
+
+        $storeIds = $website->getStoreIds();
+        $storeIds = array_merge(array(0), $storeIds);
 
         switch ($this->getValue()) {
             case 'ordered_history':
                 $select->from(array('item' => $this->getResource()->getTable('sales/order_item')), array(new Zend_Db_Expr(1)));
                 $select->joinInner(array('order' => $this->getResource()->getTable('sales/order')), 'item.order_id = order.entity_id', array());
                 $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
+                $select->where('order.store_id IN (?)', $storeIds);
                 break;
             default:
                 $select->from(array('item' => $this->getResource()->getTable('reports/viewed_product_index')), array(new Zend_Db_Expr(1)));
                 $select->where($this->_createCustomerFilter($customer, 'item.customer_id'));
+                $select->where('item.store_id IN (?)', $storeIds);
                 break;
         }
 

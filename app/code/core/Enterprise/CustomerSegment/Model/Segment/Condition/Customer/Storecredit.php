@@ -51,7 +51,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
             . $this->getRemoveLinkHtml();
     }
 
-    public function getConditionsSql($customer, $store)
+    public function getConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('enterprise_customerbalance/balance');
         $operator = $this->getResource()->getSqlOperator($this->getOperator());

@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Status
         return 'order';
     }
 
-    public function getSubfilterSql($fieldName, $requireValid, $store)
+    public function getSubfilterSql($fieldName, $requireValid, $website)
     {
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();

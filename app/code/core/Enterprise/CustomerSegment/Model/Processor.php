@@ -49,7 +49,7 @@ class Enterprise_CustomerSegment_Model_Processor
         }
     }
 
-    public function process(Enterprise_CustomerSegment_Model_Segment $segment, $customer = null, $store = null)
+    public function process(Enterprise_CustomerSegment_Model_Segment $segment, $customer = null, $website = null)
     {
         if (is_null($customer)) {
             if (!Mage::getSingleton('customer/session')->isLoggedIn()) {
@@ -59,10 +59,10 @@ class Enterprise_CustomerSegment_Model_Processor
             $customer = Mage::getSingleton('customer/session')->getCustomer();
         }
 
-        if (is_null($store)) {
-            $storeId = Mage::app()->getStore();
+        if (is_null($website)) {
+            $website = Mage::app()->getWebsite();
         }
 
-        return $segment->validate($customer, $store);
+        return $segment->validate($customer, $website);
     }
 }

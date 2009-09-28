@@ -50,7 +50,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
         return $this->getResource()->quoteInto("{$fieldName} IN (?)", $customer);
     }
 
-    protected function _prepareConditionsSql($customer, $store) {
+    protected function _prepareConditionsSql($customer, $website) {
         $select = $this->getResource()->createSelect();
 
         $table = array('root' => $this->getResource()->getTable('customer/entity'));

@@ -69,7 +69,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
         return 'order_address_type';
     }
 
-    public function getSubfilterSql($fieldName, $requireValid, $store)
+    public function getSubfilterSql($fieldName, $requireValid, $website)
     {
         $operator = (($this->getOperator() == '==') == $requireValid);
         if ($operator) {

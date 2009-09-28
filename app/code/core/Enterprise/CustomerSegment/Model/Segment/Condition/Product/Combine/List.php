@@ -72,20 +72,25 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
             . $this->getRemoveLinkHtml();
     }
 
-    protected function _prepareConditionsSql($customer, $store)
+    protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
+
+        $storeIds = $website->getStoreIds();
+        $storeIds = array_merge(array(0), $storeIds);
 
         switch ($this->getValue()) {
             case 'wishlist':
                 $select->from(array('item' => $this->getResource()->getTable('wishlist/item')), array(new Zend_Db_Expr(1)));
                 $conditions = "item.wishlist_id = list.wishlist_id";
                 $select->joinInner(array('list' => $this->getResource()->getTable('wishlist/wishlist')), $conditions, array());
+                $select->where('item.store_id IN (?)', $storeIds);
                 break;
             default:
                 $select->from(array('item' => $this->getResource()->getTable('sales/quote_item')), array(new Zend_Db_Expr(1)));
                 $conditions = "item.quote_id = list.entity_id";
                 $select->joinInner(array('list' => $this->getResource()->getTable('sales/quote')), $conditions, array());
+                $select->where('list.store_id IN (?)', $storeIds);
                 break;
         }
 
