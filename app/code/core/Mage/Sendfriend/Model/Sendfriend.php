@@ -229,7 +229,6 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function setRemoteAddr($ipAddr)
     {
-        Mage::log(array(__METHOD__, $ipAddr));
         $this->setData('_remote_addr', $ipAddr);
         return $this;
     }
@@ -241,7 +240,6 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
      */
     public function getRemoteAddr()
     {
-        Mage::log(array(__METHOD__, $this->_getData('_remote_addr')));
         return $this->_getData('_remote_addr');
     }
 

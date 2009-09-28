@@ -803,7 +803,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
             $select = $write->select()
                 ->from($this->getTable('catalog/category'))
                 ->where('entity_id=?', $category);
-            Mage::log($select->assemble());
             $row    = $write->fetchRow($select);
             if (!$row) {
                 return $this;
@@ -811,14 +810,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Flat extends Mage_Core_Mod
 
             $stores = $this->getStoresRootCategories();
             $path   = explode('/', $row['path']);
-            Mage::log($path);
             foreach ($stores as $storeId => $rootCategoryId) {
                 if (in_array($rootCategoryId, $path)) {
                     $attributeValues = $this->_getAttributeValues($category, $storeId);
                     $data = new Varien_Object($row);
                     $data->addData($attributeValues[$category])
                         ->setStoreId($storeId);
-                    Mage::log($data->debug());
                     $this->_synchronize($data);
                 } else {
                     $where = $write->quoteInto('entity_id=?', $category);

@@ -111,9 +111,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Attribute_Backend_Tierprice
     public function savePriceData(Varien_Object $priceObject)
     {
         $adapter = $this->_getWriteAdapter();
-        Mage::log($priceObject->debug());
         $data    = $this->_prepareDataForTable($priceObject, $this->getMainTable());
-        Mage::log($data);
         if (!empty($data[$this->getIdFieldName()])) {
             $where = $adapter->quoteInto($this->getIdFieldName() . '=?', $data[$this->getIdFieldName()]);
             unset($data[$this->getIdFieldName()]);

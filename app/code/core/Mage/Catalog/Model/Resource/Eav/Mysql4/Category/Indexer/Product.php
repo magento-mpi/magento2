@@ -266,7 +266,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         }
 
         $sql = $select->insertFromSelect($this->getMainTable());
-        Mage::log($sql);
         $this->_getWriteAdapter()->query($sql);
         return $this;
     }
