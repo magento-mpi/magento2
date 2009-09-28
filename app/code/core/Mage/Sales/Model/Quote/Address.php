@@ -586,8 +586,32 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
         $request->setDestStreet($this->getStreet(-1));
         $request->setDestCity($this->getCity());
         $request->setDestPostcode($this->getPostcode());
-        $request->setPackageValue($this->getBaseSubtotal());
-        $request->setPackageValueWithDiscount($this->getBaseSubtotalWithDiscount());
+
+        /**
+         * Count total amount and total discount for shipping. Only not virtual quote items.
+         * Fix bug #15971
+         */
+        $quoteItems = $this->getAllItems();
+        $subtotal = 0;
+        $discountAmount = 0;
+        foreach ($quoteItems as $quoteItem) {
+            if (!$quoteItem->getParentItem() && !$quoteItem->getProduct()->isVirtual()) {
+                $subtotal += $quoteItem->getRowTotal();
+                $discountAmount += $quoteItem->getDiscountAmount();
+                if ($quoteItem->getHasChildren()) {
+                    foreach ($quoteItem->getChildren() as $child) {
+                        $discountAmount += $child->getDiscountAmount();
+                    }
+                }
+            }
+        }
+
+        $request->setPackageValue($subtotal);
+        $request->setPackageValueWithDiscount($subtotal - $discountAmount);
+        /**
+         * End fix
+         */
+
         $request->setPackageWeight($this->getWeight());
         $request->setPackageQty($this->getItemQty());
 
