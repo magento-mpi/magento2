@@ -44,38 +44,17 @@ abstract class Mage_Rule_Model_Condition_Abstract
      * Default values for possible operator options
      * @var array
      */
-    protected $_defaultOperatorOptions;
+    protected $_defaultOperatorOptions = null;
 
     /**
      * Default combinations of operator options, depending on input type
      * @var array
      */
-    protected $_defaultOperatorInputByType = array(
-        'string'      => array('==', '!=', '>=', '>', '<=', '<', '{}', '!{}', '()', '!()'),
-        'numeric'     => array('==', '!=', '>=', '>', '<=', '<', '()', '!()'),
-        'date'        => array('==', '>=', '<='),
-        'select'      => array('==', '!='),
-        'multiselect' => array('==', '!=', '{}', '!{}'),
-        'grid'        => array('()', '!()'),
-    );
+    protected $_defaultOperatorInputByType = null;
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->_defaultOperatorOptions = array(
-            '=='  => Mage::helper('rule')->__('is'),
-            '!='  => Mage::helper('rule')->__('is not'),
-            '>='  => Mage::helper('rule')->__('equals or greater than'),
-            '<='  => Mage::helper('rule')->__('equals or less than'),
-            '>'   => Mage::helper('rule')->__('greater than'),
-            '<'   => Mage::helper('rule')->__('less than'),
-            '{}'  => Mage::helper('rule')->__('contains'),
-            '!{}' => Mage::helper('rule')->__('does not contain'),
-            '!{}' => Mage::helper('rule')->__('does not contain'),
-            '()'  => Mage::helper('rule')->__('is one of'),
-            '!()' => Mage::helper('rule')->__('is not one of'),
-        );
 
         $this->loadAttributeOptions()->loadOperatorOptions()->loadValueOptions();
 
@@ -85,6 +64,52 @@ abstract class Mage_Rule_Model_Condition_Abstract
         if ($options = $this->getOperatorOptions()) {
             foreach ($options as $operator=>$dummy) { $this->setOperator($operator); break; }
         }
+    }
+
+    /**
+     * Default operator input by type map getter
+     *
+     * @return array
+     */
+    public function getDefaultOperatorInputByType()
+    {
+        if (null === $this->_defaultOperatorInputByType) {
+            $this->_defaultOperatorInputByType = array(
+                'string'      => array('==', '!=', '>=', '>', '<=', '<', '{}', '!{}', '()', '!()'),
+                'numeric'     => array('==', '!=', '>=', '>', '<=', '<', '()', '!()'),
+                'date'        => array('==', '>=', '<='),
+                'select'      => array('==', '!='),
+                'multiselect' => array('==', '!=', '{}', '!{}'),
+                'grid'        => array('()', '!()'),
+            );
+        }
+        return $this->_defaultOperatorInputByType;
+    }
+
+    /**
+     * Default operator options getter
+     * Provides all possible operator options
+     *
+     * @return array
+     */
+    public function getDefaultOperatorOptions()
+    {
+        if (null === $this->_defaultOperatorOptions) {
+            $this->_defaultOperatorOptions = array(
+                '=='  => Mage::helper('rule')->__('is'),
+                '!='  => Mage::helper('rule')->__('is not'),
+                '>='  => Mage::helper('rule')->__('equals or greater than'),
+                '<='  => Mage::helper('rule')->__('equals or less than'),
+                '>'   => Mage::helper('rule')->__('greater than'),
+                '<'   => Mage::helper('rule')->__('less than'),
+                '{}'  => Mage::helper('rule')->__('contains'),
+                '!{}' => Mage::helper('rule')->__('does not contain'),
+                '!{}' => Mage::helper('rule')->__('does not contain'),
+                '()'  => Mage::helper('rule')->__('is one of'),
+                '!()' => Mage::helper('rule')->__('is not one of'),
+            );
+        }
+        return $this->_defaultOperatorOptions;
     }
 
     public function getForm()
@@ -163,8 +188,8 @@ abstract class Mage_Rule_Model_Condition_Abstract
 
     public function loadOperatorOptions()
     {
-        $this->setOperatorOption($this->_defaultOperatorOptions);
-        $this->setOperatorByInputType($this->_defaultOperatorInputByType);
+        $this->setOperatorOption($this->getDefaultOperatorOptions());
+        $this->setOperatorByInputType($this->getDefaultOperatorInputByType());
         return $this;
     }
 
