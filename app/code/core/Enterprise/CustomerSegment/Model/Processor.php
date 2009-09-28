@@ -40,12 +40,12 @@ class Enterprise_CustomerSegment_Model_Processor
         return $this->_segmentMap[$eventName];
     }
 
-    public function processEvent($eventName, $customer, $websiteId)
+    public function processEvent($eventName, $customer, $website)
     {
-        $segments = $this->getActiveSegmentsForEvent($eventName, $websiteId);
+        $segments = $this->getActiveSegmentsForEvent($eventName, $website);
 
         foreach ($segments as $segment) {
-            $this->process($segment, $customer);
+            $this->process($segment, $customer, $website);
         }
     }
 
@@ -63,6 +63,8 @@ class Enterprise_CustomerSegment_Model_Processor
             $website = Mage::app()->getWebsite();
         }
 
-        return $segment->validate($customer, $website);
+        $segment->setValidationWebsite($website);
+
+        return $segment->validate($customer);
     }
 }

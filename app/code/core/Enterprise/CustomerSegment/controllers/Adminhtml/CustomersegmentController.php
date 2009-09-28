@@ -253,8 +253,8 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
 
         foreach ($customers as $customer) {
             $data = array(
-                'customer'   => $customer,
-                'website_id' => 1
+                'customer' => $customer,
+                'website'  => Mage::app()->getWebsite(1)
             );
 
             Mage::dispatchEvent('customersegment_test_event', $data);

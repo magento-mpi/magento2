@@ -58,6 +58,9 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
 
     public function addWebsiteFilter($websiteId)
     {
+        if ($websiteId instanceof Mage_Core_Model_Website) {
+            $websiteId = $websiteId->getId();
+        }
         $this->getSelect()->where('website_id = ?', $websiteId);
 
         return $this;

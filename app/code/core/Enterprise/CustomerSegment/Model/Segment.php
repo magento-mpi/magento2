@@ -113,15 +113,15 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         return $result;
     }
 
-    public function validate($object, $website = null)
+    public function validate(Varien_Object $object)
     {
-        $sql = $this->getConditions()->getConditionsSql($object, $website);
+        $sql = $this->getConditions()->getConditionsSql($object, $this->getValidationWebsite());
         echo "$sql\n<br />\n";
 
         $result = $this->getResource()->runConditionSql($sql);
 
         $resultText = ($result ? '<span style="color: #00CC00;">PASSED</span>' : '<span style="color: #CC0000;">FAILED</span>');
-        echo "SEGMENT #{$segment->getId()} VALIDATION AGAINST CUSTOMER #{$customer->getId()} {$resultText}\n<br /><br />\n";
+        echo "SEGMENT #{$this->getId()} VALIDATION AGAINST CUSTOMER #{$object->getId()} {$resultText}\n<br /><br />\n";
 
         return $result;
     }
