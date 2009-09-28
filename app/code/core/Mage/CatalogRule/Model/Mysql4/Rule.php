@@ -510,6 +510,15 @@ class Mage_CatalogRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abstract
                 $this->_saveRuleProductPrices($dayPrices);
             }
             $this->_saveRuleProductPrices($dayPrices);
+
+            $write->delete($this->getTable('catalogrule/rule_group_website'), array());
+
+            $select = $write->select()
+                ->distinct(true)
+                ->from($this->getTable('catalogrule/rule_product'), array('rule_id', 'customer_group_id', 'website_id'));
+            $query = $select->insertFromSelect($this->getTable('catalogrule/rule_group_website'));
+            $write->query($query);
+
             $write->commit();
         } catch (Exception $e) {
             $write->rollback();
