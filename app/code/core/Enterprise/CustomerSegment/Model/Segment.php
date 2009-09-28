@@ -120,4 +120,21 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
 
         return $this->getResource()->runConditionSql($sql);
     }
+
+    public function getMatchedSegmentsByCustomer($customer = null)
+    {
+        if (is_null($customer)) {
+            Mage::getSingleton('customer/session')->getCustomerId();
+            // load from session instead of db
+        } else if ($customer instanceof Mage_Customer_Model_Customer) {
+            $customer = $customer->getId();
+        } else if (is_array($customer)) {
+            // use customer array [return matches]
+        } else if ($customer instanceof Zend_Db_Select) {
+            $customer = new Zend_Db_Expr($customer);
+        }
+
+        // load customers
+        return array();
+    }
 }
