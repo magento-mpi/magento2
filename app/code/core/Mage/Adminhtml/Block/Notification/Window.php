@@ -157,7 +157,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
      */
     public function getSeverityText()
     {
-        return strtolower($this->getNoticeSeverity());
+        return strtolower(str_replace('SEVERITY_', '', $this->getNoticeSeverity()));
     }
 
     /**
