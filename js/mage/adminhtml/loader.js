@@ -261,7 +261,6 @@ var varienUpdater = Class.create(Ajax.Updater, {
     updateContent: function($super, responseText) {
         if (responseText.isJSON()) {
             var responseJSON = responseText.evalJSON();
-            console.log(responseJSON);
             if (responseJSON.ajaxExpired && responseJSON.ajaxRedirect) {
                 window.location.replace(responseJSON.ajaxRedirect);
             }
