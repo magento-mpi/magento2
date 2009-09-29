@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Magento Enterprise Edition
  *
@@ -19,9 +20,27 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     default_default
+ * @package     enterprise_default
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-?>
-<?php echo $this->getChildHtml('widget_properties') ?>
+-->
+<config>
+    <widgets>
+        <catalog_product_link>
+            <parameters>
+                <template translate="label">
+                    <values>
+                    </values>
+                </template>
+            </parameters>
+            <supported_blocks>
+                <left_column>
+                    <block_name>left</block_name>
+                    <template>
+                    </template>
+                </left_column>
+            </supported_blocks>
+        </catalog_product_link>
+    </widgets>
+</config>

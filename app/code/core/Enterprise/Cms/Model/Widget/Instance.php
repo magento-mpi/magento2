@@ -49,6 +49,13 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
+     * Enter description here...
+     *
+     * @var Varien_Simplexml_Element
+     */
+    protected $_widgetConfigXml = null;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -102,6 +109,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
                         'block_reference' => $pageGroupData['block'],
                         'entities' => '',
                         'layout_handle_updates' => array($layoutHandle),
+                        'template' => $pageGroupData['template']?$pageGroupData['template']:'',
                         'position' => $pageGroupData['position']
                     );
                     if ($pageGroupData['for'] == self::SPECIFIC_ENTITIES) {
@@ -289,7 +297,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetsOptionArray()
     {
         $widgets = array();
-        $widgetsArr = Mage::getModel('cms/widget')->getWidgetsArray();
+        $widgetsArr = Mage::getSingleton('cms/widget')->getWidgetsArray();
         foreach ($widgetsArr as $widget) {
             $widgets[] = array(
                 'value' => $widget['type'],
@@ -300,13 +308,110 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Load widget XML config and merge with theme widget config
+     *
+     * @return Varien_Simplexml_Element
+     */
+    public function getWidgetConfig()
+    {
+        if ($this->_widgetConfigXml === null) {
+            $this->_widgetConfigXml = Mage::getSingleton('cms/widget')
+                ->getXmlElementByType($this->getType());
+            $configFile = Mage::app()->getConfig()->getOptions()->getDesignDir()
+                . DS . $this->getArea()
+                . DS . $this->getPackage()
+                . DS . $this->getTheme()
+                . DS . 'widget'
+                . DS . 'config.xml';
+            if (is_readable($configFile)) {
+                $themeConfig = new Varien_Simplexml_Config();
+                $themeConfig->loadFile($configFile);
+                $this->_widgetConfigXml->extend($themeConfig->getNode('widgets/'.$this->_widgetConfigXml->getName()));
+            }
+        }
+        return $this->_widgetConfigXml;
+    }
+
+    /**
+     * Retrieve widget availabel templates
+     *
+     * @return array
+     */
+    public function getWidgetTemplates()
+    {
+        $templates = array();
+        if ($configTemplates = $this->getWidgetConfig()->parameters->template) {
+            if ($configTemplates->values && $configTemplates->values->children()) {
+                foreach ($configTemplates->values->children() as $name => $template) {
+                    $helper = $template->getAttribute('module') ? $template->getAttribute('module') : 'enterprise_cms';
+                    $templates[(string)$name] = array(
+                        'value' => (string)$template->value,
+                        'label' => Mage::helper($helper)->__((string)$template->label)
+                    );
+                }
+            } elseif ($configTemplates->value) {
+                $templates['default'] = array(
+                    'value' => (string)$configTemplates->value,
+                    'label' => Mage::helper('enterprise_cms')->__('Default Template')
+                );
+            }
+        }
+        return $templates;
+    }
+
+    /**
+     * Retrieve blocks that widget support
+     *
+     * @return array
+     */
+    public function getWidgetSupportedBlocks()
+    {
+        $blocks = array();
+        if ($supportedBlocks = $this->getWidgetConfig()->supported_blocks) {
+            foreach ($supportedBlocks->children() as $block) {
+                $blocks[] = (string)$block->block_name;
+            }
+        }
+        return $blocks;
+    }
+
+    /**
+     * Retrieve widget templates that supported by given block reference
+     *
+     * @param string $blockReference
+     * @return array
+     */
+    public function getWidgetSupportedTemplatesByBlock($blockReference)
+    {
+        $templates = array();
+        $widgetTemplates = $this->getWidgetTemplates();
+        if (!($supportedBlocks = $this->getWidgetConfig()->supported_blocks)) {
+            return $widgetTemplates;
+        }
+        foreach ($supportedBlocks->children() as $block) {
+            if ((string)$block->block_name == $blockReference) {
+                if ($block->template && $block->template->children()) {
+                    foreach ($block->template->children() as $template) {
+                        if (isset($widgetTemplates[(string)$template])) {
+                            $templates[] = $widgetTemplates[(string)$template];
+                        }
+                    }
+                } else {
+                    $templates[] = $widgetTemplates[(string)$template];
+                }
+            }
+        }
+        return $templates;
+    }
+
+    /**
      * Generate layout update xml
      *
      * @param string $blockReference
      * @param string $position
      * @return string
      */
-    public function generateLayoutUpdateXml($blockReference, $position = 'before')
+    public function generateLayoutUpdateXml($blockReference, $templatePath = null, $position = 'before')
     {
         if (!$this->getId() && !$this->isCompleteToCreate()) {
             return '';
@@ -315,8 +420,10 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
         $xml = '<reference name="'.$blockReference.'">';
         $template = '';
         if (isset($parameters['template'])) {
-            $template = ' template="'.$parameters['template'].'"';
             unset($parameters['template']);
+        }
+        if ($templatePath) {
+            $template = ' template="'.$templatePath.'"';
         }
         $xml .= '<block type="'.$this->getType().'" name="'.md5(microtime()).'"'.$template.' '.$position.'="-">';
         foreach ($parameters as $name => $value) {

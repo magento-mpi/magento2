@@ -39,7 +39,7 @@
                             <?php echo $this->getDisplayOnSelectHtml() ?>
                         </div>
                         <?php foreach ($this->getDisplayOnContainers('categories') as $container): ?>
-                            <div class="no-display categories" id="<?php echo $container['name'] ?>_{{id}}">
+                            <div class="no-display categories group_container" id="<?php echo $container['name'] ?>_{{id}}">
                                 <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][<?php echo $container['name'] ?>]" />
                                 <input type="hidden" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][page_id]" value="{{page_id}}" />
                                 <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][layout_handle]" value="<?php echo $container['layout_handle'] ?>" />
@@ -51,7 +51,7 @@
                                     <thead>
                                         <tr>
                                             <th><label>Categories</label></th>
-                                            <th><label>Block Reference</label></th>
+                                            <th><label>Block Reference <span class="required">*</span></label></th>
                                             <th><label for="position">Position</label></th>
                                             <th>&nbsp;</th>
                                         </tr>
@@ -88,7 +88,7 @@
                             </div>
                         <?php endforeach; ?>
                         <?php foreach ($this->getDisplayOnContainers('products') as $container): ?>
-                            <div class="no-display products" id="<?php echo $container['name'] ?>_{{id}}">
+                            <div class="no-display products group_container" id="<?php echo $container['name'] ?>_{{id}}">
                                 <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][<?php echo $container['name'] ?>]" />
                                 <input type="hidden" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][page_id]" value="{{page_id}}" />
                                 <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][layout_handle]" value="<?php echo $container['layout_handle'] ?>" />
@@ -100,7 +100,8 @@
                                     <thead>
                                         <tr>
                                             <th><label>Products</label></th>
-                                            <th><label>Block Reference</label></th>
+                                            <th><label>Block Reference <span class="required">*</span></label></th>
+                                            <th><label>Template</label></th>
                                             <th><label for="position">Position</label></th>
                                             <th>&nbsp;</th>
                                         </tr>
@@ -124,6 +125,11 @@
                                                 </div>
                                             </td>
                                             <td>
+                                                <div class="block_template_container">
+                                                    <div class="block_template"></div>
+                                                </div>
+                                            </td>
+                                            <td>
                                                 <div class="position">
                                                     <select class="position" id="position" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][position]">
                                                         <option value="before" selected="selected">First</option>
@@ -137,7 +143,7 @@
                                 </table>
                             </div>
                         <?php endforeach; ?>
-                        <div class="no-display all_pages" id="all_pages_{{id}}">
+                        <div class="no-display all_pages group_container" id="all_pages_{{id}}">
                             <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][all_pages]" />
                             <input type="hidden" name="widget_instance[{{id}}][all_pages][page_id]" value="{{page_id}}" />
                             <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][all_pages][layout_handle]" value="default" />
@@ -148,7 +154,7 @@
                                 <col />
                                 <thead>
                                     <tr>
-                                        <th><label>Block Reference</label></th>
+                                        <th><label>Block Reference <span class="required">*</span></label></th>
                                         <th><label for="position">Position</label></th>
                                         <th>&nbsp;</th>
                                     </tr>
@@ -173,7 +179,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="no-display pages" id="pages_{{id}}">
+                        <div class="no-display pages group_container" id="pages_{{id}}">
                             <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][pages]" />
                             <input type="hidden" name="widget_instance[{{id}}][pages][page_id]" value="{{page_id}}" />
                             <input type="hidden" class="for_all" name="widget_instance[{{id}}][pages][for]" value="all" />
@@ -185,7 +191,7 @@
                                 <thead>
                                     <tr>
                                         <th><label>Page</label></th>
-                                        <th><label>Block Reference</label></th>
+                                        <th><label>Block Reference <span class="required">*</span></label></th>
                                         <th><label>Position</label></th>
                                         <th>&nbsp;</th>
                                     </tr>
@@ -239,8 +245,10 @@ var WidgetInstance = {
                 pageGroup = $(data.group+'_'+data.id);
                 additional = {};
                 additional.selectedBlock = data.block;
+                additional.selectedTemplate = data.template;
                 additional.position = data.position;
                 additional.for_value = data.for_value;
+                additional.template = '';
                 this.displayPageGroup(pageGroup, additional);
                 if ($(this.pageGroupContainerId+'_'+data.id)) {
                     selectGroupElm = $(this.pageGroupContainerId+'_'+data.id).down('select.page_group_select');
@@ -300,6 +308,11 @@ var WidgetInstance = {
     },
     displayPageGroup : function(container, additional) {
         container = $(container);
+        if (!container) {
+//            if (activePageGroupId = this.activePageGroups.get(container.up('div.page_group_container').id)) {
+//                this.hideBlockContainer(activePageGroupId);
+//            }
+        }
         if (!additional) {
             additional = {};
         }
@@ -316,6 +329,7 @@ var WidgetInstance = {
             }
             this.showLayoutBlocksReferance(container, layoutHandle, additional);
         }
+        this.showTemplateChooser(container, additional.selectedBlock, additional);
         if ((positionElm = container.down('select.position')) && additional.position) {
             for (var i=0; i<positionElm.options.length; i++) {
                 if(positionElm.options[i].value == additional.position) {
@@ -365,9 +379,7 @@ var WidgetInstance = {
         var type = '';
         if (additional) {
             if (additional.url) url = additional.url;
-
             if (additional.type) type = additional.type;
-
             if (additional.post_parameters) {
                 additional.post_parameters.each(function(pair){
                     postParameters.set(pair.key,pair.value);
@@ -489,6 +501,42 @@ var WidgetInstance = {
                             }
                         } catch (e) {
                             alert('Error occurs during loading block chooser.');
+                        }
+                    }
+                });
+            }
+        }
+    },
+    showTemplateChooser : function (element, block, additional) {
+        if (!additional) {
+            additional = {};
+        }
+        if (element && (templateContainer = element.down('div.block_template'))) {
+            if (templateContainer.innerHtml != '') {
+                templateContainer.update('');
+            }
+            if (block) {
+                var url = '<?php echo $this->getTemplateChooserUrl() ?>';
+                selected = '';
+                if (additional.selectedTemplate) {
+                    selected = additional.selectedTemplate;
+                }
+                new Ajax.Request(url, {
+                    method: 'post',
+                    parameters: {block:block, selected:selected},
+                    templateContainer: templateContainer,
+                    onSuccess: function(transport) {
+                        templateContainer = transport.request.options.templateContainer
+                        try {
+                            if (transport.responseText) {
+                                Element.insert(templateContainer, transport.responseText);
+                                selectElm = templateContainer.down('select');
+                                if (selectElm) {
+                                    selectElm.name = element.down('input.container_name').value+'['+selectElm.name+']';
+                                }
+                            }
+                        } catch (e) {
+                            alert('Error occurs during loading template chooser.');
                         }
                     }
                 });

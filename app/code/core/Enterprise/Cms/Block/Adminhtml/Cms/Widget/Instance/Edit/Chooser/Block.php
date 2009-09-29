@@ -44,19 +44,31 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
 
     protected $_blocks = array();
 
-    protected $_allowedBlockTypes = array(
+    protected $_allowedBlocks = array(
         'core/text_list'
     );
 
     /**
-     * Add allowed block type
+     * Setter
      *
-     * @param string $type
+     * @param array $allowedBlocks
      * @return Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
      */
-    public function addAllowedBlockType($type)
+    public function setAllowedBlocks($allowedBlocks)
     {
-        $this->_allowedBlockTypes[] = $type;
+        $this->_allowedBlocks = $allowedBlocks;
+        return $this;
+    }
+
+    /**
+     * Add allowed block
+     *
+     * @param string $block
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
+     */
+    public function addAllowedBlock($block)
+    {
+        $this->_allowedBlocks[] = $type;
         return $this;
     }
 
@@ -65,9 +77,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
      *
      * @return array
      */
-    public function getAllowedBlockTypes()
+    public function getAllowedBlocks()
     {
-        return $this->_allowedBlockTypes;
+        return $this->_allowedBlocks;
     }
 
     /**
@@ -139,7 +151,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
     {
         $selectBlock = $this->getLayout()->createBlock('core/html_select')
             ->setName('block')
-//            ->setExtraParams('multiple="multiple"')
+            ->setClass('required-entry')
+            ->setExtraParams('onchange="WidgetInstance.showTemplateChooser(this.up(\'div.group_container\'), this.value)"')
             ->setOptions($this->getBlocks())
             ->setValue($this->getSelected());
         return parent::_toHtml().$selectBlock->toHtml();
@@ -162,6 +175,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
                 $this->getTheme(), Mage::app()->getDefaultStoreView()->getId());
             $this->_collectLayoutHandles();
             $this->_collectBlocks();
+            array_unshift($this->_blocks, array(
+                'value' => '',
+                'label' => Mage::helper('enterprise_cms')->__('-- Please Select Block Reference --')
+            ));
         }
         return $this->_blocks;
     }
@@ -201,9 +218,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
 //            if ($blocks = $this->_layoutHandlesXml->xpath($wildCard)) {
                 /* @var $block Mage_Core_Model_Layout_Element */
                 foreach ($blocks as $block) {
-                    if ((string)$block->getAttribute('name')
-                        && $this->_filterBlockType((string)$block->getAttribute('type')))
-                    {
+                    if ((string)$block->getAttribute('name') && $this->_filterBlock($block)) {
                         if ($module = $block->getAttribute('module')) {
                             $helper = Mage::helper($module);
                         } else {
@@ -218,15 +233,17 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
     }
 
     /**
-     * Check whether given block type match allowed block types
+     * Check whether given block match allowed block types
      *
-     * @param string $type
+     * @param Mage_Core_Model_Layout_Element $block
      * @return boolean
      */
-    protected function _filterBlockType($type)
+    protected function _filterBlock($block)
     {
-        return true;
-        if (in_array($type, $this->getAllowedBlockTypes())) {
+        if (!$this->getAllowedBlocks()) {
+            return true;
+        }
+        if (in_array((string)$block->getAttribute('name'), $this->getAllowedBlocks())) {
             return true;
         }
         return false;

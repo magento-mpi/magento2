@@ -112,6 +112,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
     }
 
     /**
+     * Generate url to get template chooser by ajax query
+     *
+     * @return string
+     */
+    public function getTemplateChooserUrl()
+    {
+        return $this->getUrl('*/*/template', array('_current' => true));
+    }
+
+    /**
      * Create and return html of select box Display On
      *
      * @return string
@@ -121,7 +131,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
         $selectBlock = $this->getLayout()->createBlock('core/html_select')
             ->setName('widget_instance[{{id}}][page_group]')
             ->setId('widget_instance[{{id}}][page_group]')
-            ->setClass('page_group_select')
+            ->setClass('required-entry page_group_select')
             ->setExtraParams('onchange="WidgetInstance.displayPageGroup(this.value+\'_{{id}}\')"')
             ->setOptions($this->_getDisplayOnOptions());
         return $selectBlock->toHtml();
@@ -291,6 +301,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
                     'for_value'   => $pageGroup['for'],
                     'layout_handle' => $pageGroup['layout_handle'],
                     $pageGroup['group'].'_entities' => $pageGroup['entities'],
+                    'template' => $pageGroup['template'],
                     'position' => $pageGroup['position']
                 );
             }

@@ -32,7 +32,7 @@
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Properties
-    extends Mage_Adminhtml_Block_Widget
+    extends Mage_Adminhtml_Block_Cms_Widget_Options//Mage_Adminhtml_Block_Widget
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -85,13 +85,24 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Properties
         return Mage::registry('widget_instance');
     }
 
-    protected function _prepareLayout()
+    protected function _preparelayout()
     {
-        $widgetPropertiesBlock = $this->getLayout()
-            ->createBlock('adminhtml/cms_widget_options')
-            ->setWidgetType($this->getWidgetInstance()->getType())
+        $this->setWidgetType($this->getWidgetInstance()->getType())
             ->setWidgetValues($this->getWidgetInstance()->getWidgetParameters());
-        $this->setChild('widget_properties', $widgetPropertiesBlock);
         return parent::_prepareLayout();
+    }
+
+    /**
+     * Add field to Options form based on option configuration
+     *
+     * @param Varien_Simplexml_Element $config
+     * @return Varien_Data_Form_Element_Abstract
+     */
+    protected function _addField($config)
+    {
+        if ($config->getName() != 'template') {
+            return parent::_addField($config);
+        }
+        return false;
     }
 }

@@ -251,9 +251,26 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
             ->setPackage($widgetInstance->getPackage())
             ->setTheme($widgetInstance->getTheme())
             ->setLayoutHandle($layout)
-            ->setSelected($selected);
-        $html = $blocksChooser->toHtml();
-        $this->getResponse()->setBody($html);
+            ->setSelected($selected)
+            ->setAllowedBlocks($widgetInstance->getWidgetSupportedBlocks());
+        $this->getResponse()->setBody($blocksChooser->toHtml());
+    }
+
+	/**
+     * Templates Chooser Action (Ajax request)
+     *
+     */
+    public function templateAction()
+    {
+        /* @var $widgetInstance Enterprise_Cms_Model_Widget_Instance */
+        $widgetInstance = $this->_initWidgetInstance();
+        $block = $this->getRequest()->getParam('block');
+        $selected = $this->getRequest()->getParam('selected', null);
+        $templateChooser = $this->getLayout()
+            ->createBlock('enterprise_cms/adminhtml_cms_widget_instance_edit_chooser_template')
+            ->setSelected($selected)
+            ->setWidgetTemplates($widgetInstance->getWidgetSupportedTemplatesByBlock($block));
+        $this->getResponse()->setBody($templateChooser->toHtml());
     }
 
     /**
