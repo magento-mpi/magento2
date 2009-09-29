@@ -210,8 +210,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     {
         $request = Mage::app()->getRequest();
         if ($request->getParam('auto_apply')) {
-            $eventModel->setInfo($request->getParam('rule_id')
-                                        . ' ' . Mage::helper('enterprise_logging')->__('& applied'));
+            $eventModel->setInfo(Mage::helper('enterprise_logging')->__('%s & applied', $request->getParam('rule_id')));
         } else {
             $eventModel->setInfo($request->getParam('rule_id'));
         }
@@ -219,7 +218,7 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
-     * Special handler for myaccount action
+     * Special handler for my account action
      *
      * @param Varien_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
