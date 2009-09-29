@@ -35,24 +35,38 @@ class Mage_Adminhtml_Helper_Js extends Mage_Core_Helper_Js
 {
     /**
      * Decode serialized grid data
-     * 
-     * If string is in next format: 1&2&3&4, 
-     * than this method convert it to enumerated array
+     *
+     * Ignores non-numeric array keys
+     *
+     * '1&2&3&4' will be decoded into:
+     * array(1, 2, 3, 4);
+     *
+     * otherwise the following format is anticipated:
+     * 1=<encoded string>&2=<encoded string>:
+     * array (
+     *   1 => array(...),
+     *   2 => array(...),
+     * )
      *
      * @param   string $encoded
      * @return  array
      */
-    public function decodeInput($encoded)
+    public function decodeGridSerializedInput($encoded)
     {
-        $_data = array();
-        parse_str($encoded, $data);
-        foreach($data as $key=>$value) {
-            if (empty($value)) {
-                $_data[] = $key;
+        $isSimplified = (strpos($encoded, '=') === false);
+        $result = array();
+        parse_str($encoded, $decoded);
+        foreach($decoded as $key => $value) {
+            if (is_numeric($key)) {
+                if ($isSimplified) {
+                    $result[] = $key;
+                }
+                else {
+                    $result[$key] = null;
+                    parse_str(base64_decode($value), $result[$key]);
+                }
             }
-            parse_str(base64_decode($value), $data[$key]);
         }
-        $data = !empty($_data) ? $_data : $data;
-        return $data;
+        return $result;
     }
 }
