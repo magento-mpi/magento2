@@ -176,7 +176,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
     {
         $products = $this->getProductsGrouped();
         if (!is_array($products)) {
-            $products = $this->getSelectedGroupedProducts();
+            $products = array_keys($this->getSelectedGroupedProducts());
         }
         return $products;
     }
@@ -188,8 +188,16 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Super_Group extends Mage_Adm
      */
     public function getSelectedGroupedProducts()
     {
-        return Mage::registry('current_product')->getTypeInstance(true)
-            ->getAssociatedProductIds(Mage::registry('current_product'));
+        $associatedProducts = Mage::registry('current_product')->getTypeInstance(true)
+            ->getAssociatedProducts(Mage::registry('current_product'));
+        $products = array();
+        foreach ($associatedProducts as $product) {
+            $products[$product->getId()] = array(
+                'qty'       => $product->getQty(),
+                'position'  => $product->getPosition()
+            );
+        }
+        return $products;
     }
 
     public function getTabLabel()

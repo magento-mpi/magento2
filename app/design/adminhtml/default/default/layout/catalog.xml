@@ -73,6 +73,9 @@
                         <hidden_input_name>links[related]</hidden_input_name>
                         <reload_param_name>products_related</reload_param_name>
                     </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
                 </reference>
             </block>
         </block>
@@ -95,6 +98,9 @@
                         <hidden_input_name>links[upsell]</hidden_input_name>
                         <reload_param_name>products_upsell</reload_param_name>
                     </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
                 </reference>
             </block>
         </block>
@@ -116,6 +122,9 @@
                         <data_callback>getSelectedCrossSellProducts</data_callback>
                         <hidden_input_name>links[crosssell]</hidden_input_name>
                         <reload_param_name>products_crosssell</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
                     </action>
                 </reference>
             </block>
@@ -152,6 +161,10 @@ Layout handle for grouped products
                         <data_callback>getSelectedGroupedProducts</data_callback>
                         <hidden_input_name>links[grouped]</hidden_input_name>
                         <reload_param_name>products_grouped</reload_param_name>
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>qty</input_name>
+                        <input_name>position</input_name>
                     </action>
                 </reference>
             </block>

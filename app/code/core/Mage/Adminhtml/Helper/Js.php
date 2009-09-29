@@ -53,15 +53,14 @@ class Mage_Adminhtml_Helper_Js extends Mage_Core_Helper_Js
      */
     public function decodeGridSerializedInput($encoded)
     {
-        $isSimplified = (strpos($encoded, '=') === false);
+        $isSimplified = (false === strpos($encoded, '='));
         $result = array();
         parse_str($encoded, $decoded);
         foreach($decoded as $key => $value) {
             if (is_numeric($key)) {
                 if ($isSimplified) {
                     $result[] = $key;
-                }
-                else {
+                } else {
                     $result[$key] = null;
                     parse_str(base64_decode($value), $result[$key]);
                 }

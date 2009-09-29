@@ -232,7 +232,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
     {
         $products = $this->getProductsUpsell();
         if (!is_array($products)) {
-            $products = $this->getSelectedUpsellProducts();
+            $products = array_keys($this->getSelectedUpsellProducts());
         }
         return $products;
     }
@@ -244,7 +244,11 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Upsell extends Mage_Adminhtm
      */
     public function getSelectedUpsellProducts()
     {
-        return Mage::registry('current_product')->getUpSellProductIds();
+        $products = array();
+        foreach (Mage::registry('current_product')->getUpSellProducts() as $product) {
+            $products[$product->getId()] = array('position' => $product->getPosition());
+        }
+        return $products;
     }
 
 }

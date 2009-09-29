@@ -219,7 +219,9 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
      */
     public function getGridUrl()
     {
-        return $this->getData('grid_url') ? $this->getData('grid_url') : $this->getUrl('*/*/relatedGrid', array('_current'=>true));
+        return $this->getData('grid_url')
+            ? $this->getData('grid_url')
+            : $this->getUrl('*/*/relatedGrid', array('_current'=>true));
     }
 
     /**
@@ -231,7 +233,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
     {
         $products = $this->getProductsRelated();
         if (!is_array($products)) {
-            $products = $this->getSelectedRelatedProducts();
+            $products = array_keys($this->getSelectedRelatedProducts());
         }
         return $products;
     }
@@ -243,6 +245,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Related extends Mage_Adminht
      */
     public function getSelectedRelatedProducts()
     {
-        return Mage::registry('current_product')->getRelatedProductIds();
+        $products = array();
+        foreach (Mage::registry('current_product')->getRelatedProducts() as $product) {
+            $products[$product->getId()] = array('position' => $product->getPosition());
+        }
+        return $products;
     }
 }

@@ -234,7 +234,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
     {
         $products = $this->getProductsCrossSell();
         if (!is_array($products)) {
-            $products = $this->getSelectedCrossSellProducts();
+            $products = array_keys($this->getSelectedCrossSellProducts());
         }
         return $products;
     }
@@ -246,6 +246,10 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tab_Crosssell extends Mage_Admin
      */
     public function getSelectedCrossSellProducts()
     {
-        return Mage::registry('current_product')->getCrossSellProductIds();
+        $products = array();
+        foreach (Mage::registry('current_product')->getCrossSellProducts() as $product) {
+            $products[$product->getId()] = array('position' => $product->getPosition());
+        }
+        return $products;
     }
 }
