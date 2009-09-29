@@ -396,14 +396,16 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     {
         $model = Mage::registry('current_tag');
         if ($model) {
-            $storeIds = $model->getVisibleInStoreIds();
+            $storeIds = (array)$model->getVisibleInStoreIds();
             // Remove admin store with id 0
-            $storeIds = array_filter($storeIds);
-            if ($model->getId() && !$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
-                $block = $observer->getEvent()->getBlock();
-                $block->removeButton('save');
-                $block->removeButton('save_and_edit_button');
-                $block->removeButton('delete');
+            if ($model->getId()){
+                $storeIds = array_filter($storeIds);
+                if (!$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+                    $block = $observer->getEvent()->getBlock();
+                    $block->removeButton('save');
+                    $block->removeButton('save_and_edit_button');
+                    $block->removeButton('delete');
+                }
             }
         }
 
