@@ -404,6 +404,7 @@ h1#logo                 { float:left; }
 .sidebar .actions               { margin-top:0; border-top:1px solid #ddd; padding-top:5px; }
 
 /* Sidebar Blocks */
+.mini-product-tags ul               { font-size:13px; }
 .mini-product-tags li               { display:inline; padding-right:4px; line-height:1.5em; }
 .mini-product-tags li:after         { display:inline!important; }
 .mini-product-tags .content a,
