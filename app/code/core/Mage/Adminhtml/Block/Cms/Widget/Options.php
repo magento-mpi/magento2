@@ -76,7 +76,8 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
             return $this->_getData('main_fieldset');
         }
         $fieldset = $this->getForm()->addFieldset('options_fieldset', array(
-            'legend'    => $this->helper('cms')->__('Widget Options')
+            'legend'    => $this->helper('cms')->__('Widget Options'),
+            'class'     => 'fieldset-wide'
         ));
         $this->setData('main_fieldset', $fieldset);
         return $fieldset;
