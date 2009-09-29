@@ -240,6 +240,7 @@ tr.td-noborder td { border:0; }
 .small-buttons button span { font-size:11px; }
 
 .price-box .price { font-weight:bold; white-space:nowrap; }
+.old-price { text-decoration:line-through; }
 
 .product-collateral { margin:10px 0; }
 .product-collateral .up-sell .product-image {}
