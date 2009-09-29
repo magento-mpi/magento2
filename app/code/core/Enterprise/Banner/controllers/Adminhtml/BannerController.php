@@ -84,14 +84,14 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         // check if data sent
         if ($data = $this->getRequest()->getPost()) {
             if (isset($data['banner_catalog_rules'])) {
-                $related = Mage::helper('adminhtml/js')->decodeGridSearializedInput($data['banner_catalog_rules']);
+                $related = Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['banner_catalog_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
                 }
                 $data['banner_catalog_rules'] = $related;
             }
             if (isset($data['banner_sales_rules'])) {
-                $related = Mage::helper('adminhtml/js')->decodeGridSearializedInput($data['banner_sales_rules']);
+                $related = Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['banner_sales_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
                 }
