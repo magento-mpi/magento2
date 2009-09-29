@@ -51,7 +51,6 @@ class Mage_Tag_IndexController extends Mage_Core_Controller_Front_Action
             } else {
                 try {
                     $customerId = Mage::getSingleton('customer/session')->getCustomerId();
-                    $tagName = urldecode($tagName);
                     $tagNamesArr = explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
 
                     foreach( $tagNamesArr as $key => $tagName ) {
