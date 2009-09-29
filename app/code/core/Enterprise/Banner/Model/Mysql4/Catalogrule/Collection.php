@@ -27,13 +27,27 @@
 class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_CatalogRule_Model_Mysql4_Rule_Collection
 {
     /**
-     * Reset collection columns
+     * Define if banner filter is already called
+     *
+     * @var bool
+     */
+    protected $_isBannerFilterAdded = false;
+
+    /**
+     * Define if customer segment filter is already called
+     *
+     * @var bool
+     */
+    protected $_isCustomerSegmentFilterAdded = false;
+
+    /**
+     * Reset collection select
      *
      * @return Enterprise_Banner_Model_Mysql4_Catalogrule_Collection
      */
-    public function resetColumns()
+    public function resetSelect()
     {
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
+        $this->getSelect()->reset();
         return $this;
     }
 
@@ -42,21 +56,14 @@ class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_Catalog
      *
      * @param int $websiteId
      * @param int $customerGroupId
-     * @param string $now
      * @return Enterprise_Banner_Model_Mysql4_Catalogrule_Collection
      */
-    public function setRuleValidationFilter($websiteId, $customerGroupId, $now=null)
+    public function addAppliedRuleFilter($websiteId, $customerGroupId)
     {
-        $select = $this->getSelect();
-        if (is_null($now)) {
-            $now = Mage::getModel('core/date')->date('Y-m-d');
-        }
-        $select->where('is_active=1');
-        $select->where('find_in_set(?, website_ids)', (int)$websiteId);
-        $select->where('find_in_set(?, customer_group_ids)', (int)$customerGroupId);
-        $select->where('from_date is null or from_date<=?', $now);
-        $select->where('to_date is null or to_date>=?', $now);
-
+        $this->getSelect()
+            ->from(array('rule_group_website' => $this->getTable('catalogrule/rule_group_website')), array())
+            ->where('rule_group_website.customer_group_id = ?', $customerGroupId)
+            ->where('rule_group_website.website_id = ?', $websiteId);
         return $this;
     }
 
@@ -66,23 +73,47 @@ class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_Catalog
      * @param bool $enabledOnly if true then only enabled banners will be joined
      * @return Enterprise_Banner_Model_Mysql4_Catalogrule_Collection
      */
-    public function setBannersFilter($enabledOnly = false)
+    public function addBannersFilter($enabledOnly = false)
     {
-        $select = $this->getSelect();
-        $select->join(
-                array('banner_rules' => $this->getTable('enterprise_banner/catalogrule')),
-                'banner_rules.rule_id = main_table.rule_id',
-                array('banner_id')
-             );
-        if ($enabledOnly) {
+        if (!$this->_isBannerFilterAdded) {
+        	$select = $this->getSelect();
             $select->join(
-                    array('banners' => $this->getTable('enterprise_banner/banner')),
-                    'banners.banner_id = banner_rules.banner_id AND banners.is_enabled=1',
-                    array()
+                    array('rule_related_banners' => $this->getTable('enterprise_banner/catalogrule')),
+                    'rule_related_banners.rule_id = rule_group_website.rule_id',
+                    array('banner_id')
                  );
-        }
-        $select->group('banner_rules.banner_id');
+            if ($enabledOnly) {
+                $select->join(
+                        array('banners' => $this->getTable('enterprise_banner/banner')),
+                        'banners.banner_id = rule_related_banners.banner_id AND banners.is_enabled=1',
+                        array()
+                     );
+            }
+            $select->group('rule_related_banners.banner_id');
 
+            $this->_isBannerFilterAdded = true;
+        }
+        return $this;
+    }
+
+    /**
+     * Filter banners by customer segments
+     *
+     * @param array $matchedCustomerSegments
+     * @return Enterprise_Banner_Model_Mysql4_Catalogrule_Collection
+     */
+    public function addCustomerSegmentFilter($matchedCustomerSegments)
+    {
+        if (!$this->_isCustomerSegmentFilterAdded && !empty($matchedCustomerSegments)) {
+            $select = $this->getSelect();
+        	$select->joinLeft(
+                array('banner_segments' => $this->getTable('enterprise_banner/customersegment')),
+                'banners.banner_id = banner_segments.banner_id',
+                array()
+            );
+            $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)', $matchedCustomerSegments);
+            $this->_isCustomerSegmentFilterAdded = true;
+        }
         return $this;
     }
 }

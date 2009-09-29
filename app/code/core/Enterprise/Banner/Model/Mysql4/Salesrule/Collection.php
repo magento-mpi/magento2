@@ -27,82 +27,81 @@
 class Enterprise_Banner_Model_Mysql4_Salesrule_Collection extends Mage_SalesRule_Model_Mysql4_Rule_Collection
 {
     /**
-     * Reset collection columns
+     * Define if banner filter is already called
+     *
+     * @var bool
+     */
+    protected $_isBannerFilterAdded = false;
+
+    /**
+     * Define if customer segment filter is already called
+     *
+     * @var bool
+     */
+    protected $_isCustomerSegmentFilterAdded = false;
+
+    /**
+     * Reset collection select
      *
      * @return Enterprise_Banner_Model_Mysql4_Salesrule_Collection
      */
     public function resetColumns()
     {
-        $this->getSelect()->reset(Zend_Db_Select::COLUMNS);
-        return $this;
-    }
-
-    /**
-     * Apply only valid rules
-     *
-     * @param int $websiteId
-     * @param int $customerGroupId
-     * @param int $customerId
-     * @param string $now
-     * @return Enterprise_Banner_Model_Mysql4_Salesrule_Collection
-     */
-    public function setRuleValidationFilter($websiteId, $customerGroupId, $customerId, $now=null)
-    {
-        $select = $this->getSelect();
-        if (is_null($now)) {
-            $now = Mage::getModel('core/date')->date('Y-m-d');
-        }
-
-        //Join salesrule customer to check times used per customer
-        $select->joinLeft(
-            array('customer_rules' => $this->getTable('salesrule/rule_customer')),
-            $this->getConnection()->quoteInto('(customer_rules.rule_id = main_table.rule_id AND customer_rules.customer_id = ?)', $customerId),
-            array()
-        );
-
-        //Coupon code validation
-        $select->where("(
-                           (coupon_code != '' AND coupon_code IS NOT NULL) AND
-                           (
-                               (main_table.times_used < uses_per_coupon) AND
-                               (customer_rules.rule_customer_id IS NULL OR customer_rules.times_used < uses_per_customer)
-                           )
-                       ) OR
-                       (coupon_code = '') OR
-                       (coupon_code IS NULL)");
-
-        $select->where('is_active=1');
-        $select->where('find_in_set(?, website_ids)', (int)$websiteId);
-        $select->where('find_in_set(?, customer_group_ids)', (int)$customerGroupId);
-        $select->where('from_date is null or from_date<=?', $now);
-        $select->where('to_date is null or to_date>=?', $now);
-        $select->order('sort_order');
-
+        $this->getSelect()->reset();
         return $this;
     }
 
     /**
      * Set related banners to sales rule
      *
+     * @param array $aplliedRules
      * @param bool $enabledOnly if true then only enabled banners will be joined
      * @return Enterprise_Banner_Model_Mysql4_Salesrule_Collection
      */
-    public function setBannersFilter($enabledOnly = false)
+    public function addBannersFilter($aplliedRules, $enabledOnly = false)
     {
-        $select = $this->getSelect();
-        $select->join(
-            array('banner_rules' => $this->getTable('enterprise_banner/salesrule')),
-            'banner_rules.rule_id = main_table.rule_id',
-            array('banner_id')
-        );
-        if ($enabledOnly) {
-            $select->join(
-                array('banners' => $this->getTable('enterprise_banner/banner')),
-                'banners.banner_id = banner_rules.banner_id AND banners.is_enabled=1',
+        if (!$this->_isBannerFilterAdded) {
+            $select = $this->getSelect();
+            $select->from(
+                array('rule_related_banners' => $this->getTable('enterprise_banner/salesrule')),
+                array('banner_id')
+            );
+            if(empty($aplliedRules)){
+                $aplliedRules = array(0);
+            }
+            $select->where('rule_related_banners.rule_id IN (?)', $aplliedRules);
+            if ($enabledOnly) {
+                $select->join(
+                    array('banners' => $this->getTable('enterprise_banner/banner')),
+                    'banners.banner_id = rule_related_banners.banner_id AND banners.is_enabled=1',
+                    array()
+                );
+            }
+            $select->group('rule_related_banners.banner_id');
+
+            $this->_isBannerFilterAdded = true;
+        }
+        return $this;
+    }
+
+    /**
+     * Filter banners by customer segments
+     *
+     * @param array $matchedCustomerSegments
+     * @return Enterprise_Banner_Model_Mysql4_Salesrule_Collection
+     */
+    public function addCustomerSegmentFilter($matchedCustomerSegments)
+    {
+        if (!$this->_isCustomerSegmentFilterAdded && !empty($matchedCustomerSegments)) {
+            $select = $this->getSelect();
+        	$select->joinLeft(
+                array('banner_segments' => $this->getTable('enterprise_banner/customersegment')),
+                'banners.banner_id = banner_segments.banner_id',
                 array()
             );
+            $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)', $matchedCustomerSegments);
+            $this->_isCustomerSegmentFilterAdded = true;
         }
-        $select->group('banner_rules.banner_id');
         return $this;
     }
 }

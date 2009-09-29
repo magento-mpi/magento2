@@ -36,6 +36,11 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
 
+    /**
+     * Set form id prefix, add customer segment binding, set values if banner is editing
+     *
+     * @return Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
@@ -73,6 +78,13 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
             ),
         ));
 
+        $fieldset->addField('customer_segments_ids', 'multiselect', array(
+            'name'      => 'customer_segments_ids',
+            'label'     => Mage::helper('enterprise_banner')->__('Customer Segments'),
+            'title'     => Mage::helper('enterprise_banner')->__('Customer Segments'),
+            'values'    => Mage::getResourceSingleton('enterprise_customersegment/segment_collection')->toOptionArray(),
+            'can_be_empty' => true
+        ));
 
         $form->setValues($model->getData());
         $this->setForm($form);

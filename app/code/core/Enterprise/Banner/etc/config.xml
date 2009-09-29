@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Banner>
-             <version>1.6.0.0.2</version>
+             <version>1.6.0.0.3</version>
         </Enterprise_Banner>
     </modules>
 
@@ -43,6 +43,7 @@
                 <entities>
                     <banner><table>enterprise_banner</table></banner>
                     <content><table>enterprise_banner_content</table></content>
+                    <customersegment><table>enterprise_banner_customersegment</table></customersegment>
                     <catalogrule><table>enterprise_banner_catalogrule</table></catalogrule>
                     <salesrule><table>enterprise_banner_salesrule</table></salesrule>
                 </entities>

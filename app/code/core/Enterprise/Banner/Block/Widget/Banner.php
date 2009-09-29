@@ -176,15 +176,18 @@ class Enterprise_Banner_Block_Widget_Banner
     public function getBannersContent()
     {
         $banenrsContent = array();
+        $aplliedRules = null;
 
         //Choose display mode
         switch ($this->getDisplayMode()) {
 
             case self::BANNER_WIDGET_DISPLAY_SALESRULE:
+                if (Mage::getSingleton('checkout/session')->getQuoteId()) {
+                    $aplliedRules = explode(',', Mage::getSingleton('checkout/session')->getQuote()->getAppliedRuleIds());
+                }
                 $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds(
-                    Mage::app()->getWebsite()->getId(),
-                    Mage::getSingleton('customer/session')->getCustomerGroupId(),
-                    Mage::getSingleton('customer/session')->getCustomerId()
+                    Mage::getSingleton('enterprise_customersegment/segment')->getMatchedSegmentsByCustomer(),
+                    $aplliedRules
                 );
                 $banenrsContent = $this->_getBannersContent($bannerIds);
                 break;
@@ -192,7 +195,8 @@ class Enterprise_Banner_Block_Widget_Banner
             case self::BANNER_WIDGET_DISPLAY_CATALOGRULE:
                 $bannerIds = $this->_bannerResource->getCatalogRuleRelatedBannerIds(
                     Mage::app()->getWebsite()->getId(),
-                    Mage::getSingleton('customer/session')->getCustomerGroupId()
+                    Mage::getSingleton('customer/session')->getCustomerGroupId(),
+                    Mage::getSingleton('enterprise_customersegment/segment')->getMatchedSegmentsByCustomer()
                 );
                 $banenrsContent = $this->_getBannersContent($bannerIds);
                 break;

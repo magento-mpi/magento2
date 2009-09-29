@@ -197,6 +197,12 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
                 $this->getBannerSalesRules()
             );
         }
+        if ($this->hasCustomerSegmentsIds()) {
+            $this->_getResource()->saveCustomerSegments(
+                $this->getId(),
+                $this->getCustomerSegmentsIds()
+            );
+        }
         return parent::_afterSave();
     }
 }
