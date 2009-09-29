@@ -67,9 +67,11 @@
                     <?php echo $this->getAttributeYesNoElement($_attribute) ?>
                 <?php break;
                 case 'date': ?>
+                <div class="range">
                     <?php echo $this->getDateInput($_attribute, 'from') ?>
                     -
                     <?php echo $this->getDateInput($_attribute, 'to') ?>
+                </div>
                 <?php break;
                 default: ?>
                 <input type="text" name="<?php echo $_code ?>" id="<?php echo $_code ?>" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute)) ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text <?php echo $this->getAttributeValidationClass($_attribute) ?>" />
