@@ -126,16 +126,20 @@
     function togglecardType() {
         if ($('weight') != undefined) {
             var weight = $('weight');
+            var span = weight.up('tr').down('td').down('label > span');
             if ($('giftcard_type').value == '0') {
                 while(weight.hasClassName('required-entry')) {
                     weight.removeClassName('required-entry');
                 }
-            } else {
-                weight.addClassName('required-entry');
+                if (span != undefined) {
+                    span.hide();
+                }
             }
-            var span = weight.up('tr').down('td').down('label > span');
-            if (span != undefined) {
-                span.toggle();
+            else {
+                weight.addClassName('required-entry');
+                if (span != undefined) {
+                    span.show();
+                }
             }
         }
     }
