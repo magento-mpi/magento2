@@ -155,4 +155,14 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
         $this->_protectFromNonAdmin();
         return parent::_beforeDelete();
     }
+
+    /**
+     * Check if current review approved or not
+     *
+     * @return bool
+     */
+    public function isApproved()
+    {
+        return $this->getStatusId() != Mage_Review_Model_Review::STATUS_APPROVED;
+    }
 }

@@ -134,7 +134,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
         $review = Mage::getModel('review/review')->load($reviewId);
         /* @var $review Mage_Review_Model_Review */
-        if (!$review->getId() || $review->getStatusId() != Mage_Review_Model_Review::STATUS_APPROVED) {
+        if (!$review->getId() || $review->isApproved()) {
             return false;
         }
 
@@ -247,15 +247,13 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
     {
         $review = $this->_loadReview((int) $this->getRequest()->getParam('id'));
         if (!$review) {
-            Mage::getSingleton('core/session')->addError($this->__('Unable to load review. Please, try again later.'));
-            $this->_redirectReferer();
+            $this->_forward('noroute');
             return;
         }
 
         $product = $this->_loadProduct($review->getEntityPkValue());
         if (!$product) {
-            Mage::getSingleton('core/session')->addError($this->__('Unable to load product. Please, try again later.'));
-            $this->_redirectReferer();
+            $this->_forward('noroute');
             return;
         }
 
