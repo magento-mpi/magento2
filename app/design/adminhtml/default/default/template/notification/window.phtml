@@ -31,33 +31,36 @@
 ?>
 <?php if ($this->canShow()): ?>
 <script type="text/javascript">
+//<![CDATA[
     function openMessagePopup() {
+	    var height = $('html-body').getHeight();
+		$('message-popup-window-mask').setStyle({'height':height+'px'});
         toggleSelectsUnderBlock($('message-popup-window-mask'), false);
         Element.show('message-popup-window-mask');
+        $('message-popup-window').addClassName('show');
     }
 
     function closeMessagePopup() {
         toggleSelectsUnderBlock($('message-popup-window-mask'), true);
         Element.hide('message-popup-window-mask');
+        $('message-popup-window').removeClassName('show');
     }
 
     Event.observe(window, 'load', openMessagePopup);
+//]]>
 </script>
-<div id="message-popup-window-mask" style="display:none;">
-    <div style="width:600px; border:2px solid red; margin-left:auto; margin-right:auto; margin-top:300px;">
-        headerText=<b><?php echo $this->getHeaderText(); ?></b><br>
-        closeText=<?php echo $this->getCloseText(); ?><br>
-        readDetailsText=<?php echo $this->getReadDetailsText(); ?><br>
-        noticeText=<?php echo $this->getNoticeText(); ?><br>
-        minorText=<?php echo $this->getMinorText(); ?><br>
-        majorText=<?php echo $this->getMajorText(); ?><br>
-        criticalText=<?php echo $this->getCriticalText(); ?><br>
-        messageText=<?php echo $this->getNoticeMessageText(); ?><br>
-        detailsUrl=<?php echo $this->getNoticeMessageUrl(); ?><br>
-        swfObjectUrl=<?php echo $this->getObjectUrl(); ?><br>
-        link to image = <?php echo $this->getSeverityIconsUrl() ?>
-        <br>
-        <button type="button" onclick="closeMessagePopup();return false;"><?php echo $this->getCloseText(); ?></button>
+<div id="message-popup-window-mask" style="display:none;"></div>
+<div id="message-popup-window" class="message-popup">
+    <div class="message-popup-head">
+        <a href="#" onclick="closeMessagePopup(); return false;" title="<?php echo $this->getCloseText(); ?>"><span><?php echo $this->getCloseText(); ?></span></a>
+        <h2><?php echo $this->getHeaderText(); ?></h2>
+    </div>
+    <div class="message-popup-content">
+        <div class="message">
+            <span class="message-icon message-<?php echo $this->getSeverityText();?>" style="background-image:url(<?php echo $this->getSeverityIconsUrl() ?>);"><?php echo $this->getSeverityText();?></span>
+            <p class="message-text"><?php echo $this->getNoticeMessageText(); ?></p>
+        </div>
+        <p class="read-more"><a href="<?php echo $this->getNoticeMessageUrl(); ?>" onclick="this.target='_blank';"><?php echo $this->getReadDetailsText(); ?></a></p>
     </div>
 </div>
 <?php endif; ?>
