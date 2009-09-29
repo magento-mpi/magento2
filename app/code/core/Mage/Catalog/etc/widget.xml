@@ -76,7 +76,42 @@
                     <label>Anchor Title</label>
                     <type>text</type>
                 </title>
+                <template translate="label">
+                    <label>Template</label>
+                    <visible>1</visible>
+                    <type>select</type>
+                    <value>core/link.phtml</value>
+                    <values>
+                        <default translate="label">
+                            <value>core/link.phtml</value>
+                            <label>Default Template</label>
+                        </default>
+                    </values>
+                </template>
             </parameters>
+            <supported_blocks>
+                <left_column>
+                    <!-- block name in layout -->
+                    <block_name>left</block_name>
+                    <!-- list of available templates for current block -->
+                    <template>
+                        <!-- default template in widget parameters select type -->
+                        <simple>default</simple>
+                    </template>
+                </left_column>
+                <right_column>
+                    <block_name>right</block_name>
+                    <template>
+                        <simple>default</simple>
+                    </template>
+                </right_column>
+                <content>
+                    <block_name>content</block_name>
+                    <template>
+                        <simple>default</simple>
+                    </template>
+                </content>
+            </supported_blocks>
         </catalog_product_link>
 
         <catalog_category_link type="catalog/category_widget_link" translate="name description" module="catalog">
