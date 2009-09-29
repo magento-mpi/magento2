@@ -166,12 +166,7 @@ Ext.onReady(function()
 
     if (useMassaction) {
         tree<?php echo $this->getId() ?>.on('check', function(node) {
-            if (node.attributes.checked) {
-                eventName = 'node:checked';
-            } else {
-                eventName = 'node:unchecked';
-            }
-            $('<?php echo $_divId ?>').fire(eventName, {node:node});
+            $('<?php echo $_divId; ?>').fire('node:changed', {node:node});
         }, tree<?php echo $this->getId() ?>);
     }
 
