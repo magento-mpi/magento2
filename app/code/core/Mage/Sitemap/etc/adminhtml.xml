@@ -43,7 +43,7 @@
                 <children>
                     <catalog>
                         <children>
-                            <sitemap translate="title" modul="sitemap">
+                            <sitemap translate="title" module="sitemap">
                                 <title>Google Sitemap</title>
                             </sitemap>
                         </children>
@@ -52,7 +52,7 @@
                         <children>
                             <config>
                                 <children>
-                                    <sitemap translate="title" modul="shipping">
+                                    <sitemap translate="title" module="shipping">
                                         <title>Google Sitemap Section</title>
                                     </sitemap>
                                 </children>
