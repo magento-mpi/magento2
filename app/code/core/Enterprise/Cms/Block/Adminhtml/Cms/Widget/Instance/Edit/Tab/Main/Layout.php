@@ -196,41 +196,46 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main_Layout
     }
 
     /**
-     * Generate array of parameters for given container type to create html template
+     * Generate array of parameters for every container type to create html template
      *
-     * @param string $type
      * @return array
      */
-    public function getDisplayOnContainers($type)
+    public function getDisplayOnContainers()
     {
         $container = array();
-        switch ($type) {
-            case 'categories':
-                $container['anchor'] = array(
-                    'name' => 'anchor_categories',
-                    'layout_handle' => 'default,catalog_category_layered',
-                    'is_anchor_only' => 1
-                );
-                $container['notanchor'] = array(
-                    'name' => 'notanchor_categories',
-                    'layout_handle' => 'default,catalog_category_default',
-                    'is_anchor_only' => 0
-                );
-                break;
-            case 'products':
-                $container['all_products'] = array(
-                    'name' => 'all_products',
-                    'layout_handle' => 'default,catalog_product_view',
-                    'product_type_id' => ''
-                );
-                foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
-                    $container[$typeId] = array(
-                        'name' => $typeId . '_products',
-                        'layout_handle' => 'default,catalog_product_view,PRODUCT_TYPE_'.$typeId,
-                        'product_type_id' => $typeId
-                    );
-                }
-                break;
+        $container['anchor'] = array(
+            'label' => 'Categories',
+            'code' => 'categories',
+            'name' => 'anchor_categories',
+            'layout_handle' => 'default,catalog_category_layered',
+            'is_anchor_only' => 1,
+            'product_type_id' => ''
+        );
+        $container['notanchor'] = array(
+            'label' => 'Categories',
+            'code' => 'categories',
+            'name' => 'notanchor_categories',
+            'layout_handle' => 'default,catalog_category_default',
+            'is_anchor_only' => 0,
+            'product_type_id' => ''
+        );
+        $container['all_products'] = array(
+            'label' => 'Products',
+            'code' => 'products',
+            'name' => 'all_products',
+            'layout_handle' => 'default,catalog_product_view',
+            'is_anchor_only' => '',
+            'product_type_id' => ''
+        );
+        foreach (Mage_Catalog_Model_Product_Type::getTypes() as $typeId => $type) {
+            $container[$typeId] = array(
+                'label' => 'Products',
+                'code' => 'products',
+                'name' => $typeId . '_products',
+                'layout_handle' => 'default,catalog_product_view,PRODUCT_TYPE_'.$typeId,
+                'is_anchor_only' => '',
+                'product_type_id' => $typeId
+            );
         }
         return $container;
     }

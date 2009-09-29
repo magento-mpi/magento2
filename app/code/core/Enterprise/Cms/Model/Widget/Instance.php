@@ -317,12 +317,12 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
         if ($this->_widgetConfigXml === null) {
             $this->_widgetConfigXml = Mage::getSingleton('cms/widget')
                 ->getXmlElementByType($this->getType());
-            $configFile = Mage::app()->getConfig()->getOptions()->getDesignDir()
-                . DS . $this->getArea()
-                . DS . $this->getPackage()
-                . DS . $this->getTheme()
-                . DS . 'widget'
-                . DS . 'config.xml';
+            $configFile = Mage::getSingleton('core/design_package')->getBaseDir(array(
+                '_area'    => $this->getArea(),
+                '_package' => $this->getPackage(),
+                '_theme'   => $this->getTheme(),
+                '_type'    => 'widget'
+            )) . DS . 'config.xml';
             if (is_readable($configFile)) {
                 $themeConfig = new Varien_Simplexml_Config();
                 $themeConfig->loadFile($configFile);
@@ -413,7 +413,15 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function generateLayoutUpdateXml($blockReference, $templatePath = null, $position = 'before')
     {
-        if (!$this->getId() && !$this->isCompleteToCreate()) {
+        $templatesDir = Mage::getSingleton('core/design_package')->getBaseDir(array(
+            '_area'    => $this->getArea(),
+            '_package' => $this->getPackage(),
+            '_theme'   => $this->getTheme(),
+            '_type'    => 'template'
+        ));
+        if (!$this->getId() && !$this->isCompleteToCreate()
+            || ($templatePath && !is_readable($templatesDir . DS . $templatePath)))
+        {
             return '';
         }
         $parameters = $this->getWidgetParameters();

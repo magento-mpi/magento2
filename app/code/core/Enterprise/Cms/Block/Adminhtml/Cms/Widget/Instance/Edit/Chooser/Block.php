@@ -152,7 +152,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
         $selectBlock = $this->getLayout()->createBlock('core/html_select')
             ->setName('block')
             ->setClass('required-entry')
-            ->setExtraParams('onchange="WidgetInstance.showTemplateChooser(this.up(\'div.group_container\'), this.value)"')
+            ->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_template\', this.up(\'div.group_container\'), this.value)"')
             ->setOptions($this->getBlocks())
             ->setValue($this->getSelected());
         return parent::_toHtml().$selectBlock->toHtml();
@@ -210,7 +210,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
      *
      * @param Mage_Core_Model_Layout_Element $layoutHandles
      */
-    protected function _collectBlocks($layoutHandles = null)
+    protected function _collectBlocks()
     {
 //        foreach ($this->getLayoutHandle() as $handle) {
 //            $wildCard = "//{$handle}//block/label/..";

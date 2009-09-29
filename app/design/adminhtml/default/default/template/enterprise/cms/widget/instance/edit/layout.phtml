@@ -38,8 +38,8 @@
                             <label for="widget_instance[{{id}}][page_group]">Display On <span class="required">*</span></label>
                             <?php echo $this->getDisplayOnSelectHtml() ?>
                         </div>
-                        <?php foreach ($this->getDisplayOnContainers('categories') as $container): ?>
-                            <div class="no-display categories group_container" id="<?php echo $container['name'] ?>_{{id}}">
+                        <?php foreach ($this->getDisplayOnContainers() as $container): ?>
+                            <div class="no-display <?php echo $container['code'] ?> group_container" id="<?php echo $container['name'] ?>_{{id}}">
                                 <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][<?php echo $container['name'] ?>]" />
                                 <input type="hidden" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][page_id]" value="{{page_id}}" />
                                 <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][layout_handle]" value="<?php echo $container['layout_handle'] ?>" />
@@ -50,9 +50,10 @@
                                     <col />
                                     <thead>
                                         <tr>
-                                            <th><label>Categories</label></th>
-                                            <th><label>Block Reference <span class="required">*</span></label></th>
-                                            <th><label for="position">Position</label></th>
+                                            <th><label><?php echo Mage::helper('enterprise_cms')->__('%s', $container['label']) ?></label></th>
+                                            <th><label><?php echo Mage::helper('enterprise_cms')->__('Block Reference') ?> <span class="required">*</span></label></th>
+                                            <th><label><?php echo Mage::helper('enterprise_cms')->__('Template') ?></label></th>
+                                            <th><label for="position"><?php echo Mage::helper('enterprise_cms')->__('Position') ?></label></th>
                                             <th>&nbsp;</th>
                                         </tr>
                                     </thead>
@@ -60,62 +61,13 @@
                                         <tr>
                                             <td>
                                                 <input type="radio" class="radio for_all" id="all_<?php echo $container['name'] ?>" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="all" onclick="WidgetInstance.togglePageGroupChooser(this)" checked="checked" />&nbsp;
-                                                <label for="all_<?php echo $container['name'] ?>">All</label>&nbsp;&nbsp;&nbsp;
+                                                <label for="all_<?php echo $container['name'] ?>"><?php echo Mage::helper('enterprise_cms')->__('All') ?></label>&nbsp;&nbsp;&nbsp;
                                                 <input type="radio" class="radio for_specific" id="specific_<?php echo $container['name'] ?>" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />&nbsp;
-                                                <label for="specific_<?php echo $container['name'] ?>">Specific Categories</label>
+                                                <label for="specific_<?php echo $container['name'] ?>"><?php echo Mage::helper('enterprise_cms')->__('Specific %s', $container['label']) ?></label>
                                                 <div class="no-display chooser_container" id="<?php echo $container['name'] ?>_ids_{{id}}">
                                                     <input type="hidden" class="is_anchor_only" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][is_anchor_only]" value="<?php echo $container['is_anchor_only'] ?>" />
-                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{<?php echo $container['name'] ?>_entities}}" readonly="readonly" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideCategoriesChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
-                                                    <div class="chooser"></div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="block_reference_container">
-                                                    <div class="block_reference"></div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="position">
-                                                    <select class="position" id="position" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][position]">
-                                                        <option value="before" selected="selected">First</option>
-                                                        <option value="after">Last</option>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <?php endforeach; ?>
-                        <?php foreach ($this->getDisplayOnContainers('products') as $container): ?>
-                            <div class="no-display products group_container" id="<?php echo $container['name'] ?>_{{id}}">
-                                <input type="hidden" class="container_name" name="__[container_name]" value="widget_instance[{{id}}][<?php echo $container['name'] ?>]" />
-                                <input type="hidden" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][page_id]" value="{{page_id}}" />
-                                <input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][layout_handle]" value="<?php echo $container['layout_handle'] ?>" />
-                                <table cellspacing="0" class="option-header">
-                                    <col width="350" />
-                                    <col width="220" />
-                                    <col width="120" />
-                                    <col />
-                                    <thead>
-                                        <tr>
-                                            <th><label>Products</label></th>
-                                            <th><label>Block Reference <span class="required">*</span></label></th>
-                                            <th><label>Template</label></th>
-                                            <th><label for="position">Position</label></th>
-                                            <th>&nbsp;</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input type="radio" class="radio for_all" id="all_<?php echo $container['name'] ?>" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="all" checked="checked" onclick="WidgetInstance.togglePageGroupChooser(this)" />&nbsp;
-                                                <label for="all_<?php echo $container['name'] ?>">All</label>&nbsp;&nbsp;&nbsp;
-                                                <input type="radio" class="radio for_specific" id="specific_<?php echo $container['name'] ?>" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][for]" value="specific" onclick="WidgetInstance.togglePageGroupChooser(this)" />&nbsp;
-                                                <label for="specific_<?php echo $container['name'] ?>">Specific Products</label>
-                                                <div class="no-display chooser_container" id="<?php echo $container['name'] ?>_ids_{{id}}">
                                                     <input type="hidden" class="product_type_id" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][product_type_id]" value="<?php echo $container['product_type_id'] ?>" />
-                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{<?php echo $container['name'] ?>_entities}}" readonly="readonly" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideProductsChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
+                                                    <input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{<?php echo $container['name'] ?>_entities}}" readonly="readonly" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayEntityChooser('<?php echo $container['code'] ?>', '<?php echo $container['name'] ?>_ids_{{id}}')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideEntityChooser('<?php echo $container['name'] ?>_ids_{{id}}')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>
                                                     <div class="chooser"></div>
                                                 </div>
                                             </td>
@@ -132,12 +84,11 @@
                                             <td>
                                                 <div class="position">
                                                     <select class="position" id="position" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][position]">
-                                                        <option value="before" selected="selected">First</option>
-                                                        <option value="after">Last</option>
+                                                        <option value="before" selected="selected"><?php echo Mage::helper('enterprise_cms')->__('First') ?></option>
+                                                        <option value="after"><?php echo Mage::helper('enterprise_cms')->__('Last') ?></option>
                                                     </select>
                                                 </div>
                                             </td>
-                                            <td>&nbsp;</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -154,8 +105,9 @@
                                 <col />
                                 <thead>
                                     <tr>
-                                        <th><label>Block Reference <span class="required">*</span></label></th>
-                                        <th><label for="position">Position</label></th>
+                                        <th><label><?php echo Mage::helper('enterprise_cms')->__('Block Reference') ?> <span class="required">*</span></label></th>
+                                        <th><label><?php echo Mage::helper('enterprise_cms')->__('Template') ?></label></th>
+                                        <th><label for="position"><?php echo Mage::helper('enterprise_cms')->__('Position') ?></label></th>
                                         <th>&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -167,10 +119,15 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <div class="block_template_container">
+                                                <div class="block_template"></div>
+                                            </div>
+                                        </td>
+                                        <td>
                                             <div class="position">
                                                 <select class="position" id="position" name="widget_instance[{{id}}][all_pages][position]">
-                                                    <option value="before" selected="selected">First</option>
-                                                    <option value="after">Last</option>
+                                                    <option value="before" selected="selected"><?php echo Mage::helper('enterprise_cms')->__('First') ?></option>
+                                                    <option value="after"><?php echo Mage::helper('enterprise_cms')->__('Last') ?></option>
                                                 </select>
                                             </div>
                                         </td>
@@ -190,9 +147,10 @@
                                 <col />
                                 <thead>
                                     <tr>
-                                        <th><label>Page</label></th>
-                                        <th><label>Block Reference <span class="required">*</span></label></th>
-                                        <th><label>Position</label></th>
+                                        <th><label><?php echo Mage::helper('enterprise_cms')->__('Page') ?> <span class="required">*</span></label></th>
+                                        <th><label><?php echo Mage::helper('enterprise_cms')->__('Block Reference') ?> <span class="required">*</span></label></th>
+                                        <th><label><?php echo Mage::helper('enterprise_cms')->__('Template') ?></label></th>
+                                        <th><label><?php echo Mage::helper('enterprise_cms')->__('Position') ?></label></th>
                                         <th>&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -205,10 +163,15 @@
                                             </div>
                                         </td>
                                         <td>
+                                            <div class="block_template_container">
+                                                <div class="block_template"></div>
+                                            </div>
+                                        </td>
+                                        <td>
                                             <div class="position">
                                                 <select class="position" id="position" name="widget_instance[{{id}}][pages][position]">
-                                                    <option value="before" selected="selected">First</option>
-                                                    <option value="after">Last</option>
+                                                    <option value="before" selected="selected"><?php echo Mage::helper('enterprise_cms')->__('First') ?></option>
+                                                    <option value="after"><?php echo Mage::helper('enterprise_cms')->__('Last') ?></option>
                                                 </select>
                                             </div>
                                         </td>
@@ -265,7 +228,7 @@ var WidgetInstance = {
                         for (var i=0; i < layoutSelect.options.length; i++) {
                             if (layoutSelect.options[i].value == data.layout_handle) {
                                 layoutSelect.options[i].selected = true;
-                                this.showLayoutBlocksReferance(pageGroup, data.layout_handle, {selectedBlock:data.block});
+                                this.loadSelectBoxByType('block_reference', pageGroup, data.layout_handle, {selectedBlock:data.block});
                                 break;
                             }
                         }
@@ -278,7 +241,6 @@ var WidgetInstance = {
                     * to check others radio form elements in future
                     */
                     pageGroup.down('input.for_all').defaultChecked = false;
-
                     forElm.defaultChecked = true;
                     forElm.checked = true;
                     this.togglePageGroupChooser(forElm);
@@ -327,9 +289,9 @@ var WidgetInstance = {
             if (layoutHandleField = container.down('input.layout_handle_pattern')) {
                 layoutHandle = layoutHandleField.value;
             }
-            this.showLayoutBlocksReferance(container, layoutHandle, additional);
+            this.loadSelectBoxByType('block_reference', container, layoutHandle, additional);
         }
-        this.showTemplateChooser(container, additional.selectedBlock, additional);
+        this.loadSelectBoxByType('block_template', container, additional.selectedBlock, additional);
         if ((positionElm = container.down('select.position')) && additional.position) {
             for (var i=0; i<positionElm.options.length; i++) {
                 if(positionElm.options[i].value == additional.position) {
@@ -339,32 +301,22 @@ var WidgetInstance = {
             }
         }
     },
-    displayCategoriesChooser : function(chooser, additional) {
+    displayEntityChooser : function(type, chooser, additional) {
         if (!additional) {
             additional = {};
         }
-        additional.type = 'categories';
-        additional.url = '<?php echo $this->getCategoriesChooserUrl() ?>';
-        additional.post_parameters = $H({'is_anchor_only':$(chooser).down('input.is_anchor_only').value});
-        this.displayChooser(chooser, additional);
-    },
-    hideCategoriesChooser : function(chooser) {
-        chooser = $(chooser).down('div.chooser');
-        if (chooser) {
-            chooser.addClassName('no-display');
-            chooser.hide();
+        if (type == 'categories') {
+            additional.url = '<?php echo $this->getCategoriesChooserUrl() ?>';
+            additional.post_parameters = $H({'is_anchor_only':$(chooser).down('input.is_anchor_only').value});
+        } else if (type == 'products') {
+            additional.url = '<?php echo $this->getProductsChooserUrl() ?>';
+            additional.post_parameters = $H({'product_type_id':$(chooser).down('input.product_type_id').value});
+        }
+        if (chooser && additional) {
+            this.displayChooser(chooser, additional);
         }
     },
-    displayProductsChooser : function(chooser, additional) {
-        if (!additional) {
-            additional = {};
-        }
-        additional.type = 'products';
-        additional.url = '<?php echo $this->getProductsChooserUrl() ?>';
-        additional.post_parameters = $H({'product_type_id':$(chooser).down('input.product_type_id').value});
-        this.displayChooser(chooser, additional);
-    },
-    hideProductsChooser : function(chooser) {
+    hideEntityChooser : function(chooser) {
         chooser = $(chooser).down('div.chooser');
         if (chooser) {
             chooser.addClassName('no-display');
@@ -372,14 +324,12 @@ var WidgetInstance = {
         }
     },
     displayChooser : function(chooser, additional) {
-        var chooser = $(chooser).down('div.chooser');
-        var entities = chooser.up('div.chooser_container').down('input[type="text"].entities').value;
-        var postParameters = $H({selected:entities});
-        var url = '';
-        var type = '';
+        chooser = $(chooser).down('div.chooser');
+        entities = chooser.up('div.chooser_container').down('input[type="text"].entities').value;
+        postParameters = $H({selected:entities});
+        url = '';
         if (additional) {
             if (additional.url) url = additional.url;
-            if (additional.type) type = additional.type;
             if (additional.post_parameters) {
                 additional.post_parameters.each(function(pair){
                     postParameters.set(pair.key,pair.value);
@@ -395,11 +345,6 @@ var WidgetInstance = {
                         try {
                             if (transport.responseText) {
                                 Element.insert(chooser, transport.responseText);
-                                if (type == 'products') {
-                                    chooser.select('input[type="hidden"]').each(function(elm){
-                                        Event.observe(elm, 'change', WidgetInstance.checkEntity.bind(WidgetInstance, chooser));
-                                    });
-                                }
                                 chooser.removeClassName('no-display');
                                 chooser.show();
                             }
@@ -414,37 +359,36 @@ var WidgetInstance = {
             }
         }
     },
-    checkEntity : function(chooser) {
-        value = '';
+    checkProduct : function(event) {
+        chooser = event.target.up('div.chooser')
+        ids = [];
         chooser.select('input[type="checkbox"].entities').each(function(elm){
             if (elm.checked) {
-                if (value) value = value+','+elm.value;
-                else value = elm.value;
+                ids.push(elm.value);
             }
         });
         entitiesElm = chooser.up('div.chooser_container').down('input[type="text"].entities');
         if (entitiesElm) {
-            entitiesElm.setValue(value);
+            entitiesElm.value = ids.join(',');
         }
     },
-    addCategoryEntity : function(event) {
+    checkCategory : function(event) {
         node = event.memo.node;
         container = event.target.up('div.chooser_container');
         value = container.down('input[type="text"].entities').value.strip();
-        if (value) ids = value.split(',');
-        else ids = [];
-        if (-1 == ids.indexOf(node.id)) {
-            ids.push(node.id);
-            container.down('input[type="text"].entities').value = ids.join(',');
-        }
-    },
-    removeCategoryEntity : function(event) {
-        node = event.memo.node;
-        container = event.target.up('div.chooser_container');
-        ids = container.down('input[type="text"].entities').value.split(',');
-        while (-1 != ids.indexOf(node.id)) {
-            ids.splice(ids.indexOf(node.id), 1);
-            container.down('input[type="text"].entities').value = ids.join(',');
+        if (node.attributes.checked) {
+            if (value) ids = value.split(',');
+            else ids = [];
+            if (-1 == ids.indexOf(node.id)) {
+                ids.push(node.id);
+                container.down('input[type="text"].entities').value = ids.join(',');
+            }
+        } else {
+            ids = value.split(',');
+            while (-1 != ids.indexOf(node.id)) {
+                ids.splice(ids.indexOf(node.id), 1);
+                container.down('input[type="text"].entities').value = ids.join(',');
+            }
         }
     },
     togglePageGroupChooser : function(element) {
@@ -459,84 +403,48 @@ var WidgetInstance = {
             }
         }
     },
-    showPageGroupChooser : function(element) {
-        element = $(element);
-        if (element && (chooser = element.next('div.chooser_container'))) {
-            this.showBlockContainer(chooser);
-        }
-    },
-    hidePageGroupChooser : function(element) {
-        element = $(element);
-        if (element && (chooser = element.next('div.chooser_container'))) {
-            this.hideBlockContainer(chooser);
-        }
-    },
-    showLayoutBlocksReferance : function (element, group, additional) {
+    loadSelectBoxByType : function (type, element, value, additional) {
         if (!additional) {
             additional = {};
         }
-        if (element && (blockContainer = element.down('div.block_reference'))) {
-            if (blockContainer.innerHtml != '') {
-                blockContainer.update('');
+        if (element && (containerElm = element.down('div.'+type))) {
+            if (containerElm.innerHtml != '') {
+                containerElm.update('');
             }
-            if (group) {
-                var url = '<?php echo $this->getBlockChooserUrl() ?>';
-                selected = '';
+            url = '';
+            selected = '';
+            parameters = {};
+            if (type == 'block_reference') {
+                url = '<?php echo $this->getBlockChooserUrl() ?>';
                 if (additional.selectedBlock) {
                     selected = additional.selectedBlock;
                 }
-                new Ajax.Request(url, {
-                    method: 'post',
-                    parameters: {layout:group, selected:selected},
-                    blockContainer: blockContainer,
-                    onSuccess: function(transport) {
-                        blockContainer = transport.request.options.blockContainer
-                        try {
-                            if (transport.responseText) {
-                                Element.insert(blockContainer, transport.responseText);
-                                selectElm = blockContainer.down('select');
-                                if (selectElm) {
-                                    selectElm.name = element.down('input.container_name').value+'['+selectElm.name+']';
-                                }
-                            }
-                        } catch (e) {
-                            alert('Error occurs during loading block chooser.');
-                        }
-                    }
-                });
-            }
-        }
-    },
-    showTemplateChooser : function (element, block, additional) {
-        if (!additional) {
-            additional = {};
-        }
-        if (element && (templateContainer = element.down('div.block_template'))) {
-            if (templateContainer.innerHtml != '') {
-                templateContainer.update('');
-            }
-            if (block) {
-                var url = '<?php echo $this->getTemplateChooserUrl() ?>';
-                selected = '';
+                parameters.layout = value;
+            } else if (type == 'block_template') {
+                url = '<?php echo $this->getTemplateChooserUrl() ?>';
                 if (additional.selectedTemplate) {
                     selected = additional.selectedTemplate;
                 }
+                parameters.block = value;
+            }
+            parameters.selected = selected;
+            if (url) {
                 new Ajax.Request(url, {
                     method: 'post',
-                    parameters: {block:block, selected:selected},
-                    templateContainer: templateContainer,
+                    parameters: parameters,
+                    containerElm: containerElm,
                     onSuccess: function(transport) {
-                        templateContainer = transport.request.options.templateContainer
+                        containerElm = transport.request.options.containerElm;
                         try {
                             if (transport.responseText) {
-                                Element.insert(templateContainer, transport.responseText);
-                                selectElm = templateContainer.down('select');
+                                Element.insert(containerElm, transport.responseText);
+                                selectElm = containerElm.down('select');
                                 if (selectElm) {
                                     selectElm.name = element.down('input.container_name').value+'['+selectElm.name+']';
                                 }
                             }
                         } catch (e) {
-                            alert('Error occurs during loading template chooser.');
+                            alert('Error occurs during loading chooser.');
                         }
                     }
                 });
@@ -550,14 +458,10 @@ Ext.onReady(function(){
         WidgetInstance.addPageGroup(<?php echo Zend_Json::encode($pageGroup) ?>);
     <?php endforeach; ?>
     Event.observe(document, 'product:changed', function(event){
-        var chooser = event.target.up('div.chooser');
-        WidgetInstance.checkEntity(chooser);
+        WidgetInstance.checkProduct(event);
     });
-    Event.observe(document, 'node:checked', function(event){
-        WidgetInstance.addCategoryEntity(event);
-    });
-    Event.observe(document, 'node:unchecked', function(event){
-        WidgetInstance.removeCategoryEntity(event);
+    Event.observe(document, 'node:changed', function(event){
+        WidgetInstance.checkCategory(event);
     });
 });
 //]]>
