@@ -93,7 +93,7 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
             $this->_available = false;
             return false;
         }
-        
+
         if (!$this->isOutputEnabled('Mage_AdminNotification')) {
             $this->_available = false;
             return false;
@@ -148,6 +148,16 @@ class Mage_Adminhtml_Block_Notification_Window extends Mage_Adminhtml_Block_Noti
                 . sprintf(Mage::getStoreConfig(self::XML_SEVERITY_ICONS_URL_PATH), Mage::getVersion(), $this->getNoticeSeverity());
         }
         return $this->_severityIconsUrl;
+    }
+
+    /**
+     * Retrieve severity text
+     *
+     * @return string
+     */
+    public function getSeverityText()
+    {
+        return strtolower($this->getNoticeSeverity());
     }
 
     /**
