@@ -41,10 +41,15 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
      */
     protected function _joinFields()
     {
+        $acceptedExpr = 'SUM(IF(main_table.status = "'
+                . Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED . '", 1, 0))';
+        $canceledExpr = 'SUM(IF(main_table.status = "'
+                . Enterprise_Invitation_Model_Invitation::STATUS_CANCELED . '", 1, 0))';
+
         $this->getSelect()
             ->from('', array('sent' => new Zend_Db_Expr('COUNT(main_table.invitation_id)')))
-            ->from('', array('accepted' => new Zend_Db_Expr('SUM(IF(main_table.status = "accepted", 1, 0))')))
-            ->from('', array('canceled' => new Zend_Db_Expr('SUM(IF(main_table.status = "canceled", 1, 0))')));
+            ->from('', array('accepted' => new Zend_Db_Expr($acceptedExpr)))
+            ->from('', array('canceled' => new Zend_Db_Expr($canceledExpr)));
 
         return $this;
     }
@@ -59,10 +64,21 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
         parent::_afterLoad();
 
         foreach ($this->getItems() as $item) {
-            $item->setCanceledRate($item->getCanceled() / $item->getSent() * 100);
-            $item->setAcceptedRate($item->getAccepted() / $item->getSent() * 100);
+            if ($item->getSent()) {
+                $item->setCanceledRate($item->getCanceled() / $item->getSent() * 100);
+                $item->setAcceptedRate($item->getAccepted() / $item->getSent() * 100);
+            } else {
+                $item->setCanceledRate(0);
+                $item->setAcceptedRate(0);
+            }
+
             $item->setPurchased($this->_getPurchaseNumber(clone $this->getSelect()));
-            $item->setPurchasedRate($item->getPurchased() / $item->getAccepted() * 100);
+
+            if ($item->getAccepted()) {
+                $item->setPurchasedRate($item->getPurchased() / $item->getAccepted() * 100);
+            } else {
+                $item->setPurchasedRate(0);
+            }
         }
 
         return $this;
