@@ -28,6 +28,22 @@
 class Mage_Checkout_Model_Type_Onepage
 {
     /**
+     * Error message of "customer already exists"
+     *
+     * @var string
+     */
+    private $_customerEmailExistsMessage = '';
+
+    /**
+     * Set customer already exists message
+     * @return Mage_Checkout_Model_Type_Onepage
+     */
+    public function __construct()
+    {
+        $this->_customerEmailExistsMessage = Mage::helper('checkout')->__('There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.');
+    }
+
+    /**
      * Enter description here...
      *
      * @return Mage_Checkout_Model_Session
@@ -166,7 +182,7 @@ class Mage_Checkout_Model_Type_Onepage
         if (!$this->getQuote()->getCustomerId() && Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER == $this->getQuote()->getCheckoutMethod()) {
             if ($this->_customerEmailExists($address->getEmail(), Mage::app()->getWebsite()->getId())) {
                 return array('error' => 1,
-                    'message' => $this->_getCustomerEmailExistsMessage()
+                    'message' => $this->_customerEmailExistsMessage
                 );
             }
         }
@@ -548,7 +564,7 @@ class Mage_Checkout_Model_Type_Onepage
         // check again, if customer exists
         if ($this->getQuote()->getCheckoutMethod() == Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER) {
             if ($this->_customerEmailExists($customer->getEmail(), Mage::app()->getWebsite()->getId())) {
-                Mage::throwException($this->_getCustomerEmailExistsMessage());
+                Mage::throwException($this->_customerEmailExistsMessage);
             }
         }
         $order->place();
@@ -687,15 +703,5 @@ class Mage_Checkout_Model_Type_Onepage
         $order->load($this->getCheckout()->getLastOrderId());
         $orderId = $order->getIncrementId();
         return $orderId;
-    }
-
-    /**
-     * Error message of "customer already exists" getter
-     *
-     * @return string
-     */
-    protected function _getCustomerEmailExistsMessage()
-    {
-        return Mage::helper('checkout')->__('There is already a customer registered using this email address. Please login using this email address or enter a different email address to register your account.');
     }
 }
