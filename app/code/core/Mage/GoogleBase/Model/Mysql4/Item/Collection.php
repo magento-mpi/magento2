@@ -77,7 +77,7 @@ class Mage_GoogleBase_Model_Mysql4_Item_Collection extends Mage_Core_Model_Mysql
     public function addFieldToFilter($field, $condition=null)
     {
         if ($field == 'name') {
-            $conditionSql = $this->_getConditionSql('p.value', $condition);
+            $conditionSql = $this->_getConditionSql('IFNULL(p.value, p_d.value)', $condition);
             $this->getSelect()->where($conditionSql);
         } else {
             parent::addFieldToFilter($field, $condition);
