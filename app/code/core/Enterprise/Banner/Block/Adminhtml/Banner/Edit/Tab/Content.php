@@ -103,7 +103,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
 
         $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
             'tab_id' => $this->getTabId(),
-            'skip_context' => true,
             'skip_widgets' => array('enterprise_banner/widget_banner')
         ));
 
