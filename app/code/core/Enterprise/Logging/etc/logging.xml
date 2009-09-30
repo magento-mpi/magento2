@@ -712,7 +712,6 @@
                     <adminhtml_system_config_edit/>
                     <adminhtml_sales_order_view/>
                 </skip_on_back>
-                <post_dispatch>postDispatchSalesOrderInvoiceSave</post_dispatch>
             </adminhtml_sales_order_invoice_save>
         </actions>
     </sales_invoices>

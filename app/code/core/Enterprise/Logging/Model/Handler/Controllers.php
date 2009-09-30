@@ -287,28 +287,6 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
-     * Special handler for adminhtml_sales_order_invoice_save
-     *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
-     */
-    public function postDispatchSalesOrderInvoiceSave($config, $eventModel)
-    {
-        $request = Mage::app()->getRequest();
-        $data = $request->getParam('invoice');
-        if (isset($data['do_shipment']) && $data['do_shipment'] == 1) {
-            $actions = Mage::registry('enterprise_logged_actions');
-            if (!is_array($actions)) {
-                $actions = array($actions);
-            }
-            $actions[] = 'adminhtml_sales_order_shipment_save';
-            Mage::unregister('enterprise_logged_actions');
-            Mage::register('enterprise_logged_actions', $actions);
-        }
-    }
-
-    /**
      * Custom handler for catalog product mass attribute update
      *
      * @param Varien_Simplexml_Element $config
