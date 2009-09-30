@@ -60,7 +60,8 @@ class Mage_Catalog_Block_Product_New extends Mage_Catalog_Block_Product_Abstract
             . '_' . Mage::getDesign()->getPackageName()
             . '_' . Mage::getDesign()->getTheme('template')
             . '_' . Mage::getSingleton('customer/session')->getCustomerGroupId()
-            . '_' . md5($this->getTemplate());
+            . '_' . md5($this->getTemplate())
+            . '_' . $this->getProductsCount();
     }
 
     /**
