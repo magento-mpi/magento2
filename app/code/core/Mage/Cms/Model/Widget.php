@@ -98,8 +98,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
                     'name'          => $helper->__((string)$widget->name),
                     'code'          => $widget->getName(),
                     'type'          => $widget->getAttribute('type'),
-                    'description'   => $helper->__((string)$widget->description),
-                    'is_context'    => (string)$widget->is_context
+                    'description'   => $helper->__((string)$widget->description)
                 );
             }
             usort($result, array($this, "_sortWidgets"));
