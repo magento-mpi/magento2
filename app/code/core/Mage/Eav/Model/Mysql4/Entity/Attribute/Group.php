@@ -32,16 +32,22 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Group extends Mage_Core_Model_Mysql
         $this->_init('eav/attribute_group', 'attribute_group_id');
     }
 
+    /**
+     * Checks if attribute group exists
+     *
+     * @param Mage_Eav_Model_Entity_Attribute_Group $object
+     * @return boolean
+     */
     public function itemExists($object)
     {
-        $read = $this->_getReadAdapter();
-        $select = $read->select()->from($this->getMainTable())
-            ->where("attribute_group_name='{$object->getAttributeGroupName()}'");
-        $data = $read->fetchRow($select);
-        if (!$data) {
-            return false;
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable())
+            ->where('attribute_set_id = ?', $object->getAttributeSetId())
+            ->where('attribute_group_name = ?', $object->getAttributeGroupName());
+        if ($this->_getReadAdapter()->fetchRow($select)) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**

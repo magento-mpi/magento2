@@ -94,6 +94,15 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
     {
         $modelGroupArray = array();
         $modelAttributeArray = array();
+        $attributeIds = array();
+        if ($data['attributes']) {
+            $ids = array();
+            foreach ($data['attributes'] as $attribute) {
+                $ids[] = $attribute[0];
+            }
+            $attributeIds = Mage::getResourceSingleton('eav/entity_attribute')
+                ->getValidAttributeIds($ids);
+        }
         if( $data['groups'] ) {
             foreach( $data['groups'] as $group ) {
                 $modelGroup = Mage::getModel('eav/entity_attribute_group');
@@ -104,7 +113,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
 
                 if( $data['attributes'] ) {
                     foreach( $data['attributes'] as $attribute ) {
-                        if( $attribute[1] == $group[0] ) {
+                        if( $attribute[1] == $group[0] && in_array($attribute[1], $attributeIds) ) {
                             $modelAttribute = Mage::getModel('eav/entity_attribute');
                             $modelAttribute->setId($attribute[0])
                                 ->setAttributeGroupId($attribute[1])

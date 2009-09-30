@@ -532,4 +532,18 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute extends Mage_Core_Model_Mysql4_Abst
         }
         return $values;
     }
+
+    /**
+     * Load by given attributes ids and return only exist attribute ids
+     *
+     * @param array $attributeIds
+     * @return array
+     */
+    public function getValidAttributeIds($attributeIds)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getMainTable(), array('attribute_id'))
+            ->where('attribute_id in (?)', $attributeIds);
+        return $this->_getReadAdapter()->fetchCol($select);
+    }
 }

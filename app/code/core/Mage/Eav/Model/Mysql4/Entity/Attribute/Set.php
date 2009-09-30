@@ -52,9 +52,12 @@ class Mage_Eav_Model_Mysql4_Entity_Attribute_Set extends Mage_Core_Model_Mysql4_
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
         if ($object->getGroups()) {
+            /* @var $group Mage_Eav_Model_Entity_Attribute_Group */
             foreach ($object->getGroups() as $group) {
-                /* @var $group Mage_Eav_Model_Entity_Attribute_Group */
                 $group->setAttributeSetId($object->getId());
+                if ($group->itemExists() && !$group->getId()) {
+                    continue;
+                }
                 $group->save();
             }
         }
