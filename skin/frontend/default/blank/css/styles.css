@@ -483,9 +483,9 @@ dd.even { background-color:#f6f6f6; }
 .minimal-price {}
 .minimal-price .price-label { font-weight:bold; white-space:nowrap; }
 
-a.minimal-price-link { display:block; }
-a.minimal-price-link .label {}
-a.minimal-price-link .price { font-weight:normal; }
+.minimal-price-link { display:block; }
+.minimal-price-link .label {}
+.minimal-price-link .price { font-weight:normal; }
 
 /* Excluding tax */
 .price-excluding-tax { display:block; }

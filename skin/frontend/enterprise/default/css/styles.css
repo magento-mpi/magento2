@@ -1057,10 +1057,10 @@ p.product-image { cursor:default !important; }
 .minimal-price {}
 .minimal-price .price-label { white-space:nowrap; }
 
-a.minimal-price-link { display:block; margin:5px 0; text-decoration:none; }
+.minimal-price-link { display:block; margin:5px 0; text-decoration:none; }
 a.minimal-price-link:hover { text-decoration:underline; }
-a.minimal-price-link .label {}
-a.minimal-price-link .price { font-weight:normal; font-weight:bold; }
+.minimal-price-link .label {font-weight:bold;}
+.minimal-price-link .price { font-weight:bold; }
 
 /* Excluding tax */
 .price-excluding-tax { display:block; }
