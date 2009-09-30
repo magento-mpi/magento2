@@ -182,6 +182,9 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         return $this->getUrl('*/*/edit', array('process'=>$row->getId()));
     }
 
+    /**
+     * Add mass-actions to grid
+     */
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('process_id');
@@ -204,8 +207,9 @@ class Mage_Index_Block_Adminhtml_Process_Grid extends Mage_Adminhtml_Block_Widge
         ));
 
         $this->getMassactionBlock()->addItem('reindex', array(
-             'label'        => Mage::helper('index')->__('Reindex Data'),
-             'url'          => $this->getUrl('*/*/massReindex')
+            'label'    => Mage::helper('index')->__('Reindex Data'),
+            'url'      => $this->getUrl('*/*/massReindex'),
+            'selected' => true,
         ));
 
         return $this;
