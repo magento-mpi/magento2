@@ -24,7 +24,10 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php $_element = $this->getElement() ?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+?>
 <?php if (!$_element->getNoDisplay()): ?>
 <?php $_trId = $_element->getHtmlContainerId() ?>
 <tr<?php if($_trId): ?> id="<?php echo $_trId ?>"<?php endif; ?>>
@@ -32,8 +35,10 @@
     <td colspan="3" class="hidden"><?php echo trim($_element->getElementHtml()) ?></td>
     <?php else: ?>
     <td class="label"><?php echo trim($_element->getLabelHtml()) ?></td>
-    <td class="value"><?php echo trim($_element->getElementHtml()) ?></td>
-    <td<?php if ($_element->getNote()): ?> class="note"<?php endif ?> id="note_<?php echo $_element->getId()?>"><small><?php echo $_element->getNote()?$_element->getNote():'&nbsp;' ?></small></td>
+    <td class="value"<?php if (-1 === $_note):?> colspan="2"<?php endif;?>><?php echo trim($_element->getElementHtml()) ?></td>
+    <?php if (-1 !== $_note):?>
+        <td<?php if ($_note): ?> class="note"<?php endif ?> id="note_<?php echo $_element->getId()?>"><small><?php echo $_note ? $_note : '&nbsp;' ?></small></td>
+    <?php endif;?>
     <?php endif; ?>
 </tr>
 <?php endif; ?>
