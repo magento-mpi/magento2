@@ -40,7 +40,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
         $this->setVarNameFilter('banner_filter');
     }
 
-
     /**
      * Instantiate and prepare collection
      *
@@ -68,8 +67,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
 
         $this->addColumn('banner_name',
             array(
-                'header'=> Mage::helper('enterprise_banner')->__('Name'),
-                'width' => 500,
+                'header'=> Mage::helper('enterprise_banner')->__('Banner Name'),
                 'type'  => 'text',
                 'index' => 'name',
         ));
@@ -101,14 +99,18 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
         $this->getMassactionBlock()->setFormFieldName('banner');
 
         $this->getMassactionBlock()->addItem('delete', array(
-             'label'=> Mage::helper('enterprise_banner')->__('Delete'),
-             'url'  => $this->getUrl('*/*/massDelete'),
-             'confirm' => Mage::helper('enterprise_banner')->__('Are you sure you want to delete these banners?')
+            'label'    => Mage::helper('enterprise_banner')->__('Delete'),
+            'url'      => $this->getUrl('*/*/massDelete'),
+            'confirm'  => Mage::helper('enterprise_banner')->__('Are you sure you want to delete these banners?'),
+            'selected' => true,
         ));
 
         return $this;
     }
 
+    /**
+     * Grid row URL getter
+     */
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/edit', array('id' => $row->getBannerId()));

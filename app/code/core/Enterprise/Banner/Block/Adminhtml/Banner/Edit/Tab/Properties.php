@@ -31,8 +31,7 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
-    extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
 
@@ -44,7 +43,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        $form->setHtmlIdPrefix('_properties');
+        $form->setHtmlIdPrefix('banner_properties_');
 
         $model = Mage::registry('current_banner');
 
@@ -71,22 +70,43 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
             'name'      => 'is_enabled',
             'required'  => true,
             'options'   => array(
-                Enterprise_Banner_Model_Banner::STATUS_ENABLED =>
-                    Mage::helper('enterprise_banner')->__('Yes'),
-                Enterprise_Banner_Model_Banner::STATUS_DISABLED =>
-                    Mage::helper('enterprise_banner')->__('No'),
+                Enterprise_Banner_Model_Banner::STATUS_ENABLED  => Mage::helper('enterprise_banner')->__('Yes'),
+                Enterprise_Banner_Model_Banner::STATUS_DISABLED => Mage::helper('enterprise_banner')->__('No'),
             ),
         ));
 
-        $fieldset->addField('customer_segments_ids', 'multiselect', array(
-            'name'      => 'customer_segments_ids',
+        // this field is not used in banners. Just an interface improvement
+        $customerSegmentIsAll = $fieldset->addField('customer_segment_is_all', 'select', array(
             'label'     => Mage::helper('enterprise_banner')->__('Customer Segments'),
-            'title'     => Mage::helper('enterprise_banner')->__('Customer Segments'),
+            'options'   => array(
+                    '1' => Mage::helper('enterprise_banner')->__('Any'),
+                    '0' => Mage::helper('enterprise_banner')->__('Specified'),
+                ),
+            'note'      => Mage::helper('enterprise_banner')->__('Applies to Any of the Specified Customer Segments')
+        ));
+
+        $fieldset->addField('customer_segment_ids', 'multiselect', array(
+            'name'      => 'customer_segment_ids',
             'values'    => Mage::getResourceSingleton('enterprise_customersegment/segment_collection')->toOptionArray(),
-            'can_be_empty' => true
+            'can_be_empty' => true,
+            'after_element_html' => '<script type="text/javascript">//<![CDATA[
+function bannerCustomerSegmentIsAll() {
+    var isAll = $(\'banner_properties_customer_segment_is_all\').value == \'1\';
+    var multiselectElement = $(\'banner_properties_customer_segment_ids\');
+    multiselectElement.disabled = isAll;
+    if (isAll) {
+        multiselectElement.hide();
+    } else {
+        multiselectElement.show();
+    }
+}
+Event.observe(\'banner_properties_customer_segment_is_all\', \'change\', bannerCustomerSegmentIsAll);
+bannerCustomerSegmentIsAll();
+//]]></script>'
         ));
 
         $form->setValues($model->getData());
+        $customerSegmentIsAll->setValue($model->getCustomerSegmentIds() ? '0' : '1');
         $this->setForm($form);
         return $this;
     }
@@ -98,7 +118,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
      */
     public function getTabLabel()
     {
-        return Mage::helper('enterprise_banner')->__('Properties');
+        return Mage::helper('enterprise_banner')->__('Banner Properties');
     }
 
     /**
@@ -108,7 +128,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_banner')->__('Properties');
+        return $this->getTabLabel();
     }
 
     /**

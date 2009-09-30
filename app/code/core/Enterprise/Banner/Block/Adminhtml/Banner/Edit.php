@@ -26,7 +26,6 @@
 
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-
     /**
      * Initialize banner edit page. Set management buttons
      *
@@ -42,15 +41,14 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
         $this->_updateButton('save', 'label', Mage::helper('enterprise_banner')->__('Save Banner'));
         $this->_updateButton('delete', 'label', Mage::helper('enterprise_banner')->__('Delete Banner'));
 
-        $this->_addButton(
-            'save_and_edit_button',
-            array(
-                'label'     => Mage::helper('enterprise_banner')->__('Save And Continue Edit'),
-                'onclick'   => 'saveAndContinueEdit()',
-                'class'     => 'save'
-            ),
-            100
+        $this->_addButton('save_and_edit_button', array(
+                'label'   => Mage::helper('enterprise_banner')->__('Save and Continue Edit'),
+                'onclick' => 'saveAndContinueEdit()',
+                'class'   => 'save'
+            ), 100
         );
+        $this->_formScripts[] = 'function saveAndContinueEdit() {
+            editForm.submit($(\'edit_form\').action + \'back/edit/\');}';
     }
 
     /**
@@ -69,7 +67,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit extends Mage_Adminhtml_Block
     public function getHeaderText()
     {
         if (Mage::registry('current_banner')->getId()) {
-            return Mage::helper('enterprise_banner')->__('Edit Banner: %s', $this->htmlEscape(Mage::registry('current_banner')->getName()));
+            return $this->htmlEscape(Mage::registry('current_banner')->getName());
         }
         else {
             return Mage::helper('enterprise_banner')->__('New Banner');

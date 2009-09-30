@@ -471,7 +471,7 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
             foreach ($data as $row) {
                 $segmentsArray[] = $row['segment_id'];
             }
-            $object->setData('customer_segments_ids', $segmentsArray);
+            $object->setData('customer_segment_ids', $segmentsArray);
         }
         return parent::_afterLoad($object);
     }

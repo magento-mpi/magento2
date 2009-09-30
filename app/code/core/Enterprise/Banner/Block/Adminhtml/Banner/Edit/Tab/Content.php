@@ -31,8 +31,7 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
-    extends Mage_Adminhtml_Block_Widget_Form
+class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
     /**
@@ -52,7 +51,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
      */
     public function getTabTitle()
     {
-        return Mage::helper('enterprise_banner')->__('Content');
+        return $this->getTabLabel();
     }
 
     /**
@@ -96,69 +95,72 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content
     {
         $banner = Mage::registry('current_banner');
         $form = new Varien_Data_Form();
-        $form->setHtmlIdPrefix('_content');
-        $fieldset = $form->addFieldset('action_fieldset', array(
-            'legend'=>Mage::helper('enterprise_banner')->__('Content'))
-        );
-
+        $form->setHtmlIdPrefix('banner_content_');
         $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
             'tab_id' => $this->getTabId(),
             'skip_widgets' => array('enterprise_banner/widget_banner')
         ));
+        $fieldsetHtmlClass = 'banner_fieldset';
 
-        $storeContents = $banner->getStoreContents();
-        $field = $fieldset->addField('store_default_content', 'editor', array(
-            'name'      => 'store_contents[0]',
-            'label'     => Mage::helper('enterprise_banner')->__('Default'),
-            'value'     => isset($storeContents[0]) ? $storeContents[0] : '',
-            'config'    => $wysiwygConfig,
-            'wysiwyg'   => false
+        // add default content fieldset
+        $fieldset = $form->addFieldset('default_fieldset', array(
+            'legend'       => Mage::helper('enterprise_banner')->__('Default Content'),
+            'class'        => $fieldsetHtmlClass,
         ));
-        $hideTr = '';
+        $storeContents = $banner->getStoreContents();
+        $fieldset->addField('store_default_content', 'editor', array(
+            'name'    => 'store_contents[0]',
+            'value'   => isset($storeContents[0]) ? $storeContents[0] : '',
+            'config'  => $wysiwygConfig,
+            'wysiwyg' => false,
+            'label'   => Mage::helper('enterprise_banner')->__('Banner Default Content for All Store Views'),
+        ));
+
+        // fieldset and content areas per store views
+        $fieldset = $form->addFieldset('scopes_fieldset', array(
+            'legend' => Mage::helper('enterprise_banner')->__('Store View Specific Content'),
+            'class'  => $fieldsetHtmlClass,
+        ));
+        $wysiwygConfig->setUseContainer(true);
         foreach (Mage::app()->getWebsites() as $website) {
+            $fieldset->addField("w_{$website->getId()}_label", 'note', array(
+                'label'    => $website->getName(),
+            ));
             foreach ($website->getGroups() as $group) {
                 $stores = $group->getStores();
                 if (count($stores) == 0) {
                     continue;
                 }
-
-                $fieldset->addField('store_'.$group->getId().'_note', 'note', array(
-                    'label'    => $website->getName(),
-                    'text'     => $group->getName(),
+                $fieldset->addField("sg_{$group->getId()}_label", 'note', array(
+                    'label'    => $group->getName(),
                 ));
-
-                $wysiwygConfig->setUseContainer(true);
-
                 foreach ($stores as $store) {
-                    $contentExists = isset($storeContents[$store->getId()]);
-                    $contentFieldId = 'store_'.$store->getId().'_content';
+                    $storeContent = isset($storeContents[$store->getId()]) ? $storeContents[$store->getId()] : '';
+                    $contentFieldId = 's_'.$store->getId().'_content';
                     $wysiwygConfig = clone $wysiwygConfig;
-
-                    if (!$contentExists) {
-                         $hideTr = '<script language="javascript">Event.observe(window, \'load\', function(){$(\'' . $contentFieldId . '\').hide();})</script>';
-                    }
-                    else {
-                         $hideTr = '';
-                    }
-                    $onClick ='$(\''. $contentFieldId.'\').toggle();';
 
                     $fieldset->addField('store_'.$store->getId().'_content_use', 'checkbox', array(
                         'name'      => 'store_contents_not_use['.$store->getId().']',
                         'required'  => false,
                         'label'     => $store->getName(),
-                        'onclick'   => $onClick,
-                        'checked'   => $contentExists ? false : true,
-                        'after_element_html' => '<label class="normal" for="'.$form->getHtmlIdPrefix().'store_'.$store->getId().'_content_use">'.Mage::helper('enterprise_banner')->__('Use Default').'</label>' . $hideTr,
+                        'onclick'   => "$('{$contentFieldId}').toggle();",
+                        'checked'   => $storeContent ? false : true,
+                        'after_element_html' => '<label class="normal" for="' . $form->getHtmlIdPrefix()
+                            . 'store_' . $store->getId() .'_content_use">'
+                            . Mage::helper('enterprise_banner')->__('Use Default') . '</label>',
                         'value'     => $store->getId()
                     ));
 
-                    $field = $fieldset->addField($contentFieldId, 'editor', array(
-                        'name'      => 'store_contents['.$store->getId().']',
-                        'required'  => false,
-                        'value'     => $contentExists ? $storeContents[$store->getId()] : '',
+                    $fieldset->addField($contentFieldId, 'editor', array(
+                        'name'         => 'store_contents['.$store->getId().']',
+                        'required'     => false,
+                        'value'        => $storeContent,
                         'container_id' => $contentFieldId,
-                        'config'    => $wysiwygConfig,
-                        'wysiwyg'   => false
+                        'config'       => $wysiwygConfig,
+                        'wysiwyg'      => false,
+                        'note'         => -1,
+                        'after_element_html' => $storeContent ? ''
+                            : '<script type="text/javascript">$(\'' . $contentFieldId . '\').hide();</script>',
                     ));
                 }
             }
