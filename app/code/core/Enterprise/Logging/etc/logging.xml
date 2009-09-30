@@ -917,12 +917,16 @@
 
             <adminhtml_tax_class_save>
                 <action>save</action>
+                <post_dispatch>postDispatchTaxClassSave</post_dispatch>
             </adminhtml_tax_class_save>
         </actions>
     </tax_customer_tax_classes>
 
     <tax_product_tax_classes translate="label">
         <label>Catalog Product Tax Classes</label>
+        <expected_models>
+            <tax__class/>
+        </expected_models>
         <actions>
             <adminhtml_tax_class_product_edit>
                 <action>view</action>
