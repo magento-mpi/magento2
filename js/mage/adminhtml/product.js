@@ -64,10 +64,14 @@ Product.Gallery.prototype = {
                 throw $break;
             }
         }.bind(this));
-        if (imagesTab && event.tab && event.tab.name
-                && imagesTab.name == event.tab.name) {
+
+        if (imagesTab && event.tab && event.tab.name && imagesTab.name == event.tab.name) {
+            this.container.select('input[type="radio"]').each(function(radio) {
+                radio.observe('change', this.onChangeRadio);
+            }.bind(this));
             this.updateImages();
         }
+
     },
     fixParentTable : function() {
         this.container.ancestors().each( function(parentItem) {
@@ -129,6 +133,10 @@ Product.Gallery.prototype = {
         }.bind(this));
         this.updateUseDefault(false);
     },
+    onChangeRadio: function (evt) {
+        var element = Event.element(evt);
+        element.setHasChanges();
+    },
     createImageRow : function(image) {
         var vars = Object.clone(image);
         vars.id = this.prepareId(image.file);
@@ -136,6 +144,10 @@ Product.Gallery.prototype = {
         Element.insert(this.getElement('list'), {
             bottom :html
         });
+
+        $(vars.id).select('input[type="radio"]').each(function(radio) {
+            radio.observe('change', this.onChangeRadio);
+        }.bind(this));
     },
     prepareId : function(file) {
         if (typeof this.file2id[file] == 'undefined') {
