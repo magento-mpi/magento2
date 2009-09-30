@@ -134,7 +134,7 @@ class Mage_Review_ProductController extends Mage_Core_Controller_Front_Action
 
         $review = Mage::getModel('review/review')->load($reviewId);
         /* @var $review Mage_Review_Model_Review */
-        if (!$review->getId() || $review->isApproved()) {
+        if (!$review->getId() || !$review->isApproved() || !$review->isAvailableOnStore(Mage::app()->getStore())) {
             return false;
         }
 

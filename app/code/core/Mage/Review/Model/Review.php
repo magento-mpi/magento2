@@ -163,6 +163,22 @@ class Mage_Review_Model_Review extends Mage_Core_Model_Abstract
      */
     public function isApproved()
     {
-        return $this->getStatusId() != Mage_Review_Model_Review::STATUS_APPROVED;
+        return $this->getStatusId() == self::STATUS_APPROVED;
+    }
+
+    /**
+     * Check if current review available on passed store
+     *
+     * @param int|Mage_Core_Model_Store $store
+     * @return bool
+     */
+    public function isAvailableOnStore($store = null)
+    {
+        $store = Mage::app()->getStore($store);
+        if ($store) {
+            return in_array($store->getId(), (array)$this->getStores());
+        }
+
+        return false;
     }
 }
