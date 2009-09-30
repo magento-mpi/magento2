@@ -959,4 +959,17 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return false;
         }
     }
+
+    /**
+     * Validate misc Transactional Emails
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateTransactionalEmails($controller)
+    {
+        if (in_array($controller->getRequest()->getActionName(), array('delete', 'save'))) {
+            $this->_forward();
+            return false;
+        }
+    }
 }
