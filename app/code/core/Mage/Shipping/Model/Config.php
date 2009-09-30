@@ -104,9 +104,7 @@ class Mage_Shipping_Model_Config extends Varien_Object
             throw Mage::exception('Mage_Shipping', 'Invalid model for shipping method: '.$code);
         }
         $modelName = $config['model'];
-        if ($modelName == 'usa/shipping_carrier_ups') {
-            $modelName.= '_test';
-        }
+
         /**
          * Added protection from not existing models usage.
          * Related with module uninstall process
