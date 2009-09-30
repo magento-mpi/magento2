@@ -125,7 +125,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
         if (!$model = $this->_initTag()) {
             Mage::getSingleton('adminhtml/session')->addError(
-                Mage::helper('adminhtml')->__('Tag with specified ID doesn\'t exists')
+                Mage::helper('adminhtml')->__('Wrong Tag specified')
             );
             $this->_redirect('*/*/index', array(
                 'store' => $this->getRequest()->getParam('store')
@@ -164,7 +164,7 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
 
             if (!$model = $this->_initTag()) {
                 Mage::getSingleton('adminhtml/session')->addError(
-                    Mage::helper('adminhtml')->__('Tag with specified ID doesn\'t exists')
+                    Mage::helper('adminhtml')->__('Wrong Tag specified')
                 );
                 $this->_redirect('*/*/index', array(
                     'store' => $data['store']
