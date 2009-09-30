@@ -46,8 +46,6 @@ class Mage_Adminhtml_Cms_WidgetController extends Mage_Adminhtml_Controller_Acti
         $header->setCanLoadExtJs(true);
 
         // save extra params for widgets insertion form
-        Mage::register('skip_context_widgets', $this->getRequest()->getParam('skip_context_widgets'));
-
         $skipped = $this->getRequest()->getParam('skip_widgets');
         $skipped = Mage::getSingleton('cms/widget_config')->decodeWidgetsFromQuery($skipped);
         Mage::register('skip_widgets', $skipped);

@@ -102,9 +102,6 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
             $allWidgets = Mage::getModel('cms/widget')->getWidgetsArray();
             $skipped = $this->_getSkippedWidgets();
             foreach ($allWidgets as $widget) {
-                if ($widget['is_context'] && $this->_skipContextWidgets()) {
-                    continue;
-                }
                 if (is_array($skipped) && in_array($widget['type'], $skipped)) {
                     continue;
                 }
@@ -121,16 +118,6 @@ class Mage_Adminhtml_Block_Cms_Widget_Form extends Mage_Adminhtml_Block_Widget_F
         }
 
         return $this->_getData('available_widgets');
-    }
-
-    /**
-     * Disable insertion of context(is_context) widgets or not
-     *
-     * @return bool
-     */
-    protected function _skipContextWidgets()
-    {
-        return Mage::registry('skip_context_widgets');
     }
 
     /**

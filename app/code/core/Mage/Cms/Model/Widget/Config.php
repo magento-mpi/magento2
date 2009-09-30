@@ -103,10 +103,6 @@ class Mage_Cms_Model_Widget_Config extends Varien_Object
     {
         $params = $wysiwygMode ? array() : array('no_wysiwyg' => true);
 
-        if ($config->getData('skip_context_widgets')) {
-            $params['skip_context_widgets'] = 1;
-        }
-
         if ($config->hasData('skip_widgets')) {
             $params['skip_widgets'] = $this->encodeWidgetsToQuery($config->getData('skip_widgets'));
         }
