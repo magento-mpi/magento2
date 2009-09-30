@@ -572,4 +572,17 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
 
         return $this;
     }
+
+    /**
+     * Remove control buttons for store-level roles on Manage Gift Card Accounts page
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removeGiftCardAccountAddButton($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        if ($this->_role->getIsStoreLevel()) {
+            $observer->getEvent()->getBlock()->removeButton('add');
+        }
+    }
 }

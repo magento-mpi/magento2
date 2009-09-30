@@ -141,7 +141,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitGiftCardAccounts($collection)
     {
-        $collection->addWebsiteFilter($this->_role->getWebsiteIds());
+        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
     }
 
     /**

@@ -150,6 +150,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateGiftCardAccount($controller)
     {
+        $controller->setShowCodePoolStatusMessage(false);
         if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'generate'))) {
             return;
         }

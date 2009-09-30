@@ -27,25 +27,34 @@
 class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Defines if status message of code pool is show
+     *
+     * @var bool
+     */
+    protected $_showCodePoolStatusMessage = true;
+
+    /**
      * Default action
      */
     public function indexAction()
     {
-        $usage = Mage::getModel('enterprise_giftcardaccount/pool')->getPoolUsageInfo();
+        if ($this->_showCodePoolStatusMessage) {
+            $usage = Mage::getModel('enterprise_giftcardaccount/pool')->getPoolUsageInfo();
 
-        $function = 'addNotice';
-        if ($usage->getPercent() == 100) {
-            $function = 'addError';
+            $function = 'addNotice';
+            if ($usage->getPercent() == 100) {
+                $function = 'addError';
+            }
+
+            Mage::getSingleton('adminhtml/session')->$function(
+                Mage::helper('enterprise_giftcardaccount')->__(
+                    'Code Pool used: <b>%.2f%%</b> (free <b>%d</b> of <b>%d</b> total). Generate new code pool <a href="%s">here</a>.',
+                    $usage->getPercent(),
+                    $usage->getFree(),
+                    $usage->getTotal(),
+                    Mage::getSingleton('adminhtml/url')->getUrl('*/*/generate'))
+            );
         }
-
-        Mage::getSingleton('adminhtml/session')->$function(
-            Mage::helper('enterprise_giftcardaccount')->__(
-                'Code Pool used: <b>%.2f%%</b> (free <b>%d</b> of <b>%d</b> total). Generate new code pool <a href="%s">here</a>.',
-                $usage->getPercent(),
-                $usage->getFree(),
-                $usage->getTotal(),
-                Mage::getSingleton('adminhtml/url')->getUrl('*/*/generate'))
-        );
 
         $this->loadLayout();
         $this->_setActiveMenu('customer/giftcardaccount');
@@ -324,5 +333,15 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         }
 
         return $data;
+    }
+
+    /**
+     * Setter for code pool status message flag
+     *
+     * @param bool $isShow
+     */
+    public function setShowCodePoolStatusMessage($isShow)
+    {
+        $this->_showCodePoolStatusMessage = (bool)$isShow;
     }
 }

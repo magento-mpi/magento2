@@ -507,6 +507,7 @@
                     <enterprise_staging__adminhtml_backup_edit>removeStagingBackupEditButtons</enterprise_staging__adminhtml_backup_edit>
                     <enterprise_cms__adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms__adminhtml_cms_page_revision_edit>
                     <enterprise_cms__adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms__adminhtml_cms_page_preview_buttons>
+                    <enterprise_giftcardaccount__adminhtml_giftcardaccount>removeGiftCardAccountAddButton</enterprise_giftcardaccount__adminhtml_giftcardaccount>
                 </block_html_before>
             </admingws>
         </enterprise>
