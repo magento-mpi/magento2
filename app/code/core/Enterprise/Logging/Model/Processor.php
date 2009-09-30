@@ -102,7 +102,7 @@ class Enterprise_Logging_Model_Processor
      */
     protected $_collectedIds = array();
 
-    const XML_PATH_SKIP_FIELDS = 'adminhtml/enterprise/logging/skip_fields';
+    const XML_PATH_SKIP_GLOBAL_FIELDS = 'adminhtml/enterprise/logging/skip_fields';
 
     /**
      * Initialize configuration model, controller and model handler
@@ -137,7 +137,7 @@ class Enterprise_Logging_Model_Processor
         $this->_eventConfig = $this->_config->getNode($fullActionName);
 
         $this->_skipFields = array_map('trim', array_filter(explode(',',
-            (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_FIELDS))));
+            (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_GLOBAL_FIELDS))));
 
         /**
          * Skip view action after save. For example on 'save and continue' click.
@@ -207,6 +207,15 @@ class Enterprise_Logging_Model_Processor
         }
         //Log event changes for each model
         foreach ($usedModels->children() as $expect => $callback) {
+            if (isset($callback->skip_data)) {
+                if ($callback->skip_data->hasChildren()) {
+                    foreach ($callback->skip_data->children() as $skipName => $skipObj) {
+                        if (!in_array($skipName, $this->_skipFields)) {
+                            $this->_skipFields[] = $skipName;
+                        }
+                    }
+                }
+            }
             $className = Mage::getConfig()->getModelClassName(str_replace('__', '/', $expect));
             if ($model instanceof $className){
                 $classMap = $this->_getCallbackFunction(trim($callback), $this->_modelsHandler,

@@ -152,7 +152,7 @@
         <enterprise>
             <logging>
                 <skip_fields>updated_at</skip_fields>
-                <!--Coma separated list of fields that should not be logged-->
+                <!--Coma separated list of fields that should not be logged for all models-->
             </logging>
         </enterprise>
     </adminhtml>
