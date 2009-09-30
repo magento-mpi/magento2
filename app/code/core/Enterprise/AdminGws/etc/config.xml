@@ -408,6 +408,7 @@
                     <adminhtml__sales_order_create__>validateSalesOrderCreation</adminhtml__sales_order_create__><!-- catalog events viewing -->
                     <adminhtml__system_store__>validateSystemStore</adminhtml__system_store__>
                     <adminhtml__urlrewrite__edit>validateUrlRewriteEditAction</adminhtml__urlrewrite__edit>
+                    <adminhtml__system_currency__>validateManageCurrencyRates</adminhtml__system_currency__>
 
                     <adminhtml__sales_order__view>validateSalesOrderViewAction</adminhtml__sales_order__view>
                     <adminhtml__sales_order__addComment>validateSalesOrderViewAction</adminhtml__sales_order__addComment>
@@ -508,6 +509,7 @@
                     <enterprise_cms__adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms__adminhtml_cms_page_revision_edit>
                     <enterprise_cms__adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms__adminhtml_cms_page_preview_buttons>
                     <enterprise_giftcardaccount__adminhtml_giftcardaccount>removeGiftCardAccountAddButton</enterprise_giftcardaccount__adminhtml_giftcardaccount>
+                    <adminhtml__system_currency>removeManageCurrencyRatesButtons</adminhtml__system_currency>
                 </block_html_before>
             </admingws>
         </enterprise>

@@ -585,4 +585,19 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             $observer->getEvent()->getBlock()->removeButton('add');
         }
     }
+
+    /**
+     * Remove control buttons for limited user on Manage Currency Rates
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function removeManageCurrencyRatesButtons($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        if ($block) {
+            $block->unsetChild('save_button')
+                ->unsetChild('import_button')
+                ->unsetChild('import_services');
+        }
+    }
 }

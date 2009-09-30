@@ -946,4 +946,17 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $this->_forward();
         return false;
     }
+
+    /**
+     * Validate misc Manage Currency Rates requests
+     *
+     * @param Mage_Adminhtml_Controller_Action $controller
+     */
+    public function validateManageCurrencyRates($controller)
+    {
+        if (in_array($controller->getRequest()->getActionName(), array('fetchRates', 'saveRates'))) {
+            $this->_forward();
+            return false;
+        }
+    }
 }
