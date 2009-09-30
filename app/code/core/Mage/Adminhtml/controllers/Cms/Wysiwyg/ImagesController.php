@@ -147,15 +147,9 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
     {
         $filename = $this->getRequest()->getParam('filename');
         $filename = Mage::helper('core')->urlDecode($filename);
-        $fileurl = Mage::helper('cms/wysiwyg_images')->getCurrentUrl() . $filename;
-        $mediaPath = str_replace(Mage::getBaseUrl('media'), '', $fileurl);
-        $directive = sprintf('{{media url="%s"}}', $mediaPath);
-        if ($this->getRequest()->getParam('as_is')) {
-            $directive = sprintf('<img src="%s">', $directive);
-        } else {
-            $directive = $this->getUrl('*/cms_wysiwyg/directive', array('directive' => Mage::helper('core')->urlEncode($directive)));
-        }
-        $this->getResponse()->setBody($directive);
+        $asIs = $this->getRequest()->getParam('as_is');
+        $image = Mage::helper('cms/wysiwyg_images')->getImageHtmlDeclaration($filename, $asIs);
+        $this->getResponse()->setBody($image);
     }
 
     /**
