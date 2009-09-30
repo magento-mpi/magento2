@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Enterprise
- * @package     Enterprise_Cms
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
@@ -428,6 +428,34 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Return nearest parent params for node pagination
+     *
+     * @return array|null
+     */
+    public function getMetadataPagerParams()
+    {
+        return $this->getResource()->getMetadataParamsBasedOnVisibility($this, 'pager_visibility', true);
+    }
+
+    /**
+     * Return nearest parent params for node context menu
+     *
+     * @return array|null
+     */
+    public function getMetadataContextMenuParams()
+    {
+        $params = $this->getResource()->getMetadataParamsBasedOnVisibility($this, 'menu_visibility');
+        if ($params !== null
+            && $this->getData('menu_visibility') == Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT
+            && isset($params['menu_levels_up'])
+            && isset($params['level']))
+        {
+            $params['menu_levels_up'] = ($this->getLevel() - $params['level']) + $params['menu_levels_up'];
+        }
+        return $params;
+    }
+
+    /**
      * Process additional data after save.
      *
      * @return Enterprise_Cms_Model_Hierarchy_Node
@@ -435,10 +463,10 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     protected function _afterSave()
     {
         parent::_afterSave();
-
-        if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) {
+        // we save to metadata table not only metadata :(
+        //if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) {
             $this->_getResource()->saveMetaData($this);
-        }
+        //}
 
         return $this;
     }

@@ -36,6 +36,10 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
     const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
     const XML_PATH_METADATA_ENABLED     = 'cms/hierarchy/metadata_enabled';
 
+    const METADATA_VISIBILITY_YES       = '1';
+    const METADATA_VISIBILITY_NO        = '0';
+    const METADATA_VISIBILITY_PARENT    = '2';
+
     /**
      * Check is Enabled Hierarchy Functionality
      *
@@ -88,7 +92,7 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
      */
     public function copyMetaData($source, $target)
     {
-        if (!$this->isMetadataEnabled()) {
+        if (!is_array($source)) {
             return $target;
         }
 
@@ -106,13 +110,48 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
             }
         }
 
-        $fields = $this->getMetadataFields();
-        foreach ($fields as $element) {
-            if (isset($source[$element])) {
+        if ($this->isMetadataEnabled()) {
+            $fields = $this->getMetadataFields();
+            foreach ($fields as $element) {
+                if (array_key_exists($element, $source)) {
+                    $target[$element] = $source[$element];
+                }
+            }
+        } else {
+            $target = $this->_forcedCopyMetaData($source, $target);
+        }
+
+        return $target;
+    }
+
+
+    /**
+     * Copy metadata fields that don't depend on isMetadataEnabled
+     *
+     * @param array $source
+     * @param array $target
+     * @return array
+     */
+    protected function _forcedCopyMetaData($source, $target)
+    {
+        if (!is_array($source)) {
+            return $target;
+        }
+        $forced = array(
+            'pager_visibility',
+            'pager_frame',
+            'pager_jump',
+            'menu_visibility',
+            'menu_levels_up',
+            'menu_levels_down',
+            'menu_ordered',
+            'menu_list_type',
+        );
+        foreach ($forced as $element) {
+            if (array_key_exists($element, $source)) {
                 $target[$element] = $source[$element];
             }
         }
-
         return $target;
     }
 

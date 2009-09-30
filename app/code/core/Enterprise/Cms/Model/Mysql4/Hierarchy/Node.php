@@ -18,10 +18,10 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Enterprise
- * @package     Enterprise_Cms
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @category   Enterprise
+ * @package    Enterprise_Cms
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
 
 
@@ -82,7 +82,15 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                     'meta_first_last',
                     'meta_next_previous',
                     'meta_chapter',
-                    'meta_section'
+                    'meta_section',
+                    'pager_visibility',
+                    'pager_frame',
+                    'pager_jump',
+                    'menu_visibility',
+                    'menu_levels_up',
+                    'menu_levels_down',
+                    'menu_ordered',
+                    'menu_list_type'
                 ));
 
         return $select;
@@ -296,9 +304,10 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      */
     public function saveMetaData(Mage_Core_Model_Abstract $object)
     {
-        if ($object->getParentNodeId()) {
-            return $this;
-        }
+        // we save to metadata table not only metadata :(
+        //if ($object->getParentNodeId()) {
+        //    return $this;
+        //}
         $preparedData = $this->_prepareDataForTable($object, $this->_metadataTable);
         $this->_getWriteAdapter()->insertOnDuplicate(
             $this->_metadataTable, $preparedData, array_keys($preparedData));
@@ -486,6 +495,40 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         $nodes = $select->query()->fetchAll();
 
         return $nodes;
+    }
+
+    /**
+     * Return nearest parent params for pagination/menu or self object params if it doesn't inherit settings
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $object
+     * @param string $visibilityFieldName Visibility field name from metadata table
+     * @param bool $onlyParent Use only parent nodes settings, ignoring object params
+     * @return array|null
+     */
+    public function getMetadataParamsBasedOnVisibility($object, $visibilityFieldName, $onlyParent = false)
+    {
+        $params = array();
+
+        $objectFlag = $object->getData($visibilityFieldName);
+        if ($objectFlag == Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT || $onlyParent) {
+            $parentIds = preg_split('/\/{1}/', $object->getXpath(), 0, PREG_SPLIT_NO_EMPTY);
+            array_pop($parentIds); //remove self node
+            $select = $this->_getLoadSelectWithoutWhere()
+                ->where($this->getMainTable().'.node_id IN (?)', $parentIds)
+                ->where('metadata_table.'.$visibilityFieldName.' IN (?)', array(
+                    Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES,
+                    Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_NO
+                ))
+                ->order(array($this->getMainTable().'.level DESC'))
+                ->limit(1);
+            $params = $this->_getReadAdapter()->fetchRow($select);
+        } else {
+            $params = $object->getData();
+        }
+        if (is_array($params) && count($params) > 0) {
+            return $params;
+        }
+        return null;
     }
 
     /**

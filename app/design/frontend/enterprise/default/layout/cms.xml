@@ -41,16 +41,18 @@ Default layout, loads most of the pages
             </block>
         </reference>
     </default>
-    
+
     <cms_page translate="label">
         <label>CMS Pages (All)</label>
         <reference name="content">
+            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml"/>
             <block type="core/template" name="cms.wrapper" template="cms/wrapper.phtml">
                 <block type="cms/page" name="cms_page"/>
             </block>
+            <block type="enterprise_cms/hierarchy_pagination" name="hierarchy_pagination" template="cms/hierarchy/pagination.phtml"/>
         </reference>
     </cms_page>
-  
+
 
     <cms_index_defaultindex translate="label">
         <label>CMS Home Page</label>
@@ -69,7 +71,7 @@ Default layout, loads most of the pages
         <label>CMS No-Route Page</label>
         <remove name="right"/>
         <remove name="left"/>
-        
+
         <reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
@@ -78,5 +80,5 @@ Default layout, loads most of the pages
         </reference>
     </cms_index_defaultnoroute>
 
-        
+
 </layout>
