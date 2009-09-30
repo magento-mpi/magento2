@@ -395,17 +395,14 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     public function removeTagButtons($observer)
     {
         $model = Mage::registry('current_tag');
-        if ($model) {
+        if ($model && $model->getId()) {
             $storeIds = (array)$model->getVisibleInStoreIds();
-            // Remove admin store with id 0
-            if ($model->getId()){
-                $storeIds = array_filter($storeIds);
-                if (!$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
-                    $block = $observer->getEvent()->getBlock();
-                    $block->removeButton('save');
-                    $block->removeButton('save_and_edit_button');
-                    $block->removeButton('delete');
-                }
+            $storeIds = array_filter($storeIds); // remove admin store with id 0
+            if (!$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+                $block = $observer->getEvent()->getBlock();
+                $block->removeButton('save');
+                $block->removeButton('save_and_edit_button');
+                $block->removeButton('delete');
             }
         }
 
