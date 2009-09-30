@@ -70,6 +70,10 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
             $this->getLayout()->createBlock('adminhtml/system_currency_rate_matrix')
         );
 
+        $this->setChild('import_services',
+            $this->getLayout()->createBlock('adminhtml/system_currency_rate_services')
+        );
+
         return parent::_prepareLayout();
     }
 
@@ -95,14 +99,7 @@ class Mage_Adminhtml_Block_System_Currency extends Mage_Adminhtml_Block_Template
 
     protected function getServicesHtml()
     {
-        return $this->getLayout()->createBlock('adminhtml/html_select')
-            ->setOptions(Mage::getModel('adminhtml/system_config_source_currency_service')->toOptionArray(0))
-            ->setId('rate_services')
-            ->setName('rate_services')
-            ->setValue(Mage::getSingleton('adminhtml/session')->getCurrencyRateService(true))
-            ->setTitle(Mage::helper('adminhtml')->__('Import Service'))
-            ->toHtml();
-
+        return $this->getChildHtml('import_services');
     }
 
     protected function getRatesMatrixHtml()

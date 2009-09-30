@@ -26,23 +26,8 @@
 ?>
 <?php
 /**
- * @var $this Mage_Adminhtml_Block_System_Currency
+ * @var $this Mage_Adminhtml_Block_System_Currency_Rate_Services
  */
 ?>
-<div class="content-header">
-    <table cellspacing="0">
-        <tr>
-            <td style="width:50%;"><h3 class="icon-head head-system-currency"><?php echo $this->getHeader() ?></h3></td>
-            <td class="form-buttons">
-                <form action="<?php echo $this->getImportFormAction() ?>" method="post">
-                    <?php echo $this->getBlockHtml('formkey')?>
-                    <?php echo $this->getServicesHtml() ?>
-                    <?php echo $this->getImportButtonHtml() ?>
-                </form>
-                <?php echo $this->getResetButtonHtml() ?>
-                <?php echo $this->getSaveButtonHtml() ?>
-            </td>
-        </tr>
-    </table>
-</div>
-<?php echo $this->getRatesMatrixHtml() ?>
+<strong><?php echo $this->__('Import Service') ?></strong>
+<?php echo $this->getChildHtml('import_services') ?>
