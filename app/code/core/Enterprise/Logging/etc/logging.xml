@@ -324,7 +324,11 @@
     <customer translate="label">
         <label>Customers</label>
         <expected_models>
-            <customer__customer/>
+            <customer__customer>
+                <skip_data>
+                    <new_password/>
+                </skip_data>
+            </customer__customer>
         </expected_models>
         <actions>
             <adminhtml_customer_edit>
