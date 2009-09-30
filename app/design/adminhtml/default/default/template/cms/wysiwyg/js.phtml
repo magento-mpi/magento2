@@ -52,6 +52,7 @@ Wysiwyg.Images.prototype = {
     },
 
     selectFolder: function (node, event) {
+        this.hideFileButtons();
         this.expandFolder(node, event);
         this.activateBlock('contents');
         this.showElement('loading-mask');
@@ -84,12 +85,20 @@ Wysiwyg.Images.prototype = {
         })
         div.toggleClassName('selected');
         if($$('div.selected').length > 0) {
-            this.showElement('button_delete_files');
-            this.showElement('button_insert_files');
+            this.showFileButtons();
         } else {
-            this.hideElement('button_delete_files');
-            this.hideElement('button_insert_files');
+            this.hideFileButtons();
         }
+    },
+
+    showFileButtons: function () {
+        this.showElement('button_delete_files');
+        this.showElement('button_insert_files');
+    },
+
+    hideFileButtons: function () {
+        this.hideElement('button_delete_files');
+        this.hideElement('button_insert_files');
     },
 
     expandFolder: function (node, event) {
