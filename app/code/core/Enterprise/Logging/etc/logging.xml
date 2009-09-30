@@ -698,16 +698,16 @@
 
     <sales_invoices translate="label">
         <label>Sales Invoices</label>
+        <expected_models>
+            <sales__order_invoice/>
+        </expected_models>
         <actions>
-            <adminhtml_sales_order_invoice_view>
+            <adminhtml_sales_invoice_view>
                 <action>view</action>
-            </adminhtml_sales_order_invoice_view>
+            </adminhtml_sales_invoice_view>
 
             <adminhtml_sales_order_invoice_save>
                 <action>save</action>
-                <expected_models>
-                    <sales__order_invoice/>
-                </expected_models>
                 <skip_on_back>
                     <adminhtml_system_config_edit/>
                     <adminhtml_sales_order_view/>
@@ -718,20 +718,16 @@
 
     <sales_shipments translate="label">
         <label>Sales Shipments</label>
+        <expected_models>
+            <sales__order_shipment/>
+        </expected_models>
         <actions>
             <adminhtml_sales_shipment_view>
                 <action>view</action>
             </adminhtml_sales_shipment_view>
 
-            <adminhtml_sales_order_shipment_view>
-                <action>view</action>
-            </adminhtml_sales_order_shipment_view>
-
             <adminhtml_sales_order_shipment_save>
                 <action>save</action>
-                <expected_models>
-                    <sales__order_shipment/>
-                </expected_models>
                 <skip_on_back>
                     <adminhtml_sales_order_view/>
                 </skip_on_back>
@@ -741,20 +737,16 @@
 
     <sales_creditmemos translate="label">
         <label>Sales Creditmemos</label>
+        <expected_models>
+            <sales__order_creditmemo/>
+        </expected_models>
         <actions>
             <adminhtml_sales_creditmemo_view>
                 <action>view</action>
             </adminhtml_sales_creditmemo_view>
 
-            <adminhtml_sales_order_creditmemo_view>
-                <action>view</action>
-            </adminhtml_sales_order_creditmemo_view>
-
             <adminhtml_sales_order_creditmemo_save>
                 <action>save</action>
-                <expected_models>
-                    <sales__order_creditmemo/>
-                </expected_models>
                 <skip_on_back>
                     <adminhtml_sales_order_view/>
                 </skip_on_back>
