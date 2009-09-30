@@ -272,11 +272,11 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             );
         }
         $_urlInstanceOldStore = null;
-        if (!empty($path) && !Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
+        if (!Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
             && !Mage::app()->isSingleStoreMode())
         {
             $params['_query']['___store'] = Mage::app()->getStore(Mage::getDesign()->getStore())->getCode();
-        } elseif (!empty($path) && Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
+        } elseif (Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
             && !Mage::app()->isSingleStoreMode())
         {
             $_urlInstanceOldStore = self::$_urlInstance->getStore();
