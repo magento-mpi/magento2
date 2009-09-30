@@ -22,7 +22,7 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-var PaypalExpress = Class.create();alert('j');
+var PaypalExpress = Class.create();
 PaypalExpress.prototype = {
     initialize: function(form, saveShippingMethodUrl, saveOrderUrl, successUrl){
         this.form = form;
