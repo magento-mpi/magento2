@@ -29,7 +29,7 @@
         <tr>
             <td style="width:50%;"><h3 class="icon-head head-system-email-template"><?php echo $this->getHeaderText() ?></h3></td>
             <td class="form-buttons">
-                <button class="scalable add" onclick="window.location='<?php echo $this->getCreateUrl() ?>'"><span><?php echo $this->__('Add New Template'); ?></span></button>
+                <?php echo $this->getChildHtml('add_button') ?>
             </td>
         </tr>
     </table>
