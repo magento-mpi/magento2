@@ -28,9 +28,8 @@
 $installer = $this;
 $installer->startSetup();
 
-$now = Mage::app()->getLocale()->date();
-$now->setTimezone(Mage_Core_Model_Locale::DEFAULT_TIMEZONE);
-$now->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+$now = new Zend_Date(time());
+$now = $now->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
 
 $installer->getConnection()->insert($installer->getTable('cms/page'), array(
         'title' => '503 Service Unavailable',

@@ -28,5 +28,6 @@
 /* @var $installer Enterprise_Cms_Model_Mysql4_Setup */
 $installer = $this;
 
-$pageTable = $installer->getTable('cms/page');
-$installer->getConnection()->addColumn($pageTable, 'under_version_control', 'tinyint(1) unsigned default 0');
+$installer->getConnection()->changeColumn($installer->getTable('cms/page'), 'under_version_control',
+    'under_version_control', 'tinyint(1) unsigned default 0'
+);
