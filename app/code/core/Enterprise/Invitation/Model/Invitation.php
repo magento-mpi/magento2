@@ -98,7 +98,7 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         if (!$this->getId()) {
             // set initial data for new one
             $this->addData(array(
-                'protection_code' => md5(microtime(true)),
+                'protection_code' => Mage::helper('core')->uniqHash(),
                 'status'          => self::STATUS_NEW,
                 'date'            => $this->getResource()->formatDate(time()),
                 'store_id'        => $this->getStoreId(),

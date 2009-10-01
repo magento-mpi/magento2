@@ -433,7 +433,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
         if ($templatePath) {
             $template = ' template="'.$templatePath.'"';
         }
-        $xml .= '<block type="'.$this->getType().'" name="'.md5(microtime()).'"'.$template.' '.$position.'="-">';
+        $xml .= '<block type="'.$this->getType().'" name="' . Mage::helper('core')->uniqHash() . '"'.$template.' '.$position.'="-">';
         foreach ($parameters as $name => $value) {
             $xml .= '<action method="setData"><name>'.$name.'</name><value>'.Mage::helper('enterprise_cms')->htmlEscape($value).'</value></action>';
         }

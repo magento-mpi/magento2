@@ -57,7 +57,7 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = $element->getId() . md5(microtime());
+        $uniqId = Mage::helper('core')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/banner_widget/chooser', array(
             'uniq_id' => $uniqId
         ));
