@@ -107,7 +107,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 */
         $this->addColumn('label', array(
-            'header' => Mage::helper('enterprise_cms')->__('Label'),
+            'header' => Mage::helper('enterprise_cms')->__('Version Label'),
             'index' => 'label',
             'type' => 'options',
             'options' => $this->getCollection()
@@ -212,9 +212,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
             $this->getMassactionBlock()->setFormFieldName('version');
 
             $this->getMassactionBlock()->addItem('delete', array(
-                 'label'=> Mage::helper('enterprise_cms')->__('Delete'),
-                 'url'  => $this->getUrl('*/*/massDeleteVersions', array('_current' => true)),
-                 'confirm' => Mage::helper('enterprise_cms')->__('Are you sure?')
+                'label'    => Mage::helper('enterprise_cms')->__('Delete'),
+                'url'      => $this->getUrl('*/*/massDeleteVersions', array('_current' => true)),
+                'confirm'  => Mage::helper('enterprise_cms')->__('Are you sure?'),
+                'selected' => true,
             ));
         }
         return $this;

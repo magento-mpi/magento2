@@ -82,8 +82,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit_Form extends Mage_Adm
 
         $fieldset->addField('label', 'text', array(
             'name'      => 'label',
-            'label'     => Mage::helper('enterprise_cms')->__('Label'),
-            'title'     => Mage::helper('enterprise_cms')->__('Label'),
+            'label'     => Mage::helper('enterprise_cms')->__('Version Label'),
             'disabled'  => !$isOwner,
             'required'  => true
         ));

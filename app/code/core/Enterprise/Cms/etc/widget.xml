@@ -43,13 +43,13 @@
                 </node_id>
                 <anchor_text translate="label description">
                     <visible>1</visible>
-                    <label>Anchor Text</label>
-                    <description>If empty, will render Node or Page Name</description>
+                    <label>Anchor Custom Text</label>
+                    <description>If empty, will use the Node or Page Name</description>
                     <type>text</type>
                 </anchor_text>
                 <title translate="label">
                     <visible>1</visible>
-                    <label>Anchor Title</label>
+                    <label>Anchor Custom Title</label>
                     <type>text</type>
                 </title>
             </parameters>

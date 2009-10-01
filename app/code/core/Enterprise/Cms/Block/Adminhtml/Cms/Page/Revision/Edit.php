@@ -70,7 +70,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
 
             $this->_addButton('save_publish', array(
                 'id'        => 'save_publish_button',
-                'label'     => Mage::helper('enterprise_cms')->__('Save And Publish'),
+                'label'     => Mage::helper('enterprise_cms')->__('Save and Publish'),
                 'onclick'   => "saveAndPublishAction(editForm, '" . $this->getSaveUrl() . "')",
                 'class'     => 'publish no-display',
             ), 1);

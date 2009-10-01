@@ -78,8 +78,8 @@ class Enterprise_Cms_Model_Observer
         if ($page) {
 
             $baseFieldset->addField('under_version_control', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('Is Under Version Control'),
-                'title'     => Mage::helper('enterprise_cms')->__('Is Under Version Control'),
+                'label'     => Mage::helper('enterprise_cms')->__('Under Version Control'),
+                'title'     => Mage::helper('enterprise_cms')->__('Under Version Control'),
                 'name'      => 'under_version_control',
                 'values'    => Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray()
             ));

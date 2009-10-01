@@ -171,22 +171,24 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
             'name'      => 'in_banners',
             'values'    => $this->getSelectedBanners(),
             'align'     => 'center',
-            'index'     => 'banner_id'
+            'index'     => 'banner_id',
+            'width'     => 20,
         ));
 
         $this->addColumn('position', array(
-            'header'            => Mage::helper('enterprise_banner')->__('Position'),
-            'name'              => 'position',
-            'type'              => 'number',
-            'validate_class'    => 'validate-number',
-            'index'             => 'position',
-            'width'             => 60,
-            'editable'          => true
+            'header'         => Mage::helper('enterprise_banner')->__('Position'),
+            'name'           => 'position',
+            'type'           => 'number',
+            'validate_class' => 'validate-number',
+            'index'          => 'position',
+            'width'          => 20,
+            'editable'       => true,
+            'filter'         => false,
+            'edit_only'      => true,
         ));
+        $this->addColumnsOrder('position', 'banner_is_enabled');
 
-        parent::_prepareColumns();
-
-        return $this;
+        return parent::_prepareColumns();
     }
 
     /* Set custom filter for in banner flag

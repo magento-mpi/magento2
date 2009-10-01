@@ -57,7 +57,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit extends Mage_Admin
             $this->_addButton(
                 'save_and_edit_button',
                 array(
-                    'label'     => Mage::helper('enterprise_cms')->__('Save And Continue Edit'),
+                    'label'     => Mage::helper('enterprise_cms')->__('Save and Continue Edit'),
                     'class'     => 'save',
                     'onclick'   => 'saveAndContinueEdit()'
                 ),

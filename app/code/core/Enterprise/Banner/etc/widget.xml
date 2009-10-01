@@ -59,19 +59,19 @@
                     <values>
                         <none translate="label">
                             <value></value>
-                            <label>Do not rotate, display All</label>
+                            <label>Do not rotate, display all at once</label>
                         </none>
                         <random translate="label">
                             <value>random</value>
-                            <label>One, Random</label>
+                            <label>One at the time, Random</label>
                         </random>
                         <series translate="label">
                             <value>series</value>
-                            <label>One, Series</label>
+                            <label>One at the time, Series</label>
                         </series>
                         <shuffle translate="label">
                             <value>shuffle</value>
-                            <label>One, Shuffle</label>
+                            <label>One at the time, Shuffle</label>
                         </shuffle>
                     </values>
                 </rotate >

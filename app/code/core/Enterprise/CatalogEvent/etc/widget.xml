@@ -29,7 +29,7 @@
     <widgets>
         <event_lister type="enterprise_catalogevent/widget_lister" translate="name description" module="enterprise_catalogevent">
             <name>Catalog Events Carousel</name>
-            <description>List all non-closed Catalog Events as a Paginated Carousel</description>
+            <description>List all open Catalog Events as a Paginated Carousel</description>
             <parameters>
                 <limit translate="label description">
                     <required>1</required>
@@ -49,7 +49,7 @@
                 </scroll>
                 <width translate="label description">
                     <visible>1</visible>
-                    <label>Block Width</label>
+                    <label>Block Custom Width</label>
                     <description>Use CSS-compatible syntax. If empty, will be determined automatically</description>
                     <type>text</type>
                 </width>
