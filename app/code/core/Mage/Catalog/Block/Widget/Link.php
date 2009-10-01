@@ -90,9 +90,11 @@ class Mage_Catalog_Block_Widget_Link
         if (!$this->_anchorText && $this->_entityResource) {
             if (!$this->getData('anchor_text')) {
                 $idPath = explode('/', $this->_getData('id_path'));
-                $id = array_pop($idPath);
-                if ($id) {
-                    $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name', Mage::app()->getStore());
+                if (isset($idPath[1])) {
+                    $id = $idPath[1];
+                    if ($id) {
+                        $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name', Mage::app()->getStore());
+                    }
                 }
             } else {
                 $this->_anchorText = $this->getData('anchor_text');
