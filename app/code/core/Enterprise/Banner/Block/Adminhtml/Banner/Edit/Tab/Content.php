@@ -100,7 +100,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
             'tab_id' => $this->getTabId(),
             'skip_widgets' => array('enterprise_banner/widget_banner')
         ));
-        $fieldsetHtmlClass = 'banner_fieldset';
+        $fieldsetHtmlClass = 'fieldset-wide';
 
         // add default content fieldset
         $fieldset = $form->addFieldset('default_fieldset', array(
@@ -119,12 +119,13 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         // fieldset and content areas per store views
         $fieldset = $form->addFieldset('scopes_fieldset', array(
             'legend' => Mage::helper('enterprise_banner')->__('Store View Specific Content'),
-            'class'  => $fieldsetHtmlClass,
+            'class'  => "$fieldsetHtmlClass stores-tree",
         ));
         $wysiwygConfig->setUseContainer(true);
         foreach (Mage::app()->getWebsites() as $website) {
             $fieldset->addField("w_{$website->getId()}_label", 'note', array(
-                'label'    => $website->getName(),
+                'label' => $website->getName(),
+                'fieldset_html_class' => 'website',
             ));
             foreach ($website->getGroups() as $group) {
                 $stores = $group->getStores();
@@ -132,7 +133,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
                     continue;
                 }
                 $fieldset->addField("sg_{$group->getId()}_label", 'note', array(
-                    'label'    => $group->getName(),
+                    'label' => $group->getName(),
+                    'fieldset_html_class' => 'store-group',
                 ));
                 foreach ($stores as $store) {
                     $storeContent = isset($storeContents[$store->getId()]) ? $storeContents[$store->getId()] : '';
@@ -148,7 +150,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
                         'after_element_html' => '<label class="normal" for="' . $form->getHtmlIdPrefix()
                             . 'store_' . $store->getId() .'_content_use">'
                             . Mage::helper('enterprise_banner')->__('Use Default') . '</label>',
-                        'value'     => $store->getId()
+                        'value'     => $store->getId(),
+                        'fieldset_html_class' => 'store',
                     ));
 
                     $fieldset->addField($contentFieldId, 'editor', array(
@@ -158,7 +161,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
                         'container_id' => $contentFieldId,
                         'config'       => $wysiwygConfig,
                         'wysiwyg'      => false,
-                        'note'         => -1,
                         'after_element_html' => $storeContent ? ''
                             : '<script type="text/javascript">$(\'' . $contentFieldId . '\').hide();</script>',
                     ));
