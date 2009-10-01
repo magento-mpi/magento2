@@ -98,7 +98,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         $form->setHtmlIdPrefix('banner_content_');
         $wysiwygConfig = Mage::getSingleton('cms/wysiwyg_config')->getConfig(array(
             'tab_id' => $this->getTabId(),
-            'skip_widgets' => array('enterprise_banner/widget_banner')
+            'skip_widgets' => array('enterprise_banner/widget_banner'),
         ));
         $fieldsetHtmlClass = 'fieldset-wide';
 
@@ -109,11 +109,12 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         ));
         $storeContents = $banner->getStoreContents();
         $fieldset->addField('store_default_content', 'editor', array(
-            'name'    => 'store_contents[0]',
-            'value'   => isset($storeContents[0]) ? $storeContents[0] : '',
-            'config'  => $wysiwygConfig,
-            'wysiwyg' => false,
-            'label'   => Mage::helper('enterprise_banner')->__('Banner Default Content for All Store Views'),
+            'name'     => 'store_contents[0]',
+            'value'    => isset($storeContents[0]) ? $storeContents[0] : '',
+            'config'   => $wysiwygConfig,
+            'wysiwyg'  => false,
+            'label'    => Mage::helper('enterprise_banner')->__('Banner Default Content for All Store Views'),
+            'required' => true,
         ));
 
         // fieldset and content areas per store views

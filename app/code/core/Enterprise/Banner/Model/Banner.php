@@ -205,4 +205,19 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
         }
         return parent::_afterSave();
     }
+
+    /**
+     * Validate some data before saving
+     * @return Enterprise_Banner_Model_Banner
+     */
+    protected function _beforeSave()
+    {
+        if ('' == trim($this->getName())) {
+            Mage::throwException(Mage::helper('enterprise_banner')->__('Name must not be empty.'));
+        }
+        if ('' == trim($this->getStoreContent(0))) {
+            Mage::throwException(Mage::helper('enterprise_banner')->__('Default content must not be empty.'));
+        }
+        return parent::_beforeSave();
+    }
 }

@@ -81,8 +81,8 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     public function saveAction()
     {
         $redirectBack = $this->getRequest()->getParam('back', false);
-        // check if data sent
         if ($data = $this->getRequest()->getPost()) {
+            // prepare post data
             if (isset($data['banner_catalog_rules'])) {
                 $related = Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['banner_catalog_rules']);
                 foreach ($related as $_key => $_rid) {
@@ -97,47 +97,30 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
                 }
                 $data['banner_sales_rules'] = $related;
             }
-            // init model and set data
+
+            // save model
             $model = Mage::getModel('enterprise_banner/banner');
-            if (!empty($data)) {
-                $model->addData($data);
-            }
-
-            // try to save it
             try {
-                // save the data
-                $model->save();
-
-                // clear previously saved data from session
-                Mage::getSingleton('adminhtml/session')->setFormData(false);
-
-                // check if 'Save and Continue'
-                if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('id' => $model->getId()));
-                    return;
+                if (!empty($data)) {
+                    $model->addData($data);
+                    Mage::getSingleton('adminhtml/session')->setFormData($data);
                 }
-                // go to grid
-                $this->_redirect('*/*/');
-                return;
-
+                $model->save();
+                Mage::getSingleton('adminhtml/session')->setFormData(false);
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
+                $redirectBack = true;
             } catch (Exception $e) {
-                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('Error while saving banner data. Please review log and try again.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_banner')->__('Unable to save banner.'));
+                $redirectBack = true;
                 Mage::logException($e);
-                // save data in session
-                Mage::getSingleton('adminhtml/session')->setFormData($data);
-                // redirect to edit form
+            }
+            if ($redirectBack) {
                 $this->_redirect('*/*/edit', array('id' => $model->getId()));
                 return;
             }
         }
-        if ($redirectBack) {
-            $this->_redirect('*/*/edit', array('_current' => true));
-        }
-        else {
-            $this->_redirect('*/*/');
-        }
+        $this->_redirect('*/*/');
     }
 
     /**
