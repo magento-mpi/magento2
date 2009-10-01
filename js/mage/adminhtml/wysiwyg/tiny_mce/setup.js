@@ -133,7 +133,7 @@ tinyMceWysiwygSetup.prototype =
         if (type != undefined && type != "") {
             wUrl = wUrl + "type/" + type + "/";
         }
-        win.open(wUrl, "imagesBrowser", "width=" + wWidth + ", height=" + wHeight);
+        openEditorPopup(wUrl, 'browser_window' + this.id, 'width=' + wWidth + ', height=' + wHeight, win);
     },
 
     toggle: function() {
@@ -145,6 +145,10 @@ tinyMceWysiwygSetup.prototype =
     },
 
     toggleEditorControl: function() {
+        // close all popups to avoid problems with updating parent content area
+        closeEditorPopup('widget_window' + this.id);
+        closeEditorPopup('browser_window' + this.id);
+
         if (!tinyMCE.get(this.id)) {
             this.setup();
             setTimeout('',1000);

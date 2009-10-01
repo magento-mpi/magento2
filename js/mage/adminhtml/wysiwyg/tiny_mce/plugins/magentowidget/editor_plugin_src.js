@@ -39,16 +39,17 @@ tinyMCE.addI18n({en:{
          */
         init : function(ed, url) {
             ed.addCommand('mceMagentowidget', function() {
-                ed.windowManager.open({
-                    file : ed.settings.magentowidget_url,
-                    name : 'widget' + ed.settings.elements,
-                    width : 1024,
-                    height : 800,
-                    popup_css : ed.settings.custom_popup_css,
-                    scrollbars : 'yes'
-                }, {
-                    plugin_url : url
-                });
+                openEditorPopup(ed.settings.magentowidget_url, 'widget_window' + ed.settings.elements, 'width=1024,height=800,scrollbars=yes');
+//                ed.windowManager.open({
+//                    file : ed.settings.magentowidget_url,
+//                    name : 'widget' + ed.settings.elements,
+//                    width : 1024,
+//                    height : 800,
+//                    popup_css : ed.settings.custom_popup_css,
+//                    scrollbars : 'yes'
+//                }, {
+//                    plugin_url : url
+//                });
             });
 
             // Register Widget plugin button

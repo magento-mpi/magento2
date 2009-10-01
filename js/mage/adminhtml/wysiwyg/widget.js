@@ -203,7 +203,8 @@ WysiwygWidget.Widget.prototype = {
         	this.getWysiwyg().focus();
         } else {
             var parent = this.getPopup().opener;
-            var textarea = parent.document.getElementById(this.getPopup().name);
+            var textareaId = this.getPopup().name.replace(/widget_window/g, '');
+            var textarea = parent.document.getElementById(textareaId);
             updateElementAtCursor(textarea, content, this.getPopup().opener);
         }
     },

@@ -165,9 +165,10 @@ Wysiwyg.Images.prototype = {
 
     getTargetElement: function() {
         var parent = self.opener;
+        var textareaId = self.name.replace(/browser_window/g, '');
         return (parent.document.getElementById('src')
             || parent.document.getElementById('href')
-            || parent.document.getElementById(self.name));
+            || parent.document.getElementById(textareaId));
     },
 
     newFolder: function() {
