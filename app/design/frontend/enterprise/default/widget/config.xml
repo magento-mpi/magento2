@@ -33,15 +33,15 @@
                     <values>
                         <list_default translate="label">
                             <value>catalog/product/widget/new/column/new_default_list.phtml</value>
-                            <label>Products Images and Names Template</label>
+                            <label>New Products Images and Names Template</label>
                         </list_default>
                         <list_names translate="label">
                             <value>catalog/product/widget/new/column/new_names_list.phtml</value>
-                            <label>Products Names Only Template</label>
+                            <label>New Products Names Only Template</label>
                         </list_names>
                         <list_images translate="label">
                             <value>catalog/product/widget/new/column/new_images_list.phtml</value>
-                            <label>Products Images Only Template</label>
+                            <label>New Products Images Only Template</label>
                         </list_images>
                     </values>
                 </template>
@@ -73,15 +73,15 @@
                     <values>
                         <list_default translate="label">
                             <value>reports/widget/compared/column/compared_default_list.phtml</value>
-                            <label>Products Images and Names Template</label>
+                            <label>Compared Products Images and Names Template</label>
                         </list_default>
                         <list_names translate="label">
                             <value>reports/widget/compared/column/compared_names_list.phtml</value>
-                            <label>Product Names Only Template</label>
+                            <label>Compared Product Names Only Template</label>
                         </list_names>
                         <list_images translate="label">
                             <value>reports/widget/compared/column/compared_images_list.phtml</value>
-                            <label>Product Images Only Template</label>
+                            <label>Compared Product Images Only Template</label>
                         </list_images>
                     </values>
                 </template>
