@@ -48,6 +48,20 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
     protected $_reviewsHelperBlock;
 
     /**
+     * Default product amount per row
+     *
+     * @var int
+     */
+    protected $_defaultColumnCount = 3;
+
+    /**
+     * Product amount per row depending on custom page layout of category
+     *
+     * @var array
+     */
+    protected $_columnCountLayoutDepend = array();
+
+    /**
      * Retrieve url for add product to cart
      * Will return product view page URL if product has required options
      *
@@ -349,5 +363,80 @@ abstract class Mage_Catalog_Block_Product_Abstract extends Mage_Core_Block_Templ
         }
 
         return false;
+    }
+
+    /**
+     * Retrieve product amount per row
+     *
+     * @return int
+     */
+    public function getColumnCount()
+    {
+        if (!$this->_getData('column_count')) {
+            $pageLayout = $this->getPageLayout();
+            if ($pageLayout && $this->getColumnCountLayoutDepend($pageLayout->getCode())) {
+                $this->setData(
+                    'column_count',
+                    $this->getColumnCountLayoutDepend($pageLayout->getCode())
+                );
+            } else {
+                $this->setData('column_count', $this->_defaultColumnCount);
+            }
+        }
+
+        return (int) $this->_getData('column_count');
+    }
+
+    /**
+     * Add row size depends on page layout
+     *
+     * @param string $pageLayout
+     * @param int $rowSize
+     * @return Mage_Catalog_Block_Product_List
+     */
+    public function addColumnCountLayoutDepend($pageLayout, $columnCount)
+    {
+        $this->_columnCountLayoutDepend[$pageLayout] = $columnCount;
+        return $this;
+    }
+
+    /**
+     * Remove row size depends on page layout
+     *
+     * @param string $pageLayout
+     * @return Mage_Catalog_Block_Product_List
+     */
+    public function removeColumnCountLayoutDepend($pageLayout)
+    {
+        if (isset($this->_columnCountLayoutDepend[$pageLayout])) {
+            unset($this->_columnCountLayoutDepend[$pageLayout]);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve row size depends on page layout
+     *
+     * @param string $pageLayout
+     * @return int|boolean
+     */
+    public function getColumnCountLayoutDepend($pageLayout)
+    {
+        if (isset($this->_columnCountLayoutDepend[$pageLayout])) {
+            return $this->_columnCountLayoutDepend[$pageLayout];
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrieve current page layout
+     *
+     * @return Varien_Object
+     */
+    public function getPageLayout()
+    {
+        return $this->helper('page/layout')->getCurrentPageLayout();
     }
 }
