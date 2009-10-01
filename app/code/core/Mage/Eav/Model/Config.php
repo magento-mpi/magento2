@@ -427,12 +427,15 @@ class Mage_Eav_Model_Config
                 }
                 $attributeKey = $this->_getAttributeKey($entityTypeCode, $attribute->getAttributeCode());
             } else {
-                $attribute = Mage::getModel($entityType->getAttributeModel())->loadByCode($entityType, $code);
+                $attribute = Mage::getModel($entityType->getAttributeModel())
+                    ->loadByCode($entityType, $code)
+                    ->setAttributeCode($code);
             }
         }
 
         if ($attribute) {
-            $attribute->setEntityType($entityType);
+            $attribute->setEntityType($entityType)
+                ->setEntityTypeId($entityType->getId());
             $this->_addAttributeReference($attribute->getId(), $attribute->getAttributeCode(), $entityTypeCode);
             $this->_save($attribute, $attributeKey);
         }
