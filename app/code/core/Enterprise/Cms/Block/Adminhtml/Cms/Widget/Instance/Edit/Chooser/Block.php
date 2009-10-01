@@ -177,7 +177,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
             $this->_collectBlocks();
             array_unshift($this->_blocks, array(
                 'value' => '',
-                'label' => Mage::helper('enterprise_cms')->__('-- Please Select Block Reference --')
+                'label' => Mage::helper('enterprise_cms')->__('-- Please Select --')
             ));
         }
         return $this->_blocks;

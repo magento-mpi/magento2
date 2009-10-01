@@ -36,10 +36,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Template
 {
     protected function _toHtml()
     {
-        $selectTemplate = $this->getLayout()->createBlock('core/html_select')
-            ->setName('template')
-            ->setOptions($this->getWidgetTemplates())
-            ->setValue($this->getSelected());
-        return parent::_toHtml().$selectTemplate->toHtml();
+        if (!$this->getWidgetTemplates()) {
+            $html = '<p class="nm"><small>'.Mage::helper('enterprise_cms')->__('Please Select Block Reference First').'</small></p>';
+        } else {
+            $html = $this->getLayout()->createBlock('core/html_select')
+                ->setName('template')
+                ->setOptions($this->getWidgetTemplates())
+                ->setValue($this->getSelected())->toHtml();
+        }
+        return parent::_toHtml().$html;
     }
 }

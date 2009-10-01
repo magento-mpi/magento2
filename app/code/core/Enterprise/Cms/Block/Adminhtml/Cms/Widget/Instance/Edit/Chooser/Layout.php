@@ -122,7 +122,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
         $selectBlock = $this->getLayout()->createBlock('core/html_select')
             ->setName($this->getSelectName())
             ->setId('layout_handle')
-            ->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_reference\', this.up(\'div.pages\'), this.value)"')
+            ->setExtraParams("onchange=\"WidgetInstance.loadSelectBoxByType(\'block_reference\', this.up(\'div.pages\'), this.value)\"")
             ->setOptions($this->getLayoutHandles(
                 $this->getArea(),
                 $this->getPackage(),
