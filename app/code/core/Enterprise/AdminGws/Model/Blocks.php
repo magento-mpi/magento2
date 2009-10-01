@@ -580,9 +580,11 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeGiftCardAccountAddButton($observer)
     {
-        $block = $observer->getEvent()->getBlock();
         if ($this->_role->getIsStoreLevel()) {
-            $observer->getEvent()->getBlock()->removeButton('add');
+            $block = $observer->getEvent()->getBlock();
+            if ($block) {
+                $block->removeButton('add');
+            }
         }
     }
 
