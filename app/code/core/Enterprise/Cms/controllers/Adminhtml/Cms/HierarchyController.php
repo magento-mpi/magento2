@@ -120,7 +120,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
 
                 $hasError = false;
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_cms')->__('Hierarchy was successfully saved')
+                    Mage::helper('enterprise_cms')->__('Hierarchy has been successfully saved.')
                 );
             }
             catch (Mage_Core_Exception $e) {
@@ -128,8 +128,9 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
             }
             catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_cms')->__('Error while saving this Hierarchy. Please try again later.')
+                    Mage::helper('enterprise_cms')->__('Error in saving hierarchy.')
                 );
+                Mage::logException($e);
             }
 
             if ($hasError) {

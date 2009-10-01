@@ -34,7 +34,7 @@
 class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Getter
+     * Session getter
      *
      * @return Mage_Adminhtml_Model_Session
      */
@@ -73,7 +73,7 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         if ($instanceId) {
             $widgetInstance->load($instanceId);
             if (!$widgetInstance->getId()) {
-                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('Widget instance is no longer exists.'));
+                $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('Wrong wigdet instance specified.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -157,7 +157,7 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         try {
             $widgetInstance->save();
             $this->_getSession()->addSuccess(
-                Mage::helper('enterprise_cms')->__('Widget instance was successfully saved .')
+                Mage::helper('enterprise_cms')->__('Widget instance has been successfully saved.')
             );
             if ($this->getRequest()->getParam('back', false)) {
                     $this->_redirect('*/*/edit', array(
@@ -188,7 +188,7 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
             try {
                 $widgetInstance->delete();
                 $this->_getSession()->addSuccess(
-                    Mage::helper('enterprise_cms')->__('Widget instance was successfully deleted.')
+                    Mage::helper('enterprise_cms')->__('Widget instance has been successfully deleted.')
                 );
             } catch (Exception $e) {
                 $this->_getSession()->addError($e->getMessage());

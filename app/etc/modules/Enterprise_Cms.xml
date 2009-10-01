@@ -31,8 +31,8 @@
             <active>false</active>
             <codePool>core</codePool>
             <depends>
-                <Mage_Adminhtml />
-                <Mage_Cms />
+                <Mage_Adminhtml/>
+                <Mage_Cms/>
             </depends>
         </Enterprise_Cms>
     </modules>

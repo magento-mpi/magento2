@@ -42,7 +42,7 @@ class Enterprise_Cms_Model_Source_Hierarchy_Menu_Listmode
     {
         return array(
             ''          => Mage::helper('enterprise_cms')->__('Default'),
-            '1'         => Mage::helper('enterprise_cms')->__('Arabic Numbers (1, 2, 3, ...)'),
+            '1'         => Mage::helper('enterprise_cms')->__('Numbers (1, 2, 3, ...)'),
             'a'         => Mage::helper('enterprise_cms')->__('Lower Alpha (a, b, c, ...)'),
             'A'         => Mage::helper('enterprise_cms')->__('Upper Alpha (A, B, C, ...)'),
             'i'         => Mage::helper('enterprise_cms')->__('Lower Roman (i, ii, iii, ...)'),
