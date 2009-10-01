@@ -55,7 +55,23 @@ class Mage_Checkout_Model_Session extends Mage_Core_Model_Session_Abstract
             /* @var $quote Mage_Sales_Model_Quote */
             if ($this->getQuoteId()) {
                 $quote->load($this->getQuoteId());
-                if (!$quote->getId()) {
+                if ($quote->getId()) {
+                    /**
+                     * If current currency code of quote is not equal current currency code of store, 
+                     * need recalculate totals of quote. It is possible if customer use currency switcher or 
+                     * store switcher.
+                     */
+                    if ($quote->getQuoteCurrencyCode() != Mage::app()->getStore()->getCurrentCurrencyCode()) {
+                        $quote->setStore(Mage::app()->getStore());
+                        $quote->collectTotals()->save();
+                        /*
+                         * We mast to create new quote object, because collectTotals() 
+                         * can to create links with other objects.
+                         */
+                        $quote = Mage::getModel('sales/quote')->setStoreId(Mage::app()->getStore()->getId());
+                        $quote->load($this->getQuoteId());
+                    }
+                } else {
                     $this->setQuoteId(null);
                 }
             }
