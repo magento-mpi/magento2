@@ -51,8 +51,9 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
         '<input type="hidden" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][page_id]" value="{{page_id}}" />'+
         '<input type="hidden" class="layout_handle_pattern" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][layout_handle]" value="<?php echo $container['layout_handle'] ?>" />'+
         '<table cellspacing="0" class="option-header">'+
-            '<col width="350" />'+
+            '<col width="200" />'+
             '<col width="220" />'+
+            '<col width="270" />'+
             '<col width="120" />'+
             '<col />'+
             '<thead>'+
@@ -96,7 +97,7 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
         '<div class="no-display chooser_container" id="<?php echo $container['name'] ?>_ids_{{id}}">'+
             '<input type="hidden" class="is_anchor_only" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][is_anchor_only]" value="<?php echo $container['is_anchor_only'] ?>" />'+
             '<input type="hidden" class="product_type_id" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][product_type_id]" value="<?php echo $container['product_type_id'] ?>" />'+
-            '<input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{<?php echo $container['name'] ?>_entities}}" readonly="readonly" style="width:290px;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayEntityChooser(\'<?php echo $container['code'] ?>\', \'<?php echo $container['name'] ?>_ids_{{id}}\')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideEntityChooser(\'<?php echo $container['name'] ?>_ids_{{id}}\')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a>'+
+            '<p><input type="text" class="input-text entities" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][entities]" value="{{<?php echo $container['name'] ?>_entities}}" readonly="readonly" style="width:90%;" />&nbsp;<a class="widget-option-chooser" href="javascript:void(0)" onclick="WidgetInstance.displayEntityChooser(\'<?php echo $container['code'] ?>\', \'<?php echo $container['name'] ?>_ids_{{id}}\')" title="Open Chooser"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') ?>" class="v-middle" alt="Open Chooser" /></a>&nbsp;<a href="javascript:void(0)" onclick="WidgetInstance.hideEntityChooser(\'<?php echo $container['name'] ?>_ids_{{id}}\')" title="Apply"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/rule_component_apply.gif') ?>" class="v-middle" alt="Apply" /></a></p>'+
             '<div class="chooser"></div>'+
         '</div>'+
     '</div>'+
@@ -108,6 +109,7 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
     '<input type="hidden" class="for_all" name="widget_instance[{{id}}][all_pages][for]" value="all" />'+
     '<table cellspacing="0" class="option-header">'+
         '<col width="220" />'+
+        '<col width="270" />'+
         '<col width="120" />'+
         '<col />'+
         '<thead>'+
@@ -148,8 +150,9 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
     '<input type="hidden" name="widget_instance[{{id}}][pages][page_id]" value="{{page_id}}" />'+
     '<input type="hidden" class="for_all" name="widget_instance[{{id}}][pages][for]" value="all" />'+
     '<table cellspacing="0" class="option-header">'+
-        '<col width="350" />'+
+        '<col width="200" />'+
         '<col width="220" />'+
+        '<col width="270" />'+
         '<col width="120" />'+
         '<col />'+
         '<thead>'+
