@@ -170,20 +170,26 @@ class Mage_Adminhtml_Block_Sales_Order_Grid extends Mage_Adminhtml_Block_Widget_
         $this->setMassactionIdField('entity_id');
         $this->getMassactionBlock()->setFormFieldName('order_ids');
 
-        $this->getMassactionBlock()->addItem('cancel_order', array(
-             'label'=> Mage::helper('sales')->__('Cancel'),
-             'url'  => $this->getUrl('*/*/massCancel'),
-        ));
+        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/cancel')) {
+            $this->getMassactionBlock()->addItem('cancel_order', array(
+                 'label'=> Mage::helper('sales')->__('Cancel'),
+                 'url'  => $this->getUrl('*/*/massCancel'),
+            ));
+        }
 
-        $this->getMassactionBlock()->addItem('hold_order', array(
-             'label'=> Mage::helper('sales')->__('Hold'),
-             'url'  => $this->getUrl('*/*/massHold'),
-        ));
+        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/hold')) {
+            $this->getMassactionBlock()->addItem('hold_order', array(
+                 'label'=> Mage::helper('sales')->__('Hold'),
+                 'url'  => $this->getUrl('*/*/massHold'),
+            ));
+        }
 
-        $this->getMassactionBlock()->addItem('unhold_order', array(
-             'label'=> Mage::helper('sales')->__('Unhold'),
-             'url'  => $this->getUrl('*/*/massUnhold'),
-        ));
+        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/unhold')) {
+            $this->getMassactionBlock()->addItem('unhold_order', array(
+                 'label'=> Mage::helper('sales')->__('Unhold'),
+                 'url'  => $this->getUrl('*/*/massUnhold'),
+            ));
+        }
 
         $this->getMassactionBlock()->addItem('pdfinvoices_order', array(
              'label'=> Mage::helper('sales')->__('Print Invoices'),
