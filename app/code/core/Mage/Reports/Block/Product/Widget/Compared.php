@@ -48,4 +48,14 @@ class Mage_Reports_Block_Product_Widget_Compared
             ->addColumnCountLayoutDepend('three_columns', 3);
         $this->addPriceBlockType('bundle', 'bundle/catalog_product_price', 'bundle/catalog/product/price.phtml');
     }
+
+    /**
+     * Wrap widget html into div container
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        return sprintf('<div class="widget">%s</div>', parent::_toHtml());
+    }
 }

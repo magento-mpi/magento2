@@ -61,4 +61,14 @@ class Mage_Catalog_Block_Product_Widget_New
         }
         return $this->_getData('products_count');
     }
+
+    /**
+     * Wrap widget html into div container
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        return sprintf('<div class="widget">%s</div>', parent::_toHtml());
+    }
 }
