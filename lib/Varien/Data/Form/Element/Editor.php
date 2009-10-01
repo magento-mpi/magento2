@@ -179,7 +179,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         // Button to widget insertion window
         $winUrl = $this->getConfig('widget_window_no_wysiwyg_url');
         $buttonsHtml .= $this->_getButtonHtml(array(
-            'title'     => $this->translate('Insert Widget'),
+            'title'     => $this->translate('Insert Widget...'),
             'onclick'   => "openEditorPopup('" . $winUrl . "', 'widget_window" . $this->getHtmlId() . "', 'width=1024,height=800,scrollbars=yes')",
             'class'     => 'add-widget plugin',
             'style'     => $visible ? '' : 'display:none',
@@ -188,7 +188,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         // Button to media images insertion window
         $winUrl = $this->getConfig('files_browser_window_url');
         $buttonsHtml .= $this->_getButtonHtml(array(
-            'title'     => $this->translate('Insert Image'),
+            'title'     => $this->translate('Insert Image...'),
             'onclick'   => "openEditorPopup('" . $winUrl . "', 'browser_window" . $this->getHtmlId() . "', 'width=1024,height=800')",
             'class'     => 'add-image plugin',
             'style'     => $visible ? '' : 'display:none',

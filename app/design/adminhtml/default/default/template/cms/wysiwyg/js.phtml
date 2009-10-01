@@ -172,7 +172,7 @@ Wysiwyg.Images.prototype = {
     },
 
     newFolder: function() {
-        var folderName = prompt('<?php echo $this->helper('cms')->__('New folder name') ?>:');
+        var folderName = prompt('<?php echo $this->helper('cms')->__('New Folder Name:') ?>:');
         if (!folderName) {
             return false;
         }
@@ -199,7 +199,7 @@ Wysiwyg.Images.prototype = {
     },
 
     deleteFolder: function() {
-        if (!confirm('<?php echo $this->helper('cms')->__('Are you sure you want to delete folder') ?>' + ' ' + this.currentNode.text + '?')) {
+        if (!confirm('<?php echo $this->helper('cms')->__('Are you sure you want to delete the selected folder?') ?>')) {
             return false;
         }
         new Ajax.Request('<?php echo $this->getDeletefolderUrl() ?>', {
@@ -218,7 +218,7 @@ Wysiwyg.Images.prototype = {
     },
 
     deleteFiles: function() {
-        if (!confirm('<?php echo $this->helper('cms')->__('Are you sure you want to delete selected files?') ?>')) {
+        if (!confirm('<?php echo $this->helper('cms')->__('Are you sure you want to delete the selected file?') ?>')) {
             return false;
         }
         var ids = [];

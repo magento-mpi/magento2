@@ -43,13 +43,13 @@
                 </href>
                 <anchor_text translate="label description">
                     <visible>1</visible>
-                    <label>Anchor Text</label>
+                    <label>Anchor Custom Text</label>
                     <description>If empty, the Page Title will be used</description>
                     <type>text</type>
                 </anchor_text>
                 <title translate="label">
                     <visible>1</visible>
-                    <label>Anchor Title</label>
+                    <label>Anchor Custom Title</label>
                     <type>text</type>
                 </title>
             </parameters>

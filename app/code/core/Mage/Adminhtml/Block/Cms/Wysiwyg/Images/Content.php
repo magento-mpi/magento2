@@ -43,13 +43,13 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
         $this->_removeButton('back')->_removeButton('edit');
         $this->_addButton('newfolder', array(
             'class'   => 'save',
-            'label'   => $this->helper('cms')->__('Create Folder'),
+            'label'   => $this->helper('cms')->__('Create Folder...'),
             'type'    => 'button',
             'onclick' => 'Images.newFolder();'
         ));
         $this->_addButton('upload', array(
             'class'   => 'add',
-            'label'   => $this->helper('cms')->__('Add Files'),
+            'label'   => $this->helper('cms')->__('Upload Files...'),
             'type'    => 'button',
             'onclick' => 'Images.upload();'
         ));

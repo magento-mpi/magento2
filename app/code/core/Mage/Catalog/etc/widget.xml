@@ -29,7 +29,7 @@
     <widgets>
         <new_products type="catalog/product_widget_new" translate="name description" module="catalog">
             <name>Catalog New Products List</name>
-            <description>List of Products that are marked as New</description>
+            <description>List of Products that are set as New</description>
             <parameters>
                 <products_count translate="label">
                     <required>1</required>
@@ -57,7 +57,7 @@
                 </template>
                 <cache_lifetime translate="label description">
                     <label>Cache Lifetime (Seconds)</label>
-                    <description>86400 by default, if not set</description>
+                    <description>86400 by default, if not set. To refresh instantly, Clear the Blocks HTML Output Cache.</description>
                     <visible>1</visible>
                     <type>text</type>
                 </cache_lifetime>
@@ -105,13 +105,13 @@
                 </id_path>
                 <anchor_text translate="label description">
                     <visible>1</visible>
-                    <label>Anchor Text</label>
+                    <label>Anchor Custom Text</label>
                     <description>If empty, the Product Name will be used</description>
                     <type>text</type>
                 </anchor_text>
                 <title translate="label">
                     <visible>1</visible>
-                    <label>Anchor Title</label>
+                    <label>Anchor Custom Title</label>
                     <type>text</type>
                 </title>
                 <template translate="label">
@@ -175,13 +175,13 @@
                 </id_path>
                 <anchor_text translate="label desctiption">
                     <visible>1</visible>
-                    <label>Anchor Text</label>
+                    <label>Anchor Custom Text</label>
                     <description>If empty, the Category Name will be used</description>
                     <type>text</type>
                 </anchor_text>
                 <title translate="label">
                     <visible>1</visible>
-                    <label>Anchor Title</label>
+                    <label>Anchor Custom Title</label>
                     <type>text</type>
                 </title>
             </parameters>
