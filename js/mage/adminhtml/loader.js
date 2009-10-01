@@ -56,9 +56,10 @@ Ajax.Request.addMethods({
         if (state == 'Complete') {
             try {
                 this._complete = true;
-                if (response.responseJSON && typeof(response.responseJSON) == 'object') {
-                    if (response.responseJSON.ajaxExpired && response.responseJSON.ajaxRedirect) {
-                        window.location.replace(response.responseJSON.ajaxRedirect);
+                if (response.responseText.isJSON()) {
+                    var jsonObject = response.responseText.evalJSON();
+                    if (jsonObject.ajaxExpired && jsonObject.ajaxRedirect) {
+                        window.location.replace(jsonObject.ajaxRedirect);
                         throw new SessionError('session expired');
                     }
                 }
