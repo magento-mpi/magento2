@@ -452,7 +452,7 @@ class Mage_Paygate_Model_Payflow_Pro extends  Mage_Payment_Model_Method_Cc
 
     protected function _generateRequestId()
     {
-        return md5(microtime() . rand(0, time()));
+        return Mage::helper('core')->uniqHash();
     }
 
      /**

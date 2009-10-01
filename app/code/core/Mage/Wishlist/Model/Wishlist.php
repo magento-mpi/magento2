@@ -110,7 +110,7 @@ class Mage_Wishlist_Model_Wishlist extends Mage_Core_Model_Abstract
      */
     protected function _getSharingRandomCode()
     {
-        return md5(microtime() . rand());
+        return Mage::helper('core')->uniqHash();
     }
 
     /**

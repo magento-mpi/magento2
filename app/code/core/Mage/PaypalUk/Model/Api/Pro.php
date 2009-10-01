@@ -459,7 +459,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
 
     protected function _generateRequestId()
     {
-        return md5(microtime() . rand(0, time()));
+        return Mage::helper('core')->uniqHash();
     }
 
     /**

@@ -148,7 +148,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
             $data['value'] = (string)$config->value;
             //prepare unique id value
             if ($fieldName == 'unique_id' && (string)$config->value == '') {
-                $data['value'] = md5(microtime(1));
+                $data['value'] = Mage::helper('core')->uniqHash();
             }
         }
 

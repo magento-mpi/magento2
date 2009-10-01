@@ -588,4 +588,14 @@ XML;
     {
         return Zend_Json::decode($encodedValue, $objectDecodeType);
     }
+
+    /**
+     * Generate a hash from unique ID
+     * @param $prefix
+     * @return string
+     */
+    public function uniqHash($prefix = '')
+    {
+        return $prefix . md5(uniqid(microtime(), true));
+    }
 }

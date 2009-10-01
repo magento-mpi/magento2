@@ -54,7 +54,7 @@ class Mage_Adminhtml_Block_Cms_Page_Widget_Chooser extends Mage_Adminhtml_Block_
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = $element->getId() . md5(microtime());
+        $uniqId = Mage::helper('core')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/cms_page_widget/chooser', array('uniq_id' => $uniqId));
 
         $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')

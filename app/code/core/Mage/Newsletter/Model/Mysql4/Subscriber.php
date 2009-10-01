@@ -152,7 +152,7 @@ class Mage_Newsletter_Model_Mysql4_Subscriber extends Mage_Core_Model_Mysql4_Abs
      */
     protected function _generateRandomCode()
     {
-        return md5(microtime() + rand());
+        return Mage::helper('core')->uniqHash();
     }
 
     public function received(Mage_Newsletter_Model_Subscriber $subscriber, Mage_Newsletter_Model_Queue $queue)

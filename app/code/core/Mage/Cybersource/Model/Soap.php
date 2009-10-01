@@ -217,7 +217,7 @@ class Mage_Cybersource_Model_Soap extends Mage_Payment_Model_Method_Cc
      */
     protected function _generateReferenceCode()
     {
-        return md5(microtime() . rand(0, time()));
+        return Mage::helper('core')->uniqHash();
     }
 
     /**

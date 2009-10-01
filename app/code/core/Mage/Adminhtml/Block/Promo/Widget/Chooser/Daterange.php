@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Daterange extends Mage_Adminhtml
             return '';
         }
 
-        $idSuffix = md5(microtime());
+        $idSuffix = Mage::helper('core')->uniqHash();
         $form = new Varien_Data_Form();
         foreach (array(
             'from' => Mage::helper('adminhtml')->__('From'),

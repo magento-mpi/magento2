@@ -76,7 +76,7 @@ class Mage_Adminhtml_Block_Catalog_Category_Widget_Chooser extends Mage_Adminhtm
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = $element->getId() . md5(microtime());
+        $uniqId = Mage::helper('core')->uniqHash($element->getId());
         $sourceUrl = $this->getUrl('*/catalog_category_widget/chooser', array('uniq_id' => $uniqId, 'use_massaction' => false));
 
         $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
