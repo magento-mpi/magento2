@@ -40,7 +40,20 @@
                 </products_count>
                 <template>
                     <required>1</required>
-                    <value>catalog/product/new.phtml</value>
+                    <visible>1</visible>
+                    <label>Template</label>
+                    <type>select</type>
+                    <value>catalog/product/widget/new/content/new_grid.phtml</value>
+                    <values>
+                        <default translate="label">
+                            <value>catalog/product/widget/new/content/new_grid.phtml</value>
+                            <label>New Products Grid Template</label>
+                        </default>
+                        <list translate="label">
+                            <value>catalog/product/widget/new/content/new_list.phtml</value>
+                            <label>New Products List Template</label>
+                        </list>
+                    </values>
                 </template>
                 <cache_lifetime translate="label description">
                     <label>Cache Lifetime (Seconds)</label>
@@ -49,6 +62,31 @@
                     <type>text</type>
                 </cache_lifetime>
             </parameters>
+            <supported_blocks>
+                <left_column>
+                    <block_name>left</block_name>
+                    <template>
+                        <default>list_default</default>
+                        <names_only>list_names</names_only>
+                        <images_only>list_images</images_only>
+                    </template>
+                </left_column>
+                <main_content>
+                    <block_name>content</block_name>
+                    <template>
+                        <grid>default</grid>
+                        <list>list</list>
+                    </template>
+                </main_content>
+                <right_column>
+                    <block_name>right</block_name>
+                    <template>
+                        <default>list_default</default>
+                        <names_only>list_names</names_only>
+                        <images_only>list_images</images_only>
+                    </template>
+                </right_column>
+            </supported_blocks>
         </new_products>
 
         <catalog_product_link type="catalog/product_widget_link" translate="name description" module="catalog">
@@ -80,16 +118,22 @@
                     <label>Template</label>
                     <visible>1</visible>
                     <type>select</type>
-                    <value>core/link.phtml</value>
+                    <value>catalog/product/widget/link/link.phtml</value>
                     <values>
                         <default translate="label">
-                            <value>core/link.phtml</value>
-                            <label>Default Template</label>
+                            <value>catalog/product/widget/link/link.phtml</value>
+                            <label>Default Product Link Template</label>
                         </default>
                     </values>
                 </template>
             </parameters>
             <supported_blocks>
+                <page_header>
+                    <block_name>top.container</block_name>
+                    <template>
+                        <default>default</default>
+                    </template>
+                </page_header>
                 <left_column>
                     <!-- block name in layout -->
                     <block_name>left</block_name>
@@ -97,6 +141,7 @@
                     <template>
                         <!-- default template in widget parameters select type -->
                         <simple>default</simple>
+                        <asdf>custom</asdf>
                     </template>
                 </left_column>
                 <right_column>
