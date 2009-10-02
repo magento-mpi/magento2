@@ -41,7 +41,7 @@ tinyMceWysiwygSetup.prototype =
                 noticeHtml+= ' <a id="hidefb' + this.id + '" href="">' + this.config.firebug_warning_anchor + '</a>';
                 noticeHtml+= '</li></ul>';
                 noticeHtml+= '</li></ul>';
-            $('buttons' + this.id).insert({after: noticeHtml});
+            $('buttons' + this.id).insert({before: noticeHtml});
             Event.observe($('hidefb' + this.id), "click", function(e) {
                 $('fb' + this.id).remove();
                 Event.stop(e);
