@@ -178,8 +178,8 @@ if (in_array($eventTable, $tables)) {
       `master_website_id`)
     SELECT  `staging_id`, `ip`, `code`, `name`, `status`, `is_backuped`, `created_at`, `user_id`,
         `username`, `is_admin_notified`, `comment`, `log`, `map`,
-        IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_BACKUP . "', 0, IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE . "' OR `code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK . "',`master_website_id`,`staging_website_id`)),
-        IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_ROLLBACK . "', 0, IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::PROCESS_MERGE . "', `staging_website_id`,`master_website_id`))
+        IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::ACTION_BACKUP . "', 0, IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::ACTION_MERGE . "' OR `code` = '" . Enterprise_Staging_Model_Staging_Config::ACTION_ROLLBACK . "',`master_website_id`,`staging_website_id`)),
+        IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::ACTION_ROLLBACK . "', 0, IF(`code` = '" . Enterprise_Staging_Model_Staging_Config::ACTION_MERGE . "', `staging_website_id`,`master_website_id`))
     FROM `" . $eventTable . "`
     ");
 }
