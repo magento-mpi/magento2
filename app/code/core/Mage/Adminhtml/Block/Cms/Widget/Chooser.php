@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
     }
 
     /**
-     * Convert XML config to Object
+     * Convert Array config to Object
      *
      * @return Varien_Object
      */
@@ -65,16 +65,16 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
             return $this->_getData('config');
         }
 
-        $configXml = $this->_getData('config');
+        $configArray = $this->_getData('config');
         $config = new Varien_Object();
         $this->setConfig($config);
-        if (!($configXml instanceof Varien_Simplexml_Element)) {
+        if (!is_array($configArray)) {
             return $this->_getData('config');
         }
 
         // define chooser label
-        if ($configXml->label) {
-            $config->setData('label', $this->getTranslationHelper()->__((string)$configXml->label));
+        if (isset($configArray['label'])) {
+            $config->setData('label', $this->getTranslationHelper()->__($configArray['label']));
         }
 
         // chooser control buttons
@@ -82,9 +82,9 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
             'open' => Mage::helper('cms')->__('Choose'),
             'close' => Mage::helper('cms')->__('Close')
         );
-        if ($configXml->button && $configXml->button->hasChildren()) {
-            foreach ($configXml->button->children() as $button) {
-                $buttons[(string)$button->getName()] = $this->getTranslationHelper()->__((string)$button);
+        if (isset($configArray['button']) && is_array($configArray['button'])) {
+            foreach ($configArray['button'] as $id => $label) {
+                $buttons[$id] = $this->getTranslationHelper()->__($label);
             }
         }
         $config->setButtons($buttons);

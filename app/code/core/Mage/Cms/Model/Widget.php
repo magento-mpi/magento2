@@ -60,7 +60,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
      * Return widget XML config element based on its type
      *
      * @param string $type Widget type
-     * @return Varien_Simplexml_Element
+     * @return null|Varien_Simplexml_Element
      */
     public function getXmlElementByType($type)
     {
@@ -69,6 +69,75 @@ class Mage_Cms_Model_Widget extends Varien_Object
             return $elements[0];
         }
         return null;
+    }
+
+    /**
+     * Wrapper for getXmlElementByType method
+     *
+     * @param string $type Widget type
+     * @return null|Varien_Simplexml_Element
+     */
+    public function getConfigAsXml($type)
+    {
+        return $this->getXmlElementByType($type);
+    }
+
+    /**
+     * Return widget XML configuration as Varien_Object and makes some data preparations
+     *
+     * @param string $type Widget type
+     * @return Varien_Object
+     */
+    public function getConfigAsObject($type)
+    {
+
+        $xml = $this->getConfigAsXml($type);
+
+        $object = new Varien_Object();
+        if ($xml === null) {
+            return $object;
+        }
+
+        // Save all nodes to object data
+        $object->setType($type);
+        $object->setData($xml->asArray());
+
+        // Set module for translations etc.
+        $module = $object->getData('@/module');
+        if ($module) {
+            $object->setModule($module);
+        }
+
+        // Correct widget parameters and convert its data to objects
+        $params = $object->getData('parameters');
+        $newParams = array();
+        if (is_array($params)) {
+            $sortOrder = 0;
+            foreach ($params as $key => $data) {
+                if (is_array($data)) {
+                    $data['key'] = $key;
+                    $data['sort_order'] = isset($data['sort_order']) ? (int)$data['sort_order'] : $sortOrder;
+
+                    // prepare values (for drop-dawns) specified directly in configuration
+                    $values = array();
+                    if (isset($data['values']) && is_array($data['values'])) {
+                        foreach ($data['values'] as $value) {
+                            if (isset($value['label']) && isset($value['value'])) {
+                                $values[] = $value;
+                            }
+                        }
+                    }
+                    $data['values'] = $values;
+
+                    $newParams[$key] = new Varien_Object($data);
+                    $sortOrder++;
+                }
+            }
+        }
+        uasort($newParams, array($this, '_sortParameters'));
+        $object->setData('parameters', $newParams);
+
+        return $object;
     }
 
     /**
@@ -117,15 +186,18 @@ class Mage_Cms_Model_Widget extends Varien_Object
      */
     public function getWidgetDeclaration($type, $params = array(), $asIs = true)
     {
-        $widget = $this->getXmlElementByType($type);
-
         $directive = '{{widget type="' . $type . '"';
+
         foreach ($params as $name => $value) {
             // Retrieve default option value if pre-configured
             if (is_array($value)) {
                 $value = implode(',', $value);
-            } elseif (trim($value) == '' && $widget->parameters) {
-                $value = (string)$widget->parameters->{$name}->value;
+            } elseif (trim($value) == '') {
+                $widget = $this->getConfigAsObject($type);
+                $parameters = $widget->getParameters();
+                if (isset($parameters[$name]) && is_object($parameters[$name])) {
+                    $value = $parameters[$name]->getValue();
+                }
             }
             if ($value) {
                 $directive .= sprintf(' %s="%s"', $name, $value);
@@ -191,5 +263,19 @@ class Mage_Cms_Model_Widget extends Varien_Object
     protected function _sortWidgets($a, $b)
     {
         return strcmp($a["name"], $b["name"]);
+    }
+
+    /**
+     * Widget parameters sort callback
+     *
+     * @param Varien_Object $a
+     * @param Varien_Object $b
+     * @return int
+     */
+    protected function _sortParameters($a, $b)
+    {
+        $aOrder = (int)$a->getData('sort_order');
+        $bOrder = (int)$b->getData('sort_order');
+        return $aOrder < $bOrder ? -1 : ($aOrder > $bOrder ? 1 : 0);
     }
 }

@@ -94,130 +94,99 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
         if (!$this->getWidgetType()) {
             Mage::throwException($this->__('Widget Type is not specified'));
         }
-        $config = Mage::getSingleton('cms/widget')->getXmlElementByType($this->getWidgetType());
-        if (!($config instanceof Varien_Simplexml_Element)) {
-            return;
+        $config = Mage::getSingleton('cms/widget')->getConfigAsObject($this->getWidgetType());
+        if (!$config->getParameters()) {
+            return $this;
         }
-        if (!$config->parameters) {
-            return;
-        }
-        $module = (string)$config->getAttribute('module');
+        $module = $config->getModule();
         $this->_translationHelper = Mage::helper($module ? $module : 'cms');
-
-        // sort widget parameters and add them to form
-        $sortOrder = 0;
-        foreach ($config->parameters->children() as $option) {
-            $option->sort_order = $option->sort_order ? (int)$option->sort_order : $sortOrder;
-            $options[$option->getName()] = $option;
-            $sortOrder++;
-        }
-        uasort($options, array($this, '_sortParameters'));
-        foreach ($options as $option) {
-            $this->_addField($option);
+        foreach ($config->getParameters() as $parameter) {
+            $this->_addField($parameter);
         }
 
         return $this;
     }
 
     /**
-     * Add field to Options form based on option configuration
+     * Add field to Options form based on parameter configuration
      *
-     * @param Varien_Simplexml_Element $option
-     * @param Mage_Core_Helper_Abstract $helper
+     * @param Varien_Object $parameter
      * @return Varien_Data_Form_Element_Abstract
      */
-    protected function _addField($config)
+    protected function _addField($parameter)
     {
         $form = $this->getForm();
         $fieldset = $this->getMainFieldset(); //$form->getElement('options_fieldset');
 
         // prepare element data with values (either from request of from default values)
-        $fieldName = (string)$config->getName();
+        $fieldName = $parameter->getKey();
         $data = array(
             'name'      => $form->addSuffixToName($fieldName, 'parameters'),
-            'label'     => $this->_translationHelper->__((string)$config->label),
-            'required'  => (bool)$config->required,
+            'label'     => $this->_translationHelper->__($parameter->getLabel()),
+            'required'  => $parameter->getRequired(),
             'class'     => 'widget-option',
-            'note'      => $this->_translationHelper->__((string)$config->description),
+            'note'      => $this->_translationHelper->__($parameter->getDescription()),
         );
 
         if ($values = $this->getWidgetValues()) {
             $data['value'] = (isset($values[$fieldName]) ? $values[$fieldName] : '');
         }
         else {
-            $data['value'] = (string)$config->value;
+            $data['value'] = $parameter->getValue();
             //prepare unique id value
-            if ($fieldName == 'unique_id' && (string)$config->value == '') {
-                $data['value'] = Mage::helper('core')->uniqHash();
+            if ($fieldName == 'unique_id' && $data['value'] == '') {
+                $data['value'] = md5(microtime(1));
             }
         }
 
         // prepare element dropdown values
-        if ($config->values) {
+        if ($values  = $parameter->getValues()) {
             // dropdown options are specified in configuration
-            if ($config->values->hasChildren()) {
-                $data['values'] = array();
-                foreach ($config->values->children() as $option) {
-                    $data['values'][] = array(
-                        'value' => (string)$option->value,
-                        'label' => $this->_translationHelper->__((string)$option->label)
-                    );
-                }
+            $data['values'] = array();
+            foreach ($values as $option) {
+                $data['values'][] = array(
+                    'label' => $this->_translationHelper->__($option['label']),
+                    'value' => $option['value']
+                );
             }
         }
         // otherwise, a source model is specified
-        elseif ($config->source_model) {
-            $model = Mage::getModel((string)$config->source_model);
-            $data['values'] = $model->toOptionArray();
+        elseif ($sourceModel = $parameter->getSourceModel()) {
+            $data['values'] = Mage::getModel($sourceModel)->toOptionArray();
         }
-
 
         // prepare field type and renderers
         $fieldRenderer = 'adminhtml/cms_widget_options_renderer_element';
         $fieldChooserRenderer = false;
-        $fieldType = (string)$config->type;
+        $fieldType = $parameter->getType();
+
         // hidden element
-        if (!(int)(string)$config->visible) {
+        if (!$parameter->getVisible()) {
             $fieldType = 'hidden';
         }
         // element of specified type with a chooser
-        elseif ($config->type->hasChildren()) {
-            $fieldType = $config->type->element_type ? (string)$config->type->element_type : $this->_defaultElementType;
-            if ($config->type->element_helper) {
-                $fieldChooserRenderer = $this->getLayout()->getBlockSingleton((string)$config->type->element_helper);
+        elseif (is_array($fieldType)) {
+            if (isset($fieldType['element_helper'])) {
+                $fieldChooserRenderer = $this->getLayout()->getBlockSingleton($fieldType['element_helper']);
             }
+            $fieldType = isset($fieldType['element_type']) ? $fieldType['element_type'] : $this->_defaultElementType;
         }
         // just an element renderer
-        elseif (false !== strpos($config->type, '/')) {
+        elseif (false !== strpos($fieldType, '/')) {
             $fieldType = $this->_defaultElementType;
-            $fieldRenderer = (string)$config->type;
+            $fieldRenderer = $fieldType;
         }
 
         // instantiate field and prepare extra html
         $field = $fieldset->addField('option_' . $fieldName, $fieldType, $data)
             ->setRenderer($this->getLayout()->createBlock($fieldRenderer));
-
         if ($fieldChooserRenderer) {
             $fieldChooserRenderer->setFieldsetId($fieldset->getId())
                 ->setTranslationHelper($this->_translationHelper)
-                ->setConfig($config->type)
+                ->setConfig($parameter->getType())
                 ->prepareElementHtml($field);
         }
 
         return $field;
-    }
-
-    /**
-     * Widget parameters sort callback
-     *
-     * @param $a
-     * @param $b
-     * @return int
-     */
-    protected function _sortParameters($a, $b)
-    {
-        $aOrder = (int)$a->sort_order;
-        $bOrder = (int)$b->sort_order;
-        return $aOrder < $bOrder ? -1 : ($aOrder > $bOrder ? 1 : 0);
     }
 }
