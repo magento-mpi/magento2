@@ -39,6 +39,9 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     const RATES_FETCH = 1;
     const RATES_RECALCULATE = 2;
 
+    protected $_eventPrefix = 'sales_quote_address';
+    protected $_eventObject = 'quote_address';
+
     /**
      * Quote object
      *
