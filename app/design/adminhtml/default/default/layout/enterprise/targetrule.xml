@@ -44,7 +44,7 @@
 
     <adminhtml_catalog_product_related>
         <reference name="root">
-            <block type="enterprise_targetrule/adminhtml_product" name="targetrule.adminhtml.product" template="enterprise/targetrule/product.phtml">
+            <block type="enterprise_targetrule/adminhtml_product" name="targetrule.adminhtml.product" template="enterprise/targetrule/product.phtml" before="catalog.product.edit.tab.related">
                 <action method="setFormPrefix"><params>related</params></action>
             </block>
         </reference>
@@ -52,17 +52,9 @@
 
     <adminhtml_catalog_product_upsell>
         <reference name="root">
-            <block type="enterprise_targetrule/adminhtml_product" name="targetrule.adminhtml.product" template="enterprise/targetrule/product.phtml">
+            <block type="enterprise_targetrule/adminhtml_product" name="targetrule.adminhtml.product" template="enterprise/targetrule/product.phtml" before="catalog.product.edit.tab.upsell">
                 <action method="setFormPrefix"><params>upsell</params></action>
             </block>
         </reference>
     </adminhtml_catalog_product_upsell>
-
-    <adminhtml_catalog_product_crosssell>
-        <reference name="root">
-            <block type="enterprise_targetrule/adminhtml_product" name="targetrule.adminhtml.product" template="enterprise/targetrule/product.phtml">
-                <action method="setFormPrefix"><params>crosssell</params></action>
-            </block>
-        </reference>
-    </adminhtml_catalog_product_crosssell>
 </layout>

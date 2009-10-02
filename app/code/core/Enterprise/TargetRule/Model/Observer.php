@@ -69,4 +69,34 @@ class Enterprise_TargetRule_Model_Observer
             'values'    => Mage::getModel('adminhtml/system_config_source_yesno')->toOptionArray(),
         ), 'is_used_for_price_rules');
     }
+
+    /**
+     * After Catalog Product Save - rebuild product index by rule conditions
+     * and refresh cache index
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_TargetRule_Model_Observer
+     */
+    public function catalogProductAfterSave(Varien_Event_Observer $observer)
+    {
+        /* @var $product Mage_Catalog_Model_Product */
+        $product = $observer->getEvent()->getProduct();
+
+        /* @var $indexResource Enterprise_TargetRule_Model_Mysql4_Index */
+        $indexResource = Mage::getResourceSingleton('enterprise_targetrule/index');
+
+        // remove old cache index data
+        $indexResource->removeIndexByProductIds($product->getId());
+
+        // remove old matched product index
+        $indexResource->removeProductIndex($product->getId());
+
+        $ruleCollection = Mage::getResourceModel('enterprise_targetrule/rule_collection');
+        foreach ($ruleCollection as $rule) {
+            /* @var $rule Enterprise_TargetRule_Model_Rule */
+            if ($rule->validate($product)) {
+                $indexResource->saveProductIndex($rule->getId(), $product->getId());
+            }
+        }
+    }
 }

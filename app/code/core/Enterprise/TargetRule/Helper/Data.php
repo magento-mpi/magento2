@@ -35,6 +35,8 @@ class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
 {
     const XML_PATH_TARGETRULE_CONFIG    = 'catalog/enterprise_targetrule/';
 
+    const MAX_PRODUCT_LIST_RESULT       = 20;
+
     /**
      * Retrieve Maximum Number of Products in Product List
      *
@@ -46,23 +48,23 @@ class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
     {
         switch ($type) {
             case Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS:
-                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_rule_based_positions');
+                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'related_position_limit');
                 break;
             case Enterprise_TargetRule_Model_Rule::UP_SELLS:
-                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_rule_based_positions');
+                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'upsell_position_limit');
                 break;
             case Enterprise_TargetRule_Model_Rule::CROSS_SELLS:
-                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_rule_based_positions');
+                $number = Mage::getStoreConfig(self::XML_PATH_TARGETRULE_CONFIG . 'crosssell_position_limit');
                 break;
             default:
                 Mage::throwException(Mage::helper('enterprise_targetrule')->__('Invalid product list type'));
         }
 
-        return $number;
+        return $this->getMaxProductsListResult($number);
     }
 
     /**
-     * Show Related/Upsell/Cross-Sell Products
+     * Show Related/Upsell/Cross-Sell Products behavior
      *
      * @param int $type
      * @throws Mage_Core_Exception
@@ -85,5 +87,22 @@ class Enterprise_TargetRule_Helper_Data extends Mage_Core_Helper_Abstract
         }
 
         return $show;
+    }
+
+    /**
+     * Retrieve maximum number of products can be displayed in product list
+     *
+     * if number is 0 (unlimited) or great global maximum return global maximum value
+     *
+     * @param int $number
+     * @return int
+     */
+    public function getMaxProductsListResult($number = 0)
+    {
+        if ($number == 0 || $number > self::MAX_PRODUCT_LIST_RESULT) {
+            $number = self::MAX_PRODUCT_LIST_RESULT;
+        }
+
+        return $number;
     }
 }

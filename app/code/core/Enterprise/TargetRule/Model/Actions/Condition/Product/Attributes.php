@@ -107,6 +107,8 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         $attributeCode = $this->getAttribute();
         if ($attributeCode == 'type_id') {
             return 'select';
+        } else if ($attributeCode == 'category_ids') {
+            return 'grid';
         }
         return parent::getInputType();
     }
@@ -263,5 +265,114 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
            $this->getValueTypeName(),
            $this->getValueName()
         );
+    }
+
+    /**
+     * Prepare array of category ids from value
+     *
+     * @param string|int|array $value
+     * @return array
+     */
+    protected function _prepareCategoryIds($value)
+    {
+        if (!is_array($value)) {
+            $value = split(',', $value);
+        }
+
+        $value = array_map('trim', $value);
+        $value = array_filter($value, 'is_numeric');
+
+        return $value;
+    }
+
+    /**
+     * Retrieve SELECT WHERE condition for product collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Enterprise_TargetRule_Model_Index $object
+     * @return Zend_Db_Expr
+     */
+    public function getConditionForCollection($collection, $object)
+    {
+        /* @var $resource Enterprise_TargetRule_Model_Mysql4_Index */
+        $attributeCode  = $this->getAttribute();
+        $valueType      = $this->getValueType();
+        $operator       = $this->getOperator();
+        $resource       = $object->getResource();
+
+        if ($attributeCode == 'category_ids') {
+            $select = $object->select()
+                ->from($resource->getTable('catalog/category_product'), 'COUNT(*) > 0')
+                ->where('product_id=e.entity_id');
+            if ($valueType == self::VALUE_TYPE_SAME_AS) {
+                $value = $this->_prepareCategoryIds($object->getProduct()->getCategoryIds());
+                $where = $resource->getOperatorCondition('category_id', $operator, $value);
+                $select->where($where);
+            } else if ($valueType == self::VALUE_TYPE_CHILD_OF) {
+                $value = $this->_prepareCategoryIds($object->getProduct()->getCategoryIds());
+                $subSelect = $resource->select()
+                    ->from(array('tc' => $resource->getTable('catalog/category')), 'entity_id')
+                    ->join(
+                        array('tp' => $resource->getTable('catalog/category')),
+                        "tc.path LIKE CONCAT(tp.path, '%')",
+                        array())
+                    ->where($resource->getOperatorCondition('tp.entity_id', $operator, $value));
+                $select->where('category_id IN(?)', $subSelect);
+            } else { //self::VALUE_TYPE_CONSTANT
+
+                $value = $this->_prepareCategoryIds($this->getValue());
+                $where = $resource->getOperatorCondition('category_id', $operator, $value);
+                $select->where($where);
+            }
+
+            return new Zend_Db_Expr(sprintf('(%s)', $select->assemble()));
+        }
+
+        if ($valueType == self::VALUE_TYPE_CONSTANT) {
+            $value = $this->getValue();
+        } else { //self::VALUE_TYPE_SAME_AS
+            $value = $object->getProduct()->getDataUsingMethod($attributeCode);
+        }
+
+        $attribute = $this->getAttributeObject();
+        if (!$attribute) {
+            return false;
+        }
+
+        if ($attribute->isStatic()) {
+            $field = "e.{$attributeCode}";
+            $where = $resource->getOperatorCondition($field, $operator, $value);
+            $where = sprintf('(%s)', $where);
+        } else if ($attribute->isScopeGlobal()) {
+            $table  = $attribute->getBackendTable();
+            $select = $object->select()
+                ->from(array('table' => $table), 'COUNT(*) > 0')
+                ->where('table.entity_id = e.entity_id')
+                ->where('table.attribute_id=?', $attribute->getId())
+                ->where('table.store_id=?', 0)
+                ->where($resource->getOperatorCondition('table.value', $operator, $value));
+
+            $where  = sprintf('IFNULL((%s), 0)', $select->assemble());
+        } else { //scope store and website
+            $valueExpr = 'IF(attr_s.value_id > 0, attr_s.value, attr_d.value)';
+
+            $table  = $attribute->getBackendTable();
+            $select = $object->select()
+                ->from(array('attr_d' => $table), 'COUNT(*) > 0')
+                ->joinLeft(
+                    array('attr_s' => $table),
+                    'attr_s.entity_id = attr_d.entity_id AND attr_s.attribute_id = attr_d.attribute_id'
+                        . ' AND attr_s.store_id=' . $object->getStoreId(),
+                    array())
+                ->where('attr_d.entity_id = e.entity_id')
+                ->where('attr_d.attribute_id=?', $attribute->getId())
+                ->where('attr_d.store_id=?', 0)
+                ->where($resource->getOperatorCondition($valueExpr, $operator, $value));
+
+            $where  = sprintf('(%s)', $select->assemble());
+        }
+
+        return new Zend_Db_Expr($where);
+
     }
 }

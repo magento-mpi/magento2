@@ -43,6 +43,7 @@ class Enterprise_TargetRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abs
 
     /**
      * Prepare target rule before save
+     *
      * @param Mage_Core_Model_Abstract $object
      */
     protected function _beforeSave(Mage_Core_Model_Abstract $object)
@@ -57,6 +58,11 @@ class Enterprise_TargetRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abs
             $object->setToDate($object->getToDate()->toString(Varien_Date::DATETIME_INTERNAL_FORMAT));
         } else {
             $object->setToDate(null);
+        }
+
+        if (!$object->isObjectNew()) {
+            Mage::getResourceModel('enterprise_targetrule/index')
+                ->removeIndexByRule($object->getId(), $object->getOrigData('apply_to'));
         }
     }
 

@@ -96,4 +96,22 @@ class Enterprise_TargetRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model
 
         return parent::_afterLoad();
     }
+
+    /**
+     * Add filter by product id to collection
+     *
+     * @param int $productId
+     * @return Enterprise_TargetRule_Model_Mysql4_Rule_Collection
+     */
+    public function addProductFilter($productId)
+    {
+        $this->getSelect()->join(
+            array('product_idx' => $this->getTable('enterprise_targetrule/product')),
+            'product_idx.rule_id = main_table.rule_id',
+            array()
+        );
+        $this->getSelect()->where('product_idx.product_id=?', $productId);
+
+        return $this;
+    }
 }

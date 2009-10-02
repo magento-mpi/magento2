@@ -36,13 +36,13 @@
                     <show_in_store>0</show_in_store>
                     <sort_order>900</sort_order>
                     <fields>
-                        <related_rule_based_positions translate="label">
+                        <related_position_limit translate="label">
                             <label>Maximum Number of Products in Related Products List</label>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </related_rule_based_positions>
+                        </related_position_limit>
                         <related_position_behavior translate="label">
                             <label>Show Related Products</label>
                             <frontend_type>select</frontend_type>
@@ -53,13 +53,13 @@
                             <show_in_store>0</show_in_store>
                         </related_position_behavior>
 
-                        <crosssell_rule_based_positions translate="label">
+                        <crosssell_position_limit translate="label">
                             <label>Maximum Number of Products in Cross-Sell Product List</label>
                             <sort_order>15</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </crosssell_rule_based_positions>
+                        </crosssell_position_limit>
                         <crosssell_position_behavior translate="label">
                             <label>Show Cross-Sell Products</label>
                             <frontend_type>select</frontend_type>
@@ -70,13 +70,13 @@
                             <show_in_store>0</show_in_store>
                         </crosssell_position_behavior>
 
-                        <upsell_rule_based_positions translate="label">
+                        <upsell_position_limit translate="label">
                             <label>Maximum Number of Products in Upsell Product List</label>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
-                        </upsell_rule_based_positions>
+                        </upsell_position_limit>
                         <upsell_position_behavior translate="label">
                             <label>Show Upsell Products</label>
                             <frontend_type>select</frontend_type>

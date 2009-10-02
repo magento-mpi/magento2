@@ -44,6 +44,13 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     protected $_productIds;
 
     /**
+     * Check valid date for store cache
+     *
+     * @var array
+     */
+    protected $_checkDateForStore = array();
+
+    /**
      * Initialize resource model
      *
      */
@@ -63,9 +70,9 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     }
 
     /**
-     * Return conditions instance
+     * Return actions condition instance
      *
-     * @return Enterprise_TargetRule_Model_Rule_Condition_Combine
+     * @return Enterprise_TargetRule_Model_Actions_Condition_Combine
      */
     public function getActionsInstance()
     {
@@ -189,5 +196,34 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
         if ($this->getConditions()->validate($product)) {
             $this->_productIds[] = $product->getId();
         }
+    }
+
+    /**
+     * Check is applicable rule by date for store
+     *
+     * @param int $storeId
+     * @return bool
+     */
+    public function checkDateForStore($storeId)
+    {
+        if (!isset($this->_checkDateForStore[$storeId])) {
+            $this->_checkDateForStore[$storeId] = Mage::app()->getLocale()
+                ->isStoreDateInInterval(null, $this->getFromDate(), $this->getToDate());
+        }
+        return $this->_checkDateForStore[$storeId];
+    }
+
+    /**
+     * Retrieve Result limit for rule
+     * If value is 0 - return default max value
+     *
+     */
+    public function getPositionsLimit()
+    {
+        $limit = $this->getData('positions_limit');
+        if (!$limit) {
+            $limit = 20;
+        }
+        return $limit;
     }
 }

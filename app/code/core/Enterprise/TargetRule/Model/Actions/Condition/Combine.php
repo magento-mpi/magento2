@@ -53,5 +53,32 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $conditions;
     }
+
+    /**
+     * Retrieve SELECT WHERE condition for product collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Enterprise_TargetRule_Model_Index $object
+     * @return Zend_Db_Expr
+     */
+    public function getConditionForCollection($collection, $object)
+    {
+        $conditions = array();
+        $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
+        $operator   = $this->getValue() ? '1' : '0';
+
+        foreach ($this->getConditions() as $condition) {
+            $subCondition = $condition->getConditionForCollection($collection, $object);
+            if ($subCondition) {
+                $conditions[] = sprintf('%s=%d', $subCondition, $operator);
+            }
+        }
+
+        if ($conditions) {
+            return new Zend_Db_Expr(sprintf('(%s)', join($aggregator, $conditions)));
+        }
+
+        return false;
+    }
 }
 

@@ -42,7 +42,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     {
         parent::__construct();
         $this->setType('enterprise_targetrule/actions_condition_product_special_price');
-        $this->setValue(null);
+        $this->setValue(100);
     }
 
     /**
@@ -54,7 +54,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
-            '='  => Mage::helper('enterprise_targetrule')->__('equal to'),
+            '=='  => Mage::helper('enterprise_targetrule')->__('equal to'),
             '>'  => Mage::helper('enterprise_targetrule')->__('more'),
             '<'  => Mage::helper('enterprise_targetrule')->__('less')
         ));
@@ -69,9 +69,30 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_targetrule')->__('Product Price is %s %s%% of matched product(s)',
+            . Mage::helper('enterprise_targetrule')->__('Product Price is %s %s%% of Matched Product(s) Price',
                 $this->getOperatorElementHtml(),
                 $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
+    }
+
+    /**
+     * Retrieve SELECT WHERE condition for product collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @param Enterprise_TargetRule_Model_Index $object
+     * @return Zend_Db_Expr
+     */
+    public function getConditionForCollection($collection, $object)
+    {
+        $collection->setStoreId($object->getStoreId());
+        $collection->addPriceData($object->getCustomerGroupId());
+
+        /* @var $resource Enterprise_TargetRule_Model_Mysql4_Index */
+        $resource       = $object->getResource();
+        $operator       = $this->getOperator();
+        $value          = round($object->getProduct()->getFinalPrice() * ($this->getValue() / 100), 4);
+
+        $where = $resource->getOperatorCondition('price_index.min_price', $operator, $value);
+        return new Zend_Db_Expr(sprintf('(%s)', $where));
     }
 }

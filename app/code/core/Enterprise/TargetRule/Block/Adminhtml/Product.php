@@ -51,9 +51,6 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
             case 'upsell':
                 $listType = Enterprise_TargetRule_Model_Rule::UP_SELLS;
                 break;
-            case 'crosssell':
-                $listType = Enterprise_TargetRule_Model_Rule::CROSS_SELLS;
-                break;
         }
         return $listType;
     }
@@ -83,9 +80,9 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      *
      * @return mixed
      */
-    public function getRuleBasedPositions()
+    public function getPositionLimit()
     {
-        $position = $this->_getValue('rule_based_positions');
+        $position = $this->_getValue('position_limit');
         if (is_null($position)) {
             $position = $this->_getRuleHelper()->getMaximumNumberOfProduct($this->_getProductListType());
         }
