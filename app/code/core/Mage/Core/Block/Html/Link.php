@@ -94,14 +94,4 @@ class Mage_Core_Block_Html_Link extends Mage_Core_Block_Template
         $res = implode($fieldSeparator, $data);
         return $res;
     }
-
-    /**
-     * Render block HTML
-     *
-     * @return string
-     */
-//    protected function _toHtml()
-//    {
-//        return '<a ' . $this->getLinkAttributes() . '>' . $this->htmlEscape($this->getAnchorText()) . '</a>';
-//    }
 }

@@ -57,9 +57,10 @@ class Mage_Catalog_Block_Widget_Link
     protected $_anchorText;
 
     /**
-     * Prepare url using passed id path.
+     * Prepare url using passed id path and return it
+     * or return false if path was not found in url rewrites.
      *
-     * @return string
+     * @return string|false
      */
     public function getHref()
     {
@@ -68,9 +69,12 @@ class Mage_Catalog_Block_Widget_Link
             /* @var $store Mage_Core_Model_Store */
             $href = "";
             if ($this->getData('id_path')) {
-                $urlRewriteResource = Mage::getResourceSingleton('core/url_rewrite');
                 /* @var $urlRewriteResource Mage_Core_Model_Mysql4_Url_Rewrite */
+                $urlRewriteResource = Mage::getResourceSingleton('core/url_rewrite');
                 $href = $urlRewriteResource->getRequestPathByIdPath($this->getData('id_path'), $store);
+                if (!$href) {
+                    return false;
+                }
             }
 
             $this->_href = $store->getUrl('', array('_direct' => $href));
@@ -102,5 +106,19 @@ class Mage_Catalog_Block_Widget_Link
         }
 
         return $this->_anchorText;
+    }
+
+    /**
+     * Render block HTML
+     * or return empty string if url can't be prepared
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if ($this->getHref()) {
+            return parent::_toHtml();
+        }
+        return '';
     }
 }
