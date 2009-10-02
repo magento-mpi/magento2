@@ -88,7 +88,8 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
                 $notMatchedIds[]= $segment->getId();
             }
         }
-
+        $this->addCustomerToSegments($customer, $matchedIds);
+        $this->removeCustomerFromSegments($customer, $notMatchedIds);
 
         Varien_Profiler::stop('__SEGMENTS_MATCHING__');
         return $this;
