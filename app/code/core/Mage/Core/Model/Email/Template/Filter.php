@@ -42,18 +42,11 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     protected $_useAbsoluteLinks = false;
 
     /**
-     * Use session in URL flag
+     * Whether to allow SID in store directive: NO
      *
      * @var bool
      */
-    protected $_useSessionInUrl;
-
-    /**
-     * Url Instance
-     *
-     * @var Mage_Core_Model_Url
-     */
-    protected static $_urlInstance;
+    protected $_useSessionInUrl = false;
 
     /**
      * Modifier Callbacks
@@ -84,14 +77,14 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     }
 
     /**
-     * Set Use session in URL flag
+     * Setter whether SID is allowed in store directive
+     * Doesn't set anything intentionally, since SID is not allowed in any kind of emails
      *
      * @param bool $flag
      * @return Mage_Core_Model_Email_Template_Filter
      */
     public function setUseSessionInUrl($flag)
     {
-        $this->_useSessionInUrl = (bool)$flag;
         return $this;
     }
 
@@ -266,29 +259,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             unset($params['url']);
         }
 
-        if (!self::$_urlInstance) {
-            self::$_urlInstance = Mage::getModel('core/url')->setStore(
-                Mage::app()->getStore(Mage::getDesign()->getStore())->getId()
-            );
-        }
-        $_urlInstanceOldStore = null;
-        if (!Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
-            && !Mage::app()->isSingleStoreMode())
-        {
-            $params['_query']['___store'] = Mage::app()->getStore(Mage::getDesign()->getStore())->getCode();
-        } elseif (Mage::getStoreConfigFlag(Mage_Core_Model_Store::XML_PATH_STORE_IN_URL)
-            && !Mage::app()->isSingleStoreMode())
-        {
-            $_urlInstanceOldStore = self::$_urlInstance->getStore();
-            self::$_urlInstance->setStore(Mage::app()->getStore(Mage::getDesign()->getStore())->getCode());
-        }
-
-        $url = self::$_urlInstance->getUrl($path, $params);
-        if (null ==! $_urlInstanceOldStore) {
-            self::$_urlInstance->setStore($_urlInstanceOldStore);
-        }
-
-        return $url;
+        return Mage::app()->getStore(Mage::getDesign()->getStore())->getUrl($path, $params);
     }
 
     /**
