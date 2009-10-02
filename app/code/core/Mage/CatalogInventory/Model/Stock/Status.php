@@ -516,4 +516,16 @@ class Mage_CatalogInventory_Model_Stock_Status extends Mage_Core_Model_Abstract
 
         return $this;
     }
+
+    /**
+     * Add only is in stock products filter to product collection
+     *
+     * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
+     * @return Mage_CatalogInventory_Model_Stock_Status
+     */
+    public function addIsInStockFilterToCollection($collection)
+    {
+        $this->_getResource()->addIsInStockFilterToCollection($collection);
+        return $this;
+    }
 }
