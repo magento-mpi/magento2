@@ -320,7 +320,7 @@ class Mage_Catalog_Model_Product_Type_Price
     public static function calculateSpecialPrice($finalPrice, $specialPrice, $specialPriceFrom, $specialPriceTo, $store = null)
     {
         if (!is_null($specialPrice) && $specialPrice != false) {
-            if (Mage::app()->getLocale()->IsStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
+            if (Mage::app()->getLocale()->isStoreDateInInterval($store, $specialPriceFrom, $specialPriceTo)) {
                 $finalPrice     = min($finalPrice, $specialPrice);
             }
         }

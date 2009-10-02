@@ -757,14 +757,14 @@ class Mage_Core_Model_Locale
     }
 
     /**
-     * Is Store dat in iterval
+     * Checks if current date of the given store (in the store timezone) is within the range
      *
      * @param int|string|Mage_Core_Model_Store $store
      * @param string|null $dateFrom
      * @param string|null $dateTo
      * @return bool
      */
-    public function IsStoreDateInInterval($store, $dateFrom = null, $dateTo = null)
+    public function isStoreDateInInterval($store, $dateFrom = null, $dateTo = null)
     {
         if (!$store instanceof Mage_Core_Model_Store) {
             $store = Mage::app()->getStore($store);

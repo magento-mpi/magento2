@@ -159,7 +159,7 @@ class Mage_Catalog_Model_Design extends Mage_Core_Model_Abstract
         $theme      = $designInfo[1];
 
         // compare dates
-        if (Mage::app()->getLocale()->IsStoreDateInInterval(null, $date['from'], $date['to'])) {
+        if (Mage::app()->getLocale()->isStoreDateInInterval(null, $date['from'], $date['to'])) {
             $this->_apply($package, $theme);
             return true;
         }

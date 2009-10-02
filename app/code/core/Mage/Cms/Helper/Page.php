@@ -74,7 +74,7 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             return false;
         }
 
-        $inRange = Mage::app()->getLocale()->IsStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo());
+        $inRange = Mage::app()->getLocale()->isStoreDateInInterval(null, $page->getCustomThemeFrom(), $page->getCustomThemeTo());
 
         if ($page->getCustomTheme()) {
             if ($inRange) {
