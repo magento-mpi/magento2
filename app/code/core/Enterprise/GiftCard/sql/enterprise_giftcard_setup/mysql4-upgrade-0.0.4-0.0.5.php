@@ -27,19 +27,12 @@
 $installer = $this;
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 
-$installer->startSetup();
-
-$fieldList = array(
-    'weight',
-);
-
-// make these attributes applicable to gift card products
-foreach ($fieldList as $field) {
-    $applyTo = explode(',', $installer->getAttribute('catalog_product', $field, 'apply_to'));
+// make 'weight' attribute applicable to gift card products
+$applyTo = $installer->getAttribute('catalog_product', 'weight', 'apply_to');
+if ($applyTo) {
+    $applyTo = explode(',', $applyTo);
     if (!in_array('giftcard', $applyTo)) {
         $applyTo[] = 'giftcard';
-        $installer->updateAttribute('catalog_product', $field, 'apply_to', join(',', $applyTo));
+        $installer->updateAttribute('catalog_product', 'weight', 'apply_to', join(',', $applyTo));
     }
 }
-
-$installer->endSetup();
