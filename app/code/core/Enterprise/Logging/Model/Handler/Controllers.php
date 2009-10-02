@@ -206,14 +206,15 @@ class Enterprise_Logging_Model_Handler_Controllers
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event
      */
-    public function postDispatchPromoCatalogSaveAndApply($config, $eventModel)
+    public function postDispatchPromoCatalogSaveAndApply($config, $eventModel, $processorModel)
     {
         $request = Mage::app()->getRequest();
+
+        $this->postDispatchGeneric($config, $eventModel, $processorModel);
         if ($request->getParam('auto_apply')) {
-            $eventModel->setInfo(Mage::helper('enterprise_logging')->__('%s & applied', $request->getParam('rule_id')));
-        } else {
-            $eventModel->setInfo($request->getParam('rule_id'));
+            $eventModel->setInfo(Mage::helper('enterprise_logging')->__('%s & applied', $eventModel->getInfo()));
         }
+
         return $eventModel;
     }
 
