@@ -172,7 +172,7 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
             'values'    => $this->getSelectedBanners(),
             'align'     => 'center',
             'index'     => 'banner_id',
-            'width'     => 20,
+            'width'     => 1,
         ));
 
         $this->addColumn('position', array(
@@ -181,7 +181,7 @@ class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adm
             'type'           => 'number',
             'validate_class' => 'validate-number',
             'index'          => 'position',
-            'width'          => 20,
+            'width'          => 1,
             'editable'       => true,
             'filter'         => false,
             'edit_only'      => true,

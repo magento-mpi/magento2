@@ -120,7 +120,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         // fieldset and content areas per store views
         $fieldset = $form->addFieldset('scopes_fieldset', array(
             'legend' => Mage::helper('enterprise_banner')->__('Store View Specific Content'),
-            'class'  => "$fieldsetHtmlClass stores-tree",
+            'class'  => $fieldsetHtmlClass,
+            'table_class' => 'stores-tree',
         ));
         $wysiwygConfig->setUseContainer(true);
         foreach (Mage::app()->getWebsites() as $website) {
