@@ -316,7 +316,8 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
     }
 
     /**
-     * Calculate count of wishlist items
+     * Calculate count of wishlist items and put value to customer session.
+     * Method called after wishlist modifications and trigger 'wishlist_items_renewed' event.
      *
      * @return Mage_Wishlist_Helper_Data
      */
@@ -330,7 +331,7 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
                 ->getSize();
         }
         Mage::getSingleton('customer/session')->setWishlistItemCount($count);
-
+        Mage::dispatchEvent('wishlist_items_renewed');
         return $this;
     }
 }

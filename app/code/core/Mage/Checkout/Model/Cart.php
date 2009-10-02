@@ -357,6 +357,10 @@ class Mage_Checkout_Model_Cart extends Varien_Object
         $this->getQuote()->collectTotals();
         $this->getQuote()->save();
         $this->getCheckoutSession()->setQuoteId($this->getQuote()->getId());
+        /**
+         * Cart save usually called after chenges with cart items.
+         */
+        Mage::dispatchEvent('checkout_cart_save_after', array('cart'=>$this));
         return $this;
     }
 
