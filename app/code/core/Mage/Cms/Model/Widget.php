@@ -122,7 +122,9 @@ class Mage_Cms_Model_Widget extends Varien_Object
         $directive = '{{widget type="' . $type . '"';
         foreach ($params as $name => $value) {
             // Retrieve default option value if pre-configured
-            if (trim($value) == '' && $widget->parameters) {
+            if (is_array($value)) {
+                $value = implode(',', $value);
+            } elseif (trim($value) == '' && $widget->parameters) {
                 $value = (string)$widget->parameters->{$name}->value;
             }
             if ($value) {
