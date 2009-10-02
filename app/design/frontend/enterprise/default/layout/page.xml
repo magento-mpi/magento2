@@ -68,7 +68,6 @@ Default layout, loads most of the pages
                 <block type="page/template_links" name="top.links" as="topLinks"/>
                 <block type="page/template_links" name="checkout.links" as="checkoutLinks"/>
                 <block type="core/text_list" name="top.switches" as="switches" translate="label">
-                    <label>Top Switches</label>
                     <block type="page/switch" name="store_language" as="store_language" template="page/switch/languages.phtml"/>
                 </block>
                 <block type="core/text_list" name="top.menu" as="topMenu"/>
@@ -79,7 +78,6 @@ Default layout, loads most of the pages
 
 
             <block type="core/text_list" name="breadcrumbs.container" as="breadcrumbsContainer" translate="label">
-                <label>Breadcrumbs Container Block</label>
                 <block type="page/html_breadcrumbs" name="breadcrumbs"/>
             </block>
 
@@ -98,14 +96,13 @@ Default layout, loads most of the pages
                 <label>Right Column</label>
             </block>
 
-            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
-                <block type="page/switch" name="store_switcher" as="store_switcher" template="page/switch/stores.phtml"/>
-                <block type="page/template_links" name="footer_links" as="footer_links" template="page/template/links.phtml"/>
+            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml" translate="label">
+                <label>Page Footer</label>
+                <block type="page/template_links" name="footer_links" as="footer_links" after="footer.newsletter" template="page/template/links.phtml"/>
+                <block type="page/switch" name="store_switcher" as="store_switcher" after="-" template="page/switch/stores.phtml"/>
             </block>
 
-            <block type="core/text_list" name="before_body_end" as="before_body_end" translate="label">
-                <label>Callout Before Body Closing Tag</label>
-            </block>
+            <block type="core/text_list" name="before_body_end" as="before_body_end" translate="label"/>
         </block>
 
         <block type="core/profiler" output="toHtml"/>

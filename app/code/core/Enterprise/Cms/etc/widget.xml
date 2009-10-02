@@ -52,6 +52,22 @@
                     <label>Anchor Custom Title</label>
                     <type>text</type>
                 </title>
+                <template translate="label">
+                    <label>Template</label>
+                    <visible>1</visible>
+                    <type>select</type>
+                    <value>cms/hierarchy/widget/link/cms_link_block.phtml</value>
+                    <values>
+                        <default translate="label">
+                            <value>cms/hierarchy/widget/link/link_block.phtml</value>
+                            <label>CMS Page Link Block Template</label>
+                        </default>
+                        <link_inline translate="label">
+                            <value>cms/hierarchy/widget/link/link_inline.phtml</value>
+                            <label>CMS Page Link Inline Template</label>
+                        </link_inline>
+                    </values>
+                </template>
             </parameters>
         </cms_hierarchy_node>
     </widgets>

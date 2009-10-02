@@ -25,18 +25,20 @@
  */
 ?>
 <?php if ($_products = $this->getRecentlyComparedProducts()): ?>
-<div class="block block-list">
-    <div class="block-title">
-        <h2><?php echo $this->__('Your Recently Compared') ?></h2>
-    </div>
-    <div class="block-content">
-        <ol class="mini-product-images-list">
-        <?php $i=0; foreach ($_products as $_product): ?>
-            <li class="item">
-                <a class="product-image" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><img class="product-image" src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75) ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
-            </li>
-        <?php endforeach; ?>
-        </ol>
+<div class="widget widget-compared">
+    <div class="block block-list">
+        <div class="block-title">
+            <h2><?php echo $this->__('Your Recently Compared') ?></h2>
+        </div>
+        <div class="block-content">
+            <ol class="mini-product-images-list">
+            <?php $i=0; foreach ($_products as $_product): ?>
+                <li class="item">
+                    <a class="product-image" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><img class="product-image" src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(75) ?>" width="75" height="75" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
+                </li>
+            <?php endforeach; ?>
+            </ol>
+        </div>
     </div>
 </div>
 <?php endif; ?>

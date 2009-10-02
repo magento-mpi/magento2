@@ -30,18 +30,20 @@
  */
 ?>
 <?php if ($_products = $this->getRecentlyViewedProducts()): ?>
-<div class="block block-list">
-    <div class="block-title">
-        <h2><?php echo $this->__('Your Recently Viewed') ?></h2>
-    </div>
-    <div class="block-content">
-        <ol>
-        <?php $i=0; foreach ($_products as $_product): ?>
-            <li class="item">
-               <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
-            </li>
-        <?php endforeach; ?>
-        </ol>
+<div class="widget widget-viewed">
+    <div class="block block-list">
+        <div class="block-title">
+            <h2><?php echo $this->__('Your Recently Viewed') ?></h2>
+        </div>
+        <div class="block-content">
+            <ol>
+            <?php $i=0; foreach ($_products as $_product): ?>
+                <li class="item">
+                   <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
+                </li>
+            <?php endforeach; ?>
+            </ol>
+        </div>
     </div>
 </div>
 <?php endif; ?>

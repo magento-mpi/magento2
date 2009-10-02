@@ -1210,7 +1210,7 @@ table.mceLayout { width:100% !important; }
 .cms-hierarchy .col-right .form-list td.label label { width:105px; }
 .cms-hierarchy .cms-tree { height:300px; }
 
-/* CMS Widgets */
+/* CMS Widgets Instance */
 .options-box .option-box { border:1px solid #cddddd; padding:1em; background:#e7efef; margin:1.5em 0; }
 .options-box .option-title { padding:0 0 10px; border-bottom:1px solid #cddddd; }
 .options-box .option-title button { float:right; }
@@ -1222,6 +1222,7 @@ table.mceLayout { width:100% !important; }
 .options-box .option-header th { padding:2px; }
 .options-box .option-header td { padding:5px 2px; }
 .options-box .option-header .tree { margin:5px 0 0; }
+
 
 /*****************************************/
 /******** ALIGNMENTS AND CLEARS **********/
