@@ -52,6 +52,22 @@
                     <label>Anchor Custom Title</label>
                     <type>text</type>
                 </title>
+                <template translate="label">
+                    <label>Template</label>
+                    <visible>1</visible>
+                    <type>select</type>
+                    <value>cms/widget/link/link_block.phtml</value>
+                    <values>
+                        <default translate="label">
+                            <value>cms/widget/link/link_block.phtml</value>
+                            <label>CMS Page Link Block Template</label>
+                        </default>
+                        <link_inline translate="label">
+                            <value>cms/widget/link/link_inline.phtml</value>
+                            <label>CMS Page Link Inline Template</label>
+                        </link_inline>
+                    </values>
+                </template>
             </parameters>
         </cms_page_link>
         <cms_static_block type="cms/widget_block" translate="name description" module="cms">
@@ -67,6 +83,18 @@
                         <element_helper>adminhtml/cms_block_widget_chooser</element_helper>
                     </type>
                 </block_id>
+                <template translate="label">
+                    <label>Template</label>
+                    <visible>1</visible>
+                    <type>select</type>
+                    <value>cms/widget/static_block/default.phtml</value>
+                    <values>
+                        <default translate="label">
+                            <value>cms/widget/static_block/default.phtml</value>
+                            <label>CMS Static Block Default Template</label>
+                        </default>
+                    </values>
+                </template>
             </parameters>
         </cms_static_block>
     </widgets>

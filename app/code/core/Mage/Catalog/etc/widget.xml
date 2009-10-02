@@ -118,45 +118,52 @@
                     <label>Template</label>
                     <visible>1</visible>
                     <type>select</type>
-                    <value>catalog/product/widget/link/link.phtml</value>
+                    <value>catalog/product/widget/link/link_block.phtml</value>
                     <values>
                         <default translate="label">
-                            <value>catalog/product/widget/link/link.phtml</value>
-                            <label>Default Product Link Template</label>
+                            <value>catalog/product/widget/link/link_block.phtml</value>
+                            <label>Product Link Block Template</label>
                         </default>
+                        <link_inline translate="label">
+                            <value>catalog/product/widget/link/link_inline.phtml</value>
+                            <label>Product Link Inline Template</label>
+                        </link_inline>
                     </values>
                 </template>
             </parameters>
-            <supported_blocks>
+            <!--supported_blocks>
                 <page_header>
                     <block_name>top.container</block_name>
                     <template>
-                        <default>default</default>
+                        <block_link>default</block_link>
                     </template>
                 </page_header>
-                <left_column>
-                    <!-- block name in layout -->
-                    <block_name>left</block_name>
-                    <!-- list of available templates for current block -->
+                <main_content>
+                    <block_name>content</block_name>
                     <template>
-                        <!-- default template in widget parameters select type -->
-                        <simple>default</simple>
-                        <asdf>custom</asdf>
+                        <block_link>default</block_link>
+                        <inline_link>link_inline</inline_link>
+                    </template>
+                </main_content>
+                <left_column>
+                    <block_name>left</block_name>
+                    <template>
+                        <block_link>default</block_link>
                     </template>
                 </left_column>
                 <right_column>
                     <block_name>right</block_name>
                     <template>
-                        <simple>default</simple>
+                        <block_link>default</block_link>
                     </template>
                 </right_column>
-                <content>
-                    <block_name>content</block_name>
+                <page_footer>
+                    <block_name>footer</block_name>
                     <template>
-                        <simple>default</simple>
+                        <block_link>default</block_link>
                     </template>
-                </content>
-            </supported_blocks>
+                </page_footer>
+            </supported_blocks-->
         </catalog_product_link>
 
         <catalog_category_link type="catalog/category_widget_link" translate="name description" module="catalog">
@@ -184,6 +191,22 @@
                     <label>Anchor Custom Title</label>
                     <type>text</type>
                 </title>
+                <template translate="label">
+                    <label>Template</label>
+                    <visible>1</visible>
+                    <type>select</type>
+                    <value>catalog/category/widget/link/link_block.phtml</value>
+                    <values>
+                        <default translate="label">
+                            <value>catalog/category/widget/link/link_block.phtml</value>
+                            <label>Category Link Block Template</label>
+                        </default>
+                        <link_inline translate="label">
+                            <value>catalog/category/widget/link/link_inline.phtml</value>
+                            <label>Category Link Inline Template</label>
+                        </link_inline>
+                    </values>
+                </template>
             </parameters>
         </catalog_category_link>
     </widgets>
