@@ -49,8 +49,6 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_specificEntitiesLayoutHandles = array();
 
     /**
-     * Enter description here...
-     *
      * @var Varien_Simplexml_Element
      */
     protected $_widgetConfigXml = null;
@@ -100,6 +98,9 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
                         $layoutHandle = $pageGroupData['layout_handle'];
                     } else {
                         $layoutHandle = $this->_layoutHandles[$pageGroup['page_group']];
+                    }
+                    if (!isset($pageGroupData['template'])) {
+                        $pageGroupData['template'] = '';
                     }
                     $tmpPageGroup = array(
                         'page_id' => $pageGroupData['page_id'],
