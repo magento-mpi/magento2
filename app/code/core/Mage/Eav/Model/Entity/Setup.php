@@ -769,7 +769,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
      * @param string $field
      * @return mixed
      */
-    public function getAttribute($entityTypeId, $id, $field=null)
+    public function getAttribute($entityTypeId, $id, $field = null)
     {
         $additionalTable    = $this->getEntityType($entityTypeId, 'additional_attribute_table');
         $entityTypeId       = $this->getEntityTypeId($entityTypeId);
@@ -799,7 +799,7 @@ class Mage_Eav_Model_Entity_Setup extends Mage_Core_Model_Resource_Setup
         }
 
         $row = $this->_setupCache[$mainTable][$entityTypeId][$id];
-        if (is_null($field)) {
+        if (!is_null($field)) {
             return isset($row[$field]) ? $row[$field] : false;
         }
         return $row;
