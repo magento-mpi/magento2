@@ -589,11 +589,15 @@ class Mage_Checkout_Model_Type_Onepage
                 $shipping->setCustomerId($customer->getId())->setCustomerAddressId($customerShippingId);
             }
 
-            if ($customer->isConfirmationRequired()) {
-                $customer->sendNewAccountEmail('confirmation');
-            }
-            else {
-                $customer->sendNewAccountEmail();
+            try {
+                if ($customer->isConfirmationRequired()) {
+                    $customer->sendNewAccountEmail('confirmation');
+                }
+                else {
+                    $customer->sendNewAccountEmail();
+                }
+            } catch (Exception $e) {
+                Mage::logException($e);
             }
         }
 
@@ -625,7 +629,11 @@ class Mage_Checkout_Model_Type_Onepage
          * we only want to send to customer about new order when there is no redirect to third party
          */
         if(!$redirectUrl){
-            $order->sendNewOrderEmail();
+            try {
+                $order->sendNewOrderEmail();
+            } catch (Exception $e) {
+                Mage::logException($e);
+            }
         }
 
         if ($this->getQuote()->getCheckoutMethod(true)==Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER

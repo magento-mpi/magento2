@@ -122,10 +122,17 @@ class Mage_Adminhtml_Sales_OrderController extends Mage_Adminhtml_Controller_Act
     public function emailAction()
     {
         if ($order = $this->_initOrder()) {
-            $order->sendNewOrderEmail();
-            $this->_getSession()->addSuccess(Mage::helper('sales')->__('Message was successfully sent'));
-            $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
+            try {
+                $order->sendNewOrderEmail();
+                $this->_getSession()->addSuccess($this->__('Order email has been successfully sent.'));
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+            } catch (Exception $e) {
+                $this->_getSession()->addError($this->__('Failed to send order email.'));
+                Mage::logException($e);
+            }
         }
+        $this->_redirect('*/sales_order/view', array('order_id' => $order->getId()));
     }
     /**
      * Cancel order
