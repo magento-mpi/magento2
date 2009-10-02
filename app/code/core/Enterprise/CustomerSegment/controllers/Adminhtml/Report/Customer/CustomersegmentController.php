@@ -89,7 +89,9 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     public function segmentAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('enterprise_customersegment/adminhtml_report_customer_segment'))
+            ->_addContent($this->getLayout()->createBlock(
+                'enterprise_customersegment/adminhtml_report_customer_segment')
+            )
             ->renderlayout();
     }
 
@@ -101,7 +103,9 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     {
         if ($this->_initSegment()) {
             $this->_initAction()
-                ->_addContent($this->getLayout()->createBlock('enterprise_customersegment/adminhtml_report_customer_segment_detail'))
+                ->_addContent($this->getLayout()->createBlock(
+                    'enterprise_customersegment/adminhtml_report_customer_segment_detail'
+                ))
                 ->renderLayout();
         } else {
             $this->_redirect('*/*/segment');
@@ -110,17 +114,20 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     }
 
     /**
-     * Refrech Action
-     *
+     * Apply segment conditions to all customers
      */
     public function refreshAction()
     {
-        try {
-            Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_customersegment')->__('Customer Segment data refreshed successfully.'));
-            $this->_redirect('*/*/detail', array('_current' => true));
-            return ;
-        } catch (Mage_Core_Exception $e) {
-            Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+        $segment = $this->_initSegment();
+        if ($segment) {
+            try {
+                $segment->matchCustomers();
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_customersegment')->__('Customer Segment data refreshed successfully.'));
+                $this->_redirect('*/*/detail', array('_current' => true));
+                return ;
+            } catch (Mage_Core_Exception $e) {
+                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
+            }
         }
         $this->_redirect('*/*/detail', array('_current' => true));
         return ;

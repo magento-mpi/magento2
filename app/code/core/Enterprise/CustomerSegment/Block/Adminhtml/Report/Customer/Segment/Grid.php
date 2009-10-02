@@ -111,6 +111,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         $this->addColumn('website', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
             'align'     =>'left',
+            'width'     => '200px',
             'index'     => 'website_id',
             'type'      => 'options',
             'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash()
@@ -119,6 +120,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         $this->addColumn('customer_count', array(
             'header'    =>Mage::helper('enterprise_customersegment')->__('Number of Customers'),
             'index'     =>'customer_count',
+            'width'     => '200px'
         ));
 
         return $this;

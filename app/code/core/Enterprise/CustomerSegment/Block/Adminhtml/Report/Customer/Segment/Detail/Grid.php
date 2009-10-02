@@ -39,7 +39,13 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
         /* @var $collection Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection */
         $collection = Mage::getResourceModel('enterprise_customersegment/report_customer_collection');
         $collection->addNameToSelect()
-            ->addSegmentFilter($this->getCustomerSegment());
+            ->addSegmentFilter($this->getCustomerSegment())
+            ->joinAttribute('billing_postcode', 'customer_address/postcode', 'default_billing', null, 'left')
+            ->joinAttribute('billing_city', 'customer_address/city', 'default_billing', null, 'left')
+            ->joinAttribute('billing_telephone', 'customer_address/telephone', 'default_billing', null, 'left')
+            ->joinAttribute('billing_region', 'customer_address/region', 'default_billing', null, 'left')
+            ->joinAttribute('billing_country_id', 'customer_address/country_id', 'default_billing', null, 'left');
+            ;
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -117,22 +123,23 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
 
         $this->addColumn('customer_since', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Customer Since'),
+            'width'     => '200',
             'type'      => 'datetime',
             'align'     => 'center',
             'index'     => 'created_at',
             'gmtoffset' => true
         ));
 
-        if (!Mage::app()->isSingleStoreMode()) {
-            $this->addColumn('website_id', array(
-                'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
-                'align'     => 'center',
-                'width'     => '80px',
-                'type'      => 'options',
-                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(true),
-                'index'     => 'website_id',
-            ));
-        }
+//        if (!Mage::app()->isSingleStoreMode()) {
+//            $this->addColumn('website_id', array(
+//                'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
+//                'align'     => 'center',
+//                'width'     => '80px',
+//                'type'      => 'options',
+//                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(true),
+//                'index'     => 'website_id',
+//            ));
+//        }
 
         $this->addExportType('*/*/exportCsv', Mage::helper('enterprise_customersegment')->__('CSV'));
         $this->addExportType('*/*/exportExcel', Mage::helper('enterprise_customersegment')->__('Excel'));

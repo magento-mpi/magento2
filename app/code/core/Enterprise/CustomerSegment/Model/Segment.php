@@ -137,19 +137,19 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
 
     public function validate(Varien_Object $object)
     {
-        $key = '__SEDMNT_'.$this->getId().'_BUILD_SQL__';
-        Varien_Profiler::start($key);
-        $sql = $this->getConditions()->getConditionsSql($object, $this->getValidationWebsite());
-        Varien_Profiler::stop($key);
-        echo "$sql\n<br />\n";
-
-        Varien_Profiler::start('RUN SQL:'.$key);
-        $result = $this->getResource()->runConditionSql($sql);
-        Varien_Profiler::stop('RUN SQL:'.$key);
-        $resultText = ($result ? '<span style="color: #00CC00;">PASSED</span>' : '<span style="color: #CC0000;">FAILED</span>');
-        echo "SEGMENT #{$this->getId()} VALIDATION AGAINST CUSTOMER #{$object->getId()} {$resultText}\n<br /><br />\n";
-
-        return $result;
+//        $key = '__SEDMNT_'.$this->getId().'_BUILD_SQL__';
+//        Varien_Profiler::start($key);
+//        $sql = $this->getConditions()->getConditionsSql($object, $this->getValidationWebsite());
+//        Varien_Profiler::stop($key);
+//        echo "$sql\n<br />\n";
+//
+//        Varien_Profiler::start('RUN SQL:'.$key);
+//        $result = $this->getResource()->runConditionSql($sql);
+//        Varien_Profiler::stop('RUN SQL:'.$key);
+//        $resultText = ($result ? '<span style="color: #00CC00;">PASSED</span>' : '<span style="color: #CC0000;">FAILED</span>');
+//        echo "SEGMENT #{$this->getId()} VALIDATION AGAINST CUSTOMER #{$object->getId()} {$resultText}\n<br /><br />\n";
+//
+//        return $result;
     }
 
     /**
@@ -164,29 +164,25 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         $sql = $this->getConditions()->getConditionsSql($customer, $website);
         $result = $this->getResource()->runConditionSql($sql);
         //echo $result . ':' . $sql.'<br><br>';
-        return $result;
+        return $result>0;
     }
 
     /**
+     * Match all customers by segment conditions and fill customer/segments relations table
      *
-     *
-     * @param $customer
-     * @return unknown_type
+     * @return Enterprise_CustomerSegment_Model_Segment
      */
-    public function getMatchedSegmentsByCustomer($customer = null)
+    public function matchCustomers()
     {
-        if (is_null($customer)) {
-            Mage::getSingleton('customer/session')->getCustomerId();
-            // load from session instead of db
-        } else if ($customer instanceof Mage_Customer_Model_Customer) {
-            $customer = $customer->getId();
-        } else if (is_array($customer)) {
-            // use customer array [return matches]
-        } else if ($customer instanceof Zend_Db_Select) {
-            $customer = new Zend_Db_Expr($customer);
+        $sql = $this->getConditions()->getConditionsSql(null, $this->getWebsiteId());
+        $this->_getResource()->beginTransaction();
+        try {
+            $this->_getResource()->saveSegmentCustomersFromSelect($this, $sql);
+            $this->_getResource()->commit();
+        } catch (Exception $e) {
+            echo $e;die();
+            $this->_getResource()->rollBack();
         }
-
-        // load customers
-        return array();
+        return $this;
     }
 }

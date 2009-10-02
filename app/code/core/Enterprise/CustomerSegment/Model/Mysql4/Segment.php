@@ -68,7 +68,7 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
 
     public function runConditionSql($sql)
     {
-        return $this->_getReadAdapter()->fetchOne($sql) == 1;
+        return $this->_getReadAdapter()->fetchOne($sql);
     }
 
     /**
@@ -153,5 +153,37 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
                 break;
         }
         return $condition;
+    }
+
+    public function saveSegmentCustomersFromSelect($segment, $select)
+    {
+        $table = $this->getTable('enterprise_customersegment/customer');
+        $adapter = $this->_getWriteAdapter();
+        $segmentId = $segment->getId();
+        $now = $this->formatDate(time());
+
+        $adapter->delete($table, $adapter->quoteInto('segment_id=?', $segmentId));
+
+        $data = array();
+        $count= 0;
+        $stmt = $adapter->query($select);
+        while ($row = $stmt->fetch()) {
+            $data[] = array(
+                'segment_id'    => $segmentId,
+                'customer_id'   => $row['entity_id'],
+                'added_date'    => $now,
+                'updated_date'  => $now,
+            );
+            $count++;
+            if ($count>1000) {
+                $count = 0;
+                $adapter->insertMultiple($table, $data);
+                $data = array();
+            }
+        }
+        if ($count>0) {
+            $adapter->insertMultiple($table, $data);
+        }
+        return $this;
     }
 }

@@ -153,6 +153,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
                 $model->loadPost($data);
                 Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
                 $model->save();
+                $model->matchCustomers();
 
                 Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_customersegment')->__('Segment was successfully saved'));
                 Mage::getSingleton('adminhtml/session')->setPageData(false);

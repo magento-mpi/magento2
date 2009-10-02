@@ -44,6 +44,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
         $this->setType('enterprise_customersegment/segment_condition_combine_root');
     }
 
+    /**
+     * Prepare filter condition by customer
+     *
+     * @param int|array|Mage_Customer_Model_Customer|Zend_Db_Select $customer
+     * @param $fieldName
+     * @return string
+     */
     protected function _createCustomerFilter($customer, $fieldName)
     {
         if ($customer instanceof Mage_Customer_Model_Customer) {
@@ -60,9 +67,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
 
         $table = array('root' => $this->getResource()->getTable('customer/entity'));
 
-        $select->from($table, array(new Zend_Db_Expr(1)));
-        $select->where($this->_createCustomerFilter($customer, 'entity_id'));
-
+        $select->from($table, array('entity_id'));
+        if ($customer) {
+            $select->where($this->_createCustomerFilter($customer, 'entity_id'));
+        }
         return $select;
     }
 }
