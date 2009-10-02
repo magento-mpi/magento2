@@ -49,20 +49,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit_Tab_Content
 
         parent::_prepareForm();
 
+        Mage::helper('enterprise_cms')->addOnChangeToFormElements($this->getForm(), 'dataChanged();');
 
         /* @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
-
-        foreach ($fieldset->getElements() as $element) {
-            if ($element->getType() != 'hidden') {
-                if ($element->hasOnchange()) {
-                    $onchange = $element->getOnchange() . ';';
-                } else {
-                    $onchange = '';
-                }
-                $element->setOnchange($onchange . 'dataChanged();');
-            }
-        }
 
         if ($model->getPageId()) {
             $fieldset->addField('page_id', 'hidden', array(

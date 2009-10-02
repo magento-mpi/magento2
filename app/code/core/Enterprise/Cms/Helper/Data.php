@@ -75,4 +75,35 @@ class Enterprise_Cms_Helper_Data extends Mage_Core_Helper_Abstract
             Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC => $this->__('Public')
         );
     }
+
+    /**
+     * Recursively walk through container (form or fieldset)
+     * and add to each element new onChange method.
+     * Element will be skipped if its type passed in $excludeTypes parameter.
+     *
+     * @param Varien_Data_Form_Abstract $container
+     * @param string $onChange
+     * @param string|array $excludeTypes
+     */
+    public function addOnChangeToFormElements($container, $onChange, $excludeTypes = array('hidden'))
+    {
+        if (!is_array($excludeTypes)) {
+            $excludeTypes = array($excludeTypes);
+        }
+
+        foreach ($container->getElements()as $element) {
+            if ($element->getType() == 'fieldset') {
+                $this->addOnChangeToFormElements($element, $onChange, $excludeTypes);
+            } else {
+                if (!in_array($element->getType(), $excludeTypes)) {
+                    if ($element->hasOnchange()) {
+                        $onChangeBefore = $element->getOnchange() . ';';
+                    } else {
+                        $onChangeBefore = '';
+                    }
+                    $element->setOnchange($onChangeBefore . $onChange);
+                }
+            }
+        }
+    }
 }
