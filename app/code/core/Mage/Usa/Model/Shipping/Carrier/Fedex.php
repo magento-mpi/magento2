@@ -480,14 +480,19 @@ class Mage_Usa_Model_Shipping_Carrier_Fedex
         return $result;
     }
 
-    public function _parseXml($xmlContent)
+    /**
+     * Parse XML string and return XML document object or false 
+     *
+     * @param string $xmlContent
+     * @return SimpleXMLElement|bool
+     */
+    protected function _parseXml($xmlContent)
     {
         try {
             try {
-                $xml = simplexml_load_string($xmlContent);
-                return $xml; 
+                return simplexml_load_string($xmlContent);
             } catch (Exception $e) {
-                throw new Exception('Invalid XML document "' . $xmlContent . '"');
+                throw new Exception(Mage::helper('usa')->__('Failed to parse xml document: %s', $xmlContent));
             }
         } catch (Exception $e) {
             Mage::logException($e);
