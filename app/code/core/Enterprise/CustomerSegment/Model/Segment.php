@@ -29,19 +29,18 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
      * Intialize model
      *
      * @return void
-     */    
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->_init('enterprise_customersegment/segment');
-        $this->setIdFieldName('segment_id');
     }
 
     /**
      * Return conditions instance
      *
      * @return Enterprise_CustomerSegment_Model_Segment_Condition_Combine
-     */    
+     */
     public function getConditionsInstance()
     {
         return Mage::getModel('enterprise_customersegment/segment_condition_combine_root');
@@ -61,7 +60,8 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     }
 
     /**
-     * Perform actions before object save
+     * Perform actions before object save.
+     * Collect and save list of events which are applicable to segment.
      */
     protected function _beforeSave()
     {
@@ -71,61 +71,108 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
 
         $events = array();
         if ($this->getIsActive()) {
-            foreach ($this->getConditionModels() as $model) {
-                $eventName = Mage::getModel($model)->getValidationEvent();
-                if (is_null($eventName)) {
-                    continue;
-                }
-
-                if (!is_array($eventName)) {
-                    $eventName = array($eventName);
-                }
-
-                $events = array_merge($events, $eventName);
-            }
+            $events = $this->collectMatchedEvents();
         }
-        $this->setValidationEvents(array_unique($events));
-
+        $this->setMatchedEvents(array_unique($events));
         parent::_beforeSave();
     }
- 
 
+    /**
+     * Collect all matched event names for segment
+     *
+     * @param null | Enterprise_CustomerSegment_Model_Condition_Combine_Abstract $conditionsCombine
+     * @return array
+     */
+    public function collectMatchedEvents($conditionsCombine = null)
+    {
+        $events = array();
+        if ($conditionsCombine === null) {
+            $conditionsCombine = $this->getConditions();
+        }
+        $matchedEvents = $conditionsCombine->getMatchedEvents();
+        if (!empty($matchedEvents)) {
+            $events = array_merge($events, $matchedEvents);
+        }
+        $children = $conditionsCombine->getConditions();
+        if ($children) {
+            if (!is_array($children)) {
+                $children = array($children);
+            }
+            foreach ($children as $child) {
+                $events = array_merge($events, $this->collectMatchedEvents($child));
+            }
+        }
+        $events = array_unique($events);
+        return $events;
+    }
+
+    /**
+     * Get list of all models which are used in segment conditions
+     *
+     * @param  null | Mage_Rule_Model_Condition_Combine $conditions
+     * @return array
+     */
     public function getConditionModels($conditions = null)
     {
-        $result = array();
+        $models = array();
 
         if (is_null($conditions)) {
             $conditions = $this->getConditions();
         }
 
-        $result[] = $conditions->getType();
+        $models[] = $conditions->getType();
         $childConditions = $conditions->getConditions();
         if ($childConditions) {
             if (is_array($childConditions)) {
                 foreach ($childConditions as $child) {
-                    $result = array_merge($result, $this->getConditionModels($child));
+                    $models = array_merge($models, $this->getConditionModels($child));
                 }
             } else {
-                $result = array_merge($result, $this->getConditionModels($childConditions));
+                $models = array_merge($models, $this->getConditionModels($childConditions));
             }
         }
 
-        return $result;
+        return $models;
     }
 
     public function validate(Varien_Object $object)
     {
+        $key = '__SEDMNT_'.$this->getId().'_BUILD_SQL__';
+        Varien_Profiler::start($key);
         $sql = $this->getConditions()->getConditionsSql($object, $this->getValidationWebsite());
+        Varien_Profiler::stop($key);
         echo "$sql\n<br />\n";
 
+        Varien_Profiler::start('RUN SQL:'.$key);
         $result = $this->getResource()->runConditionSql($sql);
-
+        Varien_Profiler::stop('RUN SQL:'.$key);
         $resultText = ($result ? '<span style="color: #00CC00;">PASSED</span>' : '<span style="color: #CC0000;">FAILED</span>');
         echo "SEGMENT #{$this->getId()} VALIDATION AGAINST CUSTOMER #{$object->getId()} {$resultText}\n<br /><br />\n";
 
         return $result;
     }
 
+    /**
+     * Check if customer is matched by segment
+     *
+     * @param Mage_Customer_Model_Customer $customer
+     * @param $website
+     * @return bool
+     */
+    public function validateCustomer(Mage_Customer_Model_Customer $customer, $website)
+    {
+        $sql = $this->getConditions()->getConditionsSql($customer, $website);
+        $result = $this->getResource()->runConditionSql($sql);
+        //echo $result . ':' . $sql.'<br><br>';
+        return $result;
+    }
+
+    /**
+     *
+     *
+     * @param $customer
+     * @return unknown_type
+     */
     public function getMatchedSegmentsByCustomer($customer = null)
     {
         if (is_null($customer)) {

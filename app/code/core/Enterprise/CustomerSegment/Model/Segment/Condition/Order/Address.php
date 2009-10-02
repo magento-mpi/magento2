@@ -35,6 +35,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
         $this->setType('enterprise_customersegment/segment_condition_order_address');
     }
 
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array('sales_order_save_commit_after');
+    }
+
     public function getNewChildSelectOptions()
     {
         return Mage::getModel('enterprise_customersegment/segment_condition_order_address_combine')

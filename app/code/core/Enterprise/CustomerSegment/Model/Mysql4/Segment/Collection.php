@@ -37,32 +37,50 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
         $this->_init('enterprise_customersegment/segment');
     }
 
+    /**
+     * Limit segments collection by is_active column
+     *
+     * @param int $value
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
+     */
     public function addIsActiveFilter($value)
     {
         $this->getSelect()->where('main_table.is_active = ?', $value);
-
         return $this;
     }
 
+    /**
+     * Limit segments collection by event name
+     *
+     * @param string $eventName
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
+     */
     public function addEventFilter($eventName)
     {
-        $this->getSelect()->joinInner(
-            array('evt'=>$this->getTable('enterprise_customersegment/event')),
-            'main_table.segment_id = evt.segment_id',
-            array()
-        );
+        if (!$this->getFlag('is_event_table_joined')) {
+            $this->setFlag('is_event_table_joined', true);
+            $this->getSelect()->joinInner(
+                array('evt'=>$this->getTable('enterprise_customersegment/event')),
+                'main_table.segment_id = evt.segment_id',
+                array()
+            );
+        }
         $this->getSelect()->where('evt.event = ?', $eventName);
-
         return $this;
     }
 
+    /**
+     * Limit segments collection by specific website
+     *
+     * @param int | array | Mage_Core_Model_Website $websiteId
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
+     */
     public function addWebsiteFilter($websiteId)
     {
         if ($websiteId instanceof Mage_Core_Model_Website) {
             $websiteId = $websiteId->getId();
         }
-        $this->getSelect()->where('website_id = ?', $websiteId);
-
+        $this->getSelect()->where('website_id IN (?)', $websiteId);
         return $this;
     }
 
@@ -100,6 +118,9 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
      */
     public function addCustomerCountToSelect()
     {
+        if ($this->_customerCountAdded) {
+            return $this;
+        }
         $this->_customerCountAdded = true;
         $this->getSelect()
             ->joinLeft(
@@ -112,13 +133,14 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection extends Mage_Co
     }
 
     /**
-     * Add custom count filter
+     * Add customer count filter
      *
      * @param integer $customerCount
      * @return Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection
      */
     public function addCustomerCountFilter($customerCount)
     {
+        $this->addCustomerCountToSelect();
         $this->getSelect()
             ->having('`customer_count` = ?', $customerCount);
         return $this;

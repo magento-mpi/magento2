@@ -27,6 +27,9 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
+    const VIEWED    = 'viewed_history';
+    const ORDERED   = 'ordered_history';
+
     protected $_inputType = 'select';
 
     public function __construct()
@@ -35,16 +38,37 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
         $this->setType('enterprise_customersegment/segment_condition_product_combine_history');
     }
 
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        $events = array();
+        switch ($this->getValue()) {
+            case self::ORDERED:
+                $events = array('sales_order_save_commit_after');
+                break;
+            default:
+                $events = array('catalog_controller_product_view');
+        }
+        return $events;
+    }
+
+
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')->setDateConditions(true)->getNewChildSelectOptions();
+        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')
+            ->setDateConditions(true)
+            ->getNewChildSelectOptions();
     }
 
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            'viewed_history'  => Mage::helper('enterprise_customersegment')->__('viewed'),
-            'ordered_history' => Mage::helper('enterprise_customersegment')->__('ordered'),
+            self::VIEWED  => Mage::helper('enterprise_customersegment')->__('viewed'),
+            self::ORDERED => Mage::helper('enterprise_customersegment')->__('ordered'),
         ));
         return $this;
     }
@@ -80,14 +104,24 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
         $storeIds = array_merge(array(0), $storeIds);
 
         switch ($this->getValue()) {
-            case 'ordered_history':
-                $select->from(array('item' => $this->getResource()->getTable('sales/order_item')), array(new Zend_Db_Expr(1)));
-                $select->joinInner(array('order' => $this->getResource()->getTable('sales/order')), 'item.order_id = order.entity_id', array());
+            case self::ORDERED:
+                $select->from(
+                    array('item' => $this->getResource()->getTable('sales/order_item')),
+                    array(new Zend_Db_Expr(1))
+                );
+                $select->joinInner(
+                    array('order' => $this->getResource()->getTable('sales/order')),
+                    'item.order_id = order.entity_id',
+                    array()
+                );
                 $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
                 $select->where('order.store_id IN (?)', $storeIds);
                 break;
             default:
-                $select->from(array('item' => $this->getResource()->getTable('reports/viewed_product_index')), array(new Zend_Db_Expr(1)));
+                $select->from(
+                    array('item' => $this->getResource()->getTable('reports/viewed_product_index')),
+                    array(new Zend_Db_Expr(1))
+                );
                 $select->where($this->_createCustomerFilter($customer, 'item.customer_id'));
                 $select->where('item.store_id IN (?)', $storeIds);
                 break;
@@ -106,7 +140,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     protected function _getSubfilterMap()
     {
         switch ($this->getValue()) {
-            case 'ordered_history':
+            case self::ORDERED:
                 $dateField = 'item.created_at';
                 break;
 

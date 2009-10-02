@@ -27,7 +27,18 @@
 abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract extends Mage_Rule_Model_Condition_Combine
 {
     /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array();
+    }
+
+    /**
      * Customize default operator input by type mapper for some types
+     *
      * @return array
      */
     public function getDefaultOperatorInputByType()
@@ -60,24 +71,41 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         return parent::loadArray($arr, $key);
     }
 
+    /**
+     * Get condition combine resource model
+     *
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment
+     */
     public function getResource()
     {
         return Mage::getResourceSingleton('enterprise_customersegment/segment');
     }
 
+    /**
+     * Get filter by customer condition for segment matching sql
+     *
+     * @param $customer
+     * @param string $fieldName
+     * @return string
+     */
     protected function _createCustomerFilter($customer, $fieldName)
     {
         return "{$fieldName} = root.entity_id";
     }
 
-    protected function _prepareConditionsSql($customer, $website) {
+    /**
+     * Build query for matching customer to segment condition
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
+    protected function _prepareConditionsSql($customer, $website)
+    {
         $select = $this->getResource()->createSelect();
-
         $table = $this->getResource()->getTable('customer/entity');
-
         $select->from($table, array(new Zend_Db_Expr(1)));
         $select->where($this->_createCustomerFilter($customer, 'entity_id'));
-
         return $select;
     }
 
@@ -86,6 +114,13 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         return ($this->getValue() == 1);
     }
 
+    /**
+     * Get SQL select for matching customer to segment condition
+     *
+     * @param $customer
+     * @param $website
+     * @return unknown_type
+     */
     public function getConditionsSql($customer, $website)
     {
         $select = $this->_prepareConditionsSql($customer, $website);

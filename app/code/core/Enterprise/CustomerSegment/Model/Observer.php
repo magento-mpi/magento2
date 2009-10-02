@@ -70,16 +70,20 @@ class Enterprise_CustomerSegment_Model_Observer
     }
 
     /**
-     * Run segment validations based on supplied event
+     * Match customer segments on supplied event for currently logged in customer and ran website.
+     * Can be used for processing frontend events
      *
      * @param Varien_Event_Observer $observer
      */
     public function processEvent(Varien_Event_Observer $observer)
     {
         $eventName = $observer->getEvent()->getName();
-        $customer  = $observer->getEvent()->getCustomer();
-        $website   = $observer->getEvent()->getWebsite();
-
-        Mage::getSingleton('enterprise_customersegment/processor')->processEvent($eventName, $customer, $website);
+        $customerSession = Mage::getSingleton('customer/session');
+        if (!$customerSession->isLoggedIn()) {
+            return $this;
+        }
+        $customer = $customerSession->getCustomer();
+        $website = Mage::app()->getStore()->getWebsite();
+        Mage::getSingleton('enterprise_customersegment/customer')->processEvent($eventName, $customer, $website);
     }
 }

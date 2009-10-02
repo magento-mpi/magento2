@@ -25,10 +25,9 @@
  */
 
 /**
- * Segment condition for rules
+ * Segment condition for sales rules
  */
-class Enterprise_CustomerSegment_Model_Segment_Condition_Segment
-    extends Enterprise_CustomerSegment_Model_Condition_Abstract
+class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Rule_Model_Condition_Abstract
 {
     /**
      * @var string
@@ -43,7 +42,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment
     public function getValueAfterElementHtml()
     {
         return '<a href="javascript:void(0)" class="rule-chooser-trigger"><img src="'
-            . Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif') . '" alt="" class="v-middle rule-chooser-trigger" title="'
+            . Mage::getDesign()->getSkinUrl('images/rule_chooser_trigger.gif')
+            . '" alt="" class="v-middle rule-chooser-trigger" title="'
             . Mage::helper('rule')->__('Open Chooser') . '" /></a>';
     }
 
@@ -96,8 +96,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment
     }
 
     /**
+     * Specify allowed comparison operators
      *
-     * @return <type>
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Segment
      */
     public function loadOperatorOptions()
     {
@@ -107,5 +108,24 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment
             '!='  => Mage::helper('enterprise_customersegment')->__('does not match')
         ));
         return $this;
+    }
+
+    /**
+     * Validate if qoute customer is assigned to role segments
+     *
+     * @param   Mage_Sales_Model_Quote_Address $object
+     * @return  bool
+     */
+    public function validate(Varien_Object $object)
+    {
+        $customer = null;
+        if ($object->getQuote()) {
+            $customer = $object->getQuote()->getCustomer();
+        }
+        if (!$customer) {
+            return false;
+        }
+        $segments = Mage::getSingleton('enterprise_customersegment/customer')->getCustomerSegmentIds($customer);
+        return $this->validateAttribute($segments);
     }
 }

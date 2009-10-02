@@ -28,11 +28,33 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
+
     public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_sales_ordersnumber');
         $this->setValue(null);
+    }
+
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array('sales_order_save_commit_after');
+    }
+
+    /**
+     * Redeclare value options. We use empty because value is text input
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
+     */
+    public function loadValueOptions()
+    {
+        $this->setValueOption(array());
+        return $this;
     }
 
     public function asHtml()

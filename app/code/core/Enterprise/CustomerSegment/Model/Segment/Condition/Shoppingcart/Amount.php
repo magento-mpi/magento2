@@ -36,6 +36,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         $this->setValue(null);
     }
 
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array('sales_quote_save_commit_after');
+    }
+
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),

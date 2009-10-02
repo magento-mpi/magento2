@@ -35,6 +35,15 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         $this->setValue(null);
     }
 
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array('sales_order_save_commit_after');
+    }
 
     public function getNewChildSelectOptions()
     {
@@ -148,11 +157,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         $select->from(array('val'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
         $select->limit(1);
 
-        $operator = $this->getResource()->getSqlOperator($this->getOperator());
-
+        $condition = $this->getResource()->createConditionSql(
+            'val.value', $this->getOperator(), $this->getValue()
+        );
         $select->where('val.attribute_id = ?', $attribute->getId())
             ->where("val.entity_id = order_address.entity_id")
-            ->where("val.value {$operator} ?", $this->getValue());
+            ->where($condition);
 
         return $select;
     }

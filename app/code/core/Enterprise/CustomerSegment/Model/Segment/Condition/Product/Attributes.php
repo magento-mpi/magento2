@@ -75,19 +75,20 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes exte
         $select = $this->getResource()->createSelect();
         $select->from(array('main'=>$table), array('entity_id'));
 
-        $operator = $this->getResource()->getSqlOperator($this->getOperator());
-
-        if ($attribute->getBackendType() == 'static') {
-            $select->where("main.{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());
+        if ($attribute->isStatic()) {
+            $condition = $this->getResource()->createConditionSql(
+                "main.{$attribute->getAttributeCode()}", $this->getOperator(), $this->getValue()
+            );
         } else {
-            $select->where('main.attribute_id = ?', $attribute->getId())
-                ->where("main.value {$operator} ?", $this->getValue());
-
+            $select->where('main.attribute_id = ?', $attribute->getId());
             $storeIds = $website->getStoreIds();
             $storeIds = array_merge(array(0), $storeIds);
-
             $select->where('main.store_id IN (?)', $storeIds);
+            $condition = $this->getResource()->createConditionSql(
+                'main.value', $this->getOperator(), $this->getValue()
+            );
         }
+        $select->where($condition);
 
         $inOperator = ($requireValid ? 'IN' : 'NOT IN');
 

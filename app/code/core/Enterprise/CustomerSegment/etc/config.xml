@@ -105,14 +105,6 @@
                     </enterprise_customersegment>
                 </observers>
             </salesrule_rule_condition_combine>
-            <customersegment_test_event>
-                <observers>
-                    <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
-                    </enterprise_customersegment>
-                </observers>
-            </customersegment_test_event>
         </events>
 
         <translate>
@@ -125,6 +117,82 @@
             </modules>
         </translate>
     </adminhtml>
+    <frontend>
+        <events>
+            <catalog_controller_product_view>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </catalog_controller_product_view>
+            <checkout_cart_save_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </checkout_cart_save_after>
+            <wishlist_items_renewed>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </wishlist_items_renewed>
+            <customer_login>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </customer_login>
+            <customer_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </customer_save_commit_after>
+            <customer_balance_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </customer_balance_save_commit_after>
+            <customer_address_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </customer_address_save_commit_after>
+            <sales_quote_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </sales_quote_save_commit_after>
+            <sales_order_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </sales_order_save_commit_after>
+        </events>
+    </frontend>
 
     <default>
             <customer>
@@ -133,5 +201,4 @@
                 </enterprise_customersegment>
             </customer>
     </default>
-
 </config>

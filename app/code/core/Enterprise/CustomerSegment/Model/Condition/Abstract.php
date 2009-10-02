@@ -27,6 +27,16 @@
 class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Model_Condition_Abstract
 {
     /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array();
+    }
+
+    /**
      * Customize default operator input by type mapper for some types
      * @return array
      */
@@ -40,6 +50,11 @@ class Enterprise_CustomerSegment_Model_Condition_Abstract extends Mage_Rule_Mode
         return $this->_defaultOperatorInputByType;
     }
 
+    /**
+     * Get condition combine resource model
+     *
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment
+     */
     public function getResource()
     {
         return Mage::getResourceSingleton('enterprise_customersegment/segment');

@@ -35,6 +35,9 @@ class Enterprise_CustomerBalance_Model_Balance extends Mage_Core_Model_Abstract
      */
     protected $_customer;
 
+    protected $_eventPrefix = 'customer_balance';
+    protected $_eventObject = 'balance';
+
     /**
      * Initialize resource
      *

@@ -76,9 +76,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
         }
 
         $limit = date('Y-m-d', strtotime("now -{$value} days"));
-
         $operator = (($requireValid && $this->getOperator() == '==') ? '>' : '<');
-
         return sprintf("%s %s '%s'", $fieldName, $operator, $limit);
     }
 }

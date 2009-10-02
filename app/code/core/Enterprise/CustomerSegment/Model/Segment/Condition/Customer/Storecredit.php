@@ -37,6 +37,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
         $this->setValue(null);
     }
 
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array('customer_balance_save_commit_after');
+    }
+
     public function getNewChildSelectOptions()
     {
         return array(array('value' => $this->getType(),

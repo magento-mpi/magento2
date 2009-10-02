@@ -53,13 +53,12 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
 
         $condition = $this->_getWriteAdapter()->quoteInto("segment_id = ?", $id);
         $this->_getWriteAdapter()->delete($this->getTable('enterprise_customersegment/event'), $condition);
-        if ($object->getValidationEvents() && is_array($object->getValidationEvents())) {
-            foreach ($object->getValidationEvents() as $event) {
+        if ($object->getMatchedEvents() && is_array($object->getMatchedEvents())) {
+            foreach ($object->getMatchedEvents() as $event) {
                 $data = array(
                     'segment_id' => $id,
                     'event'      => $event,
                 );
-
                 $this->_getWriteAdapter()->insert($this->getTable('enterprise_customersegment/event'), $data);
             }
         }
@@ -72,16 +71,34 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
         return $this->_getReadAdapter()->fetchOne($sql) == 1;
     }
 
+    /**
+     * Get empty select object
+     *
+     * @return Varien_Db_Select
+     */
     public function createSelect()
     {
         return $this->_getReadAdapter()->select();
     }
 
+    /**
+     * Quote parameters into condition string
+     *
+     * @param string $string
+     * @param string | array $param
+     * @return string unknown_type
+     */
     public function quoteInto($string, $param)
     {
         return $this->_getReadAdapter()->quoteInto($string, $param);
     }
 
+    /**
+     * Get comparison condition for rule condition operatr which will be used in SQL query
+     *
+     * @param string $operator
+     * @return string
+     */
     public function getSqlOperator($operator)
     {
         /*
@@ -89,30 +106,52 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
             '!{}' => Mage::helper('rule')->__('does not contain'),
             '()'  => Mage::helper('rule')->__('is one of'),
             '!()' => Mage::helper('rule')->__('is not one of'),
-
             requires custom selects
         */
 
         switch ($operator) {
-            case "==":
+            case '==':
                 return '=';
-
-            case "!=":
+            case '!=':
                 return '<>';
-
-            case ">":
-            case "<":
-            case ">=":
-            case "<=":
-                return $this->getOperator();
-
+            case '{}':
+                return 'LIKE';
+            case '!{}':
+                return 'NOT LIKE';
+            case '>':
+            case '<':
+            case '>=':
+            case '<=':
+                return $operator;
             default:
                 Mage::throwException(Mage::helper('enterprise_customersegment')->__('Unknown operator specified'));
         }
     }
 
+    /**
+     * Create string for select "where" condition based on field name, comparison operator and vield value
+     *
+     * @param string $field
+     * @param string $operator
+     * @param mixed $value
+     * @return string
+     */
     public function createConditionSql($field, $operator, $value)
     {
-        
+        $sqlOperator = $this->getSqlOperator($operator);
+        switch ($operator) {
+            case '{}':
+            case '!{}':
+                $condition = $this->_getReadAdapter()->quoteInto(
+                    $field.' '.$sqlOperator.' ?', '%'.$value.'%'
+                );
+                break;
+            default:
+                $condition = $this->_getReadAdapter()->quoteInto(
+                    $field.' '.$sqlOperator.' ?', $value
+                );
+                break;
+        }
+        return $condition;
     }
 }

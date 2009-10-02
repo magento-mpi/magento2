@@ -35,6 +35,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
         $this->setValue('primary_billing');
     }
 
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array('customer_address_save_commit_after', 'customer_save_commit_after');
+    }
+
     public function getNewChildSelectOptions()
     {
         return array(

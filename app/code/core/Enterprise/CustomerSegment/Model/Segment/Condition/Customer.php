@@ -34,11 +34,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
         $this->setType('enterprise_customersegment/segment_condition_customer');
         $this->setValue(null);
     }
-    
+
     public function getNewChildSelectOptions()    {
         $conditions = array();
-        $conditions = Mage::getModel('enterprise_customersegment/segment_condition_customer_attributes')->getNewChildSelectOptions(); 
-        $conditions = array_merge($conditions, Mage::getModel('enterprise_customersegment/segment_condition_customer_storecredit')->getNewChildSelectOptions());
+        $conditions = Mage::getModel('enterprise_customersegment/segment_condition_customer_attributes')->getNewChildSelectOptions();
+        $conditions = array_merge(
+            $conditions,
+            Mage::getModel('enterprise_customersegment/segment_condition_customer_storecredit')->getNewChildSelectOptions()
+        );
         return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Customer Attribute'));;
     }
 }

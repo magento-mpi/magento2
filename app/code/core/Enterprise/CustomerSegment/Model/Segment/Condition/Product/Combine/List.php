@@ -27,12 +27,33 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
+    const WISHLIST  = 'wishlist';
+    const CART      = 'shopping_cart';
+
     protected $_inputType = 'select';
 
     public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_product_combine_list');
+    }
+
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        $events = array();
+        switch ($this->getValue()) {
+            case self::WISHLIST:
+                $events = array('wishlist_items_renewed');
+                break;
+            default:
+                $events = array('checkout_cart_save_after');
+        }
+        return $events;
     }
 
     public function getNewChildSelectOptions()
@@ -43,8 +64,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            'shopping_cart' => Mage::helper('enterprise_customersegment')->__('Shopping Cart'),
-            'wishlist'      => Mage::helper('enterprise_customersegment')->__('Wishlist'),
+            self::CART      => Mage::helper('enterprise_customersegment')->__('Shopping Cart'),
+            self::WISHLIST  => Mage::helper('enterprise_customersegment')->__('Wishlist'),
         ));
         return $this;
     }
@@ -80,16 +101,30 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
         $storeIds = array_merge(array(0), $storeIds);
 
         switch ($this->getValue()) {
-            case 'wishlist':
-                $select->from(array('item' => $this->getResource()->getTable('wishlist/item')), array(new Zend_Db_Expr(1)));
+            case self::WISHLIST:
+                $select->from(
+                    array('item' => $this->getResource()->getTable('wishlist/item')),
+                    array(new Zend_Db_Expr(1))
+                );
                 $conditions = "item.wishlist_id = list.wishlist_id";
-                $select->joinInner(array('list' => $this->getResource()->getTable('wishlist/wishlist')), $conditions, array());
+                $select->joinInner(
+                    array('list' => $this->getResource()->getTable('wishlist/wishlist')),
+                    $conditions,
+                    array()
+                );
                 $select->where('item.store_id IN (?)', $storeIds);
                 break;
             default:
-                $select->from(array('item' => $this->getResource()->getTable('sales/quote_item')), array(new Zend_Db_Expr(1)));
+                $select->from(
+                    array('item' => $this->getResource()->getTable('sales/quote_item')),
+                    array(new Zend_Db_Expr(1))
+                );
                 $conditions = "item.quote_id = list.entity_id";
-                $select->joinInner(array('list' => $this->getResource()->getTable('sales/quote')), $conditions, array());
+                $select->joinInner(
+                    array('list' => $this->getResource()->getTable('sales/quote')),
+                    $conditions,
+                    array()
+                );
                 $select->where('list.store_id IN (?)', $storeIds);
                 break;
         }
@@ -108,7 +143,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     protected function _getSubfilterMap()
     {
         switch ($this->getValue()) {
-            case 'wishlist':
+            case self::WISHLIST:
                 $dateField = 'item.added_at';
                 break;
 

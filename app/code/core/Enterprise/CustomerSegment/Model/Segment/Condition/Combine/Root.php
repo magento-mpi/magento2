@@ -28,9 +28,14 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
-    public function getValidationEvent()
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
     {
-        return 'customersegment_test_event';
+        return array('customer_login');
     }
 
     public function __construct()

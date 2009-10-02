@@ -35,6 +35,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         $this->setValue(null);
     }
 
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array('customer_save_commit_after');
+    }
+
     public function getNewChildSelectOptions()
     {
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
@@ -66,9 +76,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         $productAttributes = Mage::getResourceSingleton('customer/customer')
             ->loadAllAttributes()
             ->getAttributesByCode();
-            
+
         $attributes = array();
-        
+
         foreach ($productAttributes as $attribute) {
             if ($attribute->getIsUsedForCustomerSegment()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
@@ -102,7 +112,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
                 $optionsArr = $this->_getOptionsForAttributeDefaultAddress();
                 $this->setData('value_select_options', $optionsArr);
             }
-            
+
         }
         return $this->getData('value_select_options');
     }
@@ -121,7 +131,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         if (!is_object($this->getAttributeObject())) {
             return 'string';
         }
-        
+
         switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'select':
                 return 'select';
@@ -151,7 +161,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         if (!is_object($this->getAttributeObject())) {
             return 'text';
         }
-        
+
         switch ($this->getAttributeObject()->getFrontendInput()) {
             case 'select':
                 return 'select';
@@ -212,16 +222,16 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         $element->setShowAsText(true);
         return $element;
     }
-    
+
     public function getOperatorElementHtml()
     {
         if ($this->_isCurrentAttributeDefaultAddress()) {
             return '';
         }
-        
+
         return parent::getOperatorElementHtml();
     }
-        
+
     protected function _isCurrentAttributeDefaultAddress()
     {
         return $this->getAttributeObject()->getAttributeCode() == 'default_billing' ||
@@ -246,6 +256,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return Mage::helper('enterprise_customersegment')->__('Customer %s', parent::asHtml());
     }
 
+    /**
+     * Create SQL condition select for customer attribute
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     public function getConditionsSql($customer, $website)
     {
         $attribute = $this->getAttributeObject();
@@ -257,26 +274,26 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
             ->limit(1);
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
 
-        if ($attribute->getAttributeCode() != 'default_billing' && $attribute->getAttributeCode() != 'default_shipping') {
-            $operator = $this->getResource()->getSqlOperator($this->getOperator());
-
-            if ($attribute->getBackendType() == 'static') {
-                $select->where("main.{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());
+        if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping')) ) {
+            if ($attribute->isStatic()) {
+                $condition = $this->getResource()->createConditionSql(
+                    "main.{$attribute->getAttributeCode()}", $this->getOperator(), $this->getValue()
+                );
             } else {
-                $select->where('main.attribute_id = ?', $attribute->getId())
-                    ->where("main.value {$operator} ?", $this->getValue());
+                $select->where('main.attribute_id = ?', $attribute->getId());
+                $condition = $this->getResource()->createConditionSql(
+                    'main.value', $this->getOperator(), $this->getValue()
+                );
             }
+            $select->where($condition);
         } else {
             $joinFunction = 'joinLeft';
-
             if ($this->getValue() == 'is_exists') {
                 $joinFunction = 'joinInner';
             } else {
                 $select->where('address.entity_id IS NULL');
             }
-
             $select->$joinFunction(array('address'=>$addressTable), 'address.entity_id = main.value', array());
-
             $select->where('main.attribute_id = ?', $attribute->getId());
         }
 

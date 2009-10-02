@@ -28,6 +28,16 @@
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * Get array of event names where segment with such conditions combine can be matched
+     *
+     * @return array
+     */
+    public function getMatchedEvents()
+    {
+        return array('customer_address_save_commit_after');
+    }
+
     public function __construct()
     {
         parent::__construct();
@@ -146,23 +156,25 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
     public function getConditionsSql($customer, $website)
     {
         $attribute = $this->getAttributeObject();
-
         $table = $attribute->getBackendTable();
-
-        $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
         $select->from($table, array(new Zend_Db_Expr(1)))
             ->limit(1);
         $select->where($this->_createCustomerFilter($customer, 'entity_id'));
 
-        if ($attribute->getBackendType() == 'static') {
-            $select->where("{$attribute->getAttributeCode()} {$operator} ?", $this->getValue());
-        } else {
-            $select->where('attribute_id = ?', $attribute->getId())
-                ->where("value {$operator} ?", $this->getValue());
-        }
+        if ($attribute->isStatic()) {
+            $condition = $this->getResource()->createConditionSql(
+                $attribute->getAttributeCode(), $this->getOperator(), $this->getValue()
+            );
 
+        } else {
+            $select->where('attribute_id = ?', $attribute->getId());
+            $condition = $this->getResource()->createConditionSql(
+                'value', $this->getOperator(), $this->getValue()
+            );
+        }
+        $select->where($condition);
         return $select;
     }
 }
