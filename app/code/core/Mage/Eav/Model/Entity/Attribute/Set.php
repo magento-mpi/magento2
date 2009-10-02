@@ -113,7 +113,7 @@ class Mage_Eav_Model_Entity_Attribute_Set extends Mage_Core_Model_Abstract
 
                 if( $data['attributes'] ) {
                     foreach( $data['attributes'] as $attribute ) {
-                        if( $attribute[1] == $group[0] && in_array($attribute[1], $attributeIds) ) {
+                        if( $attribute[1] == $group[0] && in_array($attribute[0], $attributeIds) ) {
                             $modelAttribute = Mage::getModel('eav/entity_attribute');
                             $modelAttribute->setId($attribute[0])
                                 ->setAttributeGroupId($attribute[1])
