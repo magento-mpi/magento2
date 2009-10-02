@@ -199,14 +199,25 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
      * @param   int $storeId
      * @return  string
      */
-    public function getStoreContent($bannerId, $storeId)
+    public function getStoreContent($bannerId, $storeId, $segmentIds=array())
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from($this->_contentsTable, 'banner_content')
-            ->where('banner_id=?', $bannerId)
-            ->where('store_id IN(?)', array($storeId, 0))
-            ->order('store_id DESC');
+            ->from(array('main' => $this->_contentsTable), 'banner_content')
+            ->where('main.banner_id=?', $bannerId)
+            ->where('main.store_id IN(?)', array($storeId, 0))
+            ->order('main.store_id DESC');
+        $select->joinLeft(
+            array('banner_segments' => $this->getTable('enterprise_banner/customersegment')),
+            'main.banner_id = banner_segments.banner_id',
+            array()
+        );
+        if (empty($segmentIds)) {
+            $select->where('banner_segments.segment_id IS NULL');
+        } else {
+            $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)', $segmentIds);
+        }
+
         return $adapter->fetchOne($select);
     }
 
@@ -373,11 +384,11 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
      * @param int $storeId
      * @return array
      */
-    public function getBannersContent($bannerIds, $storeId)
+    public function getBannersContent($bannerIds, $storeId, $segmentIds = array())
     {
         $content = array();
         foreach ($bannerIds as $_id) {
-            $_content = $this->getStoreContent($_id, $storeId);
+            $_content = $this->getStoreContent($_id, $storeId, $segmentIds);
             if (!empty($_content)) {
                 $content[$_id] = $_content;
             }

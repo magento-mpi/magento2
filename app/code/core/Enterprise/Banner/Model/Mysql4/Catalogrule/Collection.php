@@ -111,7 +111,12 @@ class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_Catalog
                 'banners.banner_id = banner_segments.banner_id',
                 array()
             );
-            $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)', $matchedCustomerSegments);
+            if (empty($matchedCustomerSegments)) {
+                $select->where('banner_segments.segment_id IS NULL');
+            } else {
+                $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)', $matchedCustomerSegments);
+            }
+
             $this->_isCustomerSegmentFilterAdded = true;
         }
         return $this;

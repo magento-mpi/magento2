@@ -177,7 +177,12 @@ class Enterprise_Banner_Block_Widget_Banner
     {
         $banenrsContent = array();
         $aplliedRules = null;
-
+        $segmentIds = array();
+        if (Mage::getSingleton('customer/session')->isLoggedIn()) {
+            $segmentIds = Mage::getSingleton('enterprise_customersegment/customer')->getCustomerSegmentIds(
+                Mage::getSingleton('customer/session')->getCustomer()
+            );
+        }
         //Choose display mode
         switch ($this->getDisplayMode()) {
 
@@ -185,10 +190,7 @@ class Enterprise_Banner_Block_Widget_Banner
                 if (Mage::getSingleton('checkout/session')->getQuoteId()) {
                     $aplliedRules = explode(',', Mage::getSingleton('checkout/session')->getQuote()->getAppliedRuleIds());
                 }
-                $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds(
-                    Mage::getSingleton('enterprise_customersegment/segment')->getMatchedSegmentsByCustomer(),
-                    $aplliedRules
-                );
+                $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds($segmentIds, $aplliedRules);
                 $banenrsContent = $this->_getBannersContent($bannerIds);
                 break;
 
@@ -196,14 +198,14 @@ class Enterprise_Banner_Block_Widget_Banner
                 $bannerIds = $this->_bannerResource->getCatalogRuleRelatedBannerIds(
                     Mage::app()->getWebsite()->getId(),
                     Mage::getSingleton('customer/session')->getCustomerGroupId(),
-                    Mage::getSingleton('enterprise_customersegment/segment')->getMatchedSegmentsByCustomer()
+                    $segmentIds
                 );
                 $banenrsContent = $this->_getBannersContent($bannerIds);
                 break;
 
             case self::BANNER_WIDGET_DISPLAY_FIXED:
             default:
-                $banenrsContent = $this->_getBannersContent($this->getBannerIds());
+                $banenrsContent = $this->_getBannersContent($this->getBannerIds(), $segmentIds);
                 break;
         }
         return $banenrsContent;
@@ -213,10 +215,11 @@ class Enterprise_Banner_Block_Widget_Banner
      * Get banners content by specified banners IDs depend on Rotation mode
      *
      * @param array $bannerIds
+     * @param array $segmentIds
      * @param int $storeId
      * @return array
      */
-    protected function _getBannersContent($bannerIds)
+    protected function _getBannersContent($bannerIds, $segmentIds)
     {
         $bannersSequence = $content = array();
         if (!empty($bannerIds)) {
@@ -226,7 +229,7 @@ class Enterprise_Banner_Block_Widget_Banner
 
                 case self::BANNER_WIDGET_RORATE_RANDOM :
                     $bannerId = $bannerIds[array_rand($bannerIds, 1)];
-                    $_content = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
+                    $_content = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId, $segmentIds);
                     if (!empty($_content)) {
                         $content[$bannerId] = $_content;
                     }
@@ -253,14 +256,14 @@ class Enterprise_Banner_Block_Widget_Banner
                         }
                         $this->_sessionInstance->setData($this->getUniqueId(), $bannersSequence);
                     }
-                    $_content = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
+                    $_content = $this->_bannerResource->getStoreContent($bannerId, $this->_currentStoreId, $segmentIds);
                     if (!empty($_content)) {
                         $content[$bannerId] = $_content;
                     }
                     break;
 
                 default:
-                    $content = $this->_bannerResource->getBannersContent($bannerIds, $this->_currentStoreId);
+                    $content = $this->_bannerResource->getBannersContent($bannerIds, $this->_currentStoreId, $segmentIds);
                     break;
             }
         }
