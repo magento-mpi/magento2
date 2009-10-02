@@ -248,7 +248,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
                 if (!$aItem->getQuoteItemImported()) {
                     $qItem = $this->getQuote()->getItemById($aItem->getQuoteItemId());
                     if ($qItem) {
-                        $this->addItem($aItem);
+                        //$this->addItem($aItem);
                         $aItem->importQuoteItem($qItem);
                     }
                 }
@@ -332,7 +332,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     }
 
     /**
-     * Retrieve Item object by id
+     * Get address item object by id without
      *
      * @param int $itemId
      * @return Mage_Sales_Model_Quote_Address_Item
@@ -340,6 +340,22 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function getItemById($itemId)
     {
         foreach ($this->getItemsCollection() as $item) {
+            if ($item->getId()==$itemId) {
+                return $item;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Get prepared not deleted item
+     *
+     * @param $itemId
+     * @return Mage_Sales_Model_Quote_Address_Item
+     */
+    public function getValidItemById($itemId)
+    {
+        foreach ($this->getAllItems() as $item) {
             if ($item->getId()==$itemId) {
                 return $item;
             }

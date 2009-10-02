@@ -150,7 +150,7 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
         $address = $this->getQuote()->getAddressById($addressId);
         /* @var $address Mage_Sales_Model_Quote_Address */
         if ($address) {
-            $item = $address->getItemById($itemId);
+            $item = $address->getValidItemById($itemId);
             if ($item) {
                 if ($item->getQty()>1 && !$item->getProduct()->getIsVirtual()) {
                     $item->setQty($item->getQty()-1);
