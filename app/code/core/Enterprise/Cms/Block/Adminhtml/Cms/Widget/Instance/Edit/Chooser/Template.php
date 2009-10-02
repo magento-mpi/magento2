@@ -41,6 +41,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Template
         } else {
             $html = $this->getLayout()->createBlock('core/html_select')
                 ->setName('template')
+                ->setClass('select')
                 ->setOptions($this->getWidgetTemplates())
                 ->setValue($this->getSelected())->toHtml();
         }

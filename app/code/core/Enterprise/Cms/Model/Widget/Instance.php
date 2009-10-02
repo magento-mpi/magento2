@@ -110,8 +110,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
                         'block_reference' => $pageGroupData['block'],
                         'entities' => '',
                         'layout_handle_updates' => array($layoutHandle),
-                        'template' => $pageGroupData['template']?$pageGroupData['template']:'',
-                        'position' => $pageGroupData['position']
+                        'template' => $pageGroupData['template']?$pageGroupData['template']:''
                     );
                     if ($pageGroupData['for'] == self::SPECIFIC_ENTITIES) {
                         $layoutHandleUpdates = array();
@@ -412,7 +411,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
      * @param string $position
      * @return string
      */
-    public function generateLayoutUpdateXml($blockReference, $templatePath = null, $position = 'before')
+    public function generateLayoutUpdateXml($blockReference, $templatePath = null)
     {
         $templatesDir = Mage::getSingleton('core/design_package')->getBaseDir(array(
             '_area'    => $this->getArea(),
@@ -434,7 +433,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
         if ($templatePath) {
             $template = ' template="'.$templatePath.'"';
         }
-        $xml .= '<block type="'.$this->getType().'" name="' . Mage::helper('core')->uniqHash() . '"'.$template.' '.$position.'="-">';
+        $xml .= '<block type="'.$this->getType().'" name="' . Mage::helper('core')->uniqHash() . '"'.$template.'>';
         foreach ($parameters as $name => $value) {
             $xml .= '<action method="setData"><name>'.$name.'</name><value>'.Mage::helper('enterprise_cms')->htmlEscape($value).'</value></action>';
         }

@@ -149,7 +149,6 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
                 'for' => $pageGroup['for'],
                 'entities' => $pageGroup['entities'],
                 'template' => $pageGroup['template'],
-                'position' => $pageGroup['position']
             );
             $pageId = $pageGroup['page_id'];
             if (in_array($pageGroup['page_id'], $pageIds)) {
@@ -192,8 +191,7 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
                     'handle' => $handle,
                     'xml' => $widgetInstance->generateLayoutUpdateXml(
                                 $pageGroupData['block_reference'],
-                                $pageGroupData['template'],
-                                $pageGroupData['position']),
+                                $pageGroupData['template']),
                     'sort_order' => $widgetInstance->getSortOrder()
             ));
             $layoutUpdateId = $this->_getWriteAdapter()->lastInsertId();

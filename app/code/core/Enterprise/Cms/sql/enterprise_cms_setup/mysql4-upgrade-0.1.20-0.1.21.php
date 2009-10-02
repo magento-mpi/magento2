@@ -24,28 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-/**
- * Cms Widget Instance product types chooser
- *
- * @category    Enterprise
- * @package     Enterprise_Cms
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Producttype
-    extends Mage_Adminhtml_Block_Widget
-{
-    protected function _toHtml()
-    {
-        $selectBlock = $this->getLayout()->createBlock('core/html_select')
-            ->setName('layout_handle')
-            ->setId('layout_handle')
-//            ->setExtraParams('multiple="multiple"')
-            ->setOptions($this->getProductTypes());
-        return parent::_toHtml().$selectBlock->toHtml();
-    }
 
-    public function getProductTypes()
-    {
-        return Mage::getModel('catalog/product_type')->getOptionArray();
-    }
-}
+/* @var $installer Enterprise_Cms_Model_Mysql4_Setup */
+$installer = $this;
+
+$installer->getConnection()->dropColumn($installer->getTable('enterprise_cms/widget_instance_page'), 'position');

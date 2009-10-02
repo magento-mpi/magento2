@@ -30,8 +30,6 @@
 </div>
 <div class="fieldset">
     <div class="hor-scroll">
-            <div class="no-display" id="page_group_container_template">
-            </div>
             <div id="page_group_container"></div>
     </div>
 </div>
@@ -54,14 +52,12 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
             '<col width="200" />'+
             '<col width="220" />'+
             '<col width="320" />'+
-            '<col width="120" />'+
             '<col />'+
             '<thead>'+
                 '<tr>'+
                     '<th><label><?php echo Mage::helper('enterprise_cms')->__('%s', $container['label']) ?></label></th>'+
                     '<th><label><?php echo Mage::helper('enterprise_cms')->__('Block Reference') ?> <span class="required">*</span></label></th>'+
                     '<th><label><?php echo Mage::helper('enterprise_cms')->__('Template') ?></label></th>'+
-                    '<th><label for="position"><?php echo Mage::helper('enterprise_cms')->__('Position') ?></label></th>'+
                     '<th>&nbsp;</th>'+
                 '</tr>'+
             '</thead>'+
@@ -83,14 +79,6 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
                             '<div class="block_template"></div>'+
                         '</div>'+
                     '</td>'+
-                    '<td>'+
-                        '<div class="position">'+
-                            '<select class="position" id="position" name="widget_instance[{{id}}][<?php echo $container['name'] ?>][position]">'+
-                                '<option value="before" selected="selected"><?php echo Mage::helper('enterprise_cms')->__('First') ?></option>'+
-                                '<option value="after"><?php echo Mage::helper('enterprise_cms')->__('Last') ?></option>'+
-                            '</select>'+
-                        '</div>'+
-                    '</td>'+
                 '</tr>'+
             '</tbody>'+
         '</table>'+
@@ -110,13 +98,11 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
     '<table cellspacing="0" class="option-header">'+
         '<col width="220" />'+
         '<col width="320" />'+
-        '<col width="120" />'+
         '<col />'+
         '<thead>'+
             '<tr>'+
                 '<th><label><?php echo Mage::helper('enterprise_cms')->__('Block Reference') ?> <span class="required">*</span></label></th>'+
                 '<th><label><?php echo Mage::helper('enterprise_cms')->__('Template') ?></label></th>'+
-                '<th><label for="position"><?php echo Mage::helper('enterprise_cms')->__('Position') ?></label></th>'+
                 '<th>&nbsp;</th>'+
             '</tr>'+
         '</thead>'+
@@ -130,14 +116,6 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
                 '<td>'+
                     '<div class="block_template_container">'+
                         '<div class="block_template"></div>'+
-                    '</div>'+
-                '</td>'+
-                '<td>'+
-                    '<div class="position">'+
-                        '<select class="position" id="position" name="widget_instance[{{id}}][all_pages][position]">'+
-                            '<option value="before" selected="selected"><?php echo Mage::helper('enterprise_cms')->__('First') ?></option>'+
-                            '<option value="after"><?php echo Mage::helper('enterprise_cms')->__('Last') ?></option>'+
-                        '</select>'+
                     '</div>'+
                 '</td>'+
                 '<td>&nbsp;</td>'+
@@ -153,14 +131,12 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
         '<col width="200" />'+
         '<col width="220" />'+
         '<col width="320" />'+
-        '<col width="120" />'+
         '<col />'+
         '<thead>'+
             '<tr>'+
                 '<th><label><?php echo Mage::helper('enterprise_cms')->__('Page') ?> <span class="required">*</span></label></th>'+
                 '<th><label><?php echo Mage::helper('enterprise_cms')->__('Block Reference') ?> <span class="required">*</span></label></th>'+
                 '<th><label><?php echo Mage::helper('enterprise_cms')->__('Template') ?></label></th>'+
-                '<th><label><?php echo Mage::helper('enterprise_cms')->__('Position') ?></label></th>'+
                 '<th>&nbsp;</th>'+
             '</tr>'+
         '</thead>'+
@@ -175,14 +151,6 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
                 '<td>'+
                     '<div class="block_template_container">'+
                         '<div class="block_template"></div>'+
-                    '</div>'+
-                '</td>'+
-                '<td>'+
-                    '<div class="position">'+
-                        '<select class="position" id="position" name="widget_instance[{{id}}][pages][position]">'+
-                            '<option value="before" selected="selected"><?php echo Mage::helper('enterprise_cms')->__('First') ?></option>'+
-                            '<option value="after"><?php echo Mage::helper('enterprise_cms')->__('Last') ?></option>'+
-                        '</select>'+
                     '</div>'+
                 '</td>'+
                 '<td>&nbsp;</td>'+
@@ -299,14 +267,6 @@ var WidgetInstance = {
             this.loadSelectBoxByType('block_reference', container, layoutHandle, additional);
         }
         this.loadSelectBoxByType('block_template', container, additional.selectedBlock, additional);
-        if ((positionElm = container.down('select.position')) && additional.position) {
-            for (var i=0; i<positionElm.options.length; i++) {
-                if(positionElm.options[i].value == additional.position) {
-                    positionElm.options[i].selected = true;
-                    break;
-                }
-            }
-        }
     },
     displayEntityChooser : function(type, chooser, additional) {
         if (!additional) {

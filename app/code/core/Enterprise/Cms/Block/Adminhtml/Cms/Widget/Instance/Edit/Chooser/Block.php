@@ -151,7 +151,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
     {
         $selectBlock = $this->getLayout()->createBlock('core/html_select')
             ->setName('block')
-            ->setClass('required-entry')
+            ->setClass('required-entry select')
             ->setExtraParams('onchange="WidgetInstance.loadSelectBoxByType(\'block_template\', this.up(\'div.group_container\'), this.value)"')
             ->setOptions($this->getBlocks())
             ->setValue($this->getSelected());
