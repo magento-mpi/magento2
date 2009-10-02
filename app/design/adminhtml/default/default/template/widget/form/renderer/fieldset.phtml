@@ -41,7 +41,7 @@
         <?php if ($_element->hasHtmlContent()): ?>
             <?php echo $_element->getHtmlContent(); ?>
         <?php else: ?>
-        <table cellspacing="0" class="form-list">
+        <table cellspacing="0" class="<?php echo $_element->hasTableClass() ? $_element->getTableClass() : 'form-list'?>">
             <tbody>
                 <?php echo $_element->getChildrenHtml(); ?>
             </tbody>

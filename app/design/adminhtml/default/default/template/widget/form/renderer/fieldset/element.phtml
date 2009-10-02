@@ -36,7 +36,7 @@ $_class   = $_element->getFieldsetHtmlClass();
     <td colspan="3" class="hidden"><?php echo trim($_element->getElementHtml()) ?></td>
     <?php else: ?>
     <td class="label<?php echo $_class ? " {$_class}-label" : ''?>"><?php echo trim($_element->getLabelHtml()) ?></td>
-    <td class="value<?php echo $_class ? " {$_class}-value" : ''?>"><?php echo trim($_element->getElementHtml()) ?></td>
+    <td class="<?php echo $_element->hasValueClass() ? $_element->getValueClass() : 'value' ?><?php echo $_class ? " {$_class}-value" : ''?>"><?php echo trim($_element->getElementHtml()) ?></td>
     <td<?php if ($_note): ?> class="note<?php echo $_class ? " {$_class}-note" : ''?>"<?php endif ?> id="note_<?php echo $_element->getId()?>"><small><?php echo $_note ? $_note : '&nbsp;' ?></small></td>
     <?php endif; ?>
 </tr>

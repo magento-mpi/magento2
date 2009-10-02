@@ -58,9 +58,8 @@ abstract class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract extends
     {
         if ($this->getColumn()->getEditable()) {
             $value = $this->_getValue($row);
-            $value = $value!=''?$value:'&nbsp;';
-            return $value . ($this->getColumn()->getEditOnly() ? '' : '</td><td>' ) . $this->_getInputValueElement($row);
-
+            return $value . ($this->getColumn()->getEditOnly() ? '' : ($value != '' ? $value : '&nbsp;') . '</td><td>')
+                . $this->_getInputValueElement($row);
         }
         return $this->_getValue($row);
     }
