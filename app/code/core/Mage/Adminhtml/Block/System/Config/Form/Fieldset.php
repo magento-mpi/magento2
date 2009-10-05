@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Fieldset
         if (!$default) {
             $html.= '<colgroup class="use-default" />';
         }
-        $html.= '<tbody>';
+        $html.= '<colgroup class="scope-label" /><colgroup class="" /><tbody>';
 
         return $html;
     }

@@ -91,6 +91,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
             $html.= '<p class="nm"><small>'.$element->getComment().'</small></p>';
         }
         $html.= '</td>';
+
         if ($addInheritCheckbox) {
 
             $defText = $element->getDefaultValue();
@@ -116,6 +117,20 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
             $html.= '<label for="'.$id.'_inherit" class="inherit" title="'.htmlspecialchars($defText).'">'.$checkboxLabel.'</label>';
             $html.= '</td>';
         }
+
+        $html.= '<td class="scope-label">';
+        if ($element->getScope()) {
+            $html.= '[' . $element->getScopeLabel() . ']';
+        }
+        $html.= '</td>';
+
+        $html.= '<td class="">';
+        if ($element->getHint()) {
+            $html.= '<div class="hint" >';
+            $html.= '<div style="display: none;">' . $element->getHint() . '</div>';
+            $html.= '</div>';
+        }
+        $html.= '</td>';
 
         $html.= '</tr>';
         return $html;

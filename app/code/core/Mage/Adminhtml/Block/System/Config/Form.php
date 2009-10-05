@@ -243,6 +243,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                 $name       = 'groups['.$group->getName().'][fields]['.$fieldPrefix.$e->getName().'][value]';
                 $label      =  Mage::helper($helperName)->__($labelPrefix).' '.Mage::helper($helperName)->__((string)$e->label);
                 $comment    = (string)$e->comment ? Mage::helper($helperName)->__((string)$e->comment) : '';
+                $hint       = (string)$e->hint ? Mage::helper($helperName)->__((string)$e->hint) : '';
 
                 if ($e->backend_model) {
                     $model = Mage::getModel((string)$e->backend_model);
@@ -256,12 +257,14 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
                     'name'                  => $name,
                     'label'                 => $label,
                     'comment'               => $comment,
+                    'hint'                  => $hint,
                     'value'                 => $data,
                     'inherit'               => $inherit,
                     'class'                 => $e->frontend_class,
                     'field_config'          => $e,
                     'scope'                 => $this->getScope(),
                     'scope_id'              => $this->getScopeId(),
+                    'scope_label'           => $this->getScopeLabel($e),
                     'can_use_default_value' => $this->canUseDefaultValue((int)$e->show_in_default),
                     'can_use_website_value' => $this->canUseWebsiteValue((int)$e->show_in_website),
                 ));
@@ -375,6 +378,22 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
         }
 
         return $scope;
+    }
+
+    /**
+     * Retrieve labal for scope
+     *
+     * @param Mage_Core_Model_Config_Element $element
+     * @return string
+     */
+    public function getScopeLabel($element)
+    {
+        if ($element->show_in_store == 1) {
+            return 'STORE VIEW';
+        } elseif ($element->show_in_website == 1) {
+            return 'WEBSITE VIEW';
+        }
+        return 'GLOBAL';
     }
 
     /**

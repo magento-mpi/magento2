@@ -260,5 +260,19 @@ perPageModel.prototype = {
 }
 
 perPageSelect = new perPageModel();
+
+function showHint() {
+    $$('.hint').each(function(element){
+        Event.observe(element, 'mouseover', function(){
+            element.down().show()
+        });
+        Event.observe(element, 'mouseout', function(){
+            element.down().hide()
+        });
+    });
+}
+Event.observe(window, 'load', function(){
+    showHint();
+});
 //]]>
 </script>
