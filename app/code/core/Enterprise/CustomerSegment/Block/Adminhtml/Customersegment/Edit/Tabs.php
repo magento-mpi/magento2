@@ -31,13 +31,13 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
      * Intialize form
      *
      * @return void
-     */        
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setId('enterprise_customersegment_segment_tabs');
         $this->setDestElementId('edit_form');
-        $this->setTitle(Mage::helper('enterprise_customersegment')->__('Customer Segment'));
+        $this->setTitle(Mage::helper('enterprise_customersegment')->__('Segment Information'));
     }
 
     /**

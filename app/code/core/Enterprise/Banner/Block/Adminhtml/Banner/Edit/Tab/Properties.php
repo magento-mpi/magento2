@@ -59,14 +59,12 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
 
         $fieldset->addField('name', 'text', array(
             'label'     => Mage::helper('enterprise_banner')->__('Banner Name'),
-            'title'     => Mage::helper('enterprise_banner')->__('Banner Name'),
             'name'      => 'name',
             'required'  => true
         ));
 
         $fieldset->addField('is_enabled', 'select', array(
             'label'     => Mage::helper('enterprise_banner')->__('Active'),
-            'title'     => Mage::helper('enterprise_banner')->__('Active'),
             'name'      => 'is_enabled',
             'required'  => true,
             'options'   => array(
@@ -74,6 +72,9 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
                 Enterprise_Banner_Model_Banner::STATUS_DISABLED => Mage::helper('enterprise_banner')->__('No'),
             ),
         ));
+        if (!$model->getId()) {
+            $model->setData('is_enabled', Enterprise_Banner_Model_Banner::STATUS_ENABLED);
+        }
 
         // this field is not used in banners. Just an interface improvement
         $customerSegmentIsAll = $fieldset->addField('customer_segment_is_all', 'select', array(

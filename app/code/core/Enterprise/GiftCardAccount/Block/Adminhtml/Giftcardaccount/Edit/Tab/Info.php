@@ -76,6 +76,9 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
                     Mage::helper('enterprise_giftcardaccount')->__('No'),
             ),
         ));
+        if (!$model->getId()) {
+            $model->setData('status', Enterprise_GiftCardAccount_Model_Giftcardaccount::STATUS_ENABLED);
+        }
 
         $fieldset->addField('is_redeemable', 'select', array(
             'label'     => Mage::helper('enterprise_giftcardaccount')->__('Redeemable'),
@@ -89,13 +92,16 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
                     Mage::helper('enterprise_giftcardaccount')->__('No'),
             ),
         ));
+        if (!$model->getId()) {
+            $model->setData('is_redeemable', Enterprise_GiftCardAccount_Model_Giftcardaccount::REDEEMABLE);
+        }
 
         $fieldset->addField('website_id', 'select', array(
             'name'      => 'website_id',
             'label'     => Mage::helper('enterprise_giftcardaccount')->__('Website'),
             'title'     => Mage::helper('enterprise_giftcardaccount')->__('Website'),
             'required'  => true,
-            'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true),
         ));
 
 

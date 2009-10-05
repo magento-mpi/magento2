@@ -117,6 +117,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
             'header'    => Mage::helper('enterprise_targetrule')->__('Priority'),
             'index'     => 'sort_order',
             'type'      => 'text',
+            'width'     => 1,
         ));
 
         $this->addColumn('apply_to', array(
@@ -124,7 +125,8 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
             'align'     => 'left',
             'index'     => 'apply_to',
             'type'      => 'options',
-            'options'    => Mage::getSingleton('enterprise_targetrule/rule')->getAppliesToOptions(),
+            'options'   => Mage::getSingleton('enterprise_targetrule/rule')->getAppliesToOptions(),
+            'width'     => 150,
         ));
 
         $this->addColumn('is_active', array(
@@ -136,6 +138,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Grid extends Mage_Adminht
                 1 => Mage::helper('enterprise_targetrule')->__('Active'),
                 0 => Mage::helper('enterprise_targetrule')->__('Inactive'),
             ),
+            'width'     => 1,
         ));
 
         return $this;

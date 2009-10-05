@@ -108,7 +108,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
             var wSel = $("_infowebsite_id");
             var sSel = $("_sendstore_id");
 
-            sSel.innerHTML = "";
+            sSel.innerHTML = \'\';
             var website = wSel.options[wSel.selectedIndex].value;
             if (websiteStores[website]) {
                 groups = websiteStores[website];
@@ -126,6 +126,10 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Send e
                         optionGroup.appendChild(option);
                     }
                 }
+            }
+            else {
+                sSel.innerHTML = \'<option value="">'
+                . Mage::helper('enterprise_giftcardaccount')->__('-- First Please Select a Website --') . '</option>\';
             }
         }
         //]]></script>';

@@ -30,7 +30,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
      * Prepare general properties form
      *
      * @return Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_General
-     */   
+     */
     protected function _prepareForm()
     {
         $model = Mage::registry('current_customer_segment');
@@ -50,35 +50,31 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         $fieldset->addField('name', 'text', array(
             'name' => 'name',
             'label' => Mage::helper('enterprise_customersegment')->__('Segment Name'),
-            'title' => Mage::helper('enterprise_customersegment')->__('Segment Name'),
             'required' => true,
         ));
 
         $fieldset->addField('description', 'textarea', array(
             'name' => 'description',
             'label' => Mage::helper('enterprise_customersegment')->__('Description'),
-            'title' => Mage::helper('enterprise_customersegment')->__('Description'),
             'style' => 'width: 98%; height: 100px;',
         ));
-        
+
         $fieldset->addField('website_id', 'select', array(
             'name'      => 'website_id',
             'label'     => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
-            'title'     => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
             'required'  => true,
-            'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+            'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true),
         ));
-        
+
         /*$fieldset->addField('processing_frequency', 'text', array(
             'name' => 'processing_frequency',
             'label' => Mage::helper('enterprise_customersegment')->__('Processing Frequency (days)'),
             'title' => Mage::helper('enterprise_customersegment')->__('Processing Frequency (days)'),
             'class' => 'validate-number',
         ));*/
-        
+
         $fieldset->addField('is_active', 'select', array(
             'label'     => Mage::helper('enterprise_customersegment')->__('Status'),
-            'title'     => Mage::helper('enterprise_customersegment')->__('Status'),
             'name'      => 'is_active',
             'required' => true,
             'options'    => array(
@@ -86,6 +82,9 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
                 '0' => Mage::helper('enterprise_customersegment')->__('Inactive'),
             ),
         ));
+        if (!$model->getId()) {
+            $model->setData('is_active', '1');
+        }
 
         $form->setValues($model->getData());
         $this->setForm($form);

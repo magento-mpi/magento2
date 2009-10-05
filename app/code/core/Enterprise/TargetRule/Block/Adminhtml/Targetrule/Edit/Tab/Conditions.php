@@ -59,8 +59,6 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions exten
 
         $element    = $fieldset->addField('conditions', 'text', array(
             'name'      => 'conditions',
-            'label'     => Mage::helper('enterprise_targetrule')->__('Conditions'),
-            'title'     => Mage::helper('enterprise_targetrule')->__('Conditions'),
             'required'  => true,
         ));
 
