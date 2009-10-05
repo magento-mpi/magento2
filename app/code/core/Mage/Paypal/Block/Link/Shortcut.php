@@ -56,7 +56,9 @@ class Mage_Paypal_Block_Link_Shortcut extends Mage_Core_Block_Template
     public function _toHtml()
     {
         $quote = Mage::getSingleton('checkout/session')->getQuote();
-        if (!Mage::getModel('paypal/express')->isAvailable($quote) || !$quote->validateMinimumAmount()) {
+        $paypalModel = Mage::getModel('paypal/express');
+        if (!$paypalModel->isAvailable($quote) || !$paypalModel->isVisibleOnCartPage()
+            || !$quote->validateMinimumAmount()) {
             return '';
         }
         return parent::_toHtml();
