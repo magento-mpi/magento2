@@ -65,7 +65,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Conditions exten
         $element->setRule($model);
         $element->setRenderer(Mage::getBlockSingleton('enterprise_targetrule/adminhtml_rule_conditions'));
 
-        $model->getConditions()->setJsFormObejct($fieldset->getHtmlId());
+        $model->getConditions()->setJsFormObject($fieldset->getHtmlId());
         $form->setValues($model->getData());
 
         $this->setForm($form);
