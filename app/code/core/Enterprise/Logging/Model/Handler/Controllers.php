@@ -204,6 +204,7 @@ class Enterprise_Logging_Model_Handler_Controllers
      *
      * @param Varien_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processorModel
      * @return Enterprise_Logging_Model_Event
      */
     public function postDispatchPromoCatalogSaveAndApply($config, $eventModel, $processorModel)
