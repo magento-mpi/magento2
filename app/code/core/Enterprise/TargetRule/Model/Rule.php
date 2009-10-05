@@ -30,9 +30,9 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     const SELECTED_ONLY                 = 1;
     const RULE_BASED_ONLY               = 2;
 
-    const RELATED_PRODUCTS              = 0;
-    const UP_SELLS                      = 1;
-    const CROSS_SELLS                   = 2;
+    const RELATED_PRODUCTS              = 1;
+    const UP_SELLS                      = 2;
+    const CROSS_SELLS                   = 3;
 
     const XML_PATH_DEFAULT_VALUES       = 'catalog/enterprise_targetrule/';
 
@@ -100,18 +100,22 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     /**
      * Get options for `Apply to` field
      *
+     * @param bool $withEmpty
      * @return array
      */
-    public function getAppliesToOptions()
+    public function getAppliesToOptions($withEmpty = false)
     {
-        return array(
-            Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS
-                => Mage::helper('enterprise_targetrule')->__('Related Products'),
-            Enterprise_TargetRule_Model_Rule::UP_SELLS
-                => Mage::helper('enterprise_targetrule')->__('Up-sells'),
-            Enterprise_TargetRule_Model_Rule::CROSS_SELLS
-                => Mage::helper('enterprise_targetrule')->__('Cross-sells'),
-        );
+        $result = array();
+        if ($withEmpty) {
+            $result[''] = Mage::helper('adminhtml')->__('-- Please Select --');
+        }
+        $result[Enterprise_TargetRule_Model_Rule::RELATED_PRODUCTS]
+            = Mage::helper('enterprise_targetrule')->__('Related Products');
+        $result[Enterprise_TargetRule_Model_Rule::UP_SELLS]
+            = Mage::helper('enterprise_targetrule')->__('Up-sells');
+        $result[Enterprise_TargetRule_Model_Rule::CROSS_SELLS]
+            = Mage::helper('enterprise_targetrule')->__('Cross-sells');
+        return $result;
     }
 
     /**

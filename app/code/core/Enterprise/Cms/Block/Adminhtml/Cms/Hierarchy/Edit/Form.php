@@ -172,7 +172,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
 
         $pagerFieldset->addField('pager_visibility', 'select', array(
             'label'     => Mage::helper('enterprise_cms')->__('Enable Pagination'),
-            'title'     => Mage::helper('enterprise_cms')->__('Enable Pagination'),
             'name'      => 'pager_visibility',
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
@@ -197,7 +196,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
 
         $menuFieldset->addField('menu_visibility', 'select', array(
             'label'     => Mage::helper('enterprise_cms')->__('Enable Navigation Menu'),
-            'title'     => Mage::helper('enterprise_cms')->__('Enable Navigation Menu'),
             'name'      => 'menu_visibility',
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
@@ -395,7 +393,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function getButtonSaveLabel()
     {
-        return Mage::helper('enterprise_cms')->__('Save');
+        return Mage::helper('enterprise_cms')->__('Add To Tree');
     }
 
     /**

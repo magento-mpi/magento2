@@ -116,7 +116,7 @@
     </enterprise_cms_page_versioning>
     
     <enterprise_cms_widget_instance translate="label">
-        <label>Widgets</label>
+        <label>CMS Widget Instances</label>
         <expected_models>
             <enterprise_cms__widget_instance/>
         </expected_models>

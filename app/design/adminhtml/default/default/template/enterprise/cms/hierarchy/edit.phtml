@@ -72,7 +72,7 @@
                 lines: true
             });
             this.treeRoot = new Ext.tree.TreeNode({
-                text: '<?php echo $this->__("/")?>',
+                text: '<?php echo $this->__('/')?>',
                 id: '_root',
                 allowDrop: true,
                 allowDrag: false,
@@ -228,7 +228,7 @@
             var identifier = node.attributes.identifier;
             for(var i=0, l = parent.childNodes.length; i < l; i++) {
                 if (identifier == parent.childNodes[i].attributes.identifier) {
-                    alert('<?php echo $this->__("Node with same Identifier alredy exists. Page do not added!")?>');
+                    alert('<?php echo $this->__('This page cannot be added, because a node or page with the same URL Key already exists in this tree part.')?>');
                     return false;
                 }
             }
@@ -304,7 +304,7 @@
 
         save: function(){
             if (this.dataModification) {
-                if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are not saved node data. Are you sure you want to proceed?') ?>')) {
+                if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
                     return;
                 }
             }
@@ -410,7 +410,7 @@
                 for(var i=0, l = node.parentNode.childNodes.length; i < l; i++) {
                     checkNode = node.parentNode.childNodes[i];
                     if (checkNode.id != node_id && identifier == checkNode.attributes.identifier) {
-                        alert('<?php echo $this->__("Node with same Identifier alredy exists!")?>');
+                        alert('<?php echo $this->__('Node with same URL Key already exists.')?>');
                         return false;
                     }
                 }
