@@ -55,7 +55,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
 
         $form->setHtmlIdPrefix('page_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('cms')->__('Page Information'),'class'=>'fieldset-wide'));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend'=>Mage::helper('cms')->__('Page Information')));
 
         if ($model->getPageId()) {
             $fieldset->addField('page_id', 'hidden', array(
@@ -77,7 +77,7 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             'title'     => Mage::helper('cms')->__('URL Key'),
             'required'  => true,
             'class'     => 'validate-identifier',
-            'after_element_html' => '<p class="nm"><small>' . Mage::helper('cms')->__('(eg: domain.com/identifier)') . '</small></p>',
+            'note'      => Mage::helper('cms')->__('Relative to Website Base URL'),
             'disabled'  => $isElementDisabled
         ));
 
@@ -108,8 +108,11 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Main
             'name'      => 'is_active',
             'required'  => true,
             'options'   => $model->getAvailableStatuses(),
-            'disabled'  => $isElementDisabled
+            'disabled'  => $isElementDisabled,
         ));
+        if (!$model->getId()) {
+            $model->setData('is_active', $isElementDisabled ? '0' : '1');
+        }
 
         Mage::dispatchEvent('adminhtml_cms_page_edit_tab_main_prepare_form', array('form' => $form));
 

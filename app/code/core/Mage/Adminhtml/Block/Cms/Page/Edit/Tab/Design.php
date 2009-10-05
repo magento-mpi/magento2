@@ -57,12 +57,15 @@ class Mage_Adminhtml_Block_Cms_Page_Edit_Tab_Design
         ));
 
         $layoutFieldset->addField('root_template', 'select', array(
-            'name'      => 'root_template',
-            'label'     => Mage::helper('cms')->__('Layout'),
-            'required'  => true,
+            'name'     => 'root_template',
+            'label'    => Mage::helper('cms')->__('Layout'),
+            'required' => true,
             'values'   => Mage::getSingleton('page/source_layout')->toOptionArray(),
-            'disabled'  => $isElementDisabled
+            'disabled' => $isElementDisabled
         ));
+        if (!$model->getId()) {
+            $model->setRootTemplate(Mage::getSingleton('page/source_layout')->getDefaultValue());
+        }
 
         $layoutFieldset->addField('layout_update_xml', 'textarea', array(
             'name'      => 'layout_update_xml',
