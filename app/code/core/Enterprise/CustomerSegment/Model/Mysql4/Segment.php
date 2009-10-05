@@ -66,9 +66,16 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
         return parent::_afterSave($object);
     }
 
-    public function runConditionSql($sql)
+    /**
+     * Get select query result
+     *
+     * @param   Varien_Db_Select|string $sql
+     * @param   array $bindParams array of binded variables
+     * @return  int
+     */
+    public function runConditionSql($sql, $bindParams)
     {
-        return $this->_getReadAdapter()->fetchOne($sql);
+        return $this->_getReadAdapter()->fetchOne($sql, $bindParams);
     }
 
     /**

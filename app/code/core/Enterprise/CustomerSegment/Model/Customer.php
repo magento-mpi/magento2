@@ -59,9 +59,9 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
                     ->addEventFilter($eventName)
                     ->addWebsiteFilter($websiteId)
                     ->addIsActiveFilter(1);
-            Varien_Profiler::start('__SEGMENTS_MATCHING_AFTERLOAD__');
-            $this->_segmentMap[$eventName]->walk('afterLoad');
-            Varien_Profiler::stop('__SEGMENTS_MATCHING_AFTERLOAD__');
+//            Varien_Profiler::start('__SEGMENTS_MATCHING_AFTERLOAD__');
+//            $this->_segmentMap[$eventName]->walk('afterLoad');
+//            Varien_Profiler::stop('__SEGMENTS_MATCHING_AFTERLOAD__');
         }
         return $this->_segmentMap[$eventName];
     }

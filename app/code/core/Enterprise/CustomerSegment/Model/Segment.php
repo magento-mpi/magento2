@@ -73,6 +73,11 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         if ($this->getIsActive()) {
             $events = $this->collectMatchedEvents();
         }
+        $customer = new Zend_Db_Expr(':customer_id');
+        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $this->setConditionSql(
+            $this->getConditions()->getConditionsSql($customer, $website)
+        );
         $this->setMatchedEvents(array_unique($events));
         parent::_beforeSave();
     }
@@ -135,21 +140,19 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         return $models;
     }
 
+    /**
+     * Validate customer by segment conditions for ran website
+     *
+     * @param Varien_Object $object
+     * @return bool
+     */
     public function validate(Varien_Object $object)
     {
-//        $key = '__SEDMNT_'.$this->getId().'_BUILD_SQL__';
-//        Varien_Profiler::start($key);
-//        $sql = $this->getConditions()->getConditionsSql($object, $this->getValidationWebsite());
-//        Varien_Profiler::stop($key);
-//        echo "$sql\n<br />\n";
-//
-//        Varien_Profiler::start('RUN SQL:'.$key);
-//        $result = $this->getResource()->runConditionSql($sql);
-//        Varien_Profiler::stop('RUN SQL:'.$key);
-//        $resultText = ($result ? '<span style="color: #00CC00;">PASSED</span>' : '<span style="color: #CC0000;">FAILED</span>');
-//        echo "SEGMENT #{$this->getId()} VALIDATION AGAINST CUSTOMER #{$object->getId()} {$resultText}\n<br /><br />\n";
-//
-//        return $result;
+        $website = Mage::app()->getWebsite();
+        if ($object instanceof Mage_Customer_Model_Customer) {
+            return $this->validateCustomer($object, $website);
+        }
+        return false;
     }
 
     /**
@@ -161,9 +164,11 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
      */
     public function validateCustomer(Mage_Customer_Model_Customer $customer, $website)
     {
-        $sql = $this->getConditions()->getConditionsSql($customer, $website);
-        $result = $this->getResource()->runConditionSql($sql);
-        //echo $result . ':' . $sql.'<br><br>';
+        /**
+         * Use prepeared in beforeSave sql
+         */
+        $sql = $this->getConditionSql();
+        $result = $this->getResource()->runConditionSql($sql, array('customer_id'=>$customer->getId()));
         return $result>0;
     }
 
