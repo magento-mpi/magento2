@@ -182,12 +182,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('enterprise_cms')->__('Frame'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_frame',
+            'note'      => Mage::helper('enterprise_cms')->__('How many Links to Neighbour Pages to display'),
         ));
         $pagerFieldset->addField('pager_jump', 'text', array(
             'name'      => 'pager_jump',
             'label'     => Mage::helper('enterprise_cms')->__('Frame Skip'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_jump',
+            'note'      => Mage::helper('enterprise_cms')->__('If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value'),
         ));
 
         $menuFieldset   = $form->addFieldset('menu_fieldset', array(
@@ -206,12 +208,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('enterprise_cms')->__('Levels Up'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_up',
+            'note'      => Mage::helper('enterprise_cms')->__('Number of Parent Node Levels to Include'),
         ));
         $menuFieldset->addField('menu_levels_down', 'text', array(
             'name'      => 'menu_levels_down',
             'label'     => Mage::helper('enterprise_cms')->__('Levels Down'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_down',
+            'note'      => Mage::helper('enterprise_cms')->__('Number of Child Node Levels to Include'),
         ));
         $menuFieldset->addField('menu_ordered', 'select', array(
             'label'     => Mage::helper('enterprise_cms')->__('List Type'),

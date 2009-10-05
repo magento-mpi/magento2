@@ -155,6 +155,11 @@
         },
 
         onNodeSelect: function(model, node){
+
+            if ($('node_id').value) {
+                this.saveNodePage();
+            }
+
             if (this.lastChangedNode) {
                 this.lastChangedNode.ui.removeClass('modified');
                 this.lastChangedNode = null;
@@ -170,34 +175,32 @@
             }
             $('node_prop_container').show();
 
-
             var isTreeNode = (node.parentNode.id == '_root');
+
             <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
-                $('node_properties_fieldset').previous().down('.icon-head').innerHTML = '<?php echo $this->getNodeFieldsetLegend()?>';
                 this.showFieldSet('metadata_fieldset');
             } else {
-                $('node_properties_fieldset').previous().down('.icon-head').innerHTML = '<?php echo $this->getPageFieldsetLegend()?>';
                 this.hideFieldSet('metadata_fieldset');
             }
             <?php endif; ?>
 
-            // Change some of them based on node properties
-            this.renderMetadata(node);
-
-            // Assign node attributes to form elements
-            this.assignNodeMetadataToValues(node);
-
-            // Disable/enable form elements
-            this.toggleMetadataFieldset('pager_visibility', 'pager_fieldset');
-            this.toggleMetadataFieldset('menu_visibility', 'menu_fieldset');
-
             $('node_id').value = node.id;
             $('node_page_id').value = node.attributes.page_id;
+
+            // Assign node attributes to form elements, change some of them based on node properties
+            this.renderMetadata(node);
 
             var hasPageId = node.attributes.page_id != null;
             this._changeNodePropShow(hasPageId);
 
+            // change main fieldset title
+            $('node_properties_fieldset').previous().down('.icon-head').innerHTML = hasPageId
+                ? '<?php echo $this->getPageFieldsetLegend()?>'
+                : '<?php echo $this->getNodeFieldsetLegend()?>';
+
+
+            // prepare preview link
             var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
             if (nodeUrlInfo != false) {
                 $('node_preview').up(1).show();
@@ -219,7 +222,8 @@
             $('delete_node_button').show();
             $('cancel_node_button').hide();
 
-            this.saveButton(!hasPageId || isTreeNode, false, false);
+            //this.saveButton(!hasPageId || isTreeNode, false, false);
+            this.saveButton(false);
 
             this.pageGridLoad();
         },
@@ -303,11 +307,12 @@
         },
 
         save: function(){
-            if (this.dataModification) {
-                if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
-                    return;
-                }
-            }
+            this.saveNodePage();
+            //if (this.dataModification) {
+            //    if (!confirm('<?php echo Mage::helper('enterprise_cms')->__('There are unsaved node data. Are you sure you want to proceed?') ?>')) {
+            //        return;
+            //    }
+            //}
             this.collectChilds(this.treeRoot);
             $('nodes_data').value = this.treeData.toJSON();
             $('removed_nodes').value = this.removedNodes.join(',');
@@ -357,6 +362,7 @@
         },
 
         newNodePage: function(){
+            this.saveNodePage();
             this.nodePropReset();
             $('node_id').value = '';
             $('node_page_id').value = '';
@@ -377,21 +383,28 @@
             $('delete_node_button').hide();
             $('node_prop_container').show();
             $('cancel_node_button').show();
+
+            this.resetFieldSet('pager_fieldset');
+            this.resetFieldSet('menu_fieldset');
+            this.renderMetadata();
         },
 
         cancelNodePage: function(){
+            this.saveButton(false);
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
             if (selectedNode && selectedNode.id != '_root') {
                 this.tree.getSelectionModel().clearSelections();
                 selectedNode.select();
             } else {
-                this.saveButton(false);
                 $('cancel_node_button').hide();
                 $('node_prop_container').hide();
             }
         },
 
         saveNodePage: function(){
+            if (!this.dataModification) {
+                return;
+            }
             var hasNodeId = $('node_id').value != '';
             var hasPageId = $('node_page_id').value != '';
 
@@ -443,13 +456,14 @@
 
             this.assignValuesMetadataToNode(node);
 
-            node.getUI().removeClass('modified');
-            node.getUI().addClass('saved');
-
-            node.select();
-
-            this.saveButton(true, false);
+            node.getUI().addClass('cms-saved');
             this.dataModification = false;
+
+            if (!hasNodeId) {
+                node.select();
+
+            }
+            this.saveButton(false);
         },
 
         deleteNodePage: function(){
@@ -519,6 +533,17 @@
             $(id).previous(0).show();
         },
 
+        resetFieldSet: function(id) {
+            var elems = Element.select(id, ['select', 'input', 'textarea']);
+            elems.each(function (elem) {
+                if($(elem).tagName.toLowerCase() == 'select') {
+                    $(elem).selectedIndex = 0;
+                } else {
+                    $(elem).value = '';
+                }
+            });
+        },
+
         saveButton: function(show, enabled, save) {
             var btn = $('save_node_button');
             if (show) {
@@ -549,7 +574,9 @@
                 this.lastChangedNode = node;
             }
             this.dataModification = true;
-            this.saveButton(true, true);
+            if(!$('node_id').value) {
+                this.saveButton(true, true);
+            }
         },
 
         getMetadataFields: function() {
@@ -603,48 +630,54 @@
 
         toggleMetadataFieldset: function(switcher, fieldsetId) {
             if($(fieldsetId) != undefined && $(switcher) != undefined) {
-                var no = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_NO ?>';
-                var useParent = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT ?>';
-                var disabled = ($(switcher).value == no || $(switcher).value == useParent);
-                this.toggleFieldset($(switcher), $(fieldsetId), disabled);
+                var yes = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES ?>';
+                var hidden = $(switcher).value != yes;
+                this.toggleFieldset($(switcher), $(fieldsetId), hidden);
             }
         },
 
-        toggleFieldset: function(switcher, container, disabled) {
-            if (disabled == undefined) {
-                disabled = true;
-            }
+        toggleFieldset: function(switcher, container, hidden) {
             var elems = Element.select(container, ['select', 'input', 'textarea', 'button']);
             elems.each(function (elem) {
                 if(elem!=switcher) {
-                    elem.disabled = disabled;
+                    hidden ? elem.up(1).hide() : elem.up(1).show();
                 };
             });
         },
 
         renderMetadata: function(node) {
-            var hasPageId = node.attributes.page_id != null;
-            node.hasChildNodes() ? this.showFieldSet('pager_fieldset') : this.hideFieldSet('pager_fieldset');
+            var hasPageId = false;
+            if (node != undefined) {
+                hasPageId = node.attributes.page_id != null;
+            }
+
+            var hasChilds = false;
+            if (node != undefined) {
+                hasChilds = node.hasChildNodes();
+            }
+
+            var yes = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES ?>';
+
+            // hide pagination options anyway if node/page hasn't childs
+            hasChilds ? this.showFieldSet('pager_fieldset') : this.hideFieldSet('pager_fieldset');
 
             if (hasPageId) {
-                var yes = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES ?>';
                 this.removeOptionFromSelect('menu_visibility', yes);
-                $('field_menu_levels_up').hide();
-                $('field_menu_levels_down').hide();
-                $('field_menu_ordered').hide();
-                $('field_menu_list_type').hide();
             } else {
-                var yes = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES ?>';
-                var useParent = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT ?>';
-                this.addOptionToSelect('menu_visibility', yes, '<?php echo $this->__('Yes') ?>', useParent);
-                $('field_menu_levels_up').show();
-                $('field_menu_levels_down').show();
-                $('field_menu_ordered').show();
-                $('field_menu_list_type').show();
+                var no = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_NO ?>';
+                this.addOptionToSelect('menu_visibility', yes, '<?php echo $this->__('Yes') ?>', no);
             }
+
+            // Assign node attributes to metadata fields
+            if (node != undefined) {
+                this.assignNodeMetadataToValues(node);
+            }
+
+            this.toggleMetadataFieldset('menu_visibility', 'menu_fieldset');
+            this.toggleMetadataFieldset('pager_visibility', 'pager_fieldset');
         },
 
-        addOptionToSelect: function(selectId, optionValue, optionText, afterValue) {
+        addOptionToSelect: function(selectId, optionValue, optionText, beforeValue) {
             // select element not found
             if($(selectId) == undefined) {
                 return false;
@@ -656,16 +689,10 @@
 
             var selected = $(selectId).value;
 
-            var optionHtml = '<option value="' + optionValue + '">' + optionText + '</option>';
-            if(afterValue != undefined) {
-                var insertion = $(selectId).down('option[value="' + afterValue + '"]');
-                if(insertion != undefined) {
-                    insertion.insert({after: optionHtml});
-                }
-            } else {
-                // insert option to the end
-                $(selectId).insert({bottom: optionHtml});
-            }
+            var option = new Element('option', {'value': optionValue}).update(optionText);
+            var before = (beforeValue != undefined ? $(selectId).down('option[value="' + beforeValue + '"]') : null);
+
+            $(selectId).add(option, before);
 
             // restore select value after insertion
             $(selectId).value = selected;

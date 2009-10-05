@@ -36,9 +36,9 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
     const XML_PATH_HIERARCHY_ENABLED    = 'cms/hierarchy/enabled';
     const XML_PATH_METADATA_ENABLED     = 'cms/hierarchy/metadata_enabled';
 
+    const METADATA_VISIBILITY_PARENT    = '0';
     const METADATA_VISIBILITY_YES       = '1';
-    const METADATA_VISIBILITY_NO        = '0';
-    const METADATA_VISIBILITY_PARENT    = '2';
+    const METADATA_VISIBILITY_NO        = '2';
 
     /**
      * Check is Enabled Hierarchy Functionality
