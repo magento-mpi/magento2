@@ -138,4 +138,14 @@ abstract class Enterprise_TargetRule_Model_Mysql4_Index_Abstract extends Mage_Co
 
         return $this;
     }
+
+    /**
+     * Remove all data from index
+     *
+     * @return Enterprise_TargetRule_Model_Mysql4_Index_Abstract
+     */
+    public function cleanIndex()
+    {
+        $this->_getWriteAdapter()->truncate($this->getMainTable());
+    }
 }

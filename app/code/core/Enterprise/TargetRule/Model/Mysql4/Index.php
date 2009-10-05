@@ -49,7 +49,7 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
      */
     public function getOverfillLimit()
     {
-        return 10;
+        return 20;
     }
 
     /**
@@ -127,6 +127,7 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
         }
 
         $productIds = array_diff($productIds, $object->getExcludeProductIds());
+        shuffle($productIds);
 
         return array_slice($productIds, 0, $object->getLimit());
     }
@@ -262,19 +263,23 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
     }
 
     /**
-     * Remove index by rule and type
+     * Remove index data from index tables
      *
-     * @param int $ruleId
      * @param int $typeId
      * @return Enterprise_TargetRule_Model_Mysql4_Index
      */
-    public function removeIndexByRule($ruleId, $typeId = null)
+    public function cleanIndex($typeId = null)
     {
-        $select  = $this->_getReadAdapter()->select()
-            ->from($this->getTable('enterprise_targetrule/product'), array('product_id'))
-            ->where('rule_id=?', $ruleId);
-
-        $this->removeIndexByProductIds($select, $typeId);
+        $adapter = $this->_getWriteAdapter();
+        if (is_null($typeId)) {
+            foreach ($this->getTypeIds() as $typeId) {
+                $this->getTypeIndex($typeId)->cleanIndex();
+            }
+            $adapter->truncate($this->getMainTable());
+        } else {
+            $adapter->delete($this->getMainTable(), array('type_id=?' => $typeId));
+            $this->getTypeIndex($typeId)->cleanIndex();
+        }
 
         return $this;
     }

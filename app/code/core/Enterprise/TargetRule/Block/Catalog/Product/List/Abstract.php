@@ -55,6 +55,13 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
     protected $_index;
 
     /**
+     * Array of exclude Product Ids
+     *
+     * @var array
+     */
+    protected $_excludeProductIds;
+
+    /**
      * Retrieve Catalog Product List Type identifier
      *
      * @return int
@@ -170,6 +177,19 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
     }
 
     /**
+     * Retrieve array of exclude product ids
+     *
+     * @return array
+     */
+    public function getExcludeProductIds()
+    {
+        if (is_null($this->_excludeProductIds)) {
+            $this->_excludeProductIds = array($this->getProduct()->getEntityId());
+        }
+        return $this->_excludeProductIds;
+    }
+
+    /**
      * Retrieve related product collection assigned to product
      *
      * @throws Mage_Core_Exception
@@ -203,8 +223,10 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
                 ->setFlag('do_not_use_category_id', true)
                 ->setPageSize($this->getPositionLimit());
 
-            Mage::getResourceSingleton('checkout/cart')
-                ->addExcludeProductFilter($this->_linkCollection, Mage::getSingleton('checkout/session')->getQuoteId());
+            $excludeProductIds = $this->getExcludeProductIds();
+            if ($excludeProductIds) {
+                $this->_linkCollection->addAttributeToFilter('entity_id', array('nin' => $excludeProductIds));
+            }
         }
 
         return $this->_linkCollection;
@@ -248,8 +270,7 @@ abstract class Enterprise_TargetRule_Block_Catalog_Product_List_Abstract extends
             }
 
             if (in_array($behavior, $ruleBased) && $limit > count($this->_items)) {
-                $excludeProductIds = array_merge(array_keys($this->_items),
-                    Mage::getSingleton('checkout/cart')->getProductIds());
+                $excludeProductIds = array_merge(array_keys($this->_items), $this->getExcludeProductIds());
 
                 $count = $limit - count($this->_items);
                 $productIds = $this->_getTargetRuleIndex()

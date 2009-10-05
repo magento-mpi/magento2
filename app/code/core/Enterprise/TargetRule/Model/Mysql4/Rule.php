@@ -59,11 +59,6 @@ class Enterprise_TargetRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abs
         } else {
             $object->setToDate(null);
         }
-
-        if (!$object->isObjectNew()) {
-            Mage::getResourceModel('enterprise_targetrule/index')
-                ->removeIndexByRule($object->getId(), $object->getOrigData('apply_to'));
-        }
     }
 
     /**
@@ -77,7 +72,30 @@ class Enterprise_TargetRule_Model_Mysql4_Rule extends Mage_Core_Model_Mysql4_Abs
         parent::_afterSave($object);
 //        $this->_saveCustomerSegmentRelations($object);
         $this->_prepareRuleProducts($object);
+
+        if (!$object->isObjectNew() && $object->getOrigData('apply_to') != $object->getData('apply_to')) {
+            Mage::getResourceModel('enterprise_targetrule/index')
+                ->cleanIndex();
+        } else {
+            Mage::getResourceModel('enterprise_targetrule/index')
+                ->cleanIndex($object->getData('apply_to'));
+        }
+
         return $this;
+    }
+
+    /**
+     * Remove index before delete rule
+     *
+     * @param Enterprise_TargetRule_Model_Rule $object
+     * @return Enterprise_TargetRule_Model_Mysql4_Rule
+     */
+    protected function _beforeDelete(Mage_Core_Model_Abstract $object)
+    {
+        Mage::getResourceModel('enterprise_targetrule/index')
+            ->cleanIndex($object->getData('apply_to'));
+
+        return parent::_beforeDelete($object);
     }
 
     /**

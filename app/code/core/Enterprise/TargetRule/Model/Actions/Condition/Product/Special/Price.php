@@ -46,6 +46,22 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     }
 
     /**
+     * Retrieve operator select options array
+     *
+     * @return array
+     */
+    protected function _getOperatorOptionArray()
+    {
+        return array(
+            '==' => Mage::helper('enterprise_targetrule')->__('equal to'),
+            '>'  => Mage::helper('enterprise_targetrule')->__('more'),
+            '>=' => Mage::helper('enterprise_targetrule')->__('equals or greater than'),
+            '<'  => Mage::helper('enterprise_targetrule')->__('less'),
+            '<=' => Mage::helper('enterprise_targetrule')->__('equals or less than')
+        );
+    }
+
+    /**
      * Set operator options
      *
      * @return Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
@@ -53,11 +69,7 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array(
-            '=='  => Mage::helper('enterprise_targetrule')->__('equal to'),
-            '>'  => Mage::helper('enterprise_targetrule')->__('more'),
-            '<'  => Mage::helper('enterprise_targetrule')->__('less')
-        ));
+        $this->setOperatorOption($this->_getOperatorOptionArray());
         return $this;
     }
 

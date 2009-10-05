@@ -158,11 +158,11 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         if ($this->getAttribute() == 'category_ids') {
             $options[] = array(
                 'value' => self::VALUE_TYPE_SAME_AS,
-                'label' => Mage::helper('enterprise_targetrule')->__('the Same as Matched Product Category')
+                'label' => Mage::helper('enterprise_targetrule')->__('the Same as Matched Product Categories')
             );
             $options[] = array(
                 'value' => self::VALUE_TYPE_CHILD_OF,
-                'label' => Mage::helper('enterprise_targetrule')->__('the Child of the Matched Product Category')
+                'label' => Mage::helper('enterprise_targetrule')->__('the Child of the Matched Product Categories')
             );
         } else {
             $options[] = array(
@@ -373,6 +373,5 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         }
 
         return new Zend_Db_Expr($where);
-
     }
 }
