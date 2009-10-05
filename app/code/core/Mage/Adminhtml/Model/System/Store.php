@@ -167,12 +167,19 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         return $options;
     }
 
+    /**
+     * Website label/value array getter, compatible with form dropdown options
+     *
+     * @param bool $empty
+     * @param bool $all
+     * @return array
+     */
     public function getWebsiteValuesForForm($empty = false, $all = false)
     {
         $options = array();
         if ($empty) {
             $options[] = array(
-                'label' => '',
+                'label' => Mage::helper('adminhtml')->__('-- Please Select --'),
                 'value' => ''
             );
         }
