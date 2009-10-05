@@ -94,7 +94,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
                         ->toOptionArray();
                     break;
 
-                case 'region':
+                case 'region_id':
                     $options = Mage::getModel('adminhtml/system_config_source_allregion')
                         ->toOptionArray();
                     break;
@@ -123,7 +123,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
     public function getInputType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region':
+            case 'country_id': case 'region_id':
                 return 'select';
         }
         return 'string';
@@ -132,22 +132,39 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
-            case 'country_id': case 'region':
+            case 'country_id': case 'region_id':
                 return 'select';
         }
         return 'text';
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return Mage::helper('enterprise_customersegment')->__('Order Address %s', parent::asHtml());
     }
 
+    /**
+     * Get order address attribute
+     *
+     * @return Eav_Model_Entity_Attribute_Abstract
+     */
     public function getAttributeObject()
     {
         return Mage::getSingleton('eav/config')->getAttribute('order_address', $this->getAttribute());
     }
 
+    /**
+     * Get condition query for order address attribute
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     public function getConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();

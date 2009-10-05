@@ -45,12 +45,22 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
         return array('sales_order_save_commit_after');
     }
 
+    /**
+     * Get List of available selections inside this combine
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return Mage::getModel('enterprise_customersegment/segment_condition_order_address_combine')
             ->getNewChildSelectOptions();
     }
 
+    /**
+     * Get html of order address combine
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -58,12 +68,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
                 $this->getAggregatorElement()->getHtml()) . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Order address combine doesn't have declared value. We use "1" for it
+     *
+     * @return int
+     */
     public function getValue()
     {
         return 1;
     }
 
-
+    /**
+     * Prepare base condition select which related with current condition combine
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     protected function _prepareConditionsSql($customer, $website)
     {
         $resource = $this->getResource();
@@ -76,7 +97,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
         $orderTable = $resource->getTable($orderEntityType->getEntityTable());
 
         $orderAddressEntityId = $addressEntityType->getId();
-
         $addressTypeAttribute = Mage::getSingleton('eav/config')->getAttribute('order_address', 'address_type');
 
         $select->from(array('order_address' => $addressTable), array(new Zend_Db_Expr(1)));
@@ -85,20 +105,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
         $orderJoinConditions = 'order_address.parent_id = order_address_order.entity_id';
         $select->joinInner(array('order_address_order' => $orderTable), $orderJoinConditions, array());
 
-        $addressTypeJoinConditions = array();
-        $addressTypeJoinConditions[] = "order_address.entity_id = order_address_type.entity_id";
-        $addressTypeJoinConditions[] = "order_address_type.attribute_id = '{$addressTypeAttribute->getId()}'";
-        $addressTypeJoinConditions = implode(' AND ', $addressTypeJoinConditions);
-
-        $select->joinInner(array('order_address_type' => $addressTypeAttribute->getBackendTable()), $addressTypeJoinConditions, array());
-
+        $select->joinInner(
+            array('order_address_type' => $addressTypeAttribute->getBackendTable()),
+            'order_address.entity_id = order_address_type.entity_id',
+            array()
+        );
+        $select->where('order_address_type.attribute_id = ?', $addressTypeAttribute->getId());
         $select->where($this->_createCustomerFilter($customer, 'order_address_order.customer_id'));
-
         $select->limit(1);
 
         return $select;
     }
 
+    /**
+     * Order address is joined to base query. We are applying address type condition as subfilter for main query
+     *
+     * @return array
+     */
     protected function _getSubfilterMap()
     {
         return array(

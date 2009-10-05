@@ -109,6 +109,11 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         return $select;
     }
 
+    /**
+     * Check if condition is required. It affect condition select result comparison type (= || <>)
+     *
+     * @return bool
+     */
     protected function _getRequiredValidation()
     {
         return ($this->getValue() == 1);
@@ -123,6 +128,9 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
      */
     public function getConditionsSql($customer, $website)
     {
+        /**
+         * Build base SQL
+         */
         $select = $this->_prepareConditionsSql($customer, $website);
         $required = $this->_getRequiredValidation();
 
@@ -140,6 +148,9 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
 
         $gotConditions = false;
 
+        /**
+         * Add children subselects conditions
+         */
         foreach ($this->getConditions() as $condition) {
             if ($sql = $condition->getConditionsSql($customer, $website)) {
                 $criteriaSql = "(IFNULL(($sql), 0) {$operator} 1)";
@@ -148,13 +159,15 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
             }
         }
 
+        /**
+         * Process combine subfilters. Subfilters are part of base select which cah be affected by children.
+         */
         $subfilterMap = $this->_getSubfilterMap();
         if ($subfilterMap) {
             foreach ($this->getConditions() as $condition) {
                 $subfilterType = $condition->getSubfilterType();
                 if (isset($subfilterMap[$subfilterType])) {
                     $subfilter = $condition->getSubfilterSql($subfilterMap[$subfilterType], $required, $website);
-
                     if ($subfilter) {
                         $select->$whereFunction($subfilter);
                         $gotConditions = true;
@@ -170,6 +183,15 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         return $select;
     }
 
+    /**
+     * Get infromation about subfilters map. Map contain children condition type and associated
+     * column name from itself select.
+     * Example: array('my_subtype'=>'my_table.my_column')
+     * In practice - date range can be as subfilter for different types of condition combines.
+     * Logic of this filter apply is same - but column names different
+     *
+     * @return array
+     */
     protected function _getSubfilterMap()
     {
         return array();

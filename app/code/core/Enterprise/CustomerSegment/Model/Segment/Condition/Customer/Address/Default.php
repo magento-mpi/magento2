@@ -45,6 +45,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
         return array('customer_address_save_commit_after', 'customer_save_commit_after');
     }
 
+    /**
+     * Get condition "selector" for parent block
+     *
+     * @return string
+     */
     public function getNewChildSelectOptions()
     {
         return array(
@@ -53,25 +58,61 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
         );
     }
 
+    /**
+     * Init list of available values
+     *
+     * @return array
+     */
     public function loadValueOptions()
     {
         $this->setValueOption(array(
-            'primary_billing'  => Mage::helper('enterprise_customersegment')->__('Billing'),
-            'primary_shipping' => Mage::helper('enterprise_customersegment')->__('Shipping'),
+            'default_billing'  => Mage::helper('enterprise_customersegment')->__('Billing'),
+            'default_shipping' => Mage::helper('enterprise_customersegment')->__('Shipping'),
         ));
         return $this;
     }
 
+    /**
+     * Get element type for value select
+     *
+     * @return string
+     */
     public function getValueElementType()
     {
         return 'select';
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
             . Mage::helper('enterprise_customersegment')->__('Customer Address %s Default %s Address',
                 $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
             . $this->getRemoveLinkHtml();
+    }
+
+    /**
+     * Prepare is default billing/shipping condition for customer address
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
+    public function getConditionsSql($customer, $website)
+    {
+        $select = $this->getResource()->createSelect();
+        $attribute = Mage::getSingleton('eav/config')->getAttribute('customer', $this->getValue());
+        $select->from(array('default'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
+        $select->limit(1);
+
+        $select->where('default.attribute_id = ?', $attribute->getId())
+            ->where('default.value=customer_address.entity_id')
+            ->where($this->_createCustomerFilter($customer, 'default.entity_id'));
+
+        return $select;
     }
 }

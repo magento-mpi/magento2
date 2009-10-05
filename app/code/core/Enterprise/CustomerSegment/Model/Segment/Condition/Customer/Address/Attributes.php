@@ -153,28 +153,28 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         return Mage::getSingleton('eav/config')->getAttribute('customer_address', $this->getAttribute());
     }
 
+    /**
+     * Prepare customer address attribute condition select
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     public function getConditionsSql($customer, $website)
     {
-        $attribute = $this->getAttributeObject();
-        $table = $attribute->getBackendTable();
-
         $select = $this->getResource()->createSelect();
-        $select->from($table, array(new Zend_Db_Expr(1)))
-            ->limit(1);
-        $select->where($this->_createCustomerFilter($customer, 'entity_id'));
+        $attribute = $this->getAttributeObject();
 
-        if ($attribute->isStatic()) {
-            $condition = $this->getResource()->createConditionSql(
-                $attribute->getAttributeCode(), $this->getOperator(), $this->getValue()
-            );
+        $select->from(array('val'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
+        $select->limit(1);
 
-        } else {
-            $select->where('attribute_id = ?', $attribute->getId());
-            $condition = $this->getResource()->createConditionSql(
-                'value', $this->getOperator(), $this->getValue()
-            );
-        }
-        $select->where($condition);
+        $condition = $this->getResource()->createConditionSql(
+            'val.value', $this->getOperator(), $this->getValue()
+        );
+        $select->where('val.attribute_id = ?', $attribute->getId())
+            ->where("val.entity_id = customer_address.entity_id")
+            ->where($condition);
+
         return $select;
     }
 }
