@@ -86,4 +86,21 @@ class Enterprise_CustomerSegment_Model_Observer
         $website = Mage::app()->getStore()->getWebsite();
         Mage::getSingleton('enterprise_customersegment/customer')->processEvent($eventName, $customer, $website);
     }
+
+    /**
+     * Match quote customer to all customer segments.
+     * Used before quote recollect in admin
+     *
+     * @param Varien_Event_Observer $observer
+     * @return void
+     */
+    public function processQuote(Varien_Event_Observer $observer)
+    {
+        $quote = $observer->getEvent()->getQuote();
+        $customer = $quote->getCustomer();
+        if ($customer && $customer->getId()) {
+            $website = $quote->getStore()->getWebsite();
+            Mage::getSingleton('enterprise_customersegment/customer')->processCustomer($customer, $website);
+        }
+    }
 }

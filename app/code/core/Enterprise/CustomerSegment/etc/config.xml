@@ -105,6 +105,14 @@
                     </enterprise_customersegment>
                 </observers>
             </salesrule_rule_condition_combine>
+            <sales_quote_collect_totals_before>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processQuote</method>
+                    </enterprise_customersegment>
+                </observers>
+            </sales_quote_collect_totals_before>
         </events>
 
         <translate>

@@ -56,12 +56,9 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
     {
         if (!isset($this->_segmentMap[$eventName])) {
             $this->_segmentMap[$eventName] = Mage::getResourceModel('enterprise_customersegment/segment_collection')
-                    ->addEventFilter($eventName)
-                    ->addWebsiteFilter($websiteId)
-                    ->addIsActiveFilter(1);
-//            Varien_Profiler::start('__SEGMENTS_MATCHING_AFTERLOAD__');
-//            $this->_segmentMap[$eventName]->walk('afterLoad');
-//            Varien_Profiler::stop('__SEGMENTS_MATCHING_AFTERLOAD__');
+                ->addEventFilter($eventName)
+                ->addWebsiteFilter($websiteId)
+                ->addIsActiveFilter(1);
         }
         return $this->_segmentMap[$eventName];
     }
@@ -71,10 +68,10 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
      *
      * @param string $eventName
      * @param Mage_Customer_Model_Customer $customer
-     * @param null | int $website
+     * @param Mage_Core_Model_Website $website
      * @return Enterprise_CustomerSegment_Model_Customer
      */
-    public function processEvent($eventName, $customer, $website)
+    public function processEvent($eventName, Mage_Customer_Model_Customer $customer, $website)
     {
         Varien_Profiler::start('__SEGMENTS_MATCHING__');
         $segments = $this->getActiveSegmentsForEvent($eventName, $website);
@@ -92,6 +89,34 @@ class Enterprise_CustomerSegment_Model_Customer extends Mage_Core_Model_Abstract
         $this->removeCustomerFromSegments($customer, $notMatchedIds);
 
         Varien_Profiler::stop('__SEGMENTS_MATCHING__');
+        return $this;
+    }
+
+    /**
+     * Validate all segments for specific customer
+     *
+     * @param   Mage_Customer_Model_Customer $customer
+     * @param   Mage_Core_Model_Website $website
+     * @return  Enterprise_CustomerSegment_Model_Customer
+     */
+    public function processCustomer(Mage_Customer_Model_Customer $customer, $website)
+    {
+        $segments = Mage::getResourceModel('enterprise_customersegment/segment_collection')
+            ->addWebsiteFilter($website)
+            ->addIsActiveFilter(1);
+
+        $matchedIds     = array();
+        $notMatchedIds  = array();
+        foreach ($segments as $segment) {
+            $isMatched = $segment->validateCustomer($customer, $website);
+            if ($isMatched) {
+                $matchedIds[]   = $segment->getId();
+            } else {
+                $notMatchedIds[]= $segment->getId();
+            }
+        }
+        $this->addCustomerToSegments($customer, $matchedIds);
+        $this->removeCustomerFromSegments($customer, $notMatchedIds);
         return $this;
     }
 

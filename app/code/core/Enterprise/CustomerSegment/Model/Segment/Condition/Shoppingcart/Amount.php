@@ -29,6 +29,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
 {
     protected $_inputType = 'numeric';
 
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -46,12 +49,22 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         return array('sales_quote_save_commit_after');
     }
 
+    /**
+     * Get information for being presented in condition list
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
             'label'=>Mage::helper('enterprise_customersegment')->__('Shopping Cart Total'));
     }
 
+    /**
+     * Init available options list
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
+     */
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
@@ -65,6 +78,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         return $this;
     }
 
+    /**
+     * Condition string on conditions page
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -73,12 +91,17 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
             . $this->getRemoveLinkHtml();
     }
 
-
+    /**
+     * Build condition limitations sql string
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     public function getConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('sales/quote');
         $addressTable = $this->getResource()->getTable('sales/quote_address');
-
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
@@ -87,7 +110,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
             ->limit(1);
 
         $joinAddress = false;
-
         switch ($this->getAttribute()) {
             case 'subtotal':
                 $field = 'quote.base_subtotal';
@@ -115,7 +137,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
 
         if ($joinAddress) {
             $subselect = $this->getResource()->createSelect();
-
             $subselect->from(
                 array('address'=>$addressTable),
                 array(
@@ -125,15 +146,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
             );
 
             $subselect->group('quote_id');
-
             $select->joinInner(array('address'=>$subselect), 'address.quote_id = quote.entity_id', array());
-
             $field = "address.{$field}";
         }
 
         $select->where("{$field} {$operator} ?", $this->getValue());
         $select->where($this->_createCustomerFilter($customer, 'customer_id'));
-
         return $select;
     }
 }
