@@ -98,10 +98,14 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     {
         $this->loadByEmail($login);
         if ($this->getConfirmation() && $this->isConfirmationRequired()) {
-            throw new Exception(Mage::helper('customer')->__('This account is not confirmed.'), self::EXCEPTION_EMAIL_NOT_CONFIRMED);
+            throw Mage::exception('Mage_Core', Mage::helper('customer')->__('This account is not confirmed.'),
+                self::EXCEPTION_EMAIL_NOT_CONFIRMED
+            );
         }
         if (!$this->validatePassword($password)) {
-            throw new Exception(Mage::helper('customer')->__('Invalid login or password.'), self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD);
+            throw Mage::exception('Mage_Core', Mage::helper('customer')->__('Invalid login or password.'),
+                self::EXCEPTION_INVALID_EMAIL_OR_PASSWORD
+            );
         }
         Mage::dispatchEvent('customer_customer_authenticated', array(
            'model'    => $this,
