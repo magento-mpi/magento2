@@ -32,9 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Catalog_Block_Widget_Link
-    extends Mage_Core_Block_Html_Link
-    implements Mage_Cms_Block_Widget_Interface
+class Mage_Catalog_Block_Widget_Link extends Mage_Core_Block_Html_Link implements Mage_Cms_Block_Widget_Interface
 {
     /**
      * Entity model name which must be used to retrieve entity specific data.
@@ -55,6 +53,13 @@ class Mage_Catalog_Block_Widget_Link
      * @var string
      */
     protected $_anchorText;
+
+    /**
+     * Whether the anchor text is empty
+     *
+     * @var bool
+     */
+    protected $_isNoAnchorText = false;
 
     /**
      * Prepare url using passed id path and return it
@@ -91,20 +96,23 @@ class Mage_Catalog_Block_Widget_Link
      */
     public function getAnchorText()
     {
-        if (!$this->_anchorText && $this->_entityResource) {
-            if (!$this->getData('anchor_text')) {
-                $idPath = explode('/', $this->_getData('id_path'));
-                if (isset($idPath[1])) {
-                    $id = $idPath[1];
-                    if ($id) {
-                        $this->_anchorText = $this->_entityResource->getAttributeRawValue($id, 'name', Mage::app()->getStore());
-                    }
-                }
-            } else {
-                $this->_anchorText = $this->getData('anchor_text');
+        if ($this->_anchorText) {
+            return $this->_anchorText;
+        }
+        if ($this->_isNoAnchorText) {
+            return '';
+        }
+        $this->_anchorText = '';
+        $anchorText = trim($this->_getData('anchor_text'));
+        if ($anchorText) {
+            $this->_anchorText = $anchorText;
+        } elseif ($this->_entityResource) {
+            if (preg_match('/^product\/(\d+)(\/\d+)?$/', $this->_getData('id_path'), $matches)) {
+                $this->_anchorText
+                    = $this->_entityResource->getAttributeRawValue($matches[1], 'name', Mage::app()->getStore());
             }
         }
-
+        $this->_isNoAnchorText = '' == $this->_anchorText;
         return $this->_anchorText;
     }
 
