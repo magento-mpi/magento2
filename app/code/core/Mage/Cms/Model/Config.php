@@ -65,7 +65,7 @@ class Mage_Cms_Model_Config
     {
         if (!$this->_widgets) {
             $config = Mage::getConfig()->loadModulesConfiguration('widget.xml');
-            $this->_widgets = $config->getNode('widgets');
+            $this->_widgets = $config->getNode();
         }
 
         return $this->_widgets;

@@ -45,7 +45,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
             $xmlConfig = new Varien_Simplexml_Config($cachedXml);
         } else {
             $config = new Varien_Simplexml_Config;
-            $config->loadString('<?xml version="1.0"?><config><widgets></widgets></config>');
+            $config->loadString('<?xml version="1.0"?><widgets></widgets>');
             Mage::getConfig()->loadModulesConfiguration('widget.xml', $config);
             $xmlConfig = $config;
             if (Mage::app()->useCache('config')) {
@@ -64,7 +64,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
      */
     public function getXmlElementByType($type)
     {
-        $elements = $this->getXmlConfig()->getNode('widgets')->xpath('*[@type="' . $type . '"]');
+        $elements = $this->getXmlConfig()->getNode()->xpath('*[@type="' . $type . '"]');
         if (is_array($elements) && isset($elements[0]) && $elements[0] instanceof Varien_Simplexml_Element) {
             return $elements[0];
         }
@@ -147,7 +147,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
      */
     public function getWidgetsXml()
     {
-        return $this->getXmlConfig()->getNode('widgets')->children();
+        return $this->getXmlConfig()->getNode()->children();
     }
 
     /**
