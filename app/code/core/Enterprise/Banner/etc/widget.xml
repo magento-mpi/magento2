@@ -25,76 +25,74 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 -->
-<config>
-    <widgets>
-        <enterprise_banner type="enterprise_banner/widget_banner" translate="name description" module="enterprise_banner">
-            <name>Banner Rotator</name>
-            <description>Displays Specified or Promotion Banners</description>
-            <parameters>
-                <display_mode translate="label">
-                    <required>1</required>
-                    <visible>1</visible>
-                    <value>fixed</value>
-                    <label>Banners to Display</label>
-                    <type>select</type>
-                    <values>
-                        <fixed translate="label">
-                            <value>fixed</value>
-                            <label>Specified Banners</label>
-                        </fixed>
-                        <salesrule translate="label">
-                            <value>salesrule</value>
-                            <label>Shopping Cart Promotions Related</label>
-                        </salesrule>
-                        <catalogrule translate="label">
-                            <value>catalogrule</value>
-                            <label>Catalog Promotions Related</label>
-                        </catalogrule>
-                    </values>
-                </display_mode>
-                <rotate translate="label">
-                    <visible>1</visible>
-                    <label>Rotation Mode</label>
-                    <type>select</type>
-                    <values>
-                        <none translate="label">
-                            <value></value>
-                            <label>Do not rotate, display all at once</label>
-                        </none>
-                        <random translate="label">
-                            <value>random</value>
-                            <label>One at the time, Random</label>
-                        </random>
-                        <series translate="label">
-                            <value>series</value>
-                            <label>One at the time, Series</label>
-                        </series>
-                        <shuffle translate="label">
-                            <value>shuffle</value>
-                            <label>One at the time, Shuffle</label>
-                        </shuffle>
-                    </values>
-                </rotate >
-                <banner_ids translate="label">
-                    <visible>1</visible>
-                    <label>Banners</label>
-                    <type>
-                        <element_type>label</element_type>
-                        <element_helper>enterprise_banner/adminhtml_widget_chooser</element_helper>
-                    </type>
-                    <depends>
-                        <field>display_mode</field>
+<widgets>
+    <enterprise_banner type="enterprise_banner/widget_banner" translate="name description" module="enterprise_banner">
+        <name>Banner Rotator</name>
+        <description>Displays Specified or Promotion Banners</description>
+        <parameters>
+            <display_mode translate="label">
+                <required>1</required>
+                <visible>1</visible>
+                <value>fixed</value>
+                <label>Banners to Display</label>
+                <type>select</type>
+                <values>
+                    <fixed translate="label">
                         <value>fixed</value>
-                    </depends>
-                </banner_ids>
-                <template>
-                    <required>1</required>
-                    <value>banner/widget.phtml</value>
-                </template>
-                <unique_id>
-                    <required>1</required>
-                </unique_id>
-            </parameters>
-        </enterprise_banner>
-    </widgets>
-</config>
+                        <label>Specified Banners</label>
+                    </fixed>
+                    <salesrule translate="label">
+                        <value>salesrule</value>
+                        <label>Shopping Cart Promotions Related</label>
+                    </salesrule>
+                    <catalogrule translate="label">
+                        <value>catalogrule</value>
+                        <label>Catalog Promotions Related</label>
+                    </catalogrule>
+                </values>
+            </display_mode>
+            <rotate translate="label">
+                <visible>1</visible>
+                <label>Rotation Mode</label>
+                <type>select</type>
+                <values>
+                    <none translate="label">
+                        <value></value>
+                        <label>Do not rotate, display all at once</label>
+                    </none>
+                    <random translate="label">
+                        <value>random</value>
+                        <label>One at the time, Random</label>
+                    </random>
+                    <series translate="label">
+                        <value>series</value>
+                        <label>One at the time, Series</label>
+                    </series>
+                    <shuffle translate="label">
+                        <value>shuffle</value>
+                        <label>One at the time, Shuffle</label>
+                    </shuffle>
+                </values>
+            </rotate >
+            <banner_ids translate="label">
+                <visible>1</visible>
+                <label>Banners</label>
+                <type>
+                    <element_type>label</element_type>
+                    <element_helper>enterprise_banner/adminhtml_widget_chooser</element_helper>
+                </type>
+                <depends>
+                    <field>display_mode</field>
+                    <value>fixed</value>
+                </depends>
+            </banner_ids>
+            <template>
+                <required>1</required>
+                <value>banner/widget.phtml</value>
+            </template>
+            <unique_id>
+                <required>1</required>
+            </unique_id>
+        </parameters>
+    </enterprise_banner>
+</widgets>

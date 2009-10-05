@@ -25,50 +25,48 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 -->
-<config>
-    <widgets>
-        <cms_hierarchy_node type="enterprise_cms/widget_node" translate="name description" module="enterprise_cms">
-            <name>CMS Hierarchy Node Link</name>
-            <description>Link to Specified CMS Hierarchy Node</description>
-            <parameters>
-                <node_id translate="label">
-                    <label>Node</label>
-                    <visible>1</visible>
-                    <required>1</required>
-                    <type>
-                        <element_type>label</element_type>
-                        <element_helper>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</element_helper>
-                    </type>
-                    <sort_order>10</sort_order>
-                </node_id>
-                <anchor_text translate="label description">
-                    <visible>1</visible>
-                    <label>Anchor Custom Text</label>
-                    <description>If empty, will use the Node or Page Name</description>
-                    <type>text</type>
-                </anchor_text>
-                <title translate="label">
-                    <visible>1</visible>
-                    <label>Anchor Custom Title</label>
-                    <type>text</type>
-                </title>
-                <template translate="label">
-                    <label>Template</label>
-                    <visible>1</visible>
-                    <type>select</type>
-                    <value>cms/hierarchy/widget/link/cms_link_block.phtml</value>
-                    <values>
-                        <default translate="label">
-                            <value>cms/hierarchy/widget/link/link_block.phtml</value>
-                            <label>CMS Page Link Block Template</label>
-                        </default>
-                        <link_inline translate="label">
-                            <value>cms/hierarchy/widget/link/link_inline.phtml</value>
-                            <label>CMS Page Link Inline Template</label>
-                        </link_inline>
-                    </values>
-                </template>
-            </parameters>
-        </cms_hierarchy_node>
-    </widgets>
-</config>
+<widgets>
+    <cms_hierarchy_node type="enterprise_cms/widget_node" translate="name description" module="enterprise_cms">
+        <name>CMS Hierarchy Node Link</name>
+        <description>Link to Specified CMS Hierarchy Node</description>
+        <parameters>
+            <node_id translate="label">
+                <label>Node</label>
+                <visible>1</visible>
+                <required>1</required>
+                <type>
+                    <element_type>label</element_type>
+                    <element_helper>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</element_helper>
+                </type>
+                <sort_order>10</sort_order>
+            </node_id>
+            <anchor_text translate="label description">
+                <visible>1</visible>
+                <label>Anchor Custom Text</label>
+                <description>If empty, will use the Node or Page Name</description>
+                <type>text</type>
+            </anchor_text>
+            <title translate="label">
+                <visible>1</visible>
+                <label>Anchor Custom Title</label>
+                <type>text</type>
+            </title>
+            <template translate="label">
+                <label>Template</label>
+                <visible>1</visible>
+                <type>select</type>
+                <value>cms/hierarchy/widget/link/cms_link_block.phtml</value>
+                <values>
+                    <default translate="label">
+                        <value>cms/hierarchy/widget/link/link_block.phtml</value>
+                        <label>CMS Page Link Block Template</label>
+                    </default>
+                    <link_inline translate="label">
+                        <value>cms/hierarchy/widget/link/link_inline.phtml</value>
+                        <label>CMS Page Link Inline Template</label>
+                    </link_inline>
+                </values>
+            </template>
+        </parameters>
+    </cms_hierarchy_node>
+</widgets>

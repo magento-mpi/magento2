@@ -97,11 +97,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Grid extends Mage_Admin
     public function getTypesOptionsArray()
     {
         $widgets = array();
-        $widgetsXml = Mage::getModel('cms/widget')->getXmlConfig();
-        foreach ($widgetsXml->getNode('widgets')->children() as $item) {
-            if ($type = $item->getAttribute('type')) {
-                $widgets[$type] = (string)Mage::helper('enterprise_cms')->__('%s', $item->name);
-            }
+        $widgetsOptionsArr = Mage::getModel('enterprise_cms/widget_instance')->getWidgetsOptionArray();
+        foreach ($widgetsOptionsArr as $widget) {
+            $widgets[$widget['value']] = $widget['label'];
         }
         return $widgets;
     }

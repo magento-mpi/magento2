@@ -353,12 +353,12 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
                     '_area'    => $this->getArea(),
                     '_package' => $this->getPackage(),
                     '_theme'   => $this->getTheme(),
-                    '_type'    => 'widget'
-                )) . DS . 'config.xml';
+                    '_type'    => 'etc'
+                )) . DS . 'widget.xml';
                 if (is_readable($configFile)) {
                     $themeWidgetsConfig = new Varien_Simplexml_Config();
                     $themeWidgetsConfig->loadFile($configFile);
-                    if ($themeWidgetTypeConfig = $themeWidgetsConfig->getNode('widgets/'.$this->_widgetConfigXml->getName())) {
+                    if ($themeWidgetTypeConfig = $themeWidgetsConfig->getNode($this->_widgetConfigXml->getName())) {
                         $this->_widgetConfigXml->extend($themeWidgetTypeConfig);
                     }
                 }

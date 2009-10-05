@@ -220,7 +220,7 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
     protected function _prepareStoreIds($storeIds)
     {
         if (in_array(0, $storeIds)) {
-            $storeIds = array_keys(Mage::app()->getStores(false));
+            $storeIds = array(0);
         }
         return $storeIds;
     }
