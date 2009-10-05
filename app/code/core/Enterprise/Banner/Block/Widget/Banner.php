@@ -208,6 +208,13 @@ class Enterprise_Banner_Block_Widget_Banner
                 $banenrsContent = $this->_getBannersContent($this->getBannerIds(), $segmentIds);
                 break;
         }
+        //Filtering directives
+        /* @var $helper Mage_Cms_Helper_Data */
+        $helper = Mage::helper('cms');
+        $processor = $helper->getPageTemplateProcessor();
+        foreach ($banenrsContent as $bannerId => $content) {
+            $banenrsContent[$bannerId] = $processor->filter($content);
+        }
         return $banenrsContent;
     }
 
@@ -269,5 +276,4 @@ class Enterprise_Banner_Block_Widget_Banner
         }
         return $content;
     }
-
 }
