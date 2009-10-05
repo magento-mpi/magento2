@@ -174,7 +174,8 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
      */
     public function matchCustomers()
     {
-        $sql = $this->getConditions()->getConditionsSql(null, $this->getWebsiteId());
+        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $sql = $this->getConditions()->getConditionsSql(null, $website);
         $this->_getResource()->beginTransaction();
         try {
             $this->_getResource()->saveSegmentCustomersFromSelect($this, $sql);
