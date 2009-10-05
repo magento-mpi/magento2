@@ -158,7 +158,9 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
             $hidden = new Varien_Data_Form_Element_Hidden($element->getData());
             $hidden->setId("{$chooserId}value")->setForm($element->getForm());
             $hiddenHtml = $hidden->getElementHtml();
+            $element->setValue('');
         }
+
         $buttons = $config->getButtons();
         $chooseButton = $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setType('button')
