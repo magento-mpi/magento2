@@ -28,24 +28,34 @@
 <config>
     <menu>
         <catalog>
-           <children>
-               <products>
-                   <sort_order>0</sort_order>
-               </products>
-               <categories>
-                   <sort_order>0</sort_order>
-               </categories>
-               <events translate="title" module="enterprise_catalogevent">
-                    <title>Manage Catalog Events</title>
-                    <sort_order>1</sort_order>
-                    <action>adminhtml/catalog_event</action>
-                    <resource>catalog/events</resource>
-                    <depends>
-                        <module>Enterprise_CatalogEvent</module>
-                        <config>catalog/enterprise_catalogevent/enabled</config>
-                    </depends>
-               </events>
-           </children>
+            <children>
+                <categories>
+                    <disabled>1</disabled>
+                </categories>
+                <enterprise_catalogevent translate="title" module="enterprise_catalogevent">
+                    <title>Categories</title>
+                    <sort_order>10</sort_order>
+                    <resource>catalog/categories</resource>
+                    <children>
+                        <categories translate="title" module="catalog">
+                            <title>Manage Categories</title>
+                            <sort_order>0</sort_order>
+                            <action>adminhtml/catalog_category/</action>
+                            <resource>catalog/categories</resource>
+                        </categories>
+                        <events translate="title" module="enterprise_catalogevent">
+                            <title>Catalog Events</title>
+                            <sort_order>10</sort_order>
+                            <action>adminhtml/catalog_event</action>
+                            <depends>
+                                <module>Enterprise_CatalogEvent</module>
+                                <config>catalog/enterprise_catalogevent/enabled</config>
+                            </depends>
+                            <resource>catalog/events</resource>
+                        </events>
+                    </children>
+                </enterprise_catalogevent>
+            </children>
         </catalog>
     </menu>
     <acl>

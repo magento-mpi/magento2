@@ -65,19 +65,34 @@
     <menu>
         <cms>
             <children>
-                <hierarchy translate="title" module="enterprise_cms">
-                    <title>Pages Hierarchy</title>
-                    <sort_order>5</sort_order>
-                    <action>adminhtml/cms_hierarchy</action>
-                    <depends>
-                        <config>cms/hierarchy/enabled</config>
-                    </depends>
-               </hierarchy>
-               <widget_instance translate="title" module="enterprise_cms">
+                <page><disabled>1</disabled></page>
+                <enterprise_page translate="title" module="cms">
+                    <title>Pages</title>
+                    <resource>cms/page</resource>
+                    <children>
+                        <page translate="title" module="enterprise_cms">
+                            <title>Manage Content</title>
+                            <action>adminhtml/cms_page</action>
+                            <sort_order>0</sort_order>
+                            <resource>cms/page</resource>
+                        </page>
+                        <hierarchy translate="title" module="enterprise_cms">
+                            <title>Manage Hierarchy</title>
+                            <sort_order>5</sort_order>
+                            <action>adminhtml/cms_hierarchy</action>
+                            <depends>
+                                <config>cms/hierarchy/enabled</config>
+                            </depends>
+                            <sort_order>10</sort_order>
+                            <resource>cms/hierarchy</resource>
+                       </hierarchy>
+                    </children>
+                </enterprise_page>
+                <widget_instance translate="title" module="enterprise_cms">
                     <title>Widgets</title>
                     <sort_order>15</sort_order>
                     <action>adminhtml/cms_widget_instance</action>
-               </widget_instance>
+                </widget_instance>
             </children>
         </cms>
     </menu>

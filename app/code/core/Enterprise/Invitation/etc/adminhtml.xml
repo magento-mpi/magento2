@@ -74,14 +74,13 @@
                 </children>
             </admin>
         </resources>
-     </acl>
-     <menu>
+    </acl>
+    <menu>
         <customer>
             <children>
                 <enterprise_invitation translate="title" module="enterprise_invitation">
                        <title>Invitations</title>
                        <action>adminhtml/invitation</action>
-                       <resource>customer/enterprise_invitation</resource>
                        <sort_order>30</sort_order>
                        <depends>
                            <module>Enterprise_Invitation</module>
@@ -94,7 +93,6 @@
             <children>
                 <enterprise_invitation translate="title" module="enterprise_invitation">
                        <title>Invitations</title>
-                       <resource>report/enterprise_invitation</resource>
                        <sort_order>30</sort_order>
                        <depends>
                            <module>Enterprise_Invitation</module>

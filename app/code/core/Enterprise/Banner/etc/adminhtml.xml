@@ -33,25 +33,24 @@
                     <title>Banners</title>
                     <action>adminhtml/banner</action>
                     <sort_order>15</sort_order>
-                    <resource>cms/enterprise_banner</resource>
                 </enterprise_banner>
             </children>
          </cms>
     </menu>
     <acl>
-      <resources>
-        <admin>
-          <children>
-            <cms>
+        <resources>
+            <admin>
                 <children>
-                    <enterprise_banner translate="title" module="enterprise_banner">
-                        <title>Banners</title>
-                        <sort_order>15</sort_order>
-                    </enterprise_banner>
-              </children>
-            </cms>
-          </children>
-        </admin>
-      </resources>
+                    <cms>
+                        <children>
+                            <enterprise_banner translate="title" module="enterprise_banner">
+                                <title>Banners</title>
+                                <sort_order>15</sort_order>
+                            </enterprise_banner>
+                        </children>
+                    </cms>
+                </children>
+            </admin>
+        </resources>
     </acl>
 </config>

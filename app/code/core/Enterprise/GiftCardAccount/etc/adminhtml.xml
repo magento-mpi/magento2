@@ -59,7 +59,6 @@
                 <giftcardaccount translate="title" module="enterprise_giftcardaccount">
                     <title>Gift Card Accounts</title>
                     <action>adminhtml/giftcardaccount</action>
-                    <resource>customer/giftcardaccount</resource>
                     <depends><module>Enterprise_GiftCardAccount</module></depends>
                     <sort_order>30</sort_order>
                 </giftcardaccount>
