@@ -62,7 +62,7 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
     /**
      * Init widget instance object and set it to registry
      *
-     * @return Enterprise_Cms_Model_Widget_Instance
+     * @return Enterprise_Cms_Model_Widget_Instance|boolean
      */
     protected function _initWidgetInstance()
     {
@@ -74,8 +74,7 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
             $widgetInstance->load($instanceId);
             if (!$widgetInstance->getId()) {
                 $this->_getSession()->addError(Mage::helper('enterprise_cms')->__('Wrong wigdet instance specified.'));
-                $this->_redirect('*/*/');
-                return;
+                return false;
             }
             $data['type'] = $widgetInstance->getType();
             $data['package_theme'] = $widgetInstance->getPackageTheme();
@@ -83,7 +82,7 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
             $widgetInstance->setType($type)
                 ->setPackageTheme($packageTheme);
         }
-        Mage::register('widget_instance', $widgetInstance);
+        Mage::register('current_widget_instance', $widgetInstance);
         return $widgetInstance;
     }
 
@@ -113,6 +112,10 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
     public function editAction()
     {
         $widgetInstance = $this->_initWidgetInstance();
+        if (!$widgetInstance) {
+            $this->_redirect('*/*/');
+            return;
+        }
         $this->_initAction();
         $this->renderLayout();
     }
@@ -126,10 +129,9 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         $response = new Varien_Object();
         $response->setError(false);
         $widgetInstance = $this->_initWidgetInstance();
-        if (!$widgetInstance->isCompleteToCreate()) {
-            $this->_getSession()->addError(
-                Mage::helper('enterprise_cms')->__('Widget instance is not full complete to create.')
-            );
+        $result = $widgetInstance->validate();
+        if ($result !== true && is_string($result)) {
+            $this->_getSession()->addError($result);
             $this->_initLayoutMessages('adminhtml/session');
             $response->setError(true);
             $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
@@ -144,16 +146,15 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
     public function saveAction()
     {
         $widgetInstance = $this->_initWidgetInstance();
-        $widgetTitle = $this->getRequest()->getPost('title');
-        $storeIds = $this->getRequest()->getPost('store_ids', array(0));
-        $sortOrder = $this->getRequest()->getPost('sort_order', 0);
-        $widgetInstanceData = $this->getRequest()->getPost('widget_instance');
-        $widgetParameters = $this->getRequest()->getPost('parameters');
-        $widgetInstance->setTitle($widgetTitle)
-            ->setStoreIds($storeIds)
-            ->setSortOrder($sortOrder)
-            ->setPageGroups($widgetInstanceData)
-            ->setWidgetParameters($widgetParameters);
+        if (!$widgetInstance) {
+            $this->_redirect('*/*/');
+            return;
+        }
+        $widgetInstance->setTitle($this->getRequest()->getPost('title'))
+            ->setStoreIds($this->getRequest()->getPost('store_ids', array(0)))
+            ->setSortOrder($this->getRequest()->getPost('sort_order', 0))
+            ->setPageGroups($this->getRequest()->getPost('widget_instance'))
+            ->setWidgetParameters($this->getRequest()->getPost('parameters'));
         try {
             $widgetInstance->save();
             $this->_getSession()->addSuccess(
@@ -184,7 +185,7 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
     public function deleteAction()
     {
         $widgetInstance = $this->_initWidgetInstance();
-        if ($widgetInstance->getId()) {
+        if ($widgetInstance) {
             try {
                 $widgetInstance->delete();
                 $this->_getSession()->addSuccess(

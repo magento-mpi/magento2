@@ -88,7 +88,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Settings
      */
     public function getWidgetInstance()
     {
-        return Mage::registry('widget_instance');
+        return Mage::registry('current_widget_instance');
     }
 
     public function setWidgetInstance($widgetInstance)

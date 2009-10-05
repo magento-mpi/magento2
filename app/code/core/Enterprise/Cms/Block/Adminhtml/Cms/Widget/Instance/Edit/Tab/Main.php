@@ -88,7 +88,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Tab_Main
      */
     public function getWidgetInstance()
     {
-        return Mage::registry('widget_instance');
+        return Mage::registry('current_widget_instance');
     }
 
     protected function _prepareForm()

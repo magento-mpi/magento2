@@ -34,16 +34,6 @@
 class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Controller_Action
 {
     /**
-     * Retrieve Cms Hierarchy data helper
-     *
-     * @return Enterprise_Cms_Helper_Hierarchy
-     */
-    protected function _getHelper()
-    {
-        return Mage::helper('enterprise_cms/hierarchy');
-    }
-
-    /**
      * Controller pre dispatch method
      *
      * @return Enterprise_Cms_HierarchyController
@@ -51,7 +41,7 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     public function preDispatch()
     {
         parent::preDispatch();
-        if (!$this->_getHelper()->isEnabled()) {
+        if (!Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
         }
         return $this;

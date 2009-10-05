@@ -54,9 +54,9 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     protected $_widgetConfigXml = null;
 
     /**
-     * Constructor
+     * Internal Constructor
      */
-    public function __construct()
+    public function _construct()
     {
         $this->_init('enterprise_cms/widget_instance');
         $this->_layoutHandles = array(
@@ -137,6 +137,19 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Validate widget instance data
+     *
+     * @return string|boolean
+     */
+    public function validate()
+    {
+        if ($this->isCompleteToCreate()) {
+            return true;
+        }
+        return Mage::helper('enterprise_cms')->__('Widget instance is not full complete to create.');
+    }
+
+    /**
      * Check if widget instance has required data (other data depends on it)
      *
      * @return boolean
@@ -148,62 +161,80 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
 
     /**
      * Setter
-     * Replace '-' to '/', if was passed from request(GET request)
+     * Prepare widget type
      *
      * @param string $type
      * @return Enterprise_Cms_Model_Widget_Instance
      */
     public function setType($type)
     {
-        if (strpos($type, '-')) {
-            $type = str_replace('-', '/', $type);
-        }
         $this->setData('type', $type);
+        $this->_prepareType();
         return $this;
     }
 
     /**
      * Getter
-     * Replace '-' to '/', if was set from request(GET request)
+     * Prepare widget type
      *
      * @return string
      */
     public function getType()
     {
-        if (strpos($this->_getData('type'), '-')) {
-            $this->setData('type', str_replace('-', '/', $this->_getData('type')));
-        }
+        $this->_prepareType();
         return $this->_getData('type');
     }
 
     /**
+     * Replace '-' to '/', if was passed from request(GET request)
+     *
+     * @return Enterprise_Cms_Model_Widget_Instance
+     */
+    protected function _prepareType()
+    {
+        if (strpos($this->_getData('type'), '-') >= 0) {
+            $this->setData('type', str_replace('-', '/', $this->_getData('type')));
+        }
+        return $this;
+    }
+
+    /**
      * Setter
-     * Replace '_' to '/', if was passed from request(GET request)
+     * Prepare widget package theme
      *
      * @param string $packageTheme
      * @return Enterprise_Cms_Model_Widget_Instance
      */
     public function setPackageTheme($packageTheme)
     {
-        if (strpos($packageTheme, '_')) {
-            $packageTheme = str_replace('_', '/', $packageTheme);
-        }
         $this->setData('package_theme', $packageTheme);
+        $this->_preparePackageTheme();
         return $this;
     }
 
     /**
-     * Getter.
-     * Replace '_' to '/', if was set from request(GET request)
+     * Getter
+     * Prepare widget package theme
      *
      * @return string
      */
     public function getPackageTheme()
     {
-        if (strpos($this->_getData('package_theme'), '_')) {
+        $this->_preparePackageTheme();
+        return $this->_getData('package_theme');
+    }
+
+    /**
+     * Replace '_' to '/', if was set from request(GET request)
+     *
+     * @return Enterprise_Cms_Model_Widget_Instance
+     */
+    protected function _preparePackageTheme()
+    {
+        if (strpos($this->_getData('package_theme'), '_') >= 0) {
             $this->setData('package_theme', str_replace('_', '/', $this->_getData('package_theme')));
         }
-        return $this->_getData('package_theme');
+        return $this;
     }
 
     /**
@@ -269,8 +300,8 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function getStoreIds()
     {
-        if (null !== ($storeIds = $this->getData('store_ids')) && is_string($storeIds)) {
-            $this->setData('store_ids', explode(',', $storeIds));
+        if (is_string($this->getData('store_ids'))) {
+            return explode(',', $this->getData('store_ids'));
         }
         return $this->getData('store_ids');
     }
@@ -283,8 +314,8 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
      */
     public function getWidgetParameters()
     {
-        if (($widgetParameters = $this->getData('widget_parameters')) && is_string($widgetParameters)) {
-            $this->setData('widget_parameters', unserialize($widgetParameters));
+        if (is_string($this->getData('widget_parameters'))) {
+            return unserialize($this->getData('widget_parameters'));
         }
         return $this->getData('widget_parameters');
     }
@@ -310,23 +341,27 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     /**
      * Load widget XML config and merge with theme widget config
      *
-     * @return Varien_Simplexml_Element
+     * @return Varien_Simplexml_Element|null
      */
     public function getWidgetConfig()
     {
         if ($this->_widgetConfigXml === null) {
             $this->_widgetConfigXml = Mage::getSingleton('cms/widget')
                 ->getXmlElementByType($this->getType());
-            $configFile = Mage::getSingleton('core/design_package')->getBaseDir(array(
-                '_area'    => $this->getArea(),
-                '_package' => $this->getPackage(),
-                '_theme'   => $this->getTheme(),
-                '_type'    => 'widget'
-            )) . DS . 'config.xml';
-            if (is_readable($configFile)) {
-                $themeConfig = new Varien_Simplexml_Config();
-                $themeConfig->loadFile($configFile);
-                $this->_widgetConfigXml->extend($themeConfig->getNode('widgets/'.$this->_widgetConfigXml->getName()));
+            if ($this->_widgetConfigXml) {
+                $configFile = Mage::getSingleton('core/design_package')->getBaseDir(array(
+                    '_area'    => $this->getArea(),
+                    '_package' => $this->getPackage(),
+                    '_theme'   => $this->getTheme(),
+                    '_type'    => 'widget'
+                )) . DS . 'config.xml';
+                if (is_readable($configFile)) {
+                    $themeWidgetsConfig = new Varien_Simplexml_Config();
+                    $themeWidgetsConfig->loadFile($configFile);
+                    if ($themeWidgetTypeConfig = $themeWidgetsConfig->getNode('widgets/'.$this->_widgetConfigXml->getName())) {
+                        $this->_widgetConfigXml->extend($themeWidgetTypeConfig);
+                    }
+                }
             }
         }
         return $this->_widgetConfigXml;
@@ -340,7 +375,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetTemplates()
     {
         $templates = array();
-        if ($configTemplates = $this->getWidgetConfig()->parameters->template) {
+        if ($this->getWidgetConfig() && ($configTemplates = $this->getWidgetConfig()->parameters->template)) {
             if ($configTemplates->values && $configTemplates->values->children()) {
                 foreach ($configTemplates->values->children() as $name => $template) {
                     $helper = $template->getAttribute('module') ? $template->getAttribute('module') : 'enterprise_cms';
@@ -367,7 +402,7 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     public function getWidgetSupportedBlocks()
     {
         $blocks = array();
-        if ($supportedBlocks = $this->getWidgetConfig()->supported_blocks) {
+        if ($this->getWidgetConfig() && ($supportedBlocks = $this->getWidgetConfig()->supported_blocks)) {
             foreach ($supportedBlocks->children() as $block) {
                 $blocks[] = (string)$block->block_name;
             }
@@ -385,21 +420,25 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     {
         $templates = array();
         $widgetTemplates = $this->getWidgetTemplates();
-        if (!($supportedBlocks = $this->getWidgetConfig()->supported_blocks)) {
-            return $widgetTemplates;
-        }
-        foreach ($supportedBlocks->children() as $block) {
-            if ((string)$block->block_name == $blockReference) {
-                if ($block->template && $block->template->children()) {
-                    foreach ($block->template->children() as $template) {
-                        if (isset($widgetTemplates[(string)$template])) {
-                            $templates[] = $widgetTemplates[(string)$template];
+        if ($this->getWidgetConfig()) {
+            if (!($supportedBlocks = $this->getWidgetConfig()->supported_blocks)) {
+                return $widgetTemplates;
+            }
+            foreach ($supportedBlocks->children() as $block) {
+                if ((string)$block->block_name == $blockReference) {
+                    if ($block->template && $block->template->children()) {
+                        foreach ($block->template->children() as $template) {
+                            if (isset($widgetTemplates[(string)$template])) {
+                                $templates[] = $widgetTemplates[(string)$template];
+                            }
                         }
+                    } else {
+                        $templates[] = $widgetTemplates[(string)$template];
                     }
-                } else {
-                    $templates[] = $widgetTemplates[(string)$template];
                 }
             }
+        } else {
+            return $widgetTemplates;
         }
         return $templates;
     }
@@ -425,17 +464,17 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
             return '';
         }
         $parameters = $this->getWidgetParameters();
-        $xml = '<reference name="'.$blockReference.'">';
+        $xml = '<reference name="' . $blockReference . '">';
         $template = '';
         if (isset($parameters['template'])) {
             unset($parameters['template']);
         }
         if ($templatePath) {
-            $template = ' template="'.$templatePath.'"';
+            $template = ' template="' . $templatePath . '"';
         }
-        $xml .= '<block type="'.$this->getType().'" name="' . Mage::helper('core')->uniqHash() . '"'.$template.'>';
+        $xml .= '<block type="' . $this->getType() . '" name="' . Mage::helper('core')->uniqHash() . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
-            $xml .= '<action method="setData"><name>'.$name.'</name><value>'.Mage::helper('enterprise_cms')->htmlEscape($value).'</value></action>';
+            $xml .= '<action method="setData"><name>' . $name . '</name><value>' . Mage::helper('enterprise_cms')->htmlEscape($value) . '</value></action>';
         }
         $xml .= '</block></reference>';
         return $xml;
