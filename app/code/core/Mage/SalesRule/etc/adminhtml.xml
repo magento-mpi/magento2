@@ -32,7 +32,6 @@
                 <quote translate="title" module="salesrule">
                     <title>Shopping Cart Price Rules</title>
                     <action>adminhtml/promo_quote/</action>
-                    <resource>promo/quote</resource>
                     <depends><module>Mage_Sales</module></depends>
                 </quote>
             </children>

@@ -41,6 +41,7 @@
                             <action>googlebase/items</action>
                         </items>
                     </children>
+                    <sort_order>70</sort_order>
                 </googlebase>
              </children>
         </catalog>

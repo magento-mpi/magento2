@@ -45,6 +45,7 @@
                             <action>adminhtml/tag/index/pending/true</action>
                         </pending>
                     </children>
+                    <sort_order>60</sort_order>
                 </tag>
              </children>
         </catalog>

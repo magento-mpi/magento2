@@ -34,7 +34,6 @@
                 <catalog translate="title" module="catalogrule">
                     <title>Catalog Price Rules</title>
                     <action>adminhtml/promo_catalog/</action>
-                    <resource>promo/catalog</resource>
                     <depends><module>Mage_Catalog</module></depends>
                 </catalog>
             </children>

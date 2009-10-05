@@ -123,12 +123,12 @@ class Mage_Adminhtml_Block_Page_Menu extends Mage_Adminhtml_Block_Template
 
         $parentArr = array();
         $sortOrder = 0;
-        foreach ($parent->children() as $childName=>$child) {
+        foreach ($parent->children() as $childName => $child) {
             if (1 == $child->disabled) {
                 continue;
             }
 
-            $aclResource = 'admin/'.$path.$childName;
+            $aclResource = 'admin/' . ($child->resource ? (string)$child->resource : $path . $childName);
             if (!$this->_checkAcl($aclResource)) {
                 continue;
             }

@@ -30,8 +30,9 @@
         <catalog>
             <children>
                 <search translate="title" module="catalogsearch">
-                    <title>Search</title>
+                    <title>Search Terms</title>
                     <action>adminhtml/catalog_search/</action>
+                    <sort_order>40</sort_order>
                 </search>
             </children>
         </catalog>
@@ -43,7 +44,7 @@
                     <catalog>
                         <children>
                             <search translate="title" module="catalogsearch">
-                                <title>Search</title>
+                                <title>Search Terms</title>
                             </search>
                         </children>
                     </catalog>

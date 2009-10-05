@@ -50,6 +50,7 @@
                             <action>adminhtml/rating/</action>
                         </ratings>
                     </children>
+                    <sort_order>50</sort_order>
                 </reviews_ratings>
             </children>
          </catalog>
