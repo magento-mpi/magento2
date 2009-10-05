@@ -369,20 +369,33 @@ abstract class Mage_Rule_Model_Condition_Abstract
         return $this->getAttributeElement()->getHtml();
     }
 
+    /**
+     * Retrieve Condition Operator element Instance
+     * If the operator value is empty - define first available operator value as default
+     *
+     * @return Varien_Data_Form_Element_Select
+     */
     public function getOperatorElement()
     {
+        $options = $this->getOperatorSelectOptions();
         if (is_null($this->getOperator())) {
-            foreach ($this->getOperatorOption() as $k=>$v) {
-                $this->setOperator($k);
+            foreach ($options as $option) {
+                $this->setOperator($option['value']);
                 break;
             }
         }
-        return $this->getForm()->addField($this->getPrefix().'__'.$this->getId().'__operator', 'select', array(
-            'name'=>'rule['.$this->getPrefix().']['.$this->getId().'][operator]',
-            'values'=>$this->getOperatorSelectOptions(),
-            'value'=>$this->getOperator(),
-            'value_name'=>$this->getOperatorName(),
-        ))->setRenderer(Mage::getBlockSingleton('rule/editable'));
+
+        $elementId   = sprintf('%s__%s__operator', $this->getPrefix(), $this->getId());
+        $elementName = sprintf('rule[%s][%s][operator]', $this->getPrefix(), $this->getId());
+        $element     = $this->getForm()->addField($elementId, 'select', array(
+            'name'          => $elementName,
+            'values'        => $options,
+            'value'         => $this->getOperator(),
+            'value_name'    => $this->getOperatorName(),
+        ));
+        $element->setRenderer(Mage::getBlockSingleton('rule/editable'));
+
+        return $element;
     }
 
     public function getOperatorElementHtml()
