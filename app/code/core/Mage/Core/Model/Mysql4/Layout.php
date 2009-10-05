@@ -51,11 +51,11 @@ class Mage_Core_Model_Mysql4_Layout extends Mage_Core_Model_Mysql4_Abstract
             $select = $readAdapter->select()
                 ->from(array('update'=>$this->getMainTable()), array('xml'))
                 ->join(array('link'=>$this->getTable('core/layout_link')), 'link.layout_update_id=update.layout_update_id', '')
-                ->where('link.store_id=?', $storeId)
+                ->where('link.store_id IN (0, ?)', $storeId)
                 ->where('link.package=?', $package)
                 ->where('link.theme=?', $theme)
                 ->where('update.handle = ?', $handle)
-                ->order('update.sort_order DESC');
+                ->order('update.sort_order ASC');
 
             foreach ($readAdapter->fetchAll($select) as $update) {
                 $updateStr .= $update['xml'];
