@@ -83,22 +83,27 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
         return $this;
     }
 
+    /**
+     * Prepare Catalog Product Collection for attribute SKU in Promo Conditions SKU chooser
+     *
+     * @return Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku
+     */
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel('catalog/product_collection')
             ->setStoreId(0)
-            ->addAttributeToSelect('name')
-            ->addAttributeToFilter('type_id', array('in'=>array(
-                Mage_Catalog_Model_Product_Type::TYPE_SIMPLE,
-                Mage_Catalog_Model_Product_Type::TYPE_CONFIGURABLE,
-                Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE
-            )));
+            ->addAttributeToSelect('name', 'type_id', 'attribute_set_id');
 
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
     }
 
+    /**
+     * Define Cooser Grid Columns and filters
+     *
+     * @return Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku
+     */
     protected function _prepareColumns()
     {
         $this->addColumn('in_products', array(
@@ -116,6 +121,29 @@ class Mage_Adminhtml_Block_Promo_Widget_Chooser_Sku extends Mage_Adminhtml_Block
             'sortable'  => true,
             'width'     => '60px',
             'index'     => 'entity_id'
+        ));
+
+        $this->addColumn('type',
+            array(
+                'header'=> Mage::helper('catalog')->__('Type'),
+                'width' => '60px',
+                'index' => 'type_id',
+                'type'  => 'options',
+                'options' => Mage::getSingleton('catalog/product_type')->getOptionArray(),
+        ));
+
+        $sets = Mage::getResourceModel('eav/entity_attribute_set_collection')
+            ->setEntityTypeFilter(Mage::getModel('catalog/product')->getResource()->getTypeId())
+            ->load()
+            ->toOptionHash();
+
+        $this->addColumn('set_name',
+            array(
+                'header'=> Mage::helper('catalog')->__('Attrib. Set Name'),
+                'width' => '100px',
+                'index' => 'attribute_set_id',
+                'type'  => 'options',
+                'options' => $sets,
         ));
 
         $this->addColumn('chooser_sku', array(
