@@ -143,6 +143,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
     protected function _toHtml()
     {
         $element   = $this->getElement();
+        $element->setValue('');
         /* @var $fieldset Varien_Data_Form_Element_Fieldset */
         $fieldset  = $element->getForm()->getElement($this->getFieldsetId());
         $chooserId = $this->getUniqId();
