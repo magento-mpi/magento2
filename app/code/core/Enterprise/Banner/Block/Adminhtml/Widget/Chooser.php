@@ -31,7 +31,7 @@
  * @package    Enterprise_Banner
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Enterprise_Banner_Block_Widget_Chooser extends Enterprise_Banner_Block_Adminhtml_Banner_Grid
+class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner_Block_Adminhtml_Banner_Grid
 {
     protected $_selectedBanners = array();
 
