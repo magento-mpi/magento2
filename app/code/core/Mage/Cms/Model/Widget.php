@@ -99,7 +99,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
 
         // Save all nodes to object data
         $object->setType($type);
-        $object->setData($xml->asArray());
+        $object->setData($xml->asCanonicalArray());
 
         // Set module for translations etc.
         $module = $object->getData('@/module');

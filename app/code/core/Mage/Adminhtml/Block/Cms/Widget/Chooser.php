@@ -79,7 +79,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
 
         // chooser control buttons
         $buttons = array(
-            'open' => Mage::helper('cms')->__('Choose'),
+            'open'  => Mage::helper('cms')->__('Choose...'),
             'close' => Mage::helper('cms')->__('Close')
         );
         if (isset($configArray['button']) && is_array($configArray['button'])) {
@@ -179,6 +179,4 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
             <label class="widget-option-label" id="'.$chooserId . 'label">'.($this->getLabel() ? $this->getLabel() : Mage::helper('cms')->__('Not Selected')).'</label>
         ';
     }
-
-
 }

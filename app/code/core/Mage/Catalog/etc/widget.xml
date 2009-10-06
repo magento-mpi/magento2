@@ -74,6 +74,11 @@
                 <type>label</type>
                 <helper_block>
                     <type>adminhtml/catalog_product_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Product...</open>
+                        </button>
+                    </data>
                 </helper_block>
                 <sort_order>10</sort_order>
             </id_path>
@@ -118,6 +123,11 @@
                 <type>label</type>
                 <helper_block>
                     <type>adminhtml/catalog_category_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Category...</open>
+                        </button>
+                    </data>
                 </helper_block>
                 <sort_order>10</sort_order>
             </id_path>

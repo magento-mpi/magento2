@@ -37,6 +37,11 @@
                 <type>label</type>
                 <helper_block>
                     <type>adminhtml/cms_page_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Page...</open>
+                        </button>
+                    </data>
                 </helper_block>
                 <sort_order>10</sort_order>
             </href>
@@ -80,7 +85,13 @@
                 <type>label</type>
                 <helper_block>
                     <type>adminhtml/cms_block_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Block...</open>
+                        </button>
+                    </data>
                 </helper_block>
+                <sort_order>20</sort_order>
             </block_id>
             <template translate="label">
                 <label>Template</label>
@@ -93,6 +104,7 @@
                         <label>CMS Static Block Default Template</label>
                     </default>
                 </values>
+                <sort_order>10</sort_order>
             </template>
         </parameters>
     </cms_static_block>
