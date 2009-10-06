@@ -41,7 +41,6 @@ class Enterprise_Cms_Model_Config
             'meta_keywords',
             'meta_description',
             'content',
-            'sort_order',
             'layout_update_xml',
             'custom_theme',
             'custom_root_template',
