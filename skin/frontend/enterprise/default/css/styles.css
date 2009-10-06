@@ -315,6 +315,7 @@ p.error-msg { border-color:#e9581f; background-color:#fff5f3; color:#d91a00; }
 .pager .pages ol,
 .pager .pages li { display:inline; padding:0 2px; }
 .pager .pages .current { font-weight:bold; }
+.pager-only .pages { margin:0; }
 
 /* Sorter */
 .sorter { font-size:11px; margin:0 0 0; padding:3px 20px; background:#f5f5f5 url(../images/bkg_pager.gif) repeat-x 0 0; border-top:1px solid #ddd; color:#333; }
