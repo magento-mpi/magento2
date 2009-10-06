@@ -25,7 +25,7 @@
  */
 /* @var $this Enterprise_Cms_Block_Hierarchy_Pagination */
 ?>
-<div class="pager">
+<div class="pager pager-only">
 <div class="pages">
 <strong><?php echo $this->__('Page:') ?></strong>
 <ol>
@@ -36,11 +36,11 @@
 <?php endif;?>
 
 <?php if ($this->canShowOuter() && $this->canShowFirst()):?>
-    <li><a class="first" title="<?php echo $this->htmlEscape($this->getFirstNode()->getLabel())?>" href="<?php echo $this->getFirstNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getFirstNode())?></a> ...</li>
+    <li><a class="first" title="<?php echo $this->htmlEscape($this->getFirstNode()->getLabel())?>" href="<?php echo $this->getFirstNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getFirstNode())?></a></li>
 <?php endif;?>
 
 <?php if ($this->canShowPreviousJump()):?>
-    <li><a class="previous_jump" title="<?php echo $this->htmlEscape($this->getPreviousJumpNode()->getLabel())?>" href="<?php echo $this->getPreviousJumpNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getPreviousJumpNode())?></a> ...</li>
+    <li><a class="previous_jump" title="<?php echo $this->htmlEscape($this->getPreviousJumpNode()->getLabel())?>" href="<?php echo $this->getPreviousJumpNode()->getUrl()?>">...</a></li>
 <?php endif;?>
 
 <?php foreach ($this->getNodesInRange() as $node):?>
@@ -52,11 +52,11 @@
 <?php endforeach;?>
 
 <?php if ($this->canShowNextJump()):?>
-    <li>... <a class="next_jump" title="<?php echo $this->htmlEscape($this->getNextJumpNode()->getLabel())?>" href="<?php echo $this->getNextJumpNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getNextJumpNode())?></a></li>
+    <li><a class="next_jump" title="<?php echo $this->htmlEscape($this->getNextJumpNode()->getLabel())?>" href="<?php echo $this->getNextJumpNode()->getUrl()?>">...</a></li>
 <?php endif;?>
 
 <?php if ($this->canShowOuter() && $this->canShowLast()):?>
- ... <li><a  class="last" title="<?php echo $this->htmlEscape($this->getLastNode()->getLabel())?>" href="<?php echo $this->getLastNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getLastNode())?></a><li>
+  <li><a class="last" title="<?php echo $this->htmlEscape($this->getLastNode()->getLabel())?>" href="<?php echo $this->getLastNode()->getUrl()?>"><?php echo $this->getNodeLabel($this->getLastNode())?></a><li>
 <?php endif;?>
 
 <?php if ($this->canShowSequence()):?>
