@@ -1194,7 +1194,6 @@ table.mceLayout { width:100% !important; }
 .cms-revision-info table th { font-weight:bold; padding-right:30px; white-space:nowrap; }
 
 /* CMS Hierarchy */
-/*.cms-hierarchy .data .invalid { background-color:#f5d6c7; }*/
 .cms-tree { width:100%; /*height:300px;*/ overflow:auto; }
 .cms-tree .cms_node_root.x-tree-node-expanded .x-tree-node-icon,
 .cms-tree .cms_node_root.x-tree-node-collapsed .x-tree-node-icon { background-image:url(images/cms_tree_icons/cms_node_root.gif); }
