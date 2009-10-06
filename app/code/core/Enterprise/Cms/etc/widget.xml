@@ -37,6 +37,11 @@
                 <type>label</type>
                 <helper_block>
                     <type>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</type>
+                    <data>
+                        <button translate="open">
+                            <open>Select Page or Node...</open>
+                        </button>
+                    </data>
                 </helper_block>
                 <sort_order>10</sort_order>
             </node_id>
