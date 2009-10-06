@@ -41,7 +41,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Template
         } elseif (count($this->getWidgetTemplates()) == 1) {
             $widgetTemplate = current($this->getWidgetTemplates());
             $html = '<input type="hidden" name="template" value="' . $widgetTemplate['value'] . '" />';
-            $html .= '<p class="nm"><small>' . $widgetTemplate['label'] . '</small></p>';
+            $html .= $widgetTemplate['label'];
         } else {
             $html = $this->getLayout()->createBlock('core/html_select')
                 ->setName('template')

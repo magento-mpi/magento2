@@ -1374,6 +1374,13 @@ button.btn-cart span {}
 /* Widgets =============================================================================== */
 .widget { display:inline; }
 
+/* Widget Banner */
+.widget-banner { display:block; width:100%; overflow:hidden; text-align:center; }
+.widget-banner ul { list-style:none !important; float:none !important; display:inline !important; margin:0 !important; padding:0 !important; }
+.widget-banner li { display:block !important; margin:10px 0 !important; padding:0 !important; }
+
+.footer-container .widget-banner { clear:both; width:auto; margin-left:219px; text-align:left; }
+
 /* Widget New Proructs */
 .widget-new-products {}
 

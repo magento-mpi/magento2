@@ -24,11 +24,11 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<div class="block block-banner">
+<div class="widget widget-banner">
     <?php $bannersContent =  $this->getBannersContent() ?>
+    <ul>
     <?php foreach ($bannersContent as $bannerId => $content): ?>
-    <div class="block-content" style="text-align:left">
-        <?php echo $content?>
-    </div>
+        <li><?php echo $content?></li>
     <?php endforeach; ?>
+    </ul>
 </div>

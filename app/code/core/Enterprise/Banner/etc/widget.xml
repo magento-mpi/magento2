@@ -73,7 +73,7 @@
                         <label>One at the time, Shuffle</label>
                     </shuffle>
                 </values>
-            </rotate >
+            </rotate>
             <banner_ids translate="label">
                 <visible>1</visible>
                 <label>Banners</label>
