@@ -199,6 +199,9 @@
                 ? '<?php echo $this->getPageFieldsetLegend()?>'
                 : '<?php echo $this->getNodeFieldsetLegend()?>';
 
+            $('field_menu_visibility').down('td.label > label').innerHTML = hasPageId
+                ? '<?php echo $this->__('Enable Navigation Menu')?>'
+                : '<?php echo $this->__('Enable Navigation Menu for Nested Pages')?>';
 
             // prepare preview link
             var nodeUrlInfo = this.getNodePreviewUrlInfo(node);

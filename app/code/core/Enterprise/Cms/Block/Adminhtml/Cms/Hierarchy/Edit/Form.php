@@ -182,7 +182,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('enterprise_cms')->__('Frame'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_frame',
-            'note'      => Mage::helper('enterprise_cms')->__('How many Links to Neighbour Pages to display'),
+            'note'      => Mage::helper('enterprise_cms')->__('How many Links to display at once'),
         ));
         $pagerFieldset->addField('pager_jump', 'text', array(
             'name'      => 'pager_jump',
@@ -202,6 +202,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
             'onchange'   => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
+            'container_id' => 'field_menu_visibility',
         ));
         $menuFieldset->addField('menu_levels_up', 'text', array(
             'name'      => 'menu_levels_up',
