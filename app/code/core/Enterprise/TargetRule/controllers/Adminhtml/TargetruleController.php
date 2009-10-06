@@ -216,4 +216,14 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
         }
         $this->getResponse()->setBody($html);
     }
+
+    /**
+     * Check is allowed access to targeted product rules management
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('promo/targetrule');
+    }
 }

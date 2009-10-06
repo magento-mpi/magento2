@@ -481,6 +481,10 @@
                     <adminhtml__process__massReindex>blockIndexAction</adminhtml__process__massReindex>
                     <adminhtml__process__reindexProcess>blockIndexAction</adminhtml__process__reindexProcess>
                     <adminhtml__process__reindexAllAction>blockIndexAction</adminhtml__process__reindexAllAction>
+                    
+                    <adminhtml__targetrule__new>blockIndexAction</adminhtml__targetrule__new>
+                    <adminhtml__targetrule__save>blockIndexAction</adminhtml__targetrule__save>
+                    <adminhtml__targetrule__delete>blockIndexAction</adminhtml__targetrule__delete>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
@@ -513,6 +517,8 @@
                     <adminhtml__system_currency>removeManageCurrencyRatesButtons</adminhtml__system_currency>
                     <adminhtml__system_email_template>removeEmailTemplateGridButtons</adminhtml__system_email_template>
                     <adminhtml__system_email_template_edit>removeTransactionalEmailsEditButtons</adminhtml__system_email_template_edit>
+                    <enterprise_targetrule__adminhtml_targetrule>removeTargetRuleGridButtons</enterprise_targetrule__adminhtml_targetrule>
+                    <enterprise_targetrule__adminhtml_targetrule_edit>removeTargetRuleEditButtons</enterprise_targetrule__adminhtml_targetrule_edit>
                 </block_html_before>
             </admingws>
         </enterprise>

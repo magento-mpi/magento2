@@ -642,4 +642,38 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
 
         return $this;
     }
+
+    /**
+     * Remove buttons from TargetRule grid for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeTargetRuleGridButtons($observer)
+    {
+        /* @var $block Enterprise_TargetRule_Block_Adminhtml_Targetrule */
+        $block = $observer->getEvent()->getBlock();
+        if ($block) {
+            $block->removeButton('add');
+        }
+        return $this;
+    }
+
+    /**
+     * Remove buttons from TargetRule Edit/View for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeTargetRuleEditButtons($observer)
+    {
+        /* @var $block Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit */
+        $block = $observer->getEvent()->getBlock();
+        if ($block) {
+            $block->removeButton('save');
+            $block->removeButton('save_and_continue_edit');
+            $block->removeButton('delete');
+        }
+        return $this;
+    }
 }

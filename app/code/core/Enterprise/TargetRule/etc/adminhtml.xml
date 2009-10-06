@@ -38,4 +38,24 @@
             </children>
          </promo>
     </menu>
+    
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <promo>
+                                <children>
+                                    <targetrule translate="title">
+                                        <title>Target Product Rules</title>
+                                    </targetrule>
+                                </children>
+                            </promo>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
 </config>
