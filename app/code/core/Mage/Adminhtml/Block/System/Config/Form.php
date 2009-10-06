@@ -381,7 +381,7 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     }
 
     /**
-     * Retrieve labal for scope
+     * Retrieve label for scope
      *
      * @param Mage_Core_Model_Config_Element $element
      * @return string
