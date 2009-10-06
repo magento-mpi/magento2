@@ -168,7 +168,7 @@ class Mage_Adminhtml_Block_Cms_Widget_Chooser extends Mage_Adminhtml_Block_Templ
             ->setClass('widget-option-chooser')
             ->setLabel($buttons['open'])
             ->setOnclick($chooserId.'.choose()');
-        $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
+        $chooser->setData('after_element_html', '<p>' . $hiddenHtml . $chooseButton->toHtml(). '</p>');
 
         // render label and chooser scripts
         $configJson = Mage::helper('core')->jsonEncode($config->getData());
