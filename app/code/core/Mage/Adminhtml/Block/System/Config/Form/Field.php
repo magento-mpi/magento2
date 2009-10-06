@@ -120,7 +120,7 @@ class Mage_Adminhtml_Block_System_Config_Form_Field
 
         $html.= '<td class="scope-label">';
         if ($element->getScope()) {
-            $html.= '[' . $element->getScopeLabel() . ']';
+            $html .= $element->getScopeLabel();
         }
         $html.= '</td>';
 

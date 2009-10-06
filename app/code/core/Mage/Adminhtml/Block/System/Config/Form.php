@@ -82,12 +82,24 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     protected $_fieldsets = array();
 
     /**
+     * Translated scope labels
+     *
+     * @var array
+     */
+    protected $_scopeLabels = array();
+
+    /**
      * Enter description here...
      *
      */
     public function __construct()
     {
         parent::__construct();
+        $this->_scopeLabels = array(
+            self::SCOPE_DEFAULT  => Mage::helper('adminhtml')->__('[GLOBAL]'),
+            self::SCOPE_WEBSITES => Mage::helper('adminhtml')->__('[WEBSITE]'),
+            self::SCOPE_STORES   => Mage::helper('adminhtml')->__('[STORE VIEW]'),
+        );
     }
 
     /**
@@ -389,11 +401,11 @@ class Mage_Adminhtml_Block_System_Config_Form extends Mage_Adminhtml_Block_Widge
     public function getScopeLabel($element)
     {
         if ($element->show_in_store == 1) {
-            return 'STORE VIEW';
+            return $this->_scopeLabels[self::SCOPE_STORES];
         } elseif ($element->show_in_website == 1) {
-            return 'WEBSITE VIEW';
+            return $this->_scopeLabels[self::SCOPE_WEBSITES];
         }
-        return 'GLOBAL';
+        return $this->_scopeLabels[self::SCOPE_DEFAULT];
     }
 
     /**
