@@ -121,7 +121,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         $fieldset = $form->addFieldset('scopes_fieldset', array(
             'legend' => Mage::helper('enterprise_banner')->__('Store View Specific Content'),
             'class'  => $fieldsetHtmlClass,
-            'table_class' => 'stores-tree',
+            'table_class' => 'form-list stores-tree',
         ));
         $wysiwygConfig->setUseContainer(true);
         foreach (Mage::app()->getWebsites() as $website) {
@@ -149,7 +149,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
                         'label'     => $store->getName(),
                         'onclick'   => "$('{$contentFieldId}').toggle();",
                         'checked'   => $storeContent ? false : true,
-                        'after_element_html' => '<label class="normal" for="' . $form->getHtmlIdPrefix()
+                        'after_element_html' => '<label for="' . $form->getHtmlIdPrefix()
                             . 'store_' . $store->getId() .'_content_use">'
                             . Mage::helper('enterprise_banner')->__('Use Default') . '</label>',
                         'value'     => $store->getId(),

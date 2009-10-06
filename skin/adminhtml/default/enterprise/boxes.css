@@ -428,11 +428,11 @@ button.disabled:hover,
 button.disabled:active { border-color:#777 #505050 #505050 #777; background:#919191 url(images/btn_bg-disabled.gif) 0 0 repeat-x; color:#fff; cursor:default; opacity:.8; -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)"; }
 button.add.disabled span { background-image:url(images/add_btn_icon-disabled.gif); }
 
-button.icon-btn { width:32px!important; }
+button.icon-btn { width:32px !important; }
 button.icon-btn span { text-indent:-999em; display:block; width:16px; padding:0; overflow:hidden; }
 
-.buttons-set { margin:0 0 10px; text-align:right; }
-.buttons-set button { margin-left:5px; }
+.buttons-set { margin:0 0 10px; }
+.buttons-set button { margin-right:5px; }
 
 
 /* SWITCHER
@@ -1006,6 +1006,12 @@ input.downloads { width:6.5em !important; }
 
 /* SYSTEM
 *******************************************************************************/
+.stores-tree td { padding-top:3px !important; padding-bottom:3px !important; }
+.stores-tree td.label label { display:inline; width:auto; padding-right:10px; }
+.stores-tree td.website-label label { font-weight:bold; }
+.stores-tree td.store-group-label label { font-weight:bold; padding-left:15px; }
+.stores-tree td.store-label label { padding-left:30px; }
+.stores-tree .buttons-set { margin:10px 0; }
 
 /* Configuration */
 /*fieldset.config td          { padding-top:5px; padding-bottom:5px; }
