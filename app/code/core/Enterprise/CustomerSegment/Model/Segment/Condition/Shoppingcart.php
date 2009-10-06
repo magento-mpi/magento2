@@ -24,10 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Shopping cart conditions options group
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -35,12 +40,18 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart
         $this->setValue(null);
     }
 
+    /**
+     * Get condition "selectors" for parent block
+     *
+     * @return string
+     */
     public function getNewChildSelectOptions()
     {
+        $modelSuffix = 'enterprise_customersegment/segment_condition_shoppingcart_';
         return array('value' => array(
-                Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_amount')->getNewChildSelectOptions(),
-                Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_itemsquantity')->getNewChildSelectOptions(),
-                Mage::getModel('enterprise_customersegment/segment_condition_shoppingcart_productsquantity')->getNewChildSelectOptions(),
+                Mage::getModel($modelSuffix.'amount')->getNewChildSelectOptions(),
+                Mage::getModel($modelSuffix.'itemsquantity')->getNewChildSelectOptions(),
+                Mage::getModel($modelSuffix.'productsquantity')->getNewChildSelectOptions(),
             ),
             'label' => Mage::helper('enterprise_customersegment')->__('Shopping Cart')
         );

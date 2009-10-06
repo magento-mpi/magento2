@@ -24,10 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Customer conditions options group
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -35,13 +40,20 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
         $this->setValue(null);
     }
 
-    public function getNewChildSelectOptions()    {
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
+    public function getNewChildSelectOptions()
+    {
         $conditions = array();
-        $conditions = Mage::getModel('enterprise_customersegment/segment_condition_customer_attributes')->getNewChildSelectOptions();
-        $conditions = array_merge(
-            $conditions,
-            Mage::getModel('enterprise_customersegment/segment_condition_customer_storecredit')->getNewChildSelectOptions()
+        $suffix = 'enterprise_customersegment/segment_condition_customer_';
+        $conditions = Mage::getModel($suffix.'attributes')->getNewChildSelectOptions();
+        $conditions = array_merge($conditions, Mage::getModel($suffix.'storecredit')->getNewChildSelectOptions());
+        return array(
+            'value' => $conditions,
+            'label'=>Mage::helper('enterprise_customersegment')->__('Customer Attribute')
         );
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Customer Attribute'));;
     }
 }

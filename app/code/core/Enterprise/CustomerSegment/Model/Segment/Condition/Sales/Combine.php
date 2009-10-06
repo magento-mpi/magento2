@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Sales conditions combine
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
@@ -35,6 +38,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
         $this->setType('enterprise_customersegment/segment_condition_sales_combine');
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return array_merge_recursive(parent::getNewChildSelectOptions(), array(
@@ -50,6 +58,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
         ));
     }
 
+    /**
+     * Init attribute select options
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
+     */
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(array(
@@ -59,16 +72,31 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
         return $this;
     }
 
+    /**
+     * Get input type for attribute value.
+     *
+     * @return string
+     */
     public function getValueElementType()
     {
         return 'text';
     }
 
+    /**
+     * Check if validation should be strict
+     *
+     * @return bool
+     */
     protected function _getRequiredValidation()
     {
         return true;
     }
 
+    /**
+     * Get field names map for subfilters
+     *
+     * @return unknown_type
+     */
     protected function _getSubfilterMap()
     {
         return array(

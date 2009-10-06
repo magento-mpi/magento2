@@ -24,10 +24,22 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Customer address attributes selector
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attributes
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * Class constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setType('enterprise_customersegment/segment_condition_customer_address_attributes');
+        $this->setValue(null);
+    }
+
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
@@ -38,13 +50,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         return array('customer_address_save_commit_after');
     }
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_address_attributes');
-        $this->setValue(null);
-    }
-
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
@@ -53,7 +63,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
 
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Address Attributes'));
+        return array(
+            'value' => $conditions,
+            'label'=>Mage::helper('enterprise_customersegment')->__('Address Attributes')
+        );
     }
 
     /**
@@ -76,7 +89,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
 
         asort($attributes);
         $this->setAttributeOption($attributes);
-
         return $this;
     }
 
@@ -119,7 +131,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         return $element;
     }
 
-
+    /**
+     * Get input type for attribute operators.
+     *
+     * @return string
+     */
     public function getInputType()
     {
         switch ($this->getAttribute()) {
@@ -129,6 +145,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         return 'string';
     }
 
+    /**
+     * Get input type for attribute value.
+     *
+     * @return string
+     */
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {
@@ -138,6 +159,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
         return 'text';
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return Mage::helper('enterprise_customersegment')->__('Customer Address %s', parent::asHtml());

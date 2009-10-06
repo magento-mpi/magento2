@@ -24,9 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Orders conditions options group
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -34,6 +40,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales
         $this->setValue(null);
     }
 
+    /**
+     * Get condition "selectors"
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return array(

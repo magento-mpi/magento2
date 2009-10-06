@@ -24,10 +24,21 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Root segment condition (top level condition)
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Combine
 {
+    /**
+     * Class constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setType('enterprise_customersegment/segment_condition_combine_root');
+    }
+
     /**
      * Get array of event names where segment with such conditions combine can be matched
      *
@@ -38,17 +49,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
         return array('customer_login');
     }
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_combine_root');
-    }
-
     /**
      * Prepare filter condition by customer
      *
      * @param int|array|Mage_Customer_Model_Customer|Zend_Db_Select $customer
-     * @param $fieldName
+     * @param string $fieldName
      * @return string
      */
     protected function _createCustomerFilter($customer, $fieldName)
@@ -62,11 +67,17 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
         return $this->getResource()->quoteInto("{$fieldName} IN (?)", $customer);
     }
 
-    protected function _prepareConditionsSql($customer, $website) {
+    /**
+     * Prepare base select with limitation by customer
+     *
+     * @param null | array | int | Mage_Customer_Model_Customer $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
+    protected function _prepareConditionsSql($customer, $website)
+    {
         $select = $this->getResource()->createSelect();
-
         $table = array('root' => $this->getResource()->getTable('customer/entity'));
-
         $select->from($table, array('entity_id'));
         if ($customer) {
             $select->where($this->_createCustomerFilter($customer, 'entity_id'));

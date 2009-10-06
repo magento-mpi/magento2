@@ -24,8 +24,11 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes extends Mage_CatalogRule_Model_Rule_Condition_Product
+/**
+ * Product attribute value condition
+ */
+class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
+    extends Mage_CatalogRule_Model_Rule_Condition_Product
 {
     protected $_isUsedForRuleProperty = 'is_used_for_customer_segment';
 
@@ -36,6 +39,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes exte
         $this->setValue(null);
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
@@ -44,29 +52,60 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes exte
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
 
-        return array('value' => $conditions, 'label' => Mage::helper('enterprise_customersegment')->__('Product Attributes'));
+        return array(
+            'value' => $conditions,
+            'label' => Mage::helper('enterprise_customersegment')->__('Product Attributes')
+        );
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return Mage::helper('enterprise_customersegment')->__('Product %s', parent::asHtml());
     }
 
+    /**
+     * Get product attribute object
+     *
+     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     */
     public function getAttributeObject()
     {
         return Mage::getSingleton('eav/config')->getAttribute('catalog_product', $this->getAttribute());
     }
 
+    /**
+     * Get resource
+     *
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Segment
+     */
     public function getResource()
     {
         return Mage::getResourceSingleton('enterprise_customersegment/segment');
     }
 
+    /**
+     * Get used subfilter type
+     *
+     * @return string
+     */
     public function getSubfilterType()
     {
         return 'product';
     }
 
+    /**
+     * Apply product attribute subfilter to parent/base condition query
+     *
+     * @param string $fieldName base query field name
+     * @param bool $requireValid strict validation flag
+     * @param $website
+     * @return string
+     */
     public function getSubfilterSql($fieldName, $requireValid, $website)
     {
         $attribute = $this->getAttributeObject();

@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Order address condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {

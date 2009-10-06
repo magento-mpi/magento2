@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ *
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
@@ -45,6 +47,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
         return array('sales_order_save_commit_after');
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -54,6 +61,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
             . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Build query for matching ordered items qty
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
@@ -65,7 +79,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
             $result = "IF (AVG(order.total_qty_ordered) {$operator} {$this->getValue()}, 1, 0)";
         }
 
-        $select->from(array('order' => $this->getResource()->getTable('sales/order')), array(new Zend_Db_Expr($result)));
+        $select->from(
+            array('order' => $this->getResource()->getTable('sales/order')),
+            array(new Zend_Db_Expr($result))
+        );
         $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
 
         return $select;

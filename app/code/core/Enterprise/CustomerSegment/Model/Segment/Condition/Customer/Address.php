@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Customer address attributes conditions combine
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
@@ -43,18 +46,20 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
      */
     public function getNewChildSelectOptions()
     {
-        return array_merge_recursive(parent::getNewChildSelectOptions(), array(
+        $suffix = 'enterprise_customersegment/segment_condition_customer_address_';
+        $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
                 'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')
             ),
-            Mage::getModel('enterprise_customersegment/segment_condition_customer_address_default')->getNewChildSelectOptions(),
-            Mage::getModel('enterprise_customersegment/segment_condition_customer_address_attributes')->getNewChildSelectOptions(),
+            Mage::getModel($suffix.'default')->getNewChildSelectOptions(),
+            Mage::getModel($suffix.'attributes')->getNewChildSelectOptions(),
         ));
+        return $result;
     }
 
     /**
-     * Display condiotion HTML row
+     * Get HTML of condition string
      *
      * @return string
      */

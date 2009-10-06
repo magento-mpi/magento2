@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Shopping cart product qty condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsquantity
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
@@ -47,12 +49,22 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
         return array('sales_quote_save_commit_after');
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
             'label' => Mage::helper('enterprise_customersegment')->__('Products Quantity'));
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -61,6 +73,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Productsqu
             . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Get SQL select for matching shopping cart products count
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     public function getConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('sales/quote');

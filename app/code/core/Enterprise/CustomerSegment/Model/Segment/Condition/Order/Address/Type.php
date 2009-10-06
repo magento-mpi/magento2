@@ -23,11 +23,17 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+/**
+ * Order address type condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     protected $_inputType = 'select';
 
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -45,6 +51,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
         return array('sales_order_save_commit_after');
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return array(
@@ -53,6 +64,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
         );
     }
 
+    /**
+     * Initialize value select options
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
+     */
     public function loadValueOptions()
     {
         $this->setValueOption(array(
@@ -62,11 +78,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
         return $this;
     }
 
+    /**
+     * Get input type for attribute value.
+     *
+     * @return string
+     */
     public function getValueElementType()
     {
         return 'select';
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -74,11 +100,24 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Type
                 $this->getOperatorElementHtml(), $this->getValueElement()->getHtml()) . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Get type of allowed subfilter
+     *
+     * @return string
+     */
     public function getSubfilterType()
     {
         return 'order_address_type';
     }
 
+    /**
+     * Apply address type subfilter to parent/base condition query
+     *
+     * @param string $fieldName base query field name
+     * @param bool $requireValid strict validation flag
+     * @param $website
+     * @return string
+     */
     public function getSubfilterSql($fieldName, $requireValid, $website)
     {
         $operator = (($this->getOperator() == '==') == $requireValid);

@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Shopping cart/wishlist items condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
@@ -36,6 +39,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_product_combine_list');
+        $this->setValue(self::CART);
     }
 
     /**
@@ -56,11 +60,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
         return $events;
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
-        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')->setDateConditions(true)->getNewChildSelectOptions();
+        return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')
+            ->setDateConditions(true)
+            ->getNewChildSelectOptions();
     }
 
+    /**
+     * Initialize value select options
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
+     */
     public function loadValueOptions()
     {
         $this->setValueOption(array(
@@ -70,11 +86,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
         return $this;
     }
 
+    /**
+     * Get input type for attribute value.
+     *
+     * @return string
+     */
     public function getValueElementType()
     {
         return 'select';
     }
 
+    /**
+     * Prepare operator select options
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
+     */
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
@@ -85,6 +111,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
         return $this;
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -93,6 +124,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
             . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Build query for matching shopping cart/wishlist items
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
@@ -135,11 +173,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
         return $select;
     }
 
+    /**
+     * Check if validation should be strict
+     *
+     * @return bool
+     */
     protected function _getRequiredValidation()
     {
         return ($this->getOperator() == '==');
     }
 
+    /**
+     * Get field names map for subfilter conditions
+     *
+     * @return array
+     */
     protected function _getSubfilterMap()
     {
         switch ($this->getValue()) {

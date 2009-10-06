@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Segment conditions container
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
@@ -40,11 +42,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine
     }
 
     /**
-     * Return options for check new condition element
+     * Get inherited conditions selectors
      *
      * @return array
      */
-    public function getNewChildSelectOptions()
+        public function getNewChildSelectOptions()
     {
         $conditions = array(
             array( // subconditions combo

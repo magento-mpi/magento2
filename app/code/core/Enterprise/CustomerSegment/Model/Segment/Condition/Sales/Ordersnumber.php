@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Order numbers condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
@@ -57,6 +59,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
         return $this;
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -66,15 +73,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Ordersnumber
             . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Build query for matching orders count
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $result = "IF (COUNT(*) {$operator} {$this->getValue()}, 1, 0)";
-
-        $select->from(array('order' => $this->getResource()->getTable('sales/order')), array(new Zend_Db_Expr($result)));
+        $select->from(
+            array('order' => $this->getResource()->getTable('sales/order')),
+            array(new Zend_Db_Expr($result))
+        );
         $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
 
         return $select;

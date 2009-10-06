@@ -124,7 +124,7 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
      *
      * @param $customer
      * @param $website
-     * @return unknown_type
+     * @return Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
     {

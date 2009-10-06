@@ -57,7 +57,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
     }
 
     /**
-     * Inherited hierarchy getter
+     * Inherited hierarchy options getter
      *
      * @return array
      */
@@ -140,11 +140,24 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
             . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }
 
+    /**
+     * Get condition subfilter type. Can be used in parent level queries
+     *
+     * @return string
+     */
     public function getSubfilterType()
     {
         return 'date';
     }
 
+    /**
+     * Apply date subfilter to parent/base condition query
+     *
+     * @param string $fieldName base query field name
+     * @param bool $requireValid strict validation flag
+     * @param $website
+     * @return string
+     */
     public function getSubfilterSql($fieldName, $requireValid, $website)
     {
         $value = explode('...', $this->getValue());
@@ -165,7 +178,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Daterange
         }
 
         $inOperator = (($requireValid && $this->getOperator() == '==') ? 'BETWEEN' : 'NOT BETWEEN');
-
         return sprintf("%s %s '%s' AND '%s'", $fieldName, $inOperator, $start, $end);
     }
 }

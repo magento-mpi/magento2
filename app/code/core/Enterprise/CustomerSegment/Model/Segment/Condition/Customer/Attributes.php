@@ -24,10 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Customer attributes condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -45,6 +50,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return array('customer_save_commit_after');
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
@@ -118,7 +128,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     }
 
     /**
-     * Retrieve input type
+     * Get input type for attribute operators.
      *
      * @return string
      */
@@ -127,28 +137,22 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         if ($this->_isCurrentAttributeDefaultAddress()) {
             return 'select';
         }
-
         if (!is_object($this->getAttributeObject())) {
             return 'string';
         }
-
-        switch ($this->getAttributeObject()->getFrontendInput()) {
+        $input = $this->getAttributeObject()->getFrontendInput();
+        switch ($input) {
             case 'select':
-                return 'select';
-
             case 'multiselect':
-                return 'multiselect';
-
             case 'date':
-                return 'date';
-
+                return $input;
             default:
                 return 'string';
         }
     }
 
     /**
-     * Retrieve value element type
+     * Get attribute value input element type
      *
      * @return string
      */
@@ -157,21 +161,15 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         if ($this->_isCurrentAttributeDefaultAddress()) {
             return 'select';
         }
-
         if (!is_object($this->getAttributeObject())) {
             return 'text';
         }
-
-        switch ($this->getAttributeObject()->getFrontendInput()) {
+        $input = $this->getAttributeObject()->getFrontendInput();
+        switch ($input) {
             case 'select':
-                return 'select';
-
             case 'multiselect':
-                return 'multiselect';
-
             case 'date':
-                return 'date';
-
+                return $input;
             default:
                 return 'text';
         }
@@ -196,7 +194,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     }
 
     /**
-     * Retrieve Explicit Apply
+     * Chechk if attribute value should be explicit
      *
      * @return bool
      */
@@ -223,26 +221,46 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         return $element;
     }
 
+    /**
+     * Get attribute operator html
+     *
+     * @return string
+     */
     public function getOperatorElementHtml()
     {
         if ($this->_isCurrentAttributeDefaultAddress()) {
             return '';
         }
-
         return parent::getOperatorElementHtml();
     }
 
+    /**
+     * Check if current condition attribute is default billing or shipping address
+     *
+     * @return bool
+     */
     protected function _isCurrentAttributeDefaultAddress()
     {
-        return $this->getAttributeObject()->getAttributeCode() == 'default_billing' ||
-        $this->getAttributeObject()->getAttributeCode() == 'default_shipping';
+        $code = $this->getAttributeObject()->getAttributeCode();
+        return $code == 'default_billing' || $code == 'default_shipping';
     }
 
+    /**
+     * Get options for customer default address attributes value select
+     *
+     * @return array
+     */
     protected function _getOptionsForAttributeDefaultAddress()
     {
         return array(
-            array('value' => 'is_exists', 'label' => Mage::helper('enterprise_customersegment')->__('exists')),
-            array('value' => 'is_not_exists', 'label' => Mage::helper('enterprise_customersegment')->__('does not exist')),
+            array(
+                'value' => 'is_exists',
+                'label' => Mage::helper('enterprise_customersegment')->__('exists')
+            ),
+            array(
+                'value' => 'is_not_exists',
+                'label' => Mage::helper('enterprise_customersegment')->__('does not exist')
+            ),
         );
     }
 
@@ -296,7 +314,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
             $select->$joinFunction(array('address'=>$addressTable), 'address.entity_id = main.value', array());
             $select->where('main.attribute_id = ?', $attribute->getId());
         }
-
         return $select;
     }
 }

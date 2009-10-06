@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Orders amount condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
     extends Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Combine
 {
@@ -45,6 +47,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
         return array('sales_order_save_commit_after');
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -54,6 +61,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
             . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Build query for matching orders amount
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
@@ -65,7 +79,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Salesamount
             $result = "IF (IF(AVG(order.base_grand_total), AVG(order.base_grand_total), 0) {$operator} {$this->getValue()}, 1, 0)";
         }
 
-        $select->from(array('order' => $this->getResource()->getTable('sales/order')), array(new Zend_Db_Expr($result)));
+        $select->from(
+            array('order' => $this->getResource()->getTable('sales/order')),
+            array(new Zend_Db_Expr($result))
+        );
         $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
 
         return $select;

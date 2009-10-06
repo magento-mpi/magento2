@@ -24,10 +24,15 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Order address attribute condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attributes
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -45,6 +50,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         return array('sales_order_save_commit_after');
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
@@ -53,7 +63,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
 
-        return array('value' => $conditions, 'label'=>Mage::helper('enterprise_customersegment')->__('Order Address Attributes'));
+        return array(
+            'value' => $conditions,
+            'label'=>Mage::helper('enterprise_customersegment')->__('Order Address Attributes')
+        );
     }
 
     /**
@@ -69,7 +82,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
 
         $attributes = array();
         foreach ($productAttributes as $attribute) {
-            if (/*$attribute->getIsUsedForCustomerSegment()*/$attribute->getFrontendLabel()) {
+            if ($attribute->getFrontendLabel()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
             }
         }
@@ -119,7 +132,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         return $element;
     }
 
-
+    /**
+     * Get input type for attribute operators.
+     *
+     * @return string
+     */
     public function getInputType()
     {
         switch ($this->getAttribute()) {
@@ -129,6 +146,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Attribute
         return 'string';
     }
 
+    /**
+     * Get input type for attribute value.
+     *
+     * @return string
+     */
     public function getValueElementType()
     {
         switch ($this->getAttribute()) {

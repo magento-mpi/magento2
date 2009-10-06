@@ -24,9 +24,10 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
-class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
-    extends Enterprise_CustomerSegment_Model_Condition_Abstract
+/**
+ * Period "Last N Days" condition class
+ */
+class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     protected $_inputType = 'select';
 
@@ -42,6 +43,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
         $this->setValue(null);
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return array(
@@ -50,11 +56,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
         );
     }
 
+    /**
+     * Get element input value type
+     *
+     * @return string
+     */
     public function getValueElementType()
     {
         return 'text';
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -63,11 +79,24 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate
             . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Get condition subfilter type. Can be used in parent level queries
+     *
+     * @return string
+     */
     public function getSubfilterType()
     {
         return 'date';
     }
 
+    /**
+     * Apply date subfilter to parent/base condition query
+     *
+     * @param string $fieldName base query field name
+     * @param bool $requireValid strict validation flag
+     * @param $website
+     * @return string
+     */
     public function getSubfilterSql($fieldName, $requireValid, $website)
     {
         $value = $this->getValue();

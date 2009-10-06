@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Shopping cart totals amount condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {

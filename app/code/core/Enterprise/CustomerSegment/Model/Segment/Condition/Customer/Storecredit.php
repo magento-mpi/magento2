@@ -24,12 +24,17 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Customer store credit condition
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     protected $_inputType = 'numeric';
 
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -47,20 +52,38 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
         return array('customer_balance_save_commit_after');
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return array(array('value' => $this->getType(),
             'label'=>Mage::helper('enterprise_customersegment')->__('Store Credit')));
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
+        $operator = $this->getOperatorElementHtml();
+        $element = $this->getValueElementHtml();
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Customer Store Credit Amount %s %s:',
-                $this->getOperatorElementHtml(), $this->getValueElementHtml())
-            . $this->getRemoveLinkHtml();
+            .Mage::helper('enterprise_customersegment')->__('Customer Store Credit Amount %s %s:', $operator, $element)
+            .$this->getRemoveLinkHtml();
     }
 
+    /**
+     * Get condition query for customer balance
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     public function getConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('enterprise_customerbalance/balance');
@@ -70,7 +93,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
         $select->from($table, array(new Zend_Db_Expr(1)))
             ->limit(1);
         $select->where($this->_createCustomerFilter($customer, 'customer_id'));
-
         $select->where("amount {$operator} ?", $this->getValue());
 
         return $select;

@@ -24,7 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Product attributes condition combine
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
@@ -34,6 +36,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         $this->setType('enterprise_customersegment/segment_condition_product_combine');
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         $children = array_merge_recursive(
@@ -71,17 +78,37 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         return $children;
     }
 
+    /**
+     * Combine not present his own SQL condition
+     *
+     * @param $customer
+     * @param $website
+     * @return false
+     */
     public function getConditionsSql($customer, $website)
     {
         return false;
     }
 
+    /**
+     * Get combine subfilter type
+     *
+     * @return string
+     */
     public function getSubfilterType()
     {
         return 'product';
     }
 
-    public function getSubfilterSql($fieldName, $requireValid, $website)
+    /**
+     * Apply product attribute subfilter to parent/base condition query
+     *
+     * @param string $fieldName base query field name
+     * @param bool $requireValid strict validation flag
+     * @param $website
+     * @return string
+     */
+        public function getSubfilterSql($fieldName, $requireValid, $website)
     {
         $table = $this->getResource()->getTable('catalog/product');
 
@@ -95,24 +122,20 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine
         }
 
         $gotConditions = false;
-
         foreach ($this->getConditions() as $condition) {
             if ($condition->getSubfilterType() == 'product') {
                 $subfilter = $condition->getSubfilterSql('product.entity_id', ($this->getValue() == 1), $website);
-
                 if ($subfilter) {
                     $select->$whereFunction($subfilter);
                     $gotConditions = true;
                 }
             }
         }
-
         if (!$gotConditions) {
             $select->where('1=1');
         }
 
         $inOperator = ($requireValid ? 'IN' : 'NOT IN');
-
         return sprintf("%s %s (%s)", $fieldName, $inOperator, $select);
     }
 }

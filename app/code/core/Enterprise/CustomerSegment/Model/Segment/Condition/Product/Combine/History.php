@@ -24,6 +24,9 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Last viewed/orderd items conditions combine
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
@@ -36,6 +39,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_product_combine_history');
+        $this->setValue(self::VIEWED);
     }
 
     /**
@@ -56,7 +60,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
         return $events;
     }
 
-
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return Mage::getModel('enterprise_customersegment/segment_condition_product_combine')
@@ -64,6 +72,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             ->getNewChildSelectOptions();
     }
 
+    /**
+     * Initialize value select options
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
+     */
     public function loadValueOptions()
     {
         $this->setValueOption(array(
@@ -73,11 +86,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
         return $this;
     }
 
+    /**
+     * Get input type for attribute value.
+     *
+     * @return string
+     */
     public function getValueElementType()
     {
         return 'select';
     }
 
+    /**
+     * Prepare operator select options
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
+     */
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
@@ -88,6 +111,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
         return $this;
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -96,6 +124,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
             . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Build query for matching last viewed/orderd items
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
@@ -132,11 +167,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
         return $select;
     }
 
+    /**
+     * Check if validation should be strict
+     *
+     * @return bool
+     */
     protected function _getRequiredValidation()
     {
         return ($this->getOperator() == '==');
     }
 
+    /**
+     * Get field names map for subfilter conditions
+     *
+     * @return array
+     */
     protected function _getSubfilterMap()
     {
         switch ($this->getValue()) {

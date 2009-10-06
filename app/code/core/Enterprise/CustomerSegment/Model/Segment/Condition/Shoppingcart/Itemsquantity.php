@@ -47,12 +47,22 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
         return array('sales_quote_save_commit_after');
     }
 
+    /**
+     * Get inherited conditions selectors
+     *
+     * @return array
+     */
     public function getNewChildSelectOptions()
     {
         return array('value' => $this->getType(),
             'label' => Mage::helper('enterprise_customersegment')->__('Number of Cart Line Items'));
     }
 
+    /**
+     * Get HTML of condition string
+     *
+     * @return string
+     */
     public function asHtml()
     {
         return $this->getTypeElementHtml()
@@ -61,6 +71,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
             . $this->getRemoveLinkHtml();
     }
 
+    /**
+     * Get SQL select for matching shopping cart items count
+     *
+     * @param $customer
+     * @param $website
+     * @return Varien_Db_Select
+     */
     public function getConditionsSql($customer, $website)
     {
         $table = $this->getResource()->getTable('sales/quote');

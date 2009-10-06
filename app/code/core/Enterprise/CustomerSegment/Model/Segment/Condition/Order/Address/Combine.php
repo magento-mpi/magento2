@@ -24,14 +24,14 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
-
+/**
+ * Order address attribute conditions combine
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Combine
     extends Enterprise_CustomerSegment_Model_Condition_Combine_Abstract
 {
     /**
      * Intialize model
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -40,21 +40,28 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address_Combine
     }
 
     /**
-     * Return options for check new condition elemtnt
+     * Get inherited conditions selectors
      *
      * @return array
      */
     public function getNewChildSelectOptions()
     {
-        return array_merge_recursive(parent::getNewChildSelectOptions(), array(
+        $suffix = 'enterprise_customersegment/segment_condition_order_address_';
+        $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
                 'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')),
-            Mage::getModel('enterprise_customersegment/segment_condition_order_address_type')->getNewChildSelectOptions(),
-            Mage::getModel('enterprise_customersegment/segment_condition_order_address_attributes')->getNewChildSelectOptions(),
+            Mage::getModel($suffix.'type')->getNewChildSelectOptions(),
+            Mage::getModel($suffix.'attributes')->getNewChildSelectOptions(),
         ));
+        return $result;
     }
 
+    /**
+     * Subfilters fields names map
+     *
+     * @return array
+     */
     protected function _getSubfilterMap()
     {
         return array(

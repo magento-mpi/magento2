@@ -23,16 +23,23 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+
+/**
+ * Customer address type selector
+ */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Default
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     protected $_inputType = 'select';
 
+    /**
+     * Class constructor
+     */
     public function __construct()
     {
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_customer_address_default');
-        $this->setValue('primary_billing');
+        $this->setValue('default_billing');
     }
 
     /**
@@ -46,11 +53,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     }
 
     /**
-     * Get condition "selector" for parent block
+     * Get inherited conditions selectors
      *
-     * @return string
+     * @return array
      */
-    public function getNewChildSelectOptions()
+        public function getNewChildSelectOptions()
     {
         return array(
             'value' => $this->getType(),
