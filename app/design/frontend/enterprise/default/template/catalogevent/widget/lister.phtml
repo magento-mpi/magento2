@@ -30,6 +30,7 @@
  * @see Enterprise_CatalogEvent_Block_Event_Lister
  */
 ?>
+<div class="widget widget-events">
 <div id="<?php echo $this->getHtmlId(); ?>" class="events-slider"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
 <div class="slide-button backward">&laquo;</div>
 <div class="slider-panel"<?php if ($this->hasWidth()): ?> style="width:<?php echo (int)$this->getWidth()?>px !important;" <?php endif;?>>
@@ -110,3 +111,4 @@
 new Enterprise.Slider('<?php echo $this->getHtmlId(); ?>', {pageSize: <?php echo $this->getPageSize(); ?>, scrollSize: <?php echo $this->getScrollSize() ?>});
 //]]>
 </script>
+</div>

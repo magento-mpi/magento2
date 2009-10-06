@@ -89,6 +89,12 @@
             <template>
                 <required>1</required>
                 <value>banner/widget.phtml</value>
+                <values>
+                    <default translate="label">
+                        <value>banner/widget.phtml</value>
+                        <label>Banner Default Template</label>
+                    </default>
+                </values>
             </template>
             <unique_id>
                 <required>1</required>

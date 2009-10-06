@@ -1391,6 +1391,12 @@ button.btn-cart span {}
 /* Widget Compared Proructs */
 .widget-compared {}
 
+/* Widget CMS Static Block */
+.widget-static-block {}
+
+/* Widget Catalog Events Carousel */
+.widget-events {}
+
 /* Widget Product Link */
 .widget-product-link-inline { display:inline; }
 
@@ -1484,10 +1490,8 @@ button.btn-cart span {}
 .footer-container .widget-cms-hierarchy-link { display:block; clear:both; text-align:right; padding:0 0 7px; background:#fff; }
 .footer-container .widget-cms-hierarchy-link a { /*font-weight:bold;*/ font-size:12px; background:url(../images/bkg_widget-link.gif) 100% 4px no-repeat; padding:0 15px 0 0; color:#333; text-decoration:underline; }
 .footer-container .widget-cms-hierarchy-link a:hover { color:#333; text-decoration:none; }
-
-/* Widget CMS Static Block */
-.widget-static-block {}
 /* ======================================================================================= */
+
 
 /* Content Styles ================================================================= */
 .product-name { font-size:12px; font-weight:bold; color:#333; }
