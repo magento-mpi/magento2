@@ -71,10 +71,10 @@
                 <visible>1</visible>
                 <required>1</required>
                 <label>Product</label>
-                <type>
-                    <element_type>label</element_type>
-                    <element_helper>adminhtml/catalog_product_widget_chooser</element_helper>
-                </type>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/catalog_product_widget_chooser</type>
+                </helper_block>
                 <sort_order>10</sort_order>
             </id_path>
             <anchor_text translate="label description">
@@ -115,10 +115,10 @@
                 <visible>1</visible>
                 <required>1</required>
                 <label>Category</label>
-                <type>
-                    <element_type>label</element_type>
-                    <element_helper>adminhtml/catalog_category_widget_chooser</element_helper>
-                </type>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/catalog_category_widget_chooser</type>
+                </helper_block>
                 <sort_order>10</sort_order>
             </id_path>
             <anchor_text translate="label desctiption">

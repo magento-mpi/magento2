@@ -44,7 +44,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
         if ($cachedXml) {
             $xmlConfig = new Varien_Simplexml_Config($cachedXml);
         } else {
-            $config = new Varien_Simplexml_Config;
+            $config = new Varien_Simplexml_Config();
             $config->loadString('<?xml version="1.0"?><widgets></widgets>');
             Mage::getConfig()->loadModulesConfiguration('widget.xml', $config);
             $xmlConfig = $config;
@@ -64,7 +64,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
      */
     public function getXmlElementByType($type)
     {
-        $elements = $this->getXmlConfig()->getNode()->xpath('*[@type="' . $type . '"]');
+        $elements = $this->getXmlConfig()->getXpath('*[@type="' . $type . '"]');
         if (is_array($elements) && isset($elements[0]) && $elements[0] instanceof Varien_Simplexml_Element) {
             return $elements[0];
         }
@@ -90,7 +90,6 @@ class Mage_Cms_Model_Widget extends Varien_Object
      */
     public function getConfigAsObject($type)
     {
-
         $xml = $this->getConfigAsXml($type);
 
         $object = new Varien_Object();
@@ -129,6 +128,18 @@ class Mage_Cms_Model_Widget extends Varien_Object
                     }
                     $data['values'] = $values;
 
+                    // prepare helper block object
+                    if (isset($data['helper_block'])) {
+                        $helper = new Varien_Object();
+                        if (isset($data['helper_block']['data']) && is_array($data['helper_block']['data'])) {
+                            $helper->addData($data['helper_block']['data']);
+                        }
+                        if (isset($data['helper_block']['type'])) {
+                            $helper->setType($data['helper_block']['type']);
+                        }
+                        $data['helper_block'] = $helper;
+                    }
+
                     $newParams[$key] = new Varien_Object($data);
                     $sortOrder++;
                 }
@@ -147,7 +158,7 @@ class Mage_Cms_Model_Widget extends Varien_Object
      */
     public function getWidgetsXml()
     {
-        return $this->getXmlConfig()->getNode()->children();
+        return $this->getXmlConfig()->getNode();
     }
 
     /**

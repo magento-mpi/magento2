@@ -1,4 +1,4 @@
-<?php
+    <?php
 /**
  * Magento
  *
@@ -157,19 +157,11 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
 
         // prepare field type and renderers
         $fieldRenderer = 'adminhtml/cms_widget_options_renderer_element';
-        $fieldChooserRenderer = false;
         $fieldType = $parameter->getType();
 
         // hidden element
         if (!$parameter->getVisible()) {
             $fieldType = 'hidden';
-        }
-        // element of specified type with a chooser
-        elseif (is_array($fieldType)) {
-            if (isset($fieldType['element_helper'])) {
-                $fieldChooserRenderer = $this->getLayout()->getBlockSingleton($fieldType['element_helper']);
-            }
-            $fieldType = isset($fieldType['element_type']) ? $fieldType['element_type'] : $this->_defaultElementType;
         }
         // just an element renderer
         elseif (false !== strpos($fieldType, '/')) {
@@ -177,14 +169,19 @@ class Mage_Adminhtml_Block_Cms_Widget_Options extends Mage_Adminhtml_Block_Widge
             $fieldRenderer = $fieldType;
         }
 
-        // instantiate field and prepare extra html
+        // instantiate field and render html
         $field = $fieldset->addField('option_' . $fieldName, $fieldType, $data)
             ->setRenderer($this->getLayout()->createBlock($fieldRenderer));
-        if ($fieldChooserRenderer) {
-            $fieldChooserRenderer->setFieldsetId($fieldset->getId())
-                ->setTranslationHelper($this->_translationHelper)
-                ->setConfig($parameter->getType())
-                ->prepareElementHtml($field);
+
+        // extra html preparations
+        if ($helper = $parameter->getHelperBlock()) {
+            $helperBlock = $this->getLayout()->createBlock($helper->getType(), '', $helper->getData());
+            if ($helperBlock instanceof Varien_Object) {
+                $helperBlock->setConfig($helper->getData())
+                    ->setFieldsetId($fieldset->getId())
+                    ->setTranslationHelper($this->_translationHelper)
+                    ->prepareElementHtml($field);
+            }
         }
 
         return $field;

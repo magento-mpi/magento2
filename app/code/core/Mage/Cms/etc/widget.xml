@@ -28,16 +28,16 @@
 <widgets>
     <cms_page_link type="cms/widget_page_link" translate="name description" module="cms">
         <name>CMS Page Link</name>
-        <description type="desc">Link to a CMS Page</description>
+        <description>Link to a CMS Page</description>
         <parameters>
             <href type="complex" translate="label">
                 <visible>1</visible>
                 <required>1</required>
                 <label>CMS Page</label>
-                <type>
-                    <element_type>label</element_type>
-                    <element_helper>adminhtml/cms_page_widget_chooser</element_helper>
-                </type>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/cms_page_widget_chooser</type>
+                </helper_block>
                 <sort_order>10</sort_order>
             </href>
             <anchor_text translate="label description">
@@ -71,16 +71,16 @@
     </cms_page_link>
     <cms_static_block type="cms/widget_block" translate="name description" module="cms">
         <name>CMS Static Block</name>
-        <description type="desc">Contents of a Static Block</description>
+        <description>Contents of a Static Block</description>
         <parameters>
             <block_id type="complex" translate="label">
                 <visible>1</visible>
                 <required>1</required>
                 <label>Block</label>
-                <type>
-                    <element_type>label</element_type>
-                    <element_helper>adminhtml/cms_block_widget_chooser</element_helper>
-                </type>
+                <type>label</type>
+                <helper_block>
+                    <type>adminhtml/cms_block_widget_chooser</type>
+                </helper_block>
             </block_id>
             <template translate="label">
                 <label>Template</label>
