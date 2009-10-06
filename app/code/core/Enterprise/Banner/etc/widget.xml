@@ -77,10 +77,10 @@
             <banner_ids translate="label">
                 <visible>1</visible>
                 <label>Banners</label>
-                <type>
-                    <element_type>label</element_type>
-                    <element_helper>enterprise_banner/adminhtml_widget_chooser</element_helper>
-                </type>
+                <type>label</type>
+                <helper_block>
+                    <type>enterprise_banner/adminhtml_widget_chooser</type>
+                </helper_block>
                 <depends>
                     <field>display_mode</field>
                     <value>fixed</value>

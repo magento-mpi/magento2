@@ -34,10 +34,10 @@
                 <label>Node</label>
                 <visible>1</visible>
                 <required>1</required>
-                <type>
-                    <element_type>label</element_type>
-                    <element_helper>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</element_helper>
-                </type>
+                <type>label</type>
+                <helper_block>
+                    <type>enterprise_cms/adminhtml_cms_hierarchy_widget_chooser</type>
+                </helper_block>
                 <sort_order>10</sort_order>
             </node_id>
             <anchor_text translate="label description">
