@@ -405,9 +405,9 @@ var WidgetInstance = {
                         try {
                             if (transport.responseText) {
                                 Element.insert(containerElm, transport.responseText);
-                                selectElm = containerElm.down('select');
-                                if (selectElm) {
-                                    selectElm.name = element.down('input.container_name').value+'['+selectElm.name+']';
+                                formElm = containerElm.down('select, input[type="hidden"]');
+                                if (formElm) {
+                                    formElm.name = element.down('input.container_name').value+'['+formElm.name+']';
                                 }
                             }
                         } catch (e) {

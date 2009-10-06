@@ -37,7 +37,11 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Template
     protected function _toHtml()
     {
         if (!$this->getWidgetTemplates()) {
-            $html = '<p class="nm"><small>'.Mage::helper('enterprise_cms')->__('Please Select Block Reference First').'</small></p>';
+            $html = '<p class="nm"><small>' . Mage::helper('enterprise_cms')->__('Please Select Block Reference First') . '</small></p>';
+        } elseif (count($this->getWidgetTemplates()) == 1) {
+            $widgetTemplate = current($this->getWidgetTemplates());
+            $html = '<input type="hidden" name="template" value="' . $widgetTemplate['value'] . '" />';
+            $html .= '<p class="nm"><small>' . $widgetTemplate['label'] . '</small></p>';
         } else {
             $html = $this->getLayout()->createBlock('core/html_select')
                 ->setName('template')
