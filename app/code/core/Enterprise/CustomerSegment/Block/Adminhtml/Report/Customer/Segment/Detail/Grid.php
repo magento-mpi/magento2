@@ -34,6 +34,22 @@
 class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid
     extends Mage_Adminhtml_Block_Widget_Grid
 {
+    /**
+     * Initialize grid parameters
+     *
+     * @param array $attributes
+     */
+    public function __construct($attributes = array())
+    {
+        parent::__construct($attributes);
+        $this->setId('segmentGrid')->setUseAjax(true);
+    }
+
+    /**
+     * Instanitate collection and set required data joins
+     *
+     * @return Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_Grid
+     */
     protected function _prepareCollection()
     {
         /* @var $collection Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection */
@@ -51,13 +67,13 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
     }
 
     /**
-     * Getter
+     * Customer Segment Getter
      *
      * @return Enterprise_CustomerSegment_Model_Segment
      */
     public function getCustomerSegment()
     {
-        return Mage::registry('customer_segment');
+        return Mage::registry('current_customer_segment');
     }
 
     /**
@@ -69,7 +85,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
     {
         $this->addColumn('entity_id', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
-            'width'     => '50px',
+            'width'     => 50,
             'index'     => 'entity_id',
             'type'      => 'number',
         ));
@@ -79,7 +95,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
         ));
         $this->addColumn('email', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Email'),
-            'width'     => '150',
+            'width'     => 150,
             'index'     => 'email'
         ));
 
@@ -90,7 +106,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
 
         $this->addColumn('group', array(
             'header'    =>  Mage::helper('enterprise_customersegment')->__('Group'),
-            'width'     =>  '100',
+            'width'     =>  100,
             'index'     =>  'group_id',
             'type'      =>  'options',
             'options'   =>  $groups,
@@ -98,52 +114,52 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
 
         $this->addColumn('Telephone', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Telephone'),
-            'width'     => '100',
+            'width'     => 100,
             'index'     => 'billing_telephone'
         ));
 
         $this->addColumn('billing_postcode', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('ZIP'),
-            'width'     => '90',
+            'width'     => 90,
             'index'     => 'billing_postcode',
         ));
 
         $this->addColumn('billing_country_id', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Country'),
-            'width'     => '100',
+            'width'     => 100,
             'type'      => 'country',
             'index'     => 'billing_country_id',
         ));
 
         $this->addColumn('billing_region', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('State/Province'),
-            'width'     => '100',
+            'width'     => 100,
             'index'     => 'billing_region',
         ));
 
         $this->addColumn('customer_since', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Customer Since'),
-            'width'     => '200',
+            'width'     => 200,
             'type'      => 'datetime',
             'align'     => 'center',
             'index'     => 'created_at',
             'gmtoffset' => true
         ));
 
-//        if (!Mage::app()->isSingleStoreMode()) {
-//            $this->addColumn('website_id', array(
-//                'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
-//                'align'     => 'center',
-//                'width'     => '80px',
-//                'type'      => 'options',
-//                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(true),
-//                'index'     => 'website_id',
-//            ));
-//        }
-
         $this->addExportType('*/*/exportCsv', Mage::helper('enterprise_customersegment')->__('CSV'));
         $this->addExportType('*/*/exportExcel', Mage::helper('enterprise_customersegment')->__('Excel'));
 
         return parent::_prepareColumns();
+    }
+
+    /**
+     * Ajax grid URL getter
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/*/customerGrid',
+            array('segment_id' => Mage::registry('current_customer_segment')->getId()));
     }
 }

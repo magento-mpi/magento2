@@ -60,6 +60,18 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tabs exten
             'content'   => $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_customersegment_edit_tab_conditions')->toHtml(),
         ));
 
+        $segment = Mage::registry('current_customer_segment');
+        if ($segment && $segment->getId()) {
+            $customersQty = Mage::getModel('enterprise_customersegment/segment')->getResource()
+                ->getSegmentCustomersQty($segment->getId());
+            $this->addTab('customers_tab', array(
+                'label' => Mage::helper('enterprise_customersegment')->__('Matched Customers (%d)', $customersQty),
+                'url'   => $this->getUrl('*/report_customer_customersegment/customerGrid',
+                    array('segment_id' => $segment->getId())),
+                'class' => 'ajax',
+            ));
+        }
+
         return parent::_beforeToHtml();
     }
 

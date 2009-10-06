@@ -193,4 +193,16 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
         }
         return $this;
     }
+
+    /**
+     * Count customers in specified segments
+     *
+     * @param int $segmentId
+     * @return int
+     */
+    public function getSegmentCustomersQty($segmentId)
+    {
+        return (int)$this->_getReadAdapter()->fetchOne("SELECT COUNT(customer_id)
+            FROM {$this->getTable('enterprise_customersegment/customer')} WHERE segment_id = " . (int)$segmentId);
+    }
 }

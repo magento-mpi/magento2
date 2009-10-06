@@ -52,9 +52,10 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
      * Initialize Customer Segmen Model
      * or adding error to session storage if object was not loaded
      *
-     * @return Enterprise_CustomerSegment_Model_Segment | bool
+     * @param bool $outputMessage
+     * @return Enterprise_CustomerSegment_Model_Segment|false
      */
-    protected function _initSegment()
+    protected function _initSegment($outputMessage = true)
     {
         $segmentId = $this->getRequest()->getParam('segment_id', 0);
         /* @var $segment Enterprise_CustomerSegment_Model_Segment */
@@ -63,12 +64,12 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
             $segment->load($segmentId);
         }
         if (!$segment->getId()) {
-            Mage::getSingleton('adminhtml/session')->addError(
-                Mage::helper('enterprise_customersegment')->__('Requested Customer Segment is no longer exists.')
-            );
+            if ($outputMessage) {
+                Mage::getSingleton('adminhtml/session')->addError($this->__('Wrong customer segment requested.'));
+            }
             return false;
         }
-        Mage::register('customer_segment', $segment);
+        Mage::register('current_customer_segment', $segment);
         return $segment;
     }
 
@@ -122,7 +123,9 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         if ($segment) {
             try {
                 $segment->matchCustomers();
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_customersegment')->__('Customer Segment data refreshed successfully.'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(
+                    $this->__('Customer Segment data refreshed successfully.')
+                );
                 $this->_redirect('*/*/detail', array('_current' => true));
                 return ;
             } catch (Mage_Core_Exception $e) {
@@ -167,5 +170,17 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
             $this->_redirect('*/*/detail', array('_current' => true));
             return ;
         }
+    }
+
+    /**
+     * Segment customer ajax grid action
+     */
+    public function customerGridAction()
+    {
+        if (!$this->_initSegment(false)) {
+            return;
+        }
+        $grid = $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_report_customer_segment_detail_grid');
+        $this->getResponse()->setBody($grid->toHtml());
     }
 }

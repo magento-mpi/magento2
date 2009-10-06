@@ -68,7 +68,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
         $this->addColumn('grid_segment_id', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
             'align'     =>'right',
-            'width'     => '50px',
+            'width'     => 50,
             'index'     => 'segment_id',
         ));
 
@@ -81,7 +81,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
         $this->addColumn('grid_segment_is_active', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Status'),
             'align'     => 'left',
-            'width'     => '80px',
+            'width'     => 80,
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
@@ -95,7 +95,8 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
             'align'     =>'left',
             'index'     => 'website_id',
             'type'      => 'options',
-            'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash()
+            'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+            'width'     => 200,
         ));
 
         return parent::_prepareColumns();
