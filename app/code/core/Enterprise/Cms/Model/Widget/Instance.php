@@ -56,8 +56,9 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
     /**
      * Internal Constructor
      */
-    public function _construct()
+    protected function _construct()
     {
+        parent::_construct();
         $this->_init('enterprise_cms/widget_instance');
         $this->_layoutHandles = array(
             'anchor_categories' => self::ANCHOR_CATEGORY_LAYOUT_HANDLE,
