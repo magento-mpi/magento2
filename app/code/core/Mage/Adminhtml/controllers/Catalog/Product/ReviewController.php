@@ -34,6 +34,13 @@
 
 class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Array of actions which can be processed without secret key validation
+     *
+     * @var array
+     */
+    protected $_publicActions = array('edit');
+
     public function indexAction()
     {
         if ($this->getRequest()->getParam('ajax')) {

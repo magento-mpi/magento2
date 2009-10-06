@@ -33,6 +33,13 @@
  */
 class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller_Action
 {
+    /**
+     * Array of actions which can be processed without secret key validation
+     *
+     * @var array
+     */
+    protected $_publicActions = array('edit');
+
     protected function _construct()
     {
         // Define module dependent translate
