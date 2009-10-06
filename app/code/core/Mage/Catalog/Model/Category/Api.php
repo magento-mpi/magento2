@@ -236,7 +236,7 @@ class Mage_Catalog_Model_Category_Api extends Mage_Catalog_Model_Api_Resource
      */
     public function create($parentId, $categoryData, $store = null)
     {
-        $parent_category = $this->_initCategory($parentId);
+        $parent_category = $this->_initCategory($parentId, $store);
         $category = Mage::getModel('catalog/category')
             ->setStoreId($this->_getStoreId($store));
 
