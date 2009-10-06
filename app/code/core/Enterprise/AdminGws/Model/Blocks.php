@@ -626,4 +626,20 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
                 ->unsetChild('delete_button');
         }
     }
+
+    /**
+     * Remove buttons from transactional email template grid for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function  removeEmailTemplateGridButtons($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        if ($block) {
+            $block->unsetChild('add_button');
+        }
+
+        return $this;
+    }
 }
