@@ -83,17 +83,17 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('entity_id', array(
+        $this->addColumn('grid_entity_id', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
             'width'     => 50,
             'index'     => 'entity_id',
             'type'      => 'number',
         ));
-        $this->addColumn('name', array(
+        $this->addColumn('grid_name', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Name'),
             'index'     => 'name'
         ));
-        $this->addColumn('email', array(
+        $this->addColumn('grid_email', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Email'),
             'width'     => 150,
             'index'     => 'email'
@@ -104,7 +104,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
             ->load()
             ->toOptionHash();
 
-        $this->addColumn('group', array(
+        $this->addColumn('grid_group', array(
             'header'    =>  Mage::helper('enterprise_customersegment')->__('Group'),
             'width'     =>  100,
             'index'     =>  'group_id',
@@ -112,32 +112,32 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Detail_
             'options'   =>  $groups,
         ));
 
-        $this->addColumn('Telephone', array(
+        $this->addColumn('grid_telephone', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Telephone'),
             'width'     => 100,
             'index'     => 'billing_telephone'
         ));
 
-        $this->addColumn('billing_postcode', array(
+        $this->addColumn('grid_billing_postcode', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('ZIP'),
             'width'     => 90,
             'index'     => 'billing_postcode',
         ));
 
-        $this->addColumn('billing_country_id', array(
+        $this->addColumn('grid_billing_country_id', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Country'),
             'width'     => 100,
             'type'      => 'country',
             'index'     => 'billing_country_id',
         ));
 
-        $this->addColumn('billing_region', array(
+        $this->addColumn('grid_billing_region', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('State/Province'),
             'width'     => 100,
             'index'     => 'billing_region',
         ));
 
-        $this->addColumn('customer_since', array(
+        $this->addColumn('grid_customer_since', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Customer Since'),
             'width'     => 200,
             'type'      => 'datetime',
