@@ -298,7 +298,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     {
         return $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'new_node_button',
-            'label'     => Mage::helper('enterprise_cms')->__('Add Node ...'),
+            'label'     => Mage::helper('enterprise_cms')->__('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',
             'class'     => 'add'
         ))->toHtml();

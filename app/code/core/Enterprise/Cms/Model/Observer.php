@@ -96,14 +96,8 @@ class Enterprise_Cms_Model_Observer
                     $versionNumber = $revision->getVersionNumber();
                     $versionLabel = $revision->getLabel();
 
-                    $beforeElementHtml = '';
-
-                    if ($versionLabel) {
-                        $beforeElementHtml .= Mage::helper('enterprise_cms')->__('%s; ', $versionLabel);
-                    }
-
                     $page->setPublishedRevisionLink(
-                        Mage::helper('enterprise_cms')->__('rev #%s', $revisionNumber));
+                        Mage::helper('enterprise_cms')->__('%s; rev #%s', $versionLabel, $revisionNumber));
 
                     $baseFieldset->addField('published_revision_link', 'link', array(
                             'label' => Mage::helper('enterprise_cms')->__('Currently Published Revision'),
@@ -111,7 +105,6 @@ class Enterprise_Cms_Model_Observer
                                 'page_id' => $page->getId(),
                                 'revision_id' => $page->getPublishedRevisionId()
                                 )),
-                            'before_element_html' => $beforeElementHtml
                         ));
 
                     $revisionAvailable = true;

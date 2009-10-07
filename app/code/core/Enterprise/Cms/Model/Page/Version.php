@@ -93,7 +93,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
 
                 if ($resource->isVersionLastPublic($this)) {
                     Mage::throwException(
-                        Mage::helper('enterprise_cms')->__('Can not change version access level because it is last public version for its page.')
+                        Mage::helper('enterprise_cms')->__('Cannot change version access level because it is last public version for its page.')
                     );
                 }
 
