@@ -224,7 +224,7 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
             }
         }
         if (!$flag) {
-            Mage::throwException(Mage::helper('enterprise_banner')->__('At list one of banner contents must not be empty.'));
+            Mage::throwException(Mage::helper('enterprise_banner')->__('Specify default content or at least for one store view.'));
         }
         return parent::_beforeSave();
     }

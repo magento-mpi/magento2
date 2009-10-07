@@ -118,7 +118,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
             'checked'   => isset($storeContents[0]) ? false : (!$model->getId() ? false : true),
             'after_element_html' => '<label for="' . $form->getHtmlIdPrefix()
                 . 'store_0_content_use">'
-                . Mage::helper('enterprise_banner')->__('Not Use Default') . '</label>',
+                . Mage::helper('enterprise_banner')->__('No Default Content') . '</label>',
             'value'     => 0,
             'fieldset_html_class' => 'store',
         ));

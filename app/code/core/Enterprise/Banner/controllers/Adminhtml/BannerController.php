@@ -107,7 +107,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
                 }
                 $model->save();
                 Mage::getSingleton('adminhtml/session')->setFormData(false);
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_banner')->__('Banner was successfully saved'));
+                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('enterprise_banner')->__('Banner was successfully saved.'));
             } catch (Mage_Core_Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $redirectBack = true;
