@@ -168,7 +168,8 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
             }
         }
 
-        $this->_cleanLayoutCache();
+        $this->_cleanLayoutCache()
+            ->_cleanBlocksOutputCache();
 
         return parent::_afterSave($object);
     }
@@ -264,7 +265,8 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
 
         $this->_deleteLayoutUpdates($object->getLayoutUpdateIdsToDelete());
 
-        $this->_cleanLayoutCache();
+        $this->_cleanLayoutCache()
+            ->_cleanBlocksOutputCache();
 
         return parent::_afterDelete($object);
     }
@@ -317,6 +319,19 @@ class Enterprise_Cms_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4
         $handles = $this->getHandlesToCleanCache();
         if (!empty($handles) && Mage::app()->useCache('layout')) {
             Mage::app()->cleanCache($handles);
+        }
+        return $this;
+    }
+
+    /**
+     * Clean blocks HTML otput cache
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Widget_Instance
+     */
+    protected function _cleanBlocksOutputCache()
+    {
+        if (Mage::app()->useCache('block_html')) {
+            Mage::app()->cleanCache(array('block_html'));
         }
         return $this;
     }
