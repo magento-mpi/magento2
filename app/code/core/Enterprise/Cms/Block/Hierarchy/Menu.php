@@ -185,19 +185,30 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
     /**
      * Retrieve list begin tag
      *
-     * @param Enterprise_Cms_Model_Hierarchy_Node $node
+     * @param bool $addStyles Whether to add css styles, type attribute etc. to tag or not
      * @return string
      */
-    protected function _getListTagBegin()
+    protected function _getListTagBegin($addStyles = true)
     {
-        $template = $this->_getData('_list_template');
+        $templateKey = $addStyles ? '_list_template_styles' : '_list_template';
+        $template = $this->_getData($templateKey);
+
         if (!$template) {
-            $type = $this->getListType();
-            $template = '<' . $this->getListContainer().' class="menu" style="list-style:'.$type.';"';
-            //$type = $this->getListType();
-            if ($type) {
-                $template .= ' type="'.$type.'"';
+            $template = '<' . $this->getListContainer();
+
+
+            if ($addStyles) {
+                $class = 'cms-menu';
+
+                $type = $this->getListType();
+                if ($type) {
+                    $template .= ' type="'.$type.'"';
+                    $class .= ' type-'.$type;
+                }
+
+                $template .= ' class="'.$class.'"';
             }
+
             foreach ($this->_allowedListAttributes as $attribute) {
                 $value = $this->getData('list_' . $attribute);
                 if (!empty($value)) {
@@ -209,7 +220,7 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
             }
             $template .= '>';
 
-            $this->setData('_list_template', $template);
+            $this->setData($templateKey, $template);
         }
 
         return $template;
@@ -229,13 +240,18 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
      * Retrieve List Item begin tag
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $node
+     * @param bool $hasChilds Whether item contains nested list or not
      * @return string
      */
-    protected function _getItemTagBegin($node)
+    protected function _getItemTagBegin($node, $hasChilds = false)
     {
-        $template = $this->_getData('_item_template');
+        $templateKey = $hasChilds ? '_item_template_childs' : '_item_template';
+        $template = $this->_getData($templateKey);
         if (!$template) {
             $template = '<' . self::TAG_LI;
+            if ($hasChilds) {
+                $template .= ' class="parent"';
+            }
             foreach ($this->_allowedListAttributes as $attribute) {
                 $value = $this->getData('item_' . $attribute);
                 if (!empty($value)) {
@@ -247,7 +263,7 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
             }
             $template .= '>';
 
-            $this->setData('_item_template', $template);
+            $this->setData($templateKey, $template);
         }
 
         return strtr($template, $this->_getNodeReplacePairs($node));
@@ -358,14 +374,19 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
         if (!isset($tree[$parentNodeId])) {
             return '';
         }
-        $html = $this->_getListTagBegin();
+
+        $addStyles = ($parentNodeId == 0);
+        $html = $this->_getListTagBegin($addStyles);
+
         foreach ($tree[$parentNodeId] as $nodeId => $node) {
             /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-
-            $html .= $this->_getItemTagBegin($node) . $this->_getNodeLabel($node);
-            $html .= $this->drawMenu($tree, $nodeId);
+            $nested = $this->drawMenu($tree, $nodeId);
+            $hasChilds = ($nested != '');
+            $html .= $this->_getItemTagBegin($node, $hasChilds) . $this->_getNodeLabel($node);
+            $html .= $nested;
             $html .= $this->_getItemTagEnd();
         }
+
         $html .= $this->_getListTagEnd();
 
         return $html;
