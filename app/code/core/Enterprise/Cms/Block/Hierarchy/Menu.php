@@ -202,7 +202,7 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
 
                 $type = $this->getListType();
                 if ($type) {
-                    $template .= ' type="'.$type.'"';
+                    //$template .= ' type="'.$type.'"';
                     $class .= ' type-'.$type;
                 }
 
