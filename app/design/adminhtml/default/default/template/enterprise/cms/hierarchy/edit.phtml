@@ -113,7 +113,7 @@
                     cls: cssClass,
                     expanded: false,
                     allowDrop: true,
-                    allowDrag: true,
+                    allowDrag: true
                 });
 
                 // Add metadata
@@ -298,7 +298,7 @@
                     label: node.attributes.text,
                     identifier: node.attributes.identifier,
                     sort_order: node.parentNode.indexOf(node),
-                    level: node.getDepth(),
+                    level: node.getDepth()
                 };
                 this.copyMetadata(node.attributes, data);
 
