@@ -63,5 +63,13 @@
                 </values>
             </template>
         </parameters>
+        <supported_blocks>
+            <main_content>
+                <block_name>content</block_name>
+                <template>
+                    <lister>default</lister>
+                </template>
+            </main_content>
+        </supported_blocks>
     </event_lister>
 </widgets>
