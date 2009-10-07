@@ -142,13 +142,15 @@ class Enterprise_Staging_Model_Entry
             if (!is_dir(dirname($outputFile))) {
                 mkdir(dirname($outputFile));
             }
-            file_put_contents($outputFile, str_replace(
-                array('\'app/Mage.php\'', 'Mage::run(\'default\');'),
-                array('\'../../app/Mage.php\'', "Mage::run('{$this->_website->getCode()}', 'website');"),
+            $result = str_replace(
+                array('include $', 'app/Mage.php'),
+                array('include \'../../\' . $', '../../app/Mage.php'),
                 $sample
-            ));
+            );
+            $result = preg_replace('/Mage::run\(.*?\)/us', "Mage::run('{$this->_website->getCode()}', 'website')", $result);
+            file_put_contents($outputFile, $result);
 
-            $sample = file_get_contents(BP . DS . '.htaccess');
+            $sample = file_get_contents(BP . DS . '.htaccess.sample');
             $outputFile = $this->getBaseFolder() . DS . $this->_website->getCode() . DS . '.htaccess';
             file_put_contents($outputFile, $sample);
         }
