@@ -108,7 +108,30 @@
 </div>
 <script type="text/javascript">
 //<![CDATA[
-new Enterprise.Slider('<?php echo $this->getHtmlId(); ?>', {pageSize: <?php echo $this->getPageSize(); ?>, scrollSize: <?php echo $this->getScrollSize() ?>});
+Enterprise.WidgetSlider = Class.create(Enterprise.Slider, {
+    initializeDimensions: function () {
+        if ((this.config.slideDirection == 'horizontal' && this.sliderPanel.style.width) ||
+            (this.config.slideDirection != 'horizontal' && this.sliderPanel.style.height)) {
+            return this;
+        }
+        if (this.config.slideDirection == 'horizontal') {
+            this.sliderPanel.setStyle({width: this.sliderPanel.up('div.widget-events').getWidth() + 'px'});
+        } else {
+            var firstItem = this.items.first();
+            var offset = 0;
+            offset = (parseInt(firstItem.getStyle('margin-bottom')) + parseInt(firstItem.getStyle('margin-top'))) * (this.config.pageSize - 1);
+            this.sliderPanel.setStyle({height: (firstItem.getDimensions().height * this.config.pageSize + offset) + 'px'});
+        }
+        var dimensions = this.sliderPanel.getDimensions();
+        var sliderParent = this.sliderPanel.up();
+        sliderParent.setStyle({
+            width: dimensions.width + 'px',
+            height: dimensions.height + 'px'
+        });
+        return this;
+    }
+});
+new Enterprise.WidgetSlider('<?php echo $this->getHtmlId(); ?>', {pageSize: <?php echo $this->getPageSize(); ?>, scrollSize: <?php echo $this->getScrollSize() ?>});
 //]]>
 </script>
 </div>
