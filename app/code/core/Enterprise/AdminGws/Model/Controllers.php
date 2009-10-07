@@ -967,7 +967,7 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
      */
     public function validateTransactionalEmails($controller)
     {
-        if (in_array($controller->getRequest()->getActionName(), array('delete', 'save'))) {
+        if (in_array($controller->getRequest()->getActionName(), array('delete', 'save', 'new'))) {
             $this->_forward();
             return false;
         }
