@@ -64,12 +64,24 @@
             </template>
         </parameters>
         <supported_blocks>
+            <left_column>
+                <block_name>left</block_name>
+                <template>
+                    <lister>default</lister>
+                </template>
+            </left_column>
             <main_content>
                 <block_name>content</block_name>
                 <template>
                     <lister>default</lister>
                 </template>
             </main_content>
+            <right_column>
+                <block_name>right</block_name>
+                <template>
+                    <lister>default</lister>
+                </template>
+            </right_column>
         </supported_blocks>
     </event_lister>
 </widgets>
