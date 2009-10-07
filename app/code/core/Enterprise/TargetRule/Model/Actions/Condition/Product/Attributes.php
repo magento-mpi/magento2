@@ -268,31 +268,14 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
     }
 
     /**
-     * Prepare array of category ids from value
-     *
-     * @param string|int|array $value
-     * @return array
-     */
-    protected function _prepareCategoryIds($value)
-    {
-        if (!is_array($value)) {
-            $value = split(',', $value);
-        }
-
-        $value = array_map('trim', $value);
-        $value = array_filter($value, 'is_numeric');
-
-        return $value;
-    }
-
-    /**
      * Retrieve SELECT WHERE condition for product collection
      *
      * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
      * @param Enterprise_TargetRule_Model_Index $object
+     * @param array $bind
      * @return Zend_Db_Expr
      */
-    public function getConditionForCollection($collection, $object)
+    public function getConditionForCollection($collection, $object, &$bind)
     {
         /* @var $resource Enterprise_TargetRule_Model_Mysql4_Index */
         $attributeCode  = $this->getAttribute();
@@ -305,22 +288,21 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
                 ->from($resource->getTable('catalog/category_product'), 'COUNT(*) > 0')
                 ->where('product_id=e.entity_id');
             if ($valueType == self::VALUE_TYPE_SAME_AS) {
-                $value = $this->_prepareCategoryIds($object->getProduct()->getCategoryIds());
-                $where = $resource->getOperatorCondition('category_id', $operator, $value);
+                $where = $resource->getOperatorBindCondition('category_id', 'category_ids', $operator, $bind,
+                    array('bindArrayOfIds'));
                 $select->where($where);
             } else if ($valueType == self::VALUE_TYPE_CHILD_OF) {
-                $value = $this->_prepareCategoryIds($object->getProduct()->getCategoryIds());
                 $subSelect = $resource->select()
                     ->from(array('tc' => $resource->getTable('catalog/category')), 'entity_id')
                     ->join(
                         array('tp' => $resource->getTable('catalog/category')),
-                        "tc.path LIKE CONCAT(tp.path, '%')",
+                        "tc.path ".($operator == '!()' ? 'NOT ' : '')."LIKE CONCAT(tp.path, '/%')",
                         array())
-                    ->where($resource->getOperatorCondition('tp.entity_id', $operator, $value));
+                    ->where($resource->getOperatorBindCondition('tp.entity_id', 'category_ids', '()', $bind,
+                        array('bindArrayOfIds')));
                 $select->where('category_id IN(?)', $subSelect);
             } else { //self::VALUE_TYPE_CONSTANT
-
-                $value = $this->_prepareCategoryIds($this->getValue());
+                $value = $resource->bindArrayOfIds($this->getValue());
                 $where = $resource->getOperatorCondition('category_id', $operator, $value);
                 $select->where($where);
             }
@@ -329,9 +311,10 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
         }
 
         if ($valueType == self::VALUE_TYPE_CONSTANT) {
+            $useBind = false;
             $value = $this->getValue();
         } else { //self::VALUE_TYPE_SAME_AS
-            $value = $object->getProduct()->getDataUsingMethod($attributeCode);
+            $useBind = true;
         }
 
         $attribute = $this->getAttributeObject();
@@ -341,7 +324,11 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
 
         if ($attribute->isStatic()) {
             $field = "e.{$attributeCode}";
-            $where = $resource->getOperatorCondition($field, $operator, $value);
+            if ($useBind) {
+                $where = $resource->getOperatorBindCondition($field, $attributeCode, $operator, $bind);
+            } else {
+                $where = $resource->getOperatorCondition($field, $operator, $value);
+            }
             $where = sprintf('(%s)', $where);
         } else if ($attribute->isScopeGlobal()) {
             $table  = $attribute->getBackendTable();
@@ -349,8 +336,12 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
                 ->from(array('table' => $table), 'COUNT(*) > 0')
                 ->where('table.entity_id = e.entity_id')
                 ->where('table.attribute_id=?', $attribute->getId())
-                ->where('table.store_id=?', 0)
-                ->where($resource->getOperatorCondition('table.value', $operator, $value));
+                ->where('table.store_id=?', 0);
+            if ($useBind) {
+                $select->where($resource->getOperatorBindCondition('table.value', $attributeCode, $operator, $bind));
+            } else {
+                $select->where($resource->getOperatorCondition('table.value', $operator, $value));
+            }
 
             $where  = sprintf('IFNULL((%s), 0)', $select->assemble());
         } else { //scope store and website
@@ -366,8 +357,12 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Attributes
                     array())
                 ->where('attr_d.entity_id = e.entity_id')
                 ->where('attr_d.attribute_id=?', $attribute->getId())
-                ->where('attr_d.store_id=?', 0)
-                ->where($resource->getOperatorCondition($valueExpr, $operator, $value));
+                ->where('attr_d.store_id=?', 0);
+            if ($useBind) {
+                $select->where($resource->getOperatorBindCondition($valueExpr, $attributeCode, $operator, $bind));
+            } else {
+                $select->where($resource->getOperatorCondition($valueExpr, $operator, $value));
+            }
 
             $where  = sprintf('(%s)', $select->assemble());
         }

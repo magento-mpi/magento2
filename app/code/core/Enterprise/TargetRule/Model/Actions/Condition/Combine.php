@@ -59,16 +59,17 @@ class Enterprise_TargetRule_Model_Actions_Condition_Combine extends Mage_Rule_Mo
      *
      * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
      * @param Enterprise_TargetRule_Model_Index $object
+     * @param array $bind
      * @return Zend_Db_Expr
      */
-    public function getConditionForCollection($collection, $object)
+    public function getConditionForCollection($collection, $object, &$bind)
     {
         $conditions = array();
         $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
         $operator   = $this->getValue() ? '1' : '0';
 
         foreach ($this->getConditions() as $condition) {
-            $subCondition = $condition->getConditionForCollection($collection, $object);
+            $subCondition = $condition->getConditionForCollection($collection, $object, $bind);
             if ($subCondition) {
                 $conditions[] = sprintf('%s=%d', $subCondition, $operator);
             }

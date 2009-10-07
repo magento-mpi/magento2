@@ -68,25 +68,28 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
 
     /**
      * Edit action
+     *
      */
     public function editAction()
     {
-        $id = $this->getRequest()->getParam('id');
-        $model = Mage::getModel('enterprise_targetrule/rule');
-        if ($id) {
-            $model->load($id);
-            if (! $model->getRuleId()) {
-                Mage::getSingleton('adminhtml/session')
-                    ->addError(Mage::helper('enterprise_targetrule')->__('This rule no longer exists'));
+        /* @var $model Enterprise_TargetRule_Model_Rule */
+        $model  = Mage::getModel('enterprise_targetrule/rule');
+        $ruleId = $this->getRequest()->getParam('id', null);
+
+        if ($ruleId) {
+            $model->load($ruleId);
+            if (!$model->getId()) {
+                $this->_getSession()->addError(Mage::helper('enterprise_targetrule')->__('This rule no longer exists'));
                 $this->_redirect('*/*');
                 return;
             }
         }
 
-        $data = Mage::getSingleton('adminhtml/session')->getPageData(true);
+        $data = Mage::getSingleton('adminhtml/session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
+
         Mage::register('current_target_rule', $model);
 
         $block = $this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit');
@@ -100,7 +103,6 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
             ->_addContent($block)
             ->_addLeft($this->getLayout()->createBlock('enterprise_targetrule/adminhtml_targetrule_edit_tabs'))
             ->renderLayout();
-
     }
 
     /**
@@ -122,27 +124,34 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     public function saveAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        $redirectPath   = '*/*/';
+        $redirectParams = array();
+
+        $data = $this->getRequest()->getPost();
+        if ($this->getRequest()->isPost() && $data) {
+            /* @var $model Enterprise_TargetRule_Model_Rule */
+            $model          = Mage::getModel('enterprise_targetrule/rule');
+            $redirectBack   = $this->getRequest()->getParam('back', false);
+            $hasError       = false;
             try {
-                $redirectBack = $this->getRequest()->getParam('back', false);
-                $model = Mage::getModel('enterprise_targetrule/rule');
-                if ($id = $this->getRequest()->getParam('rule_id')) {
-                    $model->load($id);
-                    if ($id != $model->getId()) {
+                $ruleId = $this->getRequest()->getParam('rule_id');
+                if ($ruleId) {
+                    $model->load($ruleId);
+                    if ($ruleId != $model->getId()) {
                         Mage::throwException(Mage::helper('enterprise_targetrule')->__('Wrong rule specified.'));
                     }
                 }
+
                 $data['conditions'] = $data['rule']['conditions'];
-                $data['actions'] = $data['rule']['actions'];
+                $data['actions']    = $data['rule']['actions'];
                 unset($data['rule']);
 
                 $model->loadPost($data);
-                Mage::getSingleton('adminhtml/session')->setPageData($model->getData());
                 $model->save();
 
-                Mage::getSingleton('adminhtml/session')
-                    ->addSuccess(Mage::helper('enterprise_targetrule')->__('Rule was successfully saved'));
-                Mage::getSingleton('adminhtml/session')->setPageData(false);
+                $this->_getSession()->addSuccess(
+                    Mage::helper('enterprise_targetrule')->__('Rule was successfully saved')
+                );
 
                 if ($redirectBack) {
                     $this->_redirect('*/*/edit', array(
@@ -151,15 +160,30 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                     ));
                     return;
                 }
-
+            } catch (Mage_Core_Exception $e) {
+                $this->_getSession()->addError($e->getMessage());
+                $hasError = true;
             } catch (Exception $e) {
+                $this->_getSession()->addException($e,
+                    Mage::helper('enterprise_targetrule')->__('Error in saving Targeted Product Rule')
+                );
+
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 Mage::getSingleton('adminhtml/session')->setPageData($data);
                 $this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
+
+            if ($hasError) {
+                $this->_getSession()->setFormData($data);
+            }
+
+            if ($hasError || $redirectBack) {
+                $redirectPath = '*/*/edit';
+                $redirectParams['id'] = $model->getId();
+            }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect($redirectPath, $redirectParams);
     }
 
     /**

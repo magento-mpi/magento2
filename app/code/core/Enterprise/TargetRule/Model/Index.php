@@ -231,7 +231,8 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
         $collection->addApplyToFilter($this->getType())
             ->addProductFilter($this->getProduct()->getId())
             ->addIsActiveFilter()
-            ->setPriorityOrder();
+            ->setPriorityOrder()
+            ->setFlag('do_not_run_after_load', true);
 
         return $collection;
     }

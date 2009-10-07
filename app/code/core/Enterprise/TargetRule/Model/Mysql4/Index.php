@@ -34,6 +34,13 @@
 class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
+     * Increment value for generate unique bind names
+     *
+     * @var int
+     */
+    protected $_bindIncrement = 0;
+
+    /**
      * Initialize connection and define main table
      *
      */
@@ -152,26 +159,106 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
                 continue;
             }
 
-            /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
-            $collection = Mage::getResourceSingleton('catalog/product_collection')
-                ->setStoreId($object->getStoreId());
-            Mage::getSingleton('catalog/product_visibility')
-                ->addVisibleInCatalogFilterToCollection($collection);
-
-            $condition = $rule->getActions()->getConditionForCollection($collection, $object);
-            if ($condition) {
-                $collection->getSelect()->where($condition);
-            }
-            if ($productIds) {
-                $collection->addFieldToFilter('entity_id', array('nin' => $productIds));
-            }
-
-            $resultIds = $collection->getAllIds($limit);
-
+            $resultIds = $this->_getProductIdsByRule($rule, $object, $limit, $productIds);
             $productIds = array_merge($productIds, $resultIds);
         }
 
         return $productIds;
+    }
+
+    /**
+     * Retrieve found product ids by Rule action conditions
+     *
+     * If rule has cached select - get it
+     *
+     * @param Enterprise_TargetRule_Model_Rule $rule
+     * @param Enterprise_TargetRule_Model_Index $object
+     * @param int $limit
+     * @param array $excludeProductIds
+     * @return mixed
+     */
+    protected function _getProductIdsByRule($rule, $object, $limit, $excludeProductIds = array())
+    {
+        $rule->afterLoad();
+
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection */
+        $collection = Mage::getResourceSingleton('catalog/product_collection')
+            ->setStoreId($object->getStoreId())
+            ->addPriceData($object->getCustomerGroupId());
+        Mage::getSingleton('catalog/product_visibility')
+            ->addVisibleInCatalogFilterToCollection($collection);
+
+        $actionSelect = $rule->getActionSelect();
+        $actionBind   = $rule->getActionSelectBind();
+        if (is_null($actionSelect)) {
+            $actionBind   = array();
+            $actionSelect = $rule->getActions()->getConditionForCollection($collection, $object, $actionBind);
+            $rule->setActionSelect((string)$actionSelect)
+                ->setActionSelectBind($actionBind)
+                ->save();
+        }
+
+        if ($actionSelect) {
+            $collection->getSelect()->where($actionSelect);
+        }
+        if ($excludeProductIds) {
+            $collection->addFieldToFilter('entity_id', array('nin' => $excludeProductIds));
+        }
+
+        $select = $collection->getSelect();
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns('entity_id', 'e');
+        $select->limit($limit);
+
+        $bind   = $this->_prepareRuleActionSelectBind($object, $actionBind);
+        $result = $select->getAdapter()->fetchCol($select, $bind);
+
+        return $result;
+    }
+
+    /**
+     * Prepare bind array for product select
+     *
+     * @param Enterprise_TargetRule_Model_Index $object
+     * @param array $actionBind
+     * @return unknown
+     */
+    protected function _prepareRuleActionSelectBind($object, $actionBind)
+    {
+        $bind = array();
+        if (!is_array($actionBind)) {
+            $actionBind = array();
+        }
+
+        foreach ($actionBind as $bindData) {
+            if (empty($bindData['bind']) || empty($bindData['field'])) {
+                continue;
+            }
+            $k = $bindData['bind'];
+            $v = $object->getProduct()->getDataUsingMethod($bindData['field']);
+
+            if (!empty($bindData['callback'])) {
+                $callbacks = $bindData['callback'];
+                if (!is_array($callbacks)) {
+                    $callbacks = array($callbacks);
+                }
+                foreach ($callbacks as $callback) {
+                    if (is_array($callback)) {
+                        $v = $this->$callback[0]($v, $callback[1]);
+                    } else {
+                        $v = $this->$callback($v);
+                    }
+                }
+            }
+
+            if (is_array($v)) {
+                $v = join(',', $v);
+            }
+
+            $bind[$k] = $v;
+        }
+
+        return $bind;
     }
 
     /**
@@ -217,41 +304,28 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
     {
         switch ($operator) {
             case '!=':
-                $selectOperator = '<>?';
-                break;
-
             case '>=':
-                $selectOperator = '>=?';
-                break;
-
             case '<=':
-                $selectOperator = '<=?';
-                break;
-
             case '>':
-                $selectOperator = '>?';
-                break;
-
             case '<':
-                $selectOperator = '<?';
+                $selectOperator = sprintf('%s?', $operator);
                 break;
-
             case '{}':
-                $selectOperator = 'LIKE ?';
+                $selectOperator = ' LIKE ?';
                 $value          = '%' . $value . '%';
                 break;
 
             case '!{}':
-                $selectOperator = 'NOT LIKE ?';
+                $selectOperator = ' NOT LIKE ?';
                 $value          = '%' . $value . '%';
                 break;
 
             case '()':
-                $selectOperator = 'IN(?)';
+                $selectOperator = ' IN(?)';
                 break;
 
             case '!()':
-                $selectOperator = 'NOT IN(?)';
+                $selectOperator = ' NOT IN(?)';
                 break;
 
             default:
@@ -259,7 +333,101 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
                 break;
         }
 
-        return $this->_getReadAdapter()->quoteInto("{$field} {$selectOperator}", $value);
+        return $this->_getReadAdapter()->quoteInto("{$field}{$selectOperator}", $value);
+    }
+
+    /**
+     * Retrieve SQL condition fragment by field, operator and binded value
+     * also modify bind array
+     *
+     * @param string $field
+     * @param string $operator
+     * @param array $bind
+     * @return string
+     */
+    public function getOperatorBindCondition($field, $attribute, $operator, &$bind, $callback = array())
+    {
+        $bindName = ':targetrule_bind_' . $this->_bindIncrement ++;
+        switch ($operator) {
+            case '!=':
+            case '>=':
+            case '<=':
+            case '>':
+            case '<':
+                $condition = sprintf('%s%s%s', $field, $operator, $bindName);
+                break;
+            case '{}':
+                $condition  = sprintf('%s LIKE %s', $field, $bindName);
+                $callback[] = 'bindLikeValue';
+                break;
+
+            case '!{}':
+                $condition  = sprintf('%s NOT LIKE %s', $field, $bindName);
+                $callback[] = 'bindLikeValue';
+                break;
+
+            case '()':
+                $condition = sprintf('FIND_IN_SET(%s, %s)', $field, $bindName);
+                break;
+
+            case '!()':
+                $condition = sprintf('FIND_IN_SET(%s, %s) IS NULL', $field, $bindName);
+                break;
+
+            default:
+                $condition = sprintf('%s=%s', $field, $bindName);
+                break;
+        }
+
+        $bind[] = array(
+            'bind'      => $bindName,
+            'field'     => $attribute,
+            'callback'  => $callback
+        );
+
+        return $condition;
+    }
+
+    /**
+     * Prepare bind value for LIKE condition
+     * Callback method
+     *
+     * @param string $value
+     * @return string
+     */
+    public function bindLikeValue($value)
+    {
+        return '%' . $value . '%';
+    }
+
+    /**
+     * Prepare bind array of ids from string or array
+     *
+     * @param string|int|array $value
+     * @return array
+     */
+    public function bindArrayOfIds($value)
+    {
+        if (!is_array($value)) {
+            $value = split(',', $value);
+        }
+
+        $value = array_map('trim', $value);
+        $value = array_filter($value, 'is_numeric');
+
+        return $value;
+    }
+
+    /**
+     * Prepare bind value (percent of value)
+     *
+     * @param float $value
+     * @param int $percent
+     * @return float
+     */
+    public function bindPercentOf($value, $percent)
+    {
+        return round($value * ($percent / 100), 4);
     }
 
     /**

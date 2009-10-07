@@ -91,7 +91,9 @@ class Enterprise_TargetRule_Model_Mysql4_Rule_Collection extends Mage_Core_Model
 
         foreach ($this->_items as $rule) {
             /* @var $rule Enterprise_TargetRule_Model_Rule */
-            $rule->afterLoad();
+            if (!$this->getFlag('do_not_run_after_load')) {
+                $rule->afterLoad();
+            }
         }
 
         return parent::_afterLoad();

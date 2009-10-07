@@ -60,6 +60,23 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
     }
 
     /**
+     * Reset action cached select if actions conditions has changed
+     *
+     * @return Enterprise_TargetRule_Model_Rule
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+
+        if ($this->dataHasChangedFor('actions_serialized')) {
+            $this->setData('action_select', null);
+            $this->setData('action_select_bind', null);
+        }
+
+        return $this;
+    }
+
+    /**
      * Return conditions instance
      *
      * @return Enterprise_TargetRule_Model_Rule_Condition_Combine
@@ -229,5 +246,44 @@ class Enterprise_TargetRule_Model_Rule extends Mage_Rule_Model_Rule
             $limit = 20;
         }
         return $limit;
+    }
+
+    /**
+     * Retrieve Action select bind array
+     *
+     * @return array|null
+     */
+    public function getActionSelectBind()
+    {
+        $bind = $this->getData('action_select_bind');
+        if (!is_null($bind) && !is_array($bind)) {
+            $bind = unserialize($bind);
+        }
+
+        return $bind;
+    }
+
+    /**
+     * Set action select bind array or serialized string
+     *
+     * @param array|string $bind
+     * @return Enterprise_TargetRule_Model_Rule
+     */
+    public function setActionSelectBind($bind)
+    {
+        if (is_array($bind)) {
+            $bind = serialize($bind);
+        }
+        return $this->setData('action_select_bind', $bind);
+    }
+
+    /**
+     * Retrieve Actions instance wrapper
+     *
+     * @return Enterprise_TargetRule_Model_Actions_Condition_Combine
+     */
+    public function getActions()
+    {
+        return parent::getActions();
     }
 }

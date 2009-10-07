@@ -92,19 +92,17 @@ class Enterprise_TargetRule_Model_Actions_Condition_Product_Special_Price
      *
      * @param Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection $collection
      * @param Enterprise_TargetRule_Model_Index $object
+     * @param array $bind
      * @return Zend_Db_Expr
      */
-    public function getConditionForCollection($collection, $object)
+    public function getConditionForCollection($collection, $object, &$bind)
     {
-        $collection->setStoreId($object->getStoreId());
-        $collection->addPriceData($object->getCustomerGroupId());
-
         /* @var $resource Enterprise_TargetRule_Model_Mysql4_Index */
         $resource       = $object->getResource();
         $operator       = $this->getOperator();
-        $value          = round($object->getProduct()->getFinalPrice() * ($this->getValue() / 100), 4);
 
-        $where = $resource->getOperatorCondition('price_index.min_price', $operator, $value);
+        $where = $resource->getOperatorBindCondition('price_index.min_price', 'final_price', $operator, $bind,
+            array(array('bindPercentOf', $this->getValue())));
         return new Zend_Db_Expr(sprintf('(%s)', $where));
     }
 }
