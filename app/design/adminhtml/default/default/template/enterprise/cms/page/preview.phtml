@@ -59,9 +59,17 @@ html,body { height:100%; }
     }
 
     function blockPreview() {
-        Element.clonePosition(loadingMask, $('cms-revision-preview'));
-        toggleSelectsUnderBlock(loadingMask, false);
-        Element.show(loadingMask);
+        var cumulativeOffset = $('cms-revision-preview').cumulativeOffset();
+
+        $('loading-mask').setStyle({
+            top:  ( cumulativeOffset.top ) + 'px',
+            left: ( cumulativeOffset.left ) + 'px',
+            width: $('cms-revision-preview').getWidth() + 'px',
+            height: $('cms-revision-preview').getHeight() + 'px'
+        });
+
+        toggleSelectsUnderBlock($('loading-mask'), false);
+        Element.show('loading-mask');
         setLoaderPosition();
     }
 
