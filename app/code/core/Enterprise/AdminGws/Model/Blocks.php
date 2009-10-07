@@ -604,16 +604,6 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove add button for limited user on Transactional Emails
-     *
-     * @param Varien_Event_Observer $observer
-     */
-    public function removeTransactionalEmailsAddButton($observer)
-    {
-        $observer->getEvent()->getBlock()->unsetChild('add_button');
-    }
-
-    /**
      * Remove Transactional Emails edit page control buttons for limited user
      *
      * @param Varien_Event_Observer $observer
