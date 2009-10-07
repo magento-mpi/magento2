@@ -73,7 +73,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
     {
         $chooserJsObject = $this->getId();
         $html = '
-            <div id="tree'.$this->getId().'"></div>
+            <div id="tree'.$this->getId().'" class="cms-tree tree x-tree"></div>
             <script type="text/javascript">
 
                 function clickNode(node) {
@@ -84,8 +84,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
 
                 tree'.$this->getId().' = new Ext.tree.TreePanel("tree'.$this->getId().'", {
                     animate: false,
-                    loader: new Ext.tree.TreeLoader({dataUrl:"'. $this->getTreeLoaderUrl() .'"}),
-                    enableDD: true,
+                    enableDD: false,
                     containerScroll: true,
                     rootVisible: false,
                     lines: true
@@ -99,7 +98,29 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                     expanded: true,
                     cls: "cms_node_root",
                 });
+
+
                 tree'.$this->getId().'.setRootNode(treeRoot'.$this->getId().');
+
+                var nodes = '.$this->getNodesJson().';
+                for (var i = 0; i < nodes.length; i++) {
+                    var cls = nodes[i].page_id ? "cms_page" : "cms_node";
+                    var node = new Ext.tree.TreeNode({
+                        id: nodes[i].node_id,
+                        text: nodes[i].label,
+                        cls: cls,
+                        expanded: nodes[i].page_exists,
+                        allowDrop: false,
+                        allowDrag: false,
+                        page_id: nodes[i].page_id,
+                    });
+                    if (parentNode = tree'.$this->getId().'.getNodeById(nodes[i].parent_node_id)) {
+                        parentNode.appendChild(node);
+                    } else {
+                        treeRoot'.$this->getId().'.appendChild(node);
+                    }
+                }
+
                 tree'.$this->getId().'.addListener("click", function (node, event) {
                     '.$chooserJsObject.'.setElementValue(node.id);
                     '.$chooserJsObject.'.setElementLabel(node.text);
@@ -107,84 +128,45 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                 });
                 tree'.$this->getId().'.render();
                 treeRoot'.$this->getId().'.expand();
+
             </script>
         ';
         return $html;
     }
 
     /**
-     * Return Hierarchy Trees or Nodes json
+     * Retrieve Hierarchy JSON string
      *
      * @return string
      */
     public function getNodesJson()
     {
-        $nodeId = $this->getRequest()->getParam('node');
-        if ($nodeId == 'root') {
-            return $this->_getTreesJson();
-        } else {
-            return $this->_getNodesJson($nodeId);
-        }
+        return Mage::helper('core')->jsonEncode($this->getNodes());
     }
 
     /**
-     * Return Hierarchy Trees json
+     * Prepare hierarchy nodes for tree building
      *
-     * @return string
+     * @return array
      */
-    protected function _getTreesJson()
+    public function getNodes()
     {
-        /* @var $collection Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection */
-        $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection();
-        $collection->applyRootNodeFilter()
-            ->joinCmsPage();
-
-        $trees = array();
-        foreach ($collection as $rootNode) {
-            $trees[] = array(
-                'id'        => $rootNode->getId(),
-                'text'      => $rootNode->getLabel(),
-                'cls'       => $rootNode->getPageId() ? 'cms_page' : 'cms_node'
-            );
-        }
-
-        return Mage::helper('core')->jsonEncode($trees);
-    }
-
-    /**
-     * Return Hierarchy Nodes json for parent node
-     *
-     * @param int $parentNodeId Parent Node Id
-     * @return string
-     */
-    protected function _getNodesJson($parentNodeId)
-    {
-        $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
-            ->addFieldToFilter('parent_node_id', $parentNodeId)
-            ->joinCmsPage();
-
         $nodes = array();
-        foreach ($collection as $node) {
-            /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
-            $nodes[] = array(
-                'id'    => $node->getNodeId(),
-                'text'  => $node->getLabel(),
-                'cls'   => $node->getPageId() ? 'cms_page' : 'cms_node'
+        $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
+            ->joinCmsPage()
+            ->setTreeOrder();
+
+        foreach ($collection as $item) {
+            /* @var $item Enterprise_Cms_Model_Hierarchy_Node */
+            $node = array(
+                'node_id'               => $item->getId(),
+                'parent_node_id'        => $item->getParentNodeId(),
+                'label'                 => $item->getLabel(),
+                'page_exists'           => (bool)$item->getPageExists(),
+                'page_id'               => $item->getPageId(),
             );
+            $nodes[] = $node;
         }
-
-        return Mage::helper('core')->jsonEncode($nodes);
+        return $nodes;
     }
-
-
-    /**
-     * Return Hierarchy Tree Source URL
-     *
-     * @return string
-     */
-    public function getTreeLoaderUrl()
-    {
-        return $this->getUrl('*/cms_hierarchy_widget/nodesJson', array('_current' => true));
-    }
-
 }

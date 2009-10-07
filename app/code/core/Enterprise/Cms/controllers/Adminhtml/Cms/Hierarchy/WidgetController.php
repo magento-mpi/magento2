@@ -44,16 +44,6 @@ class Enterprise_Cms_Adminhtml_Cms_Hierarchy_WidgetController extends Mage_Admin
     }
 
     /**
-     * Nodes tree json (Ajax version)
-     */
-    public function nodesJsonAction()
-    {
-        $this->getResponse()->setBody(
-            $this->_getTreeBlock()->getNodesJson()
-        );
-    }
-
-    /**
      * Tree block instance
      */
     protected function _getTreeBlock()
