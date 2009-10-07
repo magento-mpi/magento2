@@ -1422,7 +1422,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 .widget-static-block {}
 
 /* Widget Catalog Events Carousel */
-.widget-events {}
+.widget-events { display:block !important; }
 
 /* Widget Product Link */
 .widget-product-link-inline { display:inline; }
