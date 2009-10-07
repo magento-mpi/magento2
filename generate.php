@@ -132,10 +132,13 @@ function multiSort (&$array)
  *
  * @param string $path
  * @param string $basicModuleName
+ * @param array $exclude
+ * @param bool $_isRecursion
  */
-function parseDir($path, $basicModuleName)
+function parseDir($path, $basicModuleName, $exclude = array(), $_isRecursion = false)
 {
     global $CONFIG;
+    static $skipDirs;
 
     if (is_file($path)) {
         if ($CONFIG['generate']['print_file']) {
@@ -155,6 +158,17 @@ function parseDir($path, $basicModuleName)
         print 'check dir ' . $path . "\n";
     }
 
+    // skip excluded dirs
+    if (!$_isRecursion) {
+        $skipDirs = array();
+        foreach ($exclude as $dir) {
+            $skipDirs[] = realpath($dir);
+        }
+    }
+    if (in_array(realpath($path), $skipDirs)) {
+        return;
+    }
+
     $dirh = opendir($path);
     if ($dirh) {
         while ($dir_element = readdir($dirh)) {
@@ -168,7 +182,7 @@ function parseDir($path, $basicModuleName)
                 parseXmlFile($path.$dir_element, $basicModuleName);
             }
             elseif (is_dir($path.$dir_element) && $dir_element != '.svn' && $dir_element != 'sql') {
-                parseDir($path.$dir_element.chr(47), $basicModuleName);
+                parseDir($path.$dir_element.chr(47), $basicModuleName, $exclude, true);
             }
         }
         unset($dir_element);
@@ -367,8 +381,17 @@ function writeToCsv($moduleName, $translationKey, $fileName, $fileLine, $xml = f
 chdir($CONFIG['generate']['base_dir']);
 
 foreach ($CONFIG['translates'] as $basicModuleName => $modulePaths) {
+    // pick folders to exclude
+    $exclude = array();
+    foreach ($modulePaths as $k => $path) {
+        if (0 === strpos($path, '!')) {
+            $exclude[] = substr($path, 1);
+            unset($modulePaths[$k]);
+        }
+    }
+    // dive into dirs
     foreach ($modulePaths as $path) {
-        parseDir($path, $basicModuleName);
+        parseDir($path, $basicModuleName, $exclude);
     }
 }
 
