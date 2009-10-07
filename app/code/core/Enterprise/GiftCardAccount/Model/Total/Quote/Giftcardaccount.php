@@ -161,7 +161,7 @@ class Enterprise_GiftCardAccount_Model_Total_Quote_GiftCardAccount extends Mage_
         $address->addTotal(array(
             'code'=>$this->getCode(),
             'title'=>Mage::helper('enterprise_giftcardaccount')->__('Gift Cards'),
-            'value'=>$address->getGiftCardsAmount(),
+            'value'=>-$address->getGiftCardsAmount(),
             'gift_cards'=>$giftCards,
         ));
 
