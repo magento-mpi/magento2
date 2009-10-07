@@ -1418,7 +1418,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             $minimalExpr = new Zend_Db_Expr(
                 'IF(`price_index`.`tier_price`, LEAST(`price_index`.`min_price`, `price_index`.`tier_price`), `price_index`.`min_price`)'
             );
-            $this->getSelect()->joinLeft(
+            $this->getSelect()->join(
                 array('price_index' => $this->getTable('catalog/product_index_price')),
                 $joinCond,
                 array('price', 'final_price', 'minimal_price'=>$minimalExpr , 'min_price', 'max_price', 'tier_price')
