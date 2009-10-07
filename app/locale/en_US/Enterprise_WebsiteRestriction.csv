@@ -5,6 +5,7 @@
 "Applicable only in Private Sales mode","Applicable only in Private Sales mode"
 "HTTP response","HTTP response"
 "Landing Page","Landing Page"
+"Main Content Area","Main Content Area"
 "Private Sales: Login Only","Private Sales: Login Only"
 "Private Sales: Login and Register","Private Sales: Login and Register"
 "Restriction Mode","Restriction Mode"
@@ -12,3 +13,5 @@
 "To landing page (302 Found)","To landing page (302 Found)"
 "To login form (302 Found)","To login form (302 Found)"
 "Website Closed","Website Closed"
+"Website Closed Private Sales Landing Page","Website Closed Private Sales Landing Page"
+"Website Closed Stub Page","Website Closed Stub Page"

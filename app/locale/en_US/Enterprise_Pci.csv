@@ -23,8 +23,6 @@
 "New Key","New Key"
 "Password Change","Password Change"
 "Password Lifetime (days)","Password Lifetime (days)"
-"Password must be at least of %d characters.","Password must be at least of %d characters."
-"Password must include both numeric and alphabetic characters.","Password must include both numeric and alphabetic characters."
 "Recommended","Recommended"
 "The encryption key is used to encrypt passwords and other sensitive data.","The encryption key is used to encrypt passwords and other sensitive data."
 "The generated key will be displayed after changing.","The generated key will be displayed after changing."

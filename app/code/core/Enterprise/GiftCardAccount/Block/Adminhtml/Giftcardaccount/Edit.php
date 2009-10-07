@@ -49,7 +49,7 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit extends Ma
         $clickJs .= "\$('_sendrecipient_name').removeClassName('required-entry');";
 
         $this->_addButton('send', array(
-            'label'     => Mage::helper('adminhtml')->__('Save & Send Email'),
+            'label'     => Mage::helper('enterprise_giftcardaccount')->__('Save & Send Email'),
             'onclick'   => $clickJs,
             'class'     => 'save',
         ));

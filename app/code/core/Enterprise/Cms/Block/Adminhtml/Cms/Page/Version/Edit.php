@@ -54,13 +54,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
         // Add 'new button' depending on permission
         if ($config->canCurrentUserSaveVersion()) {
             $this->_addButton('new', array(
-                    'label'     => Mage::helper('adminhtml')->__('Save as New Version'),
+                    'label'     => Mage::helper('enterprise_cms')->__('Save as New Version'),
                     'onclick'   => "editForm.submit('" . $this->getNewUrl() . "');",
                     'class'     => 'new',
                 ));
 
             $this->_addButton('new_revision', array(
-                    'label'     => Mage::helper('adminhtml')->__('New Revision...'),
+                    'label'     => Mage::helper('enterprie_cms')->__('New Revision...'),
                     'onclick'   => "setLocation('" . $this->getNewRevisionUrl() . "');",
                     'class'     => 'new',
                 ));
