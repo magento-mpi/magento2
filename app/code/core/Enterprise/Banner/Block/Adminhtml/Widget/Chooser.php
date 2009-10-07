@@ -33,7 +33,20 @@
  */
 class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner_Block_Adminhtml_Banner_Grid
 {
+    /**
+     * Store selected banner Ids
+     * Used in initial setting selected banners
+     *
+     * @var array
+     */
     protected $_selectedBanners = array();
+
+    /**
+     * Store hidden banner ids field id
+     *
+     * @var string
+     */
+    protected $_elementValueId = '';
 
     /**
      * Block construction, prepare grid params
@@ -43,9 +56,6 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
     public function __construct($arguments=array())
     {
         parent::__construct($arguments);
-        $this->setVarNameFilter('banners_filter');
-        $this->setDefaultSort('banner_id');
-        $this->setUseAjax(true);
         $this->setDefaultFilter(array('in_banners'=>1));
     }
 
@@ -57,24 +67,17 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $uniqId = Mage::helper('core')->uniqHash($element->getId());
-        $sourceUrl = $this->getUrl('*/banner_widget/chooser', array(
-            'uniq_id' => $uniqId
-        ));
+        $this->_elementValueId = "{$element->getId()}value";
+        $this->_selectedBanners = explode(',', $element->getValue());
 
-        $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
-            ->setElement($element)
-            ->setTranslationHelper($this->getTranslationHelper())
-            ->setConfig($this->getConfig())
-            ->setFieldsetId($this->getFieldsetId())
-            ->setSourceUrl($sourceUrl)
-            ->setUniqId($uniqId);
+        //Create hidden field that store selected banner ids
+        $hidden = new Varien_Data_Form_Element_Hidden($element->getData());
+        $hidden->setId($this->_elementValueId)->setForm($element->getForm());
+        $hiddenHtml = $hidden->getElementHtml();
 
-        if ($element->getValue()) {
-            $chooser->setLabel($element->getValue());
-        }
+        $element->setValue('');
+        $element->setData('after_element_html', $hiddenHtml . $this->toHtml());
 
-        $element->setData('after_element_html', $chooser->toHtml());
         return $element;
     }
 
@@ -85,25 +88,56 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
      */
     public function getRowInitCallback()
     {
-        $chooserJsObject = $this->getId();
         return '
         function(grid, row){
-            if(typeof(grid.selBannersIds) == \'undefined\'){
-                grid.selBannersIds = [];
-                if('.$chooserJsObject.'.getElementValue() != \'\'){
-                    grid.selBannersIds = '.$chooserJsObject.'.getElementValue().split(\',\');
+            if(!grid.selBannersIds){
+                grid.selBannersIds = {};
+                if($(\'' . $this->_elementValueId . '\').value != \'\'){
+                    var elementValues = $(\'' . $this->_elementValueId . '\').value.split(\',\');
+                    for(var i = 0; i < elementValues.length; i++){
+                        grid.selBannersIds[elementValues[i]] = i+1;
+                    }
                 }
                 grid.reloadParams = {};
-                grid.reloadParams[\'selected_banners[]\'] = grid.selBannersIds;
+                grid.reloadParams[\'selected_banners[]\'] = Object.keys(grid.selBannersIds);
             }
             var inputs      = Element.select($(row), \'input\');
             var checkbox    = inputs[0];
             var position    = inputs[1];
-            var indexOf = grid.selBannersIds.indexOf(checkbox.value);
+            var bannersNum  = grid.selBannersIds.length;
+            var bannerId    = checkbox.value;
+
+            inputs[1].checkboxElement = checkbox;
+
+            var indexOf = Object.keys(grid.selBannersIds).indexOf(bannerId);
             if(indexOf >= 0){
                 checkbox.checked = true;
                 position.value = indexOf+1;
             }
+
+            Event.observe(position,\'change\', function(){
+                var checkb = Element.select($(row), \'input\')[0];
+                if(checkb.checked){
+                    grid.selBannersIds[checkb.value] = this.value;
+                    var idsclone = Object.clone(grid.selBannersIds);
+                    var bans = Object.keys(grid.selBannersIds);
+                    var pos = Object.values(grid.selBannersIds).sort();
+                    var banners = [];
+                    var k = 0;
+
+                    for(var j = 0; j < pos.length; j++){
+                        for(var i = 0; i < bans.length; i++){
+                            if(idsclone[bans[i]] == pos[j]){
+                                banners[k] = bans[i];
+                                k++;
+                                delete(idsclone[bans[i]]);
+                                break;
+                            }
+                        }
+                    }
+                    $(\'' . $this->_elementValueId . '\').value = banners.join(\',\');
+                }
+            });
         }
         ';
     }
@@ -115,19 +149,17 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
      */
     public function getRowClickCallback()
     {
-        $chooserJsObject = $this->getId();
         return '
             function (grid, event) {
-                if(typeof(grid.selBannersIds) == \'undefined\'){
-                    grid.selBannersIds = [];
+                if(!grid.selBannersIds){
+                    grid.selBannersIds = {};
                 }
 
                 var trElement   = Event.findElement(event, "tr");
                 var isInput     = Event.element(event).tagName == \'INPUT\';
                 var inputs      = Element.select(trElement, \'input\');
                 var checkbox    = inputs[0];
-                var position    = inputs[1].value;
-                var bannersNum  = grid.selBannersIds.length;
+                var position    = inputs[1].value || 1;
                 var checked     = isInput ? checkbox.checked : !checkbox.checked;
                 checkbox.checked = checked;
 
@@ -135,25 +167,32 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
                 var bannerId    = checkbox.value;
 
                 if(checked){
-                    if(grid.selBannersIds.indexOf(bannerId) < 0){
-                        if(position-1 >= bannersNum || bannersNum == 0){
-                            grid.selBannersIds.push(bannerId);
-                        }
-                        else if(position == \'0\' || position == \'\'){
-                            grid.selBannersIds.splice(0, 0, bannerId);
-                        }
-                        else{
-                            grid.selBannersIds.splice(position-1, 0, bannerId);
-                        }
+                    if(Object.keys(grid.selBannersIds).indexOf(bannerId) < 0){
+                        grid.selBannersIds[bannerId] = position;
                     }
                 }
                 else{
-                    grid.selBannersIds = grid.selBannersIds.without(bannerId);
+                    delete(grid.selBannersIds[bannerId]);
                 }
-                '.$chooserJsObject.'.setElementValue(grid.selBannersIds.join(\',\'));
-                '.$chooserJsObject.'.setElementLabel(grid.selBannersIds.join(\',\'));
+
+                var idsclone = Object.clone(grid.selBannersIds);
+                var bans = Object.keys(grid.selBannersIds);
+                var pos = Object.values(grid.selBannersIds).sort();
+                var banners = [];
+                var k = 0;
+                for(var j = 0; j < pos.length; j++){
+                    for(var i = 0; i < bans.length; i++){
+                        if(idsclone[bans[i]] == pos[j]){
+                            banners[k] = bans[i];
+                            k++;
+                            delete(idsclone[bans[i]]);
+                            break;
+                        }
+                    }
+                }
+                $(\'' . $this->_elementValueId . '\').value = banners.join(\',\');
                 grid.reloadParams = {};
-                grid.reloadParams[\'selected_banners[]\'] = grid.selBannersIds;
+                grid.reloadParams[\'selected_banners[]\'] = banners;
             }
         ';
     }
@@ -261,11 +300,7 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
      */
     public function getSelectedBanners()
     {
-        $elementValue = $this->getRequest()->getParam('element_value', null);
-        if ($elementValue) {
-            $elementValue = explode(',', $elementValue);
-        }
-        if ($selectedBanners = $this->getRequest()->getParam('selected_banners', $elementValue)) {
+        if ($selectedBanners = $this->getRequest()->getParam('selected_banners', $this->_selectedBanners)) {
             $this->setSelectedBanners($selectedBanners);
         }
         return $this->_selectedBanners;

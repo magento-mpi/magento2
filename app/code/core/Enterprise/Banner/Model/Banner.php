@@ -107,7 +107,7 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Get Rule label for specific store
+     * Get banner content for specific store
      *
      * @param   store $store
      * @return  string | false
@@ -215,8 +215,16 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
         if ('' == trim($this->getName())) {
             Mage::throwException(Mage::helper('enterprise_banner')->__('Name must not be empty.'));
         }
-        if ('' == trim($this->getStoreContent(0))) {
-            Mage::throwException(Mage::helper('enterprise_banner')->__('Default content must not be empty.'));
+        $bannerContents = $this->getStoreContents();
+        $flag = false;
+        foreach ($bannerContents as $storeId => $content) {
+            if ('' != trim($content)) {
+                $flag = true;
+                break;
+            }
+        }
+        if (!$flag) {
+            Mage::throwException(Mage::helper('enterprise_banner')->__('At list one of banner contents must not be empty.'));
         }
         return parent::_beforeSave();
     }
