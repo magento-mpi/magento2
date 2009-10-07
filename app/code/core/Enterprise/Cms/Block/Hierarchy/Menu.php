@@ -155,7 +155,7 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
         if ($this->hasData('list_type')) {
             $type = $this->_getData('list_type');
             if ($this->getListContainer() == self::TAG_OL) {
-                if (in_array($type, array('A','a','I','i'))) {
+                if (in_array($type, array('1','A','a','I','i'))) {
                     return $type;
                 }
             } else if ($this->getListContainer() == self::TAG_UL) {
