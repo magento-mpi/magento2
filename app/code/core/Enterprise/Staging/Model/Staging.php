@@ -515,7 +515,7 @@ class Enterprise_Staging_Model_Staging extends Mage_Core_Model_Abstract
      */
     public function isStatusProcessing()
     {
-         return $this->getStatus() != Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETED;
+         return $this->getStatus() && ($this->getStatus() != Enterprise_Staging_Model_Staging_Config::STATUS_COMPLETED);
     }
 
     /**
