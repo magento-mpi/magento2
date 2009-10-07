@@ -60,7 +60,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Version_Edit
                 ));
 
             $this->_addButton('new_revision', array(
-                    'label'     => Mage::helper('enterprie_cms')->__('New Revision...'),
+                    'label'     => Mage::helper('enterprise_cms')->__('New Revision...'),
                     'onclick'   => "setLocation('" . $this->getNewRevisionUrl() . "');",
                     'class'     => 'new',
                 ));
