@@ -95,8 +95,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
                 }
                 $this->_addSubtotalAmount($address, $item);
             }
-            $address->setSubtotalInclTax($this->_subtotalInclTax);
-            $address->setBaseSubtotalInclTax($this->_baseSubtotalInclTax);
+//            $address->setSubtotalInclTax($this->_subtotalInclTax);
+//            $address->setBaseSubtotalInclTax($this->_baseSubtotalInclTax);
             $this->_config->setNeedUsePriceExcludeTax(true);
         } elseif (!$address->getTaxSubtotalIsProcessed() && !$this->_needSubtractTax($address)) {
              foreach ($address->getAllItems() as $item) {
@@ -215,10 +215,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
             $item->setBaseDiscountCalculationPrice($basePrice);
         }
 
-        $item->setRowTotalInclTax($subtotal);
-        $item->setBaseRowTotalInclTax($baseSubtotal);
-        $item->setPriceInclTax($price);
-        $item->setBasePriceInclTax($basePrice);
+//        $item->setRowTotalInclTax($subtotal);
+//        $item->setBaseRowTotalInclTax($baseSubtotal);
+//        $item->setPriceInclTax($price);
+//        $item->setBasePriceInclTax($basePrice);
         $this->_subtotalInclTax     += $subtotal;
         $this->_baseSubtotalInclTax += $baseSubtotal;
 
@@ -256,28 +256,28 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         $basePrice   = 0;
         $rowTotal    = 0;
         $baseRowTotal= 0;
-        $priceInclTax       = 0;
-        $basePriceInclTax   = 0;
-        $rowTotalInclTax    = 0;
-        $baseRowTotalInclTax= 0;
+//        $priceInclTax       = 0;
+//        $basePriceInclTax   = 0;
+//        $rowTotalInclTax    = 0;
+//        $baseRowTotalInclTax= 0;
         foreach ($item->getChildren() as $child) {
             $price       += $child->getOriginalPrice();
             $basePrice   += $child->getBaseOriginalPrice();
             $rowTotal    += $child->getRowTotal();
             $baseRowTotal+= $child->getBaseRowTotal();
-            $priceInclTax       += $child->getPriceInclTax();
-            $basePriceInclTax   += $child->getBasePriceInclTax();
-            $rowTotalInclTax    += $child->getRowTotalInclTax();
-            $baseRowTotalInclTax+= $child->getBaseRowTotalInclTax();
+//            $priceInclTax       += $child->getPriceInclTax();
+//            $basePriceInclTax   += $child->getBasePriceInclTax();
+//            $rowTotalInclTax    += $child->getRowTotalInclTax();
+//            $baseRowTotalInclTax+= $child->getBaseRowTotalInclTax();
         }
         $item->setOriginalPrice($price);
         $item->setPrice($basePrice);
         $item->setRowTotal($rowTotal);
         $item->setBaseRowTotal($baseRowTotal);
-        $item->setPriceInclTax($priceInclTax);
-        $item->setBasePriceInclTax($basePriceInclTax);
-        $item->setRowTotalInclTax($rowTotalInclTax);
-        $item->setBaseRowTotalInclTax($baseRowTotalInclTax);
+//        $item->setPriceInclTax($priceInclTax);
+//        $item->setBasePriceInclTax($basePriceInclTax);
+//        $item->setRowTotalInclTax($rowTotalInclTax);
+//        $item->setBaseRowTotalInclTax($baseRowTotalInclTax);
         return $this;
     }
 
@@ -321,10 +321,6 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
         $store = $address->getQuote()->getStore();
         if ($this->_config->shippingPriceIncludesTax($store) || $this->_config->getNeedUseShippingExcludeTax()) {
             return true;
-//            return !$this->_calculator->compareRequests(
-//                $this->_getStoreTaxRequest($address),
-//                $this->_getAddressTaxRequest($address)
-//            );
         }
         return false;
     }
