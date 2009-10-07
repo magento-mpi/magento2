@@ -127,7 +127,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
             ->setOptions($this->getLayoutHandles(
                 $this->getArea(),
                 $this->getPackage(),
-                $this->getTheme(), Mage::app()->getDefaultStoreView()->getId()));
+                $this->getTheme()));
         return parent::_toHtml().$selectBlock->toHtml();
     }
 
@@ -140,13 +140,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Layout
      * @param integer $storeId
      * @return array
      */
-    public function getLayoutHandles($area, $package, $theme, $storeId)
+    public function getLayoutHandles($area, $package, $theme)
     {
         if (empty($this->_layoutHandles)) {
             /* @var $update Mage_Core_Model_Layout_Update */
             $update = Mage::getModel('core/layout')->getUpdate();
             $this->_layoutHandles[''] = Mage::helper('enterprise_cms')->__('-- Please Select --');
-            $this->_collectLayoutHandles($update->getFileLayoutUpdatesXml($area, $package, $theme, $storeId));
+            $this->_collectLayoutHandles($update->getFileLayoutUpdatesXml($area, $package, $theme));
         }
         return $this->_layoutHandles;
     }

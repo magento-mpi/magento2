@@ -170,7 +170,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
             $this->_layoutHandlesXml = $update->getFileLayoutUpdatesXml(
                 $this->getArea(),
                 $this->getPackage(),
-                $this->getTheme(), Mage::app()->getDefaultStoreView()->getId());
+                $this->getTheme());
             $this->_collectLayoutHandles();
             $this->_collectBlocks();
             array_unshift($this->_blocks, array(
@@ -205,28 +205,22 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
 
     /**
      * Filter and collect blocks into array
-     *
-     * @param Mage_Core_Model_Layout_Element $layoutHandles
      */
     protected function _collectBlocks()
     {
-//        foreach ($this->getLayoutHandle() as $handle) {
-//            $wildCard = "//{$handle}//block/label/..";
-            if ($blocks = $this->_layoutHandleUpdatesXml->xpath('//block/label/..')) {
-//            if ($blocks = $this->_layoutHandlesXml->xpath($wildCard)) {
-                /* @var $block Mage_Core_Model_Layout_Element */
-                foreach ($blocks as $block) {
-                    if ((string)$block->getAttribute('name') && $this->_filterBlock($block)) {
-                        if ($module = $block->getAttribute('module')) {
-                            $helper = Mage::helper($module);
-                        } else {
-                            $helper = Mage::helper('core');
-                        }
-                        $this->_blocks[(string)$block->getAttribute('name')] = $helper->__((string)$block->label);
+        if ($blocks = $this->_layoutHandleUpdatesXml->xpath('//block/label/..')) {
+            /* @var $block Mage_Core_Model_Layout_Element */
+            foreach ($blocks as $block) {
+                if ((string)$block->getAttribute('name') && $this->_filterBlock($block)) {
+                    if ($module = $block->getAttribute('module')) {
+                        $helper = Mage::helper($module);
+                    } else {
+                        $helper = Mage::helper('core');
                     }
+                    $this->_blocks[(string)$block->getAttribute('name')] = $helper->__((string)$block->label);
                 }
             }
-//        }
+        }
         asort($this->_blocks, SORT_STRING);
     }
 
