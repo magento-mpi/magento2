@@ -212,7 +212,12 @@ class Mage_Checkout_Model_Type_Multishipping extends Mage_Checkout_Model_Type_Ab
 
             foreach ($info as $itemData) {
                 foreach ($itemData as $quoteItemId => $data) {
-                    $this->_addShippingItem($quoteItemId, $data);
+                    if ($data['qty'] > 0) {
+                        $this->_addShippingItem($quoteItemId, $data);
+                    } else {
+                        $quoteItem = $quote->getItemById($quoteItemId);
+                        $quoteItem->setQty((int)$quoteItem->getQty() - 1);
+                    }
                 }
             }
 
