@@ -475,7 +475,9 @@ class Enterprise_Cms_Model_Widget_Instance extends Mage_Core_Model_Abstract
         }
         $xml .= '<block type="' . $this->getType() . '" name="' . Mage::helper('core')->uniqHash() . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
-            $xml .= '<action method="setData"><name>' . $name . '</name><value>' . Mage::helper('enterprise_cms')->htmlEscape($value) . '</value></action>';
+            if ($name && strlen((string)$value)) {
+                $xml .= '<action method="setData"><name>' . $name . '</name><value>' . Mage::helper('enterprise_cms')->htmlEscape($value) . '</value></action>';
+            }
         }
         $xml .= '</block></reference>';
         return $xml;

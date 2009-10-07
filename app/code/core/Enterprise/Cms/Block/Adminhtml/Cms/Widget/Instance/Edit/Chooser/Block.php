@@ -44,9 +44,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Widget_Instance_Edit_Chooser_Block
 
     protected $_blocks = array();
 
-    protected $_allowedBlocks = array(
-        'core/text_list'
-    );
+    protected $_allowedBlocks = array();
 
     /**
      * Setter

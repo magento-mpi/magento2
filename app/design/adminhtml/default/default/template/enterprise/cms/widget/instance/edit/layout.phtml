@@ -162,14 +162,12 @@ var pageGroupTemplate = '<div class="options-box page_group_container" id="page_
 '</div>';
 
 var WidgetInstance = {
-    pageGroupTemplateId  : 'page_group_container_template',
     pageGroupTemplate    : pageGroupTemplate,
     pageGroupContainerId : 'page_group_container',
     templatePattern : /(^|.|\r|\n)({{(\w+)}})/,
     count : 0,
     activePageGroups : $H({}),
     addPageGroup : function(data) {
-//        if ((pageGroupTemplate= $(this.pageGroupTemplateId)) && (pageGroupContainer = $(this.pageGroupContainerId))) {
         if (this.pageGroupTemplate && (pageGroupContainer = $(this.pageGroupContainerId))) {
             if (!data.page_id) {
                 data = {};
@@ -187,25 +185,23 @@ var WidgetInstance = {
                 additional.position = data.position;
                 additional.for_value = data.for_value;
                 additional.template = '';
-                this.displayPageGroup(pageGroup, additional);
-                if ($(this.pageGroupContainerId+'_'+data.id)) {
-                    selectGroupElm = $(this.pageGroupContainerId+'_'+data.id).down('select.page_group_select');
-                    for (var i=0; i < selectGroupElm.options.length; i++) {
-                        if (selectGroupElm.options[i].value == data.group) {
-                            selectGroupElm.options[i].selected = true;
-                            break;
-                        }
-                    }
-                }
                 if (data.group == 'pages') {
                     layoutSelect = pageGroup.down('select#layout_handle');
                     if (layoutSelect) {
                         for (var i=0; i < layoutSelect.options.length; i++) {
                             if (layoutSelect.options[i].value == data.layout_handle) {
                                 layoutSelect.options[i].selected = true;
-                                this.loadSelectBoxByType('block_reference', pageGroup, data.layout_handle, {selectedBlock:data.block});
                                 break;
                             }
+                        }
+                    }
+                }
+                if ($(this.pageGroupContainerId+'_'+data.id)) {
+                    selectGroupElm = $(this.pageGroupContainerId+'_'+data.id).down('select.page_group_select');
+                    for (var i=0; i < selectGroupElm.options.length; i++) {
+                        if (selectGroupElm.options[i].value == data.group) {
+                            selectGroupElm.options[i].selected = true;
+                            break;
                         }
                     }
                 }
@@ -220,6 +216,7 @@ var WidgetInstance = {
                     forElm.checked = true;
                     this.togglePageGroupChooser(forElm);
                 }
+                this.displayPageGroup(pageGroup, additional);
             }
         }
     },
@@ -233,6 +230,7 @@ var WidgetInstance = {
         container = $(container);
         if (container) {
             container.removeClassName('no-display');
+            container.removeClassName('ignore-validate');
             container.show();
         }
     },
@@ -240,6 +238,7 @@ var WidgetInstance = {
         container = $(container);
         if (container) {
             container.addClassName('no-display');
+            container.addClassName('ignore-validate');
             container.hide();
         }
     },
@@ -375,9 +374,6 @@ var WidgetInstance = {
             additional = {};
         }
         if (element && (containerElm = element.down('div.'+type))) {
-            if (containerElm.innerHtml != '') {
-                containerElm.update('');
-            }
             url = '';
             selected = '';
             parameters = {};
@@ -404,7 +400,7 @@ var WidgetInstance = {
                         containerElm = transport.request.options.containerElm;
                         try {
                             if (transport.responseText) {
-                                Element.insert(containerElm, transport.responseText);
+                                containerElm.update(transport.responseText);
                                 formElm = containerElm.down('select, input[type="hidden"]');
                                 if (formElm) {
                                     formElm.name = element.down('input.container_name').value+'['+formElm.name+']';
