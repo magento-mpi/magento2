@@ -27,33 +27,28 @@
 -->
 <config>
     <menu>
-         <promo>
+        <catalog>
             <children>
                 <targetrule translate="title" module="enterprise_targetrule">
-                    <title>Targeted Product Rules</title>
+                    <title>Rule-Based Product Relations</title>
                     <action>adminhtml/targetrule/</action>
-                    <depends><module>Enterprise_TargetRule</module></depends>
-                    <sort_order>20</sort_order>
+                    <sort_order>35</sort_order>
                 </targetrule>
             </children>
-         </promo>
+        </catalog>
     </menu>
-    
+
     <acl>
         <resources>
             <admin>
                 <children>
-                    <system>
+                    <catalog>
                         <children>
-                            <promo>
-                                <children>
-                                    <targetrule translate="title">
-                                        <title>Target Product Rules</title>
-                                    </targetrule>
-                                </children>
-                            </promo>
+                            <targetrule translate="title">
+                                <title>Rule-Based Product Relations</title>
+                            </targetrule>
                         </children>
-                    </system>
+                    </catalog>
                 </children>
             </admin>
         </resources>

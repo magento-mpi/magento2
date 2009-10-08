@@ -46,7 +46,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Targetrule_Edit_Tab_Actions extends 
         $form->setHtmlIdPrefix('rule_');
 
         $fieldset   = $form->addFieldset('actions_fieldset', array(
-            'legend'    => Mage::helper('enterprise_targetrule')->__('Targeted Product Conditions'))
+            'legend' => Mage::helper('enterprise_targetrule')->__('Product Result Conditions (leave blank for matching all products)'))
         );
         $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
             'form'  => $fieldset->getHtmlId()

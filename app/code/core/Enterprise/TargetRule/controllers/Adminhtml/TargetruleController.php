@@ -34,7 +34,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     protected function _initAction()
     {
-        $this->loadLayout()->_setActiveMenu('promo/targetrule');
+        $this->loadLayout()->_setActiveMenu('catalog/targetrule');
         return $this;
     }
 
@@ -165,7 +165,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 $hasError = true;
             } catch (Exception $e) {
                 $this->_getSession()->addException($e,
-                    Mage::helper('enterprise_targetrule')->__('Error in saving Targeted Product Rule')
+                    Mage::helper('enterprise_targetrule')->__('Error in saving Product Rule')
                 );
 
                 Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
@@ -197,7 +197,7 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
                 $model->load($id);
                 $model->delete();
                 Mage::getSingleton('adminhtml/session')
-                    ->addSuccess(Mage::helper('enterprise_targetrule')->__('Rule was successfully deleted'));
+                    ->addSuccess(Mage::helper('enterprise_targetrule')->__('Rule has been successfully deleted'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -248,6 +248,6 @@ class Enterprise_TargetRule_Adminhtml_TargetRuleController extends Mage_Adminhtm
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('promo/targetrule');
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/targetrule');
     }
 }
