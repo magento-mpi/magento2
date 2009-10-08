@@ -515,6 +515,7 @@ class Mage_Core_Model_Resource_Setup
 
     public function setConfigData($path, $value, $scope='default', $scopeId=0, $inherit=0)
     {
+        $this->_conn->showTableStatus($this->getTable('core/config_data')); // this is a fix for mysql 4.1
         $this->_conn->raw_query("replace into ".$this->getTable('core/config_data')." (scope, scope_id, path, value) values ('$scope', $scopeId, '$path', '$value')");
         return $this;
     }
