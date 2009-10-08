@@ -76,7 +76,7 @@ class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_Catalog
     public function addBannersFilter($enabledOnly = false)
     {
         if (!$this->_isBannerFilterAdded) {
-        	$select = $this->getSelect();
+            $select = $this->getSelect();
             $select->join(
                     array('rule_related_banners' => $this->getTable('enterprise_banner/catalogrule')),
                     'rule_related_banners.rule_id = rule_group_website.rule_id',
@@ -106,7 +106,7 @@ class Enterprise_Banner_Model_Mysql4_Catalogrule_Collection extends Mage_Catalog
     {
         if (!$this->_isCustomerSegmentFilterAdded && !empty($matchedCustomerSegments)) {
             $select = $this->getSelect();
-        	$select->joinLeft(
+            $select->joinLeft(
                 array('banner_segments' => $this->getTable('enterprise_banner/customersegment')),
                 'banners.banner_id = banner_segments.banner_id',
                 array()

@@ -234,7 +234,7 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
             ->from($this->_salesRuleTable, array())
             ->where('banner_id=?', $bannerId);
             if (!$this->_isSalesRuleRelatedToBanner) {
-            	$select->join(
+                $select->join(
                     array('rules' => $this->getTable('salesrule/rule')),
                     $this->_salesRuleTable . '.rule_id = `rules`.rule_id',
                     array('rule_id')
@@ -444,7 +444,7 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
     public function saveCustomerSegments($bannerId, $segments)
     {
         if (is_string($segments)) {
-        	$segments = array();
+            $segments = array();
         }
         $adapter = $this->_getWriteAdapter();
         foreach ($segments as $segmentId) {

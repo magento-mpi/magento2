@@ -257,7 +257,7 @@ class Enterprise_Cms_Adminhtml_Cms_Widget_InstanceController extends Mage_Adminh
         $this->getResponse()->setBody($blocksChooser->toHtml());
     }
 
-	/**
+    /**
      * Templates Chooser Action (Ajax request)
      *
      */

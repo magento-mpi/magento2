@@ -94,7 +94,7 @@ class Enterprise_Banner_Model_Mysql4_Salesrule_Collection extends Mage_SalesRule
     {
         if (!$this->_isCustomerSegmentFilterAdded && !empty($matchedCustomerSegments)) {
             $select = $this->getSelect();
-        	$select->joinLeft(
+            $select->joinLeft(
                 array('banner_segments' => $this->getTable('enterprise_banner/customersegment')),
                 'banners.banner_id = banner_segments.banner_id',
                 array()
