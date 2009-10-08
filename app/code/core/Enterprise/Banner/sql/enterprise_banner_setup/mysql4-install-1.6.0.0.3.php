@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_banner/catalogrule
   KEY `banner_id` (`banner_id`),
   KEY `rule_id` (`rule_id`),
   CONSTRAINT `FK_BANNER_CATALOGRULE_BANNER` FOREIGN KEY (`banner_id`) REFERENCES `{$installer->getTable('enterprise_banner/banner')}` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_BANNER_CATALOGRULE_RULE` FOREIGN KEY (`rule_id`) REFERENCES `{$installer->getTable('catalogrule')}` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_BANNER_CATALOGRULE_RULE` FOREIGN KEY (`rule_id`) REFERENCES `{$installer->getTable('catalogrule/rule')}` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Banners Relations to Catalog Rules';
 
 CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_banner/salesrule')}` (
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_banner/salesrule')
   KEY `banner_id` (`banner_id`),
   KEY `rule_id` (`rule_id`),
   CONSTRAINT `FK_BANNER_SALESRULE_BANNER` FOREIGN KEY (`banner_id`) REFERENCES `{$installer->getTable('enterprise_banner/banner')}` (`banner_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_BANNER_SALESRULE_RULE` FOREIGN KEY (`rule_id`) REFERENCES `{$installer->getTable('catalogrule/rule')}` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_BANNER_SALESRULE_RULE` FOREIGN KEY (`rule_id`) REFERENCES `{$installer->getTable('salesrule/rule')}` (`rule_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Banners Relations to Sales Rules';
 
 CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_banner/customersegment')}` (
