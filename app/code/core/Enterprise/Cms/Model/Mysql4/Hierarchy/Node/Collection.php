@@ -99,6 +99,17 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
     }
 
     /**
+     * Order tree by level and position
+     *
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection
+     */
+    public function setOrderByLevel()
+    {
+        $this->getSelect()->order(array('level', 'sort_order'));
+        return $this;
+    }
+
+    /**
      * Join meta data for tree root nodes from extra table.
      *
      * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection

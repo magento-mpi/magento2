@@ -333,7 +333,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 ->joinCmsPage()
                 ->addCmsPageInStoresColumn()
                 ->joinMetaData()
-                ->setTreeOrder();
+                ->setOrderByLevel();
+
             foreach ($collection as $item) {
                 /* @var $item Enterprise_Cms_Model_Hierarchy_Node */
                 $node = array(
