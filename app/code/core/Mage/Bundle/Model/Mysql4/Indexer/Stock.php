@@ -185,7 +185,7 @@ class Mage_Bundle_Model_Mysql4_Indexer_Stock extends Mage_CatalogInventory_Model
                 . 'cisi.is_in_stock, 1)');
         }
 
-        $select->columns(array('status' => new Zend_Db_Expr("LEAST(MAX(o.stock_status), {$statusExpr})")));
+        $select->columns(array('status' => new Zend_Db_Expr("LEAST(MIN(o.stock_status), {$statusExpr})")));
 
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);
