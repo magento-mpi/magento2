@@ -52,6 +52,9 @@ class Enterprise_CustomerBalance_Block_Sales_Order_Customerbalance extends Mage_
      */
     public function initTotals()
     {
+        if ((float)$this->getSource()->getCustomerBalanceAmount() == 0) {
+            return $this;
+        }
         $total = new Varien_Object(array(
             'code'      => $this->getNameInLayout(),
             'block_name'=> $this->getNameInLayout(),
