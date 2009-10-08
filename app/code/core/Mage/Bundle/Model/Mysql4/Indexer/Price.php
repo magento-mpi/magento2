@@ -253,8 +253,8 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
             'price_type'    => new Zend_Db_Expr($priceType),
             'special_price' => $specialExpr,
             'tier_percent'  => $tierExpr,
-            'price'         => $finalPrice,
             'orig_price'    => new Zend_Db_Expr("IF({$price} IS NULL, 0, {$price})"),
+            'price'         => $finalPrice,
             'min_price'     => $finalPrice,
             'max_price'     => $finalPrice,
             'tier_price'    => $tierPrice
