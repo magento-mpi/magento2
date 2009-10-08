@@ -45,7 +45,8 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
         $this->_removeButton('reset');
         $this->_removeButton('delete');
 
-        if ($this->getInvoice()->canCancel()) {
+        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/cancel')
+            && $this->getInvoice()->canCancel()) {
             $this->_addButton('cancel', array(
                 'label'     => Mage::helper('sales')->__('Cancel'),
                 'class'     => 'delete',
@@ -61,7 +62,8 @@ class Mage_Adminhtml_Block_Sales_Order_Invoice_View extends Mage_Adminhtml_Block
             ) . '\', \'' . $this->getEmailUrl() . '\')'
         ));
 
-        if ($this->getInvoice()->getOrder()->canCreditmemo()) {
+        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/creditmemo')
+            && $this->getInvoice()->getOrder()->canCreditmemo()) {
             if ($this->getInvoice()->getOrder()->getPayment()->canRefundPartialPerInvoice()
                 || !$this->getInvoice()->getIsUsedForRefund())
             {
