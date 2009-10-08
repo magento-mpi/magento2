@@ -31,10 +31,20 @@
             <remove name="relatedProducts" />
             <block type="enterprise_targetrule/catalog_product_list_related" name="catalog.product.related" as="relatedProducts" template="targetrule/catalog/product/list/related.phtml">
                 <action method="setColumnCount"><columns>3</columns></action>
+                <action method="addPriceBlockType">
+                    <type>bundle</type>
+                    <block>bundle/catalog_product_price</block>
+                    <template>bundle/catalog/product/price.phtml</template>
+                </action>
             </block>
             <remove name="upsell_products" />
             <block type="enterprise_targetrule/catalog_product_list_upsell" name="product.info.upsell" as="upsell_products" template="targetrule/catalog/product/list/upsell.phtml">
                 <action method="setColumnCount"><columns>4</columns></action>
+                <action method="addPriceBlockType">
+                    <type>bundle</type>
+                    <block>bundle/catalog_product_price</block>
+                    <template>bundle/catalog/product/price.phtml</template>
+                </action>
             </block>
         </reference>
     </catalog_product_view>
@@ -42,7 +52,13 @@
     <checkout_cart_index>
         <reference name="checkout.cart">
             <remove name="crosssell" />
-            <block type="enterprise_targetrule/checkout_cart_crosssell" name="checkout.cart.crosssell" as="crosssell" template="targetrule/checkout/cart/crosssell.phtml" />
+            <block type="enterprise_targetrule/checkout_cart_crosssell" name="checkout.cart.crosssell" as="crosssell" template="targetrule/checkout/cart/crosssell.phtml">
+                <action method="addPriceBlockType">
+                    <type>bundle</type>
+                    <block>bundle/catalog_product_price</block>
+                    <template>bundle/catalog/product/price.phtml</template>
+                </action>
+            </block>
         </reference>
     </checkout_cart_index>
 </layout>
