@@ -32,7 +32,7 @@
             <block type="enterprise_targetrule/adminhtml_targetrule" name="enterprise.targetrule.targetrule" template="widget/grid/container.phtml">
                 <block type="enterprise_targetrule/adminhtml_targetrule_grid" name="enterprise.targetrule.grid"/>
                 <action method="setHeaderText" translate="text">
-                    <text>Target Rules</text>
+                    <text>Rule-Based Product Relations</text>
                 </action>
             </block>
         </reference>
