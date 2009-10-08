@@ -199,10 +199,6 @@
                 ? '<?php echo $this->getPageFieldsetLegend()?>'
                 : '<?php echo $this->getNodeFieldsetLegend()?>';
 
-            $('field_menu_visibility').down('td.label > label').innerHTML = hasPageId
-                ? '<?php echo $this->__('Enable Navigation Menu')?>'
-                : '<?php echo $this->__('Enable Navigation Menu for Nested Pages')?>';
-
             // prepare preview link
             var nodeUrlInfo = this.getNodePreviewUrlInfo(node);
             if (nodeUrlInfo != false) {
@@ -591,6 +587,7 @@
                 'pager_visibility',
                 'pager_frame',
                 'pager_jump',
+                'menu_visibility_self',
                 'menu_visibility',
                 'menu_levels_up',
                 'menu_levels_down',
@@ -642,7 +639,7 @@
         toggleFieldset: function(switcher, container, hidden) {
             var elems = Element.select(container, ['select', 'input', 'textarea', 'button']);
             elems.each(function (elem) {
-                if(elem!=switcher) {
+                if(elem!=switcher && elem.id != 'menu_visibility_self') {
                     hidden ? elem.up(1).hide() : elem.up(1).show();
                 };
             });
@@ -659,17 +656,9 @@
                 hasChilds = node.hasChildNodes();
             }
 
-            var yes = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES ?>';
-
             // hide pagination options anyway if node/page hasn't childs
             hasChilds ? this.showFieldSet('pager_fieldset') : this.hideFieldSet('pager_fieldset');
-
-            if (hasPageId) {
-                this.removeOptionFromSelect('menu_visibility', yes);
-            } else {
-                var no = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_NO ?>';
-                this.addOptionToSelect('menu_visibility', yes, '<?php echo $this->__('Yes') ?>', no);
-            }
+            hasPageId ? $('field_menu_visibility_self').show() : $('field_menu_visibility_self').hide();
 
             // Assign node attributes to metadata fields
             if (node != undefined) {

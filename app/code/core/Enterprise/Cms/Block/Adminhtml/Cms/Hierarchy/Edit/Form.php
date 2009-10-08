@@ -90,7 +90,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('enterprise_cms')->__('Title'),
             'required'  => true,
             'onchange'   => 'hierarchyNodes.nodeChanged()',
-            'tabindex'   => '1'
+            'tabindex'   => '10'
         ));
 
         $fieldset->addField('node_identifier', 'text', array(
@@ -99,7 +99,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'required'  => true,
             'class'     => 'validate-identifier',
             'onchange'   => 'hierarchyNodes.nodeChanged()',
-            'tabindex'   => '2'
+            'tabindex'   => '20'
         ));
 
         $fieldset->addField('node_label_text', 'note', array(
@@ -133,7 +133,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'name'      => 'meta_first_last',
                 'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
-                'tabindex'   => '3'
+                'tabindex'   => '30'
             ));
 
             $fieldset->addField('meta_next_previous', 'select', array(
@@ -142,7 +142,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'name'      => 'meta_next_previous',
                 'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
-                'tabindex'   => '4'
+                'tabindex'   => '40'
             ));
 
 
@@ -153,7 +153,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     //            'name'      => 'meta_chapter',
     //            'values'   => $yesNoOptions,
     //            'onchange'   => 'hierarchyNodes.nodeChanged()',
-    //            'tabindex'   => '5'
+    //            'tabindex'   => '50'
     //        ));
     //
     //        $fieldset->addField('meta_section', 'select', array(
@@ -162,7 +162,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     //            'name'      => 'meta_section',
     //            'values'   => $yesNoOptions,
     //            'onchange'   => 'hierarchyNodes.nodeChanged()',
-    //            'tabindex'   => '6'
+    //            'tabindex'   => '60'
     //        ));
         }
 
@@ -176,6 +176,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
             'onchange'  => "hierarchyNodes.metadataChanged('pager_visibility', 'pager_fieldset')",
+            'tabindex'  => '70',
         ));
         $pagerFieldset->addField('pager_frame', 'text', array(
             'name'      => 'pager_frame',
@@ -183,6 +184,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_frame',
             'note'      => Mage::helper('enterprise_cms')->__('How many Links to display at once'),
+            'tabindex'  => '80',
         ));
         $pagerFieldset->addField('pager_jump', 'text', array(
             'name'      => 'pager_jump',
@@ -190,19 +192,36 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_jump',
             'note'      => Mage::helper('enterprise_cms')->__('If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value'),
+            'tabindex'  => '90',
         ));
 
         $menuFieldset   = $form->addFieldset('menu_fieldset', array(
             'legend'    => Mage::helper('enterprise_cms')->__('Navigation Menu Options')
         ));
 
+
+        $menuVisibilitySource = Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray();
+        $menuVisibilitySelfSource = $menuVisibilitySource;
+        unset($menuVisibilitySelfSource[Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES]);
+
+        $menuFieldset->addField('menu_visibility_self', 'select', array(
+            'label'     => Mage::helper('enterprise_cms')->__('This Page Navigation Menu'),
+            'name'      => 'menu_visibility_self',
+            'values'    => $menuVisibilitySelfSource,
+            'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
+            'onchange'   => "hierarchyNodes.nodeChanged()",
+            'container_id' => 'field_menu_visibility_self',
+            'tabindex'  => '100',
+        ));
+
         $menuFieldset->addField('menu_visibility', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Enable Navigation Menu'),
+            'label'     => Mage::helper('enterprise_cms')->__('Navigation Menu for Nested Pages'),
             'name'      => 'menu_visibility',
-            'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
+            'values'    => $menuVisibilitySource,
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
             'onchange'   => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
             'container_id' => 'field_menu_visibility',
+            'tabindex'  => '110',
         ));
         $menuFieldset->addField('menu_levels_up', 'text', array(
             'name'      => 'menu_levels_up',
@@ -210,6 +229,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_up',
             'note'      => Mage::helper('enterprise_cms')->__('Number of Parent Node Levels to Include'),
+            'tabindex'  => '120',
         ));
         $menuFieldset->addField('menu_levels_down', 'text', array(
             'name'      => 'menu_levels_down',
@@ -217,6 +237,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_down',
             'note'      => Mage::helper('enterprise_cms')->__('Number of Child Node Levels to Include'),
+            'tabindex'  => '130',
         ));
         $menuFieldset->addField('menu_ordered', 'select', array(
             'label'     => Mage::helper('enterprise_cms')->__('List Type'),
@@ -225,7 +246,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listtype')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_ordered',
-
+            'tabindex'  => '140',
         ));
         $menuFieldset->addField('menu_list_type', 'select', array(
             'label'     => Mage::helper('enterprise_cms')->__('List Style'),
@@ -234,6 +255,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listmode')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_list_type',
+            'tabindex'  => '150',
         ));
 
         $form->setUseContainer(true);

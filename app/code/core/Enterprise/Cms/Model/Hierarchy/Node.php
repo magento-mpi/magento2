@@ -170,6 +170,20 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Flag to indicate whether append active pages only or not
+     *
+     * @param bool $flag
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function setCollectActivePagesOnly($flag)
+    {
+        $flag = (bool)$flag;
+        $this->setData('collect_active_pages_only', $flag);
+        $this->_getResource()->setAppendActivePagesOnly($flag);
+        return $this;
+    }
+
+    /**
      * Retrieve Node or Page identifier
      *
      * @return string
@@ -444,15 +458,17 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function getMetadataContextMenuParams()
     {
-        $params = $this->getResource()->getMetadataParamsBasedOnVisibility($this, 'menu_visibility');
-        if ($params !== null
-            && $this->getData('menu_visibility') == Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT
-            && isset($params['menu_levels_up'])
-            && isset($params['level']))
-        {
-            $params['menu_levels_up'] = ($this->getLevel() - $params['level']) + $params['menu_levels_up'];
+        if ($this->getData('menu_visibility_self') == Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT) {
+            $params = $this->getResource()->getMetadataParamsBasedOnVisibility($this, 'menu_visibility', true);
+            if ($params !== null
+                && isset($params['menu_levels_up'])
+                && isset($params['level']))
+            {
+                $params['menu_levels_up'] = ($this->getLevel() - $params['level']) + $params['menu_levels_up'];
+            }
+            return $params;
         }
-        return $params;
+        return null;
     }
 
     /**

@@ -47,6 +47,12 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     protected $_metadataTable;
 
     /**
+     * Flag to indicate whether append active pages only or not
+     * @var bool
+     */
+    protected $_appendActivePagesOnly = false;
+
+    /**
      * Initialize connection and define main table and field
      *
      */
@@ -86,6 +92,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                     'pager_visibility',
                     'pager_frame',
                     'pager_jump',
+                    'menu_visibility_self',
                     'menu_visibility',
                     'menu_levels_up',
                     'menu_levels_down',
@@ -93,7 +100,22 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                     'menu_list_type'
                 ));
 
+        if ($this->_appendActivePagesOnly) {
+            $select->where('page_table.is_active=1');
+        }
         return $select;
+    }
+
+    /**
+     * Flag to indicate whether append active pages only or not
+     *
+     * @param bool $flag
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function setAppendActivePagesOnly($flag)
+    {
+        $this->_appendActivePagesOnly = (bool)$flag;
+        return $this;
     }
 
     /**
@@ -617,8 +639,11 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      */
     public function _getLoadSelectWithoutWhere()
     {
-        return $this->_getLoadSelect(null, null, null)
-            ->reset(Zend_Db_Select::WHERE);
+        $select = $this->_getLoadSelect(null, null, null)->reset(Zend_Db_Select::WHERE);
+        if ($this->_appendActivePagesOnly) {
+            $select->where('page_table.is_active=1');
+        }
+        return $select;
     }
 
     /**

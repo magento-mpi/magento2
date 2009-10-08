@@ -357,7 +357,12 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
             if (!abs(intval($down))) {
                 $down = 1;
             }
-            $this->setData('_tree', $this->_node->getTreeSlice($up, $down));
+
+            $tree = $this->_node
+                ->setCollectActivePagesOnly(true)
+                ->getTreeSlice($up, $down);
+
+            $this->setData('_tree', $tree);
         }
         return $this->_getData('_tree');
     }

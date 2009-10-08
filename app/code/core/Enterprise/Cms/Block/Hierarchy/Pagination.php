@@ -296,8 +296,12 @@ class Enterprise_Cms_Block_Hierarchy_Pagination extends Mage_Core_Block_Template
     public function getNodes()
     {
         if (!$this->hasData('_nodes')) {
+
             // initialize nodes
-            $nodes    = $this->_node->getParentNodeChildren();
+            $nodes    = $this->_node
+                ->setCollectActivePagesOnly(true)
+                ->getParentNodeChildren();
+
             $flags    = array(
                 'previous' => false,
                 'next'     => false

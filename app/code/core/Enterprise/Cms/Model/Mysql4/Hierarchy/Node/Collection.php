@@ -127,6 +127,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
                     'pager_visibility',
                     'pager_frame',
                     'pager_jump',
+                    'menu_visibility_self',
                     'menu_visibility',
                     'menu_levels_up',
                     'menu_levels_down',
