@@ -25,9 +25,9 @@
  */
 
 /**
- * Customer address type selector
+ * Customer newsletter subscription
  */
-class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Default
+class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
     extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
     protected $_inputType = 'select';
@@ -38,8 +38,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     public function __construct()
     {
         parent::__construct();
-        $this->setType('enterprise_customersegment/segment_condition_customer_address_default');
-        $this->setValue('default_billing');
+        $this->setType('enterprise_customersegment/segment_condition_customer_newsletter');
+        $this->setValue(1);
     }
 
     /**
@@ -49,7 +49,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
      */
     public function getMatchedEvents()
     {
-        return array('customer_address_save_commit_after', 'customer_save_commit_after', 'customer_address_delete_commit_after');
+        return array('customer_save_commit_after', 'newsletter_subscriber_save_commit_after');
     }
 
     /**
@@ -57,26 +57,24 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
      *
      * @return array
      */
-        public function getNewChildSelectOptions()
+    public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => $this->getType(),
-            'label' => Mage::helper('enterprise_customersegment')->__('Default Address')
-        );
+        return array(array('value' => $this->getType(),
+            'label'=>Mage::helper('enterprise_customersegment')->__('Is subscribed to Newsletter')));
     }
 
     /**
-     * Init list of available values
+     * Get HTML of condition string
      *
-     * @return array
+     * @return string
      */
-    public function loadValueOptions()
+    public function asHtml()
     {
-        $this->setValueOption(array(
-            'default_billing'  => Mage::helper('enterprise_customersegment')->__('Billing'),
-            'default_shipping' => Mage::helper('enterprise_customersegment')->__('Shipping'),
-        ));
-        return $this;
+        $operator = $this->getOperatorElementHtml();
+        $element = $this->getValueElementHtml();
+        return $this->getTypeElementHtml()
+            .Mage::helper('enterprise_customersegment')->__('Customer Is %s to Newsletter.', $element)
+            .$this->getRemoveLinkHtml();
     }
 
     /**
@@ -90,20 +88,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
     }
 
     /**
-     * Get HTML of condition string
+     * Init list of available values
      *
-     * @return string
+     * @return array
      */
-    public function asHtml()
+    public function loadValueOptions()
     {
-        return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Customer Address %s Default %s Address',
-                $this->getOperatorElementHtml(), $this->getValueElement()->getHtml())
-            . $this->getRemoveLinkHtml();
+        $this->setValueOption(array(
+            '1'  => Mage::helper('enterprise_customersegment')->__('subscribed'),
+            '0' => Mage::helper('enterprise_customersegment')->__('not subscribed'),
+        ));
+        return $this;
     }
 
     /**
-     * Prepare is default billing/shipping condition for customer address
+     * Get condition query for customer balance
      *
      * @param $customer
      * @param $website
@@ -111,15 +110,17 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Defaul
      */
     public function getConditionsSql($customer, $website)
     {
-        $select = $this->getResource()->createSelect();
-        $attribute = Mage::getSingleton('eav/config')->getAttribute('customer', $this->getValue());
-        $select->from(array('default'=>$attribute->getBackendTable()), array(new Zend_Db_Expr(1)));
-        $select->limit(1);
+        $table = $this->getResource()->getTable('newsletter/subscriber');
+        $value = $this->getValue();
 
-        $select->where('default.attribute_id = ?', $attribute->getId())
-            ->where('default.value=customer_address.entity_id')
-            ->where($this->_createCustomerFilter($customer, 'default.entity_id'));
-
+        $select = $this->getResource()->createSelect()
+            ->from($table, array(new Zend_Db_Expr($value)))
+            ->where($this->_createCustomerFilter($customer, 'customer_id'))
+            ->where('subscriber_status = ?', Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED)
+            ->limit(1);
+        if (!$value) {
+            $select = 'IFNULL(('.$select.'), 1)';
+        }
         return $select;
     }
 }

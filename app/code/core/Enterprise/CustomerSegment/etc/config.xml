@@ -65,6 +65,56 @@
                 </setup>
             </enterprise_customersegment_setup>
         </resources>
+        <events>
+            <customer_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </customer_save_commit_after>
+            <customer_balance_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </customer_balance_save_commit_after>
+            <customer_address_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </customer_address_save_commit_after>
+            <customer_address_delete_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </customer_address_delete_commit_after>
+            <sales_quote_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </sales_quote_save_commit_after>
+            <sales_order_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </sales_order_save_commit_after>
+        </events>
     </global>
 
     <admin>
@@ -159,46 +209,14 @@
                     </enterprise_customersegment>
                 </observers>
             </customer_login>
-            <customer_save_commit_after>
+            <newsletter_subscriber_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
                         <class>enterprise_customersegment/observer</class>
                         <method>processEvent</method>
                     </enterprise_customersegment>
                 </observers>
-            </customer_save_commit_after>
-            <customer_balance_save_commit_after>
-                <observers>
-                    <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
-                    </enterprise_customersegment>
-                </observers>
-            </customer_balance_save_commit_after>
-            <customer_address_save_commit_after>
-                <observers>
-                    <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
-                    </enterprise_customersegment>
-                </observers>
-            </customer_address_save_commit_after>
-            <sales_quote_save_commit_after>
-                <observers>
-                    <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
-                    </enterprise_customersegment>
-                </observers>
-            </sales_quote_save_commit_after>
-            <sales_order_save_commit_after>
-                <observers>
-                    <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
-                    </enterprise_customersegment>
-                </observers>
-            </sales_order_save_commit_after>
+            </newsletter_subscriber_save_commit_after>
         </events>
     </frontend>
 

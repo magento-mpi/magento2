@@ -29,7 +29,7 @@
  */
 class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterprise_CustomerSegment_Model_Condition_Abstract
 {
-    protected $_inputType = 'select';
+    protected $_inputType = 'numeric';
 
     /**
      * Intialize model
@@ -41,6 +41,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterp
         parent::__construct();
         $this->setType('enterprise_customersegment/segment_condition_uptodate');
         $this->setValue(null);
+    }
+
+    /**
+     * Customize default operator input by type mapper for some types
+     * @return array
+     */
+    public function getDefaultOperatorInputByType()
+    {
+        if (null === $this->_defaultOperatorInputByType) {
+            parent::getDefaultOperatorInputByType();
+            $this->_defaultOperatorInputByType['numeric'] = array('>=', '<=', '>', '<');
+        }
+        return $this->_defaultOperatorInputByType;
     }
 
     /**
@@ -74,7 +87,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterp
     public function asHtml()
     {
         return $this->getTypeElementHtml()
-            . Mage::helper('enterprise_customersegment')->__('Period %s Last %s Days',
+            . Mage::helper('enterprise_customersegment')->__('Period %s %s Days Up To Date',
                 $this->getOperatorElementHtml(), $this->getValueElementHtml())
             . $this->getRemoveLinkHtml();
     }
@@ -105,7 +118,8 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Uptodate extends Enterp
         }
 
         $limit = date('Y-m-d', strtotime("now -{$value} days"));
-        $operator = (($requireValid && $this->getOperator() == '==') ? '>' : '<');
+        //$operator = (($requireValid && $this->getOperator() == '==') ? '>' : '<');
+        $operator = $this->getOperator();
         return sprintf("%s %s '%s'", $fieldName, $operator, $limit);
     }
 }

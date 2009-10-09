@@ -186,7 +186,6 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
             $this->_getResource()->saveSegmentCustomersFromSelect($this, $sql);
             $this->_getResource()->commit();
         } catch (Exception $e) {
-            echo $e;die();
             $this->_getResource()->rollBack();
         }
         return $this;

@@ -47,7 +47,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function getMatchedEvents()
     {
-        return array('customer_address_save_commit_after');
+        return array('customer_address_save_commit_after', 'customer_address_delete_commit_after');
     }
 
     /**

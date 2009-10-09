@@ -90,8 +90,21 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         $attributes = array();
 
         foreach ($productAttributes as $attribute) {
+            $label = $attribute->getFrontendLabel();
+            if (!$label) {
+                continue;
+            }
             if ($attribute->getIsUsedForCustomerSegment()) {
-                $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
+                $attributes[$attribute->getAttributeCode()] = $label;
+            }
+
+            /**
+             * Temporary solution.
+             * @todo should be changed after customer attributes management implementation
+             */
+            $config = (bool) Mage::helper('customer/address')->getConfig($attribute->getAttributeCode().'_show');
+            if ($config) {
+                $attributes[$attribute->getAttributeCode()] = $label;
             }
         }
         asort($attributes);

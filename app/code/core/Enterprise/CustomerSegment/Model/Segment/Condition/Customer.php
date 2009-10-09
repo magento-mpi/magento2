@@ -48,12 +48,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer
     public function getNewChildSelectOptions()
     {
         $conditions = array();
-        $suffix = 'enterprise_customersegment/segment_condition_customer_';
-        $conditions = Mage::getModel($suffix.'attributes')->getNewChildSelectOptions();
-        $conditions = array_merge($conditions, Mage::getModel($suffix.'storecredit')->getNewChildSelectOptions());
+        $prefix = 'enterprise_customersegment/segment_condition_customer_';
+        $conditions = Mage::getModel($prefix.'attributes')->getNewChildSelectOptions();
+        $conditions = array_merge($conditions, Mage::getModel($prefix.'newsletter')->getNewChildSelectOptions());
+        $conditions = array_merge($conditions, Mage::getModel($prefix.'storecredit')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
-            'label'=>Mage::helper('enterprise_customersegment')->__('Customer Attribute')
+            'label'=>Mage::helper('enterprise_customersegment')->__('Customer')
         );
     }
 }

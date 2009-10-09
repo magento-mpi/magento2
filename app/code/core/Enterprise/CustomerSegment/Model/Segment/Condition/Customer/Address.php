@@ -46,14 +46,14 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address
      */
     public function getNewChildSelectOptions()
     {
-        $suffix = 'enterprise_customersegment/segment_condition_customer_address_';
+        $prefix = 'enterprise_customersegment/segment_condition_customer_address_';
         $result = array_merge_recursive(parent::getNewChildSelectOptions(), array(
             array(
                 'value' => $this->getType(),
                 'label' => Mage::helper('enterprise_customersegment')->__('Conditions Combination')
             ),
-            Mage::getModel($suffix.'default')->getNewChildSelectOptions(),
-            Mage::getModel($suffix.'attributes')->getNewChildSelectOptions(),
+            Mage::getModel($prefix.'default')->getNewChildSelectOptions(),
+            Mage::getModel($prefix.'attributes')->getNewChildSelectOptions(),
         ));
         return $result;
     }

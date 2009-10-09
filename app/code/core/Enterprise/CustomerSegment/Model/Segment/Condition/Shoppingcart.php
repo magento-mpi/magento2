@@ -47,11 +47,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart
      */
     public function getNewChildSelectOptions()
     {
-        $modelSuffix = 'enterprise_customersegment/segment_condition_shoppingcart_';
+        $prefix = 'enterprise_customersegment/segment_condition_shoppingcart_';
         return array('value' => array(
-                Mage::getModel($modelSuffix.'amount')->getNewChildSelectOptions(),
-                Mage::getModel($modelSuffix.'itemsquantity')->getNewChildSelectOptions(),
-                Mage::getModel($modelSuffix.'productsquantity')->getNewChildSelectOptions(),
+                Mage::getModel($prefix.'amount')->getNewChildSelectOptions(),
+                Mage::getModel($prefix.'itemsquantity')->getNewChildSelectOptions(),
+                Mage::getModel($prefix.'productsquantity')->getNewChildSelectOptions(),
             ),
             'label' => Mage::helper('enterprise_customersegment')->__('Shopping Cart')
         );

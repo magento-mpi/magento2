@@ -43,16 +43,35 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
         $this->_updateButton('save', 'label', Mage::helper('enterprise_customersegment')->__('Save'));
         $this->_updateButton('delete', 'label', Mage::helper('enterprise_customersegment')->__('Delete'));
 
+        $segment = Mage::registry('current_customer_segment');
+        if ($segment && $segment->getId()) {
+            $this->_addButton('match_customers', array(
+                'label'     => Mage::helper('enterprise_customersegment')->__('Match Customers'),
+                'onclick'   => 'setLocation(\'' . $this->getMatchUrl() . '\')',
+            ), -1);
+        }
+
         $this->_addButton('save_and_continue_edit', array(
             'class' => 'save',
             'label' => Mage::helper('enterprise_customersegment')->__('Save and Continue Edit'),
             'onclick'   => 'saveAndContinueEdit()',
         ), 3);
 
-        $this->_formScripts[] = '
+        $this->_formScripts[] = "
             function saveAndContinueEdit() {
-                editForm.submit($(\'edit_form\').action + \'back/edit/\');
-            }';
+                editForm.submit($('edit_form').action + 'back/edit/');
+            }";
+    }
+
+    /**
+     * Get url for run segment customers matching
+     *
+     * @return string
+     */
+    public function getMatchUrl()
+    {
+        $segment = Mage::registry('current_customer_segment');
+        return $this->getUrl('*/*/match', array('id'=>$segment->getId()));
     }
 
     /**

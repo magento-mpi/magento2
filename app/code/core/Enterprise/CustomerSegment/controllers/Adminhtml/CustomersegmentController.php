@@ -111,6 +111,28 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
     }
 
     /**
+     * Match segment customers action
+     */
+    public function matchAction()
+    {
+        try {
+            $model = $this->_initSegment();
+            $model->matchCustomers();
+        } catch (Mage_Core_Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*/');
+            return;
+        } catch (Exception $e) {
+            $this->_getSession()->addException($e,
+                Mage::helper('enterprise_customersegment')->__('Segment Customers matching error.')
+            );
+            $this->_redirect('*/*/');
+            return;
+        }
+        $this->_redirect('*/*/edit', array('id' => $model->getId(), 'active_tab'=>'customers_tab'));
+    }
+
+    /**
      * Init active menu and set breadcrumb
      *
      * @return Enterprise_CustomerSegment_Adminhtml_CustomersegmentController
