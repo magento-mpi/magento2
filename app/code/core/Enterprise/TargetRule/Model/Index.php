@@ -246,4 +246,22 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
     {
         return $this->_getResource()->select();
     }
+
+    /**
+     * Run processing by cron
+     * Check store datetime and every day per store clean index cache
+     *
+     */
+    public function cron()
+    {
+        $websites = Mage::app()->getWebsites();
+        foreach ($websites as $website) {
+            /* @var $website Mage_Core_Model_Website */
+            $store = $website->getDefaultStore();
+            $date  = Mage::app()->getLocale()->storeDate($store);
+            if ($date->getHour() == 0) {
+                $this->_getResource()->cleanIndex(null, $website->getStoreIds());
+            }
+        }
+    }
 }

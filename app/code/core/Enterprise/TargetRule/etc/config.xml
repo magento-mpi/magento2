@@ -161,4 +161,13 @@
             </enterprise_targetrule>
         </catalog>
     </default>
+    
+    <crontab>
+        <jobs>
+            <enterprise_targetrule_index_reindex>
+                <schedule><cron_expr>0 * * * *</cron_expr></schedule>
+                <run><model>enterprise_targetrule/index::cron</model></run>
+            </enterprise_targetrule_index_reindex>
+        </jobs>
+    </crontab>
 </config>

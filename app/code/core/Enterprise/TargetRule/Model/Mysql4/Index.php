@@ -434,19 +434,34 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
      * Remove index data from index tables
      *
      * @param int $typeId
+     * @param Mage_Core_Model_Store|int|array $store
      * @return Enterprise_TargetRule_Model_Mysql4_Index
      */
-    public function cleanIndex($typeId = null)
+    public function cleanIndex($typeId = null, $store = null)
     {
         $adapter = $this->_getWriteAdapter();
+
+        if ($store instanceof Mage_Core_Model_Store) {
+            $strore = $store->getId();
+        }
+
         if (is_null($typeId)) {
             foreach ($this->getTypeIds() as $typeId) {
-                $this->getTypeIndex($typeId)->cleanIndex();
+                $this->getTypeIndex($typeId)->cleanIndex($store);
             }
-            $adapter->truncate($this->getMainTable());
+            if (is_null($store)) {
+                $adapter->truncate($this->getMainTable());
+            } else {
+                $where = array('store_id IN(?)', $strore);
+                $adapter->delete($this->getMainTable(), $where);
+            }
         } else {
-            $adapter->delete($this->getMainTable(), array('type_id=?' => $typeId));
-            $this->getTypeIndex($typeId)->cleanIndex();
+            $where = array('type_id=?' => $typeId);
+            if (!is_null($strore)) {
+                $where['store_id IN(?)'] = $strore;
+            }
+            $adapter->delete($this->getMainTable(), $where);
+            $this->getTypeIndex($typeId)->cleanIndex($strore);
         }
 
         return $this;

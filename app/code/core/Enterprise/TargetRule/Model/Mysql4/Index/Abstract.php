@@ -142,10 +142,21 @@ abstract class Enterprise_TargetRule_Model_Mysql4_Index_Abstract extends Mage_Co
     /**
      * Remove all data from index
      *
+     * @param Mage_Core_Model_Store|int|array $store
      * @return Enterprise_TargetRule_Model_Mysql4_Index_Abstract
      */
-    public function cleanIndex()
+    public function cleanIndex($store = null)
     {
-        $this->_getWriteAdapter()->truncate($this->getMainTable());
+        if (is_null($store)) {
+            $this->_getWriteAdapter()->truncate($this->getMainTable());
+            return $this;
+        }
+        if ($store instanceof Mage_Core_Model_Store) {
+            $strore = $store->getId();
+        }
+        $where = array('store_id IN(?)', $strore);
+        $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
+
+        return $this;
     }
 }
