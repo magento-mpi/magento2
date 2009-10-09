@@ -327,6 +327,8 @@
             <customer__customer>
                 <skip_data>
                     <new_password/>
+                    <password/>
+                    <password_hash/>
                 </skip_data>
             </customer__customer>
         </expected_models>
