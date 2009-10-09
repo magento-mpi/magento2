@@ -54,7 +54,20 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
     }
 
 
+    /**
+     * New transactional email action
+     *
+     */
     public function newAction()
+    {
+        $this->_forward('edit');
+    }
+
+    /**
+     * Edit transactioanl email action
+     *
+     */
+    public function editAction()
     {
         $this->loadLayout();
         $this->_setActiveMenu('system/email_template');
@@ -69,11 +82,6 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_email_template_edit', 'template_edit')
                                                             ->setEditMode((bool)$this->getRequest()->getParam('id')));
         $this->renderLayout();
-    }
-
-    public function editAction()
-    {
-        $this->_forward('new');
     }
 
     public function saveAction()
