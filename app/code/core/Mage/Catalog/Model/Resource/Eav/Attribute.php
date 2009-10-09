@@ -290,4 +290,51 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     {
         return 'eav/entity_attribute_source_table';
     }
+
+    /**
+     * Check is an attribute used in EAV index
+     *
+     * @return bool
+     */
+    public function isIndexable()
+    {
+        // exclude price attribute
+        if ($this->getAttributeCode() == 'price') {
+            return false;
+        }
+
+        if (!$this->getIsFilterableInSearch() && !$this->getIsVisibleInAdvancedSearch() && !$this->getIsFilterable()) {
+            return false;
+        }
+
+        $backendType    = $this->getBackendType();
+        $frontendInput  = $this->getFrontendInput();
+
+        if ($backendType == 'int' && $frontendInput == 'select') {
+            return true;
+        } else if ($backendType == 'varchar' && $frontendInput == 'multiselect') {
+            return true;
+        } else if ($backendType == 'decimal') {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrieve index type for indexable attribute
+     *
+     * @return string|false
+     */
+    public function getIndexType()
+    {
+        if (!$this->isIndexable()) {
+            return false;
+        }
+        if ($this->getBackendType() == 'decimal') {
+            return 'decimal';
+        }
+
+        return 'source';
+    }
 }

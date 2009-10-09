@@ -368,10 +368,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
      */
     protected function _prepareUrlDataObject()
     {
-        if (!$this->hasFlag('url_data_object')) {
-            return $this;
-        }
-
         $objects = array();
         /* @var $item Mage_Catalog_Model_Product */
         foreach ($this->_items as $item) {
@@ -383,7 +379,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             }
         }
 
-        if ($objects) {
+        if ($objects && $this->hasFlag('url_data_object')) {
             $objects = Mage::getResourceSingleton('catalog/url')
                 ->getRewriteByProductStore($objects);
             foreach ($this->_items as $item) {
