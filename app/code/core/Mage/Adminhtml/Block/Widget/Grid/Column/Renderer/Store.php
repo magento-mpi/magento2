@@ -48,7 +48,9 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
 
     protected function _getShowAllStoresLabelFlag()
     {
-        return $this->getColumn()->getData('skipAllStoresLabel')?$this->getColumn()->getData('skipAllStoresLabel'):$this->_skipAllStoresLabel;
+        return $this->getColumn()->getData('skipAllStoresLabel')
+            ? $this->getColumn()->getData('skipAllStoresLabel')
+            : $this->_skipAllStoresLabel;
     }
 
     /**
@@ -59,44 +61,38 @@ class Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Store extends Mage_Adminh
      */
     public function render(Varien_Object $row)
     {
+        $out = '';
         $skipAllStoresLabel = $this->_getShowAllStoresLabelFlag();
         $origStores = $row->getData($this->getColumn()->getIndex());
-        $showNumericStores = (bool)$this->getColumn()->getShowNumericStores();
-        $stores = array();
+
+        if (is_null($origStores) && $row->getStoreName()) {
+            foreach (explode("\n", $row->getStoreName()) as $k => $label) {
+                $out .= str_repeat('&nbsp;', $k * 3) . $label . '<br/>';
+            }
+            $out .= $this->__('[deleted]');
+            return $out;
+        }
+
         if (!is_array($origStores)) {
             $origStores = array($origStores);
         }
-        foreach ($origStores as $origStore) {
-            if (is_numeric($origStore)) {
-                if (0 == $origStore) {
-                    if (!$skipAllStoresLabel) {
-                        $stores[] = Mage::helper('adminhtml')->__('All Store Views');
-                    }
+
+        if (in_array(0, $origStores) && !$skipAllStoresLabel) {
+            return Mage::helper('adminhtml')->__('All Store Views');
+        }
+
+        $data = $this->_getStoreModel()->getStoresStructure(false, $origStores);
+
+        foreach ($data as $website) {
+            $out .= $website['label'] . '<br/>';
+            foreach ($website['children'] as $group) {
+                $out .= str_repeat('&nbsp;', 3) . $group['label'] . '<br/>';
+                foreach ($group['children'] as $store) {
+                    $out .= str_repeat('&nbsp;', 6) . $store['label'] . '<br/>';
                 }
-                elseif ($storeName = $this->_getStoreModel()->getStoreName($origStore)) {
-                    if ($this->getColumn()->getStoreView()) {
-                        $store = $this->_getStoreModel()->getStoreNameWithWebsite($origStore);
-                    } else {
-                        $store = $this->_getStoreModel()->getStoreNamePath($origStore);
-                    }
-                    $layers = array();
-                    foreach (explode('/', $store) as $key => $value) {
-                        $layers[] = str_repeat("&nbsp;", $key * 3) . $value;
-                    }
-                    $stores[] = implode('<br/>', $layers);
-                }
-                elseif ($showNumericStores) {
-                    $stores[] = $origStore;
-                }
-            }
-            elseif (is_null($origStore) && $row->getStoreName()) {
-                $stores[] = $row->getStoreName() . ' ' . $this->__('[deleted]');
-            }
-            else {
-                $stores[] = $origStore;
             }
         }
-        return $stores ? join('<br/> ', $stores) : '&nbsp;';
-    }
 
+        return $out;
+    }
 }
