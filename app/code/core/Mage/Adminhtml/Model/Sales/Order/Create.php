@@ -672,6 +672,7 @@ class Mage_Adminhtml_Model_Sales_Order_Create extends Varien_Object
                     if ($item) {
                         $item->setQty($itemQty);
                         $item->setCustomPrice($itemPrice);
+                        $item->setOriginalCustomPrice($itemPrice);
                         $item->setNoDiscount($noDiscount);
                         $item->getProduct()->setIsSuperMode(true);
 
