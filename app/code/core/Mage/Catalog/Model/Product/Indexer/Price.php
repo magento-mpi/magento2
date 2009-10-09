@@ -92,6 +92,7 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
             'special_to_date',
             'tax_class_id',
             'status',
+            'required_options'
         );
     }
 

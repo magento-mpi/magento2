@@ -435,7 +435,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
         if ($this->getCanSaveCustomOptions()) {
             $options = $this->getProductOptions();
             if (is_array($options)) {
-                $this->setIsCustomOptionChanged();
+                $this->setIsCustomOptionChanged(true);
                 foreach ($this->getProductOptions() as $option) {
                     $this->getOptionInstance()->addOption($option);
                     if ((!isset($option['is_delete'])) || $option['is_delete'] != '1') {

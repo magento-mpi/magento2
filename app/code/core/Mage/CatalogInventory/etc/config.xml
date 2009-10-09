@@ -87,7 +87,7 @@
                 <observers>
                     <inventory>
                         <class>cataloginventory/observer</class>
-                        <method>addStockStatusToPrepareIndexSelect</method>
+                        <method>prepareCatalogProductIndexSelect</method>
                     </inventory>
                 </observers>
             </catalog_product_prepare_index_select>

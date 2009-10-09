@@ -267,7 +267,7 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
         /**
          * Add additional external limitation
          */
-        Mage::dispatchEvent('prepare_catalog_product_index_select', array(
+        Mage::dispatchEvent('catalog_product_prepare_index_select', array(
             'select'        => $select,
             'entity_field'  => new Zend_Db_Expr('e.entity_id'),
             'website_field' => new Zend_Db_Expr('cw.website_id'),
@@ -384,6 +384,10 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
                 array('idx' => $this->getIdxTable()),
                 'bs.product_id = idx.entity_id AND i.customer_group_id = idx.customer_group_id'
                     . ' AND i.website_id = idx.website_id',
+                array())
+            ->join(
+                array('e' => $this->getTable('catalog/product')),
+                'bs.product_id = e.entity_id AND e.required_options=0',
                 array())
             ->where('i.price_type=?', $priceType)
             ->columns(array(
