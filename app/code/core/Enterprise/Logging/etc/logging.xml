@@ -527,9 +527,7 @@
 
             <adminhtml_system_config_save>
                 <action>save</action>
-                <expected_models>
-                    <core__config_data/>
-                </expected_models>
+                <post_dispatch>postDispatchConfigSave</post_dispatch>
                 <skip_on_back>
                     <adminhtml_system_config_edit/>
                 </skip_on_back>
@@ -852,7 +850,6 @@
         <actions>
             <adminhtml_system_store_editWebsite>
                 <action>view</action>
-                <post_dispatch>postDispatchSystemStoreSave</post_dispatch>
             </adminhtml_system_store_editWebsite>
 
             <adminhtml_system_website_save>

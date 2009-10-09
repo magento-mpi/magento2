@@ -151,7 +151,7 @@
         </translate>
         <enterprise>
             <logging>
-                <skip_fields>updated_at</skip_fields>
+                <skip_fields>updated_at,form_key</skip_fields>
                 <!--Coma separated list of fields that should not be logged for all models-->
             </logging>
         </enterprise>

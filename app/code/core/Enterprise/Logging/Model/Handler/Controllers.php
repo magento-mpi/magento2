@@ -87,6 +87,55 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
+     * Custom handler for config save
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @param Enterprise_Logging_Model_Processor $processor
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchConfigSave($config, $eventModel, $processor)
+    {
+        $request = Mage::app()->getRequest();
+        $postData = $request->getPost();
+        $groupFieldsData = array();
+        $change = Mage::getModel('enterprise_logging/event_changes');
+
+        //Collect skip encrypted fields
+        //Look for encrypted node entries in all system.xml files
+        $configSections = Mage::getSingleton('adminhtml/config')->getSections();
+        $skipEncrypted = array();
+        foreach ($configSections->xpath('//sections/*/groups/*/fields/*/backend_model') as $node) {
+            if ('adminhtml/system_config_backend_encrypted' === (string)$node) {
+                 $skipEncrypted[] = $node->getParent()->getName();
+            }
+        }
+        //For each group of current section creating separated event change
+        if (isset($postData['groups'])) {
+            foreach ($postData['groups'] as $groupName => $groupData) {
+                foreach ($groupData['fields'] as $fieldName => $fieldValueData) {
+                    //Clearing config data accordingly to collected skip fields
+                    if (!in_array($fieldName, $skipEncrypted)) {
+                        $groupFieldsData[$fieldName] = $fieldValueData['value'];
+                    }
+                }
+
+                $processor->addEventChanges(
+                    clone $change->setModelName($groupName)
+                                 ->setOriginalData(false)
+                                 ->setResultData($groupFieldsData)
+                );
+                $groupFieldsData = array();
+            }
+        }
+        $id = $request->getParam('section');
+        if (!$id) {
+            $id = 'general';
+        }
+        return $eventModel->setInfo($id);
+    }
+
+    /**
      * Custom handler for category move
      *
      * @param Varien_Simplexml_Element $config
@@ -266,27 +315,10 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
-     * Special handler for adminhtml_system_store_save
      *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @deprecated after 1.6.0.0-rc1
      */
-    public function postDispatchSystemStoreSave($config, $eventModel)
-    {
-        $postData = Mage::app()->getRequest()->getPost();
-        switch ($postData['store_type']) {
-        case 'website':
-            Mage::unregister('enterprise_logged_actions');
-            Mage::register('enterprise_logged_actions', 'adminhtml_system_website_save');
-            break;
-        case 'group':
-            Mage::unregister('enterprise_logged_actions');
-            Mage::register('enterprise_logged_actions', 'adminhtml_system_storeview_save');
-            break;
-        }
-
-    }
+    public function postDispatchSystemStoreSave($config, $eventModel){}
 
     /**
      * Custom handler for catalog product mass attribute update

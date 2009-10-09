@@ -89,11 +89,18 @@ class Enterprise_Logging_Model_Processor
     protected $_eventChanges = array();
 
     /**
-     * Set of fields that should not be logged
+     * Set of fields that should not be logged for all models
      *
      * @var array
      */
     protected $_skipFields = array();
+
+    /**
+     * Set of fields that should not be logged per expected model
+     *
+     * @var array
+     */
+    protected $_skipFieldsByModel = array();
 
     /**
      * Collection of affected ids
@@ -154,6 +161,7 @@ class Enterprise_Logging_Model_Processor
                 return;
             }
         }
+
         if (isset($this->_eventConfig->skip_on_back)) {
             $addValue = array_keys($this->_eventConfig->skip_on_back->asArray());
             $sessionValue = Mage::getSingleton('admin/session')->getSkipLoggingAction();
@@ -205,17 +213,22 @@ class Enterprise_Logging_Model_Processor
                 $usedModels = $expectedModels;
             }
         }
+
         //Log event changes for each model
         foreach ($usedModels->children() as $expect => $callback) {
+
+            //Add custom skip fields per expecetd model
+            $this->_skipFieldsByModel = array();
             if (isset($callback->skip_data)) {
                 if ($callback->skip_data->hasChildren()) {
                     foreach ($callback->skip_data->children() as $skipName => $skipObj) {
-                        if (!in_array($skipName, $this->_skipFields)) {
-                            $this->_skipFields[] = $skipName;
+                        if (!in_array($skipName, $this->_skipFieldsByModel)) {
+                            $this->_skipFieldsByModel[] = $skipName;
                         }
                     }
                 }
             }
+
             $className = Mage::getConfig()->getModelClassName(str_replace('__', '/', $expect));
             if ($model instanceof $className){
                 $classMap = $this->_getCallbackFunction(trim($callback), $this->_modelsHandler,
@@ -378,7 +391,7 @@ class Enterprise_Logging_Model_Processor
         }
         $clearData = array();
         foreach ($data as $key=>$value) {
-            if (!in_array($key, $this->_skipFields) && !is_array($value) && !is_object($value)) {
+            if (!in_array($key, $this->_skipFields) && !in_array($key, $this->_skipFieldsByModel) && !is_array($value) && !is_object($value)) {
                 $clearData[$key] = $value;
             }
         }
