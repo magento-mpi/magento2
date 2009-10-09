@@ -27,6 +27,13 @@
 class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block_Widget
 {
     /**
+     * Attributes is read only flag
+     *
+     * @var bool
+     */
+    protected $_readOnly = false;
+
+    /**
      * Retrieve TargetRule Data Helper
      *
      * @return Enterprise_TargetRule_Helper_Data
@@ -60,7 +67,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      *
      * @return Mage_Catalog_Model_Product
      */
-    protected function _getProduct()
+    public function getProduct()
     {
         return Mage::registry('current_product');
     }
@@ -111,7 +118,7 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
      */
     protected function _getValue($field)
     {
-        return $this->_getProduct()->getDataUsingMethod($this->getFieldName($field));
+        return $this->getProduct()->getDataUsingMethod($this->getFieldName($field));
     }
 
     /**
@@ -134,5 +141,31 @@ class Enterprise_TargetRule_Block_Adminhtml_Product extends Mage_Adminhtml_Block
     public function isDefault($value)
     {
         return ($this->_getValue($value) === null) ? true : false;
+    }
+
+    /**
+     * Set TargetRule Attributes is ReadOnly
+     *
+     * @param bool $flag
+     * @return Enterprise_TargetRule_Block_Adminhtml_Product
+     */
+    public function setIsReadonly($flag)
+    {
+        return $this->setData('is_readonly', (bool)$flag);
+    }
+
+    /**
+     * Retrieve TargetRule Attributes is ReadOnly flag
+     * Default return false if does not exists any instruction
+     *
+     * @return bool
+     */
+    public function getIsReadonly()
+    {
+        $flag = $this->_getData('is_readonly');
+        if (is_null($flag)) {
+            $flag = false;
+        }
+        return $flag;
     }
 }

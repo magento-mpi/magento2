@@ -666,4 +666,21 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         }
         return $this;
     }
+
+    /**
+     * Disable Rule-based Settings for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function readonlyTargetRuleProductAttribute($observer)
+    {
+        /* @var $block Enterprise_TargetRule_Block_Adminhtml_Product */
+        $block = $observer->getEvent()->getBlock();
+        if ($block) {
+            if (!$this->_role->hasWebsiteAccess($block->getProduct()->getWebsiteIds(), true)) {
+                $block->setIsReadonly(true);
+            }
+        }
+    }
 }

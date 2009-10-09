@@ -517,6 +517,7 @@
                     <adminhtml__system_currency>removeManageCurrencyRatesButtons</adminhtml__system_currency>
                     <adminhtml__system_email_template>removeEmailTemplateGridButtons</adminhtml__system_email_template>
                     <adminhtml__system_email_template_edit>removeTransactionalEmailsEditButtons</adminhtml__system_email_template_edit>
+                    <enterprise_targetrule__adminhtml_product>readonlyTargetRuleProductAttribute</enterprise_targetrule__adminhtml_product>
                     <enterprise_targetrule__adminhtml_targetrule>removeTargetRuleGridButtons</enterprise_targetrule__adminhtml_targetrule>
                     <enterprise_targetrule__adminhtml_targetrule_edit>removeTargetRuleEditButtons</enterprise_targetrule__adminhtml_targetrule_edit>
                 </block_html_before>
