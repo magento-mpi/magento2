@@ -121,8 +121,6 @@ class Mage_CatalogInventory_Model_Mysql4_Indexer_Stock_Grouped
             $select->where('e.entity_id IN(?)', $entityIds);
         }
 
-        Mage::log($select->assemble());
-
         $query = $select->insertFromSelect($this->getIdxTable());
         $write->query($query);
 
