@@ -146,16 +146,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
                 'index'         => 'balance',
         ));
 
-        $this->addColumn('action', array(
-            'header'    => Mage::helper('enterprise_giftcardaccount')->__('Action'),
-            'align'     => 'center',
-            'width'     => 20,
-            'format'    => '<a href="'.$this->getUrl('*/*/edit/id/$giftcardaccount_id').'">'.Mage::helper('enterprise_giftcardaccount')->__('Edit').'</a>',
-            'filter'    => false,
-            'sortable'  => false,
-            'is_system' => true
-        ));
-
         return parent::_prepareColumns();
     }
 
@@ -183,6 +173,16 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Grid extends Ma
     public function getGridUrl()
     {
         return $this->getUrl('*/*/grid', array('_current'=>true));
+    }
+
+    /**
+     * Retrieve row url
+     */
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/edit', array(
+            'id'    => $row->getId()
+        ));
     }
 
     /**
