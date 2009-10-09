@@ -151,6 +151,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     {
         if (!$this->_validateOgoneData()) {
             $this->getResponse()->setHeader("Status", "404 Not Found");
+            return false;
         }
 
         $this->_offlineProcess();
@@ -164,6 +165,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
     {
         if (!$this->_validateOgoneData()) {
             $this->getResponse()->setHeader("Status","404 Not Found");
+            return false;
         }
         $this->_offlineProcess();
     }
