@@ -678,7 +678,8 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         /* @var $block Enterprise_TargetRule_Block_Adminhtml_Product */
         $block = $observer->getEvent()->getBlock();
         if ($block) {
-            if (!$this->_role->hasWebsiteAccess($block->getProduct()->getWebsiteIds(), true)) {
+            $access = $this->_role->hasWebsiteAccess($block->getProduct()->getWebsiteIds(), true);
+            if (!$block->getProduct()->isObjectNew() && !$access) {
                 $block->setIsReadonly(true);
             }
         }
