@@ -44,10 +44,10 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Mage_Adminht
         $type = $this->getRequest()->getParam('type');
         $collection = $helper->getStorage()->getFilesCollection($helper->getCurrentPath(), $type);
         foreach ($collection as $item) {
-            $item->setId(Mage::helper('core')->urlEncode($item->getBasename()));
-            $item->setName($this->getShortFilename($item->getBasename()));
+            $item->setId($helper->idEncode($item->getBasename()));
+            $item->setName($helper->getShortFilename($item->getBasename()));
             $item->setUrl($helper->getCurrentUrl() . $item->getBasename());
-            $item->setEncodedPath(Mage::helper('core')->urlEncode($item->getFilename()));
+            $item->setEncodedPath($helper->idEncode($item->getFilename()));
 
             if(is_file($helper->getCurrentPath() . DS . '.thumbs' . DS . $item->getBasename())) {
                 $item->setThumbUrl($helper->getCurrentUrl() . '.thumbs/' . $item->getBasename());
@@ -72,18 +72,4 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Mage_Adminht
         return Mage::getSingleton('cms/wysiwyg_images_storage')->getConfigData('browser_resize_height');
     }
 
-    /**
-     * Reduce filename by replacing some characters with dots
-     *
-     * @param string $filename
-     * @param int $maxLength Maximum filename
-     * @return string Truncated filename
-     */
-    public function getShortFilename($filename, $maxLength = 15)
-    {
-        if (strlen($filename) <= $maxLength) {
-            return $filename;
-        }
-        return preg_replace('/^(.{1,'.($maxLength - 3).'})(.*)(\.[a-z0-9]+)$/i', '$1..$3', $filename);
-    }
 }

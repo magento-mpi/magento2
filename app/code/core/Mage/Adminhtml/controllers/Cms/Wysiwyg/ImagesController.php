@@ -113,8 +113,9 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
         $files = Mage::helper('core')->jsonDecode($this->getRequest()->getParam('files'));
         try {
             $io = new Varien_Io_File();
+            $helper = Mage::helper('cms/wysiwyg_images');
             foreach ($files as $file) {
-                $file = Mage::helper('core')->urlDecode($file);
+                $file = $helper->idDecode($file);
                 $io->rm($this->getStorage()->getSession()->getCurrentPath(). DS . $file);
             }
         } catch (Exception $e) {
@@ -145,10 +146,11 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
      */
     public function onInsertAction()
     {
+        $helper = Mage::helper('cms/wysiwyg_images');
         $filename = $this->getRequest()->getParam('filename');
-        $filename = Mage::helper('core')->urlDecode($filename);
+        $filename = $helper->idDecode($filename);
         $asIs = $this->getRequest()->getParam('as_is');
-        $image = Mage::helper('cms/wysiwyg_images')->getImageHtmlDeclaration($filename, $asIs);
+        $image = $helper->getImageHtmlDeclaration($filename, $asIs);
         $this->getResponse()->setBody($image);
     }
 

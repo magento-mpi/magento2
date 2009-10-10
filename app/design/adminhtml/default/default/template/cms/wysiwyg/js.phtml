@@ -52,18 +52,26 @@ Wysiwyg.Images.prototype = {
     },
 
     selectFolder: function (node, event) {
+        this.currentNode = node;
         this.hideFileButtons();
-        this.expandFolder(node, event);
         this.activateBlock('contents');
+
+        if(node.id == 'root') {
+            this.hideElement('button_delete_folder');
+        } else {
+            this.showElement('button_delete_folder');
+        }
+
+        this.updateHeader(this.currentNode);
+        this.drawBreadcrumbs(this.currentNode);
+
         this.showElement('loading-mask');
-        var tmpCurrentNode = this.currentNode; // strange thing, expand(root) event raised before ajax request
         new Ajax.Request('<?php echo $this->getContentsUrl() ?>', {
             parameters: {node: this.currentNode.id},
             evalJS: true,
             onSuccess: function(transport) {
                 try {
-                    this.currentNode = tmpCurrentNode;
-                    this.expandFolder(this.currentNode);
+                    this.currentNode.select();
                     this.onAjaxSuccess(transport);
                     this.hideElement('loading-mask');
                     $('contents').update(transport.responseText);
@@ -78,13 +86,20 @@ Wysiwyg.Images.prototype = {
         });
     },
 
+    selectFolderById: function (nodeId) {
+        var node = this.tree.getNodeById(nodeId);
+        if (node.id) {
+            this.selectFolder(node);
+        }
+    },
+
     selectFile: function (event) {
         var div = Event.findElement(event, 'DIV');
         $$('div.filecnt.selected[id!="' + div.id + '"]').each(function(e) {
             e.removeClassName('selected');
         })
         div.toggleClassName('selected');
-        if($$('div.selected').length > 0) {
+        if(div.hasClassName('selected')) {
             this.showFileButtons();
         } else {
             this.hideFileButtons();
@@ -99,16 +114,6 @@ Wysiwyg.Images.prototype = {
     hideFileButtons: function () {
         this.hideElement('button_delete_files');
         this.hideElement('button_insert_files');
-    },
-
-    expandFolder: function (node, event) {
-        this.currentNode = node;
-        this.tree.selectPath(node.getPath());
-        if(node.id == 'root') {
-            this.hideElement('button_delete_folder');
-        } else {
-            this.showElement('button_delete_folder');
-        }
     },
 
     upload: function() {
@@ -184,12 +189,15 @@ Wysiwyg.Images.prototype = {
                     if (transport.responseText.isJSON()) {
                         var response = transport.responseText.evalJSON()
                         var newNode = new Ext.tree.AsyncTreeNode({
-                            text: response.name,
+                            text: response.short_name,
                             draggable:false,
-                            id:response.id
+                            id:response.id,
+                            expanded: true
                         });
-                        this.currentNode.appendChild(newNode);
-                        this.selectFolder(newNode);
+                        var child = this.currentNode.appendChild(newNode);
+                        this.tree.expandPath(child.getPath(), '', function(success, node) {
+                            this.selectFolder(node);
+                        }.bind(this));
                     }
                 } catch (e) {
                     alert(e.message);
@@ -199,7 +207,7 @@ Wysiwyg.Images.prototype = {
     },
 
     deleteFolder: function() {
-        if (!confirm('<?php echo $this->helper('cms')->__('Are you sure you want to delete the selected folder?') ?>')) {
+        if (!confirm('<?php echo $this->helper('cms')->__('Are you sure you want to delete current folder?') ?>')) {
             return false;
         }
         new Ajax.Request('<?php echo $this->getDeletefolderUrl() ?>', {
@@ -240,6 +248,41 @@ Wysiwyg.Images.prototype = {
         });
     },
 
+    drawBreadcrumbs: function(node) {
+        if ($('breadcrumbs') != undefined) {
+            $('breadcrumbs').remove();
+        }
+        if (node.id == 'root') {
+            return;
+        }
+        var path = node.getPath().split('/');
+        var breadcrumbs = '';
+        for(var i = 0, length = path.length; i < length; i++) {
+            if (path[i] == '') {
+                continue;
+            }
+            var currNode = this.tree.getNodeById(path[i]);
+            if (currNode.id) {
+                breadcrumbs += '<li>';
+                breadcrumbs += '<a href="#" onclick="Images.selectFolderById(\'' + currNode.id + '\');">' + currNode.text + '</a>';
+                if(i < (length - 1)) {
+                    breadcrumbs += ' <span>/</span>';
+                }
+                breadcrumbs += '</li>';
+            }
+        }
+
+        if (breadcrumbs != '') {
+            breadcrumbs = '<ul class="breadcrumbs" id="breadcrumbs">' + breadcrumbs + '</ul>';
+            $('content_header').insert({after: breadcrumbs});
+        }
+    },
+
+    updateHeader: function(node) {
+        var header = (node.id == 'root' ? '<?php echo $this->getHeaderText() ?>' : node.text);
+        $('content_header_text').innerHTML = header;
+    },
+
     activateBlock: function(id) {
         $$('div [id^=contents]').each(this.hideElement);
         this.showElement(id);
@@ -265,7 +308,6 @@ Wysiwyg.Images.prototype = {
             }
         }
     }
-
 }
 
 Images = new Wysiwyg.Images();

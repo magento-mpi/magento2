@@ -100,7 +100,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     public function createDirectory($name, $path)
     {
         if (!preg_match(self::DIRECTORY_NAME_REGEXP, $name)) {
-            Mage::throwException(Mage::helper('cms')->__('Invalid folder name. Please, use alphanumeric characters'));
+            Mage::throwException(Mage::helper('cms')->__('Invalid folder name. Please, use alphanumeric characters, underscores and dashes.'));
         }
         if (!is_dir($path) || !is_writable($path)) {
             $path = Mage::helper('cms/wysiwyg_images')->getStorageRoot();
@@ -115,9 +115,10 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         $io = new Varien_Io_File();
         if ($io->mkdir($newPath)) {
             $result = array(
-                'name'  => $name,
-                'path'  => $newPath,
-                'id'    => Mage::helper('cms/wysiwyg_images')->convertPathToId($newPath)
+                'name'          => $name,
+                'short_name'    => Mage::helper('cms/wysiwyg_images')->getShortFilename($name),
+                'path'          => $newPath,
+                'id'            => Mage::helper('cms/wysiwyg_images')->convertPathToId($newPath)
             );
             return $result;
         }
@@ -133,6 +134,14 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     public function deleteDirectory($path)
     {
         $io = new Varien_Io_File();
+
+        // prevent accidental root directory deleting
+        $rootCmp = trim(Mage::helper('cms/wysiwyg_images')->getStorageRoot(), DS);
+        $pathCmp = trim($path, DS);
+        if ($rootCmp == $pathCmp) {
+            Mage::throwException(Mage::helper('cms')->__('Cannot delete root directory %s', $path));
+        }
+
         if (!$io->rmdir($path, true)) {
             Mage::throwException(Mage::helper('cms')->__('Cannot delete directory %s', $path));
         }

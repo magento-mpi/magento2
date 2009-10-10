@@ -39,7 +39,7 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
     public function __construct()
     {
         parent::__construct();
-        $this->_headerText = $this->helper('cms')->__('Image Gallery');
+        $this->_headerText = $this->helper('cms')->__('Media Storage');
         $this->_removeButton('back')->_removeButton('edit');
         $this->_addButton('newfolder', array(
             'class'   => 'save',

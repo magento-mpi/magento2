@@ -83,7 +83,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     public function convertPathToId($path)
     {
         $path = str_replace($this->getStorageRoot(), '', $path);
-        return Mage::helper('core')->urlEncode($path);
+        return $this->idEncode($path);
     }
 
     /**
@@ -94,7 +94,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
      */
     public function convertIdToPath($id)
     {
-        $path = Mage::helper('core')->urlDecode($id);
+        $path = $this->idDecode($id);
         if (!strstr($path, $this->getStorageRoot())) {
             $path = $this->getStorageRoot() . $path;
         }
@@ -200,5 +200,43 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
     public function getStorage()
     {
         return Mage::getSingleton('cms/wysiwyg_images_storage');
+    }
+
+    /**
+     * Encode string to valid HTML id element, based on base64 encoding
+     *
+     * @param string $string
+     * @return string
+     */
+    public function idEncode($string)
+    {
+        return strtr(base64_encode($string), '+/=', ':_-');
+    }
+
+    /**
+     * Revert opration to idEncode
+     *
+     * @param string $string
+     * @return string
+     */
+    public function idDecode($string)
+    {
+        $string = strtr($string, ':_-', '+/=');
+        return base64_decode($string);
+    }
+
+    /**
+     * Reduce filename by replacing some characters with dots
+     *
+     * @param string $filename
+     * @param int $maxLength Maximum filename
+     * @return string Truncated filename
+     */
+    public function getShortFilename($filename, $maxLength = 20)
+    {
+        if (strlen($filename) <= $maxLength) {
+            return $filename;
+        }
+        return substr($filename, 0, $maxLength) . '...';
     }
 }
