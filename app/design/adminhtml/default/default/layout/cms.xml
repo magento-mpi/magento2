@@ -88,19 +88,5 @@
     <adminhtml_cms_wysiwyg_images_contents>
         <block name="wysiwyg_images.files" type="adminhtml/cms_wysiwyg_images_content_files" template="cms/wysiwyg/content/files.phtml" output="toHtml" />
     </adminhtml_cms_wysiwyg_images_contents>
-
-    <adminhtml_cms_widget_index>
-        <remove name="left" />
-        <remove name="footer" />
-        <reference name="content">
-            <block name="wysiwyg_widget" type="adminhtml/cms_widget" />
-        </reference>
-        <reference name="head">
-            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
-        </reference>
-    </adminhtml_cms_widget_index>
-
-    <adminhtml_cms_widget_loadoptions>
-        <block name="wysiwyg_widget.options" type="adminhtml/cms_widget_options" output="toHtml" />
-    </adminhtml_cms_widget_loadoptions>
+    
 </layout>

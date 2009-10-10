@@ -1009,4 +1009,22 @@
             </adminhtml_sitemap_generate>
         </actions>
     </google_sitemap>
+    
+    <widget_instance translate="label">
+        <label>Widget Instances</label>
+        <expected_models>
+            <widget__widget_instance/>
+        </expected_models>
+        <actions>
+            <adminhtml_widget_instance_edit>
+                <action>view</action>
+            </adminhtml_widget_instance_edit>
+            <adminhtml_widget_instance_save>
+                <action>save</action>
+            </adminhtml_widget_instance_save>
+            <adminhtml_widget_instance_delete>
+                <action>delete</action>
+            </adminhtml_widget_instance_delete>
+        </actions>
+    </widget_instance>
 </logging>

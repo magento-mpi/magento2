@@ -33,7 +33,7 @@
  */
 class Enterprise_Banner_Block_Widget_Banner
     extends Mage_Core_Block_Template
-    implements Mage_Cms_Block_Widget_Interface
+    implements Mage_Widget_Block_Interface
 {
     /**
      * Display mode "fixed" flag

@@ -33,6 +33,7 @@
             <depends>
                 <Mage_Adminhtml/>
                 <Mage_Cms/>
+                <Mage_Widget/>
             </depends>
         </Enterprise_Cms>
     </modules>

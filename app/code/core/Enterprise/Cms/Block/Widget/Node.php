@@ -33,7 +33,7 @@
  */
 class Enterprise_Cms_Block_Widget_Node
     extends Mage_Core_Block_Html_Link
-    implements Mage_Cms_Block_Widget_Interface
+    implements Mage_Widget_Block_Interface
 {
     /**
      * Current Hierarchy Node Page Instance

@@ -161,33 +161,4 @@
         <block type="enterprise_cms/adminhtml_cms_hierarchy_edit_form_grid" name="cms_page_grid" output="toHtml" />
     </adminhtml_cms_hierarchy_pagegrid>
 
-    <adminhtml_cms_widget_instance_index>
-        <reference name="content">
-            <block type="enterprise_cms/adminhtml_cms_widget_instance" name="cms_widget_instance" />
-        </reference>
-    </adminhtml_cms_widget_instance_index>
-
-    <adminhtml_cms_widget_instance_edit>
-        <reference name="head">
-            <action method="setCanLoadExtJs"><flag>1</flag></action>
-            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
-        </reference>
-        <reference name="content">
-            <block type="enterprise_cms/adminhtml_cms_widget_instance_edit" name="cms_widget_instance_edit" />
-        </reference>
-        <reference name="left">
-            <block type="enterprise_cms/adminhtml_cms_widget_instance_edit_tabs" name="cms_widget_instance_edit_tabs">
-                <block type="enterprise_cms/adminhtml_cms_widget_instance_edit_tab_settings" name="cms_widget_instance_edit_tab_settings" />
-                <block type="enterprise_cms/adminhtml_cms_widget_instance_edit_tab_main" name="cms_widget_instance_edit_tab_main" />
-                <block type="enterprise_cms/adminhtml_cms_widget_instance_edit_tab_properties" name="cms_widget_instance_edit_tab_properties" />
-                <action method="addTab"><name>settings_section</name><block>cms_widget_instance_edit_tab_settings</block></action>
-                <action method="addTab"><name>main_section</name><block>cms_widget_instance_edit_tab_main</block></action>
-                <action method="addTab"><name>properties_section</name><block>cms_widget_instance_edit_tab_properties</block></action>
-            </block>
-        </reference>
-        <reference name="js">
-            <block type="adminhtml/template" template="enterprise/cms/widget/instance/js.phtml" name="catalog_product_js"></block>
-        </reference>
-    </adminhtml_cms_widget_instance_edit>
-
 </layout>

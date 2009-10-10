@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Cms>
-             <version>1.6.0.0.2</version>
+             <version>1.6.0.0.3</version>
         </Enterprise_Cms>
     </modules>
     <global>
@@ -49,15 +49,6 @@
                     <hierarchy_node>
                         <table>enterprise_cms_hierarchy_node</table>
                     </hierarchy_node>
-                    <widget_instance>
-                        <table>enterprise_cms_widget_instance</table>
-                    </widget_instance>
-                    <widget_instance_page>
-                        <table>enterprise_cms_widget_instance_page</table>
-                    </widget_instance_page>
-                    <widget_instance_page_layout>
-                        <table>enterprise_cms_widget_instance_page_layout</table>
-                    </widget_instance_page_layout>
                 </entities>
             </enterprise_cms_mysql4>
         </models>

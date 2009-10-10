@@ -28,4 +28,4 @@
 /* @var $installer Enterprise_Cms_Model_Mysql4_Setup */
 $installer = $this;
 
-$installer->getConnection()->dropColumn($installer->getTable('enterprise_cms/widget_instance_page'), 'position');
+$installer->getConnection()->dropColumn($installer->getTable('enterprise_cms_widget_instance_page'), 'position');

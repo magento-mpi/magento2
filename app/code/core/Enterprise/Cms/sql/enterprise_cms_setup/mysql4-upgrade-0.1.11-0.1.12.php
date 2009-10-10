@@ -28,7 +28,7 @@
 /* @var $installer Enterprise_Cms_Model_Mysql4_Setup */
 $installer = $this;
 $installer->run("
-    CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms/widget_instance')}` (
+    CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms_widget_instance')}` (
       `instance_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
       `type` varchar(255) NOT NULL DEFAULT '',
       `package_theme` varchar(255) NOT NULL DEFAULT '',

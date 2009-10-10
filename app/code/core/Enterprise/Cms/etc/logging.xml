@@ -114,22 +114,4 @@
             </adminhtml_cms_page_revision_delete>
         </actions>
     </enterprise_cms_page_versioning>
-    
-    <enterprise_cms_widget_instance translate="label">
-        <label>CMS Widget Instances</label>
-        <expected_models>
-            <enterprise_cms__widget_instance/>
-        </expected_models>
-        <actions>
-            <adminhtml_cms_widget_instance_edit>
-                <action>view</action>
-            </adminhtml_cms_widget_instance_edit>
-            <adminhtml_cms_widget_instance_save>
-                <action>save</action>
-            </adminhtml_cms_widget_instance_save>
-            <adminhtml_cms_widget_instance_delete>
-                <action>delete</action>
-            </adminhtml_cms_widget_instance_delete>
-        </actions>
-    </enterprise_cms_widget_instance>
 </logging>

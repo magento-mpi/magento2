@@ -33,7 +33,7 @@
  */
 class Enterprise_CatalogEvent_Block_Widget_Lister
     extends Enterprise_CatalogEvent_Block_Event_Lister
-    implements Mage_Cms_Block_Widget_Interface
+    implements Mage_Widget_Block_Interface
 {
 
 }

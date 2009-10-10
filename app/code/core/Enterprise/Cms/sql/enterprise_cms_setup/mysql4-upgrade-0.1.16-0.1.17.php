@@ -28,5 +28,5 @@
 /* @var $installer Enterprise_Cms_Model_Mysql4_Setup */
 $installer = $this;
 $installer->startSetup();
-$installer->getConnection()->addColumn($installer->getTable('enterprise_cms/widget_instance'), 'sort_order', "smallint(5) NOT NULL DEFAULT '0'");
+$installer->getConnection()->addColumn($installer->getTable('enterprise_cms_widget_instance'), 'sort_order', "smallint(5) NOT NULL DEFAULT '0'");
 $installer->endSetup();

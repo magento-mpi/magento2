@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms/hierarchy_node
   CONSTRAINT `FK_ENTERPRISE_CMS_HIERARCHY_NODE_PARENT_NODE` FOREIGN KEY (`parent_node_id`) REFERENCES `{$installer->getTable('enterprise_cms/hierarchy_node')}` (`node_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms/widget_instance')}` (
+CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms_widget_instance')}` (
   `instance_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `type` VARCHAR(255) NOT NULL DEFAULT '',
   `package_theme` VARCHAR(255) NOT NULL DEFAULT '',
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms/widget_instanc
   PRIMARY KEY (`instance_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms/widget_instance_page')}` (
+CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms_widget_instance_page')}` (
   `page_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
   `instance_id` INT(11) UNSIGNED NOT NULL DEFAULT '0',
   `group` VARCHAR(25) NOT NULL DEFAULT '',
@@ -143,17 +143,17 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms/widget_instanc
   `template` VARCHAR(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`page_id`),
   KEY `IDX_WIDGET_INSTANCE_ID` (`instance_id`),
-  CONSTRAINT `FK_WIDGET_INSTANCE_ID` FOREIGN KEY (`instance_id`) REFERENCES `{$installer->getTable('enterprise_cms/widget_instance')}` (`instance_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_WIDGET_INSTANCE_ID` FOREIGN KEY (`instance_id`) REFERENCES `{$installer->getTable('enterprise_cms_widget_instance')}` (`instance_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms/widget_instance_page_layout')}` (
+CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms_widget_instance_page_layout')}` (
     `page_id` int(11) UNSIGNED NOT NULL DEFAULT '0',
     `layout_update_id` int(10) UNSIGNED NOT NULL DEFAULT '0',
     UNIQUE KEY `page_id` (`page_id`,`layout_update_id`),
     KEY `IDX_WIDGET_INSTANCE_PAGE_ID` (`page_id`),
     KEY `IDX_WIDGET_INSTANCE_LAYOUT_UPDATE_ID` (`layout_update_id`),
     CONSTRAINT `FK_WIDGET_INSTANCE_LAYOUT_UPDATE_ID` FOREIGN KEY (`layout_update_id`) REFERENCES `{$installer->getTable('core/layout_update')}` (`layout_update_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT `FK_WIDGET_INSTANCE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `{$installer->getTable('enterprise_cms/widget_instance_page')}` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT `FK_WIDGET_INSTANCE_PAGE_ID` FOREIGN KEY (`page_id`) REFERENCES `{$installer->getTable('enterprise_cms_widget_instance_page')}` (`page_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ");
 

@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Cms>
-            <version>0.7.11</version>
+            <version>0.7.12</version>
         </Mage_Cms>
     </modules>
     <frontend>
@@ -86,16 +86,6 @@
                 </Mage_Cms>
             </modules>
         </translate>
-        <events>
-            <cms_wysiwyg_config_prepare>
-                <observers>
-                    <cms_widget_observer>
-                        <class>cms/observer</class>
-                        <method>prepareWidgetsPluginConfig</method>
-                    </cms_widget_observer>
-                </observers>
-            </cms_wysiwyg_config_prepare>
-        </events>
         <layout>
             <updates>
                 <cms>
@@ -125,9 +115,6 @@
                     <block_store>
                         <table>cms_block_store</table>
                     </block_store>
-                    <widget>
-                        <table>cms_widget</table>
-                    </widget>
                 </entities>
             </cms_mysql4>
         </models>

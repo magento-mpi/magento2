@@ -61,7 +61,7 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
             'use_massaction' => false,
         ));
 
-        $chooser = $this->getLayout()->createBlock('adminhtml/cms_widget_chooser')
+        $chooser = $this->getLayout()->createBlock('widget/adminhtml_widget_chooser')
             ->setElement($element)
             ->setTranslationHelper($this->getTranslationHelper())
             ->setConfig($this->getConfig())
