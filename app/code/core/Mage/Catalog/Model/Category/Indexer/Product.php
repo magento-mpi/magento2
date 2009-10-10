@@ -39,7 +39,8 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
      */
     protected $_matchedEntities = array(
         Mage_Catalog_Model_Product::ENTITY => array(
-            Mage_Index_Model_Event::TYPE_SAVE
+            Mage_Index_Model_Event::TYPE_SAVE,
+            Mage_Index_Model_Event::TYPE_MASS_ACTION
         ),
         Mage_Catalog_Model_Category::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
@@ -150,13 +151,42 @@ class Mage_Catalog_Model_Category_Indexer_Product extends Mage_Index_Model_Index
      */
     protected function _registerProductEvent(Mage_Index_Model_Event $event)
     {
-        $product = $event->getDataObject();
-        /**
-         * Check if product categories data was changed
-         */
-        if ($product->getIsChangedCategories() || $product->dataHasChangedFor('status')
-            || $product->dataHasChangedFor('visibility')) {
-            $event->addNewData('category_ids', $product->getCategoryIds());
+        $eventType = $event->getType();
+        if ($eventType == Mage_Index_Model_Event::TYPE_SAVE) {
+            $product = $event->getDataObject();
+            /**
+             * Check if product categories data was changed
+             */
+            if ($product->getIsChangedCategories() || $product->dataHasChangedFor('status')
+                || $product->dataHasChangedFor('visibility') || $product->getIsChangedWebsites()) {
+                $event->addNewData('category_ids', $product->getCategoryIds());
+            }
+        } else if ($eventType == Mage_Index_Model_Event::TYPE_MASS_ACTION) {
+            /* @var $actionObject Varien_Object */
+            $actionObject = $event->getDataObject();
+            $attributes   = array('status', 'visibility');
+            $rebuildIndex = false;
+
+            // check if attributes changed
+            $attrData = $actionObject->getAttributesData();
+            if (is_array($attrData)) {
+                foreach ($attributes as $attributeCode) {
+                    if (array_key_exists($attributeCode, $attrData)) {
+                        $rebuildIndex = true;
+                        break;
+                    }
+                }
+            }
+
+            // check changed websites
+            if ($actionObject->getWebsiteIds()) {
+                $rebuildIndex = true;
+            }
+
+            // register affected products
+            if ($rebuildIndex) {
+                $event->addNewData('product_ids', $actionObject->getProductIds());
+            }
         }
     }
 

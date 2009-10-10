@@ -143,7 +143,8 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
         $product      = $event->getDataObject();
         $attributes   = $this->_getDependentAttributes();
         $reindexPrice = $product->getIsRelationsChanged() || $product->getIsCustomOptionChanged()
-            || $product->dataHasChangedFor('tier_price_changed');
+            || $product->dataHasChangedFor('tier_price_changed')
+            || $product->getIsChangedWebsites();
 
         foreach ($attributes as $attributeCode) {
             $reindexPrice = $reindexPrice || $product->dataHasChangedFor($attributeCode);

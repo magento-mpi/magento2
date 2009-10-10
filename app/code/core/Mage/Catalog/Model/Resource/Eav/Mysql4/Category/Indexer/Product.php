@@ -97,6 +97,60 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
     }
 
     /**
+     * Process Catalog Product mass action
+     *
+     * @param Mage_Index_Model_Event $event
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product
+     */
+    public function catalogProductMassAction(Mage_Index_Model_Event $event)
+    {
+        $data = $event->getNewData();
+
+        /**
+         * check is product ids were updated
+         */
+        if (!isset($data['product_ids'])) {
+            return $this;
+        }
+        $productIds     = $data['product_ids'];
+        $categoryIds    = array();
+        $allCategoryIds = array();
+
+        /**
+         * Select relations to categories
+         */
+        $adapter = $this->_getWriteAdapter();
+        $select  = $adapter->select()
+            ->distinct(true)
+            ->from(array('cp' => $this->_categoryProductTable), array('category_id'))
+            ->join(
+                array('ce' => $this->_categoryTable),
+                'ce.entity_id=cp.category_id',
+                array('path'))
+            ->where('cp.product_id IN(?)', $productIds);
+        $pairs   = $adapter->fetchPairs($select);
+        foreach ($pairs as $categoryId => $categoryPath) {
+            $categoryIds[] = $categoryId;
+            $allCategoryIds = array_merge($allCategoryIds, explode('/', $categoryPath));
+        }
+
+        $allCategoryIds = array_unique($allCategoryIds);
+        $allCategoryIds = array_diff($allCategoryIds, $categoryIds);
+
+        /**
+         * Delete previous index data
+         */
+        $this->_getWriteAdapter()->delete(
+            $this->getMainTable(), $this->_getWriteAdapter()->quoteInto('product_id IN(?)', $productIds)
+        );
+
+        $this->_refreshAnchorRelations($allCategoryIds, $productIds);
+        $this->_refreshDirectRelations($categoryIds, $productIds);
+
+        return $this;
+    }
+
+    /**
      * Process category index after category save
      *
      * @param Mage_Index_Model_Event $event
@@ -262,7 +316,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
             $select->where('ce.entity_id IN (?)', $categoryIds);
         }
         if ($productIds) {
-            $select->where('pw.product_id=?', $productIds);
+            $select->where('pw.product_id IN(?)', $productIds);
         }
 
         $sql = $select->insertFromSelect($this->getMainTable());
