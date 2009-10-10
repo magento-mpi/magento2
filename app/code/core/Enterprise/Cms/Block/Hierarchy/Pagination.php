@@ -427,7 +427,15 @@ class Enterprise_Cms_Block_Hierarchy_Pagination extends Mage_Core_Block_Template
         if (!$this->_node || !$this->getPaginationEnabled()) {
             return '';
         }
-        $this->getNodes();
+
+        // collect nodes to output pagination in template
+        $nodes = $this->getNodes();
+
+        // don't display pagination with one page
+        if (count($nodes) <= 1) {
+            return '';
+        }
+
         return parent::_toHtml();
     }
 }

@@ -59,6 +59,13 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
     protected $_allowedSpanAttributes = array();
 
     /**
+     * Total qty nodes in menu
+     *
+     * @var int
+     */
+    protected $_totalMenuNodes = 0;
+
+    /**
      * Initialize allowed Tags attributes
      *
      */
@@ -390,11 +397,13 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
             $html .= $this->_getItemTagBegin($node, $hasChilds) . $this->_getNodeLabel($node);
             $html .= $nested;
             $html .= $this->_getItemTagEnd();
+
+            $this->_totalMenuNodes++;
         }
 
         $html .= $this->_getListTagEnd();
 
-        return $html;
+        return $this->_totalMenuNodes > 1 ? $html : '';
     }
 
     protected function _toHtml()
