@@ -88,6 +88,13 @@ class Mage_Bundle_Model_Observer
         /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Link_Product_Collection */
         $collection = $observer->getEvent()->getCollection();
         $limit      = $observer->getEvent()->getLimit();
+        if (is_array($limit)) {
+            if (isset($limit['upsell'])) {
+                $limit = $limit['upsell'];
+            } else {
+                $limit = 0;
+            }
+        }
 
         /* @var $resource Mage_Bundle_Model_Mysql4_Selection */
         $resource   = Mage::getResourceSingleton('bundle/selection');
