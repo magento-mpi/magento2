@@ -442,7 +442,7 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
         $adapter = $this->_getWriteAdapter();
 
         if ($store instanceof Mage_Core_Model_Store) {
-            $strore = $store->getId();
+            $store = $store->getId();
         }
 
         if (is_null($typeId)) {
@@ -452,16 +452,16 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
             if (is_null($store)) {
                 $adapter->truncate($this->getMainTable());
             } else {
-                $where = array('store_id IN(?)', $strore);
+                $where = array('store_id IN(?)', $store);
                 $adapter->delete($this->getMainTable(), $where);
             }
         } else {
             $where = array('type_id=?' => $typeId);
-            if (!is_null($strore)) {
-                $where['store_id IN(?)'] = $strore;
+            if (!is_null($store)) {
+                $where['store_id IN(?)'] = $store;
             }
             $adapter->delete($this->getMainTable(), $where);
-            $this->getTypeIndex($typeId)->cleanIndex($strore);
+            $this->getTypeIndex($typeId)->cleanIndex($store);
         }
 
         return $this;
