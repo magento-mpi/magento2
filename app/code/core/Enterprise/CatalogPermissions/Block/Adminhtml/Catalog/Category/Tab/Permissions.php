@@ -96,8 +96,6 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             $config = array_merge($additionalConfig, $config);
         }
 
-        mage::log($config);
-
         return Mage::helper('core')->jsonEncode($config);
     }
 
