@@ -684,4 +684,40 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             }
         }
     }
+
+    /**
+     * Validate permissions for Catalog Permission tab Settings for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function validateCatalogPermissions($observer)
+    {
+        /* @var $block Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions */
+        $block = $observer->getEvent()->getBlock();
+        if ($block) {
+            /* @var $row Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permissions_Row */
+            $row = $block->getChild('row');
+            if ($this->_role->getIsWebsiteLevel()) {
+                $websiteIds = $this->_role->getWebsiteIds();
+                $block->setAdditionConfigData(array('limited_website_ids' => $websiteIds));
+            } else if ($this->_role->getIsStoreLevel()) {
+                $block->getCategory()->setPermissionsReadonly(true);
+                $addButton = $block->getChild('add_button');
+                if ($addButton) {
+                    $addButton->setDisabled(true)
+                        ->setClass($addButton->getClass() . ' disabled');
+                }
+                if ($row) {
+                    $deleteButton = $row->getChild('delete_button');
+                    if ($deleteButton) {
+                        $addButton->setDisabled(true)
+                            ->setClass($deleteButton->getClass() . ' disabled');
+                    }
+                }
+            }
+        }
+
+        return $this;
+    }
 }

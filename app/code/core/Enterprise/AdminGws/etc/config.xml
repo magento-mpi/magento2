@@ -520,6 +520,7 @@
                     <enterprise_targetrule__adminhtml_product>readonlyTargetRuleProductAttribute</enterprise_targetrule__adminhtml_product>
                     <enterprise_targetrule__adminhtml_targetrule>removeTargetRuleGridButtons</enterprise_targetrule__adminhtml_targetrule>
                     <enterprise_targetrule__adminhtml_targetrule_edit>removeTargetRuleEditButtons</enterprise_targetrule__adminhtml_targetrule_edit>
+                    <enterprise_catalogpermissions__adminhtml_catalog_category_tab_permissions>validateCatalogPermissions</enterprise_catalogpermissions__adminhtml_catalog_category_tab_permissions>
                 </block_html_before>
             </admingws>
         </enterprise>

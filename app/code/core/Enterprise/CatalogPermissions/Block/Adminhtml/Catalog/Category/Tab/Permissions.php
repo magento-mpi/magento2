@@ -91,6 +91,13 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         //$config['use_parent_config'] = Mage::helper('enterprise_catalogpermissions')->__('(Config)');
         $config['use_parent_config'] = '';
 
+        $additionalConfig = $this->getAdditionConfigData();
+        if (is_array($additionalConfig)) {
+            $config = array_merge($additionalConfig, $config);
+        }
+
+        mage::log($config);
+
         return Mage::helper('core')->jsonEncode($config);
     }
 
@@ -198,7 +205,11 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
      */
     public function canShowTab()
     {
-        return true;
+        $canShow = $this->getCanShowTab();
+        if (is_null($canShow)) {
+            $canShow = Mage::getSingleton('admin/session')->isAllowed('catalog/enterprise_catalogpermissions');
+        }
+        return $canShow;
     }
 
     /**
