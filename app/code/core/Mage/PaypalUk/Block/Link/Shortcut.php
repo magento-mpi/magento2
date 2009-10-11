@@ -48,13 +48,16 @@ class Mage_PaypalUk_Block_Link_Shortcut extends Mage_Core_Block_Template
         return 'https://www.paypal.com/'.$locale.'/i/btn/btn_xpressCheckout.gif';
     }
 
+    /**
+     * Render block html output
+     * @return string
+     */
     public function _toHtml()
     {
-        if (Mage::getStoreConfigFlag('payment/paypaluk_express/active')
-            && Mage::getSingleton('checkout/session')->getQuote()->validateMinimumAmount()) {
+        $quote = Mage::getSingleton('checkout/session')->getQuote();
+        if (Mage::getModel('paypaluk/express')->isAvailable($quote) && $quote->validateMinimumAmount()) {
             return parent::_toHtml();
         }
-
         return '';
     }
 }
