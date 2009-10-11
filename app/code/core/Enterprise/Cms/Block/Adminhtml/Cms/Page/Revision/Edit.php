@@ -44,15 +44,28 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
     {
         parent::__construct();
 
+        $this->removeButton('delete');
+
         $this->_objectId = 'revision_id';
 
         $this->_controller = 'adminhtml_cms_page_revision';
         $this->_blockGroup = 'enterprise_cms';
 
-        $config = Mage::getSingleton('enterprise_cms/config');
         /* @var $config Enterprise_Cms_Model_Config */
+        $config = Mage::getSingleton('enterprise_cms/config');
 
         $this->setFormActionUrl($this->getUrl('*/cms_page_revision/save'));
+
+        $objId = $this->getRequest()->getParam($this->_objectId);
+
+        if (!empty($objId) && $config->canCurrentUserDeleteRevision()) {
+            $this->_addButton('delete_revision', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Delete'),
+                'class'     => 'delete',
+                'onclick'   => 'deleteConfirm(\''. Mage::helper('enterprise_cms')->__('Are you sure you want to delete this revision?')
+                                .'\', \'' . $this->getDeleteUrl() . '\')',
+            ));
+        }
 
         $this->_addButton('preview', array(
             'label'     => Mage::helper('enterprise_cms')->__('Preview'),
@@ -109,12 +122,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
         } else {
             $this->removeButton('save');
             $this->removeButton('saveandcontinue');
-        }
-
-        if ($config->canCurrentUserDeleteRevision()) {
-            $this->_updateButton('delete', 'label', Mage::helper('enterprise_cms')->__('Delete'));
-        } else {
-            $this->removeButton('delete');
         }
 
         return $this;
