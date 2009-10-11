@@ -174,7 +174,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
      */
     public function canShowTab()
     {
-        if (!$this->getPage()->getId() || !Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {
+        if (!$this->getPage()->getId()
+            || !Mage::helper('enterprise_cms/hierarchy')->isEnabled()
+            || !Mage::getSingleton('admin/session')->isAllowed('cms/hierarchy'))
+        {
             return false;
         }
         return true;
