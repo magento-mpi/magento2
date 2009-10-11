@@ -24,16 +24,23 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 
+/**
+ * Giftcard module helper
+ */
 class Enterprise_GiftCard_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Instantiate giftardaccounts block when a gift card email should be sent
+     * @return Mage_Core_Block_Template
+     */
     public function getEmailGeneratedItemsBlock()
     {
-        $name = 'enterprise_giftcard/email_generated';
-        if ($this->getLayout()) {
-            $block = $this->getLayout()->createBlock($name);
+        $className = Mage::getConfig()->getBlockClassName('core/template');
+        $block = new $className;
+        if (Mage::app()->getStore()->isAdmin()) {
+            $block->setTemplate('enterprise/giftcard/email/generated.phtml');
         } else {
-            $className = Mage::getConfig()->getBlockClassName($name);
-            $block = new $className;
+            $block->setTemplate('giftcard/email/generated.phtml');
         }
         return $block;
     }
