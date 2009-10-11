@@ -113,6 +113,7 @@ class Mage_Rss_Block_Catalog_Category extends Mage_Rss_Block_Abstract
     {
         $product = $args['product'];
         $product->setAllowedInRss(true);
+        $product->setAllowedPriceInRss(true);
 
         Mage::dispatchEvent('rss_catalog_category_xml_callback', $args);
 
