@@ -562,13 +562,6 @@ class Enterprise_CatalogPermissions_Model_Observer
             return $this;
         }
 
-        /*
-         * If product already was checked we don't do checks
-         */
-        if ($observer->getEvent()->getProduct()->hasAllowedInRss()) {
-            return $this;
-        }
-
         $row = $observer->getEvent()->getRow();
         if (!$row) {
             $row = $observer->getEvent()->getProduct()->getData();
