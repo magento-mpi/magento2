@@ -44,7 +44,6 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
         if (!Mage::helper('enterprise_cms/hierarchy')->isEnabled()) {
             $this->_forward('noroute', 'index', 'adminhtml');
             $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
         }
         return $this;
     }
