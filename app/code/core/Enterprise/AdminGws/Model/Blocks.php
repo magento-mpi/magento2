@@ -538,9 +538,17 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removeRevisionEditButtons($observer)
     {
-        $observer->getEvent()->getBlock()
-            ->removeButton('publish')
-            ->removeButton('save_publish');
+        /* @var $model Mage_Cms_Model_Page */
+        $model = Mage::registry('cms_page');
+        if ($model && $model->getId()) {
+            $storeIds = Mage::getResourceSingleton('cms/page')
+                ->lookupStoreIds($model->getPageId());
+            if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
+                $observer->getEvent()->getBlock()
+                    ->removeButton('publish')
+                    ->removeButton('save_publish');
+            }
+        }
     }
 
     /**
@@ -552,8 +560,15 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
      */
     public function removePreviewPublishButton($observer)
     {
-        $observer->getEvent()->getBlock()
-            ->removeButton('publish');
+        $model = Mage::registry('cms_page');
+        if ($model && $model->getId()) {
+            $storeIds = Mage::getResourceSingleton('cms/page')
+                ->lookupStoreIds($model->getPageId());
+            if (!$this->_role->hasExclusiveStoreAccess($storeIds)) {
+                $observer->getEvent()->getBlock()
+                    ->removeButton('publish');
+            }
+        }
     }
 
     /**
