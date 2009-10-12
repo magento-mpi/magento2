@@ -324,6 +324,17 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
         /* @var $cart Mage_Checkout_Model_Cart */
         $cart       = Mage::getSingleton('checkout/cart');
 
+        $products = array();
+        foreach ($collection as $item) {
+            if ($item->getStoreId() != Mage::app()->getStore()->getId()) {
+                $products[$item->getProductId()] = $item->getStoreId();
+            }
+        }
+        if ($products) {
+            $products = Mage::getResourceSingleton('catalog/url')
+                ->getRewriteByProductStore($products);
+        }
+
         /* @var $item Mage_Wishlist_Model_Item */
         foreach ($collection as $item) {
             try {
@@ -331,6 +342,19 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                 $product = Mage::getModel('catalog/product')
                     ->load($item->getProductId())
                     ->setQty(1);
+
+                if (isset($products[$product->getId()])) {
+                    $object = new Varien_Object($products[$product->getId()]);
+                    $product()->setUrlDataObject($object);
+                }
+
+                if (!$product->getVisibleInSiteVisibilities()) {
+                    if ($product->hasUrlDataObject()) {
+                        if (!in_array($product->hasUrlDataObject()->getVisibility(), $product->getVisibleInSiteVisibilities())) {
+                            continue;
+                        }
+                    }
+                }
 
                 if ($product->isSalable()) {
                     // check required options
@@ -353,12 +377,10 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                     }
 
                     $item->delete();
-                }
-                else {
+                } else {
                     $notSalableNames[] = $product->getName();
                 }
-            }
-            catch (Exception $e) {
+            } catch (Exception $e) {
                 $url = Mage::getSingleton('checkout/session')->getRedirectUrl(true);
                 if ($url) {
                     $url = Mage::getUrl('catalog/product/view', array(
@@ -369,8 +391,7 @@ class Mage_Wishlist_IndexController extends Mage_Core_Controller_Front_Action
                     $urls[]         = $url;
                     $messages[]     = $e->getMessage();
                     $wishlistIds[]  = $item->getId();
-                }
-                else {
+                } else {
                     $item->delete();
                 }
             }
