@@ -735,4 +735,26 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
 
         return $this;
     }
+
+    /**
+     * Remove buttons for widget instance editing if user does not have exclusive access
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeWidgetInstanceButtons($observer)
+    {
+        /* @var $block Mage_Widget_Block_Adminhtml_Widget_Instance_Edit */
+        $block = $observer->getEvent()->getBlock();
+        $widgetInstance = $block->getWidgetInstance();
+        if ($widgetInstance->getId()) {
+            $storeIds = $widgetInstance->getStoreIds();
+            if (!$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+                $block->removeButton('save');
+                $block->removeButton('save_and_edit_button');
+                $block->removeButton('delete');
+            }
+        }
+        return $this;
+    }
 }

@@ -332,6 +332,7 @@
                     <admin__user_collection>limitAdminPermissionUsers</admin__user_collection>
                     <admin__roles_user_collection>limitAdminPermissionUsers</admin__roles_user_collection>
                     <reports__quote_collection>addStoreFilter</reports__quote_collection>
+                    <widget__widget_instance_collection>addStoreFilter</widget__widget_instance_collection>
                 </collection_load_before>
                 <model_save_before>
                     <cms__page>cmsPageSaveBefore</cms__page>
@@ -355,6 +356,7 @@
                     <eav__entity_attribute_group>eavEntityAttributeGroupSaveBefore</eav__entity_attribute_group>
                     <eav__entity_attribute_option>eavEntityAttributeOptionSaveBefore</eav__entity_attribute_option>
                     <tag__tag>tagSaveBefore</tag__tag>
+                    <widget__widget_instance>widgetInstanceSaveBefore</widget__widget_instance>
                 </model_save_before>
                 <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
@@ -373,6 +375,7 @@
                     <eav__entity_attribute_group>eavEntityAttributeGroupDeleteBefore</eav__entity_attribute_group>
                     <eav__entity_attribute_option>eavEntityAttributeOptionDeleteBefore</eav__entity_attribute_option>
                     <tag__tag>tagDeleteBefore</tag__tag>
+                    <widget__widget_instance>widgetInstanceDeleteBefore</widget__widget_instance>
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
@@ -521,6 +524,7 @@
                     <enterprise_targetrule__adminhtml_targetrule>removeTargetRuleGridButtons</enterprise_targetrule__adminhtml_targetrule>
                     <enterprise_targetrule__adminhtml_targetrule_edit>removeTargetRuleEditButtons</enterprise_targetrule__adminhtml_targetrule_edit>
                     <enterprise_catalogpermissions__adminhtml_catalog_category_tab_permissions>validateCatalogPermissions</enterprise_catalogpermissions__adminhtml_catalog_category_tab_permissions>
+                    <widget__adminhtml_widget_instance_edit>removeWidgetInstanceButtons</widget__adminhtml_widget_instance_edit>
                 </block_html_before>
             </admingws>
         </enterprise>

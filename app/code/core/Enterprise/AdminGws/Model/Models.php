@@ -988,4 +988,36 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     {
         $this->_throwDelete();
     }
+
+    /**
+     * Validate widget instance before save
+     *
+     * @param Mage_Widget_Model_Widget_Instance $model
+     */
+    public function widgetInstanceSaveBefore($model)
+    {
+        $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
+        $model->setData('stores', $this->_forceAssignToStore(
+            $this->_updateSavingStoreIds($model->getStoreIds(), $originalStoreIds)
+        ));
+        if ($model->getId() && !$this->_role->hasStoreAccess($originalStoreIds)) {
+            $this->_throwSave();
+        }
+        if (!$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
+            $this->_throwSave();
+        }
+    }
+
+    /**
+     * Validate widget instance before save
+     *
+     * @param Mage_Widget_Model_Widget_Instance $model
+     */
+    public function widgetInstanceDeleteBefore($model)
+    {
+        $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
+        if (!$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
+            $this->_throwDelete();
+        }
+    }
 }
