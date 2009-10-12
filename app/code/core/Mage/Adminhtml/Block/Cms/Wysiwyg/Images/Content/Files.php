@@ -45,7 +45,8 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Mage_Adminht
         $collection = $helper->getStorage()->getFilesCollection($helper->getCurrentPath(), $type);
         foreach ($collection as $item) {
             $item->setId($helper->idEncode($item->getBasename()));
-            $item->setName($helper->getShortFilename($item->getBasename()));
+            $item->setName($item->getBasename());
+            $item->setShortName($helper->getShortFilename($item->getBasename()));
             $item->setUrl($helper->getCurrentUrl() . $item->getBasename());
             $item->setEncodedPath($helper->idEncode($item->getFilename()));
 

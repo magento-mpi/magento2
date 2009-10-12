@@ -38,9 +38,11 @@ $_height = $this->getImagesHeight();
 <?php if ($this->getContentsCollection()->count() > 0): ?>
     <?php foreach ($this->getContentsCollection() as $item): ?>
     <div class="filecnt" id="<?php echo $item->getId() ?>">
-        <img src="<?php echo ($item->getThumbUrl() ? $item->getThumbUrl() : $item->getUrl()) ?>" width="<?php echo $_width ?>" height="<?php echo $_height ?>"><br/>
+        <p class="nm" style="height:<?php echo $_height ?>px;width:<?php echo $_width ?>px;">
+            <img src="<?php echo ($item->getThumbUrl() ? $item->getThumbUrl() : $item->getUrl()) ?>"<?php if(!$item->getThumbUrl()):?> width="<?php echo $_width ?>" height="<?php echo $_height ?>"<?php endif; ?> alt="<?php echo $item->getName(); ?>"/>
+        </p>
         <small><?php echo $item->getWidth(); ?>x<?php echo $item->getHeight(); ?> <?php echo $this->helper('cms')->__('px.') ?></small><br/>
-        <small><?php echo $item->getName(); ?></small>
+        <small><?php echo $item->getShortName(); ?></small>
     </div>
     <?php endforeach; ?>
 <?php else: ?>

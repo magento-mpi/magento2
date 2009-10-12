@@ -179,6 +179,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         $image->open($targetPath . DS . $uploader->getUploadedFileName());
         $width = $this->getConfigData('browser_resize_width');
         $height = $this->getConfigData('browser_resize_height');
+        $image->keepAspectRatio(true);
         $image->resize($width, $height);
         $image->save($thumbsPath . DS . $uploader->getUploadedFileName());
 
