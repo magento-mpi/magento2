@@ -160,6 +160,7 @@ Wysiwyg.Images.prototype = {
                     } else {
                         updateElementAtCursor(targetEl, transport.responseText, self.opener);
                     }
+                    self.opener.varienGlobalEvents.fireEvent('tinymceChange');
                     self.close();
                 } catch (e) {
                     alert(e.message);

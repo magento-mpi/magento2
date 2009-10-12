@@ -56,4 +56,3 @@ function dataChanged() {
 }
 
 varienGlobalEvents.attachEventHandler('tinymceChange', dataChanged);
-

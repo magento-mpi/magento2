@@ -195,18 +195,19 @@ WysiwygWidget.Widget.prototype = {
 
     updateContent: function(content) {
         if (this.wysiwygExists()) {
-        	this.getPopup().execCommand("mceInsertContent", false, content);
-        	// Refocus in window
-        	if (this.getPopup().isWindow) {
-        		window.focus();
-        	}
-        	this.getWysiwyg().focus();
+            this.getPopup().execCommand("mceInsertContent", false, content);
+            // Refocus in window
+            if (this.getPopup().isWindow) {
+                window.focus();
+            }
+            this.getWysiwyg().focus();
         } else {
             var parent = this.getPopup().opener;
             var textareaId = this.getPopup().name.replace(/widget_window/g, '');
             var textarea = parent.document.getElementById(textareaId);
             updateElementAtCursor(textarea, content, this.getPopup().opener);
         }
+        self.opener.varienGlobalEvents.fireEvent('tinymceChange');
     },
 
     wysiwygExists: function() {
