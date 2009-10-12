@@ -312,6 +312,7 @@
                     <log__visitor_online_collection>limitOnlineCustomers</log__visitor_online_collection>
                     <enterprise_giftcardaccount__giftcardaccount_collection>limitGiftCardAccounts</enterprise_giftcardaccount__giftcardaccount_collection>
                     <enterprise_catalogevent__event_collection>limitCatalogEvents</enterprise_catalogevent__event_collection>
+                    <enterprise_cms__hierarchy_node_collection>addStoreFilter</enterprise_cms__hierarchy_node_collection>
                     <catalog__category_collection>limitCatalogCategories</catalog__category_collection>
                     <core__url_rewrite_collection>limitCoreUrlRewrites</core__url_rewrite_collection>
                     <rating__rating_collection>limitRatings</rating__rating_collection>
@@ -481,7 +482,7 @@
                     <adminhtml__process__massReindex>blockIndexAction</adminhtml__process__massReindex>
                     <adminhtml__process__reindexProcess>blockIndexAction</adminhtml__process__reindexProcess>
                     <adminhtml__process__reindexAllAction>blockIndexAction</adminhtml__process__reindexAllAction>
-                    
+
                     <adminhtml__targetrule__new>blockIndexAction</adminhtml__targetrule__new>
                     <adminhtml__targetrule__save>blockIndexAction</adminhtml__targetrule__save>
                     <adminhtml__targetrule__delete>blockIndexAction</adminhtml__targetrule__delete>
@@ -517,7 +518,6 @@
                     <adminhtml__system_currency>removeManageCurrencyRatesButtons</adminhtml__system_currency>
                     <adminhtml__system_email_template>removeEmailTemplateGridButtons</adminhtml__system_email_template>
                     <adminhtml__system_email_template_edit>removeTransactionalEmailsEditButtons</adminhtml__system_email_template_edit>
-                    <enterprise_targetrule__adminhtml_product>readonlyTargetRuleProductAttribute</enterprise_targetrule__adminhtml_product>
                     <enterprise_targetrule__adminhtml_targetrule>removeTargetRuleGridButtons</enterprise_targetrule__adminhtml_targetrule>
                     <enterprise_targetrule__adminhtml_targetrule_edit>removeTargetRuleEditButtons</enterprise_targetrule__adminhtml_targetrule_edit>
                     <enterprise_catalogpermissions__adminhtml_catalog_category_tab_permissions>validateCatalogPermissions</enterprise_catalogpermissions__adminhtml_catalog_category_tab_permissions>
