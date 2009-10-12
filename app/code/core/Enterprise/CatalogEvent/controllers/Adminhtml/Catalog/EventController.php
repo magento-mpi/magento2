@@ -34,6 +34,21 @@
 class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Check is enabled module in config
+     *
+     * @return Enterprise_CatalogEvent_Adminhtml_Catalog_EventController
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
+            $this->_forward('noroute', 'index', 'adminhtml');
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+        }
+        return $this;
+    }
+
+    /**
      * Init action breadcrumbs and active menu
      *
      * @return Enterprise_CatalogEvent_IndexController
@@ -227,8 +242,7 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
      */
     protected function _isAllowed()
     {
-        return Mage::helper('enterprise_catalogevent')->isEnabled() &&
-               Mage::getSingleton('admin/session')->isAllowed('catalog/events');
+        return Mage::getSingleton('admin/session')->isAllowed('catalog/events');
     }
 
     /**
