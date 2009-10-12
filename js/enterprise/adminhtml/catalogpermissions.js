@@ -22,13 +22,13 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
- 
+
  if (!window.Enterprise) {
      window.Enterprise = {};
  }
- 
+
  Enterprise.CatalogPermissions = {};
- 
+
  Enterprise.CatalogPermissions.CategoryTab = Class.create();
  Object.extend(Enterprise.CatalogPermissions.CategoryTab.prototype, {
      templatesPattern: /(^|.|\r|\n)(\{\{(.*?)\}\})/,
@@ -43,7 +43,9 @@
          this.onDeleteButton = this.handleDeleteButton.bindAsEventListener(this);
          this.onChangeWebsiteGroup = this.handleWebsiteGroupChange.bindAsEventListener(this);
          this.onFieldChange = this.handleUpdatePermission.bindAsEventListener(this);
-         this.addButton.observe('click', this.onAddButton);
+         if (this.addButton) {
+            this.addButton.observe('click', this.onAddButton);
+         }
          this.index = 1;
          Validation.addAllThese([
             ['validate-duplicate-' + this.container.id, this.config.duplicate_message, function(v, elem) {
@@ -58,8 +60,21 @@
         };
         config.html_id = this.container.id + '_row_' + config.index;
         var params, i, l;
-        
+
+        var readOnly        = false;
+        var isNewRow        = true;
+        var limitWebsiteIds = null;
+        if (this.config.limited_website_ids) {
+            limitWebsiteIds = this.config.limited_website_ids;
+        }
+
         if (arguments.length) {
+            var isNewRow        = false;
+            if (limitWebsiteIds) {
+                if (!this.in_array(config.website_id, limitWebsiteIds)) {
+                    readOnly = true;
+                }
+            }
             Object.extend(config, arguments[0].value);
             params = Object.keys(config);
             for (i=0, l=params.length; i < l; i ++) {
@@ -71,7 +86,7 @@
                        config['grant_catalog_product_price'] = -2;
                        config['grant_catalog_product_price_disabled'] = 'disabled="disabled"';
                    }
-                   
+
                    if (params[i] == 'grant_catalog_product_price'
                        && config[params[i]].toString() == '-2') {
                        config['grant_checkout_items_disabled'] = 'disabled="disabled"';
@@ -83,18 +98,16 @@
             config.permission_id = arguments[0].key;
         } else {
             config.permission_id = 'new_permission' + config.index;
-            params = Object.keys(config); 
+            params = Object.keys(config);
             this.permissions.set(config.permission_id, {});
         }
-        
+
         this.items.insert({top: this.rowTemplate.evaluate(config)});
-        
+
         var row  = $(config.html_id);
         row.permissionId = config.permission_id;
         row.controller = this;
-        
-        
-        
+
         for (i=0, l=params.length; i < l; i ++) {
             var field = row.down('.' + this.fieldClassName(params[i]));
             if (field) {
@@ -106,7 +119,7 @@
                            if (config[params[i]] == null) {
                                config[params[i]] = '-1';
                            }
-                           if (field.options[j].value == config[params[i]] && 
+                           if (field.options[j].value == config[params[i]] &&
                                field.options[j].value.length == config[params[i]].length) {
                                field.value = field.options[j].value;
                            }
@@ -115,7 +128,7 @@
                }
             }
         }
-        
+
         if (arguments.length == 0) {
              row.select('input[value="0"]').each(function(radio){
                  if (radio.type == 'radio') {
@@ -123,7 +136,7 @@
                  }
              });
         }
-        
+
         var fields = row.select('input', 'select', 'textarea');
         for (i = 0, l = fields.length; i < l; i ++) {
             fields[i].observe('change', this.onFieldChange);
@@ -135,20 +148,40 @@
                 row.duplicateField.isDuplicate = false;
                 row.duplicateField.addClassName('validate-duplicate-' + this.container.id);
             }
+
+            if (readOnly) {
+                fields[i].disabled = true;
+            }
         }
-        
+
         if (websiteSelect = row.down('select.website-id-value')) {
             websiteSelect.observe('change', this.onChangeWebsiteGroup);
+            if (isNewRow && limitWebsiteIds) {
+                for (var optionId = 0; optionId < websiteSelect.options.length; optionId ++) {
+                    var wsValue = websiteSelect.options[optionId].value;
+                    if (wsValue != '' && !this.in_array(wsValue, limitWebsiteIds)) {
+                        websiteSelect.remove(optionId);
+                    }
+                }
+            }
         }
         if (groupSelect = row.down('select.customer-group-id-value')) {
             groupSelect.observe('change', this.onChangeWebsiteGroup);
         }
-        
-        row.down('button.delete').observe('click', this.onDeleteButton);
-        
+
+        var deleteButton = row.down('button.delete');
+        if (deleteButton) {
+            if (readOnly) {
+                deleteButton.addClassName('disabled').disabled = true;
+                row.addClassName('readonly');
+            } else {
+                deleteButton.observe('click', this.onDeleteButton);
+            }
+        }
+
         this.modifyParentValue(row);
     },
-    
+
     handleAddButton: function (evt) {
         this.add();
         this.checkDuplicates();
@@ -157,15 +190,15 @@
     handleUpdatePermission: function (evt) {
         var field = $(Event.element(evt));
         var row = field.up('.permission-box');
-        
+
         if (field.name && (field.type != 'radio' || field.checked)) {
             var fieldName = field.name.replace(/^(.*)\[([^\]]*)\]$/, '$2');
             this.permissions.get(row.permissionId)[fieldName] = field.value;
-            
+
         }
-        
+
         setTimeout(this.disableRadio.bind(this), 1);
-        
+
         if (field.hasClassName('is-unique')) {
             this.checkDuplicates();
             this.validate();
@@ -174,16 +207,19 @@
     disableRadio: function ()
     {
         var rows = this.items.select('.permission-box');
-        
+
         for (var i = 0, l = rows.length; i < l; i ++) {
             var row = rows[i];
+            if (row.hasClassName('readonly')) {
+                continue
+            }
             if (row.down('.' + this.fieldClassName('grant_catalog_category_view') + '[value="-2"]').checked) {
                 row.select('.' + this.fieldClassName('grant_catalog_product_price')).each(function(item){item.disabled = true;});
             } else {
                 row.select('.' + this.fieldClassName('grant_catalog_product_price')).each(function(item){item.disabled = false;});
             }
 
-            if (row.down('.' + this.fieldClassName('grant_catalog_category_view') + '[value="-2"]').checked 
+            if (row.down('.' + this.fieldClassName('grant_catalog_category_view') + '[value="-2"]').checked
                 || row.down('.' + this.fieldClassName('grant_catalog_product_price') + '[value="-2"]').checked) {
                 row.select('.' + this.fieldClassName('grant_checkout_items')).each(function(item){item.disabled = true;});
             } else  {
@@ -193,21 +229,21 @@
     },
     isDuplicate: function(row) {
         var needleString = this.rowUniqueKey(row);
-        
+
         if (needleString.length == 0 || row.isDeleted) {
             return false;
         }
-        
+
         var rows = this.items.select('.permission-box');
         for (var i = 0, l = rows.length; i < l; i ++) {
             if (!rows[i].isDuplicate &&
-                !rows[i].isDeleted && 
-                rows[i].permissionId != row.permissionId && 
+                !rows[i].isDeleted &&
+                rows[i].permissionId != row.permissionId &&
                 this.rowUniqueKey(rows[i]) == needleString) {
                 return true;
             }
         }
-        
+
         return false;
     },
     checkDuplicates: function () {
@@ -223,11 +259,11 @@
             if (fields[i].value === '') {
                return '';
             }
-            
+
             key += '_' + fields[i].value;
-            
+
         }
-        
+
         return key;
     },
     fieldClassName: function(fieldName) {
@@ -273,13 +309,13 @@
         if (typeof parentVals == 'undefined') {
             parentVals = {'category':0,'product':0,'checkout':0};
         }
-        
+
         var grants = {
             'grant_catalog_category_view' : 'category',
             'grant_catalog_product_price' : 'product',
             'grant_checkout_items'        : 'checkout'
         };
-        
+
         for(key in grants) {
             var val = parentVals[grants[key]];
             switch (val) {
@@ -294,12 +330,20 @@
                 var text = this.config['use_parent_config'];
                 break;
             }
-            
+
             row.down('span.'+key).innerHTML = text;
         }
     },
     handleWebsiteGroupChange: function(e) {
         var row = $(Event.element(e)).up('.permission-box');
         this.modifyParentValue(row);
+    },
+    in_array: function  (needle, haystack) {
+        for (key in haystack) {
+            if (haystack[key] === needle) {
+                return true;
+            }
+        }
+        return false;
     }
  })
