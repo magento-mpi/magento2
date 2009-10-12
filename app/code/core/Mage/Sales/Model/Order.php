@@ -191,7 +191,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return false;
         }
 
-        if ($this->getState() === self::STATE_CANCELED ||
+        if ($this->isCanceled() ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED) {
             return false;
@@ -223,7 +223,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         if ($this->canUnhold()) {
             return false;
         }
-        if ($this->getState() === self::STATE_CANCELED ||
+        if ($this->isCanceled() ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED ) {
             return false;
@@ -256,7 +256,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return false;
         }
 
-        if ($this->getState() === self::STATE_CANCELED ||
+        if ($this->isCanceled() ||
             $this->getState() === self::STATE_CLOSED ) {
             return false;
         }
@@ -284,7 +284,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function canHold()
     {
-        if ($this->getState() === self::STATE_CANCELED ||
+        if ($this->isCanceled() ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED ||
             $this->getState() === self::STATE_HOLDED) {
@@ -361,7 +361,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return false;
         }
 
-        if ($this->getState() === self::STATE_CANCELED ||
+        if ($this->isCanceled() ||
             $this->getState() === self::STATE_COMPLETE ||
             $this->getState() === self::STATE_CLOSED) {
             return false;
@@ -1454,7 +1454,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             return $this;
         }
 
-        if ($this->getState() !== self::STATE_CANCELED
+        if (!$this->isCanceled()
             && !$this->canUnhold()
             && !$this->canInvoice()
             && !$this->canShip()) {
@@ -1637,6 +1637,16 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             }
             return false;
         }
+    }
+
+    /**
+     * Check whether order is canceled
+     *
+     * @return bool
+     */
+    public function isCanceled()
+    {
+        return ($this->getState() === self::STATE_CANCELED);
     }
 
     protected function _beforeDelete()

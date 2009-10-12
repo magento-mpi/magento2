@@ -108,7 +108,7 @@ class Mage_AmazonPayments_Model_Payment_Asp_Notification extends Varien_Object
      */
     protected function _processCancel($request, $order)
     {
-        if ($order->getState() == Mage_Sales_Model_Order::STATE_CANCELED) {
+        if ($order->isCanceled()) {
             $order->addStatusToHistory(
                $order->getStatus(),
                Mage::helper('amazonpayments')->__('Amazon Simple Pay service confirmed cancelation.')
