@@ -645,9 +645,7 @@ class Mage_Checkout_Model_Type_Onepage
              */
             $this->getQuote()->save();
             if ($customer->isConfirmationRequired()) {
-                Mage::getSingleton('checkout/session')->addSuccess(Mage::helper('customer')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.',
-                    Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail())
-                ));
+                Mage::getSingleton('checkout/session')->addSuccess(Mage::helper('customer')->__('Account confirmation is required. Please, check your e-mail for confirmation link. To resend confirmation email please <a href="%s">click here</a>.', Mage::helper('customer')->getEmailConfirmationUrl($customer->getEmail())));
             }
             else {
                 Mage::getSingleton('customer/session')->loginById($customer->getId());
