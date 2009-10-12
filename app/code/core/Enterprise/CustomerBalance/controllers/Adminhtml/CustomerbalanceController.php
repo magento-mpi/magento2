@@ -31,6 +31,21 @@
 class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Check is enabled module in config
+     *
+     * @return Enterprise_CatalogEvent_Adminhtml_Catalog_EventController
+     */
+    public function preDispatch()
+    {
+        parent::preDispatch();
+        if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
+            $this->_forward('noroute', 'index', 'adminhtml');
+            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+        }
+        return $this;
+    }
+
+    /**
      * Customer balance form
      *
      */
@@ -81,12 +96,12 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
     }
 
     /**
-     * Check whether store credit functionality is allowed
+     * Check is allowed customer management
      *
      * @return bool
      */
     protected function _isAllowed()
     {
-        return Mage::helper('enterprise_customerbalance')->isEnabled();
+        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
     }
 }
