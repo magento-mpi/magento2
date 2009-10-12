@@ -81,12 +81,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Revision_Edit extends Mage_Adminht
                 'class'     => 'publish' . (Mage::registry('cms_page')->getId()? '' : ' no-display'),
             ), 1);
 
-            $this->_addButton('save_publish', array(
-                'id'        => 'save_publish_button',
-                'label'     => Mage::helper('enterprise_cms')->__('Save and Publish'),
-                'onclick'   => "saveAndPublishAction(editForm, '" . $this->getSaveUrl() . "')",
-                'class'     => 'publish no-display',
-            ), 1);
+            if ($config->canCurrentUserSaveRevision()) {
+                $this->_addButton('save_publish', array(
+                    'id'        => 'save_publish_button',
+                    'label'     => Mage::helper('enterprise_cms')->__('Save and Publish'),
+                    'onclick'   => "saveAndPublishAction(editForm, '" . $this->getSaveUrl() . "')",
+                    'class'     => 'publish no-display',
+                ), 1);
+            }
 
             $this->_updateButton('saveandcontinue', 'level', 2);
         }
