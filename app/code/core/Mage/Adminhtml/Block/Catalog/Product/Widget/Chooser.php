@@ -76,10 +76,12 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
             $categoryId = isset($value[2]) ? $value[2] : false;
             $label = '';
             if ($categoryId) {
-                $label = Mage::getResourceSingleton('catalog/category')->getAttributeRawValue($categoryId, 'name', Mage::app()->getStore());
+                $label = Mage::getResourceSingleton('catalog/category')
+                    ->getAttributeRawValue($categoryId, 'name', Mage::app()->getStore()) . '/';
             }
             if ($productId) {
-                $label .= Mage::getResourceSingleton('catalog/product')->getAttributeRawValue($productId, 'name', Mage::app()->getStore());
+                $label .= Mage::getResourceSingleton('catalog/product')
+                    ->getAttributeRawValue($productId, 'name', Mage::app()->getStore());
             }
             $chooser->setLabel($label);
         }
