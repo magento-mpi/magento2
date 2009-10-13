@@ -1,4 +1,5 @@
-<?php
+<?xml version="1.0"?>
+<!--
 /**
  * Magento Enterprise Edition
  *
@@ -19,24 +20,29 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     enterprise_blank
+ * @package     enterprise_default
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
-?>
 
-<b><?php echo Mage::helper('ogone')->__('Please, wait a moment. This page will transfer your data to Ogone payment gateway in a few seconds.'); ?></b>
-<form name='ogone' id='ogone_review_form' action='<?php echo $this->getFormAction();?>' method='POST' accept-charset="ISO-8859-1">
-<?php if (is_array($this->getFormData())): ?>
-    <?php foreach ($this->getFormData() as $name => $value) { ?>
-        <input type="hidden" name="<?php echo($name); ?>" value="<?php echo($value); ?>"/>
-    <?php }?>
-<?php endif; ?>
-</form>
+-->
+<layout version="0.1.0">
+    <ogone_api_paypage>
+        <remove name="right"/>
+        <remove name="left"/>
+        <reference name="root">
+            <action method="setTemplate"><template>page/1column.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="ogone/paypage" name="ogone_paypage" template="ogone/paypage.phtml"/>
+        </reference>
+    </ogone_api_paypage>
 
-<script type="text/javascript">
-//<![CDATA[
-    var review = new VarienForm('ogone_review_form', '');
-    window.onload = review.submit();
-//]]>
-</script>
+    <ogone_api_placeform>
+        <remove name="right"/>
+        <remove name="left"/>
+        <reference name="content">
+            <block type="ogone/placeform" name="ogone_placeform" template="ogone/placeform.phtml"/>
+        </reference>
+    </ogone_api_placeform>
+</layout>
