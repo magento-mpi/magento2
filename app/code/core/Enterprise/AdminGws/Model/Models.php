@@ -38,10 +38,6 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function cmsPageSaveBefore($model)
     {
         $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
-        $model->setData('stores', $this->_forceAssignToStore($this->_updateSavingStoreIds(
-            $model->getData('stores'), $originalStoreIds
-        )));
-
         if ($model->getId() && !$this->_role->hasStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
@@ -49,6 +45,9 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
         if (!$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
+        $model->setData('stores', $this->_forceAssignToStore($this->_updateSavingStoreIds(
+            $model->getData('stores'), $originalStoreIds
+        )));
     }
 
     /**
@@ -85,7 +84,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
+        if (!$this->_role->getIsWebsiteLevel()) {
             $this->_throwSave();
         }
 
@@ -1012,15 +1011,15 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     public function widgetInstanceSaveBefore($model)
     {
         $originalStoreIds = $model->getResource()->lookupStoreIds($model->getId());
-        $model->setData('stores', $this->_forceAssignToStore(
-            $this->_updateSavingStoreIds($model->getStoreIds(), $originalStoreIds)
-        ));
         if ($model->getId() && !$this->_role->hasStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
         if (!$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
+        $model->setData('stores', $this->_forceAssignToStore(
+            $this->_updateSavingStoreIds($model->getStoreIds(), $originalStoreIds)
+        ));
     }
 
     /**
