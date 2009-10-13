@@ -394,6 +394,7 @@
                     <core__store>coreStoreGroupLoadAfter</core__store><!-- same method as for store group -->
                     <core__url_rewrite>coreUrlRewriteLoadAfter</core__url_rewrite>
                     <newsletter__queue>newsletterQueueLoadAfter</newsletter__queue>
+                    <widget__widget_instance>widgetInstanceLoadAfter</widget__widget_instance>
                 </model_load_after>
                 <controller_predispatch>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__><!-- system config saving and browsing -->

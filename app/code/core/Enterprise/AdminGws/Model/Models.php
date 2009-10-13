@@ -46,7 +46,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        if (!$model->getId() && !$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
+        if (!$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
     }
@@ -63,7 +63,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwSave();
         }
 
-        if (!$model->getId() && !$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
+        if (!$this->_role->hasExclusiveStoreAccess($originalStoreIds)) {
             $this->_throwSave();
         }
 
@@ -990,6 +990,21 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Validate widget instance availability after load
+     *
+     * @param Mage_Widget_Model_Widget_Instance $model
+     */
+    public function widgetInstanceLoadAfter($model)
+    {
+        if (in_array(0, $model->getStoreIds())) {
+            return;
+        }
+        if (!$this->_role->hasStoreAccess($model->getStoreIds())) {
+            $this->_throwLoad();
+        }
+    }
+
+    /**
      * Validate widget instance before save
      *
      * @param Mage_Widget_Model_Widget_Instance $model
@@ -1009,7 +1024,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Validate widget instance before save
+     * Validate widget instance before delete
      *
      * @param Mage_Widget_Model_Widget_Instance $model
      */
