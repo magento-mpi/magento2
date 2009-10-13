@@ -333,7 +333,7 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             return self::API_URL . '?' . implode('&', $p);
         } else {
             $params = array('ga' => urlencode(base64_encode(serialize($params))));
-            return $this->getUrl('*/*/tunnel', $params);
+            return $this->getUrl('*/*/tunnel', array('_query' => $params));
         }
     }
 
