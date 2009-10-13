@@ -49,15 +49,15 @@ tinyMceWysiwygSetup.prototype =
         }
     },
 
-    setup: function()
+    setup: function(mode)
     {
         if (this.config.widget_plugin_src) {
             tinymce.PluginManager.load('magentowidget', this.config.widget_plugin_src);
         }
-        tinyMCE.init(this.getSettings());
+        tinyMCE.init(this.getSettings(mode));
     },
 
-    getSettings: function()
+    getSettings: function(mode)
     {
         var plugins = 'safari,pagebreak,style,layer,table,advhr,advimage,emotions,iespell,media,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras';
 
@@ -66,7 +66,7 @@ tinyMceWysiwygSetup.prototype =
         }
 
         var settings = {
-            mode : 'exact',
+            mode : (mode != undefined ? mode : 'none'),
             elements : this.id,
             theme : 'advanced',
             plugins : plugins,
@@ -151,7 +151,6 @@ tinyMceWysiwygSetup.prototype =
 
         if (!tinyMCE.get(this.id)) {
             this.setup();
-            setTimeout('',1000);
             tinyMCE.execCommand('mceAddControl', false, this.id);
             return true;
         } else {
