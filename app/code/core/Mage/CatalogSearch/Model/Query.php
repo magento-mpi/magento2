@@ -46,6 +46,16 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Retrieve search collection
+     *
+     * @return Mage_CatalogSearch_Model_Mysql4_Search_Collection
+     */
+    public function getSearchCollection()
+    {
+        return Mage::getResourceModel('catalogsearch/search_collection');
+    }
+
+    /**
      * Retrieve collection of search results
      *
      * @return Mage_Eav_Model_Entity_Collection_Abstract
@@ -54,7 +64,7 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     {
         $collection = $this->getData('result_collection');
         if (is_null($collection)) {
-            $collection = Mage::getResourceModel('catalogsearch/search_collection');
+            $collection = $this->getSearchCollection();
 
             $text = $this->getSynonymFor();
             if (!$text) {
