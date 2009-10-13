@@ -168,6 +168,9 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
          * Use prepeared in beforeSave sql
          */
         $sql = $this->getConditionSql();
+        if (!$sql) {
+            return false;
+        }
         $result = $this->getResource()->runConditionSql($sql, array('customer_id'=>$customer->getId()));
         return $result>0;
     }
