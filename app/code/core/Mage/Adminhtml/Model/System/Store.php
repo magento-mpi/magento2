@@ -113,6 +113,13 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         return $this;
     }
 
+    /**
+     * Retrieve store values for form
+     *
+     * @param bool $empty
+     * @param bool $all
+     * @return array
+     */
     public function getStoreValuesForForm($empty = false, $all = false)
     {
         $options = array();
@@ -167,6 +174,15 @@ class Mage_Adminhtml_Model_System_Store extends Varien_Object
         return $options;
     }
 
+    /**
+     * Retrieve stores structure
+     *
+     * @param bool $isAll
+     * @param array $storeIds
+     * @param array $groupIds
+     * @param array $websiteIds
+     * @return array
+     */
     public function getStoresStructure($isAll = false, $storeIds = array(), $groupIds = array(), $websiteIds = array())
     {
         $out = array();
