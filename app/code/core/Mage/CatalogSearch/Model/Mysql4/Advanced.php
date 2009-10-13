@@ -131,7 +131,7 @@ class Mage_CatalogSearch_Model_Mysql4_Advanced extends Mage_Core_Model_Mysql4_Ab
      */
     public function addIndexableAttributeFilter($object, $attribute, $value)
     {
-        if (empty($value)) {
+        if (is_string($value) && strlen($value) == 0) {
             return false;
         }
         if (is_array($value) && (isset($value['from']) || isset($value['to']))) {
