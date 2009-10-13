@@ -226,7 +226,7 @@ class Enterprise_Banner_Block_Widget_Banner
      * @param int $storeId
      * @return array
      */
-    protected function _getBannersContent($bannerIds, $segmentIds)
+    protected function _getBannersContent($bannerIds, $segmentIds = array())
     {
         $bannersSequence = $content = array();
         if (!empty($bannerIds)) {
