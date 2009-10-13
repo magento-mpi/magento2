@@ -588,6 +588,7 @@
 "Unable to get product id.","Unable to get product id."
 "Unassigned Attributes","Unassigned Attributes"
 "Unknown attribute: %s","Unknown attribute: %s"
+"Unknown eav indexer type ""%s""","Unknown eav indexer type ""%s"""
 "Unsupported product type ""%s""","Unsupported product type ""%s"""
 "Up-sells","Up-sells"
 "Update","Update"
