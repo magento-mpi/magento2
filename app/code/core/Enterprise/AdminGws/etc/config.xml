@@ -277,6 +277,14 @@
                     </enterprise_admingws>
                 </observers>
             </rss_order_new_collection_select>
+            <adminhtml_banner_edit_tab_content_before_prepare_form>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/blocks</class>
+                        <method>disableAllStoreViewsContentFeild</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_banner_edit_tab_content_before_prepare_form>
         </events>
         <enterprise>
             <admingws>
@@ -333,6 +341,7 @@
                     <admin__roles_user_collection>limitAdminPermissionUsers</admin__roles_user_collection>
                     <reports__quote_collection>addStoreFilter</reports__quote_collection>
                     <widget__widget_instance_collection>addStoreFilter</widget__widget_instance_collection>
+                    <enterprise_banner__banner_collection>addStoreFilter</enterprise_banner__banner_collection>
                 </collection_load_before>
                 <model_save_before>
                     <cms__page>cmsPageSaveBefore</cms__page>
@@ -357,6 +366,7 @@
                     <eav__entity_attribute_option>eavEntityAttributeOptionSaveBefore</eav__entity_attribute_option>
                     <tag__tag>tagSaveBefore</tag__tag>
                     <widget__widget_instance>widgetInstanceSaveBefore</widget__widget_instance>
+                    <enterprise_banner__banner>bannerSaveBefore</enterprise_banner__banner>
                 </model_save_before>
                 <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
@@ -376,6 +386,7 @@
                     <eav__entity_attribute_option>eavEntityAttributeOptionDeleteBefore</eav__entity_attribute_option>
                     <tag__tag>tagDeleteBefore</tag__tag>
                     <widget__widget_instance>widgetInstanceDeleteBefore</widget__widget_instance>
+                    <enterprise_banner__banner>bannerDeleteBefore</enterprise_banner__banner>
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
@@ -394,6 +405,7 @@
                     <core__store>coreStoreGroupLoadAfter</core__store><!-- same method as for store group -->
                     <core__url_rewrite>coreUrlRewriteLoadAfter</core__url_rewrite>
                     <newsletter__queue>newsletterQueueLoadAfter</newsletter__queue>
+                    <enterprise_banner__banner>bannerLoadAfter</enterprise_banner__banner>
                     <widget__widget_instance>widgetInstanceLoadAfter</widget__widget_instance>
                 </model_load_after>
                 <controller_predispatch>
@@ -527,6 +539,8 @@
                     <enterprise_targetrule__adminhtml_targetrule_edit>removeTargetRuleEditButtons</enterprise_targetrule__adminhtml_targetrule_edit>
                     <enterprise_catalogpermissions__adminhtml_catalog_category_tab_permissions>validateCatalogPermissions</enterprise_catalogpermissions__adminhtml_catalog_category_tab_permissions>
                     <widget__adminhtml_widget_instance_edit>removeWidgetInstanceButtons</widget__adminhtml_widget_instance_edit>
+                    <enterprise_banner__adminhtml_banner_edit>validateBannerPermissions</enterprise_banner__adminhtml_banner_edit>
+                    <enterprise_banner__adminhtml_banner_new>validateBannerPermissions</enterprise_banner__adminhtml_banner_new>
                 </block_html_before>
             </admingws>
         </enterprise>

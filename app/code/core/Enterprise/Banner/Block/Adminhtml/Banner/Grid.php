@@ -47,7 +47,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('enterprise_banner/banner_collection');
+        $collection = Mage::getResourceModel('enterprise_banner/banner_collection')->addStoresVisibility();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -60,7 +60,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
         $this->addColumn('banner_id',
             array(
                 'header'=> Mage::helper('enterprise_banner')->__('ID'),
-                'width' => 25,
+                'width' => 1,
                 'type'  => 'number',
                 'index' => 'banner_id',
         ));
@@ -71,12 +71,25 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
                 'type'  => 'text',
                 'index' => 'name',
         ));
+        /**
+         * Check is single store mode
+         */
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('visible_in', array(
+                'header'                => Mage::helper('enterprise_banner')->__('Visible In'),
+                'type'                  => 'store',
+                'index'                 => 'stores',
+                'sortable'              => false,
+                'store_view'            => true,
+                'width'                 => 200
+            ));
+        }
 
         $this->addColumn('banner_is_enabled',
             array(
                 'header'    => Mage::helper('enterprise_banner')->__('Active'),
-                'width'     => 1,
                 'align'     => 'center',
+                'width'     => 1,
                 'index'     => 'is_enabled',
                 'type'      => 'options',
                 'options'   => array(
@@ -120,5 +133,22 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
     public function getGridUrl()
     {
         return $this->getUrl('*/*/grid', array('_current'=>true));
+    }
+
+    /**
+     * Add store filter
+     *
+     * @param Mage_Adminhtml_Block_Widget_Grid_Column  $column
+     * @return Enterprise_Banner_Block_Adminhtml_Banner_Grid
+     */
+    protected function _addColumnFilterToCollection($column)
+    {
+        if($column->getIndex() == 'stores') {
+            $this->getCollection()->addStoreFilter($column->getFilter()->getCondition(), false);
+        }
+        else {
+            parent::_addColumnFilterToCollection($column);
+        }
+        return $this;
     }
 }

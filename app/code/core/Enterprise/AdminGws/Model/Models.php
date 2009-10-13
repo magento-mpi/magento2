@@ -1034,4 +1034,51 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwDelete();
         }
     }
+
+    /**
+     * Validate banner before save
+     *
+     * @param Enterprise_Banner_Model_Banner $model
+     */
+    public function bannerSaveBefore($model)
+    {
+        if (!$this->_role->hasExclusiveStoreAccess((array)$model->getStoreIds())) {
+            $this->_throwSave();
+        }
+    }
+
+    /**
+     * Validate banner before edit
+     *
+     * @param Enterprise_Banner_Model_Banner $model
+     */
+    public function bannerLoadAfter($model)
+    {
+        if ($model->getId()) {
+            $bannerStoreIds = (array)$model->getStoreIds();
+            $model->setCanSaveAllStoreViewsContent(false);
+            if (!$this->_role->hasExclusiveStoreAccess((array)$model->getStoreIds())) {
+                //Set flag readonly for using in blocks to disable form elements
+                $model->setIsReadonly(true);
+            }
+            if (in_array(0, $bannerStoreIds)) {
+                return;
+            }
+            if (!$this->_role->hasStoreAccess($bannerStoreIds)) {
+                $this->_throwLoad();
+            }
+        }
+    }
+
+    /**
+     * Validate banner before delete
+     *
+     * @param Enterprise_Banner_Model_Banner $model
+     */
+    public function bannerDeleteBefore($model)
+    {
+        if (!$this->_role->hasExclusiveStoreAccess((array)$model->getStoreIds())) {
+            $this->_throwDelete();
+        }
+    }
 }

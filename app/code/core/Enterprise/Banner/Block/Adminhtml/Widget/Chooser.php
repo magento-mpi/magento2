@@ -243,11 +243,11 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
                 $bannerIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('banner_id', array('in'=>$bannerIds));
+                $this->getCollection()->addBannerIdsFilter($bannerIds);
             }
             else {
                 if($bannerIds) {
-                    $this->getCollection()->addFieldToFilter('banner_id', array('nin'=>$bannerIds));
+                    $this->getCollection()->addBannerIdsFilter($bannerIds, true);
                 }
             }
         }

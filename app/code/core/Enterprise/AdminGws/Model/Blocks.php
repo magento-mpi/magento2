@@ -757,4 +757,41 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         }
         return $this;
     }
+
+    /**
+     * Remove buttons for banner editing if user does not have exclusive access
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function validateBannerPermissions($observer)
+    {
+        /* @var Enterprise_Banner_Block_Adminhtml_Banner_Edit */
+        $block = $observer->getEvent()->getBlock();
+        $model = Mage::registry('current_banner');
+        if ($block && $model) {
+            if (!$this->_role->hasExclusiveStoreAccess((array)$model->getStoreIds())) {
+                $block->removeButton('reset');
+                $block->removeButton('delete');
+                $block->removeButton('save');
+                $block->removeButton('save_and_edit_button');
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Validate permissions for Banner Content tab for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function disableAllStoreViewsContentFeild($observer)
+    {
+        $model = $observer->getEvent()->getModel();
+        if (!$this->_role->getIsAll() && $model) {
+             $model->setCanSaveAllStoreViewsContent(false);
+        }
+        return $this;
+    }
 }

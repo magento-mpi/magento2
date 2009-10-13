@@ -54,8 +54,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     public function editAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $this->_initBanner('id');
-        $model = Mage::registry('current_banner');
+        $model = $this->_initBanner('id');
 
         if (!$model->getId() && $id) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));
@@ -82,6 +81,11 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     {
         $redirectBack = $this->getRequest()->getParam('back', false);
         if ($data = $this->getRequest()->getPost()) {
+            //Filter disallowed data
+            $currentStores = array_keys(Mage::app()->getStores(true));
+            $data['store_contents_not_use'] = array_intersect($data['store_contents_not_use'], $currentStores);
+            $data['store_contents'] = array_intersect_key($data['store_contents'], array_flip($currentStores));
+
             // prepare post data
             if (isset($data['banner_catalog_rules'])) {
                 $related = Mage::helper('adminhtml/js')->decodeGridSerializedInput($data['banner_catalog_rules']);
@@ -193,9 +197,10 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
 
 
     /**
-     * Load Banenr from request
+     * Load Banner from request
      *
      * @param string $idFieldName
+     * @return Enterprise_Banner_Model_Banner $model
      */
     protected function _initBanner($idFieldName = 'banner_id')
     {
@@ -205,6 +210,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
             $model->load($id);
         }
         Mage::register('current_banner', $model);
+        return $model;
     }
 
     /**
@@ -235,8 +241,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     public function salesRuleGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $this->_initBanner('id');
-        $model = Mage::registry('current_banner');
+        $model = $this->_initBanner('id');
 
         if (!$model->getId() && $id) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));
@@ -260,8 +265,7 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     public function catalogRuleGridAction()
     {
         $id = $this->getRequest()->getParam('id');
-        $this->_initBanner('id');
-        $model = Mage::registry('current_banner');
+        $model = $this->_initBanner('id');
 
         if (!$model->getId() && $id) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));

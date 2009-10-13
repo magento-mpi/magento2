@@ -60,13 +60,15 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
         $fieldset->addField('name', 'text', array(
             'label'     => Mage::helper('enterprise_banner')->__('Banner Name'),
             'name'      => 'name',
-            'required'  => true
+            'required'  => true,
+            'disabled'  => (bool)$model->getIsReadonly()
         ));
 
         $fieldset->addField('is_enabled', 'select', array(
             'label'     => Mage::helper('enterprise_banner')->__('Active'),
             'name'      => 'is_enabled',
             'required'  => true,
+            'disabled'  => (bool)$model->getIsReadonly(),
             'options'   => array(
                 Enterprise_Banner_Model_Banner::STATUS_ENABLED  => Mage::helper('enterprise_banner')->__('Yes'),
                 Enterprise_Banner_Model_Banner::STATUS_DISABLED => Mage::helper('enterprise_banner')->__('No'),
@@ -83,7 +85,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
                     '1' => Mage::helper('enterprise_banner')->__('Any'),
                     '0' => Mage::helper('enterprise_banner')->__('Specified'),
                 ),
-            'note'      => Mage::helper('enterprise_banner')->__('Applies to Any of the Specified Customer Segments')
+            'note'      => Mage::helper('enterprise_banner')->__('Applies to Any of the Specified Customer Segments'),
+            'disabled'  => (bool)$model->getIsReadonly()
         ));
 
         $fieldset->addField('customer_segment_ids', 'multiselect', array(

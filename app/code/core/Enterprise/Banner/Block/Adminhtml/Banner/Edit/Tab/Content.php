@@ -102,36 +102,48 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
         ));
         $fieldsetHtmlClass = 'fieldset-wide';
 
+        $storeContents = $banner->getStoreContents();
+        $model = Mage::registry('current_banner');
+
+        Mage::dispatchEvent('adminhtml_banner_edit_tab_content_before_prepare_form', 
+            array('model' => $model, 'form' => $form)
+        );
+
         // add default content fieldset
         $fieldset = $form->addFieldset('default_fieldset', array(
             'legend'       => Mage::helper('enterprise_banner')->__('Default Content'),
             'class'        => $fieldsetHtmlClass,
         ));
-        $storeContents = $banner->getStoreContents();
-        $model = Mage::registry('current_banner');
 
         $fieldset->addField('store_0_content_use', 'checkbox', array(
             'name'      => 'store_contents_not_use[0]',
             'required'  => false,
             'label'    => Mage::helper('enterprise_banner')->__('Banner Default Content for All Store Views'),
-            'onclick'   => "$('store_default_content').toggle(); $('" . $form->getHtmlIdPrefix() . "store_default_content').disabled = !$('" . $form->getHtmlIdPrefix() . "store_default_content').disabled;",
+            'onclick'   => "$('store_default_content').toggle();
+                $('" . $form->getHtmlIdPrefix() . "store_default_content').disabled = !$('" . $form->getHtmlIdPrefix() . "store_default_content').disabled;",
             'checked'   => isset($storeContents[0]) ? false : (!$model->getId() ? false : true),
             'after_element_html' => '<label for="' . $form->getHtmlIdPrefix()
                 . 'store_0_content_use">'
                 . Mage::helper('enterprise_banner')->__('No Default Content') . '</label>',
             'value'     => 0,
             'fieldset_html_class' => 'store',
+            'disabled'  => (bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false)
         ));
 
         $field = $fieldset->addField('store_default_content', 'editor', array(
             'name'     => 'store_contents[0]',
             'value'    => (isset($storeContents[0]) ? $storeContents[0] : ''),
-            'disabled' => (isset($storeContents[0]) ? false : (!$model->getId() ? false : true)),
+            'disabled' => (bool)$model->getIsReadonly() ||
+                          ($model->getCanSaveAllStoreViewsContent() === false) ||
+                          (isset($storeContents[0]) ? false : (!$model->getId() ? false : true)),
             'config'   => $wysiwygConfig,
             'wysiwyg'  => false,
             'container_id' => 'store_default_content',
-            'after_element_html' => isset($storeContents[0]) ? ''
-                            : (!$model->getId() ? '' : '<script type="text/javascript">$(\'store_default_content\').hide();</script>'),
+            'after_element_html' =>
+                '<script type="text/javascript">' .
+                ((bool)$model->getIsReadonly() || ($model->getCanSaveAllStoreViewsContent() === false) ? '$(\'buttons' . $form->getHtmlIdPrefix() . 'store_default_content\').hide(); ' : '') .
+                (isset($storeContents[0]) ? '' : (!$model->getId() ? '' : '$(\'store_default_content\').hide();')) .
+                '</script>',
         ));
 
         // fieldset and content areas per store views
@@ -170,18 +182,22 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
                             . Mage::helper('enterprise_banner')->__('Use Default') . '</label>',
                         'value'     => $store->getId(),
                         'fieldset_html_class' => 'store',
+                        'disabled'  => (bool)$model->getIsReadonly()
                     ));
 
                     $fieldset->addField($contentFieldId, 'editor', array(
                         'name'         => 'store_contents['.$store->getId().']',
                         'required'     => false,
-                        'disabled'     => $storeContent ? false : true,
+                        'disabled'     => (bool)$model->getIsReadonly() || ($storeContent ? false : true),
                         'value'        => $storeContent,
                         'container_id' => $contentFieldId,
                         'config'       => $wysiwygConfig,
                         'wysiwyg'      => false,
-                        'after_element_html' => $storeContent ? ''
-                            : '<script type="text/javascript">$(\'' . $contentFieldId . '\').hide();</script>',
+                        'after_element_html' =>
+                            '<script type="text/javascript">' .
+                            ((bool)$model->getIsReadonly() ? '$(\'buttons' . $form->getHtmlIdPrefix() . $contentFieldId . '\').hide(); ' : '') .
+                            ($storeContent ? '' : '$(\'' . $contentFieldId . '\').hide();') .
+                            '</script>',
                     ));
                 }
             }

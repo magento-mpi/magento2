@@ -228,4 +228,18 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
         }
         return parent::_beforeSave();
     }
+
+    /**
+     * Collect store ids in which current banner has content
+     *
+     * @return array
+     */
+    public function getStoreIds()
+    {
+        $contents = $this->getStoreContents();
+        if (!$this->hasStoreIds()) {
+            $this->setStoreIds(array_keys($contents));
+        }
+        return $this->_getData('store_ids');
+    }
 }
