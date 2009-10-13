@@ -53,6 +53,6 @@
 "Starts On","Starts On"
 "Status","Status"
 "Upcoming","Upcoming"
-"Use CSS-compatible syntax. If empty, will be determined automatically","Use CSS-compatible syntax. If empty, will be determined automatically"
 "Use Default Value","Use Default Value"
 "View Sale","View Sale"
+"Width in Pixels. If empty, will be determined automatically","Width in Pixels. If empty, will be determined automatically"
