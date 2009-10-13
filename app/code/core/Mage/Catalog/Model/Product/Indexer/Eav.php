@@ -221,10 +221,7 @@ class Mage_Catalog_Model_Product_Indexer_Eav extends Mage_Index_Model_Indexer_Ab
     {
         /* @var $attribute Mage_Catalog_Model_Resource_Eav_Attribute */
         $attribute = $event->getDataObject();
-
-        $validateType = (($attribute->getBackendType() == 'int' && $attribute->getFrontendInput() == 'select')
-            || ($attribute->getBackendType() == 'varchar' && $attribute->getFrontendInput() == 'multiselect'));
-        if ($validateType) {
+        if ($attribute->isIndexable()) {
             $before = $attribute->getOrigData('is_filterable')
                 || $attribute->getOrigData('is_filterable_in_search')
                 || $attribute->getOrigData('is_visible_in_advanced_search');

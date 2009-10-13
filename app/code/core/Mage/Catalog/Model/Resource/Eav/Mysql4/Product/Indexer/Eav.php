@@ -167,7 +167,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav
 
         $indexer = $this->getIndexer($data['attribute_index_type']);
 
-        $indexer->reindexAttribute($event->getEntityId(), !empty($data['is_indexable']));
+        $indexer->reindexAttribute($event->getEntityPk(), !empty($data['is_indexable']));
 
         return $this;
     }
