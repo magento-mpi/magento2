@@ -348,6 +348,6 @@ class Mage_Widget_Model_Mysql4_Widget_Instance extends Mage_Core_Model_Mysql4_Ab
             ->from($this->getMainTable(), 'store_ids')
             ->where("{$this->getIdFieldName()} = ?", $id)
         );
-        return explode(',', $storeIds);
+        return $storeIds ? explode(',', $storeIds) : array();
     }
 }
