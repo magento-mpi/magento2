@@ -101,7 +101,11 @@ Validation.prototype = {
                 if (input.tagName.toLowerCase() == 'select') {
                     Event.observe(input, 'blur', this.onChange.bindAsEventListener(this));
                 }
-                Event.observe(input, 'change', this.onChange.bindAsEventListener(this));
+                if (input.type.toLowerCase() == 'radio' || input.type.toLowerCase() == 'checkbox') {
+                    Event.observe(input, 'click', this.onChange.bindAsEventListener(this));
+                } else {
+                    Event.observe(input, 'change', this.onChange.bindAsEventListener(this));
+                }
             }, this);
         }
     },
@@ -519,6 +523,8 @@ Validation.addAllThese([
                 });
             }],
     ['validate-one-required-by-name', 'Please select one of the options.', function (v,elm) {
+    			
+    	
                 var inputs = $$('input[name="' + elm.name.replace(/([\\"])/g, '\\$1') + '"]');
 
                 var error = 1;
@@ -756,3 +762,5 @@ Validation.creditCartTypes = $H({
     'SS': [new RegExp('^((6759[0-9]{12})|(49[013][1356][0-9]{13})|(633[34][0-9]{12})|(633110[0-9]{10})|(564182[0-9]{10}))([0-9]{2,3})?$'), new RegExp('^([0-9]{3}|[0-9]{4})?$'), true],
     'OT': [false, new RegExp('^([0-9]{3}|[0-9]{4})?$'), false]
 });
+
+
