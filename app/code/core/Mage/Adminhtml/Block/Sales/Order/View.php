@@ -78,7 +78,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
             ));
         }
 
-        if (!$this->getOrder()->isCanceled()) {
+        if ($this->_isAllowedAction('emails') && !$this->getOrder()->isCanceled()) {
             $_confirmText = 'Are you sure you want to send Order email to customer?';
             $this->addButton('send_notification', array(
                 'label'     => Mage::helper('sales')->__('Send Order Email'),

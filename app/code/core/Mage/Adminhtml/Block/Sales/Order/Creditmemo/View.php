@@ -55,12 +55,14 @@ class Mage_Adminhtml_Block_Sales_Order_Creditmemo_View extends Mage_Adminhtml_Bl
             );
         }
 
-        $this->addButton('send_notification', array(
-            'label'     => Mage::helper('sales')->__('Send Email'),
-            'onclick'   => 'confirmSetLocation(\'' . Mage::helper('sales')->__(
-                'Are you sure you want to send Creditmemo email to customer?'
-            ) . '\', \'' . $this->getEmailUrl() . '\')'
-        ));
+        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/emails')) {
+            $this->addButton('send_notification', array(
+                'label'     => Mage::helper('sales')->__('Send Email'),
+                'onclick'   => 'confirmSetLocation(\''
+                . Mage::helper('sales')->__('Are you sure you want to send Creditmemo email to customer?')
+                . '\', \'' . $this->getEmailUrl() . '\')'
+            ));
+        }
 
         if ($this->getCreditmemo()->canRefund()) {
             $this->_addButton('refund', array(
