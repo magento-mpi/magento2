@@ -111,7 +111,7 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
      */
     protected function _getBundleSelectionTable()
     {
-        return $this->getMainTable() . '_bundle_selection';
+        return $this->getMainTable() . '_bndl_sel';
     }
 
     /**
@@ -121,7 +121,7 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
      */
     protected function _getBundleOptionTable()
     {
-        return $this->getMainTable() . '_bundle_option';
+        return $this->getMainTable() . '_bndl_opt';
     }
 
     /**

@@ -65,7 +65,7 @@ class Mage_Bundle_Model_Mysql4_Indexer_Stock extends Mage_CatalogInventory_Model
      */
     protected function _getBundleOptionTable()
     {
-        return $this->getMainTable() . '_bundle_option';
+        return $this->getMainTable() . '_bndl_opt';
     }
 
     /**
