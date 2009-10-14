@@ -34,6 +34,10 @@
 
 class Mage_Shipping_TrackingController extends Mage_Core_Controller_Front_Action
 {
+    /**
+     * Ajax action
+     *
+     */
     public function ajaxAction()
     {
         if ($order = $this->_initOrder()) {
@@ -56,6 +60,10 @@ class Mage_Shipping_TrackingController extends Mage_Core_Controller_Front_Action
         }
     }
 
+    /**
+     * Popup action
+     * Shows tracking info if it's present, otherwise redirects to 404
+     */
     public function popupAction()
     {
         $shippingInfoModel = Mage::getModel('shipping/info')->loadByHash($this->getRequest()->getParam('hash'));
