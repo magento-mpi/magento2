@@ -367,6 +367,7 @@
                     <tag__tag>tagSaveBefore</tag__tag>
                     <widget__widget_instance>widgetInstanceSaveBefore</widget__widget_instance>
                     <enterprise_banner__banner>bannerSaveBefore</enterprise_banner__banner>
+                    <enterprise_giftcardaccount__giftcardaccount>giftCardAccountSaveBefore</enterprise_giftcardaccount__giftcardaccount>
                 </model_save_before>
                 <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
@@ -387,6 +388,7 @@
                     <tag__tag>tagDeleteBefore</tag__tag>
                     <widget__widget_instance>widgetInstanceDeleteBefore</widget__widget_instance>
                     <enterprise_banner__banner>bannerDeleteBefore</enterprise_banner__banner>
+                    <enterprise_giftcardaccount__giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftcardaccount__giftcardaccount>
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
@@ -407,6 +409,7 @@
                     <newsletter__queue>newsletterQueueLoadAfter</newsletter__queue>
                     <enterprise_banner__banner>bannerLoadAfter</enterprise_banner__banner>
                     <widget__widget_instance>widgetInstanceLoadAfter</widget__widget_instance>
+                    <enterprise_giftcardaccount__giftcardaccount>giftCardAccountLoadAfter</enterprise_giftcardaccount__giftcardaccount>
                 </model_load_after>
                 <controller_predispatch>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__><!-- system config saving and browsing -->
@@ -531,6 +534,7 @@
                     <enterprise_cms__adminhtml_cms_page_revision_edit>removeRevisionEditButtons</enterprise_cms__adminhtml_cms_page_revision_edit>
                     <enterprise_cms__adminhtml_cms_page_preview_buttons>removePreviewPublishButton</enterprise_cms__adminhtml_cms_page_preview_buttons>
                     <enterprise_giftcardaccount__adminhtml_giftcardaccount>removeGiftCardAccountAddButton</enterprise_giftcardaccount__adminhtml_giftcardaccount>
+                    <enterprise_giftcardaccount__adminhtml_giftcardaccount_edit>removeGiftCardAccountControlButtons</enterprise_giftcardaccount__adminhtml_giftcardaccount_edit>
                     <adminhtml__system_currency>removeManageCurrencyRatesButtons</adminhtml__system_currency>
                     <adminhtml__system_email_template>removeEmailTemplateGridButtons</adminhtml__system_email_template>
                     <adminhtml__system_email_template_edit>removeTransactionalEmailsEditButtons</adminhtml__system_email_template_edit>

@@ -151,24 +151,11 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
     public function validateGiftCardAccount($controller)
     {
         $controller->setShowCodePoolStatusMessage(false);
-        if (!$this->validateNoWebsiteGeneric($controller, array('new', 'delete', 'generate'))) {
-            return;
-        }
-        $id = $controller->getRequest()->getParam('id', false);
-        if (!$id && $controller->getRequest()->isPost()) {
-            $info = $controller->getRequest()->getPost('info');
-            if ($info && isset($info['giftcardaccount_id'])) {
-                $id = $info['giftcardaccount_id'];
-            }
-        }
-
-        if ($id) {
-            $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount')
-                ->load($id);
-
-            if (!in_array($model->getWebsiteId(), $this->_role->getWebsiteIds())) {
-                $this->_forward();
-                return;
+        if (!$this->_role->getIsWebsiteLevel()) {
+            $action = $controller->getRequest()->getActionName();
+            if (in_array($action, array('new', 'generate'))
+                || $action == 'edit' && !$controller->getRequest()->getParam('id')) {
+                return $this->_forward();
             }
         }
     }

@@ -1081,4 +1081,40 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwDelete();
         }
     }
+
+    /**
+     * Validate Gift Card Account before save
+     *
+     * @param Enterprise_Banner_Model_Banner $model
+     */
+    public function giftCardAccountSaveBefore($model)
+    {
+        if (!$this->_role->hasWebsiteAccess($model->getWebsite(), true)) {
+            $this->_throwSave();
+        }
+    }
+
+    /**
+     * Validate Gift Card Account before delete
+     *
+     * @param Enterprise_Banner_Model_Banner $model
+     */
+    public function giftCardAccountDeleteBefore($model)
+    {
+        if (!$this->_role->hasWebsiteAccess($model->getWebsite(), true)) {
+            $this->_throwDelete();
+        }
+    }
+
+    /**
+     * Validate Gift Card Account after load
+     *
+     * @param Enterprise_Banner_Model_Banner $model
+     */
+    public function giftCardAccountLoadAfter($model)
+    {
+        if (!$this->_role->hasWebsiteAccess($model->getWebsite())) {
+            $this->_throwLoad();
+        }
+    }
 }
