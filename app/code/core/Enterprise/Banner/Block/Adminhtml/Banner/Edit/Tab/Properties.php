@@ -34,7 +34,6 @@
 class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_Adminhtml_Block_Widget_Form
     implements Mage_Adminhtml_Block_Widget_Tab_Interface
 {
-
     /**
      * Set form id prefix, add customer segment binding, set values if banner is editing
      *
@@ -43,7 +42,8 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
-        $form->setHtmlIdPrefix('banner_properties_');
+        $htmlIdPrefix = 'banner_properties_';
+        $form->setHtmlIdPrefix($htmlIdPrefix);
 
         $model = Mage::registry('current_banner');
 
@@ -78,8 +78,27 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
             $model->setData('is_enabled', Enterprise_Banner_Model_Banner::STATUS_ENABLED);
         }
 
-        // this field is not used in banners. Just an interface improvement
-        $customerSegmentIsAll = $fieldset->addField('customer_segment_is_all', 'select', array(
+        // whether to specify banner types - for UI design purposes only
+        $fieldset->addField('is_types', 'select', array(
+            'label'     => Mage::helper('enterprise_banner')->__('Applies To'),
+            'options'   => array(
+                    '0' => Mage::helper('enterprise_banner')->__('Any Banner Type'),
+                    '1' => Mage::helper('enterprise_banner')->__('Specified Banner Types'),
+                ),
+            'disabled'  => (bool)$model->getIsReadonly(),
+        ));
+        $model->setIsTypes((string)(int)$model->getTypes()); // see $form->setValues() below
+
+        $fieldset->addField('types', 'multiselect', array(
+            'label'     => Mage::helper('enterprise_banner')->__('Specify Types'),
+            'name'      => 'types',
+            'disabled'  => (bool)$model->getIsReadonly(),
+            'values'    => Mage::getSingleton('enterprise_banner/config')->toOptionArray(false, false),
+            'can_be_empty' => true,
+        ));
+
+        // whether to specify customer segments - also for UI design purposes only
+        $fieldset->addField('customer_segment_is_all', 'select', array(
             'label'     => Mage::helper('enterprise_banner')->__('Customer Segments'),
             'options'   => array(
                     '1' => Mage::helper('enterprise_banner')->__('Any'),
@@ -88,30 +107,26 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Properties extends Mage_
             'note'      => Mage::helper('enterprise_banner')->__('Applies to Any of the Specified Customer Segments'),
             'disabled'  => (bool)$model->getIsReadonly()
         ));
+        $model->setCustomerSegmentIsAll($model->getCustomerSegmentIds() ? '0' : '1'); // see $form->setValues() below
 
         $fieldset->addField('customer_segment_ids', 'multiselect', array(
-            'name'      => 'customer_segment_ids',
-            'values'    => Mage::getResourceSingleton('enterprise_customersegment/segment_collection')->toOptionArray(),
+            'name'         => 'customer_segment_ids',
+            'values'       => Mage::getResourceSingleton('enterprise_customersegment/segment_collection')->toOptionArray(),
             'can_be_empty' => true,
-            'after_element_html' => '<script type="text/javascript">//<![CDATA[
-function bannerCustomerSegmentIsAll() {
-    var isAll = $(\'banner_properties_customer_segment_is_all\').value == \'1\';
-    var multiselectElement = $(\'banner_properties_customer_segment_ids\');
-    multiselectElement.disabled = isAll;
-    if (isAll) {
-        multiselectElement.hide();
-    } else {
-        multiselectElement.show();
-    }
-}
-Event.observe(\'banner_properties_customer_segment_is_all\', \'change\', bannerCustomerSegmentIsAll);
-bannerCustomerSegmentIsAll();
-//]]></script>'
         ));
 
         $form->setValues($model->getData());
-        $customerSegmentIsAll->setValue($model->getCustomerSegmentIds() ? '0' : '1');
         $this->setForm($form);
+
+        // define customer segments and types field dependencies
+        $this->setChild('field_dependencies', $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence')
+            ->addFieldMap("{$htmlIdPrefix}is_types", 'is_types')
+            ->addFieldMap("{$htmlIdPrefix}types", 'types')
+            ->addFieldDependence('types', 'is_types', '1')
+            ->addFieldMap("{$htmlIdPrefix}customer_segment_is_all", 'customer_segment_is_all')
+            ->addFieldMap("{$htmlIdPrefix}customer_segment_ids", 'customer_segment_ids')
+            ->addFieldDependence('customer_segment_ids', 'customer_segment_is_all', '0')
+        );
         return $this;
     }
 

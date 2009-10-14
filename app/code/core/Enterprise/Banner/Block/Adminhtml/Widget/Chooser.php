@@ -67,7 +67,7 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
      */
     public function prepareElementHtml(Varien_Data_Form_Element_Abstract $element)
     {
-        $this->_elementValueId = "{$element->getId()}value";
+        $this->_elementValueId = "{$element->getId()}";
         $this->_selectedBanners = explode(',', $element->getValue());
 
         //Create hidden field that store selected banner ids
@@ -75,7 +75,7 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
         $hidden->setId($this->_elementValueId)->setForm($element->getForm());
         $hiddenHtml = $hidden->getElementHtml();
 
-        $element->setValue('');
+        $element->setValue('')->setValueClass('');
         $element->setData('after_element_html', $hiddenHtml . $this->toHtml());
 
         return $element;

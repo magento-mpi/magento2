@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_Banner>
-             <version>1.6.0.0.3</version>
+             <version>1.6.0.0.4</version>
         </Enterprise_Banner>
     </modules>
 
@@ -67,6 +67,17 @@
                 </setup>
             </enterprise_banner_setup>
         </resources>
+        <enterprise>
+            <banner>
+                <types translate="content footer header leftcol rightcol">
+                    <content>Content Area</content>
+                    <footer>Footer</footer>
+                    <header>Header</header>
+                    <leftcol>Left Column</leftcol>
+                    <rightcol>Right Column</rightcol>
+                </types>
+            </banner>
+        </enterprise>
     </global>
 
     <admin>

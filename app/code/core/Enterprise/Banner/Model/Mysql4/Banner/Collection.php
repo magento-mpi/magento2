@@ -48,6 +48,7 @@ class Enterprise_Banner_Model_Mysql4_Banner_Collection extends Mage_Core_Model_M
         if ($this->getFlag('add_stores_column')) {
             $this->_addStoresVisibility();
         }
+        $this->walk('getTypes'); // fetch banner types from comma-separated
         return $this;
     }
 

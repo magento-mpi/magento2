@@ -175,7 +175,7 @@ class Enterprise_Banner_Block_Widget_Banner
      */
     public function getBannersContent()
     {
-        $banenrsContent = array();
+        $bannersContent = array();
         $aplliedRules = null;
         $segmentIds = array();
         if (Mage::getSingleton('customer/session')->isLoggedIn()) {
@@ -183,7 +183,10 @@ class Enterprise_Banner_Block_Widget_Banner
                 Mage::getSingleton('customer/session')->getCustomer()
             );
         }
-        //Choose display mode
+
+        $this->_bannerResource->filterByTypes($this->getTypes());
+
+        // choose display mode
         switch ($this->getDisplayMode()) {
 
             case self::BANNER_WIDGET_DISPLAY_SALESRULE:
@@ -191,7 +194,7 @@ class Enterprise_Banner_Block_Widget_Banner
                     $aplliedRules = explode(',', Mage::getSingleton('checkout/session')->getQuote()->getAppliedRuleIds());
                 }
                 $bannerIds = $this->_bannerResource->getSalesRuleRelatedBannerIds($segmentIds, $aplliedRules);
-                $banenrsContent = $this->_getBannersContent($bannerIds);
+                $bannersContent = $this->_getBannersContent($bannerIds);
                 break;
 
             case self::BANNER_WIDGET_DISPLAY_CATALOGRULE:
@@ -200,22 +203,26 @@ class Enterprise_Banner_Block_Widget_Banner
                     Mage::getSingleton('customer/session')->getCustomerGroupId(),
                     $segmentIds
                 );
-                $banenrsContent = $this->_getBannersContent($bannerIds);
+                $bannersContent = $this->_getBannersContent($bannerIds);
                 break;
 
             case self::BANNER_WIDGET_DISPLAY_FIXED:
             default:
-                $banenrsContent = $this->_getBannersContent($this->getBannerIds(), $segmentIds);
+                $bannersContent = $this->_getBannersContent($this->getBannerIds(), $segmentIds);
                 break;
         }
-        //Filtering directives
+
+        $this->_bannerResource->filterByTypes(); // unset types filter from resource
+
+
+        // filtering directives
         /* @var $helper Mage_Cms_Helper_Data */
         $helper = Mage::helper('cms');
         $processor = $helper->getPageTemplateProcessor();
-        foreach ($banenrsContent as $bannerId => $content) {
-            $banenrsContent[$bannerId] = $processor->filter($content);
+        foreach ($bannersContent as $bannerId => $content) {
+            $bannersContent[$bannerId] = $processor->filter($content);
         }
-        return $banenrsContent;
+        return $bannersContent;
     }
 
     /**

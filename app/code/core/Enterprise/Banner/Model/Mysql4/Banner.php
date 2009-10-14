@@ -26,7 +26,6 @@
 
 class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstract
 {
-
     /**
      * Sales rule table name
      *
@@ -70,6 +69,12 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
     protected $_isCatalogRuleRelatedToBanner = false;
 
     /**
+     * Whether to filter banners by specified types
+     * @var array
+     */
+    protected $_bannerTypesFilter = array();
+
+    /**
      * Initialize banner resource model
      *
      */
@@ -80,6 +85,17 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
         $this->_catalogRuleTable = $this->getTable('enterprise_banner/catalogrule');
         $this->_contentsTable = $this->getTable('enterprise_banner/content');
         $this->_customerSegmentTable = $this->getTable('enterprise_banner/customersegment');
+    }
+
+    /**
+     * Set filter by specified types
+     * @param string|array $types
+     * @return Enterprise_Banner_Model_Mysql4_Banner
+     */
+    public function filterByTypes($types = array())
+    {
+        $this->_bannerTypesFilter = Mage::getSingleton('enterprise_banner/config')->explodeTypes($types);
+        return $this;
     }
 
     /**
@@ -216,6 +232,15 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
             $select->where('banner_segments.segment_id IS NULL');
         } else {
             $select->where('banner_segments.segment_id IS NULL OR banner_segments.segment_id IN (?)', $segmentIds);
+        }
+
+        if ($this->_bannerTypesFilter) {
+            $select->joinInner(array('b' => $this->getTable('enterprise_banner/banner')), 'main.banner_id = b.banner_id');
+            $filter = array();
+            foreach ($this->_bannerTypesFilter as $type) {
+                $filter[] = $this->getReadConnection()->quoteInto('FIND_IN_SET(?, b.types)', $type);
+            }
+            $select->where(implode(' OR ', $filter));
         }
 
         return $adapter->fetchOne($select);
@@ -466,7 +491,7 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
     }
 
     /**
-     * Add customer segments ids data to banner data
+     * Add customer segment ids to banner data, cast banner types to array
      *
      * @param Mage_Core_Model_Abstract $object
      * @return Mage_Core_Model_Mysql4_Abstract
@@ -484,6 +509,26 @@ class Enterprise_Banner_Model_Mysql4_Banner extends Mage_Core_Model_Mysql4_Abstr
             }
             $object->setData('customer_segment_ids', $segmentsArray);
         }
+
         return parent::_afterLoad($object);
+    }
+
+    /**
+     * Prepare banner types for saving
+     * @return Enterprise_Banner_Model_Mysql4_Banner
+     */
+    protected function _beforeSave(Mage_Core_Model_Abstract $object)
+    {
+        $types = $object->getTypes();
+        if (empty($types)) {
+            $types = null;
+        } elseif (is_array($types)) {
+            $types = implode(',', $types);
+        }
+        if (empty($types)) {
+            $types = null;
+        }
+        $object->setTypes($types);
+        return parent::_beforeSave($object);
     }
 }

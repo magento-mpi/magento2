@@ -65,12 +65,21 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
                 'index' => 'banner_id',
         ));
 
-        $this->addColumn('banner_name',
-            array(
-                'header'=> Mage::helper('enterprise_banner')->__('Banner Name'),
-                'type'  => 'text',
-                'index' => 'name',
+        $this->addColumn('banner_name', array(
+            'header' => Mage::helper('enterprise_banner')->__('Banner Name'),
+            'type'   => 'text',
+            'index'  => 'name',
         ));
+
+        $this->addColumn('banner_types', array(
+            'header'  => Mage::helper('enterprise_banner')->__('Banner Types'),
+            'type'    => 'options',
+            'options' => Mage::getSingleton('enterprise_banner/config')->toOptionArray(true, false),
+            'index'   => 'types',
+            'width'   => 250,
+            'filter'  => false, // TODO implement
+        ));
+
         /**
          * Check is single store mode
          */

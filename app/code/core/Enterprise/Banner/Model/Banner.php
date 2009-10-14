@@ -242,4 +242,23 @@ class Enterprise_Banner_Model_Banner extends Mage_Core_Model_Abstract
         }
         return $this->_getData('store_ids');
     }
+
+    /**
+     * Make types getter always return array
+     * @return array
+     */
+    public function getTypes()
+    {
+        $types = $this->_getData('types');
+        if (is_array($types)) {
+            return $types;
+        }
+        if (empty($types)) {
+            $types = array();
+        } else {
+            $types = explode(',', $types);
+        }
+        $this->setData('types', $types);
+        return $types;
+    }
 }

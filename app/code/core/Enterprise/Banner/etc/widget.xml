@@ -51,6 +51,12 @@
                     </catalogrule>
                 </values>
             </display_mode>
+            <types translate="label">
+                <visible>1</visible>
+                <label>Restrict by Banner Types</label>
+                <type>multiselect</type>
+                <source_model>enterprise_banner/config</source_model>
+            </types>
             <rotate translate="label">
                 <visible>1</visible>
                 <label>Rotation Mode</label>
@@ -76,14 +82,15 @@
             </rotate>
             <banner_ids translate="label">
                 <visible>1</visible>
-                <label>Banners</label>
+                <label>Specify Banners</label>
                 <type>label</type>
                 <helper_block>
                     <type>enterprise_banner/adminhtml_widget_chooser</type>
                 </helper_block>
                 <depends>
-                    <field>display_mode</field>
-                    <value>fixed</value>
+                    <display_mode>
+                        <value>fixed</value>
+                    </display_mode>
                 </depends>
             </banner_ids>
             <template>
