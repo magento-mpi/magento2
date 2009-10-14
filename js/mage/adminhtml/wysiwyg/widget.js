@@ -56,7 +56,7 @@ WysiwygWidget.Widget.prototype = {
     },
 
     getOptionsContainerId: function() {
-        return this.widgetOptionsEl.id + Base64.idEncode(this.widgetEl.value);
+        return this.widgetOptionsEl.id + '_' + this.widgetEl.value.gsub(/\//, '_');
     },
 
     switchOptionsContainer: function(containerId) {

@@ -475,6 +475,9 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
         }
         $xml .= '<block type="' . $this->getType() . '" name="' . Mage::helper('core')->uniqHash() . '"' . $template . '>';
         foreach ($parameters as $name => $value) {
+            if (is_array($value)) {
+                $value = implode(',', $value);
+            }
             if ($name && strlen((string)$value)) {
                 $xml .= '<action method="setData"><name>' . $name . '</name><value>' . Mage::helper('widget')->htmlEscape($value) . '</value></action>';
             }

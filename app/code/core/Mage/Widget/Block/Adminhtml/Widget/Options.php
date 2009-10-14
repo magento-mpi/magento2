@@ -1,4 +1,4 @@
-    <?php
+<?php
 /**
  * Magento
  *
@@ -34,7 +34,16 @@
 
 class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Element type used by default if configuration is omitted
+     * @var string
+     */
     protected $_defaultElementType = 'text';
+
+    /**
+     * Translation helper instance, defined by the widget type declaration root config node
+     * @var Mage_Core_Helper_Abstract
+     */
     protected $_translationHelper = null;
 
     /**
@@ -75,11 +84,18 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
         if ($this->_getData('main_fieldset') instanceof Varien_Data_Form_Element_Fieldset) {
             return $this->_getData('main_fieldset');
         }
-        $fieldset = $this->getForm()->addFieldset('options_fieldset', array(
+        $mainFieldsetHtmlId = 'options_fieldset' . md5($this->getWidgetType());
+        $this->setMainFieldsetHtmlId($mainFieldsetHtmlId);
+        $fieldset = $this->getForm()->addFieldset($mainFieldsetHtmlId, array(
             'legend'    => $this->helper('widget')->__('Widget Options'),
-            'class'     => 'fieldset-wide'
+            'class'     => 'fieldset-wide',
         ));
         $this->setData('main_fieldset', $fieldset);
+
+        // add dependence javascript block
+        $block = $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence');
+        $this->setChild('dependence_scripts', $block);
+
         return $fieldset;
     }
 
@@ -155,23 +171,24 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
             $data['values'] = Mage::getModel($sourceModel)->toOptionArray();
         }
 
-        // prepare field type and renderers
-        $fieldRenderer = 'widget/adminhtml_widget_options_renderer_element';
+        // prepare field type or renderer
+        $fieldRenderer = null;
         $fieldType = $parameter->getType();
-
         // hidden element
         if (!$parameter->getVisible()) {
             $fieldType = 'hidden';
         }
         // just an element renderer
         elseif (false !== strpos($fieldType, '/')) {
+            $fieldRenderer = $this->getLayout()->createBlock($fieldType);
             $fieldType = $this->_defaultElementType;
-            $fieldRenderer = $fieldType;
         }
 
         // instantiate field and render html
-        $field = $fieldset->addField('option_' . $fieldName, $fieldType, $data)
-            ->setRenderer($this->getLayout()->createBlock($fieldRenderer));
+        $field = $fieldset->addField($this->getMainFieldsetHtmlId() . '_' . $fieldName, $fieldType, $data);
+        if ($fieldRenderer) {
+            $field->setRenderer($fieldRenderer);
+        }
 
         // extra html preparations
         if ($helper = $parameter->getHelperBlock()) {
@@ -181,6 +198,16 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
                     ->setFieldsetId($fieldset->getId())
                     ->setTranslationHelper($this->_translationHelper)
                     ->prepareElementHtml($field);
+            }
+        }
+
+        // dependencies from other fields
+        $dependenceBlock = $this->getChild('dependence_scripts');
+        $dependenceBlock->addFieldMap($field->getId(), $fieldName);
+        if ($parameter->getDepends()) {
+            foreach ($parameter->getDepends() as $from => $row) {
+                $values = isset($row['values']) ? array_values($row['values']) : (string)$row['value'];
+                $dependenceBlock->addFieldDependence($fieldName, $from, $values);
             }
         }
 
