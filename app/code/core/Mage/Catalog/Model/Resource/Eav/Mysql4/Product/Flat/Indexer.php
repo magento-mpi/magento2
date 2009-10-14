@@ -703,7 +703,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Flat_Indexer
                     continue;
                 }
                 $fieldList[] = $attributeCode;
-                $select->from(null, $attributeCode);
+                $select->columns($attributeCode, 'e');
             }
         }
 
