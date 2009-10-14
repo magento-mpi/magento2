@@ -468,13 +468,21 @@ Validation.addAllThese([
                 return !(pass.length < 7);
             }],
     ['validate-cpassword', 'Please make sure your passwords match.', function(v) {
-                if ($('password')) {
-                    var pass = $('password');
-                }
-                else {
-                    var pass = $$('.validate-password').length ? $$('.validate-password')[0] : $$('.validate-admin-password')[0];
-                }
                 var conf = $('confirmation') ? $('confirmation') : $$('.validate-cpassword')[0];
+                var pass = false;
+                if ($('password')) {
+                    pass = $('password');
+                }
+                var passwordElements = $$('.validate-password');
+                for (var i = 0; i < passwordElements.size(); i++) {
+                    var passwordElement = passwordElements[i];
+                    if (passwordElement.up('form').id == conf.up('form').id) {
+                        pass = passwordElement; 
+                    }
+                }
+                if ($$('.validate-admin-password').size()) {
+                    pass = $$('.validate-admin-password')[0]; 
+                }
                 return (pass.value == conf.value);
             }],
     ['validate-url', 'Please enter a valid URL. http:// is required', function (v) {
@@ -523,8 +531,6 @@ Validation.addAllThese([
                 });
             }],
     ['validate-one-required-by-name', 'Please select one of the options.', function (v,elm) {
-    			
-    	
                 var inputs = $$('input[name="' + elm.name.replace(/([\\"])/g, '\\$1') + '"]');
 
                 var error = 1;
