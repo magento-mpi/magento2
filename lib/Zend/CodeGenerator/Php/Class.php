@@ -17,7 +17,7 @@
  * @subpackage PHP
  * @copyright  Copyright (c) 2005-2009 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Class.php 18398 2009-09-24 20:50:09Z beberlei $
+ * @version    $Id: Class.php 17994 2009-09-06 10:16:53Z beberlei $
  */
 
 /**
@@ -111,18 +111,13 @@ class Zend_CodeGenerator_Php_Class extends Zend_CodeGenerator_Php_Abstract
         
         if ($parentClass = $reflectionClass->getParentClass()) {
             $class->setExtendedClass($parentClass->getName());
-            $interfaces = array_diff($reflectionClass->getInterfaces(), $parentClass->getInterfaces());
+            $interfaces = array_diff($parentClass->getInterfaces(), $reflectionClass->getInterfaces());
         } else {
             $interfaces = $reflectionClass->getInterfaces();
         }
         
-        $interfaceNames = array();
-        foreach($interfaces AS $interface) {
-            $interfaceNames[] = $interface->getName();
-        }
+        $class->setImplementedInterfaces($interfaces);
         
-        $class->setImplementedInterfaces($interfaceNames);
-
         $properties = array();
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
             if ($reflectionProperty->getDeclaringClass()->getName() == $class->getName()) {
