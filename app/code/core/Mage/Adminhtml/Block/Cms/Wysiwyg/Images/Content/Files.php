@@ -34,32 +34,14 @@
 class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Mage_Adminhtml_Block_Template
 {
     /**
-     * Prepare Files collection
+     * Prepared Files collection for current directory
      *
      * @return Varien_Data_Collection_Filesystem
      */
-    public function getContentsCollection()
+    public function getFiles()
     {
-        $helper = Mage::helper('cms/wysiwyg_images');
-        $type = $this->getRequest()->getParam('type');
-        $collection = $helper->getStorage()->getFilesCollection($helper->getCurrentPath(), $type);
-        foreach ($collection as $item) {
-            $item->setId($helper->idEncode($item->getBasename()));
-            $item->setName($item->getBasename());
-            $item->setShortName($helper->getShortFilename($item->getBasename()));
-            $item->setUrl($helper->getCurrentUrl() . $item->getBasename());
-            $item->setEncodedPath($helper->idEncode($item->getFilename()));
-
-            if(is_file($helper->getCurrentPath() . DS . '.thumbs' . DS . $item->getBasename())) {
-                $item->setThumbUrl($helper->getCurrentUrl() . '.thumbs/' . $item->getBasename());
-            }
-
-            $size = @getimagesize($item->getFilename());
-            if (is_array($size)) {
-                $item->setWidth($size[0]);
-                $item->setHeight($size[1]);
-            }
-        }
+        $path = Mage::helper('cms/wysiwyg_images')->getCurrentPath();
+        $collection = Mage::getSingleton('cms/wysiwyg_images_storage')->getFilesCollection($path, $this->_getMediaType());
         return $collection;
     }
 
@@ -73,4 +55,15 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Files extends Mage_Adminht
         return Mage::getSingleton('cms/wysiwyg_images_storage')->getConfigData('browser_resize_height');
     }
 
+    /**
+     * Return current media type based on request or data
+     * @return string
+     */
+    protected function _getMediaType()
+    {
+        if ($this->hasData('media_type')) {
+            return $this->_getData('media_type');
+        }
+        return $this->getRequest()->getParam('type');
+    }
 }

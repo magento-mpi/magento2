@@ -159,8 +159,10 @@ Wysiwyg.Images.prototype = {
                         targetEl.value = transport.responseText;
                     } else {
                         updateElementAtCursor(targetEl, transport.responseText, self.opener);
+                        if (self.opener.varienGlobalEvents) {
+                            self.opener.varienGlobalEvents.fireEvent('tinymceChange');
+                        }
                     }
-                    self.opener.varienGlobalEvents.fireEvent('tinymceChange');
                     self.close();
                 } catch (e) {
                     alert(e.message);

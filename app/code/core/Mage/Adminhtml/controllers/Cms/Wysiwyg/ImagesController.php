@@ -62,7 +62,7 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
     public function treeJsonAction()
     {
         try {
-            $this->_initAction()->_saveSessionCurrentPath();
+            $this->_initAction();
             $this->getResponse()->setBody(
                 $this->getLayout()->createBlock('adminhtml/cms_wysiwyg_images_tree')
                     ->getTreeJson()
@@ -112,11 +112,11 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
     {
         $files = Mage::helper('core')->jsonDecode($this->getRequest()->getParam('files'));
         try {
-            $io = new Varien_Io_File();
             $helper = Mage::helper('cms/wysiwyg_images');
+            $path = $this->getStorage()->getSession()->getCurrentPath();
             foreach ($files as $file) {
                 $file = $helper->idDecode($file);
-                $io->rm($this->getStorage()->getSession()->getCurrentPath(). DS . $file);
+                $this->getStorage()->deleteFile($path . DS . $file);
             }
         } catch (Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
@@ -152,6 +152,23 @@ class Mage_Adminhtml_Cms_Wysiwyg_ImagesController extends Mage_Adminhtml_Control
         $asIs = $this->getRequest()->getParam('as_is');
         $image = $helper->getImageHtmlDeclaration($filename, $asIs);
         $this->getResponse()->setBody($image);
+    }
+
+    /**
+     * Generate image thumbnail on the fly
+     */
+    public function thumbnailAction()
+    {
+        $file = $this->getRequest()->getParam('file');
+        $file = Mage::helper('cms/wysiwyg_images')->idDecode($file);
+        $thumb = $this->getStorage()->resizeOnTheFly($file);
+        if ($thumb !== false) {
+            $image = Varien_Image_Adapter::factory('GD2');
+            $image->open($thumb);
+            $image->display();
+        } else {
+            // todo: genearte some placeholder
+        }
     }
 
     /**

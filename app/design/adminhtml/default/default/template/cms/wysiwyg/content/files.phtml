@@ -35,13 +35,17 @@
 $_width = $this->getImagesWidth();
 $_height = $this->getImagesHeight();
 ?>
-<?php if ($this->getContentsCollection()->count() > 0): ?>
-    <?php foreach ($this->getContentsCollection() as $item): ?>
+<?php if ($this->getFiles()->count() > 0): ?>
+    <?php foreach ($this->getFiles() as $item): ?>
     <div class="filecnt" id="<?php echo $item->getId() ?>">
         <p class="nm" style="height:<?php echo $_height ?>px;width:<?php echo $_width ?>px;">
-            <img src="<?php echo ($item->getThumbUrl() ? $item->getThumbUrl() : $item->getUrl()) ?>"<?php if(!$item->getThumbUrl()):?> width="<?php echo $_width ?>" height="<?php echo $_height ?>"<?php endif; ?> alt="<?php echo $item->getName(); ?>"/>
+        <?php if($item->getThumbUrl()):?>
+            <img src="<?php echo $item->getThumbUrl() ?>" alt="<?php echo $item->getName() ?>"/>
+        <?php endif; ?>
         </p>
-        <small><?php echo $item->getWidth(); ?>x<?php echo $item->getHeight(); ?> <?php echo $this->helper('cms')->__('px.') ?></small><br/>
+        <?php if($item->getWidth()): ?>
+            <small><?php echo $item->getWidth() ?>x<?php echo $item->getHeight() ?> <?php echo $this->helper('cms')->__('px.') ?></small><br/>
+        <?php endif; ?>
         <small><?php echo $item->getShortName(); ?></small>
     </div>
     <?php endforeach; ?>

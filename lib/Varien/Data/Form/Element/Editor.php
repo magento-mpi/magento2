@@ -142,7 +142,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     {
         $buttonsHtml = '<div id="buttons'.$this->getHtmlId().'" class="buttons-set">';
         if ($this->isEnabled()) {
-            $buttonsHtml .= $this->_getPluginButtonsHtml(false) . $this->_getToggleButtonHtml();
+            $buttonsHtml .= $this->_getPluginButtonsHtml($this->isHidden()) . $this->_getToggleButtonHtml();
         } else {
             $buttonsHtml .= $this->_getPluginButtonsHtml(true);
         }
@@ -230,9 +230,10 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         if (!$this->getConfig('use_container')) {
             return $html;
         }
+
         $html = '<div id="editor'.$this->getHtmlId().'"'.($this->getConfig('no_display') ? ' style="display:none;"' : '').'>'
-            . $html
-            . '</div>';
+              . $html
+              . '</div>';
 
         return $html;
     }

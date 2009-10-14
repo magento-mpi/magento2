@@ -176,7 +176,7 @@ tinyMceWysiwygSetup.prototype =
     },
 
 	encodeDirectives: function(content) {
-        return content.gsub(/(src|href)\s*\=\s*[\"\']{1}(.*?\{\{[a-z]{0,10}.*?\}\}.*?)[\"\']{1}/i, function(match){
+        return content.gsub(/(src|href)\s*\=\s*[\"\']{1}(\{\{[a-z]{0,10}.*?\}\}.*?)[\"\']{1}/i, function(match){
             return match[1] + '="' + this.config.directives_url + 'directive/' + Base64.mageEncode(match[2]) + '/"';
         }.bind(this));
     },

@@ -206,8 +206,10 @@ WysiwygWidget.Widget.prototype = {
             var textareaId = this.getPopup().name.replace(/widget_window/g, '');
             var textarea = parent.document.getElementById(textareaId);
             updateElementAtCursor(textarea, content, this.getPopup().opener);
+            if (parent.varienGlobalEvents) {
+                parent.varienGlobalEvents.fireEvent('tinymceChange');
+            }
         }
-        self.opener.varienGlobalEvents.fireEvent('tinymceChange');
     },
 
     wysiwygExists: function() {
