@@ -105,7 +105,8 @@
         </table>
     </fieldset>
 
-    <script language="javascript">
+    <script type="text/javascript">
+    //<![CDATA[
     function toggleDefault(v)
     {
         defaultValue = $('giftcard_' + v + '_default');
@@ -146,6 +147,6 @@
 
     togglecardType();
     Event.observe('giftcard_type', 'change', togglecardType);
-
+    //]]>
     </script>
 </div>

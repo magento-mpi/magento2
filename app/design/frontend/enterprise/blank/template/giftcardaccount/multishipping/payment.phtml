@@ -35,7 +35,8 @@
     <?php endif; ?>
 
     <?php if ($this->isFullyPaidAfterApplication()): ?>
-        <script language="javascript">
+        <script type="text/javascript">
+        //<![CDATA[
             $('payment-methods').select('input').each(function(elem){
                 if (elem.name="payment[method]") {
                     if (elem.value != 'free') {
@@ -45,6 +46,7 @@
                     }
                 }
             });
+        //]]>
         </script>
         <input type="hidden" name="payment[method]" value="free" />
     <?php endif; ?>

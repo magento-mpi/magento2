@@ -24,7 +24,8 @@
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<script language="javascript">
+<script type="text/javascript">
+//<![CDATA[
     function removeGiftCard(code) {
         var data = {};
         data['giftcard_remove'] = code;
@@ -37,4 +38,5 @@
         data['giftcard_add'] = code;
         order.loadArea(['totals', 'billing_method', 'items'], true, data);
     }
+//]]>
 </script>

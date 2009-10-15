@@ -123,7 +123,8 @@
             </ul>
         </fieldset>
 
-        <script language="javascript">
+        <script type="text/javascript">
+        //<![CDATA[
         if ($('giftcard_amount') && $('giftcard_amount_input')) {
             $('giftcard_amount_input').hide();
             $('giftcard_amount_box').hide();
@@ -152,6 +153,7 @@
                 $('amount_label_input').hide();
             }
         }
+        //]]>
         </script>
     <?php endif; ?>
     <fieldset class="fieldset giftcard-send-form">
@@ -192,7 +194,7 @@
             <li>
                 <label for="giftcard_message"><?php echo Mage::helper('enterprise_giftcard')->__('Message'); ?></label>
                 <span class="input-box">
-                    <textarea name="giftcard_message" class="input-text giftcard-message-max-length" rows="4"></textarea>
+                    <textarea name="giftcard_message" id="giftcard_message" class="input-text giftcard-message-max-length" cols="5" rows="3"></textarea>
                     <?php if ($this->getMessageMaxLength()): ?>
                         <script type="text/javascript">
                             Validation.add('giftcard-message-max-length', '<?php echo $this->__('Maximum length of the message is %d characters.', $this->getMessageMaxLength()); ?>', function(v) {
