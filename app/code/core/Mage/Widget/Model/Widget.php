@@ -227,7 +227,7 @@ class Mage_Widget_Model_Widget extends Varien_Object
         } else {
             $image = $config->getPlaceholderImagesBaseUrl() . 'default.gif';
         }
-        $html = sprintf('<img id="%s" src="%s" class="widget" title="%s">',
+        $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $image,
             Mage::helper('core')->urlEscape($directive)

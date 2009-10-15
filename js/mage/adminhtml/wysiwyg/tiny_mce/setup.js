@@ -193,7 +193,6 @@ tinyMceWysiwygSetup.prototype =
             var imageHtml = '<img';
                 imageHtml+= ' id="' + Base64.idEncode(match[0]) + '"';
                 imageHtml+= ' src="' + imageSrc + '"';
-                imageHtml+= ' class="widget"';
                 imageHtml+= ' title="' + match[0].replace(/\{\{/g, '{').replace(/\}\}/g, '}').replace(/\"/g, '&quot;') + '"';
                 imageHtml+= '>';
 
@@ -210,10 +209,14 @@ tinyMceWysiwygSetup.prototype =
     },
 
     decodeWidgets: function(content) {
-        return content.gsub(/<img([^>]+class=\"widget\"[^>]*)>/i, function(match) {
+        return content.gsub(/<img([^>]+id=\"[^>]+)>/i, function(match) {
             var attributes = this.parseAttributesString(match[1]);
             if(attributes.id) {
-                return Base64.idDecode(attributes.id);
+                var widgetCode = Base64.idDecode(attributes.id);
+                if (widgetCode.indexOf('{{widget') != -1) {
+                    return widgetCode;
+                }
+                return match[0];
             }
             return match[0];
         }.bind(this));

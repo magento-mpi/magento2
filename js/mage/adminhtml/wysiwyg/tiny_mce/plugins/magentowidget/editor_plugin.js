@@ -70,17 +70,23 @@ tinyMCE.addI18n({en:{
 
             // Add a node change handler, selects the button in the UI when a image is selected
             ed.onNodeChange.add(function(ed, cm, n) {
-                if (n.className == 'widget' && n.nodeName == 'IMG') {
-                    cm.setActive('magentowidget', true);
-                } else {
-                    cm.setActive('magentowidget', false);
+                cm.setActive('magentowidget', false);
+                if (n.id && n.nodeName == 'IMG') {
+                    var widgetCode = Base64.idDecode(n.id);
+                    if (widgetCode.indexOf('{{widget') != -1) {
+                        cm.setActive('magentowidget', true);
+                    }
                 }
             });
 
             // Add a widget placeholder image double click callback
             ed.onDblClick.add(function(ed, e) {
-                if (e.target.className == 'widget' && e.target.nodeName == 'IMG') {
-                    ed.execCommand('mceMagentowidget');
+                var n = e.target;
+                if (n.id && n.nodeName == 'IMG') {
+                    var widgetCode = Base64.idDecode(n.id);
+                    if (widgetCode.indexOf('{{widget') != -1) {
+                        ed.execCommand('mceMagentowidget');
+                    }
                 }
             });
         },
