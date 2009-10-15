@@ -60,7 +60,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
     public function getNewChildSelectOptions()
     {
         return array(array('value' => $this->getType(),
-            'label'=>Mage::helper('enterprise_customersegment')->__('Is subscribed to Newsletter')));
+            'label'=>Mage::helper('enterprise_customersegment')->__('Newsletter Subscription')));
     }
 
     /**
