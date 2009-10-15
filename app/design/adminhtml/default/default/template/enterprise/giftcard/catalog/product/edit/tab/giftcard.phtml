@@ -89,7 +89,7 @@
             <td class="label"><label for="giftcard_email_template"><?php echo Mage::helper('enterprise_giftcard')->__('Email Template') ?></label></td>
             <td class="value"><select <?php if ($this->isReadonly()):?> disabled="disabled"<?php endif;?> id="giftcard_email_template" name="<?php echo $this->getFieldPrefix() ?>[email_template]" class="select">
                 <?php foreach ($this->getEmailTemplates() as $_value=>$_label): ?>
-                    <?php $_selected = ($this->getFieldValue('type') == $_value ? 'selected="selected"' : ''); ?>
+                    <?php $_selected = ($this->getFieldValue('email_template') == $_value ? 'selected="selected"' : ''); ?>
                     <option value="<?php echo $_value; ?>" <?php echo $_selected; ?>><?php echo $_label; ?></option>
                 <?php endforeach; ?>
             </select>
