@@ -166,7 +166,7 @@ class Mage_Index_Model_Indexer
             return $this;
         }
 
-        $this->_runAll('processEvent', array($event));
+        $this->_runAll('register', array($event));
         return $this;
     }
 
