@@ -105,15 +105,27 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
      */
     public function matchEvent(Mage_Index_Model_Event $event)
     {
+        $data       = $event->getNewData();
+        $resultKey = 'catalog_product_price_match_result';
+        if (isset($data[$resultKey])) {
+            return $data[$resultKey];
+        }
+
+        $result = null;
         if ($event->getEntity() == Mage_Core_Model_Config_Data::ENTITY) {
             $data = $event->getDataObject();
             if (in_array($data->getPath(), $this->_relatedConfigSettings)) {
-                return $data->isValueChanged();
+                $result = $data->isValueChanged();
             } else {
-                return false;
+                $result = false;
             }
+        } else {
+            $result = parent::matchEvent($event);
         }
-        return parent::matchEvent($event);
+
+        $event->addNewData($resultKey, $result);
+
+        return $result;
     }
 
     /**
