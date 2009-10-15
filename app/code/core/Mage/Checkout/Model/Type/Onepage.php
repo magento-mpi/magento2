@@ -567,10 +567,14 @@ class Mage_Checkout_Model_Type_Onepage
                 Mage::throwException($this->_customerEmailExistsMessage);
             }
         }
-        $order->place();
+
+        $orderRelatedObjects = array();
+        if ($this->getQuote()->getCheckoutMethod()==Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER) {
+            $orderRelatedObjects[] = $customer;	
+        }
+        $order->purchase($orderRelatedObjects);
 
         if ($this->getQuote()->getCheckoutMethod()==Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER) {
-            $customer->save();
             $customerBillingId = $customerBilling->getId();
             if (!$this->getQuote()->isVirtual()) {
                 $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBillingId;
