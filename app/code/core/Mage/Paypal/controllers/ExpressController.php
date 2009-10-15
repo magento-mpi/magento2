@@ -182,10 +182,11 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             $billing = $this->getReview()->getQuote()->getBillingAddress();
             $shipping = $this->getReview()->getQuote()->getShippingAddress();
 
-            $convertQuote = Mage::getModel('sales/convert_quote');
             /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
-            $order = Mage::getModel('sales/order');
+            $convertQuote = Mage::getModel('sales/convert_quote');
+
             /* @var $order Mage_Sales_Model_Order */
+            $order = Mage::getModel('sales/order');
 
             if ($this->getReview()->getQuote()->isVirtual()) {
                 $order = $convertQuote->addressToOrder($billing);
@@ -262,7 +263,11 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
         $this->getReview()->getCheckout()->setLastRealOrderId($order->getIncrementId());
 
         $order->sendNewOrderEmail();
-
+        if ($order->hasInvoices() && $this->getExpress()->canSendEmailCopy()) {
+            foreach ($order->getInvoiceCollection() as $invoice) {
+                $invoice->sendEmail();
+            }
+        }
         $payPalSession->unsExpressCheckoutMethod();
 
         $this->_redirect('checkout/onepage/success');

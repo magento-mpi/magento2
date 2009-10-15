@@ -550,4 +550,14 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
     {
         return (bool)$this->getConfigData('visible_on_cart');
     }
+
+    /**
+     * Check for avilability sending email
+     *
+     * @return bool
+     */
+    public function canSendEmailCopy()
+    {
+        return (bool)$this->getConfigData('invoice_email_copy');
+    }
 }

@@ -1562,7 +1562,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $invoice->addItem($item);
         }
         $invoice->collectTotals();
-
+        $this->getInvoiceCollection()->addItem($invoice);
         return $invoice;
     }
 
