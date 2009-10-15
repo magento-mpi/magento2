@@ -38,7 +38,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     public function __construct()
     {
         parent::__construct();
-        $this->setId('order_creditmemos_grid');
+        $this->setId('order_creditmemos');
         $this->setUseAjax(true);
     }
 
