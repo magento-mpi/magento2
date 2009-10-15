@@ -261,7 +261,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             unset($params['direct_url']);
         }
         else {
-            $path = $params['url'];
+            $path = isset($params['url']) ? $params['url'] : '';
             unset($params['url']);
         }
 
