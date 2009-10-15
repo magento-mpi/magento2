@@ -45,9 +45,9 @@ Default layout, loads most of the pages
     <cms_page translate="label">
         <label>CMS Pages (All)</label>
         <reference name="content">
-            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml"/>
             <block type="enterprise_cms/hierarchy_pagination" name="hierarchy_pagination" template="cms/hierarchy/pagination.phtml"/>
-            <block type="core/template" name="cms.wrapper" template="cms/wrapper.phtml" before="-">
+            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml"/>
+            <block type="core/template" name="cms.wrapper" template="cms/wrapper.phtml">
                 <block type="cms/page" name="cms_page"/>
             </block>
             <block type="enterprise_cms/hierarchy_pagination" name="hierarchy_pagination" template="cms/hierarchy/pagination.phtml"/>

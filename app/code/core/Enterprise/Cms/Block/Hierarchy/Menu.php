@@ -317,7 +317,7 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
                     $template .= ' '.$attribute.'="'.$this->htmlEscape($value).'"';
                 }
             }
-            $template .= '>__LABEL__</a>';
+            $template .= '><span>__LABEL__</span></a>';
             $this->setData('_link_template', $template);
         }
 
@@ -334,14 +334,14 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
     {
         $template = $this->_getData('_span_template');
         if (!$template) {
-            $template = '<span';
+            $template = '<strong';
             foreach ($this->_allowedSpanAttributes as $attribute) {
                 $value = $this->getData('span_' . $attribute);
                 if (!empty($value)) {
                     $template .= ' '.$attribute.'="'.$this->htmlEscape($value).'"';
                 }
             }
-            $template .= '>__LABEL__</span>';
+            $template .= '>__LABEL__</strong>';
             $this->setData('_span_template', $template);
         }
 
