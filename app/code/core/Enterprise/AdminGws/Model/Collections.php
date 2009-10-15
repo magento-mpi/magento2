@@ -61,7 +61,7 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
      */
     public function limitStoreGroups($collection)
     {
-        $collection->addWebsiteFilter(array_merge($this->_role->getRelevantWebsiteIds(), array(0)));
+        $collection->addFieldToFilter('group_id', array('in'=>array_merge($this->_role->getStoreGroupIds(), array(0))));
     }
 
     /**
