@@ -96,8 +96,11 @@ Default layout, loads most of the pages
                 <label>Right Column</label>
             </block>
 
-            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml" translate="label">
+            <block type="core/text_list" name="footer.before" as="footer_before" translate="label">
                 <label>Page Footer</label>
+            </block>
+
+            <block type="page/html_footer" name="footer" as="footer" template="page/html/footer.phtml">
                 <block type="page/template_links" name="footer_links" as="footer_links" after="footer.newsletter" template="page/template/links.phtml"/>
                 <block type="page/switch" name="store_switcher" as="store_switcher" after="-" template="page/switch/stores.phtml"/>
             </block>

@@ -36,6 +36,8 @@
                 <Mage_Adminhtml/>
                 <Mage_Admin/>
                 <Mage_AdminNotification/>
+                <Mage_Widget/>
+                <Enterprise_Banner/>
             </depends>
         </Enterprise_Enterprise>
     </modules>

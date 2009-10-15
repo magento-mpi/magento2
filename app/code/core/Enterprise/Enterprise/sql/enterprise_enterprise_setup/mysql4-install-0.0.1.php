@@ -26,7 +26,6 @@
 
 /* @var $installer Mage_Core_Model_Resource_Setup */
 $installer = $this;
-$installer->startSetup();
 
 $tablePage = $this->getTable('cms/page');
 
@@ -36,20 +35,88 @@ $page = $installer->getConnection()->fetchRow($installer->getConnection()->selec
     ->where('identifier = ?', 'home')
     ->limit(1));
 if ($page) {
-    $content = '<a href="{{store url=""}}">
-<img class="callout" title="Get 10% off - All items under Apparel" alt="Get 10% off - All items under Apparel" src="{{skin url="images/callouts/apparel-sale.gif"}}"/>
-</a>
-<div class="col2-set">
-    <div class="col-1">
-        <img src="{{skin url="images/callouts/home/main.jpg"}}" alt="" />
-    </div>
-    <div class="col-2">
-        <a href="{{store url=""}}"><img src="{{skin url="images/callouts/home/gift_cards.jpg"}}" alt=""/></a>
-        <a href="{{store url=""}}"><img src="{{skin url="images/callouts/home/rediscover_identity.jpg"}}" alt=""/></a>
-        <a href="{{store url=""}}"><img src="{{skin url="images/callouts/home/refund_policy.jpg"}}" alt="" style="margin-bottom:7px;"/></a>
-    </div>
-</div>' . "\n\n<!-- " . $page['content'] . ' -->';
+
+    // but first create a few banners
+    $banners = array(
+        array('top.container', 'Free Shipping on All Handbags', '<a href="{{store direct_url="apparel/women/handbags"}}"> <img class="callout" title="Get Free Shipping on All Items under Handbags" src="{{skin url="images/callouts/home/free_shipping_all_handbags.jpg"}}" alt="Free Shipping on All Handbags" /></a>'),
+        array('footer.before', '15% off Our New Evening Dresses', '<a href="{{store direct_url="apparel/women/evening-dresses"}}"> <img class="callout" title="15% off Our New Evening Dresses" src="{{skin url="images/callouts/home/15_off_new_evening_dresses.jpg"}}" alt="15% off Our New Evening Dresses" /></a>'),
+    );
+    $createdBanners = array();
+    foreach ($banners as $bannerData) {
+        list($reference, $title, $content) = $bannerData;
+        $banner = Mage::getModel('enterprise_banner/banner')
+            ->setName($title)
+            ->setIsEnabled(1)
+            ->setStoreContents(array(0 => $content))
+            ->save()
+        ;
+        $createdBanners[] = array($banner->getId(), $title, $reference);
+    }
+
+    // and static blocks
+    $blocks = array(
+        array('Flaunt yourself', 'flaunt_yourself', '<img src="{{skin url="images/callouts/home/flaunt_yourself.jpg"}}" alt="Flaunt yourself" />'),
+        array('Link to Private Sales Site', 'link_privatesales', '<a href="{{store direct_url="privatesales/"}}"><img src="{{skin url="images/callouts/home/link_private_sales.gif"}}" alt="Private Sales Exclusive Store" /></a>'),
+        array('Link to Gift Cards Category', 'link_giftcards', '<a href="{{store direct_url="gift-cards"}}"><img src="{{skin url="images/callouts/home/link_gift_cards.gif"}}" alt="Gift Cards" /></a>'),
+        array('Link to Apparel -> Women -> Handbags Category', 'link_apparel_women_handbags', '<a href="{{store direct_url="apparel/women/handbags"}}"><img style="margin-bottom:7px;" src="{{skin url="images/callouts/home/link_handbags.jpg"}}" alt="Handbags" /></a>'),
+    );
+    $createdBlocks = array();
+    foreach ($blocks as $key => $blockData) {
+        list($title, $identifier, $content) = $blockData;
+        $block = Mage::getModel('cms/block')
+            ->setTitle($title)
+            ->setIdentifier($identifier)
+            ->setContent($content)
+            ->setStores(array(0))
+            ->save()
+        ;
+        $createdBlocks[$identifier] = $block->getId();
+    }
+
+    $content = '<div class="col2-set">
+<div class="col-1">
+{{widget type="cms/widget_block" template="cms/widget/static_block/default.phtml" block_id="' . $createdBlocks['flaunt_yourself'] . '"}}
+</div>
+<div class="col-2">
+{{widget type="cms/widget_block" template="cms/widget/static_block/default.phtml" block_id="' . $createdBlocks['link_privatesales'] . '"}}
+{{widget type="cms/widget_block" template="cms/widget/static_block/default.phtml" block_id="' . $createdBlocks['link_giftcards'] . '"}}
+{{widget type="cms/widget_block" template="cms/widget/static_block/default.phtml" block_id="' . $createdBlocks['link_apparel_women_handbags'] . '"}}
+</div>
+</div>
+    ' . "\n\n\n\n<div style=\"display:none\"><!-- your previous content backup comes below -->\n\n\n " . $page['content'] . "\n\n\n</div>";
     $installer->getConnection()->update($tablePage, array('content' => $content, 'root_template' => 'one_column'), "page_id = {$page['page_id']}");
+
+    // also add widget instances to home page
+    foreach ($createdBanners as $i => $b) {
+        list($bannerId, $title, $reference) = $b;
+        $widgetInstance = Mage::getModel('widget/widget_instance')
+            ->setData('page_groups', array(
+                array(
+                    'page_group' => 'pages',
+                    'pages'      => array(
+                        'page_id'       => 0,
+                        'for'           => 'all',
+                        'layout_handle' => 'cms_index_index',
+                        'block'         => $reference,
+                        'template'      => 'banner/widget.phtml',
+                ))
+            ))
+            ->setData('store_ids', '0')
+            ->setData('widget_parameters', array(
+                'display_mode' => 'fixed',
+                'types'        => array(''),
+                'rotate'       => '',
+                'banner_ids'   => $bannerId,
+            ))
+            ->addData(array(
+                'type'          => 'enterprise_banner/widget_banner',
+                'package_theme' => 'enterprise/default',
+                'title'         => $title,
+                'sort_order'    => $i,
+            ))
+            ->save()
+        ;
+    }
 }
 
 // add fancy 404 page content
@@ -68,5 +135,3 @@ if ($page) {
 </div>' . "\n\n<!-- " . $page['content'] . ' -->';
     $installer->getConnection()->update($tablePage, array('content' => $content), "page_id = {$page['page_id']}");
 }
-
-$installer->endSetup();
