@@ -42,8 +42,9 @@ class Enterprise_CatalogEvent_Adminhtml_Catalog_EventController extends Mage_Adm
     {
         parent::preDispatch();
         if (!Mage::helper('enterprise_catalogevent')->isEnabled()) {
-            $this->_forward('noroute', 'index', 'adminhtml');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            if ($this->getRequest()->getActionName() != 'noroute') {
+                $this->_forward('noroute');
+            }
         }
         return $this;
     }

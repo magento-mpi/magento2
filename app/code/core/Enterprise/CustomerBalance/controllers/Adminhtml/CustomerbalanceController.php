@@ -39,8 +39,9 @@ class Enterprise_CustomerBalance_Adminhtml_CustomerbalanceController extends Mag
     {
         parent::preDispatch();
         if (!Mage::helper('enterprise_customerbalance')->isEnabled()) {
-            $this->_forward('noroute', 'index', 'adminhtml');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            if ($this->getRequest()->getActionName() != 'noroute') {
+                $this->_forward('noroute');
+            }
         }
         return $this;
     }
