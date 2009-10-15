@@ -94,7 +94,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
 
         // add dependence javascript block
         $block = $this->getLayout()->createBlock('adminhtml/widget_form_element_dependence');
-        $this->setChild('dependence_scripts', $block);
+        $this->setChild('form_after', $block);
 
         return $fieldset;
     }
@@ -202,7 +202,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Options extends Mage_Adminhtml_Block_Wi
         }
 
         // dependencies from other fields
-        $dependenceBlock = $this->getChild('dependence_scripts');
+        $dependenceBlock = $this->getChild('form_after');
         $dependenceBlock->addFieldMap($field->getId(), $fieldName);
         if ($parameter->getDepends()) {
             foreach ($parameter->getDepends() as $from => $row) {
