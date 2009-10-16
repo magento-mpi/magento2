@@ -162,6 +162,12 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
     protected $_canUseLocalModules = null;
 
     /**
+     * Active modules array per namespace
+     * @var array
+     */
+    private $_moduleNamespaces = null;
+
+    /**
      * Class construct
      *
      * @param mixed $sourceData
@@ -709,6 +715,48 @@ class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base
         }
 
         return $modules;
+    }
+
+    /**
+     * Determine whether provided name begins from any available modules, according to namespaces priority
+     * If matched, returns as the matched module "factory" name or a fully qualified module name
+     *
+     * @param string $name
+     * @param bool $asFullModuleName
+     * @return string
+     */
+    public function determineOmittedNamespace($name, $asFullModuleName = false)
+    {
+        if (null === $this->_moduleNamespaces) {
+            $this->_moduleNamespaces = array();
+            foreach ($this->_xml->xpath('modules/*') as $m) {
+                if ((string)$m->active == 'true') {
+                    $moduleName = $m->getName();
+                    $module = strtolower($moduleName);
+                    $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;
+                }
+            }
+        }
+
+        $name = explode('_', strtolower($name));
+        $partsNum = count($name);
+        $i = 0;
+        foreach ($this->_moduleNamespaces as $namespaceName => $namespace) {
+            // assume the namespace is omitted (default namespace only, which comes first)
+            if (0 === $i) {
+                $defaultNS = $namespaceName . '_' . $name[0];
+                if (isset($namespace[$defaultNS])) {
+                    return $asFullModuleName ? $namespace[$defaultNS] : $name[0]; // return omitted as well
+                }
+            }
+            // assume namespace is qualified
+            $fullNS = $name[0] . '_' . $name[1];
+            if (2 <= $partsNum && isset($namespace[$fullNS])) {
+                return $asFullModuleName ? $namespace[$fullNS] : $fullNS;
+            }
+            $i++;
+        }
+        return '';
     }
 
     /**

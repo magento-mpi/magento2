@@ -165,11 +165,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Layout
         if ($layoutHandlesArr = $layoutHandles->xpath('/*/*/label/..')) {
             foreach ($layoutHandlesArr as $node) {
                 if ($this->_filterLayoutHandle($node->getName())) {
-                    if ($module = $node->getAttribute('module')) {
-                        $helper = Mage::helper($module);
-                    } else {
-                        $helper = Mage::helper('core');
-                    }
+                    $helper = Mage::helper(Mage_Core_Model_Layout::findTranslationModuleName($node));
                     $this->_layoutHandles[$node->getName()] = $helper->__((string)$node->label);
                 }
             }

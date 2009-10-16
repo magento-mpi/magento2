@@ -226,11 +226,7 @@ class Mage_Widget_Block_Adminhtml_Widget_Instance_Edit_Chooser_Block
             /* @var $block Mage_Core_Model_Layout_Element */
             foreach ($blocks as $block) {
                 if ((string)$block->getAttribute('name') && $this->_filterBlock($block)) {
-                    if ($module = $block->getAttribute('module')) {
-                        $helper = Mage::helper($module);
-                    } else {
-                        $helper = Mage::helper('core');
-                    }
+                    $helper = Mage::helper(Mage_Core_Model_Layout::findTranslationModuleName($block));
                     $this->_blocks[(string)$block->getAttribute('name')] = $helper->__((string)$block->label);
                 }
             }
