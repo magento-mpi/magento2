@@ -364,13 +364,18 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      */
     public function getMetaNodeDataByType($node, $type)
     {
-        if (!$node->getParentNodeId()) {
-            return false;
-        }
         $read = $this->_getReadAdapter();
         if ($read) {
             $select = $this->_getLoadSelectWithoutWhere();
             $found  = false;
+
+            // Add parent node search for all queries
+            if ($node->getParentNodeId()) {
+                $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
+            } else {
+                $select->where($this->getMainTable() . '.parent_node_id IS NULL');
+            }
+
             switch ($type) {
 // commented bc of changes in road map
 //                case 'chapter':
@@ -389,33 +394,30 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
 //                    }
 //                    break;
 
-                case 'first':
+                case Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST:
                     $found = true;
-                    $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
                     $select->order($this->getMainTable() . '.sort_order ASC');
                     $select->limit(1);
                     break;
 
-                case 'last':
-                    $found = true;
-                    $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
-                    $select->order($this->getMainTable() . '.sort_order DESC');
-                    $select->limit(1);
-                    break;
+//                case 'last':
+//                    $found = true;
+//                    $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
+//                    $select->order($this->getMainTable() . '.sort_order DESC');
+//                    $select->limit(1);
+//                    break;
 
-                case 'previous':
+                case Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS:
                     if ($node->getSortOrder() > 0) {
                         $found = true;
-                        $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
                         $select->where($this->getMainTable() . '.sort_order<?', $node->getSortOrder());
                         $select->order($this->getMainTable() . '.sort_order DESC');
                         $select->limit(1);
                     }
                     break;
 
-                case 'next':
+                case Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT:
                     $found = true;
-                    $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
                     $select->where($this->getMainTable() . '.sort_order>?', $node->getSortOrder());
                     $select->order($this->getMainTable() . '.sort_order ASC');
                     $select->limit(1);

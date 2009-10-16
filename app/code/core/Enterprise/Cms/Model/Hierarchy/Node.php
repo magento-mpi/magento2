@@ -45,10 +45,10 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
 // commented bc of changes in road map
 //    const META_NODE_TYPE_CHAPTER = 'chapter';
 //    const META_NODE_TYPE_SECTION = 'section';
-    const META_NODE_TYPE_FIRST = 'first';
-    const META_NODE_TYPE_LAST = 'last';
+//    const META_NODE_TYPE_LAST = 'last';
+    const META_NODE_TYPE_FIRST = 'start';
     const META_NODE_TYPE_NEXT = 'next';
-    const META_NODE_TYPE_PREVIOUS = 'previous';
+    const META_NODE_TYPE_PREVIOUS = 'prev';
 
     /**
      * Initialize resource model
@@ -115,12 +115,12 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
 
         $this->_getResource()->beginTransaction();
         try {
-            // recursive node save
-            $this->_collectTree($nodes, $this->getId(), $this->getRequestUrl(), $this->getId(), 0);
             // remove deleted nodes
             if (!empty($remove)) {
                 $this->_getResource()->dropNodes($remove);
             }
+            // recursive node save
+            $this->_collectTree($nodes, $this->getId(), $this->getRequestUrl(), $this->getId(), 0);
 
             $this->_getResource()->commit();
         } catch (Exception $e) {

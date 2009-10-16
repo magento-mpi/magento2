@@ -52,6 +52,9 @@ Default layout, loads most of the pages
             </block>
             <block type="enterprise_cms/hierarchy_pagination" name="hierarchy_pagination" template="cms/hierarchy/pagination.phtml"/>
         </reference>
+        <reference name="head">
+            <block type="enterprise_cms/hierarchy_head" name="enterprise_cms_hierarchy_head"></block>
+        </reference>
     </cms_page>
 
     <cms_index_index translate="label">

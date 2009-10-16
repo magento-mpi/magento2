@@ -83,10 +83,11 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Mage_Core_Block_Abstract
                         $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST, $linkNode->getUrl());
                     }
 
-                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_LAST);
-                    if ($linkNode->getId()) {
-                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_LAST, $linkNode->getUrl());
-                    }
+// HTML 4.01 Specification doesn't contain 'last' Link Type
+//                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_LAST);
+//                    if ($linkNode->getId()) {
+//                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_LAST, $linkNode->getUrl());
+//                    }
                 }
             }
         }

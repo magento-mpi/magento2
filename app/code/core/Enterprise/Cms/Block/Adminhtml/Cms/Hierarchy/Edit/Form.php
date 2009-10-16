@@ -128,8 +128,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                     ->toOptionArray();
 
             $fieldset->addField('meta_first_last', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('First/Last'),
-                'title'     => Mage::helper('enterprise_cms')->__('First/Last'),
+                'label'     => Mage::helper('enterprise_cms')->__('First'),
+                'title'     => Mage::helper('enterprise_cms')->__('First'),
                 'name'      => 'meta_first_last',
                 'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
