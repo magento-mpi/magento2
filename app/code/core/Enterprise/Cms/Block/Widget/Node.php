@@ -43,19 +43,21 @@ class Enterprise_Cms_Block_Widget_Node
     protected $_node;
 
     /**
-     * Initialize current node model
+     * Prepare layout.
+     * Prepare hierarchy node object
      *
+     * @return Enterprise_Cms_Block_Widget_Node
      */
-    protected function _construct()
+    protected function _prepareLayout()
     {
-        parent::_construct();
-
+        parent::_prepareLayout();
         if ($this->getNodeId()) {
             $this->_node = Mage::getModel('enterprise_cms/hierarchy_node')
                 ->load($this->getNodeId());
         } else {
             $this->_node = Mage::registry('current_cms_hierarchy_node');
         }
+        return $this;
     }
 
     /**
