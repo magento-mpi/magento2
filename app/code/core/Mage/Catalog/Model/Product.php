@@ -526,8 +526,8 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     protected function _beforeDelete()
     {
-        $this->cleanCache();
         $this->_protectFromNonAdmin();
+        $this->cleanCache();
         Mage::getSingleton('index/indexer')->logEvent(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_DELETE
         );
