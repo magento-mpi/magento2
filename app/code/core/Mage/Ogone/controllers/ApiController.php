@@ -154,7 +154,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
             return false;
         }
 
-        $this->_offlineProcess();
+        $this->_ogoneProcess();
     }
 
     /**
@@ -167,13 +167,13 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
             $this->getResponse()->setHeader("Status","404 Not Found");
             return false;
         }
-        $this->_offlineProcess();
+        $this->_ogoneProcess();
     }
 
     /**
      * Made offline ogone data processing, depending of incoming statuses
      */
-    protected function _offlineProcess()
+    protected function _ogoneProcess()
     {
         $status = $this->getRequest()->getParam('STATUS');
         switch ($status) {
@@ -208,7 +208,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
             $this->_redirect('checkout/cart');
             return;
         }
-        $this->_acceptProcess();
+        $this->_ogoneProcess();
     }
 
     /**
@@ -356,7 +356,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                 $exception = Mage::helper('ogone')->__('Payment uncertain: A technical problem arose during payment process, giving unpredictable result');
                 break;
             case Mage_Ogone_Model_Api::OGONE_AUTH_UKNKOWN_STATUS :
-                $exception = Mage::helper('ogone')->__('Authorisation not known: A technical problem arose during authorisation process, giving unpredictable result');
+                $exception = Mage::helper('ogone')->__('Authorization not known: A technical problem arose during authorization process, giving unpredictable result');
                 break;
             default:
                 $exception = '';
@@ -366,7 +366,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
             try{
                 $this->_prepareCCInfo($order, $params);
                 $order->getPayment()->setLastTransId($params['PAYID']);
-                $order->addStatusToHistory(Mage_Ogone_Model_Api::PROCESSING_OGONE_STATUS, $exception);
+                $order->addStatusToHistory(Mage_Ogone_Model_Api::PROCESSED_OGONE_STATUS, $exception);
                 $order->save();
                 $this->_getCheckout()->addError($exception);
             }catch(Exception $e) {
