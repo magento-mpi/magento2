@@ -62,6 +62,9 @@
         <!-- end middle -->
 
         <!-- start footer -->
+        <?php if ($_html = $this->getChildHtml('footer_before')): ?>
+            <div class="footer-before-container"><?php echo $_html; ?></div>
+        <?php endif;?>
         <div class="footer-container">
             <div class="footer">
                 <?php echo $this->getChildHtml('footer') ?>
