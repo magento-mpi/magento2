@@ -137,17 +137,19 @@ class Enterprise_Staging_Block_Adminhtml_Staging_Edit_Tabs_Website extends Mage_
             } else {
                 $fieldset->addField('staging_website_code_'.$_id, 'text',
                     array(
-                        'label' => Mage::helper('enterprise_staging')->__('Staging Website Code'),
-                        'name'  => "websites[{$_id}][code]",
-                        'value' => Mage::helper('enterprise_staging/website')->generateWebsiteCode($masterWebsite->getCode())
+                        'label'    => Mage::helper('enterprise_staging')->__('Staging Website Code'),
+                        'name'     => "websites[{$_id}][code]",
+                        'value'    => Mage::helper('enterprise_staging/website')->generateWebsiteCode($masterWebsite->getCode()),
+                        'required' => true
                     )
                 );
 
                 $fieldset->addField('staging_website_name_'.$_id, 'text',
                     array(
-                        'label' => Mage::helper('enterprise_staging')->__('Staging Website Name'),
-                        'name'  => "websites[{$_id}][name]",
-                        'value' => $masterWebsite->getName() .' '. Mage::helper('enterprise_staging')->__('(Staging Copy)')
+                        'label'    => Mage::helper('enterprise_staging')->__('Staging Website Name'),
+                        'name'     => "websites[{$_id}][name]",
+                        'value'    => $masterWebsite->getName() .' '. Mage::helper('enterprise_staging')->__('(Staging Copy)'),
+                        'required' => true
                     )
                 );
 
