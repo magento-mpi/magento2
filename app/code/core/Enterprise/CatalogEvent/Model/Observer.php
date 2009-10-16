@@ -203,16 +203,17 @@ class Enterprise_CatalogEvent_Model_Observer
             }
             if ($product->getEvent()->getStatus() != Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
                 if (!$quoteItem->getId()) {
-                    $quoteItem->setIsDeleted(true);
-                    if ($quoteItem->getParentItem()) {
-                        $quoteItem->getParentItem()->setIsDeleted(true);
-                    }
+                    $quoteItem->setHasError(true)
+                        ->setMessage(
+                            Mage::helper('enterprise_catalogevent')->__('Sale was closed for this product')
+                        );
+                    $quoteItem->getQuote()->setHasError(true)
+                        ->addMessage(
+                            Mage::helper('enterprise_catalogevent')->__('Some products are not salable anymore')
+                        );
                 } else {
                     return;
                 }
-                Mage::throwException(
-                    Mage::helper('enterprise_catalogevent')->__('Sale was closed for product "%s".', $quoteItem->getName())
-                );
             }
         }
     }
@@ -237,19 +238,25 @@ class Enterprise_CatalogEvent_Model_Observer
         if ($item->getEventId()) {
             if ($event = $item->getEvent()) {
                 if ($event->getStatus() !== Enterprise_CatalogEvent_Model_Event::STATUS_OPEN) {
-                    $item->getQuote()->removeItem($item->getId());
                     if ($item->getParentItem()) {
                         $parentItem = $item->getParentItem();
-                        $item->getQuote()->removeItem($parentItem);
+                        $item->setHasError(true)
+                            ->setMessage(
+                                Mage::helper('enterprise_catalogevent')->__('Sale was closed for this product')
+                            );
                         $item->getQuote()->setHasError(true)
-                                ->addMessage(
-                                    Mage::helper('enterprise_catalogevent')->__('Sale was closed for product "%s".', $parentItem->getName())
-                                );
+                            ->addMessage(
+                                Mage::helper('enterprise_catalogevent')->__('Some products are not salable anymore')
+                            );
                     } else {
-                         $item->getQuote()->setHasError(true)
-                                ->addMessage(
-                                    Mage::helper('enterprise_catalogevent')->__('Sale was closed for product "%s".', $item->getName())
-                                );
+                        $item->setHasError(true)
+                            ->setMessage(
+                                Mage::helper('enterprise_catalogevent')->__('Sale was closed for this product')
+                            );
+                        $item->getQuote()->setHasError(true)
+                            ->addMessage(
+                                Mage::helper('enterprise_catalogevent')->__('Some products are not salable anymore')
+                            );
                     }
                 }
             } else {
