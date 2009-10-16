@@ -256,8 +256,8 @@
                     return;
                 }
                 var page_id = tr.down('.checkbox').value;
-                var label = tr.down('.label').textContent;
-                var identifier = tr.down('.identifier').textContent;
+                var label = tr.down('.label').getInnerText();
+                var identifier = tr.down('.identifier').getInnerText();
                 var rootNode = this.tree.getSelectionModel().getSelectedNode();
                 if (!rootNode) {
                     rootNode = this.treeRoot;
@@ -502,7 +502,7 @@
                     } else {
                         var identifierColumn = tr.down('.identifier');
                         if (identifierColumn != undefined) {
-                            var identifier = identifierColumn.textContent;
+                            var identifier = identifierColumn.getInnerText();
                             if (identifiers.get(identifier)) {
                                 tr.addClassName('invalid');
                                 var checkbox = tr.down('.checkbox');
