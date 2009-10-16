@@ -505,6 +505,8 @@
                     <adminhtml__targetrule__new>blockIndexAction</adminhtml__targetrule__new>
                     <adminhtml__targetrule__save>blockIndexAction</adminhtml__targetrule__save>
                     <adminhtml__targetrule__delete>blockIndexAction</adminhtml__targetrule__delete>
+
+                    <adminhtml__cms_hierarchy__save>blockIndexAction</adminhtml__cms_hierarchy__save>
                 </controller_predispatch>
                 <block_html_before>
                     <adminhtml__customer>widgetCustomerGridContainer</adminhtml__customer>
@@ -545,6 +547,8 @@
                     <widget__adminhtml_widget_instance_edit>removeWidgetInstanceButtons</widget__adminhtml_widget_instance_edit>
                     <enterprise_banner__adminhtml_banner_edit>validateBannerPermissions</enterprise_banner__adminhtml_banner_edit>
                     <enterprise_banner__adminhtml_banner_new>validateBannerPermissions</enterprise_banner__adminhtml_banner_new>
+                    <enterprise_cms__adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</enterprise_cms__adminhtml_cms_hierarchy_edit>
+                    <enterprise_cms__adminhtml_cms_page_edit_tab_hierarchy>prepareCmsHierarchyNodes</enterprise_cms__adminhtml_cms_page_edit_tab_hierarchy>
                 </block_html_before>
             </admingws>
         </enterprise>

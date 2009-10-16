@@ -455,6 +455,16 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     }
 
     /**
+     * Getter for protected _currentStore
+     *
+     * @return null|int
+     */
+    public function getCurrentStore()
+    {
+        return $this->_currentStore;
+    }
+
+    /**
      * Return URL query param for current store
      *
      * @return string

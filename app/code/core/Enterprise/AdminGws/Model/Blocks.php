@@ -811,4 +811,56 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         }
         return $this;
     }
+
+    /**
+     * Remove Save Hierarchy button if GWS permissions are applicable
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeCmsHierarchyFormButtons($observer)
+    {
+        if (!$this->_role->getIsAll()) {
+            $observer->getEvent()->getBlock()->removeButton('save');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add append restriction flag to hierarchy nodes
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function prepareCmsHierarchyNodes($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        if ($nodes = $block->getNodes()) {
+            if (is_array($nodes)) {
+                $nodesAssoc = array();
+                foreach ($nodes as $node) {
+                    $nodesAssoc[$node['node_id']] = $node;
+                }
+
+                foreach ($nodesAssoc as $nodeId => $node) {
+                    // define parent page/node
+                    $parent = isset($nodesAssoc[$node['parent_node_id']]) ? $nodesAssoc[$node['parent_node_id']] : null;
+                    $parentDenied = $parent !== null
+                                 && isset($parent['append_denied'])
+                                 && $parent['append_denied'] === true;
+
+                    // If appending is denied for parent - deny it for child
+                    if ($parentDenied || !$node['page_id']) {
+                        $nodesAssoc[$nodeId]['append_denied'] = $parentDenied;
+                    } else {
+                        $nodesAssoc[$nodeId]['append_denied'] = !$this->_role->hasStoreAccess($node['assigned_to_stores']);
+                    }
+                }
+                $block->setNodes(array_values($nodesAssoc));
+            }
+        }
+
+        return $this;
+    }
 }

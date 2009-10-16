@@ -64,7 +64,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
     }
 
     /**
-     * Add Filter to store for CMS pages assigned to nodes
+     * Add Store Filter to assigned CMS pages
      *
      * @param int|Mage_Core_Model_Store $store
      * @param bool $withAdmin Include admin store or not
@@ -72,23 +72,12 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
      */
     public function addStoreFilter($store, $withAdmin = true)
     {
-        if (!$this->getFlag('store_filter_added')) {
-            if ($store instanceof Mage_Core_Model_Store) {
-                $store = array($store->getId());
-            }
-
-            $this->joinCmsPage();
-
-            $this->getSelect()->joinLeft(
-                array('page_store_table' => $this->getTable('cms/page_store')),
-                'page_table.page_id = page_store_table.page_id',
-                array()
-            )
-            ->where('(main_table.page_id IS NULL OR page_store_table.store_id in (?))', ($withAdmin ? array(0, $store) : $store));
-
-            $this->setFlag('store_filter_added', true);
+        if ($store instanceof Mage_Core_Model_Store) {
+            $store = array($store->getId());
         }
-
+        $this->addCmsPageInStoresColumn();
+        $this->getFlag('page_in_stores_select')->where('store.store_id in (?)', ($withAdmin ? array(0, $store) : $store));
+        $this->getSelect()->having('main_table.page_id IS NULL OR page_in_stores IS NOT NULL');
         return $this;
     }
 
@@ -105,6 +94,9 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
                 ->where('store.page_id = main_table.page_id');
 
             $this->getSelect()->from('', array('page_in_stores' => $subSelect));
+
+            // save subSelect to use later
+            $this->setFlag('page_in_stores_select', $subSelect);
 
             $this->setFlag('cms_page_in_stores_data_joined', true);
         }

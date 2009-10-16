@@ -96,13 +96,14 @@ hierarchyNodes = {
                 allowDrop: true,
                 allowDrag: dd,
                 page_id: this.nodes[i].page_id,
-                uiProvider: this.nodes[i].current_page ? null : Ext.tree.CheckboxNodeUI,
+                uiProvider: (this.nodes[i].current_page || this.nodes[i].append_denied) ? null : Ext.tree.CheckboxNodeUI,
                 checked: this.nodes[i].page_exists,
                 current_page: this.nodes[i].current_page
             });
+
             if (parentNode = this.tree.getNodeById(this.nodes[i].parent_node_id)) {
                 parentNode.appendChild(node);
-            } else {
+            } else if (!this.nodes[i].parent_node_id) {
                 this.treeRoot.appendChild(node);
             }
         }

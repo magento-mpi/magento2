@@ -69,6 +69,12 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             $data = Mage::helper('core')->jsonDecode($this->getPage()->getNodesData());
+
+            $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
+                ->joinCmsPage()
+                ->setOrderByLevel()
+                ->joinPageExistsNodeInfo($this->getPage());
+
             if (is_array($data)) {
                 foreach ($data as $v) {
                     if (isset($v['page_exists'])) {
@@ -84,13 +90,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                         'page_id'               => $v['page_id'],
                         'current_page'          => (bool)$v['current_page']
                     );
+                    if ($item = $collection->getItemById($v['node_id'])) {
+                        $node['assigned_to_stores'] = $this->getPageStoreIds($item);
+                    } else {
+                        $node['assigned_to_stores'] = array();
+                    }
+
                     $this->_nodes[] = $node;
                 }
             } else {
-                $collection = Mage::getModel('enterprise_cms/hierarchy_node')->getCollection()
-                    ->joinCmsPage()
-                    ->setTreeOrder()
-                    ->joinPageExistsNodeInfo($this->getPage());
 
                 foreach ($collection as $item) {
                     /* @var $item Enterprise_Cms_Model_Hierarchy_Node */
@@ -100,13 +108,38 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
                         'label'                 => $item->getLabel(),
                         'page_exists'           => (bool)$item->getPageExists(),
                         'page_id'               => $item->getPageId(),
-                        'current_page'          => (bool)$item->getCurrentPage()
+                        'current_page'          => (bool)$item->getCurrentPage(),
+                        'assigned_to_stores'    => $this->getPageStoreIds($item)
+
                     );
                     $this->_nodes[] = $node;
                 }
             }
         }
         return $this->_nodes;
+    }
+
+    public function getPageStoreIds($node)
+    {
+        if (!$node->getPageId() || !$node->getPageInStores()) {
+            return array();
+        }
+        return explode(',', $node->getPageInStores());
+    }
+
+    /**
+     * Forced nodes setter
+     *
+     * @param array $nodes New nodes array
+     * @return Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Hierarchy
+     */
+    public function setNodes($nodes)
+    {
+        if (is_array($nodes)) {
+            $this->_nodes = $nodes;
+        }
+
+        return $this;
     }
 
     /**
