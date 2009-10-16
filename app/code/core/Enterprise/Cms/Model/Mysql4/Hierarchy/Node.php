@@ -283,19 +283,30 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      * only by URL that identifies it in a hierarchy.
      *
      * @param string $identifier
+     * @param int $storeId
      * @return bool
      */
-    public function checkIdentifier($identifier)
+    public function checkIdentifier($identifier, $storeId)
     {
-        $select = $this->getReadConnection()->select()
-            ->from(array('page_table' => $this->getTable('cms/page')), 'COUNT(page_table.page_id)')
+        $adapter = $this->_getReadAdapter();
+        $select  = $adapter->select()
+            ->from(array('main_table' => $this->getTable('cms/page')), array('page_id', 'website_root'))
             ->join(
-                array('node_table' => $this->getMainTable()),
-                'page_table.page_id = node_table.page_id',
+                array('cps' => $this->getTable('cms/page_store')),
+                'main_table.page_id = `cps`.page_id',
                 array())
-            ->where('page_table.identifier=?', $identifier)
-            ->where('page_table.website_root <> 1');
-        return $this->_getReadAdapter()->fetchOne($select) > 0;
+            ->where('main_table.identifier = ?', $identifier)
+            ->where('main_table.is_active=1 AND `cps`.store_id in (0, ?) ', $storeId)
+            ->order('store_id DESC')
+            ->limit(1);
+
+        $page = $adapter->fetchRow($select);
+
+        if (!$page || $page['website_root'] == 1) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -147,7 +147,7 @@ class Enterprise_Cms_Model_Observer
         $requestUrl = $condition->getIdentifier();
         $node->loadByRequestUrl($requestUrl);
 
-        if ($node->checkIdentifier($requestUrl)) {
+        if ($node->checkIdentifier($requestUrl, Mage::app()->getStore())) {
             $condition->setContinue(false);
         }
         if (!$node->getId()) {

@@ -283,11 +283,13 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      * Return true if a page binded to a tree node
      *
      * @param string $identifier
+     * @param int|Mage_Core_Model_Store $storeId
      * @return bool
      */
-    public function checkIdentifier($identifier)
+    public function checkIdentifier($identifier, $storeId = null)
     {
-        return $this->_getResource()->checkIdentifier($identifier);
+        $storeId = Mage::app()->getStore($storeId)->getId();
+        return $this->_getResource()->checkIdentifier($identifier, $storeId);
     }
 
     /**
