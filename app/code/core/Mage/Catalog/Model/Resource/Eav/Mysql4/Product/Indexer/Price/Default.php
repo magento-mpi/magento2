@@ -137,16 +137,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
     }
 
     /**
-     * Retrieve website current dates table name
-     *
-     * @return string
-     */
-    protected function _getWebsiteDateTable()
-    {
-        return $this->getIdxTable($this->getValueTable('core/website', 'date'));
-    }
-
-    /**
      * Retrieve final price temporary index table name
      *
      * @see _prepareDefaultFinalPriceTable()
@@ -155,50 +145,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
     protected function _getDefaultFinalPriceTable()
     {
         return $this->getIdxTable($this->getMainTable() . '_final');
-    }
-
-    /**
-     * Prepare website current dates table
-     *
-     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
-     */
-    protected function _prepareWebsiteDateTable()
-    {
-        $write = $this->_getWriteAdapter();
-        $table = $this->_getWebsiteDateTable();
-
-        $query = sprintf('DROP TABLE IF EXISTS %s', $write->quoteIdentifier($table));
-        $write->query($query);
-
-        $query = sprintf('CREATE TABLE %s ('
-            . ' `website_id` SMALLINT(5) UNSIGNED NOT NULL,'
-            . ' `date` DATE DEFAULT NULL,'
-            . ' PRIMARY KEY (`website_id`),'
-            . ' KEY `IDX_DATE` (`date`)'
-            . ') ENGINE=INNODB DEFAULT CHARSET=utf8',
-            $write->quoteIdentifier($table));
-        $write->query($query);
-
-        $data = array();
-        /* @var $coreDate Mage_Core_Model_Date */
-        $websites = Mage::app()->getWebsites(false);
-        foreach ($websites as $website) {
-            /* @var $website Mage_Core_Model_Website */
-            $store = $website->getDefaultStore();
-            if ($store) {
-                $timestamp = Mage::app()->getLocale()->storeTimeStamp($store);
-                $data[] = array(
-                    'website_id' => $website->getId(),
-                    'date'       => $this->formatDate($timestamp, false)
-                );
-            }
-        }
-
-        if ($data) {
-            $write->insertMultiple($table, $data);
-        }
-
-        return $this;
     }
 
     /**
@@ -233,6 +179,16 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
     }
 
     /**
+     * Retrieve website current dates table name
+     *
+     * @return string
+     */
+    protected function _getWebsiteDateTable()
+    {
+        return $this->getIdxTable($this->getValueTable('core/website', 'date'));
+    }
+
+    /**
      * Prepare products default final price in temporary index table
      *
      * @param int|array $entityIds  the entity ids limitation
@@ -240,7 +196,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
     protected function _prepareFinalPriceData($entityIds = null)
     {
-        $this->_prepareWebsiteDateTable();
         $this->_prepareDefaultFinalPriceTable();
 
         $write  = $this->_getWriteAdapter();

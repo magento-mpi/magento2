@@ -411,7 +411,6 @@ class Mage_Bundle_Model_Mysql4_Indexer_Price
      */
     protected function _prepareBundlePrice($entityIds = null)
     {
-        $this->_prepareWebsiteDateTable();
         $this->_prepareBundlePriceTable();
         $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_FIXED, $entityIds);
         $this->_prepareBundlePriceByType(Mage_Bundle_Model_Product_Price::PRICE_TYPE_DYNAMIC, $entityIds);
