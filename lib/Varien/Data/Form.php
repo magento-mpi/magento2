@@ -88,6 +88,15 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
     }
 
     /**
+     * Return allowed HTML form attributes
+     * @return array
+     */
+    public function getHtmlAttributes()
+    {
+        return array('id', 'name', 'method', 'action', 'enctype', 'class', 'onsubmit');
+    }
+
+    /**
      * Add form element
      *
      * @param   Varien_Data_Form_Element_Abstract $element
@@ -213,7 +222,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         Varien_Profiler::start('form/toHtml');
         $html = '';
         if ($useContainer = $this->getUseContainer()) {
-            $html .= '<form '.$this->serialize(array('id', 'name', 'method', 'action', 'enctype', 'class', 'onsubmit')).'>';
+            $html .= '<form '.$this->serialize($this->getHtmlAttributes()).'>';
             $html .= '<div>';
             if (strtolower($this->getData('method')) == 'post') {
                 $html .= '<input name="form_key" type="hidden" value="'.Mage::getSingleton('core/session')->getFormKey().'" />';
