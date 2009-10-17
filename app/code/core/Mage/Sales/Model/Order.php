@@ -560,28 +560,6 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         return $this;
     }
 
-    /**
-     * Save order and objects related with it before run place payment
-     *
-     * @param array $relatedObjects
-     * @return Mage_Sales_Model_Order
-     */
-    public function purchase($relatedObjects)
-    {
-        $this->_getResource()->getWriteConnection()->beginTransaction();
-        try {
-            $this->setState(self::STATE_NEW, true)->save();
-            foreach ($relatedObjects as $relatedObject) {
-                $relatedObject->save();
-            }
-            $this->place();
-            $this->_getResource()->getWriteConnection()->commit();
-        } catch (Exception $e) {
-            $this->_getResource()->getWriteConnection()->rollback();
-            Mage::logException($e);
-        }
-        return $this;
-    }
 
     /**
      * Place order
@@ -591,7 +569,23 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     public function place()
     {
         Mage::dispatchEvent('sales_order_place_before', array('order'=>$this));
-        $this->_placePayment();
+        $this->setState(self::STATE_NEW, true)->save();
+        try {
+            $this->_placePayment();
+        } catch (Mage_Core_Exception $e){
+            $message = $e->getMessage();
+            Mage::logException($e);
+            $this->addStatusToHistory(
+                $this->getStatus(),
+                Mage::helper('sales')->__('Payment failed: %s', $message)
+            )->save();
+        } catch (Exception $e){
+            Mage::logException($e);
+            $this->addStatusToHistory(
+                $this->getStatus(),
+                Mage::helper('sales')->__('Payment failed')
+            )->save();
+        }
         Mage::dispatchEvent('sales_order_place_after', array('order'=>$this));
         return $this;
     }
