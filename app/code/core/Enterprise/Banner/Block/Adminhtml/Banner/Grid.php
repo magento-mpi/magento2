@@ -121,8 +121,7 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Grid extends Mage_Adminhtml_Block
         $this->getMassactionBlock()->addItem('delete', array(
             'label'    => Mage::helper('enterprise_banner')->__('Delete'),
             'url'      => $this->getUrl('*/*/massDelete'),
-            'confirm'  => Mage::helper('enterprise_banner')->__('Are you sure you want to delete these banners?'),
-            'selected' => true,
+            'confirm'  => Mage::helper('enterprise_banner')->__('Are you sure you want to delete these banners?')
         ));
 
         return $this;

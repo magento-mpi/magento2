@@ -162,8 +162,6 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
                 var position    = inputs[1].value || 1;
                 var checked     = isInput ? checkbox.checked : !checkbox.checked;
                 checkbox.checked = checked;
-
-                var bannerName  = trElement.down("td").next().next().innerHTML;
                 var bannerId    = checkbox.value;
 
                 if(checked){
@@ -195,6 +193,58 @@ class Enterprise_Banner_Block_Adminhtml_Widget_Chooser extends Enterprise_Banner
                 grid.reloadParams[\'selected_banners[]\'] = banners;
             }
         ';
+    }
+
+    /**
+     * Checkbox Check JS Callback
+     *
+     * @return string
+     */
+    public function getCheckboxCheckCallback()
+    {
+        return 'function (grid, element, checked) {
+                    if(!grid.selBannersIds){
+                        grid.selBannersIds = {};
+                    }
+                    var checkbox    = element;
+
+                    checkbox.checked = checked;
+                    var bannerId    = checkbox.value;
+                    if(bannerId == \'on\'){
+                        return;
+                    }
+                    var trElement   = element.up(\'tr\');
+                    var inputs      = Element.select(trElement, \'input\');
+                    var position    = inputs[1].value || 1;
+
+                    if(checked){
+                        if(Object.keys(grid.selBannersIds).indexOf(bannerId) < 0){
+                            grid.selBannersIds[bannerId] = position;
+                        }
+                    }
+                    else{
+                        delete(grid.selBannersIds[bannerId]);
+                    }
+
+                    var idsclone = Object.clone(grid.selBannersIds);
+                    var bans = Object.keys(grid.selBannersIds);
+                    var pos = Object.values(grid.selBannersIds).sort();
+                    var banners = [];
+                    var k = 0;
+                    for(var j = 0; j < pos.length; j++){
+                        for(var i = 0; i < bans.length; i++){
+                            if(idsclone[bans[i]] == pos[j]){
+                                banners[k] = bans[i];
+                                k++;
+                                delete(idsclone[bans[i]]);
+                                break;
+                            }
+                        }
+                    }
+                    $(\'' . $this->_elementValueId . '\').value = banners.join(\',\');
+                    grid.reloadParams = {};
+                    grid.reloadParams[\'selected_banners[]\'] = banners;
+                }';
     }
 
     /**

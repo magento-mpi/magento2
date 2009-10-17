@@ -83,8 +83,12 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         if ($data = $this->getRequest()->getPost()) {
             //Filter disallowed data
             $currentStores = array_keys(Mage::app()->getStores(true));
-            $data['store_contents_not_use'] = array_intersect($data['store_contents_not_use'], $currentStores);
-            $data['store_contents'] = array_intersect_key($data['store_contents'], array_flip($currentStores));
+            if (isset($data['store_contents_not_use'])){
+                $data['store_contents_not_use'] = array_intersect($data['store_contents_not_use'], $currentStores);
+            }
+            if (isset($data['store_contents'])){
+                $data['store_contents'] = array_intersect_key($data['store_contents'], array_flip($currentStores));
+            }
 
             // prepare post data
             if (isset($data['banner_catalog_rules'])) {
