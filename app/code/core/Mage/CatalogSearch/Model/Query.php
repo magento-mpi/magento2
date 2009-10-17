@@ -112,6 +112,20 @@ class Mage_CatalogSearch_Model_Query extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Load Query object only by query text (skip 'synonym for')
+     *
+     * @param string $text
+     * @return Mage_CatalogSearch_Model_Query
+     */
+    public function loadByQueryText($text)
+    {
+        $this->_getResource()->loadByQueryText($this, $text);
+        $this->_afterLoad();
+        $this->setOrigData();
+        return $this;
+    }
+
+    /**
      * Set Store Id
      *
      * @param int $storeId

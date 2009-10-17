@@ -91,7 +91,7 @@ class Mage_Adminhtml_Catalog_SearchController extends Mage_Adminhtml_Controller_
             $model = Mage::getModel('catalogsearch/query');
 
             if ($queryText = $this->getRequest()->getParam('query_text')) {
-                $model->load($queryText);
+                $model->loadByQueryText($queryText);
                 if ($model->getId() && $this->getRequest()->getParam('query_id') != $model->getId()) {
                     Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Search Term with such search query already exist.'));
                     Mage::getSingleton('adminhtml/session')->setPageData($data);
