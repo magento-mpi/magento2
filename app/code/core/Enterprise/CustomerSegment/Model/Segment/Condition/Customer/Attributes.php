@@ -288,6 +288,39 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
     }
 
     /**
+     * Return values of start and end datetime for date if operator is equal
+     *
+     * @return array|string
+     */
+    public function getDateValue()
+    {
+        if ($this->getOperator() == '==') {
+            $dateObj = Mage::app()->getLocale()
+                ->date($this->getValue(), Varien_Date::DATE_INTERNAL_FORMAT, null, false)
+                ->setHour(0)->setMinute(0)->setSecond(0);
+            $value = array(
+                'start' => $dateObj->toString(Varien_Date::DATETIME_INTERNAL_FORMAT),
+                'end' => $dateObj->addDay(1)->toString(Varien_Date::DATETIME_INTERNAL_FORMAT)
+            );
+            return $value;
+        }
+        return $this->getValue();
+    }
+
+    /**
+     * Return date operator if original operator is equal
+     *
+     * @return string
+     */
+    public function getDateOperator()
+    {
+        if ($this->getOperator() == '==') {
+            return 'between';
+        }
+        return $this->getOperator();
+    }
+
+    /**
      * Create SQL condition select for customer attribute
      *
      * @param $customer
@@ -306,16 +339,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
         $select->where($this->_createCustomerFilter($customer, 'main.entity_id'));
 
         if (!in_array($attribute->getAttributeCode(), array('default_billing', 'default_shipping')) ) {
+            $value    = $this->getValue();
+            $operator = $this->getOperator();
             if ($attribute->isStatic()) {
-                $condition = $this->getResource()->createConditionSql(
-                    "main.{$attribute->getAttributeCode()}", $this->getOperator(), $this->getValue()
-                );
+                $field = "main.{$attribute->getAttributeCode()}";
             } else {
                 $select->where('main.attribute_id = ?', $attribute->getId());
-                $condition = $this->getResource()->createConditionSql(
-                    'main.value', $this->getOperator(), $this->getValue()
-                );
+                $field = 'main.value';
             }
+            if ($attribute->getFrontendInput() == 'date') {
+                $value    = $this->getDateValue();
+                $operator = $this->getDateOperator();
+            }
+            $condition = $this->getResource()->createConditionSql($field, $operator, $value);
             $select->where($condition);
         } else {
             $joinFunction = 'joinLeft';
@@ -327,6 +363,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
             $select->$joinFunction(array('address'=>$addressTable), 'address.entity_id = main.value', array());
             $select->where('main.attribute_id = ?', $attribute->getId());
         }
+        Mage::log($select.'');
         return $select;
     }
 }

@@ -125,6 +125,8 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
                 return 'LIKE';
             case '!{}':
                 return 'NOT LIKE';
+            case 'between':
+                return "BETWEEN '%s' AND '%s'";
             case '>':
             case '<':
             case '>=':
@@ -152,6 +154,9 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
                 $condition = $this->_getReadAdapter()->quoteInto(
                     $field.' '.$sqlOperator.' ?', '%'.$value.'%'
                 );
+                break;
+            case 'between':
+                $condition = $field.' '.sprintf($sqlOperator, $value['start'], $value['end']);
                 break;
             default:
                 $condition = $this->_getReadAdapter()->quoteInto(
