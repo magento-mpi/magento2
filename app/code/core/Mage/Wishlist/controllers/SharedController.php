@@ -73,6 +73,7 @@ class Mage_Wishlist_SharedController extends Mage_Wishlist_Controller_Abstract
         Mage::register('shared_wishlist', $wishlist);
 
         $this->loadLayout();
+        $this->_initLayoutMessages('checkout/session');
         $this->_initLayoutMessages('wishlist/session');
         $this->renderLayout();
     }

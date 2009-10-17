@@ -86,25 +86,22 @@ class Mage_Wishlist_IndexController extends Mage_Wishlist_Controller_Abstract
     {
         $this->_getWishlist();
         $this->loadLayout();
-        $this->_initLayoutMessages('customer/session');
-        $this->_initLayoutMessages('catalog/session');
-
-        if ($block = $this->getLayout()->getBlock('customer.wishlist')) {
-            $block->setRefererUrl($this->_getRefererUrl());
-        }
 
         $session = Mage::getSingleton('customer/session');
-
-        /**
-         *  Get referer to avoid referring to the compare popup window
-         */
-        if ($block && $referer = $session->getAddActionReferer(true)) {
-            $block->setRefererUrl($referer);
+        $block   = $this->getLayout()->getBlock('customer.wishlist');
+        $referer = $session->getAddActionReferer(true);
+        if ($block) {
+            $block->setRefererUrl($this->_getRefererUrl());
+            if ($referer) {
+                $block->setRefererUrl($referer);
+            }
         }
 
         $this->_initLayoutMessages('customer/session');
         $this->_initLayoutMessages('checkout/session');
+        $this->_initLayoutMessages('catalog/session');
         $this->_initLayoutMessages('wishlist/session');
+
         $this->renderLayout();
     }
 

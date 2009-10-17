@@ -177,7 +177,7 @@ class Mage_Wishlist_Model_Item extends Mage_Core_Model_Abstract
             return false;
         }
 
-        if (!$product->getVisibleInSiteVisibilities()) {
+        if (!$product->isVisibleInSiteVisibility()) {
             if ($product->getStoreId() == $storeId) {
                 return false;
             }

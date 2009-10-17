@@ -55,6 +55,7 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
         $isOwner    = $wishlist->isOwner(Mage::getSingleton('customer/session')->getCustomerId());
 
         $messages   = array();
+        $addedItems = array();
         $notSalable = array();
         $hasOptions = array();
 
@@ -64,7 +65,10 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
         foreach ($collection as $item) {
             /* @var $item Mage_Wishlist_Model_Item */
             try {
-                $item->addToCart($cart, $isOwner);
+                if ($item->addToCart($cart, $isOwner)) {
+                    $addedItems[] = $item->getProduct();
+                }
+
             } catch (Mage_Core_Exception $e) {
                 if ($e->getCode() == Mage_Wishlist_Model_Item::EXCEPTION_CODE_NOT_SALABLE) {
                     $notSalable[] = $item;
@@ -121,11 +125,23 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                 $products = join(', ', $products);
 
                 Mage::getSingleton('wishlist/session')->addError(
-                    Mage::helper('wishlist')->__('Product(s) %s have required options. Each of them can be added to cart separately only', $products)
+                    Mage::helper('wishlist')->__('Product(s) %s have required options. Each of them can be added to cart separately only.', $products)
                 );
 
                 $redirectUrl = $indexUrl;
             }
+        }
+
+        if (!empty($addedItems)) {
+            $products = array();
+            foreach ($addedItems as $product) {
+                $products[] = Mage::helper('wishlist')->__('"%s"', $product->getName());
+            }
+            $products = join(', ', $products);
+
+            Mage::getSingleton('checkout/session')->addSuccess(
+                Mage::helper('wishlist')->__('(%s) product(s) have been added to shopping cart.', $products)
+            );
         }
 
         if (!empty($messages)) {
