@@ -441,7 +441,25 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
-     * Remove buttons from backup grid for all GWS limited users
+     * Remove grid actions in staging grid for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeStagingGridActions($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        $block->setMassactionIdField(false);
+        $column = $block->getColumn('action');
+        if ($column) {
+            $column->setActions(array());
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove grid actions in backup grid for all GWS limited users
      *
      * @param Varien_Event_Observer $observer
      * @return Enterprise_AdminGws_Model_Blocks
@@ -861,6 +879,26 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * Disabled items on rollback tab in staging backup grid for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function disableStagingBackupRollbackTabItems($observer)
+    {
+        if ($this->_role->getIsAll()) { // because observer is passed through directly
+            return;
+        }
+        $block = $observer->getEvent()->getBlock();
+        $column = $block->getColumn('itemCheckbox');
+        if ($column) {
+            $column->setDisabledValues($block->getAllRows());
+            $column->setDisabled(true);
+        }
         return $this;
     }
 }

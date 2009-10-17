@@ -303,6 +303,14 @@
                     </enterprise_admingws>
                 </observers>
             </adminhtml_banner_edit_tab_content_before_prepare_form>
+            <adminhtml_staging_backup_edit_tab_rollback_after_prepare_columns>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/blocks</class>
+                        <method>disableStagingBackupRollbackTabItems</method>
+                    </enterprise_admingws>
+                </observers>
+            </adminhtml_staging_backup_edit_tab_rollback_after_prepare_columns>
         </events>
         <enterprise>
             <admingws>
@@ -548,6 +556,7 @@
                     <index__adminhtml_process_grid>removeProcessListButtons</index__adminhtml_process_grid>
                     <index__adminhtml_process_edit>removeProcessEditButtons</index__adminhtml_process_edit>
                     <enterprise_staging__adminhtml_staging>removeStagingGridButtons</enterprise_staging__adminhtml_staging>
+                    <enterprise_staging__adminhtml_staging_grid>removeStagingGridActions</enterprise_staging__adminhtml_staging_grid>
                     <enterprise_staging__adminhtml_staging_edit>removeStagingEditButtons</enterprise_staging__adminhtml_staging_edit>
                     <enterprise_staging__adminhtml_backup_grid>removeStagingBackupGridActions</enterprise_staging__adminhtml_backup_grid>
                     <enterprise_staging__adminhtml_backup_edit>removeStagingBackupEditButtons</enterprise_staging__adminhtml_backup_edit>

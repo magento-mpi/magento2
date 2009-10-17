@@ -137,4 +137,18 @@ class Enterprise_Staging_Model_Mysql4_Staging_Item_Xml_Collection extends Varien
 
         return $rows;
     }
+
+    /**
+     * Prepares array of codes of all items
+     *
+     * @return array
+     */
+    public function getItemCodes()
+    {
+        $rows = array();
+        foreach ($this->getItems() as $item) {
+            $rows[] = $item->getCode();
+        }
+        return $rows;
+    }
 }

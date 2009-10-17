@@ -76,6 +76,8 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Items extends
             'frame_callback' => array($this, 'frameAvailabilityField')
         ));
 
+        Mage::dispatchEvent('adminhtml_staging_backup_edit_tab_rollback_after_prepare_columns', array('block' => $this));
+
         return $this;
     }
 
@@ -88,6 +90,17 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Items extends
     {
         return $this->getCollection()->getDisabledItemCodes();
     }
+
+    /**
+     * Retrieve codes of all items in colelction
+     *
+     * @return array
+     */
+    public function getAllRows()
+    {
+        return $this->getCollection()->getItemCodes();
+    }
+
 
     /**
      * Prepare items collection
@@ -127,3 +140,4 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_Rollback_Items extends
         return '<span class="' . $class . '">' . $renderedValue . '</span>';
     }
 }
+
