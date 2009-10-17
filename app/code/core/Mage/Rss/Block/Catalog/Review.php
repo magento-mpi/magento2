@@ -71,7 +71,9 @@ class Mage_Rss_Block_Catalog_Review extends Mage_Rss_Block_Abstract
             ->addAttributeToSelect('name', 'inner')
             ->setDateOrder();
 
-         Mage::getSingleton('core/resource_iterator')
+        Mage::dispatchEvent('rss_catalog_review_collection_select', array('collection' => $collection));
+
+        Mage::getSingleton('core/resource_iterator')
             ->walk($collection->getSelect(), array(array($this, 'addReviewItemXmlCallback')), array('rssObj'=> $rssObj, 'reviewModel'=> $reviewModel));
         return $rssObj->createRssXml();
     }

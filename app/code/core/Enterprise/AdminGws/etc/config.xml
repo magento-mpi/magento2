@@ -59,6 +59,24 @@
                 </setup>
             </enterprise_admingws_setup>
         </resources>
+        <events>
+            <rss_catalog_notify_stock_collection_select>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/collections</class>
+                        <method>rssCatalogNotifyStockCollectionSelect</method>
+                    </enterprise_admingws>
+                </observers>
+            </rss_catalog_notify_stock_collection_select>
+            <rss_catalog_review_collection_select>
+                <observers>
+                    <enterprise_admingws>
+                        <class>enterprise_admingws/collections</class>
+                        <method>rssCatalogReviewCollectionSelect</method>
+                    </enterprise_admingws>
+                </observers>
+            </rss_catalog_review_collection_select>
+        </events>
     </global>
     <adminhtml>
         <layout>
