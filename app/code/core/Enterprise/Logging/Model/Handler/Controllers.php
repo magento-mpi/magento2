@@ -115,7 +115,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             foreach ($postData['groups'] as $groupName => $groupData) {
                 foreach ($groupData['fields'] as $fieldName => $fieldValueData) {
                     //Clearing config data accordingly to collected skip fields
-                    if (!in_array($fieldName, $skipEncrypted)) {
+                    if (!in_array($fieldName, $skipEncrypted) && isset($fieldValueData['value'])) {
                         $groupFieldsData[$fieldName] = $fieldValueData['value'];
                     }
                 }
