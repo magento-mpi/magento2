@@ -90,8 +90,7 @@ class Mage_CatalogSearch_Model_Mysql4_Query extends Mage_Core_Model_Mysql4_Abstr
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable())
             ->where('query_text = ?', $value)
-            ->where('store_id = ?', $object->getStoreId())
-            ->order('query_text DESC');
+            ->where('store_id = ?', $object->getStoreId());
         if ($data = $this->_getReadAdapter()->fetchRow($select)) {
             $object->setData($data);
             $this->_afterLoad($object);
