@@ -41,8 +41,8 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
      */
     protected function _joinFields()
     {
-        $acceptedExpr = 'SUM(IF(main_table.status = "'
-                . Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED . '", 1, 0))';
+        $acceptedExpr = 'SUM(IF((main_table.status = "'
+                . Enterprise_Invitation_Model_Invitation::STATUS_ACCEPTED . '" AND main_table.referral_id is not NULL), 1, 0))';
         $canceledExpr = 'SUM(IF(main_table.status = "'
                 . Enterprise_Invitation_Model_Invitation::STATUS_CANCELED . '", 1, 0))';
 
