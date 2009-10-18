@@ -131,20 +131,10 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
         /**
          * Build base SQL
          */
-        $select = $this->_prepareConditionsSql($customer, $website);
-        $required = $this->_getRequiredValidation();
-
-        if ($this->getAggregator() == 'all') {
-            $whereFunction = 'where';
-        } else {
-            $whereFunction = 'orWhere';
-        }
-
-        if ($required) {
-            $operator = '=';
-        } else {
-            $operator = '<>';
-        }
+        $select         = $this->_prepareConditionsSql($customer, $website);
+        $required       = $this->_getRequiredValidation();
+        $whereFunction  = ($this->getAggregator() == 'all') ? 'where' : 'orWhere';
+        $operator       = $required ? '=' : '<>';
 
         $gotConditions = false;
 
