@@ -42,6 +42,9 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
         ),
         Mage_Catalog_Model_Convert_Adapter_Product::ENTITY => array(
             Mage_Index_Model_Event::TYPE_SAVE
+        ),
+        Mage_Customer_Model_Group::ENTITY => array(
+            Mage_Index_Model_Event::TYPE_SAVE
         )
     );
 
@@ -119,6 +122,8 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
             } else {
                 $result = false;
             }
+        } elseif ($event->getEntity() == Mage_Customer_Model_Group::ENTITY) {
+            $result = $event->getDataObject()->isObjectNew();
         } else {
             $result = parent::matchEvent($event);
         }
@@ -206,7 +211,7 @@ class Mage_Catalog_Model_Product_Indexer_Price extends Mage_Index_Model_Indexer_
     {
         $entity = $event->getEntity();
 
-        if ($entity == Mage_Core_Model_Config_Data::ENTITY) {
+        if ($entity == Mage_Core_Model_Config_Data::ENTITY || $entity == Mage_Customer_Model_Group::ENTITY) {
             $process = $event->getProcess();
             $process->changeStatus(Mage_Index_Model_Process::STATUS_REQUIRE_REINDEX);
         } else if ($entity == Mage_Catalog_Model_Convert_Adapter_Product::ENTITY) {
