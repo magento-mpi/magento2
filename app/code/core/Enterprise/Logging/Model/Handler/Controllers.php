@@ -372,4 +372,23 @@ class Enterprise_Logging_Model_Handler_Controllers
         }
         return $eventModel->setInfo(Mage::app()->getRequest()->getParam('class_type') . ': ' . Mage::app()->getRequest()->getParam('class_id'));
     }
+
+    /**
+     * Custom handler for customer segment match
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchCustomerSegmentMatch($config, $eventModel)
+    {
+        $request = Mage::app()->getRequest();
+        $customersQty = Mage::getModel('enterprise_customersegment/segment')->getResource()
+                ->getSegmentCustomersQty($request->getParam('id'));
+        return $eventModel->setInfo(
+            $request->getParam('id') ?
+                Mage::helper('enterprise_customersegment')->__('Matched %d Customers of Segment %s', $customersQty, $request->getParam('id')) :
+                '-'
+        );
+    }
 }
