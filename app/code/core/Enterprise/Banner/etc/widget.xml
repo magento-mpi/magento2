@@ -95,12 +95,16 @@
             </banner_ids>
             <template>
                 <required>1</required>
-                <value>banner/widget.phtml</value>
+                <value>banner/widget/block.phtml</value>
                 <values>
-                    <default translate="label">
-                        <value>banner/widget.phtml</value>
-                        <label>Banner Default Template</label>
-                    </default>
+                    <block translate="label">
+                        <value>banner/widget/block.phtml</value>
+                        <label>Banner Block Template</label>
+                    </block>
+                    <inline translate="label">
+                        <value>banner/widget/inline.phtml</value>
+                        <label>Banner Inline Template</label>
+                    </inline>
                 </values>
             </template>
             <unique_id>

@@ -19,16 +19,16 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    design
- * @package     enterprise_blank
+ * @package     enterprise_default
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
 ?>
-<div class="block block-banner">
+<div class="widget widget-banner-inline">
     <?php $bannersContent =  $this->getBannersContent() ?>
+    <ul>
     <?php foreach ($bannersContent as $bannerId => $content): ?>
-    <div class="block-content" style="text-align:left">
-        <?php echo $content?>
-    </div>
+        <li><?php echo $content?></li>
     <?php endforeach; ?>
+    </ul>
 </div>
