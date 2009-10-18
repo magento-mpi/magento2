@@ -368,6 +368,7 @@
                     <reports__quote_collection>addStoreFilter</reports__quote_collection>
                     <widget__widget_instance_collection>addStoreFilter</widget__widget_instance_collection>
                     <enterprise_banner__banner_collection>addStoreFilter</enterprise_banner__banner_collection>
+                    <enterprise_customersegment__segment_collection>limitCustomerSegments</enterprise_customersegment__segment_collection>
                 </collection_load_before>
                 <model_save_before>
                     <cms__page>cmsPageSaveBefore</cms__page>
@@ -394,6 +395,7 @@
                     <widget__widget_instance>widgetInstanceSaveBefore</widget__widget_instance>
                     <enterprise_banner__banner>bannerSaveBefore</enterprise_banner__banner>
                     <enterprise_giftcardaccount__giftcardaccount>giftCardAccountSaveBefore</enterprise_giftcardaccount__giftcardaccount>
+                    <enterprise_customersegment__segment>customerSegmentSaveBefore</enterprise_customersegment__segment>
                 </model_save_before>
                 <model_delete_before>
                     <cms__page>cmsPageDeleteBefore</cms__page>
@@ -415,6 +417,7 @@
                     <widget__widget_instance>widgetInstanceDeleteBefore</widget__widget_instance>
                     <enterprise_banner__banner>bannerDeleteBefore</enterprise_banner__banner>
                     <enterprise_giftcardaccount__giftcardaccount>giftCardAccountDeleteBefore</enterprise_giftcardaccount__giftcardaccount>
+                    <enterprise_customersegment__segment>customerSegmentDeleteBefore</enterprise_customersegment__segment>
                 </model_delete_before>
                 <model_load_after>
                     <catalog__product>catalogProductLoadAfter</catalog__product>
@@ -436,6 +439,7 @@
                     <enterprise_banner__banner>bannerLoadAfter</enterprise_banner__banner>
                     <widget__widget_instance>widgetInstanceLoadAfter</widget__widget_instance>
                     <enterprise_giftcardaccount__giftcardaccount>giftCardAccountLoadAfter</enterprise_giftcardaccount__giftcardaccount>
+                    <enterprise_customersegment__segment>customerSegmentLoadAfter</enterprise_customersegment__segment>
                 </model_load_after>
                 <controller_predispatch>
                     <adminhtml__system_config__>validateSystemConfig</adminhtml__system_config__><!-- system config saving and browsing -->

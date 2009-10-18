@@ -1117,4 +1117,53 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             $this->_throwLoad();
         }
     }
+
+    /**
+     * Limit customer segment save
+     *
+     * @param Enterprise_CustomerSegment_Model_Segment $model
+     * @return void
+     */
+    public function customerSegmentSaveBefore($model)
+    {
+        $originalWebsiteId = (array)$model->getOrigData('website_id');
+        if (!$model->getId() && !$this->_role->getIsWebsiteLevel()) {
+            $this->_throwSave();
+        }
+        if ($model->getId() && !$this->_role->hasWebsiteAccess($originalWebsiteId)) {
+            $this->_throwSave();
+        }
+    }
+
+    /**
+     * Validate customer segment before delete
+     *
+     * @param Enterprise_CustomerSegment_Model_Segment $model
+     * @return void
+     */
+    public function customerSegmentDeleteBefore($model)
+    {
+        $originalWebsiteId = (array)$model->getOrigData('website_id');
+        if (!$this->_role->hasExclusiveAccess($originalWebsiteIds)) {
+            $this->_throwDelete();
+        }
+    }
+
+    /**
+     * Limit customer segment model on after load
+     *
+     * @param Enterprise_CustomerSegment_Model_Segment $model
+     * @return void
+     */
+    public function customerSegmentLoadAfter($model)
+    {
+        $websiteId = (array)$model->getData('website_id');
+        if (!$this->_role->hasExclusiveAccess($websiteId)) {
+            $model->setIsDeleteable(false);
+        }
+
+        if (!$this->_role->getIsWebsiteLevel()) {
+            $model->setIsReadonly(true);
+        }
+    }
 }

@@ -309,4 +309,14 @@ class Enterprise_AdminGws_Model_Collections extends Enterprise_AdminGws_Model_Ob
         $this->limitProducts($collection);
         return $this;
     }
+
+    /**
+     * Limit customer segment collection
+     *
+     * @param Enterprise_CustomerSegment_Model_Mysql4_Segment_Collection $collection
+     */
+    public function limitCustomerSegments($collection)
+    {
+        $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
+    }
 }
