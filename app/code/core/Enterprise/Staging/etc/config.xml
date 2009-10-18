@@ -124,10 +124,16 @@
                                 <module>Mage_CatalogInventory</module>
                                 <label>Catalog Inventory</label>
                             </cataloginventory>
+                            <!--
+                                Commented out bc index functionality
+                                moved to catalog module
+                            -->
+                            <!--
                             <catalogindex translate="label">
                                 <module>Mage_CatalogIndex</module>
                                 <label>Catalog Index</label>
                             </catalogindex>
+                            -->
                             <catalogsearch translate="label">
                                 <module>Mage_CatalogSearch</module>
                                 <label>Catalog Search</label>
