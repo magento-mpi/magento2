@@ -363,7 +363,6 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Attributes
             $select->$joinFunction(array('address'=>$addressTable), 'address.entity_id = main.value', array());
             $select->where('main.attribute_id = ?', $attribute->getId());
         }
-        Mage::log($select.'');
         return $select;
     }
 }
