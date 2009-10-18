@@ -18,19 +18,24 @@
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
  *
- * @category    Enterprise
- * @package     Enterprise_CustomerBalance
- * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
- * @license     http://www.magentocommerce.com/license/enterprise-edition
+ * @category   Enterprise
+ * @package    Enterprise_CustomerBalance
+ * @copyright  Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license    http://www.magentocommerce.com/license/enterprise-edition
  */
+
 
 /**
  * Customer balance as an additional payment option during checkout
  *
+ * @category   Enterprise
+ * @package    Enterprise_CustomerBalance
  */
 class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional extends Mage_Core_Block_Template
 {
     /**
+     * Customer balance instance
+     *
      * @var Enterprise_CustomerBalance_Model_Balance
      */
     protected $_balanceModel = null;
@@ -77,17 +82,31 @@ class Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional exten
     }
 
     /**
-     * Check whether customer balance is allowed as additional payment option
+     * Can display customer balance container
      *
      * @return bool
      */
-    public function isAllowed()
+    public function isDisplayContainer()
     {
         if (!$this->_getCustomer()->getId()) {
             return false;
         }
 
         if (!$this->getBalance()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Check whether customer balance is allowed as additional payment option
+     *
+     * @return bool
+     */
+    public function isAllowed()
+    {
+        if (!$this->isDisplayContainer()) {
             return false;
         }
 

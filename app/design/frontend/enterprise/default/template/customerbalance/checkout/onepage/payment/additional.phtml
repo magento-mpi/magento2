@@ -23,13 +23,14 @@
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */
+/* @var $this Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional */
 ?>
 <?php
 /**
  * @see Enterprise_CustomerBalance_Block_Checkout_Onepage_Payment_Additional
  */
 ?>
-<?php if ($this->isAllowed()): ?>
+<?php if ($this->isDisplayContainer()): ?>
     <div class="checkout-onepage-payment-additional-customerbalance" id="customerbalance_placer">
         <input type="hidden" name="payment[use_customer_balance]" value="0" />
         <input type="checkbox" class="checkbox" name="payment[use_customer_balance]" value="1" id="use_customer_balance" <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
