@@ -120,7 +120,6 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
                 $_websitesMap[$stagingWebsiteId][] = $toWebsitesData[$_idx];
             }
         }
-
         $this->setData('websites', $_websitesMap);
 
         return $this;
@@ -246,5 +245,34 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
             }
         }
         return $this;
+    }
+
+    /**
+     * Convenient getter of websites for megre and create
+     *
+     * @return array
+     */
+    public function getWebsiteObjects()
+    {
+        $websites = array();
+        foreach($this->getWebsites() as $k => $v) {
+            if ($v instanceof Varien_Object) {
+                $websites[$k] = $v;
+            }
+            else {
+                $website = new Varien_Object($v);
+                $stores = array();
+                foreach ($this->getStores() as $stagingStoreId => $masterStoreIds) {
+                    if (isset($masterStoreIds[0])){
+                        $stores[] = new Varien_Object(array('master_store_id' => $masterStoreIds[0], 'staging_store_id' => $stagingStoreId));
+                    }
+                }
+                $website->setData('stores', $stores);
+                $websites[$k] = $website;
+                break;
+            }
+        }
+
+        return $websites;
     }
 }

@@ -128,7 +128,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
 
         if ($helper->isBuilt()) {
             $staging    = $this->getStaging();
-            $websites   = $staging->getMapperInstance()->getWebsites();
+            $websites   = $staging->getMapperInstance()->getWebsiteObjects();
             $callback   = $callbackMethod . 'Flat';
 
             if (!empty($websites)) {
@@ -361,7 +361,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     {
         $staging    = $this->getStaging();
         $connection = $this->_getWriteAdapter();
-        $websites   = $staging->getMapperInstance()->getWebsites();
+        $websites   = $staging->getMapperInstance()->getWebsiteObjects();
 
         if (!empty($websites)) {
             $srcTable    = $this->getTable($entityName);
@@ -509,7 +509,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     {
         $staging        = $this->getStaging();
         $connection     = $this->_getWriteAdapter();
-        $mappedWebsites = $staging->getMapperInstance()->getWebsites();
+        $mappedWebsites = $staging->getMapperInstance()->getWebsiteObjects();
         if (in_array('website_ids', $fields)) {
             $this->_mergeTableDataInWebsiteScopeUpdate($mappedWebsites, $connection, $entityName);
         } else {

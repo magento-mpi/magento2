@@ -100,7 +100,7 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Information_Staging extends En
             $website = array_shift($mapData['websites']);
             if (isset($website['stores'])) {
                 foreach ($website['stores'] as $store) {
-                    if (isset($store['use']) && $store['use'] == 1) {
+                    if (isset($store['use']) && $store['use'] >= 0) {
                         $map[] = $store;
                     }
                 }
