@@ -33,7 +33,7 @@
 <div class="widget widget-viewed">
     <div class="block block-products">
         <div class="block-title">
-            <h2><?php echo $this->__('Your Recently Viewed') ?></h2>
+            <h2><?php echo $this->__('Recently Viewed') ?></h2>
         </div>
         <div class="block-content">
             <ol class="mini-products-list">
@@ -45,7 +45,7 @@
                         <?php //echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                         <?php echo $this->getPriceHtml($_product, true, '-home-viewed') ?>
                         <?php if($_product->isSaleable()): ?>
-                            <p><a href="<?php echo $this->getAddToCartUrl($_product) ?>"><?php echo $this->__('Add to Cart') ?></a></p>
+                            <p><a href="<?php echo $this->getAddToCartUrl($_product) ?>" class="link-cart"><?php echo $this->__('Add to Cart') ?></a></p>
                         <?php else: ?>
                             <?php if ($_product->getIsSalable()): ?>
                                 <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
