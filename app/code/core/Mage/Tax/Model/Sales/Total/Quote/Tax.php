@@ -339,8 +339,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 $item->setCustomPrice($item->getPriceInclTax()-$unitTax);
                 $item->setBaseCustomPrice($item->getBasePriceInclTax()-$baseUnitTax);
             } else {
-                $item->setPrice($item->getPriceInclTax()-$unitTax);
                 $item->setOriginalPrice($item->getPriceInclTax()-$unitTax);
+                $item->setPrice($item->getBasePriceInclTax()-$unitTax);
                 $item->setBasePrice($item->getBasePriceInclTax()-$baseUnitTax);
             }
             $item->setRowTotal($item->getRowTotalInclTax()-$totalTax);
@@ -461,8 +461,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 $item->setCustomPrice($item->getPriceInclTax()-$unitTax);
                 $item->setBaseCustomPrice($item->getBasePriceInclTax()-$baseUnitTax);
             } else {
-                $item->setPrice($item->getPriceInclTax()-$unitTax);
                 $item->setOriginalPrice($item->getPriceInclTax()-$unitTax);
+                $item->setPrice($item->getBasePriceInclTax()-$unitTax);
                 $item->setBasePrice($item->getBasePriceInclTax()-$baseUnitTax);
             }
             $item->setRowTotal($item->getRowTotalInclTax()-$rowTax);
@@ -613,8 +613,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
                 $item->setCustomPrice($item->getPriceInclTax()-$unitTax);
                 $item->setBaseCustomPrice($item->getBasePriceInclTax()-$baseUnitTax);
             } else {
-                $item->setPrice($item->getPriceInclTax()-$unitTax);
                 $item->setOriginalPrice($item->getPriceInclTax()-$unitTax);
+                $item->setPrice($item->getBasePriceInclTax()-$unitTax);
                 $item->setBasePrice($item->getBasePriceInclTax()-$baseUnitTax);
             }
             $item->setRowTotal($item->getRowTotalInclTax()-$rowTax);

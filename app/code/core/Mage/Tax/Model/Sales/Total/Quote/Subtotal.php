@@ -283,7 +283,7 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
             $item->setCustomPrice($unitPrice);
             $item->setBaseCustomPrice($baseUnitPrice);
         }
-        $item->setPrice($unitPrice);
+        $item->setPrice($baseUnitPrice);
         $item->setOriginalPrice($unitPrice);
         $item->setBasePrice($baseUnitPrice);
         $item->setRowTotal($subtotal);

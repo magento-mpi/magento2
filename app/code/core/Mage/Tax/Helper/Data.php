@@ -123,7 +123,7 @@ class Mage_Tax_Helper_Data extends Mage_Core_Helper_Abstract
      */
     public function priceIncludesTax($store=null)
     {
-        return $this->_config->priceIncludesTax($store);
+        return $this->_config->priceIncludesTax($store) || $this->_config->getNeedUseShippingExcludeTax();
     }
 
     /**
