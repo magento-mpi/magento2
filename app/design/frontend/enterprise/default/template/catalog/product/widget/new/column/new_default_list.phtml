@@ -41,7 +41,7 @@
                         <?php //echo $this->getReviewsSummaryHtml($_product, 'short') ?>
                         <?php echo $this->getPriceHtml($_product, true, '-widget-new') ?>
                         <?php if($_product->isSaleable()): ?>
-                            <p><a href="<?php echo $this->getAddToCartUrl($_product) ?>"><?php echo $this->__('Add to Cart') ?></a></p>
+                            <p><a href="<?php echo $this->getAddToCartUrl($_product) ?>" class="link-cart"><?php echo $this->__('Add to Cart') ?></a></p>
                         <?php else: ?>
                             <?php if ($_product->getIsInStock()): ?>
                                 <p class="availability in-stock"><span><?php echo $this->__('In stock') ?></span></p>
