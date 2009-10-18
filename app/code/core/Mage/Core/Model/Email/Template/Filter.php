@@ -396,4 +396,22 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 
         return $protocol;
     }
+
+    /**
+     * Filter the string as template.
+     * Rewrited for logging exceptions
+     *
+     * @param string $value
+     * @return string
+     */
+    public function filter($value)
+    {
+        try {
+			$value = parent::filter($value);
+        } catch (Exception $e) {
+            $value = '';
+        	Mage::logException($e);
+        }
+        return $value;
+    }
 }
