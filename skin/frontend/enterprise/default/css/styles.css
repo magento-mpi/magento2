@@ -1627,7 +1627,7 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 /* Checkout ============================================================================== */
 /* One Page */
-.checkout-onepage-index .col-main { position:relative; z-index:1; padding:0; background:url(../images/bkg_cols.gif) repeat-y -573px 0; }
+.checkout-onepage-index .col-main { position:relative; z-index:1; padding:20px 0 0; background:url(../images/bkg_cols.gif) repeat-y -573px 0; }
 .checkout-onepage-index .page-title { margin:0; z-index:1; }
 .checkout-onepage-index .col-main .callout { position:absolute; z-index:2; right:20px; top:7px; }
 .opc-progress-container { float:left; width:182px; }
