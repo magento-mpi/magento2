@@ -70,7 +70,7 @@
 #nav li.over li ul.shown-sub { left:100px; }
 /********** < Navigation styles */
 
-.please-wait { filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80); }
+.please-wait { filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=80); margin-top:-100px; }
 
 .form-list .form-element .input-box { padding-top:2px; }
 input.radio { width:13px; height:13px; }
