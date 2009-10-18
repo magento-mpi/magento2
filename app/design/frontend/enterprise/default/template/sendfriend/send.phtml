@@ -70,6 +70,7 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getUrl('*/*/sendmail', array('id'=>$this->getProductId(), 'cat_id'=>$this->getCategoryId())) ?>" method="post" id="product_sendtofriend_form">
+<?php echo $this->getBlockHtml('formkey')?>
     <div class="fieldset">
         <h3><?php echo $this->__('Sender:') ?></h3>
         <ul class="form-list group-select" id="sender_options">
