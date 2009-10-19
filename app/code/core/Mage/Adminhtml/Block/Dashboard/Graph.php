@@ -197,6 +197,13 @@ class Mage_Adminhtml_Block_Dashboard_Graph extends Mage_Adminhtml_Block_Dashboar
             $minvalue = min($localminvalue);
         }
 
+        // default values
+        $yrange = 0;
+        $yLabels = array();
+        $miny = 0;
+        $maxy = 0;
+        $yorigin = 0;
+
         $maxlength = max($localmaxlength);
         if ($minvalue >= 0 && $maxvalue >= 0) {
             $miny = 0;
