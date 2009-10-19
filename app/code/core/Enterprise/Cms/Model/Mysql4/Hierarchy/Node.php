@@ -654,7 +654,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     {
         $select = $this->_getLoadSelect(null, null, null)->reset(Zend_Db_Select::WHERE);
         if ($this->_appendActivePagesOnly) {
-            $select->where('page_table.is_active=1');
+            $select->where('page_table.is_active=1 OR ' . $this->getMainTable() . '.page_id IS NULL');
         }
         return $select;
     }
