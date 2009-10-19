@@ -43,6 +43,7 @@
 "Inactive","Inactive"
 "Manage Segments","Manage Segments"
 "Match Customers","Match Customers"
+"Matched %d Customers of Segment %s","Matched %d Customers of Segment %s"
 "Matched Customers (%d)","Matched Customers (%d)"
 "Name","Name"
 "New Segment","New Segment"
