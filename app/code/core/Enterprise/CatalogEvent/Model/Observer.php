@@ -167,12 +167,12 @@ class Enterprise_CatalogEvent_Model_Observer
      */
     protected function _applyEventToProduct($product)
     {
-
-        if (!$product->hasEvent()) {
-            $event = $this->_getProductEvent($product);
-            $product->setEvent($event);
+        if ($product) {
+            if (!$product->hasEvent()) {
+                $event = $this->_getProductEvent($product);
+                $product->setEvent($event);
+            }
         }
-
         return $this;
     }
 
