@@ -451,16 +451,15 @@ class Mage_Widget_Model_Widget_Instance extends Mage_Core_Model_Abstract
      * @param string $position
      * @return string
      */
-    public function generateLayoutUpdateXml($blockReference, $templatePath = null)
+    public function generateLayoutUpdateXml($blockReference, $templatePath = '')
     {
-        $templatesDir = Mage::getSingleton('core/design_package')->getBaseDir(array(
+        $templateFilename = Mage::getSingleton('core/design_package')->getTemplateFilename($templatePath, array(
             '_area'    => $this->getArea(),
             '_package' => $this->getPackage(),
-            '_theme'   => $this->getTheme(),
-            '_type'    => 'template'
+            '_theme'   => $this->getTheme()
         ));
         if (!$this->getId() && !$this->isCompleteToCreate()
-            || ($templatePath && !is_readable($templatesDir . DS . $templatePath)))
+            || ($templatePath && !is_readable($templateFilename)))
         {
             return '';
         }
