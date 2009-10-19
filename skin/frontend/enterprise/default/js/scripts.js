@@ -501,7 +501,7 @@ Object.extend(Enterprise.Slider.prototype, {
     },
     fadeIn: function ()
     {
-        new Effect.Fade(this.slider, {
+        new Effect.Fade(this.slider.up('div.slider-panel'), {
             from: 1.0,
             to:0.5,
             afterFinish: this.move.bind(this),
@@ -511,7 +511,7 @@ Object.extend(Enterprise.Slider.prototype, {
     },
     fadeOut: function ()
     {
-        new Effect.Fade(this.slider, {
+        new Effect.Fade(this.slider.up('div.slider-panel'), {
                 from: 0.5,
                 to:1.0,
                 afterFinish: this.effectEnds.bind(this),
