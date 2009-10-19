@@ -148,6 +148,7 @@ class Enterprise_GiftCard_Model_Mysql4_Indexer_Price
                 'min_price'     => $priceExpr,
                 'max_price'     => new Zend_Db_Expr('NULL'),
                 'tier_price'    => new Zend_Db_Expr('NULL'),
+                'base_tier'     => new Zend_Db_Expr('NULL'),
             ));
 
         if (!is_null($entityIds)) {
