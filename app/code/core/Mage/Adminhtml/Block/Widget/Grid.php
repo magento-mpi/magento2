@@ -436,7 +436,9 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             if (is_string($filter)) {
                 $data = array();
                 $filter = base64_decode($filter);
-                parse_str(urldecode($filter), $data);
+                parse_str($filter, $data);
+                array_walk_recursive($data, array($this, '_decodeFilter'));
+
                 $this->_setFilterValues($data);
             } else if ($filter && is_array($filter)) {
                 $this->_setFilterValues($filter);
@@ -459,6 +461,16 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
         }
 
         return $this;
+    }
+
+    /**
+     * Decode URL encoded filter value recursive callback method
+     *
+     * @var string $value
+     */
+    protected function _decodeFilter(&$value)
+    {
+        $value = rawurldecode($value);
     }
 
     protected function _preparePage()
