@@ -1430,12 +1430,15 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 
 /* Widget New Proructs */
 .widget-new-products {}
+.checkout-cart-index .col1-layout .widget-new-products { display:block; padding:0 20px; }
 
 /* Widget Viewed Proructs */
 .widget-viewed {}
+.checkout-cart-index .col1-layout .widget-viewed { display:block; padding:0 20px; }
 
 /* Widget Compared Proructs */
 .widget-compared {}
+.checkout-cart-index .col1-layout .widget-compared { display:block; padding:0 20px; }
 
 /* Widget CMS Static Block */
 .widget-static-block {}
