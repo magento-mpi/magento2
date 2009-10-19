@@ -959,4 +959,15 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
             return false;
         }
     }
+
+    /**
+     * Block save action for all GWS limited users
+     *
+     * @return bool
+     */
+    public function blockCustomerGroupSave()
+    {
+        $this->_forward();
+        return false;
+    }
 }

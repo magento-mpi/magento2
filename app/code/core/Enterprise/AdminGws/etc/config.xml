@@ -451,6 +451,7 @@
                     <adminhtml__customer__>validateNoWebsiteGeneric</adminhtml__customer__><!-- customers creation and saving -->
                     <adminhtml__customer__edit>validateCustomerEdit</adminhtml__customer__edit><!-- viewing a customer account -->
                     <adminhtml__customerbalance__>validateCustomerbalance</adminhtml__customerbalance__><!-- viewing a customerbalance -->
+                    <adminhtml__customer_group__save>blockCustomerGroupSave</adminhtml__customer_group__save>
                     <adminhtml__giftcardaccount__>validateGiftCardAccount</adminhtml__giftcardaccount__><!-- gift card accounts creation and saving, generating code pool -->
                     <adminhtml__catalog_category__>validateCatalogCategories</adminhtml__catalog_category__><!-- categories index, root category creation, category creation -->
                     <adminhtml__catalog_event__>validateCatalogEvents</adminhtml__catalog_event__><!-- catalog events creation, submiting -->
@@ -580,6 +581,8 @@
                     <enterprise_banner__adminhtml_banner_new>validateBannerPermissions</enterprise_banner__adminhtml_banner_new>
                     <enterprise_cms__adminhtml_cms_hierarchy_edit>removeCmsHierarchyFormButtons</enterprise_cms__adminhtml_cms_hierarchy_edit>
                     <enterprise_cms__adminhtml_cms_page_edit_tab_hierarchy>prepareCmsHierarchyNodes</enterprise_cms__adminhtml_cms_page_edit_tab_hierarchy>
+                    <adminhtml__customer_group>removeCustomerGroupAddButton</adminhtml__customer_group>
+                    <adminhtml__customer_group_edit>removeCustomerGroupControlButtons</adminhtml__customer_group_edit>
                 </block_html_before>
             </admingws>
         </enterprise>

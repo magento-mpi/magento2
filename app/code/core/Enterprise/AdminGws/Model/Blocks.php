@@ -901,4 +901,29 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         }
         return $this;
     }
+
+    /**
+     * Remove add button for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeCustomerGroupAddButton($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('add');
+        return $this;
+    }
+
+    /**
+     * Remove control buttons for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeCustomerGroupControlButtons($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('save');
+        $observer->getEvent()->getBlock()->removeButton('delete');
+        return $this;
+    }
 }
