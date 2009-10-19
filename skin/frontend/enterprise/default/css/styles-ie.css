@@ -35,6 +35,7 @@
 .account-login { _height:350px; }
 .validation-advice { _height:13px; _display:inline; }
 .cart .cart-collaterals { _height:413px; }
+#options-container { _height:360px; }
 .opc li.section { vertical-align:top; zoom:1; }
 .product-view .tags .form-add-tags .input-box .input-text { _display:block; }
 .product-view .tags .form-add-tags .input-box .input-text { vertical-align:top; }

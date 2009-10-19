@@ -1203,7 +1203,7 @@ button.btn-cart span {}
 #bundle-product-wrapper { margin:-1px -20px -20px; border-top:1px solid #cfcfcf; float:left; width:938px; overflow:hidden; position:relative; z-index:1; }
 #bundleProduct { width:1877px; background:#fff url(../images/bkg_cols.gif) repeat-y 279px 0; z-index:1; position:relative; }
 #productView { margin:0; position:static; border:0; }
-#options-container { width:938px; position:relative; z-index:2; float:right; border-left:1px solid #cfcfcf;  background:#fff url(../images/bkg_cols.gif) repeat-y 460px 0; }
+#options-container { min-height:360px; width:938px; position:relative; z-index:2; float:right; border-left:1px solid #cfcfcf;  background:#fff url(../images/bkg_cols.gif) repeat-y 460px 0; }
 
 #options-container .product-options { font-size:12px; margin-top:0; font-size:11px; z-index:1;  margin:0; width:600px; padding:20px 20px 0; clear:both; position:relative; z-index:1; }
 #options-container .product-options-bottom { padding:0 20px 20px; width:600px; font-size:12px; margin:0 0 5px; line-height:27px; }
@@ -1446,10 +1446,9 @@ ul.cms-menu.type-square ul { list-style-type:square; }
 /* Widget Product Link */
 .widget-product-link-inline { display:inline; }
 
-/*.top-container .widget-product-link { float:left; border:1px solid #cfcfcf; border-bottom-color:#b2b2b2; margin:13px -1px 0 0; }
+.top-container .widget-product-link { float:left; border:1px solid #cfcfcf; border-bottom-color:#b2b2b2; margin:13px -1px 0 0; }
 .top-container .widget-product-link a { float:left; font-size:12px; background:#f2f2f2; border-top:1px solid #fff; border-bottom:1px solid #e2e2e2; padding:2px 5px 4px; color:#cc7137; text-decoration:underline; white-space:nowrap; }
-.top-container .widget-product-link a:hover { color:#1e75b4; text-decoration:none; }*/
-.top-container .widget-product-link a { display:block; padding:10px; margin:10px 0; border:1px solid #cfcfcf; background:#f7ecd9; text-align:center; font:bold 16px/1.25 Arial, Helvetica, sans-serif; color:#dd0000; }
+.top-container .widget-product-link a:hover { color:#1e75b4; text-decoration:none; }
 
 .col-main .widget-product-link { display:block; text-align:right; margin:7px 0; }
 .col-main .widget-product-link a { font-size:12px; background:url(../images/bkg_widget-link.gif) 100% 4px no-repeat; padding-right:15px; color:#333; text-decoration:underline; }
