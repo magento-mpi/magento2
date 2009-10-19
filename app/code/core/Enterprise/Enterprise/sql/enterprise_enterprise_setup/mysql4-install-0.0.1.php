@@ -98,7 +98,7 @@ if ($page) {
                         'for'           => 'all',
                         'layout_handle' => 'cms_index_index',
                         'block'         => $reference,
-                        'template'      => 'banner/widget.phtml',
+                        'template'      => 'banner/widget/block.phtml',
                 ))
             ))
             ->setData('store_ids', '0')
@@ -107,6 +107,7 @@ if ($page) {
                 'types'        => array(''),
                 'rotate'       => '',
                 'banner_ids'   => $bannerId,
+                'unique_id'    => Mage::helper('core')->uniqHash(),
             ))
             ->addData(array(
                 'type'          => 'enterprise_banner/widget_banner',
