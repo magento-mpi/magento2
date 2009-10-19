@@ -25,7 +25,9 @@
  */
 ?>
 
-<a href="#" class="back-link" onclick="Enterprise.Bundle.end();"><?php echo $this->__('&laquo; Go back to product detail'); ?></a>
+<a href="#" class="back-link" onclick="Enterprise.Bundle.end(); return false;"><?php echo $this->__('&laquo; Go back to product detail'); ?></a>
 <script type="text/javascript">
+//<![CDATA[
 Enterprise.Bundle.initialize();
+//]]>
 </script>
