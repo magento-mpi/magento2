@@ -64,14 +64,16 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         }
 
         $finalPrice = $product->getPrice();
+        $basePrice  = $finalPrice;
 
         /**
          * Just product with fixed price calculation has price
          */
         if ($finalPrice) {
-            $tierPrice = $this->_applyTierPrice($product, $qty, $finalPrice);
-            $specialPrice = $this->_applySpecialPrice($product, $finalPrice);
-            $finalPrice = min(array($tierPrice, $specialPrice));
+            $tierPrice      = $this->_applyTierPrice($product, $qty, $finalPrice);
+            $specialPrice   = $this->_applySpecialPrice($product, $finalPrice);
+            $finalPrice     = min(array($tierPrice, $specialPrice));
+
             $product->setFinalPrice($finalPrice);
             Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
             $finalPrice = $product->getData('final_price');
@@ -357,8 +359,9 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
         }
 
         $tierPrice  = $product->getTierPrice($qty);
+
         if (is_numeric($tierPrice)) {
-            $tierPrice = $finalPrice - ($finalPrice*$tierPrice)/100;
+            $tierPrice = $finalPrice - ($finalPrice * ($tierPrice / 100));
             $finalPrice = min($finalPrice, $tierPrice);
         }
         return $finalPrice;
@@ -418,15 +421,30 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
                     // found tier qty is same as current tier qty but current tier group is ALL_GROUPS
                     continue;
                 }
-                $prevPrice  = $price['website_price'];
-                $prevQty    = $price['price_qty'];
-                $prevGroup  = $price['cust_group'];
+
+                if ($price['website_price'] > $prevPrice) {
+                    $prevPrice  = $price['website_price'];
+                    $prevQty    = $price['price_qty'];
+                    $prevGroup  = $price['cust_group'];
+                }
             }
+
             return $prevPrice;
         } else {
-            foreach ($prices as $i=>$price) {
-                if ($price['cust_group']!=$custGroup && $price['cust_group']!=$allGroups) {
+            $qtyCache = array();
+            foreach ($prices as $i => $price) {
+                if ($price['cust_group'] != $custGroup && $price['cust_group'] != $allGroups) {
                     unset($prices[$i]);
+                } else if (isset($qtyCache[$price['price_qty']])) {
+                    $j = $qtyCache[$price['price_qty']];
+                    if ($prices[$j]['website_price'] < $price['website_price']) {
+                        unset($prices[$j]);
+                        $qtyCache[$price['price_qty']] = $i;
+                    } else {
+                        unset($prices[$i]);
+                    }
+                } else {
+                    $qtyCache[$price['price_qty']] = $i;
                 }
             }
         }
@@ -588,6 +606,16 @@ class Mage_Bundle_Model_Product_Price extends Mage_Catalog_Model_Product_Type_Pr
             }
         }
         return $finalPrice;
+    }
+
+    /**
+     * Check is tier price value fixed or percent of original price
+     *
+     * @return bool
+     */
+    public function isTierPriceFixed()
+    {
+        return false;
     }
 
     /*

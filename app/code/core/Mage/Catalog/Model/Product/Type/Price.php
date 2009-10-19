@@ -340,4 +340,14 @@ class Mage_Catalog_Model_Product_Type_Price
         }
         return $finalPrice;
     }
+
+    /**
+     * Check is tier price value fixed or percent of original price
+     *
+     * @return bool
+     */
+    public function isTierPriceFixed()
+    {
+        return true;
+    }
 }

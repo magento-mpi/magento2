@@ -420,8 +420,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price extends Mage_
             $select->where('tp.entity_id IN(?)', $entityIds);
         }
 
-        Mage::log($select->assemble());
-
         $query = $select->insertFromSelect($table);
         $write->query($query);
 

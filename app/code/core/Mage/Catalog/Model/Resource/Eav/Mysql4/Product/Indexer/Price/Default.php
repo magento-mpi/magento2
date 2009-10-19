@@ -170,6 +170,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             . ' `min_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' `max_price` DECIMAL(12,4) DEFAULT NULL,'
             . ' `tier_price` DECIMAL(12,4) DEFAULT NULL,'
+            . ' `base_tier` DECIMAL(12,4) DEFAULT NULL,'
             . ' PRIMARY KEY (`entity_id`,`customer_group_id`,`website_id`)'
             . ') ENGINE=MYISAM DEFAULT CHARSET=utf8',
             $write->quoteIdentifier($table));
@@ -254,7 +255,8 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             'price'         => $finalPrice,
             'min_price'     => $finalPrice,
             'max_price'     => $finalPrice,
-            'tier_price'    => new Zend_Db_Expr('tp.min_price')
+            'tier_price'    => new Zend_Db_Expr('tp.min_price'),
+            'base_tier'     => new Zend_Db_Expr('tp.min_price'),
         ));
 
         if (!is_null($entityIds)) {
@@ -422,10 +424,10 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
         $minPrice = new Zend_Db_Expr("IF(o.is_require, MIN(IF(IF(otps.option_type_price_id>0, otps.price_type, "
             . "otpd.price_type)='fixed', IF(otps.option_type_price_id>0, otps.price, otpd.price), "
             . "ROUND(i.price * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))), 0)");
-        $tierPrice = new Zend_Db_Expr("IF(i.tier_price IS NOT NULL, IF(o.is_require, "
+        $tierPrice = new Zend_Db_Expr("IF(i.base_tier IS NOT NULL, IF(o.is_require, "
             . "MIN(IF(IF(otps.option_type_price_id>0, otps.price_type, otpd.price_type)='fixed', "
             . "IF(otps.option_type_price_id>0, otps.price, otpd.price), "
-            . "ROUND(i.tier_price * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))), 0), NULL)");
+            . "ROUND(i.base_tier * (IF(otps.option_type_price_id>0, otps.price, otpd.price) / 100), 4))), 0), NULL)");
         $maxPrice = new Zend_Db_Expr("IF((o.type='radio' OR o.type='drop_down'), "
             . "MAX(IF(IF(otps.option_type_price_id>0, otps.price_type, otpd.price_type)='fixed', "
             . "IF(otps.option_type_price_id>0, otps.price, otpd.price), "
@@ -476,9 +478,9 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
             . " IF(ops.option_price_id>0, ops.price, opd.price), ROUND(i.price * (IF(ops.option_price_id>0, "
             . "ops.price, opd.price) / 100), 4))) AND o.is_require, @price,0)");
         $maxPrice = new Zend_Db_Expr("@price");
-        $tierPrice = new Zend_Db_Expr("IF(i.tier_price IS NOT NULL, IF((@tier_price:=IF(IF(ops.option_price_id>0, "
+        $tierPrice = new Zend_Db_Expr("IF(i.base_tier IS NOT NULL, IF((@tier_price:=IF(IF(ops.option_price_id>0, "
             . "ops.price_type, opd.price_type)='fixed', IF(ops.option_price_id>0, ops.price, opd.price), "
-            . "ROUND(i.tier_price * (IF(ops.option_price_id>0, ops.price, opd.price) / 100), 4))) AND o.is_require, "
+            . "ROUND(i.base_tier * (IF(ops.option_price_id>0, ops.price, opd.price) / 100), 4))) AND o.is_require, "
             . "@tier_price, 0), NULL)");
 
         $select->columns(array(
@@ -533,10 +535,22 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Price_Default
      */
     protected function _movePriceDataToIndexTable()
     {
+        $columns = array(
+            'entity_id'         => 'entity_id',
+            'customer_group_id' => 'customer_group_id',
+            'website_id'        => 'website_id',
+            'tax_class_id'      => 'tax_class_id',
+            'price'             => 'orig_price',
+            'final_price'       => 'price',
+            'min_price'         => 'min_price',
+            'max_price'         => 'max_price',
+            'tier_price'        => 'tier_price'
+        );
+
         $write  = $this->_getWriteAdapter();
         $table  = $this->_getDefaultFinalPriceTable();
         $select = $write->select()
-            ->from($table);
+            ->from($table, $columns);
 
         $query = $select->insertFromSelect($this->getIdxTable());
         $write->query($query);

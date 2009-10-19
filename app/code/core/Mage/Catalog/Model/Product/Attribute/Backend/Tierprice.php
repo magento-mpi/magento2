@@ -189,8 +189,10 @@ class Mage_Catalog_Model_Product_Attribute_Backend_Tierprice extends Mage_Catalo
                 } else if ($v['website_id'] == 0 && !isset($data[$key])) {
                     $data[$key] = $v;
                     $data[$key]['website_id'] = $websiteId;
-                    $data[$key]['price'] = $v['price'] * $rates[$websiteId]['rate'];
-                    $data[$key]['website_price'] = $v['price'] * $rates[$websiteId]['rate'];
+                    if ($object->getPriceModel()->isTierPriceFixed()) {
+                        $data[$key]['price'] = $v['price'] * $rates[$websiteId]['rate'];
+                        $data[$key]['website_price'] = $v['price'] * $rates[$websiteId]['rate'];
+                    }
                 }
             }
         }
