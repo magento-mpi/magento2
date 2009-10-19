@@ -56,8 +56,7 @@
                 </p>
             </div>
             <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('Preview Sale') ?></span></a>
-    
-    
+
         <?php break;
             case 'open': ?>
             <div class="event-ticker" id="<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>">
@@ -69,8 +68,7 @@
             new Enterprise.CatalogEvent.Ticker('<?php echo $this->getHtmlId(); ?>-event-ticker-<?php echo $_event->getId()?>', <?php echo $this->getSecondsToClose($_event); ?>);
             </script>
             <a class="event-button button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('Go To Sale') ?></span></a>
-    
-    
+
         <?php break;
             case 'closed': ?>
             <div class="event-dates">
@@ -85,7 +83,7 @@
                 </p>
             </div>
             <a class="event-button" href="<?php echo $this->getCategoryUrl($_category); ?>"><span><?php echo $this->helper('enterprise_catalogevent')->__('View Sale') ?></span></a>
-    
+
         <?php break; ?>
     <?php endswitch; ?>
     <div class="event-bottom"></div>
