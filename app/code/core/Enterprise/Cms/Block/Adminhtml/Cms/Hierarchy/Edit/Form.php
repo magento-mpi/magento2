@@ -244,7 +244,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'title'     => Mage::helper('enterprise_cms')->__('List Type'),
             'name'      => 'menu_ordered',
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listtype')->toOptionArray(),
-            'onchange'  => 'hierarchyNodes.nodeChanged()',
+            'onchange'  => 'hierarchyNodes.menuListTypeChanged()',
             'container_id' => 'field_menu_ordered',
             'tabindex'  => '140',
         ));
@@ -498,5 +498,25 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         return $this->getLayout()->getBlock('store_switcher')
             ->setUseConfirm(false)
             ->toHtml();
+    }
+
+    /**
+     * Return List styles separately for unordered/ordererd list as json
+     *
+     * @return string
+     */
+    public function getListModesJson()
+    {
+        $listModes = Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listmode')->toOptionArray();
+        $result = array();
+        foreach ($listModes as $type => $label) {
+            if ($type == '') {
+                continue;
+            }
+            $listType = in_array($type, array('circle', 'disc', 'square')) ? '0' : '1';
+            $result[$listType][$type] = $label;
+        }
+
+        return Mage::helper('core')->jsonEncode($result);
     }
 }

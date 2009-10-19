@@ -87,6 +87,7 @@
             this.treeRoot.select();
             this.dataModification = false;
             this.lastChangedNode = null;
+            this.menuListTypes = <?php echo $this->getListModesJson() ?>;
 
             $('node_label').removeClassName('required-entry');
             $('node_identifier').removeClassName('required-entry');
@@ -578,6 +579,28 @@
             }
         },
 
+        // Navigation Menu Options List Type onChange callback
+        menuListTypeChanged: function() {
+            this.nodeChanged();
+            this.renderListStyle($('menu_ordered').value);
+        },
+
+        renderListStyle: function(listType) {
+            // first remove all options from List Style drop-dawn
+            $$('#menu_list_type > option').each(function(o) {
+                o.remove();
+            });
+
+            var allowedTypes = this.menuListTypes[listType];
+            this.addOptionToSelect('menu_list_type', '', '<?php echo $this->__('Default') ?>');
+            Object.keys(allowedTypes).each(function(k) {
+                this.addOptionToSelect('menu_list_type', k, allowedTypes[k]);
+            }.bind(this));
+
+            // select 'Default' value by default
+            $('menu_list_type').value = '';
+        },
+
         getMetadataFields: function() {
             return [
                 'meta_first_last',
@@ -660,6 +683,14 @@
             hasChilds ? this.showFieldSet('pager_fieldset') : this.hideFieldSet('pager_fieldset');
             hasPageId ? $('field_menu_visibility_self').show() : $('field_menu_visibility_self').hide();
 
+            // render List Type drop-dawn
+            if (node != undefined) {
+                var listType= node.attributes['menu_ordered'] != undefined ? node.attributes['menu_ordered'] : '';
+                this.renderListStyle(listType);
+            } else {
+                this.renderListStyle($('menu_ordered').value);
+            }
+
             // Assign node attributes to metadata fields
             if (node != undefined) {
                 this.assignNodeMetadataToValues(node);
@@ -669,7 +700,7 @@
             this.toggleMetadataFieldset('pager_visibility', 'pager_fieldset');
         },
 
-        addOptionToSelect: function(selectId, optionValue, optionText, beforeValue) {
+        addOptionToSelect: function(selectId, optionValue, optionText) {
             // select element not found
             if($(selectId) == undefined) {
                 return false;
@@ -682,9 +713,7 @@
             var selected = $(selectId).value;
 
             var option = new Element('option', {'value': optionValue}).update(optionText);
-            var before = (beforeValue != undefined ? $(selectId).down('option[value="' + beforeValue + '"]') : null);
-
-            $(selectId).add(option, before);
+            $(selectId).appendChild(option);
 
             // restore select value after insertion
             $(selectId).value = selected;
