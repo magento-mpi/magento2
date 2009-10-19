@@ -192,7 +192,15 @@ a.button { _height:22px; }
 .page-print .print-head,
 .cart-tax-total,
 .block-related,
-.new-product-spotlight .more-new { zoom:1; }
+.new-product-spotlight .more-new,
+.top-container .widget-product-link a,
+.top-container .widget-category-link a,
+.top-container .widget-cms-link a,
+.top-container .widget-hierarchy-link a,
+.footer-before-container .widget-product-link a,
+.footer-before-container .widget-category-link a,
+.footer-before-container .widget-cms-link a,
+.footer-before-container .widget-hierarchy-link a { zoom:1; }
 
 
 /* Hover Fix */
