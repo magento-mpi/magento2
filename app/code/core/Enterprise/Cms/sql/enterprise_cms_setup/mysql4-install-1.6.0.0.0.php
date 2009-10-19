@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('enterprise_cms_widget_instanc
 ");
 
 $installer->getConnection()->addColumn($installer->getTable('cms/page'), 'published_revision_id', ' int(10) unsigned default NULL');
-$installer->getConnection()->addColumn($installer->getTable('cms/page'), 'website_root', "tinyint(1) NOT NULL default '0'");
+$installer->getConnection()->addColumn($installer->getTable('cms/page'), 'website_root', "tinyint(1) NOT NULL default '1'");
 $installer->getConnection()->addColumn($installer->getTable('cms/page'), 'under_version_control', 'tinyint(1) unsigned default 0');
 
 $installer->endSetup();
