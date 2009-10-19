@@ -373,9 +373,8 @@ tr.tax-details-first td {}
 
 /* Shopping cart tax info */
 .cart-tax-info,
-.cart-tax-info .cart-price { padding-right:20px; }
-.cart-tax-total { cursor:pointer; }
-.cart-tax-total { padding-right:20px; background:url(../images/bkg_collapse.gif) 100% 4px no-repeat; cursor:pointer; }
+.cart-tax-info .cart-price { display:block; padding-right:20px; }
+.cart-tax-total { display:block; padding-right:20px; background:url(../images/bkg_collapse.gif) 100% 4px no-repeat; cursor:pointer; }
 .cart-tax-total-expanded { background-position:100% -52px; }
 
 /* Links */

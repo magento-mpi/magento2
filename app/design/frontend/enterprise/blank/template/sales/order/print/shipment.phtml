@@ -56,7 +56,7 @@
             <h3><?php echo $this->__('Shipping Method') ?></h3>
              <?php echo $_order->getShippingDescription() ?>
              <?php if (count($_order->getTracksCollection()) > 0): ?>
-                <table class="data-table">
+                <table class="data-table" id="my-shipment-tracking">
                     <col />
                     <col />
                     <thead>
@@ -74,6 +74,7 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <script type="text/javascript">decorateTable('my-shipment-tracking');</script>
             <?php endif; ?>
             </table>
         </div>
