@@ -114,7 +114,8 @@
                 return this;
             }
             if (this.config.slideDirection == 'horizontal') {
-                this.sliderPanel.setStyle({width: this.sliderPanel.up('div.widget-events').getWidth()-22 + 'px'});
+                this.sliderPanel.setStyle({width: '100%'});
+                /* this.sliderPanel.setStyle({width: this.sliderPanel.up('div.widget-events').getWidth() + 'px'}); */
             } else {
                 var firstItem = this.items.first();
                 var offset = 0;
