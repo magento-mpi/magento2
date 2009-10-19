@@ -73,11 +73,11 @@ class Enterprise_Banner_Block_Adminhtml_Promo_Catalogrule_Edit_Tab_Banners_Grid
                 $bannerIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('banner_id', array('in'=>$bannerIds));
+                $this->getCollection()->addFieldToFilter('main_table.banner_id', array('in'=>$bannerIds));
             }
             else {
                 if($bannerIds) {
-                    $this->getCollection()->addFieldToFilter('banner_id', array('nin'=>$bannerIds));
+                    $this->getCollection()->addFieldToFilter('main_table.banner_id', array('nin'=>$bannerIds));
                 }
             }
         }
