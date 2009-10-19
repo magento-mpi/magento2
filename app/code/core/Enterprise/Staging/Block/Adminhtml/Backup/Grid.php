@@ -59,11 +59,10 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('master_website_id', array(
+        $this->addColumn('name', array(
             'header'    => Mage::helper('enterprise_staging')->__('Website'),
-            'index'     => 'master_website_id',
-            'type'      => 'options',
-            'options'   => $this->_getWebsiteList(),
+            'index'     => 'name',
+            'type'      => 'text',
             'sortable'  => false
         ));
 
@@ -106,7 +105,7 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Grid extends Mage_Adminhtml_Bloc
      */
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('backup_id');
+        $this->setMassactionIdField('action_id');
         $this->setMassactionIdFieldOnlyIndexValue(true);
         $this->setNoFilterMassactionColumn(true);
         $this->getMassactionBlock()->setFormFieldName('backupDelete');
