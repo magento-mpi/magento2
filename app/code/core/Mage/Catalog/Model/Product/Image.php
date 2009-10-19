@@ -175,7 +175,7 @@ class Mage_Catalog_Model_Product_Image extends Mage_Core_Model_Abstract
 //        print '$this->_getMemoryUsage() = '.$this->_getMemoryUsage();
 //        print '$this->_getNeedMemoryForBaseFile() = '.$this->_getNeedMemoryForBaseFile();
 
-        return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_getNeedMemoryForFile($file));
+        return $this->_getMemoryLimit() > ($this->_getMemoryUsage() + $this->_getNeedMemoryForFile($file)) || $this->_getMemoryLimit() == -1;
     }
 
     protected function _getMemoryLimit()
