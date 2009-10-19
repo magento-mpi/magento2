@@ -509,7 +509,7 @@ class Enterprise_Staging_Model_Mysql4_Adapter_Item_Default extends Enterprise_St
     {
         $staging        = $this->getStaging();
         $connection     = $this->_getWriteAdapter();
-        $mappedWebsites = $staging->getMapperInstance()->getWebsiteObjects();
+        $mappedWebsites = $staging->getMapperInstance()->getWebsites();
         if (in_array('website_ids', $fields)) {
             $this->_mergeTableDataInWebsiteScopeUpdate($mappedWebsites, $connection, $entityName);
         } else {

@@ -254,25 +254,54 @@ class Enterprise_Staging_Model_Staging_Mapper_Website extends Enterprise_Staging
      */
     public function getWebsiteObjects()
     {
-        $websites = array();
-        foreach($this->getWebsites() as $k => $v) {
-            if ($v instanceof Varien_Object) {
-                $websites[$k] = $v;
-            }
-            else {
-                $website = new Varien_Object($v);
-                $stores = array();
-                foreach ($this->getStores() as $stagingStoreId => $masterStoreIds) {
-                    if (isset($masterStoreIds[0])){
-                        $stores[] = new Varien_Object(array('master_store_id' => $masterStoreIds[0], 'staging_store_id' => $stagingStoreId));
-                    }
-                }
-                $website->setData('stores', $stores);
-                $websites[$k] = $website;
-                break;
-            }
-        }
+        $objects = $this->getData('website_objects');
+        if (is_null($objects)) {
+            $objects = array();
 
-        return $websites;
+            foreach ($this->getWebsites() as $k => $v) {
+                // website varien object created for create staging
+                if ($v instanceof Varien_Object) {
+                    $objects[$k] = $v;
+                } else { // merge, backup, rollback
+                    $website    = new Varien_Object();
+                    $stores     = array();
+
+                    $storeMaps = $this->getStores();
+                    if (!empty($storeMaps)) {
+                        foreach ($storeMaps as $sourceStoreId => $targetStoreIds) {
+                            foreach ($targetStoreIds as $targetStoreId) {
+                                $stores[] = new Varien_Object(array(
+                                    'master_store_id'   => $targetStoreId,
+                                    'staging_store_id'  => $sourceStoreId
+                                ));
+                            }
+                        }
+                    } else {
+                        foreach ($v as $targetWebsiteId) {
+                            // fix for flat resource (if store mapping is not defined)
+                            $sourceWebsiteStores = Mage::app()->getWebsite($k)->getStores();
+                            $targetWebsiteStores = Mage::app()->getWebsite($targetWebsiteId)->getStores();
+
+                            foreach ($targetWebsiteStores as $targetStore) {
+                                foreach ($sourceWebsiteStores as $sourceStore) {
+                                    if ($targetStore->getName() == $sourceStore->getName()) {
+                                        $stores[] = new Varien_Object(array(
+                                            'master_store_id'   => $targetStore->getId(),
+                                            'staging_store_id'  => $sourceStore->getId()
+                                        ));
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    $website->setData('stores', $stores);
+                    $objects[$k] = $website;
+                }
+            }
+
+            $this->setData('website_objects', $objects);
+        }
+        return $objects;
     }
 }
