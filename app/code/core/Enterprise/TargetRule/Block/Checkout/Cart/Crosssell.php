@@ -177,7 +177,8 @@ class Enterprise_TargetRule_Block_Checkout_Cart_Crosssell extends Mage_Catalog_B
         $collection = Mage::getModel('catalog/product_link')
             ->useCrossSellLinks()
             ->getProductCollection()
-            ->setStoreId(Mage::app()->getStore()->getId());
+            ->setStoreId(Mage::app()->getStore()->getId())
+            ->setGroupBy();
 
         $this->_addProductAttributesAndPrices($collection);
 
