@@ -544,6 +544,7 @@
                     <adminhtml__system_store_store>widgetManageStores</adminhtml__system_store_store>
                     <adminhtml__catalog_product>widgetProductGridContainer</adminhtml__catalog_product>
                     <enterprise_catalogevent__adminhtml_event>widgetCatalogEventGridContainer</enterprise_catalogevent__adminhtml_event>
+                    <enterprise_catalogevent__adminhtml_event_edit>removeCatalogEventControlButtons</enterprise_catalogevent__adminhtml_event_edit>
                     <enterprise_catalogevent__adminhtml_event_edit_form>restrictCatalogEventEditForm</enterprise_catalogevent__adminhtml_event_edit_form>
                     <adminhtml__catalog_product_attribute>removeCatalogProductAttributeAddButton</adminhtml__catalog_product_attribute>
                     <adminhtml__catalog_product_attribute_edit>removeCatalogProductAttributeButtons</adminhtml__catalog_product_attribute_edit>

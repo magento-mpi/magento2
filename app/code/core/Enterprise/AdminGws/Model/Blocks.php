@@ -926,4 +926,23 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         $observer->getEvent()->getBlock()->removeButton('delete');
         return $this;
     }
+
+    /**
+     * Remove control buttons for all GWS limited users with no exclusive rights
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeCatalogEventControlButtons($observer)
+    {
+        $block = $observer->getEvent()->getBlock();
+        $eventCategoryId = $block->getEvent()->getCategoryId();
+        $categoryPath = Mage::getResourceSingleton('catalog/category')->getCategoryPathById($eventCategoryId);
+        if (!$this->_role->hasExclusiveCategoryAccess($categoryPath)) {
+            $block->removeButton('save');
+            $block->removeButton('save_and_continue');
+            $block->removeButton('delete');
+        }
+        return $this;
+    }
 }
