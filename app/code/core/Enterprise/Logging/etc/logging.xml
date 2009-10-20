@@ -904,6 +904,22 @@
         </actions>
     </adminhtml_system_stores>
 
+    <adminhtml_system_design translate="label">
+        <label>Manage Design</label>
+        <expected_models>
+            <core__design/>
+        </expected_models>
+        <actions>
+            <adminhtml_system_design_save>
+                <action>save</action>
+            </adminhtml_system_design_save>
+
+            <adminhtml_system_design_delete>
+                <action>delete</action>
+            </adminhtml_system_design_delete>
+        </actions>
+    </adminhtml_system_design>
+
     <tax_customer_tax_classes translate="label">
         <label>Customer Tax Classes</label>
         <expected_models>
@@ -1009,7 +1025,7 @@
             </adminhtml_sitemap_generate>
         </actions>
     </google_sitemap>
-    
+
     <widget_instance translate="label">
         <label>Widget Instances</label>
         <expected_models>
