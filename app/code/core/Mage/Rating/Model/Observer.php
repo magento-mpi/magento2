@@ -19,38 +19,23 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Review
+ * @package     Mage_Rating
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 
 /**
- * Review Observer Model
+ * Rating Observer Model
  *
  * @category   Mage
- * @package    Mage_Review
+ * @package    Mage_Rating
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Review_Model_Observer
+class Mage_Rating_Model_Observer
 {
     /**
-     * Add review summary info for tagged product collection
-     *
-     * @param Varien_Event_Observer $observer
-     * @return Mage_Review_Model_Observer
-     */
-    public function tagProductCollectionLoadAfter(Varien_Event_Observer $observer)
-    {
-        $collection = $observer->getEvent()->getCollection();
-        Mage::getSingleton('review/review')
-            ->appendSummary($collection);
-
-        return $this;
-    }
-
-    /**
-     * Cleanup product reviews after product delete
+     * Cleanup product ratings after product delete
      *
      * @param   Varien_Event_Observer $observer
      * @return  Mage_CatalogIndex_Model_Observer
@@ -59,7 +44,7 @@ class Mage_Review_Model_Observer
     {
         $eventProduct = $observer->getEvent()->getProduct();
         if ($eventProduct && $eventProduct->getId()) {
-            Mage::getResourceSingleton('review/review')->deleteReviewsByProductId($eventProduct->getId());
+            Mage::getResourceSingleton('rating/rating')->deleteAggregatedRatingsByProductId($eventProduct->getId());
         }
         return $this;
     }
