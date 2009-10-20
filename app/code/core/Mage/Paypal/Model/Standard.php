@@ -218,7 +218,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         if ($transaciton_type=='O') {
             $businessName = Mage::getStoreConfig('paypal/wps/business_name');
             $storeName = Mage::getStoreConfig('store/system/name');
-            $amount = ($a->getBaseSubtotal()+$b->getBaseSubtotal())-($a->getBaseDiscountAmount()+$b->getBaseDiscountAmount());
+            $amount = $a->getBaseSubtotal()+$b->getBaseSubtotal()+$a->getBaseDiscountAmount()+$b->getBaseDiscountAmount();
             $sArr = array_merge($sArr, array(
                     'cmd'           => '_ext-enter',
                     'redirect_cmd'  => '_xclick',
@@ -251,7 +251,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
                         'item_name_'.$i      => $item->getName(),
                         'item_number_'.$i      => $item->getSku(),
                         'quantity_'.$i      => $item->getQty(),
-                        'amount_'.$i      => sprintf('%.2f', ($item->getBaseCalculationPrice() - $item->getBaseDiscountAmount())),
+                        'amount_'.$i      => sprintf('%.2f', ($item->getBaseCalculationPrice() + $item->getBaseDiscountAmount())),
                     ));
                     if($item->getBaseTaxAmount()>0){
                         $sArr = array_merge($sArr, array(
