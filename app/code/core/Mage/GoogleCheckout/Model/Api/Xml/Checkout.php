@@ -111,7 +111,6 @@ EOT;
         $discount = $discountItem->getPrice();
 
         if ($discount) {
-            $discount = -$discount;
             $xml .= <<<EOT
             <item>
                 <merchant-item-id>_INTERNAL_DISCOUNT_</merchant-item-id>
