@@ -475,4 +475,15 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     {
         return $this;
     }
+
+    /**
+     * Get config peyment action url
+     * Used to universalize payment actions when processing payment place
+     *
+     * @return string
+     */
+    public function getConfigPaymentAction()
+    {
+        return $this->getConfigData('payment_action');
+    }
 }

@@ -299,4 +299,24 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
         return $this;
       }
 
+   /**
+     * Get config paypal action url
+     * Used to universilize payment actions when processing payment place
+     *
+     * @return string
+     */
+    public function getConfigPaymentAction()
+    {
+        $paymentAction = $this->getConfigData('payment_action');
+        switch ($paymentAction){
+            case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE:
+                $paymentAction = Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE;
+                break;
+            case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH:
+            default:
+                $paymentAction = Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE;
+                break;
+        }
+        return $paymentAction;
+    }
 }

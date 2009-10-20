@@ -122,7 +122,7 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
          * validating payment method again
          */
         $methodInstance->validate();
-        if ($action = $methodInstance->getConfigData('payment_action')) {
+        if ($action = $methodInstance->getConfigPaymentAction()) {
             /**
              * Run action declared for payment method in configuration
              */
@@ -132,7 +132,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
             } else {
                 switch ($action) {
                     case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
-                    case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_AUTH:
                         $methodInstance->authorize($this, $this->getOrder()->getBaseTotalDue());
 
                         $this->setAmountAuthorized($this->getOrder()->getTotalDue());
@@ -141,7 +140,6 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
                         $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                         break;
                     case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE_CAPTURE:
-                    case Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE:
                         $invoice = $this->_invoice();
 
                         $this->setAmountAuthorized($this->getOrder()->getTotalDue());
