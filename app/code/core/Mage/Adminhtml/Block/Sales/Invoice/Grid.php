@@ -39,6 +39,7 @@ class Mage_Adminhtml_Block_Sales_Invoice_Grid extends Mage_Adminhtml_Block_Widge
         $this->setUseAjax(true);
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('DESC');
+        $this->setSaveParametersInSession(true);
     }
 
     protected function _prepareCollection()
