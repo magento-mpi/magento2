@@ -34,6 +34,7 @@
                     <sort_order>50</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
                     <fields>
                         <is_active translate="label">
                             <sort_order>10</sort_order>
@@ -43,6 +44,7 @@
                             <backend_model>enterprise_websiterestriction/system_config_backend_active</backend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
                         </is_active>
                         <mode translate="label">
                             <sort_order>20</sort_order>
@@ -52,6 +54,7 @@
                             <backend_model>enterprise_websiterestriction/system_config_backend_active</backend_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
                         </mode>
                         <http_redirect translate="label comment">
                             <sort_order>30</sort_order>
@@ -61,6 +64,7 @@
                             <source_model>enterprise_websiterestriction/system_config_source_redirect</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </http_redirect>
                         <cms_page translate="label">
                             <sort_order>40</sort_order>
@@ -69,6 +73,7 @@
                             <source_model>adminhtml/system_config_source_cms_page</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
                         </cms_page>
                         <http_status translate="label comment">
                             <sort_order>50</sort_order>
@@ -78,6 +83,7 @@
                             <source_model>enterprise_websiterestriction/system_config_source_http</source_model>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
                         </http_status>
                     </fields>
                 </restriction>
