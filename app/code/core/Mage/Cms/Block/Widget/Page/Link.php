@@ -70,7 +70,6 @@ class Mage_Cms_Block_Widget_Page_Link
             if ($this->getData('href')) {
                 $this->_href = $this->getData('href');
             } else if ($this->getData('page_id')) {
-                //$href = Mage::getResourceSingleton('cms/page')->getCmsPageIdentifierById($this->getData('page_id'));
                 $this->_href = Mage::helper('cms/page')->getPageUrl($this->getData('page_id'));
             }
         }
