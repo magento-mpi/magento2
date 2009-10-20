@@ -106,7 +106,7 @@ class Mage_CatalogSearch_Model_Advanced extends Mage_Core_Model_Abstract
             }
         } else {
             if (strlen($value) > 0) {
-                if (in_array($attribute->getBackendType(), array('varchar', 'text'))) {
+                if (in_array($attribute->getBackendType(), array('varchar', 'text', 'static'))) {
                     $condition = array('like' => '%' . $value . '%'); // text search
                 } else {
                     $condition = $value;
