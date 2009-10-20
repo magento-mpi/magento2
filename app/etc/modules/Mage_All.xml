@@ -197,6 +197,8 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Paygate />
+                <Mage_Checkout />
+                <Mage_Sales />
             </depends>
         </Mage_Paypal>
         <Mage_PaypalUk>
@@ -204,6 +206,8 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Paygate />
+                <Mage_Checkout />
+                <Mage_Sales />
             </depends>
         </Mage_PaypalUk>
         <Mage_GoogleCheckout>
