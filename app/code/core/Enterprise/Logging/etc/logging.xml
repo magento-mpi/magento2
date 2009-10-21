@@ -943,6 +943,21 @@
         </actions>
     </adminhtml_system_design>
 
+    <adminhtml_system_backups translate="label">
+        <label>System Backups</label>
+        <actions>
+            <adminhtml_system_backup_create>
+                <action>create</action>
+                <post_dispatch>postDispatchSystemBackupsCreate</post_dispatch>
+            </adminhtml_system_backup_create>
+
+            <adminhtml_system_backup_delete>
+                <action>delete</action>
+                <post_dispatch>postDispatchSystemBackupsDelete</post_dispatch>
+            </adminhtml_system_backup_delete>
+        </actions>
+    </adminhtml_system_backups>
+
     <tax_customer_tax_classes translate="label">
         <label>Customer Tax Classes</label>
         <expected_models>

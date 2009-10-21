@@ -391,4 +391,40 @@ class Enterprise_Logging_Model_Handler_Controllers
                 '-'
         );
     }
+
+    /**
+     * Custom handler for creating System Backup
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchSystemBackupsCreate($config, $eventModel)
+    {
+        if ($backup = Mage::registry('backup_model')) {
+            $eventModel->setIsSuccess($backup->exists())
+                ->setInfo($backup->getFileName());
+        } else {
+            $eventModel->setIsSuccess(false);
+        }
+        return $eventModel;
+    }
+
+    /**
+     * Custom handler for deleting System Backup
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchSystemBackupsDelete($config, $eventModel)
+    {
+        if ($backup = Mage::registry('backup_model')) {
+            $eventModel->setIsSuccess(!$backup->exists())
+                ->setInfo($backup->getFileName());
+        } else {
+            $eventModel->setIsSuccess(false);
+        }
+        return $eventModel;
+    }
 }
