@@ -80,15 +80,19 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
      */
     public function getAvailablePlaceholderFilenames()
     {
-        $collection = new Varien_Data_Collection_Filesystem();
-        $collection->addTargetDir($this->getPlaceholderImagesBaseDir())
-            ->setCollectDirs(false)
-            ->setCollectFiles(true)
-            ->setCollectRecursively(false);
         $result = array();
-        foreach ($collection as $file) {
-            $result[] = $file->getBasename();
+        $targetDir = $this->getPlaceholderImagesBaseDir();
+        if (is_dir($targetDir) && is_readable($targetDir)) {
+            $collection = new Varien_Data_Collection_Filesystem();
+            $collection->addTargetDir($targetDir)
+                ->setCollectDirs(false)
+                ->setCollectFiles(true)
+                ->setCollectRecursively(false);
+            foreach ($collection as $file) {
+                $result[] = $file->getBasename();
+            }
         }
+
         return $result;
     }
 
