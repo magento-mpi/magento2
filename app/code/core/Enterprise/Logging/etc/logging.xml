@@ -758,6 +758,29 @@
         </actions>
     </sales_creditmemos>
 
+    <sales_agreement translate="label">
+        <label>Sales Agreement</label>
+        <expected_models>
+            <checkout__agreement/>
+        </expected_models>
+        <actions>
+            <adminhtml_checkout_agreement_edit>
+                <action>edit</action>
+            </adminhtml_checkout_agreement_edit>
+
+            <adminhtml_checkout_agreement_save>
+                <action>save</action>
+                <skip_on_back>
+                    <adminhtml_checkout_agreement_edit/>
+                </skip_on_back>
+            </adminhtml_checkout_agreement_save>
+
+            <adminhtml_checkout_agreement_delete>
+                <action>delete</action>
+            </adminhtml_checkout_agreement_delete>
+        </actions>
+    </sales_agreement>
+
     <api_roles translate="label">
         <label>Webservices Api Roles</label>
         <expected_models>
