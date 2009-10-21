@@ -70,6 +70,7 @@
         <tbody id="<?php echo $_htmlId ?>_container">
         </tbody>
     </table>
+    <input type="hidden" id="giftcard_amounts_total" name="giftcard_amounts_total" value="" class="required-entry">
 
 <script type="text/javascript">
 //<![CDATA[
@@ -102,6 +103,7 @@
             $('<?php echo $_htmlId ?>_container').up('table').select('button')
                 .each(this.disableElement);
             <?php endif; ?>
+            this.updateTotalAmounts();
         },
         disableElement: function(elem) {
             elem.disabled = true
@@ -116,6 +118,12 @@
                 Element.hide(tr);
                 Element.addClassName(tr, 'no-display template');
             }
+            itemsCount--;
+            this.updateTotalAmounts();
+        },
+
+        updateTotalAmounts: function() {
+            $('giftcard_amounts_total').value = (itemsCount > 0 ? itemsCount : '');
         }
     };
 
