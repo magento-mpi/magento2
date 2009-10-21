@@ -47,7 +47,9 @@ class Enterprise_Logging_Model_Handler_Controllers
     public function postDispatchGeneric($config, $eventModel, $processorModel)
     {
         if ($collectedIds = $processorModel->getCollectedIds()) {
-            $eventModel->setInfo(implode(', ', $collectedIds));
+            $eventModel->setInfo(
+                Mage::helper('enterprise_logging')->implodeValues($collectedIds)
+            );
             return true;
         }
         return false;
