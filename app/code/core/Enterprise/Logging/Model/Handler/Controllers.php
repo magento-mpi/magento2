@@ -195,7 +195,7 @@ class Enterprise_Logging_Model_Handler_Controllers
             $id = Mage::app()->getRequest()->getParam('id');
             return $eventModel->setIsSuccess(false)->setInfo($id == 0 ? '' : $id);
         } else {
-            $poll = Mage::registry('enterprise_logging_saved_model_adminhtml_poll_validate');
+            $poll = Mage::registry('current_poll_model');
             if ($poll && $poll->getId()) {
                 return $eventModel->setIsSuccess(true)->setInfo($poll->getId());
             }

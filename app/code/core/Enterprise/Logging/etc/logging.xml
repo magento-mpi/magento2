@@ -307,7 +307,7 @@
         </expected_models>
         <actions>
             <adminhtml_poll_edit>
-                <action>view</action>
+                <action>edit</action>
             </adminhtml_poll_edit>
 
             <adminhtml_poll_delete>
