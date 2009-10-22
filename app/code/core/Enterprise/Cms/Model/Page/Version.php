@@ -79,6 +79,7 @@ class Enterprise_Cms_Model_Page_Version extends Mage_Core_Model_Abstract
                         $this->getPageId(), Enterprise_Cms_Model_Increment::LEVEL_VERSION);
 
             $this->setVersionNumber($incrementNumber);
+            $this->setCreatedAt(Mage::getSingleton('core/date')->gmtDate());
         }
 
         if (!$this->getLabel()) {
