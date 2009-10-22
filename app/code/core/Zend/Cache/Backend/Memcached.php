@@ -47,6 +47,10 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
     const DEFAULT_HOST       = '127.0.0.1';
     const DEFAULT_PORT       = 11211;
     const DEFAULT_PERSISTENT = true;
+    const DEFAULT_WEIGHT     = 1;
+    const DEFAULT_TIMEOUT    = 10;
+    const DEFAULT_RETRY_INTERVAL = 15;
+    const DEFAULT_STATUS     = true;
 
     const TAGS_PREFIX    = "internal_MCtag:";
     const TAGS_MASTER_ID = "internal_MCmastertags";
@@ -63,6 +67,10 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
      * 'host' => (string) : the name of the memcached server
      * 'port' => (int) : the port of the memcached server
      * 'persistent' => (bool) : use or not persistent connections to this memcached server
+     * 'weight' => (int) : weight of current server in list of all available server
+     * 'timeout' => (int) : parameter of connection to daemon
+     * 'retry_interval' => (int) : how often a failed server will be retried
+     * 'status' => (bool) : control if server should be marked as online
      *
      * =====> (boolean) compression :
      * true if you want to use on-the-fly compression
@@ -73,7 +81,11 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
         'servers' => array(array(
             'host' => Zend_Cache_Backend_Memcached::DEFAULT_HOST,
             'port' => Zend_Cache_Backend_Memcached::DEFAULT_PORT,
-            'persistent' => Zend_Cache_Backend_Memcached::DEFAULT_PERSISTENT
+            'persistent' => Zend_Cache_Backend_Memcached::DEFAULT_PERSISTENT,
+            'weight'  => Zend_Cache_Backend_Memcached::DEFAULT_WEIGHT,
+            'timeout' => Zend_Cache_Backend_Memcached::DEFAULT_TIMEOUT,
+            'retry_interval' => Zend_Cache_Backend_Memcached::DEFAULT_RETRY_INTERVAL,
+            'status' => Zend_Cache_Backend_Memcached::DEFAULT_STATUS
         )),
         'compression' => false,
         'cache_dir' => null,
@@ -121,7 +133,21 @@ class Zend_Cache_Backend_Memcached extends Zend_Cache_Backend implements Zend_Ca
             if (!array_key_exists('port', $server)) {
                 $server['port'] = Zend_Cache_Backend_Memcached::DEFAULT_PORT;
             }
-            $this->_memcache->addServer($server['host'], $server['port'], $server['persistent']);
+            if (!array_key_exists('weight', $server)) {
+                $server['weight'] = Zend_Cache_Backend_Memcached::DEFAULT_WEIGHT;
+            }
+            if (!array_key_exists('timeout', $server)) {
+                $server['timeout'] = Zend_Cache_Backend_Memcached::DEFAULT_TIMEOUT;
+            }
+            if (!array_key_exists('retry_interval', $server)) {
+                $server['retry_interval'] = Zend_Cache_Backend_Memcached::DEFAULT_RETRY_INTERVAL;
+            }
+            if (!array_key_exists('status', $server)) {
+                $server['status'] = Zend_Cache_Backend_Memcached::DEFAULT_STATUS;
+            }
+            $this->_memcache->addServer($server['host'], $server['port'], $server['persistent'],
+                                        $server['weight'], $server['timeout'],
+                                        $server['retry_interval'], $server['status']);
         }
     }
 
