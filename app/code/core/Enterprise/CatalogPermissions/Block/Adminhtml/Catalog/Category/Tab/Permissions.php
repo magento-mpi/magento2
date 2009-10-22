@@ -133,12 +133,13 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
             $categoryId = $this->getRequest()->getParam('parent');
         }
 
-        $parent = array();
+        $permissions = array();
         if ($categoryId) {
             $index  = Mage::getModel('enterprise_catalogpermissions/permission_index')
                 ->getIndexForCategory($categoryId, null, null);
             foreach ($index as $row) {
-                $parent[$row['website_id'].'_'.$row['customer_group_id']] = array(
+                $permissionKey = $row['website_id'] . '_' . $row['customer_group_id'];
+                $permissions[$permissionKey] = array(
                     'category'  => $row['grant_catalog_category_view'],
                     'product'   => $row['grant_catalog_product_price'],
                     'checkout'  => $row['grant_checkout_items']
@@ -152,28 +153,40 @@ class Enterprise_CatalogPermissions_Block_Adminhtml_Catalog_Category_Tab_Permiss
         /* @var $helper Enterprise_CatalogPermissions_Helper_Data */
         $helper   = Mage::helper('enterprise_catalogpermissions');
 
+        $parent = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_PARENT;
+        $allow  = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
+        $deny   = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
+
         foreach ($groups as $groupId) {
             foreach ($websites as $website) {
                 /* @var $website Mage_Core_Model_Website */
                 $websiteId = $website->getId();
-                if (!isset($parent[$websiteId . '_' . $groupId])) {
-                    $store = $website->getDefaultStore();
-                    $category = $helper->isAllowedCategoryView($store, $groupId);
-                    $product  = $helper->isAllowedProductPrice($store, $groupId);
-                    $checkout = $helper->isAllowedCheckoutItems($store, $groupId);
 
-                    $allow = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_ALLOW;
-                    $deny  = (string)Enterprise_CatalogPermissions_Model_Permission::PERMISSION_DENY;
+                $store = $website->getDefaultStore();
+                $category = $helper->isAllowedCategoryView($store, $groupId);
+                $product  = $helper->isAllowedProductPrice($store, $groupId);
+                $checkout = $helper->isAllowedCheckoutItems($store, $groupId);
 
-                    $parent[$websiteId . '_' . $groupId] = array(
+                $permissionKey = $websiteId . '_' . $groupId;
+                if (!isset($permissions[$permissionKey])) {
+                    $permissions[$permissionKey] = array(
                         'category'  => $category ? $allow : $deny,
                         'product'   => $product ? $allow : $deny,
                         'checkout'  => $checkout ? $allow : $deny
                     );
+                } else {
+                    // validate and rewrite parent values for exists data
+                    $data = $permissions[$permissionKey];
+                    $permissions[$permissionKey] = array(
+                        'category'  => $data['category'] == $parent ? ($category ? $allow : $deny) : $data['category'],
+                        'product'   => $data['product'] == $parent ? ($checkout ? $allow : $deny) : $data['product'],
+                        'checkout'  => $data['checkout'] == $parent ? ($product ? $allow : $deny) : $data['checkout'],
+                    );
                 }
             }
         }
-        return $parent;
+
+        return $permissions;
     }
 
     /**
