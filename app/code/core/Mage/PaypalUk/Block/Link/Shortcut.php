@@ -55,7 +55,9 @@ class Mage_PaypalUk_Block_Link_Shortcut extends Mage_Core_Block_Template
     public function _toHtml()
     {
         $quote = Mage::getSingleton('checkout/session')->getQuote();
-        if (Mage::getModel('paypaluk/express')->isAvailable($quote) && $quote->validateMinimumAmount()) {
+        $paypalUkModel = Mage::getModel('paypaluk/express');
+        if ($paypalUkModel->isAvailable($quote) && $paypalUkModel->isVisibleOnCartPage()
+            && $quote->validateMinimumAmount()) {
             return parent::_toHtml();
         }
         return '';

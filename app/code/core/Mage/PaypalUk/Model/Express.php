@@ -479,4 +479,14 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     {
         return is_object(Mage::registry('_singleton/checkout/type_onepage'));
     }
+
+    /**
+     * Check whether is visible on cart page
+     *
+     * @return bool
+     */
+    public function isVisibleOnCartPage()
+    {
+        return (bool)$this->getConfigData('visible_on_cart');
+    }
 }
