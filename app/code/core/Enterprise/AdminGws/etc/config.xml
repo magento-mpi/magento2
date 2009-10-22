@@ -558,6 +558,7 @@
                     <adminhtml__poll_edit>removePollButtons</adminhtml__poll_edit>
                     <adminhtml__tag_tag_grid>removeTagGridActions</adminhtml__tag_tag_grid>
                     <adminhtml__tag_edit>removeTagButtons</adminhtml__tag_edit>
+                    <adminhtml__tag_edit_form>disableTagEditFormFields</adminhtml__tag_edit_form>
                     <adminhtml__sales_order_grid>removeNotAllowedMassactionsForOrders</adminhtml__sales_order_grid>
                     <index__adminhtml_process_grid>removeProcessListButtons</index__adminhtml_process_grid>
                     <index__adminhtml_process_edit>removeProcessEditButtons</index__adminhtml_process_edit>

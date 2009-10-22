@@ -410,6 +410,28 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Disable fields in edit form if user does not have exclusive access to current tag
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function disableTagEditFormFields($observer)
+    {
+        $model = Mage::registry('current_tag');
+        if ($model && $model->getId()) {
+            $storeIds = (array)$model->getVisibleInStoreIds();
+            $storeIds = array_filter($storeIds); // remove admin store with id 0
+            if (!$this->_role->hasExclusiveStoreAccess((array)$storeIds)) {
+                $elements = $observer->getEvent()->getBlock()->getForm()->getElement('base_fieldset')->getElements();
+                $elements->searchById('name')->setReadonly(true, true);
+                $elements->searchById('status')->setReadonly(true, true);
+                $elements->searchById('base_popularity')->setReadonly(true, true);
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Remove buttons from staging grid for all GWS limited users
      *
      * @param Varien_Event_Observer $observer
