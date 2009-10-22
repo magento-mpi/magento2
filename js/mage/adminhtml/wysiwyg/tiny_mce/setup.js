@@ -176,8 +176,8 @@ tinyMceWysiwygSetup.prototype =
     },
 
 	encodeDirectives: function(content) {
-        return content.gsub(/(src|href)\s*\=\s*[\"\']{1}(\{\{[a-z]{0,10}.*?\}\}.*?)[\"\']{1}/i, function(match){
-            return match[1] + '="' + this.config.directives_url + 'directive/' + Base64.mageEncode(match[2]) + '/"';
+        return content.gsub(/(src|href)=["'](\{\{.+?\}\}.*?)["']/i, function(match) {
+            return match[1] + '="' + this.config.directives_url + '___directive/' + Base64.mageEncode(match[2]) + '/"';
         }.bind(this));
     },
 
@@ -202,9 +202,9 @@ tinyMceWysiwygSetup.prototype =
     },
 
     decodeDirectives: function(content) {
-        var reg = new RegExp(this.config.directives_url_quoted + 'directive\/([a-zA-Z0-9\-\_\,]+)\/?', 'i');
-        return content.gsub(reg, function(match){
-            return Base64.mageDecode(match[1]);
+        var reg = new RegExp('(href|src)="http[^"]+?___directive\/([a-zA-Z0-9\-\_\,]+)\/[^"]*', 'i');
+        return content.gsub(reg, function(match) {
+            return match[1] + '="' + Base64.mageDecode(match[2]);
         }.bind(this));
     },
 

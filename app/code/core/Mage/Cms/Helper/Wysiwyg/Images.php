@@ -144,7 +144,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
             $html = sprintf('<img src="%s" alt="" />', $directive);
         } else {
             $directive = Mage::helper('core')->urlEncode($directive);
-            $html = Mage::helper('adminhtml')->getUrl('*/cms_wysiwyg/directive', array('directive' => $directive));
+            $html = Mage::helper('adminhtml')->getUrl('*/cms_wysiwyg/directive', array('___directive' => $directive));
         }
         return $html;
     }
