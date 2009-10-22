@@ -137,7 +137,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit_Tab_Versions
         ));
 
         $this->addColumn('created_at', array(
-            'width'     => 100,
+            'width'     => 150,
             'header'    => Mage::helper('enterprise_cms')->__('Created At'),
             'index'     => 'created_at',
             'type'      => 'datetime',
