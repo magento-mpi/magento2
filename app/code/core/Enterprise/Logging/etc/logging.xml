@@ -1064,6 +1064,26 @@
         </actions>
     </google_sitemap>
 
+    <googlebase_types translate="label">
+        <label>Google Base</label>
+        <expected_models>
+            <googlebase__type/>
+        </expected_models>
+        <actions>
+            <googlebase_types_edit>
+                <action>edit</action>
+            </googlebase_types_edit>
+
+            <googlebase_types_save>
+                <action>save</action>
+            </googlebase_types_save>
+
+            <googlebase_types_delete>
+                <action>delete</action>
+            </googlebase_types_delete>
+        </actions>
+    </googlebase_types>
+
     <widget_instance translate="label">
         <label>Widget Instances</label>
         <expected_models>
