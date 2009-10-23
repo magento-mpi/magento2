@@ -122,7 +122,11 @@
                 <td class="label"><label><?php  echo $this->helper('enterprise_invitation')->__('Customer ID'); ?></label></td>
                 <td><strong>
                 <?php if ($this->getInvitation()->getReferralId()): ?>
-                    <a target="_blank" href="<?php echo $this->getUrl('adminhtml/customer/edit', array('id'=>$this->getInvitation()->getReferralId()));?>"><?php echo $this->getInvitation()->getReferralId()?></a>
+                    <?php if ($this->canShowReferralLink()) :?>
+                        <a target="_blank" href="<?php echo $this->getUrl('adminhtml/customer/edit', array('id'=>$this->getInvitation()->getReferralId()));?>"><?php echo $this->getInvitation()->getReferralId()?></a>
+                    <?php else : ?>
+                        <?php echo $this->getInvitation()->getReferralId()?>
+                    <?php endif; ?>
                 <?php else:  ?>
                     <?php echo $this->helper('enterprise_invitation')->__('N/A'); ?>
                 <?php endif; ?></strong></td>
