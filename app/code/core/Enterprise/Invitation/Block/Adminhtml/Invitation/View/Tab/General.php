@@ -259,4 +259,14 @@ class Enterprise_Invitation_Block_Adminhtml_Invitation_View_Tab_General extends 
         $invitedByAdmin = ($this->getInvitation()->getCustomerId() == null);
         return $invitedByAdmin;
     }
+
+    /**
+     * Check whether can show referral link
+     *
+     * @return bool
+     */
+    public function canShowReferralLink()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('customer/manage');
+    }
 }
