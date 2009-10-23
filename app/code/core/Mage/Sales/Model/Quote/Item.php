@@ -308,18 +308,34 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
         $itemOptions    = $this->getOptions();
         $productOptions = $product->getCustomOptions();
 
-        if (count($itemOptions) != count($productOptions)) {
+        if(!$this->compareOptions($itemOptions, $productOptions)){
             return false;
         }
+        if(!$this->compareOptions($productOptions, $itemOptions)){
+            return false;
+        }
+        return true;
+    }
 
-        foreach ($itemOptions as $option) {
+    /**
+     * Check if two options array are identical
+     * First options array is prerogative
+     * Second options array checked against first one
+     *
+     * @param array $options1
+     * @param array $options2
+     * @return bool
+     */
+    public function compareOptions($options1, $options2)
+    {
+        foreach ($options1 as $option) {
             $code = $option->getCode();
             if (in_array($code, $this->_notRepresentOptions )) {
                 continue;
             }
-            if ( !isset($productOptions[$code])
-                || ($productOptions[$code]->getValue() === null)
-                || $productOptions[$code]->getValue() != $option->getValue()) {
+            if ( !isset($options2[$code])
+                || ($options2[$code]->getValue() === null)
+                || $options2[$code]->getValue() != $option->getValue()) {
                 return false;
             }
         }
