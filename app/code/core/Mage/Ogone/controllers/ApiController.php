@@ -219,7 +219,7 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
         $params = $this->getRequest()->getParams();
         $order = $this->_getOrder();
 
-        $this->_getCheckout()->setLastSuccessQuoteId($this->_getCheckout()->getOgoneLastSuccessQuoteId());
+        $this->_getCheckout()->setLastSuccessQuoteId($order->getQuoteId());
 
         $this->_prepareCCInfo($order, $params);
         $order->getPayment()->setLastTransId($params['PAYID']);
@@ -294,8 +294,11 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
             if ($status ==  Mage_Ogone_Model_Api::OGONE_AUTH_PROCESSING) {
                 $order->setState(Mage_Sales_Model_Order::STATE_NEW, Mage_Ogone_Model_Api::WAITING_AUTHORIZATION, Mage::helper('ogone')->__('Authorization Waiting from Ogone'));
             } else {
+                //to send new order email only when state is pending payment
+                if ($order->getState()==Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+                    $order->sendNewOrderEmail();
+                }
                 $order->setState(Mage_Sales_Model_Order::STATE_NEW, Mage_Ogone_Model_Api::PROCESSED_OGONE_STATUS, Mage::helper('ogone')->__('Processed by Ogone'));
-                $order->sendNewOrderEmail();
             }
             $order->save();
             $this->_redirect('checkout/onepage/success');
@@ -364,11 +367,17 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
 
         if (!empty($exception)) {
             try{
+                $this->_getCheckout()->setLastSuccessQuoteId($order->getQuoteId());
                 $this->_prepareCCInfo($order, $params);
-                $order->getPayment()->setLastTransId($params['PAYID']);
-                $order->addStatusToHistory(Mage_Ogone_Model_Api::PROCESSED_OGONE_STATUS, $exception);
+                $order->getPayment()->setLastTransId($params['PAYID']);                
+                //to send new order email only when state is pending payment
+                if ($order->getState()==Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
+                    $order->sendNewOrderEmail();
+                    $order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, Mage_Ogone_Model_Api::PROCESSING_OGONE_STATUS, $exception);
+                } else {
+                    $order->addStatusToHistory(Mage_Ogone_Model_Api::PROCESSING_OGONE_STATUS, $exception);
+                }
                 $order->save();
-                $this->_getCheckout()->addError($exception);
             }catch(Exception $e) {
                 $this->_getCheckout()->addError(Mage::helper('ogone')->__('Order can not be save for system reason'));
             }
@@ -377,7 +386,6 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
         }
 
         $this->_redirect('checkout/onepage/success');
-        return;
     }
 
     /**
