@@ -112,6 +112,12 @@ class Enterprise_Cms_Model_Observer
             }
         }
 
+        if ($revisionAvailable && !Mage::getSingleton('admin/session')->isAllowed('cms/page/save_revision')) {
+            foreach ($baseFieldset->getElements() as $element) {
+                $element->setDisabled(true);
+            }
+        }
+
         /*
          * User does not have access to revision or revision is no longer available
          */

@@ -64,11 +64,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Page_Edit
                         }
                     }
                     // If user non-publisher he can save page only if it has disabled status
-                    if ($page->getId() && $page->getIsActive() == Mage_Cms_Model_Page::STATUS_ENABLED) {
-                        if (!Mage::getSingleton('enterprise_cms/config')->canCurrentUserPublishRevision()) {
-                            $editBlock->removeButton('delete');
-                            $editBlock->removeButton('save');
-                            $editBlock->removeButton('saveandcontinue');
+                    if ($page->getUnderVersionControl()) {
+                        if ($page->getId() && $page->getIsActive() == Mage_Cms_Model_Page::STATUS_ENABLED) {
+                            if (!Mage::getSingleton('enterprise_cms/config')->canCurrentUserPublishRevision()) {
+                                $editBlock->removeButton('delete');
+                                $editBlock->removeButton('save');
+                                $editBlock->removeButton('saveandcontinue');
+                            }
                         }
                     }
                 }
