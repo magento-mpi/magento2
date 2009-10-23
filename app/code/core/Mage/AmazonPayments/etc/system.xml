@@ -129,7 +129,7 @@
                             <show_in_store>0</show_in_store>
                         </secretkey_id>
                         <merchant_tocken translate="label">
-                            <label>Merchant Tocken</label>
+                            <label>Merchant Token</label>
                             <frontend_type>text</frontend_type>
                             <sort_order>45</sort_order>
                             <show_in_default>1</show_in_default>
