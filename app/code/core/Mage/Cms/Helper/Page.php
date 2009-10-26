@@ -102,8 +102,10 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
         $action->getLayout()->getUpdate()->addUpdate($layoutUpdate);
         $action->generateLayoutXml()->generateLayoutBlocks();
 
-        $action->getLayout()->getBlock('page_content_heading')
-            ->setContentHeading($page->getContentHeading());
+        $contentHeadingBlock = $action->getLayout()->getBlock('page_content_heading');
+        if ($contentHeadingBlock) {
+            $contentHeadingBlock->setContentHeading($page->getContentHeading());
+        }
 
         if ($page->getRootTemplate()) {
             $action->getLayout()->helper('page/layout')
