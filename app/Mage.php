@@ -609,9 +609,9 @@ final class Mage
             die();
         }
         catch (Mage_Core_Model_Store_Exception $e) {
-            $baseUrl = self::getScriptSystemUrl('404');
+            $baseUrl = rtrim(self::getScriptSystemUrl('404'), '/') . '/404/';
             if (!headers_sent()) {
-                header('Location: ' . rtrim($baseUrl, '/').'/404/');
+                header('Location: ' . $baseUrl);
             } else {
                 print '<script type="text/javascript">';
                 print "window.location.href = '{$baseUrl}';";
