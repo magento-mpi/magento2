@@ -102,12 +102,15 @@ function bindAttributeInputType()
         if($('is_html_allowed_on_front')){
             $('is_html_allowed_on_front').disabled = false;
         }
+        $('frontend_class').disabled = false;
     }
     else {
         if($('is_html_allowed_on_front')){
             $('is_html_allowed_on_front').selectedIndex=0;
             $('is_html_allowed_on_front').disabled = true;
         }
+        $('frontend_class').value = '';
+        $('frontend_class').disabled = true;
     }
 
     switchIsFilterable();
