@@ -111,7 +111,7 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         if ($this->_isAllowedAction('invoice') && $this->getOrder()->canInvoice()) {
             $_label = $this->getOrder()->getForcedDoShipmentWithInvoice()?'Invoice and Ship':'Invoice';
             $this->_addButton('order_invoice', array(
-                'label'     => Mage::helper('sales')->__('%s', $_label),
+                'label'     => Mage::helper('sales')->__($_label),
                 'onclick'   => 'setLocation(\'' . $this->getInvoiceUrl() . '\')',
             ));
         }
