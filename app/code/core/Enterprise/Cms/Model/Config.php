@@ -40,6 +40,7 @@ class Enterprise_Cms_Model_Config
             'root_template',
             'meta_keywords',
             'meta_description',
+            'content_heading',
             'content',
             'layout_update_xml',
             'custom_theme',
@@ -55,7 +56,8 @@ class Enterprise_Cms_Model_Config
      *
      * @return array
      */
-    protected function _getRevisionControledAttributes($type) {
+    protected function _getRevisionControledAttributes($type)
+    {
         if (isset($this->_revisionControlledAttributes[$type])) {
             return $this->_revisionControlledAttributes[$type];
         }
@@ -63,7 +65,7 @@ class Enterprise_Cms_Model_Config
     }
 
     /**
-     * Retrieves cms page's attributes excluded from revision control.
+     * Retrieves cms page's attributes which are under revision control.
      *
      * @return array
      */
