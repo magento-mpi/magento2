@@ -52,24 +52,10 @@
         </select> <?php echo $this->__('per page') ?>
     </fieldset>
 
-    <?php if($this->getLastPageNum()>1): ?>
+    <?php if($_pagerHtml = $this->getPagerHtml()): ?>
     <div class="pages">
         <strong><?php echo $this->__('Page:') ?></strong>
-        <ol>
-        <?php if (!$this->isFirstPage()): ?>
-            <li><a href="<?php echo $this->getPreviousPageUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_left.gif') ?>" alt="<?php echo $this->__('Previous') ?>" class="v-middle" /></a></li>
-        <?php endif ?>
-        <?php foreach ($this->getPages() as $_page): ?>
-            <?php if ($this->isPageCurrent($_page)): ?>
-                <li><span class="current"><?php echo $_page ?></span></li>
-            <?php else: ?>
-                <li><a href="<?php echo $this->getPageUrl($_page) ?>"><?php echo $_page ?></a></li>
-            <?php endif ?>
-        <?php endforeach;; ?>
-        <?php if (!$this->isLastPage()): ?>
-            <li><a href="<?php echo $this->getNextPageUrl() ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_right.gif') ?>" alt="<?php echo $this->__('Next') ?>" class="v-middle" /></a></li>
-        <?php endif ?>
-        </ol>
+        <?php echo $_pagerHtml ?>
     </div>
     <?php endif; ?>
 </div>
@@ -89,7 +75,7 @@
             <?php endif; ?>
         <?php endforeach; ?>
         <?php endif; ?>
-    </p>    
+    </p>
     <?php endif; ?>
 
     <fieldset class="sort-by">
@@ -106,7 +92,7 @@
         <?php else: ?>
             <a href="<?php echo $this->getOrderUrl(null, 'desc') ?>"><img src="<?php echo $this->getSkinUrl('images/sort_asc_arrow.gif') ?>" alt="<?php echo $this->__('Set Descending Direction') ?>" class="v-middle" /></a>
         <?php endif; ?>
-    </fieldset>    
+    </fieldset>
 </div>
 <?php endif; ?>
 <?php endif ?>

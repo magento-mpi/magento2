@@ -633,6 +633,8 @@
                 <list_per_page>10</list_per_page>
                 <flat_catalog_category>0</flat_catalog_category>
                 <default_sort_by>position</default_sort_by>
+                <list_allow_all>1</list_allow_all>
+                <pagination_frame>5</pagination_frame>
             </frontend>
             <sitemap>
                 <tree_mode>0</tree_mode>
@@ -664,7 +666,7 @@
 -->
         </catalog>
     </default>
-    
+
     <crontab>
         <jobs>
             <catalog_product_index_price_reindex_all>
