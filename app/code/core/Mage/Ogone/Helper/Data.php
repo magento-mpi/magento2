@@ -29,8 +29,8 @@
  */
 class Mage_Ogone_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const CRYPT_ALGORITHM = 'sha1';
-    
+    const HASH_ALGO = 'sha1';
+
     /**
      * Crypt Data by SHA1 ctypting algorithm by secret key
      *
@@ -38,12 +38,12 @@ class Mage_Ogone_Helper_Data extends Mage_Core_Helper_Abstract
      * @param string $key
      * @return hash
      */
-    public function shaCrypt($data, $key='')
+    public function shaCrypt($data, $key = '')
     {
         if (is_array($data)) {
-            return Zend_Crypt::hash(self::CRYPT_ALGORITHM, implode("", $data));
+            return hash(self::HASH_ALGO, implode("", $data));
         }if (is_string($data)) {
-            return Zend_Crypt::hash(self::CRYPT_ALGORITHM, $data);
+            return hash(self::HASH_ALGO, $data);
         } else {
             return "";
         }
@@ -60,9 +60,9 @@ class Mage_Ogone_Helper_Data extends Mage_Core_Helper_Abstract
     public function shaCryptValidation($data, $hash, $key='')
     {
         if (is_array($data)) {
-            return (bool) (strtoupper(Zend_Crypt::hash(self::CRYPT_ALGORITHM, implode("", $data)))== $hash);
+            return (bool)(strtoupper(hash(self::HASH_ALGO, implode("", $data)))== $hash);
         } elseif (is_string($data)) {
-            return (bool) (strtoupper(Zend_Crypt::hash(self::CRYPT_ALGORITHM, $data))== $hash);
+            return (bool)(strtoupper(hash(self::HASH_ALGO, $data))== $hash);
         } else {
             return false;
         }
