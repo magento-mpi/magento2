@@ -246,6 +246,15 @@ WysiwygWidget.chooser.prototype = {
 
     // Chooser config
     config: null,
+    
+    // Chooser dialog window
+    dialogWindow: null,
+    
+    // Chooser content for dialog window
+    dialogContent: null,
+    
+    overlayShowEffectOptions: null,
+    overlayHideEffectOptions: null,
 
     initialize: function(chooserId, chooserUrl, config) {
         this.chooserId = chooserId;
@@ -287,23 +296,28 @@ WysiwygWidget.chooser.prototype = {
     },
 
     open: function() {
-        this.makeControlOpened();
+//        this.makeControlOpened();
         $(this.getResponseContainerId()).show();
     },
 
     close: function() {
-        this.makeControlClosed();
+//        this.makeControlClosed();
         $(this.getResponseContainerId()).hide();
+        this.closeDialogWindow();
     },
 
     choose: function(event) {
-
-        // Show or hide chooser content if it was already loaded
-        var responseContainerId = this.getResponseContainerId();
-        if ($(responseContainerId) != undefined) {
-            $(responseContainerId).visible() ? this.close() : this.open();
+        // Open dialog window with previously loaded dialog content  
+        if (this.dialogContent) {
+            this.openDialogWindow(this.dialogContent);
             return;
         }
+        // Show or hide chooser content if it was already loaded
+        var responseContainerId = this.getResponseContainerId();
+//        if ($(responseContainerId) != undefined) {
+//            $(responseContainerId).visible() ? this.close() : this.open();
+//            return;
+//        }
 
         // Otherwise load content from server
         new Ajax.Request(this.chooserUrl,
@@ -312,14 +326,51 @@ WysiwygWidget.chooser.prototype = {
                 onSuccess: function(transport) {
                     try {
                         widgetTools.onAjaxSuccess(transport);
-                        this.getChooserControl().insert({after: widgetTools.getDivHtml(responseContainerId, transport.responseText)});
-                        this.makeControlOpened();
+//                        this.getChooserControl().insert({after: widgetTools.getDivHtml(responseContainerId, transport.responseText)});
+                        this.dialogContent = widgetTools.getDivHtml(responseContainerId, transport.responseText);
+                        this.openDialogWindow(this.dialogContent);
+//                        this.makeControlOpened();
                     } catch(e) {
                         alert(e.message);
                     }
                 }.bind(this)
             }
         );
+    },
+    
+    openDialogWindow: function(content) {
+        this.overlayShowEffectOptions = Windows.overlayShowEffectOptions;
+        this.overlayHideEffectOptions = Windows.overlayHideEffectOptions;
+        Windows.overlayShowEffectOptions = {duration:0};
+        Windows.overlayHideEffectOptions = {duration:0};
+        this.dialogWindow = Dialog.info(content, {
+            draggable:true,
+            resizable:true,
+            closable:true,
+            className:"magento",
+            title:this.config.buttons.open,
+            width:700,
+            height:500,
+            zIndex:1000,
+            recenterAuto:false,
+            hideEffect:Element.hide,
+            showEffect:Element.show,
+            id:"widget-chooser",
+            onClose: this.closeDialogWindow.bind(this)
+        });
+        content.evalScripts.bind(content).defer();
+    },
+    
+    closeDialogWindow: function(dialogWindow) {
+        if (!dialogWindow) {
+            dialogWindow = this.dialogWindow;
+        }
+        if (dialogWindow) {
+            dialogWindow.close();
+            Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
+            Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
+        }
+        this.dialogWindow = null;
     },
 
     getElementValue: function(value) {
