@@ -217,7 +217,7 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
         */
         if ($transaciton_type=='O') {
             $businessName = Mage::getStoreConfig('paypal/wps/business_name');
-            $storeName = Mage::getStoreConfig('store/system/name');
+            $storeName = Mage::getStoreConfig('system/store/name');
             $amount = $a->getBaseSubtotal()+$b->getBaseSubtotal()+$a->getBaseDiscountAmount()+$b->getBaseDiscountAmount();
             $sArr = array_merge($sArr, array(
                     'cmd'           => '_ext-enter',
