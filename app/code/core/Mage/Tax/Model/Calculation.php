@@ -181,17 +181,17 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
             return 0;
         }
 
-        $cacheKey = $request->getProductClassId() . '|' . $request->getCustomerClassId() . '|'
-            . $request->getCountryId() . '|' . $request->getRegionId() . '|' . $request->getPostcode();
-
+        $cacheKey = $this->_getRequestCacheKey($request);
+        
         if (!isset($this->_rateCache[$cacheKey])) {
             $this->unsRateValue();
             $this->unsCalculationProcess();
             $this->unsEventModuleId();
             Mage::dispatchEvent('tax_rate_data_fetch', array('request'=>$this));
             if (!$this->hasRateValue()) {
-                $this->setCalculationProcess($this->_getResource()->getCalculationProcess($request));
-                $this->setRateValue($this->_getResource()->getRate($request));
+                $rateInfo = $this->_getResource()->getRateInfo($request);
+                $this->setCalculationProcess($rateInfo['process']);
+                $this->setRateValue($rateInfo['value']);
             } else {
                 $this->setCalculationProcess($this->_formCalculationProcess());
             }
@@ -201,6 +201,20 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
         return $this->_rateCache[$cacheKey];
     }
 
+    /**
+     * Get cache key value for specific tax rate request
+     * 
+     * @param   $request
+     * @return  string
+     */
+    protected function _getRequestCacheKey($request)
+    {
+        $key = $request->getStore()->getId() . '|' . $request->getProductClassId() . '|'
+            . $request->getCustomerClassId() . '|' . $request->getCountryId() . '|'
+            . $request->getRegionId() . '|' . $request->getPostcode();
+        return $key;
+    }
+    
     /**
      * Get tax rate based on store shipping origin address settings
      * This rate can be used for conversion store price including tax to
@@ -371,10 +385,7 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      */
     public function getAppliedRates($request)
     {
-        $cacheKey = $request->getStore()->getId() . '|' . $request->getProductClassId() . '|'
-            . $request->getCustomerClassId() . '|' . $request->getCountryId() . '|'
-            . $request->getRegionId() . '|' . $request->getPostcode();
-
+        $cacheKey = $this->_getRequestCacheKey($request);
         if (!isset($this->_rateCalculationProcess[$cacheKey])) {
             $this->_rateCalculationProcess[$cacheKey] = $this->_getResource()->getCalculationProcess($request);
         }
