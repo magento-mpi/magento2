@@ -210,6 +210,9 @@ class Mage_Core_Model_Design_Package
 
     /**
      * Declare design package theme params
+     * Polymorph method:
+     * 1) if 1 parameter specified, sets everything to this value
+     * 2) if 2 parameters, treats 1st as key and 2nd as value
      *
      * @return Mage_Core_Model_Design_Package
      */
