@@ -389,11 +389,7 @@ class Mage_CatalogInventory_Model_Stock_Item extends Mage_Core_Model_Abstract
                     }
                     $result->setItemBackorders($backorderQty);
                     if ($this->getBackorders() == Mage_CatalogInventory_Model_Stock::BACKORDERS_YES_NOTIFY) {
-                        $result->setMessage(Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %s of the items will be backordered.',
-                            ($backorderQty * 1),
-                            $this->getProductName())
-                            )
-                        ;
+                        $result->setMessage(Mage::helper('cataloginventory')->__('This product is not available in the requested quantity. %s of the items will be backordered.', ($backorderQty * 1), $this->getProductName()));
                     }
                 }
             }
