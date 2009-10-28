@@ -362,15 +362,15 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Page_Block_Html_Pager
         $mode = $this->getRequest()->getParam($this->getModeVarName());
         if ($mode) {
             Mage::getSingleton('catalog/session')->setDisplayMode($mode);
-        }
-        else {
+        } else {
             $mode = Mage::getSingleton('catalog/session')->getDisplayMode();
         }
 
         if ($mode && isset($this->_availableMode[$mode])) {
             return $mode;
         }
-        return current(array_keys($this->_availableMode));
+        $modes = array_keys($this->_availableMode);
+        return current($modes);
     }
 
     /**
