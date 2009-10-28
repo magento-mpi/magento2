@@ -128,7 +128,10 @@ class Mage_Sales_Model_Order_Payment extends Mage_Payment_Model_Info
              */
 
             if ($methodInstance->isInitializeNeeded()) {
-                $methodInstance->initialize($action, $stateObject);
+                /**
+                 * For method initialization we have to use original config value for payment action
+                 */
+                $methodInstance->initialize($methodInstance->getConfigData('payment_action'), $stateObject);
             } else {
                 switch ($action) {
                     case Mage_Payment_Model_Method_Abstract::ACTION_AUTHORIZE:
