@@ -46,7 +46,7 @@
                 method = 'free';
             } else {
                 elements[i].disabled = true;
-                elements[i].parentNode.hide();
+                (elements[i]).parentNode.hide();
             }
         }
         if (method) this.switchMethod(method);
