@@ -209,9 +209,9 @@ class Mage_Tax_Model_Calculation extends Mage_Core_Model_Abstract
      */
     protected function _getRequestCacheKey($request)
     {
-        $key = $request->getStore()->getId() . '|' . $request->getProductClassId() . '|'
-            . $request->getCustomerClassId() . '|' . $request->getCountryId() . '|'
-            . $request->getRegionId() . '|' . $request->getPostcode();
+        $key = $request->getStore() ? $request->getStore()->getId() . '|' : '' 
+            . $request->getProductClassId() . '|' . $request->getCustomerClassId() . '|' 
+            . $request->getCountryId() . '|'. $request->getRegionId() . '|' . $request->getPostcode();
         return $key;
     }
     
