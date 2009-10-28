@@ -39,7 +39,7 @@ class Mage_Ogone_Model_Api extends Mage_Payment_Model_Method_Abstract
      */
     protected $_isGateway               = false;
     protected $_canAuthorize            = true;
-    protected $_canCapture              = true;
+    protected $_canCapture              = false;
     protected $_canCapturePartial       = false;
     protected $_canRefund               = false;
     protected $_canVoid                 = false;
