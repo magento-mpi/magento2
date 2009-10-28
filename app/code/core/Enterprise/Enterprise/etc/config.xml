@@ -99,7 +99,7 @@
         <admin>
             <design>
                 <theme>
-                    <default>enterprise</default>
+                    <skin>enterprise</skin>
                 </theme>
             </design>
         </admin>
