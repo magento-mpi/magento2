@@ -61,11 +61,8 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
             ));
             if ($nonEditableTypes) {
                 $this->_updateButton('order_edit', 'onclick',
-                    'if (!confirm(\'' . Mage::helper('sales')->__(
-                        'This order contains (%s) items and therefore cannot be edited through the admin interface at this time, if you wish to continue editing the (%s) items will be removed, the order will be cancelled and a new order will be placed',
-                        implode(', ', $nonEditableTypes),
-                        implode(', ', $nonEditableTypes)
-                    ) . '\')) return false;' . $onclickJs
+                    'if (!confirm(\'' .
+                    Mage::helper('sales')->__('This order contains (%s) items and therefore cannot be edited through the admin interface at this time, if you wish to continue editing the (%s) items will be removed, the order will be cancelled and a new order will be placed', implode(', ', $nonEditableTypes), implode(', ', $nonEditableTypes)) . '\')) return false;' . $onclickJs
                 );
             }
         }
@@ -109,9 +106,11 @@ class Mage_Adminhtml_Block_Sales_Order_View extends Mage_Adminhtml_Block_Widget_
         }
 
         if ($this->_isAllowedAction('invoice') && $this->getOrder()->canInvoice()) {
-            $_label = $this->getOrder()->getForcedDoShipmentWithInvoice()?'Invoice and Ship':'Invoice';
+            $_label = $this->getOrder()->getForcedDoShipmentWithInvoice() ?
+                Mage::helper('sales')->__('Invoice and Ship') :
+                Mage::helper('sales')->__('Invoice');
             $this->_addButton('order_invoice', array(
-                'label'     => Mage::helper('sales')->__($_label),
+                'label'     => $_label,
                 'onclick'   => 'setLocation(\'' . $this->getInvoiceUrl() . '\')',
             ));
         }
