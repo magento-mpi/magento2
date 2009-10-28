@@ -286,17 +286,16 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
         if ($order->getId()) {
             $comment = null;
+            $transaction = Mage::getModel('core/resource_transaction')
+               ->addObject($order);
             if ($order->canInvoice() && $this->getExpress()->getPaymentAction() == Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE) {
                 $invoice = $order->prepareInvoice();
                 $invoice->register()->capture();
-                Mage::getModel('core/resource_transaction')
-                    ->addObject($invoice)
-                    ->addObject($invoice->getOrder())
-                    ->save();
+                $transaction->addObject($invoice);
 
                 $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
                 $orderStatus = $this->getExpress()->getConfigData('order_status');
-                $comment = Mage::helper('paypal')->__('Invoice #%s created', $invoice->getIncrementId());
+                $comment = Mage::helper('paypal')->__('Invoice was created');
             } else {
                 $this->getExpress()->placeOrder($order->getPayment());
 
@@ -312,7 +311,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             }
 
             $order->setState($orderState, $orderStatus, $comment, $notified = true);
-            $order->save();
+            $transaction->save();
 
             Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false);
             Mage::getSingleton('checkout/session')->getQuote()->save();

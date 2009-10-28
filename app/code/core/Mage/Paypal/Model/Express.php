@@ -415,6 +415,7 @@ class Mage_Paypal_Model_Express extends Mage_Payment_Model_Method_Abstract
 
         $api->setAmount($payment->getOrder()->getBaseGrandTotal())
             ->setPayment($payment)
+            ->setPaymentType($this->getPaymentAction())
             ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode())
             ->setInvNum($this->getQuote()->getReservedOrderId());
 
