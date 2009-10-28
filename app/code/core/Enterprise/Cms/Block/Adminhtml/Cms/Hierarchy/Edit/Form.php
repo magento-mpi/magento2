@@ -40,6 +40,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     protected $_currentStore = null;
 
     /**
+     * Page lock flag
+     *
+     * @var null|bool
+     */
+    protected $_isLocked = null;
+
+    /**
      * Define custom form template for block
      */
     public function __construct()
@@ -176,7 +183,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray(),
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
             'onchange'  => "hierarchyNodes.metadataChanged('pager_visibility', 'pager_fieldset')",
-            'tabindex'  => '70',
+            'tabindex'  => '70'
         ));
         $pagerFieldset->addField('pager_frame', 'text', array(
             'name'      => 'pager_frame',
@@ -184,7 +191,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_frame',
             'note'      => Mage::helper('enterprise_cms')->__('How many Links to display at once'),
-            'tabindex'  => '80',
+            'tabindex'  => '80'
         ));
         $pagerFieldset->addField('pager_jump', 'text', array(
             'name'      => 'pager_jump',
@@ -192,7 +199,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_pager_jump',
             'note'      => Mage::helper('enterprise_cms')->__('If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value'),
-            'tabindex'  => '90',
+            'tabindex'  => '90'
         ));
 
         $menuFieldset   = $form->addFieldset('menu_fieldset', array(
@@ -211,7 +218,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
             'onchange'   => "hierarchyNodes.nodeChanged()",
             'container_id' => 'field_menu_visibility_self',
-            'tabindex'  => '100',
+            'tabindex'  => '100'
         ));
 
         $menuFieldset->addField('menu_visibility', 'select', array(
@@ -221,7 +228,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
             'onchange'   => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
             'container_id' => 'field_menu_visibility',
-            'tabindex'  => '110',
+            'tabindex'  => '110'
         ));
         $menuFieldset->addField('menu_levels_up', 'text', array(
             'name'      => 'menu_levels_up',
@@ -229,7 +236,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_up',
             'note'      => Mage::helper('enterprise_cms')->__('Number of Parent Node Levels to Include'),
-            'tabindex'  => '120',
+            'tabindex'  => '120'
         ));
         $menuFieldset->addField('menu_levels_down', 'text', array(
             'name'      => 'menu_levels_down',
@@ -237,7 +244,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_down',
             'note'      => Mage::helper('enterprise_cms')->__('Number of Child Node Levels to Include'),
-            'tabindex'  => '130',
+            'tabindex'  => '130'
         ));
         $menuFieldset->addField('menu_ordered', 'select', array(
             'label'     => Mage::helper('enterprise_cms')->__('List Type'),
@@ -246,7 +253,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listtype')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.menuListTypeChanged()',
             'container_id' => 'field_menu_ordered',
-            'tabindex'  => '140',
+            'tabindex'  => '140'
         ));
         $menuFieldset->addField('menu_list_type', 'select', array(
             'label'     => Mage::helper('enterprise_cms')->__('List Style'),
@@ -255,8 +262,18 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_listmode')->toOptionArray(),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_list_type',
-            'tabindex'  => '150',
+            'tabindex'  => '150'
         ));
+
+        if ($this->isLockedByOther()) {
+            foreach ($form->getElements() as $formElement) {
+                if ($formElement->getType() == 'fieldset') {
+                    foreach ($formElement->getElements() as $fieldsetElement) {
+                        $fieldsetElement->setDisabled(true);
+                    }
+                }
+            }
+        }
 
         $form->setUseContainer(true);
         $this->setForm($form);
@@ -275,7 +292,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'add_cms_pages',
             'label'     => Mage::helper('enterprise_cms')->__('Add Selected Page(s) to Tree'),
             'onclick'   => 'hierarchyNodes.pageGridAddSelected()',
-            'class'     => 'add',
+            'class'     => 'add' . (($this->isLockedByOther()) ? ' disabled' : ''),
+            'disabled'  => $this->isLockedByOther()
         );
         return $this->getLayout()->createBlock('adminhtml/widget_button')
             ->setData($addButtonData)->toHtml();
@@ -293,19 +311,22 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'delete_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Remove From Tree'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
-            'class'     => 'delete',
+            'class'     => 'delete' . (($this->isLockedByOther()) ? ' disabled' : ''),
+            'disabled'  => $this->isLockedByOther()
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'cancel_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
-            'class'     => 'delete',
+            'class'     => 'delete' . (($this->isLockedByOther()) ? ' disabled' : ''),
+            'disabled'  => $this->isLockedByOther()
         ))->toHtml();
         $buttons[] = $this->getLayout()->createBlock('adminhtml/widget_button')->setData(array(
             'id'        => 'save_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Save'),
             'onclick'   => 'hierarchyNodes.saveNodePage()',
-            'class'     => 'save',
+            'class'     => 'save' . (($this->isLockedByOther()) ? ' disabled' : ''),
+            'disabled'  => $this->isLockedByOther()
         ))->toHtml();
 
         return join(' ', $buttons);
@@ -322,7 +343,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'id'        => 'new_node_button',
             'label'     => Mage::helper('enterprise_cms')->__('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',
-            'class'     => 'add'
+            'class'     => 'add' . (($this->isLockedByOther()) ? ' disabled' : ''),
+            'disabled'  => $this->isLockedByOther()
         ))->toHtml();
     }
 
@@ -518,5 +540,30 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         }
 
         return Mage::helper('core')->jsonEncode($result);
+    }
+
+    /**
+     * Check whether current user can drag nodes
+     *
+     * @return bool
+     */
+    public function canDragNodes()
+    {
+        return !$this->isLockedByOther();
+    }
+
+    /**
+     * Check whether page is locked by other user
+     *
+     * @return bool
+     */
+    public function isLockedByOther()
+    {
+        if (is_null($this->_isLocked)) {
+            $this->_isLocked = Mage::getModel('enterprise_cms/hierarchy_lock', Mage::getSingleton('admin/session'))
+                ->isLockedByOther();
+        }
+        Mage::log($this->_isLocked);
+        return $this->_isLocked;
     }
 }

@@ -114,7 +114,7 @@
                     cls: cssClass,
                     expanded: false,
                     allowDrop: true,
-                    allowDrag: true
+                    allowDrag: <?php echo ($this->canDragNodes()) ? 'true' : 'false' ?>
                 });
 
                 // Add metadata

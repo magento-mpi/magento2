@@ -33,6 +33,14 @@
  */
 class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Controller_Action
 {
+
+    /**
+     * Lock model
+     *
+     * @var Enterprise_Cms_Model_Hierarchy_Lock
+     */
+    protected $_lockModel = null;
+
     /**
      * Controller pre dispatch method
      *
@@ -71,6 +79,20 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
      */
     public function indexAction()
     {
+        $this->_getLockModel()->revalidate();
+
+        if ($this->_getLockModel()->isLockedByMe()) {
+            $this->_getSession()->addNotice(
+                Mage::helper('enterprise_cms')->__('This Page is locked by you.')
+            );
+        }
+
+        if ($this->_getLockModel()->isLockedByOther()) {
+            $this->_getSession()->addNotice(
+                Mage::helper('enterprise_cms')->__("This Page is locked by '%s'.", $this->_getLockModel()->getUserName())
+            );
+        }
+
         $node = Mage::getModel('enterprise_cms/hierarchy_node');
 
         $data = $this->_getSession()->getFormData(true);
@@ -82,6 +104,15 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
 
         $this->_initAction()
             ->renderLayout();
+    }
+
+    /**
+     * Lock page
+     */
+    public function lockAction()
+    {
+        $this->_getLockModel()->lock();
+        $this->_redirect('*/*/');
     }
 
     /**
@@ -142,6 +173,19 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     {
         $this->loadLayout();
         $this->renderLayout();
+    }
+
+    /**
+     * Retrieve lock model
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Lock
+     */
+    protected function _getLockModel()
+    {
+        if (is_null($this->_lockModel)) {
+            $this->_lockModel = Mage::getModel('enterprise_cms/hierarchy_lock', Mage::getSingleton('admin/session'));
+        }
+        return $this->_lockModel;
     }
 
     /**
