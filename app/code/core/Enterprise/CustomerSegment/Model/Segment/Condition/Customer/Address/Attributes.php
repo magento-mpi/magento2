@@ -57,12 +57,13 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Attrib
      */
     public function getNewChildSelectOptions()
     {
+        $prefix = 'enterprise_customersegment/segment_condition_customer_address_';
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
         $conditions = array();
         foreach ($attributes as $code => $label) {
             $conditions[] = array('value'=> $this->getType() . '|' . $code, 'label'=>$label);
         }
-
+        $conditions = array_merge($conditions, Mage::getModel($prefix . 'region')->getNewChildSelectOptions());
         return array(
             'value' => $conditions,
             'label'=>Mage::helper('enterprise_customersegment')->__('Address Attributes')
