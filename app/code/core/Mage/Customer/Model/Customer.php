@@ -332,7 +332,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve primary address by type(attribute)
+     * Retrieve default address by type(attribute)
      *
      * @param   string $attributeCode
      * @return  Mage_Customer_Mode_Address
@@ -352,7 +352,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve customer primary billing address
+     * Retrieve customer default billing address
      *
      * @return Mage_Customer_Mode_Address
      */
@@ -367,7 +367,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve primary customer shipping address
+     * Retrieve default customer shipping address
      *
      * @return Mage_Customer_Mode_Address
      */
@@ -382,7 +382,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve ids of primary addresses
+     * Retrieve ids of default addresses
      *
      * @return unknown
      */
@@ -399,7 +399,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve all customer primary addresses
+     * Retrieve all customer default addresses
      *
      * @return array
      */
@@ -426,7 +426,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve not primary addresses
+     * Retrieve not default addresses
      *
      * @return array
      */
