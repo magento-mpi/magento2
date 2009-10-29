@@ -1177,7 +1177,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
      */
     public function getStoreCurrency()
     {
-        return $this->getStoreCurrency();
+        return $this->getData('store_currency');
     }
 
     public function formatBasePrice($price)
