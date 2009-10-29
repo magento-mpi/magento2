@@ -104,6 +104,7 @@
     <?php echo $this->getBlockHtml('formkey')?>
     <fieldset>
         <input type="hidden" id="change_flag_element" name="_change_type_flag" value="" />
+        <input type="hidden" id="orig_template_code" name="orig_template_code" value="<?php echo $this->getOrigTemplateCode() ?>" />
         <?php echo $this->getFormHtml() ?>
     </fieldset>
 </form>
@@ -125,6 +126,8 @@
             if ($('convert_button_back')) {
                 $('convert_button_back').hide();
             }
+            this.renderPaths(<?php echo $this->getUsedDefaultForPaths(); ?>, 'used_default_for');
+            this.renderPaths(<?php echo $this->getUsedCurrentlyForPaths(); ?>, 'used_currently_for');
         },
         stripTags: function () {
             if(!window.confirm("<?php echo $this->__('Are you sure that you want to strip tags?') ?>")) {
@@ -202,11 +205,43 @@
                                   $('convert_button').show();
                               }
                           }
+                          if (pair.key == 'orig_template_used_default_for') {
+                               if(pair.value.length){
+                                   $('used_default_for').show();
+                                   this.renderPaths(pair.value, 'used_default_for');
+                               }
+                               else{
+                                   $('used_default_for').hide();
+                               }
+                          }
                        }.bind(this));
                    }
                }.bind(this)
             });
 
+        },
+
+        renderPaths: function(paths, fieldId){
+            var field = $(fieldId);
+            if(field){
+                field.down('td').next('td').update(this.parsePath(paths, '<span class="path-delimiter">&nbsp;-&gt;&nbsp;</span>', '<br />'));
+            }
+        },
+
+        parsePath: function (value, pathDelimiter, lineDelimiter) {
+            if (Object.isArray(value)) {
+                var result = [];
+                for (var i = 0, len = value.length; i < len; i++) {
+                    result.push(this.parsePath(value[i], pathDelimiter, pathDelimiter));
+                }
+                return result.join(lineDelimiter);
+            }
+
+            if(!Object.isString(value) && value.title) {
+                value = (value.url ? '<a href="' + value.url + '">' + value.title + '</a>' : value.title);
+            }
+
+            return value;
         }
     };
 

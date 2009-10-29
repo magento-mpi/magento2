@@ -168,30 +168,31 @@ class Mage_Core_Model_Mysql4_Email_Template
     protected function _prepareSave(Mage_Core_Model_Email_Template $template)
     {
         $data = array();
-        $data['template_code'] 			= $template->getTemplateCode();
-        $data['template_text'] 			= $template->getTemplateText();
-        $data['template_type'] 			= (int) $template->getTemplateType();
-        $data['template_subject'] 		= $template->getTemplateSubject();
-        $data['template_sender_name'] 	= $template->getTemplateSenderName();
-        $data['template_sender_email'] 	= $template->getTemplateSenderEmail();
+        $data['template_code']             = $template->getTemplateCode();
+        $data['template_text']             = $template->getTemplateText();
+        $data['template_type']             = (int) $template->getTemplateType();
+        $data['template_subject']         = $template->getTemplateSubject();
+        $data['template_sender_name']     = $template->getTemplateSenderName();
+        $data['template_sender_email']     = $template->getTemplateSenderEmail();
+        $data['orig_template_code']     = $template->getOrigTemplateCode();
 
         if(!$template->getAddedAt()) {
             $template->setAddedAt(Mage::getSingleton('core/date')->gmtDate());
             $template->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
         }
 
-        $data['modified_at']	 = $template->getModifiedAt();
-        $data['added_at']	 	 = $template->getAddedAt();
+        $data['modified_at']     = $template->getModifiedAt();
+        $data['added_at']          = $template->getAddedAt();
 
         if($this->checkCodeUsage($template)) {
             Mage::throwException(Mage::helper('core')->__('Duplicate Of Template Code'));
         }
 
         $validators = array(
-            'template_code' 		=> array(Zend_Filter_Input::ALLOW_EMPTY => false),
-            #'template_type' 		=> 'Alnum',
+            'template_code'         => array(Zend_Filter_Input::ALLOW_EMPTY => false),
+            #'template_type'         => 'Alnum',
             #'template_sender_email' => 'EmailAddress',
-            #'template_sender_name'	=> array(Zend_Filter_Input::ALLOW_EMPTY => false)
+            #'template_sender_name'    => array(Zend_Filter_Input::ALLOW_EMPTY => false)
         );
 
         $validateInput = new Zend_Filter_Input(array(), $validators, $data);

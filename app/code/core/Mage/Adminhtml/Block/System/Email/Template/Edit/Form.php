@@ -35,13 +35,40 @@
 class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
 
+    /**
+     * Add fields to form and create template info form
+     *
+     * @return Mage_Adminhtml_Block_Widget_Form
+     */
     protected function _prepareForm()
     {
         $form = new Varien_Data_Form();
 
-        $fieldset = $form->addFieldset('base_fieldset',
-            array('legend'=>Mage::helper('adminhtml')->__('Template Information'),'class'=>'fieldset-wide')
-        );
+        $fieldset = $form->addFieldset('base_fieldset', array(
+            'legend' => Mage::helper('adminhtml')->__('Template Information'),
+            'class' => 'fieldset-wide'
+        ));
+
+        $templateId = Mage::registry('current_email_template')->getId();
+        if ($templateId) {
+            $fieldset->addField('used_currently_for', 'label', array(
+                'label' => Mage::helper('adminhtml')->__('Used Currently For'),
+                'container_id' => 'used_currently_for',
+                'after_element_html' =>
+                    '<script type="text/javascript">' .
+                    (!Mage::registry('current_email_template')->getSystemConfigPathsWhereUsedCurrently() ? '$(\'' . 'used_currently_for' . '\').hide(); ' : '') .
+                    '</script>',
+            ));
+        }
+
+        $fieldset->addField('used_default_for', 'label', array(
+            'label' => Mage::helper('adminhtml')->__('Used as Default For'),
+            'container_id' => 'used_default_for',
+            'after_element_html' =>
+                '<script type="text/javascript">' .
+                (!(bool)Mage::registry('current_email_template')->getOrigTemplateCode() ? '$(\'' . 'used_default_for' . '\').hide(); ' : '') .
+                '</script>',
+        ));
 
         $fieldset->addField('template_code', 'text', array(
             'name'=>'template_code',
@@ -58,7 +85,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
 
         $fieldset->addField('template_text', 'editor', array(
             'name'=>'template_text',
-            'wysiwyg' => false, //!Mage::registry('email_template')->isPlain(),
+            'wysiwyg' => false, //!Mage::registry('current_email_template')->isPlain(),
             'label' => Mage::helper('adminhtml')->__('Template Content'),
             'required' => true,
             'theme' => 'advanced',
@@ -66,8 +93,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
                'style' => 'height:24em;',
         ));
 
-        if (Mage::registry('email_template')->getId()) {
-            $form->addValues(Mage::registry('email_template')->getData());
+        if ($templateId) {
+            $form->addValues(Mage::registry('current_email_template')->getData());
         }
 
         if ($values = Mage::getSingleton('adminhtml/session')->getData('email_template_form_data', true)) {

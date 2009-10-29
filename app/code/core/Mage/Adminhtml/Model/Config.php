@@ -166,7 +166,7 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
     }
 
     /**
-     * Enter description here...
+     * Get translate module name
      *
      * @param Varien_Simplexml_Element $sectionNode
      * @param Varien_Simplexml_Element $groupNode
@@ -192,4 +192,38 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
         return $moduleName;
     }
 
+    /**
+     * System configuration section, fieldset or field label getter
+     *
+     * @param string $sectionName
+     * @param string $groupName
+     * @param string $fieldName
+     * @return string
+     */
+    public function getSystemConfigNodeLabel($sectionName, $groupName = null, $fieldName = null)
+    {
+        $sectionName = trim($sectionName, '/');
+        $path = '//sections/' . $sectionName;
+        $groupNode = $fieldNode = null;
+        $sectionNode = $this->_sections->xpath($path);
+        if (!empty($groupName)) {
+            $path .= '/groups/' . trim($groupName, '/');
+            $groupNode = $this->_sections->xpath($path);
+        }
+        if (!empty($fieldName)) {
+            if (!empty($groupName)) {
+                $path .= '/fields/' . trim($fieldName, '/');
+                $fieldNode = $this->_sections->xpath($path);
+            }
+            else {
+                Mage::throwException(Mage::helper('adminhtml')->__('Group node name should be specified with field node name.'));
+            }
+        }
+        $moduleName = $this->getAttributeModule($sectionNode, $groupNode, $fieldNode);
+        $systemNode = $this->_sections->xpath($path);
+        foreach ($systemNode as $node) {
+            return Mage::helper($moduleName)->__((string)$node->label);
+        }
+        return '';
+    }
 }
