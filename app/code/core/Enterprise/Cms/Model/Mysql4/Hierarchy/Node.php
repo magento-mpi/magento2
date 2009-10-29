@@ -379,7 +379,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
             switch ($type) {
 // commented bc of changes in road map
 //                case 'chapter':
-//                    $xpath = split('/', $node->getXpath());
+//                    $xpath = explode('/', $node->getXpath());
 //                    if (isset($xpath[1]) && $xpath[1] != $node->getId()) {
 //                        $found = true;
 //                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[1]);
@@ -387,7 +387,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
 //                    break;
 //
 //                case 'section':
-//                    $xpath = split('/', $node->getXpath());
+//                    $xpath = explode('/', $node->getXpath());
 //                    if (isset($xpath[2]) && $xpath[2] != $node->getId()) {
 //                        $found = true;
 //                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[2]);
@@ -448,7 +448,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         $tree       = array();
         $parentId   = $object->getParentNodeId();
         if ($up > 0 && $object->getLevel() > 1) {
-            $xpath = split('/', $object->getXpath());
+            $xpath = explode('/', $object->getXpath());
             array_pop($xpath); //remove self node
             array_pop($xpath); //remove parent node
             $parentIds = array();

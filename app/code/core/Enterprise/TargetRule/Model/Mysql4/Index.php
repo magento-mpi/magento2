@@ -409,7 +409,7 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
     public function bindArrayOfIds($value)
     {
         if (!is_array($value)) {
-            $value = split(',', $value);
+            $value = explode(',', $value);
         }
 
         $value = array_map('trim', $value);

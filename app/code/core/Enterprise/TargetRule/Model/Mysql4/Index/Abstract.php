@@ -94,7 +94,7 @@ abstract class Enterprise_TargetRule_Model_Mysql4_Index_Abstract extends Mage_Co
 
         $value  = $this->_getReadAdapter()->fetchOne($select);
         if (!empty($value)) {
-            $productIds = split(',', $value);
+            $productIds = explode(',', $value);
         } else {
             $productIds = array();
         }
