@@ -731,6 +731,11 @@
     };
     Ext.onReady(hierarchyNodes.initialize.bind(hierarchyNodes));
     //]]>
+
+    <?php if (!$this->isLockedByOther()):?>
+        var timeOut = <?php echo $this->getLockLifetime(); ?> - 60;
+        setTimeout("alert('<?php echo $this->getLockAlertMessage();?>')", timeOut * 1000);
+    <?php endif;?>
     </script>
     <br />
     <div id="cms_page_grid_container">

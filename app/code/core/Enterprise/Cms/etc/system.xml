@@ -57,7 +57,7 @@
                         </metadata_enabled>
                         <lock_timeout translate="label">
                             <label>Hierarchy Page Lock Timeout (seconds)</label>
-                            <comment>Empty Value disables Page Locking</comment>
+                            <comment>Empty Value disables Page Locking. Non-Empty Values less than 120 are ignored.</comment>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>

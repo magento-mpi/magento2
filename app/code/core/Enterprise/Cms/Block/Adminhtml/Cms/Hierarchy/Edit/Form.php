@@ -47,6 +47,13 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     protected $_isLocked = null;
 
     /**
+     * Lock model
+     *
+     * @var null|Enterprise_Cms_Model_Hierarchy_Lock
+     */
+    protected $_lockModel = null;
+
+    /**
      * Define custom form template for block
      */
     public function __construct()
@@ -560,10 +567,41 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     public function isLockedByOther()
     {
         if (is_null($this->_isLocked)) {
-            $this->_isLocked = Mage::getModel('enterprise_cms/hierarchy_lock', Mage::getSingleton('admin/session'))
-                ->isLockedByOther();
+            $this->_isLocked = $this->_getLockModel()->isLockedByOther();
         }
-        Mage::log($this->_isLocked);
         return $this->_isLocked;
+    }
+
+    /**
+     * Retrieve lock lifetime
+     *
+     * @return int
+     */
+    public function getLockLifetime()
+    {
+        return $this->_getLockModel()->getLockLifeTime();
+    }
+
+    /**
+     * Retrieve lock message for js alert
+     *
+     * @return string
+     */
+    public function getLockAlertMessage()
+    {
+        return Mage::helper('enterprise_cms')->__('Page lock expires in 60 seconds. Save changes to avoid possible data loss.');
+    }
+
+    /**
+     * Retrieve lock model
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Lock
+     */
+    protected function _getLockModel()
+    {
+        if (is_null($this->_lockModel)) {
+            $this->_lockModel = Mage::getModel('enterprise_cms/hierarchy_lock', Mage::getSingleton('admin/session'));
+        }
+        return $this->_lockModel;
     }
 }
