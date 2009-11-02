@@ -51,25 +51,25 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         $js = '
             <script type="text/javascript">
             //<![CDATA[
-            function openEditorPopup(url, name, specs, parent) {
-                if ((typeof popups == "undefined") || popups[name] == undefined || popups[name].closed) {
-                    if (typeof popups == "undefined") {
-                        popups = new Array();
+                openEditorPopup = function(url, name, specs, parent) {
+                    if ((typeof popups == "undefined") || popups[name] == undefined || popups[name].closed) {
+                        if (typeof popups == "undefined") {
+                            popups = new Array();
+                        }
+                        var opener = (parent != undefined ? parent : window);
+                        popups[name] = opener.open(url, name, specs);
+                    } else {
+                        popups[name].focus();
                     }
-                    var opener = (parent != undefined ? parent : window);
-                    popups[name] = opener.open(url, name, specs);
-                } else {
-                    popups[name].focus();
+                    return popups[name];
                 }
-                return popups[name];
-            }
 
-            function closeEditorPopup(name) {
-                if ((typeof popups != "undefined") && popups[name] != undefined && !popups[name].closed) {
-                    popups[name].close();
+                closeEditorPopup = function(name) {
+                    if ((typeof popups != "undefined") && popups[name] != undefined && !popups[name].closed) {
+                        popups[name].close();
+                    }
                 }
-            }
-    		//]]>
+            //]]>
             </script>';
 
         if($this->isEnabled())
@@ -91,21 +91,20 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                 <script type="text/javascript">
                 //<![CDATA[
 
-                function imagebrowser(fieldName, url, objectType, w) {
-                    varienGlobalEvents.fireEvent("open_browser_callback", {win:w, type:objectType, field:fieldName});
-                }
+                    function imagebrowser(fieldName, url, objectType, w) {
+                        varienGlobalEvents.fireEvent("open_browser_callback", {win:w, type:objectType, field:fieldName});
+                    }
 
-                '.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
+                    '.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
 
-                '.($this->isHidden() ? '' : 'Event.observe(window, "load", '.$jsSetupObject.'.setup.bind('.$jsSetupObject.', "exact"));').'
+                    '.($this->isHidden() ? '' : $jsSetupObject.'.setup("exact");').'
 
-				Event.observe("toggle'.$this->getHtmlId().'", "click", '.$jsSetupObject.'.toggle.bind('.$jsSetupObject.'));
-                varienGlobalEvents.attachEventHandler("formSubmit", '.$jsSetupObject.'.onFormValidation.bind('.$jsSetupObject.'));
-                varienGlobalEvents.attachEventHandler("tinymceBeforeSetContent", '.$jsSetupObject.'.beforeSetContent.bind('.$jsSetupObject.'));
-                varienGlobalEvents.attachEventHandler("tinymceSaveContent", '.$jsSetupObject.'.saveContent.bind('.$jsSetupObject.'));
-                varienGlobalEvents.attachEventHandler("open_browser_callback", '.$jsSetupObject.'.openImagesBrowser.bind('.$jsSetupObject.'));
-
-				//]]>
+                    Event.observe("toggle'.$this->getHtmlId().'", "click", '.$jsSetupObject.'.toggle.bind('.$jsSetupObject.'));
+                    varienGlobalEvents.attachEventHandler("formSubmit", '.$jsSetupObject.'.onFormValidation.bind('.$jsSetupObject.'));
+                    varienGlobalEvents.attachEventHandler("tinymceBeforeSetContent", '.$jsSetupObject.'.beforeSetContent.bind('.$jsSetupObject.'));
+                    varienGlobalEvents.attachEventHandler("tinymceSaveContent", '.$jsSetupObject.'.saveContent.bind('.$jsSetupObject.'));
+                    varienGlobalEvents.attachEventHandler("open_browser_callback", '.$jsSetupObject.'.openImagesBrowser.bind('.$jsSetupObject.'));
+                //]]>
                 </script>';
 
             $html = $this->_wrapIntoContainer($html);
