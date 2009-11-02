@@ -278,30 +278,11 @@ WysiwygWidget.chooser.prototype = {
         return $(this.chooserId + 'label');
     },
 
-    makeControlOpened: function() {
-        this.toggleControl(true);
-    },
-
-    makeControlClosed: function() {
-        this.toggleControl(false);
-    },
-
-    toggleControl: function(opened) {
-        this.getChooserControl().down('span').innerHTML = (opened ? this.config.buttons.close : this.config.buttons.open);
-        if(opened) {
-            this.getChooserControl().addClassName('opened');
-        } else {
-            this.getChooserControl().removeClassName('opened');
-        }
-    },
-
     open: function() {
-//        this.makeControlOpened();
         $(this.getResponseContainerId()).show();
     },
 
     close: function() {
-//        this.makeControlClosed();
         $(this.getResponseContainerId()).hide();
         this.closeDialogWindow();
     },
@@ -314,10 +295,6 @@ WysiwygWidget.chooser.prototype = {
         }
         // Show or hide chooser content if it was already loaded
         var responseContainerId = this.getResponseContainerId();
-//        if ($(responseContainerId) != undefined) {
-//            $(responseContainerId).visible() ? this.close() : this.open();
-//            return;
-//        }
 
         // Otherwise load content from server
         new Ajax.Request(this.chooserUrl,
@@ -326,10 +303,8 @@ WysiwygWidget.chooser.prototype = {
                 onSuccess: function(transport) {
                     try {
                         widgetTools.onAjaxSuccess(transport);
-//                        this.getChooserControl().insert({after: widgetTools.getDivHtml(responseContainerId, transport.responseText)});
                         this.dialogContent = widgetTools.getDivHtml(responseContainerId, transport.responseText);
                         this.openDialogWindow(this.dialogContent);
-//                        this.makeControlOpened();
                     } catch(e) {
                         alert(e.message);
                     }
