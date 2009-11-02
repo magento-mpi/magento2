@@ -97,7 +97,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
 
                     '.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
 
-                    '.($this->isHidden() ? '' : $jsSetupObject.'.setup("exact");').'
+                    '.($this->isHidden() ? '' : ($this->getForceLoad()?$jsSetupObject.'.setup("exact");':'Event.observe(window, "load", '.$jsSetupObject.'.setup.bind('.$jsSetupObject.', "exact"));')).'
 
                     Event.observe("toggle'.$this->getHtmlId().'", "click", '.$jsSetupObject.'.toggle.bind('.$jsSetupObject.'));
                     varienGlobalEvents.attachEventHandler("formSubmit", '.$jsSetupObject.'.onFormValidation.bind('.$jsSetupObject.'));
