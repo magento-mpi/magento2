@@ -38,6 +38,11 @@
     </adminhtml_catalog_product_index>
 
     <adminhtml_catalog_product_new>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+        </reference>
         <reference name="content">
             <block type="adminhtml/catalog_product_edit" name="product_edit"></block>
         </reference>
@@ -46,10 +51,16 @@
         </reference>
         <reference name="js">
             <block type="adminhtml/catalog_product_edit_js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
+            <block type="core/template" template="catalog/wysiwyg/js.phtml"/>
         </reference>
     </adminhtml_catalog_product_new>
 
     <adminhtml_catalog_product_edit>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+        </reference>
         <reference name="content">
             <block type="adminhtml/catalog_product_edit" name="product_edit"></block>
         </reference>
@@ -59,6 +70,7 @@
         </reference>
         <reference name="js">
             <block type="adminhtml/catalog_product_edit_js" template="catalog/product/js.phtml" name="catalog_product_js"></block>
+            <block type="core/template" template="catalog/wysiwyg/js.phtml"/>
         </reference>
     </adminhtml_catalog_product_edit>
 
@@ -212,11 +224,19 @@ Layout handle for configurable products
     </adminhtml_catalog_product_action_attribute_edit>
     
     <adminhtml_catalog_category_edit>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+        </reference>
         <reference name="left">
             <block name="category.tree" type="adminhtml/catalog_category_tree" template="catalog/category/tree.phtml" />
         </reference>
         <reference name="content">
             <block name="category.edit"  type="adminhtml/catalog_category_edit" template="catalog/category/edit.phtml" />
+        </reference>
+        <reference name="js">
+            <block type="core/template" template="catalog/wysiwyg/js.phtml"/>
         </reference>
     </adminhtml_catalog_category_edit>
 

@@ -103,10 +103,16 @@ function bindAttributeInputType()
             $('is_html_allowed_on_front').disabled = false;
         }
         $('frontend_class').disabled = false;
+        if ($('frontend_input').value=='textarea' && $('is_wysiwyg_enabled')) {
+            $('is_wysiwyg_enabled').disabled = false;
+        } else if ($('is_wysiwyg_enabled')) {
+            $('is_html_allowed_on_front').selectedIndex = 0;
+            $('is_wysiwyg_enabled').disabled = true;
+        }
     }
     else {
         if($('is_html_allowed_on_front')){
-            $('is_html_allowed_on_front').selectedIndex=0;
+            $('is_html_allowed_on_front').selectedIndex = 0;
             $('is_html_allowed_on_front').disabled = true;
         }
         $('frontend_class').value = '';

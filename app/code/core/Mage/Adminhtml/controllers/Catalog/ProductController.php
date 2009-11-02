@@ -229,6 +229,19 @@ class Mage_Adminhtml_Catalog_ProductController extends Mage_Adminhtml_Controller
     }
 
     /**
+     * WYSIWYG editor action for ajax request
+     *
+     */
+    public function wysiwygAction()
+    {
+        $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
+        $content = $this->getLayout()->createBlock('adminhtml/catalog_helper_form_wysiwyg_content', '', array(
+            'editor_element_id' => $elementId
+        ));
+        $this->getResponse()->setBody($content->toHtml());
+    }
+
+    /**
      * Product grid for AJAX request
      */
     public function gridAction()
