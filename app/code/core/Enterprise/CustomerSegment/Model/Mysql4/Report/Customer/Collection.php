@@ -78,7 +78,6 @@ class Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
             'customer_id'
         )
         ->where('segment_id IN(?)', $segment);
-        Mage::log(get_class($select));
         return $select;
     }
 
