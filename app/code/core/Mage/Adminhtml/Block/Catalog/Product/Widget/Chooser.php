@@ -145,8 +145,8 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
             function (node, e) {
                 {jsObject}.addVarToUrl("category_id", node.attributes.id);
                 {jsObject}.reload({jsObject}.url);
-                {jsObject}.categoryId = node.attributes.id;
-                {jsObject}.categoryName = node.text;
+                {jsObject}.categoryId = node.attributes.id != "none" ? node.attributes.id : false;
+                {jsObject}.categoryName = node.attributes.id != "none" ? node.text : false;
             }
         ';
         $js = str_replace('{jsObject}', $this->getJsObjectName(), $js);
@@ -188,13 +188,15 @@ class Mage_Adminhtml_Block_Catalog_Product_Widget_Chooser extends Mage_Adminhtml
 
         if ($categoryId = $this->getCategoryId()) {
             $category = Mage::getModel('catalog/category')->load($categoryId);
-            // $collection->addCategoryFilter($category);
-            $productIds = $category->getProductsPosition();
-            $productIds = array_keys($productIds);
-            if (empty($productIds)) {
-                $productIds = 0;
+            if ($category->getId()) {
+                // $collection->addCategoryFilter($category);
+                $productIds = $category->getProductsPosition();
+                $productIds = array_keys($productIds);
+                if (empty($productIds)) {
+                    $productIds = 0;
+                }
+                $collection->addFieldToFilter('entity_id', array('in' => $productIds));
             }
-            $collection->addFieldToFilter('entity_id', array('in' => $productIds));
         }
 
         if ($productTypeId = $this->getProductTypeId()) {
