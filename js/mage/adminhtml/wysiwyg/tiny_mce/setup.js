@@ -30,6 +30,10 @@ tinyMceWysiwygSetup.prototype =
         this.config = config;
         varienGlobalEvents.attachEventHandler('tinymceChange', this.onChangeContent.bind(this));
         this.notifyFirebug();
+        if(typeof tinyMceEditors == 'undefined') {
+            tinyMceEditors = $H({});
+        }
+        tinyMceEditors.set(this.id, this);
     },
 
     notifyFirebug: function() {
@@ -136,25 +140,43 @@ tinyMceWysiwygSetup.prototype =
         openEditorPopup(wUrl, 'browser_window' + this.id, 'width=' + wWidth + ', height=' + wHeight, win);
     },
 
-    toggle: function() {
-        this.toggleEditorControl();
+    getToggleButton: function() {
+        return $('toggle' + this.id);
+    },
 
-        $$('#buttons' + this.id + ' > button.plugin').each(function(e) {
-            e.toggle();
+    getPluginButtons: function() {
+        return $$('#buttons' + this.id + ' > button.plugin');
+    },
+
+    turnOn: function() {
+        this.closePopups();
+        this.setup();
+        tinyMCE.execCommand('mceAddControl', false, this.id);
+        this.getPluginButtons().each(function(e) {
+            e.hide();
         });
     },
 
-    toggleEditorControl: function() {
+    turnOff: function() {
+        this.closePopups();
+        tinyMCE.execCommand('mceRemoveControl', false, this.id);
+        this.getPluginButtons().each(function(e) {
+            e.show();
+        });
+    },
+
+    closePopups: function() {
         // close all popups to avoid problems with updating parent content area
         closeEditorPopup('widget_window' + this.id);
         closeEditorPopup('browser_window' + this.id);
+    },
 
+    toggle: function() {
         if (!tinyMCE.get(this.id)) {
-            this.setup();
-            tinyMCE.execCommand('mceAddControl', false, this.id);
+            this.turnOn();
             return true;
         } else {
-            tinyMCE.execCommand('mceRemoveControl', false, this.id);
+            this.turnOff();
             return false;
         }
     },
