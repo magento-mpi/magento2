@@ -152,26 +152,47 @@ class Mage_Widget_Model_Widget extends Varien_Object
     }
 
     /**
-     * Return list of widgets as SimpleXml object
+     * Return filtered list of widgets as SimpleXml object
      *
+     * @param array $filters Key-value array of filters for widget node properties
      * @return Varien_Simplexml_Element
      */
-    public function getWidgetsXml()
+    public function getWidgetsXml($filters = array())
     {
-        return $this->getXmlConfig()->getNode();
+        $widgets = $this->getXmlConfig()->getNode();
+        $result = clone $widgets;
+
+        // filter widgets by params
+        if (is_array($filters) && count($filters) > 0) {
+            foreach ($widgets as $code => $widget) {
+                try {
+                    $reflection = new ReflectionObject($widget);
+                    foreach ($filters as $field => $value) {
+                        if (!$reflection->hasProperty($field) || (string)$widget->{$field} != $value) {
+                            throw new Exception();
+                        }
+                    }
+                } catch (Exception $e) {
+                    unset($result->{$code});
+                    continue;
+                }
+            }
+        }
+
+        return $result;
     }
 
     /**
      * Return list of widgets as array
      *
-     * @param bool $withEmptyElement
+     * @param array $filters Key-value array of filters for widget node properties
      * @return array
      */
-    public function getWidgetsArray($withEmptyElement = false)
+    public function getWidgetsArray($filters = array())
     {
         if (!$this->_getData('widgets_array')) {
             $result = array();
-            foreach ($this->getWidgetsXml() as $widget) {
+            foreach ($this->getWidgetsXml($filters) as $widget) {
                 $helper = $widget->getAttribute('module') ? $widget->getAttribute('module') : 'widget';
                 $helper = Mage::helper($helper);
                 $result[$widget->getName()] = array(

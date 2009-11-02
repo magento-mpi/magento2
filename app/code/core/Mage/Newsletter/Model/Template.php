@@ -179,7 +179,8 @@ class Mage_Newsletter_Model_Template extends Mage_Core_Model_Abstract
      */
     public function getProcessedTemplate(array $variables = array(), $usePreprocess = false)
     {
-        $processor = Mage::getModel('core/email_template_filter');
+        $processor = Mage::helper('newsletter')->getTemplateProcessor();
+        /* @var $processor Mage_Newsletter_Model_Template_Filter */
 
         if (!$this->_preprocessFlag) {
             $variables['this'] = $this;

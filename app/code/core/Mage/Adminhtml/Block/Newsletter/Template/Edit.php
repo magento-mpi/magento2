@@ -68,6 +68,11 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
      */
     protected function _prepareLayout()
     {
+        // Load Wysiwyg on demand and Prepare layout
+        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
+            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
+        }
+
         $this->setChild('back_button',
             $this->getLayout()->createBlock('adminhtml/widget_button')
                 ->setData(array(
@@ -102,16 +107,6 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                     'onclick'   => 'templateControl.unStripTags();',
                     'id'        => 'convert_button_back',
                     'style'     => 'display:none',
-                    'class'     => 'task'
-                ))
-        );
-
-        $this->setChild('toggle_button',
-            $this->getLayout()->createBlock('adminhtml/widget_button')
-                ->setData(array(
-                    'label'     => Mage::helper('newsletter')->__('Toggle Editor'),
-                    'onclick'   => 'templateControl.toggleEditor();',
-                    'id'        => 'toggle_button',
                     'class'     => 'task'
                 ))
         );
@@ -163,16 +158,6 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     public function getBackButtonHtml()
     {
         return $this->getChildHtml('back_button');
-    }
-
-    /**
-     * Retrieve Toggle Button HTML
-     *
-     * @return string
-     */
-    public function getToggleButtonHtml()
-    {
-        return $this->getChildHtml('toggle_button');
     }
 
     /**

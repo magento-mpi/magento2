@@ -90,6 +90,9 @@
                 </newsletter_subscription_un_email_template>
             </email>
         </template>
+        <newsletter>
+            <tempate_filter>newsletter/template_filter</tempate_filter>
+        </newsletter>
     </global>
     <adminhtml>
         <events>
