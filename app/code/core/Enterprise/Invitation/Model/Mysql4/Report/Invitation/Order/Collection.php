@@ -47,9 +47,9 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Order_Collection
                 . Enterprise_Invitation_Model_Invitation::STATUS_CANCELED . '", 1, 0))';
 
         $this->getSelect()
-            ->from('', array('sent' => new Zend_Db_Expr('COUNT(main_table.invitation_id)')))
-            ->from('', array('accepted' => new Zend_Db_Expr($acceptedExpr)))
-            ->from('', array('canceled' => new Zend_Db_Expr($canceledExpr)));
+            ->columns(array('sent' => new Zend_Db_Expr('COUNT(main_table.invitation_id)')))
+            ->columns(array('accepted' => new Zend_Db_Expr($acceptedExpr)))
+            ->columns(array('canceled' => new Zend_Db_Expr($canceledExpr)));
 
         return $this;
     }

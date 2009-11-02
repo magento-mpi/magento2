@@ -179,7 +179,7 @@ class Varien_Data_Collection_Db extends Varien_Data_Collection
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $countSelect->reset(Zend_Db_Select::COLUMNS);
 
-        $countSelect->from('', 'COUNT(*)');
+        $countSelect->columns('COUNT(*)');
 
         return $countSelect;
     }

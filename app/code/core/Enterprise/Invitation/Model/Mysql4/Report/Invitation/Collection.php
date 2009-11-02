@@ -49,7 +49,7 @@ class Enterprise_Invitation_Model_Mysql4_Report_Invitation_Collection
         $this->addFieldToFilter('date', array('from' => $from, 'to' => $to, 'time'=>true))
             ->getSelect()
             ->reset(Zend_Db_Select::COLUMNS)
-            ->from(null, array(
+            ->columns(array(
                 'sent' => new Zend_Db_Expr('COUNT(main_table.invitation_id)'),
                 'accepted' => new Zend_Db_Expr('COUNT(DISTINCT main_table.referral_id)'),
                 'canceled' => new Zend_Db_Expr('COUNT(DISTINCT IF(main_table.status = \'canceled\', main_table.invitation_id, NULL)) '),

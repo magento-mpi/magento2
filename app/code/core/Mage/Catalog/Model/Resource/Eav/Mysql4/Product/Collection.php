@@ -257,7 +257,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($this->isEnabledFlat()) {
             $this->getSelect()
                 ->from(array('e' => $this->getEntity()->getFlatTableName()), null)
-                ->from(null, array('status' => new Zend_Db_Expr(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)));
+                ->columns(array('status' => new Zend_Db_Expr(Mage_Catalog_Model_Product_Status::STATUS_ENABLED)));
             $this->addAttributeToSelect(array('entity_id', 'type_id', 'attribute_set_id'));
             if ($this->getFlatHelper()->isAddChildData()) {
                 $this->getSelect()
@@ -303,7 +303,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
             foreach ($attribute as $attributeCode) {
                 if ($attributeCode == '*') {
                     foreach ($this->getEntity()->getAllTableColumns() as $column) {
-                        $this->getSelect()->from(null, 'e.'.$column);
+                        $this->getSelect()->columns('e.'.$column);
                         $this->_selectAttributes[$column] = $column;
                         $this->_staticFields[$column] = $column;
                     }
@@ -311,7 +311,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
                 else {
                     if ($columns = $this->getEntity()->getAttributeForSelect($attributeCode)) {
                         foreach ($columns as $alias => $column) {
-                            $this->getSelect()->from(null, array($alias => 'e.'.$column));
+                            $this->getSelect()->columns(array($alias => 'e.'.$column));
                             $this->_selectAttributes[$column] = $column;
                             $this->_staticFields[$column] = $column;
                         }
@@ -666,7 +666,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $countSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $countSelect->reset(Zend_Db_Select::COLUMNS);
 
-        $countSelect->from('', 'COUNT(DISTINCT e.entity_id)');
+        $countSelect->columns('COUNT(DISTINCT e.entity_id)');
         $countSelect->resetJoinLeft();
 
         return $countSelect;
@@ -684,7 +684,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         $idsSelect->reset(Zend_Db_Select::LIMIT_COUNT);
         $idsSelect->reset(Zend_Db_Select::LIMIT_OFFSET);
         $idsSelect->reset(Zend_Db_Select::COLUMNS);
-        $idsSelect->from(null, 'e.'.$this->getEntity()->getIdFieldName());
+        $idsSelect->columns('e.'.$this->getEntity()->getIdFieldName());
         $idsSelect->limit($limit, $offset);
         $idsSelect->resetJoinLeft();
 
@@ -810,7 +810,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         /* @var $select Zend_Db_Select */
         $select->reset(Zend_Db_Select::COLUMNS);
         $select->distinct(true);
-        $select->from('', 'attribute_set_id');
+        $select->columns('attribute_set_id');
         return $this->getConnection()->fetchCol($select);
     }
 
@@ -938,7 +938,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Collection
         if ($this->isEnabledFlat()) {
             $customerGroup = Mage::getSingleton('customer/session')->getCustomerGroupId();
             $priceColumn = 'e.display_price_group_' . $customerGroup;
-            $this->getSelect()->from(null, array('_rule_price' => $priceColumn));
+            $this->getSelect()->columns(array('_rule_price' => $priceColumn));
 
             return $this;
         }

@@ -113,7 +113,7 @@ abstract class Enterprise_Cms_Model_Mysql4_Page_Collection_Abstract extends Mage
     public function addUserColumn()
     {
         $userField = new Zend_Db_Expr('IFNULL(main_table.user_id, -1)');
-        $this->getSelect()->from('', array('user' => $userField));
+        $this->getSelect()->columns(array('user' => $userField));
 
         $this->_map['fields']['user'] = $userField;
 

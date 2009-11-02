@@ -93,7 +93,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
             $subSelect->from(array('store' => $this->getTable('cms/page_store')), new Zend_Db_Expr('GROUP_CONCAT(`store_id`)'))
                 ->where('store.page_id = main_table.page_id');
 
-            $this->getSelect()->from('', array('page_in_stores' => $subSelect));
+            $this->getSelect()->columns(array('page_in_stores' => $subSelect));
 
             // save subSelect to use later
             $this->setFlag('page_in_stores_select', $subSelect);
@@ -230,7 +230,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
             $subSelect = $this->getConnection()->select();
             $subSelect->from($this->getResource()->getMainTable(), new Zend_Db_Expr('MAX(sort_order)'))
                 ->where('parent_node_id = `main_table`.`node_id`');
-            $this->getSelect()->from('', array('last_child_sort_order' => $subSelect));
+            $this->getSelect()->columns(array('last_child_sort_order' => $subSelect));
 
             $this->setFlag('last_child_sort_order_column_added', true);
         }

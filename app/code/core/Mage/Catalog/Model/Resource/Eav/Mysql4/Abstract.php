@@ -550,7 +550,7 @@ abstract class Mage_Catalog_Model_Resource_Eav_Mysql4_Abstract extends Mage_Eav_
                 ->where('default_value.' . $this->getEntityIdField() . ' = ?', $entityId);
 
             if ($isStatic) {
-                $select->from('', $attrField);
+            	$select->columns($attrField);
             } else {
                 $select->where('default_value.attribute_id = ?', $attribute->getId())
                     ->where('default_value.store_id = 0');

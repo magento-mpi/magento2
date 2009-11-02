@@ -261,7 +261,7 @@ class Enterprise_Cms_Model_Mysql4_Page_Revision extends Mage_Core_Model_Mysql4_A
             $this->_joinPageData($select, 'joinLeft', $joinCondition);
             // adding page id column which we will not have as this is clean revision
             // and this column is not specified in join
-            $select->from('', 'page_table.page_id');
+            $select->columns('page_table.page_id');
 
             // Adding limitation and ordering bc we are
             // loading not by unique conditions so we need
