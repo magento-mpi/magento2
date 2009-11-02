@@ -33,6 +33,13 @@
 class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentController extends Mage_Adminhtml_Controller_Action
 {
     /**
+     * Admin session
+     *
+     * @var Mage_Admin_Model_Session
+     */
+    protected $_adminSession = null;
+
+    /**
      * Init layout and adding breadcrumbs
      *
      * @return Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentController
@@ -58,12 +65,24 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     protected function _initSegment($outputMessage = true)
     {
         $segmentId = $this->getRequest()->getParam('segment_id', 0);
+        $segmentIds = $this->getRequest()->getParam('massaction');
+        if ($segmentIds) {
+            $this->_getAdminSession()
+                ->setMassactionIds($segmentIds)
+                ->setViewMode($this->getRequest()->getParam('view_mode'));
+        }
+
         /* @var $segment Enterprise_CustomerSegment_Model_Segment */
         $segment = Mage::getModel('enterprise_customersegment/segment');
+
         if ($segmentId) {
             $segment->load($segmentId);
         }
-        if (!$segment->getId()) {
+        if ($this->_getAdminSession()->getMassactionIds()) {
+            $segment->setMassactionIds($this->_getAdminSession()->getMassactionIds());
+            $segment->setViewMode($this->_getAdminSession()->getViewMode());
+        }
+        if (!$segment->getId() && !$segment->getMassactionIds()) {
             if ($outputMessage) {
                 Mage::getSingleton('adminhtml/session')->addError($this->__('Wrong customer segment requested.'));
             }
@@ -182,5 +201,18 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
         }
         $grid = $this->getLayout()->createBlock('enterprise_customersegment/adminhtml_report_customer_segment_detail_grid');
         $this->getResponse()->setBody($grid->toHtml());
+    }
+
+    /**
+     * Retrieve admin session model
+     *
+     * @return Mage_Admin_Model_Session
+     */
+    protected function _getAdminSession()
+    {
+        if (is_null($this->_adminSession)) {
+            $this->_adminSession = Mage::getModel('admin/session');
+        }
+        return $this->_adminSession;
     }
 }

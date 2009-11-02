@@ -25,6 +25,10 @@
  */
 class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
 {
+
+    const VIEW_MODE_UNION_CODE = 'union';
+    const VIEW_MODE_INTERSECT_CODE = 'intersect';
+
     /**
      * Intialize model
      *

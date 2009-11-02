@@ -34,24 +34,16 @@
 class Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
     extends Mage_Customer_Model_Entity_Customer_Collection
 {
-    /**
-     * Initialize select and join customer segment table
-     *
-     * @return Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
-     */
-    protected function _initSelect()
-    {
-        parent::_initSelect();
-        $this->getSelect()->join(
-            array('customer_count_table' => $this->getTable('enterprise_customersegment/customer')),
-            'customer_count_table.customer_id = e.entity_id',
-            array()
-        );
-        return $this;
-    }
 
     /**
-     * Add filter by segment id
+     * View mode
+     *
+     * @var string
+     */
+    protected $_viewMode;
+
+    /**
+     * Add filter by segment(s)
      *
      * @param Enterprise_CustomerSegment_Model_Segment|integer $segment
      * @return Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
@@ -59,10 +51,76 @@ class Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
     public function addSegmentFilter($segment)
     {
         if ($segment instanceof Enterprise_CustomerSegment_Model_Segment) {
-            $segment = $segment->getId();
+            $segment = ($segment->getId()) ? $segment->getId() : $segment->getMassactionIds();
         }
+
+        $subQuery = ($this->getViewMode() == Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_INTERSECT_CODE)
+            ? $this->_getIntersectQuery($segment)
+            : $this->_getUnionQuery($segment);
+
         $this->getSelect()
-            ->where('customer_count_table.segment_id = ?', $segment);
+            ->where('e.entity_id IN(?)', new Zend_Db_Expr($subQuery));
         return $this;
+    }
+
+    /**
+     * Rerieve union sub-query
+     *
+     * @param array|int $segment
+     * @return Varien_Db_Select
+     */
+    protected function _getUnionQuery($segment)
+    {
+        $select = clone $this->getSelect();
+        $select->reset();
+        $select->from(
+            $this->getTable('enterprise_customersegment/customer'),
+            'customer_id'
+        )
+        ->where('segment_id IN(?)', $segment);
+        Mage::log(get_class($select));
+        return $select;
+    }
+
+    /**
+     * Rerieve intersect sub-query
+     *
+     * @param array $segment
+     * @return Varien_Db_Select
+     */
+    protected function _getIntersectQuery($segment)
+    {
+        $select = clone $this->getSelect();
+        $select->reset();
+        $select->from(
+            $this->getTable('enterprise_customersegment/customer'),
+            'customer_id'
+        )
+        ->where('segment_id IN(?)', $segment)
+        ->group('customer_id')
+        ->having('COUNT(segment_id) = ?', count($segment));
+        return $select;
+    }
+
+    /**
+     * Setter for view mode
+     *
+     * @param string $mode
+     * @return Enterprise_CustomerSegment_Model_Mysql4_Report_Customer_Collection
+     */
+    public function setViewMode($mode)
+    {
+        $this->_viewMode = $mode;
+        return $this;
+    }
+
+    /**
+     * Getter fo view mode
+     *
+     * @return string
+     */
+    public function getViewMode()
+    {
+        return $this->_viewMode;
     }
 }

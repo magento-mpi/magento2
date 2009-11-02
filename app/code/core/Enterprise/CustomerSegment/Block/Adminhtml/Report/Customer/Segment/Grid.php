@@ -86,7 +86,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         $this->addColumn('segment_id', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('ID'),
             'align'     =>'right',
-            'width'     => '50px',
+            'width'     => 50,
             'index'     => 'segment_id',
         ));
 
@@ -99,7 +99,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         $this->addColumn('is_active', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Status'),
             'align'     => 'left',
-            'width'     => '80px',
+            'width'     => 80,
             'index'     => 'is_active',
             'type'      => 'options',
             'options'   => array(
@@ -111,18 +111,42 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
         $this->addColumn('website', array(
             'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
             'align'     =>'left',
-            'width'     => '200px',
+            'width'     => 200,
             'index'     => 'website_id',
             'type'      => 'options',
             'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash()
         ));
 
         $this->addColumn('customer_count', array(
-            'header'    =>Mage::helper('enterprise_customersegment')->__('Number of Customers'),
+            'header'    => Mage::helper('enterprise_customersegment')->__('Number of Customers'),
             'index'     =>'customer_count',
-            'width'     => '200px'
+            'width'     => 200
         ));
 
+        return $this;
+    }
+
+    /**
+     * Prepare massasction
+     *
+     * @return Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
+     */
+    protected function _prepareMassaction()
+    {
+        $this->setMassactionIdField('segment_id');
+        $this->getMassactionBlock()->addItem('view', array(
+            'label'=> Mage::helper('enterprise_customersegment')->__('View Combined Report'),
+            'url'  => $this->getUrl('*/*/detail', array('_current'=>true)),
+            'additional' => array(
+                'visibility' => array(
+                         'name'     => 'view_mode',
+                         'type'     => 'select',
+                         'class'    => 'required-entry',
+                         'label'    => Mage::helper('enterprise_customersegment')->__('Set'),
+                         'values'   => Mage::helper('enterprise_customersegment')->getOptionsArray()
+                     )
+             )
+        ));
         return $this;
     }
 

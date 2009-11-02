@@ -35,4 +35,27 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getStoreConfig('customer/enterprise_customersegment/is_enabled') == 1;
     }
+
+    /**
+     * Retrieve options array
+     *
+     * @return array
+     */
+    public function getOptionsArray()
+    {
+        return array(
+            array(
+                'label' => '',
+                'value' => ''
+            ),
+            array(
+                'label' => Mage::helper('enterprise_customersegment')->__('Union'),
+                'value' => Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_UNION_CODE
+            ),
+            array(
+                'label' => Mage::helper('enterprise_customersegment')->__('Intersection'),
+                'value' => Enterprise_CustomerSegment_Model_Segment::VIEW_MODE_INTERSECT_CODE
+            )
+        );
+    }
 }
