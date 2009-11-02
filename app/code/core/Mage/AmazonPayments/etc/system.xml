@@ -340,7 +340,7 @@
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </choice_method_description>
                         <redirect_message translate="label">
                             <label>Redirect Message</label>
@@ -348,7 +348,7 @@
                             <sort_order>31</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </redirect_message>
                         <pay_description translate="label">
                             <label>Payment description</label>
@@ -356,7 +356,7 @@
                             <sort_order>32</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </pay_description>
                         <refund_description translate="label">
                             <label>Refund description</label>
@@ -364,7 +364,7 @@
                             <sort_order>33</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </refund_description>
                         <pay_description translate="label">
                             <label>Payment description</label>
@@ -372,7 +372,7 @@
                             <sort_order>34</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </pay_description>
                         <cancel_description translate="label">
                             <label>Cancel description</label>
@@ -380,7 +380,7 @@
                             <sort_order>35</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </cancel_description>
                         <report_email translate="label">
                             <label>Report email</label>
