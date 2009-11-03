@@ -57,13 +57,7 @@ var TargetRuleForm = Class.create(VarienRulesForm, {
     },
     changeValueType: function(valueTypeСhooser)
     {
-        var cooserContainer;
-        for (var i = 0; i < 3; i++) {
-            if (valueTypeСhooser.up(i).className == 'rule-param') {
-                cooserContainer = valueTypeСhooser.up(i);
-                break;
-            }
-        }
+        var cooserContainer = valueTypeСhooser.up('.rule-param');
         if (cooserContainer && cooserContainer.next()) {
             var valueSelect = cooserContainer.next().down('select');
             if (valueTypeСhooser.value == 'constant') {
