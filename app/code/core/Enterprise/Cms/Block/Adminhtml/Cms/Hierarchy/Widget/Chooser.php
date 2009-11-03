@@ -76,11 +76,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
             <div id="tree'.$this->getId().'" class="cms-tree tree x-tree"></div>
             <script type="text/javascript">
 
-                function clickNode(node) {
-                    $("tree-container").insert({before: node.text});
-                    $("'.$this->getId().'").value = node.id;
-                    treeRoot.collapse();
-                }
+            function clickNode(node) {
+                $("tree-container").insert({before: node.text});
+                $("'.$this->getId().'").value = node.id;
+                treeRoot.collapse();
+            }
+
+            var nodes = '.$this->getNodesJson().';
+
+            if (nodes.length > 0) {
 
                 tree'.$this->getId().' = new Ext.tree.TreePanel("tree'.$this->getId().'", {
                     animate: false,
@@ -98,11 +102,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                     expanded: true,
                     cls: "cms_node_root",
                 });
-
-
                 tree'.$this->getId().'.setRootNode(treeRoot'.$this->getId().');
 
-                var nodes = '.$this->getNodesJson().';
                 for (var i = 0; i < nodes.length; i++) {
                     var cls = nodes[i].page_id ? "cms_page" : "cms_node";
                     var node = new Ext.tree.TreeNode({
@@ -128,7 +129,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Widget_Chooser extends Mage_A
                 });
                 tree'.$this->getId().'.render();
                 treeRoot'.$this->getId().'.expand();
-
+            }
+            else {
+                $("tree'.$this->getId().'").innerHTML = "'.$this->__('No Nodes available').'";
+            }
             </script>
         ';
         return $html;
