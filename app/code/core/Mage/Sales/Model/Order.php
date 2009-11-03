@@ -733,7 +733,8 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
                     )
                 );
         }
-
+        $this->setEmailSent(true);
+        $this->_getResource()->saveAttribute($this, 'email_sent');
         $translate->setTranslateInline(true);
 
         return $this;
@@ -1427,9 +1428,10 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
                 }
             }
         }
-
+        if ($this->getCustomer()) {
+            $this->setCustomerId($this->getCustomer()->getId());
+        }
         $this->setData('protect_code', substr(md5(uniqid(mt_rand(), true) . ':' . microtime(true)), 5, 6));
-
         return $this;
     }
 

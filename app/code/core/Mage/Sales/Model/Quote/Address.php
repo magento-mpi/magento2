@@ -100,9 +100,15 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
             $quoteId = $this->getQuote()->getId();
             if ($quoteId) {
                 $this->setQuoteId($quoteId);
-            }
-            else {
+            } else {
                 $this->_dataSaveAllowed = false;
+            }
+            $this->setCustomerId($this->getQuote()->getCustomerId());
+            /**
+             * Init customer address id if customer address is assigned
+             */
+            if ($this->getCustomerAddress()) {
+                $this->setCustomerAddressId($this->getCustomerAddress()->getId());
             }
         }
         return $this;

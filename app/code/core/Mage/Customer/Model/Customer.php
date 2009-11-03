@@ -67,7 +67,6 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      */
     protected $_isReadonly = false;
 
-
     private static $_isConfirmationRequired;
 
     function _construct()
@@ -78,7 +77,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Retrieve customer sharing configuration model
      *
-     * @return unknown
+     * @return Mage_Customer_Model_Config_Share
      */
     public function getSharingConfig()
     {
@@ -250,6 +249,12 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         return $this->_attributes;
     }
 
+    /**
+     * Get customer attribute model object
+     *
+     * @param   string $attributeCode
+     * @return  Mage_Customer_Model_Entity_Attribute || null
+     */
     public function getAttribute($attributeCode)
     {
         $this->getAttributes();
@@ -334,7 +339,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Retrieve default address by type(attribute)
      *
-     * @param   string $attributeCode
+     * @param   string $attributeCode address type attribute code
      * @return  Mage_Customer_Mode_Address
      */
     public function getPrimaryAddress($attributeCode)
@@ -352,7 +357,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Retrieve customer default billing address
+     * Get customer default billing address
      *
      * @return Mage_Customer_Mode_Address
      */
@@ -361,13 +366,18 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         return $this->getPrimaryAddress('default_billing');
     }
 
+    /**
+     * Get customer default billing address
+     *
+     * @return Mage_Customer_Mode_Address
+     */
     public function getDefaultBillingAddress()
     {
         return $this->getPrimaryBillingAddress();
     }
 
     /**
-     * Retrieve default customer shipping address
+     * Get default customer shipping address
      *
      * @return Mage_Customer_Mode_Address
      */
@@ -376,6 +386,11 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
         return $this->getPrimaryAddress('default_shipping');
     }
 
+    /**
+     * Get default customer shipping address
+     *
+     * @return Mage_Customer_Mode_Address
+     */
     public function getDefaultShippingAddress()
     {
         return $this->getPrimaryShippingAddress();
