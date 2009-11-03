@@ -29,6 +29,13 @@ class Enterprise_GiftCard_Model_Catalog_Product_Type_Giftcard extends Mage_Catal
     const TYPE_GIFTCARD     = 'giftcard';
 
     /**
+     * Whether product quantity is fractional number or not
+     *
+     * @var bool
+     */
+    protected $_canUseQtyDecimals  = false;
+
+    /**
      * Check is gift card product
      *
      * @param Mage_Catalog_Model_Product $product
