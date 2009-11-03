@@ -452,7 +452,7 @@ class Enterprise_TargetRule_Model_Mysql4_Index extends Mage_Core_Model_Mysql4_Ab
             if (is_null($store)) {
                 $adapter->truncate($this->getMainTable());
             } else {
-                $where = array('store_id IN(?)', $store);
+                $where = array('store_id IN(?)' => $store);
                 $adapter->delete($this->getMainTable(), $where);
             }
         } else {

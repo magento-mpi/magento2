@@ -259,7 +259,7 @@ class Enterprise_TargetRule_Model_Index extends Mage_Core_Model_Abstract
             /* @var $website Mage_Core_Model_Website */
             $store = $website->getDefaultStore();
             $date  = Mage::app()->getLocale()->storeDate($store);
-            if ($date->getHour() == 0) {
+            if ($date->equals(0, Zend_Date::HOUR)) {
                 $this->_getResource()->cleanIndex(null, $website->getStoreIds());
             }
         }
