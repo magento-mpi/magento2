@@ -93,7 +93,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
             $subSelect->from(array('store' => $this->getTable('cms/page_store')), new Zend_Db_Expr('GROUP_CONCAT(`store_id`)'))
                 ->where('store.page_id = main_table.page_id');
 
-            $this->getSelect()->columns(array('page_in_stores' => $subSelect));
+            $this->getSelect()->columns(array('page_in_stores' => new Zend_Db_Expr('(' . $subSelect . ')')));
 
             // save subSelect to use later
             $this->setFlag('page_in_stores_select', $subSelect);
