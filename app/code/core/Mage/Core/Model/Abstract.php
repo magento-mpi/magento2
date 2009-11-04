@@ -265,7 +265,8 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
                 $this->_getResource()->save($this);
                 $this->_afterSave();
             }
-            $this->_getResource()->commit();
+            $this->_getResource()->addCommitCallback(array($this, 'afterCommitCallback'))
+                ->commit();
             $dataCommited = true;
         } catch (Exception $e) {
             $this->_getResource()->rollBack();
@@ -278,14 +279,26 @@ abstract class Mage_Core_Model_Abstract extends Varien_Object
     }
 
     /**
-     * Processing data save after main transaction commit
+     * Callback function which called after transaction commit in resource model
      *
+     * @return Mage_Core_Model_Abstract
+     */
+    public function afterCommitCallback()
+    {
+        Mage::dispatchEvent('model_save_commit_after', array('object'=>$this));
+        Mage::dispatchEvent($this->_eventPrefix.'_save_commit_after', array($this->_eventObject=>$this));
+        return $this;
+    }
+
+    /**
+     * Processing data save after transaction commit.
+     * When method is called we don't have garantee what transaction was really commited
+     *
+     * @deprecated after 1.4.0.0 - please use afterCommitCallback instead
      * @return Mage_Core_Model_Abstract
      */
     protected function _afterSaveCommit()
     {
-        Mage::dispatchEvent('model_save_commit_after', array('object'=>$this));
-        Mage::dispatchEvent($this->_eventPrefix.'_save_commit_after', array($this->_eventObject=>$this));
         return $this;
     }
 

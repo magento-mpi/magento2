@@ -97,16 +97,15 @@ class Mage_Catalog_Model_Resource_Eav_Attribute extends Mage_Eav_Model_Entity_At
     /**
      * Init indexing process after attribute data commit
      *
-     * @return Mage_Catalog_Model_Resource_Eav_Attribute
+     * @return Mage_CatalogInventory_Model_Stock_Item
      */
-    protected function _afterSaveCommit()
+    public function afterCommitCallback()
     {
-        parent::_afterSaveCommit();
+        parent::afterCommitCallback();
 
         Mage::getSingleton('index/indexer')->processEntityAction(
             $this, self::ENTITY, Mage_Index_Model_Event::TYPE_SAVE
         );
-
         return $this;
     }
 

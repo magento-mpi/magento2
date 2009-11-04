@@ -160,6 +160,16 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
     }
 
     /**
+     * Get adapter transaction level state. Return 0 if all transactions are complete
+     *
+     * @return int
+     */
+    public function getTransactionLevel()
+    {
+        return $this->_transactionLevel;
+    }
+
+    /**
      * Convert date to DB format
      *
      * @param   mixed $date
