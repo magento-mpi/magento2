@@ -32,5 +32,8 @@
 ?>
 <?php
     $_tree = $this->getTree();
-    echo $this->drawMenu($_tree);
+    $_menu = $this->drawMenu($_tree);
 ?>
+<?php if($this->geMenuNodesQty() > 1): ?>
+    <?php echo $_menu; ?>
+<?php endif; ?>

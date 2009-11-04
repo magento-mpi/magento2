@@ -375,6 +375,16 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
     }
 
     /**
+     * Return total quantity of rendered menu node
+     *
+     * @return int
+     */
+    public function geMenuNodesQty()
+    {
+        return $this->_totalMenuNodes;
+    }
+
+    /**
      * Recursive draw menu
      *
      * @param array $tree
@@ -403,7 +413,7 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
 
         $html .= $this->_getListTagEnd();
 
-        return $this->_totalMenuNodes > 1 ? $html : '';
+        return $html;
     }
 
     protected function _toHtml()
