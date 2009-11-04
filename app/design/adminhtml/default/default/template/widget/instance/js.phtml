@@ -33,9 +33,6 @@ function setSettings(urlTemplate, typeElement, packageThemeElement) {
     setLocation(template.evaluate({type:typeElement,package_theme:packageThemeElement}));
 }
 function saveAndContinueEdit(){
-    if ($('page_group_container_template')) {
-        $('page_group_container_template').remove();
-    }
     editForm.submit($('edit_form').action+'back/edit/');
 }
 </script>
