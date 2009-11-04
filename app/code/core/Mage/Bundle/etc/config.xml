@@ -112,6 +112,7 @@
                         <price_type />
                         <shipment_type />
                         <weight_type />
+                        <sku_type />
                     </product_attributes>
                 </item>
             </quote>
