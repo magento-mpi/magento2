@@ -185,17 +185,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav_Source
                 array('pvs' => $this->getValueTable('catalog/product', 'varchar')),
                 'pvs.entity_id = pvd.entity_id AND pvs.attribute_id = pvd.attribute_id'
                     . ' AND pvs.store_id=cs.store_id',
-                array('value' => new Zend_Db_Expr('IF(pvs.value_id > 0, pvs.value, pvd.value)')))
+                array())
             ->join(
                 array('eo' => $this->getTable('eav/attribute_option')),
                 'FIND_IN_SET(eo.option_id, IF(pvs.value_id, pvs.value, pvd.value))',
-                array()
+                array('value' => 'option_id')
             )
             ->where('pvd.store_id=?', 0)
             ->where('cs.store_id!=?', 0)
             ->where('pvd.attribute_id IN(?)', $attrIds);
 
-        $statusCond = $adapter->quoteInto('=?', '=' . Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+        $statusCond = $adapter->quoteInto('=?', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'pvd.entity_id', 'cs.store_id', $statusCond);
 
         if (!is_null($entityIds)) {
