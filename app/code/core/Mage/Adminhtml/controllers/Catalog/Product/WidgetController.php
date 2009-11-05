@@ -58,7 +58,10 @@ class Mage_Adminhtml_Catalog_Product_WidgetController extends Mage_Adminhtml_Con
                 'node_click_listener' => $productsGrid->getCategoryClickListenerJs()
             ));
 
-            $html = $categoriesTree->toHtml() . $html;
+            $html = $this->getLayout()->createBlock('adminhtml/catalog_product_widget_chooser_container')
+                ->setTreeHtml($categoriesTree->toHtml())
+                ->setGridHtml($html)
+                ->toHtml();
         }
 
         $this->getResponse()->setBody($html);
