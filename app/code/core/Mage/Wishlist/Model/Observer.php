@@ -148,7 +148,7 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
         return $this;
     }
 
-/**
+    /**
      * Customer logout processing
      *
      * @param Varien_Event_Observer $observer
@@ -158,6 +158,51 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
     {
         Mage::getSingleton('customer/session')->setWishlistItemCount(0);
 
+        return $this;
+    }
+
+    /**
+     * Set flag dirty to wishlists if product was deleted
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Wishlist_Model_Observer
+     */
+    public function markWishlistsAsDirtyByProduct(Varien_Event_Observer $observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        if ($product) {
+            Mage::getResourceModel('wishlist/wishlist')->markWishlistsAsDirtyByProduct($product->getId());
+        }
+        return $this;
+    }
+
+    /**
+     * Set flag dirty to wishlists if product was disabled
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Wishlist_Model_Observer
+     */
+    public function markWishlistsAsDirtyOnProductSaveAfter(Varien_Event_Observer $observer)
+    {
+        $product = $observer->getEvent()->getProduct();
+        if ($product && $product->getStatus() == 2) {
+            Mage::getResourceModel('wishlist/wishlist')->markWishlistsAsDirtyByProduct($product->getId());
+        }
+        return $this;
+    }
+
+    /**
+     * Set flag dirty to wishlists if wishlist item was deleted
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Mage_Wishlist_Model_Observer
+     */
+    public function markWishlistsAsDirtyByItem(Varien_Event_Observer $observer)
+    {
+        $item = $observer->getEvent()->getItem();
+        if ($item) {
+            Mage::getResourceSingleton('wishlist/wishlist')->markWishlistAsDirty($item->getWishlistId());
+        }
         return $this;
     }
 }

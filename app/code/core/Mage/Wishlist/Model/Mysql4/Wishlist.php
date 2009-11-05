@@ -71,4 +71,71 @@ class Mage_Wishlist_Model_Mysql4_Wishlist extends Mage_Core_Model_Mysql4_Abstrac
         return $this->_itemsCount;
     }
 
+    /**
+     * Set "is dirty" status to wishlists by product
+     *
+     * @param int $productId
+     * @return Mage_Wishlist_Model_Mysql4_Wishlist
+     */
+    public function markWishlistsAsDirtyByProduct($productId)
+    {
+        $adapter = $this->_getWriteAdapter();
+        $wishlistIds = $adapter->select()
+            ->from($this->getTable('wishlist/item'), array('wishlist_id'))
+            ->where('product_id = ?', $productId);
+
+        $adapter->update(
+            $this->getTable('wishlist/wishlist'),
+            array('is_dirty' => 1),
+            array('wishlist_id IN (?)' => $wishlistIds)
+        );
+        return $this;
+    }
+
+    /**
+     * Set "is dirty" status to wishlist
+     *
+     * @param int $wishlistId
+     * @return Mage_Wishlist_Model_Mysql4_Wishlist
+     */
+    public function markWishlistAsDirty($wishlistId)
+    {
+        $this->_getWriteAdapter()->update(
+            $this->getTable('wishlist/wishlist'),
+            array('is_dirty' => 1),
+            array('wishlist_id = ?' => $wishlistId)
+        );
+        return $this;
+    }
+
+    /**
+     * Get current wishlist "is dirty" status by customer
+     *
+     * @param int $customerId
+     * @return bool
+     */
+    public function getWishlistIsDirtyStatusByCustomer($customerId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getTable('wishlist/wishlist'), array('is_dirty'))
+            ->where('customer_id = ?', $customerId);
+        return (bool)$adapter->fetchOne($select);
+    }
+
+    /**
+     * Reset wishlist "is dirty" status on customer current wishlist
+     *
+     * @param int $customerId
+     * @return Mage_Wishlist_Model_Mysql4_Wishlist
+     */
+    public function resetWishlistIsDirtyStatusByCustomer($customerId)
+    {
+        $this->_getWriteAdapter()->update(
+            $this->getTable('wishlist/wishlist'),
+            array('is_dirty' => 0),
+            array('customer_id = ?' => $customerId)
+        );
+        return $this;
+    }
 }

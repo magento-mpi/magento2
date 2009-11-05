@@ -102,6 +102,12 @@ class Mage_Wishlist_Helper_Data extends Mage_Core_Helper_Abstract
         if (!Mage::getSingleton('customer/session')->hasWishlistItemCount()) {
             $this->calculate();
         }
+        $wishlistResource = Mage::getResourceSingleton('wishlist/wishlist');
+        $customerId = Mage::getSingleton('customer/session')->getCustomerId();
+        if ($wishlistResource->getWishlistIsDirtyStatusByCustomer($customerId)) {
+            $this->calculate();
+            $wishlistResource->resetWishlistIsDirtyStatusByCustomer($customerId);
+        }
 
         return Mage::getSingleton('customer/session')->getWishlistItemCount();
     }

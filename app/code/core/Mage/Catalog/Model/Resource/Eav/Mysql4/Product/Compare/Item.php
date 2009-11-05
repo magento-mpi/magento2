@@ -221,4 +221,86 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item extends Mage_C
 
         return $this;
     }
+
+    /**
+     * Set "is dirty" status to compare product items by product
+     *
+     * @param int $productId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item
+     */
+    public function markCompareProductItemsAsDirtyByProduct($productId)
+    {
+        $adapter = $this->_getWriteAdapter();
+        $visitorsIds = $adapter->select()
+            ->from($this->getTable('catalog/compare_item'), array('visitor_id'))
+            ->where('product_id = ?', $productId);
+        $visitors = $adapter->fetchAll($visitorsIds);
+        if (empty($visitors)){
+            $visitors = array(0);
+        }
+        $adapter->update(
+            $this->getTable('catalog/compare_item'),
+            array('is_dirty' => 1),
+            array('visitor_id IN (?)' => $visitors)
+        );
+        return $this;
+    }
+
+    /**
+     * Get compare product items "is dirty" status by visitor
+     *
+     * @param int $visitorId
+     * @param bool $checkIfItemsExists
+     * @return bool
+     */
+    public function getCompareItemsIsDirtyByVisitor($visitorId, $checkIfItemsExists = false)
+    {
+        $result = false;
+        $adapter = $this->_getReadAdapter();
+        $selectByVisitor = $adapter->select()
+            ->from($this->getTable('catalog/compare_item'), array('is_dirty'))
+            ->where('visitor_id = ? ', $visitorId);
+        if ($checkIfItemsExists) {
+            $result = !$adapter->fetchOne($selectByVisitor);
+        }
+        else {
+            $selectByDirty = $selectByVisitor
+                ->where('is_dirty = 1')
+                ->limit(1);
+            $result = $adapter->fetchOne($selectByDirty);
+        }
+        return $result;
+    }
+
+    /**
+     * Reset compare product items "is dirty" status by visitor
+     *
+     * @param int $visitorId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item
+     */
+    public function resetCompareItemsIsDirtyByVisitor($visitorId)
+    {
+        $this->_getWriteAdapter()->update(
+            $this->getTable('catalog/compare_item'),
+            array('is_dirty' => 0),
+            array('visitor_id = ?' => $visitorId)
+        );
+        return $this;
+    }
+
+    /**
+     * Set "is dirty" status to compare product items by visitor
+     *
+     * @param int $visitorId
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Compare_Item
+     */
+    public function markCompareProductItemsAsDirtyByVisitor($visitorId)
+    {
+        $this->_getWriteAdapter()->update(
+            $this->getTable('catalog/compare_item'),
+            array('is_dirty' => 1),
+            array('visitor_id = ?' => $visitorId)
+        );
+        return $this;
+    }
 }
