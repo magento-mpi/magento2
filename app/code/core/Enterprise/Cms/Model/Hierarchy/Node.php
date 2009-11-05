@@ -42,10 +42,8 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     /**
      * Meta node's types
      */
-// commented bc of changes in road map
-//    const META_NODE_TYPE_CHAPTER = 'chapter';
-//    const META_NODE_TYPE_SECTION = 'section';
-//    const META_NODE_TYPE_LAST = 'last';
+    const META_NODE_TYPE_CHAPTER = 'chapter';
+    const META_NODE_TYPE_SECTION = 'section';
     const META_NODE_TYPE_FIRST = 'start';
     const META_NODE_TYPE_NEXT = 'next';
     const META_NODE_TYPE_PREVIOUS = 'prev';
@@ -298,7 +296,6 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      *  - chapter       parent node chapter
      *  - section       parent node section
      *  - first         first node in current parent node level
-     *  - last          last node in current parent node level
      *  - next          next node (only in current parent node level)
      *  - previous      previous node (only in current parent node level)
      *

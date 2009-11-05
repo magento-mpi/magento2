@@ -147,7 +147,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'name'      => 'meta_first_last',
                 'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
-                'tabindex'   => '30'
+                'container_id' => 'field_meta_first_last',
+                'tabindex'   => '30',
             ));
 
             $fieldset->addField('meta_next_previous', 'select', array(
@@ -156,28 +157,30 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'name'      => 'meta_next_previous',
                 'values'   => $yesNoOptions,
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
+                'container_id' => 'field_meta_next_previous',
                 'tabindex'   => '40'
             ));
 
 
-    // commented bc of changes in road map
-    //        $fieldset->addField('meta_chapter', 'select', array(
-    //            'label'     => Mage::helper('enterprise_cms')->__('Chapter'),
-    //            'title'     => Mage::helper('enterprise_cms')->__('Chapter'),
-    //            'name'      => 'meta_chapter',
-    //            'values'   => $yesNoOptions,
-    //            'onchange'   => 'hierarchyNodes.nodeChanged()',
-    //            'tabindex'   => '50'
-    //        ));
-    //
-    //        $fieldset->addField('meta_section', 'select', array(
-    //            'label'     => Mage::helper('enterprise_cms')->__('Section'),
-    //            'title'     => Mage::helper('enterprise_cms')->__('Section'),
-    //            'name'      => 'meta_section',
-    //            'values'   => $yesNoOptions,
-    //            'onchange'   => 'hierarchyNodes.nodeChanged()',
-    //            'tabindex'   => '60'
-    //        ));
+            $fieldset->addField('meta_chapter', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('This Page/Node is Chapter'),
+                'title'     => Mage::helper('enterprise_cms')->__('This Page/Node is Chapter'),
+                'name'      => 'meta_chapter',
+                'values'   => $yesNoOptions,
+                'onchange'   => 'hierarchyNodes.nodeChanged()',
+                'container_id' => 'field_meta_chapter',
+                'tabindex'   => '50'
+            ));
+
+            $fieldset->addField('meta_section', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('This Page/Node is Section'),
+                'title'     => Mage::helper('enterprise_cms')->__('This Page/Node is Section'),
+                'name'      => 'meta_section',
+                'values'   => $yesNoOptions,
+                'onchange'   => 'hierarchyNodes.nodeChanged()',
+                'container_id' => 'field_meta_section',
+                'tabindex'   => '60'
+            ));
         }
 
         $pagerFieldset   = $form->addFieldset('pager_fieldset', array(

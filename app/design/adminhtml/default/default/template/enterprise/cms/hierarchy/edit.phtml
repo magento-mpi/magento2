@@ -180,9 +180,11 @@
 
             <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
             if (isTreeNode) {
-                this.showFieldSet('metadata_fieldset');
+                $('field_meta_first_last').show();
+                $('field_meta_next_previous').show();
             } else {
-                this.hideFieldSet('metadata_fieldset');
+                $('field_meta_first_last').hide();
+                $('field_meta_next_previous').hide();
             }
             <?php endif; ?>
 
@@ -373,9 +375,11 @@
             var selectedNode = this.tree.getSelectionModel().getSelectedNode();
             <?php if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) : ?>
             if (selectedNode.id == '_root') {
-                this.showFieldSet('metadata_fieldset');
+                $('field_meta_first_last').show();
+                $('field_meta_next_previous').show();
             } else {
-                this.hideFieldSet('metadata_fieldset');
+                $('field_meta_first_last').hide();
+                $('field_meta_next_previous').hide();
             }
             <?php endif; ?>
 
@@ -386,6 +390,10 @@
 
             this.resetFieldSet('pager_fieldset');
             this.resetFieldSet('menu_fieldset');
+
+            // custom reseting for metadata
+            this.resetMetadataFieldSet();
+
             this.renderMetadata();
         },
 
@@ -542,6 +550,14 @@
                     $(elem).value = '';
                 }
             });
+        },
+
+        resetMetadataFieldSet: function() {
+            var defaultValue = '0';
+            $('meta_first_last').value = defaultValue;
+            $('meta_next_previous').value = defaultValue;
+            $('meta_chapter').value = defaultValue;
+            $('meta_section').value = defaultValue;
         },
 
         saveButton: function(show, enabled, save) {

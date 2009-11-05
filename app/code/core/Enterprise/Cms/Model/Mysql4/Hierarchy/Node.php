@@ -353,14 +353,13 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      *  - chapter       parent node chapter
      *  - section       parent node section
      *  - first         first node in current parent node level
-     *  - last          last node in current parent node level
      *  - next          next node (only in current parent node level)
      *  - previous      previous node (only in current parent node level)
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $node
      * @param Enterprise_Cms_Model_Hierarchy_Node $node The parent node
      * @param string $type
-     * @return Enterprise_Cms_Model_Hierarchy_Node
+     * @return array|bool
      */
     public function getMetaNodeDataByType($node, $type)
     {
@@ -368,48 +367,42 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
         if ($read) {
             $select = $this->_getLoadSelectWithoutWhere();
             $found  = false;
-
-            // Add parent node search for all queries
-            if ($node->getParentNodeId()) {
-                $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
-            } else {
-                $select->where($this->getMainTable() . '.parent_node_id IS NULL');
-            }
+            // Whether add parent node limitation to select or not
+            $addParentNodeCondition = false;
 
             switch ($type) {
-// commented bc of changes in road map
-//                case 'chapter':
-//                    $xpath = explode('/', $node->getXpath());
-//                    if (isset($xpath[1]) && $xpath[1] != $node->getId()) {
-//                        $found = true;
-//                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[1]);
-//                    }
-//                    break;
-//
-//                case 'section':
-//                    $xpath = explode('/', $node->getXpath());
-//                    if (isset($xpath[2]) && $xpath[2] != $node->getId()) {
-//                        $found = true;
-//                        $select->where($this->getMainTable() . '.' . $this->getIdFieldName() . '=?', $xpath[2]);
-//                    }
-//                    break;
+                case Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER:
+                case Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION:
+                    $fieldName = 'meta_chapter';
+                    if ($type == Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION) {
+                        $fieldName = 'meta_section';
+                    }
+                    if ($node->getData($fieldName)) {
+                        $found = $node->getData();
+                        break;
+                    }
+                    $xpath = explode('/', $node->getXpath());
+                    array_pop($xpath); // exclude self node
+                    if (count($xpath) > 0) {
+                        $found = true;
+                        $select->where($this->getMainTable().'.node_id IN (?)', $xpath)
+                            ->where('metadata_table.' . $fieldName . '=1')
+                            ->order(array($this->getMainTable().'.level DESC'))
+                            ->limit(1);
+                    }
+                    break;
 
                 case Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST:
                     $found = true;
+                    $addParentNodeCondition = true;
                     $select->order($this->getMainTable() . '.sort_order ASC');
                     $select->limit(1);
                     break;
 
-//                case 'last':
-//                    $found = true;
-//                    $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
-//                    $select->order($this->getMainTable() . '.sort_order DESC');
-//                    $select->limit(1);
-//                    break;
-
                 case Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_PREVIOUS:
                     if ($node->getSortOrder() > 0) {
                         $found = true;
+                        $addParentNodeCondition = true;
                         $select->where($this->getMainTable() . '.sort_order<?', $node->getSortOrder());
                         $select->order($this->getMainTable() . '.sort_order DESC');
                         $select->limit(1);
@@ -418,14 +411,28 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
 
                 case Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT:
                     $found = true;
+                    $addParentNodeCondition = true;
                     $select->where($this->getMainTable() . '.sort_order>?', $node->getSortOrder());
                     $select->order($this->getMainTable() . '.sort_order ASC');
                     $select->limit(1);
                     break;
             }
 
+            if (is_array($found)) {
+                return $found;
+            }
+
             if (!$found) {
                 return false;
+            }
+
+            // Add parent node search to select
+            if ($addParentNodeCondition) {
+                if ($node->getParentNodeId()) {
+                    $select->where($this->getMainTable() . '.parent_node_id=?', $node->getParentNodeId());
+                } else {
+                    $select->where($this->getMainTable() . '.parent_node_id IS NULL');
+                }
             }
 
             return $read->fetchRow($select);

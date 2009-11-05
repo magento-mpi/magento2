@@ -50,20 +50,15 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Mage_Core_Block_Abstract
             if (is_array($treeMetaData)) {
                 /* @var $linkNode Enterprise_Cms_Model_Hierarchy_Node */
 
-// commented bc of changes in road map
-//                if ($treeMetaData['meta_chapter']) {
-//                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER);
-//                    if ($linkNode->getId()) {
-//                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER, $linkNode->getUrl());
-//                    }
-//                }
-//
-//                if ($treeMetaData['meta_section']) {
-//                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION);
-//                    if ($linkNode->getId()) {
-//                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION, $linkNode->getUrl());
-//                    }
-//                }
+                $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER);
+                if ($linkNode->getId()) {
+                    $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER, $linkNode->getUrl());
+                }
+
+                $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION);
+                if ($linkNode->getId()) {
+                    $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION, $linkNode->getUrl());
+                }
 
                 if ($treeMetaData['meta_next_previous']) {
                     $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_NEXT);
@@ -82,12 +77,6 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Mage_Core_Block_Abstract
                     if ($linkNode->getId()) {
                         $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_FIRST, $linkNode->getUrl());
                     }
-
-// HTML 4.01 Specification doesn't contain 'last' Link Type
-//                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_LAST);
-//                    if ($linkNode->getId()) {
-//                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_LAST, $linkNode->getUrl());
-//                    }
                 }
             }
         }
