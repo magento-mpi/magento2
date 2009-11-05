@@ -185,7 +185,7 @@ class Mage_Wishlist_Model_Observer extends Mage_Core_Model_Abstract
     public function markWishlistsAsDirtyOnProductSaveAfter(Varien_Event_Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
-        if ($product && $product->getStatus() == 2) {
+        if ($product && ($product->getStatus() == 2 || $product->getVisibility() == 1)) {
             Mage::getResourceModel('wishlist/wishlist')->markWishlistsAsDirtyByProduct($product->getId());
         }
         return $this;
