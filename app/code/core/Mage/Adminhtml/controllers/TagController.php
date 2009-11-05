@@ -73,17 +73,6 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
      */
     public function indexAction()
     {
-        /**
-         * setting status parameter for grid filter for non-ajax request
-         *
-         */
-        if ($this->getRequest()->getParam('pending') && !$this->getRequest()->getParam('isAjax')) {
-            $this->getRequest()->setParam('filter', base64_encode('status=' . Mage_Tag_Model_Tag::STATUS_PENDING));
-        }
-        elseif (!$this->getRequest()->getParam('isAjax')) {
-            $this->getRequest()->setParam('filter', '');
-        }
-
         $this->_initAction()
             ->_addBreadcrumb(Mage::helper('adminhtml')->__('All Tags'), Mage::helper('adminhtml')->__('All Tags'))
             ->_setActiveMenu('catalog/tag/all')

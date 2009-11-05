@@ -37,11 +37,27 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
     public function __construct()
     {
         parent::__construct();
-        $this->setId('tag_tag_grid');
+
+        $defaultStatus = $this->_getDefaultStatus();
+        $this->setId('tag_tag_grid' . $defaultStatus);
         $this->setDefaultSort('name');
+        $this->setDefaultFilter(array('status' => $defaultStatus));
         $this->setDefaultDir('ASC');
         $this->setUseAjax(true);
         $this->setSaveParametersInSession(true);
+    }
+
+    /**
+     * Retrive default tags status from request
+     *
+     * @return string
+     */
+    protected function _getDefaultStatus()
+    {
+        if ($this->getRequest()->getParam('pending')) {
+            return Mage_Tag_Model_Tag::STATUS_PENDING;
+        }
+        return '';
     }
 
     /*
@@ -51,7 +67,7 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('*/tag/ajaxGrid');
+        return $this->getUrl('*/tag/ajaxGrid', array('_current' => true));
     }
 
     protected function _prepareCollection()
