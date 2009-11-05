@@ -243,7 +243,7 @@ class Mage_Catalog_Model_Observer
     public function markCompareProductsItemsAsDirtyOnProductSaveAfter(Varien_Event_Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
-        if ($product && $product->getStatus() == 2) {
+        if ($product && ($product->getStatus() == 2 || $product->getVisibility() == 1)) {
             Mage::getResourceModel('catalog/product_compare_item')->markCompareProductItemsAsDirtyByProduct($product->getId());
         }
         return $this;
