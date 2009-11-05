@@ -124,6 +124,14 @@ tinyMceWysiwygSetup.prototype =
             settings.file_browser_callback = 'imagebrowser';
         }
 
+        if (this.config.width) {
+            settings.width = this.config.width;
+        }
+
+        if (this.config.height) {
+            settings.height = this.config.height;
+        }
+
         return settings;
     },
 

@@ -72,6 +72,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'directives_url'                => Mage::getSingleton('adminhtml/url')->getUrl('*/cms_wysiwyg/directive'),
             'popup_css'                     => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css',
             'content_css'                   => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css',
+            'width'                         => '100%',
         ));
 
         $config->setData('directives_url_quoted', preg_quote($config->getData('directives_url')));
