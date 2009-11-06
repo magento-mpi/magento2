@@ -26,7 +26,7 @@
 
 /**
  *
- * PayPal Express Checkout Module
+ * Payflow Pro Express Checkout Module
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -98,6 +98,16 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         return Mage::getSingleton('paypaluk/session');
     }
 
+    /**
+     * Check send email copy config flag
+     *
+     * @return bool
+     */
+    public function canSendEmailCopy()
+    {
+        return (bool)$this->getConfigData('invoice_email_copy');
+    }
+
      /**
      * Get checkout session namespace
      *
@@ -116,6 +126,16 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function getQuote()
     {
         return $this->getCheckout()->getQuote();
+    }
+
+    /**
+     * Used for enablin line item options
+     *
+     * @return  string
+     */
+    public function getLineItemEnabled()
+    {
+        return $this->getConfigData('line_item');
     }
 
     /**
@@ -167,6 +187,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     */
     public function shortcutSetExpressCheckout()
     {
+
         $this->getQuote()->reserveOrderId();
         $this->getApi()
             ->setPayment($this->getPayment())
@@ -190,7 +211,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         if ($this->getApi()->hasError() || !$this->getRedirectUrl()) {
             $s = $this->getCheckout();
             $e = $this->getApi()->getError();
-            $s->addError(Mage::helper('paypalUk')->__('There was an error connecting to the Paypal server: %s', $e['message']));
+            $s->addError(Mage::helper('paypal')->__('There was an error connecting to the PayPal server: %s', $e['message']));
             $this->getApi()->setRedirectUrl(Mage::getUrl('checkout/cart'));
         }
         return $this;
@@ -207,7 +228,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         if ($this->getApi()->hasError() || !$this->getRedirectUrl()) {
             $s = $this->getCheckout();
             $e = $this->getApi()->getError();
-            Mage::throwException(Mage::helper('paypalUk')->__('There was an error connecting to the Paypal server: %s', $e['message']));
+            Mage::throwException(Mage::helper('paypal')->__('There was an error connecting to the PayPal server: %s', $e['message']));
         }
         return $this;
     }
@@ -246,7 +267,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     }
 
     /*
-    * gett
+    * Get payflow express checkout details from gateway
     */
     protected function _getExpressCheckoutDetails()
     {
@@ -256,7 +277,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
 
         if ($api->callGetExpressCheckoutDetails()===false) {
             //here need to take care where is the page should land
-            Mage::throwException(Mage::helper('paypalUk')->__('There has been an error processing your payment. Please try later or contact us for help.'));
+            Mage::throwException(Mage::helper('paypal')->__('There has been an error processing your payment. Please try later or contact us for help.'));
         }
 
         $q = $this->getQuote();
@@ -298,15 +319,24 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
 
         $q->collectTotals()->save();
     }
+
 /*********************** DO EXPRESS CHECKOUT DETAILS ***************************/
     public function placeOrder(Varien_Object $payment)
     {
-        $api = $this->getApi()
-            ->setPayment($payment)
+        $api = $this->getApi();
+
+        if ($this->getQuote()->isVirtual()) {
+            $address = $this->getQuote()->getBillingAddress();
+        } else {
+            $address = $this->getQuote()->getShippingAddress();
+        }
+
+        $api->setPayment($payment)
             ->setAmount($payment->getOrder()->getBaseGrandTotal())
             ->setTrxtype($this->getPaymentAction())
             ->setCurrencyCode($payment->getOrder()->getBaseCurrencyCode());
 
+        $this->_appendAdditionalToApi($address, $api);
         if ($api->callDoExpressCheckoutPayment()!==false) {
             $payment->setStatus('APPROVED')
                 ->setPayerId($api->getPayerId());
@@ -361,7 +391,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
                     ->setCcCidStatus($api->getCvv2Match());
              } else {
                 $e = $api->getError();
-                Mage::throwException($e['message']?$e['message']:Mage::helper('paypalUk')->__('Error in capture payment'));
+                Mage::throwException($e['message']?$e['message']:Mage::helper('paypal')->__('Error in capture payment'));
              }
         } else {
             $this->placeOrder($payment);
@@ -369,6 +399,11 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         return $this;
     }
 
+    /**
+     * check if payment can be voided
+     *
+     * @return Mage_PayPalUk_Model_Express
+     */
     public function canVoid(Varien_Object $payment)
     {
         if ($payment->getCcTransId()) {
@@ -384,11 +419,16 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
             }
         } else {
             $payment->setStatus(self::STATUS_ERROR);
-            $payment->setStatusDescription(Mage::helper('paypalUk')->__('Invalid transaction id'));
+            $payment->setStatusDescription(Mage::helper('paypal')->__('Invalid transaction id'));
         }
         return $this;
     }
 
+    /**
+     * Void payment
+     * @param Varien_Object $payment
+     * @return Mage_PayPalUk_Model_Express
+     */
     public function void(Varien_Object $payment)
     {
         $error = false;
@@ -405,7 +445,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
                 $error = $e['message'];
              }
         } else {
-            $error = Mage::helper('paypalUk')->__('Invalid transaction id');
+            $error = Mage::helper('paypal')->__('Invalid transaction id');
         }
         if ($error !== false) {
             Mage::throwException($error);
@@ -413,6 +453,12 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
         return $this;
     }
 
+    /**
+     * Refund payment
+     * @param Varien_Object $payment
+     * @param double $amount
+     * @return Mage_PayPalUk_Model_Express
+     */
     public function refund(Varien_Object $payment, $amount)
     {
         $error = false;
@@ -430,7 +476,7 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
          }
 
         } else {
-            $error = Mage::helper('paypalUk')->__('Error in refunding the payment');
+            $error = Mage::helper('paypal')->__('Error in refunding the payment');
         }
         if ($error !== false) {
             Mage::throwException($error);
@@ -450,14 +496,17 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
             $address = $this->getQuote()->getShippingAddress();
         }
 
-        $this->getApi()
-            ->setPayment($this->getPayment())
+        $api = $this->getApi();
+
+        $api->setPayment($this->getPayment())
             ->setTrxtype($this->getPaymentAction($paymentAction))
             ->setAmount($address->getBaseGrandTotal())
             ->setCurrencyCode($this->getQuote()->getBaseCurrencyCode())
             ->setShippingAddress($address)
-            ->setInvNum($this->getQuote()->getReservedOrderId())
-            ->callSetExpressCheckout();
+            ->setInvNum($this->getQuote()->getReservedOrderId());
+
+        $this->_appendAdditionalToApi($address, $api);
+        $api->callSetExpressCheckout();
 
         $this->throwError();
 
@@ -488,5 +537,27 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     public function isVisibleOnCartPage()
     {
         return (bool)$this->getConfigData('visible_on_cart');
+    }
+
+    /**
+     * Add additional fields to Api
+     *
+     * @param $payment Varien_Object
+     * @param $api Mage_PayPalUk_Model_Api_Pro
+     *
+     * @return Mage_PayPalUk_Model_Express
+     */
+    protected function _appendAdditionalToApi($address, $api)
+    {
+        if (is_object($address) && is_object($api)) {
+            if ($this->getLineItemEnabled()) {
+                $api->setLineItems($this->getQuote()->getAllItems())
+                    ->setShippingAmount($address->getBaseShippingAmount())
+                    ->setDiscountAmount($address->getBaseDiscountAmount())
+                    ->setItemAmount($address->getBaseSubtotal())
+                    ->setItemTaxAmount($address->getTaxAmount());
+            }
+        }
+        return $this;
     }
 }

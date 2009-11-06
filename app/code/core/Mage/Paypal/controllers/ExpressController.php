@@ -26,8 +26,6 @@
 
 /**
  * Express Checkout Controller
- *
- * @author      Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 {
@@ -37,10 +35,18 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     protected function _expireAjax()
     {
-        if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {
+        if (!$this->_getQuote()->hasItems()) {
             $this->getResponse()->setHeader('HTTP/1.1','403 Session Expired');
             exit;
         }
+    }
+
+    /**
+     * @deprecated after 1.4.0.0-alpha3
+     */
+    public function getExpress()
+    {
+        return $this->_getExpress();
     }
 
     /**
@@ -48,9 +54,19 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      *
      * @return Mage_Paypal_Model_Express
      */
-    public function getExpress()
+    protected function _getExpress()
     {
         return Mage::getSingleton('paypal/express');
+    }
+
+    /**
+     * Return Express payPal method Api object
+     *
+     * @return Mage_PayPal_Model_Api_Nvp
+     */
+    protected function _getExpressApi()
+    {
+        return $this->_getExpress()->getApi();
     }
 
     /**
@@ -71,17 +87,59 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     }
 
     /**
+     * PayPal session instance getter
+     * @return Mage_PayPal_Model_Session
+     */
+    protected function _getSession()
+    {
+        return Mage::getSingleton('paypal/session');
+    }
+
+    /**
+     * Return checkout session object
+     * @return Mage_Checkout_Model_Session
+     */
+    protected function _getCheckout()
+    {
+        return Mage::getSingleton('checkout/session');
+    }
+
+    /**
+     * Return checkout quote object
+     *
+     * @return Mage_Sale_Model_Quote
+     */
+    protected function _getQuote()
+    {
+        return Mage::getSingleton('checkout/session')->getQuote();
+    }
+
+    /**
+     * IPN Notify url. process IPN acion.
+     */
+    public function notifyAction()
+    {
+        $ipn = Mage::getModel('paypal/api_ipn');
+        $ipn->setIpnFormData($this->getRequest()->getParams());
+        $ipn->processIpnRequest();
+    }
+
+    /**
      * When a customer clicks Paypal button on shopping cart
      */
     public function shortcutAction()
     {
-        $this->getExpress()->shortcutSetExpressCheckout();
-        $this->getResponse()->setRedirect($this->getExpress()->getRedirectUrl());
+        $this->_getExpress()->shortcutSetExpressCheckout();
+        $this->getResponse()->setRedirect($this->_getExpress()->getRedirectUrl());
     }
 
+    /**
+     * redirect customer back to paypal, to edit his payment account data
+     *
+     */
     public function editAction()
     {
-        $this->getResponse()->setRedirect($this->getExpress()->getApi()->getPaypalUrl());
+        $this->getResponse()->setRedirect($this->_getExpressApi()->getPaypalUrl());
     }
 
     /**
@@ -90,8 +148,20 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function returnAction()
     {
-        $this->getExpress()->returnFromPaypal();
-        $this->getResponse()->setRedirect($this->getExpress()->getRedirectUrl());
+        $this->_getExpress()->returnFromPaypal();
+        $this->getResponse()->setRedirect($this->_getExpress()->getRedirectUrl());
+    }
+
+    /**
+     * This is shown behind a link on the PayPal site with the bank number.
+     * The customer can click thr link to return to the shop.
+     * So this url should show the customer that his order is completed
+     * and will be shipped as soon as he transfered the money.
+     */
+    public function bankAction()
+    {
+        $this->loadLayout();
+        $this->renderLayout();
     }
 
     /**
@@ -100,7 +170,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
      */
     public function reviewAction()
     {
-        $payment = Mage::getSingleton('checkout/session')->getQuote()->getPayment();
+        $payment = $this->_getQuote()->getPayment();
         if ($payment && $payment->getPaypalPayerId()) {
             $this->loadLayout();
             $this->_initLayoutMessages('paypal/session');
@@ -111,11 +181,19 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
     }
 
     /**
+     * @deprecated after 1.4.0.0-alpha3
+     */
+    public function getReview()
+    {
+        return $this->_getReview();
+    }
+
+    /**
      * Get PayPal Onepage checkout model
      *
      * @return Mage_Paypal_Model_Express_Onepage
      */
-    public function getReview()
+    protected function _getReview()
     {
         return Mage::getSingleton('paypal/express_review');
     }
@@ -135,7 +213,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
         }
 
         $data = $this->getRequest()->getParam('shipping_method', '');
-        $result = $this->getReview()->saveShippingMethod($data);
+        $result = $this->_getReview()->saveShippingMethod($data);
 
         if ($this->getRequest()->getParam('ajax')) {
             $this->loadLayout('paypal_express_review_details');
@@ -157,30 +235,30 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
          * 3- save order
          */
         $error_message = '';
-        $payPalSession = Mage::getSingleton('paypal/session');
+        $payPalSession = $this->_getSession();
 
         try {
-            $address = $this->getReview()->getQuote()->getShippingAddress();
+            $address = $this->_getReview()->getQuote()->getShippingAddress();
             if (!$address->getShippingMethod()) {
                 if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
-                    $this->getReview()->saveShippingMethod($shippingMethod);
-                } else if (!$this->getReview()->getQuote()->getIsVirtual()) {
+                    $this->_getReview()->saveShippingMethod($shippingMethod);
+                } else if (!$this->_getReview()->getQuote()->getIsVirtual()) {
                     $payPalSession->addError(Mage::helper('paypal')->__('Please select a valid shipping method'));
                     $this->_redirect('paypal/express/review');
                     return;
                 }
             }
 
-            $customer = $this->getReview()->getQuote()->getCustomer();
+            $customer = $this->_getReview()->getQuote()->getCustomer();
             if (!$customer || !$customer->getId()) {
-                $this->getReview()->getQuote()
+                $this->_getReview()->getQuote()
                     ->setCustomerIsGuest(true)
                     ->setCustomerGroupId(Mage_Customer_Model_Group::NOT_LOGGED_IN_ID);
             }
             unset($customer); // for backward compatibility, see logic after place order
 
-            $billing = $this->getReview()->getQuote()->getBillingAddress();
-            $shipping = $this->getReview()->getQuote()->getShippingAddress();
+            $billing = $this->_getReview()->getQuote()->getBillingAddress();
+            $shipping = $this->_getReview()->getQuote()->getShippingAddress();
 
             /* @var $convertQuote Mage_Sales_Model_Convert_Quote */
             $convertQuote = Mage::getModel('sales/convert_quote');
@@ -188,7 +266,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             /* @var $order Mage_Sales_Model_Order */
             $order = Mage::getModel('sales/order');
 
-            if ($this->getReview()->getQuote()->isVirtual()) {
+            if ($this->_getReview()->getQuote()->isVirtual()) {
                 $order = $convertQuote->addressToOrder($billing);
             } else {
                 $order = $convertQuote->addressToOrder($shipping);
@@ -196,16 +274,16 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
             $order->setBillingAddress($convertQuote->addressToOrderAddress($billing));
             $order->setShippingAddress($convertQuote->addressToOrderAddress($shipping));
-            $order->setPayment($convertQuote->paymentToOrderPayment($this->getReview()->getQuote()->getPayment()));
+            $order->setPayment($convertQuote->paymentToOrderPayment($this->_getReview()->getQuote()->getPayment()));
 
-            foreach ($this->getReview()->getQuote()->getAllItems() as $item) {
+            foreach ($this->_getReview()->getQuote()->getAllItems() as $item) {
                 $order->addItem($convertQuote->itemToOrderItem($item));
             }
 
             /**
              * We can use configuration data for declare new order status
              */
-            Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->getReview()->getQuote()));
+            Mage::dispatchEvent('checkout_type_onepage_save_order', array('order'=>$order, 'quote'=>$this->_getReview()->getQuote()));
 
             //customer checkout from shopping cart page
             if (!$order->getCustomerEmail()) {
@@ -214,7 +292,7 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
 
             $order->place();
 
-            if (isset($customer) && $customer && $this->getReview()->getQuote()->getCheckoutMethod()==Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER) {
+            if (isset($customer) && $customer && $this->_getReview()->getQuote()->getCheckoutMethod()==Mage_Sales_Model_Quote::CHECKOUT_METHOD_REGISTER) {
                 $customer->save();
                 $customer->setDefaultBilling($customerBilling->getId());
                 $customerShippingId = isset($customerShipping) ? $customerShipping->getId() : $customerBilling->getId();
@@ -251,56 +329,88 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             return;
         }
 
-        $order->save();
-
-        $this->getReview()->getQuote()->setIsActive(false);
-        $this->getReview()->getQuote()->save();
-
-        $orderId = $order->getIncrementId();
-        $this->getReview()->getCheckout()->setLastQuoteId($this->getReview()->getQuote()->getId());
-        $this->getReview()->getCheckout()->setLastSuccessQuoteId($this->getReview()->getQuote()->getId());
-        $this->getReview()->getCheckout()->setLastOrderId($order->getId());
-        $this->getReview()->getCheckout()->setLastRealOrderId($order->getIncrementId());
-
-        $order->sendNewOrderEmail();
-        if ($order->hasInvoices() && $this->getExpress()->canSendEmailCopy()) {
+        if ($order->hasInvoices() && $this->_getExpress()->canSendEmailCopy()) {
             foreach ($order->getInvoiceCollection() as $invoice) {
-                $invoice->sendEmail();
+                $invoice->sendEmail()->setEmailSent(true);
             }
         }
+        $order->save();
+        $order->sendNewOrderEmail();
+
+        $this->_getReview()->getQuote()->setIsActive(false);
+        $this->_getReview()->getQuote()->save();
+
+        $orderId = $order->getIncrementId();
+        $this->_getReview()->getCheckout()->setLastQuoteId($this->_getReview()->getQuote()->getId());
+        $this->_getReview()->getCheckout()->setLastSuccessQuoteId($this->_getReview()->getQuote()->getId());
+        $this->_getReview()->getCheckout()->setLastOrderId($order->getId());
+        $this->_getReview()->getCheckout()->setLastRealOrderId($order->getIncrementId());
+
+        $redirect = $this->_getExpress()->getGiropayRedirectUrl();
         $payPalSession->unsExpressCheckoutMethod();
 
-        $this->_redirect('checkout/onepage/success');
+        if ($redirect) {
+            $this->getResponse()->setRedirect($redirect);
+        } else {
+            $this->_redirect('checkout/onepage/success');
+        }
     }
+
 
     /**
      * Method to update order if customer used PayPal Express
      * as payment method not a separate checkout from shopping cart
      *
      */
-    public function updateOrderAction() {
+    public function updateOrderAction()
+    {
         $error_message = '';
-        $payPalSession = Mage::getSingleton('paypal/session');
+        $payPalSession = $this->_getSession();
 
-        $order = Mage::getModel('sales/order')->load(Mage::getSingleton('checkout/session')->getLastOrderId());
+        $order = Mage::getModel('sales/order')->load($this->_getCheckout()->getLastOrderId());
 
         if ($order->getId()) {
             $comment = null;
             $transaction = Mage::getModel('core/resource_transaction')
                ->addObject($order);
-            if ($order->canInvoice() && $this->getExpress()->getPaymentAction() == Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE) {
+            if ($order->canInvoice() && $this->_getExpress()->getPaymentAction() == Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE) {
+
                 $invoice = $order->prepareInvoice();
-                $invoice->register()->capture();
+
+                try{
+                    $invoice->register()->capture();
+                } catch (Mage_Core_Exception $e) {
+                    $this->_getSession()->addError($e->getMessage());
+                    $this->_redirect('paypal/express/review');
+                    return;
+                } catch (Exception $e) {
+                    Mage::helper('checkout')->sendPaymentFailedEmail($this->_getQuote(), $e->getMessage());
+                    $this->_getSession()->addError(Mage::helper('paypal')->__('Sorry, Technical problem!'));
+                    $this->_redirect('paypal/express/review');
+                    return;
+                }
+
                 $transaction->addObject($invoice);
-
                 $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
-                $orderStatus = $this->getExpress()->getConfigData('order_status');
+                $orderStatus = $this->_getExpress()->getConfigData('order_status');
                 $comment = Mage::helper('paypal')->__('Invoice was created');
+
             } else {
-                $this->getExpress()->placeOrder($order->getPayment());
+                try{
+                    $this->_getExpress()->placeOrder($order->getPayment());
+                } catch (Mage_Core_Exception $e) {
+                    $this->_getSession()->addError($e->getMessage());
+                    $this->_redirect('paypal/express/review');
+                    return;
+                } catch (Exception $e) {
+                    Mage::helper('checkout')->sendPaymentFailedEmail($this->_getQuote(), $e->getMessage());
+                    $this->_getSession()->addError(Mage::helper('paypal')->__('Sorry, Technical problem!'));
+                    $this->_redirect('paypal/express/review');
+                    return;
+                }
 
                 $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
-                $orderStatus = $this->getExpress()->getConfigData('order_status');
+                $orderStatus = $this->_getExpress()->getConfigData('order_status');
             }
 
             if (!$orderStatus) {
@@ -313,15 +423,17 @@ class Mage_Paypal_ExpressController extends Mage_Core_Controller_Front_Action
             $order->setState($orderState, $orderStatus, $comment, $notified = true);
             $transaction->save();
 
-            Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false);
-            Mage::getSingleton('checkout/session')->getQuote()->save();
+            $this->_getQuote()->setIsActive(false);
+            $this->_getQuote()->save();
 
             $order->sendNewOrderEmail();
         }
 
         $payPalSession->unsExpressCheckoutMethod();
-
-        $this->_redirect('checkout/onepage/success');
+        if ($redirect = $this->_getExpress()->getGiropayRedirectUrl()) {
+            $this->getResponse()->setRedirect($redirect);
+        } else {
+            $this->_redirect('checkout/onepage/success');
+        }
     }
-
 }

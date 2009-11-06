@@ -71,6 +71,9 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
         $this->getResponse()->setRedirect($this->getExpress()->getRedirectUrl());
     }
 
+    /**
+     * Redirect to paypal account, to edit transaction detail
+     */
     public function editAction()
     {
         $this->getResponse()->setRedirect($this->getExpress()->getApi()->getPaypalUrl());
@@ -166,7 +169,7 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
                 if ($shippingMethod = $this->getRequest()->getParam('shipping_method')) {
                     $this->getReview()->saveShippingMethod($shippingMethod);
                  } else if (!$this->getReview()->getQuote()->getIsVirtual()) {
-                    $payPalSession->addError(Mage::helper('paypalUk')->__('Please select a valid shipping method'));
+                    $payPalSession->addError(Mage::helper('paypal')->__('Please select a valid shipping method'));
                     $this->_redirect('paypaluk/express/review');
                     return;
                 }
@@ -249,7 +252,13 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
             return;
         }
 
+        if ($order->hasInvoices() && $this->getExpress()->canSendEmailCopy()) {
+            foreach ($order->getInvoiceCollection() as $invoice) {
+                $invoice->sendEmail()->setEmailSent(true);
+            }
+        }
         $order->save();
+        $order->sendNewOrderEmail();
 
         $this->getReview()->getQuote()->setIsActive(false);
         $this->getReview()->getQuote()->save();
@@ -259,8 +268,6 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
         $this->getReview()->getCheckout()->setLastSuccessQuoteId($this->getReview()->getQuote()->getId());
         $this->getReview()->getCheckout()->setLastOrderId($order->getId());
         $this->getReview()->getCheckout()->setLastRealOrderId($order->getIncrementId());
-
-        $order->sendNewOrderEmail();
 
         $payPalSession->unsExpressCheckoutMethod();
 
@@ -281,7 +288,8 @@ class Mage_PaypalUk_ExpressController extends Mage_Core_Controller_Front_Action
      * as payment method not a separate checkout from shopping cart
      *
      */
-    public function updateOrderAction() {
+    public function updateOrderAction()
+    {
         $error_message = '';
         $payPalSession = Mage::getSingleton('paypal/session');
 

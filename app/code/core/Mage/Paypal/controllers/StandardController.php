@@ -52,6 +52,10 @@ class Mage_Paypal_StandardController extends Mage_Core_Controller_Front_Action
         return $this->_order;
     }
 
+    /**
+     * Send expire header to ajax response
+     *
+     */
     protected function _expireAjax()
     {
         if (!Mage::getSingleton('checkout/session')->getQuote()->hasItems()) {

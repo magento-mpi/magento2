@@ -26,3 +26,4 @@
 ?>
 <p><?php echo $this->getMethod()->getTitle() ?><br/>
 <strong><?php echo $this->__('PayPal Email') ?>:</strong> <span class="nowrap"><?php echo $this->getEmail() ?></span></p>
+<?php echo $this->__('Transaction Id');?>: <strong><?php echo $this->getInfo()->getCcTransId();?></strong><br/>
