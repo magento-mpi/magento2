@@ -61,14 +61,16 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             ));
         }
 
-        $fieldset->addField('used_default_for', 'label', array(
-            'label' => Mage::helper('adminhtml')->__('Used as Default For'),
-            'container_id' => 'used_default_for',
-            'after_element_html' =>
-                '<script type="text/javascript">' .
-                (!(bool)$this->getEmailTemplate()->getOrigTemplateCode() ? '$(\'' . 'used_default_for' . '\').hide(); ' : '') .
-                '</script>',
-        ));
+        if (!$templateId) {
+            $fieldset->addField('used_default_for', 'label', array(
+                'label' => Mage::helper('adminhtml')->__('Used as Default For'),
+                'container_id' => 'used_default_for',
+                'after_element_html' =>
+                    '<script type="text/javascript">' .
+                    (!(bool)$this->getEmailTemplate()->getOrigTemplateCode() ? '$(\'' . 'used_default_for' . '\').hide(); ' : '') .
+                    '</script>',
+            ));
+        }
 
         $fieldset->addField('template_code', 'text', array(
             'name'=>'template_code',
