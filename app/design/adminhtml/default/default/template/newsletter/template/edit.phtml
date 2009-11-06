@@ -56,6 +56,7 @@
     <div class="no-display">
         <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
         <input type="hidden" id="preview_text" name="text" value="" />
+        <input type="hidden" id="preview_styles" name="styles" value="" />
     </div>
 </form>
 <script type="text/javascript">
@@ -87,6 +88,7 @@
             $('convert_button').hide();
             $('convert_button_back').show();
             $(this.id).value =  $(this.id).value.stripScripts().stripTags();
+            $('field_template_styles').hide();
             this.typeChange = true;
             return false;
         },
@@ -100,6 +102,7 @@
                 this.getEditor().getToggleButton().show();
             }
             this.typeChange = false;
+            $('field_template_styles').show();
             return false;
         },
 
@@ -151,6 +154,9 @@
                 $('preview_text').value = tinyMCE.get(this.id).getContent();
             } else {
                 $('preview_text').value = $(this.id).value;
+            }
+            if ($('template_styles') != undefined) {
+                $('preview_styles').value = $('template_styles').value;
             }
             templatePreviewForm.submit();
             return false;
