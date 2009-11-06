@@ -61,6 +61,8 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
      */
     protected $_modifiers = array('nl2br'  => '');
 
+    protected $_storeId = null;
+
     /**
      * Setup callbacks for filters
      *
@@ -92,6 +94,32 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     public function setUseSessionInUrl($flag)
     {
         return $this;
+    }
+
+    /**
+     * Setter
+     *
+     * @param integer $storeId
+     * @return Mage_Core_Model_Email_Template_Filter
+     */
+    public function setStoreId($storeId)
+    {
+        $this->_storeId = $storeId;
+        return $this;
+    }
+
+    /**
+     * Getter
+     * if $_storeId is null return Design store id
+     *
+     * @return integer
+     */
+    public function getStoreId()
+    {
+        if (null === $this->_storeId) {
+            $this->_storeId = Mage::app()->getStore()->getId();
+        }
+        return $this->_storeId;
     }
 
     /**
@@ -398,6 +426,44 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     }
 
     /**
+     * Store config directive
+     *
+     * @param array $construction
+     * @return string
+     */
+    public function configDirective($construction)
+    {
+        $configValue = '';
+        $params = $this->_getIncludeParameters($construction[2]);
+        $storeId = $this->getStoreId();
+        if (isset($params['path'])) {
+            $configValue = Mage::getStoreConfig($params['path'], $storeId);
+        }
+        return $configValue;
+    }
+
+    /**
+     * Custom Variable directive
+     *
+     * @param array $construction
+     * @return string
+     */
+    public function customvarDirective($construction)
+    {
+        $customVarValue = '';
+        $params = $this->_getIncludeParameters($construction[2]);
+        if (isset($params['code'])) {
+            $variable = Mage::getModel('core/email_variable')
+                ->setStoreId($this->getStoreId())
+                ->loadByCode($params['code']);
+            if ($variable->getValue() !== null) {
+                $customVarValue = $variable->getValue();
+            }
+        }
+        return $customVarValue;
+    }
+
+    /**
      * Filter the string as template.
      * Rewrited for logging exceptions
      *
@@ -407,10 +473,10 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     public function filter($value)
     {
         try {
-			$value = parent::filter($value);
+            $value = parent::filter($value);
         } catch (Exception $e) {
             $value = '';
-        	Mage::logException($e);
+            Mage::logException($e);
         }
         return $value;
     }

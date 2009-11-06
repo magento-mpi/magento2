@@ -79,6 +79,18 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
 
         ));
 
+        $fieldset->addField('json_orig_template_variables', 'hidden', array(
+            'name' => 'json_orig_template_variables',
+            'value' => Zend_Json::encode($this->getEmailTemplate()->getOrigTemplateVariables())
+        ));
+
+        $fieldset->addField('template_variables', 'select', array(
+            'name' => 'template_variables',
+            'label' => Mage::helper('adminhtml')->__('Variables To Insert'),
+            'values' => $this->getVariables(),
+            'onchange' => 'insertVariable(this);'
+        ));
+
         $fieldset->addField('template_text', 'editor', array(
             'name'=>'template_text',
             'wysiwyg' => false,
@@ -118,5 +130,55 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
     public function getEmailTemplate()
     {
         return Mage::registry('current_email_template');
+    }
+
+    /**
+     * Retrieve variables to insert into email
+     *
+     * @return array
+     */
+    public function getVariables()
+    {
+        $variables = array();
+        $variables[] = array(
+            'label' => Mage::helper('adminhtml')->__('Store Contact Information'),
+            'value' => $this->_getStoreContactInformation()
+        );
+        $customVariables = Mage::getModel('core/email_variable')
+            ->getVariablesOptionArray(true);
+        if ($customVariables) {
+            $variables[] = $customVariables;
+        }
+        /* @var $template Mage_Core_Model_Email_Template */
+        $template = Mage::registry('current_email_template');
+        if ($template->getId() && $templateVariables = $template->getVariablesOptionArray(true)) {
+            $variables[] = $templateVariables;
+        }
+        array_unshift($variables, array(
+            'value' => '',
+            'label' => Mage::helper('adminhtml')->__('-- Please Select --')
+        ));
+        return $variables;
+    }
+
+    /**
+     * Retrieve store contact information option array
+     *
+     * @todo refactor, move to another place
+     */
+    protected function _getStoreContactInformation()
+    {
+        $optionArr = array();
+        $optionArr = array(
+            array(
+                'value' => '{{config path="web/unsecure/base_url"}}',
+                'label' => 'Base Unsecure URL'
+            ),
+            array(
+                'value' => '{{config path="web/secure/base_url"}}',
+                'label' => 'Base Secure URL'
+            ),
+        );
+        return $optionArr;
     }
 }

@@ -73,7 +73,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     /**
      * Return resource of template model.
      *
-     * @return Mage_Newsletter_Model_Mysql4_Template
+     * @return Mage_Core_Model_Mysql4_Email_Template
      */
     public function getResource()
     {
@@ -114,7 +114,8 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         if (empty($this->_templateFilter)) {
             $this->_templateFilter = Mage::getModel('core/email_template_filter');
-            $this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks());
+            $this->_templateFilter->setUseAbsoluteLinks($this->getUseAbsoluteLinks())
+                ->setStoreId($this->getDesignConfig()->getStore());
         }
         return $this->_templateFilter;
     }
@@ -123,11 +124,12 @@ class Mage_Core_Model_Email_Template extends Varien_Object
      * Load template by id
      *
      * @param   int $templateId
-     * return   Mage_Newsletter_Model_Template
+     * @return   Mage_Core_Model_Email_Template
      */
     public function load($templateId)
     {
         $this->addData($this->getResource()->load($templateId));
+        $this->_afterLoad();
         return $this;
     }
 
@@ -135,11 +137,26 @@ class Mage_Core_Model_Email_Template extends Varien_Object
      * Load template by code
      *
      * @param   string $templateCode
-     * return   Mage_Newsletter_Model_Template
+     * @return   Mage_Core_Model_Email_Template
      */
     public function loadByCode($templateCode)
     {
         $this->addData($this->getResource()->loadByCode($templateCode));
+        $this->_afterLoad();
+        return $this;
+    }
+
+    /**
+     * Enter description here...
+     *
+     * @return unknown
+     */
+    protected function _afterLoad()
+    {
+        if (is_string($this->getData('orig_template_variables'))) {
+            $this->setData('orig_template_variables',
+                $this->_parseVariablesString($this->getData('orig_template_variables')));
+        }
         return $this;
     }
 
@@ -164,8 +181,13 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         );
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/', $templateText, $matches)) {
-           $this->setTemplateSubject($matches[1]);
-           $templateText = str_replace($matches[0], '', $templateText);
+            $this->setTemplateSubject($matches[1]);
+            $templateText = str_replace($matches[0], '', $templateText);
+        }
+
+        if (preg_match('/<!--@vars\n((?:.)*)\n@-->/s', $templateText, $matches)) {
+            $this->setData('orig_template_variables', $this->_parseVariablesString($matches[1]));
+            $templateText = str_replace($matches[0], '', $templateText);
         }
 
         if (preg_match('/<!--@styles\s*(.*?)\s*@-->/sm', $templateText, $matches)) {
@@ -580,5 +602,47 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     {
         $this->getMail()->addHeader('Reply-To', $email);
         return $this;
+    }
+
+    /**
+     * Parse variables string into array of variables
+     *
+     * @param string $variablesString
+     * @return array
+     */
+    protected function _parseVariablesString($variablesString)
+    {
+        $variables = array();
+        if ($variablesString && is_string($variablesString)) {
+            $variablesString = str_replace("\n", '', $variablesString);
+            $variables = Zend_Json::decode($variablesString);
+        }
+        return $variables;
+    }
+
+    /**
+     * Retrieve option array of variables
+     *
+     * @param boolean $withGroup if true wrap variable options in group
+     * @return array
+     */
+    public function getVariablesOptionArray($withGroup = false)
+    {
+        $optionArray = array();
+        if (($variables = $this->getData('orig_template_variables')) && is_array($variables)) {
+            foreach ($variables as $value => $label) {
+                $optionArray[] = array(
+                    'value' => '{{' . $value . '}}',
+                    'label' => Mage::helper('adminhtml')->__('%s', $label)
+                );
+            }
+            if ($withGroup && $variables) {
+                $optionArray = array(
+                    'label' => Mage::helper('adminhtml')->__('Template Variables'),
+                    'value' => $optionArray
+                );
+            }
+        }
+        return $optionArray;
     }
 }

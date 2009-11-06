@@ -72,8 +72,19 @@
                 </currency>
                 <email_template translate="title">
                     <title>Transactional Emails</title>
-                    <action>adminhtml/system_email_template</action>
                     <sort_order>60</sort_order>
+                    <children>
+                        <template>
+                            <title>Templates</title>
+                            <action>adminhtml/system_email_template</action>
+                            <sort_order>20</sort_order>
+                        </template>
+                        <variables>
+                            <title>Custom Variables</title>
+                            <action>adminhtml/system_email_variable</action>
+                            <sort_order>40</sort_order>
+                        </variables>
+                    </children>
                 </email_template>
                 <acl translate="title">
                     <title>Permissions</title>
@@ -211,6 +222,16 @@
                             <email_template translate="title">
                                 <title>Transactional Emails</title>
                                 <sort_order>40</sort_order>
+                                <children>
+                                    <template>
+                                        <title>Templates</title>
+                                        <sort_order>20</sort_order>
+                                    </template>
+                                    <variables>
+                                        <title>Custom Variables</title>
+                                        <sort_order>40</sort_order>
+                                    </variables>
+                                </children>
                             </email_template>
                             <myaccount translate="title">
                                 <title>My Account</title>

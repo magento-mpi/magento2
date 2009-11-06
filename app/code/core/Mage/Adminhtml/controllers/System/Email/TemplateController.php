@@ -82,6 +82,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 
         $this->_addContent($this->getLayout()->createBlock('adminhtml/system_email_template_edit', 'template_edit')
                                                             ->setEditMode((bool)$this->getRequest()->getParam('id')));
+        $this->_addJs($this->getLayout()->createBlock('core/template', '', array('template' => 'system/email/template/js.phtml')));
         $this->renderLayout();
     }
 
@@ -100,7 +101,8 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
                 ->setTemplateText($request->getParam('template_text'))
                 ->setTemplateStyles($request->getParam('template_styles'))
                 ->setModifiedAt(Mage::getSingleton('core/date')->gmtDate())
-                ->setOrigTemplateCode($request->getParam('orig_template_code'));
+                ->setOrigTemplateCode($request->getParam('orig_template_code'))
+                ->setOrigTemplateVariables($request->getParam('json_orig_template_variables'));
 
             if (!$template->getId()) {
                 //$type = constant(Mage::getConfig()->getModelClassName('core/email_template') . "::TYPE_HTML");
@@ -174,6 +176,7 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 
         $template->loadDefault($templateCode, $this->getRequest()->getParam('locale'));
         $template->setData('orig_template_code', $templateCode);
+        $template->setData('template_variables_option_array', $template->getVariablesOptionArray(true));
 
         $templateBlock = $this->getLayout()->createBlock('adminhtml/system_email_template_edit');
         $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
