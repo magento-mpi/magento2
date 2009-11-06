@@ -170,11 +170,12 @@ class Mage_Core_Model_Mysql4_Email_Template
         $data = array();
         $data['template_code']             = $template->getTemplateCode();
         $data['template_text']             = $template->getTemplateText();
+        $data['template_styles']           = $template->getTemplateStyles();
         $data['template_type']             = (int) $template->getTemplateType();
-        $data['template_subject']         = $template->getTemplateSubject();
-        $data['template_sender_name']     = $template->getTemplateSenderName();
+        $data['template_subject']          = $template->getTemplateSubject();
+        $data['template_sender_name']      = $template->getTemplateSenderName();
         $data['template_sender_email']     = $template->getTemplateSenderEmail();
-        $data['orig_template_code']     = $template->getOrigTemplateCode();
+        $data['orig_template_code']        = $template->getOrigTemplateCode();
 
         if(!$template->getAddedAt()) {
             $template->setAddedAt(Mage::getSingleton('core/date')->gmtDate());

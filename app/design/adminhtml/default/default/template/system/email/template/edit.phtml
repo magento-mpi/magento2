@@ -113,6 +113,7 @@
     <div class="no-display">
         <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
         <input type="hidden" id="preview_text" name="text" value="" />
+        <input type="hidden" id="preview_styles" name="styles" value="" />
     </div>
 </form>
 <script type="text/javascript">
@@ -139,6 +140,7 @@
                 new RegExp('<style[^>]*>[\\S\\s]*?</style>', 'img'), ''
             ).stripTags().strip();
             $('convert_button_back').show();
+            $('field_template_styles').hide();
             this.typeChange = true;
             return false;
         },
@@ -146,6 +148,7 @@
             $('convert_button').show();
             $('convert_button_back').hide();
             $('template_text').value =  this.unconvertedText;
+            $('field_template_styles').show();
             this.typeChange = false;
             return false;
         },
@@ -165,8 +168,13 @@
             if (typeof tinyMCE == 'undefined' || !tinyMCE.getInstanceById('template_text')) {
                 $('preview_text').value = $('template_text').value;
             } else {
-                 $('preview_text').value = tinyMCE.getInstanceById('template_text').getHTML();
+                $('preview_text').value = tinyMCE.getInstanceById('template_text').getHTML();
             }
+
+            if ($('template_styles') != undefined) {
+                $('preview_styles').value = $('template_styles').value;
+            }
+
             templatePreviewForm.submit();
             return false;
         },

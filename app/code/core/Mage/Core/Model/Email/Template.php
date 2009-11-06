@@ -168,6 +168,11 @@ class Mage_Core_Model_Email_Template extends Varien_Object
            $templateText = str_replace($matches[0], '', $templateText);
         }
 
+        if (preg_match('/<!--@styles\s*(.*?)\s*@-->/sm', $templateText, $matches)) {
+           $this->setTemplateStyles($matches[1]);
+           $templateText = str_replace($matches[0], '', $templateText);
+        }
+
         /**
          * Remove comment lines
          */
@@ -281,7 +286,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
 
         $this->_applyDesignConfig();
         try{
-            $processedResult = $processor->filter($this->getTemplateText());
+            $processedResult = $processor->filter($this->getPreparedTemplateText());
         }
         catch ( Exception $e)   {
             $this->_cancelDesignConfig();
@@ -289,6 +294,21 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         }
         $this->_cancelDesignConfig();
         return $processedResult;
+    }
+
+    /**
+     * Makes additional text preparations for HTML templates
+     *
+     * @return string
+     */
+    public function getPreparedTemplateText()
+    {
+        if ($this->isPlain() || !$this->getTemplateStyles()) {
+            return $this->getTemplateText();
+        }
+        // wrap styles into style tag
+        $html = "<style type=\"text/css\">\n%s\n</style>\n%s";
+        return sprintf($html, $this->getTemplateStyles(), $this->getTemplateText());
     }
 
     /**
