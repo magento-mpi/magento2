@@ -175,6 +175,12 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
         return $this;
     }
 
+    /**
+     * Add suffix to name of all elements
+     *
+     * @param string $suffix
+     * @return Varien_Data_Form
+     */
     public function addFieldNameSuffix($suffix)
     {
         foreach ($this->_allElements as $element) {
@@ -183,6 +189,7 @@ class Varien_Data_Form extends Varien_Data_Form_Abstract
                 $element->setName($this->addSuffixToName($name, $suffix));
             }
         }
+        return $this;
     }
 
     public function addSuffixToName($name, $suffix)
