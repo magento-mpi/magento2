@@ -123,6 +123,7 @@
     var templateControl = {
         unconvertedText: '',
         typeChange: false,
+        lastOptgroupLabel: null,
         init: function () {
             if ($('convert_button_back')) {
                 $('convert_button_back').hide();
@@ -228,11 +229,18 @@
                               } 
                           }
                           if (pair.key == 'template_variables_option_array') {
-                              if (pair.value && (pair.value).label && (pair.value).value) {
-                                  var selectElm = $('template_variables');
-                                  if (selectElm) {
+                              var selectElm = $('template_variables');
+                              for (var i = 0; i < (selectElm.children).length; i++) {
+                                  if (this.lastOptgroupLabel && (selectElm.children[i]).label == this.lastOptgroupLabel) {
+                                      selectElm.removeChild(selectElm.children[i]);
+                                      this.lastOptgroupLabel = null;
+                                  }
+                              }
+                              if (selectElm) {
+                                  if (pair.value && (pair.value).label && (pair.value).value) {
                                       var optgroup = new Element('optgroup');
                                       optgroup.label = pair.value.label;
+                                      this.lastOptgroupLabel = pair.value.label;
                                       (pair.value.value).each(function(variable){
                                           var option = new Element('option');
                                           option.value = variable.value;
