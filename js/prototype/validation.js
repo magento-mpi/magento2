@@ -407,6 +407,7 @@ Object.extend(Validation, {
 Validation.add('IsEmpty', '', function(v) {
     return  (v == '' || (v == null) || (v.length == 0) || /^\s+$/.test(v)); // || /^\s+$/.test(v));
 });
+
 Validation.addAllThese([
     ['validate-select', 'Please select an option.', function(v) {
                 return ((v != "none") && (v != null) && (v.length != 0));
@@ -477,11 +478,11 @@ Validation.addAllThese([
                 for (var i = 0; i < passwordElements.size(); i++) {
                     var passwordElement = passwordElements[i];
                     if (passwordElement.up('form').id == conf.up('form').id) {
-                        pass = passwordElement; 
+                        pass = passwordElement;
                     }
                 }
                 if ($$('.validate-admin-password').size()) {
-                    pass = $$('.validate-admin-password')[0]; 
+                    pass = $$('.validate-admin-password')[0];
                 }
                 return (pass.value == conf.value);
             }],
@@ -691,9 +692,10 @@ Validation.addAllThese([
                         }
                     });
                 return result;
-            }]
-]);
+            }],
+     ['validate-percents', 'Please enter a number lower than 100', {max:100}]
 
+]);
 
 // Credit Card Validation Javascript
 // copyright 12th May 2003, by Stephen Chapman, Felgall Pty Ltd
