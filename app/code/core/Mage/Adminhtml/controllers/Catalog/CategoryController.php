@@ -235,6 +235,7 @@ class Mage_Adminhtml_Catalog_CategoryController extends Mage_Adminhtml_Controlle
         }
 
         $storeId = $this->getRequest()->getParam('store');
+        $refreshTree = 'false';
         if ($data = $this->getRequest()->getPost()) {
             $category->addData($data['general']);
             if (!$category->getId()) {
