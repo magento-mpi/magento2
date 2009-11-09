@@ -262,17 +262,13 @@ $CONFIG['translates'] = array(
     ),
     'Mage_Paypal' => array(
         'app/code/core/Mage/Paypal/',
-        'app/design/frontend/default/default/template/paypaluk/',
-        'app/design/frontend/default/default/layout/paypaluk.xml',
-        'app/design/frontend/default/modern/template/paypaluk/',
-        'app/design/frontend/default/modern/layout/paypaluk.xml',
+        'app/design/frontend/base/default/template/paypal/',
+        'app/design/frontend/base/default/layout/paypal.xml',
     ),
     'Mage_PaypalUk' => array(
         'app/code/core/Mage/Paypal/',
-        'app/design/frontend/default/default/template/paypal/',
-        'app/design/frontend/default/default/layout/paypal.xml',
-        'app/design/frontend/default/modern/template/paypal/',
-        'app/design/frontend/default/modern/layout/paypal.xml',
+        'app/design/frontend/base/default/template/paypaluk/',
+        'app/design/frontend/base/default/layout/paypaluk.xml',
     ),
     'Mage_Poll' => array(
         'app/code/core/Mage/Poll/',
