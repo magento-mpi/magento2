@@ -82,11 +82,11 @@ class Mage_Core_Model_Email_Variable extends Mage_Core_Model_Abstract
         if ($this->getCode() && $this->getName() && ($this->getValue() || $this->getUseDefaultValue())) {
             $variable = $this->getResource()->getVariableByCode($this->getCode());
             if (!empty($variable) && $variable['variable_id'] != $this->getId()) {
-                return Mage::helper('adminhtml')->__('Variable Code must be unique.');
+                return Mage::helper('core')->__('Variable Code must be unique.');
             }
             return true;
         }
-        return Mage::helper('adminhtml')->__('Vaidation failed.');
+        return Mage::helper('core')->__('Vaidation failed.');
     }
 
     /**
@@ -103,12 +103,12 @@ class Mage_Core_Model_Email_Variable extends Mage_Core_Model_Abstract
         foreach ($collection->toOptionArray() as $variable) {
             $variables[] = array(
                 'value' => '{{customVar code=' . $variable['value'] . '}}',
-                'label' => Mage::helper('adminhtml')->__('%s', $variable['label'])
+                'label' => Mage::helper('core')->__('%s', $variable['label'])
             );
         }
         if ($withGroup && $variables) {
             $variables = array(
-                'label' => Mage::helper('adminhtml')->__('Custom Variables'),
+                'label' => Mage::helper('core')->__('Custom Variables'),
                 'value' => $variables
             );
         }

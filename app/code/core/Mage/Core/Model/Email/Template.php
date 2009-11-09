@@ -185,7 +185,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             $templateText = str_replace($matches[0], '', $templateText);
         }
 
-        if (preg_match('/<!--@vars\n((?:.)*)\n@-->/s', $templateText, $matches)) {
+        if (preg_match('/<!--@vars\n((?:.)*?)\n@-->/us', $templateText, $matches)) {
             $this->setData('orig_template_variables', $this->_parseVariablesString($matches[1]));
             $templateText = str_replace($matches[0], '', $templateText);
         }
@@ -633,12 +633,12 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             foreach ($variables as $value => $label) {
                 $optionArray[] = array(
                     'value' => '{{' . $value . '}}',
-                    'label' => Mage::helper('adminhtml')->__('%s', $label)
+                    'label' => Mage::helper('core')->__('%s', $label)
                 );
             }
             if ($withGroup && $variables) {
                 $optionArray = array(
-                    'label' => Mage::helper('adminhtml')->__('Template Variables'),
+                    'label' => Mage::helper('core')->__('Template Variables'),
                     'value' => $optionArray
                 );
             }

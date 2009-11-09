@@ -79,6 +79,12 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
 
         ));
 
+        $fieldset->addField('template_subject', 'text', array(
+            'name'=>'template_subject',
+            'label' => Mage::helper('adminhtml')->__('Template Subject'),
+            'required' => true
+        ));
+
         $fieldset->addField('json_orig_template_variables', 'hidden', array(
             'name' => 'json_orig_template_variables',
             'value' => Zend_Json::encode($this->getEmailTemplate()->getOrigTemplateVariables())
@@ -89,12 +95,6 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'label' => Mage::helper('adminhtml')->__('Variables To Insert'),
             'values' => $this->getVariables(),
             'onchange' => 'insertVariable(this);'
-        ));
-
-        $fieldset->addField('template_subject', 'text', array(
-            'name'=>'template_subject',
-            'label' => Mage::helper('adminhtml')->__('Template Subject'),
-            'required' => true
         ));
 
         $fieldset->addField('template_text', 'editor', array(
@@ -146,10 +146,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
     public function getVariables()
     {
         $variables = array();
-        $variables[] = array(
-            'label' => Mage::helper('adminhtml')->__('Store Contact Information'),
-            'value' => $this->_getStoreContactInformation()
-        );
+        $variables[] = Mage::getModel('core/source_email_variables')
+            ->toOptionArray(true);
         $customVariables = Mage::getModel('core/email_variable')
             ->getVariablesOptionArray(true);
         if ($customVariables) {
@@ -165,26 +163,5 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'label' => Mage::helper('adminhtml')->__('-- Please Select --')
         ));
         return $variables;
-    }
-
-    /**
-     * Retrieve store contact information option array
-     *
-     * @todo refactor, move to another place
-     */
-    protected function _getStoreContactInformation()
-    {
-        $optionArr = array();
-        $optionArr = array(
-            array(
-                'value' => '{{config path="web/unsecure/base_url"}}',
-                'label' => 'Base Unsecure URL'
-            ),
-            array(
-                'value' => '{{config path="web/secure/base_url"}}',
-                'label' => 'Base Secure URL'
-            ),
-        );
-        return $optionArr;
     }
 }
