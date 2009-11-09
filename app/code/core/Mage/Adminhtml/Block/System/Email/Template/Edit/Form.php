@@ -91,6 +91,12 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'onchange' => 'insertVariable(this);'
         ));
 
+        $fieldset->addField('template_subject', 'text', array(
+            'name'=>'template_subject',
+            'label' => Mage::helper('adminhtml')->__('Template Subject'),
+            'required' => true
+        ));
+
         $fieldset->addField('template_text', 'editor', array(
             'name'=>'template_text',
             'wysiwyg' => false,
