@@ -243,7 +243,8 @@ class Mage_Catalog_Model_Observer
     public function markCompareProductsItemsAsDirtyOnProductSaveAfter(Varien_Event_Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();
-        if ($product && ($product->getStatus() == 2 || $product->getVisibility() == 1)) {
+        if ($product && ($product->getStatus() == Mage_Catalog_Model_Product_Status::STATUS_DISABLED ||
+            $product->getVisibility() == Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE)) {
             Mage::getResourceModel('catalog/product_compare_item')->markCompareProductItemsAsDirtyByProduct($product->getId());
         }
         return $this;
