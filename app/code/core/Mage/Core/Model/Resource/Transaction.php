@@ -143,32 +143,29 @@ class Mage_Core_Model_Resource_Transaction
     public function save()
     {
         $this->_startTransaction();
-        $commit = true;
-        $errors = array();
+        $error     = false;
 
-        foreach ($this->_objects as $object) {
-            try {
+        try {
+            foreach ($this->_objects as $object) {
                 $object->save();
-            } catch (Exception $e) {
-                $commit = false;
-                $errors[] = $e->getMessage();
             }
+        } catch (Exception $e) {
+            $error = $e;
         }
 
-        if ($commit) {
+        if ($error === false) {
             try {
                 $this->_runCallbacks();
             } catch (Exception $e) {
-                $commit = false;
-                $errors[] = $e->getMessage();
+                $error = $e;
             }
         }
 
-        if ($commit) {
-            $this->_commitTransaction();
-        } else {
+        if ($error) {
             $this->_rollbackTransaction();
-            Mage::throwException(join("\n", $errors));
+            throw $error;
+        } else {
+            $this->_commitTransaction();
         }
 
         return $this;
@@ -182,34 +179,30 @@ class Mage_Core_Model_Resource_Transaction
     public function delete()
     {
         $this->_startTransaction();
-        $commit = true;
-        $errors = array();
+        $error     = false;
 
-        foreach ($this->_objects as $object) {
-            try {
+        try {
+            foreach ($this->_objects as $object) {
                 $object->delete();
-            } catch (Exception $e) {
-                $commit = false;
-                $errors[] = $e->getMessage();
             }
+        } catch (Exception $e) {
+            $error = $e;
         }
 
-        if ($commit) {
+        if ($error === false) {
             try {
                 $this->_runCallbacks();
             } catch (Exception $e) {
-                $commit = false;
-                $errors[] = $e->getMessage();
+                $error = $e;
             }
         }
 
-        if ($commit) {
-            $this->_commitTransaction();
-        } else {
+        if ($error) {
             $this->_rollbackTransaction();
-            Mage::throwException(join("\n", $errors));
+            throw $error;
+        } else {
+            $this->_commitTransaction();
         }
-
         return $this;
     }
 
