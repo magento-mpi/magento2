@@ -325,6 +325,12 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product extends Ma
         return $this;
     }
 
+    /**
+     * Add product association with root store category for products which are not assigned to any another category
+     *
+     * @param   int | array $productIds
+     * @return  Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Indexer_Product
+     */
     protected function _refreshRootRelations($productIds)
     {
         $visibilityInfo = $this->_getVisibilityAttributeInfo();
