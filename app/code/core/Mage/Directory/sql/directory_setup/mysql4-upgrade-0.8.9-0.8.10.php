@@ -27,21 +27,36 @@
 /** @var Mage_Core_Model_Resource_Setup */
 $installer = $this;
 
-$installer->run("
-INSERT INTO `{$installer->getTable('directory/country_region_name')}` (`locale`, `region_id`, `name`)
-VALUES
-('en_US', 278, 'Alba'), ('en_US', 279, 'Arad'), ('en_US', 280, 'Argeş'),
-('en_US', 281, 'Bacău'), ('en_US', 282, 'Bihor'), ('en_US', 283, 'Bistriţa-Năsăud'),
-('en_US', 284, 'Botoşani'), ('en_US', 285, 'Braşov'), ('en_US', 286, 'Brăila'),
-('en_US', 287, 'Bucureşti'), ('en_US', 288, 'Buzău'), ('en_US', 289, 'Caraş-Severin'),
-('en_US', 290, 'Călăraşi'), ('en_US', 291, 'Cluj'), ('en_US', 292, 'Constanţa'),
-('en_US', 293, 'Covasna'), ('en_US', 294, 'Dâmboviţa'), ('en_US', 295, 'Dolj'),
-('en_US', 296, 'Galaţi'), ('en_US', 297, 'Giurgiu'), ('en_US', 298, 'Gorj'),
-('en_US', 299, 'Harghita'), ('en_US', 300, 'Hunedoara'), ('en_US', 301, 'Ialomiţa'),
-('en_US', 302, 'Iaşi'), ('en_US', 303, 'Ilfov'), ('en_US', 304, 'Maramureş'),
-('en_US', 305, 'Mehedinţi'), ('en_US', 306, 'Mureş'), ('en_US', 307, 'Neamţ'),
-('en_US', 308, 'Olt'), ('en_US', 309, 'Prahova'), ('en_US', 310, 'Satu-Mare'),
-('en_US', 311, 'Sălaj'), ('en_US', 312, 'Sibiu'), ('en_US', 313, 'Suceava'),
-('en_US', 314, 'Teleorman'), ('en_US', 315, 'Timiş'), ('en_US', 316, 'Tulcea'),
-('en_US', 317, 'Vaslui'), ('en_US', 318, 'Vâlcea'), ('en_US', 319, 'Vrancea');
-");
+/** @var Varien_Db_Adapter_Pdo_Mysql */
+$connection   = $this->getConnection();
+$regionTable  = $installer->getTable('directory/country_region');
+$regNameTable = $installer->getTable('directory/country_region_name');
+
+$regionsToIns = array(
+    array('RO', 'AB', 'Alba'), array('RO', 'AR', 'Arad'), array('RO', 'AG', 'Argeş'),
+    array('RO', 'BC', 'Bacău'), array('RO', 'BH', 'Bihor'), array('RO', 'BN', 'Bistriţa-Năsăud'),
+    array('RO', 'BT', 'Botoşani'), array('RO', 'BV', 'Braşov'), array('RO', 'BR', 'Brăila'),
+    array('RO', 'B', 'Bucureşti'), array('RO', 'BZ', 'Buzău'), array('RO', 'CS', 'Caraş-Severin'),
+    array('RO', 'CL', 'Călăraşi'), array('RO', 'CJ', 'Cluj'), array('RO', 'CT', 'Constanţa'),
+    array('RO', 'CV', 'Covasna'), array('RO', 'DB', 'Dâmboviţa'), array('RO', 'DJ', 'Dolj'),
+    array('RO', 'GL', 'Galaţi'), array('RO', 'GR', 'Giurgiu'), array('RO', 'GJ', 'Gorj'),
+    array('RO', 'HR', 'Harghita'), array('RO', 'HD', 'Hunedoara'), array('RO', 'IL', 'Ialomiţa'),
+    array('RO', 'IS', 'Iaşi'), array('RO', 'IF', 'Ilfov'), array('RO', 'MM', 'Maramureş'),
+    array('RO', 'MH', 'Mehedinţi'), array('RO', 'MS', 'Mureş'), array('RO', 'NT', 'Neamţ'),
+    array('RO', 'OT', 'Olt'), array('RO', 'PH', 'Prahova'), array('RO', 'SM', 'Satu-Mare'),
+    array('RO', 'SJ', 'Sălaj'), array('RO', 'SB', 'Sibiu'), array('RO', 'SV', 'Suceava'),
+    array('RO', 'TR', 'Teleorman'), array('RO', 'TM', 'Timiş'), array('RO', 'TL', 'Tulcea'),
+    array('RO', 'VS', 'Vaslui'), array('RO', 'VL', 'Vâlcea'), array('RO', 'VN', 'Vrancea')
+);
+
+foreach ($regionsToIns as $row) {
+    $regionId = $connection->fetchOne("SELECT `region_id` FROM `{$regionTable}` WHERE `country_id` = :country_id && `code` = :code", array('country_id' => $row[0], 'code' => $row[1]));
+
+    if (! $connection->fetchOne("SELECT 1 FROM `{$regNameTable}` WHERE `region_id` = {$regionId}")) {
+        $connection->insert($regNameTable, array(
+            'locale'    => 'en_US',
+            'region_id' => $regionId,
+            'name'      => $row[2]
+        ));
+    }
+}
