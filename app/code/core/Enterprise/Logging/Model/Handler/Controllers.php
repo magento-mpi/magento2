@@ -104,14 +104,12 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('enterprise_logging/event_changes');
 
         //Collect skip encrypted fields
-        //Look for encrypted node entries in all system.xml files
-        $configSections = Mage::getSingleton('adminhtml/config')->getSections();
+        $encryptedNodeEntriesPaths = Mage::getSingleton('adminhtml/config')->getEncryptedNodeEntriesPaths(true);
         $skipEncrypted = array();
-        foreach ($configSections->xpath('//sections/*/groups/*/fields/*/backend_model') as $node) {
-            if ('adminhtml/system_config_backend_encrypted' === (string)$node) {
-                 $skipEncrypted[] = $node->getParent()->getName();
-            }
+        foreach ($encryptedNodeEntriesPaths as $fieldName) {
+            $skipEncrypted[] = $fieldName['field'];
         }
+
         //For each group of current section creating separated event change
         if (isset($postData['groups'])) {
             foreach ($postData['groups'] as $groupName => $groupData) {

@@ -89,16 +89,8 @@ class Enterprise_Pci_Model_Mysql4_Key_Change extends Mage_Core_Model_Mysql4_Abst
     protected function _reEncryptSystemConfigurationValues()
     {
         // look for encrypted node entries in all system.xml files
-        $configSections = Mage::getSingleton('adminhtml/config')->getSections();
-        $paths = array();
-        foreach ($configSections->xpath('//sections/*/groups/*/fields/*/backend_model') as $node) {
-            if ('adminhtml/system_config_backend_encrypted' === (string)$node) {
-                 $paths[] =
-                    $node->getParent()->getParent()->getParent()->getParent()->getParent()->getName()
-                    . '/' . $node->getParent()->getParent()->getParent()->getName()
-                    . '/' . $node->getParent()->getName();
-            }
-        }
+        $paths = Mage::getSingleton('adminhtml/config')->getEncryptedNodeEntriesPaths();
+
         // walk through found data and re-encrypt it
         if ($paths) {
             $table = $this->getTable('core/config_data');
