@@ -231,8 +231,18 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             array('value'=>'', 'label'=> '')
         );
 
-        foreach (self::getDefaultTemplates() as $templateId=>$value) {
-            $options[] = array('value'=>$templateId, 'label'=>$value['label']);
+        $idLabel = array();
+        foreach (self::getDefaultTemplates() as $templateId => $row) {
+            if (isset($row['@']) && isset($row['@']['module'])) {
+                $module = $row['@']['module'];
+            } else {
+                $module = 'adminhtml';
+            }
+            $idLabel[$templateId] = Mage::helper($module)->__($row['label']);
+        }
+        asort($idLabel);
+        foreach ($idLabel as $templateId => $label) {
+            $options[] = array('value' => $templateId, 'label' => $label);
         }
 
         return $options;
