@@ -226,4 +226,31 @@ class Mage_Adminhtml_Model_Config extends Varien_Simplexml_Config
         }
         return '';
     }
+
+    /**
+     * Look for encrypted node entries in all system.xml files and return them
+     *
+     * @return array $paths
+     */
+    public function getEncryptedNodeEntriesPaths($explodePathToEntities = false)
+    {
+        $paths = array();
+        $configSections = $this->getSections();
+        if ($configSections) {
+            foreach ($configSections->xpath('//sections/*/groups/*/fields/*/backend_model') as $node) {
+                if ('adminhtml/system_config_backend_encrypted' === (string)$node) {
+                    $section = $node->getParent()->getParent()->getParent()->getParent()->getParent()->getName();
+                    $group   = $node->getParent()->getParent()->getParent()->getName();
+                    $field   = $node->getParent()->getName();
+                    if ($explodePathToEntities) {
+                        $paths[] = array('section' => $section, 'group' => $group, 'field' => $field);
+                    }
+                    else {
+                        $paths[] = $section . '/' . $group . '/' . $field;
+                    }
+                }
+            }
+        }
+        return $paths;
+    }
 }
