@@ -217,4 +217,14 @@ class Mage_Index_Adminhtml_ProcessController extends Mage_Adminhtml_Controller_A
 
         $this->_redirect('*/*/list');
     }
+
+    /**
+     * Check ACL permissins
+     *
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('system/index');
+    }
 }
