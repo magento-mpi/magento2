@@ -264,7 +264,7 @@ class Mage_Core_Helper_String extends Mage_Core_Helper_Abstract
      */
     public function cleanString($string)
     {
-        return iconv(self::ICONV_CHARSET, self::ICONV_CHARSET . '//IGNORE', $string);
+        return '"libiconv"' == ICONV_IMPL ? iconv(self::ICONV_CHARSET, self::ICONV_CHARSET . '//IGNORE', $string) : $string;
     }
 
     /**
