@@ -182,6 +182,20 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Flag to indicate whether append included pages (menu_excluded=0) only or not
+     *
+     * @param bool $flag
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function setCollectIncludedPagesOnly($flag)
+    {
+        $flag = (bool)$flag;
+        $this->setData('collect_included_pages_only', $flag);
+        $this->_getResource()->setAppendIncludedPagesOnly($flag);
+        return $this;
+    }
+
+    /**
      * Retrieve Node or Page identifier
      *
      * @return string
@@ -332,11 +346,12 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      *
      * @param int $up
      * @param int $down
+     * @param bool $brief Menu Detalization
      * @return array
      */
-    public function getTreeSlice($up = 0, $down = 0)
+    public function getTreeSlice($up = 0, $down = 0, $brief = false)
     {
-        $data = $this->_getResource()->getTreeSlice($this, $up, $down);
+        $data = $this->_getResource()->getTreeSlice($this, $up, $down, $brief);
         $blankModel = Mage::getModel('enterprise_cms/hierarchy_node');
         foreach ($data as $parentId => $children) {
             foreach ($children as $childId => $child) {
@@ -447,7 +462,11 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function getMetadataPagerParams()
     {
-        return $this->getResource()->getMetadataParamsBasedOnVisibility($this, 'pager_visibility', true);
+        $values = array(
+            Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES,
+            Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_NO);
+
+        return $this->getResource()->getParentMetadataParams($this, 'pager_visibility', $values);
     }
 
     /**
@@ -457,16 +476,23 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
      */
     public function getMetadataContextMenuParams()
     {
-        if ($this->getData('menu_visibility_self') == Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT) {
-            $params = $this->getResource()->getMetadataParamsBasedOnVisibility($this, 'menu_visibility', true);
-            if ($params !== null
-                && isset($params['menu_levels_up'])
-                && isset($params['level']))
-            {
-                $params['menu_levels_up'] = ($this->getLevel() - $params['level']) + $params['menu_levels_up'];
-            }
+        // Node is excluded from Menu
+        if ($this->getData('menu_excluded') == 1) {
+            return null;
+        }
+
+        // Menu is disabled in some of parent nodes
+        $params = $this->getResource()->getParentMetadataParams($this, 'menu_excluded', array(1));
+        if ($params !== null && $params['level'] > 1) {
+            return null;
+        }
+
+        // Root node menu params
+        $params = $this->getResource()->getTreeMetaData($this);
+        if (isset($params['menu_visibility']) && $params['menu_visibility'] == 1) {
             return $params;
         }
+
         return null;
     }
 

@@ -76,7 +76,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'method'    => 'post'
         ));
 
-        /*
+        /**
          * Define general properties for each node
          */
         $fieldset   = $form->addFieldset('node_properties_fieldset', array(
@@ -130,7 +130,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'value'     => Mage::helper('enterprise_cms')->__('No preview available'),
         ));
 
-        /*
+        $yesNoOptions = Mage::getSingleton('adminhtml/system_config_source_yesno')->toOptionArray();
+
+        /**
          * Define field set with elements for root nodes
          */
         if (Mage::helper('enterprise_cms/hierarchy')->isMetadataEnabled()) {
@@ -138,8 +140,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'legend'    => Mage::helper('enterprise_cms')->__('Render Metadata in HTML Head')
             ));
 
-            $yesNoOptions = Mage::getSingleton('adminhtml/system_config_source_yesno')
-                    ->toOptionArray();
 
             $fieldset->addField('meta_first_last', 'select', array(
                 'label'     => Mage::helper('enterprise_cms')->__('First'),
@@ -183,6 +183,9 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             ));
         }
 
+        /**
+         * Pagination options
+         */
         $pagerFieldset   = $form->addFieldset('pager_fieldset', array(
             'legend'    => Mage::helper('enterprise_cms')->__('Pagination Options for Nested Pages')
         ));
@@ -212,45 +215,46 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'tabindex'  => '90'
         ));
 
+        /**
+         * Context menu options
+         */
         $menuFieldset   = $form->addFieldset('menu_fieldset', array(
             'legend'    => Mage::helper('enterprise_cms')->__('Navigation Menu Options')
         ));
 
-
-        $menuVisibilitySource = Mage::getSingleton('enterprise_cms/source_hierarchy_visibility')->toOptionArray();
-        $menuVisibilitySelfSource = $menuVisibilitySource;
-        unset($menuVisibilitySelfSource[Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES]);
-
-        $menuFieldset->addField('menu_visibility_self', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('This Page Navigation Menu'),
-            'name'      => 'menu_visibility_self',
-            'values'    => $menuVisibilitySelfSource,
-            'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
+        $menuFieldset->addField('menu_excluded', 'select', array(
+            'label'     => Mage::helper('enterprise_cms')->__('Exclude from Navigation Menu'),
+            'name'      => 'menu_excluded',
+            'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.nodeChanged()",
-            'container_id' => 'field_menu_visibility_self',
+            'container_id' => 'field_menu_excluded',
             'tabindex'  => '100'
         ));
 
         $menuFieldset->addField('menu_visibility', 'select', array(
-            'label'     => Mage::helper('enterprise_cms')->__('Navigation Menu for Nested Pages'),
+            'label'     => Mage::helper('enterprise_cms')->__('Enable Navigation Menu'),
             'name'      => 'menu_visibility',
-            'values'    => $menuVisibilitySource,
-            'value'     => Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT,
+            'values'    => $yesNoOptions,
             'onchange'   => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
             'container_id' => 'field_menu_visibility',
             'tabindex'  => '110'
         ));
-        $menuFieldset->addField('menu_levels_up', 'text', array(
-            'name'      => 'menu_levels_up',
-            'label'     => Mage::helper('enterprise_cms')->__('Levels Up'),
-            'onchange'  => 'hierarchyNodes.nodeChanged()',
-            'container_id' => 'field_menu_levels_up',
-            'note'      => Mage::helper('enterprise_cms')->__('Number of Parent Node Levels to Include'),
+
+        $menuBriefOptions = array(
+            array('value' => 1, 'label' => Mage::helper('enterprise_cms')->__('Brief')),
+            array('value' => 0, 'label' => Mage::helper('enterprise_cms')->__('Detailed')),
+        );
+        $menuFieldset->addField('menu_brief', 'select', array(
+            'label'     => Mage::helper('enterprise_cms')->__('Menu Detalization'),
+            'name'      => 'menu_brief',
+            'values'    => $menuBriefOptions,
+            'onchange'   => "hierarchyNodes.nodeChanged()",
+            'container_id' => 'field_menu_brief',
             'tabindex'  => '120'
         ));
         $menuFieldset->addField('menu_levels_down', 'text', array(
             'name'      => 'menu_levels_down',
-            'label'     => Mage::helper('enterprise_cms')->__('Levels Down'),
+            'label'     => Mage::helper('enterprise_cms')->__('Maximal Depth'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_down',
             'note'      => Mage::helper('enterprise_cms')->__('Number of Child Node Levels to Include'),

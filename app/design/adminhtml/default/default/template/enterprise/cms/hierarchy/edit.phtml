@@ -554,10 +554,10 @@
 
         resetMetadataFieldSet: function() {
             var defaultValue = '0';
-            $('meta_first_last').value = defaultValue;
-            $('meta_next_previous').value = defaultValue;
-            $('meta_chapter').value = defaultValue;
-            $('meta_section').value = defaultValue;
+            var fields = ['meta_first_last','meta_next_previous','meta_chapter','meta_section','menu_visibility','menu_excluded'];
+            fields.each(function(e) {
+                $(e).value = defaultValue;
+            });
         },
 
         saveButton: function(show, enabled, save) {
@@ -626,9 +626,9 @@
                 'pager_visibility',
                 'pager_frame',
                 'pager_jump',
-                'menu_visibility_self',
                 'menu_visibility',
-                'menu_levels_up',
+                'menu_brief',
+                'menu_excluded',
                 'menu_levels_down',
                 'menu_ordered',
                 'menu_list_type'
@@ -669,16 +669,19 @@
 
         toggleMetadataFieldset: function(switcher, fieldsetId) {
             if($(fieldsetId) != undefined && $(switcher) != undefined) {
-                var yes = '<?php echo Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES ?>';
+                var yes = '1'; // "Yes" value
                 var hidden = $(switcher).value != yes;
                 this.toggleFieldset($(switcher), $(fieldsetId), hidden);
+                if($(switcher).id == 'menu_visibility') {
+                    $('field_menu_excluded').hide();
+                }
             }
         },
 
         toggleFieldset: function(switcher, container, hidden) {
             var elems = Element.select(container, ['select', 'input', 'textarea', 'button']);
             elems.each(function (elem) {
-                if(elem!=switcher && elem.id != 'menu_visibility_self') {
+                if(elem!=switcher) {
                     hidden ? elem.up(1).hide() : elem.up(1).show();
                 };
             });
@@ -697,14 +700,23 @@
 
             // hide pagination options anyway if node/page hasn't childs
             hasChilds ? this.showFieldSet('pager_fieldset') : this.hideFieldSet('pager_fieldset');
-            hasPageId ? $('field_menu_visibility_self').show() : $('field_menu_visibility_self').hide();
 
-            // render List Type drop-dawn
-            if (node != undefined) {
-                var listType= node.attributes['menu_ordered'] != undefined ? node.attributes['menu_ordered'] : '';
-                this.renderListStyle(listType);
+            var currentParent = (node != undefined ? node.parentNode : this.tree.getSelectionModel().getSelectedNode());
+            var hideMenuParams = (currentParent.id != '_root');
+            this.toggleFieldset(null, 'menu_fieldset', hideMenuParams);
+
+            if (hideMenuParams) {
+                $('field_menu_excluded').show();
             } else {
-                this.renderListStyle($('menu_ordered').value);
+                $('field_menu_excluded').hide();
+
+                // render List Type drop-dawn
+                if (node != undefined) {
+                    var listType= node.attributes['menu_ordered'] != undefined ? node.attributes['menu_ordered'] : '';
+                    this.renderListStyle(listType);
+                } else {
+                    this.renderListStyle($('menu_ordered').value);
+                }
             }
 
             // Assign node attributes to metadata fields
@@ -712,7 +724,10 @@
                 this.assignNodeMetadataToValues(node);
             }
 
-            this.toggleMetadataFieldset('menu_visibility', 'menu_fieldset');
+            if(!hideMenuParams) {
+                this.toggleMetadataFieldset('menu_visibility', 'menu_fieldset');
+            }
+
             this.toggleMetadataFieldset('pager_visibility', 'pager_fieldset');
         },
 

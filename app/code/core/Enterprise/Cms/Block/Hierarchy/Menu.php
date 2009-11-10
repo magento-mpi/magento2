@@ -124,18 +124,28 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
             $params = $this->_node->getMetadataContextMenuParams();
             if ($params !== null
                 && isset($params['menu_visibility'])
-                && $params['menu_visibility'] == Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES)
+                && $params['menu_visibility'] == 1)
             {
                 $this->addData(array(
-                    'up'        => isset($params['menu_levels_up']) ? $params['menu_levels_up'] : 0,
                     'down'      => isset($params['menu_levels_down']) ? $params['menu_levels_down'] : 0,
                     'ordered'   => isset($params['menu_ordered']) ? $params['menu_ordered'] : '0',
                     'list_type' => isset($params['menu_list_type']) ? $params['menu_list_type'] : '',
+                    'menu_brief' => isset($params['menu_brief']) ? $params['menu_brief'] : '0',
                 ));
 
                 $this->setMenuEnabled(true);
             }
         }
+    }
+
+    /**
+     * Return menu_brief flag for menu
+     *
+     * @return bool
+     */
+    public function isBrief()
+    {
+        return (bool)$this->_getData('menu_brief');
     }
 
     /**
@@ -295,9 +305,9 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
     protected function _getNodeLabel($node)
     {
         if ($this->_node && $this->_node->getId() == $node->getId()) {
-            return $this->_getSpan($node);
+            return $this->_getSpan($node).'('.$this->_node->getId().')';
         }
-        return $this->_getLink($node);
+        return $this->_getLink($node).'('.$node->getId().')';
     }
 
     /**
@@ -367,7 +377,8 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
 
             $tree = $this->_node
                 ->setCollectActivePagesOnly(true)
-                ->getTreeSlice($up, $down);
+                ->setCollectIncludedPagesOnly(true)
+                ->getTreeSlice($up, $down, $this->isBrief());
 
             $this->setData('_tree', $tree);
         }

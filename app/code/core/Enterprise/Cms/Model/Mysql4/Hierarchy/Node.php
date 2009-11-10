@@ -53,6 +53,12 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     protected $_appendActivePagesOnly = false;
 
     /**
+     * Flag to indicate whether append included in menu pages only or not
+     * @var bool
+     */
+    protected $_appendIncludedPagesOnly = false;
+
+    /**
      * Initialize connection and define main table and field
      *
      */
@@ -92,18 +98,34 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
                     'pager_visibility',
                     'pager_frame',
                     'pager_jump',
-                    'menu_visibility_self',
                     'menu_visibility',
-                    'menu_levels_up',
+                    'menu_brief',
+                    'menu_excluded',
                     'menu_levels_down',
                     'menu_ordered',
                     'menu_list_type'
                 ));
 
-        if ($this->_appendActivePagesOnly) {
-            $select->where('page_table.is_active=1');
-        }
+        $this->_applyParamFilters($select);
+
         return $select;
+    }
+
+    /**
+     * Add attributes filter to select object based on flags
+     *
+     * @param Zend_Db_Select $select Select object instance
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    protected function _applyParamFilters($select)
+    {
+        if ($this->_appendActivePagesOnly) {
+            $select->where('page_table.is_active=1 OR ' . $this->getMainTable() . '.page_id IS NULL');
+        }
+        if ($this->_appendIncludedPagesOnly) {
+            $select->where('metadata_table.menu_excluded=0');
+        }
+        return $this;
     }
 
     /**
@@ -115,6 +137,18 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     public function setAppendActivePagesOnly($flag)
     {
         $this->_appendActivePagesOnly = (bool)$flag;
+        return $this;
+    }
+
+    /**
+     * Flag to indicate whether append included pages (menu_excluded=0) only or not
+     *
+     * @param bool $flag
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function setAppendIncludedPagesOnly($flag)
+    {
+        $this->_appendIncludedPagesOnly = (bool)$flag;
         return $this;
     }
 
@@ -442,41 +476,75 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Retrieve Tree Slice
+     * Retrieve brief/detailed Tree Slice for object
      * 2 level array
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
      * @param int $up
      * @param int $down
+     * @param bool $brief Menu Detalization
      * @return array
      */
-    public function getTreeSlice($object, $up = 0, $down = 0)
+    public function getTreeSlice($object, $up = 0, $down = 0, $brief = false)
     {
         $tree       = array();
         $parentId   = $object->getParentNodeId();
-        if ($up > 0 && $object->getLevel() > 1) {
+
+        /**
+         * Collect parent and neighbours
+         */
+        if ($object->getLevel() > 1) {
             $xpath = explode('/', $object->getXpath());
             array_pop($xpath); //remove self node
-            array_pop($xpath); //remove parent node
+            if (!$brief) {
+                array_pop($xpath); //remove parent node
+            }
             $parentIds = array();
+            $useUp = $up > 0;
             while (count($xpath) > 0) {
-                if ($up == 0) {
+                if ($useUp && $up == 0) {
                     break;
                 }
                 $parentIds[] = array_pop($xpath);
-                $up --;
+                if ($useUp) {
+                    $up--;
+                }
             }
 
             if ($parentIds) {
                 $parentId = $parentIds[count($parentIds) -1];
+                if ($brief) {
+                    $where = $this->_getReadAdapter()->quoteInto($this->getMainTable().'.node_id IN (?)', $parentIds);
+                } else {
+                    $where = $this->_getReadAdapter()->quoteInto('parent_node_id IN (?)', $parentIds);
+                }
                 $select = $this->_getLoadSelectWithoutWhere()
-                    ->where('parent_node_id IN (?)', $parentIds)
+                    ->where($where)
                     ->order(array('level', $this->getMainTable().'.sort_order'));
                 $nodes = $select->query()->fetchAll();
                 $tree = $this->_prepareRelatedStructure($nodes, $parentId, $tree);
             }
         }
 
+        /**
+         * Collect childs
+         */
+        $nodes = $this->_getSliceChildren($object, $down, $brief);
+        $tree = $this->_prepareRelatedStructure($nodes, $parentId, $tree);
+
+        return $tree;
+    }
+
+    /**
+     * Return object nested childs and its neighbours in Tree Slice
+     *
+     * @param Enterprise_Cms_Model_Hierarchy_Node $object
+     * @param int $down Number of Child Node Levels to Include
+     * @param bool $brief Menu Detalization
+     * @return array
+     */
+    protected function _getSliceChildren($object, $down = 0, $brief = false)
+    {
         if ($object->getParentNodeId() === null) {
             $where = 'parent_node_id IS NULL';
         } else {
@@ -494,10 +562,24 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
             ->order(array('level', $this->getMainTable().'.sort_order'));
 
         $nodes = $select->query()->fetchAll();
-        $tree = $this->_prepareRelatedStructure($nodes, $parentId, $tree);
 
-        return $tree;
+        // remove neighbours for brief menu if object has childs
+        if ($brief && count($nodes)) {
+            $maxLevel = $nodes[count($nodes) - 1]['level'];
+            if ($maxLevel > $object->getLevel()) {
+                $result = array();
+                foreach ($nodes as $node) {
+                    if ($node['level'] > $object->getLevel() || $node['node_id'] == $object->getNodeId()) {
+                        $result[] = $node;
+                    }
+                }
+                return $result;
+            }
+        }
+
+        return $nodes;
     }
+
 
     /**
      * Preparing array where all nodes grouped in sub arrays by parent id.
@@ -540,33 +622,26 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     }
 
     /**
-     * Return nearest parent params for pagination/menu or self object params if it doesn't inherit settings
+     * Return nearest parent params for pagination/menu
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
-     * @param string $visibilityFieldName Visibility field name from metadata table
-     * @param bool $onlyParent Use only parent nodes settings, ignoring object params
+     * @param string $fieldName Parent metadata field to use in filter
+     * @param string $values Values for filter
      * @return array|null
      */
-    public function getMetadataParamsBasedOnVisibility($object, $visibilityFieldName, $onlyParent = false)
+    public function getParentMetadataParams($object, $fieldName, $values)
     {
-        $params = array();
+        $values = is_array($values) ? $values : array($values);
 
-        $objectFlag = $object->getData($visibilityFieldName);
-        if ($objectFlag == Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_PARENT || $onlyParent) {
-            $parentIds = preg_split('/\/{1}/', $object->getXpath(), 0, PREG_SPLIT_NO_EMPTY);
-            array_pop($parentIds); //remove self node
-            $select = $this->_getLoadSelectWithoutWhere()
-                ->where($this->getMainTable().'.node_id IN (?)', $parentIds)
-                ->where('metadata_table.'.$visibilityFieldName.' IN (?)', array(
-                    Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_YES,
-                    Enterprise_Cms_Helper_Hierarchy::METADATA_VISIBILITY_NO
-                ))
-                ->order(array($this->getMainTable().'.level DESC'))
-                ->limit(1);
-            $params = $this->_getReadAdapter()->fetchRow($select);
-        } else {
-            $params = $object->getData();
-        }
+        $parentIds = preg_split('/\/{1}/', $object->getXpath(), 0, PREG_SPLIT_NO_EMPTY);
+        array_pop($parentIds); //remove self node
+        $select = $this->_getLoadSelectWithoutWhere()
+            ->where($this->getMainTable().'.node_id IN (?)', $parentIds)
+            ->where('metadata_table.'.$fieldName.' IN (?)', $values)
+            ->order(array($this->getMainTable().'.level DESC'))
+            ->limit(1);
+        $params = $this->_getReadAdapter()->fetchRow($select);
+
         if (is_array($params) && count($params) > 0) {
             return $params;
         }
@@ -639,7 +714,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      * Filtering by root node of passed node.
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
-     * @return array|bool
+     * @return array
      */
     public function getTreeMetaData(Enterprise_Cms_Model_Hierarchy_Node $object) {
         $read = $this->_getReadAdapter();
@@ -660,9 +735,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     public function _getLoadSelectWithoutWhere()
     {
         $select = $this->_getLoadSelect(null, null, null)->reset(Zend_Db_Select::WHERE);
-        if ($this->_appendActivePagesOnly) {
-            $select->where('page_table.is_active=1 OR ' . $this->getMainTable() . '.page_id IS NULL');
-        }
+        $this->_applyParamFilters($select);
         return $select;
     }
 

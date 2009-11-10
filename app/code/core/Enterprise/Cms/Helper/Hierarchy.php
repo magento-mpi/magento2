@@ -75,9 +75,9 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
             'pager_visibility',
             'pager_frame',
             'pager_jump',
-            'menu_visibility_self',
             'menu_visibility',
-            'menu_levels_up',
+            'menu_brief',
+            'menu_excluded',
             'menu_levels_down',
             'menu_ordered',
             'menu_list_type',
@@ -142,9 +142,9 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
             'pager_visibility',
             'pager_frame',
             'pager_jump',
-            'menu_visibility_self',
             'menu_visibility',
-            'menu_levels_up',
+            'menu_brief',
+            'menu_excluded',
             'menu_levels_down',
             'menu_ordered',
             'menu_list_type',
@@ -173,8 +173,8 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
         );
 
         $menuDefault = array(
-            'menu_levels_up' => '0',
             'menu_levels_down' => '0',
+            'menu_brief' => '0',
             'menu_ordered' => '0',
             'menu_list_type' => '',
         );
@@ -182,8 +182,7 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
         $default = array('pager_visibility' => array(self::METADATA_VISIBILITY_PARENT => $paginationDefault,
                                                      self::METADATA_VISIBILITY_NO => $paginationDefault),
 
-                         'menu_visibility' => array(self::METADATA_VISIBILITY_PARENT => $menuDefault,
-                                                    self::METADATA_VISIBILITY_NO => $menuDefault));
+                         'menu_visibility' => array('0' => $menuDefault));
 
         return isset($default[$field][$value]) ? $default[$field][$value] : null;
     }
