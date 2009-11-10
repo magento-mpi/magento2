@@ -305,7 +305,7 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
             return false;
         }
 
-        $itemOptions    = $this->getOptions();
+        $itemOptions    = $this->getOptionsByCode();
         $productOptions = $product->getCustomOptions();
 
         if(!$this->compareOptions($itemOptions, $productOptions)){
@@ -445,6 +445,16 @@ class Mage_Sales_Model_Quote_Item extends Mage_Sales_Model_Quote_Item_Abstract
     public function getOptions()
     {
         return $this->_options;
+    }
+
+    /**
+     * Get all item options as array with codes in array key
+     *
+     * @return array
+     */
+    public function getOptionsByCode()
+    {
+        return $this->_optionsByCode;
     }
 
     /**
