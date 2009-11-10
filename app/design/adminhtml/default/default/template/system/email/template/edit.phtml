@@ -279,6 +279,21 @@
             }
 
             return value;
+        },
+
+        insertVariable: function(selectElm) {
+            var templateField = $('template_text');
+            var scrollPos = templateField.scrollTop;
+            var strPos = templateField.selectionStart;
+            var front = (templateField.value).substring(0, strPos);
+            var back = (templateField.value).substring(strPos, templateField.value.length);
+            templateField.value = front + selectElm.value + back;
+            strPos = strPos + (selectElm.value).length;
+            templateField.selectionStart = strPos;
+            templateField.selectionEnd = strPos;
+            templateField.focus();
+            templateField.scrollTop = scrollPos;
+            selectElm.selectedIndex = 0;
         }
     };
 
