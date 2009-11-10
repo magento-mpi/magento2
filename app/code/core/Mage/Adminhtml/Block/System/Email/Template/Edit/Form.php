@@ -94,7 +94,7 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'name' => 'template_variables',
             'label' => Mage::helper('adminhtml')->__('Variables To Insert'),
             'values' => $this->getVariables(),
-            'onchange' => 'insertVariable(this);'
+            'onchange' => 'templateControl.insertVariable(this);'
         ));
 
         $fieldset->addField('template_text', 'editor', array(
