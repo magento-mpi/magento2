@@ -209,7 +209,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             '14_origCountry' => $r->getOrigCountry(),
             '15_origPostal'  => $r->getOrigPostal(),
             'origCity'       => $r->getOrigCity(),
-            '19_destPostal'  => substr($r->getDestPostal(), 0, 5),
+            '19_destPostal'  => 'US' == $r->getDestCountry() ? substr($r->getDestPostal(), 0, 5) : $r->getDestPostal(), // UPS returns error for zip+4 US codes
             '22_destCountry' => $r->getDestCountry(),
             '23_weight'      => $r->getWeight(),
             '47_rate_chart'  => $r->getPickup(),
@@ -512,7 +512,7 @@ class Mage_Usa_Model_Shipping_Carrier_Ups
             '15_origPostal'  => $r->getOrigPostal(),
             'origCity'       => $r->getOrigCity(),
             'origRegionCode' => $r->getOrigRegionCode(),
-            '19_destPostal'  => substr($r->getDestPostal(), 0, 5),
+            '19_destPostal'  => 'US' == $r->getDestCountry() ? substr($r->getDestPostal(), 0, 5) : $r->getDestPostal(), // UPS returns error for zip+4 US codes
             '22_destCountry' => $r->getDestCountry(),
             'destRegionCode' => $r->getDestRegionCode(),
             '23_weight'      => $r->getWeight(),
