@@ -35,14 +35,14 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
 {
     /**
      * Customer object
-     * 
+     *
      * @var Mage_Customer_Model_Customer
      */
     protected $_customer;
 
     /**
      * Flag with customer id validations result
-     * 
+     *
      * @var bool
      */
     protected $_isCustomerIdChecked = null;
@@ -122,7 +122,10 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
      */
     public function getCustomerId()
     {
-        return $this->getId();
+        if ($this->isLoggedIn()) {
+            return $this->getId();
+        }
+        return null;
     }
 
     /**
@@ -159,7 +162,7 @@ class Mage_Customer_Model_Session extends Mage_Core_Model_Session_Abstract
     public function checkCustomerId($customerId)
     {
         if ($this->_isCustomerIdChecked === null) {
-            $this->_isCustomerIdChecked = Mage::getResourceSingleton('customer/customer')->checkCustomerId($customerId); 
+            $this->_isCustomerIdChecked = Mage::getResourceSingleton('customer/customer')->checkCustomerId($customerId);
         }
         return $this->_isCustomerIdChecked;
     }
