@@ -42,11 +42,9 @@
     <adminhtml_customersegment_grid>
         <block type="enterprise_customersegment/adminhtml_customersegment_grid" name="root"/>
     </adminhtml_customersegment_grid>
-
-    <!-- segment ajax grid for a chooser -->
+    
+    <!-- segment chooser ajax grid -->
     <adminhtml_customersegment_choosergrid>
-        <block type="enterprise_customersegment/adminhtml_customersegment_grid" name="root">
-            <action method="setIsChooserMode"><value>1</value></action>
-        </block>
+        <block type="enterprise_customersegment/adminhtml_customersegment_grid_chooser" name="root"/>
     </adminhtml_customersegment_choosergrid>
 </layout>

@@ -32,7 +32,22 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     /**
      * @var string
      */
-    protected $_inputType = 'select';
+    protected $_inputType = 'multiselect';
+
+    /**
+     * Default operator input by type map getter
+     *
+     * @return array
+     */
+    public function getDefaultOperatorInputByType()
+    {
+        if (null === $this->_defaultOperatorInputByType) {
+            $this->_defaultOperatorInputByType = array(
+                'multiselect' => array('==', '!=', '()', '!()'),
+            );
+        }
+        return $this->_defaultOperatorInputByType;
+    }
 
     /**
      * Render chooser trigger
@@ -66,7 +81,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
     {
         return Mage::helper('adminhtml')->getUrl('adminhtml/customersegment/chooserGrid', array(
             'value_element_id' => $this->_valueElement->getId(),
-            'chooser_fieldset' => $this->getJsFormObject(),
+            'form' => $this->getJsFormObject(),
         ));
     }
 
@@ -92,7 +107,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
             . Mage::helper('enterprise_customersegment')->__('If Customer Segment %s %s',
                 $this->getOperatorElementHtml(), $this->_valueElement->getHtml())
             . $this->getRemoveLinkHtml()
-            . '<div class="rule-chooser no-split" url="' . $this->getValueElementChooserUrl() . '"></div>';
+            . '<div class="rule-chooser" url="' . $this->getValueElementChooserUrl() . '"></div>';
     }
 
     /**
@@ -105,9 +120,23 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
         parent::loadOperatorOptions();
         $this->setOperatorOption(array(
             '=='  => Mage::helper('enterprise_customersegment')->__('matches'),
-            '!='  => Mage::helper('enterprise_customersegment')->__('does not match')
+            '!='  => Mage::helper('enterprise_customersegment')->__('does not match'),
+            '()'  => Mage::helper('enterprise_customersegment')->__('is one of'),
+            '!()' => Mage::helper('enterprise_customersegment')->__('is not one of'),
         ));
         return $this;
+    }
+
+    /**
+     * Present selected values as array
+     *
+     * @return array
+     */
+    public function getValueParsed()
+    {
+        $value = $this->getData('value');
+        $value = explode(',',$value);
+        return $value;
     }
 
     /**

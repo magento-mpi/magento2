@@ -279,6 +279,7 @@ class Enterprise_CustomerSegment_Adminhtml_CustomersegmentController extends Mag
      */
     public function chooserGridAction()
     {
-        return $this->gridAction();
+        $this->loadLayout();
+        $this->renderLayout();
     }
 }
