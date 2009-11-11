@@ -66,10 +66,29 @@ class Mage_Core_Model_Email_Variable extends Mage_Core_Model_Abstract
         return $this->_storeId;
     }
 
+    /**
+     * Load variable by code
+     *
+     * @param string $code
+     * @return Mage_Core_Model_Email_Variable
+     */
     public function loadByCode($code)
     {
         $this->getResource()->loadByCode($this, $code);
         return $this;
+    }
+
+    /**
+     * Return value with html escape and new line breaks sign if value is plain text
+     *
+     * @return string
+     */
+    public function getPreparedValue($forceHtmlEscape = false)
+    {
+        if (!$this->getIsHtml() || $forceHtmlEscape) {
+            return nl2br(Mage::helper('core')->htmlEscape($this->getData('value')));
+        }
+        return $this->getData('value');
     }
 
     /**

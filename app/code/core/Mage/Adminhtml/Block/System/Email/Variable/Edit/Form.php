@@ -68,7 +68,15 @@ class Mage_Adminhtml_Block_System_Email_Variable_Edit_Form extends Mage_Adminhtm
             'title'    => Mage::helper('adminhtml')->__('Variable Name'),
             'required' => true
         ));
-        $fieldset->addField('value', 'text', array(
+        $fieldset->addField('is_html', 'select', array(
+            'name'   => 'is_html',
+            'label'  => Mage::helper('adminhtml')->__('Show Content as'),
+            'title'  => Mage::helper('adminhtml')->__('Show Content as'),
+            'values' => array(
+                0 => Mage::helper('adminhtml')->__('Text'),
+                1 => Mage::helper('adminhtml')->__('HTML')
+        )));
+        $fieldset->addField('value', 'textarea', array(
             'name'     => 'value',
             'label'    => Mage::helper('adminhtml')->__('Variable Value'),
             'title'    => Mage::helper('adminhtml')->__('Variable Value'),

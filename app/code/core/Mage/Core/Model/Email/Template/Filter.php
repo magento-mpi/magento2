@@ -457,7 +457,7 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
                 ->setStoreId($this->getStoreId())
                 ->loadByCode($params['code']);
             if ($variable->getValue() !== null) {
-                $customVarValue = $variable->getValue();
+                $customVarValue = $variable->getPreparedValue();
             }
         }
         return $customVarValue;

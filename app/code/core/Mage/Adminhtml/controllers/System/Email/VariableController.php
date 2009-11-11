@@ -92,7 +92,6 @@ class Mage_Adminhtml_System_Email_VariableController extends Mage_Adminhtml_Cont
      */
     public function editAction()
     {
-//        $this->_addJs($this->getLayout()->createBlock('core/template', '', array('template' => 'system/email/variable/js.phtml')))
         $this->_initEmailVariable();
         $this->_initLayout()
             ->_addContent($this->getLayout()->createBlock('adminhtml/system_email_variable_edit'))
