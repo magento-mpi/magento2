@@ -40,6 +40,45 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
     }
 
     /**
+     * Customize default operator input by type mapper for some types
+     * @return array
+     */
+    public function getDefaultOperatorInputByType()
+    {
+        if (null === $this->_defaultOperatorInputByType) {
+            parent::getDefaultOperatorInputByType();
+            $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
+            $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
+            $this->_defaultOperatorInputByType['category'] = array('{}', '!{}');
+        }
+        return $this->_defaultOperatorInputByType;
+    }
+
+    /**
+     * Get input type for attribute operators.
+     *
+     * @return string
+     */
+    public function getInputType()
+    {
+        if (!is_object($this->getAttributeObject())) {
+            return 'string';
+        }
+        if ($this->getAttributeObject()->getAttributeCode()=='category_ids') {
+            return 'category';
+        }
+        $input = $this->getAttributeObject()->getFrontendInput();
+        switch ($input) {
+            case 'select':
+            case 'multiselect':
+            case 'date':
+                return $input;
+            default:
+                return 'string';
+        }
+    }
+
+    /**
      * Get inherited conditions selectors
      *
      * @return array
@@ -111,10 +150,19 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
         $attribute = $this->getAttributeObject();
         $table = $attribute->getBackendTable();
 
-        $select = $this->getResource()->createSelect();
+        $resource = $this->getResource();
+        $select = $resource->createSelect();
         $select->from(array('main'=>$table), array('entity_id'));
 
-        if ($attribute->isStatic()) {
+        if ($attribute->getAttributeCode() == 'category_ids') {
+            $condition = $resource->createConditionSql(
+                'cat.category_id', $this->getOperator(), explode(',', $this->getValue())
+            );
+            $categorySelect = $resource->createSelect();
+            $categorySelect->from(array('cat'=>$resource->getTable('catalog/category_product')), 'product_id')
+                ->where($condition);
+            $condition = 'main.entity_id IN ('.$categorySelect.')';
+        } elseif ($attribute->isStatic()) {
             $condition = $this->getResource()->createConditionSql(
                 "main.{$attribute->getAttributeCode()}", $this->getOperator(), $this->getValue()
             );
@@ -128,9 +176,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
             );
         }
         $select->where($condition);
-
         $inOperator = ($requireValid ? 'IN' : 'NOT IN');
-
         return sprintf("%s %s (%s)", $fieldName, $inOperator, $select);
     }
 }

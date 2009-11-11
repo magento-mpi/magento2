@@ -148,12 +148,22 @@ class Enterprise_CustomerSegment_Model_Mysql4_Segment extends Mage_Core_Model_My
     public function createConditionSql($field, $operator, $value)
     {
         $sqlOperator = $this->getSqlOperator($operator);
+        $condition = '';
         switch ($operator) {
             case '{}':
             case '!{}':
-                $condition = $this->_getReadAdapter()->quoteInto(
-                    $field.' '.$sqlOperator.' ?', '%'.$value.'%'
-                );
+                if (is_array($value)) {
+                    if (!empty($value)) {
+                        $sqlOperator = ($operator == '{}') ? 'IN' : 'NOT IN';
+                        $condition = $this->_getReadAdapter()->quoteInto(
+                            $field.' '.$sqlOperator.' (?)', $value
+                        );
+                    }
+                } else {
+                    $condition = $this->_getReadAdapter()->quoteInto(
+                        $field.' '.$sqlOperator.' ?', '%'.$value.'%'
+                    );
+                }
                 break;
             case 'between':
                 $condition = $field.' '.sprintf($sqlOperator, $value['start'], $value['end']);
