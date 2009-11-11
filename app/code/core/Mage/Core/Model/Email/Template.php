@@ -129,7 +129,6 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function load($templateId)
     {
         $this->addData($this->getResource()->load($templateId));
-        $this->_afterLoad();
         return $this;
     }
 
@@ -142,21 +141,6 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function loadByCode($templateCode)
     {
         $this->addData($this->getResource()->loadByCode($templateCode));
-        $this->_afterLoad();
-        return $this;
-    }
-
-    /**
-     * Enter description here...
-     *
-     * @return unknown
-     */
-    protected function _afterLoad()
-    {
-        if (is_string($this->getData('orig_template_variables'))) {
-            $this->setData('orig_template_variables',
-                $this->_parseVariablesString($this->getData('orig_template_variables')));
-        }
         return $this;
     }
 
@@ -186,7 +170,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         }
 
         if (preg_match('/<!--@vars\n((?:.)*?)\n@-->/us', $templateText, $matches)) {
-            $this->setData('orig_template_variables', $this->_parseVariablesString($matches[1]));
+            $this->setData('orig_template_variables', str_replace("\n", '', $matches[1]));
             $templateText = str_replace($matches[0], '', $templateText);
         }
 
@@ -639,14 +623,15 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function getVariablesOptionArray($withGroup = false)
     {
         $optionArray = array();
-        if (($variables = $this->getData('orig_template_variables')) && is_array($variables)) {
+        $variables = $this->_parseVariablesString($this->getData('orig_template_variables'));
+        if ($variables) {
             foreach ($variables as $value => $label) {
                 $optionArray[] = array(
                     'value' => '{{' . $value . '}}',
                     'label' => Mage::helper('core')->__('%s', $label)
                 );
             }
-            if ($withGroup && $variables) {
+            if ($withGroup) {
                 $optionArray = array(
                     'label' => Mage::helper('core')->__('Template Variables'),
                     'value' => $optionArray

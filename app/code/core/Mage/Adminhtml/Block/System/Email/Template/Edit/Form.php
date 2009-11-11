@@ -85,9 +85,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'required' => true
         ));
 
-        $fieldset->addField('json_orig_template_variables', 'hidden', array(
-            'name' => 'json_orig_template_variables',
-            'value' => Zend_Json::encode($this->getEmailTemplate()->getOrigTemplateVariables())
+        $fieldset->addField('orig_template_variables', 'hidden', array(
+            'name' => 'orig_template_variables',
         ));
 
         $fieldset->addField('template_variables', 'select', array(

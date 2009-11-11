@@ -223,11 +223,6 @@
                                    $('used_default_for').hide();
                                }
                           }
-                          if (pair.key == 'orig_template_variables') {
-                              if ($('json_'+pair.key)) {
-                                  $('json_'+pair.key).value = Object.toJSON(pair.value);
-                              } 
-                          }
                           if (pair.key == 'template_variables_option_array') {
                               var selectElm = $('template_variables');
                               for (var i = 0; i < (selectElm.children).length; i++) {

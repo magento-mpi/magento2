@@ -176,13 +176,8 @@ class Mage_Core_Model_Mysql4_Email_Template
         $data['template_sender_name']      = $template->getTemplateSenderName();
         $data['template_sender_email']     = $template->getTemplateSenderEmail();
         $data['orig_template_code']        = $template->getOrigTemplateCode();
+        $data['orig_template_variables']   = $template->getOrigTemplateVariables();
 
-        $origTemplateVariables = $template->getOrigTemplateVariables();
-        if (is_array($origTemplateVariables)) {
-            $origTemplateVariables = Zend_Json::encode($origTemplateVariables);
-        }
-        $data['orig_template_variables'] = $origTemplateVariables;
-        
         if(!$template->getAddedAt()) {
             $template->setAddedAt(Mage::getSingleton('core/date')->gmtDate());
             $template->setModifiedAt(Mage::getSingleton('core/date')->gmtDate());
