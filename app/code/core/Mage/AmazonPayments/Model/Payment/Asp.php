@@ -299,7 +299,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
                 $variables = array();
                 $variables['request'] = print_r($requestParams, 1);
                 $variables['error'] = $e->getMessage();
-                $this->_mail('email_template_notofication_error', $variables);
+                $this->_mail('email_template_notification_error', $variables);
             }
         }
 
