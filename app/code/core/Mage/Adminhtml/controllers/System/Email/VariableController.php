@@ -180,6 +180,6 @@ class Mage_Adminhtml_System_Email_VariableController extends Mage_Adminhtml_Cont
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/email_template_variable');
+        return Mage::getSingleton('admin/session')->isAllowed('system/email_template/variables');
     }
 }
