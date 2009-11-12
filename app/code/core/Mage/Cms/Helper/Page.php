@@ -97,6 +97,9 @@ class Mage_Cms_Helper_Page extends Mage_Core_Helper_Abstract
             $action->getLayout()->helper('page/layout')->applyHandle($handle);
         }
 
+
+        Mage::dispatchEvent('cms_page_render', array('page' => $page, 'controller_action' => $action));
+
         $action->loadLayoutUpdates();
         $layoutUpdate = ($page->getCustomLayoutUpdateXml() && $inRange) ? $page->getCustomLayoutUpdateXml() : $page->getLayoutUpdateXml();
         $action->getLayout()->getUpdate()->addUpdate($layoutUpdate);

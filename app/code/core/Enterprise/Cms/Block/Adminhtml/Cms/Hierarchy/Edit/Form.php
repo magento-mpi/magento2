@@ -240,6 +240,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'tabindex'  => '110'
         ));
 
+        $menuFieldset->addField('menu_layout', 'select', array(
+            'label'     => Mage::helper('enterprise_cms')->__('Menu Layout'),
+            'name'      => 'menu_layout',
+            'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_layout')->toOptionArray(true),
+            'onchange'   => "hierarchyNodes.nodeChanged()",
+            'container_id' => 'field_menu_layout',
+            'tabindex'  => '115'
+        ));
+
         $menuBriefOptions = array(
             array('value' => 1, 'label' => Mage::helper('enterprise_cms')->__('Brief')),
             array('value' => 0, 'label' => Mage::helper('enterprise_cms')->__('Detailed')),

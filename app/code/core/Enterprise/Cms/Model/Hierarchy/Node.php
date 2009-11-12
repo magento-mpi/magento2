@@ -497,6 +497,28 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Return Hierarchy Menu Layout Info object for Node
+     *
+     * @return Varien_Object|null
+     */
+    public function getMenuLayout()
+    {
+        $rootParams = $this->_getResource()->getTreeMetaData($this);
+        if (!isset($rootParams['menu_layout'])) {
+            return null;
+        }
+        $layoutCode = $rootParams['menu_layout'];
+        if (!$layoutCode) {
+            $layoutCode = Mage::getStoreConfig('cms/hierarchy/menu_layout');
+        }
+        if (!$layoutCode) {
+            return null;
+        }
+        $layout = Mage::getSingleton('enterprise_cms/hierarchy_config')->getContextMenuLayout($layoutCode);
+        return is_object($layout) ? $layout : null;
+    }
+
+    /**
      * Process additional data after save.
      *
      * @return Enterprise_Cms_Model_Hierarchy_Node

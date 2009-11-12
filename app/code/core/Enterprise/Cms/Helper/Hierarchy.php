@@ -76,6 +76,7 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
             'pager_frame',
             'pager_jump',
             'menu_visibility',
+            'menu_layout',
             'menu_brief',
             'menu_excluded',
             'menu_levels_down',
@@ -143,6 +144,7 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
             'pager_frame',
             'pager_jump',
             'menu_visibility',
+            'menu_layout',
             'menu_brief',
             'menu_excluded',
             'menu_levels_down',
@@ -175,6 +177,7 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
         $menuDefault = array(
             'menu_levels_down' => '0',
             'menu_brief' => '0',
+            'menu_layout' => '',
             'menu_ordered' => '0',
             'menu_list_type' => '',
         );

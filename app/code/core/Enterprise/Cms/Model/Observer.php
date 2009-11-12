@@ -398,4 +398,47 @@ class Enterprise_Cms_Model_Observer
     {
         return $eventModel->setInfo(Mage::app()->getRequest()->getParam('revision_id'));
     }
+
+    /**
+     * Add Hierarchy Menu layout handle to Cms page rendering
+     *
+     * @param $observer
+     * @return Enterprise_Cms_Model_Observer
+     */
+    public function affectCmsPageRender(Varien_Event_Observer $observer)
+    {
+        /* @var $helper Enterprise_Cms_Helper_Hierarchy */
+        $helper = Mage::helper('enterprise_cms/hierarchy');
+        if (!is_object(Mage::registry('current_cms_hierarchy_node')) || !$helper->isEnabled()) {
+            return $this;
+        }
+
+        /* @var $node Enterprise_Cms_Model_Hierarchy_Node */
+        $node = Mage::registry('current_cms_hierarchy_node');
+
+        /* @var $action Mage_Core_Controller_Varien_Action */
+        $action = $observer->getEvent()->getControllerAction();
+
+        // collect loaded handles for cms page
+        $loadedHandles = $action->getLayout()->getUpdate()->getHandles();
+
+        $menuLayout = $node->getMenuLayout();
+        if ($menuLayout === null) {
+            return $this;
+        }
+
+        // check whether menu handle is compatible with page handles
+        $allowedHandles = $menuLayout->getPageLayoutHandles();
+        if (is_array($allowedHandles) && count($allowedHandles) > 0) {
+            $allowedHandles = array_keys($allowedHandles);
+            if (count(array_intersect($allowedHandles, $loadedHandles)) == 0) {
+                return $this;
+            }
+        }
+
+        // add menu handle to layout update
+        $action->getLayout()->getUpdate()->addHandle($menuLayout->getLayoutHandle());
+
+        return $this;
+    }
 }

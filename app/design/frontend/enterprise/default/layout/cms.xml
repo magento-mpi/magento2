@@ -47,7 +47,6 @@ Default layout, loads most of the pages
         <reference name="content">
             <block type="core/template" name="page_content_heading" template="cms/content_heading.phtml"/>
             <block type="enterprise_cms/hierarchy_pagination" name="hierarchy_pagination" template="cms/hierarchy/pagination.phtml"/>
-            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml"/>
             <block type="core/template" name="cms.wrapper" template="cms/wrapper.phtml">
                 <block type="cms/page" name="cms_page"/>
             </block>
@@ -90,5 +89,22 @@ Default layout, loads most of the pages
         </reference>
     </cms_index_defaultnoroute>
 
+    <enterprise_cms_hierarchy_menu_content>
+        <reference name="content">
+            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml" before="-"/>
+        </reference>
+    </enterprise_cms_hierarchy_menu_content>
+
+    <enterprise_cms_hierarchy_menu_left_column>
+        <reference name="left">
+            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml" before="-"/>
+        </reference>
+    </enterprise_cms_hierarchy_menu_left_column>
+
+    <enterprise_cms_hierarchy_menu_right_column>
+        <reference name="right">
+            <block type="enterprise_cms/hierarchy_menu" name="hierarchy_menu" template="cms/hierarchy/menu.phtml" before="-"/>
+        </reference>
+    </enterprise_cms_hierarchy_menu_right_column>
 
 </layout>

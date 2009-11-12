@@ -305,9 +305,9 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
     protected function _getNodeLabel($node)
     {
         if ($this->_node && $this->_node->getId() == $node->getId()) {
-            return $this->_getSpan($node).'('.$this->_node->getId().')';
+            return $this->_getSpan($node);
         }
-        return $this->_getLink($node).'('.$node->getId().')';
+        return $this->_getLink($node);
     }
 
     /**
