@@ -31,7 +31,7 @@
  * @package     Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Email_Variable extends Mage_Core_Model_Abstract
+class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
 {
     protected $_storeId = 0;
 
@@ -41,14 +41,14 @@ class Mage_Core_Model_Email_Variable extends Mage_Core_Model_Abstract
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('core/email_variable');
+        $this->_init('core/variable');
     }
 
     /**
      * Setter
      *
      * @param integer $storeId
-     * @return Mage_Core_Model_Email_Variable
+     * @return Mage_Core_Model_Variable
      */
     public function setStoreId($storeId)
     {
@@ -70,7 +70,7 @@ class Mage_Core_Model_Email_Variable extends Mage_Core_Model_Abstract
      * Load variable by code
      *
      * @param string $code
-     * @return Mage_Core_Model_Email_Variable
+     * @return Mage_Core_Model_Variable
      */
     public function loadByCode($code)
     {
@@ -116,7 +116,7 @@ class Mage_Core_Model_Email_Variable extends Mage_Core_Model_Abstract
      */
     public function getVariablesOptionArray($withGroup = false)
     {
-        /* @var $collection Mage_Core_Model_Mysql4_Email_Variable_Collection */
+        /* @var $collection Mage_Core_Model_Mysql4_Variable_Collection */
         $collection = $this->getCollection();
         $variables = array();
         foreach ($collection->toOptionArray() as $variable) {

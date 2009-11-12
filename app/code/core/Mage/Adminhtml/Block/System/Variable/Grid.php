@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_System_Email_Variable_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Mage_Adminhtml_Block_System_Variable_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Internal constructor
@@ -41,7 +41,7 @@ class Mage_Adminhtml_Block_System_Email_Variable_Grid extends Mage_Adminhtml_Blo
     protected function _construct()
     {
         parent::_construct();
-        $this->setId('emailVariablesGrid');
+        $this->setId('customVariablesGrid');
         $this->setDefaultSort('variable_id');
         $this->setDefaultDir('ASC');
     }
@@ -49,12 +49,12 @@ class Mage_Adminhtml_Block_System_Email_Variable_Grid extends Mage_Adminhtml_Blo
     /**
      * Prepare grid collection object
      *
-     * @return Mage_Adminhtml_Block_System_Email_Variable_Grid
+     * @return Mage_Adminhtml_Block_System_Variable_Grid
      */
     protected function _prepareCollection()
     {
-        /* @var $collection Mage_Core_Model_Mysql4_Email_Variable_Collection */
-        $collection = Mage::getModel('core/email_variable')->getCollection();
+        /* @var $collection Mage_Core_Model_Mysql4_Variable_Collection */
+        $collection = Mage::getModel('core/variable')->getCollection();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -62,7 +62,7 @@ class Mage_Adminhtml_Block_System_Email_Variable_Grid extends Mage_Adminhtml_Blo
     /**
      * Prepare grid columns
      *
-     * @return Mage_Adminhtml_Block_System_Email_Variable_Grid
+     * @return Mage_Adminhtml_Block_System_Variable_Grid
      */
     protected function _prepareColumns()
     {

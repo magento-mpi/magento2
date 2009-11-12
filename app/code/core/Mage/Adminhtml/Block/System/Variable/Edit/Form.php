@@ -31,22 +31,22 @@
  * @package     Mage_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Email_Variable_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Mage_Adminhtml_Block_System_Variable_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Getter
      *
-     * @return Mage_Core_Model_Email_Variable
+     * @return Mage_Core_Model_Variable
      */
-    public function getEmailVariable()
+    public function getVariable()
     {
-        return Mage::registry('current_email_variable');
+        return Mage::registry('current_variable');
     }
 
     /**
      * Prepare form before rendering HTML
      *
-     * @return Mage_Adminhtml_Block_System_Email_Variable_Edit_Form
+     * @return Mage_Adminhtml_Block_System_Variable_Edit_Form
      */
     protected function _prepareForm()
     {
@@ -83,11 +83,11 @@ class Mage_Adminhtml_Block_System_Email_Variable_Edit_Form extends Mage_Adminhtm
             'required' => true
         ))->setRenderer(
             $this->getLayout()
-                ->createBlock('adminhtml/system_email_variable_form_renderer_fieldset_element')
-                ->setEmailVariable($this->getEmailVariable())
+                ->createBlock('adminhtml/system_variable_form_renderer_fieldset_element')
+                ->setVariable($this->getVariable())
         );
-        $form->setValues($this->getEmailVariable()->getData())
-            ->addFieldNameSuffix('email_variable')
+        $form->setValues($this->getVariable()->getData())
+            ->addFieldNameSuffix('variable')
             ->setUseContainer(true);
         $this->setForm($form);
         return parent::_prepareForm();

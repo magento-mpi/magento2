@@ -32,7 +32,7 @@
  * @author     Magento Core Team <core@magentocommerce.com>
  */
 
-class Mage_Adminhtml_Block_System_Email_Variable_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Mage_Adminhtml_Block_System_Variable_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Internal constructor
@@ -42,24 +42,24 @@ class Mage_Adminhtml_Block_System_Email_Variable_Edit extends Mage_Adminhtml_Blo
     {
         parent::_construct();
         $this->_objectId = 'variable_id';
-        $this->_controller = 'system_email_variable';
+        $this->_controller = 'system_variable';
     }
 
     /**
      * Getter
      *
-     * @return Mage_Core_Model_Email_Variable
+     * @return Mage_Core_Model_Variable
      */
-    public function getEmailVariable()
+    public function getVariable()
     {
-        return Mage::registry('current_email_variable');
+        return Mage::registry('current_variable');
     }
 
     /**
      * Prepare layout.
      * Adding save_and_continue button
      *
-     * @return Mage_Adminhtml_Block_System_Email_Variable_Edit
+     * @return Mage_Adminhtml_Block_System_Variable_Edit
      */
     protected function _preparelayout()
     {
@@ -68,7 +68,7 @@ class Mage_Adminhtml_Block_System_Email_Variable_Edit extends Mage_Adminhtml_Blo
             'class'     => 'save',
             'onclick'   => 'editForm.submit(\'' . $this->getSaveAndContinueUrl() . '\');'
         ), 100);
-        if (!$this->getEmailVariable()->getId()) {
+        if (!$this->getVariable()->getId()) {
             $this->removeButton('delete');
         }
         return parent::_prepareLayout();
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Block_System_Email_Variable_Edit extends Mage_Adminhtml_Blo
     public function getFormHtml()
     {
         $formHtml = parent::getFormHtml();
-        if (!Mage::app()->isSingleStoreMode() && $this->getEmailVariable()->getId()) {
+        if (!Mage::app()->isSingleStoreMode() && $this->getVariable()->getId()) {
             $storeSwitcher = $this->getLayout()
                 ->createBlock('adminhtml/store_switcher')->toHtml();
             $formHtml = $storeSwitcher.$formHtml;
@@ -97,8 +97,8 @@ class Mage_Adminhtml_Block_System_Email_Variable_Edit extends Mage_Adminhtml_Blo
      */
     public function getHeaderText()
     {
-        if ($this->getEmailVariable()->getId()) {
-            return Mage::helper('adminhtml')->__('Custom Variable "%s"', $this->htmlEscape($this->getEmailVariable()->getName()));
+        if ($this->getVariable()->getId()) {
+            return Mage::helper('adminhtml')->__('Custom Variable "%s"', $this->htmlEscape($this->getVariable()->getName()));
         }
         else {
             return Mage::helper('adminhtml')->__('New Custom Variable');

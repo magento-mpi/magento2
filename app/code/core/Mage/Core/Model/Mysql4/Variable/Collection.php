@@ -31,7 +31,7 @@
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Mysql4_Email_Variable_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Core_Model_Mysql4_Variable_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     protected $_storeId = 0;
 
@@ -41,14 +41,14 @@ class Mage_Core_Model_Mysql4_Email_Variable_Collection extends Mage_Core_Model_M
     protected function _construct()
     {
         parent::_construct();
-        $this->_init('core/email_variable');
+        $this->_init('core/variable');
     }
 
     /**
      * Setter
      *
      * @param integer $storeId
-     * @return Mage_Core_Model_Mysql4_Email_Variable_Collection
+     * @return Mage_Core_Model_Mysql4_Variable_Collection
      */
     public function setStoreId($storeId)
     {
@@ -69,13 +69,13 @@ class Mage_Core_Model_Mysql4_Email_Variable_Collection extends Mage_Core_Model_M
     /**
      * Add store values to result
      *
-     * @return Mage_Core_Model_Mysql4_Email_Variable_Collection
+     * @return Mage_Core_Model_Mysql4_Variable_Collection
      */
     public function addValuesToResult()
     {
         $this->getSelect()
             ->join(
-                array('value_table' => $this->getTable('core/email_variable_value')),
+                array('value_table' => $this->getTable('core/variable_value')),
                 $this->getConnection()->quoteInto('value_table.variable_id = main_table.variable_id AND store_id = ?', $this->getStoreId()),
                 array())
             ->columns(array('value' => 'value_table.value'));

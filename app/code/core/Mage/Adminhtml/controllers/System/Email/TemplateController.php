@@ -203,6 +203,6 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
 
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/email_template/template');
+        return Mage::getSingleton('admin/session')->isAllowed('system/email_template');
     }
 }

@@ -31,14 +31,14 @@
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_Block_System_Email_Variable_Form_Renderer_Fieldset_Element extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
+class Mage_Adminhtml_Block_System_Variable_Form_Renderer_Fieldset_Element extends Mage_Adminhtml_Block_Widget_Form_Renderer_Fieldset_Element
 {
     /**
      * Initialize block template
      */
     protected function _construct()
     {
-        $this->setTemplate('system/email/variable/form/renderer/fieldset/element.phtml');
+        $this->setTemplate('system/variable/form/renderer/fieldset/element.phtml');
     }
 
     /**
@@ -48,8 +48,8 @@ class Mage_Adminhtml_Block_System_Email_Variable_Form_Renderer_Fieldset_Element 
      */
     public function canDisplayUseDefault()
     {
-        if ($this->getEmailVariable()->getId()
-            && $this->getEmailVariable()->getStoreId())
+        if ($this->getVariable()->getId()
+            && $this->getVariable()->getStoreId())
         {
             return true;
         }
@@ -63,7 +63,7 @@ class Mage_Adminhtml_Block_System_Email_Variable_Form_Renderer_Fieldset_Element 
      */
     public function usedDefault()
     {
-        if ($this->getEmailVariable()->getStoreValue() === null) {
+        if ($this->getVariable()->getStoreValue() === null) {
             return true;
         }
         return false;

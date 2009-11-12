@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Core>
-             <version>0.8.18</version>
+             <version>0.8.19</version>
         </Mage_Core>
     </modules>
 
@@ -42,8 +42,8 @@
                     <config_field><table>core_config_field</table></config_field>
                     <config_data><table>core_config_data</table></config_data>
                     <email_template><table>core_email_template</table></email_template>
-                    <email_variable><table>core_email_variable</table></email_variable>
-                    <email_variable_value><table>core_email_variable_value</table></email_variable_value>
+                    <variable><table>core_variable</table></variable>
+                    <variable_value><table>core_variable_value</table></variable_value>
                     <translate><table>core_translate</table></translate>
                     <session><table>core_session</table></session>
                     <layout_update><table>core_layout_update</table></layout_update>

@@ -31,24 +31,24 @@
  * @package    Mage_Core
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Mysql4_Email_Variable extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Core_Model_Mysql4_Variable extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Constructor
      */
     protected function _construct()
     {
-        $this->_init('core/email_variable', 'variable_id');
+        $this->_init('core/variable', 'variable_id');
     }
 
     /**
      * Load variable by code
      *
-     * @param Mage_Core_Model_Email_Variable $object
+     * @param Mage_Core_Model_Variable $object
      * @param string $code
-     * @return Mage_Core_Model_Mysql4_Email_Variable
+     * @return Mage_Core_Model_Mysql4_Variable
      */
-    public function loadByCode(Mage_Core_Model_Email_Variable $object, $code)
+    public function loadByCode(Mage_Core_Model_Variable $object, $code)
     {
         if ($result = $this->getVariableByCode($code, true, $object->getStoreId())) {
             $object->setData($result);
@@ -79,7 +79,7 @@ class Mage_Core_Model_Mysql4_Email_Variable extends Mage_Core_Model_Mysql4_Abstr
      * Perform actions after object save
      *
      * @param Mage_Core_Model_Abstract $object
-     * @return Mage_Core_Model_Mysql4_Email_Variable
+     * @return Mage_Core_Model_Mysql4_Variable
      */
     protected function _afterSave(Mage_Core_Model_Abstract $object)
     {
@@ -91,10 +91,10 @@ class Mage_Core_Model_Mysql4_Email_Variable extends Mage_Core_Model_Mysql4_Abstr
             $condition = $this->_getWriteAdapter()->quoteInto('variable_id = ?', $object->getId())
                 . ' AND ' . $this->_getWriteAdapter()->quoteInto('store_id = ?', $object->getStoreId());
             $this->_getWriteAdapter()->delete(
-                $this->getTable('core/email_variable_value'), $condition);
+                $this->getTable('core/variable_value'), $condition);
         } else {
             $this->_getWriteAdapter()->insertOnDuplicate(
-                $this->getTable('core/email_variable_value'), array(
+                $this->getTable('core/variable_value'), array(
                     'variable_id' => $object->getId(),
                     'store_id'    => $object->getStoreId(),
                     'value'       => $object->getValue()
@@ -109,7 +109,7 @@ class Mage_Core_Model_Mysql4_Email_Variable extends Mage_Core_Model_Mysql4_Abstr
      * @param string $field
      * @param mixed $value
      * @param Mage_Core_Model_Abstract $object
-     * @return  Zend_Db_Select
+     * @return Zend_Db_Select
      */
     protected function _getLoadSelect($field, $value, $object)
     {
@@ -123,16 +123,16 @@ class Mage_Core_Model_Mysql4_Email_Variable extends Mage_Core_Model_Mysql4_Abstr
      *
      * @param Zend_Db_Select $select
      * @param integer $storeId
-     * @return Mage_Core_Model_Mysql4_Email_Variable
+     * @return Mage_Core_Model_Mysql4_Variable
      */
     protected function _addValueToSelect(Zend_Db_Select $select, $storeId = 0)
     {
         $select->joinLeft(
-                array('default' => $this->getTable('core/email_variable_value')),
+                array('default' => $this->getTable('core/variable_value')),
                 'default.variable_id = '.$this->getMainTable().'.variable_id AND default.store_id = 0',
                 array())
             ->joinLeft(
-                array('store' => $this->getTable('core/email_variable_value')),
+                array('store' => $this->getTable('core/variable_value')),
                 'store.variable_id = default.variable_id AND store.store_id = ' . $storeId,
                 array())
             ->columns(array('value' => new Zend_Db_Expr('IFNULL(store.value, default.value)'),'store_value' => 'store.value'));

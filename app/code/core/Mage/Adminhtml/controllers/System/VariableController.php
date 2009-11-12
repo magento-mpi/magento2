@@ -25,45 +25,44 @@
  */
 
 /**
- * Custom Variables for Transactional emails admin controller
+ * Custom Variables admin controller
  *
  * @category   Mage
  * @package    Mage_Adminhtml
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Adminhtml_System_Email_VariableController extends Mage_Adminhtml_Controller_Action
+class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Initialize Layout and set breadcrumbs
      *
-     * @return Mage_Adminhtml_System_Email_VariableController
+     * @return Mage_Adminhtml_System_VariableController
      */
     protected function _initLayout()
     {
         $this->loadLayout()
-            ->_setActiveMenu('system/email_template_variable')
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Transactional Emails'), Mage::helper('adminhtml')->__('Transactional Emails'))
-            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Custom Variable'), Mage::helper('adminhtml')->__('Custom Variable'));
+            ->_setActiveMenu('system/variable')
+            ->_addBreadcrumb(Mage::helper('adminhtml')->__('Custom Variables'), Mage::helper('adminhtml')->__('Custom Variables'));
         return $this;
     }
 
     /**
      * Initialize Variable object
      *
-     * @return Mage_Core_Model_Email_Variable
+     * @return Mage_Core_Model_Variable
      */
-    protected function _initEmailVariable()
+    protected function _initVariable()
     {
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = $this->getRequest()->getParam('store', 0);
-        /* @var $emailVariable Mage_Core_Model_Email_Variable */
-        $emailVariable = Mage::getModel('core/email_variable');
+        /* @var $emailVariable Mage_Core_Model_Variable */
+        $variable = Mage::getModel('core/variable');
         if ($variableId) {
-            $emailVariable->setStoreId($storeId)
+            $variable->setStoreId($storeId)
                 ->load($variableId);
         }
-        Mage::register('current_email_variable', $emailVariable);
-        return $emailVariable;
+        Mage::register('current_variable', $variable);
+        return $variable;
     }
 
     /**
@@ -73,7 +72,7 @@ class Mage_Adminhtml_System_Email_VariableController extends Mage_Adminhtml_Cont
     public function indexAction()
     {
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_email_variable'))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/system_variable'))
             ->renderLayout();
     }
 
@@ -92,10 +91,10 @@ class Mage_Adminhtml_System_Email_VariableController extends Mage_Adminhtml_Cont
      */
     public function editAction()
     {
-        $this->_initEmailVariable();
+        $this->_initVariable();
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('adminhtml/system_email_variable_edit'))
-            ->_addJs($this->getLayout()->createBlock('core/template', '', array('template' => 'system/email/variable/js.phtml')))
+            ->_addContent($this->getLayout()->createBlock('adminhtml/system_variable_edit'))
+            ->_addJs($this->getLayout()->createBlock('core/template', '', array('template' => 'system/variable/js.phtml')))
             ->renderLayout();
     }
 
@@ -106,9 +105,9 @@ class Mage_Adminhtml_System_Email_VariableController extends Mage_Adminhtml_Cont
     public function validateAction()
     {
         $response = new Varien_Object(array('error' => false));
-        $emailVariable = $this->_initEmailVariable();
-        $emailVariable->addData($this->getRequest()->getPost('email_variable'));
-        $result = $emailVariable->validate();
+        $variable = $this->_initVariable();
+        $variable->addData($this->getRequest()->getPost('variable'));
+        $result = $variable->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
             $this->_initLayoutMessages('adminhtml/session');
@@ -124,18 +123,18 @@ class Mage_Adminhtml_System_Email_VariableController extends Mage_Adminhtml_Cont
      */
     public function saveAction()
     {
-        $emailVariable = $this->_initEmailVariable();
-        $data = $this->getRequest()->getPost('email_variable');
+        $variable = $this->_initVariable();
+        $data = $this->getRequest()->getPost('variable');
         $back = $this->getRequest()->getParam('back', false);
         if ($data) {
-            $emailVariable->addData($data);
+            $variable->addData($data);
             try {
-                $emailVariable->save();
+                $variable->save();
                 $this->_getSession()->addSuccess(
                     Mage::helper('adminhtml')->__('Custom Variable has been successfully saved.')
                 );
                 if ($back) {
-                    $this->_redirect('*/*/edit', array('_current' => true, 'variable_id' => $emailVariable->getId()));
+                    $this->_redirect('*/*/edit', array('_current' => true, 'variable_id' => $variable->getId()));
                 } else {
                     $this->_redirect('*/*/', array());
                 }
@@ -156,10 +155,10 @@ class Mage_Adminhtml_System_Email_VariableController extends Mage_Adminhtml_Cont
      */
     public function deleteAction()
     {
-        $emailVariable = $this->_initEmailVariable();
-        if ($emailVariable->getId()) {
+        $variable = $this->_initVariable();
+        if ($variable->getId()) {
             try {
-                $emailVariable->delete();
+                $variable->delete();
                 $this->_getSession()->addSuccess(
                     Mage::helper('adminhtml')->__('Custom Variable has been successfully deleted.')
                 );
@@ -180,6 +179,6 @@ class Mage_Adminhtml_System_Email_VariableController extends Mage_Adminhtml_Cont
      */
     protected function _isAllowed()
     {
-        return Mage::getSingleton('admin/session')->isAllowed('system/email_template/variables');
+        return Mage::getSingleton('admin/session')->isAllowed('system/variable');
     }
 }
