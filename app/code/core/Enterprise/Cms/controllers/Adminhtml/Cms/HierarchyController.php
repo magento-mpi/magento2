@@ -139,6 +139,18 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
                     $removedNodes = array();
                 }
 
+                // fill in meta_chapter and meta_section based on meta_chapter_section
+                foreach ($nodesData as &$n) {
+                    $n['meta_chapter'] = 0;
+                    $n['meta_section'] = 0;
+                    if ($n['meta_chapter_section'] == 'both' || $n['meta_chapter_section'] == 'chapter') {
+                        $n['meta_chapter'] = 1;
+                    }
+                    if ($n['meta_chapter_section'] == 'both' || $n['meta_chapter_section'] == 'section') {
+                        $n['meta_section'] = 1;
+                    }
+                }
+
                 $node->collectTree($nodesData, $removedNodes);
 
                 $hasError = false;

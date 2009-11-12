@@ -162,24 +162,14 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             ));
 
 
-            $fieldset->addField('meta_chapter', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('This Page/Node is Chapter'),
-                'title'     => Mage::helper('enterprise_cms')->__('This Page/Node is Chapter'),
-                'name'      => 'meta_chapter',
-                'values'   => $yesNoOptions,
+            $fieldset->addField('meta_chapter_section', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Chapter/Section'),
+                'title'     => Mage::helper('enterprise_cms')->__('Chapter/Section'),
+                'name'      => 'meta_chapter_section',
+                'values'    => Mage::getSingleton('enterprise_cms/source_hierarchy_menu_chapter')->toOptionArray(),
                 'onchange'   => 'hierarchyNodes.nodeChanged()',
-                'container_id' => 'field_meta_chapter',
+                'container_id' => 'field_meta_chapter_section',
                 'tabindex'   => '50'
-            ));
-
-            $fieldset->addField('meta_section', 'select', array(
-                'label'     => Mage::helper('enterprise_cms')->__('This Page/Node is Section'),
-                'title'     => Mage::helper('enterprise_cms')->__('This Page/Node is Section'),
-                'name'      => 'meta_section',
-                'values'   => $yesNoOptions,
-                'onchange'   => 'hierarchyNodes.nodeChanged()',
-                'container_id' => 'field_meta_section',
-                'tabindex'   => '60'
             ));
         }
 
@@ -413,6 +403,20 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                     'assigned_to_store'     => $this->isNodeAvailableForStore($item, $this->_currentStore)
                 );
                 $nodes[] = Mage::helper('enterprise_cms/hierarchy')->copyMetaData($item->getData(), $node);
+            }
+        }
+
+        // fill in custom meta_chapter_section field
+        $c = count($nodes);
+        for ($i = 0; $i < $c; $i++) {
+            if ($nodes[$i]['meta_chapter'] && $nodes[$i]['meta_section']) {
+                $nodes[$i]['meta_chapter_section'] = 'both';
+            } elseif ($nodes[$i]['meta_chapter']) {
+                $nodes[$i]['meta_chapter_section'] = 'chapter';
+            } elseif ($nodes[$i]['meta_section']) {
+                $nodes[$i]['meta_chapter_section'] = 'section';
+            } else {
+                $nodes[$i]['meta_chapter_section'] = '';
             }
         }
 

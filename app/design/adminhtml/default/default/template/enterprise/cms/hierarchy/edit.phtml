@@ -554,10 +554,11 @@
 
         resetMetadataFieldSet: function() {
             var defaultValue = '0';
-            var fields = ['meta_first_last','meta_next_previous','meta_chapter','meta_section','menu_visibility','menu_excluded'];
+            var fields = ['meta_first_last','meta_next_previous','menu_visibility','menu_excluded'];
             fields.each(function(e) {
                 $(e).value = defaultValue;
             });
+            $('meta_chapter_section').value = '';
         },
 
         saveButton: function(show, enabled, save) {
@@ -621,8 +622,7 @@
             return [
                 'meta_first_last',
                 'meta_next_previous',
-                'meta_chapter',
-                'meta_section',
+                'meta_chapter_section',
                 'pager_visibility',
                 'pager_frame',
                 'pager_jump',
