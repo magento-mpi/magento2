@@ -441,8 +441,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $rowTax             = $this->_calculator->calcTaxAmount($subtotal, $rate, $inclTax);
                 $baseRowTax         = $this->_calculator->calcTaxAmount($baseSubtotal, $rate, $inclTax);
-                $item->setDiscountCalculationPrice(($subtotal+$rowTax)/$qty);
-                $item->setBaseDiscountCalculationPrice(($baseSubtotal+$baseRowTax)/$qty);
+                $discountPrice = $inclTax ? ($subtotal/$qty) : ($subtotal+$rowTax)/$qty;
+                $baseDiscountPrice = $inclTax ? ($baseSubtotal/$qty) : ($baseSubtotal+$baseRowTax)/$qty;
+                $item->setDiscountCalculationPrice($discountPrice);
+                $item->setBaseDiscountCalculationPrice($baseDiscountPrice);
                 break;
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
@@ -577,8 +579,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Tax extends Mage_Sales_Model_Quote_Addres
             case Mage_Tax_Model_Calculation::CALC_TAX_BEFORE_DISCOUNT_ON_INCL:
                 $rowTax             = $this->_calculator->calcTaxAmount($calcTotal, $rate, $inclTax, false);
                 $baseRowTax         = $this->_calculator->calcTaxAmount($baseCalcTotal, $rate, $inclTax, false);
-                $item->setDiscountCalculationPrice(($subtotal+$rowTax)/$qty);
-                $item->setBaseDiscountCalculationPrice(($baseSubtotal+$baseRowTax)/$qty);
+                $discountPrice = $inclTax ? ($subtotal/$qty) : ($subtotal+$rowTax)/$qty;
+                $baseDiscountPrice = $inclTax ? ($baseSubtotal/$qty) : ($baseSubtotal+$baseRowTax)/$qty;
+                $item->setDiscountCalculationPrice($discountPrice);
+                $item->setBaseDiscountCalculationPrice($baseDiscountPrice);
                 break;
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_EXCL:
             case Mage_Tax_Model_Calculation::CALC_TAX_AFTER_DISCOUNT_ON_INCL:
