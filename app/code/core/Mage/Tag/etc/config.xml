@@ -117,6 +117,15 @@
                     </tag>
                 </observers>
             </catalog_controller_product_delete>
+            <catalog_product_delete_after>
+                <observers>
+                    <tag>
+                        <type>model</type>
+                        <class>tag/tag</class>
+                        <method>productDeleteEventAction</method>
+                    </tag>
+                </observers>
+            </catalog_product_delete_after>
         </events>
         <translate>
             <modules>

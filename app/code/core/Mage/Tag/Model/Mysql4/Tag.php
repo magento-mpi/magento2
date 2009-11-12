@@ -288,6 +288,20 @@ class Mage_Tag_Model_Mysql4_Tag extends Mage_Core_Model_Mysql4_Abstract
     }
 
     /**
+     * Decrementing tag products quantity as action for product delete
+     *
+     * @param  array $tagsId
+     * @return int The number of affected rows
+     */
+    public function decrementProducts(array $tagsId)
+    {
+        $writeAdapter = $this->_getWriteAdapter();
+        $whereCond    = $writeAdapter->quoteInto('`tag_id` IN (?)', $tagsId, Zend_Db::INT_TYPE);
+
+        return $writeAdapter->update($this->getTable('summary'), array('products' => new Zend_Db_Expr('products - 1')), $whereCond);
+    }
+
+    /**
      * Add summary data
      *
      * @param Mage_Tag_Model_Tag $object
