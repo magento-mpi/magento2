@@ -126,28 +126,28 @@ class Mage_Adminhtml_Block_Tag_Grid_Pending extends Mage_Adminhtml_Block_Widget_
             ));
         }
 
-        $this->addColumn('actions', array(
-            'header'    => Mage::helper('tag')->__('Actions'),
-            'width'     => '100px',
-            'type'      => 'action',
-            'sortable'  => false,
-            'filter'    => false,
-            'actions'    => array(
-                array(
-                    'caption'   => Mage::helper('tag')->__('Edit Tag'),
-                    'url'       => $this->getUrl('*/*/edit', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
-                ),
-                array(
-                    'caption'   => Mage::helper('tag')->__('View Products'),
-                    'url'       => $this->getUrl('*/*/product', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
-                ),
+        //$this->addColumn('actions', array(
+//            'header'    => Mage::helper('tag')->__('Actions'),
+//            'width'     => '100px',
+//            'type'      => 'action',
+//            'sortable'  => false,
+//            'filter'    => false,
+//            'actions'    => array(
+//                array(
+//                    'caption'   => Mage::helper('tag')->__('Edit Tag'),
+//                    'url'       => $this->getUrl('*/*/edit', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
+//                ),
+//                array(
+//                    'caption'   => Mage::helper('tag')->__('View Products'),
+//                    'url'       => $this->getUrl('*/*/product', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
+//                ),
 
-                array(
-                    'caption'   => Mage::helper('tag')->__('View Customers'),
-                    'url'       => $this->getUrl('*/*/customer', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
-                )
-            ),
-        ));
+//                array(
+//                    'caption'   => Mage::helper('tag')->__('View Customers'),
+//                    'url'       => $this->getUrl('*/*/customer', array('ret' => 'pending', 'tag_id'=>'$tag_id')),
+//                )
+//            ),
+//        ));
 
         return parent::_prepareColumns();
     }
