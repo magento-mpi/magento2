@@ -28,8 +28,8 @@
 $installer = $this;
 
 $installer->startSetup();
-$installer->getConnection()->addColumn($installer->getTable('core/email_variable'),
+$installer->getConnection()->addColumn($installer->getTable('core_email_variable'),
     'is_html', "tinyint(1) NOT NULL DEFAULT '0'");
-$installer->getConnection()->changeColumn($installer->getTable('core/email_variable_value'),
+$installer->getConnection()->changeColumn($installer->getTable('core_email_variable_value'),
     'value', 'value', 'TEXT NOT NULL');
 $installer->endSetup();

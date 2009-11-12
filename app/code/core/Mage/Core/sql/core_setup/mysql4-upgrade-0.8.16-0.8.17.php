@@ -29,7 +29,7 @@ $installer = $this;
 
 $installer->startSetup();
 $installer->run("
-CREATE TABLE IF NOT EXISTS `{$installer->getTable('core/email_variable')}` (
+CREATE TABLE IF NOT EXISTS `{$installer->getTable('core_email_variable')}` (
   `variable_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('core/email_variable')}` (
   UNIQUE KEY `IDX_CODE` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `{$installer->getTable('core/email_variable_value')}` (
+CREATE TABLE IF NOT EXISTS `{$installer->getTable('core_email_variable_value')}` (
   `value_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `variable_id` int(11) unsigned NOT NULL DEFAULT '0',
   `store_id` smallint(5) unsigned NOT NULL DEFAULT '0',
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `{$installer->getTable('core/email_variable_value')}`
   KEY `IDX_VARIABLE_ID` (`variable_id`),
   KEY `IDX_STORE_ID` (`store_id`),
   CONSTRAINT `FK_CORE_EMAIL_VARIABLE_VALUE_STORE_ID` FOREIGN KEY (`store_id`) REFERENCES `{$installer->getTable('core/store')}` (`store_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_CORE_EMAIL_VARIABLE_VALUE_VARIABLE_ID` FOREIGN KEY (`variable_id`) REFERENCES `{$installer->getTable('core/email_variable')}` (`variable_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_CORE_EMAIL_VARIABLE_VALUE_VARIABLE_ID` FOREIGN KEY (`variable_id`) REFERENCES `{$installer->getTable('core_email_variable')}` (`variable_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ");
 $installer->getConnection()->addColumn($installer->getTable('core/email_template'), 'orig_template_variables', "text NOT NULL");
