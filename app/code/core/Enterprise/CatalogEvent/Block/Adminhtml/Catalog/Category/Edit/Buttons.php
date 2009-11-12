@@ -68,7 +68,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons exte
                 ));
                 $this->getParentBlock()->getChild('form')
                     ->addAdditionalButton('edit_event', array(
-                        'label' => $this->helper('enterprise_catalogevent')->__('Edit Catalog Event'),
+                        'label' => $this->helper('enterprise_catalogevent')->__('Edit Event...'),
                         'class' => 'save',
                         'onclick'   => 'setLocation(\''. $url .'\')'
                     ));
@@ -79,7 +79,7 @@ class Enterprise_CatalogEvent_Block_Adminhtml_Catalog_Category_Edit_Buttons exte
                 ));
                 $this->getParentBlock()->getChild('form')
                     ->addAdditionalButton('add_event', array(
-                        'label' => $this->helper('enterprise_catalogevent')->__('Add Catalog Event'),
+                        'label' => $this->helper('enterprise_catalogevent')->__('Add Event...'),
                         'class' => 'add',
                         'onclick' => 'setLocation(\''. $url .'\')'
                     ));
