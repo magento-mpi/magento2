@@ -33,6 +33,19 @@
  */
 class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstract
 {
+
+    const EVENT_FROM_PARENT_FIRST = 1;
+    const EVENT_FROM_PARENT_LAST  = 2;
+
+    protected $_ChildToParentList;
+
+    /**
+     * var which represented catalogevent collection
+     *
+     * @var array
+     */
+    protected $_eventCategories;
+
     /**
      * Initialize resource
      *
@@ -97,35 +110,72 @@ class Enterprise_CatalogEvent_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_
                 'event_id'
         )->order($categoryCorrelationName . '.level ASC');
 
-        $eventCategories = $this->_getReadAdapter()->fetchAssoc($select);
+        $this->_eventCategories = $this->_getReadAdapter()->fetchAssoc($select);
 
-        if (empty($eventCategories)) {
+        if (empty($this->_eventCategories)) {
             return array();
         }
+        $this->_setChildToParentList();
 
-        $result = array();
-
-        foreach ($eventCategories as $categoryId => $category) {
+        foreach ($this->_eventCategories as $categoryId => $category){
             if ($category['event_id'] === null && isset($category['level']) && $category['level'] > 2) {
-                foreach ($eventCategories as $parentId => $parentCategory) {
-                    if (isset($category['path'])) {
-                        if (strpos($category['path'], $parentCategory['path']) !== false &&
-                            isset($result[$parentId]) &&
-                            $result[$parentId] !== null) {
-                            $result[$categoryId] = $result[$parentId];
-                            break;
-                        }
-                    }
-                }
-                if (!isset($result[$categoryId])) {
-                    $result[$categoryId] = null;
-                }
-            } else {
+                $result[$categoryId] = $this->_getEventFromParent($categoryId, self::EVENT_FROM_PARENT_LAST);
+            } elseif  ($category['event_id'] !== null) {
                 $result[$categoryId] = $category['event_id'];
+            } else {
+                $result[$categoryId] = null;
             }
         }
 
         return $result;
+    }
+
+    /**
+     * Method for building relates beetwean child and parent node
+     *
+     * @param array  $collection
+     * @return Enterprise_CatalogEvent
+     */
+    protected function _setChildToParentList() {
+        if (is_array($this->_eventCategories)) {
+            foreach ($this->_eventCategories as $row) {
+                $e = explode('/', $row['path']);
+                $c = count($e);
+                if ($c>2) {
+                    $key = $e[$c-1];
+                    $val = $e[$c-2];
+                    if (empty($this->_ChildToParentList[$key])) {
+                        $this->_ChildToParentList[$key] = $val;
+                    }
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Retrieve Event from close parent
+     *
+     * @param int $categoryId
+     * @param int $flag
+     * @return unknown
+     */
+    protected function _getEventFromParent($categoryId, $flag =2) {
+        if (isset($this->_ChildToParentList[$categoryId])) {
+            $parentId = $this->_ChildToParentList[$categoryId];
+        }
+        if (!isset($parentId)) {
+            return null;
+        }
+        $event_id = $this->_eventCategories[$parentId]['event_id'];
+        if ($flag == self::EVENT_FROM_PARENT_LAST){
+            if (isset($event_id) && ($event_id !==null)) {
+                return $event_id;
+            } elseif ($event_id === null) {
+                return $this->_getEventFromParent($parentId, $flag);
+            }
+        }
+        return null;
     }
 
     /**
