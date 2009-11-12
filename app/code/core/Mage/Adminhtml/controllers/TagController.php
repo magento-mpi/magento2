@@ -169,20 +169,13 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
             }
 
             switch( $this->getRequest()->getParam('ret') ) {
-                case 'all':
-                    $url = $this->getUrl('*/*/index', array(
-                        'customer_id' => $this->getRequest()->getParam('customer_id'),
-                        'product_id' => $this->getRequest()->getParam('product_id'),
-                    ));
-                    break;
-
                 case 'pending':
                     $url = $this->getUrl('*/tag/pending', array(
                         'customer_id' => $this->getRequest()->getParam('customer_id'),
                         'product_id' => $this->getRequest()->getParam('product_id'),
                     ));
                     break;
-
+                case 'all': // fallback
                 default:
                     $url = $this->getUrl('*/*/index', array(
                         'customer_id' => $this->getRequest()->getParam('customer_id'),
@@ -227,20 +220,13 @@ class Mage_Adminhtml_TagController extends Mage_Adminhtml_Controller_Action
         if ($id = $this->getRequest()->getParam('tag_id')) {
 
             switch( $this->getRequest()->getParam('ret') ) {
-                case 'all':
-                    $url = $this->getUrl('*/*/', array(
-                        'customer_id' => $this->getRequest()->getParam('customer_id'),
-                        'product_id' => $this->getRequest()->getParam('product_id'),
-                    ));
-                    break;
-
                 case 'pending':
                     $url = $this->getUrl('*/tag/pending', array(
                         'customer_id' => $this->getRequest()->getParam('customer_id'),
                         'product_id' => $this->getRequest()->getParam('product_id'),
                     ));
                     break;
-
+                case 'all': // fallback
                 default:
                     $url = $this->getUrl('*/*/', array(
                         'customer_id' => $this->getRequest()->getParam('customer_id'),
