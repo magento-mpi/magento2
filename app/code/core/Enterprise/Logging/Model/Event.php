@@ -59,4 +59,17 @@ class Enterprise_Logging_Model_Event extends Mage_Core_Model_Abstract
         }
         return parent::_beforeSave();
     }
+
+    /**
+     * Define if current event has event changes
+     *
+     * @return bool
+     */
+    public function hasChanges()
+    {
+        if ($this->getId()) {
+            return (bool)$this->getResource()->getEventChangeIds($this->getId());
+        }
+        return false;
+    }
 }

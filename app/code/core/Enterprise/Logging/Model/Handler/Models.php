@@ -38,32 +38,13 @@ class Enterprise_Logging_Model_Handler_Models
      */
     public function modelSaveAfter($model, $processor)
     {
-        $data = $processor->cleanupData($model->getData());
-        $origData = $processor->cleanupData($model->getOrigData());
-        $isDiff = false;
-        foreach ($data as $key=>$value){
-            switch (true){
-                case (isset($origData[$key]) && $value == $origData[$key]):
-                    unset($data[$key]);
-                    unset($origData[$key]);
-                    break;
-                case (isset($origData[$key]) && $value != $origData[$key]):
-                case (!isset($origData[$key])):
-                default:
-                    $isDiff = true;
-                    break;
-            }
-        }
-        if ($isDiff){
-            $processor->collectId($model);
-            return Mage::getModel('enterprise_logging/event_changes')->setData(
-                array(
-                    'original_data' => $origData,
-                    'result_data'   => $data,
-                ));
-        } else {
-            return false;
-        }
+        $processor->collectId($model);
+//        Mage::log($model->getOrigData());
+//        Mage::log($model->getData());
+        $changes = Mage::getModel('enterprise_logging/event_changes')
+            ->setOriginalData($model->getOrigData())
+            ->setResultData($model->getData());
+        return $changes;
     }
 
     /**
@@ -75,9 +56,10 @@ class Enterprise_Logging_Model_Handler_Models
     public function modelDeleteAfter($model, $processor)
     {
         $processor->collectId($model);
-        $origData = $processor->cleanupData($model->getOrigData());
-        return Mage::getModel('enterprise_logging/event_changes')
-                    ->setData(array('original_data'=>$origData, 'result_data'=>null));
+        $changes = Mage::getModel('enterprise_logging/event_changes')
+            ->setOriginalData($model->getOrigData())
+            ->setResultData(null);
+        return $changes;
     }
 
     /**
@@ -111,7 +93,6 @@ class Enterprise_Logging_Model_Handler_Models
     public function modelViewAfter($model, $processor)
     {
         $processor->collectId($model);
-        return Mage::getModel('enterprise_logging/event_changes')
-            ->setData(array('original_data' => array(), 'result_data' => array()));
+        return true;
     }
 }

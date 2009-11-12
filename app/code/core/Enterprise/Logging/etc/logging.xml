@@ -38,7 +38,6 @@
 
             <adminhtml_catalog_product_save>
                 <action>save</action>
-                <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_catalog_product_save>
 
             <adminhtml_catalog_product_delete>
@@ -210,7 +209,6 @@
 
             <adminhtml_catalog_product_set_save>
                 <action>save</action>
-                <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_catalog_product_set_save>
 
             <adminhtml_catalog_product_set_delete>
@@ -610,7 +608,6 @@
 
             <adminhtml_newsletter_queue_save>
                 <action>save</action>
-                <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_newsletter_queue_save>
         </actions>
     </newsletter_queue>

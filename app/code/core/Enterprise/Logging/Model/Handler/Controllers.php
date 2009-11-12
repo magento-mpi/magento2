@@ -121,7 +121,7 @@ class Enterprise_Logging_Model_Handler_Controllers
                 }
 
                 $processor->addEventChanges(
-                    clone $change->setModelName($groupName)
+                    clone $change->setSourceName($groupName)
                                  ->setOriginalData(false)
                                  ->setResultData($groupFieldsData)
                 );
@@ -333,25 +333,25 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('enterprise_logging/event_changes');
 
         $products = Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds();
-        $processor->addEventChanges(clone $change->setModelName('product')
+        $processor->addEventChanges(clone $change->setSourceName('product')
                 ->setOriginalData(false)
                 ->setResultData(array('ids' => implode(', ', $products))));
 
-        $processor->addEventChanges(clone $change->setModelName('inventory')
+        $processor->addEventChanges(clone $change->setSourceName('inventory')
                 ->setOriginalData(false)
                 ->setResultData($request->getParam('inventory', array())));
 
-        $processor->addEventChanges(clone $change->setModelName('attributes')
+        $processor->addEventChanges(clone $change->setSourceName('attributes')
                 ->setOriginalData(false)
                 ->setResultData($request->getParam('attributes', array())));
 
         $websiteIds = $request->getParam('remove_website', array());
-        $processor->addEventChanges(clone $change->setModelName('remove_website_ids')
+        $processor->addEventChanges(clone $change->setSourceName('remove_website_ids')
                 ->setOriginalData(false)
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
 
         $websiteIds = $request->getParam('add_website', array());
-        $processor->addEventChanges(clone $change->setModelName('add_website_ids')
+        $processor->addEventChanges(clone $change->setSourceName('add_website_ids')
                 ->setOriginalData(false)
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
 

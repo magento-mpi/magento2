@@ -32,12 +32,15 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
     /**
      * Curent event data storage
      *
+     * @deprecated after 1.6.0.0
      * @var object
      */
     protected $_eventData = null;
 
     /**
-     * Class constructor
+     * Remove add button
+     * Set block group and controller
+     *
      */
     public function __construct()
     {
@@ -47,13 +50,6 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
 
         parent::__construct();
         $this->_removeButton('add');
-        if ($action == 'details') {
-            $this->_addButton('back', array(
-                'label'   => Mage::helper('enterprise_logging')->__('Back'),
-                'onclick' => "setLocation('" . Mage::getSingleton('adminhtml/url')->getUrl('*/*/'). "')",
-                'class'   => 'back'
-                ));
-        }
     }
 
     /**
@@ -69,6 +65,7 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
     /**
      * Get current event data
      *
+     * @deprecated after 1.6.0.0
      * @return object Enterprise_Logging_Model_Event
      */
     public function getEventData()
@@ -82,6 +79,7 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
     /**
      * Convert x_forwarded_ip to string
      *
+     * @deprecated after 1.6.0.0
      * @return string
      */
     public function getEventXForwardedIp()
@@ -92,6 +90,7 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
     /**
      * Convert ip to string
      *
+     * @deprecated after 1.6.0.0
      * @return string
      */
     public function getEventIp()
@@ -102,6 +101,7 @@ class Enterprise_Logging_Block_Adminhtml_Container extends Mage_Adminhtml_Block_
     /**
      * Replace /n => <br /> in event error_message
      *
+     * @deprecated after 1.6.0.0
      * @return string
      */
     public function getEventError()

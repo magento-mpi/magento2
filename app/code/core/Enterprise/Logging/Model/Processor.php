@@ -91,6 +91,7 @@ class Enterprise_Logging_Model_Processor
     /**
      * Set of fields that should not be logged for all models
      *
+     * @deprecated 1.6.0.0
      * @var array
      */
     protected $_skipFields = array();
@@ -98,6 +99,7 @@ class Enterprise_Logging_Model_Processor
     /**
      * Set of fields that should not be logged per expected model
      *
+     * @deprecated 1.6.0.0
      * @var array
      */
     protected $_skipFieldsByModel = array();
@@ -109,6 +111,10 @@ class Enterprise_Logging_Model_Processor
      */
     protected $_collectedIds = array();
 
+    /**
+     * @deprecated after 1.6.0.0
+     *
+     */
     const XML_PATH_SKIP_GLOBAL_FIELDS = 'adminhtml/enterprise/logging/skip_fields';
 
     /**
@@ -142,9 +148,6 @@ class Enterprise_Logging_Model_Processor
             return;
         }
         $this->_eventConfig = $this->_config->getNode($fullActionName);
-
-        $this->_skipFields = array_map('trim', array_filter(explode(',',
-            (string)Mage::getConfig()->getNode(self::XML_PATH_SKIP_GLOBAL_FIELDS))));
 
         /**
          * Skip view action after save. For example on 'save and continue' click.
@@ -214,16 +217,17 @@ class Enterprise_Logging_Model_Processor
             }
         }
 
+        $skipData = array();
+
         //Log event changes for each model
         foreach ($usedModels->children() as $expect => $callback) {
 
             //Add custom skip fields per expecetd model
-            $this->_skipFieldsByModel = array();
             if (isset($callback->skip_data)) {
                 if ($callback->skip_data->hasChildren()) {
                     foreach ($callback->skip_data->children() as $skipName => $skipObj) {
-                        if (!in_array($skipName, $this->_skipFieldsByModel)) {
-                            $this->_skipFieldsByModel[] = $skipName;
+                        if (!in_array($skipName, $skipData)) {
+                            $skipData[] = $skipName;
                         }
                     }
                 }
@@ -236,13 +240,19 @@ class Enterprise_Logging_Model_Processor
                 $handler  = $classMap['handler'];
                 $callback = $classMap['callback'];
                 if ($handler) {
-                    if ($changes = $handler->$callback($model, $this)) {
-                        $changes->setModelName($className);
-                        $changes->setModelId($model->getId());
-                        $this->addEventChanges($changes);
+                    $changes = $handler->$callback($model, $this);
+                    //Because of logging view action, $changes must be checked if it is an object
+                    if (is_object($changes)) {
+                        $changes->cleanupData($skipData);
+                        if ($changes->hasDifference()) {
+                            $changes->setSourceName($className);
+                            $changes->setSourceId($model->getId());
+                            $this->addEventChanges($changes);
+                        }
                     }
                 }
             }
+            $skipData = array();
         }
     }
 
@@ -381,6 +391,7 @@ class Enterprise_Logging_Model_Processor
     /**
      * Clear model data from objects, arrays and fields that should be skipped
      *
+     * @deprecated after 1.6.0.0
      * @param array $data
      * @return array
      */

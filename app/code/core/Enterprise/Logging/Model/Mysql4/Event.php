@@ -95,7 +95,7 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
             . (null !== $order ? ' ORDER BY 1' . ($order ? '' : ' DESC') : '')
         );
     }
-    
+
     /**
      * Get all admin usernames that are currently in event log table
      *
@@ -111,5 +111,20 @@ class Enterprise_Logging_Model_Mysql4_Event extends Mage_Core_Model_Mysql4_Abstr
             ->joinInner(array('events' => $this->getTable('enterprise_logging/event')),
                 'admins.username = events.user', array());
         return $this->_getReadAdapter()->fetchCol($select);
+    }
+
+    /**
+     * Get event change ids of specified event
+     *
+     * @param int $eventId
+     * @return array
+     */
+    public function getEventChangeIds($eventId)
+    {
+        $adapter = $this->_getReadAdapter();
+        $select = $adapter->select()
+            ->from($this->getTable('enterprise_logging/event_changes'), array('id'))
+            ->where('event_id = ?', $eventId);
+        return $adapter->fetchCol($select);
     }
 }

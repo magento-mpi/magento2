@@ -62,18 +62,26 @@ class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Blo
      */
     protected function _prepareColumns()
     {
+        $this->addColumn('source_name', array(
+            'header'    => Mage::helper('enterprise_logging')->__('Source Data'),
+            'sortable'  => false,
+            'renderer'  => 'enterprise_logging/adminhtml_details_renderer_sourcename',
+            'index'     => 'source_name',
+            'width'     => 1
+        ));
+
         $this->addColumn('original_data', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Original'),
+            'header'    => Mage::helper('enterprise_logging')->__('Was'),
             'sortable'  => false,
             'renderer'  => 'enterprise_logging/adminhtml_details_renderer_diff',
-            'index'     => 'original_data',
+            'index'     => 'original_data'
         ));
 
         $this->addColumn('result_data', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Result'),
+            'header'    => Mage::helper('enterprise_logging')->__('Became'),
             'sortable'  => false,
             'renderer'  => 'enterprise_logging/adminhtml_details_renderer_diff',
-            'index'     => 'result_data',
+            'index'     => 'result_data'
         ));
 
         return parent::_prepareColumns();

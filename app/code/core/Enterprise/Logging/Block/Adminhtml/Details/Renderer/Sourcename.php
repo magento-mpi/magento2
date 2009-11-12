@@ -25,10 +25,10 @@
  */
 
 /**
- * Difference columns renderer
+ * Event source name renderer
  *
  */
-class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
+class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Sourcename
     extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {
     /**
@@ -39,30 +39,13 @@ class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
      */
     public function render(Varien_Object $row)
     {
-        $data = unserialize($row->getData($this->getColumn()->getIndex()));
-
-        $html = '';
-        $specialFlag = false;
-        if ($data !== false) {
-            if (isset($data['__no_changes'])) {
-                $html = $this->__('No changes');
-                $specialFlag = true;
-            }
-            if (isset($data['__was_deleted'])) {
-                $html = $this->__('Item was deleted');
-                $specialFlag = true;
-            }
-            if (isset($data['__was_created'])) {
-                $html = $this->__('N/A');
-                $specialFlag = true;
-            }
-            if (!$specialFlag) {
-                $html = '<dl>';
-                foreach ($data as $key => $value) {
-                    $html .= '<dt>' . $key . '</dt><dd>' . $this->htmlEscape($value) . '</dd>';
-                }
-                $html .= '</dl>';
-            }
+        $data = $row->getData($this->getColumn()->getIndex());
+        if (!$data) {
+            return '';
+        }
+        $html = '<div class="source-data"><span class="source-name">' . $row->getSourceName() . '</span>';
+        if ($row->getSourceId()) {
+            $html .= ' <span class="source-id">#' . $row->getSourceId() . '</span>';
         }
         return $html;
     }
