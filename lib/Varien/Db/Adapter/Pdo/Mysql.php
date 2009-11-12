@@ -1228,44 +1228,71 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
      * Inserts a table row with specified data.
      *
      * @param mixed $table The table to insert data into.
-     * @param array $bind Column-value pairs.
+     * @param array $data Column-value pairs or array of column-value pairs.
      * @param arrat $fields update fields pairs or values
      * @return int The number of affected rows.
      */
-    public function insertOnDuplicate($table, array $bind, array $fields = array())
+    public function insertOnDuplicate($table, array $data, array $fields = array())
     {
         // extract and quote col names from the array keys
-        $cols = array();
-        $vals = array();
-        foreach ($bind as $col => $val) {
-            $cols[] = $this->quoteIdentifier($col, true);
-            if ($val instanceof Zend_Db_Expr) {
-                $vals[] = $val->__toString();
-                unset($bind[$col]);
-            } else {
-                $vals[] = '?';
+        $row    = reset($data); // get first elemnt from data array
+        $bind   = array(); // SQL bind array
+        $cols   = array();
+        $values = array();
+
+        if (is_array($row)) { // Array of column-value pairs
+            $cols = array_keys($row);
+            foreach ($data as $row) {
+                $line = array();
+                if (array_diff($cols, array_keys($row))) {
+                    throw new Varien_Exception('Invalid data for insert');
+                }
+                foreach ($row as $val) {
+                    if ($val instanceof Zend_Db_Expr) {
+                        $line[] = $val->__toString();
+                    } else {
+                        $line[] = '?';
+                        $bind[] = $val;
+                    }
+                }
+                $values[] = sprintf('(%s)', join(',', $line));
             }
+            unset($row);
+        } else { // Column-value pairs
+            $cols = array_keys($data);
+            $line = array();
+            foreach ($data as $val) {
+                if ($val instanceof Zend_Db_Expr) {
+                    $line[] = $val->__toString();
+                } else {
+                    $line[] = '?';
+                    $bind[] = $val;
+                }
+            }
+            $values[] = sprintf('(%s)', join(',', $line));
         }
 
         $updateFields = array();
         if (empty($fields)) {
-            $fields = array_keys($bind);
+            $fields = $cols;
         }
+
+        // quote column names
+        $cols = array_map(array($this, 'quoteIdentifier'), $cols);
+
+        // prepare ON DUPLICATE KEY conditions
         foreach ($fields as $k => $v) {
             $field = $value = null;
             if (!is_numeric($k)) {
                 $field = $this->quoteIdentifier($k);
                 if ($v instanceof Zend_Db_Expr) {
                     $value = $v->__toString();
-                }
-                else if (is_string($v)) {
+                } else if (is_string($v)) {
                     $value = 'VALUES('.$this->quoteIdentifier($v).')';
-                }
-                else if (is_numeric($v)) {
+                } else if (is_numeric($v)) {
                     $value = $this->quoteInto('?', $v);
                 }
-            }
-            else if (is_string($v)) {
+            } else if (is_string($v)) {
                 $field = $this->quoteIdentifier($v);
                 $value = 'VALUES('.$field.')';
             }
@@ -1279,10 +1306,10 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
         $sql = "INSERT INTO "
              . $this->quoteIdentifier($table, true)
              . ' (' . implode(', ', $cols) . ') '
-             . 'VALUES (' . implode(', ', $vals) . ')';
-         if ($updateFields) {
-             $sql .= " ON DUPLICATE KEY UPDATE " . join(', ', $updateFields);
-         }
+             . 'VALUES ' . implode(', ', $values);
+        if ($updateFields) {
+         $sql .= " ON DUPLICATE KEY UPDATE " . join(', ', $updateFields);
+        }
 
         // execute the statement and return the number of affected rows
         $stmt = $this->query($sql, array_values($bind));
@@ -1307,8 +1334,6 @@ class Varien_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Mysql
 
         // validate data array
         $cols = array_keys($row);
-        $vals = array();
-        $bind = array();
         $insertArray = array();
         foreach ($data as $row) {
             $line = array();
