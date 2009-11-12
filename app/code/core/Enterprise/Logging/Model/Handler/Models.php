@@ -39,8 +39,6 @@ class Enterprise_Logging_Model_Handler_Models
     public function modelSaveAfter($model, $processor)
     {
         $processor->collectId($model);
-//        Mage::log($model->getOrigData());
-//        Mage::log($model->getData());
         $changes = Mage::getModel('enterprise_logging/event_changes')
             ->setOriginalData($model->getOrigData())
             ->setResultData($model->getData());
