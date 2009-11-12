@@ -1221,7 +1221,7 @@ ul.super-product-attributes { padding-left:15px; }
 .cms-hierarchy .col-right { padding:0 10px 20px; }
 .cms-hierarchy .col-right .form-list td.label { width:120px; }
 .cms-hierarchy .col-right .form-list td.label label { width:105px; }
-.cms-hierarchy .cms-tree { height:300px; }
+.cms-hierarchy .cms-tree { height:400px; }
 
 /* CMS Widgets Instance */
 .options-box .option-box { border:1px solid #cddddd; padding:1em; background:#e7efef; margin:1.5em 0; }
