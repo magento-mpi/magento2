@@ -143,6 +143,9 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
                 foreach ($nodesData as &$n) {
                     $n['meta_chapter'] = 0;
                     $n['meta_section'] = 0;
+                    if (!isset($n['meta_chapter_section'])) {
+                        continue;
+                    }
                     if ($n['meta_chapter_section'] == 'both' || $n['meta_chapter_section'] == 'chapter') {
                         $n['meta_chapter'] = 1;
                     }
