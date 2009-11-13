@@ -75,6 +75,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Action extends Mage_Catalog
                     $this->_saveAttributeValue($object, $attribute, $value);
                 }
             }
+            $this->_processAttributeValues();
             $this->_getWriteAdapter()->commit();
         } catch (Exception $e) {
             $this->_getWriteAdapter()->rollBack();
