@@ -31,7 +31,7 @@
         <actions>
             <adminhtml_crypt_key_save>
                 <action>save</action>
-                <post_dispatch>Enterprise_Pci_Model_Observer::logEncryptionKeySave</post_dispatch>
+                <post_dispatch>postDispatchSimpleSave</post_dispatch>
             </adminhtml_crypt_key_save>
         </actions>
     </enterprise_pci_crypt>
@@ -40,6 +40,7 @@
         <actions>
             <adminhtml_locks_massUnlock>
                 <action>massUpdate</action>
+                <post_dispatch>postDispatchAdminAccountsMassUnlock</post_dispatch>
             </adminhtml_locks_massUnlock>
         </actions>
     </enterprise_pci_locks>

@@ -70,6 +70,8 @@ class Enterprise_Invitation_Model_Observer
     /**
      * Custom log invitation log action
      *
+     * @deprecated after 1.6.0.0
+     *
      * @param Interprise_Invitation_Model_Invitation $model
      * @param Enterprise_Logging_Model_Processor $processor
      * @return Enterprise_Logging_Model_Event_Changes
@@ -77,8 +79,8 @@ class Enterprise_Invitation_Model_Observer
     public function logInvitationSave($model, $processor)
     {
         $processor->collectId($model);
-        $data = $processor->cleanupData($model->getData());
         return Mage::getModel('enterprise_logging/event_changes')
-            ->setData(array('original_data' => array(), 'result_data' => $data));
+            ->setOrigibalData(array())
+            ->setResultData($model->getData());
     }
 }

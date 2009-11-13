@@ -81,6 +81,15 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
     {
         $redirectBack = $this->getRequest()->getParam('back', false);
         if ($data = $this->getRequest()->getPost()) {
+
+            $id = $this->getRequest()->getParam('id');
+            $model = $this->_initBanner();
+            if (!$model->getId() && $id) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_banner')->__('This Banner no longer exists'));
+                $this->_redirect('*/*/');
+                return;
+            }
+
             //Filter disallowed data
             $currentStores = array_keys(Mage::app()->getStores(true));
             if (isset($data['store_contents_not_use'])){
@@ -107,7 +116,6 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
             }
 
             // save model
-            $model = Mage::getModel('enterprise_banner/banner');
             try {
                 if (!empty($data)) {
                     $model->addData($data);

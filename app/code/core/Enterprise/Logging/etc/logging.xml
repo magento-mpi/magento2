@@ -46,6 +46,7 @@
 
             <adminhtml_catalog_product_massStatus>
                 <action>massUpdate</action>
+                <post_dispatch>postDispatchProductUpdateAttributes</post_dispatch>
             </adminhtml_catalog_product_massStatus>
 
             <adminhtml_catalog_product_massDelete>
@@ -121,6 +122,10 @@
             <adminhtml_catalog_search_delete>
                 <action>delete</action>
             </adminhtml_catalog_search_delete>
+
+            <adminhtml_catalog_search_massDelete>
+                <action>massDelete</action>
+            </adminhtml_catalog_search_massDelete>
 
             <adminhtml_index_globalSearch>
                 <action>global_search</action>
@@ -847,7 +852,13 @@
     <adminhtml_permission_users translate="label">
         <label>Admin Permission Users</label>
         <expected_models>
-            <admin__user/>
+            <admin__user>
+                <skip_data>
+                    <password/>
+                    <new_password/>
+                    <password_confirmation/>
+                </skip_data>
+            </admin__user>
         </expected_models>
         <actions>
             <adminhtml_permissions_user_edit>
@@ -1098,4 +1109,30 @@
             </adminhtml_widget_instance_delete>
         </actions>
     </widget_instance>
+
+    <index_management translate="label">
+        <label>Index Management</label>
+        <expected_models>
+            <index__process/>
+        </expected_models>
+        <actions>
+            <adminhtml_process_edit>
+                <action>view</action>
+            </adminhtml_process_edit>
+            <adminhtml_process_save>
+                <action>save</action>
+            </adminhtml_process_save>
+            <adminhtml_process_massReindex>
+                <action>massUpdate</action>
+                <post_dispatch>postDispatchReindexProcess</post_dispatch>
+            </adminhtml_process_massReindex>
+            <adminhtml_process_massChangeMode>
+                <action>massUpdate</action>
+            </adminhtml_process_massChangeMode>
+            <adminhtml_process_reindexProcess>
+                <action>reindex_process</action>
+                <post_dispatch>postDispatchReindexProcess</post_dispatch>
+            </adminhtml_process_reindexProcess>
+        </actions>
+    </index_management>
 </logging>

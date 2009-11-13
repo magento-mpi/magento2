@@ -76,6 +76,7 @@ class Enterprise_Logging_Model_Event_Changes extends Mage_Core_Model_Abstract
      */
     protected function _beforeSave()
     {
+        $this->_calculateDifference();
         $this->setOriginalData(serialize($this->getOriginalData()));
         $this->setResultData(serialize($this->getResultData()));
         return parent::_beforeSave();

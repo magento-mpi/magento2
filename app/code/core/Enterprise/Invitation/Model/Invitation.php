@@ -142,10 +142,11 @@ class Enterprise_Invitation_Model_Invitation extends Mage_Core_Model_Abstract
         Mage::getModel('enterprise_invitation/invitation_history')
             ->setInvitationId($this->getId())->setStatus($this->getStatus())
             ->save();
+        $parent = parent::_afterSave();
         if ($this->getStatus() === self::STATUS_NEW) {
             $this->setOrigData();
         }
-        return parent::_afterSave();
+        return $parent;
     }
 
     /**

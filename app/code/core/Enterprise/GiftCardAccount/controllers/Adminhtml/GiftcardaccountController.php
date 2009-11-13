@@ -76,11 +76,8 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     public function editAction()
     {
-
-        // 1. Get ID and create model
         $id = $this->getRequest()->getParam('id');
-        $this->_initGca();
-        $model = Mage::registry('current_giftcardaccount');
+        $model = $this->_initGca();
 
         if (!$model->getId() && $id) {
             Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_giftcardaccount')->__('This Gift Card Account no longer exists'));
@@ -110,7 +107,14 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
         if ($data = $this->getRequest()->getPost()) {
             $data = $this->_filterPostData($data);
             // init model and set data
-            $model = Mage::getModel('enterprise_giftcardaccount/giftcardaccount');
+            $id = $this->getRequest()->getParam('giftcardaccount_id');
+            $model = $this->_initGca('giftcardaccount_id');
+            if (!$model->getId() && $id) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('enterprise_giftcardaccount')->__('This Gift Card Account no longer exists'));
+                $this->_redirect('*/*/');
+                return;
+            }
+
             if (!empty($data)) {
                 $model->addData($data);
             }
@@ -238,9 +242,9 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
      */
     public function gridHistoryAction()
     {
-        $this->_initGca();
+        $model = $this->_initGca();
         $id = (int)$this->getRequest()->getParam('id');
-        if ($id && !Mage::registry('current_giftcardaccount')->getId()) {
+        if ($id && !$model->getId()) {
             return;
         }
 
@@ -263,6 +267,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
             $model->load($id);
         }
         Mage::register('current_giftcardaccount', $model);
+        return $model;
     }
 
     /**

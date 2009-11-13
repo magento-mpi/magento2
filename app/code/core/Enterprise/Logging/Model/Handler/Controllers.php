@@ -122,7 +122,7 @@ class Enterprise_Logging_Model_Handler_Controllers
 
                 $processor->addEventChanges(
                     clone $change->setSourceName($groupName)
-                                 ->setOriginalData(false)
+                                 ->setOriginalData(array())
                                  ->setResultData($groupFieldsData)
                 );
                 $groupFieldsData = array();
@@ -333,27 +333,37 @@ class Enterprise_Logging_Model_Handler_Controllers
         $change = Mage::getModel('enterprise_logging/event_changes');
 
         $products = Mage::helper('adminhtml/catalog_product_edit_action_attribute')->getProductIds();
-        $processor->addEventChanges(clone $change->setSourceName('product')
-                ->setOriginalData(false)
+        if ($products) {
+            $processor->addEventChanges(clone $change->setSourceName('product')
+                ->setOriginalData(array())
                 ->setResultData(array('ids' => implode(', ', $products))));
+        }
 
         $processor->addEventChanges(clone $change->setSourceName('inventory')
-                ->setOriginalData(false)
+                ->setOriginalData(array())
                 ->setResultData($request->getParam('inventory', array())));
-
+        $attributes = $request->getParam('attributes', array());
+        $status = $request->getParam('status', null);
+        if (!$attributes && $status) {
+            $attributes['status'] = $status;
+        }
         $processor->addEventChanges(clone $change->setSourceName('attributes')
-                ->setOriginalData(false)
-                ->setResultData($request->getParam('attributes', array())));
+                ->setOriginalData(array())
+                ->setResultData($attributes));
 
         $websiteIds = $request->getParam('remove_website', array());
-        $processor->addEventChanges(clone $change->setSourceName('remove_website_ids')
-                ->setOriginalData(false)
+        if ($websiteIds) {
+            $processor->addEventChanges(clone $change->setSourceName('remove_website_ids')
+                ->setOriginalData(array())
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
+        }
 
         $websiteIds = $request->getParam('add_website', array());
-        $processor->addEventChanges(clone $change->setSourceName('add_website_ids')
-                ->setOriginalData(false)
+        if ($websiteIds) {
+            $processor->addEventChanges(clone $change->setSourceName('add_website_ids')
+                ->setOriginalData(array())
                 ->setResultData(array('ids' => implode(', ', $websiteIds))));
+        }
 
         return $eventModel->setInfo(Mage::helper('enterprise_logging')->__('Attributes Updated'));
     }
@@ -426,5 +436,43 @@ class Enterprise_Logging_Model_Handler_Controllers
             $eventModel->setIsSuccess(false);
         }
         return $eventModel;
+    }
+
+    /**
+     * Custom handler for mass unlocking locked admin users
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchAdminAccountsMassUnlock($config, $eventModel)
+    {
+        if (!Mage::app()->getRequest()->isPost()) {
+            return false;
+        }
+        $userIds = Mage::app()->getRequest()->getPost('unlock', array());
+        if (!is_array($userIds)) {
+            $userIds = array();
+        }
+        if (!$userIds) {
+            return false;
+        }
+        return $eventModel->setInfo(implode(', ', $userIds));
+    }
+
+    /**
+     * Custom handler for mass reindex process on index management
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchReindexProcess($config, $eventModel)
+    {
+        $processIds = Mage::app()->getRequest()->getParam('process', null);
+        if (!$processIds) {
+            return false;
+        }
+        return $eventModel->setInfo(is_array($processIds) ? implode(', ', $processIds) : (int)$processIds);
     }
 }

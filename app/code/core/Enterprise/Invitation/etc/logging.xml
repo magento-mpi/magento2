@@ -38,14 +38,19 @@
 
             <adminhtml_invitation_save>
                 <action>save</action>
-                <expected_models>
-                    <enterprise_invitation__invitation>Enterprise_Invitation_Model_Observer::logInvitationSave</enterprise_invitation__invitation>
-                </expected_models>
             </adminhtml_invitation_save>
+
+            <adminhtml_invitation_saveInvitation>
+                <action>save</action>
+            </adminhtml_invitation_saveInvitation>
 
             <adminhtml_invitation_massCancel>
                 <action>massUpdate</action>
             </adminhtml_invitation_massCancel>
+
+            <adminhtml_invitation_massResend>
+                <action>massUpdate</action>
+            </adminhtml_invitation_massResend>
         </actions>
     </enterprise_invitation>
 </logging>

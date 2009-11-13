@@ -250,6 +250,7 @@ class Enterprise_Pci_Model_Observer
     /**
      * Custom log Encryption Key save action
      *
+     * @deprecated after 1.6.0.0
      * @param Varien_Simplexml_Element $config
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return bool

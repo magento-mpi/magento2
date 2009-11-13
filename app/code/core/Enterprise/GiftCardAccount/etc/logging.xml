@@ -38,7 +38,6 @@
 
             <adminhtml_giftcardaccount_save>
                 <action>save</action>
-                <allow_model_repeat>1</allow_model_repeat>
             </adminhtml_giftcardaccount_save>
 
             <adminhtml_giftcardaccount_delete>
