@@ -1,0 +1,279 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    Mage
+ * @package     Mage_Moneybookers
+ * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+-->
+<config>
+    <modules>
+        <Mage_Moneybookers>
+            <version>1.1.5</version>
+        </Mage_Moneybookers>
+    </modules>
+    <global>
+        <models>
+            <moneybookers>
+                <class>Mage_Moneybookers_Model</class>
+            </moneybookers>
+        </models>
+        <helpers>
+            <moneybookers>
+                <class>Mage_Moneybookers_Helper</class>
+            </moneybookers>
+        </helpers>
+        <resources>
+            <moneybookers_setup>
+                <setup>
+                    <module>Mage_Moneybookers</module>
+                </setup>
+            </moneybookers_setup>
+        </resources>
+        <blocks>
+            <moneybookers><class>Mage_Moneybookers_Block</class></moneybookers>
+        </blocks>
+    </global>
+    <frontend>
+        <routers>
+            <moneybookers>
+                <use>standard</use>
+                <args>
+                    <module>Mage_Moneybookers</module>
+                    <frontName>moneybookers</frontName>
+                </args>
+            </moneybookers>
+        </routers>
+        <translate>
+            <modules>
+                <Mage_Moneybookers>
+                    <files>
+                        <default>Mage_Moneybookers.csv</default>
+                    </files>
+                </Mage_Moneybookers>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <moneybookers>
+                    <file>moneybookers.xml</file>
+                </moneybookers>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+         <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <moneybookers before="Mage_Adminhtml">Mage_Moneybookers_Adminhtml</moneybookers>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Mage_Moneybookers>
+                    <files>
+                        <default>Mage_Moneybookers.csv</default>
+                    </files>
+                </Mage_Moneybookers>
+            </modules>
+        </translate>
+        <layout>
+            <updates>
+                <moneybookers>
+                    <file>moneybookers.xml</file>
+                </moneybookers>
+            </updates>
+        </layout>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <moneybookers translate="title" module="moneybookers">
+                                            <title>Moneybookers Settings</title>
+                                        </moneybookers>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <phoenix>
+        <moneybookers>
+            <verify_url>http://www.phoenix-medien.de/index.php?id=105</verify_url>
+        </moneybookers>
+    </phoenix>
+    <default>
+        <payment>
+            <moneybookers_acc translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/acc</model>
+                <order_status>1</order_status>
+                <title>Credit Card / Visa, Mastercard, AMEX, JCB, Diners</title>
+                <allowspecific>0</allowspecific>
+            </moneybookers_acc>
+            <moneybookers_csi translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/csi</model>
+                <order_status>1</order_status>
+                <title>CartaSi</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>IT</specificcountry>
+            </moneybookers_csi>
+            <moneybookers_did translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/did</model>
+                <order_status>1</order_status>
+                <title>Lastschrift (ELV)</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>DE</specificcountry>
+            </moneybookers_did>
+            <moneybookers_dnk translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/dnk</model>
+                <order_status>1</order_status>
+                <title>Dankort</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>DK</specificcountry>
+            </moneybookers_dnk>
+            <moneybookers_ebt translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/ebt</model>
+                <order_status>1</order_status>
+                <title>Nordea Solo</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>SE</specificcountry>
+            </moneybookers_ebt>
+            <moneybookers_ent translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/ent</model>
+                <order_status>1</order_status>
+                <title>eNETS</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>SG</specificcountry>
+            </moneybookers_ent>
+            <moneybookers_gcb translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/gcb</model>
+                <order_status>1</order_status>
+                <title>Carte Bleue</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>FR</specificcountry>
+            </moneybookers_gcb>
+            <moneybookers_gir translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/gir</model>
+                <order_status>1</order_status>
+                <title>Giropay</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>DE</specificcountry>
+            </moneybookers_gir>
+            <moneybookers_idl translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/idl</model>
+                <order_status>1</order_status>
+                <title>iDeal</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>NL</specificcountry>
+            </moneybookers_idl>
+            <moneybookers_lsr translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/lsr</model>
+                <order_status>1</order_status>
+                <title>Laser</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>IE</specificcountry>
+            </moneybookers_lsr>
+            <moneybookers_npy translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/npy</model>
+                <order_status>1</order_status>
+                <title>EPS Online-Überweisung</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>AT</specificcountry>
+            </moneybookers_npy>
+            <moneybookers_pli translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/pli</model>
+                <order_status>1</order_status>
+                <title>POLi</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>AU</specificcountry>
+            </moneybookers_pli>
+            <moneybookers_psp translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/psp</model>
+                <order_status>1</order_status>
+                <title>Postepay</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>IT</specificcountry>
+            </moneybookers_psp>
+            <moneybookers_pwy translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/pwy</model>
+                <order_status>1</order_status>
+                <title>All Polish Banks</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>PL</specificcountry>
+            </moneybookers_pwy>
+            <moneybookers_sft translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/sft</model>
+                <order_status>1</order_status>
+                <title>Sofortüberweisung</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>DE</specificcountry>
+            </moneybookers_sft>
+            <moneybookers_so2 translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/so2</model>
+                <order_status>1</order_status>
+                <title>Nordea Solo</title>
+                <allowspecific>1</allowspecific>
+                <specificcountry>FI</specificcountry>
+            </moneybookers_so2>
+            <moneybookers_wlt translate="title" module="moneybookers">
+                <active>0</active>
+                <model>moneybookers/wlt</model>
+                <order_status>1</order_status>
+                <title>Moneybookers eWallet</title>
+                <allowspecific>0</allowspecific>
+            </moneybookers_wlt>
+        </payment>
+        <moneybookers>
+            <settings>
+                <activationstatus>0</activationstatus>
+            </settings>
+        </moneybookers>
+    </default>
+</config>
