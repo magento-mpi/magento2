@@ -33,7 +33,7 @@
 ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post">
 <div class="page-title title-buttons">
-    <h2><?php echo $this->__('Ship to Multiple Addresses') ?></h2>
+    <h1><?php echo $this->__('Ship to Multiple Addresses') ?></h1>
     <button type="submit" class="button" onclick="$('add_new_address_flag').value=1"><span><span><?php echo $this->__('Enter a New Address') ?></span></span></button>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -65,14 +65,14 @@
                 <td><?php echo $this->getItemHtml($_item->getQuoteItem())?></td>
                 <td><input type="text" name="ship[<?php echo $_index ?>][<?php echo $_item->getQuoteItemId() ?>][qty]" value="<?php echo $this->htmlEscape($_item->getQty()) ?>" size="2" class="input-text qty" /></td>
                 <td><?php if ($_item->getProduct()->getIsVirtual()): echo $this->__('Shipping selection is not applicable'); else: echo $this->getAddressesHtmlSelect($_item, $_index); endif; ?></td>
-                <td class="a-center"><a href="<?php echo $this->getItemDeleteUrl($_item) ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" alt="<?php echo $this->__('Remove Item') ?>" title="<?php echo $this->__('Remove Item') ?>" /></a></td>
+                <td class="a-center"><a href="<?php echo $this->getItemDeleteUrl($_item) ?>" title="<?php echo $this->__('Remove Item') ?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" alt="<?php echo $this->__('Remove Item') ?>" /></a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
     <script type="text/javascript">decorateTable('multiship-addresses-table')</script>
     <div class="buttons-set">
-        <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Shopping Cart') ?></a>
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo;</small><?php echo $this->__('Back to Shopping Cart') ?></a></p>
         <button type="submit" class="button<?php if ($this->isContinueDisabled()):?> disabled<?php endif; ?>" onclick="$('can_continue_flag').value=1"<?php if ($this->isContinueDisabled()):?> disabled="disabled"<?php endif; ?>><span><span><?php echo $this->__('Continue to Shipping Information') ?></span></span></button>
     </div>
 </fieldset>

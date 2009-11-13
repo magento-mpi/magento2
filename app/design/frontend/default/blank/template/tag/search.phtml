@@ -25,7 +25,7 @@
  */
 ?>
 <div class="page-title">
-    <h2><?php echo $this->__("Products tagged with '%s' (<a href='%s'>RSS</a>)", $query, '/tag/index/xml?tag='.$query) ?></h2>
+    <h1><?php echo $this->__("Products tagged with '%s' (<a href=\"%s\" class=\"link-rss\">RSS</a>)", $query, '/tag/index/xml?tag='.$query) ?></h1>
 </div>
 <?php if (!empty($collection)): ?>
 <ol>

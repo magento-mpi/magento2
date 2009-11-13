@@ -73,7 +73,7 @@
                 $('option_'+data.optionId+'_file').value = '';
                 $('option_'+data.optionId+'_file').hide();
                 $('option_'+data.optionId+'').hide();
-                template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="var/options/'+data.fileName+'"><\/a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')">Remove file<\/a>';
+                template = '<div id="option_'+data.optionId+'_file_box"><a href="#"><img src="var/options/'+data.fileName+'"><\/a><a href="#" onclick="optionFileUpload.removeFile('+data.optionId+')" alt="Remove file" title="Remove file" \/>Remove file<\/a>';
 
                 Element.insert($('option_'+data.optionId+'_uploaded_file'), {after: template});
             }

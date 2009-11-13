@@ -27,25 +27,25 @@
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/giftmessage.js') ?>"></script>
 <?php if(!$this->getSaveMode()): ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Gift Message') ?></h2>
+    <h1><?php echo $this->__('Gift Message') ?></h1>
 </div>
 <form action="<?php echo $this->getSaveUrl() ?>" id="message-form" method="post">
     <ul class="form-list">
         <li>
+            <label for="sender" class="required"><em>*</em><?php echo $this->__('From') ?></label>
             <div class="input-box">
-                <label for="sender"><?php echo $this->__('From') ?> <span class="required">*</span></label><br />
                 <input type="text" name="sender" value="<?php echo $this->getEscaped($this->getMessage()->getSender()) ?>" title="<?php echo $this->__('From') ?>" class="input-text required-entry" />
             </div>
         </li>
         <li>
+            <label for="recipient" class="required"><em>*</em><?php echo $this->__('To') ?></label>
             <div class="input-box">
-                <label for="recipient"><?php echo $this->__('To') ?> <span class="required">*</span></label><br />
                 <input type="text" name="recipient" value="<?php echo $this->getEscaped($this->getMessage()->getRecipient()) ?>" title="<?php echo $this->__('To') ?>" class="input-text required-entry" />
             </div>
         </li>
         <li>
+            <label for="email_address" class="required"><em>*</em><?php echo $this->__('Message') ?></label>
             <div class="input-box">
-                <label for="email_address"><?php echo $this->__('Message') ?> <span class="required">*</span></label><br />
                 <textarea name="messagetext" title="<?php echo $this->__('Message') ?>" class="input-text required-entry" cols="60" rows="5"><?php echo $this->getEscaped($this->getMessage()->getMessage()) ?></textarea>
             </div>
         </li>

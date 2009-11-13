@@ -26,7 +26,7 @@
 ?>
 <li>
     <?php if ($this->getIsDisabled()): ?>
-    <img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('googlecheckout')->__('Fast checkout through Google');?>" />
+    <img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('googlecheckout')->__('Fast checkout through Google');?>" title="<?php echo Mage::helper('googlecheckout')->__('Fast checkout through Google');?>" />
     <?php else: ?>
     <form method="post" action="<?php echo $this->getCheckoutUrl();?>"<?php if($this->getIsActiveAanalytics()):?> onsubmit="setUrchinInputCode(pageTracker)"<?php endif;?>>
         <fieldset>

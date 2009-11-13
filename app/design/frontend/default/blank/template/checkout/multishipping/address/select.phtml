@@ -25,7 +25,7 @@
  */
 ?>
 <div class="page-title title-buttons">
-    <h2><?php echo $this->__('Change Billing Address') ?></h2>
+    <h1><?php echo $this->__('Change Billing Address') ?></h1>
     <button type="button" class="button" onclick="setLocation('<?php echo $this->getAddNewUrl() ?>')"><span><span><?php echo $this->__('Add New Address') ?></span></span></button>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
@@ -54,5 +54,5 @@
     <?php if(!$_index || $_index%3!=0): ?></div><?php endif; ?>
 </div>
 <div class="buttons-set">
-    <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Billing Information') ?></a>
+    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo;</small><?php echo $this->__('Back to Billing Information') ?></a></p>
 </div>

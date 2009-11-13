@@ -34,12 +34,12 @@
 <?php if($this->canShowBlock()): ?>
 <div class="block block-layered-nav">
     <div class="block-title">
-        <h2><?php echo $this->__('Shop by') ?></h2>
+        <strong><span><?php echo $this->__('Shop by') ?></span></strong>
     </div>
     <div class="block-content">
         <?php echo $this->getStateHtml() ?>
         <?php if($this->canShowOptions()): ?>
-            <h3><?php echo $this->__('Shopping Options') ?></h3>
+            <p class="block-subtitle"><?php echo $this->__('Shopping Options') ?></p>
             <dl>
                 <?php $_filters = $this->getFilters() ?>
                 <?php foreach ($_filters as $_filter): ?>

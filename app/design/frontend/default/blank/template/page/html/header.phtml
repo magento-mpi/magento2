@@ -26,7 +26,7 @@
 ?>
 <div class="header-container">
     <div class="header">
-        <h1 id="logo" class="logo" title="<?php echo $this->getLogoAlt() ?>" style="background-image:url(<?php echo $this->getLogoSrc() ?>);"><a href="<?php echo $this->getUrl('') ?>"><?php echo $this->getLogoAlt() ?></a></h1>
+        <a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" class="logo"><img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a>
         <p class="welcome-msg"><?php echo $this->getWelcome()?></p>
         <?php echo $this->getChildHtml('topLinks') ?>
         <?php echo $this->getChildHtml('topSearch') ?>

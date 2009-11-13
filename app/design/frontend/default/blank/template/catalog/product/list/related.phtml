@@ -27,7 +27,7 @@
 <?php if($this->getItems()->getSize()): ?>
 <div class="block block-related">
     <div class="block-title">
-        <h2><?php echo $this->__('Related Products') ?></h2>
+        <strong><span><?php echo $this->__('Related Products') ?></span></strong>
     </div>
     <div class="block-content">
         <p><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" onclick="selectAllRelated(this); return false;"><?php echo $this->__('select all') ?></a></p>
@@ -40,7 +40,7 @@
                     <?php endif; ?>
                 <?php endif; ?>
                 <div class="item">
-                    <a href="<?php echo $_item->getProductUrl() ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50) ?>" width="50" height="50" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
+                    <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(50) ?>" width="50" height="50" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
                     <div class="product-details">
                         <h3 class="product-name"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h3>
                         <?php echo $this->getPriceHtml($_item, true) ?>
@@ -54,41 +54,41 @@
         </ol>
         <script type="text/javascript">decorateList('block-related', 'none-recursive')</script>
     </div>
+	<script type="text/javascript">
+    //<![CDATA[
+    $$('.related-checkbox').each(function(elem){
+        Event.observe(elem, 'click', addRelatedToProduct)
+    });
+    
+    var relatedProductsCheckFlag = false;
+    function selectAllRelated(txt){
+        if (relatedProductsCheckFlag == false) {
+            $$('.related-checkbox').each(function(elem){
+                elem.checked = true;
+            });
+            relatedProductsCheckFlag = true;
+            txt.innerHTML="<?php echo $this->__('unselect all') ?>";
+        } else {
+            $$('.related-checkbox').each(function(elem){
+                elem.checked = false;
+            });
+            relatedProductsCheckFlag = false;
+            txt.innerHTML="<?php echo $this->__('select all') ?>";
+        }
+        addRelatedToProduct();
+    }
+    
+    function addRelatedToProduct(){
+        var checkboxes = $$('.related-checkbox');
+        var values = [];
+        for(var i=0;i<checkboxes.length;i++){
+            if(checkboxes[i].checked) values.push(checkboxes[i].value);
+        }
+        if($('related-products-field')){
+            $('related-products-field').value = values.join(',');
+        }
+    }
+    //]]>
+    </script>
 </div>
-<script type="text/javascript">
-//<![CDATA[
-$$('.related-checkbox').each(function(elem){
-    Event.observe(elem, 'click', addRelatedToProduct)
-});
-
-var relatedProductsCheckFlag = false;
-function selectAllRelated(txt){
-    if (relatedProductsCheckFlag == false) {
-        $$('.related-checkbox').each(function(elem){
-            elem.checked = true;
-        });
-        relatedProductsCheckFlag = true;
-        txt.innerHTML="<?php echo $this->__('unselect all') ?>";
-    } else {
-        $$('.related-checkbox').each(function(elem){
-            elem.checked = false;
-        });
-        relatedProductsCheckFlag = false;
-        txt.innerHTML="<?php echo $this->__('select all') ?>";
-    }
-    addRelatedToProduct();
-}
-
-function addRelatedToProduct(){
-    var checkboxes = $$('.related-checkbox');
-    var values = [];
-    for(var i=0;i<checkboxes.length;i++){
-        if(checkboxes[i].checked) values.push(checkboxes[i].value);
-    }
-    if($('related-products-field')){
-        $('related-products-field').value = values.join(',');
-    }
-}
-//]]>
-</script>
 <?php endif ?>

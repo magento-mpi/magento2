@@ -27,10 +27,10 @@
 <?php if(isset($poll)) : ?>
 <div class="block block-poll">
     <div class="block-title">
-        <h2><?php echo $this->__('Community Poll') ?></h2>
+        <strong><span><?php echo $this->__('Community Poll') ?></span></strong>
     </div>
     <div class="block-content">
-        <h3><?php echo $poll->getPollTitle(); ?></h3>
+        <p class="block-subtitle"><?php echo $poll->getPollTitle(); ?></p>
         <?php if( $poll_answers ): ?>
         <ol>
             <?php foreach( $poll_answers as $answer ): ?>

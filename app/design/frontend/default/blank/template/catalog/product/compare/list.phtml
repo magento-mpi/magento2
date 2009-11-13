@@ -26,8 +26,8 @@
 /* @var $this Mage_Catalog_Block_Product_Compare_List */
 ?>
 <div class="page-title title-buttons">
-    <h2><?php echo $this->__('Compare Products') ?></h2>
-    <a href="#" onclick="window.print(); return false;"><?php echo $this->__('Print This Page') ?></a>
+    <h1><?php echo $this->__('Compare Products') ?></h1>
+    <a href="#" onclick="window.print(); return false;" class="link-print"><?php echo $this->__('Print This Page') ?></a>
 </div>
 <?php $_total=$this->getItems()->getSize() ?>
 <?php if($_total): ?>
@@ -47,7 +47,7 @@
                 <?php if($_i++%10==0): ?>
                     <th>&nbsp;</th>
                 <?php endif; ?>
-                <td class="a-right"><a href="#" onclick="setLocation('<?php echo $this->getRemoveUrl($_item) ?>') ;window.opener.location.reload();" title="<?php echo $this->__('Remove Product') ?>"><img src="<?php echo $this->getSkinUrl('images/list_remove_btn.gif') ?>" alt="<?php echo $this->__('Remove Product') ?>" /></a></td>
+                <td class="a-right"><a href="#" class="btn-remove" onclick="setLocation('<?php echo $this->getRemoveUrl($_item) ?>'); window.opener.location.reload();" title="<?php echo $this->__('Remove This Item') ?>"><?php echo $this->__('Remove This Item') ?></a></td>
             <?php endforeach; ?>
             </tr>
         </thead>
@@ -90,7 +90,7 @@
                             <?php echo $this->getPriceHtml($_item, true) ?>
                             <?php break;
                         case "small_image": ?>
-                            <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" />
+                            <img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" />
                             <?php break;
                         default: ?>
                             <?php echo nl2br($this->getProductAttributeValue($_item, $_attribute)) ?>

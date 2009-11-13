@@ -25,7 +25,7 @@
  */
 ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Review Order') ?></h2>
+    <h1><?php echo $this->__('Review Order') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" onsubmit="return showLoader();">
@@ -213,10 +213,10 @@
 
     <p class="grand-total"><big><?php echo $this->__('Grand Total:') ?></big> <?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></p>
     <div class="buttons-set" id="review-buttons-container">
-        <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Billing Information') ?></a>
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo;</small><?php echo $this->__('Back to Billing Information') ?></a></p>
         <button type="submit" class="button" id="review-button"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
-        <span id="review-please-wait" class="please-wait" style="display:none;">
-            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
+        <span class="please-wait" id="review-please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
         </span>
     </div>
 </fieldset>

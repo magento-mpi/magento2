@@ -26,14 +26,14 @@
 ?>
 <?php $_order = $this->getOrder() ?>
 <div class="page-title title-buttons">
-    <h2><?php echo $this->__('My Orders - Details') ?></h2>
+    <h1><?php echo $this->__('My Orders - Details') ?></h1>
     <button class="button"><span><span><?php echo $this->__('Print All Invoices') ?></span></span></button>
 </div>
 <h3><?php echo $this->__('Order #%s', $_order->getRealOrderId()) ?></h3>
 <?php foreach ($this->getInvoices() as $_invoice): ?>
 <div class="page-title">
     <h3><?php echo $this->__('Invoice #%s', $_invoice->getIncrementId()) ?></h3>
-    <a href="#"><?php echo $this->__('Print Invoice') ?></a>
+    <a href="#" class="link-print"><?php echo $this->__('Print Invoice') ?></a>
 </div>
 <div class="col2-set">
     <div class="col-1">

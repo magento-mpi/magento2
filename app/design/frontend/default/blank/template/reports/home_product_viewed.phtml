@@ -32,14 +32,14 @@
 ?>
 <?php if ($_products = $this->getRecentlyViewedProducts()): ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Your Recently Viewed') ?></h2>
+    <h1><?php echo $this->__('Your Recently Viewed') ?></h1>
 </div>
 <table class="products-grid" id="recently-viewed-list-table">
     <tr>
     <?php $i=0; foreach ($_products as $_product): ?>
         <?php if ($i>5): continue; endif; ?>
         <td>
-            <a class="product-image" href="<?php echo $this->getProductUrl($_product) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(80, 77) ?>" width="80" height="77" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
+            <a href="<?php echo $this->getProductUrl($_product) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(80, 77) ?>" width="80" height="77" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
             <h3 class="product-name"><a href="<?php echo $this->getProductUrl($_product) ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></h3>
             <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
             <?php echo $this->getPriceHtml($_product, true, '-home-viewed') ?>

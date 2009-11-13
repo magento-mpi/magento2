@@ -25,16 +25,16 @@
  */
 ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Edit Tag') ?></h2>
+    <h1><?php echo $this->__('Edit Tag') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form id="addTagForm" action="<?php echo $this->getFormAction(); ?>"  method="post">
-<fieldset class="group-select">
+<fieldset>
     <h3><?php echo $this->__('Tag Information') ?></h3>
     <p><input type="text" class="input-text required-entry" name="productTagName" value="<?php echo $this->htmlEscape($this->getTag()->getName()) ?>" /></p>
 </fieldset>
 <div class="buttons-set">
-    <a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>" class="back-link">&laquo; <?php echo $this->__('Back to view Tag') ?></a>
+    <p class="back-link"><a href="<?php echo $this->getUrl('*/*/view/', array('tagId' => $this->getTag()->getTagId())) ?>"><small>&laquo;</small><?php echo $this->__('Back to view Tag') ?></a></p>
     <button type="button" class="button" onclick="tagForm.submit();"><span><span><?php echo $this->__('Save Tag') ?></span></span></button>
 </div>
 </form>

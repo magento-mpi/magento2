@@ -43,7 +43,7 @@
             <input alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>" src="<?php echo $this->htmlEscape($this->getImageUrl())?>" type="image" />
         </form>
         <?php else: ?>
-        <a href="<?php echo $this->getCheckoutUrl();?>"><img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>"></a>
+        <a href="<?php echo $this->getCheckoutUrl();?>" title="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>"><img src="<?php echo $this->htmlEscape($this->getImageUrl())?>" alt="<?php echo Mage::helper('amazonpayments')->__('Checkout by Amazon');?>" /></a>
         <?php endif; ?>
     <?php endif; ?>
 </li>

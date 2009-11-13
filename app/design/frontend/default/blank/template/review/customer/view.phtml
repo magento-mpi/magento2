@@ -27,10 +27,10 @@
 <?php if($this->getProductData()->getId()): ?>
 <div class="product-review">
     <div class="page-title">
-        <h2><?php echo $this->__('Review Details') ?></h2>
+        <h1><?php echo $this->__('Review Details') ?></h1>
     </div>
     <div>
-        <a class="product-image" href="<?php echo $this->getProductData()->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'small_image')->resize(125, 125); ?>" alt="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" height="125" width="125" /></a>
+        <a href="<?php echo $this->getProductData()->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'small_image')->resize(125, 125); ?>" alt="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" height="125" width="125" /></a>
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
         <p><?php echo $this->__('Average Customer Rating:') ?></p>
         <?php echo $this->getReviewsSummaryHtml($this->getProductData()) ?>
@@ -58,7 +58,7 @@
         <p><?php echo nl2br($this->htmlEscape($this->getReviewData()->getDetail())) ?></p>
     </div>
     <div class="buttons-set">
-        <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to My Reviews') ?></a>
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo;</small><?php echo $this->__('Back to My Reviews') ?></a></p>
     </div>
 </div>
 <?php endif; ?>

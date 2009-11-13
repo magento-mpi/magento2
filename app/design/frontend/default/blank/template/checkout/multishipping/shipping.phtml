@@ -32,7 +32,7 @@
  */
 ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Select Shipping Method') ?></h2>
+    <h1><?php echo $this->__('Select Shipping Method') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post" id="shipping_method_form">
@@ -105,7 +105,7 @@
     <?php endforeach; ?>
     <?php echo $this->getChildHtml('checkout_billing_items') ?>
     <div class="buttons-set">
-        <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back to Select Addresses') ?></a>
+        <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo;</small><?php echo $this->__('Back to Select Addresses') ?></a></p>
         <button class="button" type="submit"><span><span><?php echo $this->__('Continue to Billing Information') ?></span></span></button>
     </div>
 </fieldset>

@@ -34,7 +34,7 @@
 <?php if($this->getCurrencyCount()>1): ?>
 <div class="block block-currency">
     <div class="block-title">
-        <h2><?php echo $this->__('Select Your Currency') ?></h2>
+        <strong><span><?php echo $this->__('Select Your Currency') ?></span></strong>
     </div>
     <div class="block-content">
         <select name="currency" onchange="changeCurrency(this)">
@@ -45,14 +45,14 @@
         <?php endforeach; ?>
         </select>
     </div>
-</div>
-<script type="text/javascript">
-//<![CDATA[
-function changeCurrency(sObject){
-    if(sObject.value){
-        setLocation('<?php echo $this->helper('directory/url')->getSwitchCurrencyUrl() ?>currency/'+sObject.value);
+	<script type="text/javascript">
+    //<![CDATA[
+    function changeCurrency(sObject){
+        if(sObject.value){
+            setLocation('<?php echo $this->helper('directory/url')->getSwitchCurrencyUrl() ?>currency/'+sObject.value);
+        }
     }
-}
-//]]>
-</script>
+    //]]>
+    </script>
+</div>
 <?php endif; ?>

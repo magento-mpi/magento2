@@ -25,7 +25,7 @@
  */
 ?>
 <div class="page-title">
-    <h2><?php echo $this->__('Wishlist') ?></h2>
+    <h1><?php echo $this->__('Wishlist') ?></h1>
 </div>
 <?php if($wishlist->getSize()): ?>
 <form action="<?php echo $this->getUrl('customer/wishlist/updatePost') ?>" method="post">
@@ -62,6 +62,6 @@
 <?php else: ?>
     <p><?php echo $this->__('You have placed no products yet.') ?></p>
     <div class="buttons-set">
-        <a href="<?php echo $this->getUrl('customer/account') ?>" class="back-link">&laquo; <?php echo $this->__('Back - link to the previously viewed page') ?></a>
+        <p class="back-link"><a href="<?php echo $this->getUrl('customer/account') ?>"><small>&laquo;</small><?php echo $this->__('Back - link to the previously viewed page') ?></a></p>
     </div>
 <?php endif ?>

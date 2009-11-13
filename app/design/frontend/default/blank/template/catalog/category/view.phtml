@@ -36,58 +36,36 @@
     $_category  = $this->getCurrentCategory();
     $_imgHtml   = '';
     if ($_imgUrl = $_category->getImageUrl()) {
-        $_imgHtml = '<img src="'.$_imgUrl.'" alt="'.$this->htmlEscape($_category->getName()).'" title="'.$this->htmlEscape($_category->getName()).'" class="category-image" />';
+        $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->htmlEscape($_category->getName()).'" title="'.$this->htmlEscape($_category->getName()).'" /></p>';
         $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
     }
 ?>
+<div class="page-title category-title">
+    <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
+        <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
+    <?php endif; ?>
+    <h1><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h1>
+</div>
+
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+
+<?php if($_imgUrl): ?>
+    <?php echo $_imgHtml ?>
+<?php endif; ?>
+
+<?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
+        <div class="category-description"><?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?></div>
+    <?php endif; ?>
+
 <?php if($this->isContentMode()): ?>
-    <div class="category-title">
-    <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
-        <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
-    <?php endif; ?>
-    <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
-    </div>
-    <?php if($_imgUrl): ?>
-        <?php echo $_imgHtml ?>
-    <?php endif; ?>
-    <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
-        <p class="category-description"><?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?></p>
-    <?php endif; ?>
     <?php echo $this->getCmsBlockHtml() ?>
+
 <?php elseif($this->isMixedMode()): ?>
-    <div class="category-title">
-    <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
-        <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
-    <?php endif; ?>
-    <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
-    </div>
-    <?php if($_imgUrl): ?>
-        <?php echo $_imgHtml ?>
-    <?php endif; ?>
-    <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
-        <p class="category-description"><?php echo $_helper->categoryAttribute($_category, $_description, 'description'); ?></p>
-    <?php endif; ?>
-    <?php /*
-    <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
-        <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
-    <?php endif; ?>
-          */ ?>
     <?php echo $this->getCmsBlockHtml() ?>
+    <h2 class="hidden"><?php echo $this->__('Category Products'); ?></h2>
     <?php echo $this->getProductListHtml() ?>
 
 <?php else: ?>
-    <div class="category-title">
-    <?php if($this->IsRssCatalogEnable() && $this->IsTopCategory()): ?>
-        <a href="<?php echo $this->getRssLink() ?>" class="link-rss"><?php echo $this->__('Subscribe to RSS Feed') ?></a>
-    <?php endif; ?>
-    <h2><?php echo $_helper->categoryAttribute($_category, $this->htmlEscape($this->getCurrentCategory()->getName()), 'name') ?></h2>
-    </div>
-    <?php if($_imgUrl): ?>
-        <?php echo $_imgHtml ?>
-    <?php endif; ?>
-    <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
-        <p class="category-description"><?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?></p>
-    <?php endif; ?>
+    <h2 class="hidden"><?php echo $this->__('Category Products'); ?></h2>
     <?php echo $this->getProductListHtml() ?>
 <?php endif; ?>
