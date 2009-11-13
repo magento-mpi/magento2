@@ -204,16 +204,21 @@ class Mage_Sales_Block_Order_Totals extends Mage_Core_Block_Template
     public function addTotalBefore(Varien_Object $total, $before=null)
     {
         if ($before !== null) {
-            if (isset($this->_totals[$before])) {
-                $totals = array();
-                foreach ($this->_totals as $code => $item) {
-                    if ($code == $before) {
-                        $totals[$total->getCode()] = $total;
+            if (!is_array($before)) {
+                $before = array($before);
+            }
+            foreach ($before as $beforeTotals) {
+                if (isset($this->_totals[$beforeTotals])) {
+                    $totals = array();
+                    foreach ($this->_totals as $code => $item) {
+                        if ($code == $beforeTotals) {
+                            $totals[$total->getCode()] = $total;
+                        }
+                        $totals[$code] = $item;
                     }
-                    $totals[$code] = $item;
+                    $this->_totals = $totals;
+                    return $this;
                 }
-                $this->_totals = $totals;
-                return $this;
             }
         }
         $totals = array();

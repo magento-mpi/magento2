@@ -40,7 +40,7 @@ class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Mage_Core_B
     {
         return $this->getParentBlock()->getSource();
     }
-    
+
     /**
      * Retreive gift cards applied to current order
      *
@@ -77,7 +77,7 @@ class Enterprise_GiftCardAccount_Block_Sales_Order_Giftcards extends Mage_Core_B
             'block_name'=> $this->getNameInLayout(),
             'area'      => $this->getArea()
         ));
-        $this->getParentBlock()->addTotalBefore($total, 'grand_total');
+        $this->getParentBlock()->addTotalBefore($total, array('customerbalance', 'grand_total'));
         return $this;
     }
 
