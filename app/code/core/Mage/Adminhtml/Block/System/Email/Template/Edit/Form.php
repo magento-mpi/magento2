@@ -34,6 +34,21 @@
 
 class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
+    /**
+     * Prepare layout.
+     * Add files to use dialog windows
+     *
+     * @return Mage_Adminhtml_Block_System_Email_Template_Edit_Form
+     */
+    protected function _prepareLayout()
+    {
+        if ($head = $this->getLayout()->getBlock('head')) {
+            $head->addItem('js', 'prototype/window.js')
+                ->addItem('js_css', 'prototype/windows/themes/default.css')
+                ->addItem('js_css', 'prototype/windows/themes/magento.css');
+        }
+        return parent::_prepareLayout();
+    }
 
     /**
      * Add fields to form and create template info form
@@ -89,20 +104,31 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
             'name' => 'orig_template_variables',
         ));
 
-        $fieldset->addField('template_variables', 'select', array(
-            'name' => 'template_variables',
-            'label' => Mage::helper('adminhtml')->__('Variables To Insert'),
-            'values' => $this->getVariables(),
-            'onchange' => 'templateControl.insertVariable(this);'
+        $fieldset->addField('variables', 'hidden', array(
+            'name' => 'variables',
+            'value' => Zend_Json::encode($this->getVariables())
         ));
 
-        $fieldset->addField('template_text', 'editor', array(
+        $fieldset->addField('template_variables', 'hidden', array(
+            'name' => 'template_variables',
+        ));
+
+        $insertVariableButton = $this->getLayout()
+            ->createBlock('adminhtml/widget_button', '', array(
+                'type' => 'button',
+                'label' => Mage::helper('adminhtml')->__('Insert Variable...'),
+                'onclick' => 'templateControl.openVariableChooser();return false;'
+            ));
+
+        $fieldset->addField('insert_variable', 'note', array(
+            'text' => $insertVariableButton->toHtml()
+        ));
+
+        $fieldset->addField('template_text', 'textarea', array(
             'name'=>'template_text',
-            'wysiwyg' => false,
             'label' => Mage::helper('adminhtml')->__('Template Content'),
+            'title' => Mage::helper('adminhtml')->__('Template Content'),
             'required' => true,
-            'theme' => 'advanced',
-            'state' => 'html',
             'style' => 'height:24em;',
         ));
 
@@ -157,10 +183,10 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
         if ($template->getId() && $templateVariables = $template->getVariablesOptionArray(true)) {
             $variables[] = $templateVariables;
         }
-        array_unshift($variables, array(
-            'value' => '',
-            'label' => Mage::helper('adminhtml')->__('-- Please Select --')
-        ));
+//        array_unshift($variables, array(
+//            'value' => '',
+//            'label' => Mage::helper('adminhtml')->__('-- Please Select --')
+//        ));
         return $variables;
     }
 }

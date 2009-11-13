@@ -123,7 +123,10 @@
     var templateControl = {
         unconvertedText: '',
         typeChange: false,
-        lastOptgroupLabel: null,
+        variablesContent: null,
+        lastDialogWindow: null,
+        overlayShowEffectOptions: null,
+        overlayHideEffectOptions: null,
         init: function () {
             if ($('convert_button_back')) {
                 $('convert_button_back').hide();
@@ -193,6 +196,9 @@
                 return;
             }
 
+            this.variablesContent = null;
+            this.lastDialogWindow = null;
+            
             new Ajax.Request($('email_template_load_form').action, {
                parameters: Form.serialize($('email_template_load_form'), true),
                area: $('email_template_load_form'),
@@ -222,29 +228,6 @@
                                else{
                                    $('used_default_for').hide();
                                }
-                          }
-                          if (pair.key == 'template_variables_option_array') {
-                              var selectElm = $('template_variables');
-                              for (var i = 0; i < (selectElm.children).length; i++) {
-                                  if (this.lastOptgroupLabel && (selectElm.children[i]).label == this.lastOptgroupLabel) {
-                                      selectElm.removeChild(selectElm.children[i]);
-                                      this.lastOptgroupLabel = null;
-                                  }
-                              }
-                              if (selectElm) {
-                                  if (pair.value && (pair.value).label && (pair.value).value) {
-                                      var optgroup = new Element('optgroup');
-                                      optgroup.label = pair.value.label;
-                                      this.lastOptgroupLabel = pair.value.label;
-                                      (pair.value.value).each(function(variable){
-                                          var option = new Element('option');
-                                          option.value = variable.value;
-                                          option.appendChild(document.createTextNode(variable.label));
-                                          optgroup.appendChild(option);
-                                      });
-                                      selectElm.appendChild(optgroup);
-                                  }
-                              }
                           }
                        }.bind(this));
                    }
@@ -276,19 +259,79 @@
             return value;
         },
 
-        insertVariable: function(selectElm) {
+        openVariableChooser: function() {
+            this.overlayShowEffectOptions = Windows.overlayShowEffectOptions;
+            this.overlayHideEffectOptions = Windows.overlayHideEffectOptions;
+            Windows.overlayShowEffectOptions = {duration:0};
+            Windows.overlayHideEffectOptions = {duration:0};
+            if (this.variablesContent == null) {
+                this.variablesContent = '<ul>';
+                var variables = $('variables').value.evalJSON();
+                var templateVariablesValue = $('template_variables').value;
+                if (variables && templateVariablesValue) {
+                    if (templateVariables = templateVariablesValue.evalJSON()) {
+                        variables.push(templateVariables);
+                    }
+                }
+                variables.each(function(variableGroup){
+                    this.variablesContent += '<li><b>' + variableGroup.label + '</b></li>';
+                    (variableGroup.value).each(function(variable){
+                        this.variablesContent += '<li style="padding-left: 20px;">' 
+                            + this.prepareVariableRow(variable.value, variable.label) + '</li>';
+                    }.bind(this));
+                }.bind(this));
+                this.variablesContent += '</ul>';
+            }
+            this.lastDialogWindow = Dialog.info(this.variablesContent, {
+                draggable:true,
+                resizable:true,
+                closable:true,
+                className:"magento",
+                title:'Insert Variable...',
+                width:700,
+                height:500,
+                zIndex:1000,
+                recenterAuto:false,
+                hideEffect:Element.hide,
+                showEffect:Element.show,
+                id:"variables-chooser",
+                onClose: this.closeVariableChooser.bind(this)
+            });
+            this.variablesContent.evalScripts.bind(this.variablesContent).defer();
+        },
+
+        closeVariableChooser: function(window) {
+            if (window) {
+                window.close();
+                Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
+                Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
+            }
+        },
+
+        prepareVariableRow: function(varValue, varLabel) {
+            var value = (varValue).replace(/"/g, '&quot;').replace(/'/g, '\\&#39;');
+            var content = '<a href="javascript:void();" onclick="templateControl.insertVariable(\''+ value +'\');">' + varLabel + '</a>';
+            return content;
+        },
+
+        insertVariable: function(value) {
             var templateField = $('template_text');
+
             var scrollPos = templateField.scrollTop;
             var strPos = templateField.selectionStart;
+
             var front = (templateField.value).substring(0, strPos);
             var back = (templateField.value).substring(strPos, templateField.value.length);
-            templateField.value = front + selectElm.value + back;
-            strPos = strPos + (selectElm.value).length;
+
+            strPos = strPos + (value).length;
+            
+            templateField.value = front + value + back;
             templateField.selectionStart = strPos;
             templateField.selectionEnd = strPos;
             templateField.focus();
             templateField.scrollTop = scrollPos;
-            selectElm.selectedIndex = 0;
+            
+            this.closeVariableChooser(this.lastDialogWindow);
         }
     };
 
