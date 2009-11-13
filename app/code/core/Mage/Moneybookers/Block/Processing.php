@@ -35,7 +35,6 @@ class Mage_Moneybookers_Block_Processing extends Mage_Core_Block_Abstract
             ->setName('moneybookers_checkout')
             ->setMethod('GET')
             ->setUseContainer(true);
-Mage::log($payment->getData());
         foreach ($payment->getFormFields() as $field=>$value) {
             $form->addField($field, 'hidden', array('name'=>$field, 'value'=>$value));
         }
