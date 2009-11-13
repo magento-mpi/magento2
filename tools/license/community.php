@@ -39,6 +39,7 @@ updateLicense('app/etc/modules', 'Mage_*.xml', REGEX_XML, REPLACEMENT_XML, NOTIC
 updateLicense(array(
         'app/design/adminhtml/default/default/template',
         '!app/design/adminhtml/default/default/template/enterprise', // "!" = skip
+        'app/design/frontend/base/default/template',
         'app/design/frontend/default/default/template',
         'app/design/frontend/default/blank/template',
         'app/design/frontend/default/modern/template',
@@ -51,6 +52,7 @@ updateLicense(array(
 updateLicense(array(
         'app/design/adminhtml/default/default/layout',
         '!app/design/adminhtml/default/default/layout/enterprise', // "!" = skip
+        'app/design/frontend/base/default/layout',
         'app/design/frontend/default/default/layout',
         'app/design/frontend/default/blank/layout',
         'app/design/frontend/default/modern/layout',
@@ -71,7 +73,10 @@ updateLicense(array(
     ), array('*.css', '*.js'),
     REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'default_default'), true, true, true
 );
-// frontend skins for blank, modern and iphone themes
+// frontend skins for base, blank, modern and iphone themes
+updateLicense('skin/frontend/base/default', array('*.css', '*.js'),
+    REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'base_default'), true, true, true
+);
 updateLicense('skin/frontend/default/blank', array('*.css', '*.js'),
     REGEX_SKIN, REPLACEMENT_SKIN, NOTICE_AFL, array('design', 'default_blank'), true, true, true
 );
