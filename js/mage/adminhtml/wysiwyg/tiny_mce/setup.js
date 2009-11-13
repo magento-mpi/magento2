@@ -206,8 +206,18 @@ tinyMceWysiwygSetup.prototype =
     },
 
 	encodeDirectives: function(content) {
-        return content.gsub(/(src|href)=["'](\{\{.+?\}\}.*?)["']/i, function(match) {
-            return match[1] + '="' + this.config.directives_url + '___directive/' + Base64.mageEncode(match[2]) + '/"';
+	    // collect all HTML tags with attributes that contain directives
+        return content.gsub(/<([a-z0-9\-\_]+.+?)([a-z0-9\-\_]+=["']\{\{.+?\}\}.*?["'].+?)>/i, function(match) {
+            var attributesString = match[2];
+            // process tag attributes string
+            attributesString = attributesString.gsub(/([a-z0-9\-\_]+)=["'](\{\{.+?\}\})(.*?)["']/i, function(m) {
+                // include server URL only for images src to avoid unnecessary requests
+                var url = m[1].toLowerCase() == 'src' ? this.config.directives_url : '';
+                return m[1] + '="' + url + '___directive/' + Base64.mageEncode(m[2]) + '/' + m[3] + '"';
+            }.bind(this));
+
+            return '<' + match[1] + attributesString + '>';
+
         }.bind(this));
     },
 
@@ -232,9 +242,8 @@ tinyMceWysiwygSetup.prototype =
     },
 
     decodeDirectives: function(content) {
-        var reg = new RegExp('(href|src)="http[^"]+?___directive\/([a-zA-Z0-9\-\_\,]+)\/[^"]*', 'i');
-        return content.gsub(reg, function(match) {
-            return match[1] + '="' + Base64.mageDecode(match[2]);
+        return content.gsub(/([a-z0-9\-\_]+)=["].*?___directive\/([a-zA-Z0-9\-\_\,]+)\/(.*?)["]/i, function(match) {
+            return match[1] + '="' + Base64.mageDecode(match[2]) + match[3] + '"';
         }.bind(this));
     },
 
