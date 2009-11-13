@@ -442,6 +442,8 @@ ul.disc li { padding-left:10px; background:url(../images/bkg_bulletsm.gif) no-re
 .header .quick-access .links li a { color:#1e75b4; text-transform:uppercase; text-decoration:none; }
 .header .quick-access .links li a:hover { color:#d33911; }
 .header .quick-access .checkout-link li { font-weight:bold; padding:0 0 0 12px; background-position:6px 4px; }
+.header .quick-access .cart-link li { font-weight:bold; padding:0 0 0 0px; background:none; }
+
 
 #invitation-send-link { background:url(../images/bkg_sep.gif) no-repeat 100% 50%; padding:0 6px 0 0; margin:0 4px 0 0; font-weight:bold; }
 #invitation-send-link a { background:url(../images/bkg_invitation-link.gif) no-repeat 3px 6px; padding-left:23px; display:inline-block; }

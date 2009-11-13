@@ -32,7 +32,19 @@
 ?>
 
 <div class="top-cart">
-    <?php $_cartQty = $this->getSummaryCount() ?>
+<?php $_cartQty = $this->getSummaryCount() ?>
+<?php if ($this->getIsLinkMode()):?>
+    <?php if ($_cartQty==1): ?>
+        <?php $_myCart = $this->__('My Cart (<strong>1</strong>)') ?>
+    <?php else: ?>
+        <?php $_myCart = $this->__('My Cart (<strong>%s</strong>)', $_cartQty) ?>
+    <?php endif ?>
+    <div class="block-title no-items">
+        <ul class="links cart-link">
+            <li ><a href="<?php echo $this->getUrl('checkout/cart'); ?>"><?php echo $_myCart ?></a></li>
+        </ul>
+    </div>
+<?php else:?>
     <div class="block-title<?php if(!$_cartQty) { echo (' no-items'); } ?>">
         <?php if ($_cartQty>0): ?>
             <h3 id="cartHeader">
@@ -44,7 +56,7 @@
             </h3>
         <?php else: ?>
             <h3 id="cartHeader"><?php echo $this->__('My Cart') ?> (<strong>0</strong>)</h3>
-        <?php endif ?>       
+        <?php endif ?>
     </div>
     <div id="topCartContent" class="block-content" style="display:none">
         <div class="inner-wrapper"><?php // extra div to smooth slideUp and slideDown ?>
@@ -64,7 +76,7 @@
             <h3>
                 <span onclick="Enterprise.TopCart.hideCart()" class="close-btn"><?php echo $this->__('Close'); ?></span>
                 <?php echo $this->__('Recently added item(s)') ?>
-            </h3>        
+            </h3>
             <p class="cart-empty">
                 <?php echo $this->__('You have no items in your shopping cart.') ?>
             </p>
@@ -72,7 +84,7 @@
         <?php if($_cartQty && $this->isPossibleOnepageCheckout()): ?>
             <p class="subtotal">
                 <span class="label"><?php echo $this->__('Cart Subtotal:') ?></span> <?php echo Mage::helper('checkout')->formatPrice($this->getSubtotal()) ?><?php if ($_subtotalInclTax = $this->getSubtotalInclTax()): ?> / <?php echo Mage::helper('checkout')->formatPrice($_subtotalInclTax) ?> <?php echo Mage::helper('tax')->getIncExcText(true) ?><?php endif; ?>
-            </p>        
+            </p>
             <div class="actions">
                 <a href="<?php echo $this->getUrl('checkout/cart'); ?>"><span><?php echo $this->__('Go to Shopping Cart') ?></span></a>
                 <button class="button" type="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>
@@ -80,17 +92,10 @@
         <?php endif ?>
         </div>
     </div>
+<script type="text/javascript">
+    Enterprise.TopCart.initialize('topCartContent');
+    // Below can be used to show minicart after item added
+    // Enterprise.TopCart.showCart(7);
+</script>
+<?php endif;?>
 </div>
-<?php /* if(count($_items)): ?>
-<script type="text/javascript">
-    Enterprise.TopCart.initialize('topCartContent');
-    // Below can be used to show minicart after item added
-    // Enterprise.TopCart.showCart(7);
-</script>
-<?php endif;  */?>
-<script type="text/javascript">
-    Enterprise.TopCart.initialize('topCartContent');
-    // Below can be used to show minicart after item added
-    // Enterprise.TopCart.showCart(7);
-</script>
-
