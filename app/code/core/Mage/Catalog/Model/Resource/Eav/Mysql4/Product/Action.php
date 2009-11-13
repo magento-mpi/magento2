@@ -70,9 +70,15 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Action extends Mage_Catalog
                     continue;
                 }
 
+                $i = 0;
                 foreach ($entityIds as $entityId) {
                     $object->setId($entityId);
+                    // collect data for save
                     $this->_saveAttributeValue($object, $attribute, $value);
+                    // save collected data every 1000 rows
+                    if ($i % 1000 == 0) {
+                        $this->_processAttributeValues();
+                    }
                 }
             }
             $this->_processAttributeValues();
