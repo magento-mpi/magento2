@@ -344,14 +344,15 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     /**
      * Retrieve Tree Slice like two level array of node models.
      *
-     * @param int $up
-     * @param int $down
+     * @param int $up, if equals zero - no limitation
+     * @param int $down, if equals zero - no limitation
+     * @param int $maxDepth Maximum level to expand, if equals zero - no limitation
      * @param bool $brief Menu Detalization
      * @return array
      */
-    public function getTreeSlice($up = 0, $down = 0, $brief = false)
+    public function getTreeSlice($up = 0, $down = 0, $maxDepth = 0, $brief = false)
     {
-        $data = $this->_getResource()->getTreeSlice($this, $up, $down, $brief);
+        $data = $this->_getResource()->getTreeSlice($this, $up, $down, $maxDepth, $brief);
         $blankModel = Mage::getModel('enterprise_cms/hierarchy_node');
         foreach ($data as $parentId => $children) {
             foreach ($children as $childId => $child) {

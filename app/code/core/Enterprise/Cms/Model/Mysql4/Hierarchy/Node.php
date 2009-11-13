@@ -481,57 +481,74 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      * 2 level array
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
-     * @param int $up
-     * @param int $down
+     * @param int $up, if equals zero - no limitation
+     * @param int $down, if equals zero - no limitation
+     * @param int $maxDepth Maximum level to expand, if equals zero - no limitation
      * @param bool $brief Menu Detalization
      * @return array
      */
-    public function getTreeSlice($object, $up = 0, $down = 0, $brief = false)
+    public function getTreeSlice($object, $up = 0, $down = 0, $maxDepth = 0, $brief = false)
     {
         $tree       = array();
         $parentId   = $object->getParentNodeId();
 
-        /**
-         * Collect parent and neighbours
-         */
-        if ($object->getLevel() > 1) {
-            $xpath = explode('/', $object->getXpath());
-            array_pop($xpath); //remove self node
-            if (!$brief) {
-                array_pop($xpath); //remove parent node
-            }
-            $parentIds = array();
-            $useUp = $up > 0;
-            while (count($xpath) > 0) {
-                if ($useUp && $up == 0) {
-                    break;
-                }
-                $parentIds[] = array_pop($xpath);
-                if ($useUp) {
-                    $up--;
-                }
-            }
+        if ($maxDepth > 0 && $object->getLevel() > $maxDepth) {
+            return $tree;
+        }
 
-            if ($parentIds) {
-                $parentId = $parentIds[count($parentIds) -1];
-                if ($brief) {
-                    $where = $this->_getReadAdapter()->quoteInto($this->getMainTable().'.node_id IN (?)', $parentIds);
-                } else {
-                    $where = $this->_getReadAdapter()->quoteInto('parent_node_id IN (?)', $parentIds);
-                }
-                $select = $this->_getLoadSelectWithoutWhere()
-                    ->where($where)
-                    ->order(array('level', $this->getMainTable().'.sort_order'));
-                $nodes = $select->query()->fetchAll();
-                $tree = $this->_prepareRelatedStructure($nodes, $parentId, $tree);
+        $xpath = explode('/', $object->getXpath());
+        if (!$brief) {
+            array_pop($xpath); //remove self node
+        }
+        $parentIds = array();
+        $useUp = $up > 0;
+        while (count($xpath) > 0) {
+            if ($useUp && $up == 0) {
+                break;
+            }
+            $parentIds[] = array_pop($xpath);
+            if ($useUp) {
+                $up--;
             }
         }
 
         /**
          * Collect childs
          */
-        $nodes = $this->_getSliceChildren($object, $down, $brief);
-        $tree = $this->_prepareRelatedStructure($nodes, $parentId, $tree);
+        $children = array();
+        if ($maxDepth > 0 && $maxDepth > $object->getLevel() || $maxDepth == 0) {
+            $children = $this->_getSliceChildren($object, $down, $maxDepth);
+        }
+
+        /**
+         * Collect parent and neighbours
+         */
+        if ($parentIds) {
+            $parentId = $parentIds[count($parentIds) -1];
+            if ($brief) {
+                $where = $this->_getReadAdapter()->quoteInto($this->getMainTable().'.node_id IN (?)', $parentIds);
+                // Collect neighbours if there are no children
+                if (count($children) == 0) {
+                    $where.= $this->_getReadAdapter()->quoteInto(' OR parent_node_id=?', $object->getParentNodeId());
+                }
+            } else {
+                $where = $this->_getReadAdapter()->quoteInto('parent_node_id IN (?) OR parent_node_id IS NULL', $parentIds);
+            }
+        } else {
+            $where = 'parent_node_id IS NULL';
+        }
+
+        $select = $this->_getLoadSelectWithoutWhere()
+            ->where($where)
+            ->order(array('level', $this->getMainTable().'.sort_order'));
+        $nodes = $select->query()->fetchAll();
+        $tree = $this->_prepareRelatedStructure($nodes, 0, $tree);
+
+
+        // add children to tree
+        if (count($children) > 0) {
+            $tree = $this->_prepareRelatedStructure($children, 0, $tree);
+        }
 
         return $tree;
     }
@@ -540,45 +557,23 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      * Return object nested childs and its neighbours in Tree Slice
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
-     * @param int $down Number of Child Node Levels to Include
-     * @param bool $brief Menu Detalization
+     * @param int $down Number of Child Node Levels to Include, if equals zero - no limitation
+     * @param int $maxDepth Maximum level to expand, if equals zero - no limitation
      * @return array
      */
-    protected function _getSliceChildren($object, $down = 0, $brief = false)
+    protected function _getSliceChildren($object, $down = 0, $maxDepth = 0)
     {
-        if ($object->getParentNodeId() === null) {
-            $where = 'parent_node_id IS NULL';
-        } else {
-            $where = $this->_getReadAdapter()->quoteInto('parent_node_id=?', $object->getParentNodeId());
+        $select = $this->_getLoadSelectWithoutWhere();
+
+        $xpath = $object->getXpath() . '/%';
+        $select->where('xpath LIKE ?', $xpath);
+
+        if (max($down, $maxDepth) > 0) {
+            $maxLevel = $maxDepth > 0 ? min($maxDepth, $object->getLevel() + $down) : $object->getLevel() + $down;
+            $select->where('level <= ?', $maxLevel);
         }
-        if ($down > 0) {
-            $xpath = $object->getXpath() . '/%';
-            $level = $object->getLevel() + $down + 1;
-            $where .= ' OR (' . $this->_getReadAdapter()->quoteInto('xpath LIKE ?', $xpath)
-                . ' AND ' . $this->_getReadAdapter()->quoteInto('level < ?', $level) . ')';
-        }
-
-        $select = $this->_getLoadSelectWithoutWhere()
-            ->where($where)
-            ->order(array('level', $this->getMainTable().'.sort_order'));
-
-        $nodes = $select->query()->fetchAll();
-
-        // remove neighbours for brief menu if object has childs
-        if ($brief && count($nodes)) {
-            $maxLevel = $nodes[count($nodes) - 1]['level'];
-            if ($maxLevel > $object->getLevel()) {
-                $result = array();
-                foreach ($nodes as $node) {
-                    if ($node['level'] > $object->getLevel() || $node['node_id'] == $object->getNodeId()) {
-                        $result[] = $node;
-                    }
-                }
-                return $result;
-            }
-        }
-
-        return $nodes;
+        $select->order(array('level', $this->getMainTable().'.sort_order'));
+        return $select->query()->fetchAll();
     }
 
 
@@ -593,7 +588,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     protected function _prepareRelatedStructure($nodes, $startNodeId, $tree)
     {
         foreach ($nodes as $row) {
-            $parentNodeId = $row['parent_node_id'] == $startNodeId ? 0 : $row['parent_node_id'];
+            $parentNodeId = (int)$row['parent_node_id'] == $startNodeId ? 0 : $row['parent_node_id'];
             $tree[$parentNodeId][$row[$this->getIdFieldName()]] = $row;
         }
 
@@ -608,7 +603,6 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      */
     public function getParentNodeChildren($object)
     {
-        $children = array();
         if ($object->getParentNodeId() === null) {
             $where = 'parent_node_id IS NULL';
         } else {

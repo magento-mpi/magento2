@@ -240,8 +240,8 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
         ));
 
         $menuBriefOptions = array(
-            array('value' => 1, 'label' => Mage::helper('enterprise_cms')->__('Brief')),
-            array('value' => 0, 'label' => Mage::helper('enterprise_cms')->__('Detailed')),
+            array('value' => 1, 'label' => Mage::helper('enterprise_cms')->__('Only Children')),
+            array('value' => 0, 'label' => Mage::helper('enterprise_cms')->__('Neighbours and Children')),
         );
         $menuFieldset->addField('menu_brief', 'select', array(
             'label'     => Mage::helper('enterprise_cms')->__('Menu Detalization'),

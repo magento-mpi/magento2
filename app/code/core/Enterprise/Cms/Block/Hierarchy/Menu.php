@@ -372,13 +372,13 @@ class Enterprise_Cms_Block_Hierarchy_Menu extends Mage_Core_Block_Template
             }
             $down = $this->_getData('down');
             if (!abs(intval($down))) {
-                $down = 1;
+                $down = 0;
             }
 
             $tree = $this->_node
                 ->setCollectActivePagesOnly(true)
                 ->setCollectIncludedPagesOnly(true)
-                ->getTreeSlice($up, $down, $this->isBrief());
+                ->getTreeSlice($up, 1, $down, $this->isBrief());
 
             $this->setData('_tree', $tree);
         }
