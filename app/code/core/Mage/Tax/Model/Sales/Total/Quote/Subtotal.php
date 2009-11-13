@@ -91,6 +91,8 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
 
         $address->setSubtotalInclTax(0);
         $address->setBaseSubtotalInclTax(0);
+        $this->_subtotalInclTax     = 0;
+        $this->_baseSubtotalInclTax = 0;
 
 
         if (!$address->getTaxSubtotalIsProcessed() && $this->_needSubtractTax($address)) {
@@ -145,10 +147,10 @@ class Mage_Tax_Model_Sales_Total_Quote_Subtotal extends Mage_Sales_Model_Quote_A
      */
     protected function _resetItemPriceInclTax(Mage_Sales_Model_Quote_Item_Abstract $item)
     {
-        $item->unsPriceInclTax();
-        $item->unsBasePriceInclTax();
-        $item->unsRowTotalInclTax();
-        $item->unsBaseRowTotalInclTax();
+        $item->setPriceInclTax(null);
+        $item->setBasePriceInclTax(null);
+        $item->setRowTotalInclTax(null);
+        $item->setBaseRowTotalInclTax(null);
         return $this;
     }
 
