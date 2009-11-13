@@ -44,12 +44,6 @@ class Enterprise_GiftCardAccount_Block_Adminhtml_Giftcardaccount_Edit_Tab_Info e
             array('legend'=>Mage::helper('enterprise_giftcardaccount')->__('Information'))
         );
 
-        if ($model->getGiftcardaccountId()) {
-            $fieldset->addField('giftcardaccount_id', 'hidden', array(
-                'name' => 'giftcardaccount_id',
-            ));
-        }
-
         if ($model->getId()){
             $fieldset->addField('code', 'label', array(
                 'name'      => 'code',
