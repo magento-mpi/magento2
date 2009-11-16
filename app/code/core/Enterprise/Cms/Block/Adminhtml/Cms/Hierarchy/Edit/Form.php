@@ -593,6 +593,19 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     }
 
     /**
+     * Check whether page is locked by editor
+     *
+     * @return bool
+     */
+    public function isLockedByMe()
+    {
+        if (!$this->hasData('locked_by_me')) {
+            $this->setData('locked_by_me', $this->_getLockModel()->isLockedByMe());
+        }
+        return $this->_getData('locked_by_me');
+    }
+
+    /**
      * Retrieve lock lifetime
      *
      * @return int
