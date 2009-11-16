@@ -104,6 +104,26 @@ define('NOTICE_EE',
  * @license     http://www.magentocommerce.com/license/enterprise-edition
  */');
 
+define('PHOENIX_OSL',
+'/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * @category    {category}
+ * @package     {package}
+ * @copyright   Copyright (c) 2009 Phoenix Medien GmbH & Co. KG (http://www.phoenix-medien.de)
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */');
+
 define('BP', realpath(dirname(__FILE__) . '/../..'));
 
 /**
@@ -131,28 +151,35 @@ define('REPLACEMENT_XML', "<?xml version=\"1.0\"?" . ">\n<!--\n{notice}\n\\2");
 /**
  * Dive into directories recursively and gather all files by masks
  *
- * @param string|array $directories
+ * @param string|array $paths
  * @param string|array $fileMasks
  * @param array &$result
  */
-function globRecursive($directories, $fileMasks, &$result, $isRecursion = false)
+function globRecursive($paths, $fileMasks, &$result, $isRecursion = false)
 {
     static $skipDirectories = null;
+    static $skipFiles = null;
 
-    if (!empty($directories)) {
-        if (!is_array($directories)) {
-            $directories = array($directories);
+    if (!empty($paths)) {
+        if (!is_array($paths)) {
+            $paths = array($paths);
         }
         if (!$isRecursion) {
             $skipDirectories = array();
-            foreach ($directories as $k => $dir) {
-                if (false !== strpos($dir, '!')) {
-                    $skipDirectories[] = realpath(str_replace('!', '', $dir));
-                    unset($directories[$k]);
+            $skipFiles = array();
+            foreach ($paths as $k => $path) {
+                if (false !== strpos($path, '!')) {
+                    $real = realpath(str_replace('!', '', $path));
+                    if (is_dir($real)) {
+                        $skipDirectories[] = $real;
+                    } elseif (is_file($real)) {
+                        $skipFiles[] = $real;
+                    }
+                    unset($paths[$k]);
                 }
             }
         }
-        foreach ($directories as $dir) {
+        foreach ($paths as $dir) {
             $skip = false;
             foreach ($skipDirectories as $skipDir) {
                 if (false !== strpos(realpath($dir), $skipDir)) {
@@ -169,7 +196,9 @@ function globRecursive($directories, $fileMasks, &$result, $isRecursion = false)
             }
             foreach ($fileMasks as $filesMask) {
                 foreach (glob($dir . '/' . $filesMask) as $filename) {
-                    $result[] = $filename;
+                    if (!in_array(realpath($filename), $skipFiles)) {
+                        $result[] = $filename;
+                    }
                 }
             }
         }
