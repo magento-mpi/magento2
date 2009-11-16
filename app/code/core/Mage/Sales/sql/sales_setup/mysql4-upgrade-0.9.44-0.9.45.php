@@ -61,11 +61,12 @@ try {
         ");
     }
 
-    $installer->getConnection()->commit();
-
     foreach ($attributes as $attribute) {
         $installer->updateAttribute('order', $attribute['attribute_code'], array('type' => 'static'));
     }
+
+    $installer->getConnection()->commit();
+
 } catch (Exception $e) {
     $installer->getConnection()->rollback();
     foreach ($attributes as $attribute) {
