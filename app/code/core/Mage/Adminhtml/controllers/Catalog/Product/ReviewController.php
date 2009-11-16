@@ -96,46 +96,45 @@ class Mage_Adminhtml_Catalog_Product_ReviewController extends Mage_Adminhtml_Con
 
     public function saveAction()
     {
-        $reviewId = $this->getRequest()->getParam('id', false);
-        if ($data = $this->getRequest()->getPost()) {
-            $review = Mage::getModel('review/review')->load($reviewId)->addData($data);
-            try {
-                $review->setId($reviewId)
-                    ->save();
+        if (($data = $this->getRequest()->getPost()) && ($reviewId = $this->getRequest()->getParam('id'))) {
+            $review = Mage::getModel('review/review')->load($reviewId);
 
-                $arrRatingId = $this->getRequest()->getParam('ratings', array());
-                $votes =  Mage::getModel('rating/rating_option_vote')
-                    ->getResourceCollection()
-                    ->setReviewFilter($reviewId)
-                    ->addOptionInfo()
-                    ->load()
-                    ->addRatingOptions();
-                foreach ($arrRatingId as $ratingId=>$optionId) {
-                    if($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
-                        Mage::getModel('rating/rating')
-                            ->setVoteId($vote->getId())
-                            ->setReviewId($review->getId())
-                            ->updateOptionVote($optionId);
-                    } else {
-                        Mage::getModel('rating/rating')
-                            ->setRatingId($ratingId)
-                            ->setReviewId($review->getId())
-                            ->addOptionVote($optionId, $review->getEntityPkValue());
+            if (! $review->getId()) {
+                Mage::getSingleton('adminhtml/session')->addError(Mage::helper('catalog')->__('Review was removed by another user or does not exists'));
+            } else {
+                try {
+                    $review->addData($data)->save();
+
+                    $arrRatingId = $this->getRequest()->getParam('ratings', array());
+                    $votes = Mage::getModel('rating/rating_option_vote')
+                        ->getResourceCollection()
+                        ->setReviewFilter($reviewId)
+                        ->addOptionInfo()
+                        ->load()
+                        ->addRatingOptions();
+                    foreach ($arrRatingId as $ratingId=>$optionId) {
+                        if($vote = $votes->getItemByColumnValue('rating_id', $ratingId)) {
+                            Mage::getModel('rating/rating')
+                                ->setVoteId($vote->getId())
+                                ->setReviewId($review->getId())
+                                ->updateOptionVote($optionId);
+                        } else {
+                            Mage::getModel('rating/rating')
+                                ->setRatingId($ratingId)
+                                ->setReviewId($review->getId())
+                                ->addOptionVote($optionId, $review->getEntityPkValue());
+                        }
                     }
-                }
 
-                $review->aggregate();
+                    $review->aggregate();
 
-                Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review was saved successfully'));
-                if( $this->getRequest()->getParam('ret') == 'pending' ) {
-                    $this->getResponse()->setRedirect($this->getUrl('*/*/pending'));
-                } else {
-                    $this->getResponse()->setRedirect($this->getUrl('*/*/'));
+                    Mage::getSingleton('adminhtml/session')->addSuccess(Mage::helper('catalog')->__('Review was deleted successfully'));
+                } catch (Exception $e){
+                    Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
                 }
-                return;
-            } catch (Exception $e){
-                Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
             }
+
+            return $this->getResponse()->setRedirect($this->getUrl($this->getRequest()->getParam('ret') == 'pending' ? '*/*/pending' : '*/*/'));
         }
         $this->_redirectReferer();
     }
