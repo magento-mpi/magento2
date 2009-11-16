@@ -63,7 +63,7 @@
                         <?php break;
                         case 'select': ?>
                             <div class="input-box">
-                            	<?php echo $this->getAttributeSelectElement($_attribute) ?>
+                                <?php echo $this->getAttributeSelectElement($_attribute) ?>
                             </div>
                         <?php break;
                         case 'yesno': ?>
@@ -78,7 +78,7 @@
                         <?php break;
                         default: ?>
                         <div class="input-box">
-                        	<input type="text" name="<?php echo $_code ?>" id="<?php echo $_code ?>" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute)) ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text <?php echo $this->getAttributeValidationClass($_attribute) ?>" />
+                            <input type="text" name="<?php echo $_code ?>" id="<?php echo $_code ?>" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute)) ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text <?php echo $this->getAttributeValidationClass($_attribute) ?>" />
                         </div>
                     <?php endswitch; ?>
                 </li>

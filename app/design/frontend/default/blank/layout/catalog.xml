@@ -70,7 +70,8 @@ Default layout, loads most of the pages
 Category default layout
 -->
 
-    <catalog_category_default>
+    <catalog_category_default translate="label">
+        <label>Catalog Category (Non-Anchor)</label>
         <reference name="left">
             <block type="catalog/navigation" name="catalog.leftnav" after="currency" template="catalog/navigation/left.phtml"/>
         </reference>
@@ -100,7 +101,8 @@ Category default layout
 Category layered navigation layout
 -->
 
-    <catalog_category_layered>
+    <catalog_category_layered translate="label">
+        <label>Catalog Category (Anchor)</label>
         <reference name="left">
             <block type="catalog/layer_view" name="catalog.leftnav" after="currency" template="catalog/layer/view.phtml"/>
         </reference>
@@ -131,7 +133,8 @@ Category layered navigation layout
         </reference>
     </catalog_category_layered>
 
-    <catalog_category_layered_nochildren>
+    <catalog_category_layered_nochildren translate="label">
+        <label>Catalog Category (Without Subcategories)</label>
         <remove name="right.reports.product.viewed" />
         <reference name="right">
             <block type="reports/product_viewed" before="right.permanent.callout" name="left.reports.product.viewed" template="reports/product_viewed.phtml" />
@@ -142,7 +145,8 @@ Category layered navigation layout
 Compare products page
 -->
 
-    <catalog_product_compare_index>
+    <catalog_product_compare_index translate="label">
+        <label>Catalog Product Compare List</label>
         <!-- Mage_Catalog -->
         <reference name="root">
             <action method="setTemplate"><template>page/popup.phtml</template></action>
@@ -159,7 +163,7 @@ Compare products page
     <customer_account_index>
 
         <reference name="right">
-            <action method="unsetChild"><name>catalog_compare_sidebar</name></action>
+            <action method="unsetChild"><name>catalog.compare.sidebar</name></action>
         </reference>
     </customer_account_index>
 
@@ -167,7 +171,8 @@ Compare products page
 Product view
 -->
 
-    <catalog_product_view>
+    <catalog_product_view translate="label">
+        <label>Catalog Product View (Any)</label>
         <!-- Mage_Catalog -->
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
@@ -181,9 +186,17 @@ Product view
         </reference>
         <reference name="content">
             <block type="catalog/product_view" name="product.info" template="catalog/product/view.phtml">
+                <!--
+                <action method="addReviewSummaryTemplate"><type>default</type><template>review/helper/summary.phtml</template></action>
+                <action method="addReviewSummaryTemplate"><type>short</type><template>review/helper/summary_short.phtml</template></action>
+                <action method="addReviewSummaryTemplate"><type>...</type><template>...</template></action>
+                -->
                 <block type="catalog/product_view_media" name="product.info.media" as="media" template="catalog/product/view/media.phtml"/>
-                <block type="core/text_list" name="alert.urls" as="alert_urls" />
-                <block type="catalog/product_view" name="product.tierprices" as="tierprices" template="catalog/product/view/tierprices.phtml"/>
+                <block type="core/text_list" name="alert.urls" as="alert_urls" translate="label">
+                    <label>Alert Urls</label>
+                </block>
+
+                <action method="setTierPriceTemplate"><template>catalog/product/view/tierprices.phtml</template></action>
 
                 <block type="catalog/product_list_upsell" name="product.info.upsell" as="upsell_products" template="catalog/product/list/upsell.phtml">
                     <action method="setColumnCount"><columns>4</columns></action>
@@ -196,17 +209,19 @@ Product view
                 <block type="catalog/product_view" name="product.info.addto" as="addto" template="catalog/product/view/addto.phtml"/>
                 <block type="catalog/product_view" name="product.info.addtocart" as="addtocart" template="catalog/product/view/addtocart.phtml"/>
 
-                <block type="catalog/product_view" name="product.info.options.wrapper" as="product_options_wrapper" template="catalog/product/view/options/wrapper.phtml">
+                <block type="catalog/product_view" name="product.info.options.wrapper" as="product_options_wrapper" template="catalog/product/view/options/wrapper.phtml" translate="label">
+                    <label>Info Column Options Wrapper</label>
                     <block type="core/template" name="options_js" template="catalog/product/view/options/js.phtml"/>
                     <block type="catalog/product_view_options" name="product.info.options" as="product_options" template="catalog/product/view/options.phtml">
                         <action method="addOptionRenderer"><type>text</type><block>catalog/product_view_options_type_text</block><template>catalog/product/view/options/type/text.phtml</template></action>
                         <action method="addOptionRenderer"><type>file</type><block>catalog/product_view_options_type_file</block><template>catalog/product/view/options/type/file.phtml</template></action>
                         <action method="addOptionRenderer"><type>select</type><block>catalog/product_view_options_type_select</block><template>catalog/product/view/options/type/select.phtml</template></action>
                         <action method="addOptionRenderer"><type>date</type><block>catalog/product_view_options_type_date</block><template>catalog/product/view/options/type/date.phtml</template></action>
+                </block>
                         <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
                     </block>
-                </block>
-                <block type="catalog/product_view" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="catalog/product/view/options/wrapper/bottom.phtml">
+                <block type="catalog/product_view" name="product.info.options.wrapper.bottom" as="product_options_wrapper_bottom" template="catalog/product/view/options/wrapper/bottom.phtml" translate="label">
+                    <label>Bottom Block Options Wrapper</label>
                     <action method="insert"><block>product.tierprices</block></action>
                     <block type="catalog/product_view" name="product.clone_prices" as="prices" template="catalog/product/view/price_clone.phtml"/>
                     <action method="append"><block>product.info.addtocart</block></action>
@@ -236,12 +251,14 @@ Product view
 <!--
 Additional block dependant on product type
 -->
-    <PRODUCT_TYPE_simple>
+    <PRODUCT_TYPE_simple translate="label" module="catalog">
+        <label>Catalog Product View (Simple)</label>
         <reference name="product.info">
             <block type="catalog/product_view_type_simple" name="product.info.simple" as="product_type_data" template="catalog/product/view/type/simple.phtml"/>
         </reference>
     </PRODUCT_TYPE_simple>
-    <PRODUCT_TYPE_configurable>
+    <PRODUCT_TYPE_configurable translate="label" module="catalog">
+        <label>Catalog Product View (Configurable)</label>
         <reference name="product.info">
             <block type="catalog/product_view_type_configurable" name="product.info.configurable" as="product_type_data" template="catalog/product/view/type/configurable.phtml"/>
         </reference>
@@ -249,12 +266,14 @@ Additional block dependant on product type
             <block type="catalog/product_view_type_configurable" name="product.info.options.configurable" as="options_configurable" before="-" template="catalog/product/view/type/options/configurable.phtml"/>
         </reference>
     </PRODUCT_TYPE_configurable>
-    <PRODUCT_TYPE_grouped>
+    <PRODUCT_TYPE_grouped translate="label" module="catalog">
+        <label>Catalog Product View (Grouped)</label>
         <reference name="product.info">
             <block type="catalog/product_view_type_grouped" name="product.info.grouped" as="product_type_data" template="catalog/product/view/type/grouped.phtml"/>
         </reference>
     </PRODUCT_TYPE_grouped>
-    <PRODUCT_TYPE_virtual>
+    <PRODUCT_TYPE_virtual translate="label" module="catalog">
+        <label>Catalog Product View (Virtual)</label>
         <reference name="product.info">
             <block type="catalog/product_view_type_virtual" name="product.info.virtual" as="product_type_data" template="catalog/product/view/type/virtual.phtml"/>
         </reference>
@@ -266,7 +285,8 @@ Additional block dependant on product type
 Product send to friend
 -->
 
-    <catalog_product_send>
+    <catalog_product_send translate="label">
+        <label>Catalog Product Email to a Friend</label>
         <!-- Mage_Catalog -->
         <reference name="root">
             <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
@@ -284,7 +304,8 @@ Product send to friend
 Product additional images gallery popup
 -->
 
-    <catalog_product_gallery>
+    <catalog_product_gallery translate="label">
+        <label>Catalog Product Image Gallery Popup</label>
         <!-- Mage_Catalog -->
         <reference name="root">
             <action method="setTemplate"><template>page/popup.phtml</template></action>
@@ -298,7 +319,8 @@ Product additional images gallery popup
 SEO Site Map
 -->
 
-    <catalog_seo_sitemap>
+    <catalog_seo_sitemap translate="label">
+        <label>Catalog Seo Sitemap (Common)</label>
         <remove name="right"/>
         <remove name="left"/>
 
@@ -314,7 +336,8 @@ SEO Site Map
         </reference>
     </catalog_seo_sitemap>
 
-    <catalog_seo_sitemap_category>
+    <catalog_seo_sitemap_category translate="label">
+        <label>Catalog Seo Sitemap (Category List)</label>
         <update handle="catalog_seo_sitemap" />
         <reference name="seo.sitemap.container">
             <action method="setTitle" translate="title" module="catalog"><title>Categories</title></action>
@@ -329,7 +352,8 @@ SEO Site Map
         </reference>
     </catalog_seo_sitemap_category>
 
-    <catalog_seo_sitemap_category_tree>
+    <catalog_seo_sitemap_category_tree translate="label">
+        <label>Catalog Seo Sitemap (Category Tree)</label>
         <reference name="seo.sitemap.container">
             <remove name="seo.sitemap.pager.top" />
             <remove name="seo.sitemap.pager.bottom" />
@@ -343,7 +367,8 @@ SEO Site Map
         </reference>
     </catalog_seo_sitemap_category_tree>
 
-    <catalog_seo_sitemap_product>
+    <catalog_seo_sitemap_product translate="label">
+        <label>Catalog Seo Sitemap (Product List)</label>
         <update handle="catalog_seo_sitemap" />
         <reference name="seo.sitemap.container">
             <action method="setTitle" translate="title" module="catalog"><title>Products</title></action>
@@ -363,7 +388,8 @@ SEO Site Map
 Catalog search terms block
 -->
 
-    <catalog_seo_searchterm_popular>
+    <catalog_seo_searchterm_popular translate="label">
+        <label>Catalog Seo Popular Search Terms</label>
         <remove name="right"/>
         <remove name="left"/>
         <reference name="root">

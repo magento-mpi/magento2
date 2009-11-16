@@ -31,7 +31,7 @@
        <li>
            <label for="shipping-address-select"><?php echo $this->__('Select a shipping address from your address book or enter a new address.') ?></label>
            <div class="input-box">
-	           <?php echo $this->getAddressesHtmlSelect('shipping') ?>
+               <?php echo $this->getAddressesHtmlSelect('shipping') ?>
            </div>
        </li>
     <?php endif ?>
@@ -43,25 +43,25 @@
                     <li>
                         <label for="shipping:company"><?php echo $this->__('Company') ?></label>
                         <div class="input-box">
-	                        <input type="text" id="shipping:company" name="shipping[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text" onchange="shipping.setSameAsBilling(false);" />
+                            <input type="text" id="shipping:company" name="shipping[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text" onchange="shipping.setSameAsBilling(false);" />
                         </div>
             <?php if(false): ?>
                         <label for="shipping:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
                         <div class="input-box">
-                        	<input type="text" name="shipping[email]" id="shipping:email" value="<?php echo $this->htmlEscape($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
+                            <input type="text" name="shipping[email]" id="shipping:email" value="<?php echo $this->htmlEscape($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
                         </div>
             <?php endif ?>
                     </li>
                     <li>
                         <label for="shipping:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
                         <div class="input-box">
-                        	<input type="text" title="<?php echo $this->__('Street Address') ?>" name="shipping[street][]" id="shipping:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="input-text required-entry" onchange="shipping.setSameAsBilling(false);" />
+                            <input type="text" title="<?php echo $this->__('Street Address') ?>" name="shipping[street][]" id="shipping:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="input-text required-entry" onchange="shipping.setSameAsBilling(false);" />
                         </div>
                         </li>
             <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
                     <li class="additional-row">
                         <div class="input-box">
-	                        <input type="text" title="<?php echo $this->__('Street Address '.$_i) ?>" name="shipping[street][]" id="shipping:street<?php echo $_i?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text" onchange="shipping.setSameAsBilling(false);" />
+                            <input type="text" title="<?php echo $this->__('Street Address '.$_i) ?>" name="shipping[street][]" id="shipping:street<?php echo $_i?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text" onchange="shipping.setSameAsBilling(false);" />
                         </div>
                     </li>
             <?php endfor ?>
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </li>
-				<?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
+                <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
                     <li class="control">
                         <input type="checkbox" name="shipping[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="shipping:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /> <label for="shipping:save_in_address_book"><?php echo $this->__('Save in address book') ?></label></li>
                 <?php else:?>
