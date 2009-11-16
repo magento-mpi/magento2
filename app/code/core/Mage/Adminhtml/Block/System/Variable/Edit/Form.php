@@ -55,40 +55,59 @@ class Mage_Adminhtml_Block_System_Variable_Edit_Form extends Mage_Adminhtml_Bloc
             'action' => $this->getData('action'),
             'method' => 'post'
         ));
+
         $fieldset = $form->addFieldset('base', array());
+
         $fieldset->addField('code', 'text', array(
             'name'     => 'code',
             'label'    => Mage::helper('adminhtml')->__('Variable Code'),
             'title'    => Mage::helper('adminhtml')->__('Variable Code'),
             'required' => true
         ));
+
         $fieldset->addField('name', 'text', array(
             'name'     => 'name',
             'label'    => Mage::helper('adminhtml')->__('Variable Name'),
             'title'    => Mage::helper('adminhtml')->__('Variable Name'),
             'required' => true
         ));
-        $fieldset->addField('is_html', 'select', array(
-            'name'   => 'is_html',
-            'label'  => Mage::helper('adminhtml')->__('Show Content as'),
-            'title'  => Mage::helper('adminhtml')->__('Show Content as'),
-            'values' => array(
-                0 => Mage::helper('adminhtml')->__('Text'),
-                1 => Mage::helper('adminhtml')->__('HTML')
-        )));
-        $fieldset->addField('value', 'textarea', array(
-            'name'     => 'value',
-            'label'    => Mage::helper('adminhtml')->__('Variable Value'),
-            'title'    => Mage::helper('adminhtml')->__('Variable Value'),
-            'required' => true
-        ))->setRenderer(
-            $this->getLayout()
-                ->createBlock('adminhtml/system_variable_form_renderer_fieldset_element')
-                ->setVariable($this->getVariable())
-        );
+
+        $useDefault = false;
+        if ($this->getVariable()->getId() && $this->getVariable()->getStoreId()) {
+            $useDefault = !((bool)$this->getVariable()->getStoreHtmlValue());
+            $this->getVariable()->setUseDefaultValue((int)$useDefault);
+            $fieldset->addField('use_default_value', 'select', array(
+                'name'   => 'use_default_value',
+                'label'  => Mage::helper('adminhtml')->__('Use Default Variable Values'),
+                'title'  => Mage::helper('adminhtml')->__('Use Default Variable Values'),
+                'onchange' => 'toggleValueElement(this);',
+                'values' => array(
+                    0 => Mage::helper('adminhtml')->__('No'),
+                    1 => Mage::helper('adminhtml')->__('Yes')
+                )
+            ));
+        }
+
+        $fieldset->addField('html_value', 'textarea', array(
+            'name'     => 'html_value',
+            'label'    => Mage::helper('adminhtml')->__('Variable Html Value'),
+            'title'    => Mage::helper('adminhtml')->__('Variable Html Value'),
+            'required' => true,
+            'disabled' => $useDefault
+        ));
+
+        $fieldset->addField('plain_value', 'textarea', array(
+            'name'     => 'plain_value',
+            'label'    => Mage::helper('adminhtml')->__('Variable Plain Value'),
+            'title'    => Mage::helper('adminhtml')->__('Variable Plain Value'),
+            'required' => true,
+            'disabled' => $useDefault
+        ));
+
         $form->setValues($this->getVariable()->getData())
             ->addFieldNameSuffix('variable')
             ->setUseContainer(true);
+
         $this->setForm($form);
         return parent::_prepareForm();
     }

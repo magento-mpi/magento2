@@ -28,12 +28,19 @@
 //<![CDATA[
 
 function toggleValueElement(element) {
-    var valueElement = element.up('tr').down('input[type="text"]#value');
-    valueElement.disabled = element.checked;
-    if (element.checked) {
-        valueElement.addClassName('disabled');
+    var disabled = false;
+    if (element.value == 1) {
+        // use default value
+        disabled = true;
+    }
+    $('plain_value').disabled = disabled;
+    $('html_value').disabled = disabled;
+    if (disabled) {
+        $('plain_value').addClassName('disabled');
+        $('html_value').addClassName('disabled');
     } else {
-        valueElement.removeClassName('disabled');
+        $('plain_value').removeClassName('disabled');
+        $('html_value').removeClassName('disabled');
     }
 }
 

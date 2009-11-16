@@ -63,6 +63,8 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
 
     protected $_storeId = null;
 
+    protected $_plainTemplateMode = false;
+
     /**
      * Setup callbacks for filters
      *
@@ -94,6 +96,28 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
     public function setUseSessionInUrl($flag)
     {
         return $this;
+    }
+
+    /**
+     * Setter
+     *
+     * @param boolean $plainTemplateMode
+     * @return Mage_Core_Model_Email_Template_Filter
+     */
+    public function setPlainTemplateMode($plainTemplateMode)
+    {
+        $this->_plainTemplateMode = (bool)$plainTemplateMode;
+        return $this;
+    }
+
+    /**
+     * Getter
+     *
+     * @return boolean
+     */
+    public function getPlainTemplateMode()
+    {
+        return $this->_plainTemplateMode;
     }
 
     /**
@@ -456,8 +480,9 @@ class Mage_Core_Model_Email_Template_Filter extends Varien_Filter_Template
             $variable = Mage::getModel('core/variable')
                 ->setStoreId($this->getStoreId())
                 ->loadByCode($params['code']);
-            if ($variable->getValue() !== null) {
-                $customVarValue = $variable->getPreparedValue();
+            $mode = $this->getPlainTemplateMode()?Mage_Core_Model_Variable::TYPE_TEXT:Mage_Core_Model_Variable::TYPE_HTML;
+            if ($value = $variable->getValue($mode)) {
+                $customVarValue = $value;
             }
         }
         return $customVarValue;

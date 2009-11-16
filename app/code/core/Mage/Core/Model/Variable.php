@@ -33,6 +33,9 @@
  */
 class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
 {
+    const TYPE_TEXT = 'text';
+    const TYPE_HTML = 'html';
+
     protected $_storeId = 0;
 
     /**
@@ -79,16 +82,25 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
     }
 
     /**
-     * Return value with html escape and new line breaks sign if value is plain text
+     * Return variable value depend on given type
      *
+     * @param string $type
      * @return string
      */
-    public function getPreparedValue($forceHtmlEscape = false)
+    public function getValue($type = null)
     {
-        if (!$this->getIsHtml() || $forceHtmlEscape) {
-            return nl2br(Mage::helper('core')->htmlEscape($this->getData('value')));
+        if ($type === null) {
+            $type = self::TYPE_HTML;
         }
-        return $this->getData('value');
+        if ($type == self::TYPE_TEXT || !(strlen((string)$this->getData('html_value')))) {
+            $value = $this->getData('plain_value');
+            //escape html if type is html, but html value is not defined
+            if ($type == self::TYPE_HTML) {
+                $value = nl2br(Mage::helper('core')->htmlEscape($value));
+            }
+            return $value;
+        }
+        return $this->getData('html_value');
     }
 
     /**
@@ -98,7 +110,7 @@ class Mage_Core_Model_Variable extends Mage_Core_Model_Abstract
      */
     public function validate()
     {
-        if ($this->getCode() && $this->getName() && ($this->getValue() || $this->getUseDefaultValue())) {
+        if ($this->getCode() && $this->getName() && ($this->getHtmlValue() || $this->getUseDefaultValue())) {
             $variable = $this->getResource()->getVariableByCode($this->getCode());
             if (!empty($variable) && $variable['variable_id'] != $this->getId()) {
                 return Mage::helper('core')->__('Variable Code must be unique.');

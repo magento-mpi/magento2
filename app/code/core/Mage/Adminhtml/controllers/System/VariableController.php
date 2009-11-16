@@ -127,7 +127,8 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
         $data = $this->getRequest()->getPost('variable');
         $back = $this->getRequest()->getParam('back', false);
         if ($data) {
-            $variable->addData($data);
+            $data['variable_id'] = $variable->getId();
+            $variable->setData($data);
             try {
                 $variable->save();
                 $this->_getSession()->addSuccess(

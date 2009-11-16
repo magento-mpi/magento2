@@ -88,17 +88,19 @@ class Mage_Core_Model_Mysql4_Variable extends Mage_Core_Model_Mysql4_Abstract
             /*
              * remove store value
              */
-            $condition = $this->_getWriteAdapter()->quoteInto('variable_id = ?', $object->getId())
-                . ' AND ' . $this->_getWriteAdapter()->quoteInto('store_id = ?', $object->getStoreId());
             $this->_getWriteAdapter()->delete(
-                $this->getTable('core/variable_value'), $condition);
+                $this->getTable('core/variable_value'), array(
+                    'variable_id = ?' => $object->getId(),
+                    'store_id = ?' => $object->getStoreId()
+            ));
         } else {
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getTable('core/variable_value'), array(
                     'variable_id' => $object->getId(),
                     'store_id'    => $object->getStoreId(),
-                    'value'       => $object->getValue()
-                ), array('value'));
+                    'plain_value' => $object->getPlainValue(),
+                    'html_value'  => $object->getHtmlValue()
+                ), array('plain_value', 'html_value'));
         }
         return $this;
     }
@@ -135,7 +137,9 @@ class Mage_Core_Model_Mysql4_Variable extends Mage_Core_Model_Mysql4_Abstract
                 array('store' => $this->getTable('core/variable_value')),
                 'store.variable_id = default.variable_id AND store.store_id = ' . $storeId,
                 array())
-            ->columns(array('value' => new Zend_Db_Expr('IFNULL(store.value, default.value)'),'store_value' => 'store.value'));
+            ->columns(array('plain_value' => new Zend_Db_Expr('IFNULL(store.plain_value, default.plain_value)'),
+                'html_value' => new Zend_Db_Expr('IFNULL(store.html_value, default.html_value)'),
+                'store_plain_value' => 'store.plain_value', 'store_html_value' => 'store.html_value'));
         return $this;
     }
 }
