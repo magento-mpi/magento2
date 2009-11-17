@@ -117,7 +117,7 @@
                     </tag>
                 </observers>
             </catalog_controller_product_delete>
-            <catalog_product_delete_after>
+            <catalog_product_delete_before>
                 <observers>
                     <tag>
                         <type>model</type>
@@ -125,7 +125,7 @@
                         <method>productDeleteEventAction</method>
                     </tag>
                 </observers>
-            </catalog_product_delete_after>
+            </catalog_product_delete_before>
         </events>
         <translate>
             <modules>
