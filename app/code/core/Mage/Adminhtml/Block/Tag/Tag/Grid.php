@@ -29,45 +29,33 @@
  *
  * @category   Mage
  * @package    Mage_Adminhtml
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
 class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-
+    /**
+     * Constructor
+     *
+     * @return void
+     */
     public function __construct()
     {
         parent::__construct();
-
-        $defaultStatus = $this->_getDefaultStatus();
-        $this->setId('tag_tag_grid' . $defaultStatus);
-        $this->setDefaultSort('name');
-        $this->setDefaultFilter(array('status' => $defaultStatus));
-        $this->setDefaultDir('ASC');
-        $this->setUseAjax(true);
-        $this->setSaveParametersInSession(true);
+        $this->setId('tag_tag_grid')
+             ->setDefaultSort('name')
+             ->setDefaultDir('ASC')
+             ->setUseAjax(true)
+             ->setSaveParametersInSession(true);
     }
 
-    /**
-     * Retrive default tags status from request
-     *
-     * @return string
-     */
-    protected function _getDefaultStatus()
+    protected function _addColumnFilterToCollection($column)
     {
-        if ($this->getRequest()->getParam('pending')) {
-            return Mage_Tag_Model_Tag::STATUS_PENDING;
+        if($column->getIndex()=='stores') {
+            $this->getCollection()->addStoreFilter($column->getFilter()->getCondition(), false);
+        } else {
+            parent::_addColumnFilterToCollection($column);
         }
-        return '';
-    }
-
-    /*
-     * Retrieves Grid Url
-     *
-     * @return string
-     */
-    public function getGridUrl()
-    {
-        return $this->getUrl('*/tag/ajaxGrid', array('_current' => true));
+        return $this;
     }
 
     protected function _prepareCollection()
@@ -140,25 +128,6 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         return parent::_prepareColumns();
     }
 
-    public function getRowUrl($row)
-    {
-        return $this->getUrl('*/*/edit', array(
-            'tag_id' => $row->getId(),
-            'ret'    => 'all',
-        ));
-    }
-
-    protected function _addColumnFilterToCollection($column)
-    {
-        if($column->getIndex()=='stores') {
-            $this->getCollection()->addStoreFilter($column->getFilter()->getCondition(), false);
-        } else {
-            parent::_addColumnFilterToCollection($column);
-        }
-
-         return $this;
-    }
-
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('tag_id');
@@ -191,5 +160,24 @@ class Mage_Adminhtml_Block_Tag_Tag_Grid extends Mage_Adminhtml_Block_Widget_Grid
         return $this;
     }
 
-}
+    /*
+     * Retrieves Grid Url
+     *
+     * @return string
+     */
+    public function getGridUrl()
+    {
+        return $this->getUrl('*/tag/ajaxGrid', array('_current' => true));
+    }
 
+    /**
+     * Retrives row click URL
+     *
+     * @param  mixed $row
+     * @return string
+     */
+    public function getRowUrl($row)
+    {
+        return $this->getUrl('*/*/edit', array('tag_id' => $row->getId()));
+    }
+}
