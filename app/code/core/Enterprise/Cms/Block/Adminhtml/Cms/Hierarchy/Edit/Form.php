@@ -40,20 +40,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
     protected $_currentStore = null;
 
     /**
-     * Page lock flag
-     *
-     * @var null|bool
-     */
-    protected $_isLocked = null;
-
-    /**
-     * Lock model
-     *
-     * @var null|Enterprise_Cms_Model_Hierarchy_Lock
-     */
-    protected $_lockModel = null;
-
-    /**
      * Define custom form template for block
      */
     public function __construct()
@@ -586,10 +572,10 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     public function isLockedByOther()
     {
-        if (is_null($this->_isLocked)) {
-            $this->_isLocked = $this->_getLockModel()->isLockedByOther();
+        if (!$this->hasData('locked_by_other')) {
+            $this->setData('locked_by_other', $this->_getLockModel()->isLockedByOther());
         }
-        return $this->_isLocked;
+        return $this->_getData('locked_by_other');
     }
 
     /**
@@ -632,9 +618,6 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
      */
     protected function _getLockModel()
     {
-        if (is_null($this->_lockModel)) {
-            $this->_lockModel = Mage::getModel('enterprise_cms/hierarchy_lock', Mage::getSingleton('admin/session'));
-        }
-        return $this->_lockModel;
+        return Mage::getSingleton('enterprise_cms/hierarchy_lock');
     }
 }

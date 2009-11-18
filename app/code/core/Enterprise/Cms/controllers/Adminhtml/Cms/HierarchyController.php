@@ -33,14 +33,6 @@
  */
 class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Controller_Action
 {
-
-    /**
-     * Lock model
-     *
-     * @var Enterprise_Cms_Model_Hierarchy_Lock
-     */
-    protected $_lockModel = null;
-
     /**
      * Controller pre dispatch method
      *
@@ -191,16 +183,13 @@ class Enterprise_Cms_Adminhtml_Cms_HierarchyController extends Mage_Adminhtml_Co
     }
 
     /**
-     * Retrieve lock model
+     * Return lock model instance
      *
      * @return Enterprise_Cms_Model_Hierarchy_Lock
      */
     protected function _getLockModel()
     {
-        if (is_null($this->_lockModel)) {
-            $this->_lockModel = Mage::getModel('enterprise_cms/hierarchy_lock', Mage::getSingleton('admin/session'));
-        }
-        return $this->_lockModel;
+        return Mage::getSingleton('enterprise_cms/hierarchy_lock');
     }
 
     /**

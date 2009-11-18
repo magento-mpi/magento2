@@ -31,36 +31,68 @@
  * @category   Enterprise
  * @package    Enterprise_Cms
  */
-class Enterprise_Cms_Model_Hierarchy_Lock extends Varien_Object
+class Enterprise_Cms_Model_Hierarchy_Lock extends Mage_Core_Model_Abstract
 {
     /**
-     * Lock file
-     *
-     * @var null|Varien_Io_File
-     */
-    protected $_lockFile = null;
-
-    /**
-     * Admin session model
+     * Session model instance
      *
      * @var Mage_Admin_Model_Session
      */
-    protected $_adminSession;
+    protected $_session;
 
     /**
-     * Lock data flag
+     * Flag indicating whether lock data loaded or not
      *
      * @var bool
      */
-    protected $_lockDataFlag = false;
+    protected $_dataLoaded = false;
+
     /**
-     * Set admin session model
-     *
-     * @param Mage_Admin_Model_Session $adminSessionModel
+     * Resource model initializing
      */
-    public function __construct(Mage_Admin_Model_Session $adminSessionModel)
+    protected function _construct()
     {
-        $this->_adminSession = $adminSessionModel;
+        $this->_init('enterprise_cms/hierarchy_lock');
+    }
+
+    /**
+     * Setter for session instance
+     *
+     * @param Mage_Core_Model_Session_Abstract $session
+     * @return Enterprise_Cms_Model_Hierarchy_Lock
+     */
+    public function setSession(Mage_Core_Model_Session_Abstract $session)
+    {
+        $this->_session = $session;
+        return $this;
+    }
+
+    /**
+     * Getter for session instance
+     *
+     * @return Mage_Core_Model_Session_Abstract
+     */
+    protected function _getSession()
+    {
+        if ($this->_session === null) {
+            return Mage::getSingleton('admin/session');
+        }
+        return $this->_session;
+    }
+
+    /**
+     * Load lock data
+     *
+     * @return Enterprise_Cms_Model_Hierarchy_Lock
+     */
+    public function loadLockData()
+    {
+        if (!$this->_dataLoaded) {
+            $data = $this->_getResource()->getLockData();
+            $this->addData($data);
+            $this->_dataLoaded = true;
+        }
+        return $this;
     }
 
     /**
@@ -70,7 +102,7 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Varien_Object
      */
     public function isLocked()
     {
-        return $this->_getLockFile()->fileExists($this->_getLockFileName()) && $this->isActual();
+        return ($this->isEnabled() && $this->isActual());
     }
 
     /**
@@ -106,24 +138,6 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Varien_Object
         if (!$this->isLocked() || $this->isLockedByMe()) {
             $this->lock();
         }
-        $this->loadLockData();
-        return $this;
-    }
-
-    /**
-     * Load lock data in model
-     *
-     * @return Enterprise_Cms_Model_Hierarchy_Lock
-     */
-    public function loadLockData()
-    {
-        if (!$this->_lockDataFlag) {
-            $data = unserialize($this->_getLockFile()->read($this->_getLockFileName()));
-            foreach ($data as $key => $value) {
-                $this->setData($key, $value);
-            }
-            $this->_lockDataFlag = true;
-        }
         return $this;
     }
 
@@ -134,7 +148,11 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Varien_Object
      */
     public function isActual()
     {
-        return (filemtime($this->_getLockFilesPath() . $this->_getLockFileName()) + $this->getLockLifeTime() > time());
+        $this->loadLockData();
+        if ($this->hasData('started_at') && $this->_getData('started_at') + $this->getLockLifeTime() > time()) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -148,35 +166,46 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Varien_Object
     }
 
     /**
-     * Check whether current user is lock owner
+     * Check whether current user is lock owner or not
      *
      * @return bool
      */
     public function isLockOwner()
     {
         $this->loadLockData();
-        return ($this->getUserName() == $this->_getSession()->getUser()->getName());
+        if ($this->_getData('user_id') == $this->_getSession()->getUser()->getId()
+            && $this->_getData('session_id') == $this->_getSession()->getSessionId())
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
-     * Create lock for page
+     * Create lock for page, previously deleting existing lock
      *
      * @return Enterprise_Cms_Model_Hierarchy_Lock
      */
     public function lock()
     {
-        $file = $this->_getLockFile();
-        $file->streamOpen($this->_getLockFileName());
-        $lockData = array(
-            'session_id'    => $this->_getSession()->getSessionId(),
-            'user_name'     => $this->_getSession()->getUser()->getName()
-        );
-        $file->streamWrite(serialize($lockData));
+        $this->loadLockData();
+        if ($this->getId()) {
+            $this->delete();
+        }
+
+        $this->setData(array(
+            'user_id' => $this->_getSession()->getUser()->getId(),
+            'user_name' => $this->_getSession()->getUser()->getName(),
+            'session_id' => $this->_getSession()->getSessionId(),
+            'started_at' => time()
+        ));
+        $this->save();
+
         return $this;
     }
 
     /**
-     * Retrieve lock lifetime from config
+     * Return lock lifetime in seconds
      *
      * @return int
      */
@@ -184,52 +213,5 @@ class Enterprise_Cms_Model_Hierarchy_Lock extends Varien_Object
     {
         $timeout = (int)Mage::getStoreConfig('cms/hierarchy/lock_timeout');
         return ($timeout != 0 && $timeout < 120 ) ? 120 : $timeout;
-    }
-
-    /**
-     * Retrieve lock file path
-     *
-     * @return string
-     */
-    protected function _getLockFilesPath()
-    {
-        return Mage::getBaseDir('var') . DS . 'locks' . DS;
-    }
-
-    /**
-     * Retrieve lock file name
-     *
-     * @return string
-     */
-    protected function _getLockFileName()
-    {
-        return 'cms_hierarchy.lock';
-    }
-
-    /**
-     * Retrieve lock file
-     *
-     * @return Varien_Io_File
-     */
-    protected function _getLockFile()
-    {
-        if (is_null($this->_lockFile)) {
-            $file = new Varien_Io_File;
-            $file->setAllowCreateFolders(true)->open(array(
-                'path' => $this->_getLockFilesPath()
-            ));
-            $this->_lockFile = $file;
-        }
-        return $this->_lockFile;
-    }
-
-    /**
-     * Retrieve admin session model
-     *
-     * @return Mage_Admin_Model_Session
-     */
-    protected function _getSession()
-    {
-        return $this->_adminSession;
     }
 }
