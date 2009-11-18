@@ -79,6 +79,11 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     const ACTION_FLAG_SHIP = 'ship';
     const ACTION_FLAG_COMMENT = 'comment';
 
+    /**
+     * Report date types
+     */
+    const REPORT_DATE_TYPE_CREATED = 'created';
+    const REPORT_DATE_TYPE_UPDATED = 'updated';
 
     protected $_eventPrefix = 'sales_order';
     protected $_eventObject = 'order';

@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.45</version>
+            <version>0.9.46</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -355,6 +355,8 @@
                     <order_item><table>sales_flat_order_item</table></order_item>
                     <order_item_option><table>sales_flat_order_item_option</table></order_item_option>
                     <order_entity><table>sales_order_entity</table></order_entity>
+                    <order_aggregated_created><table>sales_order_aggregated_created</table></order_aggregated_created>
+                    <order_aggregated_updated><table>sales_order_aggregated_updated</table></order_aggregated_updated>
                     <!--order></order>
 
                     <invoice></invoice>
