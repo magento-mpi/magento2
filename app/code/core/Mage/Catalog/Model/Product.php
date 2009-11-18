@@ -327,9 +327,10 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
      */
     public function getCategoryIds()
     {
-        if (!$this->hasData('category_ids')) {
+        if (! $this->hasData('category_ids')) {
             $wasLocked = false;
             if ($this->isLockedAttribute('category_ids')) {
+                $wasLocked = true;
                 $this->unlockAttribute('category_ids');
             }
             $ids = $this->_getResource()->getCategoryIds($this);
@@ -339,7 +340,7 @@ class Mage_Catalog_Model_Product extends Mage_Catalog_Model_Abstract
             }
         }
 
-        return $this->_getData('category_ids');
+        return (array) $this->_getData('category_ids');
     }
 
     /**
