@@ -99,7 +99,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
                 'name' => 'tax_country_id',
                 'label' => Mage::helper('tax')->__('Country'),
                 'title' => Mage::helper('tax')->__('Please select Country'),
-                'class' => 'required-entry',
                 'required' => true,
                 'values' => $countries,
                 'value' => $countryId,
@@ -111,8 +110,6 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
                 'name' => 'tax_region_id',
                 'label' => Mage::helper('tax')->__('State'),
                 'title' => Mage::helper('tax')->__('Please select State'),
-                'class' => 'required-entry',
-                'required' => true,
                 'values' => $regions,
                 'value' => $rateObject->getTaxRegionId()
             )
