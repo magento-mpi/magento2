@@ -181,7 +181,7 @@ class Mage_Catalog_Model_Layer_Filter_Decimal extends Mage_Catalog_Model_Layer_F
             }
             while($range > self::MIN_RANGE_POWER && count($items) < 2);
 
-            $this->setData('price_range', $range);
+            $this->setData('range', $range);
         }
         return $range;
     }
