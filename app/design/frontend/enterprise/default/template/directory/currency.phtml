@@ -31,26 +31,25 @@
  * @see Mage_Directory_Block_Currency
  */
 ?>
-
-<?php if($this->getCurrencyCount()>1): ?>
+<?php if ($this->getCurrencyCount() > 1): ?>
 <?php $currencies = $this->getCurrencies(); ?>
+<?php $currentCurrencyCode = $this->getCurrentCurrencyCode(); ?>
 <div class="switch switcher-currency">
     <label><?php echo $this->__('Currency') ?>:</label>
     <div class="switch-wrapper" id="currencySelect">
         <strong class="current language-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
-            <?php echo $this->htmlEscape($this->getCurrentCurrencyCode()) ?>
-             - <?php echo $this->htmlEscape($currencies[Mage::app()->getStore()->getCurrentCurrencyCode()]) ?>
+            <?php echo $this->htmlEscape($currentCurrencyCode) ?> - <?php echo @$this->htmlEscape($currencies[$currentCurrencyCode]) ?>
         </strong>
         <span class="switcher-holder">(<span onclick="popUpMenu(this);" class="switcher"><?php echo $this->__('Change')?></span>)</span>
         <ul style="display:none" id="popId-currencySelect">
             <li class="current currency-<?php echo $this->htmlEscape(Mage::app()->getStore()->getCode()) ?>">
-                <span><?php echo $this->htmlEscape($this->getCurrentCurrencyCode()) ?>
-                <?php if (isset($currencies[Mage::app()->getStore()->getCurrentCurrencyCode()])): ?>
-                    - <?php echo $this->htmlEscape($currencies[Mage::app()->getStore()->getCurrentCurrencyCode()]) ?></span>
+                <span><?php echo $this->htmlEscape($currentCurrencyCode) ?>
+                <?php if (isset($currencies[$currentCurrencyCode])): ?>
+                    - <?php echo $this->htmlEscape($currencies[$currentCurrencyCode]) ?></span>
                 <?php endif;?>
             </li>
             <?php foreach ($currencies as $_code => $_name): ?>
-                <?php if($_code != $this->getCurrentCurrencyCode()): ?>
+                <?php if($_code != $currentCurrencyCode): ?>
                     <li class="currency-<?php echo $_code ?>">
                         <a href="<?php echo $this->helper('directory/url')->getSwitchCurrencyUrl() . 'currency/' . $_code ?>"><?php echo $_code ?> - <?php echo $_name ?></a>
                     </li>
