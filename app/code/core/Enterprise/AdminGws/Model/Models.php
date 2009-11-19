@@ -475,6 +475,7 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
             }
             $model->setProductsReadonly(true);
             $model->setPermissionsReadonly(true);
+            $model->setOptimizationReadonly(true);
             $model->setIsDeleteable(false);
             if (!$this->_role->hasStoreAccess($model->getResource()->getStoreId())) {
                 $model->setIsReadonly(true);
