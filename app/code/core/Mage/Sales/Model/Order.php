@@ -1293,7 +1293,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     {
         if (empty($this->_creditmemos)) {
             if ($this->getId()) {
-                $this->_creditmemos = Mage::getResourceModel('sales/order_сreditmemo_collection')
+                $this->_creditmemos = Mage::getResourceModel('sales/order_creditmemo_collection')
                     ->addAttributeToSelect('*')
                     ->setOrderFilter($this->getId())
                     ->load();

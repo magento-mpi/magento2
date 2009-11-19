@@ -45,7 +45,7 @@ class Mage_Adminhtml_Block_Sales_Order_View_Tab_Creditmemos
     protected function _prepareCollection()
     {
         //TODO: add full name logic
-        $collection = Mage::getResourceModel('sales/order_сreditmemo_collection')
+        $collection = Mage::getResourceModel('sales/order_creditmemo_collection')
             ->addAttributeToSelect('increment_id')
             ->addAttributeToSelect('created_at')
             ->addAttributeToSelect('order_currency_code')
