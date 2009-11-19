@@ -152,8 +152,8 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Rule />
-		<Mage_Catalog />
-		<Mage_Sales />
+        <Mage_Catalog />
+        <Mage_Sales />
             </depends>
         </Mage_SalesRule>
         <Mage_Checkout>
@@ -241,6 +241,7 @@
             <codePool>core</codePool>
             <depends>
                 <Mage_Core />
+                <Mage_Cms />
             </depends>
         </Mage_Poll>
         <Mage_Rating>
