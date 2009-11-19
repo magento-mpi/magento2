@@ -191,13 +191,13 @@ Additional block for bundle product type
         <reference name="product.info">
             <action method="setTemplate"><template>bundle/catalog/product/view.phtml</template></action>
             <block type="bundle/catalog_product_view_type_bundle" name="product.info.bundle" as="product_type_data" template="bundle/catalog/product/view/type/bundle.phtml">
-                <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>                
+                <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/catalog/product/price.phtml</template></action>
             </block>
             <block type="bundle/catalog_product_view" name="bundle.summary" as="bundleSummary" template="bundle/catalog/product/view/summary.phtml" translate="label">
                 <label>Bundle Product View Summary</label>
                 <block type="bundle/catalog_product_price" name="bundle.prices" as="bundle_prices" template="bundle/catalog/product/view/price.phtml" />
-                <action method="append"><block>product.info.addtocart</block></action>                 
-            </block>            
+                <action method="append"><block>product.info.addtocart</block></action>
+            </block>
         </reference>
         <reference name="product.info.options.wrapper">
             <block type="bundle/catalog_product_view_type_bundle" name="product.info.bundle.options" as="type_bundle_options" template="bundle/catalog/product/view/type/bundle/options.phtml">
@@ -299,4 +299,22 @@ Emails
         </reference>
     </sales_email_order_creditmemo_items>
 
+<!--
+RSS
+-->
+    <rss_catalog_category>
+        <reference name="rss.catalog.category">
+            <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/rss/catalog/product/price.phtml</template></action>
+        </reference>
+    </rss_catalog_category>
+    <rss_catalog_new>
+        <reference name="rss.catalog.new">
+            <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/rss/catalog/product/price.phtml</template></action>
+        </reference>
+    </rss_catalog_new>
+    <rss_catalog_tag>
+        <reference name="rss.catalog.tag">
+            <action method="addPriceBlockType"><type>bundle</type><block>bundle/catalog_product_price</block><template>bundle/rss/catalog/product/price.phtml</template></action>
+        </reference>
+    </rss_catalog_tag>
 </layout>

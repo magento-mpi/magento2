@@ -27,6 +27,18 @@
 class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Catalog_Model_Product_Type_Price
 {
     /**
+     * Cached amounts
+     * @var array
+     */
+    protected $_amountCache = array();
+
+    /**
+     * Cached minimum and maximal amounts
+     * @var array
+     */
+    protected $_minMaxCache = array();
+
+    /**
      * Return price of the specified product
      *
      * @param Mage_Catalog_Model_Product $product
@@ -81,5 +93,100 @@ class Enterprise_GiftCard_Model_Catalog_Product_Price_Giftcard extends Mage_Cata
         }
 
         return ($prices) ? $prices : array();
+    }
+
+
+    /**
+     * Return minimal amount for Giftcard product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return float
+     */
+    public function getMinAmount($product)
+    {
+        $minMax = $this->_calcMinMax($product);
+        return $minMax['min'];
+    }
+
+    /**
+     * Return maximal amount for Giftcard product
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return float
+     */
+    public function getMaxAmount($product)
+    {
+        $minMax = $this->_calcMinMax($product);
+        return $minMax['max'];
+    }
+
+    /**
+     * Fill in $_amountCache or return precalculated sorted values for amounts
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    public function getSortedAmounts($product)
+    {
+        if (!isset($this->_amountCache[$product->getId()])) {
+            $result = array();
+
+            $giftcardAmounts = $this->getAmounts($product);
+            if (is_array($giftcardAmounts)) {
+                foreach ($giftcardAmounts as $amount) {
+                    $result[] = Mage::app()->getStore()->roundPrice($amount['website_value']);
+                }
+            }
+            sort($result);
+            $this->_amountCache[$product->getId()] = $result;
+        }
+        return $this->_amountCache[$product->getId()];
+    }
+
+    /**
+     * Fill in $_minMaxCache or return precalculated values for min, max
+     *
+     * @param Mage_Catalog_Model_Product $product
+     * @return array
+     */
+    protected function _calcMinMax($product)
+    {
+        if (!isset($this->_minMaxCache[$product->getId()])) {
+            $min = $max = null;
+            if ($product->getAllowOpenAmount()) {
+                $openMin = $product->getOpenAmountMin();
+                $openMax = $product->getOpenAmountMax();
+
+                if ($openMin) {
+                    $min = $openMin;
+                } else {
+                    $min = 0;
+                }
+                if ($openMax) {
+                    $max = $openMax;
+                } else {
+                    $max = 0;
+                }
+            }
+
+            foreach ($this->getSortedAmounts($product) as $amount) {
+                if ($amount) {
+                    if (is_null($min)) {
+                        $min = $amount;
+                    }
+                    if (is_null($max)) {
+                        $max = $amount;
+                    }
+
+                    $min = min($min, $amount);
+                    if ($max != 0) {
+                        $max = max($max, $amount);
+                    }
+                }
+            }
+
+            $this->_minMaxCache[$product->getId()] = array('min'=>$min, 'max'=>$max);
+        }
+        return $this->_minMaxCache[$product->getId()];
     }
 }
