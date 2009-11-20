@@ -43,20 +43,18 @@
         <ol id="cart-sidebar-reorder">
             <?php $_showAddButtonFlag = false ?>
             <?php foreach ($_order->getItemsRandomCollection(5) as $_item): ?>
-                <?php if ($_item->getProduct() && is_null($_item->getParentItem())): ?>
-                    <li>
-                        <?php if ($this->getIsSalableItem($_item)): ?>
-                            <?php $_showAddButtonFlag = true ?>
-                            <input type="checkbox" name="order_items[]" id="reorder-item-<?php echo $_item->getId() ?>" value="<?php echo $_item->getId() ?>" class="checkbox validate-one-required-by-name" />
-                            <script type="text/javascript">
-                            //<![CDATA[
-                                $('reorder-item-<?php echo $_item->getId() ?>').advaiceContainer = 'cart-sidebar-reorder-advice-container';
-                            //]]>
-                            </script>
-                        <?php endif; ?>
-                        <span class="label"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></span>
-                    </li>
-                <?php endif; ?>
+            <li>
+            <?php if ($this->isItemAvailableForReorder($_item)): ?>
+                <?php $_showAddButtonFlag = true ?>
+                <input type="checkbox" name="order_items[]" id="reorder-item-<?php echo $_item->getId() ?>" value="<?php echo $_item->getId() ?>" class="checkbox validate-one-required-by-name" />
+                <script type="text/javascript">
+                //<![CDATA[
+                    $('reorder-item-<?php echo $_item->getId() ?>').advaiceContainer = 'cart-sidebar-reorder-advice-container';
+                //]]>
+                </script>
+            <?php endif; ?>
+                <span class="label"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></span>
+            </li>
             <?php endforeach; ?>
         </ol>
         <script type="text/javascript">decorateList('cart-sidebar-reorder')</script>
