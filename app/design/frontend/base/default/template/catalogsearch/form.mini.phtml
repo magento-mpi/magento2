@@ -25,8 +25,6 @@
  */
 ?>
 <form id="search_mini_form" action="<?php echo $this->helper('catalogsearch')->getResultUrl() ?>" method="get">
-<fieldset>
-    <legend><?php echo $this->__('Search Site') ?></legend>
     <div class="form-search">
         <label for="search"><?php echo $this->__('Search:') ?></label>
         <input id="search" type="text" class="input-text" name="<?php echo $this->helper('catalogsearch')->getQueryParamName() ?>" value="<?php echo $this->helper('catalogsearch')->getEscapedQueryText() ?>" />
@@ -39,5 +37,4 @@
         //]]>
         </script>
     </div>
-</fieldset>
 </form>

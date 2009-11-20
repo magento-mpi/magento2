@@ -53,7 +53,7 @@
     <?php endif ?>
     <?php if($_cartQty && $this->isPossibleOnepageCheckout()): ?>
     <div class="actions">
-        <button class="button" type="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>
+        <button type="button" title="<?php echo $this->__('Checkout') ?>" class="button" onclick="setLocation('<?php echo $this->getCheckoutUrl() ?>')"><span><span><?php echo $this->__('Checkout') ?></span></span></button>
     </div>
     <?php endif ?>
     <?php $_items = $this->getRecentItems() ?>

@@ -43,26 +43,24 @@
     <div class="block-title">
         <strong><span><?php echo $this->__('Community Poll') ?></span></strong>
     </div>
-    <div class="block-content">
-        <form id="pollForm" action="<?php echo $action ?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
-        <fieldset>
-            <legend><?php echo $this->__('Community Poll') ?></legend>
+    <form id="pollForm" action="<?php echo $action ?>" method="post" onsubmit="return validatePollAnswerIsSelected();">
+        <div class="block-content">
             <p class="block-subtitle"><?php echo $poll->getPollTitle(); ?></p>
             <?php if( $poll_answers ): ?>
-            <ol>
+            <ul id="poll-answers">
                 <?php foreach( $poll_answers as $answer ): ?>
                 <li>
                     <input type="radio" name="vote" class="radio poll_vote" id="vote_<?php echo $answer->getId() ?>" value="<?php echo $answer->getAnswerId() ?>" />
                     <span class="label"><label for="vote_<?php echo $answer->getId() ?>"><?php echo $answer->getAnswerTitle() ?></label></span>
                 </li>
                 <?php endforeach; ?>
-            </ol>
+            </ul>
+            <script type="text/javascript">decorateList('poll-answers');</script>
             <?php endif; ?>
             <div class="actions">
                 <button type="submit" class="button"><span><span><?php echo $this->__('Vote') ?></span></span></button>
             </div>
-        </fieldset>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 <?php endif; ?>

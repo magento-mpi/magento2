@@ -31,10 +31,10 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 <form action="<?php echo $action ?>" method="post" id="form-validate">
-    <fieldset>
+    <div class="fieldset">
     <input type="hidden" name="address_id" value="<?php echo $data->getAddressId() ?>" />
     <input type="hidden" name="customer_id" id="address_id" value="<?php echo $data->getCustomerId() ?>" />
-        <h3><?php echo $this->__('Personal Information') ?></h3>
+        <h2 class="legend"><?php echo $this->__('Personal Information') ?></h2>
         <ul class="form-list">
             <li class="fields">
                 <?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($data)->toHtml() ?>
@@ -46,9 +46,9 @@
                 </div>
             </li>
         </ul>
-    </fieldset>
-    <fieldset>
-        <h3><?php echo $this->__('Address') ?></h3>
+    </div>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Address') ?></h2>
         <ul class="form-list">
             <li>
                 <label for="street_1" class="required"><em>*</em><?php echo $this->__('Street Address') ?></label>
@@ -126,11 +126,11 @@
             </li>
         <?php endforeach ?>
         </ul>
-    </fieldset>
+    </div>
     <div class="buttons-set">
         <p class="required"><?php echo $this->__('* Required Fields') ?></p>
         <p class="back-link"><a href="<?php echo $this->getUrl('customer/address/') ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
-        <button class="button" type="submit"><span><span><?php echo $this->__('Save Address') ?></span></span></button>
+        <button type="submit" class="button" title="<?php echo $this->__('Save Address') ?>"><span><span><?php echo $this->__('Save Address') ?></span></span></button>
     </div>
 </form>
 <script type="text/javascript">
