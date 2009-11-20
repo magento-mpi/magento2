@@ -99,6 +99,7 @@ var Variables = {
         return content;
     },
     insertVariable: function(value) {
+        this.closeDialogWindow(this.dialogWindow);
         var textareaElm = $(this.textareaElementId);
         if (textareaElm) {
             var scrollPos = textareaElm.scrollTop;
@@ -116,6 +117,6 @@ var Variables = {
             textareaElm.scrollTop = scrollPos;
             textareaElm = null;
         }
-        this.closeDialogWindow(this.dialogWindow);
+        return;
     }
 };

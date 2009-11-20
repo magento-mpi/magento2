@@ -77,7 +77,7 @@ MagentovariablePlugin = {
                 parameters: {},
                 onComplete: function (transport) {
                     if (transport.responseText.isJSON()) {
-                        Variables.init(this.textareaId, 'MagentovariablePlugin.insertVariable');
+                        Variables.init(null, 'MagentovariablePlugin.insertVariable');
                         this.variables = transport.responseText.evalJSON();
                         this.openChooser(this.variables);
                     }
@@ -93,10 +93,11 @@ MagentovariablePlugin = {
     },
     insertVariable : function (value) {
         if (this.textareaId) {
+            Variables.init(this.textareaId);
             Variables.insertVariable(value);
         } else {
-            this.editor.execCommand('mceInsertContent', false, value);
             Variables.closeDialogWindow();
+            this.editor.execCommand('mceInsertContent', false, value);
         }
         return;
     }
