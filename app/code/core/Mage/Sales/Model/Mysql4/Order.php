@@ -78,8 +78,14 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
      */
     public function aggregateOrders($from = null, $to = null)
     {
+        if (!is_null($from)) {
+            $from = $this->formatDate($from);
+        }
+        if (!is_null($to)) {
+            $from = $this->formatDate($to);
+        }
         $this->_aggregateOrderDataByColumn($from, $to, 'sales/order_aggregated_created', 'created_at');
-        $this->_aggregateOrderDataByColumn($from, $to, 'sales/order_aggregated_updated', 'updated_at');
+        //$this->_aggregateOrderDataByColumn($from, $to, 'sales/order_aggregated_updated', 'updated_at');
     }
 
     /**
@@ -102,9 +108,17 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
             if (is_null($from) && is_null($to)) {
                 $writeAdapter->query("TRUNCATE TABLE {$tableName}");
             } else {
-                $deleteWhereCondition = (!is_null($from)) ? "period >= {$from}" : '';
-                $deleteWhereCondition .= (!is_null($to)) ? " AND period <= {$to}" : '';
-                $writeAdapter->delete($tableName, $deleteWhereCondition);
+                $where = (!is_null($from)) ? "so.updated_at >= '{$from}'" : '';
+                if (!is_null($to)) {
+                    $where .= (!empty($where)) ? " AND so.updated_at <= '{$to}'" : "so.updated_at <= '{$to}'";
+                }
+
+                $subQuery = $writeAdapter->select();
+                $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
+                    ->where($where);
+
+                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $writeAdapter->delete($tableName, $deleteCondition);
             }
 
             $qtySelect = $writeAdapter->select()
@@ -120,11 +134,8 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 ->where('p.parent_item_id IS NULL')
                 ->where('o.state <> ?', 'pending');
 
-                if (!is_null($from)) {
-                    $qtySelect->where("o.{$column} >= ?", $from);
-                }
-                if (!is_null($to)) {
-                    $qtySelect->where("o.{$column} <= ?", $to);
+                if (!is_null($from) || !is_null($to)) {
+                    $qtySelect->where("DATE(o.{$column}) IN(?)", $subQuery);
                 }
 
                 $qtySelect->group('p.order_id');
@@ -151,11 +162,8 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
                 ->joinLeft(array('oa'=> $qtySelect), 'e.entity_id = oa.order_id', array())
                 ->where('e.state <> ?', 'pending');
 
-                if (!is_null($from)) {
-                    $select->where("e.{$column} >= ?", $from);
-                }
-                if (!is_null($to)) {
-                    $select->where("e.{$column} <= ?", $to);
+                if (!is_null($from) || !is_null($to)) {
+                    $select->where("DATE(e.{$column}) IN(?)", $subQuery);
                 }
 
                 $select->group(new Zend_Db_Expr('1,2,3'));
@@ -183,15 +191,11 @@ class Mage_Sales_Model_Mysql4_Order extends Mage_Eav_Model_Entity_Abstract
             $select->from($tableName, $columns)
                 ->where("store_id <> 0");
 
-                if (!is_null($from)) {
-                    $select->where('period >= ?', $from);
-                }
-                if (!is_null($to)) {
-                    $select->where('period <= ?', $to);
+                if (!is_null($from) || !is_null($to)) {
+                    $select->where("DATE(period) IN(?)", $subQuery);
                 }
 
                 $select->group(new Zend_Db_Expr('1,2,3'));
-
             $writeAdapter->query("
                 INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
             ");

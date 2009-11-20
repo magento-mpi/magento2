@@ -40,8 +40,14 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
      */
     public function aggregateTaxes($from = null, $to = null)
     {
+        if (!is_null($from)) {
+            $from = $this->formatDate($from);
+        }
+        if (!is_null($to)) {
+            $from = $this->formatDate($to);
+        }
         $this->_aggregateTaxesDataByColumn($from, $to, 'tax/tax_order_aggregated_created', 'created_at');
-        $this->_aggregateTaxesDataByColumn($from, $to, 'tax/tax_order_aggregated_updated', 'updated_at');
+//        $this->_aggregateTaxesDataByColumn($from, $to, 'tax/tax_order_aggregated_updated', 'updated_at');
         return $this;
     }
 
@@ -65,9 +71,17 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
             if (is_null($from) && is_null($to)) {
                 $writeAdapter->query("TRUNCATE TABLE {$tableName}");
             } else {
-                $deleteWhereCondition = (!is_null($from)) ? "period >= {$from}" : '';
-                $deleteWhereCondition .= (!is_null($to)) ? " AND period <= {$to}" : '';
-                $writeAdapter->delete($tableName, $deleteWhereCondition);
+                $where = (!is_null($from)) ? "so.updated_at >= '{$from}'" : '';
+                if (!is_null($to)) {
+                    $where .= (!empty($where)) ? " AND so.updated_at <= '{$to}'" : "so.updated_at <= '{$to}'";
+                }
+
+                $subQuery = $writeAdapter->select();
+                $subQuery->from(array('so'=>'sales_order'), array('DISTINCT DATE(so.created_at)'))
+                    ->where($where);
+
+                $deleteCondition = 'DATE(period) IN ('.$subQuery.')';
+                $writeAdapter->delete($tableName, $deleteCondition);
             }
 
             $columns = array(
@@ -83,12 +97,11 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
             $select = $writeAdapter->select()
                 ->from(array('e' => $this->getTable('sales/order')), $columns)
                 ->joinInner(array('tax' => $this->getTable('sales/order_tax')), 'e.entity_id = tax.order_id', array());
-                if (!is_null($from)) {
-                    $select->where("e.{$column} >= ?", $from);
+
+                if (!is_null($from) || !is_null($to)) {
+                    $select->where("DATE(e.{$column}) IN(?)", $subQuery);
                 }
-                if (!is_null($to)) {
-                    $select->where("e.{$column} <= ?", $to);
-                }
+
                 $select->group(new Zend_Db_Expr('1,2,3'));
 
             $writeAdapter->query("
@@ -111,11 +124,8 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
                 ->from($tableName, $columns)
                 ->where("store_id <> 0");
 
-                if (!is_null($from)) {
-                    $select->where('period >= ?', $from);
-                }
-                if (!is_null($to)) {
-                    $select->where('period <= ?', $to);
+                if (!is_null($from) || !is_null($to)) {
+                    $select->where("DATE({$column}) IN(?)", $subQuery);
                 }
 
                 $select->group(new Zend_Db_Expr('1,2,3,4'));

@@ -24,11 +24,37 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Report order collection
+ *
+ * @category   Mage
+ * @package    Mage_Sales
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    public function __construct($reportDateType)
+    protected $_from        = null;
+    protected $_to          = null;
+    protected $_orderStatus = null;
+    protected $_period      = null;
+    protected $_storesIds   = 0;
+
+    /**
+     * Initialize custom resource model
+     *
+     * @param array $parameters
+     */
+    public function __construct($parameters = array())
     {
         parent::_construct();
+
+        if (!isset($parameters['period'])) {
+            $this->_period = 'day';
+        }
+        if (!isset($parameters['reportDateType'])) {
+            $reportDateType = Mage_Sales_Model_Order::REPORT_DATE_TYPE_CREATED;
+        }
+
         $this->setModel('varien_object');
         $table = ($reportDateType == Mage_Sales_Model_Order::REPORT_DATE_TYPE_CREATED)
             ? 'sales/order_aggregated_created' : 'sales/order_aggregated_updated';
@@ -56,12 +82,12 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_My
      */
     protected function _applyDateRangeFilter()
     {
-        if (isset($this->_from) && !is_null($this->_from)) {
+        if (!is_null($this->_from)) {
             $this->getSelect()->where(
                 'period ' . ($this->_period == 'day') ? '=' : '>=' . ' ?', $this->_from
             );
         }
-        if (isset($this->_to) && !is_null($this->_to)) {
+        if (!is_null($this->_to)) {
             $this->getSelect()->where('period >= ?', $this->_to);
         }
         return $this;
@@ -72,10 +98,10 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_My
      *
      * @return Mage_Sales_Model_Mysql4_Report_Order_Collection
      */
-    public function addSelectedData()
+    protected function _initSelect()
     {
         if ('month' == $this->_period) {
-            $period = 'DATE_FORMAT(period, \'%y-%m\')';
+            $period = 'DATE_FORMAT(period, \'%Y-%m\')';
         } elseif ('year' == $this->_period) {
             $period = 'EXTRACT(YEAR FROM period)';
         } else {
@@ -95,7 +121,7 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_My
             'base_invoiced_amount'      => 'SUM(base_invoiced_amount)',
             'base_refunded_amount'      => 'SUM(base_refunded_amount)',
         );
-        $this->getSelect()->columns($columns)->group(new Zend_Db_Expr('1,2,3'));
+        $this->getSelect()->from($this->getResource()->getMainTable(), $columns)->group($period);
         return $this;
     }
 
@@ -124,6 +150,8 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_My
         if (!is_array($storeIds)) {
             $storeIds = array($storeIds);
         }
+
+        $storeIds = array_unique($storeIds);
 
         if ($index = array_search(null, $storeIds)) {
             unset($storeIds[$index]);
@@ -158,6 +186,9 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_My
      */
     protected function _applyOrderStatusFilter()
     {
+        if (is_null($this->_orderStatus)) {
+            return $this;
+        }
         $orderStatus = $this->_orderStatus;
         if (!is_array($orderStatus)) {
             $orderStatus = array($orderStatus);
@@ -167,40 +198,15 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_My
     }
 
     /**
-     * Set Period
-     *
-     * @param string $period
-     * @return Mage_Sales_Model_Mysql4_Report_Order_Collection
-     */
-    public function setPeriod($period)
-    {
-        $this->_period = $period;
-        return $this;
-    }
-
-    /**
      * Load data
-     * Redeclare parent load method just for adding method _beforeLoad
      *
      * @return  Varien_Data_Collection_Db
      */
     public function load($printQuery = false, $logQuery = false)
     {
-        $this->_beforeLoad();
-        return parent::load($printQuery, $logQuery);
-    }
-
-    /**
-     * Before load
-     *
-     * @return Mage_Sales_Model_Mysql4_Report_Order_Collection
-     */
-    protected function _beforeLoad()
-    {
-        $this->addSelectedData();
         $this->_applyDateRangeFilter();
         $this->_applyStoresFilter();
         $this->_applyOrderStatusFilter();
-        return $this;
+        return parent::load($printQuery, $logQuery);
     }
 }

@@ -24,11 +24,37 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+/**
+ * Tax report collection
+ *
+ * @category   Mage
+ * @package    Mage_Tax
+ * @author     Magento Core Team <core@magentocommerce.com>
+ */
 class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
-    public function __construct($reportDateType)
+    protected $_from        = null;
+    protected $_to          = null;
+    protected $_orderStatus = null;
+    protected $_period      = null;
+    protected $_storesIds   = 0;
+
+    /**
+     * Initialize custom resource model
+     *
+     * @param array $parameters
+     */
+    public function __construct($parameters = array())
     {
         parent::_construct();
+
+        if (!isset($parameters['period'])) {
+            $this->_period = 'day';
+        }
+        if (!isset($parameters['reportDateType'])) {
+            $reportDateType = Mage_Sales_Model_Order::REPORT_DATE_TYPE_CREATED;
+        }
+
         $this->setModel('varien_object');
         $table = ($reportDateType == Mage_Sales_Model_Order::REPORT_DATE_TYPE_CREATED)
             ? 'tax/tax_order_aggregated_created' : 'tax/tax_order_aggregated_updated';
@@ -74,25 +100,27 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
      *
      * @return Mage_Tax_Model_Mysql4_Report_Collection
      */
-    public function addSelectedData()
+    protected  function _initSelect()
     {
         if ('month' == $this->_period) {
-            $period = 'DATE_FORMAT(period, \'%y-%m\')';
+            $period = 'DATE_FORMAT(period, \'%Y-%m\')';
         } elseif ('year' == $this->_period) {
             $period = 'EXTRACT(YEAR FROM period)';
         } else {
             $period = 'period';
         }
 
-        $this->getSelect()
-            ->columns(array(
-                'period'                => $period,
-                'code',
-                'percent',
-                'tax_base_amount_sum'   => 'SUM(tax_base_amount_sum)',
-                'orders_count'          => 'SUM(orders_count)'
-            ))
-            ->group(new Zend_Db_Expr('1,2'));
+        $this->getSelect()->from($this->getResource()->getMainTable() , array(
+            'period'                => $period,
+            'code',
+            'percent',
+            'tax_base_amount_sum'   => 'SUM(tax_base_amount_sum)',
+            'orders_count'          => 'SUM(orders_count)'
+        ))
+        ->group(array(
+            $period,
+            'code'
+        ));
         return $this;
     }
 
@@ -121,6 +149,8 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
         if (!is_array($storeIds)) {
             $storeIds = array($storeIds);
         }
+
+        $storeIds = array_unique($storeIds);
 
         if ($index = array_search(null, $storeIds)) {
             unset($storeIds[$index]);
@@ -155,17 +185,14 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
      */
     protected function _applyOrderStatusFilter()
     {
+        if (is_null($this->_orderStatus)) {
+            return $this;
+        }
         $orderStatus = $this->_orderStatus;
         if (!is_array($orderStatus)) {
             $orderStatus = array($orderStatus);
         }
         $this->getSelect()->where('order_status IN(?)', $orderStatus);
-        return $this;
-    }
-
-    public function setPeriod($period)
-    {
-        $this->_period = $period;
         return $this;
     }
 
@@ -177,21 +204,9 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
      */
     public function load($printQuery = false, $logQuery = false)
     {
-        $this->_beforeLoad();
-        return parent::load($printQuery, $logQuery);
-    }
-
-    /**
-     * Before load
-     *
-     * @return Mage_Tax_Model_Mysql4_Report_Collection
-     */
-    protected function _beforeLoad()
-    {
-        $this->addSelectedData();
         $this->_applyDateRangeFilter();
         $this->_applyStoresFilter();
         $this->_applyOrderStatusFilter();
-        return $this;
+        return parent::load($printQuery, $logQuery);
     }
 }
