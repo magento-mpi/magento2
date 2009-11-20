@@ -80,6 +80,10 @@ var catalogWysiwygEditor = {
             wysiwygObj = eval('wysiwyg'+dialogWindow.options.firedElementId+'_editor');
             if (tinyMCE.get(wysiwygObj.id)) {
                 $(dialogWindow.options.firedElementId).value = tinyMCE.get(wysiwygObj.id).getContent();
+            } else {
+                if ($(dialogWindow.options.firedElementId+'_editor')) {
+                    $(dialogWindow.options.firedElementId).value = $(dialogWindow.options.firedElementId+'_editor').value;
+                }
             }
         }
         this.closeDialogWindow(dialogWindow);
