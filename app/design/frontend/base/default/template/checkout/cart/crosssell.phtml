@@ -44,10 +44,10 @@
                 <p><button class="button" onclick="setLocation('<?php echo $this->getAddToCartUrl($_item) ?>')" type="button"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
                 <ul class="add-to-links">
                     <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                    <li><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                        <li><a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
                     <?php endif; ?>
                     <?php if($_compareUrl=$this->getAddToCompareUrl($_item)): ?>
-                    <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>"><?php echo $this->__('Add to Compare') ?></a></li>
+                        <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
                     <?php endif; ?>
                 </ul>
             </div>

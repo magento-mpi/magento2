@@ -52,7 +52,7 @@
                         //]]>
                         </script>
                     <?php endif; ?>
-                    <span class="label"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></span>
+                    <p class="product-name"><a href="<?php echo $_item->getProduct()->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></p>
                 </li>
             <?php endforeach; ?>
             </ol>

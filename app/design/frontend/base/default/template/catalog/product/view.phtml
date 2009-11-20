@@ -53,7 +53,7 @@
 
         <div class="product-shop">
             <div class="product-name">
-                <h2><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h2>
+                <h1><?php echo $_helper->productAttribute($_product, $this->htmlEscape($_product->getName()), 'name') ?></h1>
             </div>
 
             <?php if ($this->canEmailToFriend()): ?>
@@ -81,7 +81,7 @@
 
             <?php if ($_product->getShortDescription()):?>
                 <div class="short-description std">
-                    <h3><?php echo $this->__('Quick Overview') ?></h3>
+                    <h2><?php echo $this->__('Quick Overview') ?></h2>
                     <?php echo $_helper->productAttribute($_product, nl2br($_product->getShortDescription()), 'short_description') ?>
                 </div>
             <?php endif;?>
@@ -113,13 +113,13 @@
     <div class="product-collateral">
         <?php if ($_description = $this->getChildHtml('description')):?>
             <div class="description">
-                <h3><?php echo $this->__('Product Description') ?></h3>
+                <h2><?php echo $this->__('Product Description') ?></h2>
                 <?php echo $_description ?>
             </div>
         <?php endif;?>
         <?php if ($_additional = $this->getChildHtml('additional')):?>
             <div class="additional">
-                <h3><?php echo $this->__('Additional Information') ?></h3>
+                <h2><?php echo $this->__('Additional Information') ?></h2>
                 <?php echo $_additional ?>
             </div>
         <?php endif;?>

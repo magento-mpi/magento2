@@ -34,7 +34,7 @@
 
 <ol>
 <?php if (!$this->isFirstPage()): ?>
-    <li><a class="previous" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $this->__('Previous') ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_left.gif') ?>" alt="<?php echo $this->__('Previous') ?>" class="v-middle" /></a></li>
+    <li><a class="previous" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $this->__('Previous') ?>"><img src="<?php echo $this->getSkinUrl('images/i_pager-prev.gif') ?>" alt="<?php echo $this->__('Previous') ?>" class="v-middle" /></a></li>
 <?php endif;?>
 
 <?php if ($this->canShowFirst()): ?>
@@ -63,6 +63,6 @@
 <?php endif;?>
 
 <?php if (!$this->isLastPage()): ?>
-    <li><a class="next" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $this->__('Next') ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_right.gif') ?>" alt="<?php echo $this->__('Next') ?>" class="v-middle" /></a></li>
+    <li><a class="next" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $this->__('Next') ?>"><img src="<?php echo $this->getSkinUrl('images/i_pager-next.gif') ?>" alt="<?php echo $this->__('Next') ?>" class="v-middle" /></a></li>
 <?php endif;?>
 </ol>

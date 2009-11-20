@@ -59,7 +59,7 @@
         <strong><?php echo $this->__('Page:') ?></strong>
         <ol>
         <?php if (!$this->isFirstPage()): ?>
-            <li><a href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $this->__('Previous Page') ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_left.gif') ?>" alt="<?php echo $this->__('Previous Page') ?>" class="v-middle" /></a></li>
+            <li><a href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $this->__('Previous Page') ?>"><img src="<?php echo $this->getSkinUrl('images/i_pager-prev.gif') ?>" alt="<?php echo $this->__('Previous Page') ?>" class="v-middle" /></a></li>
         <?php endif ?>
         <?php foreach ($this->getPages() as $_page): ?>
             <?php if ($this->isPageCurrent($_page)): ?>
@@ -69,7 +69,7 @@
             <?php endif ?>
         <?php endforeach;; ?>
         <?php if (!$this->isLastPage()): ?>
-            <li><a href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $this->__('Next Page') ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_right.gif') ?>" alt="<?php echo $this->__('Next Page') ?>" class="v-middle" /></a></li>
+            <li><a href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $this->__('Next Page') ?>"><img src="<?php echo $this->getSkinUrl('images/i_pager-next.gif') ?>" alt="<?php echo $this->__('Next Page') ?>" class="v-middle" /></a></li>
         <?php endif ?>
         </ol>
     </div>

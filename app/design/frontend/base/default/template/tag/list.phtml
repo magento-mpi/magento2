@@ -25,9 +25,9 @@
  */
 ?>
 <div class="tags">
-    <h3><?php echo $this->__('Product Tags') ?></h3>
+    <h2><?php echo $this->__('Product Tags') ?></h2>
     <?php if( $this->getCount() ): ?>
-    <h4><?php echo $this->__('Other people marked this product with these tags:') ?></h4>
+    <h3><?php echo $this->__('Other people marked this product with these tags:') ?></h3>
     <ul class="tags-list">
         <?php $_iterator = 0; ?>
         <?php foreach( $this->getTags() as $_tag ): ?>
