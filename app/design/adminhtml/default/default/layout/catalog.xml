@@ -39,6 +39,7 @@
 
     <adminhtml_catalog_product_new>
         <reference name="head">
+            <action method="addItem"><type>js</type><name>mage/adminhtml/variables.js</name></action>
             <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
@@ -57,6 +58,7 @@
 
     <adminhtml_catalog_product_edit>
         <reference name="head">
+            <action method="addItem"><type>js</type><name>mage/adminhtml/variables.js</name></action>
             <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
@@ -225,6 +227,7 @@ Layout handle for configurable products
     
     <adminhtml_catalog_category_edit>
         <reference name="head">
+            <action method="addItem"><type>js</type><name>mage/adminhtml/variables.js</name></action>
             <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
