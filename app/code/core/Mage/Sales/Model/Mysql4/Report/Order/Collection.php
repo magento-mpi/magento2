@@ -48,16 +48,17 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_My
     {
         parent::_construct();
 
-        if (!isset($parameters['period'])) {
-            $this->_period = 'day';
-        }
-        if (!isset($parameters['reportDateType'])) {
-            $reportDateType = Mage_Sales_Model_Order::REPORT_DATE_TYPE_CREATED;
-        }
+        $this->_period = (!isset($parameters['period'])) ? 'day' : $parameters['period'];
+        $reportDateType = (!isset($parameters['reportDateType']))
+            ? Mage_Sales_Model_Order::REPORT_DATE_TYPE_CREATED : $parameters['reportDateType'];
 
         $this->setModel('varien_object');
-        $table = ($reportDateType == Mage_Sales_Model_Order::REPORT_DATE_TYPE_CREATED)
-            ? 'sales/order_aggregated_created' : 'sales/order_aggregated_updated';
+
+        $table = 'sales/order_aggregated_created';
+        if ($reportDateType == Mage_Sales_Model_Order::REPORT_DATE_TYPE_UPDATED) {
+            $table = 'sales/order_aggregated_updated';
+        }
+
         $this->_resource = Mage::getResourceModel('sales/report')->init($table);
         $this->setConnection($this->getResource()->getReadConnection());
         $this->_initSelect();

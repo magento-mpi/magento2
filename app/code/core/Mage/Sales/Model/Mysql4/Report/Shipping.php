@@ -19,12 +19,12 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Tax
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()
     {
@@ -32,13 +32,13 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
     }
 
     /**
-     * Aggregate Tax data
+     * Aggregate Shipping data
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_Tax_Model_Mysql4_Tax
+     * @return Mage_Sales_Model_Mysql4_Report_Shipping
      */
-    public function aggregateTaxes($from = null, $to = null)
+    public function aggregateShipping($from = null, $to = null)
     {
         if (!is_null($from)) {
             $from = $this->formatDate($from);
@@ -46,22 +46,23 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
         if (!is_null($to)) {
             $from = $this->formatDate($to);
         }
-        $this->_aggregateTaxesDataByColumn($from, $to, 'tax/tax_order_aggregated_created', 'created_at');
-//        $this->_aggregateTaxesDataByColumn($from, $to, 'tax/tax_order_aggregated_updated', 'updated_at');
+        $this->_aggregateShippingDataByColumn($from, $to, 'sales/shipping_aggregated', 'created_at');
+        //$this->_aggregateShippingDataByColumn($from, $to, 'sales/shipping_aggregated_order', 'updated_at');
         return $this;
     }
 
     /**
-     * Aggregate Tax data by column
+     * Aggregate Shipping data by column
      *
      * @param mixed $from
      * @param mixed $to
      * @param string $tableName
      * @param string $column
-     * @return Mage_Tax_Model_Mysql4_Tax
+     * @return Mage_Sales_Model_Mysql4_Report_Shipping
      */
-    protected function _aggregateTaxesDataByColumn($from, $to, $tableName, $column)
+    protected function _aggregateShippingDataByColumn($from, $to, $tableName, $column)
     {
+        $from = '2009-10-20';
         try {
             $tableName = $this->getTable($tableName);
             $writeAdapter = $this->_getWriteAdapter();
@@ -87,22 +88,22 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
             $columns = array(
                 'period'                => "DATE({$column})",
                 'store_id'              => 'store_id',
-                'code'                  => 'tax.code',
-                'order_status'          => 'e.status',
-                'percent'               => 'tax.percent',
-                'orders_count'          => 'COUNT(DISTINCT(e.entity_id))',
-                'tax_base_amount_sum'   => 'SUM(tax.base_real_amount * e.base_to_global_rate)'
+                'order_status'          => 'status',
+                'shipping_description'  => 'shipping_description',
+                'orders_count'          => 'COUNT(entity_id)',
+                'total_shipping'        => 'SUM(`base_shipping_amount` * `base_to_global_rate`)'
             );
 
             $select = $writeAdapter->select()
-                ->from(array('e' => $this->getTable('sales/order')), $columns)
-                ->joinInner(array('tax' => $this->getTable('sales/order_tax')), 'e.entity_id = tax.order_id', array());
+                ->from($this->getTable('sales/order'), $columns)
+                ->where('state <> ?', 'pending')
+                ->where('is_virtual = 0');
 
                 if (!is_null($from) || !is_null($to)) {
-                    $select->where("DATE(e.{$column}) IN(?)", $subQuery);
+                    $select->where("DATE({$column}) IN(?)", $subQuery);
                 }
 
-                $select->group(new Zend_Db_Expr('1,2,3'));
+                $select->group(new Zend_Db_Expr('1,2,3,4'));
 
             $writeAdapter->query("
                 INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
@@ -113,11 +114,10 @@ class Mage_Tax_Model_Mysql4_Tax extends Mage_Core_Model_Mysql4_Abstract
             $columns = array(
                 'period'                => 'period',
                 'store_id'              => new Zend_Db_Expr('0'),
-                'code'                  => 'code',
                 'order_status'          => 'order_status',
-                'percent'               => 'percent',
+                'shipping_description'  => 'shipping_description',
                 'orders_count'          => 'SUM(orders_count)',
-                'tax_base_amount_sum'   => 'SUM(tax_base_amount_sum)'
+                'total_shipping'        => 'SUM(total_shipping)'
             );
 
             $select

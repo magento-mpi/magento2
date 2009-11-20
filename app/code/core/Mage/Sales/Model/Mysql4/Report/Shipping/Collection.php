@@ -19,19 +19,19 @@
  * needs please refer to http://www.magentocommerce.com for more information.
  *
  * @category    Mage
- * @package     Mage_Tax
+ * @package     Mage_Sales
  * @copyright   Copyright (c) 2009 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Tax report collection
+ * Sales report shipping collection
  *
  * @category   Mage
- * @package    Mage_Tax
+ * @package    Mage_Sales
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+class Mage_Sales_Model_Mysql4_Report_Shipping_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
 {
     protected $_from        = null;
     protected $_to          = null;
@@ -50,13 +50,13 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
 
         $this->_period = (!isset($parameters['period'])) ? 'day' : $parameters['period'];
         $reportDateType = (!isset($parameters['reportDateType']))
-            ? Mage_Sales_Model_Order::REPORT_DATE_TYPE_CREATED : $parameters['reportDateType'];
+            ? Mage_Sales_Model_Order_Shipment::REPORT_DATE_TYPE_ORDER_CREATED : $parameters['reportDateType'];
 
         $this->setModel('varien_object');
 
-        $table = 'tax/tax_order_aggregated_created';
-        if ($reportDateType == Mage_Sales_Model_Order::REPORT_DATE_TYPE_UPDATED) {
-            $table = 'tax/tax_order_aggregated_updated';
+        $table = 'sales/shipping_aggregated';
+        if ($reportDateType == Mage_Sales_Model_Order_Shipment::REPORT_DATE_TYPE_SHIPMENT_CREATED) {
+            $table = 'sales/shipping_aggregated_order';
         }
 
         $this->_resource = Mage::getResourceModel('sales/report')->init($table);
@@ -69,7 +69,7 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_Tax_Model_Mysql4_Report_Collection
+     * @return Mage_Sales_Model_Mysql4_Report_Shipping_Collection
      */
     public function setDateRange($from = null, $to = null)
     {
@@ -81,7 +81,7 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
     /**
      * Apply date range filter
      *
-     * @return Mage_Tax_Model_Mysql4_Report_Collection
+     * @return Mage_Sales_Model_Mysql4_Report_Shipping_Collection
      */
     protected function _applyDateRangeFilter()
     {
@@ -99,7 +99,7 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
     /**
      * Add selected data
      *
-     * @return Mage_Tax_Model_Mysql4_Report_Collection
+     * @return Mage_Sales_Model_Mysql4_Report_Shipping_Collection
      */
     protected  function _initSelect()
     {
@@ -113,14 +113,13 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
 
         $this->getSelect()->from($this->getResource()->getMainTable() , array(
             'period'                => $period,
-            'code',
-            'percent',
-            'tax_base_amount_sum'   => 'SUM(tax_base_amount_sum)',
-            'orders_count'          => 'SUM(orders_count)'
+            'shipping_description',
+            'orders_count'          => 'SUM(orders_count)',
+            'total_shipping'        => 'SUM(total_shipping)'
         ))
         ->group(array(
             $period,
-            'code'
+            'shipping_description'
         ));
         return $this;
     }
@@ -129,7 +128,7 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
      * Set store ids
      *
      * @param mixed $storeIds (null, int|string, array, array may contain null)
-     * @return Mage_Tax_Model_Mysql4_Report_Collection
+     * @return Mage_Sales_Model_Mysql4_Report_Shipping_Collection
      */
     public function addStoreFilter($storeIds)
     {
@@ -140,7 +139,7 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
     /**
      * Apply stores filter
      *
-     * @return Mage_Tax_Model_Mysql4_Report_Collection
+     * @return Mage_Sales_Model_Mysql4_Report_Shipping_Collection
      */
     protected function _applyStoresFilter()
     {
@@ -171,7 +170,7 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
      * Set status filter
      *
      * @param string|array $state
-     * @return Mage_Tax_Model_Mysql4_Report_Collection
+     * @return Mage_Sales_Model_Mysql4_Report_Shipping_Collection
      */
     public function addOrderStatusFilter($orderStatus)
     {
@@ -211,3 +210,6 @@ class Mage_Tax_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysql4_Col
         return parent::load($printQuery, $logQuery);
     }
 }
+
+
+
