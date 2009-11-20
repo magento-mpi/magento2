@@ -527,15 +527,21 @@ class Enterprise_AdminGws_Model_Models extends Enterprise_AdminGws_Model_Observe
      */
     public function catalogEventSaveBefore($model)
     {
-        // save event only for exclusive categories
         $category = Mage::getModel('catalog/category')->load($model->getCategoryId());
         if (!$category->getId()) {
             $this->_throwSave();
         }
+
+        // save event only for exclusive categories
+        $rootFound = false;
         foreach ($this->_role->getAllowedRootCategories() as $rootPath) {
-            if (!($category->getPath() === $rootPath || 0 === strpos($category->getPath(), "{$rootPath}/"))) {
-                $this->_throwSave();
+            if ($category->getPath() === $rootPath || 0 === strpos($category->getPath(), "{$rootPath}/")) {
+                $rootFound = true;
+                break;
             }
+        }
+        if (!$rootFound) {
+            $this->_throwSave();
         }
 
         // in non-exclusive mode allow to change the image only
