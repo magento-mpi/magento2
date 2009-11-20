@@ -130,6 +130,16 @@
                 </Mage_Core>
             </modules>
         </translate>
+        <events>
+            <cms_wysiwyg_config_prepare>
+                <observers>
+                    <variable_observer>
+                        <class>core/variable_observer</class>
+                        <method>prepareWysiwygPluginConfig</method>
+                    </variable_observer>
+                </observers>
+            </cms_wysiwyg_config_prepare>
+        </events>
     </adminhtml>
     <install>
         <translate>

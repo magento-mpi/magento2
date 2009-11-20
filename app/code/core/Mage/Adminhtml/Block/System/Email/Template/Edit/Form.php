@@ -45,7 +45,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit_Form extends Mage_Adminhtm
         if ($head = $this->getLayout()->getBlock('head')) {
             $head->addItem('js', 'prototype/window.js')
                 ->addItem('js_css', 'prototype/windows/themes/default.css')
-                ->addItem('js_css', 'prototype/windows/themes/magento.css');
+                ->addItem('js_css', 'prototype/windows/themes/magento.css')
+                ->addItem('js', 'mage/adminhtml/variables.js');
         }
         return parent::_prepareLayout();
     }

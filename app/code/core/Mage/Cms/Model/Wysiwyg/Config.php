@@ -73,6 +73,7 @@ class Mage_Cms_Model_Wysiwyg_Config extends Varien_Object
             'popup_css'                     => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/dialog.css',
             'content_css'                   => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css',
             'width'                         => '100%',
+            'plugins'                   => array()
         ));
 
         $config->setData('directives_url_quoted', preg_quote($config->getData('directives_url')));

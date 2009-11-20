@@ -80,6 +80,10 @@
     <adminhtml_cms_page_revision_edit>
         <reference name="head">
             <action method="addJs"><script>enterprise/adminhtml/cms.js</script></action>
+            <action method="addItem"><type>js</type><name>mage/adminhtml/variables.js</name></action>
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
         </reference>
         <reference name="content">
             <block type="enterprise_cms/adminhtml_cms_page_revision_edit" name="cms_page_revision_edit">

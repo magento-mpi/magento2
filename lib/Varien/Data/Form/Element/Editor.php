@@ -141,7 +141,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
     {
         $buttonsHtml = '<div id="buttons'.$this->getHtmlId().'" class="buttons-set">';
         if ($this->isEnabled()) {
-            $buttonsHtml .= $this->_getPluginButtonsHtml($this->isHidden()) . $this->_getToggleButtonHtml();
+            $buttonsHtml .= $this->_getToggleButtonHtml() . $this->_getPluginButtonsHtml($this->isHidden());
         } else {
             $buttonsHtml .= $this->_getPluginButtonsHtml(true);
         }
@@ -194,7 +194,76 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
             'style'     => $visible ? '' : 'display:none',
         ));
 
+        foreach ($this->getConfig('plugins') as $plugin) {
+            if (isset($plugin['options']) && $this->_checkPluginButtonOptions($plugin['options'])) {
+                $buttonOptions = $this->_prepareButtonOptions($plugin['options']);
+                if (!$visible) {
+                    $configStyle = '';
+                    if (isset($buttonOptions['style'])) {
+                        $configStyle = $buttonOptions['style'];
+                    }
+                    $buttonOptions = array_merge($buttonOptions, array('style' => 'display:none;' . $configStyle));
+                }
+                $buttonsHtml .= $this->_getButtonHtml($buttonOptions);
+            }
+        }
+
         return $buttonsHtml;
+    }
+
+    /**
+     * Prepare button options array to create button html
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function _prepareButtonOptions($options)
+    {
+        $buttonOptions = array();
+        $buttonOptions['class'] = 'plugin';
+        foreach ($options as $name => $value) {
+            $buttonOptions[$name] = $value;
+        }
+        $buttonOptions = $this->_prepareOptions($buttonOptions);
+        return $buttonOptions;
+    }
+
+    /**
+     * Check if plugin button options have required values
+     *
+     * @param array $pluginOptions
+     * @return boolean
+     */
+    protected function _checkPluginButtonOptions($pluginOptions)
+    {
+        if (!isset($pluginOptions['title'])) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Convert options by replacing template constructions ( like {{var_name}} )
+     * with data from this element object
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function _prepareOptions($options)
+    {
+        $preparedOptions = array();
+        foreach ($options as $name => $value) {
+            if (is_array($value) && isset($value['search']) && isset($value['subject'])) {
+                $subject = $value['subject'];
+                foreach ($value['search'] as $part) {
+                    $subject = str_replace('{{'.$part.'}}', $this->getDataUsingMethod($part), $subject);
+                }
+                $preparedOptions[$name] = $subject;
+            } else {
+                $preparedOptions[$name] = $value;
+            }
+        }
+        return $preparedOptions;
     }
 
     /**

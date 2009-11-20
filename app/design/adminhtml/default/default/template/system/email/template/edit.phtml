@@ -123,10 +123,7 @@
     var templateControl = {
         unconvertedText: '',
         typeChange: false,
-        variablesContent: null,
-        lastDialogWindow: null,
-        overlayShowEffectOptions: null,
-        overlayHideEffectOptions: null,
+        variables: null,
         init: function () {
             if ($('convert_button_back')) {
                 $('convert_button_back').hide();
@@ -196,8 +193,7 @@
                 return;
             }
 
-            this.variablesContent = null;
-            this.lastDialogWindow = null;
+            this.variables = null;
             
             new Ajax.Request($('email_template_load_form').action, {
                parameters: Form.serialize($('email_template_load_form'), true),
@@ -260,78 +256,20 @@
         },
 
         openVariableChooser: function() {
-            this.overlayShowEffectOptions = Windows.overlayShowEffectOptions;
-            this.overlayHideEffectOptions = Windows.overlayHideEffectOptions;
-            Windows.overlayShowEffectOptions = {duration:0};
-            Windows.overlayHideEffectOptions = {duration:0};
-            if (this.variablesContent == null) {
-                this.variablesContent = '<ul>';
-                var variables = $('variables').value.evalJSON();
+            Variables.init('template_text');
+            if (this.variables == null) {
+                Variables.resetData();
+                this.variables = $('variables').value.evalJSON();
                 var templateVariablesValue = $('template_variables').value;
-                if (variables && templateVariablesValue) {
+                if (this.variables && templateVariablesValue) {
                     if (templateVariables = templateVariablesValue.evalJSON()) {
-                        variables.push(templateVariables);
+                        this.variables.push(templateVariables);
                     }
                 }
-                variables.each(function(variableGroup){
-                    this.variablesContent += '<li><b>' + variableGroup.label + '</b></li>';
-                    (variableGroup.value).each(function(variable){
-                        this.variablesContent += '<li style="padding-left: 20px;">' 
-                            + this.prepareVariableRow(variable.value, variable.label) + '</li>';
-                    }.bind(this));
-                }.bind(this));
-                this.variablesContent += '</ul>';
             }
-            this.lastDialogWindow = Dialog.info(this.variablesContent, {
-                draggable:true,
-                resizable:true,
-                closable:true,
-                className:"magento",
-                title:'Insert Variable...',
-                width:700,
-                height:500,
-                zIndex:1000,
-                recenterAuto:false,
-                hideEffect:Element.hide,
-                showEffect:Element.show,
-                id:"variables-chooser",
-                onClose: this.closeVariableChooser.bind(this)
-            });
-            this.variablesContent.evalScripts.bind(this.variablesContent).defer();
-        },
-
-        closeVariableChooser: function(window) {
-            if (window) {
-                window.close();
-                Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
-                Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
+            if (this.variables) {
+                Variables.openVariableChooser(this.variables);
             }
-        },
-
-        prepareVariableRow: function(varValue, varLabel) {
-            var value = (varValue).replace(/"/g, '&quot;').replace(/'/g, '\\&#39;');
-            var content = '<a href="javascript:void();" onclick="templateControl.insertVariable(\''+ value +'\');">' + varLabel + '</a>';
-            return content;
-        },
-
-        insertVariable: function(value) {
-            var templateField = $('template_text');
-
-            var scrollPos = templateField.scrollTop;
-            var strPos = templateField.selectionStart;
-
-            var front = (templateField.value).substring(0, strPos);
-            var back = (templateField.value).substring(strPos, templateField.value.length);
-
-            strPos = strPos + (value).length;
-            
-            templateField.value = front + value + back;
-            templateField.selectionStart = strPos;
-            templateField.selectionEnd = strPos;
-            templateField.focus();
-            templateField.scrollTop = scrollPos;
-            
-            this.closeVariableChooser(this.lastDialogWindow);
         }
     };
 

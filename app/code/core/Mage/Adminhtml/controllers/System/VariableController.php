@@ -174,6 +174,18 @@ class Mage_Adminhtml_System_VariableController extends Mage_Adminhtml_Controller
     }
 
     /**
+     * WYSIWYG Plugin Action
+     *
+     */
+    public function wysiwygPluginAction()
+    {
+        $customVariables = Mage::getModel('core/variable')->getVariablesOptionArray(true);
+        $storeContactVariabls = Mage::getModel('core/source_email_variables')->toOptionArray(true);
+        $variables = array($storeContactVariabls, $customVariables);
+        $this->getResponse()->setBody(Zend_Json::encode($variables));
+    }
+
+    /**
      * Check current user permission
      *
      * @return boolean
