@@ -90,9 +90,8 @@ class Mage_Adminhtml_Block_System_Variable_Edit_Form extends Mage_Adminhtml_Bloc
 
         $fieldset->addField('html_value', 'textarea', array(
             'name'     => 'html_value',
-            'label'    => Mage::helper('adminhtml')->__('Variable Html Value'),
-            'title'    => Mage::helper('adminhtml')->__('Variable Html Value'),
-            'required' => true,
+            'label'    => Mage::helper('adminhtml')->__('Variable HTML Value'),
+            'title'    => Mage::helper('adminhtml')->__('Variable HTML Value'),
             'disabled' => $useDefault
         ));
 
@@ -100,7 +99,6 @@ class Mage_Adminhtml_Block_System_Variable_Edit_Form extends Mage_Adminhtml_Bloc
             'name'     => 'plain_value',
             'label'    => Mage::helper('adminhtml')->__('Variable Plain Value'),
             'title'    => Mage::helper('adminhtml')->__('Variable Plain Value'),
-            'required' => true,
             'disabled' => $useDefault
         ));
 
