@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abstract
+class Mage_Sales_Model_Mysql4_Report_Invoiced extends Mage_Core_Model_Mysql4_Abstract
 {
     protected function _construct()
     {
@@ -32,13 +32,13 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abs
     }
 
     /**
-     * Aggregate Shipping data
+     * Aggregate Invoiced data
      *
      * @param mixed $from
      * @param mixed $to
-     * @return Mage_Sales_Model_Mysql4_Report_Shipping
+     * @return Mage_Sales_Model_Mysql4_Report_Invoiced
      */
-    public function aggregateShipping($from = null, $to = null)
+    public function aggregateInvoiced($from = null, $to = null)
     {
         if (!is_null($from)) {
             $from = $this->formatDate($from);
@@ -46,21 +46,21 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abs
         if (!is_null($to)) {
             $from = $this->formatDate($to);
         }
-        //$this->_aggregateShippingDataByColumn($from, $to, 'sales/shipping_aggregated', 'created_at');
-        $this->_aggregateShippingDataByColumn($from, $to, 'sales/shipping_aggregated_order', 'created_at');
+        //$this->_aggregateInvoicedDataByColumn($from, $to, 'sales/invoiced_aggregated', 'created_at');
+        $this->_aggregateInvoicedDataByColumn($from, $to, 'sales/invoiced_aggregated_order', 'created_at');
         return $this;
     }
 
     /**
-     * Aggregate Shipping data by column
+     * Aggregate Invoiced data by column
      *
      * @param mixed $from
      * @param mixed $to
      * @param string $tableName
      * @param string $column
-     * @return Mage_Sales_Model_Mysql4_Report_Shipping
+     * @return Mage_Sales_Model_Mysql4_Report_Invoiced
      */
-    protected function _aggregateShippingDataByColumn($from, $to, $tableName, $column)
+    protected function _aggregateInvoicedDataByColumn($from, $to, $tableName, $column)
     {
         try {
             $tableName = $this->getTable($tableName);
@@ -88,15 +88,16 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abs
                 'period'                => "DATE({$column})",
                 'store_id'              => 'store_id',
                 'order_status'          => 'status',
-                'shipping_description'  => 'shipping_description',
-                'orders_count'          => 'COUNT(entity_id)',
-                'total_shipping'        => 'SUM(`base_shipping_amount` * `base_to_global_rate`)'
+                'orders_count'          => 'COUNT(`base_total_invoiced`)',
+                'orders_invoiced'       => 'SUM(IF(`base_total_invoiced` > 0, 1, 0))',
+                'invoiced'              => 'SUM(`base_total_invoiced` * `base_to_global_rate`)',
+                'invoiced_captured'     => 'SUM(`base_total_paid` * `base_to_global_rate`)',
+                'invoiced_not_captured' => 'SUM((`base_total_invoiced` - `base_total_paid`) * `base_to_global_rate`)'
             );
 
             $select = $writeAdapter->select()
                 ->from($this->getTable('sales/order'), $columns)
-                ->where('state <> ?', 'pending')
-                ->where('is_virtual = 0');
+                ->where('state <> ?', 'canceled');
 
                 if (!is_null($from) || !is_null($to)) {
                     $select->where("DATE({$column}) IN(?)", $subQuery);
@@ -105,9 +106,10 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abs
                 $select->group(array(
                     "DATE({$column})",
                     'store_id',
-                    'order_status',
-                    'shipping_description'
+                    'order_status'
                 ));
+
+                $select->having('orders_count > 0');
 
             $writeAdapter->query("
                 INSERT INTO `{$tableName}` (" . implode(',', array_keys($columns)) . ") {$select}
@@ -119,9 +121,11 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abs
                 'period'                => 'period',
                 'store_id'              => new Zend_Db_Expr('0'),
                 'order_status'          => 'order_status',
-                'shipping_description'  => 'shipping_description',
                 'orders_count'          => 'SUM(orders_count)',
-                'total_shipping'        => 'SUM(total_shipping)'
+                'orders_invoiced'       => 'SUM(orders_invoiced)',
+                'invoiced'              => 'SUM(invoiced)',
+                'invoiced_captured'     => 'SUM(invoiced_captured)',
+                'invoiced_not_captured' => 'SUM(invoiced_not_captured)'
             );
 
             $select
@@ -135,8 +139,7 @@ class Mage_Sales_Model_Mysql4_Report_Shipping extends Mage_Core_Model_Mysql4_Abs
                 $select->group(array(
                     'period',
                     'store_id',
-                    'order_status',
-                    'shipping_description'
+                    'order_status'
                 ));
 
             $writeAdapter->query("
