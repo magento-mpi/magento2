@@ -200,7 +200,7 @@ try {
             'version_number' => 1,
             'page_id' => $page['page_id'],
             'access_level' => Enterprise_Cms_Model_Page_Version::ACCESS_LEVEL_PUBLIC,
-            'user_id' => 0,
+            'user_id' => NULL,
             'revisions_count' => 1,
             'label' => $page['title']
         ));
@@ -224,7 +224,7 @@ try {
         }
 
         $_data['created_at'] = date('Y-m-d');
-        $_data['user_id'] = 0;
+        $_data['user_id'] = NULL;
         $_data['revision_number'] = 1;
         $_data['version_id'] = $versionId;
         $_data['page_id'] = $page['page_id'];
