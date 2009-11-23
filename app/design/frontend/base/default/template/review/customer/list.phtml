@@ -31,16 +31,16 @@
 <?php if( $this->getCollection() && $this->count()): ?>
     <?php echo $this->getToolbarHtml() ?>
         <table class="data-table" id="my-reviews-table">
-            <col width="60" />
-            <col width="200" />
-            <col width="80" />
+            <col width="1" />
+            <col width="210" />
+            <col width="1" />
             <col />
-            <col width="100" />
+            <col width="1" />
             <tbody>
                 <?php foreach ($this->getCollection() as $_review): ?>
                 <tr>
                     <td><?php echo $this->dateFormat($_review->getCreatedAt()) ?></td>
-                    <td><h3 class="product-name"><a href="<?php echo $this->getProductLink() ?>id/<?php echo $_review->getEntityPkValue() ?>"><?php echo $this->htmlEscape($_review->getName()) ?></a></h3></td>
+                    <td><p class="product-name"><a href="<?php echo $this->getProductLink() ?>id/<?php echo $_review->getEntityPkValue() ?>"><?php echo $this->htmlEscape($_review->getName()) ?></a></p></td>
                     <td>
                     <?php if($_review->getSum()): ?>
                         <div class="rating-box">
@@ -49,7 +49,7 @@
                     <?php endif; ?>
                     </td>
                     <td><?php echo $this->htmlEscape($this->helper('review')->getDetail($_review->getDetail())) ?></td>
-                    <td><a href="<?php echo $this->getReviewLink() ?>id/<?php echo $_review->getReviewId() ?>"><?php echo $this->__('View Details') ?></a></td>
+                    <td><a href="<?php echo $this->getReviewLink() ?>id/<?php echo $_review->getReviewId() ?>" class="nobr"><?php echo $this->__('View Details') ?></a></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

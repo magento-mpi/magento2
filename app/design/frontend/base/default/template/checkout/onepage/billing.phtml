@@ -41,12 +41,10 @@
             <input type="hidden" name="billing[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="billing:address_id" />
             <ul>
                 <li class="fields"><?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?></li>
-                <li>
-                    <div class="field">
-                        <label for="billing:company"><?php echo $this->__('Company') ?></label>
-                        <div class="input-box">
-                            <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text" />
-                        </div>
+                <li class="wide">
+                    <label for="billing:company"><?php echo $this->__('Company') ?></label>
+                    <div class="input-box">
+                        <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->htmlEscape($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text" />
                     </div>
         <?php if(!$this->isCustomerLoggedIn()): ?>
                     <div class="field">
@@ -57,14 +55,14 @@
                     </div>
         <?php endif ?>
                 </li>
-                <li>
+                <li class="wide">
                     <label for="billing:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
                     <div class="input-box">
                         <input type="text" title="<?php echo $this->__('Street Address') ?>" name="billing[street][]" id="billing:street1" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet(1)) ?>" class="input-text required-entry" />
                     </div>
                 </li>
     <?php for ($_i=2, $_n=$this->helper('customer/address')->getStreetLines(); $_i<=$_n; $_i++): ?>
-                <li class="addtional-row">
+                <li class="wide">
                     <div class="input-box">
                         <input type="text" title="<?php echo $this->__('Street Address '.$_i) ?>" name="billing[street][]" id="billing:street<?php echo $_i?>" value="<?php echo $this->htmlEscape($this->getAddress()->getStreet($_i)) ?>" class="input-text" />
                     </div>
@@ -160,7 +158,7 @@
                 <?php endif; ?>
                 <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
                     <li class="control">
-                        <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /> <label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label>
+                        <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" onchange="shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /><label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label>
                     </li>
                 <?php else:?>
                     <li class="no-display"><input type="hidden" name="billing[save_in_address_book]" value="1" /></li>
@@ -170,8 +168,8 @@
      </li>
     <?php if ($this->canShip()): ?>
         <li class="control">
-            <p><input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> onclick="$('shipping:same_as_billing').checked = true;" class="radio" /> <label for="billing:use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label></p>
-            <p><input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> onclick="$('shipping:same_as_billing').checked = false;" class="radio" /> <label for="billing:use_for_shipping_no"><?php echo $this->__('Ship to different address') ?></label></p>
+            <p><input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> onclick="$('shipping:same_as_billing').checked = true;" class="radio" /><label for="billing:use_for_shipping_yes"><?php echo  $this->__('Ship to this address') ?></label></p>
+            <p><input type="radio" name="billing[use_for_shipping]" id="billing:use_for_shipping_no" value="0"<?php if (!$this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> onclick="$('shipping:same_as_billing').checked = false;" class="radio" /><label for="billing:use_for_shipping_no"><?php echo $this->__('Ship to different address') ?></label></p>
         </li>
     <?php endif; ?>
     </ul>

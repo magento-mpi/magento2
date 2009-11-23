@@ -120,8 +120,7 @@
             <?php if ($address->isPrimary($type['address_type_id'])): ?>
                 <strong><?php echo $this->__("This is My Default %s Address", ucfirst($type['name'])) ?></strong>
             <?php else: ?>
-                <input type="checkbox" id="primary_<?php echo $code ?>" name="primary_types[]" value="<?php echo $type['address_type_id'] ?>" class="checkbox" />
-                <label for="primary_<?php echo $code ?>"><?php echo $this->__("Use as My Default %s Address", ucfirst($type['name'])) ?></label>
+                <input type="checkbox" id="primary_<?php echo $code ?>" name="primary_types[]" value="<?php echo $type['address_type_id'] ?>" class="checkbox" /><label for="primary_<?php echo $code ?>"><?php echo $this->__("Use as My Default %s Address", ucfirst($type['name'])) ?></label>
             <?php endif ?>
             </li>
         <?php endforeach ?>
