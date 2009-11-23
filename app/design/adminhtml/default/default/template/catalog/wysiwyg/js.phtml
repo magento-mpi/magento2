@@ -89,6 +89,10 @@ var catalogWysiwygEditor = {
         this.closeDialogWindow(dialogWindow);
     },
     closeDialogWindow : function(dialogWindow) {
+        // remove form validation event after closing editor to prevent errors during save main form
+        if (typeof varienGlobalEvents != undefined && editorFormValidationHandler) {
+            varienGlobalEvents.removeEventHandler('formSubmit', editorFormValidationHandler);
+        }
         dialogWindow.close();
         Windows.overlayShowEffectOptions = this.overlayShowEffectOptions;
         Windows.overlayHideEffectOptions = this.overlayHideEffectOptions;
