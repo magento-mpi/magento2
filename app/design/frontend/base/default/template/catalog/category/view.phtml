@@ -54,7 +54,7 @@
 <?php endif; ?>
 
 <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
-        <div class="category-description"><?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?></div>
+        <div class="category-description std"><?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?></div>
     <?php endif; ?>
 
 <?php if($this->isContentMode()): ?>
@@ -62,10 +62,8 @@
 
 <?php elseif($this->isMixedMode()): ?>
     <?php echo $this->getCmsBlockHtml() ?>
-    <h2 class="hidden"><?php echo $this->__('Category Products'); ?></h2>
     <?php echo $this->getProductListHtml() ?>
 
 <?php else: ?>
-    <h2 class="hidden"><?php echo $this->__('Category Products'); ?></h2>
     <?php echo $this->getProductListHtml() ?>
 <?php endif; ?>
