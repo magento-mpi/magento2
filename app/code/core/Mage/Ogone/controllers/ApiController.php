@@ -192,7 +192,8 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                 $this->_exceptionProcess();
                 break;
             default:
-                $this->_cancelProcess();
+                //all unknown transaction will accept as exceptional
+                $this->_exceptionProcess();
         }
     }
 
@@ -362,14 +363,14 @@ class Mage_Ogone_ApiController extends Mage_Core_Controller_Front_Action
                 $exception = Mage::helper('ogone')->__('Authorization not known: A technical problem arose during authorization process, giving unpredictable result');
                 break;
             default:
-                $exception = '';
+                $exception = Mage::helper('ogone')->__('Unknown exception');
         }
 
         if (!empty($exception)) {
             try{
                 $this->_getCheckout()->setLastSuccessQuoteId($order->getQuoteId());
                 $this->_prepareCCInfo($order, $params);
-                $order->getPayment()->setLastTransId($params['PAYID']);                
+                $order->getPayment()->setLastTransId($params['PAYID']);
                 //to send new order email only when state is pending payment
                 if ($order->getState()==Mage_Sales_Model_Order::STATE_PENDING_PAYMENT) {
                     $order->sendNewOrderEmail();
