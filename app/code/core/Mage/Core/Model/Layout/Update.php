@@ -377,6 +377,8 @@ class Mage_Core_Model_Layout_Update
         foreach ($updateXml->children() as $child) {
             if (strtolower($child->getName())=='update' && isset($child['handle'])) {
                 $this->merge((string)$child['handle']);
+                // Adding merged layout handle to the list of applied hanles
+                $this->addHandle((string)$child['handle']);
             }
         }
         return $this;
