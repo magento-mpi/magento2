@@ -101,6 +101,8 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
     protected $_isAdminSecure = null;
     protected $_isFrontSecure = null;
 
+    protected $_frontendName = null;
+
     /**
      * @var bool
      */
@@ -948,5 +950,19 @@ class Mage_Core_Model_Store extends Mage_Core_Model_Abstract
             $this->_isReadOnly = (bool)$value;
         }
         return $this->_isReadOnly;
+    }
+
+    /**
+     * Retrieve storegroup name
+     *
+     * @return string
+     */
+    public function getFrontendName()
+    {
+        if (is_null($this->_frontendName)) {
+            $storeGroupName = (string)Mage::getStoreConfig('general/store_information/name', $this);
+            $this->_frontendName = (!empty($storeGroupName)) ? $storeGroupName : $this->getGroup()->getName();
+        }
+        return $this->_frontendName;
     }
 }

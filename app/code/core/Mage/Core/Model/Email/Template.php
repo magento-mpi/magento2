@@ -445,6 +445,10 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             $this->setSenderEmail($sender['email']);
         }
 
+        if (!isset($vars['store'])) {
+            $vars['store'] = Mage::app()->getStore($storeId);
+        }
+
         $this->setSentSuccess($this->send($email, $name, $vars));
         return $this;
     }
