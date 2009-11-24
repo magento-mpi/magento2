@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="page-title">
+<div class="page-title rss-title">
     <h1><?php echo $this->__('RSS Feeds') ?></h1>
 </div>
 <?php
@@ -33,7 +33,7 @@
 ?>
 <?php if ($_categories || $_misc): ?>
 <?php if($_misc): ?>
-<table class="data-table" id="rss-table-misc">
+<table class="data-table rss-table" id="rss-table-misc">
     <col />
     <col width="1" />
     <thead>
@@ -55,7 +55,7 @@
 <br/>
 <?php endif ?>
 <?php if($_categories): ?>
-<table class="data-table" id="rss-table-category">
+<table class="data-table rss-table" id="rss-table-category">
     <col />
     <col width="1" />
     <thead>

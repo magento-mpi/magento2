@@ -26,7 +26,7 @@
 ?>
 <?php $_item = $this->getItem()?>
 <tr>
-    <td class="a-center"><a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove Item')?>"><img src="<?php echo $this->getSkinUrl('images/btn_trash.gif') ?>" alt="<?php echo $this->__('Remove Item')?>" /></a></td>
+    <td class="a-center"><a href="<?php echo $this->getDeleteUrl() ?>" title="<?php echo $this->__('Remove Item')?>" class="btn-remove2"><?php echo $this->__('Remove Item') ?></a></td>
     <td><a href="<?php echo $this->getProductUrl() ?>" class="product-image" title="<?php echo $this->htmlEscape($this->getProductName()) ?>"><img src="<?php echo $this->getProductThumbnail()->resize(75); ?>" alt="<?php echo $this->htmlEscape($this->getProductName()) ?>" /></a></td>
     <td>
         <h3 class="product-name"><a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->getProductName() ?></a></h3>
