@@ -106,7 +106,7 @@ All tags page
         <reference name="root">
             <action method="setHeaderTitle" translate="title" module="customer"><title>My Account</title></action>
         </reference>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="tag/customer_tags" name="customer_tags" template="tag/customer/tags.phtml"/>
         </reference>
     </tag_customer_index>
@@ -117,7 +117,7 @@ All tags page
         <reference name="root">
             <action method="setHeaderTitle" translate="title" module="customer"><title>My Account</title></action>
         </reference>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="tag/customer_view" name="customer_view" template="tag/customer/view.phtml"/>
         </reference>
     </tag_customer_view>
@@ -127,7 +127,7 @@ All tags page
         <reference name="root">
             <action method="setHeaderTitle" translate="title" module="customer"><title>My Account</title></action>
         </reference>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="tag/customer_edit" name="customer_edit" template="tag/customer/edit.phtml"/>
         </reference>
     </tag_customer_edit>

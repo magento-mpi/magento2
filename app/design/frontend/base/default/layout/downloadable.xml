@@ -37,7 +37,7 @@
     <downloadable_customer_products translate="label">
         <label>Customer My Account Downloadable Items</label>
         <update handle="customer_account"/>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="downloadable/customer_products_list" name="downloadable_customer_products_list" template="downloadable/customer/products/list.phtml" />
         </reference>
         <reference name="root">

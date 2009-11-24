@@ -71,7 +71,7 @@ Customer account home dashboard layout
     <sales_order_history translate="label">
         <label>Customer My Account Order History</label>
         <update handle="customer_account"/>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="sales/order_history" name="sales.order.history"/>
             <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml"/>
         </reference>
@@ -106,7 +106,7 @@ Customer account home dashboard layout
     <sales_order_invoice translate="label">
         <label>Customer My Account Order Invoice View</label>
         <update handle="customer_account"/>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="sales/order_info" as="info" name="sales.order.info"/>
             <block type="sales/order_invoice" name="sales.order.invoice">
                 <block type="sales/order_invoice_items" name="invoice_items" template="sales/order/invoice/items.phtml">
@@ -131,7 +131,7 @@ Customer account home dashboard layout
     <sales_order_shipment translate="label">
         <label>Customer My Account Order Shipment View</label>
         <update handle="customer_account"/>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="sales/order_info" as="info" name="sales.order.info"/>
             <block type="sales/order_shipment" name="sales.order.shipment">
                 <block type="sales/order_shipment_items" name="shipment_items" template="sales/order/shipment/items.phtml">
@@ -150,7 +150,7 @@ Customer account home dashboard layout
     <sales_order_creditmemo translate="label">
         <label>Customer My Account Order Creditmemo View</label>
         <update handle="customer_account"/>
-        <reference name="content">
+        <reference name="my.account.wrapper">
             <block type="sales/order_info" as="info" name="sales.order.info"/>
             <block type="sales/order_creditmemo" name="sales.order.creditmemo">
                 <block type="sales/order_creditmemo_items" name="creditmemo_items" template="sales/order/creditmemo/items.phtml">

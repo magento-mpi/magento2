@@ -28,18 +28,16 @@
 $_code = $this->getMethodCode();
 $_img  = $this->getPaymentImageSrc($_code);
 ?>
-<fieldset class="form-list">
-    <ul id="payment_form_<?php echo $_code ?>" style="display:none">
-        <li>
-            <?php echo Mage::helper('moneybookers')->__('You will be redirected to our secure payment page when you place an order.') ?>
-        </li>
-    </ul>
-    <?php if ($_img) { ?>
-    <div style="padding:10px 15px 15px;">
-        <img src="<?php echo $_img ?>" alt="" /><br />
-        <?php if ($_code == 'moneybookers_wlt') { ?>
-        <a href="<?php echo Mage::helper('moneybookers')->__('Moneybookers Info URL') ?>" target="_blank"><?php echo Mage::helper('moneybookers')->__('More information about Moneybookers') ?></a>
-        <?php } ?>
-    </div>
+<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none">
+    <li>
+        <?php echo Mage::helper('moneybookers')->__('You will be redirected to our secure payment page when you place an order.') ?>
+    </li>
+</ul>
+<?php if ($_img) { ?>
+<div style="padding:10px 15px 15px;">
+    <img src="<?php echo $_img ?>" alt="" /><br />
+    <?php if ($_code == 'moneybookers_wlt') { ?>
+    <a href="<?php echo Mage::helper('moneybookers')->__('Moneybookers Info URL') ?>" onclick="this.target='_blank'"><?php echo Mage::helper('moneybookers')->__('More information about Moneybookers') ?></a>
     <?php } ?>
-</fieldset>
+</div>
+<?php } ?>

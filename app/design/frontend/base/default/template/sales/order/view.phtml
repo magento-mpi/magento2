@@ -64,6 +64,7 @@ function giftMessageToogle(giftMessageIdentifier)
     <?php echo $this->getChildHtml('order_items') ?>
     
     <?php if($this->helper('giftmessage/message')->getIsMessagesAvailable('order', $_order) && $_order->getGiftMessageId()): ?>
+    <div class="order-gift-message">
         <h2><?php echo $this->__('Gift Message for this Order') ?></h2>
         <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order); ?>
         <dl class="gift-message">
@@ -71,9 +72,11 @@ function giftMessageToogle(giftMessageIdentifier)
             <dt><strong><?php echo $this->__('To') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></dt>
             <dd><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></dd>
         </dl>
+    </div>
     <?php endif; ?>
     <?php $_history = $this->getOrder()->getVisibleStatusHistory() ?>
     <?php if (count($_history)): ?>
+    <div class="order-about">
         <h2><?php echo $this->__('About Your Order') ?></h2>
         <dl>
             <?php foreach ($_history as $_historyItem): ?>
@@ -81,6 +84,7 @@ function giftMessageToogle(giftMessageIdentifier)
                 <dd><?php echo $_historyItem->getComment() ?></dd>
             <?php endforeach; ?>
         </dl>
+    </div>
     <?php endif; ?>
 </div>
 <div class="buttons-set">
