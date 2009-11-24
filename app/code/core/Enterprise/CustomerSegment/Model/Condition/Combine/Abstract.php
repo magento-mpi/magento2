@@ -186,4 +186,20 @@ abstract class Enterprise_CustomerSegment_Model_Condition_Combine_Abstract exten
     {
         return array();
     }
+
+    /**
+     * Limit select by website with joining to store table
+     *
+     * @param Zend_Db_Select $select
+     * @param int | Zend_Db_Expr $website
+     * @param string $storeIdField
+     * @return Enterprise_CustomerSegment_Model_Condition_Abstract
+     */
+    protected function _limitByStoreWebsite(Zend_Db_Select $select, $website, $storeIdField)
+    {
+        $storeTable = $this->getResource()->getTable('core/store');
+        $select->join(array('store'=> $storeTable), $storeIdField.'=store.store_id', array())
+            ->where('store.website_id=?', $website);
+        return $this;
+    }
 }

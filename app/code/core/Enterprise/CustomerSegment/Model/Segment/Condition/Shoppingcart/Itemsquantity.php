@@ -75,7 +75,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
      * Get SQL select for matching shopping cart items count
      *
      * @param $customer
-     * @param $website
+     * @param int | Zend_Db_Expr $website
      * @return Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
@@ -84,11 +84,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Itemsquant
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from($table, array(new Zend_Db_Expr(1)))
+        $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))
             ->limit(1);
-
-        $select->where("items_count {$operator} ?", $this->getValue());
-        $select->where($this->_createCustomerFilter($customer, 'customer_id'));
+        $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
+        $select->where("quote.items_count {$operator} ?", $this->getValue());
+        $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
 
         return $select;
     }

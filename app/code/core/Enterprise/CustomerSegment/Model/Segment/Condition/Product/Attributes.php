@@ -168,9 +168,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Attributes
             );
         } else {
             $select->where('main.attribute_id = ?', $attribute->getId());
-            $storeIds = $website->getStoreIds();
-            $storeIds = array_merge(array(0), $storeIds);
-            $select->where('main.store_id IN (?)', $storeIds);
+            $select->join(
+                    array('store'=> $this->getResource()->getTable('core/store')),
+                    'main.store_id=store.store_id',
+                    array())
+                ->where('store.website_id IN(?)', array(0, $website));
             $condition = $this->getResource()->createConditionSql(
                 'main.value', $this->getOperator(), $this->getValue()
             );

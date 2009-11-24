@@ -70,8 +70,35 @@ class Enterprise_CustomerSegment_Model_Observer
     }
 
     /**
+     * Process customer related data changing. Method can process just events with customer object
+     *
+     * @param   Varien_Event_Observer $observer
+     */
+    public function processCustomerEvent(Varien_Event_Observer $observer)
+    {
+        $eventName = $observer->getEvent()->getName();
+        $customer  = $observer->getEvent()->getCustomer();
+        $dataObject= $observer->getEvent()->getDataObject();
+        $customerId= false;
+
+        if ($customer) {
+            $customerId = $customer->getId();
+        }
+        if (!$customerId && $dataObject) {
+            $customerId = $dataObject->getCustomerId();
+        }
+
+        if ($customerId) {
+            Mage::getSingleton('enterprise_customersegment/customer')->processCustomerEvent(
+                $eventName,
+                $customerId
+            );
+        }
+    }
+
+    /**
      * Match customer segments on supplied event for currently logged in customer and ran website.
-     * Can be used for processing frontend events
+     * Can be used for processing just frontend events
      *
      * @param Varien_Event_Observer $observer
      */

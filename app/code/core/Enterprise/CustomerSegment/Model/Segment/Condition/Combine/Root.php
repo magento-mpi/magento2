@@ -70,9 +70,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
     /**
      * Prepare base select with limitation by customer
      *
-     * @param null | array | int | Mage_Customer_Model_Customer $customer
-     * @param $website
-     * @return Varien_Db_Select
+     * @param   null | array | int | Mage_Customer_Model_Customer $customer
+     * @param   int | Zend_Db_Expr $website
+     * @return  Varien_Db_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
@@ -81,6 +81,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
         $select->from($table, array('entity_id'));
         if ($customer) {
             $select->where($this->_createCustomerFilter($customer, 'entity_id'));
+        } elseif ($customer === null) {
+            if (Mage::getSingleton('customer/config_share')->isWebsiteScope()) {
+                $select->where('website_id=?', $website);
+            }
         }
         return $select;
     }
@@ -89,9 +93,9 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Combine_Root
      * Get SQL select for matching customer to segment condition.
      * Rewrited for cover root conditions combination with additional condition by customer
      *
-     * @param $customer
-     * @param $website
-     * @return Varien_Db_Select
+     * @param   Mage_Customer_Model_Customer | Zend_Db_Select | Zend_Db_Expr $customer
+     * @param   int | Zend_Db_Expr $website
+     * @return  Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
     {

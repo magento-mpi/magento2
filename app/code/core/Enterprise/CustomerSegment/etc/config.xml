@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Enterprise_CustomerSegment>
-             <version>0.0.8</version>
+             <version>1.6.0.0</version>
         </Enterprise_CustomerSegment>
     </modules>
 
@@ -44,6 +44,7 @@
                     <segment><table>enterprise_customersegment_segment</table></segment>
                     <event><table>enterprise_customersegment_event</table></event>
                     <customer><table>enterprise_customersegment_customer</table></customer>
+                    <website><table>enterprise_customersegment_website</table></website>
                 </entities>
             </enterprise_customersegment_mysql4>
         </models>
@@ -66,27 +67,20 @@
             </enterprise_customersegment_setup>
         </resources>
         <events>
+            <!-- Customer account can be global. We have process -->
             <customer_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
                         <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
+                        <method>processCustomerEvent</method>
                     </enterprise_customersegment>
                 </observers>
             </customer_save_commit_after>
-            <customer_balance_save_commit_after>
-                <observers>
-                    <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
-                    </enterprise_customersegment>
-                </observers>
-            </customer_balance_save_commit_after>
             <customer_address_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
                         <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
+                        <method>processCustomerEvent</method>
                     </enterprise_customersegment>
                 </observers>
             </customer_address_save_commit_after>
@@ -94,26 +88,18 @@
                 <observers>
                     <enterprise_customersegment>
                         <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
+                        <method>processCustomerEvent</method>
                     </enterprise_customersegment>
                 </observers>
             </customer_address_delete_commit_after>
-            <sales_quote_save_commit_after>
+            <customer_balance_save_commit_after>
                 <observers>
                     <enterprise_customersegment>
                         <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
+                        <method>processCustomerEvent</method>
                     </enterprise_customersegment>
                 </observers>
-            </sales_quote_save_commit_after>
-            <sales_order_save_commit_after>
-                <observers>
-                    <enterprise_customersegment>
-                        <class>enterprise_customersegment/observer</class>
-                        <method>processEvent</method>
-                    </enterprise_customersegment>
-                </observers>
-            </sales_order_save_commit_after>
+            </customer_balance_save_commit_after>
         </events>
     </global>
 
@@ -177,6 +163,22 @@
     </adminhtml>
     <frontend>
         <events>
+            <sales_quote_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </sales_quote_save_commit_after>
+            <sales_order_save_commit_after>
+                <observers>
+                    <enterprise_customersegment>
+                        <class>enterprise_customersegment/observer</class>
+                        <method>processEvent</method>
+                    </enterprise_customersegment>
+                </observers>
+            </sales_order_save_commit_after>
             <catalog_controller_product_view>
                 <observers>
                     <enterprise_customersegment>

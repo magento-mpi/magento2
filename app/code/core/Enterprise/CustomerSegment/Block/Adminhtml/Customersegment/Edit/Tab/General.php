@@ -59,19 +59,21 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
             'style' => 'width: 98%; height: 100px;',
         ));
 
-        $fieldset->addField('website_id', 'select', array(
-            'name'      => 'website_id',
-            'label'     => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
-            'required'  => true,
-            'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(true),
-        ));
-
-        /*$fieldset->addField('processing_frequency', 'text', array(
-            'name' => 'processing_frequency',
-            'label' => Mage::helper('enterprise_customersegment')->__('Processing Frequency (days)'),
-            'title' => Mage::helper('enterprise_customersegment')->__('Processing Frequency (days)'),
-            'class' => 'validate-number',
-        ));*/
+        if (Mage::app()->isSingleStoreMode()) {
+            $websiteId = Mage::app()->getStore(true)->getWebsiteId();
+            $fieldset->addField('website_ids', 'hidden', array(
+                'name'      => 'website_ids[]',
+                'value'     => $websiteId
+            ));
+            $model->setWebsiteIds($websiteId);
+        } else {
+            $fieldset->addField('website_ids', 'multiselect', array(
+                'name'      => 'website_ids',
+                'label'     => Mage::helper('enterprise_customersegment')->__('Assigned to Website'),
+                'required'  => true,
+                'values'    => Mage::getSingleton('adminhtml/system_store')->getWebsiteValuesForForm(),
+            ));
+        }
 
         $fieldset->addField('is_active', 'select', array(
             'label'     => Mage::helper('enterprise_customersegment')->__('Status'),
@@ -84,6 +86,11 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit_Tab_Genera
         ));
         if (!$model->getId()) {
             $model->setData('is_active', '1');
+        } else {
+            /**
+             * Init model website ids
+             */
+            $model->getWebsiteIds();
         }
 
         $form->setValues($model->getData());

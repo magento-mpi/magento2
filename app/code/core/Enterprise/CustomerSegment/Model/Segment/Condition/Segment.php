@@ -154,7 +154,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Segment extends Mage_Ru
         if (!$customer) {
             return false;
         }
-        $segments = Mage::getSingleton('enterprise_customersegment/customer')->getCustomerSegmentIds($customer);
+
+        $segments = Mage::getSingleton('enterprise_customersegment/customer')->getCustomerSegmentIdsForWebsite(
+            $customer->getId(),
+            $object->getQuote()->getStore()->getWebsite()->getId()
+        );
         return $this->validateAttribute($segments);
     }
 }

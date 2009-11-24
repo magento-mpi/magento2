@@ -85,7 +85,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
      * Prepare base condition select which related with current condition combine
      *
      * @param $customer
-     * @param $website
+     * @param int | Zend_Db_Expr $website
      * @return Varien_Db_Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -107,7 +107,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Order_Address
 
         $orderJoinConditions = 'order_address.parent_id = order_address_order.entity_id';
         $select->joinInner(array('order_address_order' => $orderTable), $orderJoinConditions, array());
-
+        $this->_limitByStoreWebsite($select, $website, 'order_address_order.store_id');
         $select->joinInner(
             array('order_address_type' => $addressTypeAttribute->getBackendTable()),
             'order_address.entity_id = order_address_type.entity_id',

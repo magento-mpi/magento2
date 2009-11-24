@@ -52,6 +52,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
     {
         $collection = Mage::getModel('enterprise_customersegment/segment')->getCollection();
         $collection->addCustomerCountToSelect();
+        $collection->addWebsitesToResult();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -112,7 +113,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Report_Customer_Segment_Grid
             'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
             'align'     =>'left',
             'width'     => 200,
-            'index'     => 'website_id',
+            'index'     => 'website_ids',
             'type'      => 'options',
             'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash()
         ));

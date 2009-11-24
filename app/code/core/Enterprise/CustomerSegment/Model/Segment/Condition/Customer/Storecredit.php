@@ -78,10 +78,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
     }
 
     /**
-     * Get condition query for customer balance
+     * Get condition query for customer balance on specific website
      *
      * @param $customer
-     * @param $website
+     * @param int | Zend_Db_Expr $website
      * @return Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
@@ -93,6 +93,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Storecredit
         $select->from($table, array(new Zend_Db_Expr(1)))
             ->limit(1);
         $select->where($this->_createCustomerFilter($customer, 'customer_id'));
+        $select->where('website_id=?', $website);
         $select->where("amount {$operator} ?", $this->getValue());
 
         return $select;

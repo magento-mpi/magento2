@@ -65,7 +65,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
      * Build query for matching ordered items qty
      *
      * @param $customer
-     * @param $website
+     * @param int | Zend_Db_Expr $website
      * @return Varien_Db_Select
      */
     protected function _prepareConditionsSql($customer, $website)
@@ -83,6 +83,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Sales_Purchasedquantity
             array('order' => $this->getResource()->getTable('sales/order')),
             array(new Zend_Db_Expr($result))
         );
+        $this->_limitByStoreWebsite($select, $website, 'order.store_id');
         $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
 
         return $select;

@@ -260,4 +260,18 @@ class Mage_Customer_Model_Entity_Customer extends Mage_Eav_Model_Entity_Abstract
         }
         return false;
     }
+
+    /**
+     * Get customer website id
+     *
+     * @param int $customerId
+     * @return int
+     */
+    public function getWebsiteId($customerId)
+    {
+        $select = $this->_getReadAdapter()->select()
+            ->from($this->getTable('customer/entity'), 'website_id')
+            ->where('entity_id=?', $customerId);
+        return $this->_getReadAdapter()->fetchOne($select);
+    }
 }

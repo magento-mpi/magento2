@@ -248,7 +248,7 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
             $this->getActions()->loadArray($actionsArr);
         }
 
-        $websiteIds = $this->getWebsiteIds();
+        $websiteIds = $this->_getData('website_ids');
         if (is_string($websiteIds)) {
             $this->setWebsiteIds(explode(',', $websiteIds));
         }
@@ -258,6 +258,11 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
         }
     }
 
+    /**
+     * Prepare data before saving
+     *
+     * @return Mage_Rule_Model_Rule
+     */
     protected function _beforeSave()
     {
         // check if discount amount > 0
@@ -274,13 +279,26 @@ class Mage_Rule_Model_Rule extends Mage_Core_Model_Abstract
             $this->setActionsSerialized(serialize($this->getActions()->asArray()));
             $this->unsActions();
         }
-        if (is_array($this->getWebsiteIds())) {
-            $this->setWebsiteIds(join(',', $this->getWebsiteIds()));
-        }
+
+        $this->_prepareWebsiteIds();
+
         if (is_array($this->getCustomerGroupIds())) {
             $this->setCustomerGroupIds(join(',', $this->getCustomerGroupIds()));
         }
         parent::_beforeSave();
+    }
+
+    /**
+     * Combain website ids to string
+     *
+     * @return Mage_Rule_Model_Rule
+     */
+    protected function _prepareWebsiteIds()
+    {
+        if (is_array($this->getWebsiteIds())) {
+            $this->setWebsiteIds(join(',', $this->getWebsiteIds()));
+        }
+        return $this;
     }
 
     /**

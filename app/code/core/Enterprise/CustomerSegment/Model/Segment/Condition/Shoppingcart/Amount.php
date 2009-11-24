@@ -95,10 +95,10 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
     }
 
     /**
-     * Build condition limitations sql string
+     * Build condition limitations sql string for specific website
      *
      * @param $customer
-     * @param $website
+     * @param int | Zend_Db_Expr $website
      * @return Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
@@ -111,6 +111,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Shoppingcart_Amount
         $select->from(array('quote'=>$table), array(new Zend_Db_Expr(1)))
             ->where('quote.is_active=1')
             ->limit(1);
+        $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
         $joinAddress = false;
         switch ($this->getAttribute()) {

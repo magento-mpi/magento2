@@ -53,6 +53,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('enterprise_customersegment/segment')->getCollection();
+        $collection->addWebsitesToResult();
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
@@ -90,14 +91,16 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Grid extends Ma
             ),
         ));
 
-        $this->addColumn('grid_segment_website', array(
-            'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
-            'align'     =>'left',
-            'index'     => 'website_id',
-            'type'      => 'options',
-            'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
-            'width'     => 200,
-        ));
+        if (!Mage::app()->isSingleStoreMode()) {
+            $this->addColumn('grid_segment_website', array(
+                'header'    => Mage::helper('enterprise_customersegment')->__('Website'),
+                'align'     =>'left',
+                'index'     => 'website_ids',
+                'type'      => 'options',
+                'options'   => Mage::getSingleton('adminhtml/system_store')->getWebsiteOptionHash(),
+                'width'     => 200,
+            ));
+        }
 
         return parent::_prepareColumns();
     }

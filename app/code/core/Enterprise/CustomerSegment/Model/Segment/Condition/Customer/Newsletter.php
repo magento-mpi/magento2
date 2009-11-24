@@ -105,7 +105,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
      * Get condition query for customer balance
      *
      * @param $customer
-     * @param $website
+     * @param int | Zend_Db_Expr $website
      * @return Varien_Db_Select
      */
     public function getConditionsSql($customer, $website)
@@ -114,10 +114,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Newsletter
         $value = $this->getValue();
 
         $select = $this->getResource()->createSelect()
-            ->from($table, array(new Zend_Db_Expr($value)))
-            ->where($this->_createCustomerFilter($customer, 'customer_id'))
-            ->where('subscriber_status = ?', Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED)
+            ->from(array('main' => $table), array(new Zend_Db_Expr($value)))
+            ->where($this->_createCustomerFilter($customer, 'main.customer_id'))
+            ->where('main.subscriber_status = ?', Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED)
             ->limit(1);
+        $this->_limitByStoreWebsite($select, $website, 'main.store_id');
         if (!$value) {
             $select = 'IFNULL(('.$select.'), 1)';
         }

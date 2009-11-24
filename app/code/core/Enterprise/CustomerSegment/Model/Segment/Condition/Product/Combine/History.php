@@ -128,15 +128,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
      * Build query for matching last viewed/orderd items
      *
      * @param $customer
-     * @param $website
+     * @param int | Zend_Db_Expr $website
      * @return Varien_Db_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-
-        $storeIds = $website->getStoreIds();
-        $storeIds = array_merge(array(0), $storeIds);
 
         switch ($this->getValue()) {
             case self::ORDERED:
@@ -150,7 +147,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
                     array()
                 );
                 $select->where($this->_createCustomerFilter($customer, 'order.customer_id'));
-                $select->where('order.store_id IN (?)', $storeIds);
+                $this->_limitByStoreWebsite($select, $website, 'order.store_id');
                 break;
             default:
                 $select->from(
@@ -158,12 +155,11 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_History
                     array(new Zend_Db_Expr(1))
                 );
                 $select->where($this->_createCustomerFilter($customer, 'item.customer_id'));
-                $select->where('item.store_id IN (?)', $storeIds);
+                $this->_limitByStoreWebsite($select, $website, 'item.store_id');
                 break;
         }
 
         $select->limit(1);
-
         return $select;
     }
 

@@ -26,8 +26,8 @@
 class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
 {
 
-    const VIEW_MODE_UNION_CODE = 'union';
-    const VIEW_MODE_INTERSECT_CODE = 'intersect';
+    const VIEW_MODE_UNION_CODE      = 'union';
+    const VIEW_MODE_INTERSECT_CODE  = 'intersect';
 
     /**
      * Intialize model
@@ -48,6 +48,19 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     public function getConditionsInstance()
     {
         return Mage::getModel('enterprise_customersegment/segment_condition_combine_root');
+    }
+
+    /**
+     * Get segment associated website ids
+     *
+     * @return array
+     */
+    public function getWebsiteIds()
+    {
+        if (!$this->hasData('website_ids')) {
+            $this->setData('website_ids', $this->_getResource()->getWebsiteIds($this->getId()));
+        }
+        return $this->_getData('website_ids');
     }
 
     /**
@@ -78,12 +91,22 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
             $events = $this->collectMatchedEvents();
         }
         $customer = new Zend_Db_Expr(':customer_id');
-        $website = Mage::app()->getWebsite($this->getWebsiteId());
+        $website = new Zend_Db_Expr(':website_id');
         $this->setConditionSql(
             $this->getConditions()->getConditionsSql($customer, $website)
         );
         $this->setMatchedEvents(array_unique($events));
         parent::_beforeSave();
+    }
+
+    /**
+     * Live website ids data as is
+     *
+     * @return Enterprise_CustomerSegment_Model_Segment
+     */
+    protected function _prepareWebsiteIds()
+    {
+        return $this;
     }
 
     /**
@@ -162,11 +185,11 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
     /**
      * Check if customer is matched by segment
      *
-     * @param Mage_Customer_Model_Customer $customer
+     * @param int | Mage_Customer_Model_Customer $customer
      * @param $website
      * @return bool
      */
-    public function validateCustomer(Mage_Customer_Model_Customer $customer, $website)
+    public function validateCustomer($customer, $website)
     {
         /**
          * Use prepeared in beforeSave sql
@@ -175,7 +198,20 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
         if (!$sql) {
             return false;
         }
-        $result = $this->getResource()->runConditionSql($sql, array('customer_id'=>$customer->getId()));
+        if ($customer instanceof Mage_Customer_Model_Customer) {
+            $customerId = $customer->getId();
+        } else {
+            $customerId = $customer;
+        }
+        $website = Mage::app()->getWebsite($website);
+        $params = array();
+        if (strpos($sql, ':customer_id')) {
+            $params['customer_id']  = $customerId;
+        }
+        if (strpos($sql, ':website_id')) {
+            $params['website_id']   = $website->getId();
+        }
+        $result = $this->getResource()->runConditionSql($sql, $params);
         return $result>0;
     }
 
@@ -186,11 +222,17 @@ class Enterprise_CustomerSegment_Model_Segment extends Mage_Rule_Model_Rule
      */
     public function matchCustomers()
     {
-        $website = Mage::app()->getWebsite($this->getWebsiteId());
-        $sql = $this->getConditions()->getConditionsSql(null, $website);
+        $websiteIds = $this->getWebsiteIds();
+        $queries = array();
+        foreach ($websiteIds as $websiteId) {
+            $queries[$websiteId] = $this->getConditions()->getConditionsSql(null, $websiteId);
+        }
         $this->_getResource()->beginTransaction();
+        $this->_getResource()->deleteSegmentCustomers($this);
         try {
-            $this->_getResource()->saveSegmentCustomersFromSelect($this, $sql);
+            foreach ($queries as $websiteId => $query) {
+                $this->_getResource()->saveCustomersFromSelect($this, $websiteId, $query);
+            }
             $this->_getResource()->commit();
         } catch (Exception $e) {
             $this->_getResource()->rollBack();

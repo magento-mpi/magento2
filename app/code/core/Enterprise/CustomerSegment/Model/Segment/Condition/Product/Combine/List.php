@@ -128,15 +128,12 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
      * Build query for matching shopping cart/wishlist items
      *
      * @param $customer
-     * @param $website
+     * @param int | Zend_Db_Expr $website
      * @return Varien_Db_Select
      */
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-
-        $storeIds = $website->getStoreIds();
-        $storeIds = array_merge(array(0), $storeIds);
 
         switch ($this->getValue()) {
             case self::WISHLIST:
@@ -150,7 +147,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
                     $conditions,
                     array()
                 );
-                $select->where('item.store_id IN (?)', $storeIds);
+                $this->_limitByStoreWebsite($select, $website, 'item.store_id');
                 break;
             default:
                 $select->from(
@@ -163,7 +160,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Product_Combine_List
                     $conditions,
                     array()
                 );
-                $select->where('list.store_id IN (?)', $storeIds);
+                $this->_limitByStoreWebsite($select, $website, 'list.store_id');
                 break;
         }
 
