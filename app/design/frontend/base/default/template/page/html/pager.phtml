@@ -48,7 +48,7 @@
     <?php endif ?>
 
     <?php if($this->getShowPerPage()): ?>
-    <fieldset class="limiter">
+    <div class="limiter">
         <label><?php echo $this->__('Show') ?></label>
         <select onchange="setLocation(this.value)">
         <?php foreach ($this->getAvailableLimit() as  $_key=>$_limit): ?>
@@ -57,7 +57,7 @@
             </option>
         <?php endforeach; ?>
         </select> <?php echo $this->__('per page') ?>
-    </fieldset>
+    </div>
     <?php endif ?>
 
     <?php if($this->getLastPageNum()>1): ?>
@@ -65,7 +65,7 @@
         <strong><?php echo $this->__('Page:') ?></strong>
         <ol>
         <?php if (!$this->isFirstPage()): ?>
-            <li><a class="previous" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $this->__('Previous') ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_left.gif') ?>" alt="<?php echo $this->__('Previous') ?>" class="v-middle" /></a></li>
+            <li><a class="previous" href="<?php echo $this->getPreviousPageUrl() ?>" title="<?php echo $this->__('Previous') ?>"><img src="<?php echo $this->getSkinUrl('images/i_pager-prev.gif') ?>" alt="<?php echo $this->__('Previous') ?>" class="v-middle" /></a></li>
         <?php endif;?>
 
         <?php if ($this->canShowFirst()): ?>
@@ -94,7 +94,7 @@
         <?php endif;?>
 
         <?php if (!$this->isLastPage()): ?>
-            <li><a class="next" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $this->__('Next') ?>"><img src="<?php echo $this->getSkinUrl('images/pager_arrow_right.gif') ?>" alt="<?php echo $this->__('Next') ?>" class="v-middle" /></a></li>
+            <li><a class="next" href="<?php echo $this->getNextPageUrl() ?>" title="<?php echo $this->__('Next') ?>"><img src="<?php echo $this->getSkinUrl('images/i_pager-next.gif') ?>" alt="<?php echo $this->__('Next') ?>" class="v-middle" /></a></li>
         <?php endif;?>
         </ol>
 

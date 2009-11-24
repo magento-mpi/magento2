@@ -68,8 +68,8 @@ function giftMessageToogle(giftMessageIdentifier)
         <h2><?php echo $this->__('Gift Message for this Order') ?></h2>
         <?php $_giftMessage=$this->helper('giftmessage/message')->getGiftMessageForEntity($_order); ?>
         <dl class="gift-message">
-            <dt><strong><?php echo $this->__('From') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></dt>
-            <dt><strong><?php echo $this->__('To') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></dt>
+            <dt><strong><?php echo $this->__('From:') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getSender()) ?></dt>
+            <dt><strong><?php echo $this->__('To:') ?></strong> <?php echo $this->htmlEscape($_giftMessage->getRecipient()) ?></dt>
             <dd><?php echo $this->helper('giftmessage/message')->getEscapedGiftMessage($_order) ?></dd>
         </dl>
     </div>

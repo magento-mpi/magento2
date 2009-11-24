@@ -90,9 +90,9 @@
                     <tr>
                         <td colspan="50" class="a-right">
                             <?php if($this->getContinueShoppingUrl()): ?>
-                                <button type="button" class="button" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+                                <button type="button" title="<?php echo $this->__('Continue Shopping') ?>" class="button btn-continue" onclick="setLocation('<?php echo $this->getContinueShoppingUrl() ?>')"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
                             <?php endif; ?>
-                            <button type="submit" class="button"><span><span><?php echo $this->__('Update Shopping Cart') ?></span></span></button>
+                            <button type="submit" title="<?php echo $this->__('Update Shopping Cart') ?>" class="button btn-update"><span><span><?php echo $this->__('Update Shopping Cart') ?></span></span></button>
                         </td>
                     </tr>
                 </tfoot>
@@ -105,21 +105,23 @@
             <script type="text/javascript">decorateTable('shopping-cart-table')</script>
         </fieldset>
     </form>
-    <div class="col2-set cart-collaterals">
-        <div class="col-1">
-            <?php echo $this->getChildHtml('crosssell') ?>
+    <div class="cart-collaterals">
+        <div class="col2-set">
+            <div class="col-1">
+                <?php echo $this->getChildHtml('crosssell') ?>
+            </div>
+            <div class="col-2">
+                <?php echo $this->getChildHtml('coupon') ?>
+                <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
+            </div>
         </div>
-        <div class="col-2">
-            <?php echo $this->getChildHtml('coupon') ?>
-            <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
+        <div class="totals">
+            <?php echo $this->getChildHtml('totals'); ?>
+            <?php if(!$this->hasError()): ?>
+            <ul class="checkout-types">
+                <?php echo $this->getChildHtml('methods') ?>
+            </ul>
+            <?php endif; ?>
         </div>
-    </div>
-    <div class="totals">
-        <?php echo $this->getChildHtml('totals'); ?>
-        <?php if(!$this->hasError()): ?>
-        <ul class="checkout-types">
-            <?php echo $this->getChildHtml('methods') ?>
-        </ul>
-        <?php endif; ?>
     </div>
 </div>
