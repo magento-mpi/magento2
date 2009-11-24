@@ -2,7 +2,7 @@
 <!--@vars
 {"store url=\"\"":"Store Url",
 "skin url=\"images/logo_email.gif\" _area='frontend'":"Email Logo Image",
-"var store_name|escape":"Store Name",
+"var store.getFrontendName()|escape":"Store Name",
 "var message|escape|nl2br":"Invitation Message",
 "var url|escape":"Invitation Url"}
 @-->
@@ -26,8 +26,8 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                 <table cellspacing="0" cellpadding="0" border="0" width="650">
                     <tr>
                         <td valign="top">
-                            <p>Please accept this invitation to join {{var store_name|escape}}</p>
-                            <p>{{var store_name|escape}} offers limited time sales of products only to members.</p>
+                            <p>Please accept this invitation to join {{var store.getFrontendName()|escape}}</p>
+                            <p>{{var store.getFrontendName()|escape}} offers limited time sales of products only to members.</p>
 
                             <div>
                             Please use the following link to create an account and view the deals {{if allow_message}} {{var message|escape|nl2br}} {{/if}}

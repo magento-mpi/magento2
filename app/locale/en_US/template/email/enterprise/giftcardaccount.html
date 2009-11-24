@@ -1,9 +1,9 @@
-<!--@subject You've been sent a gift from {{var store_name}} @-->
+<!--@subject You've been sent a gift from {{var store.getFrontendName()}} @-->
 <!--@vars
 {"store url=\"\"":"Store Url",
 "skin url=\"images/logo_email.gif\" _area='frontend'":"Email Logo Image",
 "var name|escape":"Recipient Name",
-"var store_name|escape":"Store Name",
+"var store.getFrontendName()|escape":"Store Name",
 "var code|escape":"Gift Card Code",
 "var balance":"Gift Card Balance"}
 @-->
@@ -28,7 +28,7 @@ body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;
                     <tr>
                         <td valign="top">
                             <p>Dear {{var name|escape}},<br />
-                            You've been sent a gift card for use at {{var store_name|escape}} and it is now ready to be used for purchases.</p>
+                            You've been sent a gift card for use at {{var store.getFrontendName()|escape}} and it is now ready to be used for purchases.</p>
 
                             <p>The Gift Card code is {{var code|escape}}.</p>
 
