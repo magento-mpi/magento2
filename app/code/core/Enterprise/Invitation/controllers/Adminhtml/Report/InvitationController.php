@@ -65,7 +65,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     {
         $fileName   = 'invitation_general.csv';
         $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_general_grid')
-            ->getCsv();
+            ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -77,7 +77,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     {
         $fileName   = 'invitation_general.xml';
         $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_general_grid')
-            ->getExcel($fileName);
+            ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -101,7 +101,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     {
         $fileName   = 'invitation_customer.csv';
         $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_customer_grid')
-            ->getCsv();
+            ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -113,7 +113,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     {
         $fileName   = 'invitation_customer.xml';
         $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_customer_grid')
-            ->getExcel($fileName);
+            ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -137,7 +137,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     {
         $fileName   = 'invitation_order.csv';
         $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_order_grid')
-            ->getCsv();
+            ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -149,7 +149,7 @@ class Enterprise_Invitation_Adminhtml_Report_InvitationController extends Mage_A
     {
         $fileName   = 'invitation_order.xml';
         $content    = $this->getLayout()->createBlock('enterprise_invitation/adminhtml_report_invitation_order_grid')
-            ->getExcel($fileName);
+            ->getExcelFile($fileName);
 
         $this->_prepareDownloadResponse($fileName, $content);
     }

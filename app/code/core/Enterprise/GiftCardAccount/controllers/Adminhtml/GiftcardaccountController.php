@@ -277,7 +277,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
     {
         $this->_prepareDownloadResponse('giftcardaccounts.xml',
             $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_grid')
-                ->getExcel($this->__('Gift Card Accounts'))
+                ->getExcelFile($this->__('Gift Card Accounts'))
         );
     }
 
@@ -287,7 +287,7 @@ class Enterprise_GiftCardAccount_Adminhtml_GiftcardaccountController extends Mag
     public function exportCsvAction()
     {
         $this->_prepareDownloadResponse('giftcardaccounts.csv',
-            $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_grid')->getCsv()
+            $this->getLayout()->createBlock('enterprise_giftcardaccount/adminhtml_giftcardaccount_grid')->getCsvFile()
         );
     }
 

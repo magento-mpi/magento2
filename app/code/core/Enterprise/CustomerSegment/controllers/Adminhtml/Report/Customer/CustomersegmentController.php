@@ -165,7 +165,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
             $fileName = 'customersegment_customers.xml';
             $content = $this->getLayout()
                 ->createBlock('enterprise_customersegment/adminhtml_report_customer_segment_detail_grid')
-                ->getExcel($fileName);
+                ->getExcelFile($fileName);
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
@@ -183,7 +183,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
             $fileName = 'customersegment_customers.csv';
             $content = $this->getLayout()
                 ->createBlock('enterprise_customersegment/adminhtml_report_customer_segment_detail_grid')
-                ->getCsv();
+                ->getCsvFile();
             $this->_prepareDownloadResponse($fileName, $content);
         } else {
             $this->_redirect('*/*/detail', array('_current' => true));
