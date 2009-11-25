@@ -32,11 +32,12 @@
  */
 ?>
 <?php
-$_width = $this->getImagesWidth();
+$_width  = $this->getImagesWidth();
 $_height = $this->getImagesHeight();
+$files   = $this->getFiles();
 ?>
-<?php if ($this->getFiles()->count() > 0): ?>
-    <?php foreach ($this->getFiles() as $item): ?>
+<?php if ($files->count() > 0): ?>
+    <?php foreach ($files as $item): ?>
     <div class="filecnt" id="<?php echo $item->getId() ?>">
         <p class="nm" style="height:<?php echo $_height ?>px;width:<?php echo $_width ?>px;">
         <?php if($item->getThumbUrl()):?>

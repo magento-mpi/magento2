@@ -49,8 +49,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
      */
     public function getStorageRoot()
     {
-        $root = $this->correctPath( $this->getStorage()->getConfigData('upload_root') );
-        return Mage::getConfig()->getOptions()->getMediaDir() . DS . $root;
+        return Mage::getConfig()->getOptions()->getMediaDir() . DS;
     }
 
     /**
@@ -60,8 +59,7 @@ class Mage_Cms_Helper_Wysiwyg_Images extends Mage_Core_Helper_Abstract
      */
     public function getBaseUrl()
     {
-        $root = $this->correctPath( $this->getStorage()->getConfigData('upload_root') );
-        return Mage::getBaseUrl('media') . $this->convertPathToUrl($root) . '/';
+        return Mage::getBaseUrl('media') . '/';
     }
 
     /**

@@ -162,7 +162,8 @@
         <cms>
             <wysiwyg>
                 <enabled>enabled</enabled>
-                <upload_root>content/images</upload_root>
+                <!--<upload_root></upload_root>-->
+                <exclude_dirs>catalog,downloadable,flex,import,tmp</exclude_dirs>
                 <browser_allowed_extensions>jpg,jpeg,png,gif</browser_allowed_extensions>
                 <browser_image_allowed_extensions>jpg,jpeg,png,gif</browser_image_allowed_extensions>
                 <browser_media_allowed_extensions>flv,swf,avi,mov,rm,wmv</browser_media_allowed_extensions>

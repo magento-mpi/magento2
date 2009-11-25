@@ -47,12 +47,6 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
             'type'    => 'button',
             'onclick' => 'Images.newFolder();'
         ));
-        $this->_addButton('upload', array(
-            'class'   => 'add',
-            'label'   => $this->helper('cms')->__('Upload Files...'),
-            'type'    => 'button',
-            'onclick' => 'Images.upload();'
-        ));
 
         $this->_addButton('delete_folder', array(
             'class'   => 'delete no-display',

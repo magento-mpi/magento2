@@ -44,11 +44,25 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getDirsCollection($path)
     {
+        $excludeRegExp = str_replace(',', '|', preg_replace('/[^a-z0-9\-\_,]/i', '', $this->getConfigData('exclude_dirs')));
+
+        if ($excludeRegExp) {
+            $excludeRegExp = "|^({$excludeRegExp})$";
+        }
+
+        $regExp = "/([^a-z0-9\-\_]+){$excludeRegExp}/i";
+
         $collection = $this->getCollection($path)
             ->setCollectDirs(true)
-            ->setDirsFilter(self::DIRECTORY_NAME_REGEXP)
             ->setCollectFiles(false)
             ->setCollectRecursively(false);
+
+        foreach ($collection as $key => $value) {
+            if (preg_match($regExp, $value->getBasename())) {
+                $collection->removeItemByKey($key);
+            }
+        }
+
         return $collection;
     }
 
@@ -81,24 +95,21 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
             $item->setShortName($helper->getShortFilename($item->getBasename()));
             $item->setUrl($helper->getCurrentUrl() . $item->getBasename());
 
-            $thumbUrl = '';
             if ($this->isImage($item->getBasename())) {
-                // thumbnail exists
-                if(is_file($this->getThumbsPath() . DS . $item->getBasename())) {
-                    $thumbUrl = $helper->getCurrentUrl() . self::THUMBS_DIRECTORY_NAME . '/' . $item->getBasename();
-                }
-                // generate it on the fly
-                else {
+                $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true);
+                // generate thumbnail "on the fly" if it does not exists
+                if(! $thumbUrl) {
                     $thumbUrl = Mage::getSingleton('adminhtml/url')->getUrl('*/*/thumbnail', array('file' => $item->getId()));
                 }
 
                 $size = @getimagesize($item->getFilename());
+
                 if (is_array($size)) {
                     $item->setWidth($size[0]);
                     $item->setHeight($size[1]);
                 }
             } else {
-                // todo: add some placeholder icons for other file types
+                $thumbUrl = $helper->getBaseUrl() . self::THUMBS_DIRECTORY_NAME . '/dummy_thumb.gif';
             }
 
             $item->setThumbUrl($thumbUrl);
@@ -190,8 +201,8 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     {
         $io = new Varien_Io_File();
         $io->rm($target);
-        $thumb = $this->getThumbsPath($target) . DS . pathinfo($target, PATHINFO_BASENAME);
-        if (is_file($thumb)) {
+        $thumb = $this->getThumbnailPath($target, true);
+        if ($thumb) {
             $io->rm($thumb);
         }
         return $this;
@@ -232,6 +243,50 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
         );
 
         return $result;
+    }
+
+    /**
+     * Thumbnail path getter
+     *
+     * @param  string $filePath original file path
+     * @param  boolean $checkFile OPTIONAL is it necessary to check file availability
+     * @return string | false
+     */
+    public function getThumbnailPath($filePath, $checkFile = false)
+    {
+        $mediaRootDir = Mage::getConfig()->getOptions()->getMediaDir();
+
+        if (strpos($filePath, $mediaRootDir) === 0) {
+            $thumbPath = $mediaRootDir . DS . self::THUMBS_DIRECTORY_NAME . substr($filePath, strlen($mediaRootDir));
+
+            if (! $checkFile || is_readable($thumbPath)) {
+                return $thumbPath;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Thumbnail URL getter
+     *
+     * @param  string $filePath original file path
+     * @param  boolean $checkFile OPTIONAL is it necessary to check file availability
+     * @return string | false
+     */
+    public function getThumbnailUrl($filePath, $checkFile = false)
+    {
+        $mediaRootDir = Mage::getConfig()->getOptions()->getMediaDir();
+
+        if (strpos($filePath, $mediaRootDir) === 0) {
+            $thumbSuffix = DS . self::THUMBS_DIRECTORY_NAME . substr($filePath, strlen($mediaRootDir));
+
+            if (! $checkFile || is_readable($mediaRootDir . $thumbSuffix)) {
+                return str_replace('\\', '/', rtrim(Mage::getBaseUrl('media'), '/\\') . $thumbSuffix);
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -292,8 +347,14 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getThumbsPath($filePath = false)
     {
-        $path = $filePath === false ? $this->getHelper()->getCurrentPath() : pathinfo($filePath, PATHINFO_DIRNAME);
-        return $path . DS . self::THUMBS_DIRECTORY_NAME;
+        $mediaRootDir = Mage::getConfig()->getOptions()->getMediaDir();
+        $thumbnailDir = $mediaRootDir . DS . self::THUMBS_DIRECTORY_NAME;
+
+        if ($filePath && strpos($filePath, $mediaRootDir) === 0) {
+            $thumbnailDir .= dirname(substr($filePath, strlen($mediaRootDir)));
+        }
+
+        return $thumbnailDir;
     }
 
     /**

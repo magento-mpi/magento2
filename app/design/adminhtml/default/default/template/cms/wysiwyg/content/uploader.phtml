@@ -35,7 +35,6 @@
 <?php echo $this->helper('adminhtml/media_js')->includeScript('mage/adminhtml/flexuploader.js') ?>
 <?php echo $this->helper('adminhtml/media_js')->getTranslatorScript() ?>
 
-
 <div id="<?php echo $this->getHtmlId() ?>" class="uploader">
     <div class="buttons">
         <div id="<?php echo $this->getHtmlId() ?>-install-flash" style="display:none">
@@ -62,7 +61,12 @@ var maxUploadFileSizeInBytes = <?php echo $this->getDataMaxSizeInBytes() ?>;
 var maxUploadFileSize = '<?php echo $this->getDataMaxSize() ?>';
 
 <?php echo $this->getJsObjectName() ?> = new Flex.Uploader('<?php echo $this->getHtmlId() ?>', '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>);
-<?php echo $this->getJsObjectName() ?>.onFilesComplete = Images.handleUploadComplete.bind(Images);
+<?php echo $this->getJsObjectName() ?>.onFilesComplete = function(completedFiles){
+    completedFiles.each(function(file){
+        <?php echo $this->getJsObjectName() ?>.removeFile(file.id);
+    });
+    Images.handleUploadComplete();
+}
 // hide flash buttons
 if ($('<?php echo $this->getHtmlId() ?>-flash') != undefined) {
     $('<?php echo $this->getHtmlId() ?>-flash').setStyle({float:'left'});

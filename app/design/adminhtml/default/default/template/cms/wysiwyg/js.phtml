@@ -116,14 +116,10 @@ Wysiwyg.Images.prototype = {
         this.hideElement('button_insert_files');
     },
 
-    upload: function() {
+    handleUploadComplete: function(files) {
         $$('div[class*="file-row complete"]').each(function(e) {
             $(e.id).remove();
         });
-        this.showElement('contents-uploader');
-    },
-
-    handleUploadComplete: function(files) {
         this.selectFolder(this.currentNode);
     },
 
@@ -287,7 +283,7 @@ Wysiwyg.Images.prototype = {
     },
 
     activateBlock: function(id) {
-        $$('div [id^=contents]').each(this.hideElement);
+        //$$('div [id^=contents]').each(this.hideElement);
         this.showElement(id);
     },
 
