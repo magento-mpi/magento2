@@ -85,12 +85,12 @@ class Mage_SalesRule_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysq
      */
     protected function _applyDateRangeFilter()
     {
-        if (isset($this->_from) && !is_null($this->_from)) {
+        if (!is_null($this->_from)) {
             $this->getSelect()->where(
-                'period ' . ($this->_period == 'day') ? '=' : '>=' . ' ?', $this->_from
+                'period ' . (($this->_period == 'day') ? '=' : '>=') . ' ?', $this->_from
             );
         }
-        if (isset($this->_to) && !is_null($this->_to)) {
+        if (!is_null($this->_to)) {
             $this->getSelect()->where('period >= ?', $this->_to);
         }
         return $this;
@@ -158,6 +158,8 @@ class Mage_SalesRule_Model_Mysql4_Report_Collection extends Mage_Core_Model_Mysq
             unset($storeIds[$index]);
             $nullCheck = true;
         }
+
+        $storeIds[0] = ($storeIds[0] == '') ? 0 : $storeIds[0];
 
         if ($nullCheck) {
             $this->getSelect()->where('store_id IN(?) OR store_id IS NULL', $storeIds);

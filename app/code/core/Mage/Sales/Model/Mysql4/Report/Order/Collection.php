@@ -85,7 +85,7 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_My
     {
         if (!is_null($this->_from)) {
             $this->getSelect()->where(
-                'period ' . ($this->_period == 'day') ? '=' : '>=' . ' ?', $this->_from
+                'period ' . (($this->_period == 'day') ? '=' : '>=') . ' ?', $this->_from
             );
         }
         if (!is_null($this->_to)) {
@@ -158,6 +158,8 @@ class Mage_Sales_Model_Mysql4_Report_Order_Collection extends Mage_Core_Model_My
             unset($storeIds[$index]);
             $nullCheck = true;
         }
+
+        $storeIds[0] = ($storeIds[0] == '') ? 0 : $storeIds[0];
 
         if ($nullCheck) {
             $this->getSelect()->where('store_id IN(?) OR store_id IS NULL', $storeIds);
