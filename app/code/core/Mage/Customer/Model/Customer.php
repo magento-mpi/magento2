@@ -340,7 +340,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
      * Retrieve default address by type(attribute)
      *
      * @param   string $attributeCode address type attribute code
-     * @return  Mage_Customer_Mode_Address
+     * @return  Mage_Customer_Model_Address
      */
     public function getPrimaryAddress($attributeCode)
     {
@@ -359,7 +359,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Get customer default billing address
      *
-     * @return Mage_Customer_Mode_Address
+     * @return Mage_Customer_Model_Address
      */
     public function getPrimaryBillingAddress()
     {
@@ -369,7 +369,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Get customer default billing address
      *
-     * @return Mage_Customer_Mode_Address
+     * @return Mage_Customer_Model_Address
      */
     public function getDefaultBillingAddress()
     {
@@ -379,7 +379,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Get default customer shipping address
      *
-     * @return Mage_Customer_Mode_Address
+     * @return Mage_Customer_Model_Address
      */
     public function getPrimaryShippingAddress()
     {
@@ -389,7 +389,7 @@ class Mage_Customer_Model_Customer extends Mage_Core_Model_Abstract
     /**
      * Get default customer shipping address
      *
-     * @return Mage_Customer_Mode_Address
+     * @return Mage_Customer_Model_Address
      */
     public function getDefaultShippingAddress()
     {
