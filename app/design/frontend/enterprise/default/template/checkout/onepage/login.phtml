@@ -47,9 +47,9 @@
             </ul>
         </fieldset>
         <div class="buttons-set form-buttons btn-only">
-            <button type="submit" class="button" onclick="loginForm.submit()"><span><span><?php echo $this->__('Login') ?></span></span></button>
+            <button type="button" class="button" onclick="loginForm.submit()"><span><span><?php echo $this->__('Login') ?></span></span></button>
             <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>"><?php echo $this->__('Forgot your password?') ?></a>
-        </div>       
+        </div>
         </form>
     </div>
     <?php if ( $this->getQuote()->isAllowedGuestCheckout() || $this->helper('customer')->isRegistrationAllowed() ): ?>
@@ -69,7 +69,7 @@
             <ul>
                 <li><?php echo $this->__('Fast and easy check out') ?></li>
                 <li><?php echo $this->__('Easy access to your order history and status') ?></li>
-            </ul>        
+            </ul>
         <?php elseif( $this->getQuote()->isAllowedGuestCheckout() && $this->helper('customer')->isRegistrationAllowed() ): ?>
             <p><?php echo $this->__('Register with us for future convenience:') ?></p>
         <?php endif ?>

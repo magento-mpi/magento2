@@ -36,14 +36,14 @@
                 <?php echo $this->__('Register to Create an Account') ?>
             <?php endif; ?>
         </h4>
-        
+
         <?php if( !$this->getQuote()->isAllowedGuestCheckout() && $this->helper('customer')->isRegistrationAllowed() ): ?>
             <p><strong><?php echo $this->__('Register and save time!') ?></strong><br />
             <?php echo $this->__('Register with us for future convenience:') ?></p>
             <ul>
                 <li><?php echo $this->__('Fast and easy check out') ?></li>
                 <li><?php echo $this->__('Easy access to your order history and status') ?></li>
-            </ul>        
+            </ul>
         <?php elseif( $this->getQuote()->isAllowedGuestCheckout() && $this->helper('customer')->isRegistrationAllowed() ): ?>
             <p><?php echo $this->__('Register with us for future convenience:') ?></p>
         <?php endif ?>
@@ -124,7 +124,7 @@
     <div class="col-2">
         <div class="buttons-set">
             <a href="<?php echo $this->getUrl('customer/account/forgotpassword') ?>" class="f-left"><?php echo $this->__('Forgot your password?') ?></a>
-            <button type="submit" class="button" onclick="onepageLogin(this)"><span><span><?php echo $this->__('Login') ?></span></span></button>
+            <button type="button" class="button" onclick="onepageLogin(this)"><span><span><?php echo $this->__('Login') ?></span></span></button>
         </div>
     </div>
 </div>
