@@ -136,7 +136,7 @@ abstract class Mage_Shell_Abstract
     protected function _showHelp()
     {
         if (isset($this->_args['h']) || isset($this->_args['help'])) {
-            die($this->_usageHelp());
+            die($this->usageHelp());
         }
     }
 
