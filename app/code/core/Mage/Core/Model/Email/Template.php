@@ -356,6 +356,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function send($email, $name = null, array $variables = array())
     {
         if (!$this->isValidForSend()) {
+            Mage::log('Letter is not valid for send');
             return false;
         }
 
@@ -402,6 +403,7 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             $this->_mail = null;
         }
         catch (Exception $e) {
+            Mage::logException($e);
             return false;
         }
 
