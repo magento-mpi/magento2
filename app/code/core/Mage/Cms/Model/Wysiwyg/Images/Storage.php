@@ -109,7 +109,7 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
                     $item->setHeight($size[1]);
                 }
             } else {
-                $thumbUrl = $helper->getBaseUrl() . self::THUMBS_DIRECTORY_NAME . '/dummy_thumb.gif';
+                $thumbUrl = Mage::getDesign()->getSkinBaseUrl() . 'images/placeholder/thumbnail.jpg';
             }
 
             $item->setThumbUrl($thumbUrl);
@@ -177,17 +177,22 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function deleteDirectory($path)
     {
-        $io = new Varien_Io_File();
-
         // prevent accidental root directory deleting
-        $rootCmp = trim($this->getHelper()->getStorageRoot(), DS);
-        $pathCmp = trim($path, DS);
+        $rootCmp = rtrim($this->getHelper()->getStorageRoot(), DS);
+        $pathCmp = rtrim($path, DS);
+
         if ($rootCmp == $pathCmp) {
             Mage::throwException(Mage::helper('cms')->__('Cannot delete root directory %s', $path));
         }
 
+        $io = new Varien_Io_File();
+
         if (!$io->rmdir($path, true)) {
             Mage::throwException(Mage::helper('cms')->__('Cannot delete directory %s', $path));
+        }
+
+        if (strpos($pathCmp, $rootCmp) === 0) {
+            $io->rmdir($this->getThumbnailRoot() . DS . ltrim(substr($pathCmp, strlen($rootCmp)), '\\/'), true);
         }
     }
 
@@ -254,10 +259,10 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getThumbnailPath($filePath, $checkFile = false)
     {
-        $mediaRootDir = Mage::getConfig()->getOptions()->getMediaDir();
+        $mediaRootDir = $this->getHelper()->getStorageRoot();
 
         if (strpos($filePath, $mediaRootDir) === 0) {
-            $thumbPath = $mediaRootDir . DS . self::THUMBS_DIRECTORY_NAME . substr($filePath, strlen($mediaRootDir));
+            $thumbPath = $this->getThumbnailRoot() . DS . substr($filePath, strlen($mediaRootDir));
 
             if (! $checkFile || is_readable($thumbPath)) {
                 return $thumbPath;
@@ -276,13 +281,13 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
      */
     public function getThumbnailUrl($filePath, $checkFile = false)
     {
-        $mediaRootDir = Mage::getConfig()->getOptions()->getMediaDir();
+        $mediaRootDir = $this->getHelper()->getStorageRoot();
 
         if (strpos($filePath, $mediaRootDir) === 0) {
-            $thumbSuffix = DS . self::THUMBS_DIRECTORY_NAME . substr($filePath, strlen($mediaRootDir));
+            $thumbSuffix = self::THUMBS_DIRECTORY_NAME . DS . substr($filePath, strlen($mediaRootDir));
 
             if (! $checkFile || is_readable($mediaRootDir . $thumbSuffix)) {
-                return str_replace('\\', '/', rtrim(Mage::getBaseUrl('media'), '/\\') . $thumbSuffix);
+                return str_replace('\\', '/', $this->getHelper()->getBaseUrl() . $thumbSuffix);
             }
         }
 
@@ -348,10 +353,10 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
     public function getThumbsPath($filePath = false)
     {
         $mediaRootDir = Mage::getConfig()->getOptions()->getMediaDir();
-        $thumbnailDir = $mediaRootDir . DS . self::THUMBS_DIRECTORY_NAME;
+        $thumbnailDir = $this->getThumbnailRoot();
 
         if ($filePath && strpos($filePath, $mediaRootDir) === 0) {
-            $thumbnailDir .= dirname(substr($filePath, strlen($mediaRootDir)));
+            $thumbnailDir .= DS . dirname(substr($filePath, strlen($mediaRootDir)));
         }
 
         return $thumbnailDir;
@@ -408,6 +413,16 @@ class Mage_Cms_Model_Wysiwyg_Images_Storage extends Varien_Object
             return $matches[0];
         }
         return array();
+    }
+
+    /**
+     * Thumbnail root directory getter
+     *
+     * @return string
+     */
+    public function getThumbnailRoot()
+    {
+        return $this->getHelper()->getStorageRoot() . self::THUMBS_DIRECTORY_NAME;
     }
 
     /**
