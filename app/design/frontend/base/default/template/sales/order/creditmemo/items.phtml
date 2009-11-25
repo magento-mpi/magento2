@@ -24,7 +24,7 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<?php  $_order = $this->getOrder() ?>
+<?php $_order = $this->getOrder() ?>
 <div class="order-items">
     <p class="a-right"><a href="<?php echo $this->getPrintAllCreditmemosUrl($_order) ?>" onclick="this.target='_blank'" class="link-print"><?php echo $this->__('Print All Refunds') ?></a></p>
     <?php foreach ($_order->getCreditmemosCollection() as $_creditmemo): ?>

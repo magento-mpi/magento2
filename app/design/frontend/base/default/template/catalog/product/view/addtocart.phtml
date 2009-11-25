@@ -28,12 +28,11 @@
 <?php $_product = $this->getProduct() ?>
 
 <?php if($_product->isSaleable()): ?>
-    <fieldset class="add-to-cart">
-        <legend><?php echo $this->__('Add Items to Cart') ?></legend>
+    <div class="add-to-cart">
         <?php if(!$_product->isGrouped()): ?>
         <label for="qty"><?php echo $this->__('Qty') ?>:</label>
         <input type="text" class="input-text qty" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" />
         <?php endif; ?>
-        <button type="button" class="button" onclick="productAddToCartForm.submit()"><span><span><span><?php echo $this->__('Add to Cart') ?></span></span></span></button>
-    </fieldset>
+        <button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button" onclick="productAddToCartForm.submit()"><span><span><span><?php echo $this->__('Add to Cart') ?></span></span></span></button>
+    </div>
 <?php endif; ?>
