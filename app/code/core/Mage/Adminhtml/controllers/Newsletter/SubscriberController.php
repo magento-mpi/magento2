@@ -70,7 +70,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     {
         $fileName   = 'subscribers.csv';
         $content    = $this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid')
-            ->getCsv();
+            ->getCsvFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
@@ -82,7 +82,7 @@ class Mage_Adminhtml_Newsletter_SubscriberController extends Mage_Adminhtml_Cont
     {
         $fileName   = 'subscribers.xml';
         $content    = $this->getLayout()->createBlock('adminhtml/newsletter_subscriber_grid')
-            ->getXml();
+            ->getExcelFile();
 
         $this->_prepareDownloadResponse($fileName, $content);
     }
