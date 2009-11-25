@@ -205,7 +205,7 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
      */
     public function toArray(array $arrAttributes = array())
     {
-        $arr = parent::toArray();
+        $arr = parent::toArray($arrAttributes);
         $arr['rates'] = $this->getShippingRatesCollection()->toArray($arrAttributes);
         $arr['items'] = $this->getItemsCollection()->toArray($arrAttributes);
         foreach ($this->getTotals() as $k=>$total) {
