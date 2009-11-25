@@ -148,13 +148,14 @@ class Mage_Adminhtml_Block_Catalog_Product_Edit_Tabs extends Mage_Adminhtml_Bloc
                      'url'   => $this->getUrl('*/*/tagGrid', array('_current' => true)),
                      'class' => 'ajax',
                     ));
+
+                    $this->addTab('customers_tags', array(
+                        'label'     => Mage::helper('catalog')->__('Customers Tagged Product'),
+                        'url'   => $this->getUrl('*/*/tagCustomerGrid', array('_current' => true)),
+                        'class' => 'ajax',
+                    ));
                 }
 
-                $this->addTab('customers_tags', array(
-                    'label'     => Mage::helper('catalog')->__('Customers Tagged Product'),
-                    'url'   => $this->getUrl('*/*/tagCustomerGrid', array('_current' => true)),
-                    'class' => 'ajax',
-                ));
             }
 
             /**
