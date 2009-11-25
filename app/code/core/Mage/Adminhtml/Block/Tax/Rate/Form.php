@@ -141,7 +141,7 @@ class Mage_Adminhtml_Block_Tax_Rate_Form extends Mage_Adminhtml_Block_Widget_For
             array(
                 'name' => 'tax_postcode',
                 'label' => Mage::helper('tax')->__('Zip/Post Code'),
-                'note' => Mage::helper('tax')->__("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d; '9001-9099' - matches range.", Mage::helper('tax')->getPostCodeSubStringLength()),
+                'note' => Mage::helper('tax')->__("'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d; '9001-9099' - matches range. Note that range must be entered without spaces and value 'from' > 'to'.", Mage::helper('tax')->getPostCodeSubStringLength()),
                 'value' => $postcode
             )
         );

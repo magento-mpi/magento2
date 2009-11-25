@@ -52,11 +52,14 @@ class Mage_Tax_Model_Calculation_Rate extends Mage_Core_Model_Abstract
         $zipIsRange = null;
         $zipFrom = null;
         $zipTo   = null;
-        if (preg_match('/(\d+)\s*-\s*(\d+)/m', $this->getTaxPostcode(), $matchArr)) {
+
+        if (preg_match('/^(\d+)\-(\d+)$/m', $this->getTaxPostcode(), $matchArr)) {
             list(, $zipFrom, $zipTo) = $matchArr;
-            $this->setTaxPostcode("{$zipFrom}-{$zipTo}");
-            $zipIsRange = 1;
+            if ($zipFrom < $zipTo) {
+                $zipIsRange = 1;
+            }
         }
+
         $this
             ->setZipFrom($zipFrom)
             ->setZipTo($zipTo)

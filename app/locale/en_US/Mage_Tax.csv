@@ -1,4 +1,4 @@
-"'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d; '9001-9099' - matches range.","'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d; '9001-9099' - matches range."
+"'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d; '9001-9099' - matches range. Note that range must be entered without spaces and value 'from' > 'to'.","'*' - matches any; 'xyz*' - matches any that begins on 'xyz' and not longer than %d; '9001-9099' - matches range. Note that range must be entered without spaces and value 'from' > 'to'."
 "-- Please Select --","-- Please Select --"
 "Add New Class","Add New Class"
 "Add New Tax Rate","Add New Tax Rate"
