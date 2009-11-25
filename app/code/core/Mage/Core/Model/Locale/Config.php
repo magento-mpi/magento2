@@ -106,8 +106,9 @@ class Mage_Core_Model_Locale_Config
         'TOP' /*Tonga Pa?anga*/,    'TTD' /*Trinidad and Tobago Dollar*/,'TND' /*Tunisian Dinar*/,  'TMM' /*Turkmenistan Manat*/,
         'USD' /*US Dollar*/,        'UGX' /*Ugandan Shilling*/, 'UAH' /*Ukrainian Hryvnia*/,        'AED' /*United Arab Emirates Dirham*/,
         'UYU' /*Uruguay Peso Uruguayo*/,'UZS' /*Uzbekistan Sum*/,'VUV' /*Vanuatu Vatu*/,            'VEB' /*Venezuelan Bolivar*/,
-        'VND' /*Vietnamese Dong*/,  'CHE' /*WIR Euro*/,         'CHW' /*WIR Franc*/,                'XOF' /*West African CFA franc*/,
-        'WST' /*Western Samoa Tala*/,'YER' /*Yemeni Rial*/,     'ZMK' /*Zambian Kwacha*/,           'ZWD' /*Zimbabwe Dollar*/,
+        'VEF' /*Venezuelan bolívar fuerte*/,'VND' /*Vietnamese Dong*/,  'CHE' /*WIR Euro*/,                'CHW' /*WIR Franc*/,
+        'XOF' /*West African CFA franc*/,'WST' /*Western Samoa Tala*/,'YER' /*Yemeni Rial*/,        'ZMK' /*Zambian Kwacha*/,
+        'ZWD' /*Zimbabwe Dollar*/,
     );
 
     /**
