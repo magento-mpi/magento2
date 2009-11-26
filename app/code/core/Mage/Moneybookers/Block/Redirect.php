@@ -17,17 +17,14 @@
  * @copyright   Copyright (c) 2009 Phoenix Medien GmbH & Co. KG (http://www.phoenix-medien.de)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Moneybookers_Block_Checkresponse extends Mage_Core_Block_Template
+class Mage_Moneybookers_Block_Redirect extends Mage_Core_Block_Template
 {
-    protected function _toHtml()
+    /**
+     * Constructor. Set template.
+     */
+    protected function _construct()
     {
-        $url = Mage::getSingleton('checkout/session')->getMoneybookersRedirectUrl();
-        // if session expired, just get the base url, to avoid problems
-        if (strlen($url) < 1) $url = $this->getUrl();
-        $html = '<html><body>';
-        $html.= '<script type="text/javascript">parent.location.href="' . $url . '";</script>';
-        $html.= '</body></html>';
-
-        return $html;
+        parent::_construct();
+        $this->setTemplate('moneybookers/redirect.phtml');
     }
 }

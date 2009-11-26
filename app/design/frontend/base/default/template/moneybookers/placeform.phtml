@@ -24,9 +24,19 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php echo $this->htmlEscape($this->getMethod()->getTitle()) ?><br />
-<?php if ($this->getInfo()->getLastTransId() == ''): ?>
-    <em><?php echo Mage::helper('moneybookers')->__('You will be redirected to our secure payment page when you place an order.') ?></em>
-<?php else: ?>
-    <?php echo Mage::helper('moneybookers')->__('Moneybookers Transaction ID: %s', $this->htmlEscape($this->getInfo()->getLastTransId())) ?><br />
+
+<b><?php echo Mage::helper('moneybookers')->__('Loading secure payment page (SSL)'); ?></b>
+<form name="moneybookers" id="moneybookers_place_form" action="<?php echo $this->getFormAction();?>" method="POST">
+<?php if (is_array($this->getFormData())): ?>
+    <?php foreach ($this->getFormData() as $name => $value): ?>
+        <input type="hidden" name="<?php echo $name; ?>" value="<?php echo $value; ?>"/>
+    <?php endforeach; ?>
 <?php endif; ?>
+</form>
+
+<script type="text/javascript">
+//<![CDATA[
+    var paymentform = document.getElementById('moneybookers_place_form');
+    window.onload = paymentform.submit();
+//]]>
+</script>

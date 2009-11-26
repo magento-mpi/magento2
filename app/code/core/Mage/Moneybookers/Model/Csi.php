@@ -20,11 +20,8 @@
 class Mage_Moneybookers_Model_Csi extends Mage_Moneybookers_Model_Abstract
 {
     /**
-    * unique internal payment method identifier
-    *
-    * @var string [a-z0-9_]
-    **/
+     * unique internal payment method identifier
+     */
     protected $_code			= 'moneybookers_csi';
     protected $_paymentMethod	= 'CSI';
 }
-

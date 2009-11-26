@@ -20,11 +20,8 @@
 class Mage_Moneybookers_Model_Idl extends Mage_Moneybookers_Model_Abstract
 {
     /**
-    * unique internal payment method identifier
-    *
-    * @var string [a-z0-9_]
-    **/
+     * unique internal payment method identifier
+     */
     protected $_code			= 'moneybookers_idl';
     protected $_paymentMethod	= 'IDL';
 }
-

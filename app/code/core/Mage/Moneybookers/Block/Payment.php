@@ -19,12 +19,21 @@
  */
 class Mage_Moneybookers_Block_Payment extends Mage_Core_Block_Template
 {
+    /**
+     * Return Payment logo src
+     *
+     * @return string
+     */
     public function getMoneybookersLogoSrc()
     {
         $locale = Mage::getModel('moneybookers/acc')->getLocale();
-        if (file_exists(Mage::getDesign()->getSkinBaseDir().'/images/moneybookers/banner_120_'.$locale.'.png')) {
+        $logoFilename = Mage::getDesign()
+            ->getFilename('images' . DS . 'moneybookers' . DS . 'banner_120_' . $locale . '.png', array('_type' => 'skin'));
+
+        if (file_exists($logoFilename)) {
             return $this->getSkinUrl('images/moneybookers/banner_120_'.$locale.'.png');
         }
+
         return $this->getSkinUrl('images/moneybookers/banner_120_int.png');
     }
 }

@@ -22,7 +22,7 @@
 <config>
     <modules>
         <Mage_Moneybookers>
-            <version>1.1.5</version>
+            <version>1.2</version>
         </Mage_Moneybookers>
     </modules>
     <global>
@@ -46,8 +46,20 @@
         <blocks>
             <moneybookers><class>Mage_Moneybookers_Block</class></moneybookers>
         </blocks>
+        <template>
+            <email>
+               <moneybookers_activateemail>
+                   <label>Moneybookers activate email</label>
+                   <file>moneybookers_activateemail.html</file>
+                   <type>html</type>
+               </moneybookers_activateemail>
+            </email>
+        </template>
     </global>
     <frontend>
+        <secure_url>
+            <moneybookers_processing>/moneybookers/processing</moneybookers_processing>
+        </secure_url>
         <routers>
             <moneybookers>
                 <use>standard</use>
@@ -79,7 +91,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <moneybookers before="Mage_Adminhtml">Mage_Moneybookers_Adminhtml</moneybookers>
+                        <moneybookers after="Mage_Adminhtml">Mage_Moneybookers</moneybookers>
                     </modules>
                 </args>
             </adminhtml>

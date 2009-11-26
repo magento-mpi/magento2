@@ -17,23 +17,33 @@
  * @copyright   Copyright (c) 2009 Phoenix Medien GmbH & Co. KG (http://www.phoenix-medien.de)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class Mage_Moneybookers_Block_Failure extends Mage_Core_Block_Template
+class Mage_Moneybookers_Block_Jsinit extends Mage_Adminhtml_Block_Template
 {
     /**
-     *  Return Error message
-     *
-     *  @return	  string
+     * Include JS in head if section is moneybookers
      */
-    public function getErrorMessage ()
+    protected function _prepareLayout()
     {
-        return Mage::getSingleton('checkout/session')->getMoneybookersErrorMessage();
+        $section = $this->getAction()->getRequest()->getParam('section', false);
+        if ($section == 'moneybookers') {
+            $this->getLayout()
+                ->getBlock('head')
+                ->addJs('mage/adminhtml/moneybookers.js');
+        }
+        parent::_prepareLayout();
     }
 
     /**
-     * Get continue shopping url
+     * Print init JS script into body
+     * @return string
      */
-    public function getContinueShoppingUrl()
+    protected function _toHtml()
     {
-        return Mage::getUrl('checkout/cart');
+        $section = $this->getAction()->getRequest()->getParam('section', false);
+        if ($section == 'moneybookers') {
+            return parent::_toHtml();
+        } else {
+            return '';
+        }
     }
 }

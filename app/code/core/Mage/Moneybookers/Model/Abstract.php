@@ -19,18 +19,17 @@
  */
 abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Method_Abstract
 {
-    const XML_PATH_EMAIL	= 'moneybookers/settings/moneybookers_email';
-
     /**
-    * unique internal payment method identifier
-    *
-    * @var string [a-z0-9_]
-    **/
+     * unique internal payment method identifier
+     */
     protected $_code = 'moneybookers_abstract';
 
     protected $_formBlockType = 'moneybookers/form';
     protected $_infoBlockType = 'moneybookers/info';
 
+    /**
+     * Availability options
+     */
     protected $_isGateway				= true;
     protected $_canAuthorize			= true;
     protected $_canCapture				= true;
@@ -61,11 +60,22 @@ abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Metho
         return $this->_order;
     }
 
+    /**
+     * Return url for redirection after order placed
+     * @return string
+     */
     public function getOrderPlaceRedirectUrl()
     {
-          return Mage::getUrl('moneybookers/processing/payment', array('_secure'=>true));
+        return Mage::getUrl('moneybookers/processing/payment');
     }
 
+    /**
+     * Capture payment through Moneybookers api
+     *
+     * @param Varien_Object $payment
+     * @param decimal $amount
+     * @return Mage_Moneybookers_Model_Abstract
+     */
     public function capture(Varien_Object $payment, $amount)
     {
         $payment->setStatus(self::STATUS_APPROVED)
@@ -74,6 +84,12 @@ abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Metho
         return $this;
     }
 
+    /**
+     * Camcel payment
+     *
+     * @param Varien_Object $payment
+     * @return Mage_Moneybookers_Model_Abstract
+     */
     public function cancel(Varien_Object $payment)
     {
         $payment->setStatus(self::STATUS_DECLINED)
@@ -100,10 +116,10 @@ abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Metho
     public function getLocale()
     {
         $locale = explode('_', Mage::app()->getLocale()->getLocaleCode());
-        if (is_array($locale) && !empty($locale) && in_array($locale[0], $this->_supportedLocales))
+        if (is_array($locale) && !empty($locale) && in_array($locale[0], $this->_supportedLocales)) {
             return $locale[0];
-        else
-            return $this->getDefaultLocale();
+        }
+        return $this->getDefaultLocale();
     }
 
     /**
@@ -124,14 +140,14 @@ abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Metho
         $params = 	array(
                         'merchant_fields'		=> 'partner',
                         'partner'				=> 'magento',
-                        'pay_to_email'			=> Mage::getStoreConfig(self::XML_PATH_EMAIL),
+                        'pay_to_email'			=> Mage::getStoreConfig(Mage_Moneybookers_Helper_Data::XML_PATH_EMAIL),
                         'transaction_id'		=> $order_id,
-                        'return_url'			=> Mage::getUrl('moneybookers/processing/checkresponse', array('order_id' => $order_id, 'status' => 'success', '_secure' => true)),
-                        'cancel_url'			=> Mage::getUrl('moneybookers/processing/checkresponse', array('order_id' => $order_id, 'status' => 'cancel', '_secure' => true)),
-                        'status_url'			=> Mage::getUrl('moneybookers/processing/status', array('_secure'=>true)),
+                        'return_url'			=> Mage::getUrl('moneybookers/processing/success', array('transaction_id' => $order_id)),
+                        'cancel_url'			=> Mage::getUrl('moneybookers/processing/cancel', array('transaction_id' => $order_id)),
+                        'status_url'			=> Mage::getUrl('moneybookers/processing/status'),
                         'language'				=> $this->getLocale(),
-                        'amount'				=> round($this->getOrder()->getBaseGrandTotal(), 2),
-                        'currency'				=> $this->getOrder()->getBaseCurrencyCode(),
+                        'amount'				=> round($this->getOrder()->getGrandTotal(), 2),
+                        'currency'				=> $this->getOrder()->getOrderCurrencyCode(),
                         'recipient_description'	=> $this->getOrder()->getStore()->getWebsite()->getName(),
                         'firstname'				=> $billing->getFirstname(),
                         'lastname'				=> $billing->getLastname(),
@@ -149,10 +165,10 @@ abstract class Mage_Moneybookers_Model_Abstract extends Mage_Payment_Model_Metho
                     );
 
             // add optional day of birth
-        if ($billing->getDob())
+        if ($billing->getDob()) {
             $params['date_of_birth'] = Mage::app()->getLocale()->date($billing->getDob(), null, null, false)->toString('dmY');
+        }
 
         return $params;
     }
 }
-

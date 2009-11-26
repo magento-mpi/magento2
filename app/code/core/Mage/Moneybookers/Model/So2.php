@@ -20,11 +20,8 @@
 class Mage_Moneybookers_Model_So2 extends Mage_Moneybookers_Model_Abstract
 {
     /**
-    * unique internal payment method identifier
-    *
-    * @var string [a-z0-9_]
-    **/
+     * unique internal payment method identifier
+     */
     protected $_code			= 'moneybookers_so2';
     protected $_paymentMethod	= 'SO2';
 }
-

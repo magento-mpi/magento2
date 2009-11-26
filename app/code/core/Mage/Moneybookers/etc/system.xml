@@ -1123,16 +1123,7 @@
                             <show_in_store>0</show_in_store>
                         </secret_key>
                         <activationstatus>
-                            <comment><![CDATA[
-<input type="button" id="moneybookers_multifuncbutton" onclick="moneybookers.button()" style="display: none; margin-top: 1em;"/>
-<input id="moneybookers_settings_customer_id_hidden" type="hidden"/>
-<span id="moneybookers_inf_div" style="display:block; margin-top:1em;"></span>
-<script type="text/javascript">
-// Hide the activation status field
-document.getElementById("moneybookers_settings_activationstatus").style.display = "none";
-moneybookers = new Moneybookers();
-</script>
-                            ]]></comment>
+                            <comment></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>4</sort_order>
                             <show_in_default>1</show_in_default>

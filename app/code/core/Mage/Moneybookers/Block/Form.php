@@ -19,23 +19,32 @@
  */
 class Mage_Moneybookers_Block_Form extends Mage_Payment_Block_Form
 {
+    /**
+     * Constructor. Set template.
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setTemplate('moneybookers/form.phtml');
     }
 
-    protected function _getConfig()
-    {
-        return Mage::getSingleton('moneybookers/config');
-    }
-
+    /**
+     * Return payment logo image src
+     *
+     * @param string $payment Payment Code
+     * @return string|bool
+     */
     public function getPaymentImageSrc($payment)
     {
-        if (file_exists(Mage::getDesign()->getSkinBaseDir().'/images/moneybookers/'.$payment.'.png'))
-            return $this->getSkinUrl('images/moneybookers/'.$payment.'.png');
-        else if (file_exists(Mage::getDesign()->getSkinBaseDir().'/images/moneybookers/'.$payment.'.gif'))
-            return $this->getSkinUrl('images/moneybookers/'.$payment.'.gif');
+        $imageFilename = Mage::getDesign()
+            ->getFilename('images' . DS . 'moneybookers' . DS . $payment, array('_type' => 'skin'));
+
+        if (file_exists($imageFilename . '.png')) {
+            return $this->getSkinUrl('images/moneybookers/' . $payment . '.png');
+        } else if (file_exists($imageFilename . '.gif')) {
+            return $this->getSkinUrl('images/moneybookers/' . $payment . '.gif');
+        }
+
         return false;
     }
 }
