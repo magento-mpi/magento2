@@ -434,15 +434,13 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
             }
 
             if (is_string($filter)) {
-                $data = array();
-                $filter = base64_decode($filter);
-                parse_str($filter, $data);
-                array_walk_recursive($data, array($this, '_decodeFilter'));
-
+                $data = $this->helper('adminhtml')->prepareFilterString($filter);
                 $this->_setFilterValues($data);
-            } else if ($filter && is_array($filter)) {
+            }
+            else if ($filter && is_array($filter)) {
                 $this->_setFilterValues($filter);
-            } else if(0 !== sizeof($this->_defaultFilter)) {
+            }
+            else if(0 !== sizeof($this->_defaultFilter)) {
                 $this->_setFilterValues($this->_defaultFilter);
             }
 
@@ -470,7 +468,7 @@ class Mage_Adminhtml_Block_Widget_Grid extends Mage_Adminhtml_Block_Widget
      */
     protected function _decodeFilter(&$value)
     {
-        $value = rawurldecode($value);
+        $value = $this->helper('adminhtml')->decodeFilter($value);
     }
 
     protected function _preparePage()
