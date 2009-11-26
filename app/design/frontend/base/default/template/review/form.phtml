@@ -25,11 +25,11 @@
  */
 ?>
 <form action="<?php echo $this->getAction() ?>" method="post" id="review-form">
-    <fieldset class="add-review">
-        <h3><?php echo $this->__('Write Your Own Review') ?></h3>
-        <h4 class="product-name"><?php echo $this->__("You're reviewing:"); ?> <span><?php echo $this->htmlEscape($this->getProductInfo()->getName()) ?></span></h4>
+    <div class="form-add">
+        <h2><?php echo $this->__('Write Your Own Review') ?></h2>
+        <h3><?php echo $this->__("You're reviewing:"); ?> <span><?php echo $this->htmlEscape($this->getProductInfo()->getName()) ?></span></h3>
         <?php if( $this->getRatings() && $this->getRatings()->getSize()): ?>
-            <h5><?php echo $this->__('How do you rate this product?') ?> <em class="required">*</em></h5>
+            <h4><?php echo $this->__('How do you rate this product?') ?> <em class="required">*</em></h4>
             <span id="input-message-box"></span>
             <table class="data-table" id="product-review-table">
                 <col />
@@ -51,7 +51,7 @@
                 <tbody>
                 <?php foreach ($this->getRatings() as $_rating): ?>
                     <tr>
-                        <td class="label"><?php echo $_rating->getRatingCode() ?></td>
+                        <th><?php echo $_rating->getRatingCode() ?></th>
                     <?php foreach ($_rating->getOptions() as $_option): ?>
                         <td class="value"><input type="radio" name="ratings[<?php echo $_rating->getId() ?>]" id="<?php echo $_rating->getRatingCode() ?>_<?php echo $_option->getValue() ?>" value="<?php echo $_option->getId() ?>" class="radio" /></td>
                     <?php endforeach; ?>
@@ -82,10 +82,10 @@
                 </div>
             </li>
         </ul>
-        <div class="buttons-set">
-            <button type="submit" class="button"><span><span><?php echo $this->__('Submit Review') ?></span></span></button>
         </div>
-        </fieldset>
+        <div class="buttons-set">
+            <button type="submit" title="<?php echo $this->__('Submit Review') ?>" class="button"><span><span><?php echo $this->__('Submit Review') ?></span></span></button>
+        </div>
 </form>
 <script type="text/javascript">
 //<![CDATA[

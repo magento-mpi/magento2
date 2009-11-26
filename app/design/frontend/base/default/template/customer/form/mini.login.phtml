@@ -25,9 +25,9 @@
  */
 ?>
 <form action="<?php echo $this->getPostActionUrl() ?>" method="post">
-    <fieldset>
-        <p><label><?php echo $this->__('Email') ?>:</label> <input name="login[username]" class="input-text" /></p>
-        <p><label><?php echo $this->__('Password') ?>:</label> <input name="login[password]" class="input-text" /></p>
+    <div class="mini-login">
+        <p><label><?php echo $this->__('Email:') ?></label><input name="login[username]" class="input-text" /></p>
+        <p><label><?php echo $this->__('Password:') ?></label><input name="login[password]" class="input-text" /></p>
         <p><input type="submit" value="<?php echo $this->__('Login') ?>" /></p>
-    </fieldset>
+    </div>
 </form>

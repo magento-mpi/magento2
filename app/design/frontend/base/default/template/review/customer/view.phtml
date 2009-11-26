@@ -32,32 +32,30 @@
     <div class="product-img-box">
         <a href="<?php echo $this->getProductData()->getProductUrl() ?>" title="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($this->getProductData(), 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($this->getProductData()->getName()) ?>" /></a>
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
-        <p class="label"><?php echo $this->__('Average Customer Rating:') ?></p>
-        <?php echo $this->getReviewsSummaryHtml($this->getProductData()) ?>
+            <p class="label"><?php echo $this->__('Average Customer Rating:') ?></p>
+            <?php echo $this->getReviewsSummaryHtml($this->getProductData()) ?>
         <?php endif; ?>
     </div>
     <div class="product-details">
         <h2 class="product-name"><?php echo $this->htmlEscape($this->getProductData()->getName()) ?></h2>
         <?php if( $this->getRating() && $this->getRating()->getSize()): ?>
-        <div class="ratings-table">
-            <p><strong><?php echo $this->__('Your Rating:') ?></strong></p>
-            <table>
-            <?php foreach ($this->getRating() as $_rating): ?>
-            <?php if($_rating->getPercent()): ?>
-                <tr>
-                    <th class="label"><?php echo $_rating->getRatingCode() ?></th>
-                    <td class="value">
-                        <div class="rating-box">
-                            <div class="rating" style="width:<?php echo ceil($_rating->getPercent()) ?>%;"></div>
-                        </div>
-                    </td>
-                </tr>
-            <?php endif; ?>
-            <?php endforeach; ?>
-            </table>
-        </div>
+        <h3><?php echo $this->__('Your Rating:') ?></h3>
+        <table class="ratings-table">
+        <?php foreach ($this->getRating() as $_rating): ?>
+        <?php if($_rating->getPercent()): ?>
+            <tr>
+                <th><?php echo $_rating->getRatingCode() ?></th>
+                <td>
+                    <div class="rating-box">
+                        <div class="rating" style="width:<?php echo ceil($_rating->getPercent()) ?>%;"></div>
+                    </div>
+                </td>
+            </tr>
         <?php endif; ?>
-        <dl class="review">
+        <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+        <dl>
             <dt>
                 <?php echo $this->__('Your Review (submitted on %s):', $this->dateFormat($this->getReviewData()->getCreatedAt())) ?>
             </dt>
