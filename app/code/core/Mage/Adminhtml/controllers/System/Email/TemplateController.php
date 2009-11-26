@@ -88,7 +88,14 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
     public function saveAction()
     {
         $request = $this->getRequest();
+        $id = $this->getRequest()->getParam('id');
+
         $template = $this->_initTemplate('id');
+        if (!$template->getId() && $id) {
+            Mage::getSingleton('adminhtml/session')->addError(Mage::helper('adminhtml')->__('This Email template no longer exists'));
+            $this->_redirect('*/*/');
+            return;
+        }
 
         try {
             $template->setTemplateSubject($request->getParam('template_subject'))

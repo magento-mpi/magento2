@@ -293,6 +293,5 @@ function addProfileRow(data) {
         echo "</ul>";
         */
         echo '</body></html>';
-        exit;
     }
 }
