@@ -24,11 +24,11 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
-<div class="tags">
+<div class="box-collateral box-tags">
     <h2><?php echo $this->__('Product Tags') ?></h2>
     <?php if( $this->getCount() ): ?>
     <h3><?php echo $this->__('Other people marked this product with these tags:') ?></h3>
-    <ul class="tags-list">
+    <ul class="product-tags">
         <?php $_iterator = 0; ?>
         <?php foreach( $this->getTags() as $_tag ): ?>
             <li<?php if( 1 == ++$_iterator && $this->getCount() != 1 ): ?> class="first"<?php elseif($_iterator == $this->getCount()): ?> class="last"<?php endif; ?>><a href="<?php echo $_tag->getTaggedProductsUrl() ?>"><?php echo $this->htmlEscape($_tag->getName()) ?></a> (<?php echo $_tag->getPopularity() ?>)</li>
@@ -43,8 +43,8 @@
             </div>
             <button type="button" class="button" onclick="submitTagForm()"><span><span><?php echo $this->__('Add Tags') ?></span></span></button>
         </div>
-        <p><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases.") ?></p>
     </form>
+    <p class="note"><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases.") ?></p>
     <script type="text/javascript">
     //<![CDATA[
         var addTagFormJs = new VarienForm('addTagForm');

@@ -66,11 +66,13 @@
     <?php endforeach; ?>
     </tbody>
 <?php else: ?>
+    <tbody>
         <tr>
-        <td>
-            <?php echo $this->__("Unable to find any products tagged with '%s' in the current store", $this->htmlEscape($this->getTagInfo()->getName()) ) ?>
-        </td>
+            <td>
+                <?php echo $this->__("Unable to find any products tagged with '%s' in the current store", $this->htmlEscape($this->getTagInfo()->getName()) ) ?>
+            </td>
         </tr>
+    </tbody>
 <?php endif; ?>
 </table>
 <script type="text/javascript">decorateTable('my-tags-table')</script>

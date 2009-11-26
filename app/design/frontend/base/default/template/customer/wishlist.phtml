@@ -42,17 +42,19 @@
                 <th><?php echo $this->__('Remove') ?></th>
             </tr>
         </thead>
+        <tbody>
         <?php foreach($wishlist as $item): ?>
-        <tr>
-            <td>
-                <input type="hidden" value="1" name="wishlist[<?php echo $item->getItemId() ?>]" />
-                <a href="<?php echo $this->getUrl('catalog/product/view/id/'.$item->getProduct()->getId()) ?>"><?php echo $this->htmlEscape($item->getProduct()->getName()) ?></a>
-            </td>
-            <td><?php echo $item->getStatus() ?></td>
-            <td><input type="checkbox" value="1" name="to_cart[<?php echo $item->getItemId() ?>]" class="checkbox" /></td>
-            <td><input type="checkbox" value="1" name="remove[<?php echo $item->getItemId() ?>]" class="checkbox" /></td>
-        </tr>
+            <tr>
+                <td>
+                    <input type="hidden" value="1" name="wishlist[<?php echo $item->getItemId() ?>]" />
+                    <a href="<?php echo $this->getUrl('catalog/product/view/id/'.$item->getProduct()->getId()) ?>"><?php echo $this->htmlEscape($item->getProduct()->getName()) ?></a>
+                </td>
+                <td><?php echo $item->getStatus() ?></td>
+                <td><input type="checkbox" value="1" name="to_cart[<?php echo $item->getItemId() ?>]" class="checkbox" /></td>
+                <td><input type="checkbox" value="1" name="remove[<?php echo $item->getItemId() ?>]" class="checkbox" /></td>
+            </tr>
         <?php endforeach ?>
+        </tbody>
     </table>
     <div class="buttons-set">
         <a href="<?php echo Mage::getBaseUrl() ?>">&laquo; <?php echo $this->__('Continue Shopping') ?></a>

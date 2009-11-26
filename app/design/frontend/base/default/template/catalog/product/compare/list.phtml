@@ -31,7 +31,7 @@
 </div>
 <?php $_total=$this->getItems()->getSize() ?>
 <?php if($_total): ?>
-    <table class="data-table" id="product_comparison">
+    <table class="data-table compare-table" id="product_comparison">
     <?php $_i=0 ?>
     <?php foreach($this->getItems() as $_item): ?>
         <?php if($_i++%10==0): ?>
@@ -53,24 +53,26 @@
         </thead>
 <?php endif ?>
         <tbody>
-            <tr>
+            <tr class="product-shop-row">
             <?php $_i=0 ?>
             <?php foreach($this->getItems() as $_item): ?>
                 <?php if($_i++%10==0): ?>
-                    <th class="label">&nbsp;</th>
+                    <th>&nbsp;</th>
                 <?php endif; ?>
                 <td>
                     <a class="product-image" href="#" onclick="setPLocation('<?php echo $this->getProductUrl($_item) ?>', true)" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'small_image')->resize(125, 125); ?>" width="125" height="125" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
-                    <h3 class="product-name"><a href="#" onclick="setPLocation('<?php echo $this->getProductUrl($_item) ?>', true)" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h3>
+                    <h2 class="product-name"><a href="#" onclick="setPLocation('<?php echo $this->getProductUrl($_item) ?>', true)" title="<?php echo $this->htmlEscape($_item->getName()) ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a></h2>
                     <?php echo $this->getReviewsSummaryHtml($_item, 'short') ?>
                     <?php echo $this->getPriceHtml($_item, true) ?>
                     <?php if($_item->isSaleable()): ?>
-                        <p><button type="button" class="button" onclick="setPLocation('<?php echo $this->getAddToCartUrl($_item) ?>', true)"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                        <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button" onclick="setPLocation('<?php echo $this->getAddToCartUrl($_item) ?>', true)"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
                     <?php else: ?>
                         <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                     <?php endif; ?>
                     <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                        <p><a href="#" onclick="setPLocation('<?php echo $this->getAddToWishlistUrl($_item) ?>', true)"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                        <ul class="add-to-links">
+                            <li><a href="#" class="link-wishlist" onclick="setPLocation('<?php echo $this->getAddToWishlistUrl($_item) ?>', true)"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                        </ul>
                     <?php endif; ?>
                 </td>
             <?php endforeach; ?>
@@ -82,7 +84,7 @@
                 <?php $_i=0 ?>
                 <?php foreach($this->getItems() as $_item): ?>
                 <?php if($_i++%10==0): ?>
-                <th class="label"><span class="nobr"><?php echo $_attribute->getStoreLabel() ?></span></th>
+                <th><span class="nobr"><?php echo $_attribute->getStoreLabel() ?></span></th>
                 <?php endif; ?>
                 <td>
                     <?php switch ($_attribute->getAttributeCode()) {
@@ -102,21 +104,23 @@
         <?php endforeach; ?>
         </tbody>
         <tbody>
-                <tr>
+                <tr class="add-to-row">
                 <?php $_i=0 ?>
                 <?php foreach($this->getItems() as $_item): ?>
                 <?php if($_i++%10==0): ?>
-                 <th class="label">&nbsp;</th>
+                <th>&nbsp;</th>
                 <?php endif; ?>
-                <td class="data">
+                <td>
                     <?php echo $this->getPriceHtml($_item) ?>
                     <?php if($_item->isSaleable()): ?>
-                        <p><button type="button" class="button" onclick="setPLocation('<?php echo $this->getAddToCartUrl($_item) ?>', true)"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
+                        <p><button type="button" title="<?php echo $this->__('Add to Cart') ?>" class="button" onclick="setPLocation('<?php echo $this->getAddToCartUrl($_item) ?>', true)"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button></p>
                     <?php else: ?>
                         <p class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></p>
                     <?php endif; ?>
                     <?php if ($this->helper('wishlist')->isAllow()) : ?>
-                        <p><a href="#" onclick="setPLocation('<?php echo $this->getAddToWishlistUrl($_item) ?>', true)"><?php echo $this->__('Add to Wishlist') ?></a></p>
+                        <ul class="add-to-links">
+                            <li><a href="#" class="link-wishlist" onclick="setPLocation('<?php echo $this->getAddToWishlistUrl($_item) ?>', true)"><?php echo $this->__('Add to Wishlist') ?></a></li>
+                        </ul>
                     <?php endif; ?>
                 </td>
                 <?php endforeach; ?>
@@ -124,7 +128,7 @@
         </tbody>
     </table>
     <div class="buttons-set">
-        <button type="button" class="button" onclick="window.close();"><span><span><?php echo $this->__('Close Window') ?></span></span></button>
+        <button type="button" title="<?php echo $this->__('Close Window') ?>" class="button" onclick="window.close();"><span><span><?php echo $this->__('Close Window') ?></span></span></button>
     </div>
     <script type="text/javascript">decorateTable('product_comparison');</script>
 <?php else: ?>

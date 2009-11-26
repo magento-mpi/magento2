@@ -100,7 +100,7 @@
                         <?php endif; ?>
                     </thead>
                     <tfoot>
-                    <?php echo $this->renderTotals($this->getShippingAddressTotals($_address)); ?>
+                        <?php echo $this->renderTotals($this->getShippingAddressTotals($_address)); ?>
                     </tfoot>
                     <tbody>
                     <?php foreach ($this->getShippingAddressItems($_address) as $_item): ?>
