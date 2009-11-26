@@ -19,10 +19,6 @@
  */
 class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_Action
 {
-    const XML_PATH_CUSTOMER_ID = 'moneybookers/settings/customer_id';
-    const XML_PATH_SECRET_KEY  = 'moneybookers/settings/secret_key';
-
-
     /**
      * Get singleton of Checkout Session Model
      *
