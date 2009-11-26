@@ -664,28 +664,101 @@
             <sales__order/>
         </expected_models>
         <actions>
+
+            <adminhtml_sales_order_pdfdocs>
+                <action>export</action>
+            </adminhtml_sales_order_pdfdocs>
+
             <adminhtml_sales_order_view>
                 <action>view</action>
             </adminhtml_sales_order_view>
 
+            <adminhtml_sales_order_create_reorder>
+                <action>reorder</action>
+            </adminhtml_sales_order_create_reorder>
+
+            <adminhtml_sales_order_edit_start>
+                <action>edit</action>
+            </adminhtml_sales_order_edit_start>
+
             <adminhtml_sales_order_massHold>
                 <action>massUpdate</action>
+                <expected_models extends="merge">
+                    <sales__order_status_history/>
+                </expected_models>
             </adminhtml_sales_order_massHold>
 
             <adminhtml_sales_order_massUnhold>
                 <action>massUpdate</action>
+                <expected_models extends="merge">
+                    <sales__order_status_history/>
+                </expected_models>
             </adminhtml_sales_order_massUnhold>
 
             <adminhtml_sales_order_massCancel>
                 <action>massUpdate</action>
+                <expected_models extends="merge">
+                    <sales__order_status_history/>
+                </expected_models>
             </adminhtml_sales_order_massCancel>
+
+            <adminhtml_sales_order_hold>
+                <action>save</action>
+                <expected_models extends="merge">
+                    <sales__order_status_history/>
+                </expected_models>
+            </adminhtml_sales_order_hold>
+
+            <adminhtml_sales_order_unhold>
+                <action>save</action>
+                <expected_models extends="merge">
+                    <sales__order_status_history/>
+                </expected_models>
+            </adminhtml_sales_order_unhold>
+
+            <adminhtml_sales_order_cancel>
+                <action>save</action>
+                <expected_models extends="merge">
+                    <sales__order_status_history/>
+                </expected_models>
+            </adminhtml_sales_order_cancel>
 
             <adminhtml_sales_order_create_save>
                 <action>save</action>
                 <expected_models extends="merge">
                     <customer__customer/>
+                    <customer__address/>
+                    <sales__order_status_history/>
                 </expected_models>
             </adminhtml_sales_order_create_save>
+
+            <adminhtml_sales_order_edit_save>
+                <action>save</action>
+                <expected_models extends="merge">
+                    <customer__customer/>
+                    <customer__address/>
+                    <sales__order_status_history/>
+                </expected_models>
+            </adminhtml_sales_order_edit_save>
+
+            <adminhtml_sales_order_email>
+                <action>send</action>
+                <expected_models extends="merge">
+                    <sales__order_status_history/>
+                </expected_models>
+            </adminhtml_sales_order_email>
+
+            <adminhtml_sales_order_pdfinvoices>
+                <action>export</action>
+            </adminhtml_sales_order_pdfinvoices>
+
+            <adminhtml_sales_order_pdfshipments>
+                <action>export</action>
+            </adminhtml_sales_order_pdfshipments>
+
+            <adminhtml_sales_order_pdfcreditmemos>
+                <action>export</action>
+            </adminhtml_sales_order_pdfcreditmemos>
 
         </actions>
     </sales_orders>
@@ -712,6 +785,10 @@
                 <action>view</action>
             </adminhtml_sales_invoice_view>
 
+            <adminhtml_sales_order_invoice_view>
+                <action>view</action>
+            </adminhtml_sales_order_invoice_view>
+
             <adminhtml_sales_order_invoice_save>
                 <action>save</action>
                 <skip_on_back>
@@ -732,6 +809,10 @@
                 <action>view</action>
             </adminhtml_sales_shipment_view>
 
+            <adminhtml_sales_order_shipment_view>
+                <action>view</action>
+            </adminhtml_sales_order_shipment_view>
+
             <adminhtml_sales_order_shipment_save>
                 <action>save</action>
                 <skip_on_back>
@@ -750,6 +831,10 @@
             <adminhtml_sales_creditmemo_view>
                 <action>view</action>
             </adminhtml_sales_creditmemo_view>
+
+            <adminhtml_sales_order_creditmemo_view>
+                <action>view</action>
+            </adminhtml_sales_order_creditmemo_view>
 
             <adminhtml_sales_order_creditmemo_save>
                 <action>save</action>
@@ -809,7 +894,12 @@
     <api_users translate="label">
         <label>Webservices API Users</label>
         <expected_models>
-            <api__user/>
+            <api__user>
+                <skip_data>
+                    <api_key/>
+                    <api_key_confirmation/>
+                </skip_data>
+            </api__user>
         </expected_models>
         <actions>
             <adminhtml_api_user_edit>
@@ -885,13 +975,17 @@
                 <action>view</action>
             </adminhtml_system_store_editWebsite>
 
-            <adminhtml_system_website_save>
+            <adminhtml_system_store_save>
+                <expected_models extends="merge">
+                    <core__store_group/>
+                    <core__store/>
+                </expected_models>
                 <action>save</action>
-            </adminhtml_system_website_save>
+            </adminhtml_system_store_save>
 
-            <adminhtml_system_store_deleteWebsite>
+            <adminhtml_system_store_deleteWebsitePost>
                 <action>delete</action>
-            </adminhtml_system_store_deleteWebsite>
+            </adminhtml_system_store_deleteWebsitePost>
         </actions>
     </adminhtml_system_websites>
 
@@ -905,13 +999,9 @@
                 <action>view</action>
             </adminhtml_system_store_editStore>
 
-            <adminhtml_system_store_save>
-                <action>save</action>
-            </adminhtml_system_store_save>
-
-            <adminhtml_system_store_deleteStore>
+            <adminhtml_system_store_deleteStorePost>
                 <action>delete</action>
-            </adminhtml_system_store_deleteStore>
+            </adminhtml_system_store_deleteStorePost>
         </actions>
     </adminhtml_system_store_groups>
 
@@ -921,13 +1011,9 @@
             <core__store_group/>
         </expected_models>
         <actions>
-            <adminhtml_system_storeview_save>
-                <action>save</action>
-            </adminhtml_system_storeview_save>
-
-            <adminhtml_system_store_deleteGroup>
+            <adminhtml_system_store_deleteGroupPost>
                 <action>delete</action>
-            </adminhtml_system_store_deleteGroup>
+            </adminhtml_system_store_deleteGroupPost>
 
             <adminhtml_system_store_editGroup>
                 <action>view</action>
@@ -950,6 +1036,63 @@
             </adminhtml_system_design_delete>
         </actions>
     </adminhtml_system_design>
+
+    <adminhtml_system_convert_gui translate="label">
+        <label>Import/Export Profiles</label>
+        <expected_models>
+            <dataflow__profile/>
+        </expected_models>
+        <actions>
+            <adminhtml_system_convert_gui_save>
+                <action>save</action>
+            </adminhtml_system_convert_gui_save>
+
+            <adminhtml_system_convert_gui_edit>
+                <action>edit</action>
+            </adminhtml_system_convert_gui_edit>
+
+            <adminhtml_system_convert_gui_delete>
+                <action>delete</action>
+            </adminhtml_system_convert_gui_delete>
+
+            <adminhtml_system_convert_gui_run>
+                <action>run</action>
+                <post_dispatch>postDispatchSystemImportExportRun</post_dispatch>
+            </adminhtml_system_convert_gui_run>
+        </actions>
+    </adminhtml_system_convert_gui>
+
+    <adminhtml_system_currency translate="label">
+        <label>Manage Currency Rates</label>
+        <actions>
+            <adminhtml_system_currency_saveRates>
+                <action>save</action>
+                <post_dispatch>postDispatchSystemCurrencySave</post_dispatch>
+            </adminhtml_system_currency_saveRates>
+        </actions>
+    </adminhtml_system_currency>
+
+    <adminhtml_system_email_template translate="label">
+        <label>Transactional Emails</label>
+
+        <expected_models>
+            <core__email_template/>
+        </expected_models>
+
+        <actions>
+            <adminhtml_system_email_template_save>
+                <action>save</action>
+            </adminhtml_system_email_template_save>
+
+            <adminhtml_system_email_template_edit>
+                <action>edit</action>
+            </adminhtml_system_email_template_edit>
+
+            <adminhtml_system_email_template_delete>
+                <action>delete</action>
+            </adminhtml_system_email_template_delete>
+        </actions>
+    </adminhtml_system_email_template>
 
     <adminhtml_system_backups translate="label">
         <label>System Backups</label>
@@ -1041,6 +1184,11 @@
                 <action>import</action>
                 <post_dispatch>postDispatchTaxRatesImport</post_dispatch>
             </adminhtml_tax_rate_importPost>
+
+            <adminhtml_tax_rate_exportPost>
+                <action>export</action>
+                <post_dispatch>postDispatchTaxRatesExport</post_dispatch>
+            </adminhtml_tax_rate_exportPost>
 
             <adminhtml_tax_rate_delete>
                 <action>delete</action>
@@ -1135,4 +1283,14 @@
             </adminhtml_process_reindexProcess>
         </actions>
     </index_management>
+
+    <cache_management translate="label">
+        <label>Cache Management</label>
+        <actions>
+            <adminhtml_system_cache_save>
+                <action>save</action>
+                <post_dispatch>postDispatchSaveCacheSettings</post_dispatch>
+            </adminhtml_system_cache_save>
+        </actions>
+    </cache_management>
 </logging>

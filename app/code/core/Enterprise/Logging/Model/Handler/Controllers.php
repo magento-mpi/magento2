@@ -226,12 +226,33 @@ class Enterprise_Logging_Model_Handler_Controllers
      * @param Enterprise_Logging_Model_Event $eventModel
      * @return Enterprise_Logging_Model_Event|false
      */
-    public function postDispatchReport($config, $eventModel)
+    public function postDispatchReport($config, $eventModel, $processor)
     {
         $fullActionNameParts = explode('_report_', $config->getName(), 2);
         if (empty($fullActionNameParts[1])) {
             return false;
         }
+
+        $request = Mage::app()->getRequest();
+        $filter = $request->getParam('filter');
+
+        //Filtering request data
+        $data = array_intersect_key($request->getParams(), array('report_from' => null, 'report_to' => null, 'report_period' => null, 'store' => null, 'website' => null, 'group' => null));
+
+        //Need when in request data there are was no period info
+        if ($filter) {
+            $filterData = Mage::app()->getHelper('adminhtml')->prepareFilterString($filter);
+            $data = array_merge($data, (array)$filterData);
+        }
+
+        //Add log entry details
+        if ($data) {
+            $change = Mage::getModel('enterprise_logging/event_changes');
+            $processor->addEventChanges($change->setSourceName('params')
+                ->setOriginalData(array())
+                ->setResultData($data));
+        }
+
         return $eventModel->setInfo($fullActionNameParts[1]);
     }
 
@@ -311,7 +332,9 @@ class Enterprise_Logging_Model_Handler_Controllers
         if (!Mage::app()->getRequest()->isPost()) {
             return false;
         }
-        return $eventModel->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Import'));
+        return $eventModel->setIsSuccess(
+            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
+        )->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Import'));
     }
 
     /**
@@ -380,7 +403,16 @@ class Enterprise_Logging_Model_Handler_Controllers
         if (!Mage::app()->getRequest()->isPost()) {
             return false;
         }
-        return $eventModel->setInfo(Mage::app()->getRequest()->getParam('class_type') . ': ' . Mage::app()->getRequest()->getParam('class_id'));
+        $classType = Mage::app()->getRequest()->getParam('class_type');
+        $classId = Mage::app()->getRequest()->getParam('class_id');
+        if ($classType == 'PRODUCT') {
+            $eventModel->setEventCode('tax_product_tax_classes');
+        }
+        return $eventModel->setIsSuccess(
+            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
+        )->setInfo(
+            $classType . ($classId ? ': #' . Mage::app()->getRequest()->getParam('class_id') : '')
+        );
     }
 
     /**
@@ -474,5 +506,154 @@ class Enterprise_Logging_Model_Handler_Controllers
             return false;
         }
         return $eventModel->setInfo(is_array($processIds) ? implode(', ', $processIds) : (int)$processIds);
+    }
+
+    /**
+     * Custom handler for run Import/Export Profile
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchSystemImportExportRun($config, $eventModel)
+    {
+        $profile = Mage::registry('current_convert_profile');
+        if (!$profile) {
+            return false;
+        }
+        return $eventModel->setIsSuccess(
+            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
+        )->setInfo($profile->getName() .  ': #' . $profile->getId());
+    }
+
+    /**
+     * Custom handler for System Currency save
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchSystemCurrencySave($config, $eventModel, $processor)
+    {
+        $request = Mage::app()->getRequest();
+        $change = Mage::getModel('enterprise_logging/event_changes');
+        $data = $request->getParam('rate');
+        $values = array();
+        if(!is_array($data)){
+            return false;
+        }
+        foreach ($data as $currencyCode => $rate) {
+            foreach( $rate as $currencyTo => $value ) {
+                $value = abs($value);
+                if( $value == 0 ) {
+                    continue;
+                }
+                $values[] = $currencyCode . '=>' . $currencyTo . ': ' . $value;
+            }
+        }
+
+        $processor->addEventChanges($change->setSourceName('rates')
+            ->setOriginalData(array())
+            ->setResultData(array('rates' => implode(', ', $values))));
+
+        return $eventModel->setIsSuccess(
+            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
+        )->setInfo(Mage::helper('enterprise_logging')->__('Currency Rates Saved'));
+    }
+
+    /**
+     * Custom handler for Cache Settings Save
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event
+     */
+    public function postDispatchSaveCacheSettings($config, $eventModel, $processor)
+    {
+        $request = Mage::app()->getRequest();
+        if (!$request->isPost()) {
+            return false;
+        }
+        $clean = $enable = array();
+        $action     = $info = '';
+        $change     = Mage::getModel('enterprise_logging/event_changes');
+        $allCache   = $request->getPost('all_cache');
+        $postEnable = $request->getPost('enable');
+        $beta       = $request->getPost('beta');
+        $catalogAction = $request->getPost('catalog_action');
+        $cacheTypes = array_keys(Mage::helper('core')->getCacheTypes());
+        $betaCacheTypes  = array_keys(Mage::helper('core')->getCacheBetaTypes());
+
+        switch ($allCache){
+            case 'disable':
+                $action = Mage::helper('enterprise_logging')->__('Disable');
+                break;
+            case 'enable':
+                $action = Mage::helper('enterprise_logging')->__('Enable');
+                break;
+            case 'refresh':
+                $action = Mage::helper('enterprise_logging')->__('Refresh');
+                break;
+            default:
+                $action = Mage::helper('enterprise_logging')->__('No change');
+                break;
+        }
+        $info = Mage::helper('enterprise_logging')->__('All cache %s. ', $action);
+        if ($catalogAction) {
+        	$info .= $catalogAction;
+        }
+
+        foreach ($cacheTypes as $type) {
+            $flag = $allCache != 'disable' && (!empty($postEnable[$type]) || $allCache == 'enable');
+            $enable[$type] = $flag ? 1 : 0;
+            if ($allCache == '' && !$flag) {
+                $clean[] = $type;
+            }
+        }
+
+        foreach ($betaCacheTypes as $type) {
+            if (empty($beta[$type])) {
+                $clean[] = $type;
+            }
+            else {
+                $enable[$type] = 1;
+            }
+        }
+
+        $processor->addEventChanges(clone $change->setSourceName('enable')
+                ->setOriginalData(array())
+                ->setResultData($enable));
+
+        if (!empty($clean)) {
+            $processor->addEventChanges(clone $change->setSourceName('clean')
+                ->setOriginalData(array())
+                ->setResultData($clean));
+        }
+        if ($catalogAction) {
+            $processor->addEventChanges(clone $change->setSourceName('catalog')
+                    ->setOriginalData(array())
+                    ->setResultData(array('action' => $catalogAction)));
+        }
+
+        return $eventModel->setIsSuccess(
+            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
+        )->setInfo($info);
+    }
+
+    /**
+     * Custom tax export handler
+     *
+     * @param Varien_Simplexml_Element $config
+     * @param Enterprise_Logging_Model_Event $eventModel
+     * @return Enterprise_Logging_Model_Event|false
+     */
+    public function postDispatchTaxRatesExport($config, $eventModel)
+    {
+        if (!Mage::app()->getRequest()->isPost()) {
+            return false;
+        }
+        return $eventModel->setIsSuccess(
+            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
+        )->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Export'));
     }
 }

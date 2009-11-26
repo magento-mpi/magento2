@@ -71,14 +71,14 @@ class Enterprise_Logging_Block_Adminhtml_Details_Grid extends Mage_Adminhtml_Blo
         ));
 
         $this->addColumn('original_data', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Was'),
+            'header'    => Mage::helper('enterprise_logging')->__('Value Before Change'),
             'sortable'  => false,
             'renderer'  => 'enterprise_logging/adminhtml_details_renderer_diff',
             'index'     => 'original_data'
         ));
 
         $this->addColumn('result_data', array(
-            'header'    => Mage::helper('enterprise_logging')->__('Became'),
+            'header'    => Mage::helper('enterprise_logging')->__('Value After Change'),
             'sortable'  => false,
             'renderer'  => 'enterprise_logging/adminhtml_details_renderer_diff',
             'index'     => 'result_data'

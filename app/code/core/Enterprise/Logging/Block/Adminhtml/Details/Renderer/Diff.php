@@ -56,6 +56,7 @@ class Enterprise_Logging_Block_Adminhtml_Details_Renderer_Diff
                 $html = $this->__('N/A');
                 $specialFlag = true;
             }
+            $data = (array)$data;
             if (!$specialFlag) {
                 $html = '<dl>';
                 foreach ($data as $key => $value) {
