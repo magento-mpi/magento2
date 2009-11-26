@@ -166,6 +166,33 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
     }
 
     /**
+     * Disable fields in tab "Main" of edit product attribute form
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function disableCatalogProductAttributeEditTabMainFields($observer)
+    {
+        foreach ($observer->getEvent()->getBlock()->getForm()->getElements() as $element){
+            if ($element->getType() == 'fieldset'){
+                foreach ($element->getElements() as $field){
+                    $field->setReadonly(true);
+                    $field->setDisabled(true);
+                }
+            }
+        }
+    }
+
+    /**
+     * Disable fields in tab "Manage Label / Options" of edit product attribute form
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function disableCatalogProductAttributeEditTabOptionsFields($observer)
+    {
+        $observer->getEvent()->getBlock()->setReadOnly(true);
+    }
+
+    /**
      * Remove product attribute create button on product edit page
      *
      * @param Varien_Event_Observer $observer

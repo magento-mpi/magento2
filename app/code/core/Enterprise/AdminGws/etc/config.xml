@@ -548,6 +548,8 @@
                     <enterprise_catalogevent__adminhtml_event_edit_form>restrictCatalogEventEditForm</enterprise_catalogevent__adminhtml_event_edit_form>
                     <adminhtml__catalog_product_attribute>removeCatalogProductAttributeAddButton</adminhtml__catalog_product_attribute>
                     <adminhtml__catalog_product_attribute_edit>removeCatalogProductAttributeButtons</adminhtml__catalog_product_attribute_edit>
+                    <adminhtml__catalog_product_attribute_edit_tab_main>disableCatalogProductAttributeEditTabMainFields</adminhtml__catalog_product_attribute_edit_tab_main>
+                    <adminhtml__catalog_product_attribute_edit_tab_options>disableCatalogProductAttributeEditTabOptionsFields</adminhtml__catalog_product_attribute_edit_tab_options>
                     <adminhtml__catalog_category_edit_form>widgetCatalogEventCategoryEditButtons</adminhtml__catalog_category_edit_form>
                     <adminhtml__newsletter_queue_edit_form>setIsRequiredSubscribersFromFieldForNewsletterQueueForm</adminhtml__newsletter_queue_edit_form>
                     <adminhtml__catalog_product_edit_action_attribute_tab_websites>catalogProductMassUpdateWebsites</adminhtml__catalog_product_edit_action_attribute_tab_websites>
