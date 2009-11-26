@@ -194,7 +194,7 @@
             }
 
             this.variables = null;
-            
+
             new Ajax.Request($('email_template_load_form').action, {
                parameters: Form.serialize($('email_template_load_form'), true),
                area: $('email_template_load_form'),
@@ -249,7 +249,7 @@
             }
 
             if(!Object.isString(value) && value.title) {
-                value = (value.url ? '<a href="' + value.url + '">' + value.title + '</a>' : value.title);
+                value = (value.url ? '<a href="' + value.url + '">' + value.title + '</a>' : value.title) + (value.scope ? '&nbsp;&nbsp;<span class="path-scope-label">(' + value.scope + ')</span>' : '');
             }
 
             return value;

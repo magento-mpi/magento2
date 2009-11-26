@@ -345,7 +345,8 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
      */
     protected function _getSystemConfigPathsParts($paths)
     {
-        $result = $prefixParts = array();
+        $result = $urlParams = $prefixParts = array();
+        $scopeLabel = Mage::helper('adminhtml')->__('GLOBAL');
         if ($paths) {
             // create prefix path parts
             $prefixParts[] = array(
@@ -357,17 +358,40 @@ class Mage_Adminhtml_Block_System_Email_Template_Edit extends Mage_Adminhtml_Blo
             );
 
             $pathParts = $prefixParts;
-            foreach ($paths as $path) {
-                list($sectionName, $groupName, $fieldName) = explode('/', $path);
+            foreach ($paths as $id => $pathData) {
+                list($sectionName, $groupName, $fieldName) = explode('/', $pathData['path']);
+                $urlParams = array('section' => $sectionName);
+                if (isset($pathData['scope']) && isset($pathData['scope_id'])) {
+                    switch ($pathData['scope']) {
+                        case 'stores':
+                            $store = Mage::app()->getStore($pathData['scope_id']);
+                            if ($store) {
+                                $urlParams['website'] = $store->getWebsite()->getCode();
+                                $urlParams['store'] = $store->getCode();
+                                $scopeLabel = $store->getWebsite()->getName() . '/' . $store->getName();
+                            }
+                            break;
+                        case 'websites':
+                            $website = Mage::app()->getWebsite($pathData['scope_id']);
+                            if ($website) {
+                                $urlParams['website'] = $website->getCode();
+                                $scopeLabel = $website->getName();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
                 $pathParts[] = array(
                     'title' => Mage::getSingleton('adminhtml/config')->getSystemConfigNodeLabel($sectionName),
-                    'url' => $this->getUrl('adminhtml/system_config/edit', array('section' => $sectionName)),
+                    'url' => $this->getUrl('adminhtml/system_config/edit', $urlParams),
                 );
                 $pathParts[] = array(
                     'title' => Mage::getSingleton('adminhtml/config')->getSystemConfigNodeLabel($sectionName, $groupName)
                 );
                 $pathParts[] = array(
-                    'title' => Mage::getSingleton('adminhtml/config')->getSystemConfigNodeLabel($sectionName, $groupName, $fieldName)
+                    'title' => Mage::getSingleton('adminhtml/config')->getSystemConfigNodeLabel($sectionName, $groupName, $fieldName),
+                    'scope' => $scopeLabel
                 );
                 $result[] = $pathParts;
                 $pathParts = $prefixParts;

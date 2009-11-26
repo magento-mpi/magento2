@@ -42,7 +42,7 @@
  * @package    Mage_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Mage_Core_Model_Email_Template extends Varien_Object
+class Mage_Core_Model_Email_Template extends Mage_Core_Model_Abstract
 {
     /**
      * Types of template
@@ -71,13 +71,12 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     protected $_designConfig;
 
     /**
-     * Return resource of template model.
+     * Initialize email template model
      *
-     * @return Mage_Core_Model_Mysql4_Email_Template
      */
-    public function getResource()
+    protected function _construct()
     {
-        return Mage::getResourceSingleton('core/email_template');
+        $this->_init('core/email_template');
     }
 
     /**
@@ -118,18 +117,6 @@ class Mage_Core_Model_Email_Template extends Varien_Object
                 ->setStoreId($this->getDesignConfig()->getStore());
         }
         return $this->_templateFilter;
-    }
-
-    /**
-     * Load template by id
-     *
-     * @param   int $templateId
-     * @return   Mage_Core_Model_Email_Template
-     */
-    public function load($templateId)
-    {
-        $this->addData($this->getResource()->load($templateId));
-        return $this;
     }
 
     /**
@@ -274,15 +261,6 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     }
 
     /**
-     * Save template
-     */
-    public function save()
-    {
-        $this->getResource()->save($this);
-        return $this;
-    }
-
-    /**
      * Process email template code
      *
      * @param   array $variables
@@ -356,7 +334,6 @@ class Mage_Core_Model_Email_Template extends Varien_Object
     public function send($email, $name = null, array $variables = array())
     {
         if (!$this->isValidForSend()) {
-            Mage::log('Letter is not valid for send');
             return false;
         }
 
@@ -452,16 +429,6 @@ class Mage_Core_Model_Email_Template extends Varien_Object
         }
 
         $this->setSentSuccess($this->send($email, $name, $vars));
-        return $this;
-    }
-
-    /**
-     * Delete template from DB
-     */
-    public function delete()
-    {
-        $this->getResource()->delete($this->getId());
-        $this->setId(null);
         return $this;
     }
 
@@ -646,5 +613,22 @@ class Mage_Core_Model_Email_Template extends Varien_Object
             }
         }
         return $optionArray;
+    }
+
+    /**
+     * Validate email template code
+     *
+     * @return Mage_Core_Model_Email_Template
+     */
+    protected function _beforeSave()
+    {
+        $code = $this->getTemplateCode();
+        if (empty($code)) {
+            Mage::throwException(Mage::helper('core')->__('Template Code must be not empty'));
+        }
+        if($this->_getResource()->checkCodeUsage($this)) {
+            Mage::throwException(Mage::helper('core')->__('Duplicate Of Template Code'));
+        }
+        return parent::_beforeSave();
     }
 }

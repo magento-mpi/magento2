@@ -66,7 +66,7 @@ class Mage_Adminhtml_Model_Email_Template extends Mage_Core_Model_Email_Template
             $sectionName = $node->getParent()->getName();
             $groupName = $node->getName();
             $fieldName = substr($templateCode, strlen($sectionName . '_' . $groupName . '_'));
-            $paths[] = implode('/', array($sectionName, $groupName, $fieldName));
+            $paths[] = array('path' => implode('/', array($sectionName, $groupName, $fieldName)));
         }
         return $paths;
     }
@@ -103,12 +103,14 @@ class Mage_Adminhtml_Model_Email_Template extends Mage_Core_Model_Email_Template
             $groupName = $groupNode->getName();
             $fieldName = $fieldNode->getName();
 
-            // look for email template node entries which are using $templateId value by already found path
-            $defaultCfgNodes = Mage::getConfig()->getXpath('default/' . $sectionName . '/' . $groupName . '[' . $fieldName . '="' . $templateId . '"]');
-            if (is_array($defaultCfgNodes)) {
-                $paths[] = implode('/', array($sectionName, $groupName, $fieldName));
-            }
+            $paths[] = implode('/', array($sectionName, $groupName, $fieldName));
         }
-        return $paths;
+
+        $configData = $this->_getResource()->getSystemConfigByPathsAndTemplateId($paths, $templateId);
+        if (!$configData) {
+            return array();
+        }
+
+        return $configData;
     }
 }
