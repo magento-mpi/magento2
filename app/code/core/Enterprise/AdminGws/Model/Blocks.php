@@ -994,4 +994,69 @@ class Enterprise_AdminGws_Model_Blocks extends Enterprise_AdminGws_Model_Observe
         }
         return $this;
     }
+
+    /**
+     * Remove add button for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeTaxRuleAddButton($observer)
+    {
+        $observer->getEvent()->getBlock()->removeButton('add');
+        return $this;
+    }
+
+    /**
+     * Remove control buttons for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeTaxRuleControlButtons($observer)
+    {
+        $observer->getEvent()->getBlock()
+            ->removeButton('save')
+            ->removeButton('save_and_continue')
+            ->removeButton('delete');
+        return $this;
+    }
+
+    /**
+     * Remove add button for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeTaxRateAddButton($observer)
+    {
+        $observer->getEvent()->getBlock()->unsetChild('addButton');
+        return $this;
+    }
+
+    /**
+     * Remove control buttons for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeTaxRateControlButtons($observer)
+    {
+        $observer->getEvent()->getBlock()
+            ->unsetChild('saveButton')
+            ->unsetChild('deleteButton');
+        return $this;
+    }
+
+    /**
+     * Remove Import possibility for all GWS limited users
+     *
+     * @param Varien_Event_Observer $observer
+     * @return Enterprise_AdminGws_Model_Blocks
+     */
+    public function removeTaxRateImport($observer)
+    {
+        $observer->getEvent()->getBlock()->setIsReadonly(true);
+        return $this;
+    }
 }

@@ -970,4 +970,15 @@ class Enterprise_AdminGws_Model_Controllers extends Enterprise_AdminGws_Model_Ob
         $this->_forward();
         return false;
     }
+
+    /**
+     * Block save and delete action for all GWS limited users
+     *
+     * @return bool
+     */
+    public function blockTaxChange()
+    {
+        $this->_forward();
+        return false;
+    }
 }
