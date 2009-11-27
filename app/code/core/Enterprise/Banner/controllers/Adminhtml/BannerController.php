@@ -221,7 +221,9 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
         if ($id) {
             $model->load($id);
         }
-        Mage::register('current_banner', $model);
+        if (!Mage::registry('current_banner')) {
+            Mage::register('current_banner', $model);
+        }
         return $model;
     }
 
@@ -309,7 +311,9 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
                 return;
             }
         }
-        Mage::register('current_promo_quote_rule', $model);
+        if (!Mage::registry('current_promo_quote_rule')) {
+            Mage::register('current_promo_quote_rule', $model);
+        }
         $this->loadLayout();
         $this->getLayout()
             ->getBlock('related_salesrule_banners_grid')
@@ -334,7 +338,9 @@ class Enterprise_Banner_Adminhtml_BannerController extends Mage_Adminhtml_Contro
                 return;
             }
         }
-        Mage::register('current_promo_catalog_rule', $model);
+        if (!Mage::registry('current_promo_catalog_rule')) {
+            Mage::register('current_promo_catalog_rule', $model);
+        }
         $this->loadLayout();
         $this->getLayout()
             ->getBlock('related_catalogrule_banners_grid')
