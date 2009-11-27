@@ -239,6 +239,9 @@ class Enterprise_Invitation_Adminhtml_InvitationController extends Mage_Adminhtm
                     }
                 }
             }
+            if (!$found) {
+                $this->_getSession()->addError(Mage::helper('enterprise_invitation')->__('No invitations have been resent'));
+            }
             if ($sent) {
                 $this->_getSession()->addSuccess(Mage::helper('enterprise_invitation')->__('%1$d of %2$d invitations were sent.', $sent, $found));
             }
