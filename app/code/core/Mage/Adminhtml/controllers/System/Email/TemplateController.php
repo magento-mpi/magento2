@@ -203,8 +203,12 @@ class Mage_Adminhtml_System_Email_TemplateController extends Mage_Adminhtml_Cont
         if ($id) {
             $model->load($id);
         }
-        Mage::register('email_template', $model);
-        Mage::register('current_email_template', $model);
+        if (!Mage::registry('email_template')) {
+            Mage::register('email_template', $model);
+        }
+        if (!Mage::registry('current_email_template')) {
+            Mage::register('current_email_template', $model);
+        }
         return $model;
     }
 
