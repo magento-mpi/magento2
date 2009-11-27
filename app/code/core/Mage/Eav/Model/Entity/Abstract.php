@@ -1365,6 +1365,8 @@ abstract class Mage_Eav_Model_Entity_Abstract
             throw $e;
         }
 
+        $this->_processAttributeValues();
+
         return $this;
     }
 
