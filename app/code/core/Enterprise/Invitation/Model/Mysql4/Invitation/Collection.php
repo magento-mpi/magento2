@@ -57,7 +57,7 @@ class Enterprise_Invitation_Model_Mysql4_Invitation_Collection extends Mage_Core
     protected function _initSelect()
     {
         $this->getSelect()->from(array('main_table' => $this->getResource()->getMainTable()),
-            array('*', 'invitation_email' => 'email',)
+            array('*', 'invitation_email' => 'email', 'invitee_group_id' => 'group_id')
         );
         return $this;
     }
