@@ -588,15 +588,22 @@
 
     <adminhtml_system_account translate="label">
         <label>Admin My Account</label>
+        <expected_models>
+            <admin__user>
+                <skip_data>
+                    <password/>
+                    <new_password/>
+                    <password_confirmation/>
+                </skip_data>
+            </admin__user>
+        </expected_models>
         <actions>
             <adminhtml_system_account_index>
                 <action>view</action>
-                <post_dispatch>postDispatchSimpleSave</post_dispatch>
             </adminhtml_system_account_index>
 
             <adminhtml_system_account_save>
                 <action>save</action>
-                <post_dispatch>postDispatchMyAccountSave</post_dispatch>
             </adminhtml_system_account_save>
         </actions>
     </adminhtml_system_account>

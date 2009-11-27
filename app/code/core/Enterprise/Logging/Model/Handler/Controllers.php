@@ -174,9 +174,12 @@ class Enterprise_Logging_Model_Handler_Controllers
             } else {
                 $info = Mage::app()->getRequest()->getParam('email');
             }
-            return $eventModel->setIsSuccess(
-                'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
-            )->setInfo($info);
+            $success = true;
+            $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+            if ($messages) {
+                $success = 'error' != $messages->getType();
+            }
+            return $eventModel->setIsSuccess($success)->setInfo($info);
         }
         return false;
     }
@@ -290,19 +293,10 @@ class Enterprise_Logging_Model_Handler_Controllers
     }
 
     /**
-     * Special handler for my account action
      *
-     * @param Varien_Simplexml_Element $config
-     * @param Enterprise_Logging_Model_Event $eventModel
-     * @return Enterprise_Logging_Model_Event
+     * @deprecated after 1.6.1.0
      */
-    public function postDispatchMyAccountSave($config, $eventModel)
-    {
-        if ($eventModel->getIsSuccess()) {
-            Mage::getSingleton('admin/session')->setSkipLoggingAction('system_account_index');
-        }
-        return $eventModel->setInfo('-');
-    }
+    public function postDispatchMyAccountSave($config, $eventModel){}
 
     /**
      * Special handler for newsletter unsubscribe
@@ -332,9 +326,12 @@ class Enterprise_Logging_Model_Handler_Controllers
         if (!Mage::app()->getRequest()->isPost()) {
             return false;
         }
-        return $eventModel->setIsSuccess(
-            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
-        )->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Import'));
+        $success = true;
+        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        if ($messages) {
+            $success = 'error' != $messages->getType();
+        }
+        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Import'));
     }
 
     /**
@@ -408,11 +405,12 @@ class Enterprise_Logging_Model_Handler_Controllers
         if ($classType == 'PRODUCT') {
             $eventModel->setEventCode('tax_product_tax_classes');
         }
-        return $eventModel->setIsSuccess(
-            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
-        )->setInfo(
-            $classType . ($classId ? ': #' . Mage::app()->getRequest()->getParam('class_id') : '')
-        );
+        $success = true;
+        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        if ($messages) {
+            $success = 'error' != $messages->getType();
+        }
+        return $eventModel->setIsSuccess($success)->setInfo($classType . ($classId ? ': #' . Mage::app()->getRequest()->getParam('class_id') : ''));
     }
 
     /**
@@ -521,9 +519,12 @@ class Enterprise_Logging_Model_Handler_Controllers
         if (!$profile) {
             return false;
         }
-        return $eventModel->setIsSuccess(
-            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
-        )->setInfo($profile->getName() .  ': #' . $profile->getId());
+        $success = true;
+        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        if ($messages) {
+            $success = 'error' != $messages->getType();
+        }
+        return $eventModel->setIsSuccess($success)->setInfo($profile->getName() .  ': #' . $profile->getId());
     }
 
     /**
@@ -555,10 +556,12 @@ class Enterprise_Logging_Model_Handler_Controllers
         $processor->addEventChanges($change->setSourceName('rates')
             ->setOriginalData(array())
             ->setResultData(array('rates' => implode(', ', $values))));
-
-        return $eventModel->setIsSuccess(
-            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
-        )->setInfo(Mage::helper('enterprise_logging')->__('Currency Rates Saved'));
+        $success = true;
+        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        if ($messages) {
+            $success = 'error' != $messages->getType();
+        }
+        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Currency Rates Saved'));
     }
 
     /**
@@ -634,10 +637,12 @@ class Enterprise_Logging_Model_Handler_Controllers
                     ->setOriginalData(array())
                     ->setResultData(array('action' => $catalogAction)));
         }
-
-        return $eventModel->setIsSuccess(
-            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
-        )->setInfo($info);
+        $success = true;
+        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        if ($messages) {
+            $success = 'error' != $messages->getType();
+        }
+        return $eventModel->setIsSuccess($success)->setInfo($info);
     }
 
     /**
@@ -652,8 +657,11 @@ class Enterprise_Logging_Model_Handler_Controllers
         if (!Mage::app()->getRequest()->isPost()) {
             return false;
         }
-        return $eventModel->setIsSuccess(
-            'error' != Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage()->getType()
-        )->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Export'));
+        $success = true;
+        $messages = Mage::getSingleton('adminhtml/session')->getMessages()->getLastAddedMessage();
+        if ($messages) {
+            $success = 'error' != $messages->getType();
+        }
+        return $eventModel->setIsSuccess($success)->setInfo(Mage::helper('enterprise_logging')->__('Tax Rates Export'));
     }
 }
