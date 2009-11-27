@@ -194,7 +194,9 @@ class Mage_Catalog_Block_Product_List_Toolbar extends Mage_Core_Block_Template
 
         $this->_collection->setCurPage($this->getCurrentPage());
 
-        if ($limit = $this->getLimit()) {
+        // we need to set pagination only if passed value integer and more that 0
+        $limit = (int)$this->getLimit();
+        if ($limit) {
             $this->_collection->setPageSize($limit);
         }
         if ($this->getCurrentOrder()) {
