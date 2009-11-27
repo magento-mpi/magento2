@@ -59,6 +59,18 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     protected $_appendIncludedPagesOnly = false;
 
     /**
+     * Maximum tree depth for tree slice, if equals zero - no limitations
+     * @var int
+     */
+    protected $_treeMaxDepth = 0;
+
+    /**
+     * Tree Detalization, i.e. brief or detailed
+     * @var bool
+     */
+    protected $_treeIsBrief = false;
+
+    /**
      * Initialize connection and define main table and field
      *
      */
@@ -477,27 +489,49 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
     }
 
     /**
+     * Setter for $_treeMaxDepth
+     *
+     * @param int $depth
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function setTreeMaxDepth($depth)
+    {
+        $this->_treeMaxDepth = (int)$depth;
+        return $this;
+    }
+
+    /**
+     * Setter for $_treeIsBrief
+     *
+     * @param bool $brief
+     * @return Enterprise_Cms_Model_Mysql4_Hierarchy_Node
+     */
+    public function setTreeIsBrief($brief)
+    {
+        $this->_treeIsBrief = (bool)$brief;
+        return $this;
+    }
+
+    /**
      * Retrieve brief/detailed Tree Slice for object
      * 2 level array
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
      * @param int $up, if equals zero - no limitation
      * @param int $down, if equals zero - no limitation
-     * @param int $maxDepth Maximum level to expand, if equals zero - no limitation
-     * @param bool $brief Menu Detalization
      * @return array
      */
-    public function getTreeSlice($object, $up = 0, $down = 0, $maxDepth = 0, $brief = false)
+    public function getTreeSlice($object, $up = 0, $down = 0)
     {
         $tree       = array();
         $parentId   = $object->getParentNodeId();
 
-        if ($maxDepth > 0 && $object->getLevel() > $maxDepth) {
+        if ($this->_treeMaxDepth > 0 && $object->getLevel() > $this->_treeMaxDepth) {
             return $tree;
         }
 
         $xpath = explode('/', $object->getXpath());
-        if (!$brief) {
+        if (!$this->_treeIsBrief) {
             array_pop($xpath); //remove self node
         }
         $parentIds = array();
@@ -516,8 +550,8 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
          * Collect childs
          */
         $children = array();
-        if ($maxDepth > 0 && $maxDepth > $object->getLevel() || $maxDepth == 0) {
-            $children = $this->_getSliceChildren($object, $down, $maxDepth);
+        if ($this->_treeMaxDepth > 0 && $this->_treeMaxDepth > $object->getLevel() || $this->_treeMaxDepth == 0) {
+            $children = $this->_getSliceChildren($object, $down);
         }
 
         /**
@@ -525,7 +559,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
          */
         if ($parentIds) {
             $parentId = $parentIds[count($parentIds) -1];
-            if ($brief) {
+            if ($this->_treeIsBrief) {
                 $where = $this->_getReadAdapter()->quoteInto($this->getMainTable().'.node_id IN (?)', $parentIds);
                 // Collect neighbours if there are no children
                 if (count($children) == 0) {
@@ -558,24 +592,24 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node extends Mage_Core_Model_Mysql4_
      *
      * @param Enterprise_Cms_Model_Hierarchy_Node $object
      * @param int $down Number of Child Node Levels to Include, if equals zero - no limitation
-     * @param int $maxDepth Maximum level to expand, if equals zero - no limitation
      * @return array
      */
-    protected function _getSliceChildren($object, $down = 0, $maxDepth = 0)
+    protected function _getSliceChildren($object, $down = 0)
     {
         $select = $this->_getLoadSelectWithoutWhere();
 
         $xpath = $object->getXpath() . '/%';
         $select->where('xpath LIKE ?', $xpath);
 
-        if (max($down, $maxDepth) > 0) {
-            $maxLevel = $maxDepth > 0 ? min($maxDepth, $object->getLevel() + $down) : $object->getLevel() + $down;
+        if (max($down, $this->_treeMaxDepth) > 0) {
+            $maxLevel = $this->_treeMaxDepth > 0
+                      ? min($this->_treeMaxDepth, $object->getLevel() + $down)
+                      : $object->getLevel() + $down;
             $select->where('level <= ?', $maxLevel);
         }
         $select->order(array('level', $this->getMainTable().'.sort_order'));
         return $select->query()->fetchAll();
     }
-
 
     /**
      * Preparing array where all nodes grouped in sub arrays by parent id.

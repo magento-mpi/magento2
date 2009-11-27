@@ -342,17 +342,45 @@ class Enterprise_Cms_Model_Hierarchy_Node extends Mage_Core_Model_Abstract
     }
 
     /**
+     * Setter for tree_max_depth data
+     * Maximum tree depth for tree slice, if equals zero - no limitations
+     *
+     * @param int $depth
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function setTreeMaxDepth($depth)
+    {
+        $this->setData('tree_max_depth', (int)$depth);
+        return $this;
+    }
+
+    /**
+     * Setter for tree_is_brief data
+     * Tree Detalization, i.e. brief or detailed
+     *
+     * @param bool $brief
+     * @return Enterprise_Cms_Model_Hierarchy_Node
+     */
+    public function setTreeIsBrief($brief)
+    {
+        $this->setData('tree_is_brief', (bool)$brief);
+        return $this;
+    }
+
+    /**
      * Retrieve Tree Slice like two level array of node models.
      *
      * @param int $up, if equals zero - no limitation
      * @param int $down, if equals zero - no limitation
-     * @param int $maxDepth Maximum level to expand, if equals zero - no limitation
-     * @param bool $brief Menu Detalization
      * @return array
      */
-    public function getTreeSlice($up = 0, $down = 0, $maxDepth = 0, $brief = false)
+    public function getTreeSlice($up = 0, $down = 0)
     {
-        $data = $this->_getResource()->getTreeSlice($this, $up, $down, $maxDepth, $brief);
+        $data = $this->_getResource()
+            ->setTreeMaxDepth($this->_getData('tree_max_depth'))
+            ->setTreeIsBrief($this->_getData('tree_is_brief'))
+            ->getTreeSlice($this, $up, $down);
+
         $blankModel = Mage::getModel('enterprise_cms/hierarchy_node');
         foreach ($data as $parentId => $children) {
             foreach ($children as $childId => $child) {
