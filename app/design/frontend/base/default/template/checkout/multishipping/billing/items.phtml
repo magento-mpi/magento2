@@ -25,11 +25,11 @@
  */
 ?>
 <?php if ($this->getQuote()->hasVirtualItems()): ?>
-    <h3><?php echo $this->__('Other items in your order') ?></h3>
     <div class="col2-set">
-        <div class="col-1 narrow"></div>
-        <div class="col-2 wide">
-            <h4><?php echo $this->__('Items') ?> <span class="separator">|</span> <a href="<?php echo $this->getVirtualProductEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h4>
+        <h2 class="legend"><?php echo $this->__('Other items in your order') ?></h2>
+        <div class="col-1 col-narrow"></div>
+        <div class="col-2 col-wide">
+            <h3><?php echo $this->__('Items') ?> <span class="separator">|</span> <a href="<?php echo $this->getVirtualProductEditUrl() ?>"><?php echo $this->__('Edit Items') ?></a></h3>
             <table class="data-table" id="unavailable-shipping-table">
                 <col />
                 <col width="1" />

@@ -33,6 +33,6 @@
 ?>
 <ul class="checkout-progress">
 <?php foreach ($this->getSteps() as $_step): ?>
-    <li<?php if($_step->getIsActive()): ?> class="active"<?php endif; ?>><?php echo $_step->getLabel() ?></li>
+    <li title="<?php echo $_step->getLabel() ?>"<?php if($_step->getIsActive()): ?> class="active"<?php endif; ?>><?php echo $_step->getLabel() ?></li>
 <?php endforeach; ?>
 </ul>
