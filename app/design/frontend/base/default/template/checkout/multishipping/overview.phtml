@@ -235,13 +235,21 @@
 
         <?php echo $this->getChildHtml('agreements') ?>
 
-        <p class="grand-total"><big><?php echo $this->__('Grand Total:') ?></big> <?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></p>
-        <div class="buttons-set" id="review-buttons-container">
-            <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back to Billing Information') ?></a></p>
-            <button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" id="review-button"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
+        <div class="place-order">
+            <div class="grand-total">
+                <div class="inner">
+                    <big><?php echo $this->__('Grand Total:') ?> <?php echo $this->helper('checkout')->formatPrice($this->getTotal()) ?></big>
+                    <div id="review-buttons-container">
+                        <button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" id="review-button"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
+                    </div>
+                </div>
+            </div>
             <span class="please-wait" id="review-please-wait" style="display:none;">
                 <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
             </span>
+        </div>
+        <div class="buttons-set">
+            <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><small>&laquo; </small><?php echo $this->__('Back to Billing Information') ?></a></p>
         </div>
     </form>
     <script type="text/javascript">
