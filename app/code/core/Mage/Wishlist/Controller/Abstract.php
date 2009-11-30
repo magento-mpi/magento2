@@ -138,9 +138,10 @@ abstract class Mage_Wishlist_Controller_Abstract extends Mage_Core_Controller_Fr
                 $products[] = Mage::helper('wishlist')->__('"%s"', $product->getName());
             }
             $products = join(', ', $products);
+            $qty = count($addedItems);
 
             Mage::getSingleton('checkout/session')->addSuccess(
-                Mage::helper('wishlist')->__('(%s) product(s) have been added to shopping cart.', $products)
+                Mage::helper('wishlist')->__('%d product(s) have been added to shopping cart: %s.', $qty, $products)
             );
         }
 
