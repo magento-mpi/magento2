@@ -25,10 +25,8 @@
  */
 
 /**
- *
  * Payflow Pro Express Checkout Module
- *
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @TODO extend this from Mage_Paypal_Model_Express
  */
 class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
 {
@@ -43,8 +41,8 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
-    protected $_canRefund               = false;
-    protected $_canVoid                 = true;
+    protected $_canRefund               = true;
+    protected $_canVoid                 = false;
     protected $_canUseInternal          = false;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = false;
@@ -302,7 +300,9 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
                 ->setLastname($a->getLastname())
                 ->setEmail($a->getEmail());
         }
-
+        if ($this->getSession()->getExpressCheckoutMethod()=='shortcut') {
+            $q->getBillingAddress()->importCustomerAddress($a);
+        }
         $q->getShippingAddress()
             ->importCustomerAddress($a)
             ->setCollectShippingRates(true);
@@ -542,8 +542,8 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
     /**
      * Add additional fields to Api
      *
-     * @param $payment Varien_Object
-     * @param $api Mage_PayPalUk_Model_Api_Pro
+     * @param Varien_Object $payment
+     * @param Mage_PayPalUk_Model_Api_Pro $api
      *
      * @return Mage_PayPalUk_Model_Express
      */
@@ -557,6 +557,59 @@ class Mage_PaypalUk_Model_Express extends Mage_Payment_Model_Method_Abstract
                     ->setItemAmount($address->getBaseSubtotal())
                     ->setItemTaxAmount($address->getTaxAmount());
             }
+        }
+        return $this;
+    }
+
+    /**
+    * cancel payment
+    *
+    * @param Varien_Object $payment
+    * @return Mage_PaypalUk_Model_Express
+    */
+    public function cancel(Varien_Object $payment)
+    {
+        if (!$payment->getOrder()->getInvoiceCollection()->count() && ($payment->getCcTransId() || $payment->getLastTransId())) {
+            if ($payment->getCcTransId()) {
+                $payment->setVoidTransactionId($payment->getCcTransId());
+            } else {
+                $payment->setVoidTransactionId($payment->getLastTransId());
+            }
+            $this->void($payment);
+        }
+        parent::cancel($payment);
+        return $this;
+    }
+
+    /**
+     * Update Order value after returning from PayPal
+     *
+     * @param int $orderId
+     * @return Mage_PayPalUk_Model_Express
+     */
+    public function updateOrder($orderId)
+    {
+        $order = Mage::getModel('sales/order')->load($orderId);
+        if ($order->getId()) {
+            $transaction = Mage::getModel('core/resource_transaction')
+               ->addObject($order);
+            if ($order->canInvoice() && $this->getPaymentAction() == Mage_Paypal_Model_Api_Abstract::PAYMENT_TYPE_SALE) {
+                $invoice = $order->prepareInvoice();
+                $invoice->register()->capture();
+                $transaction->addObject($invoice);
+                $comment = Mage::helper('paypal')->__('Invoice was created');
+            } else {
+                $this->placeOrder($order->getPayment());
+                $comment = Mage::helper('paypal')->__('Customer returned from PayPal site.');
+            }
+            $orderState = Mage_Sales_Model_Order::STATE_PROCESSING;
+            $orderStatus = $this->getConfigData('order_status');
+            if (!$orderStatus) {
+                $orderStatus = $order->getConfig()->getStateDefaultStatus($orderState);
+            }
+            $order->setState($orderState, $orderStatus, $comment, $notified = true);
+            $transaction->save();
+            $order->sendNewOrderEmail();
         }
         return $this;
     }

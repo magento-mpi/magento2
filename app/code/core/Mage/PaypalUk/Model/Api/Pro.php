@@ -571,7 +571,7 @@ class Mage_PaypalUk_Model_Api_Pro extends  Mage_PaypalUk_Model_Api_Abstract
             'TENDER'        => self::TENDER_CC,
             'ORIGID'        => $this->getTransactionId(),
         );
-        $this->getTrxtype(self::TRXTYPE_DELAYED_VOID);
+        $this->setTrxtype(self::TRXTYPE_DELAYED_VOID);
         $result = $this->postRequest($proArr);
 
         if ($result && $result->getResultCode()==self::RESPONSE_CODE_APPROVED) {

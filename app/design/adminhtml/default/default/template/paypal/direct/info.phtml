@@ -35,7 +35,13 @@
 <?php if($this->getInfo()->getCcSsStartYear()): ?>
 <?php echo $this->__('Switch/Solo card start Date: %s/%s', $this->getInfo()->getCcStartMonth(), $this->getInfo()->getCcSsStartYear()) ?>
 <?php endif; ?>
-<?php echo $this->__('Transaction Id');?>: <strong><?php echo $this->getInfo()->getCcTransId();?></strong><br/>
+
+<?php if ($this->getInfo()->getCcTransId()): ?>
+    <?php echo $this->__('Transaction Id');?>: <strong><?php echo $this->getInfo()->getCcTransId();?></strong><br/>
+<?php elseif ($this->getInfo()->getLastTransId()): ?>
+    <?php echo $this->__('Transaction Id');?>: <strong><?php echo $this->getInfo()->getLastTransId();?></strong><br/>
+<?php endif;?>
+
 
 <?php if($this->getCvvVerified()): ?>
     <?php echo $this->__('CVV2 check by PayPal'); ?> : <strong><?php echo $this->getCvvVerified();?></strong><br/>

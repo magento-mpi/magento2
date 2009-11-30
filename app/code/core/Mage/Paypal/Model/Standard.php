@@ -149,15 +149,6 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
     }
 
     /**
-     * Check if method can be captured
-     *
-     */
-    public function canCapture()
-    {
-        return false;
-    }
-
-    /**
      * Return Order place redirect url
      *
      * @return string
@@ -357,14 +348,11 @@ class Mage_Paypal_Model_Standard extends Mage_Payment_Model_Method_Abstract
 
     /**
      * Process IPN request, store data in comments
-     *
-     * @return Mage_Paypal_Model_Standard
      */
     public function ipnPostSubmit()
     {
         $ipn = Mage::getModel('paypal/api_ipn');
         $ipn->setIpnFormData($this->getIpnFormData())->processIpnRequest();
-        return $this;
     }
 
     /**

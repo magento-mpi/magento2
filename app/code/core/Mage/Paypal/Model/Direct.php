@@ -43,8 +43,8 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
-    protected $_canRefund               = false;
-    protected $_canVoid                 = true;
+    protected $_canRefund               = true;
+    protected $_canVoid                 = false;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
@@ -440,20 +440,29 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
           return $this;
       }
 
-      /**
-       * cancel payment, if it has fraud status, need to update paypal status
-       *
-       * @param string $transactionId
-       * @return Mage_Paypal_Model_Direct
-      */
-      public function cancel(Varien_Object $payment)
-      {
-          if ($this->canManageFraud($payment)) {
-              $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_DENY);
-          }
-          parent::cancel($payment);
-          return $this;
-      }
+    /**
+    * cancel payment, if it has fraud status, need to update paypal status
+    *
+    * @param Varien_Object $payment
+    * @return Mage_Paypal_Model_Direct
+    */
+    public function cancel(Varien_Object $payment)
+    {
+        if ($this->canManageFraud($payment)) {
+            $this->updateGatewayStatus($payment, Mage_Paypal_Model_Api_Abstract::ACTION_DENY);
+        }
+
+        if (!$payment->getOrder()->getInvoiceCollection()->count() && ($payment->getCcTransId() || $payment->getLastTransId())) {
+            if ($payment->getCcTransId()) {
+                $payment->setVoidTransactionId($payment->getCcTransId());
+            } else {
+                $payment->setVoidTransactionId($payment->getLastTransId());
+            }
+            $this->void($payment);
+        }
+        parent::cancel($payment);
+        return $this;
+    }
 
 
    /**
@@ -502,6 +511,10 @@ class Mage_Paypal_Model_Direct extends Mage_Payment_Model_Method_Cc
                     ->setCavv($this->getValidate()->getCavv())
                     ->setEci3d($this->getValidate()->getEciFlag())
                     ->setXid($this->getValidate()->getXid());
+            }
+
+            if ($this->getFraudFilterStatus()) {
+                $api->setReturnFmfDetails(true);
             }
         }
         return $this;

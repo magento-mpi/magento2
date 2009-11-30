@@ -156,6 +156,7 @@
     <default>
         <paypal>
             <wpp>
+                <business_account backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_password backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_signature backend_model="adminhtml/system_config_backend_encrypted"/>
                 <api_username backend_model="adminhtml/system_config_backend_encrypted"/>

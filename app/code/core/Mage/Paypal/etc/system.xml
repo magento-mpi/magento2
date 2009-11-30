@@ -492,13 +492,23 @@
                 </style>
                 <wpp translate="label comment">
                     <label>Website Payments Pro and Express Checkout (API Signature)</label>
-                    <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal Merchant Account now!</a>]]></comment>
+                    <comment><![CDATA[<a href="http://www.magentocommerce.com/paypal" target="_blank">Sign up for PayPal Merchant Account now!</a><br />
+                    <a href="http://www.paypal.com/en_US/m/demo/18077_ec.html" target="_blank">See Demo</a>]]></comment>
                     <frontend_type>text</frontend_type>
                     <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>0</show_in_store>
                     <fields>
+                        <business_account translate="label">
+                            <label>Business Account</label>
+                            <frontend_type>obscure</frontend_type>
+                            <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </business_account>
                         <api_password translate="label">
                             <label>API Password</label>
                             <frontend_type>obscure</frontend_type>
@@ -575,7 +585,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
-                            <comment><![CDATA[Example: <b>https://www.paypal.com/au/cgi-bin/webscr?cmd=_express-checkout&useraction=<user_action>&amp;token=</b> Where &lt;user_action&gt; is 'commit' or 'continue', depending on your preference of commit button text.]]></comment>
+                            <comment><![CDATA[Example: <b> https://www.paypal.com/cgi-bin/webscr?cmd=_express-checkout&useraction=<user_action>&amp;token=</b> Where &lt;user_action&gt; is 'commit' or 'continue', depending on your preference of commit button text.]]></comment>
                         </paypal_url>
                     </fields>
                 </wpp>
@@ -592,7 +602,7 @@
                             <label>Business Account</label>
                             <frontend_type>obscure</frontend_type>
                             <backend_model>adminhtml/system_config_backend_encrypted</backend_model>
-                            <sort_order>2</sort_order>
+                            <sort_order>1</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>

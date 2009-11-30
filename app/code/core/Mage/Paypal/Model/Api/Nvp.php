@@ -96,7 +96,7 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
      */
     public function getVersion()
     {
-        return '57.0';
+        return '60.0';
     }
 
     /**
@@ -326,6 +326,9 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $lineItemArray = $this->_prepareLineItem($lineItems, $this->getItemAmount(), $this->getItemTaxAmount(), $this->getShippingAmount(), $this->getDiscountAmount());
             $nvpArr = array_merge($nvpArr, $lineItemArray);
         }
+        if ($this->getReturnFmfDetailes()) {
+            $nvpArr['RETURNFMFDETAILS '] = 1;
+        }
 
         /* Make the call to PayPal to finalize payment
             If an error occured, show the resulting errors
@@ -399,13 +402,15 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
             $nvpArr['ECI3DS']       = $this->getEci3d();
             $nvpArr['XID']          = $this->getXid();
         }
+        if ($this->getReturnFmfDetails()) {
+            $nvpArr['RETURNFMFDETAILS '] = 1;
+        }
 
         if ($lineItems = $this->getLineItems()) {
             $lineItemArray = $this->_prepareLineItem($lineItems, $this->getItemAmount(), $this->getItemTaxAmount(), $this->getShippingAmount(), $this->getDiscountAmount());
             $nvpArr = array_merge($nvpArr, $lineItemArray);
         }
 
-#echo "<pre>".print_r($nvpArr,1)."</pre>"; die;
         $resArr = $this->call('DoDirectPayment', $nvpArr);
 
         if (false===$resArr) {
@@ -746,7 +751,6 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         return $nvpArray;
     }
 
-
     /**
      * Prepare Line item array to move in paypal, canculate all fields
      *
@@ -794,5 +798,24 @@ class Mage_Paypal_Model_Api_Nvp extends Mage_Paypal_Model_Api_Abstract
         $nvpArr['ITEMAMT']= (float) ($itemAmount + $discountAmount);
         $nvpArr['SHIPPINGAMT'] = (float) $shippingAmount;
         return $nvpArr;
+    }
+
+    /**
+     * Error message NVP getter
+     * @return string
+     */
+    public function getErrorMessage($addErrorCode = false)
+    {
+        $e = $this->getError();
+        $shortMessage = '';
+        if (!isset($e['short_message'])) {
+            if (isset($e['code'])) {
+                $shortMessage = Mage::helper('paypal')->__('Unknown API error #%s', $e['code']);
+            }
+        } else {
+            $shortMessage = $e['short_message'];
+        }
+        $message = (isset($e['long_message']) ? sprintf('%s: %s', $shortMessage, $e['long_message']) : $shortMessage);
+        return ($e['code'] ? sprintf('(#%s) ', $e['code']) : '' ) . $message;
     }
 }

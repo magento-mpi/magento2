@@ -44,8 +44,8 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
     protected $_canAuthorize            = true;
     protected $_canCapture              = true;
     protected $_canCapturePartial       = false;
-    protected $_canRefund               = false;
-    protected $_canVoid                 = true;
+    protected $_canRefund               = true;
+    protected $_canVoid                 = false;
     protected $_canUseInternal          = true;
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
@@ -361,6 +361,27 @@ class Mage_PaypalUk_Model_Direct extends Mage_Payment_Model_Method_Cc
         if ($error !== false) {
             Mage::throwException($error);
         }
+        return $this;
+    }
+
+    /**
+    * cancel payment
+    *
+    * @param Varien_Object $payment
+    * @return Mage_PaypalUk_Model_Direct
+    */
+    public function cancel(Varien_Object $payment)
+    {
+        if (!$payment->getOrder()->getInvoiceCollection()->count() && ($payment->getCcTransId() || $payment->getLastTransId())) {
+            if ($payment->getCcTransId()) {
+                $payment->setVoidTransactionId($payment->getCcTransId());
+            } else {
+                $payment->setVoidTransactionId($payment->getLastTransId());
+            }
+
+            $this->void($payment);
+        }
+        parent::cancel($payment);
         return $this;
     }
 }
