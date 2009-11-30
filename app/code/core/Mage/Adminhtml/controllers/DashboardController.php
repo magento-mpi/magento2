@@ -78,7 +78,7 @@ class Mage_Adminhtml_DashboardController extends Mage_Adminhtml_Controller_Actio
                 if ($params = unserialize(base64_decode(urldecode($gaData)))) {
                     $response = $httpClient->setUri(Mage_Adminhtml_Block_Dashboard_Graph::API_URL)
                             ->setParameterGet($params)
-                            ->setConfig(array('timeout' => 15))
+                            ->setConfig(array('timeout' => 5))
                             ->request('GET');
 
                     $headers = $response->getHeaders();
