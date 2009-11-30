@@ -518,24 +518,66 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     }
 
     /**
-     * Declare order state
+     * Order state setter.
+     * If status is specified, will add order status history with specified comment
+     * the setData() cannot be overriden because of compatibility issues with resource model
      *
      * @param string $state
-     * @param string $status
+     * @param string|bool $status
      * @param string $comment
      * @param bool $isCustomerNotified
-     * @return  Mage_Sales_Model_Order
+     * @return Mage_Sales_Model_Order
      */
     public function setState($state, $status = false, $comment = '', $isCustomerNotified = false)
     {
+        return $this->_setState($state, $status, $comment, $isCustomerNotified, true);
+    }
+
+    /**
+     * Order state protected setter.
+     * By default allows to set any state. Can also update status to default or specified value
+     * Сomplete and closed states are encapsulated intentionally, see the _checkState()
+     *
+     * @param string $state
+     * @param string|bool $status
+     * @param string $comment
+     * @param bool $isCustomerNotified
+     * @param $shouldProtectState
+     * @return Mage_Sales_Model_Order
+     */
+    protected function _setState($state, $status = false, $comment = '', $isCustomerNotified = false, $shouldProtectState = false)
+    {
+        // attempt to set the specified state
+        if ($shouldProtectState) {
+            if ($this->isStateProtected($state)) {
+                Mage::throwException(Mage::helper('sales')->__('The Order State "%s" must not be set manually.', $state));
+            }
+        }
         $this->setData('state', $state);
+
+        // add status history
         if ($status) {
             if ($status === true) {
                 $status = $this->getConfig()->getStateDefaultStatus($state);
             }
-            $this->addStatusToHistory($status, $comment, $isCustomerNotified);
+            $this->setStatus($status);
+            $history = $this->addStatusHistoryComment($comment, false); // no sense to set $status again
+            $history->setIsCustomerNotified($isCustomerNotified); // for backwards compatibility
         }
         return $this;
+    }
+
+    /**
+     * Whether specified state can be set from outside
+     * @param $state
+     * @return bool
+     */
+    public function isStateProtected($state)
+    {
+        if (empty($state)) {
+            return false;
+        }
+        return self::STATE_COMPLETE == $state || self::STATE_CLOSED == $state;
     }
 
     /**
@@ -550,22 +592,43 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
 
     /**
      * Add status change information to history
+     * @deprecated after 1.4.0.0-alpha3
      *
-     * @param   string $status
-     * @param   string $comments
-     * @param   boolean $is_customer_notified
-     * @return  Mage_Sales_Model_Order
+     * @param  string $status
+     * @param  string $comment
+     * @param  bool $isCustomerNotified
+     * @return Mage_Sales_Model_Order
      */
-    public function addStatusToHistory($status, $comment='', $isCustomerNotified = false)
+    public function addStatusToHistory($status, $comment = '', $isCustomerNotified = false)
     {
-        $status = Mage::getModel('sales/order_status_history')
-            ->setStatus($status)
-            ->setComment($comment)
+        $history = $this->addStatusHistoryComment($comment, $status)
             ->setIsCustomerNotified($isCustomerNotified);
-        $this->addStatusHistory($status);
         return $this;
     }
 
+    /*
+     * Add a comment to order
+     * Different or default status may be specified
+     *
+     * @param string $comment
+     * @param string $status
+     * @return Mage_Sales_Order_Status_History
+     */
+    public function addStatusHistoryComment($comment, $status = false)
+    {
+        if (false === $status) {
+            $status = $this->getStatus();
+        } elseif (true === $status) {
+            $status = $this->getConfig()->getStateDefaultStatus($this->getState());
+        } else {
+            $this->setStatus($status);
+        }
+        $history = Mage::getModel('sales/order_status_history')
+            ->setStatus($status)
+            ->setComment($comment);
+        $this->addStatusHistory($history);
+        return $history;
+    }
 
     /**
      * Place order
@@ -608,6 +671,21 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
     {
         if ($this->canCancel()) {
             $this->getPayment()->cancel();
+            $this->registerCancellation();
+        }
+        return $this;
+    }
+
+    /**
+     * Prepare order totlas to cancellation
+     * @param string $comment
+     * @param bool $graceful
+     * @return Mage_Sales_Model_Order
+     * @throws Mage_Core_Exception
+     */
+    public function registerCancellation($comment = '', $graceful = true)
+    {
+        if ($this->canCancel()) {
             $cancelState = self::STATE_CANCELED;
             foreach ($this->getAllItems() as $item) {
                 if ($item->getQtyInvoiced()>$item->getQtyRefunded()) {
@@ -625,14 +703,12 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             $this->setShippingCanceled($this->getShippingAmount() - $this->getShippingInvoiced());
             $this->setBaseShippingCanceled($this->getBaseShippingAmount() - $this->getBaseShippingInvoiced());
 
-            $this->setDiscountCanceled(
-                $this->getDiscountAmount() - $this->getDiscountInvoiced()
-            );
-            $this->setBaseDiscountCanceled(
-                $this->getBaseDiscountAmount() - $this->getBaseDiscountInvoiced()
-            );
+            $this->setDiscountCanceled($this->getDiscountAmount() - $this->getDiscountInvoiced());
+            $this->setBaseDiscountCanceled($this->getBaseDiscountAmount() - $this->getBaseDiscountInvoiced());
 
-            $this->setState($cancelState, true);
+            $this->_setState($cancelState, true, $comment);
+        } elseif (!$graceful) {
+            Mage::throwException(Mage::helper('sales')->__('Order does not allow to be canceled.'));
         }
         return $this;
     }
@@ -1094,14 +1170,21 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
         return false;
     }
 
-    public function addStatusHistory(Mage_Sales_Model_Order_Status_History $status)
+    /**
+     * Set the order status history object and the order object to each other
+     * Adds the object to the status history collection, which is automatically saved when the order is saved.
+     * See the entity_id attribute backend model.
+     * Or the history record can be saved standalone after this.
+     *
+     * @param Mage_Sales_Model_Order_Status_History $status
+     * @return Mage_Sales_Model_Order
+     */
+    public function addStatusHistory(Mage_Sales_Model_Order_Status_History $history)
     {
-        $status->setOrder($this)
-            ->setParentId($this->getId())
-            ->setStoreId($this->getStoreId());
-        $this->setStatus($status->getStatus());
-        if (!$status->getId()) {
-            $this->getStatusHistoryCollection()->addItem($status);
+        $history->setOrder($this);
+        $this->setStatus($history->getStatus());
+        if (!$history->getId()) {
+            $this->getStatusHistoryCollection()->addItem($history);
         }
         return $this;
     }
@@ -1452,7 +1535,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
             && !$this->canShip()) {
             if ($this->canCreditmemo()) {
                 if ($this->getState() !== self::STATE_COMPLETE) {
-                    $this->setState(self::STATE_COMPLETE, true);
+                    $this->_setState(self::STATE_COMPLETE, true);
                 }
             }
             /**
@@ -1460,7 +1543,7 @@ class Mage_Sales_Model_Order extends Mage_Sales_Model_Abstract
              */
             elseif(floatval($this->getTotalRefunded())) {
                 if ($this->getState() !== self::STATE_CLOSED) {
-                    $this->setState(self::STATE_CLOSED, true);
+                    $this->_setState(self::STATE_CLOSED, true);
                 }
             }
         }

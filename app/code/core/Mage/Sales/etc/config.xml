@@ -28,7 +28,7 @@
 <config>
     <modules>
         <Mage_Sales>
-            <version>0.9.49</version>
+            <version>0.9.50</version>
         </Mage_Sales>
     </modules>
     <global>
@@ -368,6 +368,7 @@
                     <refunded_aggregated><table>sales_refunded_aggregated</table></refunded_aggregated>
                     <refunded_aggregated_order><table>sales_refunded_aggregated_order</table></refunded_aggregated_order>
 
+                    <payment_transaction><table>sales_payment_transaction</table></payment_transaction>
                     <!--order></order>
 
                     <invoice></invoice>

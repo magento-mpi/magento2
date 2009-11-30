@@ -327,12 +327,27 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
         return $this;
     }
 
+    /**
+     * @deprecated after 1.4.0.0-alpha3 order payment is responsible for transactions management
+     * the "last transaction id" in payment is for informational purposes only
+     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Payment_Model_Method_Abstract
+     */
     public function processInvoice($invoice, $payment)
     {
         $invoice->setTransactionId($payment->getLastTransId());
         return $this;
     }
 
+    /**
+     * @deprecated after 1.4.0.0-alpha3
+     * order payment is responsible for transactions management
+     * the payment.refund_transaction_id is deprecated as well: there can be multiple refunds per payment
+     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Payment_Model_Method_Abstract
+     */
     public function processBeforeRefund($invoice, $payment)
     {
         $payment->setRefundTransactionId($invoice->getTransactionId());
@@ -357,6 +372,15 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
         return $this;
     }
 
+    /**
+     * @deprecated after 1.4.0.0-alpha3
+     * order payment is responsible for transactions management
+     * the creditmemo must get transaction ID from invoice, rather than from "last transaction id" of the payment
+     * the "last transaction id" in payment is for informational purposes only
+     * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Payment_Model_Method_Abstract
+     */
     public function processCreditmemo($creditmemo, $payment)
     {
         $creditmemo->setTransactionId($payment->getLastTransId());
@@ -374,6 +398,13 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
         return $this;
     }
 
+    /**
+     * @deprecated after 1.4.0.0-alpha3
+     * order payment is responsible for transactions management
+     * @param Mage_Sales_Model_Order_Invoice $invoice
+     * @param Mage_Sales_Model_Order_Payment $payment
+     * @return Mage_Payment_Model_Method_Abstract
+     */
     public function processBeforeVoid($invoice, $payment)
     {
         $payment->setVoidTransactionId($invoice->getTransactionId());
