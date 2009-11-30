@@ -554,4 +554,26 @@ class Mage_Sendfriend_Model_Sendfriend extends Mage_Core_Model_Abstract
         }
         return $this;
     }
+
+    /**
+     * @deprecated after 1.3.2.4
+     * use Mage_Sendfriend_Model_Sendfriend::_sentCountByCookies
+     * 
+     * @return int
+     */
+    protected function _amountByCookies()
+    {
+        return $this->_sentCountByCookies(true);
+    }
+
+    /**
+     * @deprecated after 1.3.2.4
+     * use Mage_Sendfriend_Model_Sendfriend::_sentCountByIp
+     *
+     * @return int
+     */
+    protected function _amountByIp()
+    {
+        return $this->_sentCountByIp(true);
+    }
 }
