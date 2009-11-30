@@ -280,7 +280,7 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
      * process Amazon Simple Pay notification request
      *
      * @param   array $requestParams
-     * @return Mage_AmazonPayments_Model_Payment_Asp
+     * @return bool
      */
     public function processNotification($requestParams)
     {
@@ -301,9 +301,11 @@ class Mage_AmazonPayments_Model_Payment_Asp extends Mage_Payment_Model_Method_Ab
                 $variables['error'] = $e->getMessage();
                 $this->_mail('email_template_notification_error', $variables);
             }
+
+            return false;
         }
 
-        return $this;
+        return true;
     }
 
     /**
