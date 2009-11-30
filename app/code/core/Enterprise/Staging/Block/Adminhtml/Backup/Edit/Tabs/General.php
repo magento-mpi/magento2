@@ -60,9 +60,15 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General extends Mage_A
             array('legend' => Mage::helper('enterprise_staging')->__('Backup Main Information')));
 
         $fieldset->addField('name', 'label', array(
-            'label'     => Mage::helper('enterprise_staging')->__('Name'),
-            'title'     => Mage::helper('enterprise_staging')->__('Name'),
+            'label'     => Mage::helper('enterprise_staging')->__('Backup Name'),
+            'title'     => Mage::helper('enterprise_staging')->__('Backup Name'),
             'value'     => $this->getBackupName()
+        ));
+
+        $fieldset->addField('staging_name', 'label', array(
+            'label'     => Mage::helper('enterprise_staging')->__('Staging Website'),
+            'title'     => Mage::helper('enterprise_staging')->__('Staging Website'),
+            'value'     => $this->getStagingWebsiteName()
         ));
 
         $fieldset->addField('master_website', 'label', array(
@@ -92,25 +98,41 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General extends Mage_A
 
 
     /**
-     * Retrieve master website name (if staging and website exists)
+     * Retrieve master website name (if website exists)
      *
-     * @return Mage_Core_Model_Website
+     * @return string
      */
     public function getMasterWebsiteName()
     {
-        $masterWebsiteId = $this->getBackup()->getMasterWebsiteId();
-        if ($masterWebsiteId) {
-            $masterWebsite = Mage::app()->getWebsite($masterWebsiteId);
-            if ($masterWebsite) {
-                return $masterWebsite->getName();
-            } else {
-                return Mage::helper('enterprise_staging')->__('No information');
-            }
-        } else {
-            return Mage::helper('enterprise_staging')->__('No information');
-        }
+        return $this->_getWebsiteName($this->getBackup()->getMasterWebsiteId());
     }
 
+    /**
+     * Retrieve staging website name (if website exists)
+     *
+     * @return string
+     */
+    public function getStagingWebsiteName()
+    {
+        return $this->_getWebsiteName($this->getBackup()->getStagingWebsiteId());
+    }
+
+    /**
+     * Custom getter of website name by specified website Id
+     *
+     * @param int $websiteId
+     * @return string
+     */
+    protected function _getWebsiteName($websiteId)
+    {
+        if ($websiteId) {
+            $website = Mage::app()->getWebsite($websiteId);
+            if ($website) {
+                return $website->getName();
+            }
+        }
+        return Mage::helper('enterprise_staging')->__('No information');
+    }
 
     /**
      * Retrieve currently edited backup object
@@ -125,13 +147,13 @@ class Enterprise_Staging_Block_Adminhtml_Backup_Edit_Tabs_General extends Mage_A
         return $this->getData('staging_backup');
     }
 
+    /**
+     * Backup name getter
+     *
+     * @return string
+     */
     public function getBackupName()
     {
-        $staging = $this->getBackup()->getStaging();
-        if ($staging && $staging->getId()) {
-            return $staging->getName();
-        } else {
-            return $this->getBackup()->getName();
-        }
+        return $this->getBackup()->getName();
     }
 }

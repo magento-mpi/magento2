@@ -75,7 +75,7 @@ class Enterprise_Staging_Model_Staging_Action extends Mage_Core_Model_Abstract
     public function saveOnBackupRun(Enterprise_Staging_Model_Staging $staging, Enterprise_Staging_Model_Staging_Log $log)
     {
         if ($staging->getId()) {
-            $name = $staging->getName();
+            $name = $staging->getMasterWebsite()->getName();
 
             $tablePrefix = Mage::getSingleton('enterprise_staging/staging_config')->getTablePrefix($staging)
                 . Mage::getSingleton('enterprise_staging/staging_config')->getStagingBackupTablePrefix()
