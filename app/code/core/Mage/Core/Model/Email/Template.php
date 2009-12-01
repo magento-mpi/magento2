@@ -56,6 +56,7 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Abstract
      */
     const XML_PATH_TEMPLATE_EMAIL          = 'global/template/email';
     const XML_PATH_SENDING_SET_RETURN_PATH = 'system/smtp/set_return_path';
+    const XML_PATH_SENDING_RETURN_PATH_EMAIL = 'system/smtp/return_path_email';
 
     protected $_templateFilter;
     protected $_preprocessFlag = false;
@@ -349,8 +350,21 @@ class Mage_Core_Model_Email_Template extends Mage_Core_Model_Abstract
 
         $mail = $this->getMail();
 
-        if (Mage::getStoreConfigFlag(self::XML_PATH_SENDING_SET_RETURN_PATH)) {
-            $mail->setReturnPath($this->getSenderEmail());
+        $setReturnPath = Mage::getStoreConfig(self::XML_PATH_SENDING_SET_RETURN_PATH);
+        switch ($setReturnPath) {
+            case 1:
+                $returnPathEmail = $this->getSenderEmail();
+                break;
+            case 2:
+                $returnPathEmail = Mage::getStoreConfig(self::XML_PATH_SENDING_RETURN_PATH_EMAIL);
+                break;
+            default:
+                $returnPathEmail = null;
+                break;
+        }
+
+        if ($returnPathEmail !== null) {
+            $mail->setReturnPath($returnPathEmail);
         }
 
         if (is_array($email)) {
