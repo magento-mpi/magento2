@@ -623,6 +623,7 @@ Payment.prototype = {
             } else {
                 elements[i].disabled = true;
             }
+            elements[i].setAttribute('autocomplete','off');
         }
         if (method) this.switchMethod(method);
     },
