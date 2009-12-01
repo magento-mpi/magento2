@@ -42,10 +42,10 @@
 <div class="product-view">
     <div class="product-essential">
     <form action="<?php echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
-    <fieldset class="no-display">
-        <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
-        <input type="hidden" name="related_product" id="related-products-field" value="" />
-    </fieldset>
+        <div class="no-display">
+            <input type="hidden" name="product" value="<?php echo $_product->getId() ?>" />
+            <input type="hidden" name="related_product" id="related-products-field" value="" />
+        </div>
 
         <div class="product-shop">
             <div class="product-name">
@@ -112,18 +112,8 @@
     </div>
 
     <div class="product-collateral">
-        <?php if ($_description = $this->getChildHtml('description')):?>
-            <div class="box-collateral box-description">
-                <h2><?php echo $this->__('Product Description') ?></h2>
-                <?php echo $_description ?>
-            </div>
-        <?php endif;?>
-        <?php if ($_additional = $this->getChildHtml('additional')):?>
-            <div class="box-collateral box-additional">
-                <h2><?php echo $this->__('Additional Information') ?></h2>
-                <?php echo $_additional ?>
-            </div>
-        <?php endif;?>
+        <?php echo $this->getChildHtml('description') ?>
+        <?php echo $this->getChildHtml('additional') ?>
         <?php echo $this->getChildHtml('upsell_products') ?>
         <?php echo $this->getChildHtml('product_additional_data') ?>
     </div>

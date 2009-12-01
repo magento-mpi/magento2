@@ -82,25 +82,6 @@
         </fieldset>
         </form>
     </div>
-    <script type="text/javascript">
-    //<![CDATA[
-        var loginForm = new VarienForm('login-form', true);
-        $('login-email').observe('keypress', bindLoginPost);
-        $('login-password').observe('keypress', bindLoginPost);
-        function bindLoginPost(evt){
-            if (evt.keyCode == Event.KEY_RETURN) {
-                loginForm.submit();
-            }
-        }
-        function onepageLogin(button)
-        {
-            if(loginForm.validator && loginForm.validator.validate()){
-                button.disabled = true;
-                loginForm.submit();
-            }
-        }
-    //]]>
-    </script>
 </div>
 <div class="col2-set">
     <div class="col-1">
@@ -117,3 +98,22 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+//<![CDATA[
+    var loginForm = new VarienForm('login-form', true);
+    $('login-email').observe('keypress', bindLoginPost);
+    $('login-password').observe('keypress', bindLoginPost);
+    function bindLoginPost(evt){
+        if (evt.keyCode == Event.KEY_RETURN) {
+            loginForm.submit();
+        }
+    }
+    function onepageLogin(button)
+    {
+        if(loginForm.validator && loginForm.validator.validate()){
+            button.disabled = true;
+            loginForm.submit();
+        }
+    }
+//]]>
+</script>

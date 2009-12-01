@@ -36,25 +36,11 @@
     <thead>
         <tr>
             <th><?php echo $this->__('Product Name') ?></th>
-            <th><?php echo $this->__('Price') ?></th>
-            <th><?php echo $this->__('Qty') ?></th>
-            <th><?php echo $this->__('Subtotal') ?></th>
+            <th class="a-right"><?php echo $this->__('Price') ?></th>
+            <th class="a-center"><?php echo $this->__('Qty') ?></th>
+            <th class="a-right"><?php echo $this->__('Subtotal') ?></th>
         </tr>
     </thead>
-    <tbody>
-    <?php foreach ($this->getItems() as $_item): ?>
-        <?php if ($_item->getParentItem()) continue ?>
-        <tr>
-            <td>
-                <?php echo $_item->getProduct()->getName() ?>
-                <?php echo $_item->getProduct()->getDescription() ?>
-            </td>
-            <td><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()); ?></td>
-            <td><?php echo $_item->getQty() ?></td>
-            <td><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()); ?></td>
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
     <?php if ($this->getTotals()): ?>
     <tfoot>
         <?php $_colspan = $this->helper('tax')->displayCartBothPrices() ? 5 : 3; ?>
@@ -72,4 +58,18 @@
         <?php endif?>
     </tfoot>
     <?php endif; ?>
+    <tbody>
+    <?php foreach ($this->getItems() as $_item): ?>
+        <?php if ($_item->getParentItem()) continue ?>
+        <tr>
+            <td>
+                <?php echo $_item->getProduct()->getName() ?>
+                <?php echo $_item->getProduct()->getDescription() ?>
+            </td>
+            <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getCalculationPrice()); ?></td>
+            <td class="a-center"><?php echo $_item->getQty() ?></td>
+            <td class="a-right"><?php echo $this->helper('checkout')->formatPrice($_item->getRowTotal()); ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
 </table>

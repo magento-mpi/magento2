@@ -29,16 +29,16 @@
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
     <div class="block">
-        <h3><?php echo $this->__('Shipping Information') ?></h3>
+        <h2><?php echo $this->__('Shipping Information') ?></h2>
         <div class="col2-set">
             <div class="col-1">
-                <h4><?php echo $this->__('Shipping Address') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
+                <h3><?php echo $this->__('Shipping Address') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h3>
                 <address>
                     <?php echo $this->getShippingAddress()->getFormated(true) ?>
                 </address>
             </div>
             <div class="col-2">
-                <h4><?php echo $this->__('Shipping Method') ?></h4>
+                <h3><?php echo $this->__('Shipping Method') ?></h3>
                 <?php if ($this->isVirtual()): ?>
                     <strong><?php echo $this->__('No shipping method required.') ?></strong>
                 <?php else: ?>
@@ -85,8 +85,8 @@
     </div>
 
     <div class="block">
-        <h3><?php echo $this->__('Billing Information') ?></h3>
-        <h4><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
+        <h2><?php echo $this->__('Billing Information') ?></h2>
+        <h3><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypaluk/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h3>
         <p><?php echo $this->__('PayPal Uk Account') ?></p>
         <?php echo $this->getBillingAddress()->getEmail() ?>
     </div>
@@ -103,7 +103,7 @@
             <span class="please-wait" id="review-please-wait" style="display:none;">
                 <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Submitting order information...') ?>" title="<?php echo $this->__('Submitting order information...') ?>" class="v-middle" /> <?php echo $this->__('Submitting order information...') ?>
             </span>
-            <button type="button" class="button" id="review-button" onclick="return saveOrder();"><span><span><?php echo $this->__('Place an Order') ?></span></span></button>
+            <button type="button" class="button btn-checkout" id="review-button" onclick="return saveOrder();"><span><span><?php echo $this->__('Place an Order') ?></span></span></button>
         </div>
     </form>
 <script type="text/javascript">

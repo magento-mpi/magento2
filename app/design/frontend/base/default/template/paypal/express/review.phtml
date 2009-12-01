@@ -28,16 +28,16 @@
     <h1><?php echo $this->__('Review Order') ?></h1>
 </div>
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<h3><?php echo $this->__('Shipping Information') ?></h3>
 <div class="col2-set">
+    <h2><?php echo $this->__('Shipping Information') ?></h2>
     <div class="col-1">
-        <h4><?php echo $this->__('Shipping Address') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h4>
+        <h3><?php echo $this->__('Shipping Address') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Shipping Address') ?></a></h3>
         <address>
             <?php echo $this->getShippingAddress()->getFormated(true) ?>
         </address>
     </div>
     <div class="col-2">
-        <h4><?php echo $this->__('Shipping Method') ?></h4>
+        <h3><?php echo $this->__('Shipping Method') ?></h3>
         <?php if ($this->isVirtual()): ?>
             <strong><?php echo $this->__('No shipping method required.') ?></strong>
         <?php else: ?>
@@ -87,12 +87,12 @@
 
 <br />
 
-<h3><?php echo $this->__('Billing Information') ?></h3>
-<h4><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h4>
+<h2><?php echo $this->__('Billing Information') ?></h2>
+<h2><?php echo $this->__('Payment Method') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('paypal/express/edit') ?>"><?php echo $this->__('Change Payment Method') ?></a></h2>
 <p><?php echo $this->__('PayPal Account') ?></p>
 <address><?php echo $this->getBillingAddress()->getEmail() ?></address>
 
-<h3><?php echo $this->__('Items in Your Shopping Cart') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h3>
+<h2><?php echo $this->__('Items in Your Shopping Cart') ?><span class="separator"> | </span><a href="<?php echo $this->getUrl('checkout/cart') ?>"><?php echo $this->__('Edit Shopping Cart') ?></a></h2>
 
 <div id="details-reload">
     <?php echo $this->getChildHtml('details') ?>
