@@ -242,7 +242,7 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
             'label'     => Mage::helper('enterprise_cms')->__('Maximal Depth'),
             'onchange'  => 'hierarchyNodes.nodeChanged()',
             'container_id' => 'field_menu_levels_down',
-            'note'      => Mage::helper('enterprise_cms')->__('Number of Child Node Levels to Include'),
+            'note'      => Mage::helper('enterprise_cms')->__('Node Levels to Include'),
             'tabindex'  => '130'
         ));
         $menuFieldset->addField('menu_ordered', 'select', array(
