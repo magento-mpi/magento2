@@ -122,6 +122,26 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
     public function detailAction()
     {
         if ($this->_initSegment()) {
+
+            // Add help Notice to Combined Report
+            if ($this->_getAdminSession()->getMassactionIds()) {
+                $collection = Mage::getResourceModel('enterprise_customersegment/segment_collection')
+                    ->addFieldToFilter('segment_id', array('in' => $this->_getAdminSession()->getMassactionIds()));
+
+                $segments = array();
+                foreach ($collection as $item) {
+                    $segments[] = $item->getName();
+                }
+                if ($segments) {
+                    Mage::getSingleton('adminhtml/session')->addNotice(
+                        $this->__('Viewing combined "%s" report from segments: %s',
+                            Mage::helper('enterprise_customersegment')->getViewModeLabel($this->_getAdminSession()->getViewMode()),
+                            implode(', ',$segments)
+                        )
+                    );
+                }
+            }
+
             $this->_initAction()
                 ->_addContent($this->getLayout()->createBlock(
                     'enterprise_customersegment/adminhtml_report_customer_segment_detail'

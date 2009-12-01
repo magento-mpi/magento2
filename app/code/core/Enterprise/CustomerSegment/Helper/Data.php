@@ -58,4 +58,20 @@ class Enterprise_CustomerSegment_Helper_Data extends Mage_Core_Helper_Abstract
             )
         );
     }
+
+    /**
+     * Return translated Label for option
+     *
+     * @param string $code Option code
+     * @return string
+     */
+    public function getViewModeLabel($code)
+    {
+        foreach ($this->getOptionsArray() as $option) {
+            if (isset($option['label']) && isset($option['value']) && $option['value'] == $code) {
+                return $option['label'];
+            }
+        }
+        return '';
+    }
 }

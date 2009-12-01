@@ -46,7 +46,7 @@ class Enterprise_CustomerSegment_Block_Adminhtml_Customersegment_Edit extends Ma
         $segment = Mage::registry('current_customer_segment');
         if ($segment && $segment->getId()) {
             $this->_addButton('match_customers', array(
-                'label'     => Mage::helper('enterprise_customersegment')->__('Match Customers'),
+                'label'     => Mage::helper('enterprise_customersegment')->__('Refresh Segment Data'),
                 'onclick'   => 'setLocation(\'' . $this->getMatchUrl() . '\')',
             ), -1);
         }
