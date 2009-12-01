@@ -124,7 +124,7 @@ class Enterprise_CustomerSegment_Model_Segment_Condition_Customer_Address_Region
         $select = $this->getResource()->createSelect();
         $select->from(array('caev'=>$attribute->getBackendTable()), "{$inversion}(IFNULL(caev.value, '') <> '')");
         $select->where('caev.attribute_id = ?', $attribute->getId())
-            ->where($this->_createCustomerFilter($customer, 'caev.entity_id'));
+            ->where("caev.entity_id = customer_address.entity_id");
         $select->limit(1);
 
         return $select;
