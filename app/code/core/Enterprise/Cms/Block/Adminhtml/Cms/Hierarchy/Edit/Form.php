@@ -147,6 +147,15 @@ class Enterprise_Cms_Block_Adminhtml_Cms_Hierarchy_Edit_Form extends Mage_Adminh
                 'tabindex'   => '40'
             ));
 
+            $fieldset->addField('meta_cs_enabled', 'select', array(
+                'label'     => Mage::helper('enterprise_cms')->__('Enable Chapter/Section'),
+                'title'     => Mage::helper('enterprise_cms')->__('Enable Chapter/Section'),
+                'name'      => 'meta_cs_enabled',
+                'values'    => $yesNoOptions,
+                'onchange'   => 'hierarchyNodes.nodeChanged()',
+                'container_id' => 'field_meta_cs_enabled',
+                'tabindex'   => '45'
+            ));
 
             $fieldset->addField('meta_chapter_section', 'select', array(
                 'label'     => Mage::helper('enterprise_cms')->__('Chapter/Section'),

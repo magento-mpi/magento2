@@ -50,14 +50,16 @@ class Enterprise_Cms_Block_Hierarchy_Head extends Mage_Core_Block_Abstract
             if (is_array($treeMetaData)) {
                 /* @var $linkNode Enterprise_Cms_Model_Hierarchy_Node */
 
-                $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER);
-                if ($linkNode->getId()) {
-                    $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER, $linkNode->getUrl());
-                }
+                if ($treeMetaData['meta_cs_enabled']) {
+                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER);
+                    if ($linkNode->getId()) {
+                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_CHAPTER, $linkNode->getUrl());
+                    }
 
-                $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION);
-                if ($linkNode->getId()) {
-                    $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION, $linkNode->getUrl());
+                    $linkNode = $node->getMetaNodeByType(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION);
+                    if ($linkNode->getId()) {
+                        $head->addLinkRel(Enterprise_Cms_Model_Hierarchy_Node::META_NODE_TYPE_SECTION, $linkNode->getUrl());
+                    }
                 }
 
                 if ($treeMetaData['meta_next_previous']) {

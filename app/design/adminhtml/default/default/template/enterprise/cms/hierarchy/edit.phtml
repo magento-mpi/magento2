@@ -182,9 +182,11 @@
             if (isTreeNode) {
                 $('field_meta_first_last').show();
                 $('field_meta_next_previous').show();
+                $('field_meta_cs_enabled').show();
             } else {
                 $('field_meta_first_last').hide();
                 $('field_meta_next_previous').hide();
+                $('field_meta_cs_enabled').hide();
             }
             <?php endif; ?>
 
@@ -377,9 +379,11 @@
             if (selectedNode.id == '_root') {
                 $('field_meta_first_last').show();
                 $('field_meta_next_previous').show();
+                $('field_meta_cs_enabled').show();
             } else {
                 $('field_meta_first_last').hide();
                 $('field_meta_next_previous').hide();
+                $('field_meta_cs_enabled').hide();
             }
             <?php endif; ?>
 
@@ -554,7 +558,7 @@
 
         resetMetadataFieldSet: function() {
             var defaultValue = '0';
-            var fields = ['meta_first_last','meta_next_previous','menu_visibility','menu_excluded'];
+            var fields = ['meta_first_last','meta_next_previous','meta_cs_enabled','menu_visibility','menu_excluded'];
             fields.each(function(e) {
                 $(e).value = defaultValue;
             });
@@ -622,6 +626,7 @@
             return [
                 'meta_first_last',
                 'meta_next_previous',
+                'meta_cs_enabled',
                 'meta_chapter_section',
                 'pager_visibility',
                 'pager_frame',

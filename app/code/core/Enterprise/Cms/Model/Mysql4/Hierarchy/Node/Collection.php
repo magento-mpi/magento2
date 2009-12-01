@@ -145,6 +145,7 @@ class Enterprise_Cms_Model_Mysql4_Hierarchy_Node_Collection extends Mage_Core_Mo
                     'meta_next_previous',
                     'meta_chapter',
                     'meta_section',
+                    'meta_cs_enabled',
                     'pager_visibility',
                     'pager_frame',
                     'pager_jump',

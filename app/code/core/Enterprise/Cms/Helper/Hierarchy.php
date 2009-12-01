@@ -72,6 +72,7 @@ class Enterprise_Cms_Helper_Hierarchy extends Mage_Core_Helper_Abstract
             'meta_next_previous',
             'meta_chapter',
             'meta_section',
+            'meta_cs_enabled',
             'pager_visibility',
             'pager_frame',
             'pager_jump',
