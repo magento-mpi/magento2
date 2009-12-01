@@ -69,6 +69,7 @@ Checkout.prototype = {
                 this.setLoadWaiting(false);
             }
             var container = $(step+'-buttons-container');
+			container.addClassName('disabled');
             container.setStyle({opacity:.5});
             this._disableEnableAll(container, true);
             Element.show(step+'-please-wait');
@@ -77,6 +78,7 @@ Checkout.prototype = {
                 var container = $(this.loadWaiting+'-buttons-container');
                 var isDisabled = (keepDisabled ? true : false);
                 if (!isDisabled) {
+					container.removeClassName('disabled');
                     container.setStyle({opacity:1});
                 }
                 this._disableEnableAll(container, isDisabled);
