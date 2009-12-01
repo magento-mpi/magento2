@@ -163,7 +163,16 @@ class Mage_Sales_Model_Quote_Address extends Mage_Customer_Model_Address_Abstrac
     public function importCustomerAddress(Mage_Customer_Model_Address $address)
     {
         Mage::helper('core')->copyFieldset('customer_address', 'to_quote_address', $address, $this);
-        $this->setEmail($address->hasEmail() ? $address->getEmail() : $address->getCustomer()->getEmail());
+        $email = null;
+        if ($address->hasEmail()) {
+            $email =  $address->getEmail();
+        }
+        elseif ($address->getCustomer()) {
+            $email = $address->getCustomer()->getEmail();
+        }
+        if ($email) {
+            $this->setEmail($email);
+        }
         return $this;
     }
 
