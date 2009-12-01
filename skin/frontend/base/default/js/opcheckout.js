@@ -69,7 +69,7 @@ Checkout.prototype = {
                 this.setLoadWaiting(false);
             }
             var container = $(step+'-buttons-container');
-			container.addClassName('disabled');
+            container.addClassName('disabled');
             container.setStyle({opacity:.5});
             this._disableEnableAll(container, true);
             Element.show(step+'-please-wait');
@@ -78,7 +78,7 @@ Checkout.prototype = {
                 var container = $(this.loadWaiting+'-buttons-container');
                 var isDisabled = (keepDisabled ? true : false);
                 if (!isDisabled) {
-					container.removeClassName('disabled');
+                    container.removeClassName('disabled');
                     container.setStyle({opacity:1});
                 }
                 this._disableEnableAll(container, isDisabled);
@@ -140,11 +140,11 @@ Checkout.prototype = {
 //            shipping.syncWithBilling();
 //            //this.setShipping();
 //            //shipping.save();
-//	        $('opc-shipping').addClassName('allow');
-//	        this.gotoSection('shipping_method');
+//            $('opc-shipping').addClassName('allow');
+//            this.gotoSection('shipping_method');
 //        } else {
 //            $('shipping:same_as_billing').checked = false;
-//	        this.gotoSection('shipping');
+//            this.gotoSection('shipping');
 //        }
 //        this.reloadProgressBlock();
 //        //this.accordion.openNextSection(true);
