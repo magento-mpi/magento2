@@ -37,8 +37,10 @@
 
     <?php if (!$this->useCalendar()): ?>
     <script type="text/javascript">
+    //<![CDATA[
         Event.observe('options_<?php echo $_optionId ?>_month', 'change', dateOption.reloadMonth.bind(dateOption));
         Event.observe('options_<?php echo $_optionId ?>_year', 'change', dateOption.reloadMonth.bind(dateOption));
+    //]]>
     </script>
     <?php endif; ?>
 
