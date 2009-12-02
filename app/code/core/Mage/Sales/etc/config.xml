@@ -536,6 +536,7 @@
             <order>
                 <statuses>
                     <pending translate="label"><label>Pending</label></pending>
+                    <pending_payment translate="label"><label>Pending Payment</label></pending_payment>
                     <processing translate="label"><label>Processing</label></processing>
                     <holded translate="label"><label>On Hold</label></holded>
                     <complete translate="label"><label>Complete</label></complete>
@@ -553,7 +554,9 @@
                     </new>
                     <pending_payment translate="label">
                         <label>Pending Payment</label>
-                        <statuses/>
+                        <statuses>
+                            <pending_payment default=""/>
+                        </statuses>
                     </pending_payment>
                     <processing translate="label">
                         <label>Processing</label>
