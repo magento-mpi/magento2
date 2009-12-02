@@ -30,16 +30,6 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
     }
 
     /**
-     * Retrieve Moneybookers helper
-     *
-     * @return Mage_Moneybookers_Helper_Data
-     */
-    protected function _getHelper()
-    {
-        return Mage::helper('moneybookers');
-    }
-
-    /**
      * Iframe page which submits the payment data to Moneybookers.
      */
     public function placeformAction()
@@ -61,10 +51,8 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
             if (!$order->getId()) {
                 Mage::throwException('No order for processing found');
             }
-            $order->setState(
-                Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                Mage_Sales_Model_Order::STATE_PENDING_PAYMENT,
-                $this->_getHelper()->__('Customer was redirected to Moneybookers.')
+            $order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true,
+                Mage::helper('moneybookers')->__('Customer was redirected to Moneybookers.')
             );
             $order->save();
 
@@ -92,11 +80,13 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
             $this->_getCheckout()->setLastSuccessQuoteId($this->_order->getQuoteId());
 
             $this->_redirect('checkout/onepage/success');
-
+            return;
+        } catch (Mage_Core_Exception $e) {
+            $this->_getCheckout()->addError($e->getMessage());
         } catch(Exception $e) {
-            $this->_getCheckout()->addError($this->_getHelper()->__($e->getMessage()));
-            $this->_redirect('checkout/cart');
+            Mage::logException($e);
         }
+        $this->_redirect('checkout/cart');
     }
 
     /**
@@ -114,13 +104,14 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
 
             $this->_processCancel('Payment was canceled');
 
-            $this->_getCheckout()->addError($this->_getHelper()->__('The order has been canceled.'));
+            $this->_getCheckout()->addError(Mage::helper('moneybookers')->__('The order has been canceled.'));
             $this->_redirect('checkout/cart');
-
+        } catch (Mage_Core_Exception $e) {
+            $this->_getCheckout()->addError($e->getMessage());
         } catch(Exception $e) {
-            $this->_getCheckout()->addError($this->_getHelper()->__($e->getMessage()));
-            $this->_redirect('checkout/cart');
+            Mage::logException($e);
         }
+        $this->_redirect('checkout/cart');
     }
 
     /**
@@ -132,29 +123,30 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
         try {
             $params = $this->_checkReturnedData();
 
+            $msg = '';
             switch($params['status']) {
                 case '-2': //fail
-                    $msg = 'Payment failed';
+                    $msg = Mage::helper('moneybookers')->__('Payment failed');
                     $this->_processCancel($msg);
                     break;
                 case '-1': //cancel
-                    $msg = 'Payment was canceled';
+                    $msg = Mage::helper('moneybookers')->__('Payment was canceled');
                     $this->_processCancel($msg);
                     break;
                 case '0': //pending
-                    $msg = 'Pending bank transfer created.';
+                    $msg = Mage::helper('moneybookers')->__('Pending bank transfer created.');
                     $this->_processSale($msg);
                     break;
                 case '2': //ok
-                    $msg = 'The amount has been authorized and captured by Moneybookers.';
+                    $msg = Mage::helper('moneybookers')->__('The amount has been authorized and captured by Moneybookers.');
                     $this->_processSale($msg);
                     break;
             }
-
-            $this->getResponse()->setBody($this->_getHelper()->__($msg));
+            $this->getResponse()->setBody($msg);
+        } catch (Mage_Core_Exception $e) {
+            $this->getResponse()->setBody(Mage::helper('moneybookers')->__('Error: %s', $e->getMessage()));
         } catch(Exception $e) {
             Mage::logException($e);
-            $this->getResponse()->setBody('Error: ' . $this->_getHelper()->__($e->getMessage()));
         }
     }
 
@@ -166,7 +158,7 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
     protected function _processCancel($msg)
     {
         $this->_order->cancel();
-        $this->_order->addStatusToHistory(Mage_Sales_Model_Order::STATE_CANCELED, $this->_getHelper()->__($msg));
+        $this->_order->addStatusToHistory(Mage_Sales_Model_Order::STATE_CANCELED, $msg);
         $this->_order->save();
     }
 
@@ -193,7 +185,7 @@ class Mage_Moneybookers_ProcessingController extends Mage_Core_Controller_Front_
         if (empty($newPaymentStatus)) {
             $newPaymentStatus = Mage_Sales_Model_Order::STATE_PROCESSING;
         }
-        $this->_order->setState($newPaymentStatus, $newPaymentStatus, $this->_getHelper()->__($msg));
+        $this->_order->setState($newPaymentStatus, $newPaymentStatus, $msg);
 
         // save transaction ID
         $this->_order->getPayment()->setLastTransId($this->getRequest()->getParam('mb_transaction_id'));
