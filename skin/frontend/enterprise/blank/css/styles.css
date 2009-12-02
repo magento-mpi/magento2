@@ -112,6 +112,7 @@ button.disabled span {}
 .form-list li.add-row { border-top:1px solid #ddd; margin-top:10px; }
 .form-list li.add-row .btn-remove { font-size:0; line-height:0; padding:5px 5px 0 0; text-align:right; }
 .form-list .range input.input-text { width:96px; }
+.form-list .hideit { display:none; }
 
 .group-select {}
 .group-select li { margin:0 0 5px; }
@@ -877,7 +878,7 @@ dd.even { background-color:#f6f6f6; }
 .container-open .open { height:54px; }
 
 .container-upcoming { background:#eee; }
-.container-upcoming .upcoming {} 
+.container-upcoming .upcoming {}
 
 .container-closed { background:#9f958c }
 

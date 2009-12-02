@@ -57,7 +57,7 @@ address       { font-style:normal; }
 cite          { font-style:normal; }
 q,
 blockquote    { quotes:none; }
-q:before, 
+q:before,
 q:after       { content:''; }
 small,big     { font-size:1em; }
 sup           { font-size:1em; vertical-align:top; }
@@ -94,7 +94,7 @@ ul,ol         { list-style:none; }
 .page-popup { padding:20px; text-align:left; }
 .main { margin:10px 0; }
 
-/* Base Columns */ 
+/* Base Columns */
 .col-left { float:left; width:230px; border:1px solid #ddd; padding:5px 5px 0; }
 .col-main { float:left; width:736px; border:1px solid #ddd; padding:5px; }
 .col-right { float:right; width:230px; border:1px solid #ddd; padding:5px 5px 0; }
@@ -169,6 +169,7 @@ button.disabled span {}
 .form-list li.additional-row { border-top:1px solid #ddd; margin-top:10px; }
 .form-list li.additional-row .btn-remove { float:right; margin:5px 5px 0 0; }
 .form-list .input-range input.input-text { width:96px; }
+.form-list .hideit { display:none; }
 /* Customer */
 .form-list .name-prefix { width:65px; }
 .form-list .name-prefix select { width:55px; }
@@ -288,7 +289,7 @@ p.required { font-size:10px; text-align:right; color:#f00; }
 .note-msg,
 .notice-msg { border-color:#fcd344; background-color:#fafaec; background-image:url(../images/note_msg_icon.gif); color:#3d6611; }
 
-/* BreadCrumbs */ 
+/* BreadCrumbs */
 .breadcrumbs { padding:10px; margin:0 0 10px; border:1px solid #ddd; }
 .breadcrumbs li { display:inline; }
 
@@ -302,7 +303,7 @@ p.required { font-size:10px; text-align:right; color:#f00; }
 .title-buttons h5,
 .title-buttons h6 { float:left; }
 
-/* Pager */ 
+/* Pager */
 .pager { border:1px solid #ddd; padding:5px; margin:5px 0; text-align:center; }
 .pager .amount { float:left; }
 .pager .limiter { float:right; }
@@ -311,13 +312,13 @@ p.required { font-size:10px; text-align:right; color:#f00; }
 .pager .pages li { display:inline; }
 .pager .pages .current {}
 
-/* Sorter */ 
+/* Sorter */
 .sorter { border:1px solid #ddd; padding:5px; margin:5px 0; }
 .sorter .view-mode { float:left; }
 .sorter .sort-by { float:right; }
 .sorter .link-feed {}
 
-/* Data Table */ 
+/* Data Table */
 .data-table { width:100%; }
 .data-table th { padding:5px; border:1px solid #ddd; font-weight:bold; white-space:nowrap; }
 .data-table td { padding:5px; border:1px solid #ddd; }
@@ -404,7 +405,7 @@ dd.even { background-color:#f6f6f6; }
 
 
 /* Header ================================================================================ */
-.logo { float:left; } 
+.logo { float:left; }
 .header-container {}
 .header { padding:10px; border:1px solid #ddd; }
 .header .welcome-msg { font-weight:bold; text-align:right; }

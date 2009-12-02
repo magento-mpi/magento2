@@ -154,6 +154,7 @@ ul.add-row,
 ul.add-row .btn-remove,
 .form-list li.add-row .btn-remove { font-size:0; line-height:0; padding:5px 5px 0 0; margin:0; text-align:right; }
 .form-list .range input.input-text { float:none; width:64px; vertical-align:middle; }
+.form-list .hideit { display:none; }
 
 .form-list .add-field .input-box { margin-left:240px; }
 .form-list .form-element { position:relative; vertical-align:top; z-index:1; } /* row with checkbox or radio button */
@@ -1179,7 +1180,7 @@ button.btn-cart span {}
 .options-container-small .price-box { display:none; }
 .options-container-small .add-to-cart { padding:13px 15px 0 0 !important; }
 .options-container-small .product-options-bottom p.required { padding:0 0 0 90px; width:auto; float:left; clear:left; text-align:left; }
-.options-container-small 
+.options-container-small
 dt { float:left; line-height:1.2; width:10em; clear:left; padding:3px 5px 3px 0; margin:0 0 8px; }
 .options-container-small dd { float:left; width:275px; border-bottom:0; padding:0; margin:0 0 8px; }
 .options-container-small .product-options { margin:0 0 0; }
