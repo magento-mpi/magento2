@@ -132,6 +132,7 @@ class Enterprise_CustomerSegment_Adminhtml_Report_Customer_CustomersegmentContro
                 foreach ($collection as $item) {
                     $segments[] = $item->getName();
                 }
+                /* @translation $this->__('Viewing combined "%s" report from segments: %s') */
                 if ($segments) {
                     Mage::getSingleton('adminhtml/session')->addNotice(
                         $this->__('Viewing combined "%s" report from segments: %s',
