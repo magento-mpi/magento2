@@ -98,25 +98,25 @@ function bindAttributeInputType()
         }
     }
 
-    if ($('frontend_input') && ($('frontend_input').value=='text' || $('frontend_input').value=='textarea')) {
-        if($('is_html_allowed_on_front' && !$('is_html_allowed_on_front').getAttribute('readonly'))){
-            $('is_html_allowed_on_front').disabled = false;
-        }
+    if ($('frontend_input').value=='textarea') {
+        setRowVisibility('is_wysiwyg_enabled', true);
+        setRowVisibility('is_html_allowed_on_front', false);
+
+        $('frontend_class').value = '';
+        $('frontend_class').disabled = true;
+    }
+    else if($('frontend_input').value=='text'){
+        setRowVisibility('is_wysiwyg_enabled', false);
+        setRowVisibility('is_html_allowed_on_front', true);
+
         if (!$('frontend_class').getAttribute('readonly')) {
-            $('frontend_class').disabled = false;        
-        }
-        if ($('frontend_input').value=='textarea' && $('is_wysiwyg_enabled') && !$('is_wysiwyg_enabled').getAttribute('readonly')) {
-            $('is_wysiwyg_enabled').disabled = false;
-        } else if ($('is_wysiwyg_enabled')) {
-            $('is_html_allowed_on_front').selectedIndex = 0;
-            $('is_wysiwyg_enabled').disabled = true;
+            $('frontend_class').disabled = false;
         }
     }
-    else {
-        if($('is_html_allowed_on_front')){
-            $('is_html_allowed_on_front').selectedIndex = 0;
-            $('is_html_allowed_on_front').disabled = true;
-        }
+    else{
+        setRowVisibility('is_wysiwyg_enabled', false);
+        setRowVisibility('is_html_allowed_on_front', false);
+
         $('frontend_class').value = '';
         $('frontend_class').disabled = true;
     }
@@ -309,5 +309,4 @@ if ($('is_required')) {
     Event.observe($('is_required'), 'change', updateRequriedOptions);
 }
 bindAttributeInputType();
-
 </script>
