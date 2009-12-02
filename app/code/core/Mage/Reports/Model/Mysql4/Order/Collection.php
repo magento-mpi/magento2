@@ -301,8 +301,8 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                     array('base_total_refunded'))
                 ->addExpressionAttributeToSelect(
                     'profit',
-                    'SUM({{base_total_paid}}) - SUM({{base_total_refunded}}) - SUM({{base_total_invoiced_cost}})',
-                    array('base_total_paid', 'base_total_refunded', 'base_total_invoiced_cost'));
+                    'SUM({{base_subtotal_invoiced}}) + SUM({{base_discount_refunded}}) - SUM({{base_subtotal_refunded}}) - SUM({{base_discount_invoiced}}) - SUM({{base_total_invoiced_cost}})',
+                    array('base_subtotal_invoiced', 'base_discount_refunded', 'base_subtotal_refunded', 'base_discount_invoiced', 'base_total_invoiced_cost'));
         } else {
             $this->addExpressionAttributeToSelect(
                     'subtotal',
@@ -334,8 +334,8 @@ class Mage_Reports_Model_Mysql4_Order_Collection extends Mage_Sales_Model_Entity
                     array('base_total_refunded', 'base_to_global_rate'))
                 ->addExpressionAttributeToSelect(
                     'profit',
-                    'SUM({{base_total_paid}}*{{base_to_global_rate}}) - SUM({{base_total_refunded}}*{{base_to_global_rate}}) - SUM({{base_total_invoiced_cost}}*{{base_to_global_rate}})',
-                    array('base_total_paid', 'base_total_refunded', 'base_total_invoiced_cost', 'base_to_global_rate'));
+                    'SUM({{base_subtotal_invoiced}}*{{base_to_global_rate}}) + SUM({{base_discount_refunded}}*{{base_to_global_rate}}) - SUM({{base_subtotal_refunded}}*{{base_to_global_rate}}) - SUM({{base_discount_invoiced}}*{{base_to_global_rate}}) - SUM({{base_total_invoiced_cost}}*{{base_to_global_rate}})',
+                    array('base_subtotal_invoiced', 'base_discount_refunded', 'base_subtotal_refunded', 'base_discount_invoiced', 'base_total_invoiced_cost', 'base_to_global_rate'));
         }
 
         return $this;
