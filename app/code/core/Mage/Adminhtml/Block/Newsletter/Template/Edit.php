@@ -73,7 +73,11 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
             /** @var Mage_Page_Block_Html_Head */
             $head = $this->getLayout()->getBlock('head');
             $head->setCanLoadTinyMce(true)
+                 ->setCanLoadExtJs(true)
                  ->addJs('mage/adminhtml/variables.js')
+                 ->addJs('mage/adminhtml/wysiwyg/widget.js')
+                 ->addJs('lib/flex.js')
+                 ->addJs('mage/adminhtml/flexuploader.js')
                  ->addJs('prototype/window.js')
                  ->addItem('js_css', 'prototype/windows/themes/default.css')
                  ->addItem('js_css', 'prototype/windows/themes/magento.css');

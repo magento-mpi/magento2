@@ -90,11 +90,6 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
 
                 <script type="text/javascript">
                 //<![CDATA[
-
-                    function imagebrowser(fieldName, url, objectType, w) {
-                        varienGlobalEvents.fireEvent("open_browser_callback", {win:w, type:objectType, field:fieldName});
-                    }
-
                     '.$jsSetupObject.' = new tinyMceWysiwygSetup("'.$this->getHtmlId().'", '.Zend_Json::encode($this->getConfig()).');
 
                     '.($this->isHidden() ? '' : ($this->getForceLoad()?$jsSetupObject.'.setup("exact");':'Event.observe(window, "load", '.$jsSetupObject.'.setup.bind('.$jsSetupObject.', "exact"));')).'
@@ -103,7 +98,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
                     varienGlobalEvents.attachEventHandler("formSubmit", editorFormValidationHandler);
                     varienGlobalEvents.attachEventHandler("tinymceBeforeSetContent", '.$jsSetupObject.'.beforeSetContent.bind('.$jsSetupObject.'));
                     varienGlobalEvents.attachEventHandler("tinymceSaveContent", '.$jsSetupObject.'.saveContent.bind('.$jsSetupObject.'));
-                    varienGlobalEvents.attachEventHandler("open_browser_callback", '.$jsSetupObject.'.openImagesBrowser.bind('.$jsSetupObject.'));
+                    varienGlobalEvents.attachEventHandler("open_browser_callback", '.$jsSetupObject.'.openFileBrowser.bind('.$jsSetupObject.'));
                 //]]>
                 </script>';
 
@@ -177,10 +172,9 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         $buttonsHtml = '';
 
         // Button to widget insertion window
-        $winUrl = $this->getConfig('widget_window_no_wysiwyg_url');
         $buttonsHtml .= $this->_getButtonHtml(array(
             'title'     => $this->translate('Insert Widget...'),
-            'onclick'   => "openEditorPopup('" . $winUrl . "', 'widget_window" . $this->getHtmlId() . "', 'width=1024,height=800,scrollbars=yes')",
+            'onclick'   => "widgetTools.openDialog('" . $this->getConfig('widget_window_url') . "widget_target_id/" . $this->getHtmlId() . "')",
             'class'     => 'add-widget plugin',
             'style'     => $visible ? '' : 'display:none',
         ));
@@ -189,7 +183,7 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         $winUrl = $this->getConfig('files_browser_window_url');
         $buttonsHtml .= $this->_getButtonHtml(array(
             'title'     => $this->translate('Insert Image...'),
-            'onclick'   => "openEditorPopup('" . $winUrl . "', 'browser_window" . $this->getHtmlId() . "', 'width=1024,height=800')",
+            'onclick'   => "tinyMceWysiwygTools.openFileBrowserDialog('" . $this->getConfig('files_browser_window_url') . "target_element_id/" . $this->getHtmlId() . "/')",
             'class'     => 'add-image plugin',
             'style'     => $visible ? '' : 'display:none',
         ));

@@ -123,4 +123,14 @@ class Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content extends Mage_Adminhtml_Blo
     {
         return $this->getUrl('*/*/onInsert');
     }
+
+    /**
+     * Target element ID getter
+     *
+     * @return string
+     */
+    public function getTargetElementId()
+    {
+        return $this->getRequest()->getParam('target_element_id');
+    }
 }

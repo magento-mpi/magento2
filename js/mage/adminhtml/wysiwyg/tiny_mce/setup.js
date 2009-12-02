@@ -21,9 +21,34 @@
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 
+var tinyMceWysiwygTools = {
+    openFileBrowserDialog: function(url, width, height, title) {
+        title  = title || 'Insert file...';
+        width  = width || 1000;
+        height = height || 800;
+
+        Dialog.info(null, {
+            draggable:true,
+            resizable:false,
+            closable:true,
+            className:'magento',
+            title:title,
+            width:width,
+            height:height,
+            zIndex:1000,
+            recenterAuto:false,
+            hideEffect:Element.hide,
+            showEffect:Element.show,
+            id:'browser_window'
+        });
+        new Ajax.Updater('modal_dialog_message', url, {evalScripts: true});
+    }
+}
+
 var tinyMceWysiwygSetup = Class.create();
 tinyMceWysiwygSetup.prototype =
 {
+    mediaBrowserOpener: null,
     initialize: function(htmlId, config)
     {
         this.id = htmlId;
@@ -58,13 +83,13 @@ tinyMceWysiwygSetup.prototype =
         if (this.config.widget_plugin_src) {
             tinymce.PluginManager.load('magentowidget', this.config.widget_plugin_src);
         }
-        
+
         if (this.config.plugins) {
             (this.config.plugins).each(function(plugin){
                 tinymce.PluginManager.load(plugin.name, plugin.src);
             });
         }
-        
+
         tinyMCE.init(this.getSettings(mode));
     },
 
@@ -75,7 +100,7 @@ tinyMceWysiwygSetup.prototype =
         if (this.config.widget_plugin_src) {
             plugins = 'magentowidget,' + plugins;
         }
-        
+
         if (this.config.plugins) {
             var magentoPluginsOptions = $H({});
             var magentoPlugins = '';
@@ -141,7 +166,9 @@ tinyMceWysiwygSetup.prototype =
         };
 
         if (this.config.files_browser_window_url) {
-            settings.file_browser_callback = 'imagebrowser';
+            settings.file_browser_callback = function(fieldName, url, objectType, w) {
+                varienGlobalEvents.fireEvent("open_browser_callback", {win:w, type:objectType, field:fieldName});
+            };
         }
 
         if (this.config.width) {
@@ -155,17 +182,21 @@ tinyMceWysiwygSetup.prototype =
         return settings;
     },
 
-    openImagesBrowser: function(o) {
-        var win = o.win;
-        var type = o.type;
-        var field = o.field;
-        var wWidth = this.config.files_browser_window_width;
-        var wHeight = this.config.files_browser_window_height;
-        var wUrl = this.config.files_browser_window_url;
-        if (type != undefined && type != "") {
-            wUrl = wUrl + "type/" + type + "/";
+    openFileBrowser: function(o) {
+        this.mediaBrowserOpener = o.win;
+        this.mediaBrowserOpener.blur();
+        var wUrl = this.config.files_browser_window_url + 'target_element_id/' + this.id + '/';
+        if (typeof(o.type) != 'undefined' && o.type != "") {
+            var typeTitle = 'image' == o.type ? 'image' : 'media';
+            wUrl = wUrl + "type/" + o.type + "/";
+        } else {
+            var typeTitle = 'file';
         }
-        openEditorPopup(wUrl, 'browser_window' + this.id, 'width=' + wWidth + ', height=' + wHeight, win);
+        tinyMceWysiwygTools.openFileBrowserDialog(wUrl, this.config.files_browser_window_width, this.config.files_browser_window_height, 'Insert ' + typeTitle + '...');
+    },
+
+    getMediaBrowserOpener: function() {
+        return this.mediaBrowserOpener;
     },
 
     getToggleButton: function() {

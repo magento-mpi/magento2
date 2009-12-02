@@ -35,13 +35,12 @@
 var Wysiwyg = {};
 Wysiwyg.Images = Class.create();
 Wysiwyg.Images.prototype = {
+    targetElementId: null,
     tree: null,
     currentNode: null,
-
     initialize: function () {
-        //
+        this.targetElementId = '<?php echo $this->getTargetElementId() ?>';
     },
-
     setTree: function (tree) {
         this.tree = tree;
         this.currentNode = tree.getRootNode();
@@ -136,8 +135,9 @@ Wysiwyg.Images.prototype = {
             return false;
         }
         var targetEl = this.getTargetElement();
-        if ($(targetEl) == undefined) {
+        if (! targetEl) {
             alert("Target element not found for content update");
+            Windows.close('browser_window');
             return;
         }
 
@@ -151,15 +151,18 @@ Wysiwyg.Images.prototype = {
             onSuccess: function(transport) {
                 try {
                     this.onAjaxSuccess(transport);
+                    if (this.getMediaBrowserOpener()) {
+                        self.blur();
+                    }
+                    Windows.close('browser_window');
                     if (targetEl.tagName.toLowerCase() == 'input') {
                         targetEl.value = transport.responseText;
                     } else {
-                        updateElementAtCursor(targetEl, transport.responseText, self.opener);
-                        if (self.opener.varienGlobalEvents) {
-                            self.opener.varienGlobalEvents.fireEvent('tinymceChange');
+                        updateElementAtCursor(targetEl, transport.responseText);
+                        if (varienGlobalEvents) {
+                            varienGlobalEvents.fireEvent('tinymceChange');
                         }
                     }
-                    self.close();
                 } catch (e) {
                     alert(e.message);
                 }
@@ -167,12 +170,42 @@ Wysiwyg.Images.prototype = {
         });
     },
 
+    /**
+     * Find document target element in next order:
+     *  in acive file browser opener:
+     *  - input field with ID: "src" in opener window
+     *  - input field with ID: "href" in opener window
+     *  in document:
+     *  - element with target ID
+     *
+     * return HTMLelement | null
+     */
     getTargetElement: function() {
-        var parent = self.opener;
-        var textareaId = self.name.replace(/browser_window/g, '');
-        return (parent.document.getElementById('src')
-            || parent.document.getElementById('href')
-            || parent.document.getElementById(textareaId));
+        if (typeof(tinyMCE) != 'undefined' && tinyMCE.get(this.targetElementId)) {
+            if ((opener = this.getMediaBrowserOpener())) {
+                return opener.document.getElementById('src') || opener.document.getElementById('href');
+            } else {
+                return null;
+            }
+        } else {
+            return document.getElementById(this.targetElementId);
+        }
+    },
+
+    /**
+     * Return opener Window object if it exists, not closed and editor is active
+     *
+     * return object | null
+     */
+    getMediaBrowserOpener: function() {
+         if (typeof(tinyMCE) != 'undefined'
+             && tinyMCE.get(this.targetElementId)
+             && typeof(tinyMceEditors) != 'undefined'
+             && ! tinyMceEditors.get(this.targetElementId).getMediaBrowserOpener().closed) {
+             return tinyMceEditors.get(this.targetElementId).getMediaBrowserOpener();
+         } else {
+             return null;
+         }
     },
 
     newFolder: function() {

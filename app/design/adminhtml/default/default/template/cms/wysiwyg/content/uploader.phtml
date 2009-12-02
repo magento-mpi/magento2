@@ -31,8 +31,7 @@
  * @see Mage_Adminhtml_Block_Cms_Wysiwyg_Images_Content_Uploader
  */
 ?>
-<?php echo $this->helper('adminhtml/media_js')->includeScript('lib/flex.js') ?>
-<?php echo $this->helper('adminhtml/media_js')->includeScript('mage/adminhtml/flexuploader.js') ?>
+
 <?php echo $this->helper('adminhtml/media_js')->getTranslatorScript() ?>
 
 <div id="<?php echo $this->getHtmlId() ?>" class="uploader">
@@ -57,8 +56,8 @@
 
 <script type="text/javascript">
 //<![CDATA[
-var maxUploadFileSizeInBytes = <?php echo $this->getDataMaxSizeInBytes() ?>;
-var maxUploadFileSize = '<?php echo $this->getDataMaxSize() ?>';
+maxUploadFileSizeInBytes = <?php echo $this->getDataMaxSizeInBytes() ?>;
+maxUploadFileSize = '<?php echo $this->getDataMaxSize() ?>';
 
 <?php echo $this->getJsObjectName() ?> = new Flex.Uploader('<?php echo $this->getHtmlId() ?>', '<?php echo $this->getSkinUrl('media/uploader.swf') ?>', <?php echo $this->getConfigJson() ?>);
 <?php echo $this->getJsObjectName() ?>.onFilesComplete = function(completedFiles){

@@ -137,6 +137,16 @@ Layout for pop up windows
     </popup>
 
 <!--
+Layout for overlay pop up windows
+-->
+    <overlay_popup>
+        <update handle="popup"/>
+        <reference name="root">
+            <action method="setTemplate"><template>overlay_popup.phtml</template></action>
+        </reference>
+    </overlay_popup>
+
+<!--
 No page found
 -->
 

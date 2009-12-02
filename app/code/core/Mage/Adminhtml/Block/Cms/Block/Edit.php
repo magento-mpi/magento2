@@ -34,7 +34,6 @@
  */
 class Mage_Adminhtml_Block_Cms_Block_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
-
     public function __construct()
     {
         $this->_objectId = 'block_id';
@@ -64,6 +63,15 @@ class Mage_Adminhtml_Block_Cms_Block_Edit extends Mage_Adminhtml_Block_Widget_Fo
                 editForm.submit($('edit_form').action+'back/edit/');
             }
         ";
+    }
+
+    /**
+     * Load Wysiwyg on demand and Prepare layout
+     */
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
+        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
     }
 
     /**

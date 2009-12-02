@@ -36,6 +36,24 @@ var widgetTools = {
                 setLocation(response.ajaxRedirect);
             }
         }
+    },
+
+    openDialog: function(widgetUrl) {
+        Dialog.info(null, {
+            draggable:true,
+            resizable:false,
+            closable:true,
+            className:'magento',
+            title:'Insert widget...',
+            width:1024,
+            height:800,
+            zIndex:1000,
+            recenterAuto:false,
+            hideEffect:Element.hide,
+            showEffect:Element.show,
+            id:'widget_window'
+        });
+        new Ajax.Updater('modal_dialog_message', widgetUrl, {evalScripts: true});
     }
 }
 
@@ -43,12 +61,14 @@ var WysiwygWidget = {};
 WysiwygWidget.Widget = Class.create();
 WysiwygWidget.Widget.prototype = {
 
-    initialize: function(formEl, widgetEl, widgetOptionsEl, optionsSourceUrl) {
+    initialize: function(formEl, widgetEl, widgetOptionsEl, optionsSourceUrl, widgetTargetId) {
         $(formEl).insert({bottom: widgetTools.getDivHtml(widgetOptionsEl)});
+        this.formEl = formEl;
         this.widgetEl = $(widgetEl);
         this.widgetOptionsEl = $(widgetOptionsEl);
         this.optionsUrl = optionsSourceUrl;
         this.optionValues = new Hash({});
+        this.widgetTargetId = widgetTargetId;
 
         Event.observe(this.widgetEl, "change", this.loadOptions.bind(this));
 
@@ -163,10 +183,11 @@ WysiwygWidget.Widget.prototype = {
     },
 
     insertWidget: function() {
+        editForm = editForm || new varienForm(this.formEl);
         if(editForm.validator && editForm.validator.validate() || !editForm.validator){
             var formElements = [];
             var i = 0;
-            $(editForm.formId).getElements().each(function(e) {
+            Form.getElements($(this.formEl)).each(function(e) {
                 if(!e.hasClassName('skip-submit')) {
                     formElements[i] = e;
                     i++;
@@ -179,14 +200,14 @@ WysiwygWidget.Widget.prototype = {
                 params = params + '&as_is=1';
             }
 
-            new Ajax.Request($(editForm.formId).readAttribute("action"),
+            new Ajax.Request($(this.formEl).action,
             {
                 parameters: params,
                 onComplete: function(transport) {
                     try {
                         widgetTools.onAjaxSuccess(transport);
+                        Windows.close("widget_window");
                         this.updateContent(transport.responseText);
-                        this.getPopup().close();
                     } catch(e) {
                         alert(e.message);
                     }
@@ -197,41 +218,24 @@ WysiwygWidget.Widget.prototype = {
 
     updateContent: function(content) {
         if (this.wysiwygExists()) {
-            this.getPopup().execCommand("mceInsertContent", false, content);
-            // Refocus in window
-            if (this.getPopup().isWindow) {
-                window.focus();
-            }
-            this.getWysiwyg().focus();
+            this.getWysiwyg().execCommand("mceInsertContent", false, content);
         } else {
-            var parent = this.getPopup().opener;
-            var textareaId = this.getPopup().name.replace(/widget_window/g, '');
-            var textarea = parent.document.getElementById(textareaId);
-            updateElementAtCursor(textarea, content, this.getPopup().opener);
-            if (parent.varienGlobalEvents) {
-                parent.varienGlobalEvents.fireEvent('tinymceChange');
-            }
+            var textarea = document.getElementById(this.widgetTargetId);
+            updateElementAtCursor(textarea, content);
+            varienGlobalEvents.fireEvent('tinymceChange');
         }
     },
 
     wysiwygExists: function() {
-        return (typeof tinyMCEPopup != 'undefined') && (typeof tinyMCEPopup.editor != 'undefined');
-    },
-
-    getPopup: function() {
-        if (this.wysiwygExists()) {
-            return tinyMCEPopup;
-        } else {
-            return window.self;
-        }
+        return (typeof tinyMCE != 'undefined') && tinyMCE.get(this.widgetTargetId);
     },
 
     getWysiwyg: function() {
-        return tinyMCEPopup.editor;
+        return tinyMCE.activeEditor;
     },
 
     getWysiwygNode: function() {
-        return tinyMCEPopup.editor.selection.getNode();
+        return tinyMCE.activeEditor.selection.getNode();
     }
 }
 
@@ -246,13 +250,13 @@ WysiwygWidget.chooser.prototype = {
 
     // Chooser config
     config: null,
-    
+
     // Chooser dialog window
     dialogWindow: null,
-    
+
     // Chooser content for dialog window
     dialogContent: null,
-    
+
     overlayShowEffectOptions: null,
     overlayHideEffectOptions: null,
 
@@ -288,7 +292,7 @@ WysiwygWidget.chooser.prototype = {
     },
 
     choose: function(event) {
-        // Open dialog window with previously loaded dialog content  
+        // Open dialog window with previously loaded dialog content
         if (this.dialogContent) {
             this.openDialogWindow(this.dialogContent);
             return;
@@ -312,7 +316,7 @@ WysiwygWidget.chooser.prototype = {
             }
         );
     },
-    
+
     openDialogWindow: function(content) {
         this.overlayShowEffectOptions = Windows.overlayShowEffectOptions;
         this.overlayHideEffectOptions = Windows.overlayHideEffectOptions;
@@ -335,7 +339,7 @@ WysiwygWidget.chooser.prototype = {
         });
         content.evalScripts.bind(content).defer();
     },
-    
+
     closeDialogWindow: function(dialogWindow) {
         if (!dialogWindow) {
             dialogWindow = this.dialogWindow;

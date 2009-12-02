@@ -43,11 +43,10 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
     public function getPluginSettings($config)
     {
         $settings = array(
-            'widget_plugin_src'             => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js',
-            'widget_images_url'             => $this->getPlaceholderImagesBaseUrl(),
-            'widget_placeholders'           => $this->getAvailablePlaceholderFilenames(),
-            'widget_window_url'             => $this->getWidgetWindowUrl($config),
-            'widget_window_no_wysiwyg_url'  => $this->getWidgetWindowUrl($config, false),
+            'widget_plugin_src'   => Mage::getBaseUrl('js').'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js',
+            'widget_images_url'   => $this->getPlaceholderImagesBaseUrl(),
+            'widget_placeholders' => $this->getAvailablePlaceholderFilenames(),
+            'widget_window_url'   => $this->getWidgetWindowUrl($config)
         );
 
         return $settings;
@@ -100,12 +99,11 @@ class Mage_Widget_Model_Widget_Config extends Varien_Object
      * Return Widgets Insertion Plugin Window URL
      *
      * @param Varien_Object Editor element config
-     * @param array $params URL params
      * @return string
      */
-    public function getWidgetWindowUrl($config, $wysiwygMode = true)
+    public function getWidgetWindowUrl($config)
     {
-        $params = $wysiwygMode ? array() : array('no_wysiwyg' => true);
+        $params = array();
 
         $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
         if ($config->hasData('widget_filters')) {

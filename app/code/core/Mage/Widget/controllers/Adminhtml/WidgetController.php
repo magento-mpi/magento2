@@ -38,28 +38,13 @@ class Mage_Widget_Adminhtml_WidgetController extends Mage_Adminhtml_Controller_A
      */
     public function indexAction()
     {
-        $this->loadLayout('popup');
-        $this->getLayout()->getBlock('root')->addBodyClass('page-popup');
-
-        $header = $this->getLayout()->getBlock('head');
-        $header->setCanLoadExtJs(true);
-
         // save extra params for widgets insertion form
         $skipped = $this->getRequest()->getParam('skip_widgets');
         $skipped = Mage::getSingleton('widget/widget_config')->decodeWidgetsFromQuery($skipped);
+
         Mage::register('skip_widgets', $skipped);
 
-        // Include WYSIWYG popup helper if WYSIWYG instance exists
-        if (!$this->getRequest()->getParam('no_wysiwyg')) {
-            $header->addJs('tiny_mce/tiny_mce_popup.js');
-        }
-
-        // Add extra JS files required for widgets
-        foreach (Mage::getModel('widget/widget')->getWidgetsRequiredJsFiles() as $file) {
-            $header->addJs($file);
-        }
-
-        $this->renderLayout();
+        $this->loadLayout('empty')->renderLayout();
     }
 
     /**

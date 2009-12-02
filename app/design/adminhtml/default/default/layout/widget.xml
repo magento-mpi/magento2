@@ -28,23 +28,13 @@
 
 <layout>
     <adminhtml_widget_index>
-        <remove name="left" />
-        <remove name="footer" />
-        <reference name="content">
-            <block name="wysiwyg_widget" type="widget/adminhtml_widget" />
-        </reference>
-        <reference name="head">
-            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
-            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
-        </reference>
+        <block name="wysiwyg_widget" type="widget/adminhtml_widget" output="toHtml" />
     </adminhtml_widget_index>
 
     <adminhtml_widget_loadoptions>
         <block name="wysiwyg_widget.options" type="widget/adminhtml_widget_options" output="toHtml" />
     </adminhtml_widget_loadoptions>
-    
+
     <adminhtml_widget_instance_index>
         <reference name="content">
             <block type="widget/adminhtml_widget_instance" name="widget_instance" />

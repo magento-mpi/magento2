@@ -39,7 +39,10 @@
 
     <adminhtml_cms_page_edit>
         <reference name="head">
-            <action method="addItem"><type>js</type><name>mage/adminhtml/variables.js</name></action>
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
             <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
             <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
@@ -72,6 +75,15 @@
     </adminhtml_cms_block_new>
 
     <adminhtml_cms_block_edit>
+        <reference name="head">
+            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
+        </reference>
         <reference name="content">
             <block type="adminhtml/cms_block_edit" name="cms_block_edit"></block>
         </reference>
@@ -79,12 +91,13 @@
 
     <adminhtml_cms_wysiwyg_images_index>
         <remove name="footer" />
+        <remove name="head" />
         <reference name="left">
+            <block name="wysiwyg_images.js" type="adminhtml/cms_wysiwyg_images_content" template="cms/wysiwyg/js.phtml" />
             <block name="wysiwyg_images.tree" type="adminhtml/cms_wysiwyg_images_tree" template="cms/wysiwyg/tree.phtml" />
         </reference>
         <reference name="content">
             <block name="wysiwyg_images.content"  type="adminhtml/cms_wysiwyg_images_content" template="cms/wysiwyg/content.phtml">
-                <block name="wysiwyg_images.js" type="adminhtml/cms_wysiwyg_images_content" template="cms/wysiwyg/js.phtml" />
                 <block name="wysiwyg_images.uploader" type="adminhtml/cms_wysiwyg_images_content_uploader" template="cms/wysiwyg/content/uploader.phtml" />
                 <block name="wysiwyg_images.newfolder" type="adminhtml/cms_wysiwyg_images_content_newfolder" template="cms/wysiwyg/content/newfolder.phtml" />
             </block>
@@ -94,5 +107,5 @@
     <adminhtml_cms_wysiwyg_images_contents>
         <block name="wysiwyg_images.files" type="adminhtml/cms_wysiwyg_images_content_files" template="cms/wysiwyg/content/files.phtml" output="toHtml" />
     </adminhtml_cms_wysiwyg_images_contents>
-    
+
 </layout>
