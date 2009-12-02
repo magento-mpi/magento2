@@ -160,7 +160,6 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav_Source
     protected function _prepareMultiselectIndex($entityIds = null, $attributeId = null)
     {
         $adapter    = $this->_getWriteAdapter();
-        $idxTable   = $this->getIdxTable();
 
         // prepare multiselect attributes
         if (is_null($attributeId)) {
@@ -173,6 +172,17 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav_Source
             return $this;
         }
 
+        // load attribute options
+        $options = array();
+        $select  = $adapter->select()
+            ->from($this->getTable('eav/attribute_option'), array('attribute_id', 'option_id'))
+            ->where('attribute_id IN(?)', $attrIds);
+        $query = $select->query();
+        while ($row = $query->fetch()) {
+            $options[$row['attribute_id']][$row['option_id']] = true;
+        }
+
+        // prepare get multiselect values query
         $select = $adapter->select()
             ->from(
                 array('pvd' => $this->getValueTable('catalog/product', 'varchar')),
@@ -185,12 +195,7 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav_Source
                 array('pvs' => $this->getValueTable('catalog/product', 'varchar')),
                 'pvs.entity_id = pvd.entity_id AND pvs.attribute_id = pvd.attribute_id'
                     . ' AND pvs.store_id=cs.store_id',
-                array())
-            ->join(
-                array('eo' => $this->getTable('eav/attribute_option')),
-                'FIND_IN_SET(eo.option_id, IF(pvs.value_id, pvs.value, pvd.value))',
-                array('value' => 'option_id')
-            )
+                array('value' => new Zend_Db_Expr('IF(pvs.value_id>0, pvs.value, pvd.value)')))
             ->where('pvd.store_id=?', 0)
             ->where('cs.store_id!=?', 0)
             ->where('pvd.attribute_id IN(?)', $attrIds);
@@ -212,9 +217,48 @@ class Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav_Source
             'store_field'   => new Zend_Db_Expr('cs.store_id')
         ));
 
-        $query = $select->insertFromSelect($idxTable);
-        $adapter->query($query);
+        $i     = 0;
+        $data  = array();
+        $query = $select->query();
+        while ($row = $query->fetch()) {
+            $values = explode(',', $row['value']);
+            foreach ($values as $valueId) {
+                if (isset($options[$row['attribute_id']][$valueId])) {
+                    $data[] = array(
+                        $row['entity_id'],
+                        $row['attribute_id'],
+                        $row['store_id'],
+                        $valueId
+                    );
+                    $i ++;
+                    if ($i % 10000 == 0) {
+                        $this->_saveIndexData($data);
+                        $data = array();
+                    }
+                }
+            }
+        }
 
+        $this->_saveIndexData($data);
+        unset($options);
+        unset($data);
+
+        return $this;
+    }
+
+    /**
+     * Save a data to temporary source index table
+     *
+     * @param array $data
+     * @return Mage_Catalog_Model_Resource_Eav_Mysql4_Product_Indexer_Eav_Source
+     */
+    protected function _saveIndexData(array $data)
+    {
+        if (!$data) {
+            return $this;
+        }
+        $adapter = $this->_getWriteAdapter();
+        $adapter->insertArray($this->getIdxTable(), array('entity_id', 'attribute_id', 'store_id', 'value'), $data);
         return $this;
     }
 }
