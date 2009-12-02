@@ -877,11 +877,11 @@ tr.tax-details-first td {}
 .product-essential h2 { font:bold 13px/1.35 Arial, Helvetica, sans-serif; }
 
 .product-collateral { background:#faf7ee url(../images/bkg_product_collateral.gif) 0 0 repeat-x; padding:25px; }
-.product-collateral h2 { font-weight:bold; font-size:15px; color:#E26703; border-bottom:1px solid #E5DCC3; padding:0 0 1px; margin:0 0 15px; }
+.product-collateral h2 { font-weight:bold; font-size:15px; color:#e26703; border-bottom:1px solid #e5dcc3; padding:0 0 1px; margin:0 0 15px; }
 .product-collateral .box-collateral { margin:0 0 25px; }
 
 /* Product Images */
-.product-view .product-img-box { float:left; width:265px; }
+.product-view .product-img-box { float:left; width:267px; }
 .product-view .product-img-box .product-image { margin:0 0 13px; }
 .product-view .product-img-box .product-image-zoom { position:relative; width:265px; height:265px; overflow:hidden; z-index:9; }
 .product-view .product-img-box .product-image-zoom img { position:absolute; left:0; top:0; cursor:move; }
@@ -893,8 +893,9 @@ tr.tax-details-first td {}
 .product-view .product-img-box .zoom .btn-zoom-out { position:absolute; left:2px; top:0; }
 .product-view .product-img-box .zoom .btn-zoom-in { position:absolute; right:2px; top:0; }
 .product-view .product-img-box .more-views h2 { font-size:11px; border-bottom:1px solid #ccc; margin:0 0 8px; text-transform:uppercase; } 
-.product-view .product-img-box .more-views ul { margin-left:-3px }
-.product-view .product-img-box .more-views li { float:left; padding:1px; background-color:#ddd; margin:0 0 8px 3px ; }
+.product-view .product-img-box .more-views ul { margin-left:-9px }
+.product-view .product-img-box .more-views li { float:left; margin:0 0 8px 9px; }
+.product-view .product-img-box .more-views li a { float:left; width:56px; height:56px; border:2px solid #ddd; overflow:hidden; }
 
 .product-image-popup { margin:0 auto; }
 .product-image-popup .nav { font-weight:bold; text-align:center; }
@@ -1060,7 +1061,7 @@ tr.tax-details-first td {}
 
 /* Checkout Types */
 .cart .page-title .checkout-types li { margin:0 0 5px; }
-.cart button.btn-checkout.disabled span { background:url(../images/btn_checkout-disabled.gif) 0 100%; color:#b8baba; }
+.cart button.btn-checkout.disabled span { background-position:0 100%; color:#b8baba; }
 .cart button.btn-checkout.disabled span span { background-position:100% 100%; }
 
 /* Shopping Cart Table */
