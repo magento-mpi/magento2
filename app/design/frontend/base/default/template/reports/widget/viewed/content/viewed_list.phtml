@@ -31,9 +31,7 @@
 ?>
 <?php if ($_products = $this->getRecentlyViewedProducts()): ?>
 <div class="widget widget-viewed">
-    <div class="page-title">
-        <h2><?php echo $this->__('Recently Viewed') ?></h2>
-    </div>
+    <h2 class="subtitle"><?php echo $this->__('Recently Viewed') ?></h2>
     <div class="category-view">
         <ol class="products-list">
         <?php $i=0; foreach ($_products as $_product): ?>

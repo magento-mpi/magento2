@@ -26,9 +26,7 @@
 ?>
 <?php if ($_products = $this->getRecentlyComparedProducts()): ?>
 <div class="widget widget-compared">
-    <div class="page-title">
-        <h2><?php echo $this->__('Recently Compared') ?></h2>
-    </div>
+    <h2 class="subtitle"><?php echo $this->__('Recently Compared') ?></h2>
     <div class="category-view">
         <?php $_columnCount = $this->getColumnCount(); ?>
         <?php $i=0; foreach ($_products as $_product): ?>
