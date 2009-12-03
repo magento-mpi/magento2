@@ -42,16 +42,6 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     protected $_editMode = false;
 
     /**
-     * Define Edit template
-     *
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->setTemplate('newsletter/template/edit.phtml');
-    }
-
-    /**
      * Retrieve template object
      *
      * @return Mage_Newsletter_Model_Template
@@ -70,18 +60,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
     {
         // Load Wysiwyg on demand and Prepare layout
         if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
-            /** @var Mage_Page_Block_Html_Head */
-            $head = $this->getLayout()->getBlock('head');
-            $head->setCanLoadTinyMce(true)
-                 ->setCanLoadExtJs(true)
-                 ->addJs('mage/adminhtml/variables.js')
-                 ->addJs('mage/adminhtml/wysiwyg/widget.js')
-                 ->addJs('lib/flex.js')
-                 ->addJs('mage/adminhtml/flexuploader.js')
-                 ->addJs('mage/adminhtml/browser.js')
-                 ->addJs('prototype/window.js')
-                 ->addItem('js_css', 'prototype/windows/themes/default.css')
-                 ->addItem('js_css', 'prototype/windows/themes/magento.css');
+            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
         }
 
         $this->setChild('back_button',
