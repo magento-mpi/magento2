@@ -47,8 +47,8 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
     {
         $form       = new Varien_Data_Form();
         $config     = Mage::getSingleton('enterprise_staging/staging_config');
-        $staging    = $this->getStaging();
         $log        = $this->getLog();
+        $staging    = $log->getStaging();
         $fieldset   = $form->addFieldset('general_fieldset',
             array('legend' => Mage::helper('enterprise_staging')->__('General Information')));
 
@@ -84,6 +84,14 @@ class Enterprise_Staging_Block_Adminhtml_Log_View_Form extends Mage_Adminhtml_Bl
                     ));
                 }
             }
+        }
+        if ($log->getAction() == Enterprise_Staging_Model_Staging_Config::ACTION_UNSCHEDULE_MERGE) {
+            $mergerUrl = $this->getUrl('*/staging_manage/merge', array('id' => $staging->getId()));
+            $fieldset->addField('link_to_staging_merge', 'link', array(
+                'href'      => $mergerUrl,
+                'label'     => Mage::helper('enterprise_staging')->__('Scheduled Merger'),
+                'value'     => $mergerUrl
+            ));
         }
 
         $form->addFieldNameSuffix($this->getFieldNameSuffix());
