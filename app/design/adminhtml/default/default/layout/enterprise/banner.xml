@@ -33,6 +33,7 @@
         </reference>
     </adminhtml_banner_index>
     <adminhtml_banner_edit>
+        <update handle="editor"/>
         <reference name="left">
             <block type="enterprise_banner/adminhtml_banner_edit_tabs" name="banner_edit_tabs">
                 <block type="enterprise_banner/adminhtml_banner_edit_tab_properties" name="banner_edit_tab_properties"/>

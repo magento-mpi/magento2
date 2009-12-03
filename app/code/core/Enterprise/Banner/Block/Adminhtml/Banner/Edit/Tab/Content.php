@@ -75,18 +75,6 @@ class Enterprise_Banner_Block_Adminhtml_Banner_Edit_Tab_Content extends Mage_Adm
     }
 
     /**
-     * Load Wysiwyg on demand and Prepare layout
-     *
-     */
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-        if (Mage::getSingleton('cms/wysiwyg_config')->isEnabled()) {
-            $this->getLayout()->getBlock('head')->setCanLoadTinyMce(true);
-        }
-    }
-
-    /**
      * Prepare Banners Content Tab form, define Editor settings
      *
      * @return Mage_Adminhtml_Block_Widget_Form
