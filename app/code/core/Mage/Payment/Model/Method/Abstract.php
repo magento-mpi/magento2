@@ -46,7 +46,8 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected $_infoBlockType = 'payment/info';
 
     /**
-     * Availability options
+     * Payment Method features
+     * @var bool
      */
     protected $_isGateway               = false;
     protected $_canAuthorize            = false;
@@ -59,6 +60,12 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     protected $_canUseCheckout          = true;
     protected $_canUseForMultishipping  = true;
     protected $_isInitializeNeeded      = false;
+    /**
+     * TODO: whether a captured transaction may be voided by this gateway
+     * This may happen when amount is captured, but not settled
+     * @var bool
+     */
+    protected $_canCancelInvoice        = false;
 
     public function __construct()
     {
@@ -328,8 +335,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     }
 
     /**
-     * @deprecated after 1.4.0.0-alpha3 order payment is responsible for transactions management
-     * the "last transaction id" in payment is for informational purposes only
+     * Set capture transaction ID to invoice for informational purposes
      * @param Mage_Sales_Model_Order_Invoice $invoice
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Payment_Model_Method_Abstract
@@ -341,9 +347,10 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     }
 
     /**
-     * @deprecated after 1.4.0.0-alpha3
-     * order payment is responsible for transactions management
-     * the payment.refund_transaction_id is deprecated as well: there can be multiple refunds per payment
+     * Set refund transaction id to payment object for informational purposes
+     * Candidate to be deprecated:
+     * there can be multiple refunds per payment, thus payment.refund_transaction_id doesn't make big sense
+     *
      * @param Mage_Sales_Model_Order_Invoice $invoice
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Payment_Model_Method_Abstract
@@ -373,10 +380,7 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
     }
 
     /**
-     * @deprecated after 1.4.0.0-alpha3
-     * order payment is responsible for transactions management
-     * the creditmemo must get transaction ID from invoice, rather than from "last transaction id" of the payment
-     * the "last transaction id" in payment is for informational purposes only
+     * Set transaction ID into creditmemo for informational purposes
      * @param Mage_Sales_Model_Order_Creditmemo $creditmemo
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Payment_Model_Method_Abstract
@@ -400,7 +404,8 @@ abstract class Mage_Payment_Model_Method_Abstract extends Varien_Object
 
     /**
      * @deprecated after 1.4.0.0-alpha3
-     * order payment is responsible for transactions management
+     * this method doesn't make sense, because invoice must not void entire authorization
+     * there should be method for invoice cancellation
      * @param Mage_Sales_Model_Order_Invoice $invoice
      * @param Mage_Sales_Model_Order_Payment $payment
      * @return Mage_Payment_Model_Method_Abstract

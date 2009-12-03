@@ -30,7 +30,7 @@ $installer = $this;
 
 $tablePaymentTransaction = $this->getTable('sales/payment_transaction');
 $tableOrders = $this->getTable('sales/order');
-$tableOrderDocuments = $this->getTable('sales/order_entity');
+$tableOrderPayment = $this->getTable('sales/order_entity');
 
 $installer->run("
 CREATE TABLE `{$tablePaymentTransaction}` (
@@ -42,19 +42,13 @@ CREATE TABLE `{$tablePaymentTransaction}` (
   `parent_txn_id` varchar(100) DEFAULT NULL,
   `txn_type` varchar(15) NOT NULL DEFAULT '',
   `is_closed` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `invoice_id` int(10) unsigned DEFAULT NULL,
-  `creditmemo_id` int(11) unsigned DEFAULT NULL,
   `additional_information` blob,
   PRIMARY KEY (`transaction_id`),
   UNIQUE KEY `UNQ_SALES_TXN_ORDER_PAYMENT_TXN` (`order_id`,`payment_id`,`txn_id`),
   KEY `FK_SALES_TXN_PARENT` (`parent_id`),
   KEY `FK_SALES_TXN_PAYMENT` (`payment_id`),
-  KEY `FK_SALES_TXN_INVOICE` (`invoice_id`),
-  KEY `FK_SALES_TXN_CREDITMEMO` (`creditmemo_id`),
   CONSTRAINT `FK_SALES_PAYMENT_TXN_PARENT` FOREIGN KEY (`parent_id`) REFERENCES `{$tablePaymentTransaction}` (`transaction_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_SALES_TXN_CREDITMEMO` FOREIGN KEY (`creditmemo_id`) REFERENCES `{$tableOrderDocuments}` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `FK_SALES_TXN_INVOICE` FOREIGN KEY (`invoice_id`) REFERENCES `{$tableOrderDocuments}` (`entity_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `FK_SALES_TXN_ORDER` FOREIGN KEY (`order_id`) REFERENCES `{$tableOrders}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_SALES_TXN_PAYMENT` FOREIGN KEY (`payment_id`) REFERENCES `{$tableOrderDocuments}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_SALES_TXN_PAYMENT` FOREIGN KEY (`payment_id`) REFERENCES `{$tableOrderPayment}` (`entity_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
 );

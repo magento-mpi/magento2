@@ -85,6 +85,10 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
      */
     public function load($printQuery = false, $logQuery = false)
     {
+        if ($this->isLoaded()) {
+            return $this;
+        }
+
         // payment_id filter
         if ($this->_paymentId) {
             $this->getSelect()->where('payment_id = ?', $this->_paymentId);
@@ -105,7 +109,7 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction_Collection extends Mage_
     protected function _afterLoad()
     {
         foreach ($this->_items as $item) {
-            $item->walkAfterLoad(); // TODO: implement it in resource model
+            $this->getResource()->unserializeFields($item);
         }
         return parent::_afterLoad();
     }

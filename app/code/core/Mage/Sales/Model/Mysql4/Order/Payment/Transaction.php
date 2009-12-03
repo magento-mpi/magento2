@@ -38,49 +38,6 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Core_Model_
     }
 
     /**
-     * Search for sales document by specified txn_id
-     * Returns array of 2 elements, where 1st is transaction type and 2nd is document entity id
-     *
-     * @param int $orderId
-     * @param int $paymentId
-     * @param string $txnId
-     * @param string $txnType
-     * @return array
-     */
-    public function lookupSalesDocumentByTxnId($orderId, $paymentId, $txnId, $txnType = null)
-    {
-        $whatToLookup = $this->_mapFieldsByTxnType($txnType);
-        if ('order_id' === $whatToLookup) {
-            $txnType = Mage_Sales_Model_Order_Payment_Transaction::TYPE_ORDER;
-        }
-        $result = $this->_lookupByTxnId($orderId, $paymentId, $txnId, array(
-            'txn_type'  => 'txn_type',
-            'entity_id' => $whatToLookup
-        ), true, $txnType);
-        if (!$result) {
-            return array();
-        }
-        return array_values($result);
-    }
-
-    /**
-     * Search for sales document by specified transaction_id and transaction type
-     * @param int $primaryKeyValue
-     * @param string $txnType
-     * @return int|false
-     */
-    public function loadSalesDocumentEntityId($primaryKeyValue, $txnType)
-    {
-        if (null === $txnType) {
-            return false;
-        }
-        return (int)$this->_getWriteAdapter()->fetchOne($this->_getWriteAdapter()->select()
-            ->from($this->getMainTable(), $this->_mapFieldsByTxnType($txnType))
-            ->where("{$this->getIdFieldName()} = ?", $primaryKeyValue)
-        ) || false;
-    }
-
-    /**
      * Update transactions in database using provided transaction as parent for them
      * have to repeat the business logic to avoid accidental injection of wrong transactions
      * @param Mage_Sales_Model_Order_Payment_Transaction $transaction
@@ -125,11 +82,11 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Core_Model_
         $data = $this->_getWriteAdapter()->fetchRow($select);
         $transaction->setData($data);
         $this->_afterLoad($transaction);
-        $transaction->walkAfterLoad(); // TODO: fix this
     }
 
     /**
      * Lookup for parent_id in already saved transactions of this payment by the order_id
+     * Also serialize additional information, if any
      *
      * @param Mage_Sales_Model_Order_Payment_Transaction $transaction
      * @return Mage_Sales_Model_Mysql4_Order_Payment_Transaction
@@ -150,7 +107,53 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Core_Model_
                 $transaction->setData('parent_id', $parentId);
             }
         }
+
+        // serialize or set additional information to null
+        $additionalInformation = $transaction->getData('additional_information');
+        if (empty($additionalInformation)) {
+            $transaction->setData('additional_information', null);
+        } elseif (is_array($additionalInformation)) {
+            $transaction->setData('additional_information', serialize($additionalInformation));
+        }
         return parent::_beforeSave($transaction);
+    }
+
+    /**
+     * Unserialize additional data after loading the object
+     *
+     * @param Mage_Core_Model_Abstract $transaction
+     * @return Mage_Sales_Model_Mysql4_Order_Payment_Transaction
+     */
+    protected function _afterLoad(Mage_Core_Model_Abstract $transaction)
+    {
+        $this->unserializeFields($transaction);
+        return parent::_afterLoad($transaction);
+    }
+
+    /**
+     * Unserialize additional data after saving the object (to have the data and orig_data consistent)
+     *
+     * @param Mage_Core_Model_Abstract $transaction
+     * @return Mage_Sales_Model_Mysql4_Order_Payment_Transaction
+     */
+    protected function _afterSave(Mage_Core_Model_Abstract $transaction)
+    {
+        $this->unserializeFields($transaction);
+        return parent::_afterSave($transaction);
+    }
+
+    /**
+     * Unserialize additional information if required
+     * @param Mage_Sales_Model_Order_Payment_Transaction $transaction
+     */
+    public function unserializeFields(Mage_Sales_Model_Order_Payment_Transaction $transaction)
+    {
+        $additionalInformation = $transaction->getData('additional_information');
+        if (empty($additionalInformation)) {
+            $transaction->setData('additional_information', array());
+        } elseif (!is_array($additionalInformation)) {
+            $transaction->setData('additional_information', unserialize($additionalInformation));
+        }
     }
 
     /**
@@ -189,24 +192,5 @@ class Mage_Sales_Model_Mysql4_Order_Payment_Transaction extends Mage_Core_Model_
             ->where('order_id = ?', $orderId)
             ->where('payment_id = ?', $paymentId)
             ->where('txn_id = ?', $txnId);
-    }
-
-    /**
-     * Mapper for txn_type into proper column of sales entity id
-     * @param string $txnType
-     * @return null|Zend_Db_Expr|string
-     */
-    private function _mapFieldsByTxnType($txnType)
-    {
-        switch ($txnType) {
-            case null:
-                 return new Zend_Db_Expr('COALESCE(invoice_id, creditmemo_id, payment_id)');
-            case Mage_Sales_Model_Order_Payment_Transaction::TYPE_CAPTURE:
-                return 'invoice_id';
-            case Mage_Sales_Model_Order_Payment_Transaction::TYPE_REFUND:
-                return 'creditmemo_id';
-            default:
-                return 'payment_id';
-        }
     }
 }

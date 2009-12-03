@@ -26,7 +26,7 @@
 
 /**
  * Payment transaction model
- * Tracks transaction history, allows to build transactions hierarchy and search for sales documents.
+ * Tracks transaction history, allows to build transactions hierarchy
  * By default transactions are saved as closed.
  */
 class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstract
@@ -46,12 +46,6 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * @var Mage_Sales_Model_Order_Payment
      */
     protected $_paymentObject = null;
-
-    /**
-     * Related invoice/creditmemo etc. Its ID should be saved to transaction hierarchy as reference for further usage.
-     * @var Mage_Sales_Model_Abstract|false
-     */
-    protected $_salesDocument = null;
 
     /**
      * Parent transaction instance
@@ -106,43 +100,6 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     }
 
     /**
-     * Sales document setter
-     * @param Mage_Sales_Model_Abstract $object
-     * @return Mage_Sales_Model_Order_Payment_Transaction
-     */
-    public function setSalesDocumentObject(Mage_Sales_Model_Abstract $object)
-    {
-        $this->_salesDocument = $object;
-        return $this;
-    }
-
-    /**
-     * Sales document getter
-     * Can load the document automatically or forced
-     * @param bool $shouldLoad
-     * @param bool $mustReload
-     * @return Mage_Sales_Model_Abstract
-     */
-    public function getSalesDocumentObject($shouldLoad = true, $mustReload = false)
-    {
-        if (null === $this->_salesDocument || $mustReload) {
-            $this->_verifyThisTransactionExists();
-            $this->_verifyPaymentObject();
-            $this->_salesDocument = false;
-            $txnType = $this->getTxnType();
-            if (self::TYPE_PAYMENT === $txnType) {
-                $this->_salesDocument = $this->_paymentObject;
-            } elseif ($shouldLoad || $mustReload) {
-                $entityId = $this->getResource()->loadSalesDocumentEntityId($this->getId(), $txnType);
-                if ($entityId) {
-                    $this->_salesDocument = $this->_loadSalesDocumentById($entityId, $txnType);
-                }
-            }
-        }
-        return $this->_salesDocument;
-    }
-
-    /**
      * Transaction ID setter
      * @param string $txnId
      * @return Mage_Sales_Model_Order_Payment_Transaction
@@ -186,33 +143,6 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     {
         $this->_verifyTxnType($txnType);
         return $this->setData('txn_type', $txnType);
-    }
-
-    /**
-     * Lookup a sales entity of a payment by specified transaction ID
-     * If type is not set, it attempts to lookup any sales entity by this transaction id (not recommended)
-     *
-     * @param string $txnId
-     * @param string $txnType
-     * @return false|Mage_Sales_Model_Order_Invoice|Mage_Sales_Model_Order_Creditmemo
-     */
-    public function loadSalesDocumentByTxnId($txnId, $txnType = null)
-    {
-        $this->_verifyPaymentObject();
-        if (null !== $txnType && ($txnType === self::TYPE_AUTH || $txnType === self::TYPE_VOID)) {
-            return false;
-        }
-        $lookup = $this->getResource()->lookupSalesDocumentByTxnId($this->getOrderId(),
-            $this->_paymentObject->getId(), $txnId, $txnType
-        );
-        if (!$lookup) {
-            return false;
-        }
-        list($txnType, $entityId) = $lookup;
-        if (!$entityId) {
-            return false;
-        }
-        return $this->_loadSalesDocumentById($entityId, $txnType);
     }
 
     /**
@@ -375,7 +305,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      * Basically checks whether the authorization exists and it is not affected by a capture or void
      * @return bool
      */
-    public function canVoidEntireAuthorizationAmount()
+    public function canVoidAuthorizationCompletely()
     {
         try {
             $authTransaction = $this->closeAuthorization('', true);
@@ -422,18 +352,6 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             $this, $this->getOrderId(), $this->_paymentObject->getId(), $txnId
         );
         return $this;
-    }
-
-    /**
-     * Crutch for packing/unpacking additional information
-     * TODO fix this
-     */
-    public function walkAfterLoad()
-    {
-        $additionalInformation = $this->_getData('additional_information');
-        if ($additionalInformation && !is_array($additionalInformation)) {
-            $this->setData('additional_information', unserialize($additionalInformation));
-        }
     }
 
     /**
@@ -556,19 +474,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
     }
 
     /**
-     * Crutch for packing/unpacking additional_information
-     * TODO fix this
-     */
-    protected function _afterLoad()
-    {
-        $this->walkAfterLoad();
-        return parent::_afterLoad();
-    }
-
-    /**
-     * - verify required for saving data
-     * - verify sales document relation
-     * - crutch for additional_information packing/unpacking TODO:fix
+     * Verify data required for saving
      * @return Mage_Sales_Model_Order_Payment_Transaction
      * @throws Mage_Core_Exception
      */
@@ -578,32 +484,6 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
         $this->_verifyPaymentObject();
         $this->setPaymentId($this->_paymentObject->getId())
             ->setOrderId($this->getOrderId());
-
-        // prepare sales order document relation
-        if ($this->_salesDocument) {
-            if (!$this->_salesDocument->getId()) {
-                Mage::throwException(
-                    Mage::helper('sales')->__('Sales document "%s" is not ready.', get_class($this->_salesDocument))
-                );
-            }
-            switch ($this->getTxnType()) {
-                case self::TYPE_CAPTURE:
-                    $this->setInvoiceId($this->_salesDocument->getId());
-                    break;
-                case self::TYPE_REFUND:
-                    $this->setCreditmemoId($this->_salesDocument->getId());
-                    break;
-            }
-        }
-
-        // prepare additional information
-        $additionalInformation = $this->_getData('additional_information');
-        if (empty($additionalInformation)) {
-            $this->setData('additional_information', null);
-        } elseif (is_array($additionalInformation)) {
-            $this->setData('additional_information', serialize($additionalInformation));
-        }
-
         return parent::_beforeSave();
     }
 
@@ -618,10 +498,6 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             // auto close authorizations after void
             if (self::TYPE_VOID === $txnType) {
                 $this->closeAuthorization();
-            }
-            // if an payment transaction is saved, make it parent to transactions with same parent_txn_id
-            elseif (self::TYPE_PAYMENT === $txnType && $this->getTxnId()) {
-                $this->getResource()->injectAsParent($this);
             }
         }
         return parent::_afterSave();
@@ -659,45 +535,17 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
             }
             $this->_children[$child->getId()] = $child;
             if (false !== $this->_identifiedChildren) {
-                if ($child->getTxnId()) {
-                    $this->_identifiedChildren[$child->getTxnId()] = $child;
-                } else {
+                $childTxnId = $child->getTxnId();
+                if (!$childTxnId || '0' == $childTxnId) {
                     $this->_identifiedChildren = false;
+                } else {
+                    $this->_identifiedChildren[$child->getTxnId()] = $child;
                 }
             }
         }
         if (false === $this->_identifiedChildren) {
             $this->_identifiedChildren = array();
         }
-    }
-
-    /**
-     * Load sales document by its entity id basing on specified transaction type
-     * @param int $entityId
-     * @param string $txnType
-     * @return Mage_Sales_Model_Abstract|false
-     */
-    protected function _loadSalesDocumentById($entityId, $txnType)
-    {
-        $model = '';
-        switch ($txnType) {
-            case self::TYPE_CAPTURE:
-                $model = 'sales/order_invoice';
-                break;
-            case self::TYPE_REFUND:
-                $model = 'sales/order_creditmemo';
-                break;
-            default:
-                $model = 'sales/order_payment';
-        }
-        if (!$model) {
-            return false;
-        }
-        $instance = Mage::getModel($model)->load($entityId);
-        if ($instance->getId()) {
-            return $instance;
-        }
-        return false;
     }
 
     /**
@@ -758,7 +606,7 @@ class Mage_Sales_Model_Order_Payment_Transaction extends Mage_Core_Model_Abstrac
      */
     private function _verifyTxnId($txnId)
     {
-        if (null !== $txnId && empty($txnId)) {
+        if (null !== $txnId && 0 == strlen($txnId)) {
             Mage::throwException(Mage::helper('sales')->__('Transaction ID must not be empty.'));
         }
     }
