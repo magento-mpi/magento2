@@ -356,9 +356,10 @@ p.required { font-size:11px; text-align:right; color:#EB340A; }
 /* Data Table */
 /* Data Table */
 .data-table { width:100%; border:1px solid #bebcb7; }
-.data-table tr { background:#fff; }
 .data-table .odd  { background:#f8f7f5 }
-.data-table .even { background:#eeeded !important; }
+.data-table .even { background:#eeeded; }
+/*.data-table tr.odd:hover,
+.data-table tr.even:hover { background:#ebf1f6; }*/
 .data-table td.last,
 .data-table th.last { border-right:0; }
 .data-table tr.last th,
@@ -366,11 +367,12 @@ p.required { font-size:11px; text-align:right; color:#EB340A; }
 .data-table th { padding:3px 8px; font-weight:bold; }
 .data-table td { padding:3px 8px; }
 
-.data-table thead th { font-weight:bold; border-right:1px solid #c2d3e0; padding:2px 8px; color:#0a263c; white-space:nowrap; }
+.data-table thead th { font-weight:bold; border-right:1px solid #c2d3e0; padding:2px 8px; color:#0a263c; white-space:nowrap; vertical-align:middle; }
 .data-table thead th.wrap { white-space:normal; }
 .data-table thead th a,
 .data-table thead th a:hover { color:#fff; }
 .data-table thead th { background:url(../images/bkg_th.gif) repeat-x 0 100% #d9e5ee; }
+.data-table thead th .tax-flag { font-size:11px; white-space:nowrap; }
 
 .data-table tfoot { border-bottom:1px solid #d9dde3; }
 .data-table tfoot tr.first { background:url(../images/bkg_tfoot.gif) 0 0 repeat-x; }
@@ -394,16 +396,19 @@ p.required { font-size:11px; text-align:right; color:#EB340A; }
 /* Tax Details Row */
 tr.tax-total { cursor:pointer; }
 tr.tax-total td {}
-tr.tax-total .tax-collapse { float:right; text-align:right; padding-left:20px; background:url(../images/bkg_collapse.gif) 0 4px no-repeat; cursor:pointer; }
-tr.show-details .tax-collapse { background-position:0 -53px; }
+tr.tax-total .tax-collapse { float:right; text-align:right; padding-left:20px; background:url(../images/bkg_collapse.gif) 0 5px no-repeat; cursor:pointer; }
+tr.show-details .tax-collapse { background-position:0 -52px; }
 tr.show-details td {}
-tr.tax-details td { background-color:#f6f6f6; }
-tr.tax-details-first td {}
+tr.tax-details td { font-size:11px; background-color:#dae1e4; color:#626465; }
+tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* Shopping cart tax info */
+.cart-tax-info { display:block; }
 .cart-tax-info,
 .cart-tax-info .cart-price { padding-right:20px; }
-.cart-tax-total { display:block; padding-right:20px; background:url(../images/bkg_collapse.gif) 100% 4px no-repeat; cursor:pointer; }
+.cart-tax-total { display:block; padding-right:20px; background:url(../images/bkg_collapse.gif) 100% 5px no-repeat; cursor:pointer; }
+.cart-tax-info .price,
+.cart-tax-total .price { display:inline !important; font-weight:normal !important; }
 .cart-tax-total-expanded { background-position:100% -52px; }
 
 /* Class: std - styles for admin-controlled content */
@@ -817,6 +822,9 @@ tr.tax-details-first td {}
 .price-including-tax .label { white-space:nowrap; color:#999; }
 .price-including-tax .price { font-size:13px; font-weight:bold; color:#c76200; }
 
+.weee { display:block; font-size:11px; color:#444; }
+.weee .price { font-size:11px; font-weight:normal; }
+
 /* Excl tax (for order tables) */
 .price-excl-tax  { display:block; }
 .price-excl-tax .label { display:block; white-space:nowrap; }
@@ -949,7 +957,7 @@ tr.tax-details-first td {}
 .product-options-bottom .price-label { float:left; padding-right:5px; }
 .product-options-bottom .price-tax { float:left; }
 .product-options-bottom .add-to-cart { float:right; }
-.product-shop .product-options-bottom .price-box { float:none; }
+.product-shop .product-options-bottom .price-box { float:none; margin:0 0 5px; }
 .product-shop .product-options-bottom .price-label { float:none; padding-right:0; }
 .product-shop .product-options-bottom .price-tax { float:none; }
 .product-shop .product-options-bottom .add-to-cart-box { clear:both; float:left; padding-top:12px; }
@@ -1108,11 +1116,12 @@ tr.tax-details-first td {}
 .cart .shipping .sp-methods { margin:10px 0 0; padding:5px 0 0; background:url(../images/bkg_divider1.gif) 0 0 repeat-x; }
 
 /* Shopping Cart Totals */
-.cart .totals { float:right; width:258px; background:#dee5e8; border:1px solid #bebcb7; }
+.cart .totals { float:right; width:268px; background:#dee5e8; border:1px solid #bebcb7; }
 .cart .totals table { width:100%; margin:7px 0; }
-.cart .totals td { padding:0 15px; }
+.cart .totals td { padding:1px 15px 1px 7px; }
 .cart .totals tr.last td {}
-.cart .totals tfoot td { padding-top:10px; font-size:15px; border:none !important; }
+.cart .totals tfoot td { padding-top:5px; padding-bottom:5px; }
+.cart .totals tfoot td strong { font-size:15px; }
 .cart .totals .checkout-types { font-size:13px; padding:8px 15px 15px; text-align:right; }
 .cart .totals .checkout-types li { clear:both; margin:10px 0; }
 
