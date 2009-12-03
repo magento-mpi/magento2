@@ -259,7 +259,7 @@ class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
             ->setPreparedMessage($this->_createIpnComment('', false))
             ->setParentTransactionId($this->getIpnFormData('parent_txn_id'))
             ->setIsTransactionClosed(0)
-            ->registerCaptureNotification($this->getIpnFormData('mc_gross'), $this->getIpnFormData('shipping'));
+            ->registerCaptureNotification($this->getIpnFormData('mc_gross'));
         $order->save();
 
         // notify customer
@@ -306,10 +306,7 @@ class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
             ->registerRefundNotification(-1 * $this->getIpnFormData('mc_gross'));
         $order->save();
 
-        // refund means that we can close the capture as well
-        if ($isRefundFinal && $transaction = $payment->getCreatedTransaction()) {
-            $transaction->closeCapture();
-        }
+        // TODO: there is no way to close a capture right now
 
         if ($creditmemo = $payment->getCreatedCreditmemo()) {
             $creditmemo->sendEmail();
@@ -342,9 +339,9 @@ class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
             case 'multi-currency':
                 $message = Mage::helper('paypal')->__('Multi-currency issue. Merchant must manually accept or deny this payment from PayPal Account Overview.');
                 break;
-            case 'authorization':
-                // break intentionally omitted
             case 'order':
+                Mage::throwException('"Order" authorizations are not implemented. Please use "simple" authorization.');
+            case 'authorization':
                 $this->_registerPaymentAuthorization();
                 break;
             case 'paymentreview':
@@ -373,14 +370,6 @@ class Mage_Paypal_Model_Api_Ipn extends Mage_Paypal_Model_Api_Abstract
      */
     protected function _registerPaymentAuthorization()
     {
-        if ('order' == $this->getIpnFormData('pending_reason')) {
-            /**
-             * TODO: support of order authorizations
-             * Currently impossible because Magento supports only 1 payment per order
-             */
-            Mage::throwException('"Order" authorizations are not implemented. Please use "simple" authorization.');
-        }
-
         // authorize payment
         $order = $this->_getOrder();
         $payment = $order->getPayment()
