@@ -124,3 +124,43 @@ var Variables = {
         return;
     }
 };
+
+MagentovariablePlugin = {
+    editor: null,
+    variables: null,
+    textareaId: null,
+    setEditor: function(editor) {
+        this.editor = editor;
+    },
+    loadChooser: function(url, textareaId) {
+        this.textareaId = textareaId;
+        if (this.variables == null) {
+            new Ajax.Request(url, {
+                parameters: {},
+                onComplete: function (transport) {
+                    if (transport.responseText.isJSON()) {
+                        Variables.init(null, 'MagentovariablePlugin.insertVariable');
+                        this.variables = transport.responseText.evalJSON();
+                        this.openChooser(this.variables);
+                    }
+                }.bind(this)
+             });
+        } else {
+            this.openChooser(this.variables);
+        }
+        return;
+    },
+    openChooser: function(variables) {
+        Variables.openVariableChooser(variables);
+    },
+    insertVariable : function (value) {
+        if (this.textareaId) {
+            Variables.init(this.textareaId);
+            Variables.insertVariable(value);
+        } else {
+            Variables.closeDialogWindow();
+            this.editor.execCommand('mceInsertContent', false, value);
+        }
+        return;
+    }
+};

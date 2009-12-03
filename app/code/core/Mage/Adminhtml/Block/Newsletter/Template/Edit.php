@@ -78,6 +78,7 @@ class Mage_Adminhtml_Block_Newsletter_Template_Edit extends Mage_Adminhtml_Block
                  ->addJs('mage/adminhtml/wysiwyg/widget.js')
                  ->addJs('lib/flex.js')
                  ->addJs('mage/adminhtml/flexuploader.js')
+                 ->addJs('mage/adminhtml/browser.js')
                  ->addJs('prototype/window.js')
                  ->addItem('js_css', 'prototype/windows/themes/default.css')
                  ->addItem('js_css', 'prototype/windows/themes/magento.css');

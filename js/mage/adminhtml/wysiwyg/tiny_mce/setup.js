@@ -20,31 +20,6 @@
  * @copyright  Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
  * @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
-
-var tinyMceWysiwygTools = {
-    openFileBrowserDialog: function(url, width, height, title) {
-        title  = title || 'Insert file...';
-        width  = width || 1000;
-        height = height || 800;
-
-        Dialog.info(null, {
-            draggable:true,
-            resizable:false,
-            closable:true,
-            className:'magento',
-            title:title,
-            width:width,
-            height:height,
-            zIndex:1000,
-            recenterAuto:false,
-            hideEffect:Element.hide,
-            showEffect:Element.show,
-            id:'browser_window'
-        });
-        new Ajax.Updater('modal_dialog_message', url, {evalScripts: true});
-    }
-}
-
 var tinyMceWysiwygSetup = Class.create();
 tinyMceWysiwygSetup.prototype =
 {
@@ -183,16 +158,20 @@ tinyMceWysiwygSetup.prototype =
     },
 
     openFileBrowser: function(o) {
+        var typeTitle;
+        var wUrl = this.config.files_browser_window_url + 'target_element_id/' + this.id + '/';
+
         this.mediaBrowserOpener = o.win;
         this.mediaBrowserOpener.blur();
-        var wUrl = this.config.files_browser_window_url + 'target_element_id/' + this.id + '/';
+
         if (typeof(o.type) != 'undefined' && o.type != "") {
-            var typeTitle = 'image' == o.type ? 'image' : 'media';
+            typeTitle = 'image' == o.type ? 'Image' : 'Media';
             wUrl = wUrl + "type/" + o.type + "/";
         } else {
-            var typeTitle = 'file';
+            typeTitle = 'File';
         }
-        tinyMceWysiwygTools.openFileBrowserDialog(wUrl, this.config.files_browser_window_width, this.config.files_browser_window_height, 'Insert ' + typeTitle + '...');
+
+        Browser.openDialog(wUrl, this.config.files_browser_window_width, this.config.files_browser_window_height, 'Insert ' + typeTitle + '...');
     },
 
     getMediaBrowserOpener: function() {

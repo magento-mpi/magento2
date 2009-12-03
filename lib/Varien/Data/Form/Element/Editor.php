@@ -180,10 +180,9 @@ class Varien_Data_Form_Element_Editor extends Varien_Data_Form_Element_Textarea
         ));
 
         // Button to media images insertion window
-        $winUrl = $this->getConfig('files_browser_window_url');
         $buttonsHtml .= $this->_getButtonHtml(array(
             'title'     => $this->translate('Insert Image...'),
-            'onclick'   => "tinyMceWysiwygTools.openFileBrowserDialog('" . $this->getConfig('files_browser_window_url') . "target_element_id/" . $this->getHtmlId() . "/')",
+            'onclick'   => "Browser.openDialog('" . $this->getConfig('files_browser_window_url') . "target_element_id/" . $this->getHtmlId() . "/')",
             'class'     => 'add-image plugin',
             'style'     => $visible ? '' : 'display:none',
         ));

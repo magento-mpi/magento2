@@ -38,15 +38,7 @@
     </adminhtml_cms_page_new>
 
     <adminhtml_cms_page_edit>
-        <reference name="head">
-            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
-            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
-            <action method="addJs"><script>lib/flex.js</script></action>
-            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
-            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
-        </reference>
+        <update handle="editor"/>
         <reference name="content">
             <block type="adminhtml/cms_page_edit" name="cms_page_edit"></block>
         </reference>
@@ -75,15 +67,7 @@
     </adminhtml_cms_block_new>
 
     <adminhtml_cms_block_edit>
-        <reference name="head">
-            <action method="addJs"><script>mage/adminhtml/variables.js</script></action>
-            <action method="addJs"><script>mage/adminhtml/wysiwyg/widget.js</script></action>
-            <action method="addJs"><script>lib/flex.js</script></action>
-            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
-            <action method="addItem"><type>js</type><name>prototype/window.js</name></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
-            <action method="addItem"><type>js_css</type><name>prototype/windows/themes/magento.css</name></action>
-        </reference>
+        <update handle="editor"/>
         <reference name="content">
             <block type="adminhtml/cms_block_edit" name="cms_block_edit"></block>
         </reference>

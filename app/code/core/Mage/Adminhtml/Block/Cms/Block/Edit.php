@@ -66,15 +66,6 @@ class Mage_Adminhtml_Block_Cms_Block_Edit extends Mage_Adminhtml_Block_Widget_Fo
     }
 
     /**
-     * Load Wysiwyg on demand and Prepare layout
-     */
-    protected function _prepareLayout()
-    {
-        parent::_prepareLayout();
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-    }
-
-    /**
      * Get edit form container header text
      *
      * @return string
