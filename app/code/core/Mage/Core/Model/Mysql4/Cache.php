@@ -34,17 +34,22 @@ class Mage_Core_Model_Mysql4_Cache extends Mage_Core_Model_Mysql4_Abstract
 
     /**
      * Get all cache options
-     * @return array
+     * @return array | false
      */
     public function getAllOptions()
     {
         $adapter = $this->_getReadAdapter();
         if ($adapter) {
-            $select = $adapter->select()
-                ->from($this->getMainTable(), array('code', 'value'));
-            return $adapter->fetchPairs($select);
+            /**
+             * Check if table exist (it protect upgrades. cache settings checked before upgrades)
+             */
+            if ($adapter->fetchOne('SHOW TABLES LIKE ?', $this->getMainTable())) {
+                $select = $adapter->select()
+                    ->from($this->getMainTable(), array('code', 'value'));
+                return $adapter->fetchPairs($select);
+            }
         }
-        return array();
+        return false;
     }
 
     /**

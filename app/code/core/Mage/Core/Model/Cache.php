@@ -384,8 +384,13 @@ class Mage_Core_Model_Cache
     {
         $options = $this->load(self::OPTIONS_CACHE_ID);
         if ($options === false) {
-            $this->_allowedCacheOptions = $this->_getResource()->getAllOptions();
-            $this->save(serialize($this->_allowedCacheOptions), self::OPTIONS_CACHE_ID);
+            $options = $this->_getResource()->getAllOptions();
+            if (is_array($options)) {
+                $this->_allowedCacheOptions = $options;
+                $this->save(serialize($this->_allowedCacheOptions), self::OPTIONS_CACHE_ID);
+            } else {
+                $this->_allowedCacheOptions = array();
+            }
         } else {
             $this->_allowedCacheOptions = unserialize($options);
         }
