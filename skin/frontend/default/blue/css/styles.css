@@ -183,7 +183,6 @@ input.input-text:focus,select:focus,textarea:focus { background-color:#fafaec; }
 .form-list li.additional-row { border-top:1px solid #ccc; margin-top:10px; padding-top:7px; }
 .form-list li.additional-row .btn-remove { float:right; margin:5px 0 0; }
 .form-list .input-range input.input-text { width:74px; }
-.form-list .hideit { display:none; }
 /* Customer */
 .form-list .customer-name-prefix .input-box,
 .form-list .customer-name-suffix .input-box,
@@ -327,6 +326,8 @@ p.required { font-size:11px; text-align:right; color:#EB340A; }
 .title-buttons h4,
 .title-buttons h5,
 .title-buttons h6 { float:left; }
+
+.subtitle { font-size:15px; font-weight:bold; margin:0 0 6px; color:#e25203; }
 
 /* Pager */
 .pager { font-size:11px; background:#fff url(../images/bkg_toolbar.gif) 0 100% repeat-x; padding:4px 8px; border-top:1px solid #e2e2e2; text-align:center; }
@@ -1047,7 +1048,10 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .advanced-search-summary p { clear:both; font-weight:bold; margin:0; }
 
 /* CMS Home Page */
-.cms-home .products-grid {}
+.cms-home .subtitle,
+.cms-index-index .subtitle { clear:both; padding:15px 0 0; }
+.cms-home .products-grid .product-image,
+.cms-index-index .products-grid .product-image { width:80px; height:77px; margin:0 auto 10px; }
 
 /* Sitemap */
 .page-sitemap .links { text-align:right; margin:0 8px -22px 0; position:relative; }
@@ -1327,22 +1331,22 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 
 /* General Box */
 .box-account { background:#fff url(../images/bkg_account_box.gif) 0 0 repeat-x; border:1px solid #ccc; border-color:#ccc #999 #999 #ccc; padding:15px; margin: 0 0 20px; }
-.box-account .subtitle { border-bottom:1px solid #d9dde3; margin:0 0 10px; text-align:right; }
-.box-account .subtitle h2 { float:left; margin:0; font-size:13px; font-weight:bold; text-transform:uppercase; background-position:0 0; background-repeat:no-repeat; padding-left:21px; color:#e65505; }
+.box-account .box-head { border-bottom:1px solid #d9dde3; margin:0 0 10px; text-align:right; }
+.box-account .box-head h2 { float:left; margin:0; font-size:13px; font-weight:bold; text-transform:uppercase; background-position:0 0; background-repeat:no-repeat; padding-left:21px; color:#e65505; }
 
 .dashboard .box .box-title { background:url(../images/bkg_divider1.gif) 0 100% repeat-x; padding:0 0 2px; margin:0 0 8px; text-align:right; }
 .dashboard .box .box-title h3,
 .dashboard .box .box-title h4 { float:left; font-size:13px; font-weight:bold; margin:0; }
 
 /* Block: Recent Orders */
-.dashboard .box-recent .subtitle h2 { background-image:url(../images/i_folder-table.gif); }
+.dashboard .box-recent .box-head h2 { background-image:url(../images/i_folder-table.gif); }
 
 /* Block: Account Information */
-.dashboard .box-info .subtitle h2 { background-image:url(../images/i_ma-info.gif); }
+.dashboard .box-info .box-head h2 { background-image:url(../images/i_ma-info.gif); }
 .dashboard .box-info h4 { font-size:11px; font-weight:bold; text-transform:uppercase; }
 
 /* Block: Reviews */
-.dashboard .box-reviews .subtitle h2 { background-image:url(../images/i_ma-reviews.gif); }
+.dashboard .box-reviews .box-head h2 { background-image:url(../images/i_ma-reviews.gif); }
 .dashboard .box-reviews .number { float:left; font-size:10px; font-weight:bold; line-height:1; color:#fff; margin:3px -20px 0 0; padding:2px 3px; background:#0a263c; }
 .dashboard .box-reviews .details { margin-left:20px; }
 .dashboard .box-reviews li.item { margin:0 0 7px; }
@@ -1350,7 +1354,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .dashboard .box-reviews .ratings { margin:7px 0 0; }
 
 /* Block: Tags */
-.dashboard .box-tags .subtitle h2 { background-image:url(../images/i_ma-tags.gif); }
+.dashboard .box-tags .box-head h2 { background-image:url(../images/i_ma-tags.gif); }
 .dashboard .box-tags .number { float:left; font-size:10px; font-weight:bold; line-height:1; color:#fff; margin:3px -20px 0 0; padding:2px 3px; background:#0a263c; }
 .dashboard .box-tags .details { margin-left:20px; }
 .dashboard .box-tags li.item { margin:0 0 7px; }
@@ -1486,7 +1490,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 /* Sample Data============================================================================ */
 .home-callout { margin-bottom:12px; }
 .home-callout img { display:block }
-.home-spot { float:left; width:470px; margin-left:20px; }
+/*.home-spot { float:left; width:470px; margin-left:20px; }*/
 .best-selling h3 { margin:12px 0 6px 0; color:#e25203; font-size:1.2em; }
 .best-selling table { border-top:1px solid #ccc; }
 .best-selling tr.odd { background:#eee url(../images/best_selling_tr_odd_bg.gif) 0 100% repeat-x; }
@@ -1519,7 +1523,7 @@ tr.tax-details-first td { border-top:1px solid #d2d8db; }
 .page-title:after,
 .products-grid:after,
 .products-list li.item:after,
-.box-account .subtitle:after,
+.box-account .box-head:after,
 .dashboard .box .box-title:after,
 .box-reviews li.item:after,
 .box-tags li.item:after,

@@ -96,7 +96,7 @@ table { face-color:expression(runtimeStyle.scrollbarFaceColor = '#fff', cellSpac
 .rss-title h1,
 .products-grid,
 .products-list li.item,
-.box-account .subtitle,
+.box-account .box-head,
 .dashboard .box .box-title,
 .box-reviews li.item,
 .box-tags li.item,
