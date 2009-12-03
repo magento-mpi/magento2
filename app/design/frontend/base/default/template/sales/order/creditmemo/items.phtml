@@ -30,7 +30,7 @@
     <?php foreach ($_order->getCreditmemosCollection() as $_creditmemo): ?>
     <a href="<?php echo $this->getPrintCreditmemoUrl($_creditmemo) ?>" onclick="this.target='_blank'" class="link-print"><?php echo $this->__('Print Refund') ?></a>
     <h2><?php echo $this->__('Refund #') ?><?php echo $_creditmemo->getIncrementId(); ?></h2>
-    <h3 style="display:none !important;"><?php echo $this->__('Items Refunded') ?></h3>
+    <h3><?php echo $this->__('Items Refunded') ?></h3>
     <table class="data-table" id="my-refund-table-<?php echo $_creditmemo->getId(); ?>">
         <col />
         <col width="1" />
