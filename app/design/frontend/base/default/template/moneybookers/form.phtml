@@ -29,7 +29,7 @@ $_code = $this->getMethodCode();
 $_img  = $this->getPaymentImageSrc($_code);
 ?>
 <fieldset class="form-list">
-    <ul id="payment_form_<?php echo $_code ?>" style="display:none">
+    <ul id="payment_form_<?php echo $_code ?>" style="display:none;">
         <li>
             <?php echo Mage::helper('moneybookers')->__('You will be redirected to our secure payment page when you place an order.') ?>
         </li>

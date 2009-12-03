@@ -33,7 +33,7 @@
 <?php if ($this->hasSsCardType()): ?>
 <li id="<?php echo $_code ?>_cc_type_ss_div">
     <div class="input-box">
-        <label for="<?php echo $_code ?>_cc_issue"><?php echo $this->__('Switch/Solo Only') ?> <span class="required">*</span></label><br/>
+        <label for="<?php echo $_code ?>_cc_issue" class="required"><em>*</em><?php echo $this->__('Switch/Solo Only') ?></label><br />
         <ul>
             <li>
                 <label for="<?php echo $_code ?>_cc_issue"><?php echo $this->__('Issue Number:') ?></label>
@@ -135,7 +135,7 @@ Validation.addAllThese([
 
 
 <?php if($this->getMethod()->get3DSecureEnabled()): ?>
-    <iframe id="<?php echo $this->getCentinelIframeId();?>" name="<?php echo $this->getCentinelIframeId();?>" src="" style="display: none; width:100%; height:400px; z-index:1000; position: relative; margin-top: -100px;margin-bottom: -40px;font-size:12px; color:#f18200; background:#fff; font-weight:bold; white-space:nowrap;" class=''></iframe>
+    <iframe id="<?php echo $this->getCentinelIframeId();?>" name="<?php echo $this->getCentinelIframeId();?>" src="" style="display:none; width:100%; height:400px; z-index:1000; position:relative; margin-top:-100px; margin-bottom:-40px;font-size:12px; color:#f18200; background:#fff; font-weight:bold; white-space:nowrap;" class=""></iframe>
     <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/centinel.js') ?>"></script>
     <script type="text/javascript">
     //<![CDATA[
